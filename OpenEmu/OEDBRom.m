@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
     OELibraryDatabase *library = context.userInfo[OELibraryDatabaseUserInfoKey];
     NSURL *romFolderURL = library.romsFolderURL;
 
-    url = [url urlRelativeToURL:romFolderURL];
+    url = [url URLRelativeToURL:romFolderURL];
 
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", url.relativeString];
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setURL:(nullable NSURL *)url
 {
     NSURL *romFolderURL = self.libraryDatabase.romsFolderURL;
-    self.location = [url urlRelativeToURL:romFolderURL]. relativeString;
+    self.location = [url URLRelativeToURL:romFolderURL]. relativeString;
 }
 
 - (nullable NSURL *)sourceURL

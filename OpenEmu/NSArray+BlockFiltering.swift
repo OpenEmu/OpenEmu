@@ -26,7 +26,7 @@
 
 import Foundation
 
-public extension NSArray {
+@objc public extension NSArray {
     
     func firstObjectMatchingBlock(_ block: (AnyObject) -> Bool) -> AnyObject? {
         for element in self {

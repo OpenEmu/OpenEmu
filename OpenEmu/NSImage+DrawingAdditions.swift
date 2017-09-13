@@ -73,7 +73,7 @@ class ThreePartImage: NSImage {
         operation op: NSCompositingOperation,
         fraction requestedAlpha: CGFloat,
         respectFlipped respectContextIsFlipped: Bool,
-        hints: [String : Any]?) {
+        hints: [NSImageRep.HintKey : Any]?) {
             
             if (!vertical && dstSpacePortionRect.height != size.height) ||
                 (vertical && dstSpacePortionRect.width != size.width) {
@@ -91,7 +91,7 @@ class ThreePartImage: NSImage {
                 vertical,
                 op,
                 requestedAlpha,
-                NSGraphicsContext.current()?.isFlipped ?? false)
+                NSGraphicsContext.current?.isFlipped ?? false)
     }
 }
 
@@ -146,7 +146,7 @@ class NinePartImage: NSImage {
         operation op: NSCompositingOperation,
         fraction requestedAlpha: CGFloat,
         respectFlipped respectContextIsFlipped: Bool,
-        hints: [String : Any]?) {
+        hints: [NSImageRep.HintKey : Any]?) {
         
             let topLeftCorner     = parts[0]!
             let topEdgeFill       = parts[1]!
@@ -170,7 +170,7 @@ class NinePartImage: NSImage {
                 bottomRightCorner,
                 op,
                 requestedAlpha,
-                respectContextIsFlipped && NSGraphicsContext.current()?.isFlipped ?? false)
+                respectContextIsFlipped && NSGraphicsContext.current?.isFlipped ?? false)
     }
 }
 

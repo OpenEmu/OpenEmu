@@ -44,18 +44,18 @@ fileprivate enum VolumeSegments: Int {
     case up   = 1
 }
 
-@available(OSX 10.12.1, *)
-fileprivate extension NSTouchBarCustomizationIdentifier {
-    static let touchBar = NSTouchBarCustomizationIdentifier("org.openemu.GameViewControllerTouchBar")
+@available(OSX 10.12.2, *)
+fileprivate extension NSTouchBar.CustomizationIdentifier {
+    static let touchBar = NSTouchBar.CustomizationIdentifier("org.openemu.GameViewControllerTouchBar")
 }
 
-@available(OSX 10.12.1, *)
-fileprivate extension NSTouchBarItemIdentifier {
-    static let stop = NSTouchBarItemIdentifier("org.openemu.GameViewControllerTouchBar.stop")
-    static let gameplay = NSTouchBarItemIdentifier("org.openemu.GameViewControllerTouchBar.gameplay")
-    static let saveStates = NSTouchBarItemIdentifier("saveStateControls")
-    static let volume = NSTouchBarItemIdentifier("org.openemu.GameViewControllerTouchBar.volume")
-    static let toggleFullScreen = NSTouchBarItemIdentifier("org.openemu.GameViewControllerTouchBar.toggleFullScreen")
+@available(OSX 10.12.2, *)
+fileprivate extension NSTouchBarItem.Identifier {
+    static let stop = NSTouchBarItem.Identifier("org.openemu.GameViewControllerTouchBar.stop")
+    static let gameplay = NSTouchBarItem.Identifier("org.openemu.GameViewControllerTouchBar.gameplay")
+    static let saveStates = NSTouchBarItem.Identifier("saveStateControls")
+    static let volume = NSTouchBarItem.Identifier("org.openemu.GameViewControllerTouchBar.volume")
+    static let toggleFullScreen = NSTouchBarItem.Identifier("org.openemu.GameViewControllerTouchBar.toggleFullScreen")
 }
 
 @available(OSX 10.12.2, *)
@@ -72,7 +72,7 @@ extension OEGameViewController {
                                            .saveStates,
                                            .volume,
                                            .toggleFullScreen,
-                                           .otherItemsProxy]
+                                           NSTouchBarItem.Identifier.otherItemsProxy]
         touchBar.customizationAllowedItemIdentifiers = [.stop,
                                                         .gameplay,
                                                         .saveStates,
@@ -86,16 +86,16 @@ extension OEGameViewController {
 @available(OSX 10.12.2, *)
 extension OEGameViewController: NSTouchBarDelegate {
     
-    public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItemIdentifier) -> NSTouchBarItem? {
+    public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
         
         switch identifier {
             
-        case NSTouchBarItemIdentifier.stop:
+        case NSTouchBarItem.Identifier.stop:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Stop Emulation", comment: "")
             
-            let button = NSButton(image: NSImage(named: NSImageNameTouchBarRecordStopTemplate)!, target: nil, action: #selector(OEGameDocument.stopEmulation(_:)))
+            let button = NSButton(image: NSImage(named: NSImage.Name.touchBarRecordStopTemplate)!, target: nil, action: #selector(OEGameDocument.stopEmulation(_:)))
             
             button.bezelColor = #colorLiteral(red: 0.5665243268, green: 0.2167189717, blue: 0.2198875844, alpha: 1)
             
@@ -103,13 +103,13 @@ extension OEGameViewController: NSTouchBarDelegate {
             
             return item
             
-        case NSTouchBarItemIdentifier.gameplay:
+        case NSTouchBarItem.Identifier.gameplay:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Pause & Reset", comment: "")
             
-            let segmentImages = [NSImageNameTouchBarPauseTemplate,
-                                 NSImageNameTouchBarRefreshTemplate]
+            let segmentImages = [NSImage.Name.touchBarPauseTemplate,
+                                 NSImage.Name.touchBarRefreshTemplate]
                                 .map { NSImage(named: $0)! }
             
             let segmentedControl = NSSegmentedControl(images: segmentImages, trackingMode: .momentary, target: nil, action: #selector(OEGameViewController.gameplayControlsTouched(_:)))
@@ -120,7 +120,7 @@ extension OEGameViewController: NSTouchBarDelegate {
             
             return item
             
-        case NSTouchBarItemIdentifier.saveStates:
+        case NSTouchBarItem.Identifier.saveStates:
 
             guard supportsSaveStates else {
                 return nil
@@ -140,13 +140,13 @@ extension OEGameViewController: NSTouchBarDelegate {
             
             return item
             
-        case NSTouchBarItemIdentifier.volume:
+        case NSTouchBarItem.Identifier.volume:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Volume", comment: "")
             
-            let segmentImages = [NSImageNameTouchBarVolumeDownTemplate,
-                                 NSImageNameTouchBarVolumeUpTemplate]
+            let segmentImages = [NSImage.Name.touchBarVolumeDownTemplate,
+                                 NSImage.Name.touchBarVolumeUpTemplate]
                                 .map { NSImage(named: $0)! }
             
             let segmentedControl = NSSegmentedControl(images: segmentImages, trackingMode: .momentary, target: nil, action: #selector(OEGameViewController.volumeTouched(_:)))
@@ -162,12 +162,12 @@ extension OEGameViewController: NSTouchBarDelegate {
                         
             return item
             
-        case NSTouchBarItemIdentifier.toggleFullScreen:
+        case NSTouchBarItem.Identifier.toggleFullScreen:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Toggle Full Screen", comment: "")
             
-            let imageName = document.gameWindowController.window!.isFullScreen ? NSImageNameTouchBarExitFullScreenTemplate : NSImageNameTouchBarEnterFullScreenTemplate
+            let imageName = document.gameWindowController.window!.isFullScreen ? NSImage.Name.touchBarExitFullScreenTemplate : NSImage.Name.touchBarEnterFullScreenTemplate
             let image = NSImage(named: imageName)!
             let button = NSButton(image: image, target: nil, action: #selector(OEGameViewController.fullScreenTouched(_:)))
             
@@ -193,7 +193,7 @@ extension OEGameViewController: NSTouchBarDelegate {
             
             document.toggleEmulationPaused(self)
             
-            let imageName = document.isEmulationPaused ? NSImageNameTouchBarPlayTemplate : NSImageNameTouchBarPauseTemplate
+            let imageName = document.isEmulationPaused ? NSImage.Name.touchBarPlayTemplate : NSImage.Name.touchBarPauseTemplate
             segmentedControl.setImage(NSImage(named: imageName)!, forSegment: 0)
             
         case .restartSystem:
@@ -247,7 +247,7 @@ extension OEGameViewController: NSTouchBarDelegate {
         let item = touchBar!.item(forIdentifier: .toggleFullScreen)!
         let button = item.view! as! NSButton
         
-        let imageName = document.gameWindowController.window!.isFullScreen ? NSImageNameTouchBarExitFullScreenTemplate : NSImageNameTouchBarEnterFullScreenTemplate
+        let imageName = document.gameWindowController.window!.isFullScreen ? NSImage.Name.touchBarExitFullScreenTemplate : NSImage.Name.touchBarEnterFullScreenTemplate
         button.image = NSImage(named: imageName)!
     }
 }

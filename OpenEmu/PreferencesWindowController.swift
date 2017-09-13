@@ -27,6 +27,7 @@
 import Cocoa
 
 @objc(OEPreferencesWindowController)
+@objcMembers
 class PreferencesWindowController: NSWindowController {
     
     static let debugModeKey = "debug"
@@ -67,7 +68,7 @@ class PreferencesWindowController: NSWindowController {
         preferencesTabViewController = PreferencesTabViewController()
         
         preferencesTabViewController.view.frame = backgroundView.bounds
-        preferencesTabViewController.view.autoresizingMask = [.viewWidthSizable, .viewHeightSizable]
+        preferencesTabViewController.view.autoresizingMask = [NSView.AutoresizingMask.width, NSView.AutoresizingMask.height]
         
         backgroundView.addSubview(preferencesTabViewController.view)
         
@@ -111,7 +112,7 @@ extension PreferencesWindowController: NSWindowDelegate {
         
         konamiCodeIndex = 0
         
-        konamiCodeMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+        konamiCodeMonitor = NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) { event in
             
             if Int((event.characters! as NSString).character(at: 0)) == self.konamiCode[self.konamiCodeIndex] {
                 
@@ -123,7 +124,7 @@ extension PreferencesWindowController: NSWindowDelegate {
                     let debugModeActivated = !defaults.bool(forKey: PreferencesWindowController.debugModeKey)
                     defaults.set(debugModeActivated, forKey: PreferencesWindowController.debugModeKey)
                     
-                    NSSound(named: "secret")!.play()
+                    NSSound(named: NSSound.Name(rawValue: "secret"))!.play()
                     
                     self.preferencesTabViewController.toggleDebugPaneVisibility()
                     
@@ -201,14 +202,14 @@ class PreferencesTabViewController: NSTabViewController {
         updateWindowFrame(animated: false)
     }
     
-    override func transition(from fromViewController: NSViewController, to toViewController: NSViewController, options: NSViewControllerTransitionOptions, completionHandler completion: (() -> Void)?) {
+    override func transition(from fromViewController: NSViewController, to toViewController: NSViewController, options: NSViewController.TransitionOptions, completionHandler completion: (() -> Void)?) {
         
         NSAnimationContext.runAnimationGroup({ context in
             
             self.updateWindowTitle()
             self.updateWindowFrame(animated: true)
             
-            super.transition(from: fromViewController, to: toViewController, options: [.crossfade, .allowUserInteraction], completionHandler: completion)
+            super.transition(from: fromViewController, to: toViewController, options: [NSViewController.TransitionOptions.crossfade, NSViewController.TransitionOptions.allowUserInteraction], completionHandler: completion)
             
         }, completionHandler: nil)
     }

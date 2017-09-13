@@ -29,18 +29,18 @@ import Cocoa
 @objc(OELibraryToolbarDelegate)
 class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     
-    final let OEToolbarItemIdentifierGridSize = "OEToolbarItemIdentifierGridSize"
-    final let OEToolbarItemIdentifierViewMode = "OEToolbarItemIdentifierViewMode"
-    final let OEToolbarItemIdentifierSearch = "OEToolbarItemIdentifierSearch"
-    final let OEToolbarItemIdentifierCategory = "OEToolbarItemIdentifierCategory"
+    final let OEToolbarItemIdentifierGridSize = NSToolbarItem.Identifier(rawValue: "OEToolbarItemIdentifierGridSize")
+    final let OEToolbarItemIdentifierViewMode = NSToolbarItem.Identifier("OEToolbarItemIdentifierViewMode")
+    final let OEToolbarItemIdentifierSearch = NSToolbarItem.Identifier("OEToolbarItemIdentifierSearch")
+    final let OEToolbarItemIdentifierCategory = NSToolbarItem.Identifier("OEToolbarItemIdentifierCategory")
     
     var itemCache = [String: NSToolbarItem]()
     
     @IBOutlet weak var toolbarOwner: AnyObject?
     
     
-    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [String] {
-        return [NSToolbarFlexibleSpaceItemIdentifier,
+    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        return [.flexibleSpace,
                 OEToolbarItemIdentifierGridSize,
                 OEToolbarItemIdentifierViewMode,
                 OEToolbarItemIdentifierSearch,
@@ -48,18 +48,18 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     }
     
     
-    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [String] {
+    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         cacheItems(toolbar: toolbar as! LibraryToolbar)
         return [OEToolbarItemIdentifierViewMode,
                 OEToolbarItemIdentifierGridSize,
-                NSToolbarFlexibleSpaceItemIdentifier,
+                .flexibleSpace,
                 OEToolbarItemIdentifierCategory,
-                NSToolbarFlexibleSpaceItemIdentifier,
+                .flexibleSpace,
                 OEToolbarItemIdentifierSearch]
     }
     
     
-    func toolbarSelectableItemIdentifiers(_ toolbar: NSToolbar) -> [String] {
+    func toolbarSelectableItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         return []
     }
     
@@ -72,7 +72,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     }
     
     
-    func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: String, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
+    func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
         switch itemIdentifier {
         case OEToolbarItemIdentifierGridSize:
             return gridSizeToolbarItem(toolbar: toolbar as! LibraryToolbar)
@@ -89,7 +89,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     
     
     func gridSizeToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
-        if let item = itemCache[OEToolbarItemIdentifierGridSize] {
+        if let item = itemCache[OEToolbarItemIdentifierGridSize.rawValue] {
             return item
         }
         let item = NSToolbarItem.init(itemIdentifier: OEToolbarItemIdentifierGridSize)
@@ -120,13 +120,13 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         item.view = view
         item.label = NSLocalizedString("Grid Size", comment:"Grid size toolbar button label, main window")
         toolbar.gridSizeSlider = slider
-        itemCache[item.itemIdentifier] = item
+        itemCache[item.itemIdentifier.rawValue] = item
         return item;
     }
     
     
     func viewModeToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
-        if let item = itemCache[OEToolbarItemIdentifierViewMode] {
+        if let item = itemCache[OEToolbarItemIdentifierViewMode.rawValue] {
             return item
         }
         let item = NSToolbarItem.init(itemIdentifier: OEToolbarItemIdentifierViewMode)
@@ -157,13 +157,13 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         item.label = NSLocalizedString("View Mode", comment:"View mode toolbar button label, main window")
         toolbar.gridViewButton = gridButton
         toolbar.listViewButton = listButton
-        itemCache[item.itemIdentifier] = item
+        itemCache[item.itemIdentifier.rawValue] = item
         return item;
     }
     
     
     func categoryToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
-        if let item = itemCache[OEToolbarItemIdentifierCategory] {
+        if let item = itemCache[OEToolbarItemIdentifierCategory.rawValue] {
             return item
         }
         let item = NSToolbarItem.init(itemIdentifier: OEToolbarItemIdentifierCategory)
@@ -190,13 +190,13 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         item.view = view
         item.label = NSLocalizedString("Category", comment:"Category selector toolbar label, main window")
         toolbar.categorySelector = segmControl
-        itemCache[item.itemIdentifier] = item
+        itemCache[item.itemIdentifier.rawValue] = item
         return item;
     }
     
     
     func searchToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
-        if let item = itemCache[OEToolbarItemIdentifierSearch] {
+        if let item = itemCache[OEToolbarItemIdentifierSearch.rawValue] {
             return item
         }
         let item = NSToolbarItem.init(itemIdentifier: OEToolbarItemIdentifierSearch)
@@ -224,7 +224,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         item.view = view;
         item.label = NSLocalizedString("Search", comment:"Search field toolbar label, main window")
         toolbar.searchField = searchField
-        itemCache[item.itemIdentifier] = item
+        itemCache[item.itemIdentifier.rawValue] = item
         return item;
     }
 }

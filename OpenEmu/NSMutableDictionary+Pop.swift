@@ -26,7 +26,7 @@
 
 import Foundation
 
-extension NSMutableDictionary {
+@objc extension NSMutableDictionary {
     
     func popObjectForKey(_ key: String) -> AnyObject? {
         let result = self[key]

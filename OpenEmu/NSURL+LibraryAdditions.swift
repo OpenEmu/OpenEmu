@@ -26,7 +26,7 @@
 
 import Foundation
 
-extension NSURL {
+@objc extension NSURL {
     
     var isDirectory: Bool {
         
@@ -47,7 +47,8 @@ extension NSURL {
         return resourceValues[URLResourceKey.fileSizeKey]! as! NSNumber
     }
     
-    func urlRelativeToURL(_ url: URL) -> URL? {
+    @objc(URLRelativeToURL:)
+    func url(relativeTo url: URL) -> URL? {
         
         let selfAbsoluteString = standardized!.absoluteString
         let urlAbsoluteString = url.standardized.absoluteString
@@ -63,10 +64,11 @@ extension NSURL {
     
     var hasImageSuffix: Bool {
         let urlSuffix = pathExtension!.lowercased()
-        return NSImage.imageTypes().contains(urlSuffix)
+        return NSImage.imageTypes.contains(urlSuffix)
     }
     
-    func isSubpathOfURL(_ url: URL) -> Bool {
+    @objc(isSubpathOfURL:)
+    func isSubpath(of url: URL) -> Bool {
         
         let parentPathComponents = url.standardized.pathComponents
         let ownPathComponents = standardized!.pathComponents
@@ -95,7 +97,8 @@ extension NSURL {
         return result
     }
     
-    static func validFilenameFromString(_ fileName: String) -> String {
+    @objc(validFilenameFromString:)
+    static func validFilename(from fileName: String) -> String {
         let illegalFileNameCharacters = CharacterSet(charactersIn: "/\\?%*|\":<>")
         return fileName.deleting(illegalFileNameCharacters)
     }

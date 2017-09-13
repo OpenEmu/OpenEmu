@@ -47,6 +47,7 @@ import Foundation
 */
 
 @objc(OECheats)
+@objcMembers
 class Cheats: NSObject, XMLParserDelegate {
     
     private(set) var allCheats = [NSMutableDictionary]()
