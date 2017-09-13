@@ -59,9 +59,9 @@ extension OEMediaViewController {
             
             touchBar.customizationIdentifier = .saveStatesTouchBar
             touchBar.defaultItemIdentifiers = [.deleteSaveState,
-                                               NSTouchBarItem.Identifier.flexibleSpace,
+                                               .flexibleSpace,
                                                .resumeSaveState,
-                                               NSTouchBarItem.Identifier.otherItemsProxy]
+                                               .otherItemsProxy]
             touchBar.customizationAllowedItemIdentifiers = [.deleteSaveState,
                                                             .resumeSaveState]
             touchBar.principalItemIdentifier = .resumeSaveState
@@ -70,10 +70,10 @@ extension OEMediaViewController {
             
             touchBar.customizationIdentifier = .screenshotsTouchBar
             touchBar.defaultItemIdentifiers = [.deleteScreenshot,
-                                               NSTouchBarItem.Identifier.flexibleSpace,
+                                               .flexibleSpace,
                                                .showScreenshotInFinder,
                                                .shareScreenshot,
-                                               NSTouchBarItem.Identifier.otherItemsProxy]
+                                               .otherItemsProxy]
             touchBar.customizationAllowedItemIdentifiers = [.deleteScreenshot,
                                                             .showScreenshotInFinder,
                                                             .shareScreenshot]
@@ -91,9 +91,9 @@ extension OEMediaViewController: NSTouchBarDelegate {
         
         switch identifier {
             
-        case NSTouchBarItem.Identifier.deleteSaveState:
+        case .deleteSaveState:
             fallthrough
-        case NSTouchBarItem.Identifier.deleteScreenshot:
+        case .deleteScreenshot:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Delete", comment: "")
@@ -107,7 +107,7 @@ extension OEMediaViewController: NSTouchBarDelegate {
             
             return item
             
-        case NSTouchBarItem.Identifier.resumeSaveState:
+        case .resumeSaveState:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Resume Game", comment: "")
@@ -120,7 +120,7 @@ extension OEMediaViewController: NSTouchBarDelegate {
             
             return item
             
-        case NSTouchBarItem.Identifier.showScreenshotInFinder:
+        case .showScreenshotInFinder:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Show In Finder", comment: "")
@@ -133,7 +133,7 @@ extension OEMediaViewController: NSTouchBarDelegate {
             
             return item
             
-        case NSTouchBarItem.Identifier.shareScreenshot:
+        case .shareScreenshot:
             
             let item = NSSharingServicePickerTouchBarItem(identifier: identifier)
             

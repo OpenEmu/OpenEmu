@@ -50,7 +50,7 @@ extension OEGameCollectionViewController {
         touchBar.customizationIdentifier = .touchBar
         touchBar.defaultItemIdentifiers = [.delete,
                                            .play,
-                                           NSTouchBarItem.Identifier.otherItemsProxy]
+                                           .otherItemsProxy]
         touchBar.customizationAllowedItemIdentifiers = [.delete,
                                                         .play]
         touchBar.principalItemIdentifier = .play
@@ -66,7 +66,7 @@ extension OEGameCollectionViewController: NSTouchBarDelegate {
         
         switch identifier {
             
-        case NSTouchBarItem.Identifier.delete:
+        case .delete:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Delete", comment: "")
@@ -80,7 +80,7 @@ extension OEGameCollectionViewController: NSTouchBarDelegate {
             
             return item
             
-        case NSTouchBarItem.Identifier.play:
+        case .play:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Play", comment: "")

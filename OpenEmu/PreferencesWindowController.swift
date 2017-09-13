@@ -68,7 +68,7 @@ class PreferencesWindowController: NSWindowController {
         preferencesTabViewController = PreferencesTabViewController()
         
         preferencesTabViewController.view.frame = backgroundView.bounds
-        preferencesTabViewController.view.autoresizingMask = [NSView.AutoresizingMask.width, NSView.AutoresizingMask.height]
+        preferencesTabViewController.view.autoresizingMask = [.width, .height]
         
         backgroundView.addSubview(preferencesTabViewController.view)
         
@@ -112,7 +112,7 @@ extension PreferencesWindowController: NSWindowDelegate {
         
         konamiCodeIndex = 0
         
-        konamiCodeMonitor = NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) { event in
+        konamiCodeMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
             
             if Int((event.characters! as NSString).character(at: 0)) == self.konamiCode[self.konamiCodeIndex] {
                 
@@ -209,7 +209,7 @@ class PreferencesTabViewController: NSTabViewController {
             self.updateWindowTitle()
             self.updateWindowFrame(animated: true)
             
-            super.transition(from: fromViewController, to: toViewController, options: [NSViewController.TransitionOptions.crossfade, NSViewController.TransitionOptions.allowUserInteraction], completionHandler: completion)
+            super.transition(from: fromViewController, to: toViewController, options: [.crossfade, .allowUserInteraction], completionHandler: completion)
             
         }, completionHandler: nil)
     }

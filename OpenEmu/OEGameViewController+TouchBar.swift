@@ -72,7 +72,7 @@ extension OEGameViewController {
                                            .saveStates,
                                            .volume,
                                            .toggleFullScreen,
-                                           NSTouchBarItem.Identifier.otherItemsProxy]
+                                           .otherItemsProxy]
         touchBar.customizationAllowedItemIdentifiers = [.stop,
                                                         .gameplay,
                                                         .saveStates,
@@ -90,7 +90,7 @@ extension OEGameViewController: NSTouchBarDelegate {
         
         switch identifier {
             
-        case NSTouchBarItem.Identifier.stop:
+        case .stop:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Stop Emulation", comment: "")
@@ -103,7 +103,7 @@ extension OEGameViewController: NSTouchBarDelegate {
             
             return item
             
-        case NSTouchBarItem.Identifier.gameplay:
+        case .gameplay:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Pause & Reset", comment: "")
@@ -120,7 +120,7 @@ extension OEGameViewController: NSTouchBarDelegate {
             
             return item
             
-        case NSTouchBarItem.Identifier.saveStates:
+        case .saveStates:
 
             guard supportsSaveStates else {
                 return nil
@@ -140,7 +140,7 @@ extension OEGameViewController: NSTouchBarDelegate {
             
             return item
             
-        case NSTouchBarItem.Identifier.volume:
+        case .volume:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Volume", comment: "")
@@ -162,7 +162,7 @@ extension OEGameViewController: NSTouchBarDelegate {
                         
             return item
             
-        case NSTouchBarItem.Identifier.toggleFullScreen:
+        case .toggleFullScreen:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Toggle Full Screen", comment: "")

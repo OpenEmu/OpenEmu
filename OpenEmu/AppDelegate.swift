@@ -48,31 +48,33 @@ class AppDelegate: NSDocumentController {
     lazy var mainWindowController = OEMainWindowController(windowNibName: NSNib.Name(rawValue: "MainWindow"))
     lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: NSNib.Name(rawValue: "Preferences"))
     
-    @objc dynamic var aboutCreditsPath: String {
+    dynamic var aboutCreditsPath: String {
         return Bundle.main.path(forResource: "Credits", ofType: "rtf")!
     }
     
-    @objc dynamic var appVersion: String {
+    dynamic var appVersion: String {
         return Bundle.main.infoDictionary!["CFBundleVersion"] as! String
     }
     
-    @objc dynamic var buildVersion: String {
+    dynamic var buildVersion: String {
         return OEBuildInfo.buildVersion
     }
     
-    @objc dynamic var projectURLHyperlink: NSAttributedString {
+    dynamic var projectURLHyperlink: NSAttributedString {
         let address = "http://openemu.org"
         return NSAttributedString(string: address, hyperlinkURL: URL(string: address)!)
     }
     
-    @objc dynamic lazy var specialThanks: NSAttributedString = {
+    dynamic lazy var specialThanks: NSAttributedString = {
         let msg = NSLocalizedString("Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub.", comment: "Special thanks message (about window).")
         let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paragraphStyle.alignment = .center
         paragraphStyle.lineHeightMultiple = 1.225
-        let attributes = [NSAttributedStringKey.font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize),
-                          NSAttributedStringKey.paragraphStyle: paragraphStyle,
-                          NSAttributedStringKey.foregroundColor: NSColor.white]
+        let attributes: [NSAttributedStringKey: Any] = [
+            .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize),
+            .paragraphStyle: paragraphStyle,
+            .foregroundColor: NSColor.white
+        ]
         return NSAttributedString(string: msg, attributes: attributes)
     }()
     
@@ -243,7 +245,7 @@ class AppDelegate: NSDocumentController {
             return
         }
         
-        if OEHUDAlert.quitApplication().runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
+        if OEHUDAlert.quitApplication().runModal() == .alertFirstButtonReturn {
             closeAllDocuments(withDelegate: delegate, didCloseAllSelector: didReviewAllSelector, contextInfo: contextInfo)
         } else {
             sendDelegateCallback(toTarget: delegate as AnyObject, selector: didReviewAllSelector!, documentController: self, didReviewAll: false, contextInfo: contextInfo)
@@ -453,11 +455,11 @@ class AppDelegate: NSDocumentController {
         
         switch alert.runModal() {
             
-        case NSApplication.ModalResponse.alertThirdButtonReturn:
+        case .alertThirdButtonReturn:
             NSApp.terminate(self)
             return
             
-        case NSApplication.ModalResponse.alertFirstButtonReturn:
+        case .alertFirstButtonReturn:
             
             let openPanel = NSOpenPanel()
             
@@ -468,7 +470,7 @@ class AppDelegate: NSDocumentController {
             
             openPanel.begin { result in
                 
-                if result == NSApplication.ModalResponse.OK {
+                if result == .OK {
                     
                     var databaseURL = openPanel.url!
                     let databasePath = databaseURL.path
@@ -485,13 +487,13 @@ class AppDelegate: NSDocumentController {
                 }
             }
             
-        case NSApplication.ModalResponse.alertSecondButtonReturn:
+        case .alertSecondButtonReturn:
             
             let savePanel = NSSavePanel()
             
             savePanel.nameFieldStringValue = "OpenEmu Library"
             
-            if savePanel.runModal() == NSApplication.ModalResponse.OK {
+            if savePanel.runModal() == .OK {
                 
                 let databaseURL = savePanel.url!
                 try? FileManager.default.removeItem(at: databaseURL)
@@ -839,9 +841,9 @@ extension AppDelegate: NSMenuDelegate {
                 
                 let keyEquivalent = "\(i)"
                 loadItem.keyEquivalent = keyEquivalent
-                loadItem.keyEquivalentModifierMask = [NSEvent.ModifierFlags.shift, NSEvent.ModifierFlags.command]
+                loadItem.keyEquivalentModifierMask = [.shift, .command]
                 saveItem.keyEquivalent = keyEquivalent
-                saveItem.keyEquivalentModifierMask = [NSEvent.ModifierFlags.command]
+                saveItem.keyEquivalentModifierMask = [.command]
                 
                 loadItem.representedObject = keyEquivalent
                 saveItem.representedObject = keyEquivalent
@@ -884,14 +886,14 @@ extension AppDelegate: NSMenuDelegate {
 
 // MARK: - OpenEmuApplicationDelegateProtocol
 
-extension AppDelegate: OpenEmuApplicationDelegateProtocol {
+@objc extension AppDelegate: OpenEmuApplicationDelegateProtocol {
     
     func applicationWillFinishLaunching(_ notification: Notification) {
         
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter), name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
     }
     
-    @objc func removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter(_ notification: Notification) {
+    func removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter(_ notification: Notification) {
         
         let notificationCenter = NotificationCenter.default
         
@@ -922,7 +924,7 @@ extension AppDelegate: OpenEmuApplicationDelegateProtocol {
         }
     }
     
-    @objc func libraryDatabaseDidLoad(notification: Notification) {
+    func libraryDatabaseDidLoad(notification: Notification) {
         
         libraryLoaded = true
         
@@ -979,7 +981,7 @@ extension AppDelegate: OpenEmuApplicationDelegateProtocol {
         startupQueue.removeAll()
     }
     
-    @objc func openPreferencePane(_ notification: Notification) {
+    func openPreferencePane(_ notification: Notification) {
         preferencesWindowController.showWindow(with: notification)
     }
     
