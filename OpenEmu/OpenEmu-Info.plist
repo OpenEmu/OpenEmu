@@ -146,6 +146,8 @@
 	<true/>
 	<key>SUFeedURL</key>
 	<string>https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>

@@ -492,6 +492,7 @@
 		870634801C27D267007FAA2F /* OEVectrexSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8706347F1C27D267007FAA2F /* OEVectrexSystemController.m */; };
 		8706C3D41C2CB48C000C2893 /* controller_odyssey2_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8706C3D21C2CB48C000C2893 /* controller_odyssey2_mask@2x.png */; };
 		8706C3D51C2CB48C000C2893 /* controller_odyssey2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8706C3D31C2CB48C000C2893 /* controller_odyssey2@2x.png */; };
+		87191CC61F6F5524006D2EE3 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 87191CC51F6F5524006D2EE3 /* dsa_pub.pem */; };
 		871CE9121B0BCFB800B89E96 /* controller_pcfx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */; };
 		871CE9131B0BCFB800B89E96 /* controller_pcfx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */; };
 		8745D75F1BF9A72B005E8699 /* OE5200SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */; };
@@ -2189,6 +2190,7 @@
 		8706347F1C27D267007FAA2F /* OEVectrexSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVectrexSystemController.m; sourceTree = "<group>"; };
 		8706C3D21C2CB48C000C2893 /* controller_odyssey2_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_odyssey2_mask@2x.png"; sourceTree = "<group>"; };
 		8706C3D31C2CB48C000C2893 /* controller_odyssey2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_odyssey2@2x.png"; sourceTree = "<group>"; };
+		87191CC51F6F5524006D2EE3 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcfx_mask@2x.png"; sourceTree = "<group>"; };
 		871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcfx@2x.png"; sourceTree = "<group>"; };
 		8745D75D1BF9A72A005E8699 /* OE5200SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemController.h; sourceTree = "<group>"; };
@@ -3767,6 +3769,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				87191CC51F6F5524006D2EE3 /* dsa_pub.pem */,
 				8F071F3A1C255362007B76DA /* Credits.rtf */,
 				1B32150F14DDD03200C5B50A /* Setup Assistant Animation Resources */,
 				C68A54E41516AD3C001053F2 /* OEDatabase.xcdatamodeld */,
@@ -7051,6 +7054,7 @@
 				8F071F3B1C255362007B76DA /* Credits.rtf in Resources */,
 				83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */,
 				83B04E421968610F00CB985E /* Localizable.strings in Resources */,
+				87191CC61F6F5524006D2EE3 /* dsa_pub.pem in Resources */,
 				83FE9642196859B100DD8DB9 /* OEPrefCoresController.xib in Resources */,
 				83FE9646196859D300DD8DB9 /* OEPrefGameplayController.xib in Resources */,
 				8F071F391C25534E007B76DA /* Preferences.xib in Resources */,
