@@ -26,7 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
 
-extension NSWindow {
+@objc extension NSWindow {
     
     var imageSnapshot: NSImage {
         
@@ -40,7 +40,7 @@ extension NSWindow {
             image.lockFocus()
             
             NSColor.black.set()
-            NSRectFill(NSRect(x: 0, y: 0, width: 1, height: 1))
+            NSRect(x: 0, y: 0, width: 1, height: 1).fill()
             
             image.unlockFocus()
             

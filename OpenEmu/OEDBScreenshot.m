@@ -88,7 +88,7 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
 - (void)setURL:(NSURL *)url
 {
     NSURL *screenshotDirectory = self.libraryDatabase.screenshotFolderURL;
-    self.location = [url urlRelativeToURL:screenshotDirectory].relativeString;
+    self.location = [url URLRelativeToURL:screenshotDirectory].relativeString;
 }
 
 - (NSURL *)URL

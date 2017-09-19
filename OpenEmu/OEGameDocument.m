@@ -193,7 +193,7 @@ typedef enum : NSUInteger
                     }];
 
                     [download setCompletionHandler:^(NSURL *dst, NSError *err) {
-                        destination = dst,
+                        destination = dst;
                         error = err;
                         [alert closeWithResult:NSAlertSecondButtonReturn];
                     }];

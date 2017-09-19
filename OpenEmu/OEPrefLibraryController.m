@@ -379,7 +379,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
                     [coord addPersistentStoreWithType:[store type] configuration:nil URL:[store URL] options:0 error:nil];
 
                     // Make sure to post notification on main thread!
-                    void (^postNotification)() = ^(){
+                    void (^postNotification)(void) = ^(){
                         [[OELibraryDatabase defaultDatabase] setPersistentStoreCoordinator:coord];
                         [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryLocationDidChangeNotificationName object:self userInfo:nil];
                     };

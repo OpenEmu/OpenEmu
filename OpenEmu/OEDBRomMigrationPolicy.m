@@ -109,7 +109,7 @@ extern NSString *const OELibraryRomsFolderURLKey;
         else
             url = [NSURL URLWithString:urlString];
 
-        NSURL *relativeURL = [url urlRelativeToURL:romsFolderURL];
+        NSURL *relativeURL = [url URLRelativeToURL:romsFolderURL];
         NSString *location = relativeURL.relativeString;
         if(location)
         {

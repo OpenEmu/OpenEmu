@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
         else
             url = [NSURL URLWithString:urlString];
 
-        NSURL *relativeURL = [url urlRelativeToURL:romsFolderURL];
+        NSURL *relativeURL = [url URLRelativeToURL:romsFolderURL];
         NSString *location = relativeURL.relativeString;
         if(location)
         {

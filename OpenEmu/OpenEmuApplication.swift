@@ -50,7 +50,7 @@ class OpenEmuApplication: NSApplication {
     
     var isSpotlightFrontmost = false
     
-    override func beginModalSession(for window: NSWindow) -> NSModalSession {
+    override func beginModalSession(for window: NSWindow) -> NSApplication.ModalSession {
         
         if let delegate = delegate as? OpenEmuApplicationDelegateProtocol {
             delegate.application?(self, willBeginModalSessionForWindow: window)
@@ -65,7 +65,7 @@ class OpenEmuApplication: NSApplication {
         return modalSession
     }
     
-    override func endModalSession(_ session: NSModalSession) {
+    override func endModalSession(_ session: NSApplication.ModalSession) {
         
         if let delegate = delegate as? OpenEmuApplicationDelegateProtocol {
             delegate.applicationWillEndModalSession?(application: self)

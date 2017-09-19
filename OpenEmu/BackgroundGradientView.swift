@@ -27,6 +27,7 @@
 import Cocoa
 
 @objc(OEBackgroundGradientView)
+@objcMembers
 class BackgroundGradientView: NSView {
     
     var topColor: NSColor? {

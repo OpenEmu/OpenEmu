@@ -34,14 +34,11 @@ class ThreePartImage: NSImage {
     /// Image should be rendered vertically.
     var vertical = false
     
-    init(imageParts: [NSImage?], vertical: Bool) {
+    convenience init(imageParts: [NSImage?], vertical: Bool) {
         
-        self.parts = imageParts
-        self.vertical = vertical
-        
-        let start  = parts[0]?.size ?? NSSize.zero
-        let center = parts[1]?.size ?? NSSize.zero
-        let end    = parts[2]?.size ?? NSSize.zero
+        let start  = imageParts[0]?.size ?? NSSize.zero
+        let center = imageParts[1]?.size ?? NSSize.zero
+        let end    = imageParts[2]?.size ?? NSSize.zero
         
         var size = NSSize.zero
         if vertical {
@@ -52,19 +49,10 @@ class ThreePartImage: NSImage {
             size.height = max(max(start.height, center.height), end.height)
         }
         
-        super.init(size: size)
-    }
-    
-    required convenience init(imageLiteralResourceName name: String) {
-        fatalError("init(imageLiteralResourceName:) has not been implemented")
-    }
-    
-    required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    required init?(pasteboardPropertyList propertyList: Any, ofType type: String) {
-        fatalError("init(pasteboardPropertyList:ofType:) has not been implemented")
+        self.init(size: size)
+        
+        self.parts = imageParts
+        self.vertical = vertical
     }
     
     override func draw(in rect: NSRect,
@@ -85,7 +73,7 @@ class ThreePartImage: NSImage {
         operation op: NSCompositingOperation,
         fraction requestedAlpha: CGFloat,
         respectFlipped respectContextIsFlipped: Bool,
-        hints: [String : Any]?) {
+        hints: [NSImageRep.HintKey : Any]?) {
             
             if (!vertical && dstSpacePortionRect.height != size.height) ||
                 (vertical && dstSpacePortionRect.width != size.width) {
@@ -103,7 +91,7 @@ class ThreePartImage: NSImage {
                 vertical,
                 op,
                 requestedAlpha,
-                NSGraphicsContext.current()?.isFlipped ?? false)
+                NSGraphicsContext.current?.isFlipped ?? false)
     }
 }
 
@@ -112,19 +100,17 @@ class NinePartImage: NSImage {
     /// Array of the nine different parts.
     var parts: [NSImage?]!
     
-    init(imageParts: [NSImage?]) {
+    convenience init(imageParts: [NSImage?]) {
         
-        self.parts = imageParts
-        
-        let topLeft      = parts[0]?.size ?? NSZeroSize
-        let topCenter    = parts[1]?.size ?? NSZeroSize
-        let topRight     = parts[2]?.size ?? NSZeroSize
-        let leftEdge     = parts[3]?.size ?? NSZeroSize
-        let centerFill   = parts[4]?.size ?? NSZeroSize
-        let rightEdge    = parts[5]?.size ?? NSZeroSize
-        let bottomLeft   = parts[6]?.size ?? NSZeroSize
-        let bottomCenter = parts[7]?.size ?? NSZeroSize
-        let bottomRight  = parts[8]?.size ?? NSZeroSize
+        let topLeft      = imageParts[0]?.size ?? NSZeroSize
+        let topCenter    = imageParts[1]?.size ?? NSZeroSize
+        let topRight     = imageParts[2]?.size ?? NSZeroSize
+        let leftEdge     = imageParts[3]?.size ?? NSZeroSize
+        let centerFill   = imageParts[4]?.size ?? NSZeroSize
+        let rightEdge    = imageParts[5]?.size ?? NSZeroSize
+        let bottomLeft   = imageParts[6]?.size ?? NSZeroSize
+        let bottomCenter = imageParts[7]?.size ?? NSZeroSize
+        let bottomRight  = imageParts[8]?.size ?? NSZeroSize
         
         let width1  = topLeft.width + topCenter.width + topRight.width
         let width2  = leftEdge.width + centerFill.width + rightEdge.width
@@ -137,19 +123,9 @@ class NinePartImage: NSImage {
         let size = NSSize(width: max(max(width1, width2), width3),
                      height: max(max(height1, height2), height3))
         
-        super.init(size: size)
-    }
-    
-    required convenience init(imageLiteralResourceName name: String) {
-        fatalError("init(imageLiteralResourceName:) has not been implemented")
-    }
-    
-    required init?(pasteboardPropertyList propertyList: Any, ofType type: String) {
-        fatalError("init(pasteboardPropertyList:ofType:) has not been implemented")
-    }
-    
-    required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.init(size: size)
+        
+        self.parts = imageParts
     }
     
     override func draw(in rect: NSRect,
@@ -170,7 +146,7 @@ class NinePartImage: NSImage {
         operation op: NSCompositingOperation,
         fraction requestedAlpha: CGFloat,
         respectFlipped respectContextIsFlipped: Bool,
-        hints: [String : Any]?) {
+        hints: [NSImageRep.HintKey : Any]?) {
         
             let topLeftCorner     = parts[0]!
             let topEdgeFill       = parts[1]!
@@ -194,7 +170,7 @@ class NinePartImage: NSImage {
                 bottomRightCorner,
                 op,
                 requestedAlpha,
-                respectContextIsFlipped && NSGraphicsContext.current()?.isFlipped ?? false)
+                respectContextIsFlipped && NSGraphicsContext.current?.isFlipped ?? false)
     }
 }
 

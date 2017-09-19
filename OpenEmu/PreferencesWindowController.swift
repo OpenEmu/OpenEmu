@@ -27,6 +27,7 @@
 import Cocoa
 
 @objc(OEPreferencesWindowController)
+@objcMembers
 class PreferencesWindowController: NSWindowController {
     
     static let debugModeKey = "debug"
@@ -67,7 +68,7 @@ class PreferencesWindowController: NSWindowController {
         preferencesTabViewController = PreferencesTabViewController()
         
         preferencesTabViewController.view.frame = backgroundView.bounds
-        preferencesTabViewController.view.autoresizingMask = [.viewWidthSizable, .viewHeightSizable]
+        preferencesTabViewController.view.autoresizingMask = [.width, .height]
         
         backgroundView.addSubview(preferencesTabViewController.view)
         
@@ -123,7 +124,7 @@ extension PreferencesWindowController: NSWindowDelegate {
                     let debugModeActivated = !defaults.bool(forKey: PreferencesWindowController.debugModeKey)
                     defaults.set(debugModeActivated, forKey: PreferencesWindowController.debugModeKey)
                     
-                    NSSound(named: "secret")!.play()
+                    NSSound(named: NSSound.Name(rawValue: "secret"))!.play()
                     
                     self.preferencesTabViewController.toggleDebugPaneVisibility()
                     
@@ -201,7 +202,7 @@ class PreferencesTabViewController: NSTabViewController {
         updateWindowFrame(animated: false)
     }
     
-    override func transition(from fromViewController: NSViewController, to toViewController: NSViewController, options: NSViewControllerTransitionOptions, completionHandler completion: (() -> Void)?) {
+    override func transition(from fromViewController: NSViewController, to toViewController: NSViewController, options: NSViewController.TransitionOptions, completionHandler completion: (() -> Void)?) {
         
         NSAnimationContext.runAnimationGroup({ context in
             

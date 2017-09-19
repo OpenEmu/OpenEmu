@@ -26,23 +26,23 @@
 
 import Cocoa
 
-@available(OSX 10.12.1, *)
-fileprivate extension NSTouchBarCustomizationIdentifier {
-    static let saveStatesTouchBar = NSTouchBarCustomizationIdentifier("org.openemu.OEMediaViewController.saveStatesTouchBar")
-    static let screenshotsTouchBar = NSTouchBarCustomizationIdentifier("org.openemu.OEMediaViewController.screenshotsTouchBar")
+@available(OSX 10.12.2, *)
+fileprivate extension NSTouchBar.CustomizationIdentifier {
+    static let saveStatesTouchBar = NSTouchBar.CustomizationIdentifier("org.openemu.OEMediaViewController.saveStatesTouchBar")
+    static let screenshotsTouchBar = NSTouchBar.CustomizationIdentifier("org.openemu.OEMediaViewController.screenshotsTouchBar")
 }
 
-@available(OSX 10.12.1, *)
-fileprivate extension NSTouchBarItemIdentifier {
+@available(OSX 10.12.2, *)
+fileprivate extension NSTouchBarItem.Identifier {
     
     // Save States
-    static let deleteSaveState = NSTouchBarItemIdentifier("org.openemu.OEMediaViewController.saveStatesTouchbar.delete")
-    static let resumeSaveState = NSTouchBarItemIdentifier("org.openemu.OEMediaViewController.saveStatesTouchbar.resume")
+    static let deleteSaveState = NSTouchBarItem.Identifier("org.openemu.OEMediaViewController.saveStatesTouchbar.delete")
+    static let resumeSaveState = NSTouchBarItem.Identifier("org.openemu.OEMediaViewController.saveStatesTouchbar.resume")
     
     // Screenshots
-    static let deleteScreenshot = NSTouchBarItemIdentifier("org.openemu.OEMediaViewController.screenshotsTouchBar.delete")
-    static let showScreenshotInFinder = NSTouchBarItemIdentifier("org.openemu.OEMediaViewController.screenshotsTouchBar.showInFinder")
-    static let shareScreenshot = NSTouchBarItemIdentifier("org.openemu.OEMediaViewController.screenshotsTouchBar.share")
+    static let deleteScreenshot = NSTouchBarItem.Identifier("org.openemu.OEMediaViewController.screenshotsTouchBar.delete")
+    static let showScreenshotInFinder = NSTouchBarItem.Identifier("org.openemu.OEMediaViewController.screenshotsTouchBar.showInFinder")
+    static let shareScreenshot = NSTouchBarItem.Identifier("org.openemu.OEMediaViewController.screenshotsTouchBar.share")
 }
 
 @available(OSX 10.12.2, *)
@@ -87,18 +87,18 @@ extension OEMediaViewController {
 @available(OSX 10.12.2, *)
 extension OEMediaViewController: NSTouchBarDelegate {
     
-    public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItemIdentifier) -> NSTouchBarItem? {
+    public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
         
         switch identifier {
             
-        case NSTouchBarItemIdentifier.deleteSaveState:
+        case .deleteSaveState:
             fallthrough
-        case NSTouchBarItemIdentifier.deleteScreenshot:
+        case .deleteScreenshot:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Delete", comment: "")
             
-            let button = NSButton(image: NSImage(named: NSImageNameTouchBarDeleteTemplate)!, target: nil, action: #selector(deleteSelectedItems(_:)))
+            let button = NSButton(image: NSImage(named: .touchBarDeleteTemplate)!, target: nil, action: #selector(deleteSelectedItems(_:)))
             
             button.isEnabled = !selectionIndexes.isEmpty
             button.bezelColor = #colorLiteral(red: 0.5665243268, green: 0.2167189717, blue: 0.2198875844, alpha: 1)
@@ -107,12 +107,12 @@ extension OEMediaViewController: NSTouchBarDelegate {
             
             return item
             
-        case NSTouchBarItemIdentifier.resumeSaveState:
+        case .resumeSaveState:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Resume Game", comment: "")
             
-            let button = NSButton(image: NSImage(named: NSImageNameTouchBarPlayTemplate)!, target: nil, action: #selector(OELibraryController.startSaveState(_:)))
+            let button = NSButton(image: NSImage(named: .touchBarPlayTemplate)!, target: nil, action: #selector(OELibraryController.startSaveState(_:)))
             
             button.isEnabled = selectionIndexes.count == 1
             
@@ -120,12 +120,12 @@ extension OEMediaViewController: NSTouchBarDelegate {
             
             return item
             
-        case NSTouchBarItemIdentifier.showScreenshotInFinder:
+        case .showScreenshotInFinder:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Show In Finder", comment: "")
             
-            let button = NSButton(image: NSImage(named: NSImageNameRevealFreestandingTemplate)!, target: nil, action: #selector(showInFinder(_:)))
+            let button = NSButton(image: NSImage(named: .revealFreestandingTemplate)!, target: nil, action: #selector(showInFinder(_:)))
             
             button.isEnabled = !selectionIndexes.isEmpty
             
@@ -133,7 +133,7 @@ extension OEMediaViewController: NSTouchBarDelegate {
             
             return item
             
-        case NSTouchBarItemIdentifier.shareScreenshot:
+        case .shareScreenshot:
             
             let item = NSSharingServicePickerTouchBarItem(identifier: identifier)
             
@@ -172,7 +172,7 @@ private class MediaTouchBar: NSTouchBar {
         }
     }
     
-    func selectionIndexesDidChange(_ notification: Notification) {
+    @objc func selectionIndexesDidChange(_ notification: Notification) {
         updateButtonStatesForMediaViewControllerSelection()
     }
     
