@@ -40,7 +40,7 @@
 
 NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
-@interface OECoreUpdater () <NSFileManagerDelegate, SUAppcastDelegate, SUUpdaterDelegate>
+@interface OECoreUpdater () <NSFileManagerDelegate, SUUpdaterDelegate>
 {
     NSMutableDictionary *_coresDict;
     BOOL autoInstall;
@@ -132,6 +132,11 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
         {
             [updater setDelegate:self];
             [updater setFeedURL:[NSURL URLWithString:appcastURLString]];
+
+            // Core updates are silently installed on launch, so ensure there is no annoying update prompt from Sparkle
+            [updater setAutomaticallyChecksForUpdates:YES];
+            [updater setAutomaticallyDownloadsUpdates:YES];
+
             [updater resetUpdateCycle];
             [updater checkForUpdateInformation];
         }
@@ -185,17 +190,21 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
                     
                     NSURL *appcastURL = [NSURL URLWithString:[[coreNode attributeForName:@"appcastURL"] stringValue]];
                     download.appcast = [[SUAppcast alloc] init];
-                    [download.appcast setDelegate:self];
-                    
-                    if([fromModal boolValue])
-                        [[download appcast] performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO modes:[NSArray arrayWithObject:NSModalPanelRunLoopMode]];
-                    else
-                        [[download appcast] performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO];
-                    
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[download appcast] fetchAppcastFromURL:appcastURL inBackground:YES completionBlock:^(NSError *error) {
+                            if (error) {
+                                NSLog(@"%@", error);
+                            } else {
+                                [self appcastDidFinishLoading:[download appcast]];
+                            }
+                        }];
+                    });
+
                     [_coresDict setObject:download forKey:coreId];
                 }
             }
-            
+
             [self OE_updateCoreList];
         });
     });

@@ -9,7 +9,14 @@
 #ifndef SUVERSIONCOMPARISONPROTOCOL_H
 #define SUVERSIONCOMPARISONPROTOCOL_H
 
-#import <Cocoa/Cocoa.h>
+#if __has_feature(modules)
+@import Foundation;
+#else
+#import <Foundation/Foundation.h>
+#endif
+#import "SUExport.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
     Provides version comparison facilities for Sparkle.
@@ -22,8 +29,9 @@
     Should return NSOrderedAscending if b > a, NSOrderedDescending if b < a,
     and NSOrderedSame if they are equivalent.
 */
-- (NSComparisonResult)compareVersion:(NSString *)versionA toVersion:(NSString *)versionB;	// *** MAY BE CALLED ON NON-MAIN THREAD!
+- (NSComparisonResult)compareVersion:(NSString *)versionA toVersion:(NSString *)versionB; // *** MAY BE CALLED ON NON-MAIN THREAD!
 
 @end
 
+NS_ASSUME_NONNULL_END
 #endif
