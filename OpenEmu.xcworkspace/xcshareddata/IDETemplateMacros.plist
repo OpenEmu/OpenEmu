@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>FILEHEADER</key>
-	<string> Copyright (c) 2017, OpenEmu Team
+	<string> Copyright (c) ___YEAR___, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
