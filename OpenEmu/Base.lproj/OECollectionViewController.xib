@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13196" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13196"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OECollectionViewController">
@@ -58,12 +59,12 @@
         <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" id="UCW-dx-p1F" customClass="OEScrollView">
             <rect key="frame" x="0.0" y="0.0" width="735" height="290"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <clipView key="contentView" id="vft-3Z-KAS">
-                <rect key="frame" x="0.0" y="23" width="735" height="267"/>
+            <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="vft-3Z-KAS">
+                <rect key="frame" x="0.0" y="0.0" width="735" height="275"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" headerView="H7O-is-mGk" id="7W7-OC-R11" customClass="OETableView">
-                        <rect key="frame" x="0.0" y="0.0" width="922" height="19"/>
+                        <rect key="frame" x="0.0" y="0.0" width="922" height="252"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <size key="intercellSpacing" width="3" height="2"/>
                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -179,11 +180,10 @@
                         </tableColumns>
                     </tableView>
                 </subviews>
-                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
             </clipView>
             <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
             <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="6nI-Fu-se9">
-                <rect key="frame" x="0.0" y="274" width="735" height="16"/>
+                <rect key="frame" x="0.0" y="275" width="735" height="15"/>
                 <autoresizingMask key="autoresizingMask"/>
             </scroller>
             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="6rE-vq-HwZ">
@@ -194,7 +194,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="922" height="23"/>
                 <autoresizingMask key="autoresizingMask"/>
             </tableHeaderView>
-            <point key="canvasLocation" x="572.5" y="-176"/>
+            <point key="canvasLocation" x="833" y="-147"/>
         </scrollView>
     </objects>
 </document>
