@@ -69,6 +69,9 @@ static const GLfloat cg_coords[] = {
 - (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
 - (void)render;
 
+@property NSRect cachedBounds;
+@property NSRect cachedBoundsOnWindow;
+@property NSSize cachedFrameSize;
 @property OEGameViewNotificationRenderer *notificationRenderer;
 @end
 
@@ -597,7 +600,11 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLSetCurrentContext(cgl_ctx);
     CGLLockContext(cgl_ctx);
-    
+
+    self.cachedFrameSize = self.frame.size;
+    self.cachedBounds = self.bounds;
+    self.cachedBoundsOnWindow = [self convertRectToBacking:self.bounds];
+
     [self update];
     [self updateViewport];
 
@@ -608,9 +615,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 {
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
 
-    const NSRect bounds = [self bounds];
-    const NSRect boundsOnWindow = [self convertRectToBacking:bounds];
-
+    const NSRect boundsOnWindow = self.cachedBoundsOnWindow;
     glViewport(0, 0, NSWidth(boundsOnWindow),NSHeight(boundsOnWindow));
 }
 
@@ -665,7 +670,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
             [syphonServer publishFrameTexture:_gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
 #endif
 
-        [_notificationRenderer setBounds:[self bounds]];
+        [_notificationRenderer setBounds:self.cachedBounds];
         [_notificationRenderer render];
     }
 
@@ -812,6 +817,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     // multipassSize[0] contains the initial texture size
     _multipassSizes[0] = OEIntSizeMake(width, height);
 
+    const NSSize frameSize = self.cachedFrameSize;
     for(NSUInteger i = 0; i < numberOfPasses; ++i)
     {
         OEScaleType xScaleType = [shaders[i] xScaleType];
@@ -819,14 +825,14 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
         CGSize      scaler     = [shaders[i] scaler];
 
         if(xScaleType == OEScaleTypeViewPort)
-            width = self.frame.size.width * scaler.width;
+            width = frameSize.width * scaler.width;
         else if(xScaleType == OEScaleTypeAbsolute)
             width = scaler.width;
         else
             width = width * scaler.width;
 
         if(yScaleType == OEScaleTypeViewPort)
-            height = self.frame.size.height * scaler.height;
+            height = frameSize.height * scaler.height;
         else if(yScaleType == OEScaleTypeAbsolute)
             height = scaler.height;
         else
@@ -961,7 +967,8 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     glColor4f(1.0, 1.0, 1.0, 1.0);
 
     // adjust for aspect ratio
-    OEIntSize frameSize = (OEIntSize){self.frame.size.width, self.frame.size.height};
+    const NSSize viewFrameSize = self.cachedFrameSize;
+    OEIntSize frameSize = (OEIntSize){viewFrameSize.width, viewFrameSize.height};
     NSSize scaled = [self correctScreenSize:frameSize forAspectSize:_gameAspectSize returnVertices:YES];
 
     float halfw = scaled.width;
@@ -1008,7 +1015,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
             // renders to texture because we need TEXTURE_2D not TEXTURE_RECTANGLE
             [self OE_renderToTexture:_rttGameTextures[_frameCount % OEFramesSaved] usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
 
-            [self OE_applyCgShader:(OECGShader *)shader usingVertices:verts withTextureSize:_gameScreenSize withOutputSize:OEIntSizeMake(self.frame.size.width, self.frame.size.height) inPassNumber:0 inCGLContext:cgl_ctx];
+            [self OE_applyCgShader:(OECGShader *)shader usingVertices:verts withTextureSize:_gameScreenSize withOutputSize:frameSize inPassNumber:0 inCGLContext:cgl_ctx];
             
             ++_frameCount;
         }
@@ -1474,6 +1481,9 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 #pragma mark - Private Helpers
 - (void)viewDidChangeBackingProperties
 {
+    [super viewDidChangeBackingProperties];
+    self.cachedBoundsOnWindow = [self convertRectToBacking:self.bounds];
+
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLLockContext(cgl_ctx);
     CGLSetCurrentContext(cgl_ctx);
