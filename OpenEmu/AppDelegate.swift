@@ -180,7 +180,12 @@ class AppDelegate: NSDocumentController {
         #if !DEBUG_PRINT
             UserDefaults.standard.removeObject(forKey: OEGameCoreManagerModePreferenceKey)
         #endif
-        
+
+        // Don't let an old setting override automatically checking for app updates.
+        if let automaticChecksEnabled = UserDefaults.standard.object(forKey: "SUEnableAutomaticChecks") as? Bool, automaticChecksEnabled == false {
+            UserDefaults.standard.removeObject(forKey: "SUEnableAutomaticChecks")
+        }
+
         // Trigger Objective-C +initialize methods in these classes.
         _ = OEControllerDescription.self
         _ = OEToolTipManager.self
