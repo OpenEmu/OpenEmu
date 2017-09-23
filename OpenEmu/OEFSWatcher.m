@@ -150,7 +150,8 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
 	NSString *uuidString = nil;
 	CFDictionaryRef description = DADiskCopyDescription(disk);
 	CFUUIDRef uuid = CFDictionaryGetValue(description, kDADiskDescriptionVolumeUUIDKey);
-	uuidString = CFBridgingRelease(CFUUIDCreateString(NULL, uuid));
+    if(uuid == NULL) uuidString = [NSString stringWithUUID];
+	else uuidString = CFBridgingRelease(CFUUIDCreateString(NULL, uuid));
 	CFRelease(description);
 
 	CFRelease(disk);
