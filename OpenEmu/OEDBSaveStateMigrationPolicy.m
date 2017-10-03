@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
         NSURL *romsFolderURL = self.stateFolderURL;
         NSString *urlString = [oldObject valueForKey:@"location"];
         NSURL *url = nil;
-        if([urlString rangeOfString:@"file://"].location == NSNotFound)
+        if(![urlString containsString:@"file://"])
             url = [NSURL URLWithString:urlString relativeToURL:romsFolderURL];
         else
             url = [NSURL URLWithString:urlString];

@@ -735,7 +735,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     {
         NSString *urlString = metadata[OELibraryRomsFolderURLKey];
         
-        if([urlString rangeOfString:@"file://"].location == NSNotFound)
+        if(![urlString containsString:@"file://"])
             result = [NSURL URLWithString:urlString relativeToURL:self.databaseFolderURL];
         else
             result = [NSURL URLWithString:urlString];

@@ -61,7 +61,7 @@
     if (otherDataTrackString && [otherDataTrackString caseInsensitiveCompare:@"CD-ROM"] == NSOrderedSame)
         return OEFileSupportYes;
 
-    if([otherDataTrackString rangeOfString:@"TECD"].location != NSNotFound)
+    if([otherDataTrackString containsString:@"TECD"])
         return OEFileSupportYes;
 
     return OEFileSupportNo;
