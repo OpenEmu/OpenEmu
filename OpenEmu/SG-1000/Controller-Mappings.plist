@@ -16,6 +16,8 @@
 		<string>OEControllerMicrosoftXbox360ButtonX</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerMicrosoftXbox360ButtonA</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerMicrosoftXbox360ButtonStart</string>
 	</dict>
 	<key>OEControllerSonyPS3Sixaxis</key>
 	<dict>
@@ -31,6 +33,8 @@
 		<string>OEControllerSonyPS3SixaxisButtonSquare</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerSonyPS3SixaxisButtonCross</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerSonyPS3SixaxisButtonStart</string>
 	</dict>
 	<key>OEControllerLogitechDualAction</key>
 	<dict>
@@ -40,6 +44,8 @@
 		<string>OEControllerLogitechDualActionButton1</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerLogitechDualActionButton2</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerLogitechDualActionButtonStart</string>
 	</dict>
 	<key>OEControllerSegaSaturn</key>
 	<dict>
@@ -51,6 +57,8 @@
 		<string>OEControllerSegaSaturnButtonZ</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerSegaSaturnButtonC</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerSegaSaturnButtonStart</string>
 	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
@@ -62,6 +70,8 @@
 		<string>OEControllerGravisGamePadProButton1</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerGravisGamePadProButton2</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerGravisGamePadProButtonStart</string>
 	</dict>
 	<key>OEControllerRetroUSBSNES</key>
 	<dict>
@@ -73,6 +83,8 @@
 		<string>OEControllerRetroUSBSNESButtonB</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerRetroUSBSNESButtonA</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerRetroUSBSNESButtonStart</string>
 	</dict>
 	<key>OEControllerPS3NeoGeoPad</key>
 	<dict>
@@ -82,6 +94,8 @@
 		<string>OEControllerPS3NeoGeoPadButtonSquare</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerPS3NeoGeoPadButtonCross</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerPS3NeoGeoPadButtonStart</string>
 	</dict>
 	<key>OEControllerRetrode</key>
 	<dict>
@@ -93,6 +107,8 @@
 		<string>OEControllerRetrodeButtonY</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerRetrodeButtonB</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerRetrodeButtonStart</string>
 	</dict>
 	<key>OEControllerRetrolinkSNES</key>
 	<dict>
@@ -104,6 +120,8 @@
 		<string>OEControllerRetrolinkSNESButtonY</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerRetrolinkSNESButtonB</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerRetrolinkSNESButtonStart</string>
 	</dict>
 	<key>OEControllerRetrolinkN64</key>
 	<dict>
@@ -113,6 +131,8 @@
 		<string>OEControllerRetrolinkN64ButtonB</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerRetrolinkN64ButtonA</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerRetrolinkN64ButtonStart</string>
 	</dict>
 	<key>OEControllerAdaptoidN64</key>
 	<dict>
@@ -128,6 +148,8 @@
 		<string>OEControllerAdaptoidN64ButtonB</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerAdaptoidN64ButtonA</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerAdaptoidN64ButtonStart</string>
 	</dict>
 	<key>OEControllerWiimote</key>
 	<dict>
@@ -143,6 +165,8 @@
 		<string>OEControllerWiimoteButton1</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerWiimoteButton2</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerWiimoteButtonPlus</string>
 	</dict>
 	<key>OEControllerNintendoWiiUProController</key>
 	<dict>
@@ -158,6 +182,8 @@
 		<string>OEControllerNintendoWiiUProControllerButtonY</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
 	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
@@ -167,6 +193,8 @@
 		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
 	</dict>
 	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
@@ -182,6 +210,8 @@
 		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
 	</dict>
 	<key>OEControllerNintendoSwitchProController</key>
 	<dict>
@@ -191,6 +221,8 @@
 		<string>OEControllerNintendoSwitchProControllerButtonY</string>
 		<key>OESG1000Button2</key>
 		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
 	</dict>
 </dict>
 </plist>

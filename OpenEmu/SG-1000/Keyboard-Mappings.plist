@@ -14,5 +14,7 @@
 	<integer>4</integer>
 	<key>OESG1000Button2</key>
 	<integer>22</integer>
+	<key>OESG1000ButtonPause</key>
+	<integer>40</integer>
 </dict>
 </plist>
