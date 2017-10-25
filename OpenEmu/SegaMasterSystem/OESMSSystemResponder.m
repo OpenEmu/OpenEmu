@@ -63,4 +63,25 @@
     }
 }
 
+- (void)mouseMovedAtPoint:(OEIntPoint)aPoint
+{
+    if ([[self client] respondsToSelector:@selector(mouseMovedAtPoint:)]) {
+        [[self client] mouseMovedAtPoint:aPoint];
+    }
+}
+
+- (void)mouseDownAtPoint:(OEIntPoint)aPoint
+{
+    if ([[self client] respondsToSelector:@selector(leftMouseDownAtPoint:)]) {
+        [[self client] leftMouseDownAtPoint:aPoint];
+    }
+}
+
+- (void)mouseUpAtPoint
+{
+    if ([[self client] respondsToSelector:@selector(leftMouseUp)]) {
+        [[self client] leftMouseUp];
+    }
+}
+
 @end

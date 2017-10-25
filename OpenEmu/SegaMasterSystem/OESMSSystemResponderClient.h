@@ -52,4 +52,8 @@ typedef enum _OESMSButton
 - (oneway void)didPushSMSResetButton;
 - (oneway void)didReleaseSMSResetButton;
 
+- (oneway void)mouseMovedAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseUp;
+
 @end
