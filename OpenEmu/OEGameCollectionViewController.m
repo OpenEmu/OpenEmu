@@ -427,7 +427,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 
             DLog(@"deleteFiles: %d", deleteFiles);
             [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
-                [game deleteByMovingFile:deleteFiles keepSaveStates:YES];
+                [game deleteByMovingFile:deleteFiles keepSaveStates:NO];
             }];
 
             NSManagedObjectContext *context = [[selectedGames lastObject] managedObjectContext];
