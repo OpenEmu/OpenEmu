@@ -353,7 +353,14 @@ NS_ASSUME_NONNULL_BEGIN
 
     if(!statesFlag)
     {
-        // TODO: remove states
+        if (self.saveStateCount) {
+            NSURL *statesFolderURL = [self.saveStates.anyObject.URL URLByDeletingLastPathComponent];
+
+            OEFile *file = [OEFile fileWithURL:statesFolderURL error:nil];
+            if (file) {
+                [[NSWorkspace sharedWorkspace] recycleURLs:file.allFileURLs completionHandler:nil];
+            }
+        }
     }
 
     [self.managedObjectContext deleteObject:self];
