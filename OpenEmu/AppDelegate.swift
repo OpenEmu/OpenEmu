@@ -162,11 +162,7 @@ class AppDelegate: NSDocumentController {
             OEAutomaticallyGetInfoKey: true,
             OEGameDefaultVideoFilterKey: "Pixellate",
             OEGameVolumeKey: 0.5,
-            "defaultCore.openemu.system.gb": "org.openemu.Gambatte",
-            "defaultCore.openemu.system.gba": "org.openemu.mGBA",
-            "defaultCore.openemu.system.gg": "org.openemu.TwoMbit",
             "defaultCore.openemu.system.nes": "org.openemu.Nestopia",
-            "defaultCore.openemu.system.sms": "org.openemu.TwoMbit",
             "defaultCore.openemu.system.snes": "org.openemu.SNES9x",
             OEDisplayGameTitle: true,
             OEBackgroundPauseKey: true,
@@ -518,26 +514,59 @@ class AppDelegate: NSDocumentController {
     // MARK: -
     
     fileprivate func removeInvalidPlugins() {
-        
+
         // Remove Higan WIP systems as defaults if found, since our core port does not support them.
         let defaults = UserDefaults.standard
         if defaults.string(forKey: "defaultCore.openemu.system.gb") == "org.openemu.Higan" {
-            defaults.set("org.openemu.Gambatte", forKey: "defaultCore.openemu.system.gb")
+            defaults.removeObject(forKey: "defaultCore.openemu.system.gb")
         }
         if defaults.string(forKey: "defaultCore.openemu.system.gba") == "org.openemu.Higan" {
-            defaults.set("org.openemu.mGBA", forKey: "defaultCore.openemu.system.gba")
+            defaults.removeObject(forKey: "defaultCore.openemu.system.gba")
         }
         if defaults.string(forKey: "defaultCore.openemu.system.nes") == "org.openemu.Higan" {
-            defaults.set("org.openemu.Nestopia", forKey: "defaultCore.openemu.system.nes")
+            defaults.removeObject(forKey: "defaultCore.openemu.system.nes")
         }
-        
+
+        // Remove system defaults for deprecated core plugins.
+        if defaults.string(forKey: "defaultCore.openemu.system.gba") == "org.openemu.VisualBoyAdvance" {
+            defaults.removeObject(forKey: "defaultCore.openemu.system.gba")
+        }
+        if defaults.string(forKey: "defaultCore.openemu.system.gg") == "org.openemu.CrabEmu" ||
+           defaults.string(forKey: "defaultCore.openemu.system.gg") == "org.openemu.TwoMbit" {
+            defaults.removeObject(forKey: "defaultCore.openemu.system.gg")
+        }
+        if defaults.string(forKey: "defaultCore.openemu.system.ngp") == "org.openemu.NeoPop" {
+            defaults.removeObject(forKey: "defaultCore.openemu.system.ngp")
+        }
+        if defaults.string(forKey: "defaultCore.openemu.system.saturn") == "org.openemu.Yabause" {
+            defaults.removeObject(forKey: "defaultCore.openemu.system.saturn")
+        }
+        if defaults.string(forKey: "defaultCore.openemu.system.sms") == "org.openemu.CrabEmu" ||
+           defaults.string(forKey: "defaultCore.openemu.system.sms") == "org.openemu.TwoMbit" {
+            defaults.removeObject(forKey: "defaultCore.openemu.system.sms")
+        }
+
+        // Remove deprecated core plugins.
+        let corePlugins = [
+            "NeoPop.oecoreplugin",
+            "TwoMbit.oecoreplugin",
+            "VisualBoyAdvance.oecoreplugin",
+            "Yabause.oecoreplugin"
+        ]
+        let supportDirectoryURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!
+        let coresDirectoryURL = supportDirectoryURL.appendingPathComponent("OpenEmu/Cores")
+        for plugin in corePlugins {
+            let coreBundleURL = coresDirectoryURL.appendingPathComponent(plugin, isDirectory: false)
+            try? FileManager.default.removeItem(at: coreBundleURL)
+        }
+
         // Remove beta-era core plug-ins.
         let betaPlugins = OECorePlugin.allPlugins.filter { ($0.infoDictionary["SUFeedURL"] as! String).contains("openemu.org/update") }
         for plugin in betaPlugins {
             let coreBundleURL = plugin.bundle.bundleURL
             try? FileManager.default.removeItem(at: coreBundleURL)
         }
-        
+
         // Remove system plugins in app support (they ship in the app bundle).
         let systemsDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!.appendingPathComponent("OpenEmu/Systems")
         if let result = try? systemsDirectory.checkResourceIsReachable(), result == true {
@@ -572,18 +601,31 @@ class AppDelegate: NSDocumentController {
         
         let database = OELibraryDatabase.default!
         let context = database.mainThreadContext
-        
+
+        // Remove save states for deprecated core plugins.
         // Get incompatible save states by version.
+        // Genesis Plus GX is especially known for breaking compatibility.
         let incompatibleSaveStates = (OEDBSaveState.allObjects(in: context) as! [OEDBSaveState]).filter {
-            $0.coreIdentifier == "org.openemu.GenesisPlus" &&
+            ($0.coreIdentifier == "org.openemu.CrabEmu" &&
+                ($0.location!.contains("GameGear/") ||
+                 $0.location!.contains("SegaMasterSystem/") ||
+                 $0.location!.contains("SG-1000/"))) ||
+            ($0.coreIdentifier == "org.openemu.GenesisPlus" &&
                 ($0.coreVersion == "1.7.4" ||
                  $0.coreVersion == "1.7.4.1" ||
-                 $0.coreVersion == "1.7.4.2")
+                 $0.coreVersion == "1.7.4.2" ||
+                 $0.coreVersion == "1.7.4.3" ||
+                 $0.coreVersion == "1.7.4.4" ||
+                 $0.coreVersion == "1.7.4.5" ||
+                 $0.coreVersion == "1.7.4.6")) ||
+            $0.coreIdentifier == "org.openemu.NeoPop" ||
+            $0.coreIdentifier == "org.openemu.TwoMbit" ||
+            $0.coreIdentifier == "org.openemu.VisualBoyAdvance"
         }
         
         if !incompatibleSaveStates.isEmpty {
             
-            NSLog("Removing \(incompatibleSaveStates.count) incompatible Genesis Plus GX save state(s).")
+            NSLog("Removing \(incompatibleSaveStates.count) incompatible save state(s).")
             
             for saveState in incompatibleSaveStates {
                 saveState.deleteAndRemoveFiles()
@@ -932,10 +974,11 @@ extension AppDelegate: NSMenuDelegate {
     func libraryDatabaseDidLoad(notification: Notification) {
         
         libraryLoaded = true
-        
-        OECoreUpdater.shared.checkForUpdatesAndInstall()
-        
+        // Needs to happen before initializing OECorePlugin to prevent a crash.
         removeInvalidPlugins()
+
+        OECoreUpdater.shared.checkForUpdatesAndInstall()
+
         loadPlugins()
         removeIncompatibleSaveStates()
         
