@@ -1197,6 +1197,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
     // Flip the image
     [screenshotImage lockFocusFlipped:YES];
+    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];
     [imageRep drawInRect:(NSRect){.size = textureNSSize}];
     [screenshotImage unlockFocus];
 
