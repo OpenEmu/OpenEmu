@@ -10634,7 +10634,6 @@
 				INFOPLIST_FILE = "OpenEmu-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks /Library/Frameworks ~/Library/Frameworks";
-				OTHER_CFLAGS = "-DUSE_SCALE_RANDOMWRITE";
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					OpenEmuXPCCommunicator,
@@ -10678,7 +10677,6 @@
 				INFOPLIST_FILE = "OpenEmu-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks /Library/Frameworks ~/Library/Frameworks";
-				OTHER_CFLAGS = "-DUSE_SCALE_RANDOMWRITE";
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					OpenEmuXPCCommunicator,
