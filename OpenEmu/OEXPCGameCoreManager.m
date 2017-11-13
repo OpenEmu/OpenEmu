@@ -177,7 +177,7 @@
         
         [_backgroundProcessTask setStandardOutput:_standardOutputPipe];
         dispatch_read(output_fildes, 72, dispatch_get_main_queue(), ^(dispatch_data_t data, int error){
-            [self _didReceiveData:(NSData*)data posixError:error fileDescriptor:output_fildes];
+            [self _didReceiveData:(NSData*)data posixError:error fileDescriptor:output_fildes name:@"stdout"];
         });
 
         _standardErrorPipe = [NSPipe pipe];
@@ -185,7 +185,7 @@
         
         [_backgroundProcessTask setStandardError:_standardErrorPipe];
         dispatch_read(error_fildes, 72, dispatch_get_main_queue(), ^(dispatch_data_t data, int error) {
-            [self _didReceiveData:(NSData*)data posixError:error fileDescriptor:error_fildes];
+            [self _didReceiveData:(NSData*)data posixError:error fileDescriptor:error_fildes name:@"stderr"];
         });
     } else {
         /* Do not even receive the core output if we're not doing anything with it
@@ -227,30 +227,30 @@
     [self selfRelease];
 }
 
-- (void)_didReceiveData:(NSData *)data posixError:(int)error fileDescriptor:(int)fildes
+- (void)_didReceiveData:(NSData *)data posixError:(int)error fileDescriptor:(int)fildes name:(NSString *)name
 {
     // If the length of the data is zero, then the task is basically over - there is nothing
     // more to get from the handle so we may as well shut down.
     if([data length] > 0 || error)
     {
         if (error) {
-            DLog(@"POSIX error while reading XPC helper streams: %d", error);
+            DLog(@"POSIX error while reading XPC helper %@: %d", name, error);
             // POSIX file read errors are not always fatal
         }
         
         // Send the data on to the controller; we can't just use +stringWithUTF8String: here
         // because -[data bytes] is not necessarily a properly terminated string.
         // -initWithData:encoding: on the other hand checks -[data length]
-        fprintf(stderr, "%s\n", [[NSString stringWithFormat:@"background process error: %@: %@", [_processIdentifier substringToIndex:[_processIdentifier rangeOfString:@" # "].location], [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]] UTF8String]);
+        fprintf(stderr, "%s\n", [[NSString stringWithFormat:@"background process %@: %@: %@", name, [_processIdentifier substringToIndex:[_processIdentifier rangeOfString:@" # "].location], [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]] UTF8String]);
 
         dispatch_read(fildes, 72, dispatch_get_main_queue(), ^(dispatch_data_t data, int error) {
-            [self _didReceiveData:(NSData*)data posixError:error fileDescriptor:fildes];
+            [self _didReceiveData:(NSData*)data posixError:error fileDescriptor:fildes name:name];
         });
     }
     else
     {
         // We're finished here
-        DLog(@"background process %@: stderr EOF", _processIdentifier);
+        DLog(@"background process %@: %@ EOF", _processIdentifier, name);
     }
 }
 
