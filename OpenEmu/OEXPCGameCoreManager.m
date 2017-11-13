@@ -167,14 +167,11 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_taskDidTerminate:) name:NSTaskDidTerminateNotification object:_backgroundProcessTask];
     
-    BOOL logCoreOutput = NO;
-#ifdef LogCoreOutput
-    logCoreOutput = YES;
-    /* not putting all the code here to make sure that it still compiles
-     * when somebody'll eventually need it */
-#endif
+    BOOL logCoreOutput = [[NSUserDefaults standardUserDefaults] boolForKey:@"OELogCoreOutput"];
 
     if (logCoreOutput) {
+        NSLog(@"Will log core output for %@", _processIdentifier);
+        
         _standardOutputPipe = [NSPipe pipe];
         int output_fildes = _standardOutputPipe.fileHandleForReading.fileDescriptor;
         
