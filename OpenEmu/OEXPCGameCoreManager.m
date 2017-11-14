@@ -166,18 +166,33 @@
     [_backgroundProcessTask setArguments:@[ [configuration agentServiceNameProcessArgument], [configuration processIdentifierArgumentForIdentifier:_processIdentifier] ]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_taskDidTerminate:) name:NSTaskDidTerminateNotification object:_backgroundProcessTask];
+    
+    BOOL logCoreOutput = [[NSUserDefaults standardUserDefaults] boolForKey:@"OELogCoreOutput"];
 
-    _standardOutputPipe = [NSPipe pipe];
-    [_backgroundProcessTask setStandardOutput:_standardOutputPipe];
+    if (logCoreOutput) {
+        NSLog(@"Will log core output for %@", _processIdentifier);
+        
+        _standardOutputPipe = [NSPipe pipe];
+        int output_fildes = _standardOutputPipe.fileHandleForReading.fileDescriptor;
+        
+        [_backgroundProcessTask setStandardOutput:_standardOutputPipe];
+        dispatch_read(output_fildes, 72, dispatch_get_main_queue(), ^(dispatch_data_t data, int error){
+            [self _didReceiveData:(NSData*)data posixError:error fileDescriptor:output_fildes name:@"stdout"];
+        });
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_didReceiveData:) name:NSFileHandleReadCompletionNotification object:[_standardOutputPipe fileHandleForReading]];
-    [[_standardOutputPipe fileHandleForReading] readInBackgroundAndNotify];
-
-    _standardErrorPipe = [NSPipe pipe];
-    [_backgroundProcessTask setStandardError:_standardErrorPipe];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_didReceiveErrorData:) name:NSFileHandleReadCompletionNotification object:[_standardErrorPipe fileHandleForReading]];
-    [[_standardErrorPipe fileHandleForReading] readInBackgroundAndNotify];
+        _standardErrorPipe = [NSPipe pipe];
+        int error_fildes = _standardErrorPipe.fileHandleForReading.fileDescriptor;
+        
+        [_backgroundProcessTask setStandardError:_standardErrorPipe];
+        dispatch_read(error_fildes, 72, dispatch_get_main_queue(), ^(dispatch_data_t data, int error) {
+            [self _didReceiveData:(NSData*)data posixError:error fileDescriptor:error_fildes name:@"stderr"];
+        });
+    } else {
+        /* Do not even receive the core output if we're not doing anything with it
+         * to save CPU time */
+        [_backgroundProcessTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
+        [_backgroundProcessTask setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+    }
 
     [_backgroundProcessTask launch];
 }
@@ -204,7 +219,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     _backgroundProcessTask = nil;
-    _processIdentifier     = nil;
     _standardOutputPipe    = nil;
     _standardErrorPipe     = nil;
 
@@ -213,50 +227,32 @@
     [self selfRelease];
 }
 
-- (void)_didReceiveErrorData:(NSNotification *)notification
+- (void)_didReceiveData:(NSData *)data posixError:(int)error fileDescriptor:(int)fildes name:(NSString *)name
 {
-    NSData *data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-
     // If the length of the data is zero, then the task is basically over - there is nothing
     // more to get from the handle so we may as well shut down.
-    if([data length] > 0)
+    if([data length] > 0 || error)
     {
+        if (error) {
+            DLog(@"POSIX error while reading XPC helper %@: %d", name, error);
+            // POSIX file read errors are not always fatal
+        }
+        
         // Send the data on to the controller; we can't just use +stringWithUTF8String: here
         // because -[data bytes] is not necessarily a properly terminated string.
         // -initWithData:encoding: on the other hand checks -[data length]
-#ifdef LogCoreOutput
-        fprintf(stderr, "%s\n", [[NSString stringWithFormat:@"background process error: %@: %@", [_processIdentifier substringToIndex:[_processIdentifier rangeOfString:@" # "].location], [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]] UTF8String]);
-#endif
-        [[notification object] readInBackgroundAndNotify];
+        fprintf(stderr, "%s\n", [[NSString stringWithFormat:@"background process %@: %@: %@", name, [_processIdentifier substringToIndex:[_processIdentifier rangeOfString:@" # "].location], [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]] UTF8String]);
+
+        dispatch_read(fildes, 72, dispatch_get_main_queue(), ^(dispatch_data_t data, int error) {
+            [self _didReceiveData:(NSData*)data posixError:error fileDescriptor:fildes name:name];
+        });
     }
     else
     {
         // We're finished here
-        [self stop];
+        DLog(@"background process %@: %@ EOF", _processIdentifier, name);
     }
 }
 
-- (void)_didReceiveData:(NSNotification *)notification
-{
-    NSData *data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-
-    // If the length of the data is zero, then the task is basically over - there is nothing
-    // more to get from the handle so we may as well shut down.
-    if([data length] > 0)
-    {
-        // Send the data on to the controller; we can't just use +stringWithUTF8String: here
-        // because -[data bytes] is not necessarily a properly terminated string.
-        // -initWithData:encoding: on the other hand checks -[data length]
-#ifdef LogCoreOutput
-        fprintf(stderr, "%s\n", [[NSString stringWithFormat:@"background process error: %@: %@", [_processIdentifier substringToIndex:[_processIdentifier rangeOfString:@" # "].location], [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]] UTF8String]);
-#endif
-        [[notification object] readInBackgroundAndNotify];
-    }
-    else
-    {
-        // We're finished here
-        [self stop];
-    }
-}
 
 @end
