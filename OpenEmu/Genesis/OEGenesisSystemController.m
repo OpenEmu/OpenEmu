@@ -62,7 +62,7 @@
         return OEFileSupportUncertain;
 
     NSString *dataString = [file readASCIIStringInRange:NSMakeRange(0x100, 16)];
-    if ([dataString isEqualToString:@"SEGA GENESIS    "] || [dataString isEqualToString:@"SEGA MEGA DRIVE "])
+    if ([dataString hasPrefix:@"SEGA GENESIS"] || [dataString hasPrefix:@"SEGA MEGA DRIVE"])
         return OEFileSupportYes;
 
     return OEFileSupportNo;
