@@ -11,9 +11,9 @@
 	<key>CFBundleName</key>
 	<string>OpenEmuHelperApp</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.6</string>
+	<string>2.0.6.1</string>
 	<key>CFBundleVersion</key>
-	<string>2.0.6</string>
+	<string>2.0.6.1</string>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
 </dict>
