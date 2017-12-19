@@ -629,6 +629,13 @@ class AppDelegate: NSDocumentController {
                  $0.coreVersion == "1.7.4.4" ||
                  $0.coreVersion == "1.7.4.5" ||
                  $0.coreVersion == "1.7.4.6")) ||
+            ($0.coreIdentifier == "org.openemu.Mupen64Plus" &&
+                ($0.coreVersion == "2.5.3" ||
+                 $0.coreVersion == "2.5.2" ||
+                 $0.coreVersion == "2.5.1" ||
+                 $0.coreVersion == "2.5" ||
+                 $0.coreVersion == "2.0.1" ||
+                 $0.coreVersion == "2.0")) ||
             $0.coreIdentifier == "org.openemu.NeoPop" ||
             $0.coreIdentifier == "org.openemu.TwoMbit" ||
             $0.coreIdentifier == "org.openemu.VisualBoyAdvance"
