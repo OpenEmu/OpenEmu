@@ -610,9 +610,6 @@ typedef enum
 
     _fullScreenStatus = _OEPopoutGameWindowFullScreenStatusNonFullScreen;
 
-    [[self window] setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
-    [[self window] makeKeyAndOrderFront:self];
-
     if(_resumePlayingAfterFullScreenTransition)
         [[self document] setEmulationPaused:NO];
 
