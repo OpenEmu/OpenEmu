@@ -143,7 +143,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
          {
              if(discoverRoms)
                  [[[OELibraryDatabase defaultDatabase] importer] discoverRoms:volumes];
-             [self setCurrentContentController:self.libraryController animate:NO];
+             [self setCurrentContentController:self.libraryController];
          }];
         
         // Adjust visual properties of the window.
@@ -157,7 +157,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     }
     else
     {
-        [self setCurrentContentController:self.libraryController animate:NO];
+        [self setCurrentContentController:self.libraryController];
     }
 }
 
@@ -212,7 +212,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 #pragma mark -
 
-- (void)setCurrentContentController:(NSViewController *)newController animate:(BOOL)shouldAnimate
+- (void)setCurrentContentController:(NSViewController *)newController
 {
     if(newController == nil) newController = self.libraryController;
     if(newController == self.currentContentController) return;
@@ -282,60 +282,13 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         }
     };
     
-    if(shouldAnimate)
-    {
-        CGRect windowFrame = self.window.frame;
-        NSWindow *fadeWindow = [[NSWindow alloc]initWithContentRect:windowFrame
-                                                          styleMask:NSBorderlessWindowMask
-                                                            backing:NSBackingStoreBuffered
-                                                              defer:NO];
-        [fadeWindow setFrame:windowFrame display:NO];
-        fadeWindow.ignoresMouseEvents = YES;
-        fadeWindow.backgroundColor = [NSColor clearColor];
-        fadeWindow.alphaValue = 1.0;
-        fadeWindow.opaque = NO;
-        
-        [window addChildWindow:fadeWindow ordered:NSWindowAbove];
-        
-        NSImageView *imageView = [[NSImageView alloc] initWithFrame:fadeWindow.contentView.bounds];
-        imageView.image = window.imageSnapshot;
-        imageView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-        
-        fadeWindow.contentView = imageView;
-        
-        sendViewWillDisappear();
-        replaceController(_currentContentController.view);
-        
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-            
-            context.duration = 0.2;
-            fadeWindow.animator.alphaValue = 0.0;
-            
-        } completionHandler:^{
-            
-            [window removeChildWindow:fadeWindow];
-            
-            // If a game is playing in the library window, unpause emulation when the transition completes.
-            if (newController == _gameDocument.gameViewController) {
-                _gameDocument.emulationPaused = NO;
-            }
-        }];
+    sendViewWillDisappear();
+    replaceController(_currentContentController.view);
+    
+    // If a game is playing in the library window, unpause emulation immediately.
+    if (newController == _gameDocument.gameViewController) {
+        _gameDocument.emulationPaused = NO;
     }
-    else
-    {
-        sendViewWillDisappear();
-        replaceController(_currentContentController.view);
-        
-        // If a game is playing in the library window, unpause emulation immediately.
-        if (newController == _gameDocument.gameViewController) {
-            _gameDocument.emulationPaused = NO;
-        }
-    }
-}
-
-- (void)setCurrentContentController:(NSViewController *)newCurrentContentController
-{
-    [self setCurrentContentController:newCurrentContentController animate:YES];
 }
 
 - (IBAction)undockGameWindow:(id)sender
@@ -437,7 +390,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         {
             [NSApp activateIgnoringOtherApps:YES];
             
-            [self setCurrentContentController:[document gameViewController] animate:NO];
+            [self setCurrentContentController:[document gameViewController]];
             [document setEmulationPaused:NO];
             [[self window] toggleFullScreen:self];
         }
