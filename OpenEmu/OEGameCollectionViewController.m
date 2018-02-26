@@ -896,7 +896,9 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
 {
     if(tableView != [self listView]) return nil;
-
+    
+    if(rowIndex >= [[gamesController arrangedObjects] count]) return nil;
+    
     NSObject<OEListViewDataSourceItem> *item = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
     NSString *columnId                       = [tableColumn identifier];
     id result                                = nil;
