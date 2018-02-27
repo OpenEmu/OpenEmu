@@ -286,7 +286,6 @@
 		5A9606DC1C0A84BC0089B494 /* LibraryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606DB1C0A84BC0089B494 /* LibraryToolbar.swift */; };
 		5A9606DE1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606DD1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift */; };
 		5A9606E01C0B12FE0089B494 /* NSControl+TargetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606DF1C0B12FE0089B494 /* NSControl+TargetAction.swift */; };
-		5A9606E21C0B16100089B494 /* NSDate+DMYCompareToNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E11C0B16100089B494 /* NSDate+DMYCompareToNil.swift */; };
 		5A9606E41C0BA85F0089B494 /* NSURL+LibraryAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E31C0BA85F0089B494 /* NSURL+LibraryAdditions.swift */; };
 		5A9606E81C0BCD350089B494 /* NSImage+DrawingAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E71C0BCD350089B494 /* NSImage+DrawingAdditions.swift */; };
 		5A9606EA1C0BD2BD0089B494 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E91C0BD2BD0089B494 /* DLog.swift */; };
@@ -1845,7 +1844,6 @@
 		5A9606DB1C0A84BC0089B494 /* LibraryToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryToolbar.swift; sourceTree = "<group>"; };
 		5A9606DD1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Hyperlink.swift"; sourceTree = "<group>"; };
 		5A9606DF1C0B12FE0089B494 /* NSControl+TargetAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSControl+TargetAction.swift"; sourceTree = "<group>"; };
-		5A9606E11C0B16100089B494 /* NSDate+DMYCompareToNil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+DMYCompareToNil.swift"; sourceTree = "<group>"; };
 		5A9606E31C0BA85F0089B494 /* NSURL+LibraryAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+LibraryAdditions.swift"; sourceTree = "<group>"; };
 		5A9606E71C0BCD350089B494 /* NSImage+DrawingAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImage+DrawingAdditions.swift"; sourceTree = "<group>"; };
 		5A9606E91C0BD2BD0089B494 /* DLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
@@ -3624,7 +3622,6 @@
 				EFBD5D7614EFE19A00FBD1E0 /* NSColor+OEAdditions.h */,
 				EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */,
 				5A9606DF1C0B12FE0089B494 /* NSControl+TargetAction.swift */,
-				5A9606E11C0B16100089B494 /* NSDate+DMYCompareToNil.swift */,
 				C67DBF4117DBE859006AF087 /* NSDocument+OEAdditions.h */,
 				C67DBF4217DBE859006AF087 /* NSDocument+OEAdditions.m */,
 				83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */,
@@ -7876,7 +7873,6 @@
 				5A9606E81C0BCD350089B494 /* NSImage+DrawingAdditions.swift in Sources */,
 				83199722142741790068C865 /* OEROMImporter.m in Sources */,
 				83507247142F6029005D9033 /* OEControllerImageView.m in Sources */,
-				5A9606E21C0B16100089B494 /* NSDate+DMYCompareToNil.swift in Sources */,
 				1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */,
 				012FE6591CE51D4100716960 /* LibraryToolbarDelegate.swift in Sources */,
 				83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */,

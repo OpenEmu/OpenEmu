@@ -78,6 +78,33 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGameTitleKVOContext;
 
+@implementation NSDate (OESortAdditions)
+
+/// Implementation of the sort selector used by the list view's "Last Played" column in OECollectionViewController.xib.
+- (NSComparisonResult)OE_compareDMYTranslatingNilToDistantPast:(NSDate *)anotherDate
+{
+    if (!anotherDate) {
+        return [self compare:NSDate.distantPast];
+    }
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    
+    NSDateComponents *selfDMY = [gregorian components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:self];
+    NSDateComponents *anotherDMY = [gregorian components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:anotherDate];
+    
+    if (selfDMY.year != anotherDMY.year) {
+        return (selfDMY.year > anotherDMY.year ? NSOrderedDescending : NSOrderedAscending);
+    } else if (selfDMY.month != anotherDMY. month) {
+        return (selfDMY.month > anotherDMY.month ? NSOrderedDescending : NSOrderedAscending);
+    } else if (selfDMY.day != anotherDMY.day) {
+        return (selfDMY.day > anotherDMY.day ? NSOrderedDescending : NSOrderedAscending);
+    }
+    
+    return NSOrderedSame;
+}
+
+@end
+
 @interface OECollectionViewController ()
 {
     IBOutlet NSView *gridViewContainer;// gridview
