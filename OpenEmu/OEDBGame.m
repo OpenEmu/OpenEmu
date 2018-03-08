@@ -121,7 +121,6 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     {
         [defaultFileManager hashFileAtURL:url md5:&md5 crc32:&crc error:outError];
         OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inContext:context error:outError];
-        if(!rom) rom = [OEDBRom romWithCRC32HashString:crc inContext:context error:outError];
         if(rom) game = rom.game;
     }
     

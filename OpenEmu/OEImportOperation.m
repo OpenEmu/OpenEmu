@@ -572,15 +572,12 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     IMPORTDLog();
     NSError  *error = nil;
     NSString *md5   = self.md5Hash;
-    NSString *crc   = self.crcHash;
     NSManagedObjectContext *context = self.importer.context;
 
     OEDBRom *rom = nil;
 
     if(rom == nil)
         rom = [OEDBRom romWithMD5HashString:md5 inContext:context error:&error];
-    if(rom == nil)
-        rom = [OEDBRom romWithCRC32HashString:crc inContext:context error:&error];
 
     if(rom != nil)
     {
