@@ -83,15 +83,17 @@ static OSStatus RenderCallback(void                       *in,
         printf("OEGameAudio: Tried to consume %d bytes, but only %d bytes available\n", bytesRequested, availableBytes);
     }
     
-    availableBytes = MIN(availableBytes, bytesRequested);
+    int bytesToCopy = MIN(availableBytes, bytesRequested);
+    int rest = bytesRequested - bytesToCopy;
+    
     char *outBuffer = ioData->mBuffers[0].mData;
 
-    if(availableBytes)
-        memcpy(outBuffer, head, availableBytes);
-    else
-        memset(outBuffer, 0, bytesRequested);
+    if (bytesToCopy)
+        memcpy(outBuffer, head, bytesToCopy);
+    if (rest)
+        memset(outBuffer+bytesToCopy, 0, rest);
 
-    TPCircularBufferConsume(context->buffer, availableBytes);
+    TPCircularBufferConsume(context->buffer, bytesToCopy);
     return noErr;
 }
 
