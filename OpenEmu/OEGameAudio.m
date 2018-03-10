@@ -38,6 +38,7 @@ typedef struct
 ExtAudioFileRef recordingFile;
 
 // TODO: This is very low quality. Consider AUVarispeed or etc.
+// Currently unused.
 static void StretchSamples(int16_t *outBuf, const int16_t *inBuf,
                            int outFrames, int inFrames, int channels)
 {
@@ -81,20 +82,11 @@ static OSStatus RenderCallback(void                       *in,
     if (bytesRequested > availableBytes) {
         printf("OEGameAudio: Tried to consume %d bytes, but only %d bytes available\n", bytesRequested, availableBytes);
     }
-
+    
     availableBytes = MIN(availableBytes, bytesRequested);
-    int leftover = bytesRequested - availableBytes;
     char *outBuffer = ioData->mBuffers[0].mData;
 
-    if(leftover > 0 && context->bytesPerSample == 2)
-    {
-        // time stretch
-        // FIXME this works a lot better with a larger buffer
-        int framesRequested = inNumberFrames;
-        int framesAvailable = availableBytes / (context->bytesPerSample * context->channelCount);
-        StretchSamples((int16_t *)outBuffer, head, framesRequested, framesAvailable, context->channelCount);
-    }
-    else if(availableBytes)
+    if(availableBytes)
         memcpy(outBuffer, head, availableBytes);
     else
         memset(outBuffer, 0, bytesRequested);
