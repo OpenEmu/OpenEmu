@@ -248,9 +248,13 @@ static OSStatus RenderCallback(void                       *in,
         mDataFormat.mChannelsPerFrame = channelCount;
         mDataFormat.mBitsPerChannel   = 8 * bytesPerSample;
         
+        UInt32 bufSize = _contexts[i].buffer->length / mDataFormat.mBytesPerFrame;
+        err = AudioUnitSetProperty(_converterUnit, kAudioUnitProperty_MaximumFramesPerSlice, kAudioUnitScope_Global, 0, &bufSize, sizeof(UInt32));
+        if (err) NSLog(@"couldn't set max frames per slice");
+        
         err = AudioUnitSetProperty(_converterUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &mDataFormat, sizeof(AudioStreamBasicDescription));
         if(err) NSLog(@"couldn't set player's input stream format");
-        
+      
         err = AUGraphConnectNodeInput(_graph, _converterNode, 0, _mixerNode, i);
         if(err) NSLog(@"Couldn't connect the converter to the mixer");
     }
