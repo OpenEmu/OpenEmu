@@ -30,7 +30,7 @@
 
 typedef struct
 {
-    TPCircularBuffer *buffer;
+    void *buffer; /* OERingBuffer */
     int channelCount;
     int bytesPerSample;
 } OEGameAudioContext;
@@ -75,25 +75,16 @@ static OSStatus RenderCallback(void                       *in,
                                AudioBufferList            *ioData)
 {
     OEGameAudioContext *context = (OEGameAudioContext *)in;
-    int availableBytes = 0;
-    void *head = TPCircularBufferTail(context->buffer, &availableBytes);
-    int bytesRequested = inNumberFrames * context->bytesPerSample * context->channelCount;
-
-    if (bytesRequested > availableBytes) {
-        printf("OEGameAudio: Tried to consume %d bytes, but only %d bytes available\n", bytesRequested, availableBytes);
-    }
+    OERingBuffer *buffer = (__bridge OERingBuffer *)context->buffer;
     
-    int bytesToCopy = MIN(availableBytes, bytesRequested);
-    int rest = bytesRequested - bytesToCopy;
-    
+    NSInteger bytesRequested = inNumberFrames * context->bytesPerSample * context->channelCount;
     char *outBuffer = ioData->mBuffers[0].mData;
-
-    if (bytesToCopy)
-        memcpy(outBuffer, head, bytesToCopy);
+    
+    NSInteger bytesCopied = [buffer read:outBuffer maxLength:bytesRequested];
+    NSInteger rest = bytesRequested - bytesCopied;
     if (rest)
-        memset(outBuffer+bytesToCopy, 0, rest);
+        memset(outBuffer+bytesCopied, 0, rest);
 
-    TPCircularBufferConsume(context->buffer, bytesToCopy);
     return noErr;
 }
 
@@ -210,7 +201,11 @@ static OSStatus RenderCallback(void                       *in,
     _contexts = realloc(_contexts, sizeof(OEGameAudioContext) * bufferCount);
     for(UInt32 i = 0; i < bufferCount; ++i)
     {
-        _contexts[i] = (OEGameAudioContext){ &([_gameCore ringBufferAtIndex:i]->buffer), (UInt32)[_gameCore channelCountForBuffer:i], (UInt32)[_gameCore audioBitDepth] / 8};
+        OERingBuffer *buffer = [_gameCore ringBufferAtIndex:i];
+        _contexts[i] = (OEGameAudioContext){
+            (__bridge void *)buffer,
+            (UInt32)[_gameCore channelCountForBuffer:i],
+            (UInt32)[_gameCore audioBitDepth] / 8};
         
         //Create the converter node
         err = AUGraphAddNode(_graph, (const AudioComponentDescription *)&desc, &_converterNode);
@@ -242,7 +237,7 @@ static OSStatus RenderCallback(void                       *in,
         mDataFormat.mChannelsPerFrame = channelCount;
         mDataFormat.mBitsPerChannel   = 8 * bytesPerSample;
         
-        UInt32 bufSize = _contexts[i].buffer->length / mDataFormat.mBytesPerFrame;
+        UInt32 bufSize = [buffer length] / mDataFormat.mBytesPerFrame;
         err = AudioUnitSetProperty(_converterUnit, kAudioUnitProperty_MaximumFramesPerSlice, kAudioUnitScope_Global, 0, &bufSize, sizeof(UInt32));
         if (err) NSLog(@"couldn't set max frames per slice");
         
