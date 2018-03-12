@@ -48,7 +48,7 @@
 
 #define OEGameScannerUpdateDelay 0.2
 
-@interface OEGameScannerViewController ()
+@interface OEGameScannerViewController () <NSWindowDelegate>
 
 @property NSMutableArray *itemsRequiringAttention;
 @property BOOL isScanningDirectory;
@@ -541,18 +541,8 @@
     {
         [self hideGameScannerViewAnimated:YES];
     }
-
-    if([[self itemsRequiringAttention] count] == 0) {
-        [[self view] removeFromSuperview];
-    }
     
-    // Re-enable toolbar controls.
-    OELibraryToolbar *toolbar = [[self libraryController] toolbar];
-    [[toolbar categorySelector] setEnabled:YES];
-    [[toolbar gridViewButton] setEnabled:YES];
-    [[toolbar listViewButton] setEnabled:YES];
-    [[toolbar gridSizeSlider] setEnabled:YES];
-    [[toolbar searchField] setEnabled:YES];
+    [self dismissViewController:self];
 }
 
 #pragma mark - UI Actions Scanner
@@ -575,14 +565,13 @@
             [[self importer] cancel];
             [self setItemsRequiringAttention:[NSMutableArray array]];
             [self OE_updateProgress];
-            if([[self view] superview])
-            {
-                [[self issuesView] reloadData];
-                [[self view] removeFromSuperview];
-            }
+            
             [self hideGameScannerViewAnimated:YES];
 
             [sender setState:NSOffState];
+            
+            [self dismissViewController:self];
+            
         } else
             [[self importer] start];
     }
@@ -642,6 +631,13 @@
         return;
 
     [self layoutSidebarViewsWithVisibleGameScannerView:NO animated:animated];
+}
+
+#pragma mark - NSWindowDelegate
+
+- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
+{
+    return sender.frame.size;
 }
 
 @end
