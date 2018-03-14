@@ -67,7 +67,6 @@
 #import "OEPrefBiosController.h"
 #import "OEMainWindowController.h"
 #import "OELibraryGamesViewController.h"
-#import "OEGameScannerViewController.h"
 #import "OEDBSavedGamesMedia.h"
 
 #import "OpenEmu-Swift.h"
