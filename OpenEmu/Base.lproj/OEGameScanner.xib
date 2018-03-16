@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="OEGameScannerViewController">
             <connections>
                 <outlet property="actionPopUpButton" destination="130" id="140"/>
+                <outlet property="applyButton" destination="138" id="JNs-4C-Wr6"/>
                 <outlet property="issuesView" destination="66" id="117"/>
                 <outlet property="view" destination="1" id="22"/>
             </connections>

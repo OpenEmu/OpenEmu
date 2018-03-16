@@ -115,6 +115,11 @@
 					<key>Color</key>
 					<string>rgb(227,227,227,1.0)</string>
 				</dict>
+				<key>Disabled</key>
+				<dict>
+					<key>Color</key>
+					<string>gray</string>
+				</dict>
 				<key>Pressed</key>
 				<dict>
 					<key>Color</key>

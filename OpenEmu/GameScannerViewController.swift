@@ -39,6 +39,7 @@ class GameScannerViewController: NSViewController {
     
     @IBOutlet var issuesView: NSTableView!
     @IBOutlet var actionPopUpButton: NSPopUpButton!
+    @IBOutlet var applyButton: OEButton!
    
     @IBOutlet private weak var bottomBar: NSView!
     @IBOutlet private weak var sourceListScrollView: NSScrollView!
@@ -104,8 +105,12 @@ class GameScannerViewController: NSViewController {
         }
     }
     
-    override func viewDidAppear() {
+    override func viewWillAppear() {
+        
+        super.viewWillAppear()
+        
         issuesView.reloadData()
+        enableOrDisableApplyButton()
     }
     
     private func setUpActionsMenu() {
@@ -272,6 +277,10 @@ class GameScannerViewController: NSViewController {
             fixButton.isHidden = shouldHideFixButton
             statusLabel.stringValue = status
         }
+    }
+    
+    private func enableOrDisableApplyButton() {
+        applyButton.isEnabled = itemsRequiringAttention.contains { $0.isChecked }
     }
     
     @objc(showGameScannerViewAnimated:)
@@ -502,11 +511,14 @@ extension GameScannerViewController: NSTableViewDataSource {
     }
     
     func tableView(_ tableView: NSTableView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
+        
         if tableColumn!.identifier.rawValue == "checked" {
             let item = itemsRequiringAttention[row]
             item.isChecked = (object as? Bool) ?? false
             
         }
+        
+        enableOrDisableApplyButton()
     }
 }
 
