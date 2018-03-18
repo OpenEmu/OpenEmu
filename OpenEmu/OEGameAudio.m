@@ -237,7 +237,7 @@ static OSStatus RenderCallback(void                       *in,
         mDataFormat.mChannelsPerFrame = channelCount;
         mDataFormat.mBitsPerChannel   = 8 * bytesPerSample;
         
-        UInt32 bufSize = [buffer length] / mDataFormat.mBytesPerFrame;
+        UInt32 bufSize = (UInt32)[buffer length] / mDataFormat.mBytesPerFrame;
         err = AudioUnitSetProperty(_converterUnit, kAudioUnitProperty_MaximumFramesPerSlice, kAudioUnitScope_Global, 0, &bufSize, sizeof(UInt32));
         if (err) NSLog(@"couldn't set max frames per slice");
         
