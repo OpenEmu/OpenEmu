@@ -111,7 +111,7 @@
          self->_gameCoreOwnerProxy = [OEThreadProxy threadProxyWithTarget:[self gameCoreOwner] thread:[NSThread mainThread]];
          self->_helperConnection = [[NSXPCConnection alloc] initWithListenerEndpoint:endpoint];
          [self->_helperConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEGameCoreOwner)]];
-         [self->_helperConnection setExportedObject:_gameCoreOwnerProxy];
+         [self->_helperConnection setExportedObject:self->_gameCoreOwnerProxy];
 
          [self->_helperConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEXPCGameCoreHelper)]];
          [self->_helperConnection resume];
