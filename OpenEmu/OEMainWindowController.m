@@ -222,7 +222,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     
     // We use Objective-C blocks to factor out common code used in both animated and non-animated controller switching
     void (^sendViewWillDisappear)(void) = ^{
-        [_currentContentController viewWillDisappear];
+        [self->_currentContentController viewWillDisappear];
         [newController viewWillAppear];
     };
     
@@ -238,13 +238,13 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         
         [self.window makeFirstResponder:newController.view];
         
-        [_currentContentController viewDidDisappear];
+        [self->_currentContentController viewDidDisappear];
         [newController viewDidAppear];
-        _currentContentController = newController;
+        self->_currentContentController = newController;
         
         [viewToReplace removeFromSuperview];
         
-        if(newController == _gameDocument.gameViewController)
+        if(newController == self->_gameDocument.gameViewController)
         {
             // Adjust visual properties of the window.
             window.toolbar.visible = NO;
@@ -258,7 +258,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
             window.styleMask &= ~NSFullSizeContentViewWindowMask;
             [window setFrame:windowFrame display:NO];
             
-            _gameDocument.gameWindowController = self;
+            self->_gameDocument.gameWindowController = self;
         }
         else
         {
@@ -328,7 +328,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     void (^openDocument)(OEGameDocument *, NSError *) =
     ^(OEGameDocument *document, NSError *error)
     {
-        _isLaunchingGame = NO;
+        self->_isLaunchingGame = NO;
         if(document == nil)
         {
             if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEFileDoesNotExistError)
@@ -378,9 +378,9 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         
         if(openInSeparateWindow) return;
         
-        _shouldExitFullScreenWhenGameFinishes = ![[self window] isFullScreen];
-        _gameDocument = document;
-        _mainWindowRunsGame = YES;
+        self->_shouldExitFullScreenWhenGameFinishes = ![[self window] isFullScreen];
+        self->_gameDocument = document;
+        self->_mainWindowRunsGame = YES;
         
         while([[[self window] titlebarAccessoryViewControllers] count])
             [[self window] removeTitlebarAccessoryViewControllerAtIndex:0];
@@ -433,17 +433,17 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         [_gameDocument canCloseDocumentWithCompletionHandler:
          ^(NSDocument *document, BOOL shouldClose)
          {
-             [_gameDocument setGameWindowController:nil];
-             [_gameDocument close];
-             _gameDocument = nil;
-             _mainWindowRunsGame = NO;
+             [self->_gameDocument setGameWindowController:nil];
+             [self->_gameDocument close];
+             self->_gameDocument = nil;
+             self->_mainWindowRunsGame = NO;
              
-             BOOL exitFullScreen = (_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen]);
+             BOOL exitFullScreen = (self->_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen]);
              if(exitFullScreen)
              {
                  [[[self window] toolbar] setVisible:YES];
                  [[self window] toggleFullScreen:self];
-                 _shouldExitFullScreenWhenGameFinishes = NO;
+                 self->_shouldExitFullScreenWhenGameFinishes = NO;
              }
              
              [self setCurrentContentController:nil];

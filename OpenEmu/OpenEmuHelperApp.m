@@ -278,13 +278,13 @@
     _systemResponder.globalEventsHandler = self;
 
     _unhandledEventsMonitor = [[OEDeviceManager sharedDeviceManager] addUnhandledEventMonitorHandler:^(OEDeviceHandler *handler, OEHIDEvent *event) {
-        if (!_handleEvents)
+        if (!self->_handleEvents)
             return;
 
-        if (!_handleKeyboardEvents && event.type == OEHIDEventTypeKeyboard)
+        if (!self->_handleKeyboardEvents && event.type == OEHIDEventTypeKeyboard)
             return;
 
-        [_systemResponder handleHIDEvent:event];
+        [self->_systemResponder handleHIDEvent:event];
     }];
 
     DLog(@"Loaded bundle. About to load rom...");
@@ -409,7 +409,7 @@
 - (void)setPauseEmulation:(BOOL)paused
 {
     [_gameCore performBlock:^{
-        [_gameCore setPauseEmulation:paused];
+        [self->_gameCore setPauseEmulation:paused];
     }];
 }
 
@@ -425,7 +425,7 @@
         [self setupGameCoreAudioAndVideo];
 
         if(handler)
-            handler(_surfaceID, _screenSize, _previousAspectSize);
+            handler(self->_surfaceID, self->_screenSize, self->_previousAspectSize);
     }];
 }
 
@@ -445,12 +445,12 @@
     _pollingTimer = nil;
 
     [_gameCore stopEmulationWithCompletionHandler: ^{
-        [_gameAudio stopAudio];
-        [_gameCore setRenderDelegate:nil];
-        [_gameCore setAudioDelegate:nil];
-        _gameCoreOwner = nil;
-        _gameCore      = nil;
-        _gameAudio     = nil;
+        [self->_gameAudio stopAudio];
+        [self->_gameCore setRenderDelegate:nil];
+        [self->_gameCore setAudioDelegate:nil];
+        self->_gameCoreOwner = nil;
+        self->_gameCore      = nil;
+        self->_gameAudio     = nil;
 
         if (handler != nil)
             handler();
@@ -460,49 +460,49 @@
 - (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL, NSError *))block
 {
     [_gameCore performBlock:^{
-        [_gameCore saveStateToFileAtPath:fileName completionHandler:block];
+        [self->_gameCore saveStateToFileAtPath:fileName completionHandler:block];
     }];
 }
 
 - (void)loadStateFromFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL, NSError *))block
 {
     [_gameCore performBlock:^{
-        [_gameCore loadStateFromFileAtPath:fileName completionHandler:block];
+        [self->_gameCore loadStateFromFileAtPath:fileName completionHandler:block];
     }];
 }
 
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 {
     [_gameCore performBlock:^{
-        [_gameCore setCheat:cheatCode setType:type setEnabled:enabled];
+        [self->_gameCore setCheat:cheatCode setType:type setEnabled:enabled];
     }];
 }
 
 - (void)setDisc:(NSUInteger)discNumber
 {
     [_gameCore performBlock:^{
-        [_gameCore setDisc:discNumber];
+        [self->_gameCore setDisc:discNumber];
     }];
 }
 
 - (void)handleMouseEvent:(OEEvent *)event
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_systemResponder handleMouseEvent:event];
+        [self->_systemResponder handleMouseEvent:event];
     });
 }
 
 - (void)systemBindingsDidSetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber
 {
     [self _updateBindingForEvent:event withBlock:^{
-        [_systemResponder systemBindingsDidSetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
+        [self->_systemResponder systemBindingsDidSetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
     }];
 }
 
 - (void)systemBindingsDidUnsetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber
 {
     [self _updateBindingForEvent:event withBlock:^{
-        [_systemResponder systemBindingsDidUnsetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
+        [self->_systemResponder systemBindingsDidUnsetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
     }];
 }
 
@@ -515,10 +515,10 @@
         }
 
         OEDeviceHandlerPlaceholder *placeholder = event.deviceHandler;
-        NSMutableArray<void(^)(void)> *pendingBlocks = _pendingDeviceHandlerBindings[placeholder];
+        NSMutableArray<void(^)(void)> *pendingBlocks = self->_pendingDeviceHandlerBindings[placeholder];
         if (!pendingBlocks) {
             pendingBlocks = [NSMutableArray array];
-            _pendingDeviceHandlerBindings[placeholder] = pendingBlocks;
+            self->_pendingDeviceHandlerBindings[placeholder] = pendingBlocks;
         }
 
         [pendingBlocks addObject:[^{

@@ -93,7 +93,7 @@
      {
          if(endpoint == nil)
          {
-             NSLog(@"No listener endpoint for identifier: %@", _processIdentifier);
+             NSLog(@"No listener endpoint for identifier: %@", self->_processIdentifier);
              dispatch_async(dispatch_get_main_queue(), ^{
                  NSError *error = [NSError errorWithDomain:OEGameCoreErrorDomain
                                                       code:OEGameCoreCouldNotLoadROMError
@@ -108,17 +108,17 @@
              return;
          }
 
-         _gameCoreOwnerProxy = [OEThreadProxy threadProxyWithTarget:[self gameCoreOwner] thread:[NSThread mainThread]];
-         _helperConnection = [[NSXPCConnection alloc] initWithListenerEndpoint:endpoint];
-         [_helperConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEGameCoreOwner)]];
-         [_helperConnection setExportedObject:_gameCoreOwnerProxy];
+         self->_gameCoreOwnerProxy = [OEThreadProxy threadProxyWithTarget:[self gameCoreOwner] thread:[NSThread mainThread]];
+         self->_helperConnection = [[NSXPCConnection alloc] initWithListenerEndpoint:endpoint];
+         [self->_helperConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEGameCoreOwner)]];
+         [self->_helperConnection setExportedObject:_gameCoreOwnerProxy];
 
-         [_helperConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEXPCGameCoreHelper)]];
-         [_helperConnection resume];
+         [self->_helperConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEXPCGameCoreHelper)]];
+         [self->_helperConnection resume];
 
          __block void *gameCoreHelperPointer;
          id<OEXPCGameCoreHelper> gameCoreHelper =
-         [_helperConnection remoteObjectProxyWithErrorHandler:
+         [self->_helperConnection remoteObjectProxyWithErrorHandler:
           ^(NSError *error)
           {
               NSLog(@"Helper Connection (%p) failed with error: %@", gameCoreHelperPointer, error);

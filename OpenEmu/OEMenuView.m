@@ -956,11 +956,6 @@ static const CGFloat OEMenuScrollAutoStep    = 8.0;
     return 0.0;
 }
 
-+ (CGFloat)scrollerWidth
-{
-    return 0.0;
-}
-
 @end
 
 @implementation _OEMenuScrollIndicatorView

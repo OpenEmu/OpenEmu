@@ -807,15 +807,15 @@ static NSDictionary *disabledActions = nil;
     [NSAnimationContext runAnimationGroup:
      ^ (NSAnimationContext *context)
      {
-         [_indicationLayer addAnimation:indicatorFadeAnimation forKey:@"opacity"];
-         [_proposedImageLayer addAnimation:imageFadeAnimation forKey:@"opacity"];
-         [_proposedImageLayer addAnimation:imageResizeAnimation forKey:@"bounds"];
+         [self->_indicationLayer addAnimation:indicatorFadeAnimation forKey:@"opacity"];
+         [self->_proposedImageLayer addAnimation:imageFadeAnimation forKey:@"opacity"];
+         [self->_proposedImageLayer addAnimation:imageResizeAnimation forKey:@"bounds"];
      }
                         completionHandler:
      ^{
-         [_indicationLayer setOpacity:1.0];
-         [_proposedImageLayer removeFromSuperlayer];
-         _proposedImageLayer = nil;
+         [self->_indicationLayer setOpacity:1.0];
+         [self->_proposedImageLayer removeFromSuperlayer];
+         self->_proposedImageLayer = nil;
          [self OE_updateIndicationLayer];
      }];
 }

@@ -42,15 +42,6 @@
 @end
 
 @implementation OESearchFieldCell
-- (id)initImageCell:(NSImage *)image
-{
-    self = [super initImageCell:image];
-    if(self)
-    {
-        [self OE_commonInit];
-    }
-    return self;
-}
 
 - (id)initTextCell:(NSString *)aString
 {

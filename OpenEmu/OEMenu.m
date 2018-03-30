@@ -178,7 +178,7 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
         [[self parentWindow] removeChildWindow:self];
 
         // Invoked after a menu closed.
-        if([delegate respondsToSelector:@selector(menuDidClose:)]) [delegate menuDidClose:[_view menu]];
+        if([delegate respondsToSelector:@selector(menuDidClose:)]) [delegate menuDidClose:[self->_view menu]];
     };
 
     [NSAnimationContext runAnimationGroup:changes completionHandler:fireCompletionHandler];

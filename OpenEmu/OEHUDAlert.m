@@ -213,7 +213,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [NSApp stopModalWithCode:_result];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_hudWindow close];
+        [self->_hudWindow close];
         [self OE_performCallback];
     });
 }

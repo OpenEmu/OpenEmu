@@ -87,7 +87,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
              NSString *bundleID = [self lowerCaseID:[obj bundleIdentifier]];
              if(bundleID != nil)
              {
-                 [_coresDict setObject:aDownload forKey:bundleID];
+                 [self->_coresDict setObject:aDownload forKey:bundleID];
              }
              else
              {
@@ -165,7 +165,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
                 for(NSXMLElement *coreNode in coreNodes)
                 {
                     NSString *coreId = [self lowerCaseID:[[coreNode attributeForName:@"id"] stringValue]];
-                    if([_coresDict objectForKey:coreId] != nil) continue;
+                    if([self->_coresDict objectForKey:coreId] != nil) continue;
                     
                     OECoreDownload *download = [[OECoreDownload alloc] init];
                     [download setName:[[coreNode attributeForName:@"name"] stringValue]];
@@ -201,7 +201,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
                         }];
                     });
 
-                    [_coresDict setObject:download forKey:coreId];
+                    [self->_coresDict setObject:download forKey:coreId];
                 }
             }
 

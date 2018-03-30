@@ -318,8 +318,8 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
         {
             context.userInfo[OEManagedObjectContextHasDirectChangesKey] = @(NO);
             [_mainThreadMOC performBlock:^{
-                [_mainThreadMOC mergeChangesFromContextDidSaveNotification:note];
-                [_mainThreadMOC save:nil];
+                [self->_mainThreadMOC mergeChangesFromContextDidSaveNotification:note];
+                [self->_mainThreadMOC save:nil];
             }];
         }
     }
@@ -774,7 +774,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
         [self.persistentStoreCoordinator setMetadata:mutableMetaData forPersistentStore:persistentStore];
         [NSPersistentStoreCoordinator setMetadata:mutableMetaData forPersistentStoreOfType:persistentStore.type URL:persistentStore.URL options:nil error:NULL];
         [_writerContext performBlock:^{
-            [_writerContext save:nil];
+            [self->_writerContext save:nil];
         }];
     }
 }

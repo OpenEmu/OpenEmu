@@ -142,7 +142,7 @@ const static NSLock *lock;
 
     if([loadedImage isEqualTo:url])
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self setCurrentImage:_currentImage];
+            [self setCurrentImage:self->_currentImage];
         });
 }
 

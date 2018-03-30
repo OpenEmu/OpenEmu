@@ -118,7 +118,7 @@ static inline id OEKeyForState(OEThemeState state) {
                         [self OE_setValue:[[self class] parseWithDefinition:newDefinition] forState:state];
                         
                         // Append the state to the state mask
-                        if(state != OEThemeStateDefault) _stateMask |= state;
+                        if(state != OEThemeStateDefault) self->_stateMask |= state;
                     }
                 }];
             }

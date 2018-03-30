@@ -183,20 +183,20 @@ typedef struct
     _currentState = _initialState;
 
     dispatch_async(_processingQueue, ^{
-        [self OE_enterState:_initialState];
+        [self OE_enterState:self->_initialState];
     });
 }
 
 - (void)processEvent:(OEFSMEventLabel)event
 {
     dispatch_async(_processingQueue, ^{
-        OEFSMTransition *transition = [[_transitions objectForKey:@(_currentState)] objectForKey:@(event)];
+        OEFSMTransition *transition = [[self->_transitions objectForKey:@(self->_currentState)] objectForKey:@(event)];
         if(transition)
         {
             [self OE_prepareToLeaveCurrentState];
 
             // Start the transition to the next state
-            if([transition action]) dispatch_async(_actionsQueue, ^{
+            if([transition action]) dispatch_async(self->_actionsQueue, ^{
                 [transition action]();
             });
 
@@ -212,11 +212,11 @@ typedef struct
     if(timersQueueContext->cancelled) return;
 
     dispatch_async(_processingQueue, ^{
-        if(_currentState == [timerTransition fromState])
+        if(self->_currentState == [timerTransition fromState])
         {
             [self OE_prepareToLeaveCurrentState];
 
-            if([timerTransition action]) dispatch_async(_actionsQueue, ^{
+            if([timerTransition action]) dispatch_async(self->_actionsQueue, ^{
                 [timerTransition action]();
             });
 

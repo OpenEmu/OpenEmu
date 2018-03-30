@@ -84,26 +84,26 @@ int copyfile_callback(int what, int stage, copyfile_state_t state, const char * 
         double progress = (double)tmp_done/total;
         switch (stage) {
             case COPYFILE_PROGRESS:
-                if(_progressHandler)
-                    return _progressHandler(progress) ? COPYFILE_CONTINUE : COPYFILE_QUIT;
+                if(self->_progressHandler)
+                    return self->_progressHandler(progress) ? COPYFILE_CONTINUE : COPYFILE_QUIT;
                 break ;
             case COPYFILE_FINISH:
                 done += current;
-                if((what == COPYFILE_RECURSE_DIR_CLEANUP || what == COPYFILE_RECURSE_FILE) && _itemDoneHandler!=nil)
+                if((what == COPYFILE_RECURSE_DIR_CLEANUP || what == COPYFILE_RECURSE_FILE) && self->_itemDoneHandler!=nil)
                 {
                     NSURL *srcURL = [NSURL fileURLWithFileSystemRepresentation:csrc isDirectory:what!=COPYFILE_RECURSE_FILE relativeToURL:nil];
                     NSURL *dstURL = [NSURL fileURLWithFileSystemRepresentation:cdst isDirectory:what!=COPYFILE_RECURSE_FILE relativeToURL:nil];
-                    return _itemDoneHandler(srcURL, dstURL, nil) ? COPYFILE_CONTINUE : COPYFILE_QUIT;
+                    return self->_itemDoneHandler(srcURL, dstURL, nil) ? COPYFILE_CONTINUE : COPYFILE_QUIT;
                 }
                 break;
             case COPYFILE_ERR:
-                if(_errorHandler)
+                if(self->_errorHandler)
                 {
                     // TODO: figure out what error occured
                     NSURL *srcURL = [NSURL fileURLWithFileSystemRepresentation:csrc isDirectory:stage!=COPYFILE_RECURSE_FILE relativeToURL:nil];
                     NSURL *dstURL = [NSURL fileURLWithFileSystemRepresentation:cdst isDirectory:stage!=COPYFILE_RECURSE_FILE relativeToURL:nil];
                     NSError *error = [NSError errorWithDomain:@"OEFileManagerDomain" code:errno userInfo:nil];
-                    return _errorHandler(srcURL, dstURL, error) ? COPYFILE_CONTINUE : COPYFILE_QUIT;
+                    return self->_errorHandler(srcURL, dstURL, error) ? COPYFILE_CONTINUE : COPYFILE_QUIT;
                 }
                 return COPYFILE_QUIT;
         }

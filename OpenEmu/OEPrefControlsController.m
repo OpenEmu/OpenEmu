@@ -464,8 +464,8 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
     [CATransaction begin];
     [CATransaction setCompletionBlock:^{
-        if(_controllerView != nil)
-            [[self controllerContainerView] replaceSubview:_controllerView with:newControllerView];
+        if(self->_controllerView != nil)
+            [[self controllerContainerView] replaceSubview:self->_controllerView with:newControllerView];
         else
             [[self controllerContainerView] addSubview:newControllerView];
         [self setControllerView:newControllerView];
