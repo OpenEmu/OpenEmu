@@ -152,7 +152,7 @@ extension OEMediaViewController: NSTouchBarDelegate {
 extension OEMediaViewController: NSSharingServicePickerTouchBarItemDelegate {
     
     public func items(for pickerTouchBarItem: NSSharingServicePickerTouchBarItem) -> [Any] {
-        return selectedScreenshots.flatMap { NSImage(contentsOf: $0.url as URL) }
+        return selectedScreenshots.compactMap { NSImage(contentsOf: $0.url as URL) }
     }
 }
 
