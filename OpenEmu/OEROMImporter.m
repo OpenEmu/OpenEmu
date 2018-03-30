@@ -35,6 +35,7 @@
 #import "OESystemPlugin.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
+#import "NSArray+OEAdditions.h"
 
 #import <CommonCrypto/CommonDigest.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>

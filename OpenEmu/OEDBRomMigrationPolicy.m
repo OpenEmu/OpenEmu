@@ -27,6 +27,7 @@
 #import "OEDBRomMigrationPolicy.h"
 #import <XADMaster/XADArchive.h>
 #import "OELibraryDatabase.h"
+#import "NSArray+OEAdditions.h"
 
 #import "OpenEmu-Swift.h"
 

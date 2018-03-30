@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, OpenEmu Team
+ Copyright (c) 2012, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,22 +24,42 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
-
-@objc public extension NSArray {
-    
-    func firstObjectMatchingBlock(_ block: (AnyObject) -> Bool) -> AnyObject? {
-        for element in self {
-            if block(element as AnyObject) {
-                return element as AnyObject?
-            }
-        }
-        return nil
-    }
-    
-    func arrayByEvaluatingBlock(_ block: @escaping (AnyObject, UInt) -> AnyObject?) -> [AnyObject] {
-        return enumerated().flatMap { index, element in
-            return block(element as AnyObject, UInt(index))
-        }
-    }
+#import "NSArray+OEAdditions.h"
+@implementation NSArray (OEAdditions)
+- (id)firstObjectMatchingBlock:(BOOL(^)(id))block;
+{
+    for(id item in self) if(block(item)) return item;
+    return nil;
 }
+
+- (NSArray*)arrayByMakingObjectsPerformSelector:(SEL)selector
+{
+    NSMutableArray *result = [NSMutableArray arrayWithCapacity:[self count]];
+    [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSMethodSignature *sig = [obj methodSignatureForSelector:selector];
+        NSInvocation *invo = [NSInvocation invocationWithMethodSignature:sig];
+        [invo invokeWithTarget:obj];
+        id value;
+        [invo getReturnValue:&value];
+        if(value == nil) value = [NSNull null];
+
+        [result addObject:value];
+    }];
+    return result;
+}
+
+- (NSArray*)arrayByEvaluatingBlock:(id (^)(id obj, NSUInteger idx, BOOL *stop))block
+{
+    __block BOOL stopped = NO;
+    NSMutableArray *resultArray = [NSMutableArray arrayWithCapacity:[self count]];
+    [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        id result = block(obj, idx, &stopped);
+        if(result == nil) result = [NSNull null];
+        [resultArray addObject:result];
+        *stop = stopped;
+    }];
+
+    if(stopped) return nil;
+    return resultArray;
+}
+@end

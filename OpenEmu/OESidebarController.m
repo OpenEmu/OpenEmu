@@ -43,6 +43,8 @@
 
 #import "OEROMImporter.h"
 
+#import "NSArray+OEAdditions.h"
+
 #import "OpenEmu-Swift.h"
 
 extern NSString *const OELastSidebarSelectionKey;

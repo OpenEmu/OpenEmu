@@ -45,6 +45,7 @@
 #import "OEThemeTextAttributes.h"
 
 #import "NS(Attributed)String+Geometrics.h"
+#import "NSArray+OEAdditions.h"
 
 #import "OpenEmu-Swift.h"
 
@@ -212,7 +213,7 @@ const static CGFloat TableViewSpacing = 86.0;
     }
 
     NSArray *dates = [document nodesForXPath:@"//game/@added" error:&error];
-    dates = [dates arrayByEvaluatingBlock:^id(id obj, NSUInteger idx) {
+    dates = [dates arrayByEvaluatingBlock:^id(id obj, NSUInteger idx, BOOL *stop) {
         return [NSDate dateWithTimeIntervalSince1970:[[obj stringValue] integerValue]];
     }];
 
@@ -226,7 +227,7 @@ const static CGFloat TableViewSpacing = 86.0;
     NSArray *allGames = [document nodesForXPath:@"//system | //game" error:&error];
     //NSArray *newGames = [allGames objectsAtIndexes:newGameIndices];
     NSMutableArray *allHeaderIndices = [[NSMutableArray alloc] init];
-    self.games = [allGames arrayByEvaluatingBlock:^id(id node, NSUInteger idx) {
+    self.games = [allGames arrayByEvaluatingBlock:^id(id node, NSUInteger idx, BOOL *stop) {
         // Keep track of system node indices to use for headers
         if([[node nodesForXPath:@"@id" error:nil] lastObject])
             [allHeaderIndices addObject:@(idx)];
@@ -600,7 +601,7 @@ const static CGFloat TableViewSpacing = 86.0;
         _systemGroup     = StringValue(@"@id");
 
         NSArray *images = [node nodesForXPath:@"images/image" error:nil];
-        _images = [images arrayByEvaluatingBlock:^id(NSXMLNode *node, NSUInteger idx) {
+        _images = [images arrayByEvaluatingBlock:^id(NSXMLNode *node, NSUInteger idx, BOOL *stop) {
             return [NSURL URLWithString:StringValue(@"@src")];
         }];
 

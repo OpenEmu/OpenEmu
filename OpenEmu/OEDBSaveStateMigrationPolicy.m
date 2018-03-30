@@ -26,6 +26,7 @@
 
 #import "OEDBSaveStateMigrationPolicy.h"
 #import "OELibraryDatabase.h"
+#import "NSArray+OEAdditions.h"
 
 #import "OpenEmu-Swift.h"
 

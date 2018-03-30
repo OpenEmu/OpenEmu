@@ -30,6 +30,7 @@
 #import "OEGameDocument.h"
 #import "OEGameViewController.h"
 #import "OETheme.h"
+#import "NSArray+OEAdditions.h"
 @import Quartz;
 
 #import "OpenEmu-Swift.h"
