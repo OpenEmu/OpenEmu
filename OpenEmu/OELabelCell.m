@@ -165,6 +165,16 @@
     }
 }
 
+- (NSSize)cellSize
+{
+    if (!_themed)
+        return [super cellSize];
+    NSSize res = [[self attributedStringValue] size];
+    res.height = round(res.height);
+    res.width = round(res.width + 4);
+    return res;
+}
+
 @synthesize themed=_themed, themeImage=_themeImage, themeTextAttributes=_themeTextAttributes;
 @synthesize stateMask=_stateMask, backgroundThemeImage=_backgroundThemeImage, hovering=_hovering;
 @end
