@@ -3732,8 +3732,10 @@
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 			);
+			indentWidth = 4;
 			name = OpenEmu;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
