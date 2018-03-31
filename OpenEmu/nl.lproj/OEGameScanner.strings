@@ -2,8 +2,11 @@
 /* Class = "NSTableColumn"; headerCell.title = "Path"; ObjectID = "75"; */
 "75.headerCell.title" = "Pad";
 
-/* Class = "NSTextFieldCell"; title = "Fix Import Issues:"; ObjectID = "127"; */
-"127.title" = "Herstel problemen met import:";
+/* Class = "NSTextFieldCell"; title = "Resolve Issues:"; ObjectID = "0HB-UU-ULs"; */
+"0HB-UU-ULs.title" = "Herstel problemen met import:";
 
 /* Class = "NSButtonCell"; title = "Apply"; ObjectID = "139"; */
 "139.title" = "Pas toe";
+
+/* Class = "NSTextFieldCell"; title = "Import Into:"; ObjectID = "QPy-Ob-0E6"; */
+"QPy-Ob-0E6.title" = "Import Into:";   // TODO
