@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,17 +16,19 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView misplaced="YES" id="1">
+        <customView id="1">
             <rect key="frame" x="0.0" y="0.0" width="517" height="366"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
             <subviews>
-                <customView misplaced="YES" id="125" customClass="OEBackgroundColorView">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="125" customClass="OEBackgroundColorView">
                     <rect key="frame" x="0.0" y="0.0" width="517" height="366"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <button misplaced="YES" id="138" customClass="OEButton">
+                        <button translatesAutoresizingMaskIntoConstraints="NO" id="138" customClass="OEButton">
                             <rect key="frame" x="419" y="20" width="78" height="23"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="23" id="0R5-FC-BdF"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="78" id="n53-mn-X4r"/>
+                            </constraints>
                             <buttonCell key="cell" type="square" title="Apply" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="139" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -38,14 +40,13 @@
                                 <action selector="resolveIssues:" target="-2" id="142"/>
                             </connections>
                         </button>
-                        <scrollView focusRingType="none" misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="26" horizontalPageScroll="10" verticalLineScroll="26" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="64" customClass="OEScrollView">
+                        <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64" customClass="OEScrollView">
                             <rect key="frame" x="0.0" y="57" width="517" height="264"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="KDl-6X-opB">
                                 <rect key="frame" x="0.0" y="0.0" width="517" height="264"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="24" rowSizeStyle="systemDefault" id="66" customClass="OETableView">
+                                    <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="22" rowSizeStyle="systemDefault" id="66" customClass="OETableView">
                                         <rect key="frame" x="0.0" y="0.0" width="489" height="264"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <size key="intercellSpacing" width="3" height="2"/>
@@ -98,9 +99,8 @@
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
                         </scrollView>
-                        <textField verticalHuggingPriority="750" misplaced="YES" id="nfP-Bk-Jmp" customClass="OELabel">
-                            <rect key="frame" x="17" y="333" width="256" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nfP-Bk-Jmp" customClass="OELabel">
+                            <rect key="frame" x="17" y="333" width="97" height="17"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Resolve Issues:" id="0HB-UU-ULs" customClass="OELabelCell">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -110,9 +110,12 @@
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_issues_headline"/>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <popUpButton verticalHuggingPriority="750" misplaced="YES" id="130" customClass="OEPopUpButton">
-                            <rect key="frame" x="97" y="20" width="174" height="26"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="130" customClass="OEPopUpButton">
+                            <rect key="frame" x="97" y="18" width="174" height="28"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="23" id="Mev-cn-noN"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="169" id="nAL-px-BBp"/>
+                            </constraints>
                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="131" customClass="OEPopUpButtonCell">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
@@ -122,9 +125,8 @@
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_popup_button"/>
                             </userDefinedRuntimeAttributes>
                         </popUpButton>
-                        <textField verticalHuggingPriority="750" misplaced="YES" id="juM-7u-mF2" customClass="OELabel">
+                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="juM-7u-mF2" customClass="OELabel">
                             <rect key="frame" x="18" y="22" width="75" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Import Into:" id="QPy-Ob-0E6" customClass="OELabelCell">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -135,11 +137,34 @@
                             </userDefinedRuntimeAttributes>
                         </textField>
                     </subviews>
+                    <constraints>
+                        <constraint firstItem="nfP-Bk-Jmp" firstAttribute="top" secondItem="125" secondAttribute="top" constant="16" id="1pq-xQ-iAI"/>
+                        <constraint firstAttribute="bottom" secondItem="juM-7u-mF2" secondAttribute="bottom" constant="22" id="AXL-uV-CmF"/>
+                        <constraint firstItem="138" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="130" secondAttribute="trailing" constant="17" id="Amw-kq-RIn"/>
+                        <constraint firstAttribute="trailing" secondItem="138" secondAttribute="trailing" constant="20" id="R0S-U2-Hjl"/>
+                        <constraint firstItem="130" firstAttribute="leading" secondItem="juM-7u-mF2" secondAttribute="trailing" constant="8" id="TPM-kL-cB5"/>
+                        <constraint firstItem="64" firstAttribute="leading" secondItem="125" secondAttribute="leading" id="TYN-Wj-4F8"/>
+                        <constraint firstItem="juM-7u-mF2" firstAttribute="top" secondItem="64" secondAttribute="bottom" constant="18" id="XET-tg-I7J"/>
+                        <constraint firstAttribute="bottom" secondItem="138" secondAttribute="bottom" constant="20" id="bOg-rF-XKN"/>
+                        <constraint firstItem="nfP-Bk-Jmp" firstAttribute="leading" secondItem="125" secondAttribute="leading" constant="19" id="bdt-3u-urP"/>
+                        <constraint firstItem="130" firstAttribute="top" secondItem="64" secondAttribute="bottom" constant="13" id="h1F-iq-tJR"/>
+                        <constraint firstItem="64" firstAttribute="top" secondItem="nfP-Bk-Jmp" secondAttribute="bottom" constant="12" id="pPJ-FQ-nVe"/>
+                        <constraint firstItem="138" firstAttribute="top" secondItem="64" secondAttribute="bottom" constant="14" id="qyk-t9-Xzc"/>
+                        <constraint firstAttribute="trailing" secondItem="64" secondAttribute="trailing" id="r9J-jj-dT9"/>
+                        <constraint firstItem="juM-7u-mF2" firstAttribute="leading" secondItem="125" secondAttribute="leading" constant="20" id="zZ4-LC-1Eg"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nfP-Bk-Jmp" secondAttribute="trailing" constant="19" id="zxn-0M-7EL"/>
+                    </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_issues_background"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
             </subviews>
+            <constraints>
+                <constraint firstItem="125" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="1ZK-f9-q8V"/>
+                <constraint firstItem="125" firstAttribute="top" secondItem="1" secondAttribute="top" id="C7L-kn-RKI"/>
+                <constraint firstAttribute="trailing" secondItem="125" secondAttribute="trailing" id="QQc-Li-bfi"/>
+                <constraint firstAttribute="bottom" secondItem="125" secondAttribute="bottom" id="sYy-6f-yl8"/>
+            </constraints>
             <point key="canvasLocation" x="373.5" y="165"/>
         </customView>
     </objects>
