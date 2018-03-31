@@ -105,6 +105,12 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
         [NSApp postEvent:postEvent atStart:NO];
 }
 
++ (NSSize)sizeOfMenu:(NSMenu *)menu forView:(NSView *)view options:(NSDictionary *)options
+{
+    OEMenu *oemenu = [self OE_menuWithMenu:menu forScreen:[[view window] screen] options:options];
+    return oemenu.intrinsicSize;
+}
+
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag screen:(NSScreen *)screen
 {
     if((self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag screen:screen]))

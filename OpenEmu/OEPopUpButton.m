@@ -49,6 +49,7 @@
     {
         NSRect frame = [self frame];
         frame.size.height = 23.0;
+        _cachedIntrinsicWidth = -1.0;
         [self setFrame:frame];
     }
     return self;
@@ -272,12 +273,26 @@
     [self updateTrackingAreas];
 }
 
+- (void)setMenu:(NSMenu *)aMenu
+{
+    [super setMenu:aMenu];
+    _cachedIntrinsicWidth = -1.0;
+}
+
 - (NSSize)intrinsicContentSize
 {
     if (![self.cell isKindOfClass:[OEPopUpButtonCell class]] || ![self.cell isThemed])
         return super.intrinsicContentSize;
     
-    return NSMakeSize(NSViewNoIntrinsicMetric, 23.0);
+    if (_cachedIntrinsicWidth < 0.0) {
+        if ([self menu]) {
+            NSSize menusize = [OEMenu sizeOfMenu:[self menu] forView:self options:nil];
+            _cachedIntrinsicWidth = menusize.width;
+        } else {
+            _cachedIntrinsicWidth = NSViewNoIntrinsicMetric;
+        }
+    }
+    return NSMakeSize(_cachedIntrinsicWidth, 23.0);
 }
 
 @end
