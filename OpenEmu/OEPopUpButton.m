@@ -54,6 +54,13 @@
     return self;
 }
 
+- (NSEdgeInsets)alignmentRectInsets
+{
+    if ([self.cell isKindOfClass:[OEPopUpButtonCell class]] && [self.cell isThemed])
+        return NSEdgeInsetsMake(0, 0, 0, 0);
+    return super.alignmentRectInsets;
+}
+
 - (void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
     [super viewWillMoveToWindow:newWindow];
@@ -263,6 +270,14 @@
 {
     [super setCell:aCell];
     [self updateTrackingAreas];
+}
+
+- (NSSize)intrinsicContentSize
+{
+    if (![self.cell isKindOfClass:[OEPopUpButtonCell class]] || ![self.cell isThemed])
+        return super.intrinsicContentSize;
+    
+    return NSMakeSize(NSViewNoIntrinsicMetric, 23.0);
 }
 
 @end
