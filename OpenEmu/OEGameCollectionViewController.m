@@ -327,6 +327,14 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 
 #pragma mark - UI Actions
 
+- (BOOL)validateMenuItem:(NSMenuItem *)item
+{
+    SEL action = [item action];
+    if (action == @selector(showInFinder:))
+        return [[self selectedGames] count] > 0;
+    return [super validateMenuItem:item];
+}
+
 - (void)search:(id)sender
 {
     self.currentSearchTerm = [sender stringValue];
