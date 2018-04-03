@@ -39,7 +39,7 @@ extern NSString *const OEGameControlsBarShowsAudioOutput;
 - (id)initWithGameViewController:(OEGameViewController*)controller;
 
 - (void)show;
-- (void)hide;
+- (void)hideAnimated:(BOOL)animated;
 
 - (BOOL)canFadeOut;
 

@@ -158,7 +158,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 {
     [super viewWillDisappear];
 
-    [_controlsWindow hide];
+    [_controlsWindow hideAnimated:NO];
     [_controlsWindow setGameWindow:nil];
     [[self OE_rootWindow] removeChildWindow:_controlsWindow];
 }

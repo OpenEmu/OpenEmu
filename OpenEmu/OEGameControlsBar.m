@@ -185,13 +185,15 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [[self animator] setAlphaValue:1.0];
 }
 
-- (void)hide
+- (void)hideAnimated:(BOOL)animated
 {
     [NSCursor setHiddenUntilMouseMoves:YES];
 
     // only hide if 'docked' to game window (aka on the same screen)
-    if([self parentWindow])
+    if(animated && [self parentWindow])
         [[self animator] setAlphaValue:0.0];
+    else
+        [self setAlphaValue:0];
 
     [_fadeTimer invalidate];
     _fadeTimer = nil;
@@ -246,7 +248,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             [_fadeTimer invalidate];
             _fadeTimer = nil;
 
-            [self hide];
+            [self hideAnimated:YES];
         }
         else
         {
