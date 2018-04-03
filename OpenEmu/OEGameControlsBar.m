@@ -190,10 +190,13 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [NSCursor setHiddenUntilMouseMoves:YES];
 
     // only hide if 'docked' to game window (aka on the same screen)
-    if(animated && [self parentWindow])
-        [[self animator] setAlphaValue:0.0];
-    else
-        [self setAlphaValue:0];
+    if([self parentWindow])
+    {
+        if(animated)
+            [[self animator] setAlphaValue:0.0];
+        else
+            [self setAlphaValue:0];
+    }
 
     [_fadeTimer invalidate];
     _fadeTimer = nil;
