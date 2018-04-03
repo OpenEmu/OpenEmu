@@ -54,6 +54,8 @@ extern NSString * const OEDefaultVideoFilterKey;
 
 - (void)showQuickSaveNotification;
 - (void)showScreenShotNotification;
+- (void)showFastForwardNotification:(BOOL)enable;
+- (void)showRewindNotification:(BOOL)enable;
 
 - (NSSize)correctScreenSize:(OEIntSize)screenSize forAspectSize:(OEIntSize)aspectSize returnVertices:(BOOL)flag;
 @end

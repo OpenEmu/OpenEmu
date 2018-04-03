@@ -1494,6 +1494,16 @@ typedef enum : NSUInteger
     [self toggleEmulationPaused:self];
 }
 
+- (void)fastForwardGameplay:(BOOL)enable
+{
+    [[self gameViewController] fastForwardGameplay:enable];
+}
+
+- (void)rewindGameplay:(BOOL)enable
+{
+    [[self gameViewController] rewindGameplay:enable];
+}
+
 - (void)setEnableVSync:(BOOL)enable
 {
     [_gameViewController setEnableVSync:enable];

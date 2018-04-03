@@ -744,4 +744,14 @@
     [self.gameCoreOwner takeScreenshot];
 }
 
+- (void)fastForwardGameplay:(BOOL)enable
+{
+    [self.gameCoreOwner fastForwardGameplay:enable];
+}
+
+- (void)rewindGameplay:(BOOL)enable
+{
+    [self.gameCoreOwner rewindGameplay:enable];
+}
+
 @end

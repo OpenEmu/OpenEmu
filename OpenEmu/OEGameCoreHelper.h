@@ -70,6 +70,8 @@
 - (void)resetEmulation;
 - (void)toggleEmulationPaused;
 - (void)takeScreenshot;
+- (void)fastForwardGameplay:(BOOL)enable;
+- (void)rewindGameplay:(BOOL)enable;
 
 - (void)setEnableVSync:(BOOL)enable;
 - (void)setAspectSize:(OEIntSize)newAspectSize;

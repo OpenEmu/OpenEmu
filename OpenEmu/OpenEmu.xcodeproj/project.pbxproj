@@ -515,6 +515,10 @@
 		877EDD231E24BEE0004D68E7 /* Controller-Preferences-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = 877EDD1E1E24BEE0004D68E7 /* Controller-Preferences-JAP.plist */; };
 		879243B41C0DA5910064C515 /* controller_5200_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 879243B21C0DA5910064C515 /* controller_5200_mask@2x.png */; };
 		879243B51C0DA5910064C515 /* controller_5200@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 879243B31C0DA5910064C515 /* controller_5200@2x.png */; };
+		87AA7D082071870F00E5DB80 /* hud_fastforward_notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87AA7D032071870D00E5DB80 /* hud_fastforward_notification@2x.png */; };
+		87AA7D092071870F00E5DB80 /* hud_fastforward_notification.png in Resources */ = {isa = PBXBuildFile; fileRef = 87AA7D072071870E00E5DB80 /* hud_fastforward_notification.png */; };
+		87AA7D0C2071871E00E5DB80 /* hud_rewind_notification.png in Resources */ = {isa = PBXBuildFile; fileRef = 87AA7D0A2071871E00E5DB80 /* hud_rewind_notification.png */; };
+		87AA7D0D2071871E00E5DB80 /* hud_rewind_notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87AA7D0B2071871E00E5DB80 /* hud_rewind_notification@2x.png */; };
 		87B3DC0A1C644BCC003C65E4 /* controller_3do_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B3DC081C644BCC003C65E4 /* controller_3do_mask@2x.png */; };
 		87B3DC0B1C644BCC003C65E4 /* controller_3do@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B3DC091C644BCC003C65E4 /* controller_3do@2x.png */; };
 		87BC4DA21BA3A88600BF1F86 /* controller_7800_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87BC4DA01BA3A88600BF1F86 /* controller_7800_mask@2x.png */; };
@@ -2213,6 +2217,10 @@
 		877EDD1E1E24BEE0004D68E7 /* Controller-Preferences-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-JAP.plist"; sourceTree = "<group>"; };
 		879243B21C0DA5910064C515 /* controller_5200_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_5200_mask@2x.png"; sourceTree = "<group>"; };
 		879243B31C0DA5910064C515 /* controller_5200@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_5200@2x.png"; sourceTree = "<group>"; };
+		87AA7D032071870D00E5DB80 /* hud_fastforward_notification@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_fastforward_notification@2x.png"; sourceTree = "<group>"; };
+		87AA7D072071870E00E5DB80 /* hud_fastforward_notification.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_fastforward_notification.png; sourceTree = "<group>"; };
+		87AA7D0A2071871E00E5DB80 /* hud_rewind_notification.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_rewind_notification.png; sourceTree = "<group>"; };
+		87AA7D0B2071871E00E5DB80 /* hud_rewind_notification@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_rewind_notification@2x.png"; sourceTree = "<group>"; };
 		87ACB6BD1D2509B300138B7E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
 		87ACB6BE1D2509B500138B7E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
 		87ACB6BF1D2509B600138B7E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/OEPrefControlsController.strings; sourceTree = "<group>"; };
@@ -4072,8 +4080,12 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				87AA7D072071870E00E5DB80 /* hud_fastforward_notification.png */,
+				87AA7D032071870D00E5DB80 /* hud_fastforward_notification@2x.png */,
 				83F6076F1BD3E4C9001236FC /* hud_quicksave_notification.png */,
 				83F607701BD3E4C9001236FC /* hud_quicksave_notification@2x.png */,
+				87AA7D0A2071871E00E5DB80 /* hud_rewind_notification.png */,
+				87AA7D0B2071871E00E5DB80 /* hud_rewind_notification@2x.png */,
 				83F607711BD3E4C9001236FC /* hud_screenshot_notification.png */,
 				83F607721BD3E4C9001236FC /* hud_screenshot_notification@2x.png */,
 				83338C2117A281C7007E32E9 /* secret.mp3 */,
@@ -7050,7 +7062,9 @@
 				833ADC4D196B078E00217D9A /* OECollectionViewController.xib in Resources */,
 				83F607761BD3E4C9001236FC /* hud_screenshot_notification@2x.png in Resources */,
 				83F607751BD3E4C9001236FC /* hud_screenshot_notification.png in Resources */,
+				87AA7D0D2071871E00E5DB80 /* hud_rewind_notification@2x.png in Resources */,
 				8F071F3B1C255362007B76DA /* Credits.rtf in Resources */,
+				87AA7D082071870F00E5DB80 /* hud_fastforward_notification@2x.png in Resources */,
 				83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */,
 				83B04E421968610F00CB985E /* Localizable.strings in Resources */,
 				87191CC61F6F5524006D2EE3 /* dsa_pub.pem in Resources */,
@@ -7069,6 +7083,7 @@
 				83F607731BD3E4C9001236FC /* hud_quicksave_notification.png in Resources */,
 				838E2A231600A05C00CF7198 /* Theme.plist in Resources */,
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
+				87AA7D092071870F00E5DB80 /* hud_fastforward_notification.png in Resources */,
 				83FE965919685F6700DD8DB9 /* OEGameScanner.xib in Resources */,
 				83B04E411968610F00CB985E /* InfoPlist.strings in Resources */,
 				83F607741BD3E4C9001236FC /* hud_quicksave_notification@2x.png in Resources */,
@@ -7076,6 +7091,7 @@
 				83495DD819A38F3D009DB6E5 /* OEPrefBiosController.xib in Resources */,
 				83338C2217A281C7007E32E9 /* secret.mp3 in Resources */,
 				94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */,
+				87AA7D0C2071871E00E5DB80 /* hud_rewind_notification.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

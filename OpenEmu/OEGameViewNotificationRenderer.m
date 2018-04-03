@@ -33,6 +33,8 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
     OENotificationNone,
     OENotificationQuickSave,
     OENotificationScreenShot,
+    OENotificationFastForward,
+    OENotificationRewind,
 
     OENotificationCount
 };
@@ -47,9 +49,9 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
 @end
 
 @interface OEGameViewNotificationRenderer ()
-@property GLuint quickSaveTexture, screenShotTexture, textureToRender;
+@property GLuint quickSaveTexture, screenShotTexture, fastForwardTexture, rewindTexture, textureToRender;
 @property NSTimeInterval visibleTimeInSeconds, lastNotificationTime;
-@property OEGameViewNotification *notificationQuickSave, *notificationScreenShot;
+@property OEGameViewNotification *notificationQuickSave, *notificationScreenShot, *notificationFastForward, *notificationRewind;
 @end
 
 @implementation OEGameViewNotificationRenderer
@@ -67,6 +69,8 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
 
     _quickSaveTexture   = [self loadImageNamed:@"hud_quicksave_notification" inContext:cgl_ctx];
     _screenShotTexture  = [self loadImageNamed:@"hud_screenshot_notification" inContext:cgl_ctx];
+    _fastForwardTexture = [self loadImageNamed:@"hud_fastforward_notification" inContext:cgl_ctx];
+    _rewindTexture      = [self loadImageNamed:@"hud_rewind_notification" inContext:cgl_ctx];
     _textureToRender = 0;
 
     _visibleTimeInSeconds = 0.0;
@@ -78,6 +82,12 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
     _notificationScreenShot  = [OEGameViewNotification notificationWithNotification:OENotificationScreenShot
                                                                             texture:_screenShotTexture
                                                                             seconds:1.25];
+    _notificationFastForward = [OEGameViewNotification notificationWithNotification:OENotificationFastForward
+                                                                            texture:_fastForwardTexture
+                                                                            seconds:DBL_MAX];
+    _notificationRewind      = [OEGameViewNotification notificationWithNotification:OENotificationRewind
+                                                                            texture:_rewindTexture
+                                                                            seconds:DBL_MAX];
 
     _scaleFactor = 1.0;
 
@@ -131,6 +141,8 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
         glDisable(GL_BLEND);
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
     }
+    else
+        [self OE_resumeNotification];
 }
 
 - (void)OE_renderTexture:(GLuint)texture withAlpha:(CGFloat)alpha inRect:(NSRect)rect {
@@ -150,6 +162,14 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
 {
     if (![notification isKindOfClass:[OEGameViewNotification class]]) return;
 
+    // Only need to set for key-repeating notifications
+    if (notification.seconds == DBL_MAX)
+        notification.state = YES;
+
+    // Rewind + Fast Forward = Fast Rewind
+    BOOL isRewinding = _notificationRewind.state;
+    if ((notification.type == OENotificationFastForward) && isRewinding) return;
+
     _textureToRender = notification.texture;
     _visibleTimeInSeconds = notification.seconds;
     _lastNotificationTime = [NSDate timeIntervalSinceReferenceDate];
@@ -161,9 +181,26 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
 
     notification.state = NO;
 
+    // Rewind + Fast Forward = Fast Rewind
+    BOOL isRewinding = _notificationRewind.state;
+    if ((notification.type == OENotificationFastForward) && isRewinding) return;
+
     _textureToRender = notification.texture;
     _visibleTimeInSeconds = 0.0;
     _lastNotificationTime = [NSDate timeIntervalSinceReferenceDate];
+
+    [self OE_resumeNotification];
+}
+
+- (void)OE_resumeNotification
+{
+    // E.g. resume fast forward notification after rewind ends if fast forward is still pressed
+    BOOL isFastForwarding = _notificationFastForward.state;
+    BOOL isRewinding = _notificationRewind.state;
+    if (isFastForwarding)
+        [self OE_showNotification:_notificationFastForward];
+    if (isRewinding)
+        [self OE_showNotification:_notificationRewind];
 }
 
 - (void)cleanUp
@@ -179,6 +216,18 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
         glDeleteTextures(1, &_screenShotTexture);
         _screenShotTexture = 0;
     }
+
+    if(_fastForwardTexture)
+    {
+        glDeleteTextures(1, &_fastForwardTexture);
+        _fastForwardTexture = 0;
+    }
+
+    if(_rewindTexture)
+    {
+        glDeleteTextures(1, &_rewindTexture);
+        _rewindTexture = 0;
+    }
 }
 
 - (void)showQuickStateNotification
@@ -189,6 +238,32 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
 - (void)showScreenShotNotification
 {
     [self OE_showNotification:_notificationScreenShot];
+}
+
+- (void)showFastForwardNotification:(BOOL)enable
+{
+    BOOL isFastForwarding = _notificationFastForward.state;
+    if (enable && isFastForwarding) return;
+
+    if (enable) {
+        [self OE_showNotification:_notificationFastForward];
+    }
+    else {
+        [self OE_hideNotification:_notificationFastForward];
+    }
+}
+
+- (void)showRewindNotification:(BOOL)enable
+{
+    BOOL isRewinding = _notificationRewind.state;
+    if (enable && isRewinding) return;
+
+    if (enable) {
+        [self OE_showNotification:_notificationRewind];
+    }
+    else {
+        [self OE_hideNotification:_notificationRewind];
+    }
 }
 
 - (GLuint)loadImageNamed:(NSString*)name inContext:(CGLContextObj)cgl_ctx

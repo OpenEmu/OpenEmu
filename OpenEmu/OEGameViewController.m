@@ -288,6 +288,16 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 #pragma mark - OEGameCoreOwner methods
 
+- (void)fastForwardGameplay:(BOOL)enable
+{
+    [[self gameView] showFastForwardNotification:enable];
+}
+
+- (void)rewindGameplay:(BOOL)enable
+{
+    [[self gameView] showRewindNotification:enable];
+}
+
 - (void)setEnableVSync:(BOOL)enable;
 {
     [_gameView setEnableVSync:enable];

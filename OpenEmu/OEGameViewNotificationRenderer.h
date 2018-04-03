@@ -35,6 +35,8 @@ extern NSString * const OEShowNotificationsKey;
 
 - (void)showQuickStateNotification;
 - (void)showScreenShotNotification;
+- (void)showFastForwardNotification:(BOOL)enable;
+- (void)showRewindNotification:(BOOL)enable;
 
 @property GLfloat scaleFactor;
 @property BOOL disableNotifications;
