@@ -31,7 +31,6 @@ extern NSString *const OEGameVolumeKey;
 extern NSString *const OEGameDefaultVideoFilterKey;
 extern NSString *const OEGameSystemVideoFilterKeyFormat;
 extern NSString *const OEGameCoresInBackgroundKey;
-extern NSString *const OEDontShowGameTitleInWindowKey;
 extern NSString *const OEAutoSwitchCoreAlertSuppressionKey;
 extern NSString *const OEGameViewControllerEmulationWillFinishNotification;
 extern NSString *const OEGameViewControllerEmulationDidFinishNotification;

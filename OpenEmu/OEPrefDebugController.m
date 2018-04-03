@@ -170,7 +170,6 @@ NSString * const OptionsKey = @"options";
                               Button(@"Hide game scanner view", @selector(hideGameScannerView:)),
 
                               Group(@"HUD Bar / Gameplay"),
-                              NCheckbox(OEDontShowGameTitleInWindowKey, @"Use game name as window title"),
                               Checkbox(OEGameControlsBarCanDeleteSaveStatesKey, @"Can delete save states"),
                               NCheckbox(OEGameControlsBarHidesOptionButtonKey, @"Show options button"),
                               Checkbox(OEShowNotificationsKey, @"Show notifications during gameplay"),
