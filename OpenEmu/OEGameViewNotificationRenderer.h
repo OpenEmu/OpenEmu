@@ -26,8 +26,7 @@
 
 @import Foundation;
 
-extern NSString * const OEShowSaveStateNotificationKey;
-extern NSString * const OEShowScreenShotNotificationKey;
+extern NSString * const OEShowNotificationsKey;
 
 @interface OEGameViewNotificationRenderer : NSObject
 - (void)setupInContext:(NSOpenGLContext*)context;

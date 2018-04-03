@@ -565,9 +565,7 @@
 
 "Show options button" = "Exibir botão de opções";
 
-"Show quicksave notification during gameplay" = "Exibir notificação nos salvamentos rápido enquanto joga";
-
-"Show screenshot notification during gameplay" = "Exibir notificação nas capturas de tela enquanto joga";
+"Show notifications during gameplay" = "Exibir notificações enquanto joga";
 
 "Use quicksave slots" = "Usar espaços de salvamento rápido";
 

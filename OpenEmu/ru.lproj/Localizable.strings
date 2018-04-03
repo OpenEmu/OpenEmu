@@ -565,9 +565,7 @@
 
 "Show options button" = "Показать кнопку опций";
 
-"Show quicksave notification during gameplay" = "Показать уведомление о быстром сохранении в процессе игры";
-
-"Show screenshot notification during gameplay" = "Show screenshot notification during gameplay"; // TODO
+"Show notifications during gameplay" = "Показать уведомления в процессе игры";
 
 "Use quicksave slots" = "Использовать слоты быстрых сохранений";
 

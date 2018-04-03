@@ -565,9 +565,7 @@
 
 "Show options button" = "Show options button";
 
-"Show quicksave notification during gameplay" = "Show quicksave notification during gameplay";
-
-"Show screenshot notification during gameplay" = "Show screenshot notification during gameplay";
+"Show notifications during gameplay" = "Show notifications during gameplay";
 
 "Use quicksave slots" = "Use quicksave slots";
 

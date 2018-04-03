@@ -573,9 +573,7 @@
 
 "Show options button" = "オプションボタンを表示";
 
-"Show quicksave notification during gameplay" = "ゲーム中にクイックセーブ通知を表示";
-
-"Show screenshot notification during gameplay" = "ゲーム中にスクリーンショット通知を表示";
+"Show notifications during gameplay" = "Show notifications during gameplay";   // TODO
 
 "Use quicksave slots" = "クイックセーブスロットを使用";
 

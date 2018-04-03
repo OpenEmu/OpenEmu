@@ -573,9 +573,7 @@
 
 "Show options button" = "显示选项按钮";
 
-"Show quicksave notification during gameplay" = "在游戏过程中显示快速保存通知";
-
-"Show screenshot notification during gameplay" = "在游戏过程中显示截屏通知";
+"Show notifications during gameplay" = "Show notifications during gameplay";   // TODO
 
 "Use quicksave slots" = "使用快速保存位置";
 

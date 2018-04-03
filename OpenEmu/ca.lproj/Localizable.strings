@@ -565,9 +565,7 @@
 
 "Show options button" = "Mostra el botó d'opcions";
 
-"Show quicksave notification during gameplay" = "Mostra la notificació del desat ràpid mentre jugueu";
-
-"Show screenshot notification during gameplay" = "Mostra la notificació de la captura de pantalla mentre jugueu";
+"Show notifications during gameplay" = "Mostra notificacions mentre jugueu";
 
 "Use quicksave slots" = "Utilitza els espais del desat ràpid";
 

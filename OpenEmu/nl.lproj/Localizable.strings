@@ -565,9 +565,7 @@
 
 "Show options button" = "Toon optiesknop";
 
-"Show quicksave notification during gameplay" = "Toon melding van snelle momentopname tijdens het spelen";
-
-"Show screenshot notification during gameplay" = "Toon melding van schermafbeelding tijdens het spelen";
+"Show notifications during gameplay" = "Toon meldingen tijdens het spelen";
 
 "Use quicksave slots" = "Use quicksave slots";
 
