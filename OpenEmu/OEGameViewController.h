@@ -91,8 +91,6 @@ extern NSString *const OEScreenshotPropertiesKey;
 #pragma mark - Info
 @property(readonly) NSSize defaultScreenSize;
 
-- (void)fastForwardGameplay:(BOOL)enable;
-- (void)rewindGameplay:(BOOL)enable;
 - (void)setEnableVSync:(BOOL)enable;
 - (void)setAspectSize:(OEIntSize)newAspectSize;
 - (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;

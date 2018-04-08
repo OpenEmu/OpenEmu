@@ -1496,12 +1496,16 @@ typedef enum : NSUInteger
 
 - (void)fastForwardGameplay:(BOOL)enable
 {
-    [[self gameViewController] fastForwardGameplay:enable];
+    if(_emulationStatus != OEEmulationStatusPlaying) return;
+
+    [[[self gameViewController] gameView] showFastForwardNotification:enable];
 }
 
 - (void)rewindGameplay:(BOOL)enable
 {
-    [[self gameViewController] rewindGameplay:enable];
+    if(_emulationStatus != OEEmulationStatusPlaying) return;
+
+    [[[self gameViewController] gameView] showRewindNotification:enable];
 }
 
 - (void)setEnableVSync:(BOOL)enable
