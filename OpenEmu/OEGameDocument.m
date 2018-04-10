@@ -1508,6 +1508,18 @@ typedef enum : NSUInteger
     [[[self gameViewController] gameView] showRewindNotification:enable];
 }
 
+- (void)stepGameplayFrameForward
+{
+    if(_emulationStatus == OEEmulationStatusPlaying)
+        [self toggleEmulationPaused:self];
+}
+
+- (void)stepGameplayFrameBackward
+{
+    if(_emulationStatus == OEEmulationStatusPlaying)
+        [self toggleEmulationPaused:self];
+}
+
 - (void)setEnableVSync:(BOOL)enable
 {
     [_gameViewController setEnableVSync:enable];

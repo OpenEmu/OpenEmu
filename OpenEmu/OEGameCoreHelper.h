@@ -72,6 +72,8 @@
 - (void)takeScreenshot;
 - (void)fastForwardGameplay:(BOOL)enable;
 - (void)rewindGameplay:(BOOL)enable;
+- (void)stepGameplayFrameForward;
+- (void)stepGameplayFrameBackward;
 
 - (void)setEnableVSync:(BOOL)enable;
 - (void)setAspectSize:(OEIntSize)newAspectSize;

@@ -754,4 +754,14 @@
     [self.gameCoreOwner rewindGameplay:enable];
 }
 
+- (void)stepGameplayFrameForward:(id)sender
+{
+    [self.gameCoreOwner stepGameplayFrameForward];
+}
+
+- (void)stepGameplayFrameBackward:(id)sender
+{
+    [self.gameCoreOwner stepGameplayFrameBackward];
+}
+
 @end
