@@ -148,5 +148,7 @@
   "Rewind" = "Riavvolgi";
   "Save" = "Salva";
   "Screenshot" = "Istantanea";
+  "Step Backward" = "Fotogramma precedente";
+  "Step Forward" = "Fotogramma successivo";
   "Volume Down" = "Abbassa volume";
   "Volume Up" = "Alza volume";

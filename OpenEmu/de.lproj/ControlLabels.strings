@@ -148,5 +148,7 @@
   "Rewind" = "Zurück-spulen";
   "Save" = "Sichern";
   "Screenshot" = "Screenshot";
+  "Step Backward" = "Step Backward";    // TODO
+  "Step Forward" = "Step Forward";    // TODO
   "Volume Down" = "Ton leiser";
   "Volume Up" = "Ton lauter";

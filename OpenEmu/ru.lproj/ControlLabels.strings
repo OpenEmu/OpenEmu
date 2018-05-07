@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright (c) 2015, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
@@ -148,5 +148,7 @@
   "Rewind" = "Rewind";
   "Save" = "Save";
   "Screenshot" = "Screenshot";
+  "Step Backward" = "Step Backward";
+  "Step Forward" = "Step Forward";
   "Volume Down" = "Volume Down";
   "Volume Up" = "Volume Up";
