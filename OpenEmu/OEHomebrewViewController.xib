@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEHomebrewViewController">
@@ -17,20 +18,19 @@
             <rect key="frame" x="0.0" y="0.0" width="817" height="583"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="230" horizontalPageScroll="10" verticalLineScroll="230" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="bDj-Fj-QyG">
+                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="230" horizontalPageScroll="10" verticalLineScroll="230" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bDj-Fj-QyG">
                     <rect key="frame" x="0.0" y="0.0" width="817" height="583"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="RGw-Kn-YDx">
                         <rect key="frame" x="0.0" y="0.0" width="817" height="583"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="230" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="KhY-cL-moa">
-                                <rect key="frame" x="0.0" y="0.0" width="817" height="0.0"/>
+                                <rect key="frame" x="0.0" y="0.0" width="817" height="583"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn editable="NO" width="817" minWidth="40" maxWidth="1000" id="plD-bs-5oS">
+                                    <tableColumn identifier="" editable="NO" width="817" minWidth="40" maxWidth="1000" id="plD-bs-5oS">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -47,9 +47,11 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="817" height="167"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="Smq-Bg-E0G" customClass="OELabel">
-                                                        <rect key="frame" x="282" y="95" width="500" height="60"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Smq-Bg-E0G" customClass="OELabel">
+                                                        <rect key="frame" x="280" y="95" width="502" height="60"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="60" id="pdo-3p-TRT"/>
+                                                        </constraints>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="oqK-8m-n8t" customClass="OELabelCell">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -62,9 +64,11 @@
                                                             <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="9ep-5G-g9M"/>
                                                         </connections>
                                                     </textField>
-                                                    <button focusRingType="none" id="ss5-rY-sYe" customClass="OEButton">
-                                                        <rect key="frame" x="285" y="96" width="59" height="18"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="ss5-rY-sYe" customClass="OEButton">
+                                                        <rect key="frame" x="285" y="96" width="62" height="19"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="19" id="gvH-Zu-Hp0"/>
+                                                        </constraints>
                                                         <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="SIc-aZ-puf" customClass="OEOutlinedButtonCell">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -73,9 +77,11 @@
                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </button>
-                                                    <button focusRingType="none" id="rix-Tm-zJs" customClass="OEButton">
-                                                        <rect key="frame" x="352" y="96" width="61" height="18"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="rix-Tm-zJs" customClass="OEButton">
+                                                        <rect key="frame" x="352" y="96" width="50" height="19"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="19" id="rk8-vn-0aF"/>
+                                                        </constraints>
                                                         <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="Se1-Vc-J4Y" customClass="OEOutlinedButtonCell">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -84,22 +90,19 @@
                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </button>
-                                                    <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="Gpg-xF-AVQ" userLabel="Description" customClass="OEDisabledScrollView">
+                                                    <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="Gpg-xF-AVQ" userLabel="Description" customClass="OEDisabledScrollView">
                                                         <rect key="frame" x="282" y="29" width="498" height="53"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="cmd-Uo-28p">
                                                             <rect key="frame" x="0.0" y="0.0" width="498" height="53"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="NO" findStyle="panel" continuousSpellChecking="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="EM4-yi-C1u">
+                                                                <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" continuousSpellChecking="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="EM4-yi-C1u">
                                                                     <rect key="frame" x="0.0" y="0.0" width="498" height="53"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <size key="minSize" width="498" height="53"/>
                                                                     <size key="maxSize" width="639" height="10000000"/>
                                                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <size key="minSize" width="498" height="53"/>
-                                                                    <size key="maxSize" width="639" height="10000000"/>
                                                                 </textView>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -113,13 +116,18 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
-                                                    <customView id="awI-1D-r5I" customClass="OEHomebrewCoverView">
+                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="awI-1D-r5I" customClass="OEHomebrewCoverView">
                                                         <rect key="frame" x="36" y="-30" width="240" height="185"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="185" id="8JY-j1-Z3N"/>
+                                                            <constraint firstAttribute="width" constant="240" id="y03-XI-7JS"/>
+                                                        </constraints>
                                                     </customView>
-                                                    <button focusRingType="none" id="5kk-p4-hJg" customClass="OEButton">
-                                                        <rect key="frame" x="282" y="119" width="204" height="18"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="5kk-p4-hJg" customClass="OEButton">
+                                                        <rect key="frame" x="282" y="119" width="117" height="18"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="18" id="rPC-sg-MLL"/>
+                                                        </constraints>
                                                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="D7D-mh-2qM" customClass="OEButtonCell">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -129,14 +137,33 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </button>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="Gpg-xF-AVQ" firstAttribute="leading" secondItem="awI-1D-r5I" secondAttribute="trailing" constant="6" id="1xw-BE-bn3"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Gpg-xF-AVQ" secondAttribute="trailing" constant="37" id="4RU-gG-LGw"/>
+                                                    <constraint firstItem="rix-Tm-zJs" firstAttribute="top" secondItem="5kk-p4-hJg" secondAttribute="bottom" constant="4" id="5ml-gG-jjO"/>
+                                                    <constraint firstItem="Smq-Bg-E0G" firstAttribute="top" secondItem="OKd-iL-eW1" secondAttribute="top" constant="12" id="6iR-TX-zDP"/>
+                                                    <constraint firstItem="Gpg-xF-AVQ" firstAttribute="top" secondItem="Smq-Bg-E0G" secondAttribute="bottom" constant="13" id="8eb-oW-q7Z"/>
+                                                    <constraint firstItem="Smq-Bg-E0G" firstAttribute="leading" secondItem="awI-1D-r5I" secondAttribute="trailing" constant="6" id="E9i-q6-5Ra"/>
+                                                    <constraint firstItem="awI-1D-r5I" firstAttribute="leading" secondItem="OKd-iL-eW1" secondAttribute="leading" constant="36" id="EPi-NZ-WaP"/>
+                                                    <constraint firstItem="5kk-p4-hJg" firstAttribute="leading" secondItem="awI-1D-r5I" secondAttribute="trailing" constant="6" id="EmD-g8-5Uv"/>
+                                                    <constraint firstItem="5kk-p4-hJg" firstAttribute="top" secondItem="OKd-iL-eW1" secondAttribute="top" constant="30" id="NyO-U8-lE1"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Gpg-xF-AVQ" secondAttribute="bottom" priority="750" constant="29" id="P6m-Qy-9Xd"/>
+                                                    <constraint firstItem="rix-Tm-zJs" firstAttribute="leading" secondItem="ss5-rY-sYe" secondAttribute="trailing" constant="5" id="SNq-m5-ZJF"/>
+                                                    <constraint firstItem="ss5-rY-sYe" firstAttribute="top" secondItem="5kk-p4-hJg" secondAttribute="bottom" constant="4" id="Ukk-6E-YMY"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Smq-Bg-E0G" secondAttribute="trailing" constant="37" id="WyU-fu-W6e"/>
+                                                    <constraint firstItem="awI-1D-r5I" firstAttribute="top" secondItem="OKd-iL-eW1" secondAttribute="top" constant="12" id="aK3-kQ-Bes"/>
+                                                    <constraint firstItem="ss5-rY-sYe" firstAttribute="leading" secondItem="awI-1D-r5I" secondAttribute="trailing" constant="9" id="lfG-hC-YW2"/>
+                                                </constraints>
                                             </tableCellView>
                                             <tableCellView identifier="HeaderView" id="Lu4-Ie-5bt">
                                                 <rect key="frame" x="0.0" y="167" width="817" height="94"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="vFl-AX-naa" customClass="OELabel">
-                                                        <rect key="frame" x="30" y="3" width="727" height="57"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="vFl-AX-naa" customClass="OELabel">
+                                                        <rect key="frame" x="28" y="3" width="729" height="57"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="57" id="oed-0a-Slh"/>
+                                                        </constraints>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="JSC-Ns-HCV" customClass="OELabelCell">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -150,6 +177,11 @@
                                                         </connections>
                                                     </textField>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="vFl-AX-naa" secondAttribute="trailing" constant="62" id="5C0-jJ-EfI"/>
+                                                    <constraint firstItem="vFl-AX-naa" firstAttribute="leading" secondItem="Lu4-Ie-5bt" secondAttribute="leading" constant="30" id="9Ae-HL-cQK"/>
+                                                    <constraint firstItem="vFl-AX-naa" firstAttribute="top" secondItem="Lu4-Ie-5bt" secondAttribute="top" constant="34" id="KdI-Xf-u4o"/>
+                                                </constraints>
                                                 <connections>
                                                     <outlet property="textField" destination="vFl-AX-naa" id="5dZ-m5-Dnf"/>
                                                 </connections>
@@ -158,19 +190,18 @@
                                                 <rect key="frame" x="0.0" y="261" width="817" height="230"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <customView id="1yX-5M-iLY" customClass="OEBackgroundImageView">
+                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="1yX-5M-iLY" customClass="OEBackgroundImageView">
                                                         <rect key="frame" x="34" y="0.0" width="748" height="230"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <customView id="RVu-F3-nDj">
+                                                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RVu-F3-nDj">
                                                                 <rect key="frame" x="2" y="1" width="242" height="220"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
-                                                                    <customView id="Hbl-cX-W2X" customClass="OEHomebrewCoverView">
+                                                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hbl-cX-W2X" customClass="OEHomebrewCoverView">
                                                                         <rect key="frame" x="2" y="33" width="240" height="185"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     </customView>
-                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="0CD-QO-y6f" customClass="OELabel">
+                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0CD-QO-y6f" customClass="OELabel">
                                                                         <rect key="frame" x="2" y="-31" width="240" height="60"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="Qg6-Jy-yrb" customClass="OELabelCell">
@@ -185,7 +216,7 @@
                                                                             <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="hAP-Wg-Xa5"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <button hidden="YES" focusRingType="none" id="UwV-Md-06C" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UwV-Md-06C" customClass="OEButton">
                                                                         <rect key="frame" x="18" y="11" width="59" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="65X-Ve-LCa" customClass="OEOutlinedButtonCell">
@@ -196,7 +227,7 @@
                                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
-                                                                    <button hidden="YES" focusRingType="none" id="E7y-Tz-1qf" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E7y-Tz-1qf" customClass="OEButton">
                                                                         <rect key="frame" x="85" y="11" width="61" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="xYS-gb-JIA" customClass="OEOutlinedButtonCell">
@@ -207,7 +238,7 @@
                                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
-                                                                    <button hidden="YES" focusRingType="none" id="rUH-WG-nRq" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rUH-WG-nRq" customClass="OEButton">
                                                                         <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="8Rt-p4-N0C" customClass="OEButtonCell">
@@ -220,15 +251,15 @@
                                                                     </button>
                                                                 </subviews>
                                                             </customView>
-                                                            <customView id="fWt-jo-lSb">
+                                                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fWt-jo-lSb">
                                                                 <rect key="frame" x="253" y="1" width="242" height="220"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
-                                                                    <customView id="8In-DY-9QG" customClass="OEHomebrewCoverView">
+                                                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8In-DY-9QG" customClass="OEHomebrewCoverView">
                                                                         <rect key="frame" x="2" y="33" width="240" height="185"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     </customView>
-                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="Eif-4f-CpZ" customClass="OELabel">
+                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eif-4f-CpZ" customClass="OELabel">
                                                                         <rect key="frame" x="2" y="-31" width="240" height="60"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="RKM-R4-e0F" customClass="OELabelCell">
@@ -243,7 +274,7 @@
                                                                             <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="Uwc-vB-7eq"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <button hidden="YES" focusRingType="none" id="882-T1-u9B" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="882-T1-u9B" customClass="OEButton">
                                                                         <rect key="frame" x="18" y="11" width="59" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="Ufp-J5-Fdn" customClass="OEOutlinedButtonCell">
@@ -254,7 +285,7 @@
                                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
-                                                                    <button hidden="YES" focusRingType="none" id="4IR-R8-vWe" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4IR-R8-vWe" customClass="OEButton">
                                                                         <rect key="frame" x="85" y="11" width="61" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="A9j-pe-YlF" customClass="OEOutlinedButtonCell">
@@ -265,7 +296,7 @@
                                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
-                                                                    <button hidden="YES" focusRingType="none" id="JRg-J5-JNV" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JRg-J5-JNV" customClass="OEButton">
                                                                         <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="c8b-na-xYA" customClass="OEButtonCell">
@@ -278,15 +309,15 @@
                                                                     </button>
                                                                 </subviews>
                                                             </customView>
-                                                            <customView id="sN5-rM-I3f">
+                                                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sN5-rM-I3f">
                                                                 <rect key="frame" x="504" y="1" width="242" height="220"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
-                                                                    <customView id="LeL-8G-gVy" customClass="OEHomebrewCoverView">
+                                                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LeL-8G-gVy" customClass="OEHomebrewCoverView">
                                                                         <rect key="frame" x="2" y="33" width="240" height="185"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     </customView>
-                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="9PG-f8-PSQ" customClass="OELabel">
+                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9PG-f8-PSQ" customClass="OELabel">
                                                                         <rect key="frame" x="2" y="-31" width="240" height="60"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="dJP-6m-thX" customClass="OELabelCell">
@@ -301,7 +332,7 @@
                                                                             <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="5Cw-mm-wZg"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <button hidden="YES" focusRingType="none" id="GZt-UQ-5kg" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GZt-UQ-5kg" customClass="OEButton">
                                                                         <rect key="frame" x="18" y="11" width="59" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="G3t-rb-H79" customClass="OEOutlinedButtonCell">
@@ -312,7 +343,7 @@
                                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
-                                                                    <button hidden="YES" focusRingType="none" id="BqM-X5-bQy" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BqM-X5-bQy" customClass="OEButton">
                                                                         <rect key="frame" x="85" y="11" width="61" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="9bU-JH-JqS" customClass="OEOutlinedButtonCell">
@@ -323,7 +354,7 @@
                                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
-                                                                    <button hidden="YES" focusRingType="none" id="4MS-I3-jM5" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4MS-I3-jM5" customClass="OEButton">
                                                                         <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="PzT-my-Dzg" customClass="OEButtonCell">
@@ -337,18 +368,25 @@
                                                                 </subviews>
                                                             </customView>
                                                         </subviews>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="230" id="cn0-dN-Ohq"/>
+                                                        </constraints>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </customView>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="1yX-5M-iLY" firstAttribute="top" secondItem="AlP-qZ-NUr" secondAttribute="top" id="4NC-6a-cjf"/>
+                                                    <constraint firstItem="1yX-5M-iLY" firstAttribute="leading" secondItem="AlP-qZ-NUr" secondAttribute="leading" constant="34" id="CcT-fe-AY9"/>
+                                                    <constraint firstAttribute="trailing" secondItem="1yX-5M-iLY" secondAttribute="trailing" constant="35" id="uxs-Ep-ohc"/>
+                                                </constraints>
                                             </tableCellView>
                                         </prototypeCellViews>
                                     </tableColumn>
                                 </tableColumns>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </clipView>
                     <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="wx5-R2-aHS">
@@ -361,6 +399,12 @@
                     </scroller>
                 </scrollView>
             </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="bDj-Fj-QyG" secondAttribute="trailing" id="EzY-Ai-ckJ"/>
+                <constraint firstItem="bDj-Fj-QyG" firstAttribute="top" secondItem="uxN-df-boz" secondAttribute="top" id="FJV-bU-eSH"/>
+                <constraint firstAttribute="bottom" secondItem="bDj-Fj-QyG" secondAttribute="bottom" id="XOC-BU-cNk"/>
+                <constraint firstItem="bDj-Fj-QyG" firstAttribute="leading" secondItem="uxN-df-boz" secondAttribute="leading" id="Xdc-id-RFO"/>
+            </constraints>
         </customView>
     </objects>
 </document>

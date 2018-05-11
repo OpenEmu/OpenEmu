@@ -491,7 +491,6 @@ const static CGFloat TableViewSpacing = 86.0;
         NSButton    *system  = [subviews objectAtIndex:1];
         [system setEnabled:NO];
         [system setTitle:[game systemShortName]];
-        [system sizeToFit];
 
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"Y"];
@@ -499,8 +498,6 @@ const static CGFloat TableViewSpacing = 86.0;
         [year setHidden:[[game released] timeIntervalSince1970] == 0];
         [year setTitle:[formatter stringFromDate:[game released]]];
         [year setEnabled:NO];
-        [year sizeToFit];
-        [year setFrameOrigin:(NSPoint){NSMaxX([system frame])+5.0, NSMinY([system frame])}];
 
         // description
         NSScrollView *descriptionScroll = [subviews objectAtIndex:3];
@@ -510,15 +507,12 @@ const static CGFloat TableViewSpacing = 86.0;
         NSInteger length = [[description textStorage] length];
         NSDictionary *attributes = [self descriptionStringAttributes];
         [[description textStorage] setAttributes:attributes range:NSMakeRange(0, length)];
-        [description sizeToFit];
 
         NSButton    *developer = [subviews objectAtIndex:5];
         [developer setTarget:self];
         [developer setAction:@selector(gotoDeveloperWebsite:)];
         [developer setObjectValue:[game website]];
         [developer setTitle:[game developer]];
-        [developer sizeToFit];
-        [developer setFrameSize:NSMakeSize([developer frame].size.width, [developer frame].size.height)];
 
         OEHomebrewCoverView *imagesView = [subviews objectAtIndex:4];
         [imagesView setURLs:[game images]];
