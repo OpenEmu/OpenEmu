@@ -642,3 +642,5 @@
 "ECM compressed binary detected." = "Binario de compresión ECM detectado.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "Los binarios de compresión ECM no se pueden importar. Por favor lea la guía de importación de disco.";
+
+"Increase sensitivity of analog controls bound to digital buttons" = "Increase sensitivity of analog controls bound to digital buttons";    // TODO

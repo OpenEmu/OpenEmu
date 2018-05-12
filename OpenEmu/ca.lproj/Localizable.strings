@@ -642,3 +642,5 @@
 "ECM compressed binary detected." = "S'ha detectat un binari comprimit amb ECM.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "No es poden importar binaris comprimits amb ECM. Llegiu la guia d'importació dels discs.";
+
+"Increase sensitivity of analog controls bound to digital buttons" = "Increase sensitivity of analog controls bound to digital buttons";    // TODO

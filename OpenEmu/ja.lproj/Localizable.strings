@@ -642,3 +642,5 @@
 "ECM compressed binary detected." = "ECM圧縮バイナリを検知しました";  // TODO
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM圧縮バイナリをインポート出来ませんでした。ディスクインポートガイドをご確認ください。";  // TODO
+
+"Increase sensitivity of analog controls bound to digital buttons" = "Increase sensitivity of analog controls bound to digital buttons";    // TODO

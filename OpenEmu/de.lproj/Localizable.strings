@@ -642,3 +642,5 @@
 "ECM compressed binary detected." = "ECM-komprimierte Binärdatei erkannt.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM-komprimierte Binärdateien können nicht importiert werden. Bitte lesen Sie die Hilfe zum Thema „Importieren von CDs“.";
+
+"Increase sensitivity of analog controls bound to digital buttons" = "Increase sensitivity of analog controls bound to digital buttons";    // TODO

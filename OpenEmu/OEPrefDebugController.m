@@ -190,6 +190,7 @@ NSString * const OptionsKey = @"options";
                               Checkbox(@"logsHIDEvents", @"Log HID Events"),
                               Checkbox(@"logsHIDEventsNoKeyboard", @"Log Keyboard Events"),
                               Checkbox(@"OEShowAllGlobalKeys", @"Show all global keys"),
+                              Checkbox(@"OESystemResponderNoADCThreshold", @"Increase sensitivity of analog controls bound to digital buttons"),
 
                               Group(@"Save States"),
                               Button(@"Set default save states directory", @selector(restoreSaveStatesDirectory:)),
