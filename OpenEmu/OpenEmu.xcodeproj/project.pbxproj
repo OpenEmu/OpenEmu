@@ -503,6 +503,10 @@
 		875CC3251E221D9800E3BEB9 /* controller_tg16_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 875CC3231E221D9800E3BEB9 /* controller_tg16_mask@2x.png */; };
 		875CC3261E221D9800E3BEB9 /* controller_tg16@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 875CC3241E221D9800E3BEB9 /* controller_tg16@2x.png */; };
 		8763A38F1D5694E90089C30B /* OEArcadeSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8763A38E1D5694E90089C30B /* OEArcadeSystemController.m */; };
+		876FF0D6207B0A3D002F935A /* hud_stepforward_notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 876FF0D2207B0A3C002F935A /* hud_stepforward_notification@2x.png */; };
+		876FF0D8207B1269002F935A /* hud_stepbackward_notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 876FF0D7207B1268002F935A /* hud_stepbackward_notification@2x.png */; };
+		876FF0DA207B2B96002F935A /* hud_stepbackward_notification.png in Resources */ = {isa = PBXBuildFile; fileRef = 876FF0D9207B2B95002F935A /* hud_stepbackward_notification.png */; };
+		876FF0DC207B2BA6002F935A /* hud_stepforward_notification.png in Resources */ = {isa = PBXBuildFile; fileRef = 876FF0DB207B2BA5002F935A /* hud_stepforward_notification.png */; };
 		877EDD151E24BC63004D68E7 /* controller_pce_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 877EDD101E24BC63004D68E7 /* controller_pce_mask.png */; };
 		877EDD161E24BC63004D68E7 /* controller_pce_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 877EDD111E24BC63004D68E7 /* controller_pce_mask@2x.png */; };
 		877EDD171E24BC63004D68E7 /* controller_pce.png in Resources */ = {isa = PBXBuildFile; fileRef = 877EDD121E24BC63004D68E7 /* controller_pce.png */; };
@@ -2205,6 +2209,10 @@
 		875CC3241E221D9800E3BEB9 /* controller_tg16@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_tg16@2x.png"; sourceTree = "<group>"; };
 		8763A38D1D5694E90089C30B /* OEArcadeSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArcadeSystemController.h; sourceTree = "<group>"; };
 		8763A38E1D5694E90089C30B /* OEArcadeSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEArcadeSystemController.m; sourceTree = "<group>"; };
+		876FF0D2207B0A3C002F935A /* hud_stepforward_notification@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_stepforward_notification@2x.png"; sourceTree = "<group>"; };
+		876FF0D7207B1268002F935A /* hud_stepbackward_notification@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_stepbackward_notification@2x.png"; sourceTree = "<group>"; };
+		876FF0D9207B2B95002F935A /* hud_stepbackward_notification.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_stepbackward_notification.png; sourceTree = "<group>"; };
+		876FF0DB207B2BA5002F935A /* hud_stepforward_notification.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_stepforward_notification.png; sourceTree = "<group>"; };
 		877EDD101E24BC63004D68E7 /* controller_pce_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pce_mask.png; sourceTree = "<group>"; };
 		877EDD111E24BC63004D68E7 /* controller_pce_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pce_mask@2x.png"; sourceTree = "<group>"; };
 		877EDD121E24BC63004D68E7 /* controller_pce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pce.png; sourceTree = "<group>"; };
@@ -4088,6 +4096,10 @@
 				87AA7D0B2071871E00E5DB80 /* hud_rewind_notification@2x.png */,
 				83F607711BD3E4C9001236FC /* hud_screenshot_notification.png */,
 				83F607721BD3E4C9001236FC /* hud_screenshot_notification@2x.png */,
+				876FF0D9207B2B95002F935A /* hud_stepbackward_notification.png */,
+				876FF0D7207B1268002F935A /* hud_stepbackward_notification@2x.png */,
+				876FF0DB207B2BA5002F935A /* hud_stepforward_notification.png */,
+				876FF0D2207B0A3C002F935A /* hud_stepforward_notification@2x.png */,
 				83338C2117A281C7007E32E9 /* secret.mp3 */,
 			);
 			name = "Interface Graphics";
@@ -7056,10 +7068,12 @@
 				8306CD261BD3AC3D0025BC6C /* OESidebarController.xib in Resources */,
 				1B32151514DDD49E00C5B50A /* OpenEmu.dae in Resources */,
 				1B32151614DDD49E00C5B50A /* OpenEmuText.dae in Resources */,
+				876FF0DC207B2BA6002F935A /* hud_stepforward_notification.png in Resources */,
 				1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */,
 				8F5074741C10BCEC00F52B83 /* OELibraryGamesViewController.xib in Resources */,
 				82DD29DB12369F1100B58A8F /* KeyboardUsages.plist in Resources */,
 				833ADC4D196B078E00217D9A /* OECollectionViewController.xib in Resources */,
+				876FF0DA207B2B96002F935A /* hud_stepbackward_notification.png in Resources */,
 				83F607761BD3E4C9001236FC /* hud_screenshot_notification@2x.png in Resources */,
 				83F607751BD3E4C9001236FC /* hud_screenshot_notification.png in Resources */,
 				87AA7D0D2071871E00E5DB80 /* hud_rewind_notification@2x.png in Resources */,
@@ -7086,8 +7100,10 @@
 				87AA7D092071870F00E5DB80 /* hud_fastforward_notification.png in Resources */,
 				83FE965919685F6700DD8DB9 /* OEGameScanner.xib in Resources */,
 				83B04E411968610F00CB985E /* InfoPlist.strings in Resources */,
+				876FF0D8207B1269002F935A /* hud_stepbackward_notification@2x.png in Resources */,
 				83F607741BD3E4C9001236FC /* hud_quicksave_notification@2x.png in Resources */,
 				83FE963C1968596C00DD8DB9 /* OEMigrationWindowController.xib in Resources */,
+				876FF0D6207B0A3D002F935A /* hud_stepforward_notification@2x.png in Resources */,
 				83495DD819A38F3D009DB6E5 /* OEPrefBiosController.xib in Resources */,
 				83338C2217A281C7007E32E9 /* secret.mp3 in Resources */,
 				94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */,

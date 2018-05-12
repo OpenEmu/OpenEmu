@@ -35,6 +35,8 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
     OENotificationScreenShot,
     OENotificationFastForward,
     OENotificationRewind,
+    OENotificationStepForward,
+    OENotificationStepBackward,
 
     OENotificationCount
 };
@@ -49,9 +51,9 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
 @end
 
 @interface OEGameViewNotificationRenderer ()
-@property GLuint quickSaveTexture, screenShotTexture, fastForwardTexture, rewindTexture, textureToRender;
+@property GLuint quickSaveTexture, screenShotTexture, fastForwardTexture, rewindTexture, stepForwardTexture, stepBackwardTexture, textureToRender;
 @property NSTimeInterval visibleTimeInSeconds, lastNotificationTime;
-@property OEGameViewNotification *notificationQuickSave, *notificationScreenShot, *notificationFastForward, *notificationRewind;
+@property OEGameViewNotification *notificationQuickSave, *notificationScreenShot, *notificationFastForward, *notificationRewind, *notificationStepForward, *notificationStepBackward;
 @end
 
 @implementation OEGameViewNotificationRenderer
@@ -71,6 +73,8 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
     _screenShotTexture  = [self loadImageNamed:@"hud_screenshot_notification" inContext:cgl_ctx];
     _fastForwardTexture = [self loadImageNamed:@"hud_fastforward_notification" inContext:cgl_ctx];
     _rewindTexture      = [self loadImageNamed:@"hud_rewind_notification" inContext:cgl_ctx];
+    _stepForwardTexture = [self loadImageNamed:@"hud_stepforward_notification" inContext:cgl_ctx];
+    _stepBackwardTexture = [self loadImageNamed:@"hud_stepbackward_notification" inContext:cgl_ctx];
     _textureToRender = 0;
 
     _visibleTimeInSeconds = 0.0;
@@ -88,6 +92,12 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
     _notificationRewind      = [OEGameViewNotification notificationWithNotification:OENotificationRewind
                                                                             texture:_rewindTexture
                                                                             seconds:DBL_MAX];
+    _notificationStepForward = [OEGameViewNotification notificationWithNotification:OENotificationStepForward
+                                                                            texture:_stepForwardTexture
+                                                                            seconds:1.25];
+    _notificationStepBackward = [OEGameViewNotification notificationWithNotification:OENotificationStepBackward
+                                                                            texture:_stepBackwardTexture
+                                                                            seconds:1.25];
 
     _scaleFactor = 1.0;
 
@@ -228,6 +238,18 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
         glDeleteTextures(1, &_rewindTexture);
         _rewindTexture = 0;
     }
+
+    if(_stepForwardTexture)
+    {
+        glDeleteTextures(1, &_stepForwardTexture);
+        _stepForwardTexture = 0;
+    }
+
+    if(_stepBackwardTexture)
+    {
+        glDeleteTextures(1, &_stepBackwardTexture);
+        _stepBackwardTexture = 0;
+    }
 }
 
 - (void)showQuickStateNotification
@@ -266,9 +288,20 @@ typedef NS_ENUM(NSInteger, OEGameViewNotificationName) {
     }
 }
 
+- (void)showStepForwardNotification
+{
+    [self OE_showNotification:_notificationStepForward];
+}
+
+- (void)showStepBackwardNotification
+{
+    [self OE_showNotification:_notificationStepBackward];
+}
+
 - (GLuint)loadImageNamed:(NSString*)name inContext:(CGLContextObj)cgl_ctx
 {
     NSURL *imageURL = [[NSBundle mainBundle] URLForImageResource:name];
+    NSAssert(imageURL, ([NSString stringWithFormat:@"Notification image \"%@\" not reachable.", name]));
     CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)imageURL, NULL);
 
     size_t index = MIN(_scaleFactor > 1.0 ? 0 : 1, CGImageSourceGetCount(imageSource) -1);

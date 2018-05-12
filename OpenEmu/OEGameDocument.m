@@ -1512,12 +1512,18 @@ typedef enum : NSUInteger
 {
     if(_emulationStatus == OEEmulationStatusPlaying)
         [self toggleEmulationPaused:self];
+
+    if(_emulationStatus == OEEmulationStatusPaused)
+        [[[self gameViewController] gameView] showStepForwardNotification];
 }
 
 - (void)stepGameplayFrameBackward
 {
     if(_emulationStatus == OEEmulationStatusPlaying)
         [self toggleEmulationPaused:self];
+
+    if(_emulationStatus == OEEmulationStatusPaused)
+        [[[self gameViewController] gameView] showStepBackwardNotification];
 }
 
 - (void)setEnableVSync:(BOOL)enable

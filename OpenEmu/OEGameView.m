@@ -364,6 +364,16 @@ static const GLfloat cg_coords[] = {
     [_notificationRenderer showRewindNotification:enable];
 }
 
+- (void)showStepForwardNotification
+{
+    [_notificationRenderer showStepForwardNotification];
+}
+
+- (void)showStepBackwardNotification
+{
+    [_notificationRenderer showStepBackwardNotification];
+}
+
 - (void)setEnableVSync:(BOOL)enable
 {
     GLint vSync = enable;
