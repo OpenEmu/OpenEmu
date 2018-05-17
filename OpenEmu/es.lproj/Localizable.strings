@@ -644,3 +644,5 @@
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "Los binarios de compresión ECM no se pueden importar. Por favor lea la guía de importación de disco.";
 
 "Increase sensitivity of analog controls bound to digital buttons" = "Increase sensitivity of analog controls bound to digital buttons";    // TODO
+
+"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
