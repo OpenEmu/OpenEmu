@@ -30,7 +30,7 @@
 
 typedef struct
 {
-    void *buffer; /* OERingBuffer */
+    void *buffer; /* id<OEAudioBuffer> */
     int channelCount;
     int bytesPerSample;
 } OEGameAudioContext;
@@ -46,7 +46,7 @@ static OSStatus RenderCallback(void                       *in,
                                AudioBufferList            *ioData)
 {
     OEGameAudioContext *context = (OEGameAudioContext *)in;
-    OERingBuffer *buffer = (__bridge OERingBuffer *)context->buffer;
+    id<OEAudioBuffer> buffer = (__bridge id<OEAudioBuffer>)context->buffer;
     
     NSInteger bytesRequested = inNumberFrames * context->bytesPerSample * context->channelCount;
     char *outBuffer = ioData->mBuffers[0].mData;
@@ -172,7 +172,7 @@ static OSStatus RenderCallback(void                       *in,
     _contexts = realloc(_contexts, sizeof(OEGameAudioContext) * bufferCount);
     for(UInt32 i = 0; i < bufferCount; ++i)
     {
-        OERingBuffer *buffer = [_gameCore ringBufferAtIndex:i];
+        id<OEAudioBuffer> buffer = [_gameCore audioBufferAtIndex:i];
         _contexts[i] = (OEGameAudioContext){
             (__bridge void *)buffer,
             (UInt32)[_gameCore channelCountForBuffer:i],
