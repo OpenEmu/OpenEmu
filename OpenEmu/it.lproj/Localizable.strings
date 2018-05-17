@@ -643,6 +643,6 @@
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "I file binari compressi in formato ECM non possono essere importati. Leggi la guida all'importazione dei dischi di gioco.";
 
-"Increase sensitivity of analog controls bound to digital buttons" = "Aumenta sensibilità dei controlli analogici associati a un pulsante";
+"Threshold for analog controls bound to buttons" = "Sensibilità pulsanti associati a controlli analogici";
 
 "Range: %@ to %@" = "Intervallo valido: %@ ÷ %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences

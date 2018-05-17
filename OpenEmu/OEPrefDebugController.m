@@ -146,6 +146,12 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 
 - (void)OE_setupKeyDescription
 {
+    NSNumberFormatter *adcSensitivityNF = [[NSNumberFormatter alloc] init];
+    [adcSensitivityNF setAllowsFloats:YES];
+    [adcSensitivityNF setMinimum:@0.01];
+    [adcSensitivityNF setMaximum:@0.99];
+    [adcSensitivityNF setNumberStyle:NSNumberFormatterDecimalStyle];
+    
     self.keyDescriptions =  @[
                               FirstGroup(@"General"),
                               Checkbox([OEPreferencesWindowController debugModeKey], @"Debug Mode"),
@@ -194,7 +200,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox(@"logsHIDEvents", @"Log HID Events"),
                               Checkbox(@"logsHIDEventsNoKeyboard", @"Log Keyboard Events"),
                               Checkbox(@"OEShowAllGlobalKeys", @"Show all global keys"),
-                              Checkbox(@"OESystemResponderNoADCThreshold", @"Increase sensitivity of analog controls bound to digital buttons"),
+                              NumberTextBox(@"OESystemResponderADCThreshold", @"Threshold for analog controls bound to buttons", adcSensitivityNF),
 
                               Group(@"Save States"),
                               Button(@"Set default save states directory", @selector(restoreSaveStatesDirectory:)),
