@@ -35,6 +35,7 @@ typedef enum
     OEC64JoystickLeft,
     OEC64JoystickRight,
     OEC64ButtonFire,
+    OEC64ButtonCount
 } OEC64Button;
 
 @protocol OEC64SystemResponderClient <OESystemResponderClient, NSObject>

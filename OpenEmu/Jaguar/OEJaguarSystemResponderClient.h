@@ -30,13 +30,13 @@
 
 typedef enum _OEJaguarButton
 {
-	OEJaguarButtonUp,
-	OEJaguarButtonDown,
-	OEJaguarButtonLeft,
-	OEJaguarButtonRight,
-	OEJaguarButtonA,
-	OEJaguarButtonB,
-	OEJaguarButtonC,
+    OEJaguarButtonUp,
+    OEJaguarButtonDown,
+    OEJaguarButtonLeft,
+    OEJaguarButtonRight,
+    OEJaguarButtonA,
+    OEJaguarButtonB,
+    OEJaguarButtonC,
     OEJaguarButtonPause,
     OEJaguarButtonOption,
     OEJaguarButton1,
@@ -51,7 +51,7 @@ typedef enum _OEJaguarButton
     OEJaguarButton0,
     OEJaguarButtonAsterisk,
     OEJaguarButtonPound,
-	OEJaguarButtonCount
+    OEJaguarButtonCount
 } OEJaguarButton;
 
 @protocol OEJaguarSystemResponderClient <OESystemResponderClient, NSObject>

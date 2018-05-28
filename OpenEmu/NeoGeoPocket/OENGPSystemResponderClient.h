@@ -37,7 +37,7 @@ typedef enum _OENGPButton
     OENGPButtonA,
     OENGPButtonB,
     OENGPButtonOption,
-    OENGPButtonCount,
+    OENGPButtonCount
 } OENGPButton;
 
 @protocol OENGPSystemResponderClient <OESystemResponderClient, NSObject>

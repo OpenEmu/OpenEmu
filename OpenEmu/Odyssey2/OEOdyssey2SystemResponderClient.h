@@ -30,12 +30,12 @@
 
 typedef enum _OEOdyssey2Button
 {
-	OEOdyssey2ButtonUp,
-	OEOdyssey2ButtonDown,
-	OEOdyssey2ButtonLeft,
-	OEOdyssey2ButtonRight,
-	OEOdyssey2ButtonAction,
-	OEOdyssey2ButtonCount
+    OEOdyssey2ButtonUp,
+    OEOdyssey2ButtonDown,
+    OEOdyssey2ButtonLeft,
+    OEOdyssey2ButtonRight,
+    OEOdyssey2ButtonAction,
+    OEOdyssey2ButtonCount
 } OEOdyssey2Button;
 
 @protocol OEOdyssey2SystemResponderClient <OESystemResponderClient, NSObject>

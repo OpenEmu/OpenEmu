@@ -30,20 +30,20 @@
 
 typedef enum _OEPCECDButton
 {
-	OEPCECDButtonUp,
-	OEPCECDButtonDown,
-	OEPCECDButtonLeft,
-	OEPCECDButtonRight,
-	OEPCECDButton1,
-	OEPCECDButton2,
-	OEPCECDButton3,
-	OEPCECDButton4,
-	OEPCECDButton5,
-	OEPCECDButton6,
-	OEPCECDButtonRun,
-	OEPCECDButtonSelect,
-	OEPCECDButtonMode,
-	OEPCECDButtonCount
+    OEPCECDButtonUp,
+    OEPCECDButtonDown,
+    OEPCECDButtonLeft,
+    OEPCECDButtonRight,
+    OEPCECDButton1,
+    OEPCECDButton2,
+    OEPCECDButton3,
+    OEPCECDButton4,
+    OEPCECDButton5,
+    OEPCECDButton6,
+    OEPCECDButtonRun,
+    OEPCECDButtonSelect,
+    OEPCECDButtonMode,
+    OEPCECDButtonCount
 } OEPCECDButton;
 
 @protocol OEPCECDSystemResponderClient <OESystemResponderClient, NSObject>

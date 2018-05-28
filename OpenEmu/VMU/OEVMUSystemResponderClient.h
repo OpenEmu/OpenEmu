@@ -30,15 +30,15 @@
 
 typedef enum _OEVMUButton
 {
-	OEVMUButtonUp,
-	OEVMUButtonDown,
-	OEVMUButtonLeft,
-	OEVMUButtonRight,
-	OEVMUButtonA,
-	OEVMUButtonB,
+    OEVMUButtonUp,
+    OEVMUButtonDown,
+    OEVMUButtonLeft,
+    OEVMUButtonRight,
+    OEVMUButtonA,
+    OEVMUButtonB,
     OEVMUButtonSleep,
     OEVMUButtonMode,
-	OEVMUButtonCount
+    OEVMUButtonCount
 } OEVMUButton;
 
 @protocol OEVMUSystemResponderClient <OESystemResponderClient, NSObject>

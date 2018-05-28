@@ -31,26 +31,26 @@
 // TODO: Intellivision disc supports 16 directions and this only handles 8
 typedef enum _OEIntellivisionButton
 {
-	OEIntellivisionButtonUp,
-	OEIntellivisionButtonDown,
-	OEIntellivisionButtonLeft,
-	OEIntellivisionButtonRight,
-	OEIntellivisionButtonTopAction,
-	OEIntellivisionButtonBottomLeftAction,
-	OEIntellivisionButtonBottomRightAction,
-	OEIntellivisionButton1,
-	OEIntellivisionButton2,
-	OEIntellivisionButton3,
-	OEIntellivisionButton4,
-	OEIntellivisionButton5,
-	OEIntellivisionButton6,
-	OEIntellivisionButton7,
-	OEIntellivisionButton8,
-	OEIntellivisionButton9,
-	OEIntellivisionButton0,
-	OEIntellivisionButtonClear,
-	OEIntellivisionButtonEnter,
-	OEIntellivisionButtonCount
+    OEIntellivisionButtonUp,
+    OEIntellivisionButtonDown,
+    OEIntellivisionButtonLeft,
+    OEIntellivisionButtonRight,
+    OEIntellivisionButtonTopAction,
+    OEIntellivisionButtonBottomLeftAction,
+    OEIntellivisionButtonBottomRightAction,
+    OEIntellivisionButton1,
+    OEIntellivisionButton2,
+    OEIntellivisionButton3,
+    OEIntellivisionButton4,
+    OEIntellivisionButton5,
+    OEIntellivisionButton6,
+    OEIntellivisionButton7,
+    OEIntellivisionButton8,
+    OEIntellivisionButton9,
+    OEIntellivisionButton0,
+    OEIntellivisionButtonClear,
+    OEIntellivisionButtonEnter,
+    OEIntellivisionButtonCount
 } OEIntellivisionButton;
 
 @protocol OEIntellivisionSystemResponderClient <OESystemResponderClient, NSObject>

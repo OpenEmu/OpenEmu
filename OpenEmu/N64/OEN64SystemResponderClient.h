@@ -35,23 +35,23 @@ typedef enum _OEN64Button
     OEN64ButtonDPadDown,
     OEN64ButtonDPadLeft,
     OEN64ButtonDPadRight,
-    
+
     // C buttons
     OEN64ButtonCUp,
     OEN64ButtonCDown,
     OEN64ButtonCLeft,
     OEN64ButtonCRight,
-    
+
     OEN64ButtonA,
     OEN64ButtonB,
-    
+
     // Shoulder buttons
     OEN64ButtonL,
     OEN64ButtonR,
     OEN64ButtonZ,
-    
+
     OEN64ButtonStart,
-    
+
     OEN64AnalogUp,
     OEN64AnalogDown,
     OEN64AnalogLeft,

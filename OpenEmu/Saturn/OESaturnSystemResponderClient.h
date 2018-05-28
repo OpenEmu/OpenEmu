@@ -30,14 +30,14 @@
 
 typedef enum _OESaturnButton
 {
-	OESaturnButtonUp,
-	OESaturnButtonDown,
-	OESaturnButtonLeft,
-	OESaturnButtonRight,
-	OESaturnButtonA,
-	OESaturnButtonB,
-	OESaturnButtonC,
-	OESaturnButtonX,
+    OESaturnButtonUp,
+    OESaturnButtonDown,
+    OESaturnButtonLeft,
+    OESaturnButtonRight,
+    OESaturnButtonA,
+    OESaturnButtonB,
+    OESaturnButtonC,
+    OESaturnButtonX,
     OESaturnButtonY,
     OESaturnButtonZ,
     OESaturnButtonL,
@@ -50,7 +50,7 @@ typedef enum _OESaturnButton
     OESaturnLeftAnalogRight,
     OESaturnAnalogL,
     OESaturnAnalogR,
-	OESaturnButtonCount
+    OESaturnButtonCount
 } OESaturnButton;
 
 @protocol OESaturnSystemResponderClient <OESystemResponderClient, NSObject>

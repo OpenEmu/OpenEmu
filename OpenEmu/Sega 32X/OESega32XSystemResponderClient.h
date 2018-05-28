@@ -42,7 +42,7 @@ typedef enum _OESega32XButton
     OESega32XButtonZ,
     OESega32XButtonStart,
     OESega32XButtonMode,
-    OESega32XButtonCount,
+    OESega32XButtonCount
 } OESega32XButton;
 
 @protocol OESega32XSystemResponderClient <OESystemResponderClient, NSObject>

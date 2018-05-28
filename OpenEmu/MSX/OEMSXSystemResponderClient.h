@@ -36,6 +36,7 @@ typedef enum
     OEMSXJoystickRight,
     OEMSXButtonA,
     OEMSXButtonB,
+    OEMSXButtonCount
 } OEMSXJoystickButton;
 
 typedef enum

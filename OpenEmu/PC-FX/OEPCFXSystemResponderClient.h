@@ -42,7 +42,7 @@ typedef enum _OEPCFXButton
     OEPCFXButton6,
     OEPCFXButtonRun,
     OEPCFXButtonSelect,
-    OEPCFXButtonCount,
+    OEPCFXButtonCount
 } OEPCFXButton;
 
 @protocol OEPCFXSystemResponderClient <OESystemResponderClient, NSObject>

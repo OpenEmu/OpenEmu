@@ -42,7 +42,7 @@ typedef enum _OESegaCDButton
     OESegaCDButtonZ,
     OESegaCDButtonStart,
     OESegaCDButtonMode,
-    OESegaCDButtonCount,
+    OESegaCDButtonCount
 } OESegaCDButton;
 
 @protocol OESegaCDSystemResponderClient <OESystemResponderClient, NSObject>

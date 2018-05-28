@@ -42,7 +42,7 @@ typedef enum _OESNESButton
     OESNESButtonTriggerRight,
     OESNESButtonStart,
     OESNESButtonSelect,
-    OESNESButtonCount,
+    OESNESButtonCount
 } OESNESButton;
 
 @protocol OESNESSystemResponderClient <OESystemResponderClient, NSObject>
