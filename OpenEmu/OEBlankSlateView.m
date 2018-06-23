@@ -60,7 +60,7 @@
 #pragma mark - Sizes
 
 const CGFloat OEBlankSlateContainerWidth   = 427.0;
-const CGFloat OEBlankSlateContainerHeight  = 410.0;
+const CGFloat OEBlankSlateContainerHeight  = 418.0;
 
 // Sizes defining box
 const CGFloat OEBlankSlateBoxHeight        = 261.0; // height of box
@@ -71,7 +71,7 @@ const CGFloat OEBlankSlateBoxTextToTop     = 202.0; // distance of box top to te
 const CGFloat OEBlankSlateHeadlineHeight   =  41.0; // height of headline
 const CGFloat OEBlankSlateHeadlineToTop    = 337.0; // space between headline and view top
 
-const CGFloat OEBlankSlateBottomTextHeight =  59.0; // height of instructional text
+const CGFloat OEBlankSlateBottomTextHeight =  67.0; // height of instructional text
 const CGFloat OEBlankSlateBottomTextTop    = 357.0;
 
 const CGFloat OEBlankSlateCoreToTop        = 357.0; // space between core icon and view top
