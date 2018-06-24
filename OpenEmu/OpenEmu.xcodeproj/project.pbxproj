@@ -8925,7 +8925,7 @@
 					"-pagezero_size",
 					0x1000,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.OpenEmu.OpenEmuHelperApp;
+				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.OpenEmuHelperApp;
 				PRODUCT_NAME = OpenEmuHelperApp;
 				VALID_ARCHS = x86_64;
 			};
@@ -8958,7 +8958,7 @@
 					"-pagezero_size",
 					0x1000,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.OpenEmu.OpenEmuHelperApp;
+				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.OpenEmuHelperApp;
 				PRODUCT_NAME = OpenEmuHelperApp;
 				VALID_ARCHS = x86_64;
 			};
