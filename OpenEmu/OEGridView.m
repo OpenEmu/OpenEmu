@@ -47,7 +47,10 @@
 NSSize const defaultGridSize = (NSSize){26+142, 143};
 NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKey";
 
-@implementation IKCGRenderer (ScaleFactorAdditions)
+//Removed the Category (ScaleFactorAdditions) in the IKCGRenderer implementation, for Compatibility with MacOS 10.14(beta 5)
+//With this temporary fix the App compiles in XCode 10b and Runs without crashing on startup on Mojave
+
+@implementation IKCGRenderer /*(ScaleFactorAdditions)*/
 - (unsigned long long)scaleFactor
 {
     return self->_currentScaleFactor ?: 1.0;
