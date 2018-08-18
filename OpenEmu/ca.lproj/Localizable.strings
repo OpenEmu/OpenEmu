@@ -658,3 +658,9 @@
 "Threshold for analog controls bound to buttons" = "Llindar de la vinculació dels controls analògics amb els botons";
 
 "Range: %@ to %@" = "Interval: %@ a %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
+
+"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+
+"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+
+"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO

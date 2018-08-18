@@ -658,3 +658,9 @@
 "Threshold for analog controls bound to buttons" = "Sensibilità pulsanti associati a controlli analogici";
 
 "Range: %@ to %@" = "Intervallo valido: %@ ÷ %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
+
+"Default Value: %@" = "Valore predefinito: %@";  // Default value tooltip format in the Debug Preferences
+
+"Checked" = "selezionato";  // Default value tooltip for checkboxes: checked default
+
+"Unchecked" = "deselezionato";  // Default value tooltip for checkboxes: unchecked default

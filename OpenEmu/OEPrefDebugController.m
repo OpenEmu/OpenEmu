@@ -791,6 +791,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     NSView *cellView = [tableView makeViewWithIdentifier:type owner:self];
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary<NSString *, id> *defaultDefaults = [userDefaults volatileDomainForName:NSRegistrationDomain];
     if(type == CheckboxType)
     {
         NSString *label = [keyDescription objectForKey:LabelKey];
@@ -808,6 +809,17 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 
         NSString *keypath = [NSString stringWithFormat:@"values.%@", udkey];
         [checkbox bind:@"value" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:keypath options:options];
+        
+        id originalValue = [defaultDefaults objectForKey:udkey] ?: @NO;
+        if ([originalValue isKindOfClass:[NSNumber class]])  {
+            BOOL origbool = [originalValue boolValue] ^ negated;
+            NSString *fmt = NSLocalizedString(@"Default Value: %@", @"Default value tooltip format in the Debug Preferences");
+            NSString *val = origbool ?
+                NSLocalizedString(@"Checked", @"Default value tooltip for checkboxes: checked default") :
+                NSLocalizedString(@"Unchecked", @"Default value tooltip for checkboxes: unchecked default");
+            NSString *defaultTooltip = [NSString stringWithFormat:fmt, val];
+            [checkbox setToolTip:defaultTooltip];
+        }
     }
     else if(type == GroupType)
     {
@@ -893,7 +905,16 @@ NSString * const NumberFormatterKey = @"numberFormatter";
         NSString *validRangeFormat = NSLocalizedString(@"Range: %@ to %@", @"Range indicator tooltip for numeric text boxes in the Debug Preferences");
         NSString *min = [nf stringFromNumber:nf.minimum];
         NSString *max = [nf stringFromNumber:nf.maximum];
-        NSString *tooltip = [NSString stringWithFormat:validRangeFormat, min, max];
+        NSMutableString *tooltip = [NSMutableString stringWithFormat:validRangeFormat, min, max];
+        
+        id defaultv = [defaultDefaults objectForKey:udkey] ?: @0;
+        if ([defaultv isKindOfClass:[NSNumber class]]) {
+            NSString *fmt = NSLocalizedString(@"Default Value: %@", @"Default value tooltip format in the Debug Preferences");
+            NSString *defaultstr = [nf stringFromNumber:defaultv];
+            [tooltip appendString:@"\n"];
+            [tooltip appendFormat:fmt, defaultstr];
+        }
+        
         [inputField setToolTip:tooltip];
     }
     return cellView;

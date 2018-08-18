@@ -660,3 +660,9 @@
 "Threshold for analog controls bound to buttons" = "模拟控件的阈值绑定到按钮";    // TODO
 
 "Range: %@ to %@" = "范围: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
+
+"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+
+"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+
+"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO

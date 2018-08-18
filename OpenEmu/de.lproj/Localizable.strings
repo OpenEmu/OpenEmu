@@ -658,3 +658,9 @@
 "Threshold for analog controls bound to buttons" = "Grenzwert für auf Knöpfe gelegte analoge Eingaben";
 
 "Range: %@ to %@" = "Bereich: %@ bis %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
+
+"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+
+"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+
+"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
