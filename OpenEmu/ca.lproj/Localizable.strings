@@ -642,3 +642,7 @@
 "ECM compressed binary detected." = "S'ha detectat un binari comprimit amb ECM.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "No es poden importar binaris comprimits amb ECM. Llegiu la guia d'importació dels discs.";
+
+"Threshold for analog controls bound to buttons" = "Threshold for analog controls bound to buttons";    // TODO
+
+"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO

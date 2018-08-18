@@ -87,6 +87,7 @@ NSString * const  GroupType     = @"Group";
 NSString * const  ColorType     = @"Color";
 NSString * const  LabelType     = @"Label";
 NSString * const  PopoverType   = @"Popover";
+NSString * const  NumericTextFieldType = @"NumericTextField";
 
 NSString * const TypeKey  = @"type";
 NSString * const LabelKey = @"label";
@@ -95,6 +96,7 @@ NSString * const ActionKey = @"action";
 NSString * const NegatedKey = @"negated";
 NSString * const ValueKey = @"value";
 NSString * const OptionsKey = @"options";
+NSString * const NumberFormatterKey = @"numberFormatter";
 
 #define Separator() \
 @{ TypeKey:SeparatorType }
@@ -116,6 +118,8 @@ NSString * const OptionsKey = @"options";
 @{ LabelKey:_OLABEL_, ValueKey:_OVAL_ }
 #define ColorWell(_KEY_, _LABEL_) \
 @{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_, @"DebugModeLabel"), TypeKey:ColorType }
+#define NumberTextBox(_KEY_, _LABEL_, _FORMATTER_) \
+@{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_, @"Debug Label"), NumberFormatterKey:_FORMATTER_, TypeKey:NumericTextFieldType }
 
 @implementation OEPrefDebugController
 - (void)awakeFromNib
@@ -142,6 +146,12 @@ NSString * const OptionsKey = @"options";
 
 - (void)OE_setupKeyDescription
 {
+    NSNumberFormatter *adcSensitivityNF = [[NSNumberFormatter alloc] init];
+    [adcSensitivityNF setAllowsFloats:YES];
+    [adcSensitivityNF setMinimum:@0.01];
+    [adcSensitivityNF setMaximum:@0.99];
+    [adcSensitivityNF setNumberStyle:NSNumberFormatterDecimalStyle];
+    
     self.keyDescriptions =  @[
                               FirstGroup(@"General"),
                               Checkbox([OEPreferencesWindowController debugModeKey], @"Debug Mode"),
@@ -190,6 +200,7 @@ NSString * const OptionsKey = @"options";
                               Checkbox(@"logsHIDEvents", @"Log HID Events"),
                               Checkbox(@"logsHIDEventsNoKeyboard", @"Log Keyboard Events"),
                               Checkbox(@"OEShowAllGlobalKeys", @"Show all global keys"),
+                              NumberTextBox(@"OESystemResponderADCThreshold", @"Threshold for analog controls bound to buttons", adcSensitivityNF),
 
                               Group(@"Save States"),
                               Button(@"Set default save states directory", @selector(restoreSaveStatesDirectory:)),
@@ -867,6 +878,26 @@ NSString * const OptionsKey = @"options";
         }];
 
         [self OE_setupSelectedItemForPopupButton:popup withKeyDescription:keyDescription];
+    }
+    else if (type == NumericTextFieldType)
+    {
+        NSString *label = [keyDescription objectForKey:LabelKey];
+        NSNumberFormatter *nf = [keyDescription objectForKey:NumberFormatterKey];
+        NSString *udkey = [keyDescription objectForKey:KeyKey];
+        
+        NSTextField *labelField = [[cellView subviews] objectAtIndex:0];
+        NSTextField *inputField = [[cellView subviews] objectAtIndex:1];
+        
+        [labelField setStringValue:label];
+        [inputField setFormatter:nf];
+        NSString *keypath = [NSString stringWithFormat:@"values.%@", udkey];
+        [inputField bind:NSValueBinding toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:keypath options:nil];
+        
+        NSString *validRangeFormat = NSLocalizedString(@"Range: %@ to %@", @"Range indicator tooltip for numeric text boxes in the Debug Preferences");
+        NSString *min = [nf stringFromNumber:nf.minimum];
+        NSString *max = [nf stringFromNumber:nf.maximum];
+        NSString *tooltip = [NSString stringWithFormat:validRangeFormat, min, max];
+        [inputField setToolTip:tooltip];
     }
     return cellView;
 }

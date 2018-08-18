@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPrefDebugController">
@@ -21,18 +22,17 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="400"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Nf4-hg-FGf">
-                        <rect key="frame" x="0.0" y="17" width="320" height="383"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="57" rowSizeStyle="automatic" headerView="O6n-Sf-1nB" viewBased="YES" floatsGroupRows="NO" id="AjZ-JK-lhC">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="383"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="469"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <animations/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" red="0.1450980392" green="0.1450980392" blue="0.1450980392" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn width="317" minWidth="40" maxWidth="1000" id="YPQ-Bf-W0U">
+                                    <tableColumn identifier="" width="317" minWidth="40" maxWidth="1000" id="YPQ-Bf-W0U">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -52,7 +52,6 @@
                                                     <textField verticalHuggingPriority="750" id="e0G-ml-EgU" customClass="OELabel">
                                                         <rect key="frame" x="18" y="20" width="108" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                        <animations/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Filter:" id="dkH-jC-1tc" customClass="OELabelCell">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -65,7 +64,6 @@
                                                     <popUpButton focusRingType="none" verticalHuggingPriority="750" id="Ze8-7N-APb" customClass="OEPopUpButton">
                                                         <rect key="frame" x="130" y="13" width="170" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                        <animations/>
                                                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="rZm-BM-nTz" customClass="OEPopUpButtonCell">
                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="menu"/>
@@ -79,7 +77,6 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </popUpButton>
                                                 </subviews>
-                                                <animations/>
                                             </customView>
                                             <customView identifier="Group" id="mYo-Gd-t0V" userLabel="Group">
                                                 <rect key="frame" x="1" y="60" width="317" height="57"/>
@@ -88,7 +85,6 @@
                                                     <textField verticalHuggingPriority="750" id="ruU-Bh-lmC" customClass="OELabel">
                                                         <rect key="frame" x="18" y="20" width="281" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                        <animations/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="A Group" id="0Zy-Ms-WXP" customClass="OELabelCell">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -99,7 +95,6 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                 </subviews>
-                                                <animations/>
                                             </customView>
                                             <customView identifier="Separator" id="XhB-AC-qND" userLabel="Separator">
                                                 <rect key="frame" x="1" y="119" width="317" height="57"/>
@@ -108,13 +103,11 @@
                                                     <customView id="yqT-sb-0mv" customClass="OEHorizontalLine">
                                                         <rect key="frame" x="0.0" y="26" width="317" height="2"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                        <animations/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </customView>
                                                 </subviews>
-                                                <animations/>
                                             </customView>
                                             <customView identifier="Button" id="m7x-S8-ITI" userLabel="Button">
                                                 <rect key="frame" x="1" y="178" width="317" height="57"/>
@@ -123,7 +116,6 @@
                                                     <button id="ddz-vv-zyE" customClass="OEButton">
                                                         <rect key="frame" x="20" y="17" width="132" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                        <animations/>
                                                         <buttonCell key="cell" type="square" title="Reset warnings" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Luq-cA-h2w" customClass="OEButtonCell">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -133,7 +125,6 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </button>
                                                 </subviews>
-                                                <animations/>
                                             </customView>
                                             <customView identifier="Checkbox" id="DuO-rb-1mf" userLabel="Checkbox">
                                                 <rect key="frame" x="1" y="237" width="317" height="54"/>
@@ -142,7 +133,6 @@
                                                     <button id="5C1-Ch-KX4" userLabel="Check Box" customClass="OEButton">
                                                         <rect key="frame" x="18" y="18" width="281" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                        <animations/>
                                                         <buttonCell key="cell" type="check" title="a checkbox" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="lDU-Ru-DGH" userLabel="Check Box Cell" customClass="OEButtonCell">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -152,7 +142,6 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </button>
                                                 </subviews>
-                                                <animations/>
                                             </customView>
                                             <customView identifier="Color" id="cS7-xn-cc2" userLabel="Color">
                                                 <rect key="frame" x="1" y="293" width="317" height="57"/>
@@ -161,7 +150,6 @@
                                                     <textField verticalHuggingPriority="750" id="Wzh-Ve-htz" customClass="OELabel">
                                                         <rect key="frame" x="18" y="20" width="204" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                        <animations/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="A Label:" id="Ny7-ig-5mo" customClass="OELabelCell">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -174,11 +162,9 @@
                                                     <colorWell id="IoM-L2-luS">
                                                         <rect key="frame" x="228" y="16" width="69" height="24"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                        <animations/>
                                                         <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     </colorWell>
                                                 </subviews>
-                                                <animations/>
                                             </customView>
                                             <customView identifier="Label" id="1i8-b9-0eC" userLabel="Label">
                                                 <rect key="frame" x="1" y="352" width="317" height="57"/>
@@ -187,7 +173,6 @@
                                                     <textField verticalHuggingPriority="750" id="Bsg-b9-4VO" customClass="OELabel">
                                                         <rect key="frame" x="18" y="20" width="281" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                        <animations/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="A Label:" id="mOs-p4-603" customClass="OELabelCell">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -198,7 +183,33 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                 </subviews>
-                                                <animations/>
+                                            </customView>
+                                            <customView identifier="NumericTextField" id="9gR-DP-RMq" userLabel="NumericTextField">
+                                                <rect key="frame" x="1" y="411" width="317" height="57"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                <subviews>
+                                                    <textField verticalHuggingPriority="750" misplaced="YES" id="YvC-gU-ELC" customClass="OELabel">
+                                                        <rect key="frame" x="18" y="20" width="204" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="A Text Field Label:" id="Jb0-6V-2m4" customClass="OELabelCell">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" misplaced="YES" id="WEB-hw-yHw">
+                                                        <rect key="frame" x="228" y="19" width="69" height="19"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="ev4-K8-0f0">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </subviews>
                                             </customView>
                                         </prototypeCellViews>
                                     </tableColumn>
@@ -209,28 +220,22 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" red="0.14901960780000001" green="0.14901960780000001" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
                     </clipView>
-                    <animations/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="BFA-B9-CMH">
                         <rect key="frame" x="-100" y="-100" width="46" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </scroller>
                     <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="TAN-xy-Ayj">
                         <rect key="frame" x="-100" y="-100" width="15" height="102"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </scroller>
                     <tableHeaderView key="headerView" id="O6n-Sf-1nB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </tableHeaderView>
                 </scrollView>
             </subviews>
-            <animations/>
         </view>
     </objects>
 </document>
