@@ -119,6 +119,8 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
 
         item.view = view
         item.label = NSLocalizedString("Grid Size", comment:"Grid size toolbar button label, main window")
+        item.minSize = view.frame.size
+        item.maxSize = view.frame.size
         toolbar.gridSizeSlider = slider
         itemCache[item.itemIdentifier.rawValue] = item
         return item;
@@ -155,6 +157,8 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         
         item.view = view
         item.label = NSLocalizedString("View Mode", comment:"View mode toolbar button label, main window")
+        item.minSize = view.frame.size
+        item.maxSize = item.minSize
         toolbar.gridViewButton = gridButton
         toolbar.listViewButton = listButton
         itemCache[item.itemIdentifier.rawValue] = item
@@ -189,6 +193,8 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         
         item.view = view
         item.label = NSLocalizedString("Category", comment:"Category selector toolbar label, main window")
+        item.minSize = view.frame.size
+        item.maxSize = item.minSize
         toolbar.categorySelector = segmControl
         itemCache[item.itemIdentifier.rawValue] = item
         return item;
@@ -223,6 +229,8 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
 
         item.view = view;
         item.label = NSLocalizedString("Search", comment:"Search field toolbar label, main window")
+        item.minSize = view.frame.size
+        item.maxSize = item.minSize
         toolbar.searchField = searchField
         itemCache[item.itemIdentifier.rawValue] = item
         return item;
