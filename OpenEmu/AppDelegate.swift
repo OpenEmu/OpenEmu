@@ -779,6 +779,17 @@ class AppDelegate: NSDocumentController {
         }
     }
     
+    // MARK: - Bindings Reset Message
+    
+    @objc(didRepairBindings:)
+    func didRepairBindings(_ notif: NSNotification!) {
+        let alert = OEHUDAlert.init()
+        alert.headlineText = NSLocalizedString("An issue was detected with one of your controllers.", comment:"Headline for bindings repaired alert")
+        alert.messageText = NSLocalizedString("The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.", comment:"Message for bindings repaired alert")
+        alert.defaultButtonTitle = NSLocalizedString("OK", comment:"")
+        alert.runModal()
+    }
+    
     // MARK: - Debug
     
     @IBAction func OEDebug_logResponderChain(_ sender: AnyObject?) {
@@ -981,6 +992,8 @@ extension AppDelegate: NSMenuDelegate {
         
         notificationCenter.addObserver(self, selector: #selector(AppDelegate.libraryDatabaseDidLoad), name: NSNotification.Name(OELibraryDidLoadNotificationName), object: nil)
         notificationCenter.addObserver(self, selector: #selector(AppDelegate.openPreferencePane), name: PreferencesWindowController.openPaneNotificationName, object: nil)
+        
+        notificationCenter.addObserver(self, selector: #selector(AppDelegate.didRepairBindings), name: NSNotification.Name.OEBindingsRepaired, object: nil)
         
         NSDocumentController.shared.clearRecentDocuments(nil)
         

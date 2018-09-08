@@ -532,6 +532,10 @@
 
 "Category" = "カテゴリ";   // TODO shown when the corresponding item does not fit in the main window's toolbar
 
+"An issue was detected with one of your controllers." = "An issue was detected with one of your controllers.";  //TODO // Headline for bindings repaired alert
+
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.";  // TODO // Message for bindings repaired alert
+
 
 /* Secrets */
 
