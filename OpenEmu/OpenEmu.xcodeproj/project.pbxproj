@@ -3149,8 +3149,8 @@
 			children = (
 				0867695C1B96E8D4006545DA /* pokemonmini_library.png */,
 				0867695E1B96E8DB006545DA /* pokemonmini_library@2x.png */,
-				086769601B96E8E6006545DA /* controller_pokemonmini_mask.png */,
 				086769621B96E902006545DA /* controller_pokemonmini.png */,
+				086769601B96E8E6006545DA /* controller_pokemonmini_mask.png */,
 				086769641B96E922006545DA /* Pokemon mini-Info.plist */,
 				086769661B96E92C006545DA /* Keyboard-Mappings.plist */,
 				0867696A1B96E93F006545DA /* Controller-Mappings.plist */,
@@ -3187,13 +3187,13 @@
 		141554121442B3B300A01683 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				833ADC4B196B058000217D9A /* N64-Info.plist */,
+				83FBA37214F2C699001F1299 /* n64_library.png */,
+				EC350F45174019A2005DA3B2 /* n64_library@2x.png */,
 				11BD776B196A46AD00BFB3FE /* controller_n64.png */,
 				11BD776D196A46AD00BFB3FE /* controller_n64@2x.png */,
 				11BD776A196A46AD00BFB3FE /* controller_n64_mask.png */,
 				11BD776C196A46AD00BFB3FE /* controller_n64_mask@2x.png */,
-				83FBA37214F2C699001F1299 /* n64_library.png */,
-				EC350F45174019A2005DA3B2 /* n64_library@2x.png */,
+				833ADC4B196B058000217D9A /* N64-Info.plist */,
 				C6AF284F164E46AC00681A06 /* Keyboard-Mappings.plist */,
 				94E6C303166DB15900082F27 /* Controller-Mappings.plist */,
 				C6252DB114E7566600350A13 /* Controller-Preferences.plist */,
@@ -3427,10 +3427,10 @@
 			children = (
 				277CBA4B19DE55030059A2C1 /* intellivision_library.png */,
 				277CBA4C19DE55030059A2C1 /* intellivision_library@2x.png */,
-				277CBA4F19DE55120059A2C1 /* controller_intellivision_mask.png */,
-				277CBA5019DE55120059A2C1 /* controller_intellivision_mask@2x.png */,
 				277CBA5119DE55120059A2C1 /* controller_intellivision.png */,
 				277CBA5219DE55120059A2C1 /* controller_intellivision@2x.png */,
+				277CBA4F19DE55120059A2C1 /* controller_intellivision_mask.png */,
+				277CBA5019DE55120059A2C1 /* controller_intellivision_mask@2x.png */,
 				277CBA5719DE55210059A2C1 /* Intellivision-Info.plist */,
 				277CBA5819DE55210059A2C1 /* Keyboard-Mappings.plist */,
 				277CBA5B19DE553C0059A2C1 /* Controller-Mappings.plist */,
@@ -3560,16 +3560,16 @@
 		3DB7447E1BD8B9C800C23E74 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3DB7447F1BD8B9DE00C23E74 /* controller_psx_mask.png */,
-				3DB744801BD8B9DE00C23E74 /* controller_psx_mask@2x.png */,
-				3DB744811BD8B9DE00C23E74 /* controller_psx.png */,
-				3DB744821BD8B9DE00C23E74 /* controller_psx@2x.png */,
-				3DB744831BD8B9DE00C23E74 /* Controller-Mappings.plist */,
-				3DB744841BD8B9DE00C23E74 /* Controller-Preferences.plist */,
-				3DB744851BD8B9DE00C23E74 /* Keyboard-Mappings.plist */,
-				3DB744861BD8B9DE00C23E74 /* PlayStation2-Info.plist */,
 				3DB744871BD8B9DE00C23E74 /* psx_library.png */,
 				3DB744881BD8B9DE00C23E74 /* psx_library@2x.png */,
+				3DB744811BD8B9DE00C23E74 /* controller_psx.png */,
+				3DB744821BD8B9DE00C23E74 /* controller_psx@2x.png */,
+				3DB7447F1BD8B9DE00C23E74 /* controller_psx_mask.png */,
+				3DB744801BD8B9DE00C23E74 /* controller_psx_mask@2x.png */,
+				3DB744861BD8B9DE00C23E74 /* PlayStation2-Info.plist */,
+				3DB744851BD8B9DE00C23E74 /* Keyboard-Mappings.plist */,
+				3DB744831BD8B9DE00C23E74 /* Controller-Mappings.plist */,
+				3DB744841BD8B9DE00C23E74 /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -4146,10 +4146,10 @@
 			isa = PBXGroup;
 			children = (
 				83CDAE9B1A61892900DF964A /* supervision_library.png */,
+				837964F01A614ACD00A8DE5C /* Supervision-Info.plist */,
+				837964EC1A614ACD00A8DE5C /* Keyboard-Mappings.plist */,
 				837964EA1A614ACD00A8DE5C /* Controller-Mappings.plist */,
 				837964EB1A614ACD00A8DE5C /* Controller-Preferences.plist */,
-				837964EC1A614ACD00A8DE5C /* Keyboard-Mappings.plist */,
-				837964F01A614ACD00A8DE5C /* Supervision-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -4341,14 +4341,14 @@
 			isa = PBXGroup;
 			children = (
 				87DF050C1BCE302E0060E2C2 /* dc_library.png */,
-				87DF05061BCE302E0060E2C2 /* controller_dc_mask.png */,
-				87DF05071BCE302E0060E2C2 /* controller_dc_mask@2x.png */,
 				87DF05081BCE302E0060E2C2 /* controller_dc.png */,
 				87DF05091BCE302E0060E2C2 /* controller_dc@2x.png */,
+				87DF05061BCE302E0060E2C2 /* controller_dc_mask.png */,
+				87DF05071BCE302E0060E2C2 /* controller_dc_mask@2x.png */,
 				87DF05041BCE2DA30060E2C2 /* Dreamcast-Info.plist */,
+				87DF05131BCE302F0060E2C2 /* Keyboard-Mappings.plist */,
 				87DF050A1BCE302E0060E2C2 /* Controller-Mappings.plist */,
 				87DF050B1BCE302E0060E2C2 /* Controller-Preferences.plist */,
-				87DF05131BCE302F0060E2C2 /* Keyboard-Mappings.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -4394,8 +4394,8 @@
 			isa = PBXGroup;
 			children = (
 				87FBC09B1C0796DC00AECF5A /* atari8bit_library.png */,
-				87FBC09C1C0796DC00AECF5A /* controller_atari8bit_mask.png */,
 				87FBC09D1C0796DC00AECF5A /* controller_atari8bit.png */,
+				87FBC09C1C0796DC00AECF5A /* controller_atari8bit_mask.png */,
 				87FBC0901C0790B500AECF5A /* Atari 8bit-Info.plist */,
 				87FBC0A31C0798C000AECF5A /* Controller-Preferences.plist */,
 				87FBC0A51C07996B00AECF5A /* Controller-Mappings.plist */,
@@ -4432,17 +4432,17 @@
 			isa = PBXGroup;
 			children = (
 				9405539F17A34DCC009B505D /* pcenginecd_library.png */,
-				940553A017A34DCC009B505D /* tgcd_library.png */,
 				87FB25411BBC894F00E739CE /* pcenginecd_library@2x.png */,
+				940553A017A34DCC009B505D /* tgcd_library.png */,
 				87FB25421BBC894F00E739CE /* tgcd_library@2x.png */,
-				877EDD1A1E24BEE0004D68E7 /* controller_pcecd_mask.png */,
 				877EDD1C1E24BEE0004D68E7 /* controller_pcecd.png */,
-				877EDD1B1E24BEE0004D68E7 /* controller_pcecd_mask@2x.png */,
 				877EDD1D1E24BEE0004D68E7 /* controller_pcecd@2x.png */,
-				940553A317A34EE9009B505D /* controller_tg16cd_mask.png */,
+				877EDD1A1E24BEE0004D68E7 /* controller_pcecd_mask.png */,
+				877EDD1B1E24BEE0004D68E7 /* controller_pcecd_mask@2x.png */,
 				940553A417A34EE9009B505D /* controller_tg16cd.png */,
-				875CC31F1E221D4300E3BEB9 /* controller_tg16cd_mask@2x.png */,
 				875CC3201E221D4300E3BEB9 /* controller_tg16cd@2x.png */,
+				940553A317A34EE9009B505D /* controller_tg16cd_mask.png */,
+				875CC31F1E221D4300E3BEB9 /* controller_tg16cd_mask@2x.png */,
 				9405538817A34C6B009B505D /* PC Engine CD-Info.plist */,
 				9405539B17A34DAB009B505D /* Keyboard-Mappings.plist */,
 				9405539917A34DAA009B505D /* Controller-Mappings.plist */,
@@ -4495,8 +4495,8 @@
 			isa = PBXGroup;
 			children = (
 				943C80261708BF8B00D8D93E /* jaguar_library.png */,
-				943C80221708BF8B00D8D93E /* controller_jaguar_mask.png */,
 				943C80231708BF8B00D8D93E /* controller_jaguar.png */,
+				943C80221708BF8B00D8D93E /* controller_jaguar_mask.png */,
 				943C80161708A62F00D8D93E /* Jaguar-Info.plist */,
 				943C80271708BF8B00D8D93E /* Keyboard-Mappings.plist */,
 				943C80241708BF8B00D8D93E /* Controller-Mappings.plist */,
@@ -4522,8 +4522,8 @@
 			isa = PBXGroup;
 			children = (
 				943C804A1708F7FC00D8D93E /* vmu_library.png */,
-				943C80451708F7FC00D8D93E /* controller_vmu_mask.png */,
 				943C80461708F7FC00D8D93E /* controller_vmu.png */,
+				943C80451708F7FC00D8D93E /* controller_vmu_mask.png */,
 				943C80391708F23900D8D93E /* VMU-Info.plist */,
 				943C80491708F7FC00D8D93E /* Keyboard-Mappings.plist */,
 				943C80471708F7FC00D8D93E /* Controller-Mappings.plist */,
@@ -4558,10 +4558,10 @@
 				87FB252C1BBC56AB00E739CE /* controller_vectrex_eu@2x.png */,
 				87FB252D1BBC56AB00E739CE /* controller_vectrex_jap.png */,
 				87FB252E1BBC56AB00E739CE /* controller_vectrex_jap@2x.png */,
-				87FB252F1BBC56AB00E739CE /* controller_vectrex_mask@2x.png */,
 				87FB25301BBC56AB00E739CE /* controller_vectrex_usa.png */,
 				87FB25311BBC56AB00E739CE /* controller_vectrex_usa@2x.png */,
 				943F99A01707D9D500270E89 /* controller_vectrex_mask.png */,
+				87FB252F1BBC56AB00E739CE /* controller_vectrex_mask@2x.png */,
 				943F998F1707D51100270E89 /* Vectrex-Info.plist */,
 				943F99A41707D9D500270E89 /* Keyboard-Mappings.plist */,
 				943F99A21707D9D500270E89 /* Controller-Mappings.plist */,
@@ -4590,10 +4590,10 @@
 			children = (
 				5A221B0F1BFE9671002FDD10 /* 3do_library.png */,
 				5A221B111BFE96A1002FDD10 /* 3do_library@2x.png */,
-				943F99C41707E0AE00270E89 /* controller_3do_mask.png */,
 				943F99C51707E0AE00270E89 /* controller_3do.png */,
-				87B3DC081C644BCC003C65E4 /* controller_3do_mask@2x.png */,
 				87B3DC091C644BCC003C65E4 /* controller_3do@2x.png */,
+				943F99C41707E0AE00270E89 /* controller_3do_mask.png */,
+				87B3DC081C644BCC003C65E4 /* controller_3do_mask@2x.png */,
 				943F99B71707DF3700270E89 /* 3DO-Info.plist */,
 				943F99C81707E0AE00270E89 /* Keyboard-Mappings.plist */,
 				943F99C61707E0AE00270E89 /* Controller-Mappings.plist */,
@@ -4618,16 +4618,16 @@
 		94404758199D4DF0002D805E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				9440476C199D5032002D805E /* controller_odyssey2_mask.png */,
-				9440476D199D5032002D805E /* controller_odyssey2.png */,
-				8706C3D21C2CB48C000C2893 /* controller_odyssey2_mask@2x.png */,
-				8706C3D31C2CB48C000C2893 /* controller_odyssey2@2x.png */,
-				9440476E199D5032002D805E /* Controller-Mappings.plist */,
-				9440476F199D5032002D805E /* Controller-Preferences.plist */,
-				94404770199D5032002D805E /* Keyboard-Mappings.plist */,
 				94404771199D5032002D805E /* odyssey2_library.png */,
 				870634701C27CD3E007FAA2F /* odyssey2_library@2x.png */,
+				9440476D199D5032002D805E /* controller_odyssey2.png */,
+				8706C3D31C2CB48C000C2893 /* controller_odyssey2@2x.png */,
+				9440476C199D5032002D805E /* controller_odyssey2_mask.png */,
+				8706C3D21C2CB48C000C2893 /* controller_odyssey2_mask@2x.png */,
 				94404759199D4DF0002D805E /* Odyssey2-Info.plist */,
+				94404770199D5032002D805E /* Keyboard-Mappings.plist */,
+				9440476E199D5032002D805E /* Controller-Mappings.plist */,
+				9440476F199D5032002D805E /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -4648,16 +4648,16 @@
 		94454EB717860E1E006C057B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8372381619632A0D008D4C08 /* controller_psp_mask@2x.png */,
-				8372381719632A0D008D4C08 /* controller_psp@2x.png */,
 				94454ECE17861098006C057B /* psp_library.png */,
 				870634721C27CD91007FAA2F /* psp_library@2x.png */,
-				94454EC917861098006C057B /* controller_psp_mask.png */,
 				94454ECA17861098006C057B /* controller_psp.png */,
+				8372381719632A0D008D4C08 /* controller_psp@2x.png */,
+				94454EC917861098006C057B /* controller_psp_mask.png */,
+				8372381619632A0D008D4C08 /* controller_psp_mask@2x.png */,
+				94454EB817860E1E006C057B /* PSP-Info.plist */,
 				94454ECD17861098006C057B /* Keyboard-Mappings.plist */,
 				94454ECB17861098006C057B /* Controller-Mappings.plist */,
 				94454ECC17861098006C057B /* Controller-Preferences.plist */,
-				94454EB817860E1E006C057B /* PSP-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -4679,8 +4679,8 @@
 			isa = PBXGroup;
 			children = (
 				945E430F1517F5BC00057D08 /* arcade_library.png */,
-				945E43111517F5BC00057D08 /* controller_arcade_mask.png */,
 				945E43121517F5BC00057D08 /* controller_arcade.png */,
+				945E43111517F5BC00057D08 /* controller_arcade_mask.png */,
 				945E42FF1517F2B500057D08 /* Arcade-Info.plist */,
 				C6527BC0164E22AA0030FB25 /* Keyboard-Mappings.plist */,
 				943819C31658DAE800D55731 /* Controller-Mappings.plist */,
@@ -4706,19 +4706,19 @@
 			isa = PBXGroup;
 			children = (
 				EC73205717C6690400652C23 /* 32x_eu_library.png */,
-				EC73205817C6690400652C23 /* 32x_jp_library.png */,
-				EC73205917C6690400652C23 /* 32x_na_library.png */,
 				EC73205D17C6699F00652C23 /* 32x_eu_library@2x.png */,
+				EC73205817C6690400652C23 /* 32x_jp_library.png */,
 				EC73205E17C6699F00652C23 /* 32x_jp_library@2x.png */,
+				EC73205917C6690400652C23 /* 32x_na_library.png */,
 				EC73205F17C6699F00652C23 /* 32x_na_library@2x.png */,
-				946B947517828A4000A212AC /* controller_genesis_mask.png */,
 				946B947617828A4000A212AC /* controller_genesis.png */,
-				EC73206317C669C100652C23 /* controller_genesis_mask@2x.png */,
 				EC73206417C669C100652C23 /* controller_genesis@2x.png */,
+				946B947517828A4000A212AC /* controller_genesis_mask.png */,
+				EC73206317C669C100652C23 /* controller_genesis_mask@2x.png */,
+				946B9466178289BB00A212AC /* Sega 32X-Info.plist */,
 				946B947917828A4000A212AC /* Keyboard-Mappings.plist */,
 				946B947717828A4000A212AC /* Controller-Mappings.plist */,
 				946B947817828A4000A212AC /* Controller-Preferences.plist */,
-				946B9466178289BB00A212AC /* Sega 32X-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -4740,17 +4740,17 @@
 			isa = PBXGroup;
 			children = (
 				94A2254B17075D0E00098DA0 /* pcengine_library.png */,
-				94A2254C17075D0E00098DA0 /* tg16_library.png */,
 				EC0A64E617C6F45500370F86 /* pcengine_library@2x.png */,
+				94A2254C17075D0E00098DA0 /* tg16_library.png */,
 				EC0A64E717C6F45500370F86 /* tg16_library@2x.png */,
-				877EDD101E24BC63004D68E7 /* controller_pce_mask.png */,
 				877EDD121E24BC63004D68E7 /* controller_pce.png */,
-				877EDD111E24BC63004D68E7 /* controller_pce_mask@2x.png */,
 				877EDD131E24BC63004D68E7 /* controller_pce@2x.png */,
-				94A2254617075D0E00098DA0 /* controller_tg16_mask.png */,
+				877EDD101E24BC63004D68E7 /* controller_pce_mask.png */,
+				877EDD111E24BC63004D68E7 /* controller_pce_mask@2x.png */,
 				94A2254717075D0E00098DA0 /* controller_tg16.png */,
-				875CC3231E221D9800E3BEB9 /* controller_tg16_mask@2x.png */,
 				875CC3241E221D9800E3BEB9 /* controller_tg16@2x.png */,
+				94A2254617075D0E00098DA0 /* controller_tg16_mask.png */,
+				875CC3231E221D9800E3BEB9 /* controller_tg16_mask@2x.png */,
 				94A224371707537F00098DA0 /* PC Engine-Info.plist */,
 				94A2254A17075D0E00098DA0 /* Keyboard-Mappings.plist */,
 				94A2254817075D0E00098DA0 /* Controller-Mappings.plist */,
@@ -4776,10 +4776,10 @@
 			children = (
 				94A2255D17075DF600098DA0 /* wonderswan_library.png */,
 				87F7BB191C1EB230005B83C4 /* wonderswan_library@2x.png */,
-				94A2255817075DF600098DA0 /* controller_ws_mask.png */,
 				94A2255917075DF600098DA0 /* controller_ws.png */,
-				9499B60E1ABCE2CB00276D21 /* controller_ws_mask@2x.png */,
 				9499B6101ABCE2D900276D21 /* controller_ws@2x.png */,
+				94A2255817075DF600098DA0 /* controller_ws_mask.png */,
+				9499B60E1ABCE2CB00276D21 /* controller_ws_mask@2x.png */,
 				94A224471707539D00098DA0 /* WonderSwan-Info.plist */,
 				94A2255C17075DF600098DA0 /* Keyboard-Mappings.plist */,
 				94A2255A17075DF600098DA0 /* Controller-Mappings.plist */,
@@ -4804,10 +4804,10 @@
 			children = (
 				94A2256D17075E9000098DA0 /* lynx_library.png */,
 				87F7BB151C1EB1D2005B83C4 /* lynx_library@2x.png */,
-				94A2256817075E9000098DA0 /* controller_lynx_mask.png */,
 				94A2256917075E9000098DA0 /* controller_lynx.png */,
-				9499B60A1ABCE1A600276D21 /* controller_lynx_mask@2x.png */,
 				9499B60C1ABCE1B400276D21 /* controller_lynx@2x.png */,
+				94A2256817075E9000098DA0 /* controller_lynx_mask.png */,
+				9499B60A1ABCE1A600276D21 /* controller_lynx_mask@2x.png */,
 				94A22457170753C800098DA0 /* Lynx-Info.plist */,
 				94A2256C17075E9000098DA0 /* Keyboard-Mappings.plist */,
 				94A2256A17075E9000098DA0 /* Controller-Mappings.plist */,
@@ -4834,10 +4834,10 @@
 			children = (
 				94A2258017075F0C00098DA0 /* pcfx_library.png */,
 				87F7BB171C1EB1FD005B83C4 /* pcfx_library@2x.png */,
-				94A2257B17075F0C00098DA0 /* controller_pcfx_mask.png */,
 				94A2257C17075F0C00098DA0 /* controller_pcfx.png */,
-				871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */,
 				871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */,
+				94A2257B17075F0C00098DA0 /* controller_pcfx_mask.png */,
+				871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */,
 				94A22467170753D500098DA0 /* PC-FX-Info.plist */,
 				94A2257F17075F0C00098DA0 /* Keyboard-Mappings.plist */,
 				94A2257D17075F0C00098DA0 /* Controller-Mappings.plist */,
@@ -4862,10 +4862,10 @@
 			children = (
 				94A2259017075F4D00098DA0 /* sg1000_library.png */,
 				5A221ABD1BFDB922002FDD10 /* sg1000_library@2x.png */,
-				94A2258B17075F4D00098DA0 /* controller_sg1000_mask.png */,
 				94A2258C17075F4D00098DA0 /* controller_sg1000.png */,
-				9499B63E1ABD653E00276D21 /* controller_sg1000_mask@2x.png */,
 				9499B6401ABD655000276D21 /* controller_sg1000@2x.png */,
+				94A2258B17075F4D00098DA0 /* controller_sg1000_mask.png */,
+				9499B63E1ABD653E00276D21 /* controller_sg1000_mask@2x.png */,
 				94A22477170753E100098DA0 /* SG-1000-Info.plist */,
 				94A2258F17075F4D00098DA0 /* Keyboard-Mappings.plist */,
 				94A2258D17075F4D00098DA0 /* Controller-Mappings.plist */,
@@ -4890,10 +4890,10 @@
 			children = (
 				94A225A017075FD600098DA0 /* vb_library.png */,
 				EC73205317C668A300652C23 /* vb_library@2x.png */,
-				94A2259B17075FD600098DA0 /* controller_vb_mask.png */,
 				94A2259C17075FD600098DA0 /* controller_vb.png */,
-				11E0C9C7175ADD0700CDAB86 /* controller_vb_mask@2x.png */,
 				11E0C9C8175ADD0700CDAB86 /* controller_vb@2x.png */,
+				94A2259B17075FD600098DA0 /* controller_vb_mask.png */,
+				11E0C9C7175ADD0700CDAB86 /* controller_vb_mask@2x.png */,
 				94A224871707541F00098DA0 /* Virtual Boy-Info.plist */,
 				94A2259F17075FD600098DA0 /* Keyboard-Mappings.plist */,
 				94A2259D17075FD600098DA0 /* Controller-Mappings.plist */,
@@ -4920,10 +4920,10 @@
 			children = (
 				94A225B31707603400098DA0 /* segacd_library.png */,
 				5A221A6C1BFD5A6E002FDD10 /* segacd_library@2x.png */,
-				94A225AE1707603400098DA0 /* controller_genesis_mask.png */,
 				94A225AF1707603400098DA0 /* controller_genesis.png */,
-				87FB253D1BBC883200E739CE /* controller_genesis_mask@2x.png */,
 				87FB253E1BBC883200E739CE /* controller_genesis@2x.png */,
+				94A225AE1707603400098DA0 /* controller_genesis_mask.png */,
+				87FB253D1BBC883200E739CE /* controller_genesis_mask@2x.png */,
 				94A224971707542A00098DA0 /* Sega CD-Info.plist */,
 				94A225B21707603400098DA0 /* Keyboard-Mappings.plist */,
 				94A225B01707603400098DA0 /* Controller-Mappings.plist */,
@@ -4980,10 +4980,10 @@
 			children = (
 				94A225CE170760D900098DA0 /* atari5200_library.png */,
 				87F7BB111C1EB177005B83C4 /* atari5200_library@2x.png */,
-				94A225CF170760D900098DA0 /* controller_5200_mask.png */,
 				94A225D0170760D900098DA0 /* controller_5200.png */,
-				879243B21C0DA5910064C515 /* controller_5200_mask@2x.png */,
 				879243B31C0DA5910064C515 /* controller_5200@2x.png */,
+				94A225CF170760D900098DA0 /* controller_5200_mask.png */,
+				879243B21C0DA5910064C515 /* controller_5200_mask@2x.png */,
 				94A224B71707544100098DA0 /* Atari 5200-Info.plist */,
 				94A225D3170760D900098DA0 /* Keyboard-Mappings.plist */,
 				94A225D1170760D900098DA0 /* Controller-Mappings.plist */,
@@ -5007,11 +5007,11 @@
 			isa = PBXGroup;
 			children = (
 				94A225E21707610A00098DA0 /* famicom_library.png */,
-				94A225DE1707610A00098DA0 /* controller_fc_mask.png */,
-				94A225DF1707610A00098DA0 /* controller_fc.png */,
-				87FB25451BBC89F300E739CE /* controller_fc_mask@2x.png */,
-				87FB25461BBC89F300E739CE /* controller_fc@2x.png */,
 				87FB25471BBC89F300E739CE /* famicom_library@2x.png */,
+				94A225DF1707610A00098DA0 /* controller_fc.png */,
+				87FB25461BBC89F300E739CE /* controller_fc@2x.png */,
+				94A225DE1707610A00098DA0 /* controller_fc_mask.png */,
+				87FB25451BBC89F300E739CE /* controller_fc_mask@2x.png */,
 				94A224C71707544C00098DA0 /* Nintendo FDS-Info.plist */,
 				94A225E31707610A00098DA0 /* Keyboard-Mappings.plist */,
 				94A225E01707610A00098DA0 /* Controller-Mappings.plist */,
@@ -5040,12 +5040,12 @@
 				870320AC1F6267BF00470B55 /* saturn_library@2x.png */,
 				870320AA1F6267BF00470B55 /* saturn_library_jp.png */,
 				870320AB1F6267BF00470B55 /* saturn_library_jp@2x.png */,
-				94A225F11707614500098DA0 /* controller_saturn_mask.png */,
 				94A225F21707614500098DA0 /* controller_saturn.png */,
-				8759F0851F560542009CBC01 /* controller_saturn_mask@2x.png */,
 				8759F0861F560542009CBC01 /* controller_saturn@2x.png */,
 				870320A11F5CCB2000470B55 /* controller_saturn_jp.png */,
 				870320A21F5CCB2000470B55 /* controller_saturn_jp@2x.png */,
+				94A225F11707614500098DA0 /* controller_saturn_mask.png */,
+				8759F0851F560542009CBC01 /* controller_saturn_mask@2x.png */,
 				94A224D71707556D00098DA0 /* Saturn-Info.plist */,
 				94A225F51707614500098DA0 /* Keyboard-Mappings.plist */,
 				94A225F31707614500098DA0 /* Controller-Mappings.plist */,
@@ -5070,8 +5070,8 @@
 			isa = PBXGroup;
 			children = (
 				94A22603170761D200098DA0 /* computer_library.png */,
-				94A22604170761D200098DA0 /* controller_computer_mask.png */,
 				94A22605170761D200098DA0 /* controller_computer.png */,
+				94A22604170761D200098DA0 /* controller_computer_mask.png */,
 				94A224E71707559100098DA0 /* Computer-Info.plist */,
 				94A22608170761D200098DA0 /* Keyboard-Mappings.plist */,
 				94A22606170761D200098DA0 /* Controller-Mappings.plist */,
@@ -5097,11 +5097,11 @@
 			isa = PBXGroup;
 			children = (
 				94A2253817075C8800098DA0 /* psx_library.png */,
-				94A2253317075C8800098DA0 /* controller_psx_mask.png */,
-				94A2253417075C8800098DA0 /* controller_psx.png */,
 				EC350F0D174018AD005DA3B2 /* psx_library@2x.png */,
-				94052F02172DC21700B90DE6 /* controller_psx_mask@2x.png */,
+				94A2253417075C8800098DA0 /* controller_psx.png */,
 				94052F03172DC21700B90DE6 /* controller_psx@2x.png */,
+				94A2253317075C8800098DA0 /* controller_psx_mask.png */,
+				94052F02172DC21700B90DE6 /* controller_psx_mask@2x.png */,
 				94A224FA1707596200098DA0 /* PlayStation-Info.plist */,
 				94A2253717075C8800098DA0 /* Keyboard-Mappings.plist */,
 				94A2253517075C8800098DA0 /* Controller-Mappings.plist */,
@@ -5139,10 +5139,10 @@
 			children = (
 				94BE9E62171689C900AB08E6 /* colecovision_library.png */,
 				8706346E1C27C6D3007FAA2F /* colecovision_library@2x.png */,
-				94BE9E63171689C900AB08E6 /* controller_colecovision_mask.png */,
-				4FC6C53F19AD7BBB00231545 /* controller_colecovision_mask@2x.png */,
 				94BE9E64171689C900AB08E6 /* controller_colecovision.png */,
 				4FC6C54019AD7BBB00231545 /* controller_colecovision@2x.png */,
+				94BE9E63171689C900AB08E6 /* controller_colecovision_mask.png */,
+				4FC6C53F19AD7BBB00231545 /* controller_colecovision_mask@2x.png */,
 				94BE9E54171683E000AB08E6 /* ColecoVision-Info.plist */,
 				94BE9E67171689C900AB08E6 /* Keyboard-Mappings.plist */,
 				94BE9E65171689C900AB08E6 /* Controller-Mappings.plist */,
@@ -5168,11 +5168,11 @@
 			isa = PBXGroup;
 			children = (
 				94CEB28617A84A8F005A2107 /* gamecube_library.png */,
-				94CEB28217A84A8F005A2107 /* controller_gc_mask.png */,
-				94CEB28317A84A8F005A2107 /* controller_gc.png */,
-				876E455B23B98D5500867DF9 /* controller_gc_mask@2x.png */,
-				876E455D23B98D6A00867DF9 /* controller_gc@2x.png */,
 				876E456123B9B02600867DF9 /* gamecube_library@2x.png */,
+				94CEB28317A84A8F005A2107 /* controller_gc.png */,
+				876E455D23B98D6A00867DF9 /* controller_gc@2x.png */,
+				94CEB28217A84A8F005A2107 /* controller_gc_mask.png */,
+				876E455B23B98D5500867DF9 /* controller_gc_mask@2x.png */,
 				94CEB27117A84809005A2107 /* GameCube-Info.plist */,
 				94CEB28717A84A8F005A2107 /* Keyboard-Mappings.plist */,
 				94CEB28417A84A8F005A2107 /* Controller-Mappings.plist */,
@@ -5198,11 +5198,11 @@
 			isa = PBXGroup;
 			children = (
 				94D7E8D915073DB000FBDD85 /* nds_library.png */,
-				94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */,
-				94D7E8D715073DB000FBDD85 /* controller_nds.png */,
 				EC350F4D174019CE005DA3B2 /* nds_library@2x.png */,
-				94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */,
+				94D7E8D715073DB000FBDD85 /* controller_nds.png */,
 				94052EFD172DC1DD00B90DE6 /* controller_nds@2x.png */,
+				94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */,
+				94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */,
 				94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */,
 				C6AF2849164E424600681A06 /* Keyboard-Mappings.plist */,
 				949628D1164F73D200952A86 /* Controller-Mappings.plist */,
@@ -5231,12 +5231,12 @@
 		C6252DAF14E7562700350A13 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				83723810196329F1008D4C08 /* controller_ngp_mask@2x.png */,
-				83723811196329F1008D4C08 /* controller_ngp@2x.png */,
 				83FBA37014F2C672001F1299 /* neogeopocket_library.png */,
 				EC73206717C66EC900652C23 /* neogeopocket_library@2x.png */,
-				83F4DE2114E00F8800A82E36 /* controller_ngp_mask.png */,
 				820EB74E1483F9D3008EC398 /* controller_ngp.png */,
+				83723811196329F1008D4C08 /* controller_ngp@2x.png */,
+				83F4DE2114E00F8800A82E36 /* controller_ngp_mask.png */,
+				83723810196329F1008D4C08 /* controller_ngp_mask@2x.png */,
 				820EB7591483F9D3008EC398 /* NeoGeoPocket-Info.plist */,
 				C6AF284D164E469C00681A06 /* Keyboard-Mappings.plist */,
 				94962909164F7F7E00952A86 /* Controller-Mappings.plist */,
@@ -5249,11 +5249,11 @@
 			isa = PBXGroup;
 			children = (
 				83FBA36E14F2C62F001F1299 /* gamegear_library.png */,
-				94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */,
-				94FC53871688FF60003C6AFE /* controller_gamegear.png */,
-				EC350F47174019B8005DA3B2 /* controller_gamegear_mask@2x.png */,
-				EC350F48174019B8005DA3B2 /* controller_gamegear@2x.png */,
 				EC350F49174019B8005DA3B2 /* gamegear_library@2x.png */,
+				94FC53871688FF60003C6AFE /* controller_gamegear.png */,
+				EC350F48174019B8005DA3B2 /* controller_gamegear@2x.png */,
+				94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */,
+				EC350F47174019B8005DA3B2 /* controller_gamegear_mask@2x.png */,
 				8227755E1489471A00B19E27 /* GameGear-Info.plist */,
 				C6AF284B164E45D400681A06 /* Keyboard-Mappings.plist */,
 				949628D3164F77C400952A86 /* Controller-Mappings.plist */,
@@ -5290,11 +5290,11 @@
 			isa = PBXGroup;
 			children = (
 				83FBA38214F2C870001F1299 /* gba_library.png */,
-				830BC86A14D5F1A5000826E2 /* controller_gba_mask.png */,
-				83DC1FCA1470857900F3D77A /* controller_gba.png */,
-				EC350F11174018D5005DA3B2 /* controller_gba_mask@2x.png */,
-				EC350F12174018D5005DA3B2 /* controller_gba@2x.png */,
 				EC350F13174018D5005DA3B2 /* gba_library@2x.png */,
+				83DC1FCA1470857900F3D77A /* controller_gba.png */,
+				EC350F12174018D5005DA3B2 /* controller_gba@2x.png */,
+				830BC86A14D5F1A5000826E2 /* controller_gba_mask.png */,
+				EC350F11174018D5005DA3B2 /* controller_gba_mask@2x.png */,
 				C646574C13771F12002A4F70 /* GameBoy Advance-Info.plist */,
 				C6AF2859164E473C00681A06 /* Keyboard-Mappings.plist */,
 				949628CF164F6F2F00952A86 /* Controller-Mappings.plist */,
@@ -5320,17 +5320,17 @@
 			isa = PBXGroup;
 			children = (
 				83FBA37A14F2C7DB001F1299 /* snes_eujap_library.png */,
-				83FBA37B14F2C7DB001F1299 /* snes_usa_library.png */,
-				830BC86714D5E1E6000826E2 /* controller_snes_mask.png */,
-				83977F611408FE4700175858 /* controller_snes_eu.png */,
-				83977F621408FE4700175858 /* controller_snes_jap.png */,
-				83977F631408FE4700175858 /* controller_snes_usa.png */,
-				EC350F2717401943005DA3B2 /* controller_snes_eu@2x.png */,
-				EC350F2817401943005DA3B2 /* controller_snes_jap@2x.png */,
-				EC350F2917401943005DA3B2 /* controller_snes_mask@2x.png */,
-				EC350F2A17401943005DA3B2 /* controller_snes_usa@2x.png */,
 				EC350F2B17401943005DA3B2 /* snes_eujap_library@2x.png */,
+				83FBA37B14F2C7DB001F1299 /* snes_usa_library.png */,
 				EC350F2C17401943005DA3B2 /* snes_usa_library@2x.png */,
+				83977F611408FE4700175858 /* controller_snes_eu.png */,
+				EC350F2717401943005DA3B2 /* controller_snes_eu@2x.png */,
+				83977F621408FE4700175858 /* controller_snes_jap.png */,
+				EC350F2817401943005DA3B2 /* controller_snes_jap@2x.png */,
+				83977F631408FE4700175858 /* controller_snes_usa.png */,
+				EC350F2A17401943005DA3B2 /* controller_snes_usa@2x.png */,
+				830BC86714D5E1E6000826E2 /* controller_snes_mask.png */,
+				EC350F2917401943005DA3B2 /* controller_snes_mask@2x.png */,
 				C6480FC513648F670094FA33 /* SuperNES-Info.plist */,
 				C6F697D5164E0EFD00B243DB /* Keyboard-Mappings.plist */,
 				949623E6164E0CD600952A86 /* Controller-Mappings.plist */,
@@ -5358,17 +5358,17 @@
 			isa = PBXGroup;
 			children = (
 				83FBA37614F2C752001F1299 /* famicom_library.png */,
-				83FBA37414F2C747001F1299 /* nes_library.png */,
-				C6252DA914E71D0500350A13 /* controller_fc.png */,
-				83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */,
-				83977F6A1408FE8E00175858 /* controller_nes.png */,
-				83F4DE1814E0096500A82E36 /* controller_nes_mask.png */,
-				EC350F3317401973005DA3B2 /* controller_fc_mask@2x.png */,
-				EC350F3417401973005DA3B2 /* controller_fc@2x.png */,
-				EC350F3517401973005DA3B2 /* controller_nes_mask@2x.png */,
-				EC350F3617401973005DA3B2 /* controller_nes@2x.png */,
 				EC350F3717401973005DA3B2 /* famicom_library@2x.png */,
+				83FBA37414F2C747001F1299 /* nes_library.png */,
 				EC350F3817401973005DA3B2 /* nes_library@2x.png */,
+				C6252DA914E71D0500350A13 /* controller_fc.png */,
+				EC350F3417401973005DA3B2 /* controller_fc@2x.png */,
+				83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */,
+				EC350F3317401973005DA3B2 /* controller_fc_mask@2x.png */,
+				83977F6A1408FE8E00175858 /* controller_nes.png */,
+				EC350F3617401973005DA3B2 /* controller_nes@2x.png */,
+				83F4DE1814E0096500A82E36 /* controller_nes_mask.png */,
+				EC350F3517401973005DA3B2 /* controller_nes_mask@2x.png */,
 				C64BB091136478E600C1AB23 /* NES-Info.plist */,
 				C6AF2853164E470B00681A06 /* Keyboard-Mappings.plist */,
 				949628CB164F677400952A86 /* Controller-Mappings.plist */,
@@ -5390,11 +5390,11 @@
 			isa = PBXGroup;
 			children = (
 				83FBA37814F2C795001F1299 /* sms_library.png */,
-				83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */,
-				83977F6D1408FEA800175858 /* controller_sms.png */,
-				EC350F3F1740198B005DA3B2 /* controller_sms_mask@2x.png */,
-				EC350F401740198B005DA3B2 /* controller_sms@2x.png */,
 				EC350F411740198B005DA3B2 /* sms_library@2x.png */,
+				83977F6D1408FEA800175858 /* controller_sms.png */,
+				EC350F401740198B005DA3B2 /* controller_sms@2x.png */,
+				83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */,
+				EC350F3F1740198B005DA3B2 /* controller_sms_mask@2x.png */,
 				C6711818136368330034379A /* SegaMasterSystem-Info.plist */,
 				C6AF2851164E46BD00681A06 /* Keyboard-Mappings.plist */,
 				94962907164F7D9E00952A86 /* Controller-Mappings.plist */,
@@ -5506,11 +5506,11 @@
 			isa = PBXGroup;
 			children = (
 				83FBA37E14F2C81C001F1299 /* gameboy_library.png */,
-				83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */,
-				83977F671408FE6700175858 /* controller_gb.png */,
-				EC350F2117401924005DA3B2 /* controller_gb_mask@2x.png */,
-				EC350F2217401924005DA3B2 /* controller_gb@2x.png */,
 				EC350F2317401924005DA3B2 /* gameboy_library@2x.png */,
+				83977F671408FE6700175858 /* controller_gb.png */,
+				EC350F2217401924005DA3B2 /* controller_gb@2x.png */,
+				83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */,
+				EC350F2117401924005DA3B2 /* controller_gb_mask@2x.png */,
 				C6B947B31364ECA700A425F0 /* GameBoy-Info.plist */,
 				C6AF2855164E471E00681A06 /* Keyboard-Mappings.plist */,
 				949628CD164F6A3C00952A86 /* Controller-Mappings.plist */,
@@ -5536,13 +5536,13 @@
 			isa = PBXGroup;
 			children = (
 				83FBA38014F2C857001F1299 /* genesis_library.png */,
-				EC350F1A1740190B005DA3B2 /* megadrive_library.png */,
-				83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */,
-				83AE9F0A14B271E200E91BD8 /* controller_genesis.png */,
-				EC350F171740190B005DA3B2 /* controller_genesis_mask@2x.png */,
-				EC350F181740190B005DA3B2 /* controller_genesis@2x.png */,
 				EC350F191740190B005DA3B2 /* genesis_library@2x.png */,
+				EC350F1A1740190B005DA3B2 /* megadrive_library.png */,
 				EC350F1B1740190B005DA3B2 /* megadrive_library@2x.png */,
+				83AE9F0A14B271E200E91BD8 /* controller_genesis.png */,
+				EC350F181740190B005DA3B2 /* controller_genesis@2x.png */,
+				83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */,
+				EC350F171740190B005DA3B2 /* controller_genesis_mask@2x.png */,
 				C6B947EA1365080B00A425F0 /* Genesis-Info.plist */,
 				C6AF2857164E472A00681A06 /* Keyboard-Mappings.plist */,
 				9496290B164F834D00952A86 /* Controller-Mappings.plist */,
@@ -5567,9 +5567,9 @@
 		FEB6626C187B7E9F00D14713 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FEB6626D187B7F5600D14713 /* msx_library.png */,
 				FEB66273187B80BF00D14713 /* controller_msx.png */,
 				FEB6627D187B81BA00D14713 /* controller_msx_mask.png */,
-				FEB6626D187B7F5600D14713 /* msx_library.png */,
 				FEB66260187B791800D14713 /* MSX-Info.plist */,
 				FEB66279187B812800D14713 /* Keyboard-Mappings.plist */,
 				FEB66277187B812800D14713 /* Controller-Mappings.plist */,
