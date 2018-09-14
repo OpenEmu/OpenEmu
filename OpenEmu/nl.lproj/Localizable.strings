@@ -180,8 +180,6 @@
 
 "Do not ask me again" = "Vraag me dit niet opnieuw";
 
-"Do Not Save" = "Niet bewaren";
-
 "Do not show me again" = "Laat me dit niet opnieuw zien";
 
 "Do you really want to cancel the import process?" = "Wilt u het importproces echt annuleren?";
@@ -208,7 +206,7 @@
 
 "Duplicate Collection" = "Duplicate Collection";
 
-"Edit Game Controls" = "Edit Game Controls";
+"Edit Game Controls…" = "Edit Game Controls…";
 
 "Enable now" = "Schakel nu in";
 
@@ -383,6 +381,8 @@
 "Restart" = "Herstart";
 
 "Resume Emulation" = "Hervat emulatie";
+
+"Resume Gameplay" = "Hervat gameplay";  // TODO
 
 "Resume" = "Hervat";
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPrefControlsController">
@@ -33,16 +33,10 @@
                     <popUpButtonCell key="cell" type="push" title="Super Nintendo (SNES)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="38" id="30" customClass="OEPopUpButtonCell">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
-                        <menu key="menu" title="OtherViews" id="31">
+                        <menu key="menu" id="31">
                             <items>
                                 <menuItem title="Nintendo (NES)" id="37"/>
                                 <menuItem title="Super Nintendo (SNES)" state="on" id="38"/>
-                                <menuItem title="GameBoy" id="39"/>
-                                <menuItem title="GameBoy Advance" id="36"/>
-                                <menuItem title="Sega SG-1000" id="35"/>
-                                <menuItem title="Sega Master System" id="34"/>
-                                <menuItem title="Sega Genesis" id="33"/>
-                                <menuItem title="Game Gear" id="32"/>
                             </items>
                         </menu>
                     </popUpButtonCell>
@@ -66,12 +60,10 @@
                             <popUpButtonCell key="cell" type="push" title="Player 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="29" id="24" customClass="OEPopUpButtonCell">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
-                                <menu key="menu" title="OtherViews" id="25">
+                                <menu key="menu" id="25">
                                     <items>
                                         <menuItem title="Player 1" state="on" id="29"/>
                                         <menuItem title="Player 2" id="28"/>
-                                        <menuItem title="Player 3" id="27"/>
-                                        <menuItem title="Player 4" id="26"/>
                                     </items>
                                 </menu>
                             </popUpButtonCell>
@@ -106,7 +98,7 @@
                                 </userDefinedRuntimeAttributes>
                             </scroller>
                             <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="114" customClass="OEScroller">
-                                <rect key="frame" x="215" y="0.0" width="15" height="269"/>
+                                <rect key="frame" x="214" y="0.0" width="16" height="269"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood"/>
@@ -131,7 +123,7 @@
                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="12" customClass="OEPopUpButtonCell">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
-                                <menu key="menu" title="OtherViews" id="13">
+                                <menu key="menu" id="13">
                                     <items>
                                         <menuItem title="Keyboard" id="16">
                                             <modifierMask key="keyEquivalentModifierMask"/>

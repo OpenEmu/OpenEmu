@@ -344,7 +344,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     NSMenu *menu = [[NSMenu alloc] init];
 
     NSMenuItem *item;
-    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Game Controls", @"") action:@selector(editControls:) keyEquivalent:@""];
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Game Controls…", @"") action:@selector(editControls:) keyEquivalent:@""];
     [menu addItem:item];
 
     // Setup Cheats Menu
@@ -669,6 +669,11 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     OEHUDControlsBarView *view        = [[[self contentView] subviews] lastObject];
     NSButton             *pauseButton = [view pauseButton];
     [pauseButton setState:!isEmulationRunning];
+
+    if(isEmulationRunning)
+        [pauseButton setToolTip:NSLocalizedString(@"Pause Gameplay", @"Tooltip")];
+    else
+        [pauseButton setToolTip:NSLocalizedString(@"Resume Gameplay", @"Tooltip")];
 
     if(isEmulationRunning && !_cheatsLoaded)
         [self OE_loadCheats];

@@ -180,8 +180,6 @@
 
 "Do not ask me again" = "Nicht erneut fragen";
 
-"Do Not Save" = "Nicht sichern";
-
 "Do not show me again" = "Nicht erneut anzeigen";
 
 "Do you really want to cancel the import process?" = "Möchtest du den Import wirklich abbrechen?";
@@ -208,7 +206,7 @@
 
 "Duplicate Collection" = "Sammlung duplizieren";
 
-"Edit Game Controls" = "Steuerung bearbeiten";
+"Edit Game Controls…" = "Steuerung bearbeiten …";
 
 "Enable now" = "Sofort aktivieren";
 
@@ -384,6 +382,8 @@
 
 "Resume Emulation" = "Spiel fortsetzen";
 
+"Resume Gameplay" = "Spiel fortsetzen";
+
 "Resume" = "Fortsetzen";
 
 "Save As:" = "Name:";
@@ -432,7 +432,7 @@
 
 "Some migrations failed to complete properly" = "Einige Migrationen konnten nicht korrekt durchgeführt werden";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Vielen Dank an alle, die\nOpenEmu möglich gemacht haben.\nUm mehr über unsere Mitwirkenden, Emulator-Kerne, Dokumentation und Lizenzen zu erfahren oder um Fehler zu melden, besuchen Sie uns auf GitHub.";
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Vielen Dank an alle, die\nOpenEmu möglich gemacht haben.\nUm mehr über unsere Mitwirkenden, Emulator-Kerne, Dokumentation und Lizenzen zu erfahren oder um Fehler zu melden, besuche uns auf GitHub.";
 
 "Start Scanning" = "Wiimote suchen";
 
@@ -520,7 +520,7 @@
 
 "Grid Size" = "Gittergröße";
 
-"View Mode" = "Ansichtsmodus";
+"View Mode" = "Darstellung";
 
 "Category" = "Kategorie";
 
@@ -647,8 +647,8 @@
 
 "ECM compressed binary detected." = "ECM-komprimierte Binärdatei erkannt.";
 
-"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM-komprimierte Binärdateien können nicht importiert werden. Bitte lesen Sie die Hilfe zum Thema „Importieren von CDs“.";
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM-komprimierte Binärdateien können nicht importiert werden. Bitte lies die Hilfe zum Thema „Importieren von CDs“.";
 
-"Threshold for analog controls bound to buttons" = "Threshold for analog controls bound to buttons";    // TODO
+"Threshold for analog controls bound to buttons" = "Grenzwert für auf Knöpfe gelegte analoge Eingaben";
 
-"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
+"Range: %@ to %@" = "Bereich: %@ bis %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences

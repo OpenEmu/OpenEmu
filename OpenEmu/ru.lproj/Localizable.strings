@@ -180,8 +180,6 @@
 
 "Do not ask me again" = "Больше не спрашивать";
 
-"Do Not Save" = "Не сохранять";
-
 "Do not show me again" = "Больше не показывать";
 
 "Do you really want to cancel the import process?" = "Вы действительно хотите прекратить процесс импорта?";
@@ -208,7 +206,7 @@
 
 "Duplicate Collection" = "Дублировать коллекцию";
 
-"Edit Game Controls" = "Редактировать управление в игре";
+"Edit Game Controls…" = "Редактировать управление в игре…";
 
 "Enable now" = "Включить сейчас";
 
@@ -383,6 +381,8 @@
 "Restart" = "Перезапустить";
 
 "Resume Emulation" = "Продолжить эмуляцию Emulation";
+
+"Resume Gameplay" = "Приостановить геймплей";  // TODO
 
 "Resume" = "Продолжить";
 

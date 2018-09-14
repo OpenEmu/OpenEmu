@@ -180,8 +180,6 @@
 
 "Do not ask me again" = "Ne plus me demander";
 
-"Do Not Save" = "Ne pas sauvegarder";
-
 "Do not show me again" = "Ne plus afficher";
 
 "Do you really want to cancel the import process?" = "Voules-vous vraiment annuler le processus d’importation ?";
@@ -208,7 +206,7 @@
 
 "Duplicate Collection" = "Dupliquer la collection";
 
-"Edit Game Controls" = "Modifier les contrôles de jeu";
+"Edit Game Controls…" = "Modifier les contrôles de jeu…";
 
 "Enable now" = "Activer maintenant";
 
@@ -383,6 +381,8 @@
 "Restart" = "Redémarrer";
 
 "Resume Emulation" = "Reprendre l’émulation";
+
+"Resume Gameplay" = "Reprendre le jeu";
 
 "Resume" = "Reprendre";
 

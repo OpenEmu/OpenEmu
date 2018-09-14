@@ -184,8 +184,6 @@
 
 "Do not ask me again" = "不再询问";
 
-"Do Not Save" = "不要保存";
-
 "Do not show me again" = "不再弹出";
 
 "Do you really want to cancel the import process?" = "你确定要取消导入进程？";
@@ -212,11 +210,9 @@
 
 "Duplicate Collection" = "创建集合副本";
 
-"Edit Game Controls" = "编辑游戏操控";
+"Edit Game Controls…" = "编辑游戏操控…";
 
 "Enable now" = "现在启用";
-
-"Enable Retrode support" = "启用 Retrode 支持";
 
 "Error!" = "错误！";
 
@@ -391,6 +387,8 @@
 "Restart" = "重启";
 
 "Resume Emulation" = "恢复模拟";
+
+"Resume Gameplay" = "暂停游戏";  // TODO
 
 "Resume" = "恢复";
 

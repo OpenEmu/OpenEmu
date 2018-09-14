@@ -180,8 +180,6 @@
 
 "Do not ask me again" = "Do not ask me again";
 
-"Do Not Save" = "Do Not Save";
-
 "Do not show me again" = "Do not show me again";
 
 "Do you really want to cancel the import process?" = "Do you really want to cancel the import process?";
@@ -208,7 +206,7 @@
 
 "Duplicate Collection" = "Duplicate Collection";
 
-"Edit Game Controls" = "Edit Game Controls";
+"Edit Game Controls…" = "Edit Game Controls…";
 
 "Enable now" = "Enable now";
 
@@ -383,6 +381,8 @@
 "Restart" = "Restart";
 
 "Resume Emulation" = "Resume Emulation";
+
+"Resume Gameplay" = "Resume Gameplay";
 
 "Resume" = "Resume";
 

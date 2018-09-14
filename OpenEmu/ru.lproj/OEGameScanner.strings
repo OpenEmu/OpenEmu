@@ -1,6 +1,6 @@
 
-/* Class = "NSTableColumn"; headerCell.title = "Path"; ObjectID = "75"; */
-"75.headerCell.title" = "Путь";
+/* Class = "NSTableColumn"; headerCell.title = "Name"; ObjectID = "75"; */
+"75.headerCell.title" = "Название";
 
 /* Class = "NSTextFieldCell"; title = "Resolve Issues:"; ObjectID = "0HB-UU-ULs"; */
 "0HB-UU-ULs.title" = "Исправить проблемы импорта:";

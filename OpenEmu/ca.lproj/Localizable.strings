@@ -180,8 +180,6 @@
 
 "Do not ask me again" = "No m'ho tornis a dir";
 
-"Do Not Save" = "No ho desis";
-
 "Do not show me again" = "No m'ho tornis a mostrar";
 
 "Do you really want to cancel the import process?" = "Segur que voleu cancel·lar el procés d'importació?";
@@ -208,7 +206,7 @@
 
 "Duplicate Collection" = "Duplica la col·lecció";
 
-"Edit Game Controls" = "Edita els controls del joc";
+"Edit Game Controls…" = "Edita els controls del joc…";
 
 "Enable now" = "Habilita ara";
 
@@ -383,6 +381,8 @@
 "Restart" = "Reinicia";
 
 "Resume Emulation" = "Continua l'emulació";
+
+"Resume Gameplay" = "Continua la partida";
 
 "Resume" = "Continua";
 

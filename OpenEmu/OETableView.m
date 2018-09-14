@@ -100,7 +100,7 @@ static NSGradient *highlightGradient, *normalGradient;
         normalGradient = [[NSGradient alloc] initWithStartingColor:c1 endingColor:c2];
     }
 
-    self.selectionColor = [NSColor colorWithDeviceRed:0.173 green:0.286 blue:0.976 alpha:1.0];
+    self.selectionColor = [NSColor colorWithDeviceRed:0.0 green:0.36 blue:0.86 alpha:1.0];
     [self setIntercellSpacing:NSMakeSize(1, 0)];
 
     [self setBackgroundColor:[NSColor blackColor]];

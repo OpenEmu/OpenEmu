@@ -184,8 +184,6 @@
 
 "Do not ask me again" = "再表示しない";
 
-"Do Not Save" = "保存しない";
-
 "Do not show me again" = "再表示しない";
 
 "Do you really want to cancel the import process?" = "インポートをキャンセルしますか？";
@@ -212,11 +210,9 @@
 
 "Duplicate Collection" = "コレクションを複製";
 
-"Edit Game Controls" = "コントローラを編集";
+"Edit Game Controls…" = "コントローラを編集…";
 
 "Enable now" = "すぐ有効にする";
-
-"Enable Retrode support" = "Retrodeサポートを有効にする";
 
 "Error!" = "エラー!";
 
@@ -391,6 +387,8 @@
 "Restart" = "再起動";
 
 "Resume Emulation" = "エミュレーションをレジューム";
+
+"Resume Gameplay" = "ゲームを一時停止";  // TODO
 
 "Resume" = "レジューム";
 

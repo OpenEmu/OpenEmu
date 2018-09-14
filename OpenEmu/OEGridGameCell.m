@@ -30,8 +30,6 @@ static const CGFloat OEGridCellImageContainerTop    = 7.0;
 static const CGFloat OEGridCellImageContainerRight  = 13.0;
 static const CGFloat OEGridCellImageContainerBottom = OEGridCellTitleHeight + OEGridCellImageTitleSpacing + OEGridCellSubtitleHeight + OEGridCellSubtitleTitleSpace;
 
-__strong static OEThemeImage *selectorRingImage = nil;
-
 
 @interface OEGridGameCell () <CALayerDelegate>
 @property NSImage *selectorImage;
@@ -80,11 +78,6 @@ static NSDictionary *disabledActions = nil;
 
     if(self)
     {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            selectorRingImage = [[OETheme sharedTheme] themeImageForKey:@"selector_ring"];
-        });
-
         if(disabledActions == nil)
             disabledActions = @{ @"position" : [NSNull null],
                                    @"bounds" : [NSNull null],

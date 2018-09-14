@@ -1520,25 +1520,6 @@
 	</dict>
 	<key>Images</key>
 	<dict>
-		<key>scroller_track_vertical</key>
-		<dict>
-			<key>Resource</key>
-			<string>track_vertical</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<dict>
-					<key>Vertical</key>
-					<true/>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {15, 9}}</string>
-						<string>{{0, 9}, {15, 1}}</string>
-						<string>{{0, 10}, 15, 9}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
 		<key>grid_group_background</key>
 		<dict>
 			<key>Resource</key>
@@ -1613,99 +1594,6 @@
 						<string>{{0, 0}, {15, 45}}</string>
 						<string>{{15, 0}, {1, 45}}</string>
 						<string>{{16, 0}, {15, 45}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
-		<key>scroller_track_horizontal</key>
-		<dict>
-			<key>Resource</key>
-			<string>track_horizontal</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {9, 15}}</string>
-						<string>{{9, 0}, {1, 15}}</string>
-						<string>{{10, 0}, {9, 15}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
-		<key>scroller_knob_vertical</key>
-		<dict>
-			<key>Resource</key>
-			<string>knob_vertical</string>
-			<key>States</key>
-			<dict>
-				<key>Window Inactive</key>
-				<dict>
-					<key>Vertical</key>
-					<true/>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {13, 7}}</string>
-						<string>{{0, 7}, {13, 1}}</string>
-						<string>{{0, 8}, {13, 7}}</string>
-					</array>
-				</dict>
-				<key>Window Active</key>
-				<dict>
-					<key>Vertical</key>
-					<true/>
-					<key>Parts</key>
-					<array>
-						<string>{{13, 0}, {13, 7}}</string>
-						<string>{{13, 7}, {13, 1}}</string>
-						<string>{{13, 8}, {13, 7}}</string>
-					</array>
-				</dict>
-				<key>Window Active, Pressed</key>
-				<dict>
-					<key>Vertical</key>
-					<true/>
-					<key>Parts</key>
-					<array>
-						<string>{{26, 0}, {13, 7}}</string>
-						<string>{{26, 7}, {13, 1}}</string>
-						<string>{{26, 8}, {13, 7}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
-		<key>scroller_knob_horizontal</key>
-		<dict>
-			<key>Resource</key>
-			<string>knob_horizontal</string>
-			<key>States</key>
-			<dict>
-				<key>Window Inactive</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {7, 13}}</string>
-						<string>{{7, 0}, {1, 13}}</string>
-						<string>{{8, 0}, {7, 13}}</string>
-					</array>
-				</dict>
-				<key>Window Active</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 13}, {7, 13}}</string>
-						<string>{{7, 13}, {1, 13}}</string>
-						<string>{{8, 13}, {7, 13}}</string>
-					</array>
-				</dict>
-				<key>Window Active, Pressed</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 26}, {7, 13}}</string>
-						<string>{{7, 26}, {1, 13}}</string>
-						<string>{{8, 26}, {7, 13}}</string>
 					</array>
 				</dict>
 			</dict>
@@ -1823,30 +1711,6 @@
 				</dict>
 			</dict>
 		</dict>
-		<key>wood_arrow_down</key>
-		<dict>
-			<key>Resource</key>
-			<string>wood_arrow_down</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{0, 0}, {15, 15}}</string>
-				<key>Pressed</key>
-				<string>{{15, 0}, {15, 15}}</string>
-			</dict>
-		</dict>
-		<key>wood_arrow_up</key>
-		<dict>
-			<key>Resource</key>
-			<string>wood_arrow_up</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{0, 0}, {15, 15}}</string>
-				<key>Pressed</key>
-				<string>{{15, 0}, {15, 15}}</string>
-			</dict>
-		</dict>
 		<key>sort_arrow</key>
 		<dict>
 			<key>Resource</key>
@@ -1885,18 +1749,6 @@
 						<string>{7, 17}, {8, 17}}</string>
 					</array>
 				</dict>
-			</dict>
-		</dict>
-		<key>sidebar_triangle</key>
-		<dict>
-			<key>Resource</key>
-			<string>sidebar_triangle</string>
-			<key>States</key>
-			<dict>
-				<key>Toggle Off</key>
-				<string>{{0, 0}, {9, 9}}</string>
-				<key>Toggle On</key>
-				<string>{{9, 0}, {9, 9}}</string>
 			</dict>
 		</dict>
 		<key>hud_alert_window</key>
@@ -3234,78 +3086,6 @@
 				<string>{{0,0},{18,14}}</string>
 			</dict>
 		</dict>
-		<key>selector_ring</key>
-		<dict>
-			<key>Resource</key>
-			<string>selector_ring</string>
-			<key>States</key>
-			<dict>
-				<key>Focused</key>
-				<array>
-					<string>{{0,0},{14,14}}</string>
-					<string>{{14,0},{1,14}}</string>
-					<string>{{15,0},{14,14}}</string>
-					<string>{{0,14},{14,1}}</string>
-					<string>{{14,14},{1,1}}</string>
-					<string>{{15,14},{14,1}}</string>
-					<string>{{0,15},{14,14}}</string>
-					<string>{{14,15},{1,14}}</string>
-					<string>{{15,15},{14,14}}</string>
-				</array>
-				<key>Unfocused</key>
-				<array>
-					<string>{{29,0},{14,14}}</string>
-					<string>{{43,0},{1,14}}</string>
-					<string>{{44,0},{14,14}}</string>
-					<string>{{29,14},{14,1}}</string>
-					<string>{{43,14},{1,1}}</string>
-					<string>{{44,14},{14,1}}</string>
-					<string>{{29,15},{14,14}}</string>
-					<string>{{43,15},{1,14}}</string>
-					<string>{{44,15},{14,14}}</string>
-				</array>
-			</dict>
-		</dict>
-		<key>toolbar_sidebar_button_add_background</key>
-		<dict>
-			<key>Resource</key>
-			<string>toolbar_add_button</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{28,0},{28,23}}</string>
-				<key>Disabled</key>
-				<string>{{0,0},{28,23}}</string>
-				<key>Pressed</key>
-				<string>{{56,0},{28,23}}</string>
-				<key>Window Inactive</key>
-				<string>{{0,0},{28,23}}</string>
-			</dict>
-		</dict>
-		<key>toolbar_sidebar_button_close_background</key>
-		<dict>
-			<key>Resource</key>
-			<string>toolbar_sidebar_button</string>
-			<key>States</key>
-			<dict>
-				<key>Toggle Off</key>
-				<string>{{28,23},{28,23}}</string>
-				<key>Toggle Off, Disabled</key>
-				<string>{{0,23},{28,23}}</string>
-				<key>Toggle Off, Pressed</key>
-				<string>{{56,23},{28,23}}</string>
-				<key>Toggle Off, Window Inactive</key>
-				<string>{{0,23},{28,23}}</string>
-				<key>Toggle On</key>
-				<string>{{28,0},{28,23}}</string>
-				<key>Toggle On, Disabled</key>
-				<string>{{0,0},{28,23}}</string>
-				<key>Toggle On, Pressed</key>
-				<string>{{56,0},{28,23}}</string>
-				<key>Toggle On, Window Inactive</key>
-				<string>{{0,0},{28,23}}</string>
-			</dict>
-		</dict>
 		<key>toolbar_template_button_background</key>
 		<dict>
 			<key>Resource</key>
@@ -3424,46 +3204,6 @@
 				</dict>
 			</dict>
 		</dict>
-		<key>media_saved_games</key>
-		<dict>
-			<key>Resource</key>
-			<string>media</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{0,0},{16,16}}</string>
-			</dict>
-		</dict>
-		<key>media_screenshots</key>
-		<dict>
-			<key>Resource</key>
-			<string>media</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{16,0},{16,16}}</string>
-			</dict>
-		</dict>
-		<key>media_video</key>
-		<dict>
-			<key>Resource</key>
-			<string>media</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{32,0},{16,16}}</string>
-			</dict>
-		</dict>
-		<key>media_featured</key>
-		<dict>
-			<key>Resource</key>
-			<string>media_featured</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{0,0},{16,16}}</string>
-			</dict>
-		</dict>
 		<key>collections_smart</key>
 		<dict>
 			<key>Resource</key>
@@ -3503,9 +3243,9 @@
 			<key>States</key>
 			<dict>
 				<key>Default</key>
-				<string>{{0, 32}, {12, 12}}</string>
+				<string>{{0, 0}, {12, 12}}</string>
 				<key>Focused</key>
-				<string>{{12, 32}, {12, 12}}</string>
+				<string>{{12, 0}, {12, 12}}</string>
 			</dict>
 		</dict>
 		<key>list_indicators_missing</key>
