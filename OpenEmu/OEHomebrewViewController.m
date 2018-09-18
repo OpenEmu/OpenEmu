@@ -503,10 +503,10 @@ const static CGFloat TableViewSpacing = 86.0;
         NSScrollView *descriptionScroll = [subviews objectAtIndex:3];
         NSTextView *description = [descriptionScroll documentView];
 
-        [description setString:[game gameDescription] ?: @""];
-        NSInteger length = [[description textStorage] length];
+        NSString *realdesc = [game gameDescription] ?: @"";
         NSDictionary *attributes = [self descriptionStringAttributes];
-        [[description textStorage] setAttributes:attributes range:NSMakeRange(0, length)];
+        NSTextStorage *ts = [[NSTextStorage alloc] initWithString:realdesc attributes:attributes];
+        [[description layoutManager] replaceTextStorage:ts];
 
         NSButton    *developer = [subviews objectAtIndex:5];
         [developer setTarget:self];
