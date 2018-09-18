@@ -85,6 +85,9 @@
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        <attributedString key="userComments">
+                            <fragment content="DNT"/>
+                        </attributedString>
                     </textFieldCell>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_text"/>

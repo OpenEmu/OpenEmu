@@ -43,6 +43,9 @@
                             <font key="font" metaFont="systemBold" size="14"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            <attributedString key="userComments">
+                                <fragment content="DNT"/>
+                            </attributedString>
                         </textFieldCell>
                         <connections>
                             <binding destination="805" name="displayPatternValue1" keyPath="appVersion" id="dC7-Fu-BLw">
@@ -63,6 +66,9 @@
                             <font key="font" metaFont="system" size="10"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            <attributedString key="userComments">
+                                <fragment content="DNT"/>
+                            </attributedString>
                         </textFieldCell>
                         <connections>
                             <binding destination="805" name="displayPatternValue1" keyPath="buildVersion" id="1185">
@@ -116,6 +122,9 @@
                         <buttonCell key="cell" type="bevel" title="openemu.org" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="50H-ys-sAp" customClass="OEButtonCell">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
+                            <attributedString key="userComments">
+                                <fragment content="DNT"/>
+                            </attributedString>
                         </buttonCell>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="about_website_link"/>
@@ -130,6 +139,9 @@
                         <buttonCell key="cell" type="bevel" title="github.com/openemu" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="y9C-BZ-tbY" customClass="OEButtonCell">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
+                            <attributedString key="userComments">
+                                <fragment content="DNT"/>
+                            </attributedString>
                         </buttonCell>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="about_github_link"/>
@@ -183,7 +195,11 @@
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
                             <menuItem title="Services" id="1024">
-                                <menu key="submenu" title="Services" systemMenu="services" id="1027"/>
+                                <menu key="submenu" title="Services" systemMenu="services" id="1027">
+                                    <attributedString key="userComments">
+                                        <fragment content="DNT"/>
+                                    </attributedString>
+                                </menu>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="1021">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
@@ -213,7 +229,13 @@
                                 </connections>
                             </menuItem>
                         </items>
+                        <attributedString key="userComments">
+                            <fragment content="DNT"/>
+                        </attributedString>
                     </menu>
+                    <attributedString key="userComments">
+                        <fragment content="DNT"/>
+                    </attributedString>
                 </menuItem>
                 <menuItem title="File" id="976">
                     <menu key="submenu" title="File" id="980">
@@ -279,6 +301,9 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                     </items>
+                                    <attributedString key="userComments">
+                                        <fragment content="DNT"/>
+                                    </attributedString>
                                 </menu>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="989"/>
@@ -297,20 +322,38 @@
                                         </menuItem>
                                         <menuItem title="★" enabled="NO" id="1004">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
                                         </menuItem>
                                         <menuItem title="★★" enabled="NO" id="1001">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
                                         </menuItem>
                                         <menuItem title="★★★" enabled="NO" id="1002">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
                                         </menuItem>
                                         <menuItem title="★★★★" enabled="NO" id="1003">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
                                         </menuItem>
                                         <menuItem title="★★★★★" enabled="NO" id="1005">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
                                         </menuItem>
                                     </items>
+                                    <attributedString key="userComments">
+                                        <fragment content="DNT"/>
+                                    </attributedString>
                                 </menu>
                             </menuItem>
                             <menuItem title="Show in Finder" tag="109" keyEquivalent="R" id="992">
@@ -335,6 +378,9 @@
                             </menuItem>
                         </items>
                     </menu>
+                    <attributedString key="userComments">
+                        <fragment content="DNT"/>
+                    </attributedString>
                 </menuItem>
                 <menuItem title="Edit" id="971">
                     <modifierMask key="keyEquivalentModifierMask"/>
@@ -390,10 +436,16 @@ CA
                                         <menuItem title="Use Selection for Find" tag="7" keyEquivalent="e" id="1079"/>
                                         <menuItem title="Jump to Selection" keyEquivalent="j" id="1078"/>
                                     </items>
+                                    <attributedString key="userComments">
+                                        <fragment content="DNT"/>
+                                    </attributedString>
                                 </menu>
                             </menuItem>
                         </items>
                     </menu>
+                    <attributedString key="userComments">
+                        <fragment content="DNT"/>
+                    </attributedString>
                 </menuItem>
                 <menuItem title="View" id="973">
                     <menu key="submenu" title="View" id="1035">
@@ -440,6 +492,9 @@ CA
                             </menuItem>
                         </items>
                     </menu>
+                    <attributedString key="userComments">
+                        <fragment content="DNT"/>
+                    </attributedString>
                 </menuItem>
                 <menuItem title="Controls" id="972">
                     <modifierMask key="keyEquivalentModifierMask"/>
@@ -459,23 +514,44 @@ DQ
                                     <items>
                                         <menuItem title="SNES" state="on" enabled="NO" id="1055">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
                                         </menuItem>
                                         <menuItem title="Super Mario World" state="on" id="1056">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
                                         </menuItem>
                                         <menuItem title="Mario Kart" indentationLevel="1" id="1057">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
                                         </menuItem>
                                         <menuItem title="Secret Of Mana" indentationLevel="1" id="1058">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
                                         </menuItem>
                                         <menuItem title="3DO" enabled="NO" id="1059">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
                                         </menuItem>
                                         <menuItem title="Demolition Man" indentationLevel="1" id="1060">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
                                         </menuItem>
                                     </items>
+                                    <attributedString key="userComments">
+                                        <fragment content="DNT"/>
+                                    </attributedString>
                                     <connections>
                                         <outlet property="delegate" destination="805" id="1196"/>
                                     </connections>
@@ -545,6 +621,9 @@ DQ
                             </menuItem>
                         </items>
                     </menu>
+                    <attributedString key="userComments">
+                        <fragment content="DNT"/>
+                    </attributedString>
                 </menuItem>
                 <menuItem title="Window" id="974">
                     <menu key="submenu" title="Window" systemMenu="window" id="1028">
@@ -564,6 +643,9 @@ DQ
                             </menuItem>
                             <menuItem title="OpenEmu" tag="501" keyEquivalent="1" id="1029">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <attributedString key="userComments">
+                                    <fragment content="DNT"/>
+                                </attributedString>
                                 <connections>
                                     <action selector="showOpenEmuWindow:" target="-1" id="1158"/>
                                 </connections>
@@ -578,6 +660,9 @@ DQ
                             </menuItem>
                         </items>
                     </menu>
+                    <attributedString key="userComments">
+                        <fragment content="DNT"/>
+                    </attributedString>
                 </menuItem>
                 <menuItem title="Debug" id="1208">
                     <modifierMask key="keyEquivalentModifierMask"/>
@@ -595,6 +680,9 @@ DQ
                             </menuItem>
                         </items>
                     </menu>
+                    <attributedString key="userComments">
+                        <fragment content="DNT"/>
+                    </attributedString>
                     <connections>
                         <binding destination="1212" name="hidden" keyPath="values.debug" id="1216">
                             <dictionary key="options">
@@ -634,6 +722,9 @@ DQ
                             </menuItem>
                         </items>
                     </menu>
+                    <attributedString key="userComments">
+                        <fragment content="DNT"/>
+                    </attributedString>
                 </menuItem>
             </items>
             <point key="canvasLocation" x="139" y="154"/>
