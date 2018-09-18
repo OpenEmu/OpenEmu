@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -30,7 +30,7 @@
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn identifier="" editable="NO" width="817" minWidth="40" maxWidth="1000" id="plD-bs-5oS">
+                                    <tableColumn editable="NO" width="817" minWidth="40" maxWidth="1000" id="plD-bs-5oS">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -99,10 +99,11 @@
                                                                 <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" continuousSpellChecking="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="EM4-yi-C1u">
                                                                     <rect key="frame" x="0.0" y="0.0" width="498" height="53"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     <size key="minSize" width="498" height="53"/>
                                                                     <size key="maxSize" width="639" height="10000000"/>
-                                                                    <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 </textView>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -193,9 +194,8 @@
                                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="1yX-5M-iLY" customClass="OEBackgroundImageView">
                                                         <rect key="frame" x="34" y="0.0" width="748" height="230"/>
                                                         <subviews>
-                                                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RVu-F3-nDj">
+                                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="RVu-F3-nDj">
                                                                 <rect key="frame" x="2" y="1" width="242" height="220"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
                                                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hbl-cX-W2X" customClass="OEHomebrewCoverView">
                                                                         <rect key="frame" x="2" y="33" width="240" height="185"/>
@@ -250,10 +250,13 @@
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
                                                                 </subviews>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="242" id="8CF-I5-Ihx"/>
+                                                                    <constraint firstAttribute="height" constant="220" id="QFv-eX-5YA"/>
+                                                                </constraints>
                                                             </customView>
-                                                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fWt-jo-lSb">
+                                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="fWt-jo-lSb">
                                                                 <rect key="frame" x="253" y="1" width="242" height="220"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
                                                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8In-DY-9QG" customClass="OEHomebrewCoverView">
                                                                         <rect key="frame" x="2" y="33" width="240" height="185"/>
@@ -308,10 +311,13 @@
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
                                                                 </subviews>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="220" id="HSy-xI-b1l"/>
+                                                                    <constraint firstAttribute="width" constant="242" id="LpU-89-uOI"/>
+                                                                </constraints>
                                                             </customView>
-                                                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sN5-rM-I3f">
+                                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="sN5-rM-I3f">
                                                                 <rect key="frame" x="504" y="1" width="242" height="220"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
                                                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LeL-8G-gVy" customClass="OEHomebrewCoverView">
                                                                         <rect key="frame" x="2" y="33" width="240" height="185"/>
@@ -366,10 +372,20 @@
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
                                                                 </subviews>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="220" id="BWD-C4-mNL"/>
+                                                                    <constraint firstAttribute="width" constant="242" id="wp1-Wy-Ygm"/>
+                                                                </constraints>
                                                             </customView>
                                                         </subviews>
                                                         <constraints>
+                                                            <constraint firstItem="fWt-jo-lSb" firstAttribute="top" secondItem="1yX-5M-iLY" secondAttribute="top" constant="9" id="H0z-hf-NAC"/>
+                                                            <constraint firstItem="RVu-F3-nDj" firstAttribute="leading" secondItem="1yX-5M-iLY" secondAttribute="leading" constant="2" id="MpT-01-xhe"/>
                                                             <constraint firstAttribute="height" constant="230" id="cn0-dN-Ohq"/>
+                                                            <constraint firstItem="fWt-jo-lSb" firstAttribute="centerX" secondItem="1yX-5M-iLY" secondAttribute="centerX" id="fOk-vW-Mqg"/>
+                                                            <constraint firstItem="RVu-F3-nDj" firstAttribute="top" secondItem="1yX-5M-iLY" secondAttribute="top" constant="9" id="fVP-Wm-2Ew"/>
+                                                            <constraint firstAttribute="trailing" secondItem="sN5-rM-I3f" secondAttribute="trailing" constant="2" id="i8u-Qs-uqU"/>
+                                                            <constraint firstItem="sN5-rM-I3f" firstAttribute="top" secondItem="1yX-5M-iLY" secondAttribute="top" constant="9" id="x6s-jl-jNB"/>
                                                         </constraints>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
