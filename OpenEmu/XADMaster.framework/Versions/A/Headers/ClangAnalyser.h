@@ -1,5 +1,5 @@
 /*
- * XADResourceFork.h
+ * ClangAnalyser.h
  *
  * Copyright (c) 2017-present, MacPaw Inc. All rights reserved.
  *
@@ -18,25 +18,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-#import "CSHandle.h"
-#import "XADException.h"
+#ifndef __CLANG_ANALYSER_H__
+#define __CLANG_ANALYSER_H__
 
-@interface XADResourceFork:NSObject
-{
-	NSDictionary *resources;
-}
+#ifdef __clang_analyzer__
 
-+(XADResourceFork *)resourceForkWithHandle:(CSHandle *)handle;
-+(XADResourceFork *)resourceForkWithHandle:(CSHandle *)handle error:(XADError *)errorptr;
+#include <assert.h>
 
--(id)init;
--(void)dealloc;
+#define analyser_assert(x) assert(x)
 
--(void)parseFromHandle:(CSHandle *)handle;
--(NSData *)resourceDataForType:(uint32_t)type identifier:(int)identifier;
+#if __has_feature(attribute_analyzer_noreturn)
+#define CLANG_ANALYZER_NORETURN __attribute__((analyzer_noreturn))
+#else
+#define CLANG_ANALYZER_NORETURN
+#endif
 
--(NSMutableDictionary *)_parseResourceDataFromHandle:(CSHandle *)handle;
--(NSDictionary *)_parseMapFromHandle:(CSHandle *)handle withDataObjects:(NSMutableDictionary *)dataobjects;
--(NSDictionary *)_parseReferencesFromHandle:(CSHandle *)handle count:(int)count;
+#else
 
-@end
+#define analyser_assert(x)
+#define CLANG_ANALYZER_NORETURN
+
+#endif
+
+#endif
