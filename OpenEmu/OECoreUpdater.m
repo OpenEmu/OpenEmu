@@ -466,11 +466,29 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
     [_coresDict enumerateKeysAndObjectsUsingBlock:
      ^(id key, id obj, BOOL *stop)
      {
+         // This runs when the core is not installed at all. Since
+         // Sparkle's update checking logic is all in the SUUpdater,
+         // which is tied to an existing bundle (which doesn't exist,
+         // since it hasn't been installed yet), it's necessary to
+         // reproduce the operating system version requirement check
+         // here. There is no existing version to check against. This
+         // code assumes that the newest versions are always ordered
+         // first. As a result, maximum system version checks are not
+         // implemented.
          if([obj appcast] == appcast)
          {
-             //Assuming 0 is the best download, may or may not be the best
-             NSArray *appcastItems = [appcast items];
-             if([appcastItems count] > 0) [obj setAppcastItem:[appcastItems objectAtIndex:0]];
+             NSOperatingSystemVersion OSVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+             NSString *OSVersionString = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)OSVersion.majorVersion, (long)OSVersion.minorVersion, (long)OSVersion.patchVersion];
+             for (SUAppcastItem *item in [appcast items]) {
+                 if (item.minimumSystemVersion == nil || [item.minimumSystemVersion isEqualToString:@""] ||
+                     ([[SUStandardVersionComparator defaultComparator]
+                       compareVersion:item.minimumSystemVersion
+                       toVersion:OSVersionString] != NSOrderedDescending))
+                 {
+                     [obj setAppcastItem:item];
+                     break;
+                 }
+             }
 
              [obj setDelegate:self];
              *stop = YES;
