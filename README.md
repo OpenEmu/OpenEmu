@@ -3,12 +3,7 @@ OpenEmu
 
 ![alt text](http://openemu.org/img/intro-md.png "OpenEmu Screenshot")
 
-OpenEmu is an open source project to bring game emulation to OS X as a first
-class citizen, leveraging modern OS X technologies such as Cocoa, Core
-Animation and Quartz, and 3rd party libraries like Sparkle for auto-updating.
-OpenEmu is based on a modular architecture, allowing for game-engine plugins,
-this means OpenEmu can support a host of different emulation engines and
-back-ends while retaining a familiar OS X native front-end.
+OpenEmu is an open source project whose purpose is to bring OS X game emulation into the realm of first class citizenship. The project leverages modern OS X technologies, such as Cocoa, Core Animation with Quartz Composer, and other third-party libraries. One third-party library example is Sparkle, which is used for auto-updating. OpenEmu user a modular architecture, allowing for game-engine plugins, allowing OpenEmu to support a host of different emulation engines and back ends while retaining the familiar OS X native front end.
 
 Currently OpenEmu can load the following game engines as plugins:
 
