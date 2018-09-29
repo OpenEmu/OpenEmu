@@ -410,6 +410,13 @@
     }];
 }
 
+- (void)insertFileAtURL:(NSURL *)url
+{
+    [_gameCore performBlock:^{
+        [self->_gameCore insertFileAtURL:url];
+    }];
+}
+
 - (void)handleMouseEvent:(OEEvent *)event
 {
     dispatch_async(dispatch_get_main_queue(), ^{

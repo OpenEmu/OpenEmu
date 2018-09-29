@@ -93,6 +93,11 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
     [[self gameCoreHelper] setDisc:discNumber];
 }
 
+- (void)insertFileAtURL:(NSURL *)url
+{
+    [[self gameCoreHelper] insertFileAtURL:url];
+}
+
 - (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
     [[self gameCoreHelper] setupEmulationWithCompletionHandler:

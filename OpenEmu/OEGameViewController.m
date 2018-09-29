@@ -179,6 +179,11 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     return [[self document] supportsMultipleDiscs];
 }
 
+- (BOOL)supportsFileInsertion
+{
+    return [[self document] supportsFileInsertion];
+}
+
 - (NSUInteger)discCount
 {
     return _discCount;

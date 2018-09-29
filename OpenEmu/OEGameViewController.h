@@ -72,6 +72,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 @property(readonly) BOOL supportsCheats;
 @property(readonly) BOOL supportsSaveStates;
 @property(readonly) BOOL supportsMultipleDiscs;
+@property(readonly) BOOL supportsFileInsertion;
 @property(readonly) NSUInteger discCount;
 @property(readonly) NSString *coreIdentifier;
 @property(readonly) NSString *systemIdentifier;

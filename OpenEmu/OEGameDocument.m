@@ -1163,6 +1163,39 @@ typedef enum : NSUInteger
     [_gameCoreManager setDisc:[[sender representedObject] unsignedIntegerValue]];
 }
 
+#pragma mark - File Insertion
+
+- (BOOL)supportsFileInsertion
+{
+    return [[[_gameCoreManager plugin] controller] supportsFileInsertionForSystemIdentifier:[_systemPlugin systemIdentifier]];
+}
+
+- (IBAction)insertFile:(id)sender;
+{
+    NSArray *archivedExtensions = @[@"tar.gz", @"tar", @"gz", @"zip", @"7z", @"rar"];
+    NSArray *validExtensions = [archivedExtensions arrayByAddingObjectsFromArray:[_systemPlugin supportedTypeExtensions]];
+
+    OEDBSystem *system = self.rom.game.system;
+    NSURL *systemFolder = [[OELibraryDatabase defaultDatabase] romsFolderURLForSystem:system];
+    // Seemed to need this to get NSOpenPanel to restrict to this directory on open for some reason
+    NSURL *romsFolderURL = [NSURL fileURLWithPath:systemFolder.path isDirectory:YES];
+
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    panel.allowsMultipleSelection = NO;
+    panel.directoryURL = romsFolderURL;
+    panel.canChooseFiles = YES;
+    panel.canChooseDirectories = NO;
+    panel.canCreateDirectories = NO;
+    panel.allowedFileTypes = validExtensions;
+
+    if([panel runModal] == NSModalResponseOK)
+    {
+        NSString *aPath = decompressedPathForRomAtPath(panel.URL.path);
+        NSURL *aURL = [NSURL fileURLWithPath:aPath];
+        [_gameCoreManager insertFileAtURL:aURL];
+    }
+}
+
 #pragma mark - Saving States
 
 - (BOOL)supportsSaveStates

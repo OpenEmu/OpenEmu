@@ -347,6 +347,13 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Game Controls…", @"") action:@selector(editControls:) keyEquivalent:@""];
     [menu addItem:item];
 
+    // Insert Cart/Disk/Tape Menu
+    if([[self gameViewController] supportsFileInsertion])
+    {
+        item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Insert Cart/Disk/Tape…", @"") action:@selector(insertFile:) keyEquivalent:@""];
+        [menu addItem:item];
+    }
+
     // Setup Cheats Menu
     if([[self gameViewController] supportsCheats])
     {

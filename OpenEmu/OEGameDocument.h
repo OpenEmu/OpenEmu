@@ -103,6 +103,10 @@ enum _OEGameDocumentErrorCodes
 - (IBAction)setDisc:(id)sender;
 - (BOOL)supportsMultipleDiscs;
 
+#pragma mark - File Insertion
+- (IBAction)insertFile:(id)sender;
+- (BOOL)supportsFileInsertion;
+
 #pragma mark - Saving States
 - (BOOL)supportsSaveStates;
 - (void)quickSave:(id)sender;
