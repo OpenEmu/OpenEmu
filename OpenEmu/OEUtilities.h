@@ -40,3 +40,4 @@ void tohex(const unsigned char *input, size_t len, char *output);
 void OEPrintFirstResponderChain(void);
 NSArray *OENextRespondersFromResponder(NSResponder *responder);
 NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath);
+NSString *decompressedPathForRomAtPath(NSString *aPath);
