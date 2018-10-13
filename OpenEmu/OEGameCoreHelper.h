@@ -47,7 +47,7 @@
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 - (void)setDisc:(NSUInteger)discNumber;
 
-- (void)insertFileAtURL:(NSURL *)url;
+- (void)insertFileAtURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block;
 
 - (void)handleMouseEvent:(OEEvent *)event;
 

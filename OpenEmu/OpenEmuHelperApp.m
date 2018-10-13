@@ -410,10 +410,10 @@
     }];
 }
 
-- (void)insertFileAtURL:(NSURL *)url
+- (void)insertFileAtURL:(NSURL *)url completionHandler:(void (^)(BOOL, NSError *))block
 {
     [_gameCore performBlock:^{
-        [self->_gameCore insertFileAtURL:url];
+        [self->_gameCore insertFileAtURL:url completionHandler:block];
     }];
 }
 

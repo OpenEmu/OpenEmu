@@ -1187,13 +1187,28 @@ typedef enum : NSUInteger
     panel.canChooseDirectories = NO;
     panel.canCreateDirectories = NO;
     panel.allowedFileTypes = validExtensions;
+    
+    [panel beginSheetModalForWindow:[self gameWindowController].window completionHandler:
+     ^(NSModalResponse result)
+     {
+         if(result == NSModalResponseOK)
+         {
+             NSString *aPath = decompressedPathForRomAtPath(panel.URL.path);
+             NSURL *aURL = [NSURL fileURLWithPath:aPath];
 
-    if([panel runModal] == NSModalResponseOK)
-    {
-        NSString *aPath = decompressedPathForRomAtPath(panel.URL.path);
-        NSURL *aURL = [NSURL fileURLWithPath:aPath];
-        [_gameCoreManager insertFileAtURL:aURL];
-    }
+             [self->_gameCoreManager insertFileAtURL:aURL completionHandler:
+              ^(BOOL success, NSError *error)
+              {
+                  if(!success)
+                  {
+                        [self presentError:error];
+                        return;
+                  }
+
+                  [self setEmulationPaused:NO];
+              }];
+         }
+     }];
 }
 
 #pragma mark - Saving States
