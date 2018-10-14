@@ -49,7 +49,15 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushC64Button:(OEC64Button)[aKey key] forPlayer:[aKey player]];
+    OEC64Button button = (OEC64Button)[aKey key];
+    
+    switch(button)
+    {
+        case OEC64SwapJoysticks : [[self client] swapJoysticks]; break;
+        default :
+            [[self client] didPushC64Button:button forPlayer:[aKey player]];
+            break;
+    }
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey

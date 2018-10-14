@@ -18,6 +18,10 @@
 		<string>{0, 0}</string>
 		<key>OEC64ButtonFire</key>
 		<string>{0, 0}</string>
+		<key>OEC64ButtonJump</key>
+		<string>{0, 0}</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>
