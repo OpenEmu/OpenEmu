@@ -239,16 +239,13 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 {
     NSRect gridViewFrame = _gridView.frame;
     
+    // Change the frame.
+    self->_gridView.frame = NSInsetRect(gridViewFrame, -0.0000000001, -0.0000000001);
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        // Change the frame.
-        self->_gridView.frame = NSInsetRect(gridViewFrame, -0.0000000001, -0.0000000001);
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            // Change the frame back to what it was.
-            self->_gridView.frame = gridViewFrame;
-        });
+        // Change the frame back to what it was.
+        self->_gridView.frame = gridViewFrame;
     });
 }
 
