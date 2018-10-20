@@ -240,7 +240,7 @@
 
 #pragma mark - Game Core methods
 
-- (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion withCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath error:(NSError **)error
+- (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion systemDisplayMode:(NSString *)systemDisplayMode withCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath error:(NSError **)error
 {
     if(self.loadedRom) return NO;
 
@@ -266,6 +266,7 @@
 
     [_gameCore setSystemIdentifier:systemIdentifier];
     [_gameCore setSystemRegion:systemRegion];
+    [_gameCore setSystemDisplayMode:systemDisplayMode];
     [_gameCore setROMCRC32:romCRC32];
     [_gameCore setROMMD5:romMD5];
     [_gameCore setROMHeader:romHeader];
@@ -295,6 +296,7 @@
     {
         DLog(@"Loaded new Rom: %@", aPath);
         [[self gameCoreOwner] setDiscCount:[_gameCore discCount]];
+        [[self gameCoreOwner] setDisplayModes:[_gameCore displayModes]];
 
         self.loadedRom = YES;
 
@@ -414,6 +416,14 @@
 {
     [_gameCore performBlock:^{
         [self->_gameCore insertFileAtURL:url completionHandler:block];
+    }];
+}
+
+- (void)changeDisplayWithMode:(NSString *)displayMode
+{
+    [_gameCore performBlock:^{
+        [self->_gameCore changeDisplayWithMode:displayMode];
+        [[self gameCoreOwner] setDisplayModes:[self->_gameCore displayModes]];
     }];
 }
 

@@ -107,6 +107,10 @@ enum _OEGameDocumentErrorCodes
 - (IBAction)insertFile:(id)sender;
 - (BOOL)supportsFileInsertion;
 
+#pragma mark - Display Mode
+- (IBAction)changeDisplayMode:(id)sender;
+- (BOOL)supportsDisplayModeChange;
+
 #pragma mark - Saving States
 - (BOOL)supportsSaveStates;
 - (void)quickSave:(id)sender;

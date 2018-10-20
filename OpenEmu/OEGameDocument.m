@@ -324,11 +324,13 @@ typedef enum : NSUInteger
     _corePlugin = corePlugin;
 
     NSString *path = [[self romFileURL] path];
+    NSString *lastDisplayMode = ([[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:OEGameSystemDisplayModeKeyFormat, [_systemPlugin systemIdentifier]]]
+                                ? : nil);
      // if file is in an archive append :entryIndex to path, so the core manager can figure out which entry to load
     if([[self rom] archiveFileIndex])
         path = [path stringByAppendingFormat:@":%d",[[[self rom] archiveFileIndex] intValue]];
 
-    return [[managerClass alloc] initWithROMPath:path romCRC32:[[self rom] crc32] romMD5:[[self rom] md5] romHeader:[[self rom] header] romSerial:[[self rom] serial] systemRegion:[[OELocalizationHelper sharedHelper] regionName] corePlugin:_corePlugin systemPlugin:_systemPlugin gameCoreOwner:self];
+    return [[managerClass alloc] initWithROMPath:path romCRC32:[[self rom] crc32] romMD5:[[self rom] md5] romHeader:[[self rom] header] romSerial:[[self rom] serial] systemRegion:[[OELocalizationHelper sharedHelper] regionName] systemDisplayMode:lastDisplayMode corePlugin:_corePlugin systemPlugin:_systemPlugin gameCoreOwner:self];
 }
 
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError
@@ -1211,6 +1213,24 @@ typedef enum : NSUInteger
      }];
 }
 
+#pragma mark - Display Mode
+
+- (BOOL)supportsDisplayModeChange
+{
+    return [[[_gameCoreManager plugin] controller] supportsDisplayModeChangeForSystemIdentifier:[_systemPlugin systemIdentifier]];
+}
+
+- (IBAction)changeDisplayMode:(id)sender
+{
+    if ([(NSMenuItem *)sender state] == NSOnState) {
+        return;
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[sender representedObject] forKey:[NSString stringWithFormat:OEGameSystemDisplayModeKeyFormat, [_systemPlugin systemIdentifier]]];
+
+    return [_gameCoreManager changeDisplayWithMode:[sender representedObject]];
+}
+
 #pragma mark - Saving States
 
 - (BOOL)supportsSaveStates
@@ -1597,6 +1617,11 @@ typedef enum : NSUInteger
 - (void)setDiscCount:(NSUInteger)discCount
 {
     [_gameViewController setDiscCount:discCount];
+}
+
+- (void)setDisplayModes:(NSArray <NSDictionary <NSString *, id> *> *)displayModes
+{
+    [_gameViewController setDisplayModes:displayModes];
 }
 
 @end

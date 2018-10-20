@@ -176,6 +176,8 @@
 
 "Device number %lu, %@, has disconnected." = "设备号 %1$lu, %2$@, 已断开连接";
 
+"Disc %u" = "Disc %u"; // TODO
+
 "Disc-based games have special requirements. Please read the disc importing guide." = "磁盘游戏有特殊要求。请阅读磁盘导入指南。";
 
 "Dismiss" = "消除";
@@ -423,6 +425,10 @@
 "Select Cheat" = "选择金手指";
 
 "Select Core" = "选择核心";
+
+"Select Disc" = "Select Disc"; // TODO
+
+"Select Display Mode" = "显示模式";
 
 "Select Filter" = "选择滤镜";
 

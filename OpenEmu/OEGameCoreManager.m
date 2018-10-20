@@ -35,19 +35,20 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
 
 @implementation OEGameCoreManager
 
-- (instancetype)initWithROMPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion corePlugin:(OECorePlugin *)plugin systemPlugin:(OESystemPlugin *)systemPlugin gameCoreOwner:(id<OEGameCoreOwner>)gameCoreOwner
+- (instancetype)initWithROMPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion systemDisplayMode:(NSString *)systemDisplayMode corePlugin:(OECorePlugin *)plugin systemPlugin:(OESystemPlugin *)systemPlugin gameCoreOwner:(id<OEGameCoreOwner>)gameCoreOwner
 {
     if((self = [super init]))
     {
-        _ROMPath          = romPath;
-        _ROMCRC32         = romCRC32;
-        _ROMMD5           = romMD5;
-        _ROMHeader        = romHeader;
-        _ROMSerial        = romSerial;
-        _systemRegion     = systemRegion;
-        _plugin           = plugin;
-        _systemPlugin     = systemPlugin;
-        _gameCoreOwner    = gameCoreOwner;
+        _ROMPath           = romPath;
+        _ROMCRC32          = romCRC32;
+        _ROMMD5            = romMD5;
+        _ROMHeader         = romHeader;
+        _ROMSerial         = romSerial;
+        _systemRegion      = systemRegion;
+        _systemDisplayMode = systemDisplayMode;
+        _plugin            = plugin;
+        _systemPlugin      = systemPlugin;
+        _gameCoreOwner     = gameCoreOwner;
     }
 
     return self;
@@ -102,6 +103,11 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
              block(success, error);
          });
      }];
+}
+
+- (void)changeDisplayWithMode:(NSString *)displayMode
+{
+    [[self gameCoreHelper] changeDisplayWithMode:displayMode];
 }
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;

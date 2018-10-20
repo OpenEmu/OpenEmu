@@ -176,6 +176,8 @@
 
 "Device number %lu, %@, has disconnected." = "%1$lu, %2$@, 個のデバイスの接続が解除されました。";
 
+"Disc %u" = "Disc %u"; // TODO
+
 "Disc-based games have special requirements. Please read the disc importing guide." = "ディスクゲームは特別な操作が必要です。ディスクのインポートガイドを確認して下さい。";
 
 "Dismiss" = "無視する";
@@ -423,6 +425,10 @@
 "Select Cheat" = "チートを選択";
 
 "Select Core" = "コアを選択";
+
+"Select Disc" = "Select Disc"; // TODO
+
+"Select Display Mode" = "ディスプレイモード";
 
 "Select Filter" = "フィルタを選択";
 

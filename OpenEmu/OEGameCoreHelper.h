@@ -46,6 +46,7 @@
 
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 - (void)setDisc:(NSUInteger)discNumber;
+- (void)changeDisplayWithMode:(NSString *)displayMode;
 
 - (void)insertFileAtURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block;
 
@@ -82,5 +83,6 @@
 - (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 - (void)setDiscCount:(NSUInteger)discCount;
+- (void)setDisplayModes:(NSArray <NSDictionary <NSString *, id> *> *)displayModes;
 
 @end

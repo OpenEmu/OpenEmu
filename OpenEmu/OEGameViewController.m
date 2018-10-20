@@ -59,6 +59,7 @@
 NSString *const OEGameVolumeKey = @"volume";
 NSString *const OEGameDefaultVideoFilterKey = @"videoFilter";
 NSString *const OEGameSystemVideoFilterKeyFormat = @"videoFilter.%@";
+NSString *const OEGameSystemDisplayModeKeyFormat = @"displayMode.%@";
 NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
 NSString *const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
 NSString *const OEBackgroundPauseKey = @"backgroundPause";
@@ -83,6 +84,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     OEIntSize   _aspectSize;
     BOOL        _pausedByGoingToBackground;
     NSUInteger  _discCount;
+    NSArray <NSDictionary <NSString *, id> *> *_displayModes;
 }
 
 @end
@@ -184,9 +186,19 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     return [[self document] supportsFileInsertion];
 }
 
+- (BOOL)supportsDisplayModeChange
+{
+    return [[self document] supportsDisplayModeChange];
+}
+
 - (NSUInteger)discCount
 {
     return _discCount;
+}
+
+- (NSArray <NSDictionary <NSString *, id> *> *)displayModes
+{
+    return _displayModes;
 }
 
 - (NSString *)coreIdentifier;
@@ -319,6 +331,11 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 - (void)setDiscCount:(NSUInteger)discCount
 {
     _discCount = discCount;
+}
+
+- (void)setDisplayModes:(NSArray <NSDictionary <NSString *, id> *> *)displayModes
+{
+    _displayModes = displayModes;
 }
 
 #pragma mark - Info

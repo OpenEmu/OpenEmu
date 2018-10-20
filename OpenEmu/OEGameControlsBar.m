@@ -438,6 +438,29 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         }
     }
 
+    // Setup Change Display Mode Menu
+    if([[self gameViewController] supportsDisplayModeChange] && [[self gameViewController] displayModes].count > 0)
+    {
+        NSMenu *displayMenu = [NSMenu new];
+        [displayMenu setTitle:NSLocalizedString(@"Select Display Mode", @"")];
+        item = [NSMenuItem new];
+        [item setTitle:[displayMenu title]];
+        [menu addItem:item];
+        [item setSubmenu:displayMenu];
+
+        for (NSDictionary *modeDict in [[self gameViewController] displayModes])
+        {
+            NSString *mode = modeDict[OEGameCoreDisplayModesNameKey];
+            BOOL enabled = [modeDict[OEGameCoreDisplayModesStateKey] boolValue];
+
+            NSMenuItem *displayMenuItem = [[NSMenuItem alloc] initWithTitle:mode action:@selector(changeDisplayMode:) keyEquivalent:@""];
+            [displayMenuItem setRepresentedObject:mode];
+            [displayMenuItem setState:enabled ? NSOnState : NSOffState];
+
+            [displayMenu addItem:displayMenuItem];
+        }
+    }
+
     // Setup Video Filter Menu
     NSMenu *filterMenu = [[NSMenu alloc] init];
     [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];

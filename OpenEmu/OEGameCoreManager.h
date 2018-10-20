@@ -43,7 +43,7 @@ extern NSString * const OEGameCoreErrorDomain;
 
 @interface OEGameCoreManager : NSObject <OEGameCoreHelper>
 
-- (instancetype)initWithROMPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion corePlugin:(OECorePlugin *)plugin systemPlugin:(OESystemPlugin *)systemPlugin gameCoreOwner:(id<OEGameCoreOwner>)gameCoreOwner;
+- (instancetype)initWithROMPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion systemDisplayMode:(NSString *)systemDisplayMode corePlugin:(OECorePlugin *)plugin systemPlugin:(OESystemPlugin *)systemPlugin gameCoreOwner:(id<OEGameCoreOwner>)gameCoreOwner;
 
 @property(readonly, copy) NSString                    *ROMPath;
 @property(readonly, copy) NSString                    *ROMCRC32;
@@ -51,6 +51,7 @@ extern NSString * const OEGameCoreErrorDomain;
 @property(readonly, copy) NSString                    *ROMHeader;
 @property(readonly, copy) NSString                    *ROMSerial;
 @property(readonly, copy) NSString                    *systemRegion;
+@property(readonly, copy) NSString                    *systemDisplayMode;
 @property(readonly, weak) OECorePlugin                *plugin;
 @property(readonly, weak) OESystemPlugin *systemPlugin;
 @property(readonly, weak) id<OEGameCoreOwner> gameCoreOwner;
