@@ -30,7 +30,6 @@
 #import "OESlider.h"
 #import "OESliderCell.h"
 
-#import "OEMenu.h"
 #import "OEDBRom.h"
 
 #import "OEShaderPlugin.h"
@@ -539,22 +538,12 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             }
     }
 
-    // Create OEMenu and display it
     [menu setDelegate:self];
 
-    NSRect targetRect = [sender bounds];
-    targetRect.size.width -= 7.0;
-    targetRect = NSInsetRect(targetRect, -2.0, 1.0);
-    targetRect = [self convertRectToScreen:[sender convertRect:targetRect toView:nil]];
-
-    NSDictionary *options = @{
-        OEMenuOptionsStyleKey : @(OEMenuStyleLight),
-        OEMenuOptionsArrowEdgeKey : @(OEMinYEdge),
-        OEMenuOptionsMaximumSizeKey : [NSValue valueWithSize:NSMakeSize(500, 256)],
-        OEMenuOptionsScreenRectKey : [NSValue valueWithRect:targetRect]
-    };
-
-    [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
+    // Display menu.
+    NSRect targetRect = NSInsetRect([sender bounds], -2.0, 1.0);
+    NSPoint menuPosition = NSMakePoint(NSMinX(targetRect), NSMaxY(targetRect));
+    [menu popUpMenuPositioningItem:nil atLocation:menuPosition inView:sender];
 }
 
 - (void)showSaveMenu:(id)sender
@@ -652,19 +641,10 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         }
     }
 
-    NSRect targetRect = [sender bounds];
-    targetRect.size.width -= 7.0;
-    targetRect = NSInsetRect(targetRect, -2.0, 1.0);
-    targetRect = [self convertRectToScreen:[sender convertRect:targetRect toView:nil]];
-
-    NSDictionary *options = @{
-        OEMenuOptionsStyleKey : @(OEMenuStyleLight),
-        OEMenuOptionsArrowEdgeKey : @(OEMinYEdge),
-        OEMenuOptionsMaximumSizeKey : [NSValue valueWithSize:NSMakeSize(500, 256)],
-        OEMenuOptionsScreenRectKey : [NSValue valueWithRect:targetRect]
-    };
-
-    [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
+    // Display menu.
+    NSRect targetRect = NSInsetRect([sender bounds], -2.0, 1.0);
+    NSPoint menuPosition = NSMakePoint(NSMinX(targetRect), NSMaxY(targetRect));
+    [menu popUpMenuPositioningItem:nil atLocation:menuPosition inView:sender];
 }
 
 #pragma mark - OEMenuDelegate Implementation

@@ -39,7 +39,6 @@
 @synthesize trackWindowActivity = _trackWindowActivity;
 @synthesize trackMouseActivity = _trackMouseActivity;
 @synthesize trackModifierActivity = _trackModifierActivity;
-@synthesize menuStyle = _menuStyle;
 @synthesize toolTipStyle = _toolTipStyle;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -120,15 +119,6 @@
     // Mouse has exited / mouse off, we want to redisplay the button with the new state...this is only fired when the mouse tracking is installed
     [self OE_updateHoverFlag:NO];
     [self setNeedsDisplay];
-}
-
-- (void)mouseDown:(NSEvent *)theEvent
-{
-    NSPoint pointInButton = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    if(NSPointInRect(pointInButton, [self bounds]))
-    {
-        [OEMenu openMenuForPopUpButton:self withEvent:theEvent options:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:[self menuStyle]] forKey:OEMenuOptionsStyleKey]];
-    }
 }
 
 - (void)setNeedsDisplay:(BOOL)flag
@@ -286,8 +276,7 @@
     
     if (_cachedIntrinsicWidth < 0.0) {
         if ([self menu]) {
-            NSSize menusize = [OEMenu sizeOfMenu:[self menu] forView:self options:nil];
-            _cachedIntrinsicWidth = menusize.width;
+            _cachedIntrinsicWidth = self.menu.minimumWidth;
         } else {
             _cachedIntrinsicWidth = NSViewNoIntrinsicMetric;
         }

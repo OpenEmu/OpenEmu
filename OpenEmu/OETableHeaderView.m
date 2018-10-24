@@ -26,7 +26,6 @@
 
 #import "OETableHeaderView.h"
 #import "OETableView.h"
-#import "OEMenu.h"
 
 @interface OETableHeaderView()
 - (void)OE_updateHeaderState:(id)sender;
@@ -60,12 +59,8 @@
             [menu addItem:menuItem];
         }
     }
-
-    OEMenuStyle style = OEMenuStyleDark;
-    if([[NSUserDefaults standardUserDefaults] boolForKey:OEMenuOptionsStyleKey]) style = OEMenuStyleLight;
-
-    NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:style] forKey:OEMenuOptionsStyleKey];
-    [OEMenu openMenu:menu withEvent:event forView:self options:options];
+    
+    [NSMenu popUpContextMenu:menu withEvent:event forView:self];
     
     return nil;
 }

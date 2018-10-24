@@ -29,9 +29,6 @@
 #import "OETableCornerView.h"
 #import "OETableHeaderCell.h"
 
-#import "OEMenu.h"
-
-
 static NSColor *cellEditingFillColor, *textColor, *cellSelectedTextColor, *strokeColor;
 static NSGradient *highlightGradient, *normalGradient;
 
@@ -330,11 +327,8 @@ static NSGradient *highlightGradient, *normalGradient;
         
         NSMenu *contextMenu = [(id <OETableViewMenuSource>)[self dataSource] tableView:self menuForItemsAtIndexes:indexes];
         
-        OEMenuStyle style = OEMenuStyleDark;
-        if([[NSUserDefaults standardUserDefaults] boolForKey:OEMenuOptionsStyleKey]) style = OEMenuStyleLight;
+        [NSMenu popUpContextMenu:contextMenu withEvent:theEvent forView:self];
         
-        NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:style] forKey:OEMenuOptionsStyleKey];
-        [OEMenu openMenu:contextMenu withEvent:theEvent forView:self options:options];
         return nil;
     }
 

@@ -29,7 +29,6 @@
 #import "OELibraryDatabase.h"
 #import "OESidebarController.h"
 #import "OELibraryController.h"
-#import "OEMenu.h"
 
 #import "OEDBGame.h"
 #import "OEDBImage.h"
@@ -170,7 +169,6 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 
                               Group(@"Library Window"),
                               Button(@"Reset main window size", @selector(resetMainWindow:)),
-                              NCheckbox(OEMenuOptionsStyleKey, @"Dark GridView context menu"),
                               Checkbox(OECoverGridViewAutoDownloadEnabledKey, @"Download missing artwork on the fly"),
                               Checkbox(OEDisplayGameTitle, @"Show game titles instead of rom names"),
                               Checkbox(OEImportManualSystems, @"Manually choose system on import"),
