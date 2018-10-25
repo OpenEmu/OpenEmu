@@ -504,6 +504,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 - (NSMenu*)OE_saveStateMenuForItensAtIndexes:(NSIndexSet *)indexes
 {
     NSMenu *menu = [[NSMenu alloc] init];
+    menu.autoenablesItems = NO;
 
     if([indexes count] == 1)
     {

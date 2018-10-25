@@ -313,6 +313,8 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 - (void)OE_setUpInputMenu;
 {
     NSMenu *inputMenu = [[NSMenu alloc] init];
+    inputMenu.autoenablesItems = NO;
+    
     NSMenuItem *inputItem = [inputMenu addItemWithTitle:NSLocalizedString(@"Keyboard", @"Keyboard bindings menu item.") action:NULL keyEquivalent:@""];
     [inputItem setRepresentedObject:_OEKeyboardMenuItemRepresentedObject];
 
