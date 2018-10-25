@@ -441,21 +441,72 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     if([[self gameViewController] supportsDisplayModeChange] && [[self gameViewController] displayModes].count > 0)
     {
         NSMenu *displayMenu = [NSMenu new];
-        [displayMenu setTitle:NSLocalizedString(@"Select Display Mode", @"")];
+        displayMenu.autoenablesItems = NO;
+        displayMenu.title = NSLocalizedString(@"Select Display Mode", @"");
         item = [NSMenuItem new];
-        [item setTitle:[displayMenu title]];
+        item.title = displayMenu.title;
         [menu addItem:item];
-        [item setSubmenu:displayMenu];
+        item.submenu = displayMenu;
 
         for (NSDictionary *modeDict in [[self gameViewController] displayModes])
         {
-            NSString *mode = modeDict[OEGameCoreDisplayModesNameKey];
-            BOOL enabled = [modeDict[OEGameCoreDisplayModesStateKey] boolValue];
+            if (modeDict[OEGameCoreDisplayModesSeparatorItemKey])
+            {
+                [displayMenu addItem:[NSMenuItem separatorItem]];
+                continue;
+            }
+
+            NSString *mode = modeDict[OEGameCoreDisplayModesNameKey] ?: modeDict[OEGameCoreDisplayModesLabelKey];
+            BOOL selected = [modeDict[OEGameCoreDisplayModesStateKey] boolValue];
+            BOOL enabled = modeDict[OEGameCoreDisplayModesLabelKey] ? NO : YES;
+            NSInteger indentationLevel = [modeDict[OEGameCoreDisplayModesIndentationLevelKey] integerValue] ?: 0;
+
+            // Submenu group
+            if (modeDict[OEGameCoreDisplayModesGroupNameKey])
+            {
+                // Setup Submenu
+                NSMenu *displaySubmenu = [NSMenu new];
+                displaySubmenu.autoenablesItems = NO;
+                displaySubmenu.title = modeDict[OEGameCoreDisplayModesGroupNameKey];
+                item = [NSMenuItem new];
+                item.title = displaySubmenu.title;
+                [displayMenu addItem:item];
+                item.submenu = displaySubmenu;
+
+                // Submenu items
+                for (NSDictionary *subModeDict in modeDict[OEGameCoreDisplayModesGroupItemsKey])
+                {
+                    // Disallow deeper submenus
+                    if (subModeDict[OEGameCoreDisplayModesGroupNameKey])
+                        continue;
+
+                    if (subModeDict[OEGameCoreDisplayModesSeparatorItemKey])
+                    {
+                        [displaySubmenu addItem:[NSMenuItem separatorItem]];
+                        continue;
+                    }
+
+                    NSString *subMode = subModeDict[OEGameCoreDisplayModesNameKey] ?: subModeDict[OEGameCoreDisplayModesLabelKey];
+                    BOOL subSelected = [subModeDict[OEGameCoreDisplayModesStateKey] boolValue];
+                    BOOL subEnabled = subModeDict[OEGameCoreDisplayModesLabelKey] ? NO : YES;
+                    NSInteger subIndentationLevel = [subModeDict[OEGameCoreDisplayModesIndentationLevelKey] integerValue] ?: 0;
+
+                    NSMenuItem *displaySubmenuItem = [[NSMenuItem alloc] initWithTitle:subMode action:@selector(changeDisplayMode:) keyEquivalent:@""];
+                    displaySubmenuItem.representedObject = subMode;
+                    displaySubmenuItem.state = subSelected ? NSOnState : NSOffState;
+                    displaySubmenuItem.enabled = subEnabled;
+                    displaySubmenuItem.indentationLevel = subIndentationLevel;
+                    [displaySubmenu addItem:displaySubmenuItem];
+                }
+
+                continue;
+            }
 
             NSMenuItem *displayMenuItem = [[NSMenuItem alloc] initWithTitle:mode action:@selector(changeDisplayMode:) keyEquivalent:@""];
-            [displayMenuItem setRepresentedObject:mode];
-            [displayMenuItem setState:enabled ? NSOnState : NSOffState];
-
+            displayMenuItem.representedObject = mode;
+            displayMenuItem.state = selected ? NSOnState : NSOffState;
+            displayMenuItem.enabled = enabled;
+            displayMenuItem.indentationLevel = indentationLevel;
             [displayMenu addItem:displayMenuItem];
         }
     }

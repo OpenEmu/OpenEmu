@@ -324,7 +324,7 @@ typedef enum : NSUInteger
     _corePlugin = corePlugin;
 
     NSString *path = [[self romFileURL] path];
-    NSString *lastDisplayMode = ([[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:OEGameSystemDisplayModeKeyFormat, [_systemPlugin systemIdentifier]]]
+    NSString *lastDisplayMode = ([[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:OEGameSystemDisplayModeKeyFormat, _corePlugin.bundleIdentifier]]
                                 ? : nil);
      // if file is in an archive append :entryIndex to path, so the core manager can figure out which entry to load
     if([[self rom] archiveFileIndex])
@@ -1226,7 +1226,7 @@ typedef enum : NSUInteger
         return;
     }
     
-    [[NSUserDefaults standardUserDefaults] setObject:[sender representedObject] forKey:[NSString stringWithFormat:OEGameSystemDisplayModeKeyFormat, [_systemPlugin systemIdentifier]]];
+    [[NSUserDefaults standardUserDefaults] setObject:[sender representedObject] forKey:[NSString stringWithFormat:OEGameSystemDisplayModeKeyFormat, _corePlugin.bundleIdentifier]];
 
     return [_gameCoreManager changeDisplayWithMode:[sender representedObject]];
 }
