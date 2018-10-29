@@ -450,49 +450,49 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
         for (NSDictionary *modeDict in [[self gameViewController] displayModes])
         {
-            if (modeDict[OEGameCoreDisplayModesSeparatorItemKey])
+            if (modeDict[OEGameCoreDisplayModeSeparatorItemKey])
             {
                 [displayMenu addItem:[NSMenuItem separatorItem]];
                 continue;
             }
 
-            NSString *mode = modeDict[OEGameCoreDisplayModesNameKey] ?: modeDict[OEGameCoreDisplayModesLabelKey];
-            BOOL selected = [modeDict[OEGameCoreDisplayModesStateKey] boolValue];
-            BOOL enabled = modeDict[OEGameCoreDisplayModesLabelKey] ? NO : YES;
-            NSInteger indentationLevel = [modeDict[OEGameCoreDisplayModesIndentationLevelKey] integerValue] ?: 0;
+            NSString *mode = modeDict[OEGameCoreDisplayModeNameKey] ?: modeDict[OEGameCoreDisplayModeLabelKey];
+            BOOL selected = [modeDict[OEGameCoreDisplayModeStateKey] boolValue];
+            BOOL enabled = modeDict[OEGameCoreDisplayModeLabelKey] ? NO : YES;
+            NSInteger indentationLevel = [modeDict[OEGameCoreDisplayModeIndentationLevelKey] integerValue] ?: 0;
 
             // Submenu group
-            if (modeDict[OEGameCoreDisplayModesGroupNameKey])
+            if (modeDict[OEGameCoreDisplayModeGroupNameKey])
             {
                 // Setup Submenu
                 NSMenu *displaySubmenu = [NSMenu new];
                 displaySubmenu.autoenablesItems = NO;
-                displaySubmenu.title = modeDict[OEGameCoreDisplayModesGroupNameKey];
+                displaySubmenu.title = modeDict[OEGameCoreDisplayModeGroupNameKey];
                 item = [NSMenuItem new];
                 item.title = displaySubmenu.title;
                 [displayMenu addItem:item];
                 item.submenu = displaySubmenu;
 
                 // Submenu items
-                for (NSDictionary *subModeDict in modeDict[OEGameCoreDisplayModesGroupItemsKey])
+                for (NSDictionary *subModeDict in modeDict[OEGameCoreDisplayModeGroupItemsKey])
                 {
                     // Disallow deeper submenus
-                    if (subModeDict[OEGameCoreDisplayModesGroupNameKey])
+                    if (subModeDict[OEGameCoreDisplayModeGroupNameKey])
                         continue;
 
-                    if (subModeDict[OEGameCoreDisplayModesSeparatorItemKey])
+                    if (subModeDict[OEGameCoreDisplayModeSeparatorItemKey])
                     {
                         [displaySubmenu addItem:[NSMenuItem separatorItem]];
                         continue;
                     }
 
-                    NSString *subMode = subModeDict[OEGameCoreDisplayModesNameKey] ?: subModeDict[OEGameCoreDisplayModesLabelKey];
-                    BOOL subSelected = [subModeDict[OEGameCoreDisplayModesStateKey] boolValue];
-                    BOOL subEnabled = subModeDict[OEGameCoreDisplayModesLabelKey] ? NO : YES;
-                    NSInteger subIndentationLevel = [subModeDict[OEGameCoreDisplayModesIndentationLevelKey] integerValue] ?: 0;
+                    NSString *subMode = subModeDict[OEGameCoreDisplayModeNameKey] ?: subModeDict[OEGameCoreDisplayModeLabelKey];
+                    BOOL subSelected = [subModeDict[OEGameCoreDisplayModeStateKey] boolValue];
+                    BOOL subEnabled = subModeDict[OEGameCoreDisplayModeLabelKey] ? NO : YES;
+                    NSInteger subIndentationLevel = [subModeDict[OEGameCoreDisplayModeIndentationLevelKey] integerValue] ?: 0;
 
                     NSMenuItem *displaySubmenuItem = [[NSMenuItem alloc] initWithTitle:subMode action:@selector(changeDisplayMode:) keyEquivalent:@""];
-                    displaySubmenuItem.representedObject = subMode;
+                    displaySubmenuItem.representedObject = subModeDict;
                     displaySubmenuItem.state = subSelected ? NSOnState : NSOffState;
                     displaySubmenuItem.enabled = subEnabled;
                     displaySubmenuItem.indentationLevel = subIndentationLevel;
@@ -503,7 +503,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             }
 
             NSMenuItem *displayMenuItem = [[NSMenuItem alloc] initWithTitle:mode action:@selector(changeDisplayMode:) keyEquivalent:@""];
-            displayMenuItem.representedObject = mode;
+            displayMenuItem.representedObject = modeDict;
             displayMenuItem.state = selected ? NSOnState : NSOffState;
             displayMenuItem.enabled = enabled;
             displayMenuItem.indentationLevel = indentationLevel;

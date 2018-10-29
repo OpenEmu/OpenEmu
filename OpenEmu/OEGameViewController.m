@@ -59,7 +59,7 @@
 NSString *const OEGameVolumeKey = @"volume";
 NSString *const OEGameDefaultVideoFilterKey = @"videoFilter";
 NSString *const OEGameSystemVideoFilterKeyFormat = @"videoFilter.%@";
-NSString *const OEGameSystemDisplayModeKeyFormat = @"displayMode.%@";
+NSString *const OEGameCoreDisplayModeKeyFormat = @"displayMode.%@";
 NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
 NSString *const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
 NSString *const OEBackgroundPauseKey = @"backgroundPause";

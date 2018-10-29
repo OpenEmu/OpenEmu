@@ -324,13 +324,13 @@ typedef enum : NSUInteger
     _corePlugin = corePlugin;
 
     NSString *path = [[self romFileURL] path];
-    NSString *lastDisplayMode = ([[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:OEGameSystemDisplayModeKeyFormat, _corePlugin.bundleIdentifier]]
+    NSDictionary <NSString *, id> *lastDisplayModeInfo = ([NSUserDefaults.standardUserDefaults objectForKey:[NSString stringWithFormat:OEGameCoreDisplayModeKeyFormat, _corePlugin.bundleIdentifier]]
                                 ? : nil);
      // if file is in an archive append :entryIndex to path, so the core manager can figure out which entry to load
     if([[self rom] archiveFileIndex])
         path = [path stringByAppendingFormat:@":%d",[[[self rom] archiveFileIndex] intValue]];
 
-    return [[managerClass alloc] initWithROMPath:path romCRC32:[[self rom] crc32] romMD5:[[self rom] md5] romHeader:[[self rom] header] romSerial:[[self rom] serial] systemRegion:[[OELocalizationHelper sharedHelper] regionName] systemDisplayMode:lastDisplayMode corePlugin:_corePlugin systemPlugin:_systemPlugin gameCoreOwner:self];
+    return [[managerClass alloc] initWithROMPath:path romCRC32:[[self rom] crc32] romMD5:[[self rom] md5] romHeader:[[self rom] header] romSerial:[[self rom] serial] systemRegion:[[OELocalizationHelper sharedHelper] regionName] displayModeInfo:lastDisplayModeInfo corePlugin:_corePlugin systemPlugin:_systemPlugin gameCoreOwner:self];
 }
 
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError
@@ -1222,13 +1222,33 @@ typedef enum : NSUInteger
 
 - (IBAction)changeDisplayMode:(id)sender
 {
-    if ([(NSMenuItem *)sender state] == NSOnState) {
-        return;
-    }
-    
-    [[NSUserDefaults standardUserDefaults] setObject:[sender representedObject] forKey:[NSString stringWithFormat:OEGameSystemDisplayModeKeyFormat, _corePlugin.bundleIdentifier]];
+    NSDictionary <NSString *, id> *modeDict = [sender representedObject];
+    BOOL isSelected   = [modeDict[OEGameCoreDisplayModeStateKey] boolValue];
+    BOOL isToggleable = [modeDict[OEGameCoreDisplayModeAllowsToggleKey] boolValue];
 
-    return [_gameCoreManager changeDisplayWithMode:[sender representedObject]];
+    // Mutually exclusive option is already selected, do nothing
+    if (isSelected && !isToggleable)
+        return;
+
+    NSString *displayModeKeyForCore = [NSString stringWithFormat:OEGameCoreDisplayModeKeyFormat, _corePlugin.bundleIdentifier];
+    NSString *prefKey  = modeDict[OEGameCoreDisplayModePrefKeyNameKey];
+    NSString *modeName = modeDict[OEGameCoreDisplayModeNameKey];
+    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+    NSMutableDictionary <NSString *, id> *displayModeInfo = [NSMutableDictionary dictionary];
+
+    // Copy existing prefs
+    if ([defaults.dictionaryRepresentation[displayModeKeyForCore] isKindOfClass:[NSDictionary class]])
+        displayModeInfo = [defaults.dictionaryRepresentation[displayModeKeyForCore] mutableCopy];
+
+    // Mutually exclusive option is unselected
+    if (!isToggleable)
+        displayModeInfo[prefKey] = modeName;
+    // Toggleable option, swap YES/NO
+    else if (isToggleable)
+        displayModeInfo[prefKey] = @(!isSelected);
+
+    [defaults setObject:displayModeInfo forKey:displayModeKeyForCore];
+    [_gameCoreManager changeDisplayWithMode:modeName];
 }
 
 #pragma mark - Saving States

@@ -35,7 +35,7 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
 
 @implementation OEGameCoreManager
 
-- (instancetype)initWithROMPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion systemDisplayMode:(NSString *)systemDisplayMode corePlugin:(OECorePlugin *)plugin systemPlugin:(OESystemPlugin *)systemPlugin gameCoreOwner:(id<OEGameCoreOwner>)gameCoreOwner
+- (instancetype)initWithROMPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion displayModeInfo:(NSDictionary <NSString *, id> *)displayModeInfo corePlugin:(OECorePlugin *)plugin systemPlugin:(OESystemPlugin *)systemPlugin gameCoreOwner:(id<OEGameCoreOwner>)gameCoreOwner
 {
     if((self = [super init]))
     {
@@ -45,7 +45,7 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
         _ROMHeader         = romHeader;
         _ROMSerial         = romSerial;
         _systemRegion      = systemRegion;
-        _systemDisplayMode = systemDisplayMode;
+        _displayModeInfo   = displayModeInfo;
         _plugin            = plugin;
         _systemPlugin      = systemPlugin;
         _gameCoreOwner     = gameCoreOwner;

@@ -240,7 +240,7 @@
 
 #pragma mark - Game Core methods
 
-- (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion systemDisplayMode:(NSString *)systemDisplayMode withCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath error:(NSError **)error
+- (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion displayModeInfo:(NSDictionary <NSString *, id> *)displayModeInfo withCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath error:(NSError **)error
 {
     if(self.loadedRom) return NO;
 
@@ -266,7 +266,7 @@
 
     [_gameCore setSystemIdentifier:systemIdentifier];
     [_gameCore setSystemRegion:systemRegion];
-    [_gameCore setSystemDisplayMode:systemDisplayMode];
+    [_gameCore setDisplayModeInfo:displayModeInfo];
     [_gameCore setROMCRC32:romCRC32];
     [_gameCore setROMMD5:romMD5];
     [_gameCore setROMHeader:romHeader];
