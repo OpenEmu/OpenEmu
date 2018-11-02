@@ -110,6 +110,8 @@ enum _OEGameDocumentErrorCodes
 #pragma mark - Display Mode
 - (void)changeDisplayMode:(id)sender;
 - (BOOL)supportsDisplayModeChange;
+- (IBAction)nextDisplayMode:(id)sender;
+- (IBAction)lastDisplayMode:(id)sender;
 
 #pragma mark - Saving States
 - (BOOL)supportsSaveStates;
