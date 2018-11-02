@@ -1732,16 +1732,6 @@ typedef enum : NSUInteger
         [[[self gameViewController] gameView] showStepBackwardNotification];
 }
 
-- (void)nextDisplayMode
-{
-    [self nextDisplayMode:self];
-}
-
-- (void)lastDisplayMode
-{
-    [self lastDisplayMode:self];
-}
-
 - (void)setEnableVSync:(BOOL)enable
 {
     [_gameViewController setEnableVSync:enable];
