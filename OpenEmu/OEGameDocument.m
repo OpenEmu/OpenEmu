@@ -1220,7 +1220,7 @@ typedef enum : NSUInteger
     return [[[_gameCoreManager plugin] controller] supportsDisplayModeChangeForSystemIdentifier:[_systemPlugin systemIdentifier]];
 }
 
-- (IBAction)changeDisplayMode:(id)sender
+- (void)changeDisplayMode:(id)sender
 {
     NSDictionary <NSString *, id> *modeDict = [sender representedObject];
     BOOL isSelected   = [modeDict[OEGameCoreDisplayModeStateKey] boolValue];
