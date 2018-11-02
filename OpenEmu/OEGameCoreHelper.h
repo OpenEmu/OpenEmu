@@ -77,6 +77,8 @@
 - (void)rewindGameplay:(BOOL)enable;
 - (void)stepGameplayFrameForward;
 - (void)stepGameplayFrameBackward;
+- (void)nextDisplayMode;
+- (void)lastDisplayMode;
 
 - (void)setEnableVSync:(BOOL)enable;
 - (void)setAspectSize:(OEIntSize)newAspectSize;

@@ -706,4 +706,14 @@
     [self.gameCoreOwner stepGameplayFrameBackward];
 }
 
+- (void)nextDisplayMode:(id)sender
+{
+    [self.gameCoreOwner nextDisplayMode];
+}
+
+- (void)lastDisplayMode:(id)sender
+{
+    [self.gameCoreOwner lastDisplayMode];
+}
+
 @end
