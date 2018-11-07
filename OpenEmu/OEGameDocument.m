@@ -1240,8 +1240,10 @@ typedef enum : NSUInteger
         modeDict = sender;
     else
         return;
+
     BOOL isSelected   = [modeDict[OEGameCoreDisplayModeStateKey] boolValue];
     BOOL isToggleable = [modeDict[OEGameCoreDisplayModeAllowsToggleKey] boolValue];
+    BOOL isPrefSaveDisallowed = [modeDict[OEGameCoreDisplayModeDisallowPrefSaveKey] boolValue];
 
     // Mutually exclusive option is already selected, do nothing
     if (isSelected && !isToggleable)
@@ -1249,6 +1251,7 @@ typedef enum : NSUInteger
 
     NSString *displayModeKeyForCore = [NSString stringWithFormat:OEGameCoreDisplayModeKeyFormat, _corePlugin.bundleIdentifier];
     NSString *prefKey  = modeDict[OEGameCoreDisplayModePrefKeyNameKey];
+    NSString *prefVal  = modeDict[OEGameCoreDisplayModePrefValueNameKey];
     NSString *modeName = modeDict[OEGameCoreDisplayModeNameKey];
     NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
     NSMutableDictionary <NSString *, id> *displayModeInfo = [NSMutableDictionary dictionary];
@@ -1259,25 +1262,29 @@ typedef enum : NSUInteger
 
     // Mutually exclusive option is unselected
     if (!isToggleable)
-        displayModeInfo[prefKey] = _lastSelectedDisplayModeOption = modeName;
+    {
+        displayModeInfo[prefKey] = prefVal ?: modeName;
+        _lastSelectedDisplayModeOption = modeName;
+    }
     // Toggleable option, swap YES/NO
     else if (isToggleable)
         displayModeInfo[prefKey] = @(!isSelected);
 
-    [defaults setObject:displayModeInfo forKey:displayModeKeyForCore];
+    if (!isPrefSaveDisallowed)
+        [defaults setObject:displayModeInfo forKey:displayModeKeyForCore];
+
     [_gameCoreManager changeDisplayWithMode:modeName];
 }
 
 - (void)OE_changeDisplayModeWithDirectionReversed:(BOOL)flag
 {
     NSMutableArray <NSDictionary <NSString *, id> *> *availableOptions = [NSMutableArray array];
-    NSString *mode, *pref;
+    NSString *mode;
     BOOL isToggleable, isSelected;
 
     for (NSDictionary *optionsDict in self.gameViewController.displayModes)
     {
         mode         = optionsDict[OEGameCoreDisplayModeNameKey];
-        pref         = optionsDict[OEGameCoreDisplayModePrefKeyNameKey];
         isToggleable = [optionsDict[OEGameCoreDisplayModeAllowsToggleKey] boolValue];
         isSelected   = [optionsDict[OEGameCoreDisplayModeStateKey] boolValue];
 
@@ -1287,7 +1294,7 @@ typedef enum : NSUInteger
         }
         else if (mode && !isToggleable)
         {
-            [availableOptions addObject:@{OEGameCoreDisplayModeNameKey : mode, OEGameCoreDisplayModePrefKeyNameKey : pref, OEGameCoreDisplayModeStateKey : @(isSelected)}];
+            [availableOptions addObject:optionsDict];
 
             // There may be multiple, but just take the first selected and start from the top
             if (_lastSelectedDisplayModeOption == nil && isSelected)
@@ -1299,7 +1306,6 @@ typedef enum : NSUInteger
             for (NSDictionary *subOptionsDict in optionsDict[OEGameCoreDisplayModeGroupItemsKey])
             {
                 mode         = subOptionsDict[OEGameCoreDisplayModeNameKey];
-                pref         = subOptionsDict[OEGameCoreDisplayModePrefKeyNameKey];
                 isToggleable = [subOptionsDict[OEGameCoreDisplayModeAllowsToggleKey] boolValue];
                 isSelected   = [subOptionsDict[OEGameCoreDisplayModeStateKey] boolValue];
 
@@ -1309,7 +1315,7 @@ typedef enum : NSUInteger
                 }
                 else if (mode && !isToggleable)
                 {
-                    [availableOptions addObject:@{OEGameCoreDisplayModeNameKey : mode, OEGameCoreDisplayModePrefKeyNameKey : pref, OEGameCoreDisplayModeStateKey : @(isSelected)}];
+                    [availableOptions addObject:subOptionsDict];
 
                     if (_lastSelectedDisplayModeOption == nil && isSelected)
                         _lastSelectedDisplayModeOption = mode;
