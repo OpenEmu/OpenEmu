@@ -139,8 +139,10 @@
   "Display Mode" = "Mode affichage";
   "Fast Forward" = "Avance rapide";
   "Fullscreen" = "Plein écran";
+  "Last Display Mode" = "Last Display Mode";
   "Load" = "Charger";
   "Mute" = "Muet";
+  "Next Display Mode" = "Next Display Mode";
   "Pause" = "Pause";
   "Quick Load Button" = "Chargement rapide";
   "Quick Save Button" = "Sauvegarde rapide";

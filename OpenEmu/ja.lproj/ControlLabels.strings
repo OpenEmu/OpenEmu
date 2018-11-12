@@ -141,8 +141,10 @@
   "Display Mode" = "ディスプレイモード";
   "Fast Forward" = "Fast Forward";
   "Fullscreen" = "フルスクリーン";
+  "Last Display Mode" = "Last Display Mode";
   "Load" = "ロード";
   "Mute" = "ミュート";
+  "Next Display Mode" = "Next Display Mode";
   "Pause" = "一時停止";
   "Quick Load Button" = "クイックロード";
   "Quick Save Button" = "クイックセーブ";

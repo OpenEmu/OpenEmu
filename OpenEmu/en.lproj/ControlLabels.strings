@@ -139,8 +139,10 @@
   "Display Mode" = "Display Mode";
   "Fast Forward" = "Fast Forward";
   "Fullscreen" = "Fullscreen";
+  "Last Display Mode" = "Last Display Mode";
   "Load" = "Load";
   "Mute" = "Mute";
+  "Next Display Mode" = "Next Display Mode";
   "Pause" = "Pause";
   "Quick Load Button" = "Quick Load";
   "Quick Save Button" = "Quick Save";

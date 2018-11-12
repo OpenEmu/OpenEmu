@@ -127,8 +127,10 @@
   "Display Mode" = "显示模式";
   "Fast Forward" = "快进";
   "Fullscreen" = "全屏";
+  "Last Display Mode" = "Last Display Mode";
   "Load" = "读取";
   "Mute" = "静音";
+  "Next Display Mode" = "Next Display Mode";
   "Pause" = "暂停";
   "Quick Load Button" = "快速读取";
   "Quick Save Button" = "快速保存";

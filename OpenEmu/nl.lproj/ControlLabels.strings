@@ -139,8 +139,10 @@
   "Display Mode" = "Weergavemodus";
   "Fast Forward" = "Vooruitspoelen";
   "Fullscreen" = "Schermvullende weergave";
+  "Last Display Mode" = "Last Display Mode";
   "Load" = "Laden";
   "Mute" = "Dempen";
+  "Next Display Mode" = "Next Display Mode";
   "Pause" = "Pauze";
   "Quick Load Button" = "Snel laden";
   "Quick Save Button" = "Snel opslaan";
