@@ -558,9 +558,6 @@
 
         if(!OEIntSizeEqualToSize(aspectSize, previousAspectSize))
         {
-            NSAssert(aspectSize.height <= bufferSize.height, @"aspect size must not be larger than buffer size");
-            NSAssert(aspectSize.width <= bufferSize.width, @"aspect size must not be larger than buffer size");
-
             DLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
             [self updateAspectSize:aspectSize];
         }
