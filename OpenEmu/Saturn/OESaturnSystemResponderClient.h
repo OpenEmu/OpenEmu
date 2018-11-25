@@ -58,5 +58,10 @@ typedef enum _OESaturnButton
 - (oneway void)didMoveSaturnJoystickDirection:(OESaturnButton)button withValue:(CGFloat)value forPlayer:(NSUInteger)player;
 - (oneway void)didPushSaturnButton:(OESaturnButton)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleaseSaturnButton:(OESaturnButton)button forPlayer:(NSUInteger)player;
+- (oneway void)mouseMovedAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseUp;
+- (oneway void)rightMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)rightMouseUp;
 
 @end

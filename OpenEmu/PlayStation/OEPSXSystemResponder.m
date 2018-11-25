@@ -50,4 +50,29 @@
     [[self client] didReleasePSXButton:(OEPSXButton)[aKey key] forPlayer:[aKey player]];
 }
 
+- (void)mouseMovedAtPoint:(OEIntPoint)aPoint
+{
+    [[self client] mouseMovedAtPoint:aPoint];
+}
+
+- (void)mouseDownAtPoint:(OEIntPoint)aPoint
+{
+    [[self client] leftMouseDownAtPoint:aPoint];
+}
+
+- (void)mouseUpAtPoint
+{
+    [[self client] leftMouseUp];
+}
+
+- (void)rightMouseDownAtPoint:(OEIntPoint)aPoint
+{
+    [[self client] rightMouseDownAtPoint:aPoint];
+}
+
+- (void)rightMouseUpAtPoint
+{
+    [[self client] rightMouseUp];
+}
+
 @end

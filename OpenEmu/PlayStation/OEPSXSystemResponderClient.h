@@ -63,5 +63,10 @@ typedef enum _OEPSXButton
 - (oneway void)didMovePSXJoystickDirection:(OEPSXButton)button withValue:(CGFloat)value forPlayer:(NSUInteger)player;
 - (oneway void)didPushPSXButton:(OEPSXButton)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleasePSXButton:(OEPSXButton)button forPlayer:(NSUInteger)player;
+- (oneway void)mouseMovedAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseUp;
+- (oneway void)rightMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)rightMouseUp;
 
 @end
