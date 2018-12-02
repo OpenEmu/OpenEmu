@@ -1362,7 +1362,10 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     if(flag)
         corrected = NSMakeSize(halfw, halfh);
     else
-        corrected = NSMakeSize(screenSize.width / halfh, screenSize.height / halfw);
+        corrected = _gameScreenSize.width <= aspectSize.width ?
+        NSMakeSize(screenSize.width / halfh, screenSize.height / halfw) :
+        NSMakeSize(screenSize.width * halfw, screenSize.height * halfh);
+
 
     return corrected;
 }
