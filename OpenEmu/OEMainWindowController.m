@@ -545,6 +545,18 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         [_gameDocument setEmulationPaused:NO];
 }
 
+- (NSRect)window:(NSWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect
+{
+    // Ge window title bar height.
+    CGFloat contentHeight = [window contentRectForFrameRect:window.frame].size.height;
+    CGFloat titleBarHeight = window.frame.size.height - contentHeight;
+    
+    // Re-position the sheet beneath the title bar.
+    const CGFloat sheetOffset = titleBarHeight;
+    rect.origin.y -= sheetOffset;
+    return rect;
+}
+
 #pragma mark - Window Restoration
 
 + (void)restoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state completionHandler:(void (^)(NSWindow * __nullable, NSError * __nullable))completionHandler
