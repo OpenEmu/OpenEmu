@@ -320,7 +320,6 @@
 		831C9ABA160095F800038D0D /* OEThemeGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB4160095F800038D0D /* OEThemeGradient.m */; };
 		831C9ABB160095F800038D0D /* OEThemeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB6160095F800038D0D /* OEThemeImage.m */; };
 		831C9ABC160095F800038D0D /* OEThemeTextAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB8160095F800038D0D /* OEThemeTextAttributes.m */; };
-		831C9AD0160096E000038D0D /* OEMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9ACF160096E000038D0D /* OEMatrix.m */; };
 		831C9AD61600971600038D0D /* OEButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AD31600971600038D0D /* OEButton.m */; };
 		831C9AD71600971600038D0D /* OEButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AD51600971600038D0D /* OEButtonCell.m */; };
 		831C9ADC1600973B00038D0D /* OEPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AD91600973B00038D0D /* OEPopUpButton.m */; };
@@ -1799,8 +1798,6 @@
 		831C9AB8160095F800038D0D /* OEThemeTextAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThemeTextAttributes.m; sourceTree = "<group>"; };
 		831C9ABE1600965100038D0D /* OECell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECell.h; sourceTree = "<group>"; };
 		831C9ABF1600965100038D0D /* OEControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControl.h; sourceTree = "<group>"; };
-		831C9ACE160096E000038D0D /* OEMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMatrix.h; sourceTree = "<group>"; };
-		831C9ACF160096E000038D0D /* OEMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMatrix.m; sourceTree = "<group>"; };
 		831C9AD21600971600038D0D /* OEButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEButton.h; sourceTree = "<group>"; };
 		831C9AD31600971600038D0D /* OEButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEButton.m; sourceTree = "<group>"; };
 		831C9AD41600971600038D0D /* OEButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEButtonCell.h; sourceTree = "<group>"; };
@@ -4000,8 +3997,6 @@
 		831C9ACD160096D400038D0D /* Containers */ = {
 			isa = PBXGroup;
 			children = (
-				831C9ACE160096E000038D0D /* OEMatrix.h */,
-				831C9ACF160096E000038D0D /* OEMatrix.m */,
 				83DEE496162D6217005D8AD7 /* OEHorizontalLine.h */,
 				83DEE497162D6217005D8AD7 /* OEHorizontalLine.m */,
 				83DEE493162D61C7005D8AD7 /* OEBackgroundColorView.h */,
@@ -7734,7 +7729,6 @@
 				831C9ABB160095F800038D0D /* OEThemeImage.m in Sources */,
 				831C9ABC160095F800038D0D /* OEThemeTextAttributes.m in Sources */,
 				836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */,
-				831C9AD0160096E000038D0D /* OEMatrix.m in Sources */,
 				831C9AD61600971600038D0D /* OEButton.m in Sources */,
 				83D94FAF19A4CD2A007583E1 /* OETableCellGroupView.m in Sources */,
 				831C9AD71600971600038D0D /* OEButtonCell.m in Sources */,
