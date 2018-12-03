@@ -141,7 +141,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         gridButton.action = #selector(OECollectionViewController.switchToGridView(_:))
         gridButton.target = toolbarOwner
         
-        let listButton = OEButton(frame: NSRect(x: 27, y: 2, width: 27, height: 23))
+        let listButton = OEButton(frame: NSRect(x: 27, y: 2, width: 26, height: 23))
         let listButtonCell = listButton.cell as! OEButtonCell
         listButtonCell.setButtonType(.onOff)
         listButtonCell.imagePosition = .imageOnly
@@ -149,10 +149,10 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         listButton.action = #selector(OECollectionViewController.switchToListView(_:))
         listButton.target = toolbarOwner
         
-        let view = NSBox(frame: NSRect(x: 6, y: 14, width: 54, height: 26))
+        let view = NSBox(frame: NSRect(x: 6, y: 14, width: 53, height: 26))
         view.borderType = .noBorder
         view.titlePosition = .noTitle
-        view.contentView!.frame = NSRect(x: 0, y: 0, width: 54, height: 26)
+        view.contentView!.frame = NSRect(x: 0, y: 0, width: 53, height: 26)
         view.contentView!.subviews = [gridButton, listButton]
         
         item.view = view
