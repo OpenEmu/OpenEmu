@@ -966,6 +966,11 @@ extension AppDelegate: NSMenuDelegate {
     
     func applicationWillFinishLaunching(_ notification: Notification) {
         
+        if #available(OSX 10.14, *) {
+            // On Mojave, force dark mode to better fit the design of our custom UI.
+            NSApp.appearance = NSAppearance(named: .darkAqua)
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter), name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
     }
     
