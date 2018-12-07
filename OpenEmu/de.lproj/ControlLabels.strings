@@ -136,13 +136,13 @@
   "✕" = "✕";
 
 /* Special Keys */
-  "Display Mode" = "Display-Modus";
+  "Display Mode" = "Anzeigemodus";
   "Fast Forward" = "Schnell-vorlauf";
   "Fullscreen" = "Vollbild";
-  "Last Display Mode" = "Last Display Mode";
+  "Last Display Mode" = "Vorherig. An-zeigemodus";
   "Load" = "Laden";
   "Mute" = "Ton aus";
-  "Next Display Mode" = "Next Display Mode";
+  "Next Display Mode" = "Nächster An-zeigemodus";
   "Pause" = "Pause";
   "Quick Load Button" = "Schnell laden";
   "Quick Save Button" = "Schnell sichern";
@@ -153,7 +153,7 @@
   "Rewind" = "Zurück-spulen";
   "Save" = "Sichern";
   "Screenshot" = "Screenshot";
-  "Step Backward" = "Step Backward";    // TODO
-  "Step Forward" = "Step Forward";    // TODO
+  "Step Backward" = "Schritt zurück";
+  "Step Forward" = "Schritt vor";
   "Volume Down" = "Ton leiser";
   "Volume Up" = "Ton lauter";
