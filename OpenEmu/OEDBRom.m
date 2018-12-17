@@ -299,15 +299,19 @@ NS_ASSUME_NONNULL_BEGIN
             return [unsortedFolder URLByAppendingPathComponent:newName];
         }];
 
-        if([[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:error])
-        {
-            self.URL = romURL;
-            NSLog(@"New URL: %@", romURL);
-        }
-        else if(error != nil) return NO;
+        OEFile *file = [OEFile fileWithURL:url error:nil];
 
-        if(romFileLocked)
-            [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(YES) } ofItemAtPath:url.path error:nil];
+        OEFile *copiedFile = [file fileByCopyingFileToURL:romURL error:error];
+        if (copiedFile != nil) {
+            // Lock original file again
+            if(romFileLocked)
+                [url setResourceValue:@YES forKey:NSURLIsUserImmutableKey error:nil];
+
+            self.URL = romURL;
+            DLog(@"New URL: %@", romURL);
+        } else if(error != nil) {
+            return NO;
+        }
     }
     return YES;
 }
