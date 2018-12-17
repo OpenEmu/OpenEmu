@@ -743,6 +743,17 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         NSString *baseName  = fullName.stringByDeletingPathExtension;
 
         NSURL *systemFolder = [database romsFolderURLForSystem:system];
+        // Copy game to subfolder in system's folder if system supports discs
+        if (system.plugin.supportsDiscs) {
+            systemFolder = [systemFolder URLByAppendingPathComponent:baseName isDirectory:YES];
+
+            systemFolder = [systemFolder uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+                NSString *newName = [NSString stringWithFormat:@"%@ %ld", baseName, triesCount];
+                return [systemFolder.URLByDeletingLastPathComponent URLByAppendingPathComponent:newName isDirectory:YES];
+            }];
+
+            [NSFileManager.defaultManager createDirectoryAtURL:systemFolder withIntermediateDirectories:YES attributes:nil error:nil];
+        }
         NSURL *romURL       = [systemFolder URLByAppendingPathComponent:fullName];
 
         if([romURL isEqualTo:url])

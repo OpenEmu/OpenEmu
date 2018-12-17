@@ -34,6 +34,7 @@
 
 #import <OpenEmuSystem/OECUESheet.h>
 #import <OpenEmuSystem/OECloneCD.h>
+#import <OpenEmuSystem/OEDreamcastGDI.h>
 
 #import "OpenEmu-Swift.h"
 
@@ -290,9 +291,20 @@ NS_ASSUME_NONNULL_BEGIN
         NSString *extension = fullName.pathExtension;
         NSString *baseName  = fullName.stringByDeletingPathExtension;
 
-        OEDBSystem  *system = self.game.system;
+        OEDBSystem *system = self.game.system;
 
         NSURL *unsortedFolder = [library romsFolderURLForSystem:system];
+        // Copy game to subfolder in system's folder if system supports discs
+        if (system.plugin.supportsDiscs) {
+            unsortedFolder = [unsortedFolder URLByAppendingPathComponent:baseName isDirectory:YES];
+
+            unsortedFolder = [unsortedFolder uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+                NSString *newName = [NSString stringWithFormat:@"%@ %ld", baseName, triesCount];
+                return [unsortedFolder.URLByDeletingLastPathComponent URLByAppendingPathComponent:newName isDirectory:YES];
+            }];
+
+            [NSFileManager.defaultManager createDirectoryAtURL:unsortedFolder withIntermediateDirectories:YES attributes:nil error:nil];
+        }
         NSURL *romURL         = [unsortedFolder URLByAppendingPathComponent:fullName];
         romURL = [romURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
             NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", baseName, triesCount, extension];
@@ -350,7 +362,20 @@ NS_ASSUME_NONNULL_BEGIN
         {
             OEFile *file = [OEFile fileWithURL:url error:nil];
             if (file) {
-                [[NSWorkspace sharedWorkspace] recycleURLs:file.allFileURLs completionHandler:nil];
+                // Delete game in subfolder in system's folder if system supports discs
+                OEDBSystem *system = self.game.system;
+                if (system.plugin.supportsDiscs) {
+                    NSString *truncatedFolderPath = file.fileURL.URLByDeletingLastPathComponent.URLByDeletingLastPathComponent.absoluteString;
+                    BOOL isFileInSubFolder = ![truncatedFolderPath isEqualToString:self.libraryDatabase.romsFolderURL.absoluteString];
+
+                    // Games of systems that support discs are now copied to subfolders with their referenced files, so delete the whole subfolder. Else, handle legacy case.
+                    if (isFileInSubFolder)
+                        [NSWorkspace.sharedWorkspace recycleURLs:@[file.fileURL.URLByDeletingLastPathComponent] completionHandler:nil];
+                    else
+                        [NSWorkspace.sharedWorkspace recycleURLs:file.allFileURLs completionHandler:nil];
+                }
+                else
+                    [[NSWorkspace sharedWorkspace] recycleURLs:file.allFileURLs completionHandler:nil];
             }
         } else DLog(@"Keeping file, other roms depent on it!");
     }
