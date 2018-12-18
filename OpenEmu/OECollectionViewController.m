@@ -226,29 +226,6 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [self zoomGridViewWithValue:[sizeSlider floatValue]];
 }
 
-- (void)viewDidAppear
-{
-    [super viewDidAppear];
-    
-    [self _doUglyMojaveGridViewHack];
-}
-
-/// Fix display of the grid view at launch on macOS 10.14+ by resizing the frame to force it to update. Otherwise, if the grid view has more content than can be displayed in the window at launch, the grid view will be vertically offset until the window is resized, the grid is zoomed, or another system is selected in the source list.
-/// @note This is a gross hack that is intended to be a temporary solution until the grid view is replaced with an NSCollectionView.
-- (void)_doUglyMojaveGridViewHack
-{
-    NSRect gridViewFrame = _gridView.frame;
-    
-    // Change the frame.
-    self->_gridView.frame = NSInsetRect(gridViewFrame, 0.0, 1);
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        // Change the frame back to what it was.
-        self->_gridView.frame = gridViewFrame;
-    });
-}
-
 - (NSString *)nibName
 {
     return @"OECollectionViewController";
@@ -282,6 +259,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [super setRepresentedObject:representedObject];
     [self view];
     [self updateBlankSlate];
+    
+    [self _doMojaveGridViewHack];
 }
 
 - (id <OECollectionViewItemProtocol>)representedObject
@@ -803,6 +782,16 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 {
     _gridView.cellSize = OEScaleSize(defaultGridSize, zoomValue);
     [[NSUserDefaults standardUserDefaults] setFloat:zoomValue forKey:OELastGridSizeKey];
+}
+
+// MARK: - Mojave Grid View Hack
+
+/// Fix display of the grid view at launch on macOS 10.14+. Without this hack, the grid view appears empty or displays a red or magenta color on launch.
+/// @note This is intended to be a temporary solution until the grid view is replaced with an NSCollectionView.
+- (void)_doMojaveGridViewHack
+{
+    _gridView.wantsLayer = YES;
+    _gridView.wantsLayer = NO;
 }
 
 @end
