@@ -528,11 +528,11 @@
 
 "Category" = "Categoria";   // shown when the corresponding item does not fit in the main window's toolbar
 
-"An issue was detected with one of your controllers." = "An issue was detected with one of your controllers.";  //TODO // Headline for bindings repaired alert
+"An issue was detected with one of your controllers." = "S'ha detectat un problema en un dels controladors.";   // Headline for bindings repaired alert
 
-"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.";  // TODO // Message for bindings repaired alert
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "El perfil de botons d'uns dels controladors no concorda amb el darrer perfil usat amb l'OpenEmu. S'ha restablert alguns dels controls associats al controlador.\n\nPodeu anar a les preferències dels controls per comprovar quines associacions s'han vist afectades.";   // Message for bindings repaired alert
 
-"Keycode 0x%lX" = "Keycode 0x%lX";  // TODO  // Fallback for unknown keys
+"Keycode 0x%lX" = "Codi de tecla 0x%lX";  // Fallback for unknown keys
 
 
 /* Secrets */
@@ -653,6 +653,6 @@
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "No es poden importar binaris comprimits amb ECM. Llegiu la guia d'importació dels discs.";
 
-"Threshold for analog controls bound to buttons" = "Threshold for analog controls bound to buttons";    // TODO
+"Threshold for analog controls bound to buttons" = "Llindar de la vinculació dels controls analògics amb els botons";
 
-"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
+"Range: %@ to %@" = "Interval: %@ a %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
