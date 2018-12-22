@@ -32,11 +32,11 @@
 
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    if (![file isKindOfClass:[OECDSheet class]])
+    if (![file isKindOfClass:[OEDiscDescriptor class]])
         return OEFileSupportNo;
 
-    OECDSheet *sheet = file;
-    for(NSURL *dataTrack in sheet.referencedBinaryFileURLs)
+    OEDiscDescriptor *descriptor = file;
+    for(NSURL *dataTrack in descriptor.referencedBinaryFileURLs)
     {
         NSError *error = nil;
         NSData *dataTrackBuffer = [NSData dataWithContentsOfURL:dataTrack options:NSDataReadingUncached error:&error];

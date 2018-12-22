@@ -56,11 +56,11 @@
 
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    OECDSheet *sheet = file;
-    if (![sheet isKindOfClass:[OECloneCD class]] && ![sheet isKindOfClass:[OECUESheet class]])
+    OEDiscDescriptor *descriptor = file;
+    if (![descriptor isKindOfClass:[OECloneCD class]] && ![descriptor isKindOfClass:[OECUESheet class]])
         return OEFileSupportNo;
 
-    for(NSURL *dataTrackURL in sheet.referencedBinaryFileURLs)
+    for(NSURL *dataTrackURL in descriptor.referencedBinaryFileURLs)
     {
         NSError *error = nil;
         NSData *dataTrackBuffer = [NSData dataWithContentsOfURL:dataTrackURL options:NSDataReadingMappedIfSafe | NSDataReadingUncached error:&error];
