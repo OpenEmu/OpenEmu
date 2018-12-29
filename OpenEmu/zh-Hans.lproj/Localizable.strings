@@ -250,7 +250,7 @@
 
 "In order to play the game it must be downloaded." = "要玩这个游戏首先需要下载。";
 
-"Insert Cart/Disk/Tape…" = "Insert Cart/Disk/Tape…";
+"Insert Cart/Disk/Tape…" = "插入 卡带/磁盘/磁带...";
 
 "Install" = "安装";
 
@@ -426,7 +426,7 @@
 
 "Select Core" = "选择核心";
 
-"Select Disc" = "Select Disc"; // TODO
+"Select Disc" = "选择磁盘"; // TODO
 
 "Select Display Mode" = "显示模式";
 
