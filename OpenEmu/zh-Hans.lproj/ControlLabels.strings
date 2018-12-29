@@ -31,7 +31,7 @@
 /* Group Labels */
   "Analog" = "摇杆";
   "C-Pad" = "C-方向";
-  "D-Pad" = "方向键";
+  "D-Pad" = "D-向键";
   "Keypad" = "键盘";
   "Left Analog" = "左摇杆";
   "Left D-Pad" = "左方向键";
@@ -127,10 +127,10 @@
   "Display Mode" = "显示模式";
   "Fast Forward" = "快进";
   "Fullscreen" = "全屏";
-  "Last Display Mode" = "Last Display Mode";
+  "Last Display Mode" = "上一个显示模式";
   "Load" = "读取";
   "Mute" = "静音";
-  "Next Display Mode" = "Next Display Mode";
+  "Next Display Mode" = "下一个显示模式";
   "Pause" = "暂停";
   "Quick Load Button" = "快速读取";
   "Quick Save Button" = "快速保存";
@@ -138,7 +138,7 @@
   "Rewind" = "回退";
   "Save" = "保存";
   "Screenshot" = "截屏";
-  "Step Backward" = "Step Backward";    // TODO
-  "Step Forward" = "Step Forward";    // TODO
+  "Step Backward" = "后退一步";    // TODO
+  "Step Forward" = "前进一步";    // TODO
   "Volume Down" = "音量减";
   "Volume Up" = "音量加";
