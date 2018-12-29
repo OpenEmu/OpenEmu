@@ -176,7 +176,7 @@
 
 "Device number %lu, %@, has disconnected." = "设备号 %1$lu, %2$@, 已断开连接";
 
-"Disc %u" = "Disc %u"; // TODO
+"Disc %u" = "磁盘 %u"; // TODO
 
 "Disc-based games have special requirements. Please read the disc importing guide." = "磁盘游戏有特殊要求。请阅读磁盘导入指南。";
 
@@ -538,11 +538,11 @@
 
 "Category" = "分类";   // shown when the corresponding item does not fit in the main window's toolbar
 
-"An issue was detected with one of your controllers." = "An issue was detected with one of your controllers.";  //TODO // Headline for bindings repaired alert
+"An issue was detected with one of your controllers." = "检测到某个控制器出现问题。";  //TODO // Headline for bindings repaired alert
 
-"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.";  // TODO // Message for bindings repaired alert
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "其中一个控制器的按钮配置文件与上次连接到OpenEmu时检测到的配置文件不匹配。 与受影响的控制器关联的一些控件已重置。\n\n您可以转到“控件”首选项以检查哪些关联受到影响。";  // TODO // Message for bindings repaired alert
 
-"Keycode 0x%lX" = "Keycode 0x%lX";  // TODO  // Fallback for unknown keys
+"Keycode 0x%lX" = "密匙 0x%lX";  // TODO  // Fallback for unknown keys
 
 
 /* Secrets */
@@ -585,7 +585,7 @@
 
 "Show options button" = "显示选项按钮";
 
-"Show notifications during gameplay" = "Show notifications during gameplay";   // TODO
+"Show notifications during gameplay" = "在游戏过程中显示通知";   // TODO
 
 "Use quicksave slots" = "使用快速保存位置";
 
@@ -651,10 +651,10 @@
 
 "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "特别感谢每个让 OpenEmu 成为可能的\n人。要了解更多有关我们的贡献者、\n模拟核心、文档、许可的信息以及报告\n漏洞，请访问我们的 GitHub。";
 
-"ECM compressed binary detected." = "ECM compressed binary detected.";  // TODO
+"ECM compressed binary detected." = "检测到ECM压缩二进制。";  // TODO
 
-"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";  // TODO
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM压缩二进制文件无法导入。请阅读磁盘导入指南。";  // TODO
 
-"Threshold for analog controls bound to buttons" = "Threshold for analog controls bound to buttons";    // TODO
+"Threshold for analog controls bound to buttons" = "模拟控件的阈值绑定到按钮";    // TODO
 
-"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
+"Range: %@ to %@" = "范围: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
