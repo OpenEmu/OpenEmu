@@ -1,12 +1,12 @@
 
 /* Class = "NSTextFieldCell"; title = "Input:"; ObjectID = "11"; */
-"11.title" = "Input:";
+"11.title" = "輸入:";
 
 /* Class = "NSMenuItem"; title = "Gamepad"; ObjectID = "15"; */
 "15.title" = "Gamepad";
 
 /* Class = "NSMenuItem"; title = "Keyboard"; ObjectID = "16"; */
-"16.title" = "Keyboard";
+"16.title" = "鍵盤";
 
 /* Class = "NSMenuItem"; title = "Player 2"; ObjectID = "28"; */
 "28.title" = "Player 2";
