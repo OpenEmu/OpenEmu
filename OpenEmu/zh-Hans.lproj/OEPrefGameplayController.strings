@@ -18,4 +18,4 @@
 "57.title" = "总是在后台时暂停游戏";
 
 /* Class = "NSButtonCell"; title = "Allow playing with controllers when in background"; ObjectID = "zUK-Vv-IqE"; */
-"zUK-Vv-IqE.title" = "Allow playing with controllers when in background"; // TODO
+"zUK-Vv-IqE.title" = "在后台时允许使用控制器游玩"; // TODO
