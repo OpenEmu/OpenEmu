@@ -1,0 +1,144 @@
+/*
+ Copyright (c) 2015, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/* Section Title */
+  "Gameplay Buttons" = "遊戲按鍵";
+  "Special Keys" = "特殊按鍵";
+
+/* Group Labels */
+  "Analog" = "搖桿";
+  "C-Pad" = "C-方向";
+  "D-Pad" = "方向鍵";
+  "Keypad" = "鍵盤";
+  "Left Analog" = "左搖桿";
+  "Left D-Pad" = "左方向鍵";
+  "Right Analog" = "右搖桿";
+  "Right D-Pad" = "右方向鍵";
+  "Switches" = "開關";
+
+/* Button Labels */
+  "#" = "#";
+  "*" = "*";
+  "0" = "0";
+  "1" = "1";
+  "2" = "2";
+  "2/6 Mode" = "2/6模式";
+  "3" = "3";
+  "4" = "4";
+  "5" = "5";
+  "6" = "6";
+  "7" = "7";
+  "8" = "8";
+  "9" = "9";
+  "A" = "A";
+  "Analog Mode" = "模擬模式";
+  "B" = "B";
+  "Button 1" = "按鈕1";
+  "Button 1/Start" = "按鈕1/開始";
+  "Button 2" = "按鈕2";
+  "Button 3" = "按鈕3";
+  "Button 4" = "按鈕4";
+  "Button 5" = "按鈕5";
+  "Button 6" = "按鈕6";
+  "C" = "C";
+  "Change Disk Side" = "磁盤換面";
+  "Console Pause" = "控制檯暫停";
+  "Down" = "下";
+  "Fire 1" = "開火1";
+  "Fire 2" = "開火2";
+  "Fire" = "開火";
+  "Insert Coin" = "投幣";
+  "L Diff A" = "L Diff A";
+  "L Diff B" = "L Diff B";
+  "L Diff" = "L Diff";
+  "L" = "L";
+  "L1" = "L1";
+  "L2" = "L2";
+  "L3" = "L3";
+  "Left Action" = "左邊按鍵";
+  "Left Trigger" = "左扳機";
+  "Left" = "左";
+  "Lid" = "蓋子";
+  "Mic" = "麥克風";
+  "Mode" = "模式";
+  "Option 1" = "選項1";
+  "Option 2" = "選項2";
+  "Option" = "選項";
+  "P" = "P";
+  "Player Start" = "玩家開始";
+  "R Diff A" = "R Diff A";
+  "R Diff B" = "R Diff B";
+  "R Diff" = "R Diff";
+  "R" = "R";
+  "R1" = "R1";
+  "R2" = "R2";
+  "R3" = "R3";
+  "Right Action" = "右邊按鍵";
+  "Right Trigger" = "右扳機";
+  "Right" = "右";
+  "Run" = "運行";
+  "Select" = "選擇";
+  "Service" = "服務";
+  "Sound" = "聲音";
+  "Start" = "開始";
+  "TV Black & White" = "TV黑白";
+  "TV Color" = "TV彩色";
+  "Up" = "上";
+  "X" = "X";
+  "X1 Up" = "X1上";
+  "X2 Right" = "X2右";
+  "X3 Down" = "X3下";
+  "X4 Left" = "X4左";
+  "Y" = "Y";
+  "Y1 Up" = "Y1上";
+  "Y2 Right" = "Y2右";
+  "Y3 Down" = "Y3下";
+  "Y4 Left" = "Y4左";
+  "Z" = "Z";
+  "▢" = "▢";
+  "△" = "△";
+  "◯" = "◯";
+  "✕" = "✕";
+
+/* Special Keys */
+  "Display Mode" = "顯示模式";
+  "Fast Forward" = "快進";
+  "Fullscreen" = "全屏";
+  "Last Display Mode" = "Last Display Mode";
+  "Load" = "讀取";
+  "Mute" = "靜音";
+  "Next Display Mode" = "Next Display Mode";
+  "Pause" = "暫停";
+  "Quick Load Button" = "快速讀取";
+  "Quick Save Button" = "快速保存";
+  "Reset" = "重置";
+  "Rewind" = "回退";
+  "Save" = "保存";
+  "Screenshot" = "截屏";
+  "Step Backward" = "Step Backward";    // TODO
+  "Step Forward" = "Step Forward";    // TODO
+  "Volume Down" = "音量減";
+  "Volume Up" = "音量加";

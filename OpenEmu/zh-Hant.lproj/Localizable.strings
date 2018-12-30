@@ -1,0 +1,660 @@
+/*
+ Copyright (c) 2015, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+"%@ copy" = "%@ 拷貝";
+
+"%@ could not be enabled because its plugin was not found." = "因爲找不到插件，%@ 無法啓用。";
+
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ 遊戲會出現在這裏。查詢 %@ 獲知如何添加磁盤遊戲。";
+
+"%@ games you add to OpenEmu will appear in this Console Library" = "添加到 OpenEmu 的 %@ 遊戲會出現在這個平臺庫";
+
+"%ux" = "%ux";
+
+"A version of this plugin is already loaded" = "此插件的一個版本已經加載";
+
+"Add a Wiimote…" = "添加一個 Wiimote…";
+
+"Add Cheat…" = "添加金手指…";
+
+"Add Cheat" = "添加金手指";
+
+"Add Cover Art From File…" = "從文件添加封面插圖…";
+
+"Add To Collection" = "添加到收藏";
+
+"All Games" = "所有遊戲";
+
+"All Homebrew" = "所有自制作品";
+
+"Are you sure you want to delete %ld save games from your OpenEmu library?" = "你確定要從 OpenEmu 庫刪除 %ld 個已保存遊戲？";
+
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "你確定要從 OpenEmu 庫刪除 %ld 個截屏？";
+
+"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "你確定要從 OpenEmu 庫刪除名爲“%@”的遊戲？";
+
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "你確定要從 OpenEmu 庫刪除名爲“%@”的截屏？";
+
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "你確定要從 OpenEmu 庫刪除所選遊戲？";
+
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "你確定要從 OpenEmu 庫刪除所選遊戲？";
+
+"Are you sure you want to quit the application?" = "你確定要退出應用？";
+
+"Are you sure you want to remove the selected games from the collection?" = "你確定要從收藏移除所選遊戲？";
+
+"Are you sure you want to remove this collection?" = "你確定要移除這個收藏？";
+
+"Are you sure you want to reset the console?" = "你確定要重置該平臺？";
+
+"Are you sure you want to stop emulation?" = "你確定要停止模擬？";
+
+"At least one System must be enabled" = "至少要啓用一個系統";
+
+"Auto Save State" = "自動保存狀態";
+
+"Automatically Import" = "自動導入";
+
+"Bluetooth must be enabled to pair a Wii controller." = "必須啓用藍牙以配對 Wii 控制器。";
+
+"Bluetooth Not Enabled" = "藍牙未啓用";
+
+"Cancel Cover Art Download" = "取消封面插圖下載";
+
+"Cancel Operation" = "取消操作";
+
+"Cancel" = "取消";
+
+"Change Core" = "更改核心";
+
+"Change Volume" = "更改音量";
+
+"Cheat Description" = "金手指描述";
+
+"Check out some excellent homebrew games." = "試試一些優秀的自制遊戲。";
+
+"Choose a valid file." = "選擇一個有效的文件。";
+
+"Choose Library…" = "選擇庫…";
+
+"Choose OpenEmu Library" = "選擇 OpenEmu 庫";
+
+"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "選擇“是”從隊列移除所有項目。已導入的項目會保留在你的庫裏。";
+
+"Code:" = "密碼:";
+
+"Collapse" = "摺疊";
+
+"Collections" = "收藏";
+
+"Consoles" = "平臺";
+
+"Consolidate Files…" = "整合文件…";
+
+"Consolidate" = "整合";
+
+"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "整合會複製所有選擇的遊戲到 OpenEmu 庫文件夾。\n\n該操作無法撤銷。";
+
+"Controls" = "控制";
+
+"Copying artwork failed!" = "複製插圖失敗！";
+
+"Copying Artwork Files…" = "正在複製插圖文件…";
+
+"Copying Game Files…" = "正在複製遊戲文件…";
+
+"Copying ROM Files…" = "正在複製 ROM 文件…";
+
+"Core Provided By…" = "核心提供…";
+
+"Cores" = "核心";
+
+"Could not move complete library! %ld roms were moved" = "無法移動整個庫！已移動 %ld 個 rom";
+
+"Could not move library data!" = "無法移動庫數據！";
+
+"Couldn't load %@ plugin" = "無法加載 %@ 插件";
+
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "創建一個個人遊戲選集。要添加到集合，從你的平臺庫選擇一個遊戲然後拖到左邊的“%@”。";
+
+"Create Library…" = "創建庫…";
+
+"Create or Load Save State" = "創建或加載保存狀態";
+
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "創建你個人的截屏集合。要截屏，可以在遊戲當中使用鍵盤快捷鍵 ⌘ + T。";
+
+"Default Core" = "默認核心";
+
+"Delete Collection" = "刪除集合";
+
+"Delete Game" = "刪除遊戲";
+
+"Delete Games" = "刪除遊戲";
+
+"Delete Save State" = "刪除保存狀態";
+
+"Delete Save States" = "刪除保存狀態";
+
+"Delete Save" = "刪除存檔";
+
+"Delete Saves" = "刪除存檔";
+
+"Delete Screenshot" = "刪除截屏";
+
+"Delete Screenshots" = "刪除截屏";
+
+"Delete" = "刪除";
+
+"Description" = "描述"; // Search field menu, only search description
+
+"Deselect All" = "取消全選";
+
+"Device Disconnected" = "設備已斷開連接";
+
+"Device number %lu, %@, has disconnected." = "設備號 %1$lu, %2$@, 已斷開連接";
+
+"Disc %u" = "Disc %u"; // TODO
+
+"Disc-based games have special requirements. Please read the disc importing guide." = "磁盤遊戲有特殊要求。請閱讀磁盤導入指南。";
+
+"Dismiss" = "消除";
+
+"Do it!" = "走你！";
+
+"Do not ask me again" = "不再詢問";
+
+"Do not show me again" = "不再彈出";
+
+"Do you really want to cancel the import process?" = "你確定要取消導入進程？";
+
+"Do you want to continue playing where you left off?" = "你要從之前離開的位置繼續玩嗎？";
+
+"Don't Import Selected" = "不要導入已選項";
+
+"Done" = "完成";
+
+"Download Cover Art" = "下載封面插圖";
+
+"Download" = "下載";
+
+"Downloading %@…" = "正在下載 %@…";
+
+"Downloading and Installing Core…" = "正在下載並安裝核心…";
+
+"Downloading Game DB" = "正在下載遊戲數據庫";
+
+"Drag & Drop Games Here" = "把遊戲拖放到這裏";
+
+"Drag & Drop Save States Here" = "拖放已保存狀態到這裏";
+
+"Duplicate Collection" = "創建集合副本";
+
+"Edit Game Controls…" = "編輯遊戲操控…";
+
+"Enable now" = "現在啓用";
+
+"Error!" = "錯誤！";
+
+"Everything" = "所有"; // Search field menu, search everything item title
+
+"Featured Games" = "特色遊戲";
+
+"Fetching Games…" = "正在獲取遊戲…";
+
+"Filter by:" = "篩選條件:"; // Search field menu, first item, instructional
+
+"Game %ld of %ld" = "第 %1$ld 個遊戲，共 %2$ld 個";
+
+"Game Name" = "遊戲名"; // Search field menu, only search game name
+
+"Game requires download" = "遊戲需要下載";
+
+"Game Scanner" = "掃描遊戲";
+
+"Gameplay" = "遊戲";
+
+"Have you read the guide?" = "你讀過指南了嗎？";
+
+"Hide \"%@\"" = "隱藏“%@”";
+
+"Homebrew Games" = "自制遊戲";
+
+"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "如果後電池蓋有個紅色按鈕，按這個按鈕。\n如果沒有，按下按鈕 ①+②.";
+
+"If you change the core you current progress will be lost and save states will not work anymore." = "如果更換核心，當前進度會丟失，同時已保存的狀態將失效。";
+
+"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "由於現代遊戲平臺軟硬件複雜度的增加，模擬部分系統需要 BIOS 文件。請閱讀我們的 %@ 獲取更多信息。";
+
+"In order to play the game it must be downloaded." = "要玩這個遊戲首先需要下載。";
+
+"Insert Cart/Disk/Tape…" = "Insert Cart/Disk/Tape…";
+
+"Install" = "安裝";
+
+"Installing Core" = "正在安裝核心";
+
+"Join multi-line cheats with '+' e.g. 000-000+111-111" = "使用“+”連接多條金手指，如 000-000+111-111";
+
+"Keep Files" = "保留文件";
+
+"Keyboard" = "鍵盤";
+
+"Learn More" = "瞭解更多";
+
+"Library" = "庫";
+
+"Load" = "讀取";
+
+"Locate '%@'" = "定位“%@”";
+
+"Locate" = "定位";
+
+"Low Controller Battery" = "控制器電量低";
+
+"Make sure your internet connection is active and download a suitable core." = "確保你的互聯網連接有效，然後下載一個合適的核心。";
+
+"Make your Wiimote discoverable" = "使你的 Wiimote 處於可發現狀態";
+
+"Missing Core" = "缺少核心";
+
+"Move selected game to Trash, or keep it in the Library folder?" = "要把選擇的遊戲扔到廢紙簍還是留在庫文件夾裏？";
+
+"Move selected games to Trash, or keep them in the Library folder?" = "要把選擇的遊戲扔到廢紙簍還是留在庫文件夾裏？";
+
+"Move to Trash" = "扔到廢紙簍";
+
+"Mute Audio" = "靜音";
+
+"Name" = "名稱"; // Search field menu, only search names
+
+"New Collection from Selection" = "從選集創建集合";
+
+"New Collection" = "新建集合";
+
+"New Folder" = "新建文件夾";
+
+"New Smart Collection" = "新建智能集合";
+
+"No available controllers" = "沒有可用控制器";
+
+"No game played yet!" = "還沒玩過遊戲！";
+
+"No Internet Connection" = "無互聯網連接";
+
+"No Save States available" = "沒有可用的保存狀態";
+
+"No Screenshots Found" = "沒找到截屏";
+
+"No" = "否";
+
+"None" = "無";
+
+"Not implemented right now" = "當前未執行";
+
+"OK" = "好";
+
+"Only files in the OpenEmu Library folder will be moved to the Trash." = "只有 OpenEmu 庫文件夾裏的文件會被扔到廢紙簍裏。";
+
+"Open Collection" = "打開集合";
+
+"Open Library" = "打開庫";
+
+"OpenEmu could not find a Core to launch the game" = "OpenEmu 無法找到核心來啓動遊戲";
+
+"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu 有保存遊戲的特性，允許你從之前離開的位置繼續玩。";
+
+"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu 需要一個庫以繼續。你可以選擇一個已存在的 OpenEmu 庫或創建一個新的。";
+
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu使用“核心”來模擬遊戲。你需要 %1$@ 核心來玩 %2$@";
+
+"OpenEmu will save and quit all games that are currently running." = "OpenEmu 會保存並退出當前運行的所有遊戲。";
+
+"Options" = "選項";
+
+"Pause Emulation" = "暫停模擬";
+
+"Pause Gameplay" = "暫停遊戲";
+
+"Play Game" = "開始遊戲";
+
+"Play Games (Caution)" = "開始遊戲（警告）";
+
+"Play Save Games" = "開始保存遊戲";
+
+"Play Save State" = "開始保存狀態";
+
+"Player %ld" = "玩家 %ld";
+
+"Please close all games and wait for the importer to finish." = "請關閉所有遊戲然後等待導入完成。";
+
+"Quick Load" = "快速載入";
+
+"Quick Save State" = "快速保存狀態";
+
+"Quick Save, Slot %@" = "快速保存，位置 %@";
+
+"Quick Save" = "快速保存";
+
+"Quit" = "退出";
+
+"Rating" = "評分";
+
+"Recently Added" = "最近添加";
+
+"Recovered Auto Save" = "恢復的自動存檔";
+
+"Remove" = "移除";
+
+"Rename \"%@\"" = "重命名“%@”";
+
+"Rename Game" = "重命名遊戲";
+
+"Rename Special Save State or something?" = "重命名特殊保存狀態還是什麼？";
+
+"Rename" = "重命名";
+
+"Required files are missing." = "所需文件缺失。";
+
+"Resolve %ld Issue" = "解決 %ld 個問題";
+
+"Resolve %ld Issues" = "解決 %ld 個問題";
+
+"Resolve Issues" = "解決問題";
+
+"Restart now" = "現在重啓";
+
+"Restart System" = "重啓系統";
+
+"Restart" = "重啓";
+
+"Resume Emulation" = "恢復模擬";
+
+"Resume Gameplay" = "暫停遊戲";  // TODO
+
+"Resume" = "恢復";
+
+"Save As:" = "另存爲:";
+
+"Save Current Game…" = "保存當前遊戲…";
+
+"Save Game" = "保存遊戲";
+
+"Save States" = "保存狀態";
+
+"Save-Game-%ld %@" = "保存遊戲-%ld %@";
+
+"Saved Games" = "已保存的遊戲";
+
+"Scanner Paused" = "掃描暫停";
+
+"Scanning Directory" = "正在掃描目錄";
+
+"Screenshots" = "截屏";
+
+"Search" = "搜索";
+
+"Secrets" = "祕密";
+
+"Select All" = "全選";
+
+"Select Audio Output Device" = "選擇音頻輸出設備";
+
+"Select Cheat" = "選擇金手指";
+
+"Select Core" = "選擇核心";
+
+"Select Disc" = "Select Disc"; // TODO
+
+"Select Display Mode" = "顯示模式";
+
+"Select Filter" = "選擇濾鏡";
+
+"Select Scale" = "選擇縮放";
+
+"Share" = "共享";
+
+"Show in Finder" = "在 Finder 中顯示";
+
+"Slot %d" = "位置 %d";
+
+"Slot %ld" = "位置 %ld";
+
+"Some migrations failed to complete properly" = "部分轉移未能正確完成";
+
+"Start Scanning" = "開始掃描";
+
+"Stop Emulation" = "停止模擬";
+
+"Stop" = "停止";
+
+"Switch To Grid View" = "切換到網格視圖";
+
+"Switch To List View" = "切換到列表視圖";
+
+"System Files" = "系統文件";
+
+"System" = "系統";
+
+"Takes you to the %@ project website" = "轉到 %@ 項目網站";
+
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "%1$@ 核心有兼容問題，部分遊戲可能出現故障或完全無法運行。\n\n請勿向我們報告問題，我們不對 %2$@ 的開發負責。";
+
+"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "設備號 %1$lu, %2$@, 電量低。請充電或更換電池。";
+
+"The core could not be downloaded. Try installing it from the Cores preferences." = "核心無法下載。嘗試從核心偏好設置裏安裝。";
+
+"The file you selected doesn't exist" = "所選文件不存在";
+
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "由於rom文件無法找到，遊戲“%@”無法啓動。你要定位它嗎？";
+
+"The game '%@' was imported." = "遊戲“%@”已導入。";
+
+"The OpenEmu Library could not be found." = "找不到 OpenEmu 庫。";
+
+"The System plugin could not be found!" = "找不到系統插件！";
+
+"this guide" = "本指南";
+
+"This save state was created with a different core. Do you want to switch to that core now?" = "此保存狀態由不同的核心創建。你要現在切換到該核心嗎？";
+
+"This System has no corresponding core installed." = "系統沒有安裝對應的核心。";
+
+"Title:" = "標題:";
+
+"To launch the save state %@ you will need to install the '%@' Core" = "要啓動保存狀態 %1$@ 你需要安裝核心 “%2$@”";
+
+"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "要運行此核心你需要進行以下操作:\n\n%@拖放需要的文件到遊戲庫窗口然後重試。";
+
+"Toggle Fullscreen" = "切換全屏幕";
+
+"Toggle Sidebar" = "切換邊欄";
+
+"Trash downloaded Files" = "將已下載的文件扔進廢紙簍";
+
+"Unmute Audio" = "恢復聲音";
+
+"Update" = "更新";
+
+"User guide on BIOS files" = "BIOS 文件用戶指南";
+
+"View Guide In Browser" = "打開瀏覽器閱讀指南";
+
+"Warning" = "警告";
+
+"While performing this operation OpenEmu will be unresponsive." = "執行此操作時 OpenEmu 將無響應。";
+
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "使用 OpenEmu 你可以使用保存狀態來隨時保存你的進度。在你離開遊戲時，我們甚至會幫你自動保存。回到這裏來看你所有存檔的概覽。";
+
+"Won't be able to recognize it as special save state…" = "將無法識別它爲特別保存狀態…";
+
+"Would you like to continue your last game?" = "你要繼續上次的遊戲嗎？";
+
+"Would you like to save your game before you quit?" = "退出前要保存你的遊戲嗎？";
+
+"Yes" = "是";
+
+"You can't move your library here!" = "不能將庫移動到這裏！";
+
+"You need to restart the application to commit the change" = "你需要重啓應用程序以使更改生效。";
+
+"Your game finished importing, do you want to play it now?" = "遊戲導入完成，你要現在運行嗎？";
+
+"Your library was moved sucessfully." = "成功移動庫。";
+
+"Library" = "庫";
+
+"Save States" = "保存狀態";
+
+"Screenshots" = "截屏";
+
+"Homebrew" = "自制";
+
+"Grid Size" = "網格大小";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "查看方式";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "分類";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"An issue was detected with one of your controllers." = "An issue was detected with one of your controllers.";  //TODO // Headline for bindings repaired alert
+
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.";  // TODO // Message for bindings repaired alert
+
+"Keycode 0x%lX" = "Keycode 0x%lX";  // TODO  // Fallback for unknown keys
+
+
+/* Secrets */
+
+"General" = "通用";
+
+"Debug Mode" = "調試模式";
+
+"Setup Assistant has finished" = "設置助理已完成";
+
+"Region" = "地區";
+
+"Run games using" = "運行遊戲，使用";
+
+"Library Window" = "庫窗口";
+
+"Reset main window size" = "重置主窗口大小";
+
+"Dark GridView context menu" = "深色網格視圖上下文菜單";
+
+"Download missing artwork on the fly" = "自動下載缺少的插圖";
+
+"Show game titles instead of rom names" = "顯示遊戲標題而不是 rom 名";
+
+"Manually choose system on import" = "導入時手動選擇系統";
+
+"Show autosave states in save state category" = "在保存狀態分類中顯示自動保存狀態";
+
+"Show quicksave states in save state category" = "在保存狀態分類中顯示快速保存狀態";
+
+"Show game scanner view" = "顯示遊戲掃描視圖";
+
+"Hide game scanner view" = "隱藏遊戲掃描視圖";
+
+"HUD Bar / Gameplay" = "HUD 條 / 遊戲";
+
+"Use game name as window title" = "將遊戲名稱用作窗口標題";
+
+"Can delete save states" = "可以刪除保存狀態";
+
+"Show options button" = "顯示選項按鈕";
+
+"Show notifications during gameplay" = "Show notifications during gameplay";   // TODO
+
+"Use quicksave slots" = "使用快速保存位置";
+
+"Show quicksave in menu" = "在菜單顯示快速保存";
+
+"Show autosave in menu" = "在菜單顯示自動保存";
+
+"Show audio output device in menu" = "在菜單顯示音頻輸出設備";
+
+"Take screenshots in native size" = "以原始尺寸截屏";
+
+"Disable aspect ratio correction" = "禁用長寬比修正";
+
+"Game View Background color" = "遊戲視圖背景顏色";
+
+"Controls Setup" = "控制鍵設置";
+
+"WiiRemote support (requires relaunch)" = "WiiRemote 支持（需要重新打開）";
+
+"Clicking on image selects button" = "在圖像選擇按鈕上單擊";
+
+"Clicking outside image deselects button" = "在圖像取消選擇按鈕外單擊";
+
+"Select first field after setting the last" = "設置完最後一項後選擇第一項";
+
+"Draw button mask above image" = "在圖像上繪製按鈕蒙版";
+
+"Log HID Events" = "記錄 HID 事件";
+
+"Log Keyboard Events" = "記錄鍵盤事件";
+
+"Show all global keys" = "顯示所有全局按鍵";
+
+"Set default save states directory" = "設置默認保存狀態目錄";
+
+"Choose save states directory…" = "選擇保存狀態目錄…";
+
+"Cleanup autosave state" = "清除自動保存狀態";
+
+"Cleanup Save States" = "清除保存狀態";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "更新 OpenVGDB";
+
+"Cancel OpenVGDB Update" = "取消 OpenVGDB 更新";
+
+"Database Actions" = "數據庫操作";
+
+"Delete Artwork that can be downloaded" = "刪除可下載的插圖";
+
+"Download missing artwork" = "下載缺少的插圖";
+
+"Remove untracked artwork files" = "移除未使用的插圖文件";
+
+"Cleanup rom hashes" = "清除 rom 散列值";
+
+"Remove duplicated roms" = "移除重複的 rom";
+
+"Cancel cover sync for all games" = "爲所有遊戲取消封面同步";
+
+"Perform Sanity Check on Database" = "對數據庫執行完整性檢查";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "特別感謝每個讓 OpenEmu 成爲可能的\n人。要了解更多有關我們的貢獻者、\n模擬核心、文檔、許可的信息以及報告\n漏洞，請訪問我們的 GitHub。";
+
+"ECM compressed binary detected." = "ECM compressed binary detected.";  // TODO
+
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";  // TODO
+
+"Threshold for analog controls bound to buttons" = "Threshold for analog controls bound to buttons";    // TODO
+
+"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
