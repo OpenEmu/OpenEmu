@@ -1,6 +1,6 @@
 
 /* Class = "NSTextFieldCell"; title = "Window Management"; ObjectID = "14"; */
-"14.title" = "窗口管理";
+"14.title" = "視窗管理";
 
 /* Class = "NSTextFieldCell"; title = "Filter:"; ObjectID = "21"; */
 "21.title" = "濾鏡:";
@@ -9,13 +9,13 @@
 "23.title" = "顯示模式";
 
 /* Class = "NSButtonCell"; title = "Always use popout gameplay window"; ObjectID = "25"; */
-"25.title" = "總是使用彈出式遊戲窗口";
+"25.title" = "總是使用彈出式遊戲視窗";
 
 /* Class = "NSButtonCell"; title = "Always launch games fullscreen"; ObjectID = "26"; */
-"26.title" = "總是全屏啓動遊戲";
+"26.title" = "總是全螢幕啟動遊戲";
 
 /* Class = "NSButtonCell"; title = "Always pause gameplay when in background"; ObjectID = "57"; */
-"57.title" = "總是在後臺時暫停遊戲";
+"57.title" = "總是在後台時暫停遊戲";
 
 /* Class = "NSButtonCell"; title = "Allow playing with controllers when in background"; ObjectID = "zUK-Vv-IqE"; */
 "zUK-Vv-IqE.title" = "Allow playing with controllers when in background"; // TODO

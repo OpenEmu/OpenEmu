@@ -45,7 +45,7 @@
 "347.title" = "掃描附加源";
 
 /* Class = "NSTextFieldCell"; title = "OpenEmu has detected you have the following mounted Hard Drives or shares available. If there are any game files residing in these locations, please tick on the associated item and OpenEmu can scan for and add these games to your Library."; ObjectID = "357"; */
-"357.title" = "OpenEmu 檢測到你有以下可用的已掛載硬碟或共享。如果這些位置有遊戲文件，請勾選相關項目，OpenEmu 可以掃描並加入這些遊戲到你的庫裏。";
+"357.title" = "OpenEmu 檢測到你有以下可用的已掛載硬碟或共享。如果這些位置有遊戲文件，請勾選相關項目，OpenEmu 可以掃描並加入這些遊戲到你的庫裡。";
 
 /* Class = "NSButtonCell"; title = "Back"; ObjectID = "358"; */
 "358.title" = "後退";
@@ -54,7 +54,7 @@
 "401.title" = "執行！";
 
 /* Class = "NSTextFieldCell"; title = "Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time."; ObjectID = "402"; */
-"402.title" = "非常好！你已經全部設置完畢，可以開始遊戲了！\n\n記住，你可以隨時在偏好設置裏為自己或其他玩家更改鍵盤和手柄控制設置。";
+"402.title" = "非常好！你已經全部設置完畢，可以開始遊戲了！\n\n記住，你可以隨時在偏好設置裡為自己或其他玩家更改鍵盤和手柄控制設置。";
 
 /* Class = "NSTextFieldCell"; title = "Click the ‘Go’ button to begin your adventure."; ObjectID = "403"; */
 "403.title" = "點擊“執行”按鈕開始你的旅程。";

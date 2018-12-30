@@ -246,7 +246,7 @@
 "0ql-Da-Qro.title" = "說明";
 
 /* Class = "NSMenuItem"; title = "Restart System"; ObjectID = "2rj-Sq-LdF"; */
-"2rj-Sq-LdF.title" = "重啓系統";
+"2rj-Sq-LdF.title" = "重啟系統";
 
 /* Class = "NSMenuItem"; title = "Release Notes"; ObjectID = "5YI-Il-P9H"; */
 "5YI-Il-P9H.title" = "版本說明";
