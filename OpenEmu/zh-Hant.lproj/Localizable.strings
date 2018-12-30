@@ -26,41 +26,41 @@
 
 "%@ copy" = "%@ 拷貝";
 
-"%@ could not be enabled because its plugin was not found." = "因爲找不到插件，%@ 無法啓用。";
+"%@ could not be enabled because its plugin was not found." = "因為找不到外掛，%@ 無法啓用。";
 
-"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ 遊戲會出現在這裏。查詢 %@ 獲知如何添加磁盤遊戲。";
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ 遊戲會出現在這裏。查詢 %@ 獲知如何加入光碟遊戲。";
 
-"%@ games you add to OpenEmu will appear in this Console Library" = "添加到 OpenEmu 的 %@ 遊戲會出現在這個平臺庫";
+"%@ games you add to OpenEmu will appear in this Console Library" = "加入到 OpenEmu 的 %@ 遊戲會出現在這個主機庫";
 
 "%ux" = "%ux";
 
-"A version of this plugin is already loaded" = "此插件的一個版本已經加載";
+"A version of this plugin is already loaded" = "此外掛的一個版本已經加載";
 
-"Add a Wiimote…" = "添加一個 Wiimote…";
+"Add a Wiimote…" = "加入一個 Wiimote…";
 
-"Add Cheat…" = "添加金手指…";
+"Add Cheat…" = "加入金手指…";
 
-"Add Cheat" = "添加金手指";
+"Add Cheat" = "加入金手指";
 
-"Add Cover Art From File…" = "從文件添加封面插圖…";
+"Add Cover Art From File…" = "從檔案加入封面插圖…";
 
-"Add To Collection" = "添加到收藏";
+"Add To Collection" = "加入到收藏";
 
 "All Games" = "所有遊戲";
 
-"All Homebrew" = "所有自制作品";
+"All Homebrew" = "所有自製作品";
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "你確定要從 OpenEmu 庫刪除 %ld 個已保存遊戲？";
+"Are you sure you want to delete %ld save games from your OpenEmu library?" = "你確定要從 OpenEmu 資源庫刪除 %ld 個已保存遊戲？";
 
-"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "你確定要從 OpenEmu 庫刪除 %ld 個截屏？";
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "你確定要從 OpenEmu 資源庫刪除 %ld 個截屏？";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "你確定要從 OpenEmu 庫刪除名爲“%@”的遊戲？";
+"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "你確定要從 OpenEmu 資源庫刪除名為“%@”的遊戲？";
 
-"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "你確定要從 OpenEmu 庫刪除名爲“%@”的截屏？";
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "你確定要從 OpenEmu 資源庫刪除名為“%@”的截屏？";
 
-"Are you sure you want to delete the selected game from your OpenEmu library?" = "你確定要從 OpenEmu 庫刪除所選遊戲？";
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "你確定要從 OpenEmu 資源庫刪除所選遊戲？";
 
-"Are you sure you want to delete the selected games from your OpenEmu library?" = "你確定要從 OpenEmu 庫刪除所選遊戲？";
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "你確定要從 OpenEmu 資源庫刪除所選遊戲？";
 
 "Are you sure you want to quit the application?" = "你確定要退出應用？";
 
@@ -68,7 +68,7 @@
 
 "Are you sure you want to remove this collection?" = "你確定要移除這個收藏？";
 
-"Are you sure you want to reset the console?" = "你確定要重置該平臺？";
+"Are you sure you want to reset the console?" = "你確定要重設主機？";
 
 "Are you sure you want to stop emulation?" = "你確定要停止模擬？";
 
@@ -94,11 +94,11 @@
 
 "Cheat Description" = "金手指描述";
 
-"Check out some excellent homebrew games." = "試試一些優秀的自制遊戲。";
+"Check out some excellent homebrew games." = "試試一些優秀的自製遊戲。";
 
-"Choose a valid file." = "選擇一個有效的文件。";
+"Choose a valid file." = "選擇一個有效的檔案。";
 
-"Choose Library…" = "選擇庫…";
+"Choose Library…" = "選擇資源庫…";
 
 "Choose OpenEmu Library" = "選擇 OpenEmu 庫";
 
@@ -110,7 +110,7 @@
 
 "Collections" = "收藏";
 
-"Consoles" = "平臺";
+"Consoles" = "主機";
 
 "Consolidate Files…" = "整合文件…";
 
@@ -136,9 +136,9 @@
 
 "Could not move library data!" = "無法移動庫數據！";
 
-"Couldn't load %@ plugin" = "無法加載 %@ 插件";
+"Couldn't load %@ plugin" = "無法加載 %@ 外掛";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "創建一個個人遊戲選集。要添加到集合，從你的平臺庫選擇一個遊戲然後拖到左邊的“%@”。";
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "創建一個個人遊戲選集。要加入到收藏，從你的主機庫選擇一個遊戲然後拖到左邊的“%@”。";
 
 "Create Library…" = "創建庫…";
 
@@ -240,13 +240,13 @@
 
 "Hide \"%@\"" = "隱藏“%@”";
 
-"Homebrew Games" = "自制遊戲";
+"Homebrew Games" = "自製遊戲";
 
 "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "如果後電池蓋有個紅色按鈕，按這個按鈕。\n如果沒有，按下按鈕 ①+②.";
 
 "If you change the core you current progress will be lost and save states will not work anymore." = "如果更換核心，當前進度會丟失，同時已保存的狀態將失效。";
 
-"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "由於現代遊戲平臺軟硬件複雜度的增加，模擬部分系統需要 BIOS 文件。請閱讀我們的 %@ 獲取更多信息。";
+"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "由於現代遊戲主機軟硬體複雜度的增加，模擬部分系統需要 BIOS 文件。請閱讀我們的 %@ 獲取更多信息。";
 
 "In order to play the game it must be downloaded." = "要玩這個遊戲首先需要下載。";
 
@@ -362,7 +362,7 @@
 
 "Rating" = "評分";
 
-"Recently Added" = "最近添加";
+"Recently Added" = "最近加入";
 
 "Recovered Auto Save" = "恢復的自動存檔";
 
@@ -396,7 +396,7 @@
 
 "Resume" = "恢復";
 
-"Save As:" = "另存爲:";
+"Save As:" = "另存為:";
 
 "Save Current Game…" = "保存當前遊戲…";
 
@@ -474,7 +474,7 @@
 
 "The OpenEmu Library could not be found." = "找不到 OpenEmu 庫。";
 
-"The System plugin could not be found!" = "找不到系統插件！";
+"The System plugin could not be found!" = "找不到系統外掛！";
 
 "this guide" = "本指南";
 
@@ -508,7 +508,7 @@
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "使用 OpenEmu 你可以使用保存狀態來隨時保存你的進度。在你離開遊戲時，我們甚至會幫你自動保存。回到這裏來看你所有存檔的概覽。";
 
-"Won't be able to recognize it as special save state…" = "將無法識別它爲特別保存狀態…";
+"Won't be able to recognize it as special save state…" = "將無法識別它為特別保存狀態…";
 
 "Would you like to continue your last game?" = "你要繼續上次的遊戲嗎？";
 
@@ -522,19 +522,19 @@
 
 "Your game finished importing, do you want to play it now?" = "遊戲導入完成，你要現在運行嗎？";
 
-"Your library was moved sucessfully." = "成功移動庫。";
+"Your library was moved sucessfully." = "成功移動資源庫。";
 
-"Library" = "庫";
+"Library" = "資源庫";
 
-"Save States" = "保存狀態";
+"Save States" = "儲存狀態";
 
-"Screenshots" = "截屏";
+"Screenshots" = "螢幕快照";
 
-"Homebrew" = "自制";
+"Homebrew" = "自製作品";
 
 "Grid Size" = "網格大小";   // shown when the corresponding item does not fit in the main window's toolbar
 
-"View Mode" = "查看方式";   // shown when the corresponding item does not fit in the main window's toolbar
+"View Mode" = "檢視模式";   // shown when the corresponding item does not fit in the main window's toolbar
 
 "Category" = "分類";   // shown when the corresponding item does not fit in the main window's toolbar
 
@@ -645,11 +645,11 @@
 
 "Remove duplicated roms" = "移除重複的 rom";
 
-"Cancel cover sync for all games" = "爲所有遊戲取消封面同步";
+"Cancel cover sync for all games" = "為所有遊戲取消封面同步";
 
 "Perform Sanity Check on Database" = "對數據庫執行完整性檢查";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "特別感謝每個讓 OpenEmu 成爲可能的\n人。要了解更多有關我們的貢獻者、\n模擬核心、文檔、許可的信息以及報告\n漏洞，請訪問我們的 GitHub。";
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "特別感謝每個讓 OpenEmu 成為可能的\n人。要了解更多有關我們的貢獻者、\n模擬核心、文檔、許可的信息以及報告\n漏洞，請訪問我們的 GitHub。";
 
 "ECM compressed binary detected." = "ECM compressed binary detected.";  // TODO
 

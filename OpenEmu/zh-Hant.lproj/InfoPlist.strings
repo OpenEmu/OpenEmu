@@ -24,12 +24,12 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-"Archived Game" = "庫存遊戲";
+"Archived Game" = "已封存遊戲";
 
-"GameCorePlugin" = "遊戲核心插件";
+"GameCorePlugin" = "遊戲核心外掛";
 
-"OpenEmu Save State" = "OpenEmu保存狀態";
+"OpenEmu Save State" = "OpenEmu 儲存狀態";
 
-"System Plugin" = "系統插件";
+"System Plugin" = "系統外掛";
 
-"VideoFilterPlugin" = "視頻濾鏡插件";
+"VideoFilterPlugin" = "視訊濾鏡外掛";

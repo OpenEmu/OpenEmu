@@ -6,4 +6,4 @@
 "48.headerCell.title" = "版本";
 
 /* Class = "NSTableColumn"; headerCell.title = "Console"; ObjectID = "50"; */
-"50.headerCell.title" = "平臺";
+"50.headerCell.title" = "主機";

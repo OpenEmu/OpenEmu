@@ -9,37 +9,37 @@
 "972.title" = "控制";
 
 /* Class = "NSMenuItem"; title = "View"; ObjectID = "973"; */
-"973.title" = "視圖";
+"973.title" = "檢視";
 
 /* Class = "NSMenuItem"; title = "Window"; ObjectID = "974"; */
-"974.title" = "窗口";
+"974.title" = "視窗";
 
 /* Class = "NSMenuItem"; title = "File"; ObjectID = "976"; */
-"976.title" = "文件";
+"976.title" = "檔案";
 
 /* Class = "NSMenu"; title = "File"; ObjectID = "980"; */
-"980.title" = "文件";
+"980.title" = "檔案";
 
 /* Class = "NSMenuItem"; title = "Launch Game…"; ObjectID = "981"; */
-"981.title" = "運行遊戲…";
+"981.title" = "啟動遊戲…";
 
 /* Class = "NSMenuItem"; title = "Edit Smart Collection"; ObjectID = "982"; */
-"982.title" = "編輯智能集合";
+"982.title" = "編輯智慧型收藏";
 
 /* Class = "NSMenuItem"; title = "New Smart Collection…"; ObjectID = "983"; */
-"983.title" = "新建智能集合…";
+"983.title" = "新增智慧型收藏…";
 
 /* Class = "NSMenuItem"; title = "New Collection Folder"; ObjectID = "984"; */
-"984.title" = "新建集合文件夾";
+"984.title" = "新增收藏檔案夾";
 
 /* Class = "NSMenuItem"; title = "New Collection"; ObjectID = "985"; */
-"985.title" = "新建集合";
+"985.title" = "新增收藏";
 
 /* Class = "NSMenuItem"; title = "Library"; ObjectID = "986"; */
-"986.title" = "庫";
+"986.title" = "資源庫";
 
 /* Class = "NSMenuItem"; title = "Add to Library…"; ObjectID = "987"; */
-"987.title" = "添加到庫…";
+"987.title" = "加入至資源庫…";
 
 /* Class = "NSMenuItem"; title = "Display Exact Duplicates"; ObjectID = "990"; */
 "990.title" = "顯示精確副本";
@@ -54,13 +54,13 @@
 "993.title" = "評分";
 
 /* Class = "NSMenuItem"; title = "Get Info"; ObjectID = "994"; */
-"994.title" = "獲取信息";
+"994.title" = "取得資訊";
 
 /* Class = "NSMenuItem"; title = "Close Window"; ObjectID = "995"; */
-"995.title" = "關閉窗口";
+"995.title" = "關閉視窗";
 
 /* Class = "NSMenuItem"; title = "Print…"; ObjectID = "996"; */
-"996.title" = "打印…";
+"996.title" = "列印…";
 
 /* Class = "NSMenuItem"; title = "Page Setup…"; ObjectID = "997"; */
 "997.title" = "頁面設置…";
@@ -72,25 +72,25 @@
 "1000.title" = "無";
 
 /* Class = "NSMenu"; title = "Library"; ObjectID = "1006"; */
-"1006.title" = "庫";
+"1006.title" = "資源庫";
 
 /* Class = "NSMenuItem"; title = "Back Up…"; ObjectID = "1007"; */
 "1007.title" = "備份…";
 
 /* Class = "NSMenuItem"; title = "Organize Library…"; ObjectID = "1008"; */
-"1008.title" = "整理庫…";
+"1008.title" = "整理資源庫…";
 
 /* Class = "NSMenuItem"; title = "Export Library…"; ObjectID = "1009"; */
-"1009.title" = "導出庫…";
+"1009.title" = "匯出資源庫…";
 
 /* Class = "NSMenuItem"; title = "Import Collection"; ObjectID = "1011"; */
-"1011.title" = "導入集合";
+"1011.title" = "匯入收藏";
 
 /* Class = "NSMenuItem"; title = "Export Collection"; ObjectID = "1012"; */
-"1012.title" = "導出集合";
+"1012.title" = "匯出收藏";
 
 /* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "1014"; */
-"1014.title" = "偏好設置…";
+"1014.title" = "偏好設定…";
 
 /* Class = "NSMenuItem"; title = "Check for Updates…"; ObjectID = "1016"; */
 "1016.title" = "檢查更新…";
@@ -117,7 +117,7 @@
 "1027.title" = "服務";
 
 /* Class = "NSMenu"; title = "Window"; ObjectID = "1028"; */
-"1028.title" = "窗口";
+"1028.title" = "視窗";
 
 /* Class = "NSMenuItem"; title = "Bring All to Front"; ObjectID = "1032"; */
 "1032.title" = "前置全部窗口";
@@ -129,19 +129,19 @@
 "1034.title" = "最小化";
 
 /* Class = "NSMenu"; title = "View"; ObjectID = "1035"; */
-"1035.title" = "視圖";
+"1035.title" = "檢視";
 
 /* Class = "NSMenuItem"; title = "as List"; ObjectID = "1036"; */
-"1036.title" = "以列表顯示";
+"1036.title" = "清單檢視";
 
 /* Class = "NSMenuItem"; title = "Fullscreen"; ObjectID = "1038"; */
-"1038.title" = "全屏幕";
+"1038.title" = "進入全螢幕";
 
 /* Class = "NSMenuItem"; title = "as Grid"; ObjectID = "1040"; */
-"1040.title" = "以網格顯示";
+"1040.title" = "格狀檢視";
 
 /* Class = "NSMenuItem"; title = "Undock Game Window"; ObjectID = "1041"; */
-"1041.title" = "取消固定窗口";
+"1041.title" = "取消固定視窗";
 
 /* Class = "NSMenu"; title = "Controls"; ObjectID = "1042"; */
 "1042.title" = "控制";
@@ -150,31 +150,31 @@
 "1044.title" = "暫停遊戲";
 
 /* Class = "NSMenuItem"; title = "Volume Down"; ObjectID = "1045"; */
-"1045.title" = "音量低";
+"1045.title" = "音量降低";
 
 /* Class = "NSMenuItem"; title = "Start Game"; ObjectID = "1046"; */
 "1046.title" = "開始遊戲";
 
 /* Class = "NSMenuItem"; title = "Volume Up "; ObjectID = "1047"; */
-"1047.title" = "音量高";
+"1047.title" = "音量升高";
 
 /* Class = "NSMenuItem"; title = "Last Played"; ObjectID = "1050"; */
-"1050.title" = "最近運行";
+"1050.title" = "最近遊玩";
 
 /* Class = "NSMenuItem"; title = "Save State"; ObjectID = "1052"; */
-"1052.title" = "保存狀態";
+"1052.title" = "儲存狀態";
 
 /* Class = "NSMenuItem"; title = "Load State"; ObjectID = "1053"; */
 "1053.title" = "讀取狀態";
 
 /* Class = "NSMenu"; title = "Last Played"; ObjectID = "1054"; */
-"1054.title" = "最近運行";
+"1054.title" = "最近遊玩";
 
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "1061"; */
 "1061.title" = "編輯";
 
 /* Class = "NSMenuItem"; title = "Find"; ObjectID = "1066"; */
-"1066.title" = "查找";
+"1066.title" = "尋找";
 
 /* Class = "NSMenuItem"; title = "Select All"; ObjectID = "1068"; */
 "1068.title" = "全選";
@@ -183,37 +183,37 @@
 "1069.title" = "刪除";
 
 /* Class = "NSMenuItem"; title = "Paste"; ObjectID = "1071"; */
-"1071.title" = "粘貼";
+"1071.title" = "貼上";
 
 /* Class = "NSMenuItem"; title = "Copy"; ObjectID = "1072"; */
 "1072.title" = "複製";
 
 /* Class = "NSMenuItem"; title = "Cut"; ObjectID = "1073"; */
-"1073.title" = "剪切";
+"1073.title" = "剪下";
 
 /* Class = "NSMenuItem"; title = "Redo"; ObjectID = "1075"; */
 "1075.title" = "重做";
 
 /* Class = "NSMenuItem"; title = "Undo"; ObjectID = "1076"; */
-"1076.title" = "撤銷";
+"1076.title" = "復原";
 
 /* Class = "NSMenu"; title = "Find"; ObjectID = "1077"; */
-"1077.title" = "查找";
+"1077.title" = "尋找";
 
 /* Class = "NSMenuItem"; title = "Jump to Selection"; ObjectID = "1078"; */
 "1078.title" = "跳轉到選擇";
 
 /* Class = "NSMenuItem"; title = "Use Selection for Find"; ObjectID = "1079"; */
-"1079.title" = "使用選擇來查找";
+"1079.title" = "使用選擇來尋找";
 
 /* Class = "NSMenuItem"; title = "Find Previous"; ObjectID = "1080"; */
-"1080.title" = "查找上一個";
+"1080.title" = "尋找上一個";
 
 /* Class = "NSMenuItem"; title = "Find Next"; ObjectID = "1081"; */
-"1081.title" = "查找下一個";
+"1081.title" = "尋找下一個";
 
 /* Class = "NSMenuItem"; title = "Find…"; ObjectID = "1082"; */
-"1082.title" = "查找…";
+"1082.title" = "尋找…";
 
 /* Class = "NSMenuItem"; title = "Stop Emulation"; ObjectID = "1167"; */
 "1167.title" = "停止模擬";
@@ -222,10 +222,10 @@
 "1182.title" = "版本";
 
 /* Class = "NSMenuItem"; title = "Debug"; ObjectID = "1208"; */
-"1208.title" = "調試";
+"1208.title" = "偵錯";
 
 /* Class = "NSMenu"; title = "Debug"; ObjectID = "1209"; */
-"1209.title" = "調試";
+"1209.title" = "偵錯";
 
 /* Class = "NSMenuItem"; title = "Log Responder Chain"; ObjectID = "1210"; */
 "1210.title" = "記錄響應鏈";
@@ -237,13 +237,13 @@
 "1293.title" = "顯示 ROM 名稱";
 
 /* Class = "NSMenuItem"; title = "Show Library"; ObjectID = "1306"; */
-"1306.title" = "顯示庫";
+"1306.title" = "顯示資源庫";
 
 /* Class = "NSMenuItem"; title = "Take Screenshot"; ObjectID = "1322"; */
-"1322.title" = "截屏";
+"1322.title" = "螢幕快照";
 
 /* Class = "NSMenu"; title = "Help"; ObjectID = "0ql-Da-Qro"; */
-"0ql-Da-Qro.title" = "幫助";
+"0ql-Da-Qro.title" = "說明";
 
 /* Class = "NSMenuItem"; title = "Restart System"; ObjectID = "2rj-Sq-LdF"; */
 "2rj-Sq-LdF.title" = "重啓系統";
@@ -252,7 +252,7 @@
 "5YI-Il-P9H.title" = "版本說明";
 
 /* Class = "NSMenuItem"; title = "Help"; ObjectID = "Qhx-nq-JmY"; */
-"Qhx-nq-JmY.title" = "幫助";
+"Qhx-nq-JmY.title" = "說明";
 
 /* Class = "NSMenuItem"; title = "OpenEmu Web Site"; ObjectID = "ahk-gp-EN3"; */
 "ahk-gp-EN3.title" = "OpenEmu 網站";
@@ -270,7 +270,7 @@
 "oKt-cF-ZgP.title" = "Send a Donation…";  // TODO
 
 /* Class = "NSMenuItem"; title = "Next Display Mode"; ObjectID = "VVR-iO-axh"; */
-"VVR-iO-axh.title" = "Next Display Mode"; // TODO
+"VVR-iO-axh.title" = "下一個顯示模式";
 
 /* Class = "NSMenuItem"; title = "Last Display Mode"; ObjectID = "HzI-NP-sNP"; */
-"HzI-NP-sNP.title" = "Last Display Mode"; // TODO
+"HzI-NP-sNP.title" = "上一個顯示模式";

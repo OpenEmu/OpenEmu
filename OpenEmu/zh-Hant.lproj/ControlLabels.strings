@@ -25,17 +25,17 @@
  */
 
 /* Section Title */
-  "Gameplay Buttons" = "遊戲按鍵";
-  "Special Keys" = "特殊按鍵";
+  "Gameplay Buttons" = "遊戲按鈕";
+  "Special Keys" = "特殊鍵";
 
 /* Group Labels */
-  "Analog" = "搖桿";
-  "C-Pad" = "C-方向";
+  "Analog" = "類比";
+  "C-Pad" = "C-Pad";
   "D-Pad" = "方向鍵";
-  "Keypad" = "鍵盤";
-  "Left Analog" = "左搖桿";
+  "Keypad" = "鍵台";
+  "Left Analog" = "左類比";
   "Left D-Pad" = "左方向鍵";
-  "Right Analog" = "右搖桿";
+  "Right Analog" = "右類比";
   "Right D-Pad" = "右方向鍵";
   "Switches" = "開關";
 
@@ -45,7 +45,7 @@
   "0" = "0";
   "1" = "1";
   "2" = "2";
-  "2/6 Mode" = "2/6模式";
+  "2/6 Mode" = "2/6 模式";
   "3" = "3";
   "4" = "4";
   "5" = "5";
@@ -54,7 +54,7 @@
   "8" = "8";
   "9" = "9";
   "A" = "A";
-  "Analog Mode" = "模擬模式";
+  "Analog Mode" = "類比模式";
   "B" = "B";
   "Button 1" = "按鈕1";
   "Button 1/Start" = "按鈕1/開始";
@@ -64,8 +64,8 @@
   "Button 5" = "按鈕5";
   "Button 6" = "按鈕6";
   "C" = "C";
-  "Change Disk Side" = "磁盤換面";
-  "Console Pause" = "控制檯暫停";
+  "Change Disk Side" = "磁碟換面";
+  "Console Pause" = "主機暫停";
   "Down" = "下";
   "Fire 1" = "開火1";
   "Fire 2" = "開火2";
@@ -78,8 +78,8 @@
   "L1" = "L1";
   "L2" = "L2";
   "L3" = "L3";
-  "Left Action" = "左邊按鍵";
-  "Left Trigger" = "左扳機";
+  "Left Action" = "左動作鍵";
+  "Left Trigger" = "左發射鍵";
   "Left" = "左";
   "Lid" = "蓋子";
   "Mic" = "麥克風";
@@ -96,16 +96,16 @@
   "R1" = "R1";
   "R2" = "R2";
   "R3" = "R3";
-  "Right Action" = "右邊按鍵";
-  "Right Trigger" = "右扳機";
+  "Right Action" = "右動作鍵";
+  "Right Trigger" = "右發射鍵";
   "Right" = "右";
-  "Run" = "運行";
+  "Run" = "執行";
   "Select" = "選擇";
   "Service" = "服務";
   "Sound" = "聲音";
   "Start" = "開始";
-  "TV Black & White" = "TV黑白";
-  "TV Color" = "TV彩色";
+  "TV Black & White" = "黑白電視";
+  "TV Color" = "彩色電視";
   "Up" = "上";
   "X" = "X";
   "X1 Up" = "X1上";
@@ -125,20 +125,20 @@
 
 /* Special Keys */
   "Display Mode" = "顯示模式";
-  "Fast Forward" = "快進";
-  "Fullscreen" = "全屏";
-  "Last Display Mode" = "Last Display Mode";
-  "Load" = "讀取";
+  "Fast Forward" = "快轉";
+  "Fullscreen" = "全螢幕";
+  "Last Display Mode" = "上一個顯示模式";
+  "Load" = "載入";
   "Mute" = "靜音";
-  "Next Display Mode" = "Next Display Mode";
+  "Next Display Mode" = "下一個顯示模式";
   "Pause" = "暫停";
-  "Quick Load Button" = "快速讀取";
-  "Quick Save Button" = "快速保存";
-  "Reset" = "重置";
-  "Rewind" = "回退";
-  "Save" = "保存";
-  "Screenshot" = "截屏";
+  "Quick Load Button" = "快速載入按鈕";
+  "Quick Save Button" = "快速儲存按鈕";
+  "Reset" = "重設";
+  "Rewind" = "倒轉";
+  "Save" = "儲存";
+ "Screenshot" = "螢幕快照";
   "Step Backward" = "Step Backward";    // TODO
   "Step Forward" = "Step Forward";    // TODO
-  "Volume Down" = "音量減";
-  "Volume Up" = "音量加";
+  "Volume Down" = "音量降低";
+  "Volume Up" = "音量升高";
