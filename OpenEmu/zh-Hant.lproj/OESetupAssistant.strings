@@ -1,66 +1,66 @@
 
 /* Class = "NSButtonCell"; title = "Next"; ObjectID = "246"; */
-"246.title" = "下一個";
+"246.title" = "Next";
 
 /* Class = "NSButtonCell"; title = "Back"; ObjectID = "250"; */
-"250.title" = "後退";
+"250.title" = "Back";
 
 /* Class = "NSButtonCell"; title = "Next"; ObjectID = "274"; */
-"274.title" = "下一個";
+"274.title" = "Next";
 
 /* Class = "NSButtonCell"; title = "Back"; ObjectID = "275"; */
-"275.title" = "後退";
+"275.title" = "Back";
 
 /* Class = "NSButtonCell"; title = "Allow OpenEmu To Scan For Games"; ObjectID = "280"; */
-"280.title" = "允許 OpenEmu 掃描遊戲";
+"280.title" = "Allow OpenEmu To Scan For Games";
 
 /* Class = "NSButtonCell"; title = "Next"; ObjectID = "301"; */
-"301.title" = "下一個";
+"301.title" = "Next";
 
 /* Class = "NSTextFieldCell"; title = "Welcome to OpenEmu!"; ObjectID = "316"; */
-"316.title" = "歡迎使用 OpenEmu!";
+"316.title" = "Welcome to OpenEmu!";
 
 /* Class = "NSTextFieldCell"; title = "An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Adding games (ROMs) you may already legally own.\n\n• Ensure you are running the correct system plugins (cores)."; ObjectID = "318"; */
-"318.title" = "激動人心的電視遊戲世界盡在你手。為幫助你入門，我們想問你以下幾個問題以為引導…\n\n• 加入你已經合法擁有的遊戲 (ROMs)。\n\n• 確保你已運行正確的系統外掛 (核心)。";
+"318.title" = "An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Adding games (ROMs) you may already legally own.\n\n• Ensure you are running the correct system plugins (cores).";
 
 /* Class = "NSTextFieldCell"; title = "Click on the ‘Next’ button to begin!"; ObjectID = "320"; */
-"320.title" = "點擊“下一步”按鈕開始！";
+"320.title" = "Click on the ‘Next’ button to begin!";
 
 /* Class = "NSTextFieldCell"; title = "OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores."; ObjectID = "328"; */
-"328.title" = "OpenEmu 是整合而成的，感謝其他偉大的開源項目的工作，使其可以模擬大部分電視遊戲系統 (‘核心’)。 有幾個選項需要你勾選並確認你要安裝並使用這些核心。沒有這些核心，你喜歡的系統和遊戲可能無法運行。";
+"328.title" = "OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores.";
 
 /* Class = "NSTextFieldCell"; title = "System Cores Installation"; ObjectID = "329"; */
-"329.title" = "系統核心安裝";
+"329.title" = "System Cores Installation";
 
 /* Class = "NSTextFieldCell"; title = "You may already have game (ROM) files located on your computer. OpenEmu can search your computer for games you may already legally own and automatically add them to your OpenEmu library. OpenEmu will also seek to add box art and other information for your games where available."; ObjectID = "332"; */
-"332.title" = "你的電腦可能已經存有遊戲 (ROM) 文件。 OpenEmu 可以搜索你的電腦內你已合法擁有的遊戲並自動加入到你的 OpenEmu 庫。同時 OpenEmu 也會為你的遊戲查找並加入可用的遊戲盒封面和其他信息。";
+"332.title" = "You may already have game (ROM) files located on your computer. OpenEmu can search your computer for games you may already legally own and automatically add them to your OpenEmu library. OpenEmu will also seek to add box art and other information for your games where available.";
 
 /* Class = "NSTextFieldCell"; title = "Game Scanner"; ObjectID = "333"; */
-"333.title" = "遊戲掃描器";
+"333.title" = "Game Scanner";
 
 /* Class = "NSButtonCell"; title = "Next"; ObjectID = "343"; */
-"343.title" = "下一步";
+"343.title" = "Next";
 
 /* Class = "NSTextFieldCell"; title = "Scan Additional Sources"; ObjectID = "347"; */
-"347.title" = "掃描附加源";
+"347.title" = "Scan Additional Sources";
 
 /* Class = "NSTextFieldCell"; title = "OpenEmu has detected you have the following mounted Hard Drives or shares available. If there are any game files residing in these locations, please tick on the associated item and OpenEmu can scan for and add these games to your Library."; ObjectID = "357"; */
-"357.title" = "OpenEmu 檢測到你有以下可用的已掛載硬碟或共享。如果這些位置有遊戲文件，請勾選相關項目，OpenEmu 可以掃描並加入這些遊戲到你的庫裡。";
+"357.title" = "OpenEmu has detected you have the following mounted Hard Drives or shares available. If there are any game files residing in these locations, please tick on the associated item and OpenEmu can scan for and add these games to your Library.";
 
 /* Class = "NSButtonCell"; title = "Back"; ObjectID = "358"; */
-"358.title" = "後退";
+"358.title" = "Back";
 
 /* Class = "NSTextFieldCell"; title = "Let’s Go!"; ObjectID = "401"; */
-"401.title" = "執行！";
+"401.title" = "Let’s Go!";
 
 /* Class = "NSTextFieldCell"; title = "Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time."; ObjectID = "402"; */
-"402.title" = "非常好！你已經全部設置完畢，可以開始遊戲了！\n\n記住，你可以隨時在偏好設置裡為自己或其他玩家更改鍵盤和手柄控制設置。";
+"402.title" = "Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time.";
 
 /* Class = "NSTextFieldCell"; title = "Click the ‘Go’ button to begin your adventure."; ObjectID = "403"; */
-"403.title" = "點擊“執行”按鈕開始你的旅程。";
+"403.title" = "Click the ‘Go’ button to begin your adventure.";
 
 /* Class = "NSButtonCell"; title = "Go"; ObjectID = "404"; */
-"404.title" = "執行";
+"404.title" = "Go";
 
 /* Class = "NSButtonCell"; title = "Back"; ObjectID = "413"; */
-"413.title" = "後退";
+"413.title" = "Back";

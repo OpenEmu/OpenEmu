@@ -1,27 +1,30 @@
 
 /* Class = "NSButtonCell"; title = "Change…"; ObjectID = "15"; */
-"15.title" = "更改…";
+"15.title" = "Change…";
 
 /* Class = "NSButtonCell"; title = "Reset"; ObjectID = "16"; */
-"16.title" = "重設";
+"16.title" = "Reset";
+
+/* Class = "NSTextFieldCell"; title = "~/Library/Application Support/OpenEmu/Game Library"; ObjectID = "17"; */
+"17.title" = "~/Library/Application Support/OpenEmu/Game Library";
 
 /* Class = "NSTextFieldCell"; title = "Organization Methods"; ObjectID = "18"; */
-"18.title" = "整理方式";
+"18.title" = "Organization Methods";
 
 /* Class = "NSTextFieldCell"; title = "Game Library Folder Location:"; ObjectID = "19"; */
-"19.title" = "遊戲庫檔案夾路徑:";
+"19.title" = "Game Library Folder Location:";
 
 /* Class = "NSButtonCell"; title = "Copy files to Game Library folder when adding to library"; ObjectID = "20"; */
-"20.title" = "加入到資源庫時將檔案複製到遊戲庫檔案夾";
+"20.title" = "Copy files to Game Library folder when adding to library";
 
 /* Class = "NSButtonCell"; title = "Automatically lookup game information & artwork"; ObjectID = "21"; */
-"21.title" = "自動查找遊戲信息和插圖";
+"21.title" = "Automatically lookup game information & artwork";
 
 /* Class = "NSTextFieldCell"; title = "Available Libraries:"; ObjectID = "24"; */
-"24.title" = "可用庫:";
+"24.title" = "Available Libraries:";
 
 /* Class = "NSTextFieldCell"; title = "Reset all dialog warnings:"; ObjectID = "Ua1-J2-mdy"; */
-"Ua1-J2-mdy.title" = "重設所有對話框警告:";
+"Ua1-J2-mdy.title" = "Reset all dialog warnings:";
 
 /* Class = "NSButtonCell"; title = "Reset warnings"; ObjectID = "all-Wd-1Dy"; */
-"all-Wd-1Dy.title" = "重設警告";
+"all-Wd-1Dy.title" = "Reset warnings";
