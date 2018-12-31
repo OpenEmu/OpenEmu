@@ -1,0 +1,18 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "Name"; ObjectID = "75"; */
+"75.headerCell.title" = "名稱";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "78"; */
+"78.title" = "Text Cell";
+
+/* Class = "NSButtonCell"; title = "Check"; ObjectID = "124"; */
+"124.title" = "Check";
+
+/* Class = "NSButtonCell"; title = "Apply"; ObjectID = "139"; */
+"139.title" = "套用";
+
+/* Class = "NSTextFieldCell"; title = "Resolve Issues:"; ObjectID = "0HB-UU-ULs"; */
+"0HB-UU-ULs.title" = "修復導入問題:";
+
+/* Class = "NSTextFieldCell"; title = "Import Into:"; ObjectID = "QPy-Ob-0E6"; */
+"QPy-Ob-0E6.title" = "Import Into:";
