@@ -20,6 +20,8 @@
 		<string>{180, 380}</string>
 		<key>OESG1000Button2</key>
 		<string>{320, 380}</string>
+		<key>OESG1000ButtonPause</key>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>

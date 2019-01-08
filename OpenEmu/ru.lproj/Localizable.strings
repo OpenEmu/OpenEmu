@@ -132,8 +132,6 @@
 
 "Could not move library data!" = "Не удалось переместить данные из библиотеки!";
 
-"Couldn't connect to the background process." = "Не удалось подключиться к фоновому процессу.";
-
 "Couldn't load %@ plugin" = "Не удалось загрузить плагин: %@";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Создайте свой набор игр. Чтобы добавить игры в коллекцию, выберите игру из вашей библиотеки и перетащите ’%@’ на левую панель.";
@@ -182,8 +180,6 @@
 
 "Do not ask me again" = "Больше не спрашивать";
 
-"Do Not Save" = "Не сохранять";
-
 "Do not show me again" = "Больше не показывать";
 
 "Do you really want to cancel the import process?" = "Вы действительно хотите прекратить процесс импорта?";
@@ -210,7 +206,7 @@
 
 "Duplicate Collection" = "Дублировать коллекцию";
 
-"Edit Game Controls" = "Редактировать управление в игре";
+"Edit Game Controls…" = "Редактировать управление в игре…";
 
 "Enable now" = "Включить сейчас";
 
@@ -247,6 +243,8 @@
 "In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "Для того, чтобы эмулировать некоторые системы, необходимы файлы BIOS в связи с увеличением сложности аппаратных средств и программного обеспечения современных игровых консолей. Для получения дополнительной информации, прочтите %@.";
 
 "In order to play the game it must be downloaded." = "Для того, чтобы играть в игру, необходимо ее скачать.";
+
+"Insert Cart/Disk/Tape…" = "Insert Cart/Disk/Tape…";
 
 "Install" = "Установить";
 
@@ -386,6 +384,8 @@
 
 "Resume Emulation" = "Продолжить эмуляцию Emulation";
 
+"Resume Gameplay" = "Приостановить геймплей";  // TODO
+
 "Resume" = "Продолжить";
 
 "Save As:" = "Сохранить как:";
@@ -395,8 +395,6 @@
 "Save Game" = "Сохранить игру";
 
 "Save States" = "Сохранить состояние";
-
-"Save to Slot %d" = "Сохранить в слот: %d";
 
 "Save-Game-%ld %@" = "Сохранение-%ld %@";
 
@@ -422,6 +420,8 @@
 
 "Select Disc" = "Select Disc"; // TODO
 
+"Select Display Mode" = "Режим отображения";
+
 "Select Filter" = "Выбрать фильтр";
 
 "Select Scale" = "Выберите размер";
@@ -433,8 +433,6 @@
 "Slot %d" = "Слот %d";
 
 "Slot %ld" = "Слот %ld";
-
-"Slot 1" = "Слот 1";
 
 "Some migrations failed to complete properly" = "Не удалось применить некоторые миграции";
 
@@ -458,10 +456,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "У ядра %1$@ есть известные проблемы совместимости и некоторые игры могут воспроизводиться с ошибками или не воспроизводиться вообще.\n\nПожалуйста не сообщайте нам о проблемах совместимости, так как мы не ответственны за разработку %2$@.";
 
-"The background process connection couldn't be established" = "Соединение с фоновым процессом не может быть установлено";
-
-"The background process couldn't be launched" = "Фоновый процесс не может быть запущен";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "Батарея в устройстве под номером %1$lu, %2$@, близка к состоянию разрядки. Пожалуйста, зарядите или замените батарею.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "Не удается загрузить ядро. Попробуйте установить его вручную из раздела опций 'Ядра'.";
@@ -473,8 +467,6 @@
 "The game '%@' was imported." = "Игра '%@' была импортирована.";
 
 "The OpenEmu Library could not be found." = "Библиотеку OpenEmu не удается найти.";
-
-"The root proxy object is nil." = "Корневой прокси-объект отсутствует.";
 
 "The System plugin could not be found!" = "Системный плагин не удается найти!";
 
@@ -536,6 +528,12 @@
 
 "Category" = "Category";   // TODO shown when the corresponding item does not fit in the main window's toolbar
 
+"An issue was detected with one of your controllers." = "An issue was detected with one of your controllers.";  //TODO // Headline for bindings repaired alert
+
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.";  // TODO // Message for bindings repaired alert
+
+"Keycode 0x%lX" = "Keycode 0x%lX";  // TODO  // Fallback for unknown keys
+
 
 /* Secrets */
 
@@ -577,9 +575,7 @@
 
 "Show options button" = "Показать кнопку опций";
 
-"Show quicksave notification during gameplay" = "Показать уведомление о быстром сохранении в процессе игры";
-
-"Show screenshot notification during gameplay" = "Show screenshot notification during gameplay"; // TODO
+"Show notifications during gameplay" = "Показать уведомления в процессе игры";
 
 "Use quicksave slots" = "Использовать слоты быстрых сохранений";
 
@@ -612,8 +608,6 @@
 "Log Keyboard Events" = "Логировать события клавиатуры";
 
 "Show all global keys" = "Показать все глобальные кнопки";
-
-"Always show BIOS preferences" = "Всегда показывать предпочтения BIOS";
 
 "Set default save states directory" = "Установить директорию по-умолчанию для сохранения состояний";
 
@@ -658,3 +652,7 @@
 "ECM compressed binary detected." = "ECM compressed binary detected.";  // TODO
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";  // TODO
+
+"Threshold for analog controls bound to buttons" = "Threshold for analog controls bound to buttons";    // TODO
+
+"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO

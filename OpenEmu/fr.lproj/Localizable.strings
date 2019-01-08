@@ -132,8 +132,6 @@
 
 "Could not move library data!" = "Impossible de déplacer les données de la bibliothèque !";
 
-"Couldn't connect to the background process." = "Impossible de se connecter au processus d’arrière-plan.";
-
 "Couldn't load %@ plugin" = "Impossible de charger le plugin %@";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Créer une sélection de jeux personnelle. Pour ajouter un jeu à une collection, sélectionnez-le dans votre bibliothèque de consoles et glissez-le vers « %@ » sur la gauche.";
@@ -182,8 +180,6 @@
 
 "Do not ask me again" = "Ne plus me demander";
 
-"Do Not Save" = "Ne pas sauvegarder";
-
 "Do not show me again" = "Ne plus afficher";
 
 "Do you really want to cancel the import process?" = "Voules-vous vraiment annuler le processus d’importation ?";
@@ -210,7 +206,7 @@
 
 "Duplicate Collection" = "Dupliquer la collection";
 
-"Edit Game Controls" = "Modifier les contrôles de jeu";
+"Edit Game Controls…" = "Modifier les contrôles de jeu…";
 
 "Enable now" = "Activer maintenant";
 
@@ -247,6 +243,8 @@
 "In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "Pour émuler certains systèmes, des fichiers BIOS sont nécessaires du fait de la complexité croissante des matériels et logiciels des consoles de jeux modernes. Lisez notre %@ pour plus d’informations.";
 
 "In order to play the game it must be downloaded." = "Pour lancer le jeu, il doit être téléchargé.";
+
+"Insert Cart/Disk/Tape…" = "Insérer Cart/Disk/Tape…";
 
 "Install" = "Installer";
 
@@ -386,6 +384,8 @@
 
 "Resume Emulation" = "Reprendre l’émulation";
 
+"Resume Gameplay" = "Reprendre le jeu";
+
 "Resume" = "Reprendre";
 
 "Save As:" = "Nom :";
@@ -395,8 +395,6 @@
 "Save Game" = "Sauvegarder partie";
 
 "Save States" = "Sauvegarder parties";
-
-"Save to Slot %d" = "Sauvegarder dans la fente %d";
 
 "Save-Game-%ld %@" = "Sauvegarde-%ld %@";
 
@@ -422,6 +420,8 @@
 
 "Select Disc" = "Sélectionner le disque";
 
+"Select Display Mode" = "Sélectionner le mode affichage";
+
 "Select Filter" = "Sélectionner le filtre";
 
 "Select Scale" = "Sélectionner l’échelle";
@@ -433,8 +433,6 @@
 "Slot %d" = "Fente %d";
 
 "Slot %ld" = "Fente %ld";
-
-"Slot 1" = "Fente 1";
 
 "Some migrations failed to complete properly" = "Quelques migrations ne se sont pas terminées correctement";
 
@@ -458,10 +456,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "Le cœur %@ a des problèmes de compatibilité et certains jeux peuvent poser problème ou ne pas fonctionner du tout.\n\nVeuillez ne pas nous signaler ces problèmes car nous ne sommes pas responsables du développement de %@.";
 
-"The background process connection couldn't be established" = "Impossible d’établir la connexion du processus d’arrière-plan";
-
-"The background process couldn't be launched" = "Impossible de lancer le processus en arrière-plan";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "Les piles du périphérique numéro %lu, %@, sont déchargées. Rechargez ou remplacez les piles.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "Impossible de télécharger le cœur. Essayez de l’installer à partir des préférences des cœurs.";
@@ -473,8 +467,6 @@
 "The game '%@' was imported." = "Le jeu « %@ » a été importé.";
 
 "The OpenEmu Library could not be found." = "Impossible de trouver la bibliothèque OpenEmu.";
-
-"The root proxy object is nil." = "L’objet root proxy est nul.";
 
 "The System plugin could not be found!" = "Impossible de trouver le plugin du système !";
 
@@ -536,6 +528,12 @@
 
 "Category" = "Catégorie";
 
+"An issue was detected with one of your controllers." = "An issue was detected with one of your controllers.";  //TODO // Headline for bindings repaired alert
+
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.";  // TODO // Message for bindings repaired alert
+
+"Keycode 0x%lX" = "Keycode 0x%lX";  // TODO  // Fallback for unknown keys
+
 
 /* Secrets */
 
@@ -577,9 +575,7 @@
 
 "Show options button" = "Afficher le bouton des options";
 
-"Show quicksave notification during gameplay" = "Afficher la notification de sauvegarde rapide pendant le jeu";
-
-"Show screenshot notification during gameplay" = "Afficher la notification de capture d’écran pendant le jeu";
+"Show notifications during gameplay" = "Afficher les notifications pendant le jeu";
 
 "Use quicksave slots" = "Utiliser les fentes de sauvegarde rapide";
 
@@ -612,8 +608,6 @@
 "Log Keyboard Events" = "Journaliser les événements du clavier";
 
 "Show all global keys" = "Afficher toutes les touches globales ";
-
-"Always show BIOS preferences" = "Toujours afficher les préférences du BIOS";
 
 "Set default save states directory" = "Répertoire des parties sauvegardées par défaut";
 
@@ -658,3 +652,7 @@
 "ECM compressed binary detected." = "Fichier binaire ECM compressé détecté.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "Les fichiers binaires ECM compressés ne peuvent pas être importés. Veuillez lire le guide d’importation de disque.";
+
+"Threshold for analog controls bound to buttons" = "Threshold for analog controls bound to buttons";    // TODO
+
+"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO

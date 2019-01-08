@@ -78,6 +78,33 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGameTitleKVOContext;
 
+@implementation NSDate (OESortAdditions)
+
+/// Implementation of the sort selector used by the list view's "Last Played" column in OECollectionViewController.xib.
+- (NSComparisonResult)OE_compareDMYTranslatingNilToDistantPast:(NSDate *)anotherDate
+{
+    if (!anotherDate) {
+        return [self compare:NSDate.distantPast];
+    }
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    
+    NSDateComponents *selfDMY = [gregorian components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:self];
+    NSDateComponents *anotherDMY = [gregorian components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:anotherDate];
+    
+    if (selfDMY.year != anotherDMY.year) {
+        return (selfDMY.year > anotherDMY.year ? NSOrderedDescending : NSOrderedAscending);
+    } else if (selfDMY.month != anotherDMY. month) {
+        return (selfDMY.month > anotherDMY.month ? NSOrderedDescending : NSOrderedAscending);
+    } else if (selfDMY.day != anotherDMY.day) {
+        return (selfDMY.day > anotherDMY.day ? NSOrderedDescending : NSOrderedAscending);
+    }
+    
+    return NSOrderedSame;
+}
+
+@end
+
 @interface OECollectionViewController ()
 {
     IBOutlet NSView *gridViewContainer;// gridview
@@ -232,6 +259,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [super setRepresentedObject:representedObject];
     [self view];
     [self updateBlankSlate];
+    
+    [self _doMojaveGridViewHack];
 }
 
 - (id <OECollectionViewItemProtocol>)representedObject
@@ -753,6 +782,16 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 {
     _gridView.cellSize = OEScaleSize(defaultGridSize, zoomValue);
     [[NSUserDefaults standardUserDefaults] setFloat:zoomValue forKey:OELastGridSizeKey];
+}
+
+// MARK: - Mojave Grid View Hack
+
+/// Fix display of the grid view at launch on macOS 10.14+. Without this hack, the grid view appears empty or displays a red or magenta color on launch.
+/// @note This is intended to be a temporary solution until the grid view is replaced with an NSCollectionView.
+- (void)_doMojaveGridViewHack
+{
+    _gridView.wantsLayer = YES;
+    _gridView.wantsLayer = NO;
 }
 
 @end

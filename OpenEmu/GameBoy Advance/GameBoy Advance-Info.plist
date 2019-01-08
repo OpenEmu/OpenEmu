@@ -136,7 +136,7 @@
 		<string>OEGBAButtonSelect</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
-	<integer>4</integer>
+	<integer>1</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEGBASystemResponder</string>
 	<key>OESystemIcon</key>

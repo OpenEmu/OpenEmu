@@ -267,4 +267,10 @@
 "q7W-GV-n3p.title" = "用户指南";
 
 /* Class = "NSMenuItem"; title = "Send a Donation…"; ObjectID = "oKt-cF-ZgP"; */
-"oKt-cF-ZgP.title" = "Send a Donation…";  // TODO
+"oKt-cF-ZgP.title" = "发送捐款…";  // TODO
+
+/* Class = "NSMenuItem"; title = "Next Display Mode"; ObjectID = "VVR-iO-axh"; */
+"VVR-iO-axh.title" = "下一个显示模式"; // TODO
+
+/* Class = "NSMenuItem"; title = "Last Display Mode"; ObjectID = "HzI-NP-sNP"; */
+"HzI-NP-sNP.title" = "上一个显示模式"; // TODO

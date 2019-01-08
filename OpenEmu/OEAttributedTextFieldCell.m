@@ -49,16 +49,6 @@
     return self;
 }
 
--(id)initImageCell:(NSImage *)image
-{
-    if((self = [super initImageCell:image]))
-    {
-        [self setupAttributes];
-    }
-    
-    return self;
-}
-
 - (id)initTextCell:(NSString *)aString
 {
     if((self = [super initTextCell:aString]))

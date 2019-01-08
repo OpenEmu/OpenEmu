@@ -56,11 +56,11 @@
 
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    OECDSheet *sheet = file;
-    if (![sheet isKindOfClass:[OECloneCD class]] && ![sheet isKindOfClass:[OECUESheet class]])
+    OEDiscDescriptor *descriptor = file;
+    if (![descriptor isKindOfClass:[OECloneCD class]] && ![descriptor isKindOfClass:[OECUESheet class]])
         return OEFileSupportNo;
 
-    for(NSURL *dataTrackURL in sheet.referencedBinaryFileURLs)
+    for(NSURL *dataTrackURL in descriptor.referencedBinaryFileURLs)
     {
         NSError *error = nil;
         NSData *dataTrackBuffer = [NSData dataWithContentsOfURL:dataTrackURL options:NSDataReadingMappedIfSafe | NSDataReadingUncached error:&error];
@@ -72,6 +72,13 @@
 
         if(indexOfData.length == 0)
             continue;
+
+        // "Battle Heat" for PC-FX is falsely identified as PCE CD. This should be the only game that needs this.
+        NSData *subData = [dataTrackBuffer subdataWithRange:NSMakeRange(indexOfData.location + 74, 11)];
+        NSData *subDataString = [NSData dataWithBytes:"Battle Heat" length:11];
+
+        if([subData isEqualToData:subDataString])
+            return OEFileSupportNo;
 
         NSLog(@"PCE-CD data track: %@", dataTrackURL);
         NSLog (@"'%@' at offset = 0x%lX", dataTrackString, indexOfData.location);

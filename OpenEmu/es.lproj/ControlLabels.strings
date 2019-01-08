@@ -139,8 +139,10 @@
 "Display Mode" = "Modo de visualización";
 "Fast Forward" = "Avance rápido";
 "Fullscreen" = "Pantalla completa";
+"Last Display Mode" = "Last Display Mode";
 "Load" = "Cargar";
 "Mute" = "Silencio";
+"Next Display Mode" = "Next Display Mode";
 "Pause" = "Pausa";
 "Quick Load Button" = "Carga rápida";
 "Quick Save Button" = "Guardado rápido";
@@ -148,5 +150,7 @@
 "Rewind" = "Retroceso";
 "Save" = "Guardar";
 "Screenshot" = "Captura de pantalla";
+"Step Backward" = "Step Backward";    // TODO
+"Step Forward" = "Step Forward";    // TODO
 "Volume Down" = "Bajar volumen";
 "Volume Up" = "Subir volumen";

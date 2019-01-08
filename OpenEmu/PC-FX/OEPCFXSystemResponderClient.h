@@ -42,12 +42,17 @@ typedef enum _OEPCFXButton
     OEPCFXButton6,
     OEPCFXButtonRun,
     OEPCFXButtonSelect,
-    OEPCFXButtonCount,
+    OEPCFXButtonCount
 } OEPCFXButton;
 
 @protocol OEPCFXSystemResponderClient <OESystemResponderClient, NSObject>
 
 - (oneway void)didPushPCFXButton:(OEPCFXButton)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleasePCFXButton:(OEPCFXButton)button forPlayer:(NSUInteger)player;
+- (oneway void)mouseMovedAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseUp;
+- (oneway void)rightMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)rightMouseUp;
 
 @end

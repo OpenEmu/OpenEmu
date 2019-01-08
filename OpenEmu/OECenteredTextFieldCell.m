@@ -41,14 +41,6 @@
     return self;
 }
 
-- (id)initImageCell:(NSImage *)image
-{
-    if(self = [super initImageCell:image])
-        [self OE_centeredTextFieldCellInit];
-
-    return self;
-}
-
 - (id)initTextCell:(NSString *)aString
 {
     if((self = [super initTextCell:aString]))

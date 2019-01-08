@@ -222,10 +222,16 @@
 "ayc-Ld-Nyd.title" = "Bedienelemente ausblenden";
 
 /* Class = "NSMenuItem"; title = "Submit Feedback…"; ObjectID = "ftM-3D-CSh"; */
-"ftM-3D-CSh.title" = "Fehler melden";
+"ftM-3D-CSh.title" = "Fehler melden …";
 
 /* Class = "NSMenuItem"; title = "User Guide"; ObjectID = "q7W-GV-n3p"; */
 "q7W-GV-n3p.title" = "Benutzerhandbuch";
 
 /* Class = "NSMenuItem"; title = "Send a Donation…"; ObjectID = "oKt-cF-ZgP"; */
 "oKt-cF-ZgP.title" = "Spenden …";
+
+/* Class = "NSMenuItem"; title = "Next Display Mode"; ObjectID = "VVR-iO-axh"; */
+"VVR-iO-axh.title" = "Next Display Mode"; // TODO
+
+/* Class = "NSMenuItem"; title = "Last Display Mode"; ObjectID = "HzI-NP-sNP"; */
+"HzI-NP-sNP.title" = "Last Display Mode"; // TODO

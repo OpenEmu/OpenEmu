@@ -30,15 +30,15 @@
 
 typedef enum _OEDCButton
 {
-	OEDCButtonUp,
-	OEDCButtonDown,
-	OEDCButtonLeft,
-	OEDCButtonRight,
-	OEDCButtonA,
+    OEDCButtonUp,
+    OEDCButtonDown,
+    OEDCButtonLeft,
+    OEDCButtonRight,
+    OEDCButtonA,
     OEDCButtonB,
     OEDCButtonX,
     OEDCButtonY,
-	OEDCAnalogL,
+    OEDCAnalogL,
     OEDCAnalogR,
     OEDCButtonStart,
     OEDCAnalogUp,

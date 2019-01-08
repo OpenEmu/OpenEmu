@@ -26,6 +26,7 @@
 
 #import "OEDBSaveStateMigrationPolicy.h"
 #import "OELibraryDatabase.h"
+#import "NSArray+OEAdditions.h"
 
 #import "OpenEmu-Swift.h"
 
@@ -60,12 +61,12 @@ NS_ASSUME_NONNULL_BEGIN
         NSURL *romsFolderURL = self.stateFolderURL;
         NSString *urlString = [oldObject valueForKey:@"location"];
         NSURL *url = nil;
-        if([urlString rangeOfString:@"file://"].location == NSNotFound)
+        if(![urlString containsString:@"file://"])
             url = [NSURL URLWithString:urlString relativeToURL:romsFolderURL];
         else
             url = [NSURL URLWithString:urlString];
 
-        NSURL *relativeURL = [url urlRelativeToURL:romsFolderURL];
+        NSURL *relativeURL = [url URLRelativeToURL:romsFolderURL];
         NSString *location = relativeURL.relativeString;
         if(location)
         {

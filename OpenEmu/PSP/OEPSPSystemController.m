@@ -184,6 +184,8 @@ CISO_H ciso;
     [scanner scanUpToString:@"  " intoString:nil];
     [scanner scanUpToString:@" " intoString:&serial];
 
+    NSAssert(serial, @"UMD Game ISO is incomplete, no DISC_ID. Follow the guide https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-Split-rar-files");
+
     NSMutableString *formattedSerial = [NSMutableString stringWithString:serial];
     [formattedSerial insertString:@"-" atIndex:4];
 

@@ -40,7 +40,7 @@
 
 NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
-@interface OECoreUpdater () <NSFileManagerDelegate, SUAppcastDelegate, SUUpdaterDelegate>
+@interface OECoreUpdater () <NSFileManagerDelegate, SUUpdaterDelegate>
 {
     NSMutableDictionary *_coresDict;
     BOOL autoInstall;
@@ -87,7 +87,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
              NSString *bundleID = [self lowerCaseID:[obj bundleIdentifier]];
              if(bundleID != nil)
              {
-                 [_coresDict setObject:aDownload forKey:bundleID];
+                 [self->_coresDict setObject:aDownload forKey:bundleID];
              }
              else
              {
@@ -132,6 +132,11 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
         {
             [updater setDelegate:self];
             [updater setFeedURL:[NSURL URLWithString:appcastURLString]];
+
+            // Core updates are silently installed on launch, so ensure there is no annoying update prompt from Sparkle
+            [updater setAutomaticallyChecksForUpdates:YES];
+            [updater setAutomaticallyDownloadsUpdates:YES];
+
             [updater resetUpdateCycle];
             [updater checkForUpdateInformation];
         }
@@ -160,7 +165,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
                 for(NSXMLElement *coreNode in coreNodes)
                 {
                     NSString *coreId = [self lowerCaseID:[[coreNode attributeForName:@"id"] stringValue]];
-                    if([_coresDict objectForKey:coreId] != nil) continue;
+                    if([self->_coresDict objectForKey:coreId] != nil) continue;
                     
                     OECoreDownload *download = [[OECoreDownload alloc] init];
                     [download setName:[[coreNode attributeForName:@"name"] stringValue]];
@@ -185,17 +190,21 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
                     
                     NSURL *appcastURL = [NSURL URLWithString:[[coreNode attributeForName:@"appcastURL"] stringValue]];
                     download.appcast = [[SUAppcast alloc] init];
-                    [download.appcast setDelegate:self];
-                    
-                    if([fromModal boolValue])
-                        [[download appcast] performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO modes:[NSArray arrayWithObject:NSModalPanelRunLoopMode]];
-                    else
-                        [[download appcast] performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO];
-                    
-                    [_coresDict setObject:download forKey:coreId];
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[download appcast] fetchAppcastFromURL:appcastURL inBackground:YES completionBlock:^(NSError *error) {
+                            if (error) {
+                                NSLog(@"%@", error);
+                            } else {
+                                [self appcastDidFinishLoading:[download appcast]];
+                            }
+                        }];
+                    });
+
+                    [self->_coresDict setObject:download forKey:coreId];
                 }
             }
-            
+
             [self OE_updateCoreList];
         });
     });
@@ -457,11 +466,29 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
     [_coresDict enumerateKeysAndObjectsUsingBlock:
      ^(id key, id obj, BOOL *stop)
      {
+         // This runs when the core is not installed at all. Since
+         // Sparkle's update checking logic is all in the SUUpdater,
+         // which is tied to an existing bundle (which doesn't exist,
+         // since it hasn't been installed yet), it's necessary to
+         // reproduce the operating system version requirement check
+         // here. There is no existing version to check against. This
+         // code assumes that the newest versions are always ordered
+         // first. As a result, maximum system version checks are not
+         // implemented.
          if([obj appcast] == appcast)
          {
-             //Assuming 0 is the best download, may or may not be the best
-             NSArray *appcastItems = [appcast items];
-             if([appcastItems count] > 0) [obj setAppcastItem:[appcastItems objectAtIndex:0]];
+             NSOperatingSystemVersion OSVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+             NSString *OSVersionString = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)OSVersion.majorVersion, (long)OSVersion.minorVersion, (long)OSVersion.patchVersion];
+             for (SUAppcastItem *item in [appcast items]) {
+                 if (item.minimumSystemVersion == nil || [item.minimumSystemVersion isEqualToString:@""] ||
+                     ([[SUStandardVersionComparator defaultComparator]
+                       compareVersion:item.minimumSystemVersion
+                       toVersion:OSVersionString] != NSOrderedDescending))
+                 {
+                     [obj setAppcastItem:item];
+                     break;
+                 }
+             }
 
              [obj setDelegate:self];
              *stop = YES;

@@ -482,7 +482,17 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     return [self saveStateMode] ? [OEDBSaveState entityName] : [OEDBScreenshot entityName];
 }
+
 #pragma mark - Context Menu
+
+- (BOOL)validateMenuItem:(NSMenuItem *)item
+{
+    SEL action = [item action];
+    if (action == @selector(showInFinder:))
+        return [[self selectionIndexes] count] > 0;
+    return [super validateMenuItem:item];
+}
+
 - (NSMenu*)menuForItemsAtIndexes:(NSIndexSet *)indexes
 {
     if([self saveStateMode])
@@ -494,6 +504,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 - (NSMenu*)OE_saveStateMenuForItensAtIndexes:(NSIndexSet *)indexes
 {
     NSMenu *menu = [[NSMenu alloc] init];
+    menu.autoenablesItems = NO;
 
     if([indexes count] == 1)
     {

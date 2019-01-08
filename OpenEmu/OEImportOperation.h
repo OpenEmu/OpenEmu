@@ -61,7 +61,7 @@ typedef void (^OEImportItemCompletionBlock)(NSManagedObjectID*);
 @property (copy, nullable) OEImportItemCompletionBlock completionHandler;
 @property OEROMImporter *importer;
 
-@property BOOL checked;
+@property (getter=isChecked) BOOL checked;
 
 @end
 

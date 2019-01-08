@@ -26,7 +26,7 @@
 
 import Cocoa
 
-extension NSControl {
+@objc extension NSControl {
     
     /// A convenience method to set both the target and action.
     /// - Parameter target: The target of the control.

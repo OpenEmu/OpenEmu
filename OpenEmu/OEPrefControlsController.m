@@ -313,6 +313,8 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 - (void)OE_setUpInputMenu;
 {
     NSMenu *inputMenu = [[NSMenu alloc] init];
+    inputMenu.autoenablesItems = NO;
+    
     NSMenuItem *inputItem = [inputMenu addItemWithTitle:NSLocalizedString(@"Keyboard", @"Keyboard bindings menu item.") action:NULL keyEquivalent:@""];
     [inputItem setRepresentedObject:_OEKeyboardMenuItemRepresentedObject];
 
@@ -464,8 +466,8 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
     [CATransaction begin];
     [CATransaction setCompletionBlock:^{
-        if(_controllerView != nil)
-            [[self controllerContainerView] replaceSubview:_controllerView with:newControllerView];
+        if(self->_controllerView != nil)
+            [[self controllerContainerView] replaceSubview:self->_controllerView with:newControllerView];
         else
             [[self controllerContainerView] addSubview:newControllerView];
         [self setControllerView:newControllerView];

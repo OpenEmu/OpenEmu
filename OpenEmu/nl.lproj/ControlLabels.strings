@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright (c) 2015, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
@@ -139,8 +139,10 @@
   "Display Mode" = "Weergavemodus";
   "Fast Forward" = "Vooruitspoelen";
   "Fullscreen" = "Schermvullende weergave";
+  "Last Display Mode" = "Last Display Mode";
   "Load" = "Laden";
   "Mute" = "Dempen";
+  "Next Display Mode" = "Next Display Mode";
   "Pause" = "Pauze";
   "Quick Load Button" = "Snel laden";
   "Quick Save Button" = "Snel opslaan";
@@ -148,5 +150,7 @@
   "Rewind" = "Terugspoelen";
   "Save" = "Opslaan";
   "Screenshot" = "Schermafbeelding";
+  "Step Backward" = "Step Backward";    // TODO
+  "Step Forward" = "Step Forward";    // TODO
   "Volume Down" = "Volume omhoog";
   "Volume Up" = "Volume omlaag";

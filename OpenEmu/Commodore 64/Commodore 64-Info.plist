@@ -61,6 +61,18 @@
 				<key>OEControlListKeyNameKey</key>
 				<string>OEC64ButtonFire</string>
 			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Jump</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEC64ButtonJump</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Swap Joysticks</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEC64SwapJoysticks</string>
+			</dict>
 		</array>
 	</array>
 	<key>OEControlTypesKey</key>
@@ -90,10 +102,15 @@
 	<array>
 		<string>crt</string>
 		<string>d64</string>
+		<string>d71</string>
+		<string>d81</string>
+		<string>g64</string>
 		<string>p00</string>
+		<string>p64</string>
 		<string>prg</string>
 		<string>t64</string>
 		<string>tap</string>
+		<string>x64</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
@@ -102,6 +119,8 @@
 		<string>OEC64JoystickLeft</string>
 		<string>OEC64JoystickRight</string>
 		<string>OEC64ButtonFire</string>
+		<string>OEC64ButtonJump</string>
+		<string>OEC64SwapJoysticks</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
 	<integer>2</integer>

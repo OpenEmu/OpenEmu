@@ -33,10 +33,10 @@ extension NSAttributedString {
     /// - Parameter URL: The URL of the hyperlink.
     convenience init(string: String, hyperlinkURL URL: Foundation.URL) {
         
-        let attributes: [String: Any] = [
-            NSLinkAttributeName: URL.absoluteString,
-            NSForegroundColorAttributeName: NSColor.blue,
-            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue
+        let attributes: [NSAttributedStringKey: Any] = [
+            .link: URL.absoluteString,
+            .foregroundColor: NSColor.blue,
+            .underlineStyle: NSUnderlineStyle.styleSingle.rawValue
         ]
         
         self.init(string: string, attributes: attributes)

@@ -27,6 +27,8 @@
 #import "OEUtilities.m"
 #import <CommonCrypto/CommonDigest.h>
 #import "OEBuildVersion.h"
+// Compression support
+#import <XADMaster/XADArchive.h>
 
 // output must be at least 2*len+1 bytes
 void tohex(const unsigned char *input, size_t len, char *output)
@@ -95,6 +97,78 @@ NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath)
     }
 
     return folder;
+}
+
+NSString *decompressedPathForRomAtPath(NSString *aPath)
+{
+    // check path for :entryIndex appendix, extract it and restore original path
+    // paths will look like this /path/to/rom/file.zip:2
+
+    int entryIndex = 0;
+    NSMutableArray *components = [[aPath componentsSeparatedByString:@":"] mutableCopy];
+    NSString *entry = [components lastObject];
+    if([[NSString stringWithFormat:@"%ld", [entry integerValue]] isEqualToString:entry])
+    {
+        entryIndex = [entry intValue];
+        [components removeLastObject];
+        aPath = [components componentsJoinedByString:@":"];
+    }
+
+    // we check for known compression types for the ROM at the path
+    // If we detect one, we decompress it and store it in /tmp at a known location
+    XADArchive *archive = nil;
+    @try {
+        archive = [XADArchive archiveForFile:aPath];
+    }
+    @catch (NSException *exc)
+    {
+        archive = nil;
+    }
+
+    if(archive == nil || [archive numberOfEntries] <= entryIndex)
+        return aPath;
+
+    // XADMaster identifies some legit Mega Drive as LZMA archives
+    NSString *formatName = [archive formatName];
+    if ([formatName isEqualToString:@"MacBinary"] || [formatName isEqualToString:@"LZMA_Alone"])
+        return aPath;
+
+    if(![archive entryHasSize:entryIndex] || [archive uncompressedSizeOfEntry:entryIndex]==0 || [archive entryIsEncrypted:entryIndex] || [archive entryIsDirectory:entryIndex] || [archive entryIsArchive:entryIndex])
+        return aPath;
+
+    NSFileManager *fm = [NSFileManager new];
+    NSString *folder = temporaryDirectoryForDecompressionOfPath(aPath);
+    NSString *tmpPath = [folder stringByAppendingPathComponent:[archive nameOfEntry:entryIndex]];
+    if([[tmpPath pathExtension] length] == 0 && [[aPath pathExtension] length] > 0)
+    {
+        // we need an extension
+        tmpPath = [tmpPath stringByAppendingPathExtension:[aPath pathExtension]];
+    }
+
+    BOOL isdir;
+    if([fm fileExistsAtPath:tmpPath isDirectory:&isdir] && !isdir)
+    {
+        DLog(@"Found existing decompressed ROM for path %@", aPath);
+        return tmpPath;
+    }
+
+    BOOL success = YES;
+    @try
+    {
+        success = [archive _extractEntry:entryIndex as:tmpPath deferDirectories:NO dataFork:YES resourceFork:NO];
+    }
+    @catch (NSException *exception)
+    {
+        success = NO;
+    }
+
+    if(!success)
+    {
+        [fm removeItemAtPath:folder error:nil];
+        return aPath;
+    }
+
+    return tmpPath;
 }
 
 #ifdef DebugLocalization

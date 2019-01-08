@@ -35,19 +35,20 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
 
 @implementation OEGameCoreManager
 
-- (instancetype)initWithROMPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion corePlugin:(OECorePlugin *)plugin systemPlugin:(OESystemPlugin *)systemPlugin gameCoreOwner:(id<OEGameCoreOwner>)gameCoreOwner
+- (instancetype)initWithROMPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion displayModeInfo:(NSDictionary <NSString *, id> *)displayModeInfo corePlugin:(OECorePlugin *)plugin systemPlugin:(OESystemPlugin *)systemPlugin gameCoreOwner:(id<OEGameCoreOwner>)gameCoreOwner
 {
     if((self = [super init]))
     {
-        _ROMPath          = romPath;
-        _ROMCRC32         = romCRC32;
-        _ROMMD5           = romMD5;
-        _ROMHeader        = romHeader;
-        _ROMSerial        = romSerial;
-        _systemRegion     = systemRegion;
-        _plugin           = plugin;
-        _systemPlugin     = systemPlugin;
-        _gameCoreOwner    = gameCoreOwner;
+        _ROMPath           = romPath;
+        _ROMCRC32          = romCRC32;
+        _ROMMD5            = romMD5;
+        _ROMHeader         = romHeader;
+        _ROMSerial         = romSerial;
+        _systemRegion      = systemRegion;
+        _displayModeInfo   = displayModeInfo;
+        _plugin            = plugin;
+        _systemPlugin      = systemPlugin;
+        _gameCoreOwner     = gameCoreOwner;
     }
     
     return self;
@@ -91,6 +92,22 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
 - (void)setDisc:(NSUInteger)discNumber
 {
     [[self gameCoreHelper] setDisc:discNumber];
+}
+
+- (void)insertFileAtURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block
+{
+    [[self gameCoreHelper] insertFileAtURL:url completionHandler:
+     ^(BOOL success, NSError *error)
+     {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             block(success, error);
+         });
+     }];
+}
+
+- (void)changeDisplayWithMode:(NSString *)displayMode
+{
+    [[self gameCoreHelper] changeDisplayWithMode:displayMode];
 }
 
 - (void)setOutputBounds:(NSRect)rect

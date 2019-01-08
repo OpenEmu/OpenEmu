@@ -31,7 +31,6 @@
 
 #import <objc/runtime.h>
 #import "OESidebarGroupItem.h"
-#import "OEMenu.h"
 
 #import "OEDBSystem+CoreDataProperties.h" 
 #import "OELibraryDatabase.h"
@@ -220,11 +219,7 @@
 
 
     if([[menu itemArray] count]) {
-        OEMenuStyle style = OEMenuStyleDark;
-        if([[NSUserDefaults standardUserDefaults] boolForKey:OEMenuOptionsStyleKey]) style = OEMenuStyleLight;
-
-        NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:style] forKey:OEMenuOptionsStyleKey];
-        [OEMenu openMenu:menu withEvent:event forView:self options:options];
+        [NSMenu popUpContextMenu:menu withEvent:event forView:self];
     }
 
     _highlightedRow = -1;

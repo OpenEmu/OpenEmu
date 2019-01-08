@@ -43,7 +43,7 @@ typedef enum _OEArcadeButton
     OEArcadeButtonP1Start,
     OEArcadeButtonInsertCoin,
     OEArcadeButtonService,
-    OEArcadeButtonCount,
+    OEArcadeButtonCount
 } OEArcadeButton;
 
 @protocol OEArcadeSystemResponderClient <OESystemResponderClient, NSObject>

@@ -32,7 +32,7 @@
 
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    if (![file isKindOfClass:[OECDSheet class]])
+    if (![file isKindOfClass:[OEDiscDescriptor class]])
         return OEFileSupportNo;
 
     // TODO: Add frontend method to receive NSError from -canHandleFile: in system plugins; this doesn't belong here.
@@ -70,7 +70,7 @@
 
 - (NSString *)serialLookupForFile:(__kindof OEFile *)file
 {
-    if (![file isKindOfClass:[OECDSheet class]])
+    if (![file isKindOfClass:[OEDiscDescriptor class]])
         return nil;
 
     NSString *mode1DataString = [file readASCIIStringInRange:NSMakeRange(0x8001, 5)];

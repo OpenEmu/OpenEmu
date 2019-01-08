@@ -138,6 +138,8 @@
 		<string>snes</string>
 		<string>fig</string>
 		<string>sfc</string>
+		<string>bs</string>
+		<string>st</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>

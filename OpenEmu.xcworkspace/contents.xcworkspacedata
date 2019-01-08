@@ -77,9 +77,6 @@
       location = "group:Stella/Stella.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:TwoMbit/TwoMbit.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:VecXGL/VecXGL.xcodeproj">
    </FileRef>
    <FileRef

@@ -39,7 +39,6 @@
 @synthesize trackWindowActivity = _trackWindowActivity;
 @synthesize trackMouseActivity = _trackMouseActivity;
 @synthesize trackModifierActivity = _trackModifierActivity;
-@synthesize menuStyle = _menuStyle;
 @synthesize toolTipStyle = _toolTipStyle;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -49,9 +48,17 @@
     {
         NSRect frame = [self frame];
         frame.size.height = 23.0;
+        _cachedIntrinsicWidth = -1.0;
         [self setFrame:frame];
     }
     return self;
+}
+
+- (NSEdgeInsets)alignmentRectInsets
+{
+    if ([self.cell isKindOfClass:[OEPopUpButtonCell class]] && [self.cell isThemed])
+        return NSEdgeInsetsMake(0, 0, 0, 0);
+    return super.alignmentRectInsets;
 }
 
 - (void)viewWillMoveToWindow:(NSWindow *)newWindow
@@ -112,15 +119,6 @@
     // Mouse has exited / mouse off, we want to redisplay the button with the new state...this is only fired when the mouse tracking is installed
     [self OE_updateHoverFlag:NO];
     [self setNeedsDisplay];
-}
-
-- (void)mouseDown:(NSEvent *)theEvent
-{
-    NSPoint pointInButton = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    if(NSPointInRect(pointInButton, [self bounds]))
-    {
-        [OEMenu openMenuForPopUpButton:self withEvent:theEvent options:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:[self menuStyle]] forKey:OEMenuOptionsStyleKey]];
-    }
 }
 
 - (void)setNeedsDisplay:(BOOL)flag
@@ -263,6 +261,27 @@
 {
     [super setCell:aCell];
     [self updateTrackingAreas];
+}
+
+- (void)setMenu:(NSMenu *)aMenu
+{
+    [super setMenu:aMenu];
+    _cachedIntrinsicWidth = -1.0;
+}
+
+- (NSSize)intrinsicContentSize
+{
+    if (![self.cell isKindOfClass:[OEPopUpButtonCell class]] || ![self.cell isThemed])
+        return super.intrinsicContentSize;
+    
+    if (_cachedIntrinsicWidth < 0.0) {
+        if ([self menu]) {
+            _cachedIntrinsicWidth = self.menu.minimumWidth;
+        } else {
+            _cachedIntrinsicWidth = NSViewNoIntrinsicMetric;
+        }
+    }
+    return NSMakeSize(_cachedIntrinsicWidth, 23.0);
 }
 
 @end

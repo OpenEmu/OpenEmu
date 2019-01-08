@@ -34,6 +34,7 @@ extension OEDBRom: CachedLastPlayedInfoItem {}
 
 @NSApplicationMain
 @objc(OEApplicationDelegate)
+@objcMembers
 class AppDelegate: NSDocumentController {
     
     static let websiteAddress = "http://openemu.org/"
@@ -44,8 +45,8 @@ class AppDelegate: NSDocumentController {
     @IBOutlet weak var aboutWindow: NSWindow!
     @IBOutlet weak var fileMenu: NSMenu!
     
-    lazy var mainWindowController = OEMainWindowController(windowNibName: "MainWindow")
-    lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: "Preferences")
+    lazy var mainWindowController = OEMainWindowController(windowNibName: NSNib.Name(rawValue: "MainWindow"))
+    lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: NSNib.Name(rawValue: "Preferences"))
     
     dynamic var aboutCreditsPath: String {
         return Bundle.main.path(forResource: "Credits", ofType: "rtf")!
@@ -66,12 +67,14 @@ class AppDelegate: NSDocumentController {
     
     dynamic lazy var specialThanks: NSAttributedString = {
         let msg = NSLocalizedString("Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub.", comment: "Special thanks message (about window).")
-        let paragraphStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+        let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paragraphStyle.alignment = .center
         paragraphStyle.lineHeightMultiple = 1.225
-        let attributes = [NSFontAttributeName: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize()),
-                          NSParagraphStyleAttributeName: paragraphStyle,
-                          NSForegroundColorAttributeName: NSColor.white]
+        let attributes: [NSAttributedStringKey: Any] = [
+            .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize),
+            .paragraphStyle: paragraphStyle,
+            .foregroundColor: NSColor.white
+        ]
         return NSAttributedString(string: msg, attributes: attributes)
     }()
     
@@ -141,7 +144,10 @@ class AppDelegate: NSDocumentController {
     override init() {
         
         super.init()
-        
+
+        // Needs to happen early to hopefully prevent a Sparkle crash.
+        removeDeprecatedPlugins()
+
         // Load the XPC communicator framework. This used to be conditional on the existence of NSXPCConnection, but now OpenEmu's minimum supported version of macOS will always have NSXPCConnection.
         let xpcFrameworkPath = (Bundle.main.privateFrameworksPath! as NSString).appendingPathComponent("OpenEmuXPCCommunicator.framework")
         let xpcFrameworkBundle = Bundle(path: xpcFrameworkPath)
@@ -159,11 +165,7 @@ class AppDelegate: NSDocumentController {
             OEAutomaticallyGetInfoKey: true,
             OEGameDefaultVideoFilterKey: "Pixellate",
             OEGameVolumeKey: 0.5,
-            "defaultCore.openemu.system.gb": "org.openemu.Gambatte",
-            "defaultCore.openemu.system.gba": "org.openemu.mGBA",
-            "defaultCore.openemu.system.gg": "org.openemu.TwoMbit",
             "defaultCore.openemu.system.nes": "org.openemu.Nestopia",
-            "defaultCore.openemu.system.sms": "org.openemu.TwoMbit",
             "defaultCore.openemu.system.snes": "org.openemu.SNES9x",
             OEDisplayGameTitle: true,
             OEBackgroundPauseKey: true,
@@ -177,7 +179,12 @@ class AppDelegate: NSDocumentController {
         #if !DEBUG_PRINT
             UserDefaults.standard.removeObject(forKey: OEGameCoreManagerModePreferenceKey)
         #endif
-        
+
+        // Don't let an old setting override automatically checking for app updates.
+        if let automaticChecksEnabled = UserDefaults.standard.object(forKey: "SUEnableAutomaticChecks") as? Bool, automaticChecksEnabled == false {
+            UserDefaults.standard.removeObject(forKey: "SUEnableAutomaticChecks")
+        }
+
         // Trigger Objective-C +initialize methods in these classes.
         _ = OEControllerDescription.self
         _ = OEToolTipManager.self
@@ -216,7 +223,7 @@ class AppDelegate: NSDocumentController {
     
     private func sendDelegateCallback(toTarget target: AnyObject, selector: Selector, documentController: NSDocumentController, didReviewAll: Bool, contextInfo: UnsafeMutableRawPointer?) {
         
-        guard let method = class_getInstanceMethod(type(of: target), selector) else {
+        guard let method = class_getInstanceMethod(Swift.type(of: target), selector) else {
             return
         }
         
@@ -242,7 +249,7 @@ class AppDelegate: NSDocumentController {
             return
         }
         
-        if OEHUDAlert.quitApplication().runModal() == NSAlertFirstButtonReturn {
+        if OEHUDAlert.quitApplication().runModal() == .alertFirstButtonReturn {
             closeAllDocuments(withDelegate: delegate, didCloseAllSelector: didReviewAllSelector, contextInfo: contextInfo)
         } else {
             sendDelegateCallback(toTarget: delegate as AnyObject, selector: didReviewAllSelector!, documentController: self, didReviewAll: false, contextInfo: contextInfo)
@@ -322,7 +329,7 @@ class AppDelegate: NSDocumentController {
             
             completionHandler(document, documentWasAlreadyOpen, error)
             
-            NSDocumentController.shared().clearRecentDocuments(nil)
+            NSDocumentController.shared.clearRecentDocuments(nil)
         }
     }
     
@@ -369,7 +376,7 @@ class AppDelegate: NSDocumentController {
         
         let create = !FileManager.default.fileExists(atPath: databasePath) && databasePath == defaultDatabasePath
         
-        let userDBSelectionRequest = NSEvent.modifierFlags().contains(NSAlternateKeyMask)
+        let userDBSelectionRequest = NSEvent.modifierFlags.contains(.option)
         let databaseURL = URL(fileURLWithPath: databasePath)
         // If user holds down alt key.
         if userDBSelectionRequest {
@@ -452,11 +459,11 @@ class AppDelegate: NSDocumentController {
         
         switch alert.runModal() {
             
-        case NSAlertThirdButtonReturn:
+        case .alertThirdButtonReturn:
             NSApp.terminate(self)
             return
             
-        case NSAlertFirstButtonReturn:
+        case .alertFirstButtonReturn:
             
             let openPanel = NSOpenPanel()
             
@@ -467,7 +474,7 @@ class AppDelegate: NSDocumentController {
             
             openPanel.begin { result in
                 
-                if result == NSModalResponseOK {
+                if result == .OK {
                     
                     var databaseURL = openPanel.url!
                     let databasePath = databaseURL.path
@@ -484,13 +491,13 @@ class AppDelegate: NSDocumentController {
                 }
             }
             
-        case NSAlertSecondButtonReturn:
+        case .alertSecondButtonReturn:
             
             let savePanel = NSSavePanel()
             
             savePanel.nameFieldStringValue = "OpenEmu Library"
             
-            if savePanel.runModal() == NSModalResponseOK {
+            if savePanel.runModal() == .OK {
                 
                 let databaseURL = savePanel.url!
                 try? FileManager.default.removeItem(at: databaseURL)
@@ -508,28 +515,63 @@ class AppDelegate: NSDocumentController {
     }
     
     // MARK: -
-    
+
+    fileprivate func removeDeprecatedPlugins() {
+        // Remove deprecated core plugins.
+        let corePlugins = [
+            "NeoPop.oecoreplugin",
+            "TwoMbit.oecoreplugin",
+            "VisualBoyAdvance.oecoreplugin",
+            "Yabause.oecoreplugin"
+        ]
+        let supportDirectoryURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!
+        let coresDirectoryURL = supportDirectoryURL.appendingPathComponent("OpenEmu/Cores")
+        for plugin in corePlugins {
+            let coreBundleURL = coresDirectoryURL.appendingPathComponent(plugin, isDirectory: false)
+            try? FileManager.default.removeItem(at: coreBundleURL)
+        }
+    }
+
     fileprivate func removeInvalidPlugins() {
-        
+
         // Remove Higan WIP systems as defaults if found, since our core port does not support them.
         let defaults = UserDefaults.standard
         if defaults.string(forKey: "defaultCore.openemu.system.gb") == "org.openemu.Higan" {
-            defaults.set("org.openemu.Gambatte", forKey: "defaultCore.openemu.system.gb")
+            defaults.removeObject(forKey: "defaultCore.openemu.system.gb")
         }
         if defaults.string(forKey: "defaultCore.openemu.system.gba") == "org.openemu.Higan" {
-            defaults.set("org.openemu.mGBA", forKey: "defaultCore.openemu.system.gba")
+            defaults.removeObject(forKey: "defaultCore.openemu.system.gba")
         }
         if defaults.string(forKey: "defaultCore.openemu.system.nes") == "org.openemu.Higan" {
-            defaults.set("org.openemu.Nestopia", forKey: "defaultCore.openemu.system.nes")
+            defaults.removeObject(forKey: "defaultCore.openemu.system.nes")
         }
-        
+
+        // Remove system defaults for deprecated core plugins.
+        if defaults.string(forKey: "defaultCore.openemu.system.gba") == "org.openemu.VisualBoyAdvance" {
+            defaults.removeObject(forKey: "defaultCore.openemu.system.gba")
+        }
+        if defaults.string(forKey: "defaultCore.openemu.system.gg") == "org.openemu.CrabEmu" ||
+           defaults.string(forKey: "defaultCore.openemu.system.gg") == "org.openemu.TwoMbit" {
+            defaults.removeObject(forKey: "defaultCore.openemu.system.gg")
+        }
+        if defaults.string(forKey: "defaultCore.openemu.system.ngp") == "org.openemu.NeoPop" {
+            defaults.removeObject(forKey: "defaultCore.openemu.system.ngp")
+        }
+        if defaults.string(forKey: "defaultCore.openemu.system.saturn") == "org.openemu.Yabause" {
+            defaults.removeObject(forKey: "defaultCore.openemu.system.saturn")
+        }
+        if defaults.string(forKey: "defaultCore.openemu.system.sms") == "org.openemu.CrabEmu" ||
+           defaults.string(forKey: "defaultCore.openemu.system.sms") == "org.openemu.TwoMbit" {
+            defaults.removeObject(forKey: "defaultCore.openemu.system.sms")
+        }
+
         // Remove beta-era core plug-ins.
         let betaPlugins = OECorePlugin.allPlugins.filter { ($0.infoDictionary["SUFeedURL"] as! String).contains("openemu.org/update") }
         for plugin in betaPlugins {
             let coreBundleURL = plugin.bundle.bundleURL
             try? FileManager.default.removeItem(at: coreBundleURL)
         }
-        
+
         // Remove system plugins in app support (they ship in the app bundle).
         let systemsDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!.appendingPathComponent("OpenEmu/Systems")
         if let result = try? systemsDirectory.checkResourceIsReachable(), result == true {
@@ -564,18 +606,44 @@ class AppDelegate: NSDocumentController {
         
         let database = OELibraryDatabase.default!
         let context = database.mainThreadContext
-        
+
+        // Remove save states for deprecated core plugins.
         // Get incompatible save states by version.
+        // Genesis Plus GX is especially known for breaking compatibility.
+        let currentDesmumeCoreVersion = OECorePlugin(bundleIdentifier: "org.openemu.desmume")?.version
         let incompatibleSaveStates = (OEDBSaveState.allObjects(in: context) as! [OEDBSaveState]).filter {
-            $0.coreIdentifier == "org.openemu.GenesisPlus" &&
+            ($0.coreIdentifier == "org.openemu.CrabEmu" &&
+                ($0.location!.contains("GameGear/") ||
+                 $0.location!.contains("SegaMasterSystem/") ||
+                 $0.location!.contains("SG-1000/"))) ||
+            ($0.coreIdentifier == "org.openemu.desmume" && currentDesmumeCoreVersion == "0.9.12" &&
+                ($0.coreVersion == "0.9.10" ||
+                 $0.coreVersion == "0.9.10.1" ||
+                 $0.coreVersion == "0.9.10.2" ||
+                 $0.coreVersion == "0.9.11")) ||
+            ($0.coreIdentifier == "org.openemu.GenesisPlus" &&
                 ($0.coreVersion == "1.7.4" ||
                  $0.coreVersion == "1.7.4.1" ||
-                 $0.coreVersion == "1.7.4.2")
+                 $0.coreVersion == "1.7.4.2" ||
+                 $0.coreVersion == "1.7.4.3" ||
+                 $0.coreVersion == "1.7.4.4" ||
+                 $0.coreVersion == "1.7.4.5" ||
+                 $0.coreVersion == "1.7.4.6")) ||
+            ($0.coreIdentifier == "org.openemu.Mupen64Plus" &&
+                ($0.coreVersion == "2.5.3" ||
+                 $0.coreVersion == "2.5.2" ||
+                 $0.coreVersion == "2.5.1" ||
+                 $0.coreVersion == "2.5" ||
+                 $0.coreVersion == "2.0.1" ||
+                 $0.coreVersion == "2.0")) ||
+            $0.coreIdentifier == "org.openemu.NeoPop" ||
+            $0.coreIdentifier == "org.openemu.TwoMbit" ||
+            $0.coreIdentifier == "org.openemu.VisualBoyAdvance"
         }
         
         if !incompatibleSaveStates.isEmpty {
             
-            NSLog("Removing \(incompatibleSaveStates.count) incompatible Genesis Plus GX save state(s).")
+            NSLog("Removing \(incompatibleSaveStates.count) incompatible save state(s).")
             
             for saveState in incompatibleSaveStates {
                 saveState.deleteAndRemoveFiles()
@@ -594,19 +662,19 @@ class AppDelegate: NSDocumentController {
     // MARK: - Help Menu
     
     @IBAction func showOEHelp(_ sender: AnyObject?) {
-        NSWorkspace.shared().open(URL(string: AppDelegate.userGuideAddress)!)
+        NSWorkspace.shared.open(URL(string: AppDelegate.userGuideAddress)!)
     }
     
     @IBAction func showOEReleaseNotes(_ sender: AnyObject?) {
-        NSWorkspace.shared().open(URL(string: AppDelegate.releaseNotesAddress)!)
+        NSWorkspace.shared.open(URL(string: AppDelegate.releaseNotesAddress)!)
     }
     
     @IBAction func showOEWebSite(_ sender: AnyObject?) {
-        NSWorkspace.shared().open(URL(string: AppDelegate.websiteAddress)!)
+        NSWorkspace.shared.open(URL(string: AppDelegate.websiteAddress)!)
     }
     
     @IBAction func showOEIssues(_ sender: AnyObject?) {
-        NSWorkspace.shared().open(URL(string: AppDelegate.feedbackAddress)!)
+        NSWorkspace.shared.open(URL(string: AppDelegate.feedbackAddress)!)
     }
     
     // MARK: - About Window
@@ -623,7 +691,7 @@ class AppDelegate: NSDocumentController {
     @IBAction func openWeblink(_ sender: AnyObject?) {
         if let button = sender as? OEButton {
             let url = URL(string: "http://" + button.title)!
-            NSWorkspace.shared().open(url)
+            NSWorkspace.shared.open(url)
         }
     }
     
@@ -636,7 +704,7 @@ class AppDelegate: NSDocumentController {
     // MARK: - Donation Link
     
     @IBAction func showDonationPage(_ sender: AnyObject?) {
-        NSWorkspace.shared().open(URL(string: "http://openemu.org/donate/")!)
+        NSWorkspace.shared.open(URL(string: "http://openemu.org/donate/")!)
     }
     
     // MARK: - Application Info
@@ -711,6 +779,17 @@ class AppDelegate: NSDocumentController {
         }
     }
     
+    // MARK: - Bindings Reset Message
+    
+    @objc(didRepairBindings:)
+    func didRepairBindings(_ notif: NSNotification!) {
+        let alert = OEHUDAlert.init()
+        alert.headlineText = NSLocalizedString("An issue was detected with one of your controllers.", comment:"Headline for bindings repaired alert")
+        alert.messageText = NSLocalizedString("The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.", comment:"Message for bindings repaired alert")
+        alert.defaultButtonTitle = NSLocalizedString("OK", comment:"")
+        alert.runModal()
+    }
+    
     // MARK: - Debug
     
     @IBAction func OEDebug_logResponderChain(_ sender: AnyObject?) {
@@ -722,7 +801,7 @@ class AppDelegate: NSDocumentController {
             var responderChain = [NSResponder]()
             var responder = keyWindow.firstResponder
             
-            while let nextResponder = responder.nextResponder {
+            while let nextResponder = responder?.nextResponder {
                 responderChain.append(nextResponder)
                 responder = nextResponder
             }
@@ -765,7 +844,7 @@ extension AppDelegate: NSMenuDelegate {
     
     func menu(_ menu: NSMenu, update item: NSMenuItem, at index: Int, shouldCancel: Bool) -> Bool {
         
-        item.state = NSOffState
+        item.state = .off
         
         guard !cachedLastPlayedInfo.isEmpty else {
             item.title = NSLocalizedString("No game played yet!", comment: "")
@@ -883,11 +962,16 @@ extension AppDelegate: NSMenuDelegate {
 
 // MARK: - OpenEmuApplicationDelegateProtocol
 
-extension AppDelegate: OpenEmuApplicationDelegateProtocol {
+@objc extension AppDelegate: OpenEmuApplicationDelegateProtocol {
     
     func applicationWillFinishLaunching(_ notification: Notification) {
         
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter), name: NSNotification.Name.NSApplicationDidFinishRestoringWindows, object: nil)
+        if #available(OSX 10.14, *) {
+            // On Mojave, force dark mode to better fit the design of our custom UI.
+            NSApp.appearance = NSAppearance(named: .darkAqua)
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter), name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
     }
     
     func removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter(_ notification: Notification) {
@@ -899,7 +983,7 @@ extension AppDelegate: OpenEmuApplicationDelegateProtocol {
             libraryDidLoadObserverForRestoreWindow = nil
         }
         
-        notificationCenter.removeObserver(self, name: Notification.Name.NSApplicationDidFinishRestoringWindows, object: nil)
+        notificationCenter.removeObserver(self, name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
     }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -914,7 +998,9 @@ extension AppDelegate: OpenEmuApplicationDelegateProtocol {
         notificationCenter.addObserver(self, selector: #selector(AppDelegate.libraryDatabaseDidLoad), name: NSNotification.Name(OELibraryDidLoadNotificationName), object: nil)
         notificationCenter.addObserver(self, selector: #selector(AppDelegate.openPreferencePane), name: PreferencesWindowController.openPaneNotificationName, object: nil)
         
-        NSDocumentController.shared().clearRecentDocuments(nil)
+        notificationCenter.addObserver(self, selector: #selector(AppDelegate.didRepairBindings), name: NSNotification.Name.OEBindingsRepaired, object: nil)
+        
+        NSDocumentController.shared.clearRecentDocuments(nil)
         
         DispatchQueue.main.async {
             self.loadDatabase()
@@ -924,10 +1010,11 @@ extension AppDelegate: OpenEmuApplicationDelegateProtocol {
     func libraryDatabaseDidLoad(notification: Notification) {
         
         libraryLoaded = true
-        
-        OECoreUpdater.shared.checkForUpdatesAndInstall()
-        
+        // Needs to happen before initializing OECorePlugin to prevent a crash.
         removeInvalidPlugins()
+
+        OECoreUpdater.shared.checkForUpdatesAndInstall()
+
         loadPlugins()
         removeIncompatibleSaveStates()
         
@@ -965,12 +1052,12 @@ extension AppDelegate: OpenEmuApplicationDelegateProtocol {
         
         OECoreUpdater.shared.check(forNewCores: false)
         
-        let userDefaultsController = NSUserDefaultsController.shared()
-        bind("logHIDEvents", to: userDefaultsController, withKeyPath: "values.logsHIDEvents", options: nil)
-        bind("logKeyboardEvents", to: userDefaultsController, withKeyPath: "values.logsHIDEventsNoKeyboard", options: nil)
-        bind("backgroundControllerPlay", to: userDefaultsController, withKeyPath: "values.backgroundControllerPlay", options: nil)
+        let userDefaultsController = NSUserDefaultsController.shared
+        bind(NSBindingName(rawValue: "logHIDEvents"), to: userDefaultsController, withKeyPath: "values.logsHIDEvents", options: nil)
+        bind(NSBindingName(rawValue: "logKeyboardEvents"), to: userDefaultsController, withKeyPath: "values.logsHIDEventsNoKeyboard", options: nil)
+        bind(NSBindingName(rawValue: "backgroundControllerPlay"), to: userDefaultsController, withKeyPath: "values.backgroundControllerPlay", options: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.windowDidBecomeKey), name: Notification.Name.NSWindowDidBecomeKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.windowDidBecomeKey), name: NSWindow.didBecomeKeyNotification, object: nil)
         
         for startupQueueItem in startupQueue {
             startupQueueItem()
@@ -1017,7 +1104,7 @@ extension AppDelegate: OpenEmuApplicationDelegateProtocol {
                 
             } else {
                 
-                let reply: NSApplicationDelegateReply
+                let reply: NSApplication.DelegateReply
                 let importer = OELibraryDatabase.default!.importer
                 if importer.importItems(atPaths: filenames) {
                     reply = .success
@@ -1044,7 +1131,7 @@ extension AppDelegate: OpenEmuApplicationDelegateProtocol {
         updateEventHandlers()
     }
     
-    func windowDidBecomeKey(notification: Notification) {
+    @objc func windowDidBecomeKey(notification: Notification) {
         updateEventHandlers()
     }
     

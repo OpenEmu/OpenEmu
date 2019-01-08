@@ -37,7 +37,7 @@ typedef enum _OEGGButton
     OEGGButtonA,
     OEGGButtonB,
     OEGGButtonStart,
-    OEGGButtonCount,
+    OEGGButtonCount
 } OEGGButton;
 
 @protocol OEGGSystemResponderClient <OESystemResponderClient, NSObject>

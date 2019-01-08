@@ -143,7 +143,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
          {
              if(discoverRoms)
                  [[[OELibraryDatabase defaultDatabase] importer] discoverRoms:volumes];
-             [self setCurrentContentController:self.libraryController animate:NO];
+             [self setCurrentContentController:self.libraryController];
          }];
         
         // Adjust visual properties of the window.
@@ -157,7 +157,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     }
     else
     {
-        [self setCurrentContentController:self.libraryController animate:NO];
+        [self setCurrentContentController:self.libraryController];
     }
 }
 
@@ -212,7 +212,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 #pragma mark -
 
-- (void)setCurrentContentController:(NSViewController *)newController animate:(BOOL)shouldAnimate
+- (void)setCurrentContentController:(NSViewController *)newController
 {
     if(newController == nil) newController = self.libraryController;
     if(newController == self.currentContentController) return;
@@ -222,7 +222,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     
     // We use Objective-C blocks to factor out common code used in both animated and non-animated controller switching
     void (^sendViewWillDisappear)(void) = ^{
-        [_currentContentController viewWillDisappear];
+        [self->_currentContentController viewWillDisappear];
         [newController viewWillAppear];
     };
     
@@ -238,13 +238,13 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         
         [self.window makeFirstResponder:newController.view];
         
-        [_currentContentController viewDidDisappear];
+        [self->_currentContentController viewDidDisappear];
         [newController viewDidAppear];
-        _currentContentController = newController;
+        self->_currentContentController = newController;
         
         [viewToReplace removeFromSuperview];
         
-        if(newController == _gameDocument.gameViewController)
+        if(newController == self->_gameDocument.gameViewController)
         {
             // Adjust visual properties of the window.
             window.toolbar.visible = NO;
@@ -258,7 +258,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
             window.styleMask &= ~NSFullSizeContentViewWindowMask;
             [window setFrame:windowFrame display:NO];
             
-            _gameDocument.gameWindowController = self;
+            self->_gameDocument.gameWindowController = self;
         }
         else
         {
@@ -282,60 +282,13 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         }
     };
     
-    if(shouldAnimate)
-    {
-        CGRect windowFrame = self.window.frame;
-        NSWindow *fadeWindow = [[NSWindow alloc]initWithContentRect:windowFrame
-                                                          styleMask:NSBorderlessWindowMask
-                                                            backing:NSBackingStoreBuffered
-                                                              defer:NO];
-        [fadeWindow setFrame:windowFrame display:NO];
-        fadeWindow.ignoresMouseEvents = YES;
-        fadeWindow.backgroundColor = [NSColor clearColor];
-        fadeWindow.alphaValue = 1.0;
-        fadeWindow.opaque = NO;
-        
-        [window addChildWindow:fadeWindow ordered:NSWindowAbove];
-        
-        NSImageView *imageView = [[NSImageView alloc] initWithFrame:fadeWindow.contentView.bounds];
-        imageView.image = window.imageSnapshot;
-        imageView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-        
-        fadeWindow.contentView = imageView;
-        
-        sendViewWillDisappear();
-        replaceController(_currentContentController.view);
-        
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-            
-            context.duration = 0.2;
-            fadeWindow.animator.alphaValue = 0.0;
-            
-        } completionHandler:^{
-            
-            [window removeChildWindow:fadeWindow];
-            
-            // If a game is playing in the library window, unpause emulation when the transition completes.
-            if (newController == _gameDocument.gameViewController) {
-                _gameDocument.emulationPaused = NO;
-            }
-        }];
+    sendViewWillDisappear();
+    replaceController(_currentContentController.view);
+    
+    // If a game is playing in the library window, unpause emulation immediately.
+    if (newController == _gameDocument.gameViewController) {
+        _gameDocument.emulationPaused = NO;
     }
-    else
-    {
-        sendViewWillDisappear();
-        replaceController(_currentContentController.view);
-        
-        // If a game is playing in the library window, unpause emulation immediately.
-        if (newController == _gameDocument.gameViewController) {
-            _gameDocument.emulationPaused = NO;
-        }
-    }
-}
-
-- (void)setCurrentContentController:(NSViewController *)newCurrentContentController
-{
-    [self setCurrentContentController:newCurrentContentController animate:YES];
 }
 
 - (IBAction)undockGameWindow:(id)sender
@@ -375,7 +328,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     void (^openDocument)(OEGameDocument *, NSError *) =
     ^(OEGameDocument *document, NSError *error)
     {
-        _isLaunchingGame = NO;
+        self->_isLaunchingGame = NO;
         if(document == nil)
         {
             if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEFileDoesNotExistError)
@@ -425,9 +378,9 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         
         if(openInSeparateWindow) return;
         
-        _shouldExitFullScreenWhenGameFinishes = ![[self window] isFullScreen];
-        _gameDocument = document;
-        _mainWindowRunsGame = YES;
+        self->_shouldExitFullScreenWhenGameFinishes = ![[self window] isFullScreen];
+        self->_gameDocument = document;
+        self->_mainWindowRunsGame = YES;
         
         while([[[self window] titlebarAccessoryViewControllers] count])
             [[self window] removeTitlebarAccessoryViewControllerAtIndex:0];
@@ -437,7 +390,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         {
             [NSApp activateIgnoringOtherApps:YES];
             
-            [self setCurrentContentController:[document gameViewController] animate:NO];
+            [self setCurrentContentController:[document gameViewController]];
             [document setEmulationPaused:NO];
             [[self window] toggleFullScreen:self];
         }
@@ -480,17 +433,17 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         [_gameDocument canCloseDocumentWithCompletionHandler:
          ^(NSDocument *document, BOOL shouldClose)
          {
-             [_gameDocument setGameWindowController:nil];
-             [_gameDocument close];
-             _gameDocument = nil;
-             _mainWindowRunsGame = NO;
+             [self->_gameDocument setGameWindowController:nil];
+             [self->_gameDocument close];
+             self->_gameDocument = nil;
+             self->_mainWindowRunsGame = NO;
              
-             BOOL exitFullScreen = (_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen]);
+             BOOL exitFullScreen = (self->_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen]);
              if(exitFullScreen)
              {
                  [[[self window] toolbar] setVisible:YES];
                  [[self window] toggleFullScreen:self];
-                 _shouldExitFullScreenWhenGameFinishes = NO;
+                 self->_shouldExitFullScreenWhenGameFinishes = NO;
              }
              
              [self setCurrentContentController:nil];
@@ -594,8 +547,12 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 - (NSRect)window:(NSWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect
 {
-    // Re-position the sheet beneath the toolbar.
-    const CGFloat sheetOffset = 36.0;
+    // Ge window title bar height.
+    CGFloat contentHeight = [window contentRectForFrameRect:window.frame].size.height;
+    CGFloat titleBarHeight = window.frame.size.height - contentHeight;
+    
+    // Re-position the sheet beneath the title bar.
+    const CGFloat sheetOffset = titleBarHeight;
     rect.origin.y -= sheetOffset;
     return rect;
 }

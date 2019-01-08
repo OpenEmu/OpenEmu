@@ -42,7 +42,7 @@ typedef enum _OEGenesisButton
     OEGenesisButtonZ,
     OEGenesisButtonStart,
     OEGenesisButtonMode,
-    OEGenesisButtonCount,
+    OEGenesisButtonCount
 } OEGenesisButton;
 
 @protocol OEGenesisSystemResponderClient <OESystemResponderClient, NSObject>

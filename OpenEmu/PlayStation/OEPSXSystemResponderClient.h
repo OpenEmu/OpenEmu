@@ -30,22 +30,22 @@
 
 typedef enum _OEPSXButton
 {
-	OEPSXButtonUp,
-	OEPSXButtonDown,
-	OEPSXButtonLeft,
-	OEPSXButtonRight,
-	OEPSXButtonTriangle,
-	OEPSXButtonCircle,
-	OEPSXButtonCross,
+    OEPSXButtonUp,
+    OEPSXButtonDown,
+    OEPSXButtonLeft,
+    OEPSXButtonRight,
+    OEPSXButtonTriangle,
+    OEPSXButtonCircle,
+    OEPSXButtonCross,
     OEPSXButtonSquare,
-	OEPSXButtonL1,
+    OEPSXButtonL1,
     OEPSXButtonL2,
     OEPSXButtonL3,
     OEPSXButtonR1,
     OEPSXButtonR2,
     OEPSXButtonR3,
     OEPSXButtonStart,
-	OEPSXButtonSelect,
+    OEPSXButtonSelect,
     OEPSXButtonAnalogMode,
     OEPSXLeftAnalogUp,
     OEPSXLeftAnalogDown,
@@ -63,5 +63,10 @@ typedef enum _OEPSXButton
 - (oneway void)didMovePSXJoystickDirection:(OEPSXButton)button withValue:(CGFloat)value forPlayer:(NSUInteger)player;
 - (oneway void)didPushPSXButton:(OEPSXButton)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleasePSXButton:(OEPSXButton)button forPlayer:(NSUInteger)player;
+- (oneway void)mouseMovedAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseUp;
+- (oneway void)rightMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)rightMouseUp;
 
 @end

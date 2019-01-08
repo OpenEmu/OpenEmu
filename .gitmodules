@@ -25,9 +25,6 @@
 [submodule "SNES9x"]
 	path = SNES9x
 	url = git@github.com:OpenEmu/SNES9x-Core.git
-[submodule "TwoMbit"]
-	path = TwoMbit
-	url = git@github.com:OpenEmu/TwoMbit-Core.git
 [submodule "UME"]
 	path = UME
 	url = git@github.com:OpenEmu/UME-Core.git
@@ -76,9 +73,6 @@
 [submodule "Reicast"]
 	path = Reicast
 	url = git@github.com:OpenEmu/Reicast-Core.git
-[submodule "VirtualC64"]
-	path = VirtualC64
-	url = git@github.com:OpenEmu/VirtualC64-Core.git
 [submodule "mGBA"]
 	path = mGBA
 	url = git@github.com:OpenEmu/mGBA-Core.git

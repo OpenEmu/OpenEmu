@@ -132,8 +132,6 @@
 
 "Could not move library data!" = "Não foi possível mover os dados da biblioteca!";
 
-"Couldn't connect to the background process." = "Não foi possível conectar com o processo em background.";
-
 "Couldn't load %@ plugin" = "Não foi possível carregar o plugin %@ ";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Crie uma seleção pessoal de jogos. Para adicionar a uma coleção, selecione um jogo de sua biblioteca de consoles e arraste-o para o ’%@’ na esquerda.";
@@ -182,8 +180,6 @@
 
 "Do not ask me again" = "Não perguntar mais";
 
-"Do Not Save" = "Não Salvar";
-
 "Do not show me again" = "Não exibir novamente";
 
 "Do you really want to cancel the import process?" = "Deseja realmente cancelar o processo de importação?";
@@ -210,7 +206,7 @@
 
 "Duplicate Collection" = "Duplicar Coleção";
 
-"Edit Game Controls" = "Editar Controles";
+"Edit Game Controls…" = "Editar Controles…";
 
 "Enable now" = "Habilitar agora";
 
@@ -247,6 +243,8 @@
 "In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information.";
 
 "In order to play the game it must be downloaded." = "Você precisa baixar o jogo para poder jogá-lo."; 
+
+"Insert Cart/Disk/Tape…" = "Inserir Cart/Disk/Tape…";
 
 "Install" = "Instalar";
 
@@ -386,6 +384,8 @@
 
 "Resume Emulation" = "Continuar Emulação";
 
+"Resume Gameplay" = "Continuar Gameplay";
+
 "Resume" = "Continuar";
 
 "Save As:" = "Salvar como:";
@@ -395,8 +395,6 @@
 "Save Game" = "Salvamento";
 
 "Save States" = "Estados de Salvamento";
-
-"Save to Slot %d" = "Salvar no Espaço %d";
 
 "Save-Game-%ld %@" = "Salvamento-%ld %@";
 
@@ -422,6 +420,8 @@
 
 "Select Disc" = "Select Disc"; // TODO
 
+"Select Display Mode" = "Selecionar Modo de Visualização";
+
 "Select Filter" = "Selecionar Filtro";
 
 "Select Scale" = "Selecionar Escala";
@@ -433,8 +433,6 @@
 "Slot %d" = "Espaço %d";
 
 "Slot %ld" = "Espaço %ld";
-
-"Slot 1" = "Espaço 1";
 
 "Some migrations failed to complete properly" = "Algumas migrações não foram concluídas com sucesso.";
 
@@ -458,10 +456,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "O Núcleo %1$@ possui problemas de compatibilidade e podem apresentar falhas ou mesmo não abrir.\n\nPor favor não reporte problemas pois não somos os responsáveis pelo desenvolvimento do %2$@.";
 
-"The background process connection couldn't be established" = "A conexão com o processo não pôde ser estabelecido";
-
-"The background process couldn't be launched" = "O processo não pôde ser iniciado";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "A bateria no dispositivo número %1$lu, %2$@, está fraca. Por favor recarregue ou troque a bateria.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "O núcleo não pôde ser encontrado. Tente instalá-lo através do painel Núcleos nas preferências.";
@@ -473,8 +467,6 @@
 "The game '%@' was imported." = "O jogo '%@' foi importado.";
 
 "The OpenEmu Library could not be found." = "A Biblioteca OpenEmu não pôde ser encontrada.";
-
-"The root proxy object is nil." = "O root proxy object é nulo.";
 
 "The System plugin could not be found!" = "O plugin do Systema não foi encontrado!";
 
@@ -520,7 +512,7 @@
 
 "Your game finished importing, do you want to play it now?" = "A importação do jogo terminou, deseja jogar agora?";
 
-"Your library was moved sucessfully. OpenEmu must relaunch now!" = "Sua biblioteca foi movida com sucesso.";
+"Your library was moved sucessfully." = "Sua biblioteca foi movida com sucesso.";
 
 "Library" = "Biblioteca";
 
@@ -535,6 +527,12 @@
 "View Mode" = "View Mode";   // TODO shown when the corresponding item does not fit in the main window's toolbar
 
 "Category" = "Category";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+
+"An issue was detected with one of your controllers." = "An issue was detected with one of your controllers.";  //TODO // Headline for bindings repaired alert
+
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.";  // TODO // Message for bindings repaired alert
+
+"Keycode 0x%lX" = "Keycode 0x%lX";  // TODO  // Fallback for unknown keys
 
 
 /* Secrets */
@@ -577,9 +575,7 @@
 
 "Show options button" = "Exibir botão de opções";
 
-"Show quicksave notification during gameplay" = "Exibir notificação nos salvamentos rápido enquanto joga";
-
-"Show screenshot notification during gameplay" = "Exibir notificação nas capturas de tela enquanto joga";
+"Show notifications during gameplay" = "Exibir notificações enquanto joga";
 
 "Use quicksave slots" = "Usar espaços de salvamento rápido";
 
@@ -612,8 +608,6 @@
 "Log Keyboard Events" = "Gravar Eventos de Teclado";
 
 "Show all global keys" = "Mostrar todas as chaves globais";
-
-"Always show BIOS preferences" = "Sempre exibir preferencias da BIOS";
 
 "Set default save states directory" = "Definir pasta padrão dos estados de salvamentos";
 
@@ -658,3 +652,7 @@
 "ECM compressed binary detected." = "ECM compressed binary detected.";  // TODO
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";  // TODO
+
+"Threshold for analog controls bound to buttons" = "Threshold for analog controls bound to buttons";    // TODO
+
+"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO

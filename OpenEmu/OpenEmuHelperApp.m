@@ -40,9 +40,6 @@
 #import "NSColor+OEAdditions.h"
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
-// Compression support
-#import <XADMaster/XADArchive.h>
-
 #ifndef BOOL_STR
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
@@ -287,7 +284,7 @@ typedef uint32_t CAContextID;
 
 #pragma mark - Game Core methods
 
-- (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion withCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath error:(NSError **)error
+- (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion displayModeInfo:(NSDictionary <NSString *, id> *)displayModeInfo withCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath error:(NSError **)error
 {
     if(self.loadedRom) return NO;
     
@@ -311,6 +308,7 @@ typedef uint32_t CAContextID;
     
     [_gameCore setSystemIdentifier:systemIdentifier];
     [_gameCore setSystemRegion:systemRegion];
+    [_gameCore setDisplayModeInfo:displayModeInfo];
     [_gameCore setROMCRC32:romCRC32];
     [_gameCore setROMMD5:romMD5];
     [_gameCore setROMHeader:romHeader];
@@ -320,13 +318,13 @@ typedef uint32_t CAContextID;
     _systemResponder.globalEventsHandler = self;
     
     _unhandledEventsMonitor = [[OEDeviceManager sharedDeviceManager] addUnhandledEventMonitorHandler:^(OEDeviceHandler *handler, OEHIDEvent *event) {
-        if (!_handleEvents)
+        if (!self->_handleEvents)
             return;
-        
-        if (!_handleKeyboardEvents && event.type == OEHIDEventTypeKeyboard)
+
+        if (!self->_handleKeyboardEvents && event.type == OEHIDEventTypeKeyboard)
             return;
-        
-        [_systemResponder handleHIDEvent:event];
+
+        [self->_systemResponder handleHIDEvent:event];
     }];
     
     DLog(@"Loaded bundle. About to load rom...");
@@ -334,13 +332,14 @@ typedef uint32_t CAContextID;
     // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
     NSString *extension = aPath.pathExtension.lowercaseString;
     if(![systemIdentifier isEqualToString:@"openemu.system.arcade"] && ![extension isEqualToString:@"md"] && ![extension isEqualToString:@"nds"] && ![extension isEqualToString:@"iso"])
-        aPath = [self decompressedPathForRomAtPath:aPath];
-    
+        aPath = decompressedPathForRomAtPath(aPath);
+
     if([_gameCore loadFileAtPath:aPath error:error])
     {
         DLog(@"Loaded new Rom: %@", aPath);
         [_gameCoreOwner setDiscCount:[_gameCore discCount]];
-        
+        [_gameCoreOwner setDisplayModes:[_gameCore displayModes]];
+
         self.loadedRom = YES;
         
         return YES;
@@ -356,78 +355,6 @@ typedef uint32_t CAContextID;
     _gameCore = nil;
     
     return NO;
-}
-
-- (NSString *)decompressedPathForRomAtPath:(NSString *)aPath
-{
-    // check path for :entryIndex appendix, extract it and restore original path
-    // paths will look like this /path/to/rom/file.zip:2
-    
-    int entryIndex = 0;
-    NSMutableArray *components = [[aPath componentsSeparatedByString:@":"] mutableCopy];
-    NSString *entry = [components lastObject];
-    if([[NSString stringWithFormat:@"%ld", [entry integerValue]] isEqualToString:entry])
-    {
-        entryIndex = [entry intValue];
-        [components removeLastObject];
-        aPath = [components componentsJoinedByString:@":"];
-    }
-    
-    // we check for known compression types for the ROM at the path
-    // If we detect one, we decompress it and store it in /tmp at a known location
-    XADArchive *archive = nil;
-    @try {
-        archive = [XADArchive archiveForFile:aPath];
-    }
-    @catch (NSException *exc)
-    {
-        archive = nil;
-    }
-    
-    if(archive == nil || [archive numberOfEntries] <= entryIndex)
-        return aPath;
-    
-    // XADMaster identifies some legit Mega Drive as LZMA archives
-    NSString *formatName = [archive formatName];
-    if ([formatName isEqualToString:@"MacBinary"] || [formatName isEqualToString:@"LZMA_Alone"])
-        return aPath;
-    
-    if(![archive entryHasSize:entryIndex] || [archive uncompressedSizeOfEntry:entryIndex]==0 || [archive entryIsEncrypted:entryIndex] || [archive entryIsDirectory:entryIndex] || [archive entryIsArchive:entryIndex])
-        return aPath;
-    
-    NSFileManager *fm = [NSFileManager new];
-    NSString *folder = temporaryDirectoryForDecompressionOfPath(aPath);
-    NSString *tmpPath = [folder stringByAppendingPathComponent:[archive nameOfEntry:entryIndex]];
-    if([[tmpPath pathExtension] length] == 0 && [[aPath pathExtension] length] > 0)
-    {
-        // we need an extension
-        tmpPath = [tmpPath stringByAppendingPathExtension:[aPath pathExtension]];
-    }
-    
-    BOOL isdir;
-    if([fm fileExistsAtPath:tmpPath isDirectory:&isdir] && !isdir)
-    {
-        DLog(@"Found existing decompressed ROM for path %@", aPath);
-        return tmpPath;
-    }
-    
-    BOOL success = YES;
-    @try
-    {
-        success = [archive _extractEntry:entryIndex as:tmpPath deferDirectories:NO dataFork:YES resourceFork:NO];
-    }
-    @catch (NSException *exception)
-    {
-        success = NO;
-    }
-    
-    if(!success)
-    {
-        [fm removeItemAtPath:folder error:nil];
-        return aPath;
-    }
-    
-    return tmpPath;
 }
 
 - (OEIntSize)aspectSize
@@ -450,7 +377,7 @@ typedef uint32_t CAContextID;
 - (void)setPauseEmulation:(BOOL)paused
 {
     [_gameCore performBlock:^{
-        [_gameCore setPauseEmulation:paused];
+        [self->_gameCore setPauseEmulation:paused];
     }];
 }
 
@@ -466,7 +393,7 @@ typedef uint32_t CAContextID;
         [self setupGameCoreAudioAndVideo];
         
         if(handler)
-            handler(_previousScreenSize, _previousAspectSize);
+            handler(self->_previousScreenSize, self->_previousAspectSize);
     }];
 }
 
@@ -486,13 +413,13 @@ typedef uint32_t CAContextID;
     _pollingTimer = nil;
     
     [_gameCore stopEmulationWithCompletionHandler: ^{
-        [_gameAudio stopAudio];
-        [_gameCore setRenderDelegate:nil];
-        [_gameCore setAudioDelegate:nil];
-        _gameCoreOwner = nil;
-        _gameCore      = nil;
-        _gameAudio     = nil;
-        
+        [self->_gameAudio stopAudio];
+        [self->_gameCore setRenderDelegate:nil];
+        [self->_gameCore setAudioDelegate:nil];
+        self->_gameCoreOwner = nil;
+        self->_gameCore      = nil;
+        self->_gameAudio     = nil;
+
         if (handler != nil)
             handler();
     }];
@@ -501,49 +428,64 @@ typedef uint32_t CAContextID;
 - (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL, NSError *))block
 {
     [_gameCore performBlock:^{
-        [_gameCore saveStateToFileAtPath:fileName completionHandler:block];
+        [self->_gameCore saveStateToFileAtPath:fileName completionHandler:block];
     }];
 }
 
 - (void)loadStateFromFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL, NSError *))block
 {
     [_gameCore performBlock:^{
-        [_gameCore loadStateFromFileAtPath:fileName completionHandler:block];
+        [self->_gameCore loadStateFromFileAtPath:fileName completionHandler:block];
     }];
 }
 
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 {
     [_gameCore performBlock:^{
-        [_gameCore setCheat:cheatCode setType:type setEnabled:enabled];
+        [self->_gameCore setCheat:cheatCode setType:type setEnabled:enabled];
     }];
 }
 
 - (void)setDisc:(NSUInteger)discNumber
 {
     [_gameCore performBlock:^{
-        [_gameCore setDisc:discNumber];
+        [self->_gameCore setDisc:discNumber];
+    }];
+}
+
+- (void)insertFileAtURL:(NSURL *)url completionHandler:(void (^)(BOOL, NSError *))block
+{
+    [_gameCore performBlock:^{
+        [self->_gameCore insertFileAtURL:url completionHandler:block];
+    }];
+}
+
+- (void)changeDisplayWithMode:(NSString *)displayMode
+{
+    [_gameCore performBlock:^{
+        [self->_gameCore changeDisplayWithMode:displayMode];
+        [self->_gameCoreOwner setDisplayModes:[self->_gameCore displayModes]];
     }];
 }
 
 - (void)handleMouseEvent:(OEEvent *)event
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_systemResponder handleMouseEvent:event];
+        [self->_systemResponder handleMouseEvent:event];
     });
 }
 
 - (void)systemBindingsDidSetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber
 {
     [self _updateBindingForEvent:event withBlock:^{
-        [_systemResponder systemBindingsDidSetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
+        [self->_systemResponder systemBindingsDidSetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
     }];
 }
 
 - (void)systemBindingsDidUnsetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber
 {
     [self _updateBindingForEvent:event withBlock:^{
-        [_systemResponder systemBindingsDidUnsetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
+        [self->_systemResponder systemBindingsDidUnsetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
     }];
 }
 
@@ -556,10 +498,10 @@ typedef uint32_t CAContextID;
         }
         
         OEDeviceHandlerPlaceholder *placeholder = event.deviceHandler;
-        NSMutableArray<void(^)(void)> *pendingBlocks = _pendingDeviceHandlerBindings[placeholder];
+        NSMutableArray<void(^)(void)> *pendingBlocks = self->_pendingDeviceHandlerBindings[placeholder];
         if (!pendingBlocks) {
             pendingBlocks = [NSMutableArray array];
-            _pendingDeviceHandlerBindings[placeholder] = pendingBlocks;
+            self->_pendingDeviceHandlerBindings[placeholder] = pendingBlocks;
         }
         
         [pendingBlocks addObject:[^{
@@ -711,9 +653,6 @@ typedef uint32_t CAContextID;
         
         if(!OEIntSizeEqualToSize(aspectSize, previousAspectSize))
         {
-            NSAssert(aspectSize.height <= bufferSize.height, @"aspect size must not be larger than buffer size");
-            NSAssert(aspectSize.width <= bufferSize.width, @"aspect size must not be larger than buffer size");
-            
             DLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
             mustUpdate = YES;
         }
@@ -852,6 +791,36 @@ typedef uint32_t CAContextID;
 - (void)takeScreenshot:(id)sender
 {
     [_gameCoreOwner takeScreenshot];
+}
+
+- (void)fastForwardGameplay:(BOOL)enable
+{
+    [_gameCoreOwner fastForwardGameplay:enable];
+}
+
+- (void)rewindGameplay:(BOOL)enable
+{
+    [_gameCoreOwner rewindGameplay:enable];
+}
+
+- (void)stepGameplayFrameForward:(id)sender
+{
+    [_gameCoreOwner stepGameplayFrameForward];
+}
+
+- (void)stepGameplayFrameBackward:(id)sender
+{
+    [_gameCoreOwner stepGameplayFrameBackward];
+}
+
+- (void)nextDisplayMode:(id)sender
+{
+    [_gameCoreOwner nextDisplayMode];
+}
+
+- (void)lastDisplayMode:(id)sender
+{
+    [_gameCoreOwner lastDisplayMode];
 }
 
 @end

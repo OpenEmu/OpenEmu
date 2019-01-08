@@ -1,3 +1,23 @@
+/*
+ * CSHandle.h
+ *
+ * Copyright (c) 2017-present, MacPaw Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
 #import <Foundation/Foundation.h>
 #import <stdint.h>
 
@@ -27,17 +47,17 @@ extern NSString *CSNotSupportedException;
 
 @interface CSHandle:NSObject <NSCopying>
 {
-	NSString *name;
+	CSHandle *parent;
 	off_t bitoffs;
 	uint8_t readbyte,readbitsleft;
 	uint8_t writebyte,writebitsleft;
 }
 
--(id)initWithName:(NSString *)descname;
+-(id)init;
+-(id)initWithParentHandle:(CSHandle *)parenthandle;
 -(id)initAsCopyOf:(CSHandle *)other;
 -(void)dealloc;
 -(void)close;
-
 
 // Methods implemented by subclasses
 
@@ -142,6 +162,8 @@ extern NSString *CSNotSupportedException;
 -(void)_raiseNotSupported:(SEL)selector;
 
 -(NSString *)name;
+-(CSHandle *)parentHandle;
+-(void)setParentHandle:(CSHandle *)newparent;
 -(NSString *)description;
 
 -(id)copyWithZone:(NSZone *)zone;

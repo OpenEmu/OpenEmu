@@ -114,5 +114,12 @@
     OELabelCell *cell = [self cell];
     return ([cell isKindOfClass:[OELabelCell class]] ? [cell themeTextAttributes] : nil);
 }
+
+
+- (NSSize)intrinsicContentSize
+{
+    return [[self cell] cellSize];
+}
+
 @synthesize backgroundThemeImage=_backgroundThemeImage, themeImage=_themeImage, themeTextAttributes=_themeTextAttributes,trackWindowActivity=_trackWindowActivity,trackMouseActivity=_trackMouseActivity;
 @end

@@ -34,8 +34,6 @@
 #import "OEGridViewFieldEditor.h"
 #import "OECoverGridDataSourceItem.h"
 
-#import "OEMenu.h"
-
 #pragma mark - ImageKit Private Headers
 #import "IKImageBrowserView.h"
 #import "IKImageWrapper.h"
@@ -47,7 +45,10 @@
 NSSize const defaultGridSize = (NSSize){26+142, 143};
 NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKey";
 
-@implementation IKCGRenderer (ScaleFactorAdditions)
+//Removed the Category (ScaleFactorAdditions) in the IKCGRenderer implementation, for Compatibility with MacOS 10.14(beta 5)
+//With this temporary fix the App compiles in XCode 10b and Runs without crashing on startup on Mojave
+
+@implementation IKCGRenderer /*(ScaleFactorAdditions)*/
 - (unsigned long long)scaleFactor
 {
     return self->_currentScaleFactor ?: 1.0;
@@ -478,7 +479,6 @@ static NSImage *lightingImage;
         NSMenu *contextMenu = [(id <OEGridViewMenuSource>)[self dataSource] gridView:self menuForItemsAtIndexes:indexes];
         if(!contextMenu) return nil;
 
-        OEMenuStyle     style      = ([[NSUserDefaults standardUserDefaults] boolForKey:OEMenuOptionsStyleKey] ? OEMenuStyleLight : OEMenuStyleDark);
         IKImageBrowserCell *itemCell   = [self cellForItemAtIndex:index];
 
         NSRect          hitRect             = NSInsetRect([itemCell imageFrame], 5, 5);
@@ -487,19 +487,10 @@ static NSImage *lightingImage;
         NSRect          visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
         NSRect          visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
 
-        // we enhance the calculated rect to get a visible gap between the item and the menu
-        NSRect enhancedVisibleItemRect = NSInsetRect(visibleItemRect, -3, -3);
-
-        const NSRect  targetRect = [[self window] convertRectToScreen:enhancedVisibleItemRect];
-        NSDictionary *options    = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSNumber numberWithUnsignedInteger:style], OEMenuOptionsStyleKey,
-                                    [NSNumber numberWithUnsignedInteger:OEMinXEdge], OEMenuOptionsArrowEdgeKey,
-                                    [NSValue valueWithRect:targetRect], OEMenuOptionsScreenRectKey,
-                                    nil];
-
         // Display the menu
         [[self window] makeFirstResponder:self];
-        [OEMenu openMenu:contextMenu withEvent:theEvent forView:self options:options];
+        [NSMenu popUpContextMenu:contextMenu withEvent:theEvent forView:self];
+        
         return nil;
     }
 

@@ -30,7 +30,8 @@ NSString * const OEURLImagesViewImageDidLoadNotificationName = @"OEURLImagesView
 
 @interface OEHomebrewCoverView ()
 @property (assign) NSProgressIndicator *loadingIndicator;
-@property (nonatomic) NSInteger currentImage;
+@property (nonatomic) NSInteger currentImageIndex;
+@property (nonatomic) NSImage *currentImage;
 @end
 
 @implementation OEHomebrewCoverView
@@ -91,7 +92,7 @@ const static NSLock *lock;
 
     [self addSubview:indicator];
 
-    [self setCurrentImage:0];
+    [self setCurrentImageIndex:0];
 }
 
 #pragma mark -
@@ -99,12 +100,12 @@ const static NSLock *lock;
 {
     _URLs = urls;
 
-    if(urls) [self setCurrentImage:0];
+    if(urls) [self setCurrentImageIndex:0];
 }
 
-- (void)setCurrentImage:(NSInteger)currentImage
+- (void)setCurrentImageIndex:(NSInteger)currentImage
 {
-    _currentImage = currentImage;
+    _currentImageIndex = currentImage;
 
     NSURL *url = [[self URLs] objectAtIndex:currentImage];
 
@@ -115,6 +116,7 @@ const static NSLock *lock;
     NSProgressIndicator *progress = [self loadingIndicator];
     if(cachedImage)
     {
+        self.currentImage = cachedImage;
         if(![progress isHidden])
         {
             [progress stopAnimation:nil];
@@ -123,7 +125,8 @@ const static NSLock *lock;
     }
     else
     {
-        [self OE_fetchImage:_currentImage];
+        self.currentImage = nil;
+        [self OE_fetchImage:_currentImageIndex];
 
         if([progress isHidden])
         {
@@ -138,11 +141,11 @@ const static NSLock *lock;
 - (void)imageDidLoad:(NSNotification*)notification
 {
     NSURL *loadedImage = [[notification userInfo] objectForKey:@"URL"];
-    NSURL *url = [[self URLs] objectAtIndex:_currentImage];
+    NSURL *url = [[self URLs] objectAtIndex:_currentImageIndex];
 
     if([loadedImage isEqualTo:url])
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self setCurrentImage:_currentImage];
+            [self setCurrentImageIndex:self->_currentImageIndex];
         });
 }
 
@@ -215,8 +218,7 @@ const static NSLock *lock;
     NSRectFill([self bounds]);
 
     // Draw image
-    NSURL *url = [[self URLs] objectAtIndex:_currentImage];
-    NSImage *image = [cache objectForKey:url];
+    NSImage *image = self.currentImage;
     if(image)
     {
         const NSRect imageRect = [self rectForImage:image];
@@ -238,7 +240,7 @@ const static NSLock *lock;
     {
         const NSRect rect = [self rectForPageSelector:i];
         const NSBezierPath *path = [NSBezierPath bezierPathWithOvalInRect:rect];
-        if(i == _currentImage)
+        if(i == _currentImageIndex)
         {
             [[NSColor clearColor] setFill];
             [[NSColor colorWithRed:0 green:136.0/255.0 blue:204.0/255.0 alpha:1.0] setStroke];
@@ -292,7 +294,7 @@ const static NSLock *lock;
         if(x > index * (itemWidth+itemSpace)-itemSpace + itemWidth)
             return;
 
-        [self setCurrentImage:index];
+        [self setCurrentImageIndex:index];
     }
 }
 
@@ -306,7 +308,7 @@ const static NSLock *lock;
 
 - (void)mouseExited:(NSEvent *)theEvent
 {
-    [self setCurrentImage:0];
+    [self setCurrentImageIndex:0];
 }
 
 #pragma mark -

@@ -58,8 +58,8 @@
 NSString *const OEGameVolumeKey = @"volume";
 NSString *const OEGameDefaultVideoFilterKey = @"videoFilter";
 NSString *const OEGameSystemVideoFilterKeyFormat = @"videoFilter.%@";
+NSString *const OEGameCoreDisplayModeKeyFormat = @"displayMode.%@";
 NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
-NSString *const OEDontShowGameTitleInWindowKey = @"dontShowGameTitleInWindow";
 NSString *const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
 NSString *const OEBackgroundPauseKey = @"backgroundPause";
 NSString *const OEBackgroundControllerPlayKey = @"backgroundControllerPlay";
@@ -159,8 +159,8 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 - (void)viewWillDisappear
 {
     [super viewWillDisappear];
-    
-    [_controlsWindow hide];
+
+    [_controlsWindow hideAnimated:NO];
     [_controlsWindow setGameWindow:nil];
     [[self OE_rootWindow] removeChildWindow:_controlsWindow];
 }
@@ -184,6 +184,16 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 - (BOOL)supportsMultipleDiscs
 {
     return [[self document] supportsMultipleDiscs];
+}
+
+- (BOOL)supportsFileInsertion
+{
+    return [[self document] supportsFileInsertion];
+}
+
+- (BOOL)supportsDisplayModeChange
+{
+    return [[self document] supportsDisplayModeChange];
 }
 
 - (NSString *)coreIdentifier;

@@ -9,31 +9,31 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OESaturnButtonUp</key>
-		<string>{0, 0}</string>
+		<string>{140, 260}</string>
 		<key>OESaturnButtonDown</key>
-		<string>{0, 0}</string>
+		<string>{140, 210}</string>
 		<key>OESaturnButtonLeft</key>
-		<string>{0, 0}</string>
+		<string>{111, 234}</string>
 		<key>OESaturnButtonRight</key>
-		<string>{0, 0}</string>
+		<string>{168, 234}</string>
 		<key>OESaturnButtonA</key>
-		<string>{0, 0}</string>
+		<string>{320, 193}</string>
 		<key>OESaturnButtonB</key>
-		<string>{0, 0}</string>
+		<string>{360, 219}</string>
 		<key>OESaturnButtonC</key>
-		<string>{0, 0}</string>
+		<string>{405, 236}</string>
 		<key>OESaturnButtonX</key>
-		<string>{0, 0}</string>
+		<string>{306, 240}</string>
 		<key>OESaturnButtonY</key>
-		<string>{0, 0}</string>
+		<string>{340, 263}</string>
 		<key>OESaturnButtonZ</key>
-		<string>{0, 0}</string>
+		<string>{377, 277}</string>
 		<key>OESaturnButtonStart</key>
-		<string>{0, 0}</string>
+		<string>{250, 200}</string>
 		<key>OESaturnButtonL</key>
-		<string>{0, 0}</string>
+		<string>{130, 340}</string>
 		<key>OESaturnButtonR</key>
-		<string>{0, 0}</string>
+		<string>{370, 340}</string>
 		<key>OESaturnButtonAnalogMode</key>
 		<string>{0, 0}</string>
 		<key>OESaturnLeftAnalogUp</key>

@@ -38,11 +38,12 @@
 #import "OEDBSystem.h"
 #import "OEDBSmartCollection.h"
 #import "OEGameCollectionViewItemProtocol.h"
-#import "OEGameScannerViewController.h"
 
 #import "OEHUDAlert.h"
 
 #import "OEROMImporter.h"
+
+#import "NSArray+OEAdditions.h"
 
 #import "OpenEmu-Swift.h"
 

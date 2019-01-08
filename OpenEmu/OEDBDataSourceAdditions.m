@@ -30,6 +30,7 @@
 #import "OEGameDocument.h"
 #import "OEGameViewController.h"
 #import "OETheme.h"
+#import "NSArray+OEAdditions.h"
 @import Quartz;
 
 #import "OpenEmu-Swift.h"
@@ -38,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 static NSDateFormatter *_OEListViewDateFormatter;
 static void OE_initOEListViewDateFormatter(void) __attribute__((constructor));
-static NSString * OE_stringFromElapsedTime(NSTimeInterval);
+static NSString * OE_localizedStringFromElapsedTime(NSTimeInterval);
 
 NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDownloadEnabledKey";
 
@@ -248,7 +249,7 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
 
 - (NSString *)listViewPlayTime
 {
-    return (self.playTime.doubleValue > 0 ? OE_stringFromElapsedTime(self.playTime.doubleValue) : @"");
+    return (self.playTime.doubleValue > 0 ? OE_localizedStringFromElapsedTime(self.playTime.doubleValue) : @"");
 }
 
 static void OE_initOEListViewDateFormatter(void)
@@ -261,44 +262,17 @@ static void OE_initOEListViewDateFormatter(void)
     }
 }
 
-NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
+NSString * OE_localizedStringFromElapsedTime(NSTimeInterval timeInterval)
 {
-    const int oneMinuteInSeconds = 60;
-    const int oneHourInSeconds   = 60 * oneMinuteInSeconds;
-    const int oneDayInSeconds    = 24 * oneHourInSeconds;
-
-    NSString *dayUnit    = @"d";
-    NSString *hourUnit   = @"h";
-    NSString *minuteUnit = @"m";
-    NSString *secondUnit = @"s";
-
-    NSMutableString *s = [NSMutableString new];
-    NSUInteger       t = ABS(timeInterval);
-
-    if(t > oneDayInSeconds)
-    {
-        [s appendFormat:@"%lu%@", (unsigned long)(t / oneDayInSeconds), dayUnit];
-        t %= oneDayInSeconds;
-    }
-
-    if(t > oneHourInSeconds)
-    {
-        NSString *format = ([s length] > 0 ? @"%02u%@" : @"%u%@");
-        [s appendFormat:format, (unsigned)(t / oneHourInSeconds), hourUnit];
-        t %= oneHourInSeconds;
-    }
-
-    if(t > oneMinuteInSeconds)
-    {
-        NSString *format = ([s length] > 0 ? @"%02u%@" : @"%u%@");
-        [s appendFormat:format, (unsigned)(t / oneMinuteInSeconds), minuteUnit];
-        t %= oneMinuteInSeconds;
-    }
-
-    NSString *format = ([s length] > 0 ? @"%02u%@" : @"%u%@");
-    [s appendFormat:format, (unsigned)t, secondUnit];
-
-    return s;
+    static NSDateComponentsFormatter *dcf;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dcf = [[NSDateComponentsFormatter alloc] init];
+        [dcf setUnitsStyle:NSDateComponentsFormatterUnitsStyleAbbreviated];
+        [dcf setAllowedUnits:NSCalendarUnitSecond + NSCalendarUnitMinute + NSCalendarUnitHour + NSCalendarUnitDay];
+    });
+    
+    return [dcf stringFromTimeInterval:timeInterval];
 }
 
 @end

@@ -28,6 +28,7 @@ import Foundation
 
 /// Detects and imports BIOS files.
 @objc(OEBIOSFile)
+@objcMembers
 class BIOSFile: NSObject {
     
     static let biosPath = NSString.path(withComponents:
@@ -105,8 +106,8 @@ class BIOSFile: NSObject {
         guard !missingFileStatus else {
             
             // Alert the user of missing BIOS/system files that are required for the core.
-            if OEHUDAlert.missingBIOSFilesAlert(missingFilesList).runModal() == NSAlertSecondButtonReturn {
-                NSWorkspace.shared().open(BIOSFile.fileGuideURL)
+            if OEHUDAlert.missingBIOSFilesAlert(missingFilesList).runModal() == .alertSecondButtonReturn {
+                NSWorkspace.shared.open(BIOSFile.fileGuideURL)
             }
             
             return false

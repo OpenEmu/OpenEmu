@@ -167,7 +167,7 @@
 		<string>OENDSButtonDebug</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
-	<integer>4</integer>
+	<integer>1</integer>
 	<key>OEResponderClassKey</key>
 	<string>OENDSSystemResponder</string>
 	<key>OESystemIcon</key>

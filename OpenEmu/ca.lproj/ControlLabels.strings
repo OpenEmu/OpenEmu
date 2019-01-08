@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright (c) 2015, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
  */
 
 /* Section Title */
-  "Gameplay Buttons" = "Botons del joc";
+  "Gameplay Buttons" = "Botons";
   "Special Keys" = "Tecles especials";
 
 /* Group Labels */
@@ -58,20 +58,20 @@
   "Action" = "Acció";
   "Analog Mode" = "Mode analògic";
   "B" = "B";
-  "Bottom Left Action" = "Acció Inferior Esquerra";
-  "Bottom Right Action" = "Acció Inferior Dret";
+  "Bottom Left Action" = "Botó Inferior Esquerra";
+  "Bottom Right Action" = "Botó Inferior Dret";
   "Button 1" = "Botó 1";
-  "Button 1/Start" = "Botó 1/Start";
+  "Button 1/Start" = "Botó 1/Inici";
   "Button 2" = "Botó 2";
   "Button 3" = "Botó 3";
   "Button 4" = "Botó 4";
   "Button 5" = "Botó 5";
   "Button 6" = "Botó 6";
   "C" = "C";
-  "Change Disk Side" = "Canviar la cara del disc";
-  "Clear" = "Netejar";
-  "Console Pause" = "Pausar la consola";
-  "Console Reset" = "Reiniciar la consola";
+  "Change Disk Side" = "Canvia la cara del disc";
+  "Clear" = "Neteja";
+  "Console Pause" = "Pausa la consola";
+  "Console Reset" = "Reinicia la consola";
   "Down" = "Avall";
   "Enter" = "Retorn";
   "Fire 1" = "Foc 1";
@@ -96,7 +96,7 @@
   "Option 2" = "Opció 2";
   "Option" = "Opció";
   "P" = "P";
-  "Player Start" = "Inicia Jugador";
+  "Player Start" = "Inici del jugador";
   "Power" = "Apaga";
   "R Diff A" = "R Diff A";
   "R Diff B" = "R Diff B";
@@ -109,13 +109,13 @@
   "Right Trigger" = "Disparador Dret";
   "Right" = "Dreta";
   "Run" = "Executa";
-  "Select" = "Select";
+  "Select" = "Selecciona";
   "Service" = "Servei";
   "Shake" = "Sacseja";
   "Sleep" = "Adorm";
   "Sound" = "So";
-  "Start" = "Start";
-  "TV Black & White" = "Televisió en blanc i negra";
+  "Start" = "Inici";
+  "TV Black & White" = "Televisió en blanc i negre";
   "TV Color" = "Televisió en color";
   "Top Action" = "Acció Superior";
   "Up" = "Amunt";
@@ -139,8 +139,10 @@
   "Display Mode" = "Mode de visualització";
   "Fast Forward" = "Avança ràpidament";
   "Fullscreen" = "Pantalla completa";
+  "Last Display Mode" = "Mode de visualització anterior";
   "Load" = "Carrega";
   "Mute" = "Silencia";
+  "Next Display Mode" = "Mode de visualització següent";
   "Pause" = "Pausa";
   "Quick Load Button" = "Carrega ràpidament";
   "Quick Save Button" = "Desa ràpidament";
@@ -148,5 +150,7 @@
   "Rewind" = "Rebobina";
   "Save" = "Desa";
   "Screenshot" = "Captura de pantalla";
+  "Step Backward" = "Pas enrere";
+  "Step Forward" = "Pas endavant";
   "Volume Down" = "Abaixa el volum";
   "Volume Up" = "Apuja el volum";

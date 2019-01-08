@@ -68,6 +68,14 @@
 				<string>OESG1000Button2</string>
 			</dict>
 		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Console Pause</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESG1000ButtonPause</string>
+			</dict>
+		</array>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
@@ -104,6 +112,7 @@
 		<string>OESG1000ButtonRight</string>
 		<string>OESG1000Button1</string>
 		<string>OESG1000Button2</string>
+		<string>OESG1000ButtonPause</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
 	<integer>2</integer>

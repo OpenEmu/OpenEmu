@@ -30,22 +30,22 @@
 
 typedef enum _OENDSButton
 {
-	OENDSButtonUp,
-	OENDSButtonDown,
-	OENDSButtonLeft,
-	OENDSButtonRight,
-	OENDSButtonA,
-	OENDSButtonB,
-	OENDSButtonX,
+    OENDSButtonUp,
+    OENDSButtonDown,
+    OENDSButtonLeft,
+    OENDSButtonRight,
+    OENDSButtonA,
+    OENDSButtonB,
+    OENDSButtonX,
     OENDSButtonY,
-	OENDSButtonL,
+    OENDSButtonL,
     OENDSButtonR,
     OENDSButtonStart,
     OENDSButtonSelect,
     OENDSButtonMicrophone,
-	OENDSButtonLid,
-	OENDSButtonDebug,
-	OENDSButtonCount
+    OENDSButtonLid,
+    OENDSButtonDebug,
+    OENDSButtonCount
 } OENDSButton;
 
 @protocol OENDSSystemResponderClient <OESystemResponderClient, NSObject>

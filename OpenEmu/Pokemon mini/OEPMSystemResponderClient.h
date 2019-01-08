@@ -39,7 +39,8 @@ typedef enum _OEPMButton
     OEPMButtonLeft,
     OEPMButtonRight,
     OEPMButtonPower,
-    OEPMButtonShake
+    OEPMButtonShake,
+    OEPMButtonCount
 } OEPMButton;
 
 

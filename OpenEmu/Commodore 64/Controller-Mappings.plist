@@ -14,6 +14,10 @@
 		<string>OEControllerMicrosoftXbox360DPadRight</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerMicrosoftXbox360ButtonA</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerMicrosoftXbox360ButtonX</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerMicrosoftXbox360ButtonBack</string>
 	</dict>
 	<key>OEControllerSonyPS3Sixaxis</key>
 	<dict>
@@ -27,6 +31,10 @@
 		<string>OEControllerSonyPS3SixaxisDPadRight</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerSonyPS3SixaxisButtonCross</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerSonyPS3SixaxisButtonSquare</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerSonyPS3SixaxisButtonSelect</string>
 	</dict>
 	<key>OEControllerLogitechDualAction</key>
 	<dict>
@@ -34,6 +42,10 @@
 		<string>OEControllerLogitechDualActionDPadUp</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerLogitechDualActionButton2</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerLogitechDualActionButton1</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerLogitechDualActionButtonSelect</string>
 	</dict>
 	<key>OEControllerSegaSaturn</key>
 	<dict>
@@ -43,6 +55,10 @@
 		<string>OEControllerSegaSaturnDPadLeft</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerSegaSaturnButtonC</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerSegaSaturnButtonZ</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerSegaSaturnButtonX</string>
 	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
@@ -52,6 +68,10 @@
 		<string>OEControllerGravisGamePadProDPadLeft</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerGravisGamePadProButton2</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerGravisGamePadProButton1</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerGravisGamePadProButtonSelect</string>
 	</dict>
 	<key>OEControllerRetroUSBSNES</key>
 	<dict>
@@ -61,6 +81,10 @@
 		<string>OEControllerRetroUSBSNESDPadLeft</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerRetroUSBSNESButtonB</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerRetroUSBSNESButtonY</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerRetroUSBSNESButtonSelect</string>
 	</dict>
 	<key>OEControllerPS3NeoGeoPad</key>
 	<dict>
@@ -68,6 +92,10 @@
 		<string>OEControllerPS3NeoGeoPadDPadUp</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerPS3NeoGeoPadButtonCross</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerPS3NeoGeoPadButtonSquare</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerPS3NeoGeoPadButtonSelect</string>
 	</dict>
 	<key>OEControllerRetrode</key>
 	<dict>
@@ -77,6 +105,10 @@
 		<string>OEControllerRetrodeDPadLeft</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerRetrodeButtonB</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerRetrodeButtonY</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerRetrodeButtonSelect</string>
 	</dict>
 	<key>OEControllerRetrolinkSNES</key>
 	<dict>
@@ -86,6 +118,10 @@
 		<string>OEControllerRetrolinkSNESDPadLeft</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerRetrolinkSNESButtonB</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerRetrolinkSNESButtonY</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerRetrolinkSNESButtonSelect</string>
 	</dict>
 	<key>OEControllerRetrolinkN64</key>
 	<dict>
@@ -93,6 +129,10 @@
 		<string>OEControllerRetrolinkN64DPadUp</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerRetrolinkN64ButtonA</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerRetrolinkN64ButtonB</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerRetrolinkN64ButtonZ</string>
 	</dict>
 	<key>OEControllerAdaptoidN64</key>
 	<dict>
@@ -106,6 +146,10 @@
 		<string>OEControllerAdaptoidN64DPadRight</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerAdaptoidN64ButtonA</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerAdaptoidN64ButtonB</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerAdaptoidN64ButtonZ</string>
 	</dict>
 	<key>OEControllerWiimote</key>
 	<dict>
@@ -119,6 +163,10 @@
 		<string>OEControllerWiimoteDPadDown</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerWiimoteButton2</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerWiimoteButton1</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
 	<key>OEControllerNintendoWiiUProController</key>
 	<dict>
@@ -132,6 +180,10 @@
 		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
 	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
@@ -139,6 +191,10 @@
 		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
 	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
@@ -152,6 +208,10 @@
 		<string>OEControllerGCExtendedGamepadProfileDPadRight</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
 	</dict>
 	<key>OEControllerNintendoSwitchProController</key>
 	<dict>
@@ -159,6 +219,10 @@
 		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
 </dict>
 </plist>

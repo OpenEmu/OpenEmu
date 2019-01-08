@@ -565,7 +565,7 @@ static NSImage *frameImage, *frameImageInactive;
     [(OEHUDBorderWindow *)self.window windowDraggingDidEnd];
 }
 
-- (nullable id)validRequestorForSendType:(NSString *)sendType returnType:(NSString *)returnType
+- (nullable id)validRequestorForSendType:(nullable NSPasteboardType)sendType returnType:(nullable NSPasteboardType)returnType
 {
     return nil;
 }

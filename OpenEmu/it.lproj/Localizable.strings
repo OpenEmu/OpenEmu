@@ -132,8 +132,6 @@
 
 "Could not move library data!" = "Non è stato possibile spostare i dati della Libreria!";
 
-"Couldn't connect to the background process." = "Errore di collegamento al processo in background.";
-
 "Couldn't load %@ plugin" = "Non è stato possibile caricare il plugin %@";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Crea una raccolta di giochi personalizzata. Per aggiungere un gioco alla raccolta, selezionalo nella sua libreria console e trascinalo su \"%@\", nella barra laterale.";
@@ -182,8 +180,6 @@
 
 "Do not ask me again" = "Non chiedermelo più";
 
-"Do Not Save" = "Non salvare";
-
 "Do not show me again" = "Non avvisarmi più";
 
 "Do you really want to cancel the import process?" = "Vuoi davvero annullare il processo di importazione?";
@@ -210,7 +206,7 @@
 
 "Duplicate Collection" = "Duplica raccolta";
 
-"Edit Game Controls" = "Modifica controlli";
+"Edit Game Controls…" = "Modifica controlli…";
 
 "Enable now" = "Attiva subito";
 
@@ -247,6 +243,8 @@
 "In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "A causa della crescente complessità dell'hardware e del software delle console moderne, per emulare alcuni sistemi sono necessari dei file BIOS. Leggi il nostro %@ per informazioni più dettagliate.";
 
 "In order to play the game it must be downloaded." = "Devi scaricare questo gioco per poterlo aprire.";
+
+"Insert Cart/Disk/Tape…" = "Inserisci Cart/Disk/Tape…";
 
 "Install" = "Installa";
 
@@ -330,7 +328,7 @@
 
 "Pause Emulation" = "Sospendi emulazione";  // Main Menu (only displayed when the game is running)
 
-"Pause Gameplay" = "Sospensione gioco";  // tooltip (also displayed when the game is already paused)
+"Pause Gameplay" = "Sospendi il gioco";  // tooltip
 
 "Play Game" = "Avvia gioco";
 
@@ -386,6 +384,8 @@
 
 "Resume Emulation" = "Riprendi l'emulazione";  // Main Menu
 
+"Resume Gameplay" = "Riprendi il gioco";
+
 "Resume" = "Riprendi";
 
 "Save As:" = "Nome:";  // "Salva come:" does not fit
@@ -395,8 +395,6 @@
 "Save Game" = "Salva il gioco";
 
 "Save States" = "Salvataggi emulazione";
-
-"Save to Slot %d" = "Salva nello slot %d";
 
 "Save-Game-%ld %@" = "Salvataggio-%ld %@";
 
@@ -422,6 +420,8 @@
 
 "Select Disc" = "Disco";
 
+"Select Display Mode" = "Vista";
+
 "Select Filter" = "Filtri";
 
 "Select Scale" = "Scala";
@@ -433,8 +433,6 @@
 "Slot %d" = "Slot %d";
 
 "Slot %ld" = "Slot %ld";
-
-"Slot 1" = "Slot 1";
 
 "Some migrations failed to complete properly" = "Non è stato possibile completare correttamente alcune migrazioni";
 
@@ -458,10 +456,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "Il core %1$@ ha problemi di compatibilità: alcuni giochi potrebbero non funzionare o avere problemi.\n\nSiccome non siamo responsabili dello sviluppo di %2$@, non segnalateci difetti riguardanti questo core.";
 
-"The background process connection couldn't be established" = "Non è stato possibile collegarsi al processo in background";
-
-"The background process couldn't be launched" = "Non è stato possibile avviare il processo in background";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "La batteria del dispositivo %1$lu (%2$@) si sta scaricando. Ricaricare o cambiare la batteria.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "Non è stato possibile scaricare il core. Prova a installarlo dalle preferenze dei core.";
@@ -473,8 +467,6 @@
 "The game '%@' was imported." = "Hai importato \"%@\".";
 
 "The OpenEmu Library could not be found." = "La Libreria di OpenEmu non è stata trovata.";
-
-"The root proxy object is nil." = "L'oggetto proxy alla radice è nil.";
 
 "The System plugin could not be found!" = "Il plugin di questo sistema non è stato trovato!";
 
@@ -536,6 +528,12 @@
 
 "Category" = "Categoria";   // shown when the corresponding item does not fit in the main window's toolbar
 
+"An issue was detected with one of your controllers." = "Si è verificato un problema con un controller.";  // Headline for bindings repaired alert
+
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "La configurazione dei pulsanti di uno dei controller è cambiata dall'ultima volta in cui il controller è stato usato con OpenEmu. Alcuni controlli associati a questo controller sono stati reimpostati.\n\nPuoi andare nelle Preferenze Controlli per verificare quali impostazioni sono state modificate.";  // Message for bindings repaired alert
+
+"Keycode 0x%lX" = "Codice 0x%lX";  // Fallback for unknown keys
+
 
 /* Secrets */
 
@@ -577,9 +575,7 @@
 
 "Show options button" = "Mostra il pulsante Opzioni";
 
-"Show quicksave notification during gameplay" = "Mostra notifiche di salvataggio veloce durante il gioco";
-
-"Show screenshot notification during gameplay" = "Mostra le notifiche di salvataggio delle istantanee durante il gioco";
+"Show notifications during gameplay" = "Mostra le notifiche durante il gioco";
 
 "Use quicksave slots" = "Usa slot salvataggi veloci";
 
@@ -612,8 +608,6 @@
 "Log Keyboard Events" = "Attiva log eventi tastiera";
 
 "Show all global keys" = "Mostra tutti i controlli globali";
-
-"Always show BIOS preferences" = "Mostra sempre le preferenze dei BIOS";
 
 "Set default save states directory" = "Reimposta cartella dei salvataggi emulazione";
 
@@ -658,3 +652,7 @@
 "ECM compressed binary detected." = "È stato individuato un file binario in formato ECM.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "I file binari compressi in formato ECM non possono essere importati. Leggi la guida all'importazione dei dischi di gioco.";
+
+"Threshold for analog controls bound to buttons" = "Sensibilità pulsanti associati a controlli analogici";
+
+"Range: %@ to %@" = "Intervallo valido: %@ ÷ %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences

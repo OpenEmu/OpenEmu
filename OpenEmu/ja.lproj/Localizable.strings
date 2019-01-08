@@ -136,8 +136,6 @@
 
 "Could not move library data!" = "ライブラリデータを移動出来ません。";
 
-"Couldn't connect to the background process." = "バックグラウンドプロセスに接続出来ませんでした。";
-
 "Couldn't load %@ plugin" = "%@という名称のプラグインをロード出来ませんでした。";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "自分好みのゲームセレクションを作成しましょう。コレクションを追加するには、コンソールライブラリからゲームを選択し、左側の’%@’へドラッグして下さい。";
@@ -178,6 +176,8 @@
 
 "Device number %lu, %@, has disconnected." = "%1$lu, %2$@, 個のデバイスの接続が解除されました。";
 
+"Disc %u" = "Disc %u"; // TODO
+
 "Disc-based games have special requirements. Please read the disc importing guide." = "ディスクゲームは特別な操作が必要です。ディスクのインポートガイドを確認して下さい。";
 
 "Dismiss" = "無視する";
@@ -185,8 +185,6 @@
 "Do it!" = "やります！";
 
 "Do not ask me again" = "再表示しない";
-
-"Do Not Save" = "保存しない";
 
 "Do not show me again" = "再表示しない";
 
@@ -214,11 +212,9 @@
 
 "Duplicate Collection" = "コレクションを複製";
 
-"Edit Game Controls" = "コントローラを編集";
+"Edit Game Controls…" = "コントローラを編集…";
 
 "Enable now" = "すぐ有効にする";
-
-"Enable Retrode support" = "Retrodeサポートを有効にする";
 
 "Error!" = "エラー!";
 
@@ -253,6 +249,8 @@
 "In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "いくつかのコンソールでは、複雑なハードウェア要件やゲームソフトの要件をエミュレートするため、BIOSファイルが必要になります。詳しくはこちらのガイド%@を読んで下さい。";
 
 "In order to play the game it must be downloaded." = "ゲームで遊ぶためにダウンロードが必要です。";
+
+"Insert Cart/Disk/Tape…" = "Insert Cart/Disk/Tape…";
 
 "Install" = "インストール";
 
@@ -394,6 +392,8 @@
 
 "Resume Emulation" = "エミュレーションをレジューム";
 
+"Resume Gameplay" = "ゲームを一時停止";  // TODO
+
 "Resume" = "レジューム";
 
 "Save As:" = "別名で保存:";
@@ -403,8 +403,6 @@
 "Save Game" = "ゲームを保存";
 
 "Save States" = "セーブステート";
-
-"Save to Slot %d" = "スロット%d へ保存";
 
 "Save-Game-%ld %@" = "セーブ-ゲーム-%ld %@";
 
@@ -428,6 +426,10 @@
 
 "Select Core" = "コアを選択";
 
+"Select Disc" = "Select Disc"; // TODO
+
+"Select Display Mode" = "ディスプレイモード";
+
 "Select Filter" = "フィルタを選択";
 
 "Select Scale" = "スケールを選択";
@@ -439,8 +441,6 @@
 "Slot %d" = "スロット %d";
 
 "Slot %ld" = "スロット %ld";
-
-"Slot 1" = "スロット 1";
 
 "Some migrations failed to complete properly" = "マイグレーションが正常に完了しませんでした。";
 
@@ -462,10 +462,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "%1$@ コアは互換性の問題を抱えているため、グリッチが発生するか、全くプレイが出来ません。\n\n%2$@の問題についての報告は必要ありません。";
 
-"The background process connection couldn't be established" = "バックグラウンドプロセスへ接続を確立出来ませんでした。";
-
-"The background process couldn't be launched" = "バックグラウンドプロセスを起動できませんでした。";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "デバイス番号 %1$lu、及び %2$@, のバッテリが弱くなっています。電池を交換して下さい。";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "コアがダウンロード出来ませんでした。コア設定からダウンロードし直して下さい。";
@@ -477,8 +473,6 @@
 "The game '%@' was imported." = "'%@' がインポートされました。";
 
 "The OpenEmu Library could not be found." = "OpenEmuライブラリが見付かりませんでした。";
-
-"The root proxy object is nil." = "Rootのプロキシオブジェクトがnilです。";
 
 "The System plugin could not be found!" = "システムプラグインが見付かりませんでした。";
 
@@ -544,6 +538,12 @@
 
 "Category" = "カテゴリ";   // TODO shown when the corresponding item does not fit in the main window's toolbar
 
+"An issue was detected with one of your controllers." = "An issue was detected with one of your controllers.";  //TODO // Headline for bindings repaired alert
+
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.";  // TODO // Message for bindings repaired alert
+
+"Keycode 0x%lX" = "Keycode 0x%lX";  // TODO  // Fallback for unknown keys
+
 
 /* Secrets */
 
@@ -585,9 +585,7 @@
 
 "Show options button" = "オプションボタンを表示";
 
-"Show quicksave notification during gameplay" = "ゲーム中にクイックセーブ通知を表示";
-
-"Show screenshot notification during gameplay" = "ゲーム中にスクリーンショット通知を表示";
+"Show notifications during gameplay" = "Show notifications during gameplay";   // TODO
 
 "Use quicksave slots" = "クイックセーブスロットを使用";
 
@@ -620,8 +618,6 @@
 "Log Keyboard Events" = "Keyboard イベントを記録";
 
 "Show all global keys" = "グローバルキーを全て表示する";
-
-"Always show BIOS preferences" = "BIOSの設定を常に表示";
 
 "Set default save states directory" = "デフォルトのオートセーブステートディレクトリを設定";
 
@@ -658,3 +654,7 @@
 "ECM compressed binary detected." = "ECM圧縮バイナリを検知しました";  // TODO
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM圧縮バイナリをインポート出来ませんでした。ディスクインポートガイドをご確認ください。";  // TODO
+
+"Threshold for analog controls bound to buttons" = "Threshold for analog controls bound to buttons";    // TODO
+
+"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO

@@ -29,7 +29,6 @@
 #import "OELibraryDatabase.h"
 #import "OESidebarController.h"
 #import "OELibraryController.h"
-#import "OEMenu.h"
 
 #import "OEDBGame.h"
 #import "OEDBImage.h"
@@ -67,7 +66,6 @@
 #import "OEPrefBiosController.h"
 #import "OEMainWindowController.h"
 #import "OELibraryGamesViewController.h"
-#import "OEGameScannerViewController.h"
 #import "OEDBSavedGamesMedia.h"
 
 #import "OpenEmu-Swift.h"
@@ -88,6 +86,7 @@ NSString * const  GroupType     = @"Group";
 NSString * const  ColorType     = @"Color";
 NSString * const  LabelType     = @"Label";
 NSString * const  PopoverType   = @"Popover";
+NSString * const  NumericTextFieldType = @"NumericTextField";
 
 NSString * const TypeKey  = @"type";
 NSString * const LabelKey = @"label";
@@ -96,6 +95,7 @@ NSString * const ActionKey = @"action";
 NSString * const NegatedKey = @"negated";
 NSString * const ValueKey = @"value";
 NSString * const OptionsKey = @"options";
+NSString * const NumberFormatterKey = @"numberFormatter";
 
 #define Separator() \
 @{ TypeKey:SeparatorType }
@@ -117,6 +117,8 @@ NSString * const OptionsKey = @"options";
 @{ LabelKey:_OLABEL_, ValueKey:_OVAL_ }
 #define ColorWell(_KEY_, _LABEL_) \
 @{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_, @"DebugModeLabel"), TypeKey:ColorType }
+#define NumberTextBox(_KEY_, _LABEL_, _FORMATTER_) \
+@{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_, @"Debug Label"), NumberFormatterKey:_FORMATTER_, TypeKey:NumericTextFieldType }
 
 @implementation OEPrefDebugController
 - (void)awakeFromNib
@@ -143,6 +145,12 @@ NSString * const OptionsKey = @"options";
 
 - (void)OE_setupKeyDescription
 {
+    NSNumberFormatter *adcSensitivityNF = [[NSNumberFormatter alloc] init];
+    [adcSensitivityNF setAllowsFloats:YES];
+    [adcSensitivityNF setMinimum:@0.01];
+    [adcSensitivityNF setMaximum:@0.99];
+    [adcSensitivityNF setNumberStyle:NSNumberFormatterDecimalStyle];
+    
     self.keyDescriptions =  @[
                               FirstGroup(@"General"),
                               Checkbox([OEPreferencesWindowController debugModeKey], @"Debug Mode"),
@@ -161,7 +169,6 @@ NSString * const OptionsKey = @"options";
 
                               Group(@"Library Window"),
                               Button(@"Reset main window size", @selector(resetMainWindow:)),
-                              NCheckbox(OEMenuOptionsStyleKey, @"Dark GridView context menu"),
                               Checkbox(OECoverGridViewAutoDownloadEnabledKey, @"Download missing artwork on the fly"),
                               Checkbox(OEDisplayGameTitle, @"Show game titles instead of rom names"),
                               Checkbox(OEImportManualSystems, @"Manually choose system on import"),
@@ -171,11 +178,9 @@ NSString * const OptionsKey = @"options";
                               Button(@"Hide game scanner view", @selector(hideGameScannerView:)),
 
                               Group(@"HUD Bar / Gameplay"),
-                              NCheckbox(OEDontShowGameTitleInWindowKey, @"Use game name as window title"),
                               Checkbox(OEGameControlsBarCanDeleteSaveStatesKey, @"Can delete save states"),
                               NCheckbox(OEGameControlsBarHidesOptionButtonKey, @"Show options button"),
-                              Checkbox(OEShowSaveStateNotificationKey, @"Show quicksave notification during gameplay"),
-                              Checkbox(OEShowScreenShotNotificationKey, @"Show screenshot notification during gameplay"),
+                              Checkbox(OEShowNotificationsKey, @"Show notifications during gameplay"),
                               Checkbox(OESaveStateUseQuickSaveSlotsKey, @"Use quicksave slots"),
                               Checkbox(OEGameControlsBarShowsQuickSaveStateKey, @"Show quicksave in menu"),
                               Checkbox(OEGameControlsBarShowsAutoSaveStateKey, @"Show autosave in menu"),
@@ -193,6 +198,7 @@ NSString * const OptionsKey = @"options";
                               Checkbox(@"logsHIDEvents", @"Log HID Events"),
                               Checkbox(@"logsHIDEventsNoKeyboard", @"Log Keyboard Events"),
                               Checkbox(@"OEShowAllGlobalKeys", @"Show all global keys"),
+                              NumberTextBox(@"OESystemResponderADCThreshold", @"Threshold for analog controls bound to buttons", adcSensitivityNF),
 
                               Group(@"Save States"),
                               Button(@"Set default save states directory", @selector(restoreSaveStatesDirectory:)),
@@ -523,7 +529,7 @@ NSString * const OptionsKey = @"options";
 
 - (void)downloadMissingArtwork:(id)sender
 {
-    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"While performing this operation OpenEmu will be unresponsive.","")
+    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"While performing this operation OpenEmu will be unresponsive.", @"")
                                      defaultButton:NSLocalizedString(@"Do it!", @"")
                                    alternateButton:NSLocalizedString(@"Cancel Operation", @"")];
     if([alert runModal] != NSAlertFirstButtonReturn) return;
@@ -870,6 +876,26 @@ NSString * const OptionsKey = @"options";
         }];
 
         [self OE_setupSelectedItemForPopupButton:popup withKeyDescription:keyDescription];
+    }
+    else if (type == NumericTextFieldType)
+    {
+        NSString *label = [keyDescription objectForKey:LabelKey];
+        NSNumberFormatter *nf = [keyDescription objectForKey:NumberFormatterKey];
+        NSString *udkey = [keyDescription objectForKey:KeyKey];
+        
+        NSTextField *labelField = [[cellView subviews] objectAtIndex:0];
+        NSTextField *inputField = [[cellView subviews] objectAtIndex:1];
+        
+        [labelField setStringValue:label];
+        [inputField setFormatter:nf];
+        NSString *keypath = [NSString stringWithFormat:@"values.%@", udkey];
+        [inputField bind:NSValueBinding toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:keypath options:nil];
+        
+        NSString *validRangeFormat = NSLocalizedString(@"Range: %@ to %@", @"Range indicator tooltip for numeric text boxes in the Debug Preferences");
+        NSString *min = [nf stringFromNumber:nf.minimum];
+        NSString *max = [nf stringFromNumber:nf.maximum];
+        NSString *tooltip = [NSString stringWithFormat:validRangeFormat, min, max];
+        [inputField setToolTip:tooltip];
     }
     return cellView;
 }

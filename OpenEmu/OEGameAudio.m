@@ -30,41 +30,13 @@
 
 typedef struct
 {
-    TPCircularBuffer *buffer;
+    void *buffer; /* id<OEAudioBuffer> */
     int channelCount;
     int bytesPerSample;
 } OEGameAudioContext;
 
 ExtAudioFileRef recordingFile;
 
-// TODO: This is very low quality. Consider AUVarispeed or etc.
-static void StretchSamples(int16_t *outBuf, const int16_t *inBuf,
-                           int outFrames, int inFrames, int channels)
-{
-    int frame;
-    float ratio = outFrames / (float)inFrames;
-    
-    for(frame = 0; frame < outFrames; frame++)
-    {
-        float iFrame = frame / ratio, iFrameF = floorf(iFrame);
-        float lerp = iFrame - iFrameF;
-        int iFrameI = iFrameF;
-        int ch;
-        
-        for (ch = 0; ch < channels; ch++) {
-            int a, b, c;
-            
-            a = inBuf[(iFrameI+0)*channels+ch];
-            b = inBuf[(iFrameI+1)*channels+ch];
-            
-            c = a + lerp*(b-a);
-            c = MAX(c, SHRT_MIN);
-            c = MIN(c, SHRT_MAX);
-            
-            outBuf[frame*channels+ch] = c;
-        }
-    }
-}
 
 static OSStatus RenderCallback(void                       *in,
                                AudioUnitRenderActionFlags *ioActionFlags,
@@ -74,27 +46,16 @@ static OSStatus RenderCallback(void                       *in,
                                AudioBufferList            *ioData)
 {
     OEGameAudioContext *context = (OEGameAudioContext *)in;
-    int availableBytes = 0;
-    void *head = TPCircularBufferTail(context->buffer, &availableBytes);
-    int bytesRequested = inNumberFrames * context->bytesPerSample * context->channelCount;
-    availableBytes = MIN(availableBytes, bytesRequested);
-    int leftover = bytesRequested - availableBytes;
-    char *outBuffer = ioData->mBuffers[0].mData;
-
-    if(leftover >= 2 && context->bytesPerSample == 2)
-    {
-        // time stretch
-        // FIXME this works a lot better with a larger buffer
-        int framesRequested = inNumberFrames;
-        int framesAvailable = availableBytes / (context->bytesPerSample * context->channelCount);
-        StretchSamples((int16_t *)outBuffer, head, framesRequested, framesAvailable, context->channelCount);
-    }
-    else if(availableBytes)
-        memcpy(outBuffer, head, availableBytes);
-    else
-        memset(outBuffer, 0, bytesRequested);
+    id<OEAudioBuffer> buffer = (__bridge id<OEAudioBuffer>)context->buffer;
     
-    TPCircularBufferConsume(context->buffer, availableBytes);
+    NSInteger bytesRequested = inNumberFrames * context->bytesPerSample * context->channelCount;
+    char *outBuffer = ioData->mBuffers[0].mData;
+    
+    NSInteger bytesCopied = [buffer read:outBuffer maxLength:bytesRequested];
+    NSInteger rest = bytesRequested - bytesCopied;
+    if (rest)
+        memset(outBuffer+bytesCopied, 0, rest);
+
     return noErr;
 }
 
@@ -211,7 +172,11 @@ static OSStatus RenderCallback(void                       *in,
     _contexts = realloc(_contexts, sizeof(OEGameAudioContext) * bufferCount);
     for(UInt32 i = 0; i < bufferCount; ++i)
     {
-        _contexts[i] = (OEGameAudioContext){ &([_gameCore ringBufferAtIndex:i]->buffer), (UInt32)[_gameCore channelCountForBuffer:i], (UInt32)[_gameCore audioBitDepth] / 8};
+        id<OEAudioBuffer> buffer = [_gameCore audioBufferAtIndex:i];
+        _contexts[i] = (OEGameAudioContext){
+            (__bridge void *)buffer,
+            (UInt32)[_gameCore channelCountForBuffer:i],
+            (UInt32)[_gameCore audioBitDepth] / 8};
         
         //Create the converter node
         err = AUGraphAddNode(_graph, (const AudioComponentDescription *)&desc, &_converterNode);
@@ -243,9 +208,13 @@ static OSStatus RenderCallback(void                       *in,
         mDataFormat.mChannelsPerFrame = channelCount;
         mDataFormat.mBitsPerChannel   = 8 * bytesPerSample;
         
+        UInt32 bufSize = (UInt32)[buffer length] / mDataFormat.mBytesPerFrame;
+        err = AudioUnitSetProperty(_converterUnit, kAudioUnitProperty_MaximumFramesPerSlice, kAudioUnitScope_Global, 0, &bufSize, sizeof(UInt32));
+        if (err) NSLog(@"couldn't set max frames per slice");
+        
         err = AudioUnitSetProperty(_converterUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &mDataFormat, sizeof(AudioStreamBasicDescription));
         if(err) NSLog(@"couldn't set player's input stream format");
-        
+      
         err = AUGraphConnectNodeInput(_graph, _converterNode, 0, _mixerNode, i);
         if(err) NSLog(@"Couldn't connect the converter to the mixer");
     }

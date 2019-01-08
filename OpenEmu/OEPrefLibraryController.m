@@ -234,7 +234,14 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
                 }];
                 
                 // Setup error handler
-                [fm setErrorHandler:^BOOL(NSURL *src, NSURL *dst, NSError *error){ DLog(@"OEFM Error handler called on %@", src); return NO; }];
+                [fm setErrorHandler:^BOOL(NSURL *src, NSURL *dst, NSError *error) {
+                    // ignore failing metafiles
+                    if([src.lastPathComponent rangeOfString:@"._"].location == 0) return true;
+
+                    DLog(@"OEFM Error handler called on %@", src);
+                    
+                    return NO;
+                }];
 
                 // Copy artwork directory if it exists
                 if([artworkURL checkResourceIsReachableAndReturnError:nil] && !(success=[fm copyItemAtURL:artworkURL toURL:newArtworkURL error:&error]))
@@ -379,7 +386,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
                     [coord addPersistentStoreWithType:[store type] configuration:nil URL:[store URL] options:0 error:nil];
 
                     // Make sure to post notification on main thread!
-                    void (^postNotification)() = ^(){
+                    void (^postNotification)(void) = ^(){
                         [[OELibraryDatabase defaultDatabase] setPersistentStoreCoordinator:coord];
                         [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryLocationDidChangeNotificationName object:self userInfo:nil];
                     };

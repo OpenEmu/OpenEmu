@@ -35,6 +35,9 @@ typedef enum
     OEC64JoystickLeft,
     OEC64JoystickRight,
     OEC64ButtonFire,
+    OEC64ButtonJump,
+    OEC64SwapJoysticks,
+    OEC64ButtonCount
 } OEC64Button;
 
 @protocol OEC64SystemResponderClient <OESystemResponderClient, NSObject>
@@ -47,5 +50,6 @@ typedef enum
 - (oneway void)keyUp:(unsigned short)keyCode characters:(NSString *)characters charactersIgnoringModifiers:(NSString *)charactersIgnoringModifiers flags:(NSEventModifierFlags)flags;
 - (oneway void)didPushC64Button:(OEC64Button)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleaseC64Button:(OEC64Button)button forPlayer:(NSUInteger)player;
+- (oneway void)swapJoysticks;
 
 @end

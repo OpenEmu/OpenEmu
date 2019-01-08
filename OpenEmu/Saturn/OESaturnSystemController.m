@@ -37,7 +37,7 @@
 
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    if (![file isKindOfClass:[OECDSheet class]])
+    if (![file isKindOfClass:[OEDiscDescriptor class]])
         return OEFileSupportNo;
 
     NSString *dataTrackString = [file readASCIIStringInRange:NSMakeRange(0, 16)];
@@ -56,7 +56,7 @@
 - (NSImage*)systemIcon
 {
     NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionJAP]
-                           ? @"saturn_jap_library"
+                           ? @"saturn_library_jp"
                            : @"saturn_library");
 
     NSImage *image = [NSImage imageNamed:imageName];
@@ -72,7 +72,7 @@
 
 - (NSString *)headerLookupForFile:(__kindof OEFile *)file
 {
-    if (![file isKindOfClass:[OECDSheet class]])
+    if (![file isKindOfClass:[OEDiscDescriptor class]])
         return nil;
 
     // Read both offsets because of various dumps

@@ -34,7 +34,7 @@ extension NSDocumentController {
             return document
         }
         
-        for document in NSApplication.shared().orderedDocuments {
+        for document in NSApplication.shared.orderedDocuments {
             if let document = document as? OEGameDocument {
                 return document
             }

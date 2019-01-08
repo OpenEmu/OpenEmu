@@ -26,6 +26,6 @@
 
 @import Cocoa;
 
-@interface OEBlankSlateSpinnerView : NSView
+@interface OEBlankSlateSpinnerView : NSView <CALayerDelegate>
 
 @end

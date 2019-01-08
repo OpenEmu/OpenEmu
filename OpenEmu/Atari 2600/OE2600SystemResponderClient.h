@@ -30,25 +30,28 @@
 
 typedef enum _OE2600Button
 {
-	OE2600ButtonUp,
-	OE2600ButtonDown,
-	OE2600ButtonLeft,
-	OE2600ButtonRight,
-	OE2600ButtonFire1,
+    OE2600ButtonUp,
+    OE2600ButtonDown,
+    OE2600ButtonLeft,
+    OE2600ButtonRight,
+    OE2600ButtonFire1,
     OE2600ButtonLeftDiffA,
     OE2600ButtonLeftDiffB,
-	OE2600ButtonRightDiffA,
+    OE2600ButtonRightDiffA,
     OE2600ButtonRightDiffB,
     OE2600ButtonTVTypeColor,
     OE2600ButtonTVTypeBlackAndWhite,
     OE2600ButtonReset,
-	OE2600ButtonSelect,
-	OE2600ButtonCount
+    OE2600ButtonSelect,
+    OE2600ButtonCount
 } OE2600Button;
 
 @protocol OE2600SystemResponderClient <OESystemResponderClient, NSObject>
 
 - (oneway void)didPush2600Button:(OE2600Button)button forPlayer:(NSUInteger)player;
 - (oneway void)didRelease2600Button:(OE2600Button)button forPlayer:(NSUInteger)player;
+- (oneway void)mouseMovedAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseUp;
 
 @end

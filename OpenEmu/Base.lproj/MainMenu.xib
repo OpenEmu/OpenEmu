@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -17,8 +18,8 @@
             </connections>
         </customObject>
         <customObject id="371" customClass="NSFontManager"/>
-        <window title="About" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="About" animationBehavior="default" id="793" userLabel="About">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" unifiedTitleAndToolbar="YES"/>
+        <window title="About" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="About" animationBehavior="default" id="793" userLabel="About">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="90" width="400" height="463"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
@@ -76,18 +77,16 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="xgL-cd-0sR">
                             <rect key="frame" x="0.0" y="0.0" width="300" height="85"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
-                                <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" verticallyResizable="YES" linkDetection="YES" spellingCorrection="YES" id="1l5-5j-Ds9">
+                                <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" verticallyResizable="YES" findStyle="panel" continuousSpellChecking="YES" linkDetection="YES" spellingCorrection="YES" id="1l5-5j-Ds9">
                                     <rect key="frame" x="0.0" y="0.0" width="300" height="85"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <size key="minSize" width="300" height="85"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="minSize" width="300" height="85"/>
-                                    <size key="maxSize" width="463" height="10000000"/>
                                     <connections>
                                         <binding destination="805" name="attributedString" keyPath="specialThanks" id="TRw-My-UUK">
                                             <dictionary key="options">
@@ -97,17 +96,16 @@
                                     </connections>
                                 </textView>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </clipView>
                         <shadow key="shadow">
                             <size key="offset" width="0.0" height="1"/>
                             <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </shadow>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="0Zy-n4-Kh1">
+                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="0Zy-n4-Kh1">
                             <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="JS9-VV-Ksy">
+                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="JS9-VV-Ksy">
                             <rect key="frame" x="-100" y="-100" width="16" height="75"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
@@ -115,7 +113,7 @@
                     <button focusRingType="none" id="cm1-gR-GtS" customClass="OEButton">
                         <rect key="frame" x="127" y="138" width="147" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="50H-ys-sAp" customClass="OEButtonCell">
+                        <buttonCell key="cell" type="bevel" title="openemu.org" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="50H-ys-sAp" customClass="OEButtonCell">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -129,7 +127,7 @@
                     <button focusRingType="none" id="9lc-1E-ygn" customClass="OEButton">
                         <rect key="frame" x="113" y="17" width="176" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="bevel" title="www.github.com/openemu" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="y9C-BZ-tbY" customClass="OEButtonCell">
+                        <buttonCell key="cell" type="bevel" title="github.com/openemu" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="y9C-BZ-tbY" customClass="OEButtonCell">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -150,7 +148,7 @@
                 <outlet property="fileMenu" destination="980" id="1224"/>
             </connections>
         </customObject>
-        <menu title="bb" systemMenu="main" id="970" userLabel="Main Menu">
+        <menu systemMenu="main" id="970" userLabel="Main Menu">
             <items>
                 <menuItem title="OpenEmu" id="975">
                     <menu key="submenu" title="OpenEmu" systemMenu="apple" id="1013">
@@ -317,7 +315,7 @@
                             </menuItem>
                             <menuItem title="Show in Finder" tag="109" keyEquivalent="R" id="992">
                                 <connections>
-                                    <action selector="showSelectedGamesInFinder:" target="-1" id="1225"/>
+                                    <action selector="showInFinder:" target="-1" id="Zyl-Jt-bkp"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Display Duplicates" tag="110" hidden="YES" id="991">
@@ -511,6 +509,17 @@ DQ
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="1051"/>
+                            <menuItem title="Next Display Mode" enabled="NO" keyEquivalent="]" id="VVR-iO-axh">
+                                <connections>
+                                    <action selector="nextDisplayMode:" target="-1" id="KfD-uC-XzW"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Last Display Mode" enabled="NO" keyEquivalent="[" id="HzI-NP-sNP">
+                                <connections>
+                                    <action selector="lastDisplayMode:" target="-1" id="P2t-WU-4xH"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="aVH-zV-87c"/>
                             <menuItem title="Always Hide HUD" enabled="NO" keyEquivalent="H" id="ayc-Ld-Nyd">
                                 <connections>
                                     <action selector="toggleControlsVisibility:" target="-1" id="aEF-Tc-Nhr"/>

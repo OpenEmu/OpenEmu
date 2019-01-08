@@ -30,10 +30,10 @@
 
 typedef enum _OEColecoVisionButton
 {
-	OEColecoVisionButtonUp,
-	OEColecoVisionButtonDown,
-	OEColecoVisionButtonLeft,
-	OEColecoVisionButtonRight,
+    OEColecoVisionButtonUp,
+    OEColecoVisionButtonDown,
+    OEColecoVisionButtonLeft,
+    OEColecoVisionButtonRight,
     OEColecoVisionButtonLeftAction,
     OEColecoVisionButtonRightAction,
     OEColecoVisionButton1,
@@ -48,7 +48,7 @@ typedef enum _OEColecoVisionButton
     OEColecoVisionButton0,
     OEColecoVisionButtonAsterisk,
     OEColecoVisionButtonPound,
-	OEColecoVisionButtonCount
+    OEColecoVisionButtonCount
 } OEColecoVisionButton;
 
 @protocol OEColecoVisionSystemResponderClient <OESystemResponderClient, NSObject>

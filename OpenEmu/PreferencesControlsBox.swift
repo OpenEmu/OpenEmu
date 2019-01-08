@@ -65,22 +65,22 @@ class PreferencesControlsBox: OEBackgroundImageView {
         lineRect.origin.y = 317
         
         topHighlightColor.setFill()
-        NSRectFill(lineRect)
+        lineRect.fill()
         
         lineRect.origin.y -= 1
         lineColor.setFill()
-        NSRectFillUsingOperation(lineRect, NSCompositeSourceOver)
+        lineRect.fill(using: .sourceOver)
         
         // Draw bottom separator.
         
         lineRect.origin.y = 46
         
         lineColor.setFill()
-        NSRectFill(lineRect)
+        lineRect.fill()
         
         lineRect.origin.y -= 1
         bottomHighlightColor.setFill()
-        NSRectFillUsingOperation(lineRect, NSCompositeSourceOver)
+        lineRect.fill(using: .sourceOver)
     }
     
     override var isFlipped: Bool {

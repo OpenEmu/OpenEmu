@@ -30,7 +30,7 @@
 extern NSString * const OEGameCollectionViewControllerDidSetSelectionIndexesNotification;
 
 @interface OEGameCollectionViewController : OECollectionViewController <OEGameGridViewDelegate>
-- (IBAction)showSelectedGamesInFinder:(id)sender;
+- (IBAction)showInFinder:(id)sender;
 
 - (void)deleteSaveState:(id)stateItem;
 - (void)deleteSelectedItems:(id)sender;

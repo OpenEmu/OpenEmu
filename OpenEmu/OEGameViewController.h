@@ -30,8 +30,8 @@
 extern NSString *const OEGameVolumeKey;
 extern NSString *const OEGameDefaultVideoFilterKey;
 extern NSString *const OEGameSystemVideoFilterKeyFormat;
+extern NSString *const OEGameCoreDisplayModeKeyFormat;
 extern NSString *const OEGameCoresInBackgroundKey;
-extern NSString *const OEDontShowGameTitleInWindowKey;
 extern NSString *const OEAutoSwitchCoreAlertSuppressionKey;
 extern NSString *const OEGameViewControllerEmulationWillFinishNotification;
 extern NSString *const OEGameViewControllerEmulationDidFinishNotification;
@@ -81,6 +81,8 @@ extern NSString *const OEScreenshotPropertiesKey;
 @property(readonly) BOOL supportsCheats;
 @property(readonly) BOOL supportsSaveStates;
 @property(readonly) BOOL supportsMultipleDiscs;
+@property(readonly) BOOL supportsFileInsertion;
+@property(readonly) BOOL supportsDisplayModeChange;
 @property(readonly) NSString *coreIdentifier;
 @property(readonly) NSString *systemIdentifier;
 
@@ -107,6 +109,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 @property (readonly) OEIntSize aspectSize;
 @property (readonly) OEIntSize screenSize;
 @property (nonatomic) NSUInteger discCount;
+@property (nonatomic) NSArray <NSDictionary <NSString *, id> *> *displayModes;
 @property (nonatomic) NSUInteger remoteContextID;
 
 @end

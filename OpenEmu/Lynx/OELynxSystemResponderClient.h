@@ -30,15 +30,15 @@
 
 typedef enum _OELynxButton
 {
-	OELynxButtonUp,
-	OELynxButtonDown,
-	OELynxButtonLeft,
-	OELynxButtonRight,
-	OELynxButtonA,
-	OELynxButtonB,
+    OELynxButtonUp,
+    OELynxButtonDown,
+    OELynxButtonLeft,
+    OELynxButtonRight,
+    OELynxButtonA,
+    OELynxButtonB,
     OELynxButtonOption1,
-	OELynxButtonOption2,
-	OELynxButtonCount
+    OELynxButtonOption2,
+    OELynxButtonCount
 } OELynxButton;
 
 @protocol OELynxSystemResponderClient <OESystemResponderClient, NSObject>

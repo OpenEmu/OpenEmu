@@ -30,14 +30,14 @@
 
 typedef enum _OESaturnButton
 {
-	OESaturnButtonUp,
-	OESaturnButtonDown,
-	OESaturnButtonLeft,
-	OESaturnButtonRight,
-	OESaturnButtonA,
-	OESaturnButtonB,
-	OESaturnButtonC,
-	OESaturnButtonX,
+    OESaturnButtonUp,
+    OESaturnButtonDown,
+    OESaturnButtonLeft,
+    OESaturnButtonRight,
+    OESaturnButtonA,
+    OESaturnButtonB,
+    OESaturnButtonC,
+    OESaturnButtonX,
     OESaturnButtonY,
     OESaturnButtonZ,
     OESaturnButtonL,
@@ -50,7 +50,7 @@ typedef enum _OESaturnButton
     OESaturnLeftAnalogRight,
     OESaturnAnalogL,
     OESaturnAnalogR,
-	OESaturnButtonCount
+    OESaturnButtonCount
 } OESaturnButton;
 
 @protocol OESaturnSystemResponderClient <OESystemResponderClient, NSObject>
@@ -58,5 +58,10 @@ typedef enum _OESaturnButton
 - (oneway void)didMoveSaturnJoystickDirection:(OESaturnButton)button withValue:(CGFloat)value forPlayer:(NSUInteger)player;
 - (oneway void)didPushSaturnButton:(OESaturnButton)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleaseSaturnButton:(OESaturnButton)button forPlayer:(NSUInteger)player;
+- (oneway void)mouseMovedAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseUp;
+- (oneway void)rightMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)rightMouseUp;
 
 @end

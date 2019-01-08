@@ -30,8 +30,6 @@ static const CGFloat OEGridCellImageContainerTop    = 7.0;
 static const CGFloat OEGridCellImageContainerRight  = 13.0;
 static const CGFloat OEGridCellImageContainerBottom = OEGridCellTitleHeight + OEGridCellImageTitleSpacing + OEGridCellSubtitleHeight + OEGridCellSubtitleTitleSpace;
 
-__strong static OEThemeImage *selectorRingImage = nil;
-
 
 @interface OEGridGameCell () <CALayerDelegate>
 @property NSImage *selectorImage;
@@ -80,11 +78,6 @@ static NSDictionary *disabledActions = nil;
 
     if(self)
     {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            selectorRingImage = [[OETheme sharedTheme] themeImageForKey:@"selector_ring"];
-        });
-
         if(disabledActions == nil)
             disabledActions = @{ @"position" : [NSNull null],
                                    @"bounds" : [NSNull null],
@@ -462,14 +455,22 @@ static NSDictionary *disabledActions = nil;
             selectionLayer.actions = disabledActions;
             selectionLayer.frame = selectionFrame;
             
+            // Choose the selection color based on which version of macOS we're running on. On 10.14 or higher, we want to respect the system accent color.
+            NSColor *selectionColor;
+            if (@available(macOS 10.14, *)) {
+                selectionColor = NSColor.controlAccentColor;
+            } else {
+                selectionColor = [NSColor colorWithCalibratedRed:0.243
+                                                           green:0.502
+                                                            blue:0.871
+                                                           alpha:1.0];
+            }
+            
+            NSColor *inactiveSelectionColor = [NSColor colorWithCalibratedWhite:0.651
+                                                                          alpha:1.0];
+            
             selectionLayer.borderWidth = 4.0;
-            selectionLayer.borderColor = _lastWindowActive ?
-                [NSColor colorWithCalibratedRed:0.243
-                                          green:0.502
-                                           blue:0.871
-                                          alpha:1.0].CGColor :
-                [NSColor colorWithCalibratedWhite:0.651
-                                            alpha:1.0].CGColor;
+            selectionLayer.borderColor = _lastWindowActive ? selectionColor.CGColor : inactiveSelectionColor.CGColor;
             selectionLayer.cornerRadius = 3.0;
             
             [_foregroundLayer addSublayer:selectionLayer];
@@ -807,15 +808,15 @@ static NSDictionary *disabledActions = nil;
     [NSAnimationContext runAnimationGroup:
      ^ (NSAnimationContext *context)
      {
-         [_indicationLayer addAnimation:indicatorFadeAnimation forKey:@"opacity"];
-         [_proposedImageLayer addAnimation:imageFadeAnimation forKey:@"opacity"];
-         [_proposedImageLayer addAnimation:imageResizeAnimation forKey:@"bounds"];
+         [self->_indicationLayer addAnimation:indicatorFadeAnimation forKey:@"opacity"];
+         [self->_proposedImageLayer addAnimation:imageFadeAnimation forKey:@"opacity"];
+         [self->_proposedImageLayer addAnimation:imageResizeAnimation forKey:@"bounds"];
      }
                         completionHandler:
      ^{
-         [_indicationLayer setOpacity:1.0];
-         [_proposedImageLayer removeFromSuperlayer];
-         _proposedImageLayer = nil;
+         [self->_indicationLayer setOpacity:1.0];
+         [self->_proposedImageLayer removeFromSuperlayer];
+         self->_proposedImageLayer = nil;
          [self OE_updateIndicationLayer];
      }];
 }

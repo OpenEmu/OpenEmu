@@ -30,19 +30,19 @@
 
 typedef enum _OEWSButton
 {
-	OEWSButtonX1,
-	OEWSButtonX3,
-	OEWSButtonX4,
-	OEWSButtonX2,
-	OEWSButtonY1,
-	OEWSButtonY3,
-	OEWSButtonY4,
-	OEWSButtonY2,
-	OEWSButtonA,
-	OEWSButtonB,
+    OEWSButtonX1,
+    OEWSButtonX3,
+    OEWSButtonX4,
+    OEWSButtonX2,
+    OEWSButtonY1,
+    OEWSButtonY3,
+    OEWSButtonY4,
+    OEWSButtonY2,
+    OEWSButtonA,
+    OEWSButtonB,
     OEWSButtonStart,
-	OEWSButtonSound,
-	OEWSButtonCount
+    OEWSButtonSound,
+    OEWSButtonCount
 } OEWSButton;
 
 @protocol OEWSSystemResponderClient <OESystemResponderClient, NSObject>

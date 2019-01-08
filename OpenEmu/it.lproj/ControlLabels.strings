@@ -139,8 +139,10 @@
   "Display Mode" = "Vista";
   "Fast Forward" = "Avanti veloce"; // "Avanzamento rapido" wraps like "Avanzament\no rapido"
   "Fullscreen" = "Schermo intero";
+  "Last Display Mode" = "Vista precedente";
   "Load" = "Carica";
   "Mute" = "Muto";
+  "Next Display Mode" = "Vista successiva";
   "Pause" = "Sospendi";
   "Quick Load Button" = "Carica veloce";
   "Quick Save Button" = "Salva veloce";
@@ -148,5 +150,7 @@
   "Rewind" = "Riavvolgi";
   "Save" = "Salva";
   "Screenshot" = "Istantanea";
+  "Step Backward" = "Fotogramma precedente";
+  "Step Forward" = "Fotogramma successivo";
   "Volume Down" = "Abbassa volume";
   "Volume Up" = "Alza volume";

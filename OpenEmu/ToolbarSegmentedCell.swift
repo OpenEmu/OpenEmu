@@ -102,8 +102,8 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         guard let label = label(forSegment: i) else {
             return 40.0;
         }
-        let attributes: [String: AnyObject] = [
-            NSFontAttributeName: NSFont.systemFont(ofSize: 11, weight: 0.1)]
+        let attributes: [NSAttributedStringKey: Any] = [
+            .font: NSFont.systemFont(ofSize: 11, weight: NSFont.Weight(rawValue: 0.1))]
         let attributedString = NSAttributedString(string: label, attributes: attributes)
         return attributedString.size().width + 20.0
     }
@@ -211,7 +211,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         }
         
         let segmentRect = rectForSegment(segment)
-        let pointInWindow = window.convertPointFromScreen(NSEvent.mouseLocation())
+        let pointInWindow = window.convertPointFromScreen(NSEvent.mouseLocation)
         let pointInControlView = controlView.convert(pointInWindow, from: nil)
         
         return NSPointInRect(pointInControlView, segmentRect)
@@ -253,7 +253,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             
             NSColor.black.set()
             
-            NSRectFill(controlView.centerScanRect(segmentRect))
+            controlView.centerScanRect(segmentRect).fill()
         }
         
         drawTextForSegment(segment, inFrame: frame)
@@ -301,10 +301,10 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             textShadow.shadowColor = NSColor(deviceWhite: 0, alpha: 0.4)
         }
         
-        let attributes: [String: AnyObject] = [
-            NSFontAttributeName: NSFont.systemFont(ofSize: 11, weight: 0.1),
-            NSForegroundColorAttributeName: textColor,
-            NSShadowAttributeName: textShadow]
+        let attributes: [NSAttributedStringKey: Any] = [
+            .font: NSFont.systemFont(ofSize: 11, weight: NSFont.Weight(rawValue: 0.1)),
+            .foregroundColor: textColor,
+            .shadow: textShadow]
         
         let attributedString = NSAttributedString(string: label, attributes: attributes)
         

@@ -132,8 +132,6 @@
 
 "Could not move library data!" = "No s'ha pogut moure les dades de la biblioteca.";
 
-"Couldn't connect to the background process." = "No s'ha pogut connectar amb el procés en segon pla.";
-
 "Couldn't load %@ plugin" = "No s'ha pogut carregar el connector %@";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Creeu una selecció personal de jocs. Per a afegir un joc a la col·lecció, seleccioneu-lo de la biblioteca i arrossegueu-lo a ’%@’ a l'esquerra.";
@@ -182,8 +180,6 @@
 
 "Do not ask me again" = "No m'ho tornis a dir";
 
-"Do Not Save" = "No ho desis";
-
 "Do not show me again" = "No m'ho tornis a mostrar";
 
 "Do you really want to cancel the import process?" = "Segur que voleu cancel·lar el procés d'importació?";
@@ -210,7 +206,7 @@
 
 "Duplicate Collection" = "Duplica la col·lecció";
 
-"Edit Game Controls" = "Edita els controls del joc";
+"Edit Game Controls…" = "Edita els controls del joc…";
 
 "Enable now" = "Habilita ara";
 
@@ -247,6 +243,8 @@
 "In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "Per poder emular alguns sistemes, es necessiten els fitxers del BIOS a causa de la complexitat creixent del maquinari i programari de les consoles modernes. Per a més informació, llegiu la %@.";
 
 "In order to play the game it must be downloaded." = "Per poder jugar al joc primer s'ha de baixar.";
+
+"Insert Cart/Disk/Tape…" = "Inserir Cart/Disk/Tape…";
 
 "Install" = "Instal·la";
 
@@ -386,6 +384,8 @@
 
 "Resume Emulation" = "Continua l'emulació";
 
+"Resume Gameplay" = "Continua la partida";
+
 "Resume" = "Continua";
 
 "Save As:" = "Anomena i desa:";
@@ -395,8 +395,6 @@
 "Save Game" = "Desa el joc";
 
 "Save States" = "Partides desades";
-
-"Save to Slot %d" = "Save to Slot %d";
 
 "Save-Game-%ld %@" = "Save-Game-%ld %@";
 
@@ -422,6 +420,8 @@
 
 "Select Disc" = "Selecciona el disc";
 
+"Select Display Mode" = "Selecciona el mode de visualització";
+
 "Select Filter" = "Selecciona el filtre";
 
 "Select Scale" = "Selecciona l'escala";
@@ -433,8 +433,6 @@
 "Slot %d" = "Espai %d";
 
 "Slot %ld" = "Espai %ld";
-
-"Slot 1" = "Espai 1";
 
 "Some migrations failed to complete properly" = "No s'ha completat correctament algunes migracions";
 
@@ -458,10 +456,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "El nucli %1$@ té problemes de compatibilitat i alguns jocs poden tenir defectes o no funcionar.\n\nNo ens informeu dels problemes ja que no som responsables del desenvolupament del %2$@.";
 
-"The background process connection couldn't be established" = "No s'ha pogut establir la connexió amb el procés en segon pla";
-
-"The background process couldn't be launched" = "No s'ha pogut executar el procés en segon pla";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "La càrrega de la bateria del dispositiu número %1$lu, %2$@, és baixa. Carregueu o substituïu la bateria.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "No s'ha pogut baixar el nucli. Intenteu instal·lar-lo des de les preferències dels nuclis.";
@@ -473,8 +467,6 @@
 "The game '%@' was imported." = "S'ha importat el joc '%@'.";
 
 "The OpenEmu Library could not be found." = "No s'ha pogut trobar la biblioteca de l'OpenEmu.";
-
-"The root proxy object is nil." = "L'objecte arrel del servidor intermediari és nul.";
 
 "The System plugin could not be found!" = "No s'ha pogut trobar el connector del sistema.";
 
@@ -536,6 +528,12 @@
 
 "Category" = "Categoria";   // shown when the corresponding item does not fit in the main window's toolbar
 
+"An issue was detected with one of your controllers." = "S'ha detectat un problema en un dels controladors.";   // Headline for bindings repaired alert
+
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "El perfil de botons d'uns dels controladors no concorda amb el darrer perfil usat amb l'OpenEmu. S'ha restablert alguns dels controls associats al controlador.\n\nPodeu anar a les preferències dels controls per comprovar quines associacions s'han vist afectades.";   // Message for bindings repaired alert
+
+"Keycode 0x%lX" = "Codi de tecla 0x%lX";  // Fallback for unknown keys
+
 
 /* Secrets */
 
@@ -577,9 +575,7 @@
 
 "Show options button" = "Mostra el botó d'opcions";
 
-"Show quicksave notification during gameplay" = "Mostra la notificació del desat ràpid mentre jugueu";
-
-"Show screenshot notification during gameplay" = "Mostra la notificació de la captura de pantalla mentre jugueu";
+"Show notifications during gameplay" = "Mostra notificacions mentre jugueu";
 
 "Use quicksave slots" = "Utilitza els espais del desat ràpid";
 
@@ -612,8 +608,6 @@
 "Log Keyboard Events" = "Registra els esdeveniments del teclat";
 
 "Show all global keys" = "Mostra totes les tecles globals";
-
-"Always show BIOS preferences" = "Mostra sempre les preferències del BIOS";
 
 "Set default save states directory" = "Defineix el directori de les partides desades";
 
@@ -658,3 +652,7 @@
 "ECM compressed binary detected." = "S'ha detectat un binari comprimit amb ECM.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "No es poden importar binaris comprimits amb ECM. Llegiu la guia d'importació dels discs.";
+
+"Threshold for analog controls bound to buttons" = "Llindar de la vinculació dels controls analògics amb els botons";
+
+"Range: %@ to %@" = "Interval: %@ a %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences

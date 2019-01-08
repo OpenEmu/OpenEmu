@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright (c) 2015, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
@@ -141,8 +141,10 @@
   "Display Mode" = "ディスプレイモード";
   "Fast Forward" = "Fast Forward";
   "Fullscreen" = "フルスクリーン";
+  "Last Display Mode" = "Last Display Mode";
   "Load" = "ロード";
   "Mute" = "ミュート";
+  "Next Display Mode" = "Next Display Mode";
   "Pause" = "一時停止";
   "Quick Load Button" = "クイックロード";
   "Quick Save Button" = "クイックセーブ";
@@ -150,5 +152,7 @@
   "Rewind" = "巻き戻し";
   "Save" = "セーブ";
   "Screenshot" = "スクリーンショット";
+  "Step Backward" = "Step Backward";    // TODO
+  "Step Forward" = "Step Forward";    // TODO
   "Volume Down" = "音量を下げる";
   "Volume Up" = "音量を上げる";

@@ -318,8 +318,8 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
         {
             context.userInfo[OEManagedObjectContextHasDirectChangesKey] = @(NO);
             [_mainThreadMOC performBlock:^{
-                [_mainThreadMOC mergeChangesFromContextDidSaveNotification:note];
-                [_mainThreadMOC save:nil];
+                [self->_mainThreadMOC mergeChangesFromContextDidSaveNotification:note];
+                [self->_mainThreadMOC save:nil];
             }];
         }
     }
@@ -735,7 +735,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     {
         NSString *urlString = metadata[OELibraryRomsFolderURLKey];
         
-        if([urlString rangeOfString:@"file://"].location == NSNotFound)
+        if(![urlString containsString:@"file://"])
             result = [NSURL URLWithString:urlString relativeToURL:self.databaseFolderURL];
         else
             result = [NSURL URLWithString:urlString];
@@ -774,7 +774,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
         [self.persistentStoreCoordinator setMetadata:mutableMetaData forPersistentStore:persistentStore];
         [NSPersistentStoreCoordinator setMetadata:mutableMetaData forPersistentStoreOfType:persistentStore.type URL:persistentStore.URL options:nil error:NULL];
         [_writerContext performBlock:^{
-            [_writerContext save:nil];
+            [self->_writerContext save:nil];
         }];
     }
 }
@@ -951,16 +951,19 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
             // Trim the gameTitle for imported m3u's so they look nice
             NSURL *gameInfoURL = gameInfo[@"URL"];
-            NSString *gameURLWithSuffix = gameInfoURL.lastPathComponent;
-            NSString *resultGameTitle = result[@"gameTitle"];
-            if (resultGameTitle && [gameURLWithSuffix.pathExtension.lowercaseString isEqualToString:@"m3u"])
+            if (![gameInfoURL isEqual:[NSNull null]])
             {
-                // RegEx pattern match the parentheses e.g. " (Disc 1)" and update dictionary with trimmed gameTitle string
-                NSString *newGameTitle = [resultGameTitle stringByReplacingOccurrencesOfString:@"\\ \\(Disc.*\\)" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, [resultGameTitle length])];
+                NSString *gameURLWithSuffix = gameInfoURL.lastPathComponent;
+                NSString *resultGameTitle = result[@"gameTitle"];
+                if (resultGameTitle && [gameURLWithSuffix.pathExtension.lowercaseString isEqualToString:@"m3u"])
+                {
+                    // RegEx pattern match the parentheses e.g. " (Disc 1)" and update dictionary with trimmed gameTitle string
+                    NSString *newGameTitle = [resultGameTitle stringByReplacingOccurrencesOfString:@"\\ \\(Disc.*\\)" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, [resultGameTitle length])];
 
-                NSMutableDictionary *mutableDict = [result mutableCopy];
-                [mutableDict setObject:newGameTitle forKey:@"gameTitle"];
-                result = [mutableDict mutableCopy];
+                    NSMutableDictionary *mutableDict = [result mutableCopy];
+                    [mutableDict setObject:newGameTitle forKey:@"gameTitle"];
+                    result = [mutableDict mutableCopy];
+                }
             }
 
             NSMutableDictionary *dict = [@{ @"objectID" : objectID, @"status" : @(OEDBGameStatusOK) } mutableCopy];

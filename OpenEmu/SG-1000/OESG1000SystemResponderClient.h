@@ -36,12 +36,13 @@ typedef enum _OESG1000Button
     OESG1000ButtonRight,
     OESG1000Button1,
     OESG1000Button2,
-    OESG1000ButtonCount,
+    OESG1000ButtonPause,
+    OESG1000ButtonCount
 } OESG1000Button;
 
 @protocol OESG1000SystemResponderClient <OESystemResponderClient, NSObject>
 
-- (oneway void)didPushSG1000Button:(OESG1000Button)button;
-- (oneway void)didReleaseSG1000Button:(OESG1000Button)button;
+- (oneway void)didPushSG1000Button:(OESG1000Button)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseSG1000Button:(OESG1000Button)button forPlayer:(NSUInteger)player;
 
 @end

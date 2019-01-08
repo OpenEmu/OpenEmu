@@ -132,8 +132,6 @@
 
 "Could not move library data!" = "Could not move library data!";
 
-"Couldn't connect to the background process." = "Couldn't connect to the background process.";
-
 "Couldn't load %@ plugin" = "Couldn't load %@ plugin";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.";
@@ -182,8 +180,6 @@
 
 "Do not ask me again" = "Do not ask me again";
 
-"Do Not Save" = "Do Not Save";
-
 "Do not show me again" = "Do not show me again";
 
 "Do you really want to cancel the import process?" = "Do you really want to cancel the import process?";
@@ -210,7 +206,7 @@
 
 "Duplicate Collection" = "Duplicate Collection";
 
-"Edit Game Controls" = "Edit Game Controls";
+"Edit Game Controls…" = "Edit Game Controls…";
 
 "Enable now" = "Enable now";
 
@@ -247,6 +243,8 @@
 "In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information.";
 
 "In order to play the game it must be downloaded." = "In order to play the game it must be downloaded.";
+
+"Insert Cart/Disk/Tape…" = "Insert Cart/Disk/Tape…";
 
 "Install" = "Install";
 
@@ -386,6 +384,8 @@
 
 "Resume Emulation" = "Resume Emulation";
 
+"Resume Gameplay" = "Resume Gameplay";
+
 "Resume" = "Resume";
 
 "Save As:" = "Save As:";
@@ -395,8 +395,6 @@
 "Save Game" = "Save Game";
 
 "Save States" = "Save States";
-
-"Save to Slot %d" = "Save to Slot %d";
 
 "Save-Game-%ld %@" = "Save-Game-%ld %@";
 
@@ -416,15 +414,17 @@
 
 "Select Audio Output Device" = "Select Audio Output Device";
 
-"Select Cheat" = "Select Cheat";
+"Select Cheat" = "Cheats";
 
-"Select Core" = "Select Core";
+"Select Core" = "Cores";
 
-"Select Disc" = "Select Disc";
+"Select Disc" = "Discs";
 
-"Select Filter" = "Select Filter";
+"Select Display Mode" = "Display Modes";
 
-"Select Scale" = "Select Scale";
+"Select Filter" = "Filters";
+
+"Select Scale" = "Scale";
 
 "Share" = "Share";
 
@@ -433,8 +433,6 @@
 "Slot %d" = "Slot %d";
 
 "Slot %ld" = "Slot %ld";
-
-"Slot 1" = "Slot 1";
 
 "Some migrations failed to complete properly" = "Some migrations failed to complete properly";
 
@@ -458,10 +456,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "The %1$@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %2$@.";
 
-"The background process connection couldn't be established" = "The background process connection couldn't be established";
-
-"The background process couldn't be launched" = "The background process couldn't be launched";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "The battery in device number %1$lu, %2$@, is low. Please charge or replace the battery.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "The core could not be downloaded. Try installing it from the Cores preferences.";
@@ -473,8 +467,6 @@
 "The game '%@' was imported." = "The game '%@' was imported.";
 
 "The OpenEmu Library could not be found." = "The OpenEmu Library could not be found.";
-
-"The root proxy object is nil." = "The root proxy object is nil.";
 
 "The System plugin could not be found!" = "The System plugin could not be found!";
 
@@ -536,6 +528,12 @@
 
 "Category" = "Category";   // shown when the corresponding item does not fit in the main window's toolbar
 
+"An issue was detected with one of your controllers." = "An issue was detected with one of your controllers.";  // Headline for bindings repaired alert
+
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.";  // Message for bindings repaired alert
+
+"Keycode 0x%lX" = "Keycode 0x%lX";  // Fallback for unknown keys
+
 
 /* Secrets */
 
@@ -577,9 +575,7 @@
 
 "Show options button" = "Show options button";
 
-"Show quicksave notification during gameplay" = "Show quicksave notification during gameplay";
-
-"Show screenshot notification during gameplay" = "Show screenshot notification during gameplay";
+"Show notifications during gameplay" = "Show notifications during gameplay";
 
 "Use quicksave slots" = "Use quicksave slots";
 
@@ -612,8 +608,6 @@
 "Log Keyboard Events" = "Log Keyboard Events";
 
 "Show all global keys" = "Show all global keys";
-
-"Always show BIOS preferences" = "Always show BIOS preferences";
 
 "Set default save states directory" = "Set default save states directory";
 
@@ -658,3 +652,7 @@
 "ECM compressed binary detected." = "ECM compressed binary detected.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";
+
+"Threshold for analog controls bound to buttons" = "Threshold for analog controls bound to buttons";
+
+"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences

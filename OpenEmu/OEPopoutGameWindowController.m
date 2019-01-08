@@ -440,7 +440,7 @@ typedef enum
 
     [NSCursor hide];
     [[gameViewController controlsWindow] setCanShow:NO];
-    [[gameViewController controlsWindow] hide];
+    [[gameViewController controlsWindow] hideAnimated:YES];
 }
 
 - (NSArray *)customWindowsToEnterFullScreenForWindow:(NSWindow *)window
@@ -513,7 +513,7 @@ typedef enum
     if(_resumePlayingAfterFullScreenTransition)
         [[self document] setEmulationPaused:NO];
 
-    [[gameViewController controlsWindow] hide];
+    [[gameViewController controlsWindow] hideAnimated:YES];
     [[gameViewController controlsWindow] setCanShow:YES];
     [NSCursor unhide];
 }
@@ -529,7 +529,7 @@ typedef enum
     
     [NSCursor hide];
     [[gameViewController controlsWindow] setCanShow:NO];
-    [[gameViewController controlsWindow] hide];
+    [[gameViewController controlsWindow] hideAnimated:YES];
 }
 
 - (NSArray *)customWindowsToExitFullScreenForWindow:(NSWindow *)window
@@ -608,13 +608,10 @@ typedef enum
 
     _fullScreenStatus = _OEPopoutGameWindowFullScreenStatusNonFullScreen;
 
-    [[self window] setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
-    [[self window] makeKeyAndOrderFront:self];
-
     if(_resumePlayingAfterFullScreenTransition)
         [[self document] setEmulationPaused:NO];
 
-    [[gameViewController controlsWindow] hide];
+    [[gameViewController controlsWindow] hideAnimated:YES];
     [[gameViewController controlsWindow] setCanShow:YES];
     [NSCursor unhide];
 }

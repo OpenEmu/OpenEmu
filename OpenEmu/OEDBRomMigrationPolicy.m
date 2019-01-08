@@ -27,6 +27,7 @@
 #import "OEDBRomMigrationPolicy.h"
 #import <XADMaster/XADArchive.h>
 #import "OELibraryDatabase.h"
+#import "NSArray+OEAdditions.h"
 
 #import "OpenEmu-Swift.h"
 
@@ -104,12 +105,12 @@ extern NSString *const OELibraryRomsFolderURLKey;
         NSURL *romsFolderURL = [self romsFolderURLWithPersistentStoreCoordinator:coord];
         NSString *urlString = [oldObject valueForKey:@"location"];
         NSURL *url = nil;
-        if([urlString rangeOfString:@"file://"].location == NSNotFound)
+        if(![urlString containsString:@"file://"])
              url = [NSURL URLWithString:urlString relativeToURL:romsFolderURL];
         else
             url = [NSURL URLWithString:urlString];
 
-        NSURL *relativeURL = [url urlRelativeToURL:romsFolderURL];
+        NSURL *relativeURL = [url URLRelativeToURL:romsFolderURL];
         NSString *location = relativeURL.relativeString;
         if(location)
         {
@@ -136,7 +137,7 @@ extern NSString *const OELibraryRomsFolderURLKey;
     if(metadata[OELibraryRomsFolderURLKey])
     {
         NSString *urlString = metadata[OELibraryRomsFolderURLKey];
-        if([urlString rangeOfString:@"file://"].location == NSNotFound)
+        if(![urlString containsString:@"file://"])
              result = [NSURL URLWithString:urlString relativeToURL:databaseFolderURL];
         else result = [NSURL URLWithString:urlString];
     }

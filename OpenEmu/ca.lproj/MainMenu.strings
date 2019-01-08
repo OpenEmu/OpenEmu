@@ -2,12 +2,6 @@
 /* Class = "NSWindow"; title = "About"; ObjectID = "793"; */
 "793.title" = "Quant a";
 
-/* Class = "NSTextFieldCell"; title = "Label"; ObjectID = "803"; */
-"803.title" = "Etiqueta";
-
-/* Class = "NSMenu"; title = "bb"; ObjectID = "970"; */
-"970.title" = "bb";
-
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "971"; */
 "971.title" = "Edita";
 
@@ -79,21 +73,6 @@
 
 /* Class = "NSMenuItem"; title = "None"; ObjectID = "1000"; */
 "1000.title" = "Cap";
-
-/* Class = "NSMenuItem"; title = "★★"; ObjectID = "1001"; */
-"1001.title" = "★★";
-
-/* Class = "NSMenuItem"; title = "★★★"; ObjectID = "1002"; */
-"1002.title" = "★★★";
-
-/* Class = "NSMenuItem"; title = "★★★★"; ObjectID = "1003"; */
-"1003.title" = "★★★★";
-
-/* Class = "NSMenuItem"; title = "★"; ObjectID = "1004"; */
-"1004.title" = "★";
-
-/* Class = "NSMenuItem"; title = "★★★★★"; ObjectID = "1005"; */
-"1005.title" = "★★★★★";
 
 /* Class = "NSMenu"; title = "Library"; ObjectID = "1006"; */
 "1006.title" = "Biblioteca";
@@ -200,24 +179,6 @@
 /* Class = "NSMenu"; title = "Last Played"; ObjectID = "1054"; */
 "1054.title" = "Jugats últimament";
 
-/* Class = "NSMenuItem"; title = "SNES"; ObjectID = "1055"; */
-"1055.title" = "SNES";
-
-/* Class = "NSMenuItem"; title = "Super Mario World"; ObjectID = "1056"; */
-"1056.title" = "Super Mario World";
-
-/* Class = "NSMenuItem"; title = "Mario Kart"; ObjectID = "1057"; */
-"1057.title" = "Mario Kart";
-
-/* Class = "NSMenuItem"; title = "Secret Of Mana"; ObjectID = "1058"; */
-"1058.title" = "Secret Of Mana";
-
-/* Class = "NSMenuItem"; title = "3DO"; ObjectID = "1059"; */
-"1059.title" = "3DO";
-
-/* Class = "NSMenuItem"; title = "Demolition Man"; ObjectID = "1060"; */
-"1060.title" = "Demolition Man";
-
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "1061"; */
 "1061.title" = "Edita";
 
@@ -266,12 +227,6 @@
 /* Class = "NSMenuItem"; title = "Stop Emulation"; ObjectID = "1167"; */
 "1167.title" = "Atura l'emulació";
 
-/* Class = "NSTextFieldCell"; title = "Version"; ObjectID = "1182"; */
-"1182.title" = "Versió";
-
-/* Class = "BindingConnection"; ibShadowedDisplayPattern = "%{value1}@"; ObjectID = "1185"; */
-"1185.ibShadowedDisplayPattern" = "%{value1}@";
-
 /* Class = "NSMenuItem"; title = "Debug"; ObjectID = "1208"; */
 "1208.title" = "Debug";
 
@@ -299,9 +254,6 @@
 /* Class = "NSMenuItem"; title = "Restart System"; ObjectID = "2rj-Sq-LdF"; */
 "2rj-Sq-LdF.title" = "Reinicia el sistema";
 
-/* Class = "NSButtonCell"; title = "www.openemu.org"; ObjectID = "50H-ys-sAp"; */
-"50H-ys-sAp.title" = "www.openemu.org";
-
 /* Class = "NSMenuItem"; title = "Release Notes"; ObjectID = "5YI-Il-P9H"; */
 "5YI-Il-P9H.title" = "Notes de llançament";
 
@@ -314,9 +266,6 @@
 /* Class = "NSMenuItem"; title = "Always Hide HUD"; ObjectID = "ayc-Ld-Nyd"; */
 "ayc-Ld-Nyd.title" = "Amaga sempre el HUD";
 
-/* Class = "BindingConnection"; ibShadowedDisplayPattern = "OpenEmu v%{value1}@"; ObjectID = "dC7-Fu-BLw"; */
-"dC7-Fu-BLw.ibShadowedDisplayPattern" = "OpenEmu v%{value1}@";
-
 /* Class = "NSMenuItem"; title = "Submit Feedback…"; ObjectID = "ftM-3D-CSh"; */
 "ftM-3D-CSh.title" = "Doneu-nos la vostra opinió…";
 
@@ -326,5 +275,8 @@
 /* Class = "NSMenuItem"; title = "User Guide"; ObjectID = "q7W-GV-n3p"; */
 "q7W-GV-n3p.title" = "Guia d'usuari";
 
-/* Class = "NSButtonCell"; title = "www.github.com/openemu"; ObjectID = "y9C-BZ-tbY"; */
-"y9C-BZ-tbY.title" = "www.github.com/openemu";
+/* Class = "NSMenuItem"; title = "Next Display Mode"; ObjectID = "VVR-iO-axh"; */
+"VVR-iO-axh.title" = "Mode de visualització següent";
+
+/* Class = "NSMenuItem"; title = "Last Display Mode"; ObjectID = "HzI-NP-sNP"; */
+"HzI-NP-sNP.title" = "Mode de visualització anterior";

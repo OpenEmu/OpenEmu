@@ -38,7 +38,7 @@ typedef enum _OESVButton
     OESVButtonB,
     OESVButtonStart,
     OESVButtonSelect,
-    OESVButtonCount,
+    OESVButtonCount
 } OESVButton;
 
 @protocol OESVSystemResponderClient <OESystemResponderClient, NSObject>

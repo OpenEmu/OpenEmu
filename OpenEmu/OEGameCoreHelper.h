@@ -48,6 +48,9 @@
 
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 - (void)setDisc:(NSUInteger)discNumber;
+- (void)changeDisplayWithMode:(NSString *)displayMode;
+
+- (void)insertFileAtURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block;
 
 - (void)handleMouseEvent:(OEEvent *)event;
 
@@ -74,9 +77,16 @@
 - (void)resetEmulation;
 - (void)toggleEmulationPaused;
 - (void)takeScreenshot;
+- (void)fastForwardGameplay:(BOOL)enable;
+- (void)rewindGameplay:(BOOL)enable;
+- (void)stepGameplayFrameForward;
+- (void)stepGameplayFrameBackward;
+- (void)nextDisplayMode;
+- (void)lastDisplayMode;
 
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize;
 - (void)setDiscCount:(NSUInteger)discCount;
+- (void)setDisplayModes:(NSArray <NSDictionary <NSString *, id> *> *)displayModes;
 - (void)setRemoteContextID:(NSUInteger)contextID;
 
 @end

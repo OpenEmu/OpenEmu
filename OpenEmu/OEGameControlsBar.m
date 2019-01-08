@@ -30,7 +30,6 @@
 #import "OESlider.h"
 #import "OESliderCell.h"
 
-#import "OEMenu.h"
 #import "OEDBRom.h"
 
 #import "OEShaderPlugin.h"
@@ -188,13 +187,18 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [[self animator] setAlphaValue:1.0];
 }
 
-- (void)hide
+- (void)hideAnimated:(BOOL)animated
 {
     [NSCursor setHiddenUntilMouseMoves:YES];
 
     // only hide if 'docked' to game window (aka on the same screen)
     if([self parentWindow])
-        [[self animator] setAlphaValue:0.0];
+    {
+        if(animated)
+            [[self animator] setAlphaValue:0.0];
+        else
+            [self setAlphaValue:0];
+    }
 
     [_fadeTimer invalidate];
     _fadeTimer = nil;
@@ -249,7 +253,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             [_fadeTimer invalidate];
             _fadeTimer = nil;
 
-            [self hide];
+            [self hideAnimated:YES];
         }
         else
         {
@@ -342,8 +346,15 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     NSMenu *menu = [[NSMenu alloc] init];
 
     NSMenuItem *item;
-    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Game Controls", @"") action:@selector(editControls:) keyEquivalent:@""];
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Game Controls…", @"") action:@selector(editControls:) keyEquivalent:@""];
     [menu addItem:item];
+
+    // Insert Cart/Disk/Tape Menu
+    if([[self gameViewController] supportsFileInsertion])
+    {
+        item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Insert Cart/Disk/Tape…", @"") action:@selector(insertFile:) keyEquivalent:@""];
+        [menu addItem:item];
+    }
 
     // Setup Cheats Menu
     if([[self gameViewController] supportsCheats])
@@ -429,6 +440,86 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         }
     }
 
+    // Setup Change Display Mode Menu
+    if(self.gameViewController.supportsDisplayModeChange && self.gameViewController.displayModes.count > 0)
+    {
+        NSMenu *displayMenu = [NSMenu new];
+        displayMenu.autoenablesItems = NO;
+        displayMenu.title = NSLocalizedString(@"Select Display Mode", @"");
+        item = [NSMenuItem new];
+        item.title = displayMenu.title;
+        [menu addItem:item];
+        item.submenu = displayMenu;
+
+        NSString *mode;
+        BOOL selected, enabled;
+        NSInteger indentationLevel;
+
+        for (NSDictionary *modeDict in self.gameViewController.displayModes)
+        {
+            if (modeDict[OEGameCoreDisplayModeSeparatorItemKey])
+            {
+                [displayMenu addItem:[NSMenuItem separatorItem]];
+                continue;
+            }
+
+            mode             =  modeDict[OEGameCoreDisplayModeNameKey] ?:
+                                modeDict[OEGameCoreDisplayModeLabelKey];
+            selected         = [modeDict[OEGameCoreDisplayModeStateKey] boolValue];
+            enabled          =  modeDict[OEGameCoreDisplayModeLabelKey] ? NO : YES;
+            indentationLevel = [modeDict[OEGameCoreDisplayModeIndentationLevelKey] integerValue] ?: 0;
+
+            // Submenu group
+            if (modeDict[OEGameCoreDisplayModeGroupNameKey])
+            {
+                // Setup Submenu
+                NSMenu *displaySubmenu = [NSMenu new];
+                displaySubmenu.autoenablesItems = NO;
+                displaySubmenu.title = modeDict[OEGameCoreDisplayModeGroupNameKey];
+                item = [NSMenuItem new];
+                item.title = displaySubmenu.title;
+                [displayMenu addItem:item];
+                item.submenu = displaySubmenu;
+
+                // Submenu items
+                for (NSDictionary *subModeDict in modeDict[OEGameCoreDisplayModeGroupItemsKey])
+                {
+                    // Disallow deeper submenus
+                    if (subModeDict[OEGameCoreDisplayModeGroupNameKey])
+                        continue;
+
+                    if (subModeDict[OEGameCoreDisplayModeSeparatorItemKey])
+                    {
+                        [displaySubmenu addItem:[NSMenuItem separatorItem]];
+                        continue;
+                    }
+
+                    mode             =  subModeDict[OEGameCoreDisplayModeNameKey] ?:
+                                        subModeDict[OEGameCoreDisplayModeLabelKey];
+                    selected         = [subModeDict[OEGameCoreDisplayModeStateKey] boolValue];
+                    enabled          =  subModeDict[OEGameCoreDisplayModeLabelKey] ? NO : YES;
+                    indentationLevel = [subModeDict[OEGameCoreDisplayModeIndentationLevelKey] integerValue] ?: 0;
+
+                    NSMenuItem *displaySubmenuItem = [[NSMenuItem alloc] initWithTitle:mode action:@selector(changeDisplayMode:) keyEquivalent:@""];
+                    displaySubmenuItem.representedObject = subModeDict;
+                    displaySubmenuItem.state = selected ? NSOnState : NSOffState;
+                    displaySubmenuItem.enabled = enabled;
+                    displaySubmenuItem.indentationLevel = indentationLevel;
+                    [displaySubmenu addItem:displaySubmenuItem];
+                }
+
+                continue;
+            }
+
+            NSMenuItem *displayMenuItem = [[NSMenuItem alloc] initWithTitle:mode action:@selector(changeDisplayMode:) keyEquivalent:@""];
+            displayMenuItem.representedObject = modeDict;
+            displayMenuItem.state = selected ? NSOnState : NSOffState;
+            displayMenuItem.enabled = enabled;
+            displayMenuItem.indentationLevel = indentationLevel;
+            [displayMenu addItem:displayMenuItem];
+        }
+    }
+
     // Setup Video Filter Menu
     NSMenu *filterMenu = [[NSMenu alloc] init];
     [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];
@@ -507,22 +598,12 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             }
     }
 
-    // Create OEMenu and display it
     [menu setDelegate:self];
 
-    NSRect targetRect = [sender bounds];
-    targetRect.size.width -= 7.0;
-    targetRect = NSInsetRect(targetRect, -2.0, 1.0);
-    targetRect = [self convertRectToScreen:[sender convertRect:targetRect toView:nil]];
-
-    NSDictionary *options = @{
-        OEMenuOptionsStyleKey : @(OEMenuStyleLight),
-        OEMenuOptionsArrowEdgeKey : @(OEMinYEdge),
-        OEMenuOptionsMaximumSizeKey : [NSValue valueWithSize:NSMakeSize(500, 256)],
-        OEMenuOptionsScreenRectKey : [NSValue valueWithRect:targetRect]
-    };
-
-    [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
+    // Display menu.
+    NSRect targetRect = NSInsetRect([sender bounds], -2.0, 1.0);
+    NSPoint menuPosition = NSMakePoint(NSMinX(targetRect), NSMaxY(targetRect));
+    [menu popUpMenuPositioningItem:nil atLocation:menuPosition inView:sender];
 }
 
 - (void)showSaveMenu:(id)sender
@@ -620,19 +701,10 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         }
     }
 
-    NSRect targetRect = [sender bounds];
-    targetRect.size.width -= 7.0;
-    targetRect = NSInsetRect(targetRect, -2.0, 1.0);
-    targetRect = [self convertRectToScreen:[sender convertRect:targetRect toView:nil]];
-
-    NSDictionary *options = @{
-        OEMenuOptionsStyleKey : @(OEMenuStyleLight),
-        OEMenuOptionsArrowEdgeKey : @(OEMinYEdge),
-        OEMenuOptionsMaximumSizeKey : [NSValue valueWithSize:NSMakeSize(500, 256)],
-        OEMenuOptionsScreenRectKey : [NSValue valueWithRect:targetRect]
-    };
-
-    [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
+    // Display menu.
+    NSRect targetRect = NSInsetRect([sender bounds], -2.0, 1.0);
+    NSPoint menuPosition = NSMakePoint(NSMinX(targetRect), NSMaxY(targetRect));
+    [menu popUpMenuPositioningItem:nil atLocation:menuPosition inView:sender];
 }
 
 #pragma mark - OEMenuDelegate Implementation
@@ -667,6 +739,11 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     OEHUDControlsBarView *view        = [[[self contentView] subviews] lastObject];
     NSButton             *pauseButton = [view pauseButton];
     [pauseButton setState:!isEmulationRunning];
+
+    if(isEmulationRunning)
+        [pauseButton setToolTip:NSLocalizedString(@"Pause Gameplay", @"Tooltip")];
+    else
+        [pauseButton setToolTip:NSLocalizedString(@"Resume Gameplay", @"Tooltip")];
 
     if(isEmulationRunning && !_cheatsLoaded)
         [self OE_loadCheats];
