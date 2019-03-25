@@ -102,7 +102,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         guard let label = label(forSegment: i) else {
             return 40.0;
         }
-        let attributes: [NSAttributedStringKey: Any] = [
+        let attributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.systemFont(ofSize: 11, weight: NSFont.Weight(rawValue: 0.1))]
         let attributedString = NSAttributedString(string: label, attributes: attributes)
         return attributedString.size().width + 20.0
@@ -301,7 +301,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             textShadow.shadowColor = NSColor(deviceWhite: 0, alpha: 0.4)
         }
         
-        let attributes: [NSAttributedStringKey: Any] = [
+        let attributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.systemFont(ofSize: 11, weight: NSFont.Weight(rawValue: 0.1)),
             .foregroundColor: textColor,
             .shadow: textShadow]

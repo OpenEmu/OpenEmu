@@ -62,7 +62,7 @@ class GameScannerViewController: NSViewController {
     }
     
     override var nibName: NSNib.Name? {
-        return NSNib.Name(rawValue: "OEGameScanner")
+        return "OEGameScanner"
     }
     
     override func awakeFromNib() {
@@ -351,7 +351,7 @@ class GameScannerViewController: NSViewController {
             hideGameScannerView(animated: true)
         }
         
-        dismissViewController(self)
+        dismiss(self)
     }
     
     @IBAction func buttonAction(_ sender: Any?) {
@@ -379,7 +379,7 @@ class GameScannerViewController: NSViewController {
                 
                 button.state = .off
                 
-                dismissViewController(self)
+                dismiss(self)
                 
             } else {
                 importer.start()
