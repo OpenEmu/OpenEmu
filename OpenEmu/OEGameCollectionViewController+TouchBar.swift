@@ -28,7 +28,7 @@ import Cocoa
 
 @available(OSX 10.12.2, *)
 fileprivate extension NSTouchBar.CustomizationIdentifier {
-    static let touchBar = NSTouchBar.CustomizationIdentifier("org.openemu.OEGameCollectionViewController.play")
+    static let touchBar = "org.openemu.OEGameCollectionViewController.play"
 }
 
 @available(OSX 10.12.2, *)
@@ -71,7 +71,7 @@ extension OEGameCollectionViewController: NSTouchBarDelegate {
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Delete", comment: "")
             
-            let button = NSButton(image: NSImage(named: .touchBarDeleteTemplate)!, target: nil, action: #selector(deleteSelectedItems(_:)))
+            let button = NSButton(image: NSImage(named: NSImage.touchBarDeleteTemplateName)!, target: nil, action: #selector(deleteSelectedItems(_:)))
             
             button.isEnabled = !selectionIndexes.isEmpty
             button.bezelColor = #colorLiteral(red: 0.5665243268, green: 0.2167189717, blue: 0.2198875844, alpha: 1)
@@ -85,7 +85,7 @@ extension OEGameCollectionViewController: NSTouchBarDelegate {
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Play", comment: "")
             
-            let button = NSButton(image: NSImage(named: .touchBarPlayTemplate)!, target: nil, action: #selector(OELibraryController.startSelectedGame(_:)))
+            let button = NSButton(image: NSImage(named: NSImage.touchBarPlayTemplateName)!, target: nil, action: #selector(OELibraryController.startSelectedGame(_:)))
             
             button.isEnabled = selectionIndexes.count == 1
             

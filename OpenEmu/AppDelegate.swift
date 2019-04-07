@@ -45,8 +45,8 @@ class AppDelegate: NSDocumentController {
     @IBOutlet weak var aboutWindow: NSWindow!
     @IBOutlet weak var fileMenu: NSMenu!
     
-    lazy var mainWindowController = OEMainWindowController(windowNibName: NSNib.Name(rawValue: "MainWindow"))
-    lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: NSNib.Name(rawValue: "Preferences"))
+    lazy var mainWindowController = OEMainWindowController(windowNibName: "MainWindow")
+    lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: "Preferences")
     
     dynamic var aboutCreditsPath: String {
         return Bundle.main.path(forResource: "Credits", ofType: "rtf")!
@@ -70,7 +70,7 @@ class AppDelegate: NSDocumentController {
         let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paragraphStyle.alignment = .center
         paragraphStyle.lineHeightMultiple = 1.225
-        let attributes: [NSAttributedStringKey: Any] = [
+        let attributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize),
             .paragraphStyle: paragraphStyle,
             .foregroundColor: NSColor.white
@@ -215,7 +215,7 @@ class AppDelegate: NSDocumentController {
     override func removeDocument(_ document: NSDocument) {
         
         if let document = document as? OEGameDocument {
-            gameDocuments.remove(at: gameDocuments.index(of: document)!)
+            gameDocuments.remove(at: gameDocuments.firstIndex(of: document)!)
         }
         
         super.removeDocument(document)
@@ -945,10 +945,10 @@ extension AppDelegate: NSMenuDelegate {
         var items = controlsMenu.items
         controlsMenu.removeAllItems()
         
-        let loadItemIndex = items.index(of: currentLoadItem)!
+        let loadItemIndex = items.firstIndex(of: currentLoadItem)!
         items[loadItemIndex] = newLoadItem
         
-        let saveItemIndex = items.index(of: currentSaveItem)!
+        let saveItemIndex = items.firstIndex(of: currentSaveItem)!
         items[saveItemIndex] = newSaveItem
         
         for item in items {

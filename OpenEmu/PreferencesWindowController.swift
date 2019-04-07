@@ -42,14 +42,14 @@ class PreferencesWindowController: NSWindowController {
     
     @IBOutlet var backgroundView: OEBackgroundColorView!
     
-    let konamiCode = [NSUpArrowFunctionKey,
-                      NSUpArrowFunctionKey,
-                      NSDownArrowFunctionKey,
-                      NSDownArrowFunctionKey,
-                      NSLeftArrowFunctionKey,
-                      NSRightArrowFunctionKey,
-                      NSLeftArrowFunctionKey,
-                      NSRightArrowFunctionKey,
+    let konamiCode = [NSEvent.SpecialKey.upArrow.rawValue,
+                      NSEvent.SpecialKey.upArrow.rawValue,
+                      NSEvent.SpecialKey.downArrow.rawValue,
+                      NSEvent.SpecialKey.downArrow.rawValue,
+                      NSEvent.SpecialKey.leftArrow.rawValue,
+                      NSEvent.SpecialKey.rightArrow.rawValue,
+                      NSEvent.SpecialKey.leftArrow.rawValue,
+                      NSEvent.SpecialKey.rightArrow.rawValue,
                       98, // 'b'
                       97] // 'a'
     var konamiCodeIndex = 0
@@ -124,7 +124,7 @@ extension PreferencesWindowController: NSWindowDelegate {
                     let debugModeActivated = !defaults.bool(forKey: PreferencesWindowController.debugModeKey)
                     defaults.set(debugModeActivated, forKey: PreferencesWindowController.debugModeKey)
                     
-                    NSSound(named: NSSound.Name(rawValue: "secret"))!.play()
+                    NSSound(named: "secret")!.play()
                     
                     self.preferencesTabViewController.toggleDebugPaneVisibility()
                     
@@ -184,7 +184,7 @@ class PreferencesTabViewController: NSTabViewController {
         
         // Check defaults for a pane to select.
         var indexOfPaneToSelect = defaults.integer(forKey: PreferencesWindowController.selectedPreferencesTabKey)
-        if !(0..<childViewControllers.count ~= indexOfPaneToSelect) {
+        if !(0..<children.count ~= indexOfPaneToSelect) {
             indexOfPaneToSelect = 0
         }
         
@@ -268,13 +268,13 @@ class PreferencesTabViewController: NSTabViewController {
     
     func toggleDebugPaneVisibility() {
         
-        if let debugPaneIndex = childViewControllers.index(where: { $0 is OEPrefDebugController }) {
+        if let debugPaneIndex = children.firstIndex(where: { $0 is OEPrefDebugController }) {
             
             if selectedTabViewItemIndex == debugPaneIndex {
                 tabView.selectTabViewItem(at: 0)
             }
             
-            removeChildViewController(at: debugPaneIndex)
+            removeChild(at: debugPaneIndex)
             
         } else {
             

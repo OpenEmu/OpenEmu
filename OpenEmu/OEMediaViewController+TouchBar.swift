@@ -28,8 +28,8 @@ import Cocoa
 
 @available(OSX 10.12.2, *)
 fileprivate extension NSTouchBar.CustomizationIdentifier {
-    static let saveStatesTouchBar = NSTouchBar.CustomizationIdentifier("org.openemu.OEMediaViewController.saveStatesTouchBar")
-    static let screenshotsTouchBar = NSTouchBar.CustomizationIdentifier("org.openemu.OEMediaViewController.screenshotsTouchBar")
+    static let saveStatesTouchBar = "org.openemu.OEMediaViewController.saveStatesTouchBar"
+    static let screenshotsTouchBar = "org.openemu.OEMediaViewController.screenshotsTouchBar"
 }
 
 @available(OSX 10.12.2, *)
@@ -98,7 +98,7 @@ extension OEMediaViewController: NSTouchBarDelegate {
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Delete", comment: "")
             
-            let button = NSButton(image: NSImage(named: .touchBarDeleteTemplate)!, target: nil, action: #selector(deleteSelectedItems(_:)))
+            let button = NSButton(image: NSImage(named: NSImage.touchBarDeleteTemplateName)!, target: nil, action: #selector(deleteSelectedItems(_:)))
             
             button.isEnabled = !selectionIndexes.isEmpty
             button.bezelColor = #colorLiteral(red: 0.5665243268, green: 0.2167189717, blue: 0.2198875844, alpha: 1)
@@ -112,7 +112,7 @@ extension OEMediaViewController: NSTouchBarDelegate {
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Resume Game", comment: "")
             
-            let button = NSButton(image: NSImage(named: .touchBarPlayTemplate)!, target: nil, action: #selector(OELibraryController.startSaveState(_:)))
+            let button = NSButton(image: NSImage(named: NSImage.touchBarPlayTemplateName)!, target: nil, action: #selector(OELibraryController.startSaveState(_:)))
             
             button.isEnabled = selectionIndexes.count == 1
             
@@ -125,7 +125,7 @@ extension OEMediaViewController: NSTouchBarDelegate {
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Show In Finder", comment: "")
             
-            let button = NSButton(image: NSImage(named: .revealFreestandingTemplate)!, target: nil, action: #selector(showInFinder(_:)))
+            let button = NSButton(image: NSImage(named: NSImage.revealFreestandingTemplateName)!, target: nil, action: #selector(showInFinder(_:)))
             
             button.isEnabled = !selectionIndexes.isEmpty
             
