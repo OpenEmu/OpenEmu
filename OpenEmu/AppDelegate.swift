@@ -450,7 +450,7 @@ class AppDelegate: NSDocumentController {
         // Set up alert with "Quit", "Select", and "Create".
         let alert = OEHUDAlert()
         
-        alert.headlineText = NSLocalizedString("Chose OpenEmu Library", comment: "")
+        alert.headlineText = NSLocalizedString("Choose OpenEmu Library", comment: "")
         alert.messageText = NSLocalizedString("OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one", comment: "")
         
         alert.defaultButtonTitle = NSLocalizedString("Choose Library…", comment: "")
