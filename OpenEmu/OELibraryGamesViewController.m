@@ -189,7 +189,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
         
         alert.messageText = NSLocalizedString(@"Have you read the guide?", @"");
         alert.informativeText = NSLocalizedString(@"Disc-based games have special requirements. Please read the disc importing guide.", @"");
-        alert.alertStyle = NSInformationalAlertStyle;
+        alert.alertStyle = NSAlertStyleInformational;
         [alert addButtonWithTitle:NSLocalizedString(@"View Guide in Browser", @"")];
         [alert addButtonWithTitle:NSLocalizedString(@"Dismiss", @"")];
                 

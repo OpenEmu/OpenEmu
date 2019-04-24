@@ -284,7 +284,7 @@ typedef enum
     NSScreen *mainScreen                     = [[NSScreen screens] objectAtIndex:0];
     const NSRect screenFrame                 = [mainScreen frame];
     _screenshotWindow  = [[OEScreenshotWindow alloc] initWithContentRect:screenFrame
-                                                               styleMask:NSBorderlessWindowMask
+                                                               styleMask:NSWindowStyleMaskBorderless
                                                                  backing:NSBackingStoreBuffered
                                                                    defer:NO];
     [_screenshotWindow setBackgroundColor:[NSColor clearColor]];

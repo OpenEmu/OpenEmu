@@ -242,7 +242,7 @@ const CGFloat BadgeSpacing = 2.0;
 	NSRect imageFrame = [self imageRectForBounds:cellFrame];
     if([self image] != nil)
     {
-		[[self image] drawInRect:imageFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+        [[self image] drawInRect:imageFrame fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
 	
 	NSRect titleFrame = [self titleRectForBounds:cellFrame];

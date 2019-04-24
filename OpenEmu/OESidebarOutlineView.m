@@ -104,7 +104,7 @@
 {
     // ignore control-clicks, those will go directly to -menuForEvent:
     // before eventually arriving here
-    if([theEvent modifierFlags] & NSControlKeyMask)
+    if([theEvent modifierFlags] & NSEventModifierFlagControl)
         return;
 
     [super mouseDown:theEvent];

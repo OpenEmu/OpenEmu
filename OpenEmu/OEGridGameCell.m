@@ -632,7 +632,7 @@ static NSDictionary *disabledActions = nil;
     for(CGFloat y = 0.0; y < size.height; y += scanLineImageSize.height)
     {
         scanLineRect.origin.y = y;
-        [scanLineImage drawInRect:scanLineRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+        [scanLineImage drawInRect:scanLineRect fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
     }
 
     [currentContext restoreGraphicsState];

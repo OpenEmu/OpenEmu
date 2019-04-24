@@ -93,7 +93,7 @@
     const NSRect bounds = [self bounds];
     OEThemeState themeState = self.state==NSOnState ? OEThemeInputStateFocused : OEThemeStateDefault;
     NSImage *image = [[OETheme sharedTheme] imageForKey:@"wood_textfield" forState:themeState];
-    [image drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    [image drawInRect:bounds fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     

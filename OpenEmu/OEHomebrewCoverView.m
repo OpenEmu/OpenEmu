@@ -82,7 +82,7 @@ const static NSLock *lock;
     NSProgressIndicator *indicator = [[NSProgressIndicator alloc] initWithFrame:NSZeroRect];
     [indicator setIndeterminate:YES];
     [indicator setStyle:NSProgressIndicatorSpinningStyle];
-    [indicator setControlSize:NSRegularControlSize];
+    [indicator setControlSize:NSControlSizeRegular];
     [indicator setHidden:YES];
     [indicator setUsesThreadedAnimation:YES];
 
@@ -230,7 +230,7 @@ const static NSLock *lock;
         [shadow setShadowColor:[NSColor blackColor]];
         [shadow set];
 
-        [image drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
+        [image drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0 respectFlipped:YES hints:nil];
         [[NSGraphicsContext currentContext] restoreGraphicsState];
     }
 

@@ -77,7 +77,7 @@
     NSRect trackRect = [self trackRect];
     
     OEThemeState currentState = [self currentState];
-    [[trackImage imageForState:currentState] drawInRect:trackRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    [[trackImage imageForState:currentState] drawInRect:trackRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     [NSGraphicsContext saveGraphicsState];
 
     [[NSGraphicsContext currentContext] setColorRenderingIntent:NSColorRenderingIntentDefault];
@@ -87,14 +87,14 @@
     NSRect candyRect = NSMakeRect([self candyOffset]-10, 2, 10, 10);
     while(NSMinX(candyRect) < NSMaxX(dirtyRect))
     {
-        [[candyImage imageForState:currentState] drawInRect:candyRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+        [[candyImage imageForState:currentState] drawInRect:candyRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
         candyRect.origin.x += NSWidth(candyRect);
     }
     [NSGraphicsContext restoreGraphicsState];
     if([self doubleValue] != [self minValue])
     {
         NSRect progressRect = [self progressRect];
-        [[barImage imageForState:currentState] drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+        [[barImage imageForState:currentState] drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
 }
 

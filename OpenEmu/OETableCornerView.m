@@ -48,13 +48,13 @@
 	cellFrame.origin.x += 1;
 	
     NSImage *image = [[OETheme sharedTheme] imageForKey:@"table_header_background" forState:OEThemeStateDefault];
-	[image drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
+    [image drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0 respectFlipped:YES hints:nil];
 
 	NSRect leftHighlightRect = cellFrame;
 	leftHighlightRect.size.width = 1;
 
 	[[NSColor colorWithDeviceWhite:1.0 alpha:0.04] setFill];
-	NSRectFillUsingOperation(leftHighlightRect, NSCompositeSourceOver);
+    NSRectFillUsingOperation(leftHighlightRect, NSCompositingOperationSourceOver);
 }
 
 @end

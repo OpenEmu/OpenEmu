@@ -481,11 +481,7 @@ static NSImage *lightingImage;
 
         IKImageBrowserCell *itemCell   = [self cellForItemAtIndex:index];
 
-        NSRect          hitRect             = NSInsetRect([itemCell imageFrame], 5, 5);
         //NSRect          hitRectOnView       = [itemCell convertRect:hitRect toLayer:self.layer];
-        NSRect          hitRectOnWindow     = [self convertRect:hitRect toView:nil];
-        NSRect          visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
-        NSRect          visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
 
         // Display the menu
         [[self window] makeFirstResponder:self];

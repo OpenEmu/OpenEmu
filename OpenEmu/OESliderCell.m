@@ -46,7 +46,7 @@
     NSImage *trackImage = [[self backgroundThemeImage] imageForState:state];
     NSRect barRect = NSInsetRect(aRect, 1, (NSHeight(aRect)-[self trackThickness])/2.0);
     barRect = [[self controlView] backingAlignedRect:barRect options:NSAlignAllEdgesNearest];
-    [trackImage drawInRect:barRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:@{NSImageHintInterpolation:@(NSImageInterpolationNone)}];
+    [trackImage drawInRect:barRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:@{NSImageHintInterpolation:@(NSImageInterpolationNone)}];
 
     NSRect knobRect = [self knobRectFlipped:flipped];
     NSImage *levelImage = [[self levelThemeImage] imageForState:state];
@@ -55,7 +55,7 @@
         NSRect levelRect = barRect;
         levelRect.size.width = MAX(NSMidX(knobRect)-NSMinX(barRect), [levelImage size].width);
         levelRect = [[self controlView] backingAlignedRect:levelRect options:NSAlignAllEdgesNearest];
-        [levelImage drawInRect:levelRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:@{NSImageHintInterpolation:@(NSImageInterpolationNone)}];
+        [levelImage drawInRect:levelRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:@{NSImageHintInterpolation:@(NSImageInterpolationNone)}];
     }
 }
 
@@ -68,7 +68,7 @@
     knobRect.size.width  = [knobImage size].width;
     knobRect.size.height = [knobImage size].height;
     knobRect = [[self controlView] backingAlignedRect:knobRect options:NSAlignAllEdgesNearest];
-    [knobImage drawInRect:knobRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:@{NSImageHintInterpolation:@(NSImageInterpolationNone)}];
+    [knobImage drawInRect:knobRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:@{NSImageHintInterpolation:@(NSImageInterpolationNone)}];
 }
 
 #pragma mark - State

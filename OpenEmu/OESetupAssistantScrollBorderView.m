@@ -40,7 +40,7 @@
        || NSMinY(dirtyRect) < 5 || NSMaxY(dirtyRect) > bounds.size.height-5)
     {
         NSImage *image = [[OETheme sharedTheme] imageForKey:@"installer_scroll_box" forState:OEThemeStateDefault];
-        [image drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+        [image drawInRect:bounds fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
 }
 

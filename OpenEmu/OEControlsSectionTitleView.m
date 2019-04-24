@@ -77,7 +77,7 @@ const static CGFloat buttonTitleGap = 5.0;
     [woodBackground drawRect:portion];
     [image unlockFocus];
 
-    [image drawInRect:bounds fromRect:portion operation:NSCompositeCopy fraction:1.0];
+    [image drawInRect:bounds fromRect:portion operation:NSCompositingOperationCopy fraction:1.0];
     [[NSGraphicsContext currentContext] restoreGraphicsState];
     
     // draw spearator style lines at the top and the bottom 
@@ -96,7 +96,7 @@ const static CGFloat buttonTitleGap = 5.0;
 
         [bottomColor setFill];
         lineRect.origin.y = 1;
-        NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
+        NSRectFillUsingOperation(lineRect, NSCompositingOperationSourceOver);
     }
 
     // draw button
@@ -120,7 +120,7 @@ const static CGFloat buttonTitleGap = 5.0;
 
         [bottomColor setFill];
         lineRect.origin.y = [self bounds].size.height-2;
-        NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
+        NSRectFillUsingOperation(lineRect, NSCompositingOperationSourceOver);
     }
 
 }

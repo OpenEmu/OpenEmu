@@ -98,10 +98,10 @@ NSString *const OEDebugDrawControllerMaskKey = @"drawControllerMask";
     targetRect.size = [self image].size;
     targetRect.origin = NSMakePoint(([self frame].size.width-image.size.width)/2, 0);
     
-    [[self image] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:NO hints:@{ NSImageHintInterpolation: @(NSImageInterpolationNone) }];
+    [[self image] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0 respectFlipped:NO hints:@{ NSImageHintInterpolation: @(NSImageInterpolationNone) }];
     
     if([[NSUserDefaults standardUserDefaults] boolForKey:OEDebugDrawControllerMaskKey])
-        [[self imageMask] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:@{ NSImageHintInterpolation: @(NSImageInterpolationNone) }];
+        [[self imageMask] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:NO hints:@{ NSImageHintInterpolation: @(NSImageInterpolationNone) }];
 
     
     if([self overlayAlpha] != OverlayAlphaOFF)
@@ -115,7 +115,7 @@ NSString *const OEDebugDrawControllerMaskKey = @"drawControllerMask";
         [path setClip];
         
         [[NSColor colorWithDeviceWhite:0.0 alpha:[self overlayAlpha]] setFill];
-        NSRectFillUsingOperation([self bounds], NSCompositeSourceAtop);
+        NSRectFillUsingOperation([self bounds], NSCompositingOperationSourceAtop);
         [NSGraphicsContext restoreGraphicsState];
     }
     
@@ -123,7 +123,7 @@ NSString *const OEDebugDrawControllerMaskKey = @"drawControllerMask";
     {
         NSPoint highlightP = NSMakePoint(targetRect.origin.x+ringPosition.x-38, targetRect.origin.y+ringPosition.y-45);
         NSImage *highlightImage = [NSImage imageNamed:@"controls_highlight"]; 
-        [highlightImage drawAtPoint:highlightP fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:[self ringAlpha]];
+        [highlightImage drawAtPoint:highlightP fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:[self ringAlpha]];
     }
     
 }

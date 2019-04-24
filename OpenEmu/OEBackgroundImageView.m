@@ -50,9 +50,9 @@
 {
     OEThemeState currentState = [self OE_currentState];
     
-    [[[self backgroundThemeImage] imageForState:currentState] drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:[self isFlipped] hints:nil];
-    [[[self themeImage] imageForState:currentState] drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:[self isFlipped] hints:nil];
-    [[self image] drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:[self isFlipped] hints:nil];
+    [[[self backgroundThemeImage] imageForState:currentState] drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:[self isFlipped] hints:nil];
+    [[[self themeImage] imageForState:currentState] drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:[self isFlipped] hints:nil];
+    [[self image] drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:[self isFlipped] hints:nil];
 }
 
 - (BOOL)isFlipped

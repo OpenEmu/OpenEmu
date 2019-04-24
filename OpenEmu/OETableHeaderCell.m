@@ -70,7 +70,7 @@ static const CGFloat _OESortIndicatorMargin = 5;
 
 	NSImage *backgroundImage = [[OETheme sharedTheme] imageForKey:@"table_header_background" forState:sate];
     [backgroundImage setMatchesOnlyOnBestFittingAxis:YES];
-    [backgroundImage drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
+    [backgroundImage drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0 respectFlipped:YES hints:nil];
 
     // Draw highlight on left edge
     if(!hideLeftHighlight)
@@ -79,7 +79,7 @@ static const CGFloat _OESortIndicatorMargin = 5;
         leftHighlightRect.size.width = 1;
 
         [[NSColor colorWithDeviceWhite:1.0 alpha:0.04] setFill];
-        NSRectFillUsingOperation(leftHighlightRect, NSCompositeSourceOver);
+        NSRectFillUsingOperation(leftHighlightRect, NSCompositingOperationSourceOver);
     }
 
     if(isOutOfBoundsColumn)
@@ -196,7 +196,7 @@ static const CGFloat _OESortIndicatorMargin = 5;
     OEThemeState state = [self state] ? OEThemeInputStatePressed : OEThemeStateDefault;
 
     NSImage *image = [[OETheme sharedTheme] imageForKey:@"sort_arrow" forState:state];
-    [image drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:!ascending hints:nil];
+    [image drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:!ascending hints:nil];
 }
 
 @end

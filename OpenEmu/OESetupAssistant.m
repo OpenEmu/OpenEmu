@@ -185,7 +185,7 @@ enum : OEFSMEventLabel
     [super viewDidAppear];
 
     NSWindow *window = [[self view] window];
-    [window setStyleMask:[window styleMask] ^ NSClosableWindowMask];
+    [window setStyleMask:[window styleMask] ^ NSWindowStyleMaskClosable];
 }
 
 - (void)viewWillDisappear
@@ -193,7 +193,7 @@ enum : OEFSMEventLabel
     [super viewWillDisappear];
     
     NSWindow *window = [[self view] window];
-    [window setStyleMask:[window styleMask] | NSClosableWindowMask];
+    [window setStyleMask:[window styleMask] | NSWindowStyleMaskClosable];
 }
 
 - (IBAction)processFSMButtonAction:(id)sender

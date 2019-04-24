@@ -47,7 +47,7 @@
     
     lineRect.origin.y -= 1;
     [bottomColor setFill];
-    NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
+    NSRectFillUsingOperation(lineRect, NSCompositingOperationSourceOver);
 }
 
 @end

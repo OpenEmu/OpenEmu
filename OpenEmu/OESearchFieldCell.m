@@ -123,7 +123,7 @@
     if(_themed && _backgroundThemeImage)
     {
         cellFrame.size.height = 21; // our searchfield is only 21px high (NSSearchField is 22px high)
-        [[_backgroundThemeImage imageForState:[self OE_currentState]] drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+        [[_backgroundThemeImage imageForState:[self OE_currentState]] drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
 
     [self drawInteriorWithFrame:cellFrame inView:controlView];

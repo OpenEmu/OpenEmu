@@ -145,7 +145,7 @@
     NSRect sourceRect = [self imageRectForButtonState:buttonState];
     NSRect targetRect = cellFrame;
     
-    [[self image] drawInRect:targetRect fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    [[self image] drawInRect:targetRect fromRect:sourceRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 }
 
 - (NSRect)imageRectForButtonState:(OEButtonState)state

@@ -205,7 +205,7 @@
     if(_themed)
     {
         if(_backgroundThemeImage == nil) return;
-        [[_backgroundThemeImage imageForState:[self OE_currentState]] drawInRect:frame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+        [[_backgroundThemeImage imageForState:[self OE_currentState]] drawInRect:frame fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
     else
     {
@@ -217,7 +217,7 @@
 {
     if(_themed)
     {
-        [image drawInRect:frame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+        [image drawInRect:frame fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
     else
     {

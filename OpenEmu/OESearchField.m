@@ -189,7 +189,7 @@
         else
         {
             __block id blockself = self;
-            _modifierEventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFromType(NSFlagsChanged) handler:^NSEvent*(NSEvent* e) {
+            _modifierEventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFromType(NSEventTypeFlagsChanged) handler:^NSEvent*(NSEvent* e) {
                 [blockself setNeedsDisplayInRect:[self bounds]];
                 return e;
             }];

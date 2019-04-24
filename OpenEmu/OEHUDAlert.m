@@ -99,7 +99,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     self = [super init];
     if(self)
     {
-        _hudWindow = [[OEAlertWindow alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0) styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:YES];
+        _hudWindow = [[OEAlertWindow alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0) styleMask:NSWindowStyleMaskTitled backing:NSBackingStoreBuffered defer:YES];
         _hudWindow.releasedWhenClosed = NO;
         
         _suppressionButton = [[OEButton alloc] init];
@@ -666,7 +666,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     self.inputLabelView.font = defaultFont;
     self.inputLabelView.textColor = defaultColor;
     self.inputLabelView.drawsBackground = NO;
-    self.inputLabelView.alignment = NSRightTextAlignment;
+    self.inputLabelView.alignment = NSTextAlignmentRight;
     self.inputLabelView.frame = NSMakeRect(1, 57, 61, 23);
     self.inputLabelView.hidden = YES;
     [_hudWindow.contentView addSubview:self.inputLabelView];
@@ -690,7 +690,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     self.otherInputLabelView.font = defaultFont;
     self.otherInputLabelView.textColor = defaultColor;
     self.otherInputLabelView.drawsBackground = NO;
-    self.otherInputLabelView.alignment = NSRightTextAlignment;
+    self.otherInputLabelView.alignment = NSTextAlignmentRight;
     self.otherInputLabelView.frame = NSMakeRect(1, 96, 61, 23);
     self.otherInputLabelView.hidden = YES;
     [_hudWindow.contentView addSubview:self.otherInputLabelView];
@@ -797,7 +797,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 - (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
-    self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:bufferingType defer:flag];
+    self = [super initWithContentRect:contentRect styleMask:NSWindowStyleMaskBorderless backing:bufferingType defer:flag];
     if(self)
     {
         self.opaque = NO;
@@ -839,7 +839,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     OEThemeState state = window.isMainWindow ? OEThemeInputStateWindowActive : OEThemeInputStateWindowInactive;
     OEThemeImage *image = [OETheme.sharedTheme themeImageForKey:@"hud_alert_window"];
     NSImage *nsimage = [image imageForState:state];
-    [nsimage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+    [nsimage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
 }
 
 @end

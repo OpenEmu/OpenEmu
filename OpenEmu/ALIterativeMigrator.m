@@ -236,8 +236,6 @@
    return [NSError errorWithDomain:[ALIterativeMigrator errorDomain]
                               code:code
                           userInfo:userInfo];
-   
-   return NO;
 }
 
 // Gets the metadata for the given persistent store.

@@ -46,7 +46,7 @@
         corner.size.width = NSWidth(vframe);
         corner.size.height = NSHeight(hframe);
 		
-		[(NSImage*)[NSImage imageNamed:@"scrollbar_corner"] drawInRect:corner fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
+        [(NSImage*)[NSImage imageNamed:@"scrollbar_corner"] drawInRect:corner fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0 respectFlipped:YES hints:nil];
     }
 }
 @end

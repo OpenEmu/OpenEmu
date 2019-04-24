@@ -36,7 +36,7 @@
     const NSRect bounds = [self bounds];
     NSImage *backgroundImage = [[OETheme sharedTheme] imageForKey:@"table_header_background" forState:OEThemeStateDefault];
     [backgroundImage setMatchesOnlyOnBestFittingAxis:YES];
-    [backgroundImage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
+    [backgroundImage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0 respectFlipped:YES hints:nil];
 }
 
 @end

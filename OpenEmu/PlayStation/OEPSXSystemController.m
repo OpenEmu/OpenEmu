@@ -49,7 +49,7 @@
 
             alert.messageText = NSLocalizedString(@"ECM compressed binary detected.", @"");
             alert.informativeText = NSLocalizedString(@"ECM compressed binaries cannot be imported. Please read the disc importing guide.", @"");
-            alert.alertStyle = NSCriticalAlertStyle;
+            alert.alertStyle = NSAlertStyleCritical;
             [alert addButtonWithTitle:NSLocalizedString(@"View Guide in Browser", @"")];
             [alert addButtonWithTitle:NSLocalizedString(@"Dismiss", @"")];
 

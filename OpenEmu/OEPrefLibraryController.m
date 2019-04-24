@@ -130,7 +130,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
     [openPanel beginSheetModalForWindow:[[self view] window] completionHandler:
      ^(NSInteger result)
      {
-         if(result == NSFileHandlingPanelOKButton)
+         if(result == NSModalResponseOK)
              // give the openpanel some time to fade out
              dispatch_async(dispatch_get_main_queue(), ^{
                  [self OE_moveGameLibraryToLocation:[openPanel URL]];

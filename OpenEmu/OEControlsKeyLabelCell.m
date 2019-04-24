@@ -44,7 +44,7 @@
     
     
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    [style setAlignment:NSRightTextAlignment];
+    [style setAlignment:NSTextAlignmentRight];
     [attributes setObject:style forKey:NSParagraphStyleAttributeName];
     
     self.textAttributes = attributes;

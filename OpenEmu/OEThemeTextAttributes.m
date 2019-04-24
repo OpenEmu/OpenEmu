@@ -187,18 +187,18 @@ id _OEObjectFromDictionary(NSDictionary <NSString *, id> *dictionary, NSString *
         }
 
         NSString *alignment = ((NSString *)definition[OEThemeFontAlignmentAttributeName]).lowercaseString;
-        NSTextAlignment textAlignment = NSNaturalTextAlignment;
+        NSTextAlignment textAlignment = NSTextAlignmentNatural;
 
         if ([alignment isEqualToString:@"left"]) {
-            textAlignment = NSLeftTextAlignment;
+            textAlignment = NSTextAlignmentLeft;
         } else if ([alignment isEqualToString:@"center"]) {
-            textAlignment = NSCenterTextAlignment;
+            textAlignment = NSTextAlignmentCenter;
         } else if ([alignment isEqualToString:@"right"]) {
-            textAlignment = NSRightTextAlignment;
+            textAlignment = NSTextAlignmentRight;
         } else if ([alignment isEqualToString:@"justify"] || [alignment isEqualToString:@"justified"]) {
-            textAlignment = NSJustifiedTextAlignment;
+            textAlignment = NSTextAlignmentJustified;
         } else if ([alignment isEqualToString:@"natural"]) {
-            textAlignment = NSNaturalTextAlignment;
+            textAlignment = NSTextAlignmentNatural;
         }
 
         style.alignment = textAlignment;

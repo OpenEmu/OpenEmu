@@ -97,7 +97,7 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
 - (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)windowStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)deferCreation
 {
-    if((self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask | NSResizableWindowMask backing:bufferingType defer:deferCreation]))
+    if((self = [super initWithContentRect:contentRect styleMask:NSWindowStyleMaskBorderless | NSWindowStyleMaskResizable backing:bufferingType defer:deferCreation]))
     {
         [self OE_commonHUDWindowInit];
     }
@@ -106,7 +106,7 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
 - (instancetype)initWithContentRect:(NSRect)frame
 {
-    return [self initWithContentRect:frame styleMask:NSBorderlessWindowMask | NSResizableWindowMask backing:NSBackingStoreBuffered defer:NO];
+    return [self initWithContentRect:frame styleMask:NSWindowStyleMaskBorderless | NSWindowStyleMaskResizable backing:NSBackingStoreBuffered defer:NO];
 }
 
 - (void)awakeFromNib
@@ -334,7 +334,7 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
 - (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
-    if((self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO]))
+    if((self = [super initWithContentRect:contentRect styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO]))
     {
         self.hasShadow = NO;
         self.movableByWindowBackground = NO;
@@ -445,7 +445,7 @@ static NSImage *frameImage, *frameImageInactive;
 
     BOOL isFocused = self.window.parentWindow.isKeyWindow && NSApp.isActive;
     NSImage *image = isFocused ? frameImage : frameImageInactive;
-    [image drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+    [image drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0];
 
     // technically the parent window does not have a title (title-less style mask), so appkit seems not to bother updating it
     NSString *windowTitle = [self.window.parentWindow.windowController.document displayName];
@@ -455,7 +455,7 @@ static NSImage *frameImage, *frameImageInactive;
 
         NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
         ps.lineBreakMode = NSLineBreakByTruncatingMiddle;
-        ps.alignment = NSCenterTextAlignment;
+        ps.alignment = NSTextAlignmentCenter;
         titleAttributes[NSParagraphStyleAttributeName] = ps;
 
         NSColor *textColor = isFocused ? [NSColor colorWithDeviceWhite:0.86 alpha:1.0] : [NSColor colorWithDeviceWhite:0.61 alpha:1.0];

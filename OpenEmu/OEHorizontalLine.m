@@ -109,7 +109,7 @@
     
     if([self backgroundThemeImage] != nil)
     {
-        [[[self backgroundThemeImage] imageForState:OEThemeStateDefault] drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+        [[[self backgroundThemeImage] imageForState:OEThemeStateDefault] drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
     }
     
     if([self lineGradient] != nil)
@@ -134,7 +134,7 @@
 
     if([self themeImage] != nil)
     {
-        [[[self themeImage] imageForState:OEThemeStateDefault] drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+        [[[self themeImage] imageForState:OEThemeStateDefault] drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
     }
 }
 @end

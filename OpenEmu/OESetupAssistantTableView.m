@@ -167,7 +167,7 @@
 	[attributes setObject:shadow forKey:NSShadowAttributeName];
 	
 	NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-	[style setAlignment:NSLeftTextAlignment];
+    [style setAlignment:NSTextAlignmentLeft];
 	[attributes setObject:style forKey:NSParagraphStyleAttributeName];
     
     return attributes;
@@ -208,7 +208,7 @@
 	[attributes setObject:shadow forKey:NSShadowAttributeName];
 	
 	NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-	[style setAlignment:NSLeftTextAlignment];
+    [style setAlignment:NSTextAlignmentLeft];
 	[attributes setObject:style forKey:NSParagraphStyleAttributeName];
     
     return attributes;

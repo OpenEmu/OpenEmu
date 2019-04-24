@@ -101,7 +101,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 {
     BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarHidesOptionButtonKey];
 
-    self = [super initWithContentRect:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:YES];
+    self = [super initWithContentRect:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
     if(self != nil)
     {
         [self setMovableByWindowBackground:YES];
@@ -119,7 +119,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [[self contentView] addSubview:barView];
         [barView setupControls];
         
-        _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSMouseMovedMask handler:^NSEvent*(NSEvent* e)
+        _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskMouseMoved handler:^NSEvent*(NSEvent* e)
                          {
                              if([NSApp isActive] && [[self gameWindow] isMainWindow])
                                  [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:e waitUntilDone:NO];
@@ -645,7 +645,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                 item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete", @"") action:NULL keyEquivalent:@""];
                 [item setAlternate:YES];
                 [item setEnabled:NO];
-                [item setKeyEquivalentModifierMask:NSAlternateKeyMask];
+                [item setKeyEquivalentModifierMask:NSEventModifierFlagOption];
                 [menu addItem:item];
             }
 
@@ -691,7 +691,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                 {
                     NSMenuItem *deleteStateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
                     [deleteStateItem setAlternate:YES];
-                    [deleteStateItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+                    [deleteStateItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
                     [deleteStateItem setRepresentedObject:saveState];
                     [deleteStateItem setIndentationLevel:1];
 
@@ -820,7 +820,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 - (void)drawRect:(NSRect)dirtyRect
 {
     NSImage *barBackground = [[OETheme sharedTheme] imageForKey:@"hud_bar" forState:OEThemeStateDefault];
-    [barBackground drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    [barBackground drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 }
 
 - (void)setupControls

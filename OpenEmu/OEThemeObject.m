@@ -217,7 +217,7 @@ static inline id OEKeyForState(OEThemeState state) {
             (focused ? OEThemeInputStateFocused : OEThemeInputStateUnfocused) |
             (hover ? OEThemeInputStateMouseOver : OEThemeInputStateMouseOff) |
 
-            ((modifierMask & NSAlternateKeyMask) != 0 ? OEThemeInputStateModifierAlternate : OEThemeInputStateModifierNone) |
+            ((modifierMask & NSEventModifierFlagOption) != 0 ? OEThemeInputStateModifierAlternate : OEThemeInputStateModifierNone) |
             
             (state == NSOnState ? OEThemeInputStateToggleOn : (state == NSMixedState ? OEThemeInputStateToggleMixed : OEThemeInputStateToggleOff)));
 }

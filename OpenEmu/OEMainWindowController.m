@@ -255,7 +255,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
             
             // Disable the full size content view window style mask attribute.
             NSRect windowFrame = window.frame;
-            window.styleMask &= ~NSFullSizeContentViewWindowMask;
+            window.styleMask &= ~NSWindowStyleMaskFullSizeContentView;
             [window setFrame:windowFrame display:NO];
             
             self->_gameDocument.gameWindowController = self;
@@ -268,7 +268,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
             {
                 // Enable the full size content view window style mask attribute.
                 NSRect windowFrame = window.frame;
-                window.styleMask |= NSFullSizeContentViewWindowMask;
+                window.styleMask |= NSWindowStyleMaskFullSizeContentView;
                 [window setFrame:windowFrame display:NO];
                 
                 // Adjust visual properties of the window.

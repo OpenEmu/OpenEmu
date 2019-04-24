@@ -83,14 +83,14 @@
 
     cellFrame = NSInsetRect(cellFrame, self.widthInset, (cellFrame.size.height-15)/2);
 
-    [image drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    [image drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 
     cellFrame.origin.y += 1;
     
     NSString *label = [self title];
     
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-    [paraStyle setAlignment:NSCenterTextAlignment];
+    [paraStyle setAlignment:NSTextAlignmentCenter];
     NSDictionary *textAttributes;
     
     NSShadow *shadow = [[NSShadow alloc] init];

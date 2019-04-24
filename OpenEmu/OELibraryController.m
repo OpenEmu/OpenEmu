@@ -346,7 +346,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     [openPanel beginSheetModalForWindow:win completionHandler:
      ^(NSInteger result)
      {
-         if(result == NSFileHandlingPanelOKButton)
+         if(result == NSModalResponseOK)
          {
              // exit our initial open panels completion handler
              //[self performSelector:@selector(startImportSheet:) withObject:[openPanel URLs] afterDelay:0.0];

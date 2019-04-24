@@ -54,7 +54,7 @@
         [self setWantsLayer:YES];
 
         NSFont *fieldEditorFont = [NSFont boldSystemFontOfSize:12];
-        [self setAlignment:NSCenterTextAlignment];
+        [self setAlignment:NSTextAlignmentCenter];
         [self setBorderColor:[NSColor blackColor]];
         [self setFont:fieldEditorFont];
         

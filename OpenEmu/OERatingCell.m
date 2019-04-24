@@ -41,7 +41,7 @@
                                    floor(cellFrame.origin.y + (cellFrame.size.height - sourceRect.size.height) / 2),
                                    sourceRect.size.width,
                                    sourceRect.size.height);
-	[image drawInRect:targetRect fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    [image drawInRect:targetRect fromRect:sourceRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 }
 
 - (NSRect)imageRectForRating:(NSInteger)rating state:(OEUIState)state

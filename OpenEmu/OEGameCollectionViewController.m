@@ -503,7 +503,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     [openPanel setAllowedFileTypes:imageTypes];
 
     [openPanel beginWithCompletionHandler:^(NSInteger result) {
-        if(result != NSFileHandlingPanelOKButton)
+        if(result != NSModalResponseOK)
             return;
 
         NSArray *selectedGames = [self selectedGames];
@@ -730,7 +730,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
             {
                 NSMenuItem *alternateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
                 [alternateItem setAlternate:YES];
-                [alternateItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+                [alternateItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
                 [alternateItem setRepresentedObject:saveState];
                 [saveGamesMenu addItem:alternateItem];
             }
