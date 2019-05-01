@@ -35,8 +35,11 @@
 #import "OEGameRenderer.h"
 #import "OEOpenGL2GameRenderer.h"
 #import "OEOpenGL3GameRenderer.h"
+#import "OEMTLGameRenderer.h"
 #import "OESystemPlugin.h"
 #import "OEGameHelperLayer.h"
+#import "OEGameHelperOpenGLLayer.h"
+#import "OEGameHelperMetalLayer.h"
 #import "NSColor+OEAdditions.h"
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
@@ -57,6 +60,9 @@ typedef uint32_t CAContextID;
 @property(readonly) CAContextID contextId;
 @property(retain) CALayer *layer;
 @end
+
+extern NSString * const kCAContextCIFilterBehavior;
+
 // End SPI
 
 @interface OpenEmuHelperApp () <OEGameCoreDelegate, OEGlobalEventsHandler>
@@ -91,9 +97,9 @@ typedef uint32_t CAContextID;
     
     NSMutableDictionary<OEDeviceHandlerPlaceholder *, NSMutableArray<void(^)(void)> *> *_pendingDeviceHandlerBindings;
     
-    CAContext            *_gameVideoCAContext;
-    OEGameHelperLayer    *_gameVideoLayer;
-    
+    CAContext             *_gameVideoCAContext;
+    id<OEGameHelperLayer> _gameVideoLayer;
+
     id   _unhandledEventsMonitor;
     BOOL _hasStartedAudio;
 }
@@ -122,6 +128,7 @@ typedef uint32_t CAContextID;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     _parentApplication = [NSRunningApplication runningApplicationWithProcessIdentifier:getppid()];
+    [_parentApplication addObserver:self forKeyPath:@"terminated" options:NSKeyValueObservingOptionNew context:nil];
     if(_parentApplication != nil)
     {
         NSLog(@"parent application is: %@", [_parentApplication localizedName]);
@@ -129,6 +136,14 @@ typedef uint32_t CAContextID;
     }
     
     [OEDeviceManager sharedDeviceManager];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSKeyValueChangeKey,id> *)change
+                       context:(void *)context
+{
+    NSLog(@"TERMINATED");
 }
 
 - (void)OE_loadPlugins
@@ -185,19 +200,32 @@ typedef uint32_t CAContextID;
 - (void)updateGameRenderer
 {
     OEGameCoreRendering rendering = _gameCore.gameCoreRendering;
-    
-    if (rendering == OEGameCoreRendering2DVideo || rendering == OEGameCoreRenderingOpenGL2Video)
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+
+    bool useMetal = [NSUserDefaults.standardUserDefaults boolForKey:@"OERenderEnableMetal"];
+    useMetal = YES;
+    if (useMetal && rendering == OEGameCoreRendering2DVideo)
+    {
+        OEMTLGameRenderer *renderer = [OEMTLGameRenderer new];
+        _gameRenderer = renderer;
+        _gameVideoLayer = renderer.helperLayer;
+    }
+    else if (rendering == OEGameCoreRendering2DVideo || rendering == OEGameCoreRenderingOpenGL2Video)
     {
         _gameRenderer = [OEOpenGL2GameRenderer new];
+        _gameVideoLayer = [OEGameHelperOpenGLLayer new];
     }
     else if (rendering == OEGameCoreRenderingOpenGL3Video)
     {
         _gameRenderer = [OEOpenGL3GameRenderer new];
+        _gameVideoLayer = [OEGameHelperOpenGLLayer new];
     }
     else
     {
         NSAssert(0, @"Rendering API %u not supported yet", (unsigned)rendering);
     }
+    [CATransaction commit];
     
     _gameRenderer.gameCore = _gameCore;
 }
@@ -226,14 +254,8 @@ typedef uint32_t CAContextID;
 
 - (void)setupRemoteLayer
 {
-    if (_gameVideoLayer != nil)
-    {
-        return;
-    }
-    
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
-    _gameVideoLayer = [OEGameHelperLayer new];
     OEGameLayerInputParams input = _gameVideoLayer.input;
     
     input.ioSurfaceRef    = _surfaceRef;
@@ -245,8 +267,8 @@ typedef uint32_t CAContextID;
     [_gameVideoLayer setBounds:NSMakeRect(0, 0, _gameCore.bufferSize.width, _gameCore.bufferSize.height)];
     
     CGSConnectionID connection_id = CGSMainConnectionID();
-    _gameVideoCAContext       = [CAContext contextWithCGSConnection:connection_id options:nil];
-    _gameVideoCAContext.layer = _gameVideoLayer;
+    _gameVideoCAContext       = [CAContext contextWithCGSConnection:connection_id options:@{kCAContextCIFilterBehavior: @"ignore"}];
+    _gameVideoCAContext.layer = _gameVideoLayer.layer;
     [CATransaction commit];
     
     [self updateRemoteContextID:_gameVideoCAContext.contextId];
@@ -278,7 +300,7 @@ typedef uint32_t CAContextID;
 {
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
-    _gameVideoLayer.contentsScale = newBackingScaleFactor;
+    _gameVideoLayer.layer.contentsScale = newBackingScaleFactor;
     [CATransaction commit];
 }
 
@@ -539,9 +561,9 @@ typedef uint32_t CAContextID;
     NSBitmapImageRep *nsImage;
     
     if (filtered) {
-        NSSize imageSize = _gameVideoLayer.bounds.size;
+        NSSize imageSize = _gameVideoLayer.layer.bounds.size;
         cgCtx = CGBitmapContextCreate(nil, ceil(imageSize.width), ceil(imageSize.height),
-                                      8, 0, _gameVideoLayer.colorspace, kCGImageAlphaNone);
+                                      8, 0, _gameVideoLayer.colorspace, kCGImageAlphaNoneSkipLast);
         [_gameVideoLayer renderInContext:cgCtx];
         cgImage = CGBitmapContextCreateImage(cgCtx);
         nsImage = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];

@@ -14,18 +14,24 @@
 typedef struct OEGameLayerInputParams {
     OEIntSize screenSize;
     OEIntSize aspectSize;
-    IOSurfaceRef ioSurfaceRef;
+    IOSurfaceRef _Nonnull ioSurfaceRef;
 } OEGameLayerInputParams;
 
 typedef struct OEGameLayerFilterParams {
     bool linearFilter;
 } OEGameLayerFilterParams;
 
-@interface OEGameHelperLayer : CAOpenGLLayer
-
+@protocol OEGameHelperLayer
+@required
 @property (nonatomic) OEGameLayerInputParams  input;
 @property (nonatomic) OEGameLayerFilterParams filter;
+@property (nonatomic) CGRect bounds;
+@property (nonatomic) CALayer * _Nonnull layer;
+@property (nullable) CGColorSpaceRef colorspace;
+- (void)display;
+- (void)renderInContext:(CGContextRef _Nonnull)ctx;
 
-- (void)setBackgroundColor:(NSColor*)backgroundColor;
-
+@optional
+- (void)setBackgroundColor:(NSColor * _Nonnull)backgroundColor;
 @end
+
