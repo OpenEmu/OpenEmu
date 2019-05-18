@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "container:OpenEmu/OpenEmu.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:OpenEmu/../OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:OpenEmu-SDK/OpenEmu-SDK.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SNES9x/SNES9x.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:OpenEmu-Shaders/OpenEmuShaders.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Stella/Stella.xcodeproj">
+   </FileRef>
+</Workspace>

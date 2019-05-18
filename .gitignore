@@ -12,6 +12,7 @@ build/
 !default.perspectivev3
 *.xcworkspace
 !OpenEmu.xcworkspace
+!OpenEmu-metal.xcworkspace
 !default.xcworkspace
 xcuserdata/
 *.xccheckout
