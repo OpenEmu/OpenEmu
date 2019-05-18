@@ -112,10 +112,6 @@
             argument = "/Volumes/Data/projects/libretro/slang-shaders/crt/crt-geom.slangp"
             isEnabled = "NO">
          </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-OERenderEnableMetal 1"
-            isEnabled = "YES">
-         </CommandLineArgument>
       </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable

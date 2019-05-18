@@ -203,9 +203,8 @@ extern NSString * const kCAContextCIFilterBehavior;
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
 
-    bool useMetal = [NSUserDefaults.standardUserDefaults boolForKey:@"OERenderEnableMetal"];
-    useMetal = YES;
-    if (useMetal && rendering == OEGameCoreRendering2DVideo)
+    bool disableMetal = [NSUserDefaults.standardUserDefaults boolForKey:@"OERenderDisableMetal"];
+    if (!disableMetal && rendering == OEGameCoreRendering2DVideo)
     {
         OEMTLGameRenderer *renderer = [OEMTLGameRenderer new];
         _gameRenderer = renderer;
