@@ -92,6 +92,9 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     if([self OE_isFilterAtURL:url])
         return nil;
 #endif
+
+    // TODO(sgc): add .slangp import support
+
     // Check for PlayStation .sbi subchannel data files and copy them directly (not going through importer queue)
     if([self OE_isSBIFileAtURL:url])
         return nil;

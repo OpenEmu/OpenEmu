@@ -1703,6 +1703,10 @@ typedef enum : NSUInteger
     [_gameCoreManager setBackingScaleFactor:newScaleFactor];
 }
 
+- (void)gameViewController:(OEGameViewController *)sender setFilterURL:(NSURL *)url {
+    [_gameCoreManager setFilterURL:url];
+}
+
 #pragma mark - OESystemBindingsObserver
 
 - (void)systemBindings:(OESystemBindings *)sender didSetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber

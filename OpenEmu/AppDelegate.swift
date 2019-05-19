@@ -583,12 +583,7 @@ class AppDelegate: NSDocumentController {
         
         OEPlugin.registerPluginClass(OECorePlugin.self)
         OEPlugin.registerPluginClass(OESystemPlugin.self)
-        OEPlugin.registerPluginClass(OEGLSLShaderPlugin.self)
-        
-        #if CG_SUPPORT
-        OEPlugin.registerPluginClass(OECGShaderPlugin.self)
-        OEPlugin.registerPluginClass(OEMultipassShaderPlugin.self)
-        #endif
+        OEPlugin.registerPluginClass(OEShaderPlugin.self)
         
         // Register all system controllers with the bindings controller.
         for plugin in OESystemPlugin.allPlugins as! [OESystemPlugin] {

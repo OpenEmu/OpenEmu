@@ -28,20 +28,4 @@
 #import "OEPlugin.h"
 
 @interface OEShaderPlugin : OEPlugin
-+ (Class)shaderClass;
-- (id)shaderWithContext:(CGLContextObj)context;
-@end
-
-@interface OEGLSLShaderPlugin : OEShaderPlugin
-@end
-
-#ifdef CG_SUPPORT
-@interface OECGShaderPlugin : OEShaderPlugin
-@end
-
-@interface OEMultipassShaderPlugin : OEShaderPlugin
-@end
-#endif
-
-@interface OEBuiltInShaderPlugin : OEShaderPlugin
 @end

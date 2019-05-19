@@ -123,7 +123,12 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         [_gameView setDelegate:self];
         
         [[self view] addSubview:_gameView];
-        
+
+        for (OEShaderPlugin *plugin in [OEShaderPlugin allPlugins]) {
+            NSLog(@"%@", plugin.path);
+        }
+
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:_gameView];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidChangeScreen:) name:NSWindowDidMoveNotification object:self];
@@ -251,7 +256,14 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         filterName = [sender title];
     else
         DLog(@"Invalid argument passed: %@", sender);
-    
+
+    for (OEShaderPlugin *plugin in [OEShaderPlugin allPlugins]) {
+        if ([filterName isEqualToString:plugin.name]) {
+            [[self document] gameViewController:self setFilterURL:[NSURL fileURLWithPath:plugin.path]];
+        }
+    }
+
+    //[[self document] gameViewController:self setFilterURL:url];
     //    [_gameView setFilterName:filterName];
     [[NSUserDefaults standardUserDefaults] setObject:filterName forKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, [[self document] systemIdentifier]]];
 }

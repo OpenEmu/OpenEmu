@@ -65,6 +65,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 - (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
 - (void)gameViewController:(OEGameViewController *)sender updateBounds:(CGRect)newBounds;
 - (void)gameViewController:(OEGameViewController *)sender updateBackingScaleFactor:(CGFloat)newScaleFactor;
+- (void)gameViewController:(OEGameViewController *)sender setFilterURL:(NSURL *)url;
 
 @end
 

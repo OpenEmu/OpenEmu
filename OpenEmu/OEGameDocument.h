@@ -130,5 +130,6 @@ enum _OEGameDocumentErrorCodes
 - (void)setOutputBounds:(NSRect)bounds;
 - (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
 - (void)gameViewController:(OEGameViewController *)sender updateBounds:(CGRect)newBounds;
+- (void)gameViewController:(OEGameViewController *)sender setFilterURL:(NSURL *)url;
 
 @end

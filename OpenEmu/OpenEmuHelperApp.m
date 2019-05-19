@@ -303,6 +303,15 @@ extern NSString * const kCAContextCIFilterBehavior;
     [CATransaction commit];
 }
 
+- (void)setFilterURL:(NSURL *)url {
+    NSLog(@"%s", __FUNCTION__);
+    if ([_gameRenderer respondsToSelector:@selector(setFilterURL:)]) {
+        [_gameCore performBlock:^{
+            [self->_gameRenderer setFilterURL:url];
+        }];
+    }
+}
+
 #pragma mark - Game Core methods
 
 - (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion displayModeInfo:(NSDictionary <NSString *, id> *)displayModeInfo withCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath error:(NSError **)error
@@ -550,6 +559,11 @@ extern NSString * const kCAContextCIFilterBehavior;
 
 - (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block
 {
+    if ([_gameRenderer respondsToSelector:@selector(takeScreenshotWithFiltering:completionHandler:)]) {
+        [_gameRenderer takeScreenshotWithFiltering:filtered completionHandler:block];
+        return;
+    }
+
     // If filtered, read the content out of the CALayer.
     // If not filtered, read the content out of the IOSurface.
     
