@@ -12,7 +12,7 @@
 @class OEGameCore;
 @protocol OERenderDelegate;
 
-@protocol OEGameRenderer
+@protocol OEGameRenderer<NSObject>
 
 // Setup
 @property (nonatomic) OEGameCore   *gameCore;
@@ -36,5 +36,9 @@
 
 - (void)suspendFPSLimiting;       ///!< (Temporarily) disable the FPS limiter for saving/setup, to avoid deadlock.
 - (void)resumeFPSLimiting;        ///!< Resume the FPS limiter when entering normal gameplay.
+
+@optional
+- (void)setFilterURL:(NSURL *)url;
+- (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block;
 
 @end

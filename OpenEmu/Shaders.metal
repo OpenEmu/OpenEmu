@@ -51,7 +51,7 @@ fragment float4 basic_fragment_proj_tex(ColorInOut in [[stage_in]],
     return float4(colorSample);
 }
 
-#pragma mark - filter kernels
+#pragma mark - filter kernels, texture to texture
 
 kernel void convert_bgra4444_to_bgra8888(texture2d<ushort, access::read> in  [[ texture(0) ]],
                                          texture2d<half, access::write>  out [[ texture(1) ]],
@@ -80,5 +80,37 @@ kernel void convert_rgb565_to_bgra8888(texture2d<ushort, access::read> in  [[ te
                          0xf
                          );
     
+    out.write(half4(pix2) / half4(0x1f, 0x3f, 0x1f, 0xf), gid);
+}
+
+#pragma mark - filter kernels, buffer to texture
+
+kernel void convert_bgra4444_to_bgra8888_buf(device ushort *                in  [[ buffer(0) ]],
+                                             constant uint &       bytesPerRow  [[ buffer(1) ]],
+                                             texture2d<half, access::write> out [[ texture(0) ]],
+                                             uint                          gid  [[ thread_position_in_grid ]])
+{
+    ushort pix  = in[gid.y * bytesPerRow/2 + gid.x];
+    uchar4 pix2 = uchar4(extract_bits(pix,  4, 4),
+                         extract_bits(pix,  8, 4),
+                         extract_bits(pix, 12, 4),
+                         extract_bits(pix,  0, 4)
+                         );
+
+    out.write(half4(pix2) / 15.0, gid);
+}
+
+kernel void convert_rgb565_to_bgra8888_buf(device ushort *                in  [[ buffer(0) ]],
+                                           constant uint &       bytesPerRow  [[ buffer(1) ]],
+                                           texture2d<half, access::write> out [[ texture(0) ]],
+                                           uint2                          gid [[ thread_position_in_grid ]])
+{
+    ushort pix  = in[gid.y * bytesPerRow/2 + gid.x];
+    uchar4 pix2 = uchar4(extract_bits(pix, 11, 5),
+                         extract_bits(pix,  5, 6),
+                         extract_bits(pix,  0, 5),
+                         0xf
+                         );
+
     out.write(half4(pix2) / half4(0x1f, 0x3f, 0x1f, 0xf), gid);
 }

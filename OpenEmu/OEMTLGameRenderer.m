@@ -38,30 +38,31 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
 @implementation OEMTLGameRenderer
 {
     OEGameHelperMetalLayer *_layer;
-
-    void *_buffer; // frame buffer
+    
+    void          *_buffer; // frame buffer
+    id<MTLBuffer> _backBuffer;
     
     // MetalDriver
     FrameView *_frameView;
     
-    id<MTLDevice> _device;
-    id<MTLLibrary> _library;
-    BOOL _keepAspect;
+    id<MTLDevice>       _device;
+    id<MTLLibrary>      _library;
+    BOOL                _keepAspect;
     OEMTLPixelConverter *_pixelConversion;
     
     // render target layer state
     id<MTLRenderPipelineState> _pipelineState;
-    id<MTLSamplerState> _samplerStateLinear;
-    id<MTLSamplerState> _samplerStateNearest;
+    id<MTLSamplerState>        _samplerStateLinear;
+    id<MTLSamplerState>        _samplerStateNearest;
     
     // Context
     dispatch_semaphore_t _inflightSemaphore;
-    id<MTLCommandQueue> _commandQueue;
-    id<CAMetalDrawable> _drawable;
-    OEMTLViewport _viewport;
+    id<MTLCommandQueue>  _commandQueue;
+    id<CAMetalDrawable>  _drawable;
+    OEMTLViewport        _viewport;
     
     // main render pass state
-    MTLRenderPassDescriptor *_currentRenderPassDescriptor;
+    MTLRenderPassDescriptor     *_currentRenderPassDescriptor;
     id<MTLRenderCommandEncoder> _rce;
     
     id<MTLCommandBuffer> _blitCommandBuffer;
@@ -82,18 +83,18 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
 - (id)init
 {
     self = [super init];
-
-    _device = MTLCreateSystemDefaultDevice();
-    _library = [_device newDefaultLibrary];
+    
+    _device       = MTLCreateSystemDefaultDevice();
+    _library      = [_device newDefaultLibrary];
     _commandQueue = [_device newCommandQueue];
-
-    _layer  = [OEGameHelperMetalLayer new];
+    
+    _layer = [OEGameHelperMetalLayer new];
     _layer.helperDelegate = self;
-    _layer.device = _device;
+    _layer.device         = _device;
 #if TARGET_OS_OSX
     _layer.displaySyncEnabled = NO;
 #endif
-
+    
     _pixelConversion = [[OEMTLPixelConverter alloc] initWithDevice:_device
                                                            library:_library];
     
@@ -115,8 +116,7 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
 
 - (void)dealloc
 {
-    if (_buffer)
-    {
+    if (_buffer) {
         free(_buffer);
         _buffer = nil;
     }
@@ -130,28 +130,27 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
         vd.attributes[0].format = MTLVertexFormatFloat4;
         vd.attributes[1].offset = offsetof(Vertex, texCoord);
         vd.attributes[1].format = MTLVertexFormatFloat2;
-        vd.layouts[0].stride = sizeof(Vertex);
+        vd.layouts[0].stride    = sizeof(Vertex);
         
         MTLRenderPipelineDescriptor *psd = [MTLRenderPipelineDescriptor new];
         psd.label = @"Pipeline+No Alpha";
         
         MTLRenderPipelineColorAttachmentDescriptor *ca = psd.colorAttachments[0];
-        ca.pixelFormat = _layer.pixelFormat;
-        ca.blendingEnabled = NO;
-        ca.sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
-        ca.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
+        ca.pixelFormat                 = _layer.pixelFormat;
+        ca.blendingEnabled             = NO;
+        ca.sourceAlphaBlendFactor      = MTLBlendFactorSourceAlpha;
+        ca.sourceRGBBlendFactor        = MTLBlendFactorSourceAlpha;
         ca.destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
-        ca.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+        ca.destinationRGBBlendFactor   = MTLBlendFactorOneMinusSourceAlpha;
         
-        psd.sampleCount = 1;
+        psd.sampleCount      = 1;
         psd.vertexDescriptor = vd;
-        psd.vertexFunction = [_library newFunctionWithName:@"basic_vertex_proj_tex"];
+        psd.vertexFunction   = [_library newFunctionWithName:@"basic_vertex_proj_tex"];
         psd.fragmentFunction = [_library newFunctionWithName:@"basic_fragment_proj_tex"];
         
         NSError *err;
         _pipelineState = [_device newRenderPipelineStateWithDescriptor:psd error:&err];
-        if (err != nil)
-        {
+        if (err != nil) {
             NSLog(@"error creating pipeline state: %@", err.localizedDescription);
             return NO;
         }
@@ -176,11 +175,11 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
  */
 static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 {
-    CGFloat wantAspect = aspectSize.width  / (CGFloat)aspectSize.height;
+    CGFloat wantAspect = aspectSize.width / (CGFloat)aspectSize.height;
     CGFloat viewAspect = size.width / (CGFloat)size.height;
     
     CGFloat minFactor;
-    NSRect outRect;
+    NSRect  outRect;
     
     if (viewAspect >= wantAspect) {
         // Raw image is too wide (normal case), squish inwards
@@ -196,8 +195,8 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
         outRect.size.width  = size.width;
     }
     
-    outRect.origin.x = (size.width  - outRect.size.width)/2;
-    outRect.origin.y = (size.height - outRect.size.height)/2;
+    outRect.origin.x = (size.width - outRect.size.width) / 2;
+    outRect.origin.y = (size.height - outRect.size.height) / 2;
     
     
     // This is going into a Nearest Neighbor, so the edges should be on pixels!
@@ -208,14 +207,13 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 
 - (void)setViewportSize:(OEIntSize)size
 {
-    if (memcmp(&size, &_viewport.fullSize, sizeof(size)) == 0)
-    {
+    if (memcmp(&size, &_viewport.fullSize, sizeof(size)) == 0) {
         return;
     }
     
-    _viewport.fullSize = size;
-    _viewport.view = FitAspectRectIntoBounds(_gameCore.aspectSize, size);
-    _frameView.viewport = _viewport;
+    _viewport.fullSize   = size;
+    _viewport.view       = FitAspectRectIntoBounds(_gameCore.aspectSize, size);
+    _frameView.viewport  = _viewport;
     _uniforms.outputSize = simd_make_float2(size.width, size.height);
 }
 
@@ -223,8 +221,7 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 
 - (void)_drawViews
 {
-    if ([_frameView drawWithContext:self])
-    {
+    if ([_frameView drawWithContext:self]) {
         id<MTLRenderCommandEncoder> rce = self.rce;
         [rce setVertexBytes:&_uniforms length:sizeof(_uniforms) atIndex:BufferIndexUniforms];
         [rce setRenderPipelineState:_pipelineState];
@@ -239,7 +236,6 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
     [self OE_setupVideo];
 }
 
-
 - (void)OE_setupVideo
 {
     NSAssert(_gameCore.gameCoreRendering == OEGameCoreRendering2DVideo, @"Metal only supports 2D rendering");
@@ -248,50 +244,36 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 
 - (void)OE_setup2D
 {
-    GLenum pixelFormat, pixelType;
+    GLenum    pixelFormat, pixelType;
     NSInteger bytesPerRow;
-
+    
     pixelFormat = [_gameCore pixelFormat];
-    pixelType = [_gameCore pixelType];
-
+    pixelType   = [_gameCore pixelType];
+    
     OEMTLPixelFormat pf = GLToRPixelFormat(pixelFormat, pixelType);
     NSParameterAssert(pf != OEMTLPixelFormatInvalid);
-
-    bytesPerRow = [_gameCore bytesPerRow];
-
-    size_t videoBufferSize = (size_t) (_surfaceSize.height * bytesPerRow);
-    NSParameterAssert(videoBufferSize > 0);
-
-    if (_buffer != nil)
-    {
-        free((void *)_buffer);
-        _buffer = nil;
-    }
     
-    void *ptr = malloc(videoBufferSize);
-    _buffer = (void *)[_gameCore getVideoBufferWithHint:ptr];
-    if (ptr != _buffer) {
-        free(ptr);
-    }
-
-    if (_frameView == nil)
-    {
+    if (_frameView == nil) {
         _frameView = [[FrameView alloc] initWithFormat:pf device:_device converter:_pixelConversion];
         _frameView.viewport = _viewport;
         [_frameView setFilteringIndex:0 smooth:NO];
         
         NSString *shaderPath = [NSUserDefaults.oe_applicationUserDefaults stringForKey:@"shaderPath"];
         if (shaderPath != nil) {
-            [_frameView setShaderFromPath:shaderPath context:self];
+            [_frameView setShaderFromURL:[NSURL fileURLWithPath:shaderPath] context:self];
         }
     }
     
     _frameView.size = _gameCore.screenRect.size;
-}
-
-- (void)OE_resize
-{
     
+    bytesPerRow = [_gameCore bytesPerRow];
+    
+    _backBuffer = [_frameView allocateBufferHeight:(NSUInteger)_surfaceSize.height bytesPerRow:(NSUInteger)bytesPerRow bytes:nil];
+    void *buf = (void *)[_gameCore getVideoBufferWithHint:_backBuffer.contents];
+    if (buf != _backBuffer.contents) {
+        // core wants its own buffer, so reallocate it
+        _backBuffer = [_frameView allocateBufferHeight:(NSUInteger)_surfaceSize.height bytesPerRow:(NSUInteger)bytesPerRow bytes:buf];
+    }
 }
 
 // Properties
@@ -307,28 +289,40 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 
 - (void)helperLayer:(OEGameHelperMetalLayer *)layer drawableSizeWillChange:(CGSize)size
 {
-    OEIntSize sz = {.width = size.width, .height = size.height};
+    OEIntSize sz = {.width = (int)size.width, .height = (int)size.height};
     [self setViewportSize:sz];
 }
 
 // Execution
 - (void)willExecuteFrame
 {
-    const GLvoid *coreBuffer= [_gameCore getVideoBufferWithHint:(void *) _buffer];
-    NSAssert(_buffer == coreBuffer, @"Game suddenly stopped using direct rendering");
+    const void *coreBuffer = [_gameCore getVideoBufferWithHint:_backBuffer.contents];
+    NSAssert(_backBuffer.contents == coreBuffer, @"Game suddenly stopped using direct rendering");
 }
 
 - (void)didExecuteFrame
 {
-    NSInteger pitch = _gameCore.bytesPerRow;
-    
-    @autoreleasepool
-    {
+    @autoreleasepool {
         [self begin];
-        [_frameView updateFrame:_buffer pitch:pitch];
         [self _drawViews];
         [self end];
     }
+}
+
+- (void)setFilterURL:(NSURL *)url
+{
+    NSLog(@"%@: %s", self.class, __FUNCTION__);
+    [_frameView setShaderFromURL:url context:self];
+}
+
+- (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block
+{
+    if (filtered) {
+    
+    } else {
+    
+    }
+    block(nil);
 }
 
 - (void)presentDoubleBufferedFBO
@@ -374,8 +368,7 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
     _uniformsNoRotate.projectionMatrix = matrix_proj_ortho(0, 1, 0, 1);
     
     bool allow_rotate = true;
-    if (!allow_rotate)
-    {
+    if (!allow_rotate) {
         _uniforms.projectionMatrix = _uniformsNoRotate.projectionMatrix;
         return;
     }
@@ -396,8 +389,7 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 
 - (id<CAMetalDrawable>)nextDrawable
 {
-    if (_drawable == nil)
-    {
+    if (_drawable == nil) {
         _drawable = _layer.nextDrawable;
     }
     return _drawable;
@@ -423,8 +415,7 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 
 - (MTLRenderPassDescriptor *)currentRenderPassDescriptor
 {
-    if (_currentRenderPassDescriptor == nil)
-    {
+    if (_currentRenderPassDescriptor == nil) {
         MTLRenderPassDescriptor *rpd = [MTLRenderPassDescriptor new];
         rpd.colorAttachments[0].clearColor = _clearColor;
         rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
@@ -438,8 +429,7 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 - (id<MTLRenderCommandEncoder>)rce
 {
     assert(_commandBuffer != nil);
-    if (_rce == nil)
-    {
+    if (_rce == nil) {
         _rce = [_commandBuffer renderCommandEncoderWithDescriptor:self.currentRenderPassDescriptor];
     }
     return _rce;
@@ -449,16 +439,14 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 {
     assert(_commandBuffer != nil);
     
-    if (_blitCommandBuffer)
-    {
+    if (_blitCommandBuffer) {
         // pending blits for mipmaps or render passes for slang shaders
         [_blitCommandBuffer commit];
         //[_blitCommandBuffer waitUntilCompleted];
         _blitCommandBuffer = nil;
     }
     
-    if (_rce)
-    {
+    if (_rce) {
         [_rce endEncoding];
         _rce = nil;
     }
@@ -470,8 +458,7 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
     
     id<CAMetalDrawable> drawable = self.nextDrawable;
     _drawable = nil;
-    if (drawable != nil)
-    {
+    if (drawable != nil) {
         [_commandBuffer presentDrawable:drawable];
     } else {
         dispatch_semaphore_signal(inflight);
@@ -493,7 +480,7 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType)
                 case GL_UNSIGNED_INT_8_8_8_8_REV:
                     return OEMTLPixelFormatBGRA8Unorm;
             }
-            
+        
         case GL_RGB:
             switch (pixelType) {
                 case GL_UNSIGNED_SHORT_5_6_5:

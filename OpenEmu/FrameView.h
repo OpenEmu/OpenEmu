@@ -42,12 +42,13 @@ NS_ASSUME_NONNULL_BEGIN
                         device:(id<MTLDevice>)device
                      converter:(OEMTLPixelConverter *)converter;
 
+- (id<MTLBuffer>)allocateBufferHeight:(NSUInteger)height bytesPerRow:(NSUInteger)bytesPerRow bytes:(void *)pointer;
+
 - (BOOL)drawWithContext:(id<OEMTLRenderContext>)ctx;
 - (void)drawWithEncoder:(id<MTLRenderCommandEncoder>)rce;
 
 - (void)setFilteringIndex:(int)index smooth:(bool)smooth;
-- (BOOL)setShaderFromPath:(NSString *)path context:(id<OEMTLRenderContext>)ctx;
-- (void)updateFrame:(void const *)src pitch:(NSUInteger)pitch;
+- (BOOL)setShaderFromURL:(NSURL *)url context:(id<OEMTLRenderContext>)ctx;
 
 @end
 
