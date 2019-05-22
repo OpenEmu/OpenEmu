@@ -22,33 +22,27 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "OEMTLRenderContext.h"
 #import "RendererCommon.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class SlangShader;
-@class OEMTLPixelConverter;
 
 @interface FrameView : NSObject
 
 @property (nonatomic, readonly) OEMTLPixelFormat format;
 /*! @brief the size of the source texture */
-@property (nonatomic, readwrite) OEIntSize size;
-@property (nonatomic, readonly) SlangShader *shader;
-@property (nonatomic, readwrite) OEMTLViewport viewport;
+@property (nonatomic, readwrite) OEIntSize       size;
+@property (nonatomic, readonly) SlangShader      *shader;
+@property (nonatomic, readwrite) OEMTLViewport   viewport;
 
 - (instancetype)initWithFormat:(OEMTLPixelFormat)format
-                        device:(id<MTLDevice>)device
-                     converter:(OEMTLPixelConverter *)converter;
+                        device:(id<MTLDevice>)device;
 
 - (id<MTLBuffer>)allocateBufferHeight:(NSUInteger)height bytesPerRow:(NSUInteger)bytesPerRow bytes:(void *)pointer;
-
-- (BOOL)drawWithContext:(id<OEMTLRenderContext>)ctx;
-- (void)drawWithEncoder:(id<MTLRenderCommandEncoder>)rce;
-
+- (void)renderWithCommandBuffer:(id<MTLCommandBuffer>)commandBuffer renderPassDescriptor:(MTLRenderPassDescriptor *)renderPassDescriptor;
 - (void)setFilteringIndex:(int)index smooth:(bool)smooth;
-- (BOOL)setShaderFromURL:(NSURL *)url context:(id<OEMTLRenderContext>)ctx;
+- (BOOL)setShaderFromURL:(NSURL *)url;
 
 @end
 

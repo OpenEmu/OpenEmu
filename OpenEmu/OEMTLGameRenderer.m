@@ -28,7 +28,6 @@
 #import "RendererCommon.h"
 #import "OEGameHelperMetalLayer.h"
 #import "FrameView.h"
-#import "OEMTLPixelConverter.h"
 
 // imported for helpers
 #import <OpenGL/gl.h>
@@ -39,40 +38,20 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
 {
     OEGameHelperMetalLayer *_layer;
     
-    void          *_buffer; // frame buffer
     id<MTLBuffer> _backBuffer;
     
     // MetalDriver
     FrameView *_frameView;
     
-    id<MTLDevice>       _device;
-    id<MTLLibrary>      _library;
-    BOOL                _keepAspect;
-    OEMTLPixelConverter *_pixelConversion;
-    
-    // render target layer state
-    id<MTLRenderPipelineState> _pipelineState;
-    id<MTLSamplerState>        _samplerStateLinear;
-    id<MTLSamplerState>        _samplerStateNearest;
+    id<MTLDevice> _device;
     
     // Context
     dispatch_semaphore_t _inflightSemaphore;
     id<MTLCommandQueue>  _commandQueue;
-    id<CAMetalDrawable>  _drawable;
     OEMTLViewport        _viewport;
-    
-    // main render pass state
-    MTLRenderPassDescriptor     *_currentRenderPassDescriptor;
-    id<MTLRenderCommandEncoder> _rce;
-    
-    id<MTLCommandBuffer> _blitCommandBuffer;
     
     MTLClearColor _clearColor;
     
-    unsigned _rotation;
-    
-    Uniforms _uniforms;
-    Uniforms _uniformsNoRotate;
 }
 
 @synthesize gameCore = _gameCore;
@@ -85,7 +64,6 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
     self = [super init];
     
     _device       = MTLCreateSystemDefaultDevice();
-    _library      = [_device newDefaultLibrary];
     _commandQueue = [_device newCommandQueue];
     
     _layer = [OEGameHelperMetalLayer new];
@@ -95,77 +73,12 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
     _layer.displaySyncEnabled = NO;
 #endif
     
-    _pixelConversion = [[OEMTLPixelConverter alloc] initWithDevice:_device
-                                                           library:_library];
-    
-    if (![self _initState])
-        return nil;
-    
     // Context
     _inflightSemaphore = dispatch_semaphore_create(MAX_INFLIGHT);
     
     _clearColor = MTLClearColorMake(0, 0, 0, 1);
-    _uniforms.projectionMatrix = matrix_proj_ortho(0, 1, 0, 1);
-    
-    [self setRotation:0];
-    
-    _keepAspect = YES;
     
     return self;
-}
-
-- (void)dealloc
-{
-    if (_buffer) {
-        free(_buffer);
-        _buffer = nil;
-    }
-}
-
-- (BOOL)_initState
-{
-    {
-        MTLVertexDescriptor *vd = [MTLVertexDescriptor new];
-        vd.attributes[0].offset = offsetof(Vertex, position);
-        vd.attributes[0].format = MTLVertexFormatFloat4;
-        vd.attributes[1].offset = offsetof(Vertex, texCoord);
-        vd.attributes[1].format = MTLVertexFormatFloat2;
-        vd.layouts[0].stride    = sizeof(Vertex);
-        
-        MTLRenderPipelineDescriptor *psd = [MTLRenderPipelineDescriptor new];
-        psd.label = @"Pipeline+No Alpha";
-        
-        MTLRenderPipelineColorAttachmentDescriptor *ca = psd.colorAttachments[0];
-        ca.pixelFormat                 = _layer.pixelFormat;
-        ca.blendingEnabled             = NO;
-        ca.sourceAlphaBlendFactor      = MTLBlendFactorSourceAlpha;
-        ca.sourceRGBBlendFactor        = MTLBlendFactorSourceAlpha;
-        ca.destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
-        ca.destinationRGBBlendFactor   = MTLBlendFactorOneMinusSourceAlpha;
-        
-        psd.sampleCount      = 1;
-        psd.vertexDescriptor = vd;
-        psd.vertexFunction   = [_library newFunctionWithName:@"basic_vertex_proj_tex"];
-        psd.fragmentFunction = [_library newFunctionWithName:@"basic_fragment_proj_tex"];
-        
-        NSError *err;
-        _pipelineState = [_device newRenderPipelineStateWithDescriptor:psd error:&err];
-        if (err != nil) {
-            NSLog(@"error creating pipeline state: %@", err.localizedDescription);
-            return NO;
-        }
-    }
-    
-    {
-        MTLSamplerDescriptor *sd = [MTLSamplerDescriptor new];
-        _samplerStateNearest = [_device newSamplerStateWithDescriptor:sd];
-        
-        sd.minFilter = MTLSamplerMinMagFilterLinear;
-        sd.magFilter = MTLSamplerMinMagFilterLinear;
-        _samplerStateLinear = [_device newSamplerStateWithDescriptor:sd];
-    }
-    
-    return YES;
 }
 
 /*
@@ -211,10 +124,9 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
         return;
     }
     
-    _viewport.fullSize   = size;
-    _viewport.view       = FitAspectRectIntoBounds(_gameCore.aspectSize, size);
-    _frameView.viewport  = _viewport;
-    _uniforms.outputSize = simd_make_float2(size.width, size.height);
+    _viewport.fullSize  = size;
+    _viewport.view      = FitAspectRectIntoBounds(_gameCore.aspectSize, size);
+    _frameView.viewport = _viewport;
 }
 
 - (void)updateRenderer
@@ -241,13 +153,13 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
     NSParameterAssert(pf != OEMTLPixelFormatInvalid);
     
     if (_frameView == nil) {
-        _frameView = [[FrameView alloc] initWithFormat:pf device:_device converter:_pixelConversion];
+        _frameView = [[FrameView alloc] initWithFormat:pf device:_device];
         _frameView.viewport = _viewport;
         [_frameView setFilteringIndex:0 smooth:NO];
         
         NSString *shaderPath = [NSUserDefaults.oe_applicationUserDefaults stringForKey:@"shaderPath"];
         if (shaderPath != nil) {
-            [_frameView setShaderFromURL:[NSURL fileURLWithPath:shaderPath] context:self];
+            [_frameView setShaderFromURL:[NSURL fileURLWithPath:shaderPath]];
         }
     }
     
@@ -290,16 +202,35 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 - (void)didExecuteFrame
 {
     @autoreleasepool {
-        [self OE_begin];
-        [self OE_drawViews];
-        [self OE_end];
+        dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
+        id<CAMetalDrawable> drawable = _layer.nextDrawable;
+        if (drawable == nil) {
+            dispatch_semaphore_signal(_inflightSemaphore);
+            return;
+        }
+        
+        MTLRenderPassDescriptor *rpd = [MTLRenderPassDescriptor new];
+        rpd.colorAttachments[0].clearColor = _clearColor;
+        rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
+        rpd.colorAttachments[0].texture    = drawable.texture;
+        
+        id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
+        [_frameView renderWithCommandBuffer:commandBuffer renderPassDescriptor:rpd];
+        
+        __block dispatch_semaphore_t inflight = _inflightSemaphore;
+        [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> _) {
+            dispatch_semaphore_signal(inflight);
+        }];
+        
+        [commandBuffer presentDrawable:drawable];
+        [commandBuffer commit];
     }
 }
 
 - (void)setFilterURL:(NSURL *)url
 {
     NSLog(@"%@: %s", self.class, __FUNCTION__);
-    [_frameView setShaderFromURL:url context:self];
+    [_frameView setShaderFromURL:url];
 }
 
 - (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block
@@ -337,33 +268,6 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
     ///!< Resume the FPS limiter when entering normal gameplay.
 }
 
-- (Uniforms *)uniforms
-{
-    return &_uniforms;
-}
-
-- (Uniforms *)uniformsNoRotate
-{
-    return &_uniformsNoRotate;
-}
-
-- (void)setRotation:(unsigned)rotation
-{
-    _rotation = 270 * rotation;
-    
-    /* Calculate projection. */
-    _uniformsNoRotate.projectionMatrix = matrix_proj_ortho(0, 1, 0, 1);
-    
-    bool allow_rotate = true;
-    if (!allow_rotate) {
-        _uniforms.projectionMatrix = _uniformsNoRotate.projectionMatrix;
-        return;
-    }
-    
-    matrix_float4x4 rot = matrix_rotate_z((float)(M_PI * _rotation / 180.0f));
-    _uniforms.projectionMatrix = simd_mul(rot, _uniformsNoRotate.projectionMatrix);
-}
-
 - (void)setDisplaySyncEnabled:(bool)displaySyncEnabled
 {
     _layer.displaySyncEnabled = displaySyncEnabled;
@@ -372,101 +276,6 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 - (bool)displaySyncEnabled
 {
     return _layer.displaySyncEnabled;
-}
-
-- (id<CAMetalDrawable>)nextDrawable
-{
-    if (_drawable == nil) {
-        _drawable = _layer.nextDrawable;
-    }
-    return _drawable;
-}
-
-
-- (id<MTLCommandBuffer>)blitCommandBuffer
-{
-    if (!_blitCommandBuffer) {
-        _blitCommandBuffer = [_commandQueue commandBuffer];
-        _blitCommandBuffer.label = @"blit";
-        [_blitCommandBuffer enqueue];
-    }
-    return _blitCommandBuffer;
-}
-
-- (MTLRenderPassDescriptor *)currentRenderPassDescriptor
-{
-    if (_currentRenderPassDescriptor == nil) {
-        MTLRenderPassDescriptor *rpd = [MTLRenderPassDescriptor new];
-        rpd.colorAttachments[0].clearColor = _clearColor;
-        rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
-        id<MTLTexture> tex = self.nextDrawable.texture;
-        rpd.colorAttachments[0].texture = tex;
-        _currentRenderPassDescriptor = rpd;
-    }
-    return _currentRenderPassDescriptor;
-}
-
-- (id<MTLRenderCommandEncoder>)rce
-{
-    assert(_commandBuffer != nil);
-    if (_rce == nil) {
-        _rce = [_commandBuffer renderCommandEncoderWithDescriptor:self.currentRenderPassDescriptor];
-    }
-    return _rce;
-}
-
-#pragma mark - video
-
-- (void)OE_begin
-{
-    assert(_commandBuffer == nil);
-    dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
-    _commandBuffer = [_commandQueue commandBuffer];
-}
-
-- (void)OE_drawViews
-{
-    if ([_frameView drawWithContext:self]) {
-        id<MTLRenderCommandEncoder> rce = self.rce;
-        [rce setVertexBytes:&_uniforms length:sizeof(_uniforms) atIndex:BufferIndexUniforms];
-        [rce setRenderPipelineState:_pipelineState];
-        [rce setFragmentSamplerState:_samplerStateNearest atIndex:SamplerIndexDraw];
-        [_frameView drawWithEncoder:rce];
-    }
-}
-
-- (void)OE_end
-{
-    assert(_commandBuffer != nil);
-    
-    if (_blitCommandBuffer) {
-        // pending blits for mipmaps or render passes for slang shaders
-        [_blitCommandBuffer commit];
-        _blitCommandBuffer = nil;
-    }
-    
-    if (_rce) {
-        [_rce endEncoding];
-        _rce = nil;
-    }
-    
-    __block dispatch_semaphore_t inflight = _inflightSemaphore;
-    [_commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> _) {
-        dispatch_semaphore_signal(inflight);
-    }];
-    
-    id<CAMetalDrawable> drawable = self.nextDrawable;
-    _drawable = nil;
-    if (drawable != nil) {
-        [_commandBuffer presentDrawable:drawable];
-    } else {
-        dispatch_semaphore_signal(inflight);
-    }
-    
-    [_commandBuffer commit];
-    _commandBuffer = nil;
-    
-    _currentRenderPassDescriptor = nil;
 }
 
 @end

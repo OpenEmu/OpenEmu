@@ -1537,7 +1537,6 @@
 		052B92B9226EE05300701431 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		052B92BB226EE05500701431 /* OEMTLPixelConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMTLPixelConverter.m; sourceTree = "<group>"; };
 		052B92BC226EE05600701431 /* ShaderTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderTypes.h; sourceTree = "<group>"; };
-		052B92BD226EE05700701431 /* OEMTLRenderContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMTLRenderContext.h; sourceTree = "<group>"; };
 		052B92BF226EE05900701431 /* OEMTLPixelConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMTLPixelConverter.h; sourceTree = "<group>"; };
 		052B92C1226EE05B00701431 /* RendererCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererCommon.h; sourceTree = "<group>"; };
 		052B92D2226EE5FA00701431 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -3240,7 +3239,6 @@
 		052B929B226ED66D00701431 /* Metal */ = {
 			isa = PBXGroup;
 			children = (
-				052B92BD226EE05700701431 /* OEMTLRenderContext.h */,
 				052B92BF226EE05900701431 /* OEMTLPixelConverter.h */,
 				052B92BB226EE05500701431 /* OEMTLPixelConverter.m */,
 				057518192279424E009BCAA8 /* FrameView.h */,

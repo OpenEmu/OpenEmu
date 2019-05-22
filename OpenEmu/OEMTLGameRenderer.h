@@ -25,36 +25,18 @@
 #import "OEGameRenderer.h"
 #import "OEGameHelperMetalLayer.h"
 #import "ShaderTypes.h"
-#import "OEMTLRenderContext.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OEMTLGameRenderer : NSObject <OEGameRenderer, OEGameHelperLayerDelegate, OEMTLRenderContext>
+@interface OEMTLGameRenderer : NSObject <OEGameRenderer, OEGameHelperLayerDelegate>
 
 @property (readonly) id<OEGameHelperLayer> helperLayer;
 
 @property (nonatomic, readonly) id<MTLDevice> device;
-@property (nonatomic, readonly) id<MTLLibrary> library;
 @property (nonatomic, readwrite) MTLClearColor clearColor;
-@property (nonatomic, readonly) Uniforms *uniformsNoRotate;
-@property (nonatomic, readonly) Uniforms *uniforms;
 
 /*! @brief Specifies whether rendering is synchronized with the display */
 @property (nonatomic, readwrite) bool displaySyncEnabled;
-
-/*! @brief Returns the command buffer used for pre-render work,
- * such as mip maps and shader effects
- * */
-@property (nonatomic, readonly) id<MTLCommandBuffer> blitCommandBuffer;
-
-/*! @brief Returns the command buffer for the current frame */
-@property (nonatomic, readonly) id<MTLCommandBuffer> commandBuffer;
-
-/*! @brief Main render encoder to back buffer */
-@property (nonatomic, readonly) id<MTLRenderCommandEncoder> rce;
-
-- (void)setRotation:(unsigned)rotation;
-
 
 @end
 
