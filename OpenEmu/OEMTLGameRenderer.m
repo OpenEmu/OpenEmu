@@ -217,19 +217,6 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
     _uniforms.outputSize = simd_make_float2(size.width, size.height);
 }
 
-#pragma mark - video
-
-- (void)_drawViews
-{
-    if ([_frameView drawWithContext:self]) {
-        id<MTLRenderCommandEncoder> rce = self.rce;
-        [rce setVertexBytes:&_uniforms length:sizeof(_uniforms) atIndex:BufferIndexUniforms];
-        [rce setRenderPipelineState:_pipelineState];
-        [rce setFragmentSamplerState:_samplerStateNearest atIndex:SamplerIndexDraw];
-        [_frameView drawWithEncoder:rce];
-    }
-}
-
 - (void)updateRenderer
 {
     // gameCore, ioSurface or gameCore.screenRect changed
@@ -303,9 +290,9 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 - (void)didExecuteFrame
 {
     @autoreleasepool {
-        [self begin];
-        [self _drawViews];
-        [self end];
+        [self OE_begin];
+        [self OE_drawViews];
+        [self OE_end];
     }
 }
 
@@ -406,13 +393,6 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
     return _blitCommandBuffer;
 }
 
-- (void)begin
-{
-    assert(_commandBuffer == nil);
-    dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
-    _commandBuffer = [_commandQueue commandBuffer];
-}
-
 - (MTLRenderPassDescriptor *)currentRenderPassDescriptor
 {
     if (_currentRenderPassDescriptor == nil) {
@@ -435,14 +415,33 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
     return _rce;
 }
 
-- (void)end
+#pragma mark - video
+
+- (void)OE_begin
+{
+    assert(_commandBuffer == nil);
+    dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
+    _commandBuffer = [_commandQueue commandBuffer];
+}
+
+- (void)OE_drawViews
+{
+    if ([_frameView drawWithContext:self]) {
+        id<MTLRenderCommandEncoder> rce = self.rce;
+        [rce setVertexBytes:&_uniforms length:sizeof(_uniforms) atIndex:BufferIndexUniforms];
+        [rce setRenderPipelineState:_pipelineState];
+        [rce setFragmentSamplerState:_samplerStateNearest atIndex:SamplerIndexDraw];
+        [_frameView drawWithEncoder:rce];
+    }
+}
+
+- (void)OE_end
 {
     assert(_commandBuffer != nil);
     
     if (_blitCommandBuffer) {
         // pending blits for mipmaps or render passes for slang shaders
         [_blitCommandBuffer commit];
-        //[_blitCommandBuffer waitUntilCompleted];
         _blitCommandBuffer = nil;
     }
     
@@ -479,13 +478,22 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType)
             switch (pixelType) {
                 case GL_UNSIGNED_INT_8_8_8_8_REV:
                     return OEMTLPixelFormatBGRA8Unorm;
+                default:
+                    break;
             }
+            break;
         
         case GL_RGB:
             switch (pixelType) {
                 case GL_UNSIGNED_SHORT_5_6_5:
                     return OEMTLPixelFormatB5G6R5Unorm;
+                default:
+                    break;
             }
+            break;
+        
+        default:
+            break;
     }
     
     return OEMTLPixelFormatInvalid;

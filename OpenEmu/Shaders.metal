@@ -85,10 +85,10 @@ kernel void convert_rgb565_to_bgra8888(texture2d<ushort, access::read> in  [[ te
 
 #pragma mark - filter kernels, buffer to texture
 
-kernel void convert_bgra4444_to_bgra8888_buf(device ushort *                in  [[ buffer(0) ]],
-                                             constant uint &       bytesPerRow  [[ buffer(1) ]],
+kernel void convert_bgra4444_to_bgra8888_buf(device ushort * in  [[ buffer(0) ]],
+                                             constant uint & bytesPerRow  [[ buffer(1) ]],
                                              texture2d<half, access::write> out [[ texture(0) ]],
-                                             uint                          gid  [[ thread_position_in_grid ]])
+                                             uint2 gid  [[ thread_position_in_grid ]])
 {
     ushort pix  = in[gid.y * bytesPerRow/2 + gid.x];
     uchar4 pix2 = uchar4(extract_bits(pix,  4, 4),
@@ -100,10 +100,10 @@ kernel void convert_bgra4444_to_bgra8888_buf(device ushort *                in  
     out.write(half4(pix2) / 15.0, gid);
 }
 
-kernel void convert_rgb565_to_bgra8888_buf(device ushort *                in  [[ buffer(0) ]],
-                                           constant uint &       bytesPerRow  [[ buffer(1) ]],
+kernel void convert_rgb565_to_bgra8888_buf(device ushort * in  [[ buffer(0) ]],
+                                           constant uint & bytesPerRow  [[ buffer(1) ]],
                                            texture2d<half, access::write> out [[ texture(0) ]],
-                                           uint2                          gid [[ thread_position_in_grid ]])
+                                           uint2 gid [[ thread_position_in_grid ]])
 {
     ushort pix  = in[gid.y * bytesPerRow/2 + gid.x];
     uchar4 pix2 = uchar4(extract_bits(pix, 11, 5),

@@ -91,8 +91,8 @@ typedef struct texture
     
     texture_t     _luts[kMaxTextures];
     
-    bool _resizeRenderTargets;
-    bool init_history;
+    bool _renderTargetsNeedResize;
+    bool _historyNeedsInit;
     OEMTLViewport _viewport;
 }
 
@@ -102,12 +102,13 @@ typedef struct texture
 {
     self = [super init];
     
-    _format    = format;
-    _device    = device;
-    _loader    = [[MTKTextureLoader alloc] initWithDevice:device];
-    _converter = converter;
-    [self _initSamplers];
-    _resizeRenderTargets = YES;
+    _format                  = format;
+    _device                  = device;
+    _loader                  = [[MTKTextureLoader alloc] initWithDevice:device];
+    _converter               = converter;
+    _renderTargetsNeedResize = YES;
+    
+    [self OE_initSamplers];
     
     Vertex v[4] = {
             {simd_make_float4(0, 1, 0, 1), simd_make_float2(0, 1)},
@@ -120,7 +121,7 @@ typedef struct texture
     return self;
 }
 
-- (void)_initSamplers
+- (void)OE_initSamplers
 {
     MTLSamplerDescriptor *sd = [MTLSamplerDescriptor new];
     
@@ -178,17 +179,8 @@ typedef struct texture
         return;
     }
     
-    _size = size;
-    
-    _resizeRenderTargets = YES;
-
-//    if (_format != OEMTLPixelFormatBGRA8Unorm && _format != OEMTLPixelFormatBGRX8Unorm) {
-//        MTLTextureDescriptor *td = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatR16Uint
-//                                                                                      width:size.width
-//                                                                                     height:size.height
-//                                                                                  mipmapped:NO];
-//        _src = [_device newTextureWithDescriptor:td];
-//    }
+    _size                    = size;
+    _renderTargetsNeedResize = YES;
 }
 
 - (OEIntSize)size
@@ -196,30 +188,30 @@ typedef struct texture
     return _size;
 }
 
-- (void)_updateHistory
+- (void)OE_updateHistory
 {
     if (_shader) {
         if (_historySize) {
-            if (init_history)
-                [self _initHistory];
-            else {
-                texture_t       tmp = _outputFrame.texture[_historySize];
-                for (NSUInteger k   = _historySize; k > 0; k--)
+            if (_historyNeedsInit) {
+                [self OE_initHistory];
+            } else {
+                texture_t       tmp     = _outputFrame.texture[_historySize];
+                for (NSUInteger k       = _historySize; k > 0; k--) {
                     _outputFrame.texture[k] = _outputFrame.texture[k - 1];
-                _outputFrame.texture[0]     = tmp;
+                }
+                _outputFrame.texture[0] = tmp;
             }
         }
     }
     
     /* either no history, or we moved a texture of a different size in the front slot */
-    if (_outputFrame.texture[0].size_data.x != _size.width ||
-            _outputFrame.texture[0].size_data.y != _size.height) {
+    if (_outputFrame.texture[0].size_data.x != _size.width || _outputFrame.texture[0].size_data.y != _size.height) {
         MTLTextureDescriptor *td = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
                                                                                       width:_size.width
                                                                                      height:_size.height
                                                                                   mipmapped:false];
         td.usage = MTLTextureUsageShaderRead | MTLTextureUsageShaderWrite;
-        [self _initTexture:&_outputFrame.texture[0] withDescriptor:td];
+        [self OE_initTexture:&_outputFrame.texture[0] withDescriptor:td];
     }
 }
 
@@ -245,7 +237,7 @@ typedef struct texture
     _outputFrame.output_size.w    = 1.0f / view.size.height;
     
     if (_shader) {
-        _resizeRenderTargets = YES;
+        _renderTargetsNeedResize = YES;
     }
 }
 
@@ -259,19 +251,6 @@ typedef struct texture
     } else {
         _srcBuffer = [_device newBufferWithLength:len options:MTLResourceStorageModeShared];
     }
-    MTLTextureDescriptor *td;
-    td = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
-                                                            width:(NSUInteger)_size.width
-                                                           height:(NSUInteger)_size.height
-                                                        mipmapped:NO];
-    if (_format != OEMTLPixelFormatBGRA8Unorm && _format != OEMTLPixelFormatBGRX8Unorm) {
-        td.pixelFormat = MTLPixelFormatR16Uint;
-    }
-    
-    if ((_srcBytesPerRow % 256) == 8) {
-        // macOS requires 256-byte alignment
-        // _src = [_srcBuffer newTextureWithDescriptor:td offset:0 bytesPerRow:bytesPerRow];
-    }
     
     return _srcBuffer;
 }
@@ -279,15 +258,14 @@ typedef struct texture
 - (void)prepareNextFrameUsingContext:(id<OEMTLRenderContext>)ctx
 {
     _frameCount++;
-    [self _updateRenderTargets];
-    [self _updateHistory];
+    [self OE_resizeRenderTargets];
+    [self OE_updateHistory];
     _texture = _outputFrame.texture[0].view;
     
     if (_format == OEMTLPixelFormatBGRA8Unorm || _format == OEMTLPixelFormatBGRX8Unorm) {
-        // only need to blit source texture to Original[0]
         MTLSize                   size = {.width = (NSUInteger)_size.width, .height = (NSUInteger)_size.height, .depth = 1};
         MTLOrigin                 zero = {0};
-        id<MTLBlitCommandEncoder> bce  = ctx.blitCommandBuffer.blitCommandEncoder;
+        id<MTLBlitCommandEncoder> bce  = [ctx.blitCommandBuffer blitCommandEncoder];
         [bce copyFromBuffer:_srcBuffer
                sourceOffset:0
           sourceBytesPerRow:_srcBytesPerRow
@@ -303,7 +281,7 @@ typedef struct texture
     }
 }
 
-- (void)_initTexture:(texture_t *)t withDescriptor:(MTLTextureDescriptor *)td
+- (void)OE_initTexture:(texture_t *)t withDescriptor:(MTLTextureDescriptor *)td
 {
     t->view        = [_device newTextureWithDescriptor:td];
     t->size_data.x = td.width;
@@ -312,7 +290,7 @@ typedef struct texture
     t->size_data.w = 1.0f / td.height;
 }
 
-- (void)_initTexture:(texture_t *)t withTexture:(id<MTLTexture>)tex
+- (void)OE_initTexture:(texture_t *)t withTexture:(id<MTLTexture>)tex
 {
     t->view        = tex;
     t->size_data.x = tex.width;
@@ -321,7 +299,7 @@ typedef struct texture
     t->size_data.w = 1.0f / tex.height;
 }
 
-- (void)_initHistory
+- (void)OE_initHistory
 {
     MTLTextureDescriptor *td = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
                                                                                   width:_size.width
@@ -330,9 +308,9 @@ typedef struct texture
     td.usage = MTLTextureUsageShaderRead | MTLTextureUsageShaderWrite | MTLTextureUsageRenderTarget;
     
     for (int i = 0; i < _historySize + 1; i++) {
-        [self _initTexture:&_outputFrame.texture[i] withDescriptor:td];
+        [self OE_initTexture:&_outputFrame.texture[i] withDescriptor:td];
     }
-    init_history = NO;
+    _historyNeedsInit = NO;
 }
 
 - (void)drawWithEncoder:(id<MTLRenderCommandEncoder>)rce
@@ -347,7 +325,7 @@ typedef struct texture
 
 - (BOOL)drawWithContext:(id<OEMTLRenderContext>)ctx
 {
-    [self prepareNextFrameUsingContext:ctx];
+    [self OE_prepareNextFrameUsingContext:ctx];
     
     if (!_shader || _passSize == 0) {
         return YES;
@@ -441,9 +419,9 @@ typedef struct texture
     return _pass[_passSize - 1].rt.view != nil;
 }
 
-- (void)_updateRenderTargets
+- (void)OE_resizeRenderTargets
 {
-    if (!_shader || !_resizeRenderTargets) return;
+    if (!_shader || !_renderTargetsNeedResize) return;
     
     // release existing targets
     for (int i = 0; i < _passSize; i++) {
@@ -471,7 +449,7 @@ typedef struct texture
                     break;
                 
                 case OEShaderPassScaleAbsolute:
-                    width = pass.size.width;
+                    width = (NSInteger)pass.size.width;
                     break;
                 
                 default:
@@ -491,7 +469,7 @@ typedef struct texture
                     break;
                 
                 case OEShaderPassScaleAbsolute:
-                    height = pass.size.width;
+                    height = (NSInteger)pass.size.width;
                     break;
                 
                 default:
@@ -522,10 +500,10 @@ typedef struct texture
                                                                                       mipmapped:false];
             td.storageMode = MTLStorageModePrivate;
             td.usage       = MTLTextureUsageShaderRead | MTLTextureUsageRenderTarget;
-            [self _initTexture:&_pass[i].rt withDescriptor:td];
+            [self OE_initTexture:&_pass[i].rt withDescriptor:td];
             
             if (pass.isFeedback) {
-                [self _initTexture:&_pass[i].feedback withDescriptor:td];
+                [self OE_initTexture:&_pass[i].feedback withDescriptor:td];
             }
         } else {
             _pass[i].rt.size_data.x = width;
@@ -535,10 +513,10 @@ typedef struct texture
         }
     }
     
-    _resizeRenderTargets = NO;
+    _renderTargetsNeedResize = NO;
 }
 
-- (void)_freeShaderResources
+- (void)OE_freeShaderResources
 {
     for (int i = 0; i < kMaxShaderPasses; i++) {
         _pass[i].rt.view       = nil;
@@ -557,6 +535,11 @@ typedef struct texture
         _luts[i].view = nil;
     }
     
+    for (int i = 0; i < kMaxFrameHistory; i++) {
+        _outputFrame.texture[i].view = nil;
+        bzero(&_outputFrame.texture[i].size_data, sizeof(_outputFrame.texture[i].size_data));
+    }
+    
     _historySize = 0;
     _passSize    = 0;
     _lutSize     = 0;
@@ -564,7 +547,7 @@ typedef struct texture
 
 - (BOOL)setShaderFromURL:(NSURL *)url context:(id<OEMTLRenderContext>)ctx
 {
-    [self _freeShaderResources];
+    [self OE_freeShaderResources];
     
     NSError     *err;
     SlangShader *ss = [[SlangShader alloc] initFromURL:url error:&err];
@@ -744,7 +727,7 @@ typedef struct texture
                 continue;
             }
             
-            [self _initTexture:&_luts[i] withTexture:t];
+            [self OE_initTexture:&_luts[i] withTexture:t];
         }
         
         _shader = ss;
@@ -752,12 +735,12 @@ typedef struct texture
     }
     @finally {
         if (ss) {
-            [self _freeShaderResources];
+            [self OE_freeShaderResources];
         }
     }
     
-    _resizeRenderTargets = YES;
-    init_history         = YES;
+    _renderTargetsNeedResize = YES;
+    _historyNeedsInit        = YES;
     
     return YES;
 }
