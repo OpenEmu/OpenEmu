@@ -155,7 +155,7 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
     if (_frameView == nil) {
         _frameView = [[FrameView alloc] initWithFormat:pf device:_device];
         _frameView.viewport = _viewport;
-        [_frameView setFilteringIndex:0 smooth:NO];
+        [_frameView setDefaultFilteringLinear:NO];
         
         NSString *shaderPath = [NSUserDefaults.oe_applicationUserDefaults stringForKey:@"shaderPath"];
         if (shaderPath != nil) {
@@ -170,7 +170,7 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
     _backBuffer = [_frameView allocateBufferHeight:(NSUInteger)_surfaceSize.height bytesPerRow:(NSUInteger)bytesPerRow bytes:nil];
     void *buf = (void *)[_gameCore getVideoBufferWithHint:_backBuffer.contents];
     if (buf != _backBuffer.contents) {
-        // core wants its own buffer, so reallocate it
+        // core wants its own buffer, so create a buffer with buf as the source pixels
         _backBuffer = [_frameView allocateBufferHeight:(NSUInteger)_surfaceSize.height bytesPerRow:(NSUInteger)bytesPerRow bytes:buf];
     }
 }
@@ -235,12 +235,7 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 
 - (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block
 {
-    if (filtered) {
-    
-    } else {
-    
-    }
-    block(nil);
+    block(filtered ? [_frameView captureOutputImage] : [_frameView captureSourceImage]);
 }
 
 - (void)presentDoubleBufferedFBO

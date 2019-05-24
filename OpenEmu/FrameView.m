@@ -27,6 +27,7 @@
 #import "FrameView.h"
 #import "OEMTLPixelConverter.h"
 #import <OpenEmuShaders/OpenEmuShaders.h>
+#import <CoreImage/CoreImage.h>
 
 extern MTLPixelFormat SlangFormatToMTLPixelFormat(SlangFormat fmt);
 MTLPixelFormat SelectOptimalPixelFormat(MTLPixelFormat fmt);
@@ -61,6 +62,11 @@ typedef struct texture
     id<MTLBuffer> _srcBuffer;          // source buffer
     
     id<MTLSamplerState> _samplers[OEShaderPassFilterCount][OEShaderPassWrapCount];
+    
+    // #pragma mark screenshots
+    id<MTLCommandQueue> _commandQueue;
+    id<MTLTexture>      _screenshotTexture;
+    CIContext           *_ciContext;
     
     SlangShader *_shader;
     
@@ -233,15 +239,14 @@ typedef struct texture
     /* Calculate projection. */
     _uniformsNoRotate.projectionMatrix = matrix_proj_ortho(0, 1, 0, 1);
     
-    bool            allow_rotate = true;
-    matrix_float4x4 rot                = matrix_rotate_z((float)(M_PI * _rotation / 180.0f));
+    matrix_float4x4 rot = matrix_rotate_z((float)(M_PI * _rotation / 180.0f));
     _uniforms.projectionMatrix = simd_mul(rot, _uniformsNoRotate.projectionMatrix);
 }
 
-- (void)setFilteringIndex:(int)index smooth:(bool)smooth
+- (void)setDefaultFilteringLinear:(bool)linear
 {
     for (int i = 0; i < OEShaderPassWrapCount; i++) {
-        if (smooth)
+        if (linear)
             _samplers[OEShaderPassFilterUnspecified][i] = _samplers[OEShaderPassFilterLinear][i];
         else
             _samplers[OEShaderPassFilterUnspecified][i] = _samplers[OEShaderPassFilterNearest][i];
@@ -330,9 +335,66 @@ typedef struct texture
     return _srcBuffer;
 }
 
+- (id<MTLCommandQueue>)commandQueue
+{
+    if (_commandQueue == nil) {
+        _commandQueue = [_device newCommandQueue];
+    }
+    return _commandQueue;
+}
+
+- (CIContext *)OE_ciContext
+{
+    if (_ciContext == nil) {
+        _ciContext = [CIContext new];
+    }
+    return _ciContext;
+}
+
+- (id<MTLTexture>)screenshotTexture
+{
+    if (_screenshotTexture == nil ||
+            _screenshotTexture.width != _outputFrame.viewport.width ||
+            _screenshotTexture.height != _outputFrame.viewport.height) {
+        MTLTextureDescriptor *td = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
+                                                                                      width:(NSUInteger)_outputFrame.viewport.width
+                                                                                     height:(NSUInteger)_outputFrame.viewport.height
+                                                                                  mipmapped:false];
+        _screenshotTexture = [_device newTextureWithDescriptor:td];
+    }
+    return _screenshotTexture;
+}
+
+- (NSBitmapImageRep *)OE_imageFromTexture:(id<MTLTexture>)tex
+{
+    NSDictionary<CIImageOption, id> *opts = @{
+            kCIImageNearestSampling: @YES,
+    };
+    
+    CIImage *img = [[CIImage alloc] initWithMTLTexture:tex options:opts];
+    // flip image
+    img = [img imageByApplyingTransform:CGAffineTransformTranslate(CGAffineTransformMakeScale(1, -1), 0, img.extent.size.height)];
+    CGImageRef cgImg = [[self OE_ciContext] createCGImage:img fromRect:img.extent];
+    return [[NSBitmapImageRep alloc] initWithCGImage:cgImg];
+}
+
 - (NSBitmapImageRep *)captureSourceImage
 {
+    return [self OE_imageFromTexture:_outputFrame.texture[0].view];
+}
 
+- (NSBitmapImageRep *)captureOutputImage
+{
+    id<MTLTexture>          tex  = [self screenshotTexture];
+    MTLRenderPassDescriptor *rpd = [MTLRenderPassDescriptor new];
+    rpd.colorAttachments[0].clearColor = MTLClearColorMake(0, 0, 0, 1);
+    rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
+    rpd.colorAttachments[0].texture    = tex;
+    id<MTLCommandBuffer> commandBuffer = [self.commandQueue commandBuffer];
+    [self renderWithCommandBuffer:commandBuffer renderPassDescriptor:rpd];
+    [commandBuffer commit];
+    [commandBuffer waitUntilCompleted];
+    return [self OE_imageFromTexture:tex];
 }
 
 - (void)OE_prepareNextFrameWithCommandBuffer:(id<MTLCommandBuffer>)commandBuffer

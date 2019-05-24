@@ -560,7 +560,9 @@ extern NSString * const kCAContextCIFilterBehavior;
 - (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block
 {
     if ([_gameRenderer respondsToSelector:@selector(takeScreenshotWithFiltering:completionHandler:)]) {
-        [_gameRenderer takeScreenshotWithFiltering:filtered completionHandler:block];
+        [_gameCore performBlock:^{
+            [_gameRenderer takeScreenshotWithFiltering:filtered completionHandler:block];
+        }];
         return;
     }
 

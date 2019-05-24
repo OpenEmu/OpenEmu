@@ -41,7 +41,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id<MTLBuffer>)allocateBufferHeight:(NSUInteger)height bytesPerRow:(NSUInteger)bytesPerRow bytes:(void *)pointer;
 - (void)renderWithCommandBuffer:(id<MTLCommandBuffer>)commandBuffer renderPassDescriptor:(MTLRenderPassDescriptor *)renderPassDescriptor;
-- (void)setFilteringIndex:(int)index smooth:(bool)smooth;
+
+/*! @brief returns an image of the last rendered source image */
+- (NSBitmapImageRep *)captureSourceImage;
+
+/*! @brief returns an image of the last source image after all shaders have been applied */
+- (NSBitmapImageRep *)captureOutputImage;
+
+/*! @brief The default filtering mode when a shader pass leaves the value unspecified
+ *
+ * @details
+ * When a shader does not specify a filtering mode, the default
+ * will be determined by this method.
+ *
+ * @param linear
+ */
+- (void)setDefaultFilteringLinear:(bool)linear;
 - (BOOL)setShaderFromURL:(NSURL *)url;
 
 @end
