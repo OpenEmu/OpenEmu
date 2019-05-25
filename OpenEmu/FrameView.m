@@ -77,7 +77,7 @@ typedef struct texture
     
     struct
     {
-        texture_t   texture[kMaxFrameHistory + 1];
+        texture_t   texture[kMaxFrameHistory + 1]; // texture[0].view is current source image
         MTLViewport viewport;
         float4_t    output_size;
     }          _outputFrame;
@@ -354,12 +354,13 @@ typedef struct texture
 - (id<MTLTexture>)screenshotTexture
 {
     if (_screenshotTexture == nil ||
-            _screenshotTexture.width != _outputFrame.viewport.width ||
-            _screenshotTexture.height != _outputFrame.viewport.height) {
+            _screenshotTexture.width != _viewport.fullSize.width ||
+            _screenshotTexture.height != _viewport.fullSize.height) {
         MTLTextureDescriptor *td = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
-                                                                                      width:(NSUInteger)_outputFrame.viewport.width
-                                                                                     height:(NSUInteger)_outputFrame.viewport.height
+                                                                                      width:(NSUInteger)_viewport.fullSize.width
+                                                                                     height:(NSUInteger)_viewport.fullSize.height
                                                                                   mipmapped:false];
+        td.usage = MTLTextureUsageShaderRead | MTLTextureUsageRenderTarget;
         _screenshotTexture = [_device newTextureWithDescriptor:td];
     }
     return _screenshotTexture;
@@ -370,11 +371,12 @@ typedef struct texture
     NSDictionary<CIImageOption, id> *opts = @{
             kCIImageNearestSampling: @YES,
     };
-    
+    CIContext *ctx = [self OE_ciContext];
     CIImage *img = [[CIImage alloc] initWithMTLTexture:tex options:opts];
+    img = [img imageBySettingAlphaOneInExtent:img.extent];
     // flip image
     img = [img imageByApplyingTransform:CGAffineTransformTranslate(CGAffineTransformMakeScale(1, -1), 0, img.extent.size.height)];
-    CGImageRef cgImg = [[self OE_ciContext] createCGImage:img fromRect:img.extent];
+    CGImageRef cgImg = [ctx createCGImage:img fromRect:img.extent];
     return [[NSBitmapImageRep alloc] initWithCGImage:cgImg];
 }
 
@@ -447,7 +449,7 @@ typedef struct texture
                                                                                   width:_size.width
                                                                                  height:_size.height
                                                                               mipmapped:false];
-    td.usage = MTLTextureUsageShaderRead | MTLTextureUsageShaderWrite | MTLTextureUsageRenderTarget;
+    td.usage = MTLTextureUsageShaderRead | MTLTextureUsageShaderWrite;
     
     for (int i = 0; i < _historySize + 1; i++) {
         [self OE_initTexture:&_outputFrame.texture[i] withDescriptor:td];
@@ -666,10 +668,11 @@ typedef struct texture
     for (int i = 0; i < kMaxShaderPasses; i++) {
         _pass[i].rt.view       = nil;
         _pass[i].feedback.view = nil;
+        _pass[i].semantics     = nil;
+        _pass[i]._state        = nil;
+        
         bzero(&_pass[i].rt.size_data, sizeof(_pass[i].rt.size_data));
         bzero(&_pass[i].feedback.size_data, sizeof(_pass[i].feedback.size_data));
-        
-        _pass[i]._state = nil;
         
         for (unsigned j = 0; j < kMaxConstantBuffers; j++) {
             _pass[i].buffers[j] = nil;
