@@ -1,0 +1,15 @@
+shaders = 2
+shader0 = hqx/shader-files/pass1.slang
+shader1 = hqx/shader-files/hq3x.slang
+
+filter_linear0 = false
+scale_type0 = source
+scale0 = 1.0
+
+filter_linear1 = false
+scale_type1 = source
+scale1 = 3.0
+
+textures = LUT
+LUT = hqx/resources/hq3x.png
+LUT_linear = false

@@ -131,6 +131,8 @@
 		052B92D4226EE66C00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
 		0575181B2279424E009BCAA8 /* FrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0575181A2279424E009BCAA8 /* FrameView.m */; };
 		0575181C2279424E009BCAA8 /* FrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0575181A2279424E009BCAA8 /* FrameView.m */; };
+		05E4400B22991527009E6D27 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = 05E4400A22991527009E6D27 /* Shaders */; };
+		05E4400C22991545009E6D27 /* Shaders in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 05E4400A22991527009E6D27 /* Shaders */; };
 		05F5BAE9228662C5004D713C /* OpenEmuShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */; };
 		05F5BAED228662D3004D713C /* OpenEmuShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */; };
 		05F5BAEE22866317004D713C /* OpenEmuShaders.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -171,17 +173,6 @@
 		1BFC2725116C1F6700B95689 /* OETaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* OETaskWrapper.m */; };
 		1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */; };
 		1EA4404911973E9C001D71CA /* OEGameQuickLookDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA4404811973E9C001D71CA /* OEGameQuickLookDocument.m */; };
-		2205C36B196205260013C675 /* _hq2x.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C355196204A60013C675 /* _hq2x.cg */; };
-		2205C36C196205270013C675 /* _hq2x.png in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C356196204A60013C675 /* _hq2x.png */; };
-		2205C36D196205270013C675 /* _hq3x.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C357196204A60013C675 /* _hq3x.cg */; };
-		2205C36E196205270013C675 /* _hq3x.png in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C358196204A60013C675 /* _hq3x.png */; };
-		2205C36F196205270013C675 /* _hq4x.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C359196204A60013C675 /* _hq4x.cg */; };
-		2205C370196205270013C675 /* _hq4x.png in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35A196204A60013C675 /* _hq4x.png */; };
-		2205C371196205270013C675 /* _pass1.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35B196204A60013C675 /* _pass1.cg */; };
-		2205C372196205270013C675 /* _pass2.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35C196204A60013C675 /* _pass2.inc */; };
-		2205C373196205270013C675 /* HQ2x.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35D196204A60013C675 /* HQ2x.cgp */; };
-		2205C374196205270013C675 /* HQ3x.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35E196204A60013C675 /* HQ3x.cgp */; };
-		2205C375196205270013C675 /* HQ4x.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35F196204A60013C675 /* HQ4x.cgp */; };
 		277CBA3719DE54200059A2C1 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		277CBA4A19DE54A80059A2C1 /* OEIntellivisionSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 277CBA4819DE54A80059A2C1 /* OEIntellivisionSystemResponder.m */; };
 		277CBA4D19DE55030059A2C1 /* intellivision_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 277CBA4B19DE55030059A2C1 /* intellivision_library.png */; };
@@ -572,17 +563,6 @@
 		87FBC0A41C0798C000AECF5A /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0A31C0798C000AECF5A /* Controller-Preferences.plist */; };
 		87FBC0A61C07996B00AECF5A /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0A51C07996B00AECF5A /* Controller-Mappings.plist */; };
 		87FBC0A81C07A22700AECF5A /* Atari 8bit.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87FBC08E1C0790B400AECF5A /* Atari 8bit.oesystemplugin */; };
-		8C09E4D81867984B0095DB4E /* Beam4.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4BE1867975E0095DB4E /* Beam4.cgp */; };
-		8C09E4D91867984B0095DB4E /* NTSC (Blargg).cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */; };
-		8C09E4DA1867984B0095DB4E /* _beam4_1.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C01867975E0095DB4E /* _beam4_1.cg */; };
-		8C09E4DB1867984B0095DB4E /* _beam4_2.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C11867975E0095DB4E /* _beam4_2.cg */; };
-		8C09E4DC1867984B0095DB4E /* _beam4_3.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C21867975E0095DB4E /* _beam4_3.cg */; };
-		8C09E4DD1867984B0095DB4E /* _stock.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C31867975E0095DB4E /* _stock.cg */; };
-		8C09E4E01867984B0095DB4E /* Blinky.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C61867975E0095DB4E /* Blinky.cg */; };
-		8C09E4E11867984B0095DB4E /* CRT.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C71867975E0095DB4E /* CRT.cg */; };
-		8C09E4E21867984B0095DB4E /* LCD3x.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C81867975E0095DB4E /* LCD3x.cg */; };
-		8C09E4E31867984B0095DB4E /* SABR.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C91867975E0095DB4E /* SABR.cg */; };
-		8C09E4E41867984B0095DB4E /* Scanline.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4CA1867975E0095DB4E /* Scanline.cg */; };
 		8CBD3AA217D23AA80022399B /* OEGridGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CBD3AA117D23AA80022399B /* OEGridGameCell.m */; };
 		8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8F071F391C25534E007B76DA /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F381C25534E007B76DA /* Preferences.xib */; };
@@ -619,13 +599,6 @@
 		941F5A1D17A786870005D7EA /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A1717A786870005D7EA /* Controller-Preferences.plist */; };
 		941F5A1E17A786870005D7EA /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A1817A786870005D7EA /* Keyboard-Mappings.plist */; };
 		941F5A1F17A786C00005D7EA /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
-		94380786184E6BB600E2274B /* _ntsc-decode-filter-3phase.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380774184E6AE100E2274B /* _ntsc-decode-filter-3phase.inc */; };
-		94380787184E6BB600E2274B /* _ntsc-gauss-pass.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380775184E6AE100E2274B /* _ntsc-gauss-pass.cg */; };
-		94380788184E6BB600E2274B /* _ntsc-param.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380776184E6AE100E2274B /* _ntsc-param.inc */; };
-		9438078C184E6BB600E2274B /* _ntsc-pass2-3phase.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9438077A184E6AE100E2274B /* _ntsc-pass2-3phase.cg */; };
-		94380793184E6BB600E2274B /* _ntsc-rgbyuv.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380781184E6AE100E2274B /* _ntsc-rgbyuv.inc */; };
-		94380794184E6BB600E2274B /* _ntsc-stock.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380782184E6AE100E2274B /* _ntsc-stock.cg */; };
-		94380795184E6BB600E2274B /* NTSC.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380783184E6AE100E2274B /* NTSC.cgp */; };
 		943815B8165771EB00D55731 /* OEGenesisSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943815B7165771EB00D55731 /* OEGenesisSystemController.m */; };
 		943819C41658DAE800D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943819C31658DAE800D55731 /* Controller-Mappings.plist */; };
 		943C80211708A7E400D8D93E /* OEJaguarSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 943C801F1708A7E400D8D93E /* OEJaguarSystemResponder.m */; };
@@ -677,7 +650,6 @@
 		94454ED517861123006C057B /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		94454F31178B4ABA006C057B /* Virtual Boy.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224831707541E00098DA0 /* Virtual Boy.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		94525EE217A9A778003CB1A2 /* OESega32XSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94525EE117A9A778003CB1A2 /* OESega32XSystemController.m */; };
-		94539B00187D09B100CD1BA9 /* Pixellate.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94539AFD187D096C00CD1BA9 /* Pixellate.cg */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
 		945E43141517F5BC00057D08 /* arcade_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E430F1517F5BC00057D08 /* arcade_library.png */; };
 		945E43161517F5BC00057D08 /* controller_arcade_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E43111517F5BC00057D08 /* controller_arcade_mask.png */; };
@@ -846,11 +818,6 @@
 		94EBBD31183F4DB000743756 /* Arcade.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */; };
 		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
 		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
-		94FEFA5218A80EF30033A762 /* _ntsc-pass1-composite-3phase.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4B18A80ECC0033A762 /* _ntsc-pass1-composite-3phase.cg */; };
-		94FEFA5318A80EF30033A762 /* _ntsc-pass1-encode-demodulate.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4C18A80ECC0033A762 /* _ntsc-pass1-encode-demodulate.inc */; };
-		94FEFA5418A80EF30033A762 /* _ntsc-pass1-vertex.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4D18A80ECC0033A762 /* _ntsc-pass1-vertex.inc */; };
-		94FEFA5518A80EF30033A762 /* _ntsc-pass2-decode.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4E18A80ECD0033A762 /* _ntsc-pass2-decode.inc */; };
-		94FEFA5618A80EF30033A762 /* _ntsc-pass2-vertex.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4F18A80ECD0033A762 /* _ntsc-pass2-vertex.inc */; };
 		A90207BF09EA1497DF24417B /* OEGameHelperOpenGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A9020994DF6C7CAD59D8FE40 /* OEGameHelperOpenGLLayer.m */; };
 		A90208FC9B5D10B9F8150E57 /* OEGameHelperMetalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A902019312DE5D81DCEEDF26 /* OEGameHelperMetalLayer.m */; };
 		A9020A6B0B5DCC3081F0DB19 /* OEGameHelperMetalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A902019312DE5D81DCEEDF26 /* OEGameHelperMetalLayer.m */; };
@@ -1374,44 +1341,10 @@
 		1B22406D100BD6C600F42067 /* Copy Filters Folder To App Resources */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = Filters;
+			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				2205C36B196205260013C675 /* _hq2x.cg in Copy Filters Folder To App Resources */,
-				2205C36C196205270013C675 /* _hq2x.png in Copy Filters Folder To App Resources */,
-				2205C36D196205270013C675 /* _hq3x.cg in Copy Filters Folder To App Resources */,
-				2205C36E196205270013C675 /* _hq3x.png in Copy Filters Folder To App Resources */,
-				2205C36F196205270013C675 /* _hq4x.cg in Copy Filters Folder To App Resources */,
-				2205C370196205270013C675 /* _hq4x.png in Copy Filters Folder To App Resources */,
-				2205C371196205270013C675 /* _pass1.cg in Copy Filters Folder To App Resources */,
-				2205C372196205270013C675 /* _pass2.inc in Copy Filters Folder To App Resources */,
-				2205C373196205270013C675 /* HQ2x.cgp in Copy Filters Folder To App Resources */,
-				2205C374196205270013C675 /* HQ3x.cgp in Copy Filters Folder To App Resources */,
-				2205C375196205270013C675 /* HQ4x.cgp in Copy Filters Folder To App Resources */,
-				94FEFA5218A80EF30033A762 /* _ntsc-pass1-composite-3phase.cg in Copy Filters Folder To App Resources */,
-				94FEFA5318A80EF30033A762 /* _ntsc-pass1-encode-demodulate.inc in Copy Filters Folder To App Resources */,
-				94FEFA5418A80EF30033A762 /* _ntsc-pass1-vertex.inc in Copy Filters Folder To App Resources */,
-				94FEFA5518A80EF30033A762 /* _ntsc-pass2-decode.inc in Copy Filters Folder To App Resources */,
-				94FEFA5618A80EF30033A762 /* _ntsc-pass2-vertex.inc in Copy Filters Folder To App Resources */,
-				94539B00187D09B100CD1BA9 /* Pixellate.cg in Copy Filters Folder To App Resources */,
-				8C09E4D81867984B0095DB4E /* Beam4.cgp in Copy Filters Folder To App Resources */,
-				8C09E4D91867984B0095DB4E /* NTSC (Blargg).cgp in Copy Filters Folder To App Resources */,
-				8C09E4DA1867984B0095DB4E /* _beam4_1.cg in Copy Filters Folder To App Resources */,
-				8C09E4DB1867984B0095DB4E /* _beam4_2.cg in Copy Filters Folder To App Resources */,
-				8C09E4DC1867984B0095DB4E /* _beam4_3.cg in Copy Filters Folder To App Resources */,
-				8C09E4DD1867984B0095DB4E /* _stock.cg in Copy Filters Folder To App Resources */,
-				8C09E4E01867984B0095DB4E /* Blinky.cg in Copy Filters Folder To App Resources */,
-				8C09E4E11867984B0095DB4E /* CRT.cg in Copy Filters Folder To App Resources */,
-				8C09E4E21867984B0095DB4E /* LCD3x.cg in Copy Filters Folder To App Resources */,
-				8C09E4E31867984B0095DB4E /* SABR.cg in Copy Filters Folder To App Resources */,
-				8C09E4E41867984B0095DB4E /* Scanline.cg in Copy Filters Folder To App Resources */,
-				94380786184E6BB600E2274B /* _ntsc-decode-filter-3phase.inc in Copy Filters Folder To App Resources */,
-				94380787184E6BB600E2274B /* _ntsc-gauss-pass.cg in Copy Filters Folder To App Resources */,
-				94380788184E6BB600E2274B /* _ntsc-param.inc in Copy Filters Folder To App Resources */,
-				9438078C184E6BB600E2274B /* _ntsc-pass2-3phase.cg in Copy Filters Folder To App Resources */,
-				94380793184E6BB600E2274B /* _ntsc-rgbyuv.inc in Copy Filters Folder To App Resources */,
-				94380794184E6BB600E2274B /* _ntsc-stock.cg in Copy Filters Folder To App Resources */,
-				94380795184E6BB600E2274B /* NTSC.cgp in Copy Filters Folder To App Resources */,
+				05E4400C22991545009E6D27 /* Shaders in Copy Filters Folder To App Resources */,
 			);
 			name = "Copy Filters Folder To App Resources";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1542,6 +1475,7 @@
 		052B92D2226EE5FA00701431 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		057518192279424E009BCAA8 /* FrameView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameView.h; sourceTree = "<group>"; };
 		0575181A2279424E009BCAA8 /* FrameView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameView.m; sourceTree = "<group>"; };
+		05E4400A22991527009E6D27 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OpenEmuShaders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		081A46261B95744A00565444 /* Pokemon mini.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pokemon mini.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		086769581B96E8A2006545DA /* OEPMSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPMSystemResponder.h; path = "Pokemon mini/OEPMSystemResponder.h"; sourceTree = SOURCE_ROOT; };
@@ -1578,10 +1512,6 @@
 		14F6A925168180CF0071386D /* OEPopoutGameWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPopoutGameWindowController.m; sourceTree = "<group>"; };
 		14F8750B1649377E002AE3B8 /* OEFiniteStateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFiniteStateMachine.h; sourceTree = "<group>"; };
 		14F8750C1649377E002AE3B8 /* OEFiniteStateMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFiniteStateMachine.m; sourceTree = "<group>"; };
-		1B224229100CF18E00F42067 /* CRTMaskStraight.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskStraight.tiff; sourceTree = "<group>"; };
-		1B224267100D170F00F42067 /* CRTMaskStraightScanlineOnly.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskStraightScanlineOnly.tiff; sourceTree = "<group>"; };
-		1B224268100D170F00F42067 /* CRTMaskStaggeredScanlineOnly.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskStaggeredScanlineOnly.tiff; sourceTree = "<group>"; };
-		1B2243AE100E92E700F42067 /* CRTMaskShadow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskShadow.tiff; sourceTree = "<group>"; };
 		1B32151114DDD06500C5B50A /* OE Startup.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = "OE Startup.qtz"; path = "Setup Assistant Resources/OE Startup.qtz"; sourceTree = "<group>"; };
 		1B32151214DDD06500C5B50A /* OpenEmu.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OpenEmu.dae; path = "Setup Assistant Resources/OpenEmu.dae"; sourceTree = "<group>"; };
 		1B32151314DDD06500C5B50A /* OpenEmuText.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OpenEmuText.dae; path = "Setup Assistant Resources/OpenEmuText.dae"; sourceTree = "<group>"; };
@@ -1589,7 +1519,6 @@
 		1B47F103142F01E700EBC55B /* OESetupAssistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistant.h; sourceTree = "<group>"; };
 		1B47F104142F01E700EBC55B /* OESetupAssistant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistant.m; sourceTree = "<group>"; };
 		1B48F21716671473004E8ABA /* FeedbackReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FeedbackReporter.framework; sourceTree = "<group>"; };
-		1B5B5FF7100986400043536B /* CRTMaskStaggered.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskStaggered.tiff; sourceTree = "<group>"; };
 		1B6DA4A714DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantQCOpenGLLayer.h; sourceTree = "<group>"; };
 		1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantQCOpenGLLayer.m; sourceTree = "<group>"; };
 		1B96BA55166BDD52005064C8 /* FRFeedbackReporter.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = FRFeedbackReporter.sh; sourceTree = "<group>"; };
@@ -1604,17 +1533,6 @@
 		1E4B6B4C10DEBB4500B2CD45 /* SUVersionComparisonProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SUVersionComparisonProtocol.h; path = Sparkle.framework/Headers/SUVersionComparisonProtocol.h; sourceTree = "<group>"; };
 		1EA4404711973E9C001D71CA /* OEGameQuickLookDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameQuickLookDocument.h; sourceTree = "<group>"; };
 		1EA4404811973E9C001D71CA /* OEGameQuickLookDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameQuickLookDocument.m; sourceTree = "<group>"; };
-		2205C355196204A60013C675 /* _hq2x.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _hq2x.cg; sourceTree = "<group>"; };
-		2205C356196204A60013C675 /* _hq2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = _hq2x.png; sourceTree = "<group>"; };
-		2205C357196204A60013C675 /* _hq3x.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _hq3x.cg; sourceTree = "<group>"; };
-		2205C358196204A60013C675 /* _hq3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = _hq3x.png; sourceTree = "<group>"; };
-		2205C359196204A60013C675 /* _hq4x.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _hq4x.cg; sourceTree = "<group>"; };
-		2205C35A196204A60013C675 /* _hq4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = _hq4x.png; sourceTree = "<group>"; };
-		2205C35B196204A60013C675 /* _pass1.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _pass1.cg; sourceTree = "<group>"; };
-		2205C35C196204A60013C675 /* _pass2.inc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.pascal; path = _pass2.inc; sourceTree = "<group>"; };
-		2205C35D196204A60013C675 /* HQ2x.cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HQ2x.cgp; sourceTree = "<group>"; };
-		2205C35E196204A60013C675 /* HQ3x.cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HQ3x.cgp; sourceTree = "<group>"; };
-		2205C35F196204A60013C675 /* HQ4x.cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HQ4x.cgp; sourceTree = "<group>"; };
 		277CBA4519DE54200059A2C1 /* Intellivision.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Intellivision.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		277CBA4719DE54A80059A2C1 /* OEIntellivisionSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEIntellivisionSystemResponder.h; sourceTree = "<group>"; };
 		277CBA4819DE54A80059A2C1 /* OEIntellivisionSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEIntellivisionSystemResponder.m; sourceTree = "<group>"; };
@@ -2239,17 +2157,6 @@
 		87FBC0A11C07985900AECF5A /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		87FBC0A31C0798C000AECF5A /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		87FBC0A51C07996B00AECF5A /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
-		8C09E4BE1867975E0095DB4E /* Beam4.cgp */ = {isa = PBXFileReference; lastKnownFileType = text; path = Beam4.cgp; sourceTree = "<group>"; };
-		8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */ = {isa = PBXFileReference; lastKnownFileType = text; path = "NTSC (Blargg).cgp"; sourceTree = "<group>"; };
-		8C09E4C01867975E0095DB4E /* _beam4_1.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _beam4_1.cg; sourceTree = "<group>"; };
-		8C09E4C11867975E0095DB4E /* _beam4_2.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _beam4_2.cg; sourceTree = "<group>"; };
-		8C09E4C21867975E0095DB4E /* _beam4_3.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _beam4_3.cg; sourceTree = "<group>"; };
-		8C09E4C31867975E0095DB4E /* _stock.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _stock.cg; sourceTree = "<group>"; };
-		8C09E4C61867975E0095DB4E /* Blinky.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = Blinky.cg; sourceTree = "<group>"; };
-		8C09E4C71867975E0095DB4E /* CRT.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = CRT.cg; sourceTree = "<group>"; };
-		8C09E4C81867975E0095DB4E /* LCD3x.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = LCD3x.cg; sourceTree = "<group>"; };
-		8C09E4C91867975E0095DB4E /* SABR.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = SABR.cg; sourceTree = "<group>"; };
-		8C09E4CA1867975E0095DB4E /* Scanline.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = Scanline.cg; sourceTree = "<group>"; };
 		8CBD3AA017D23AA80022399B /* OEGridGameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridGameCell.h; sourceTree = "<group>"; };
 		8CBD3AA117D23AA80022399B /* OEGridGameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridGameCell.m; sourceTree = "<group>"; };
 		8CCBC0C8169B323100141631 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Cg.framework; sourceTree = "<group>"; };
@@ -2352,13 +2259,6 @@
 		941F5A1717A786870005D7EA /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		941F5A1817A786870005D7EA /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		942388B218922E2E0030A325 /* OEDatabase 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.1.xcdatamodel"; sourceTree = "<group>"; };
-		94380774184E6AE100E2274B /* _ntsc-decode-filter-3phase.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-decode-filter-3phase.inc"; sourceTree = "<group>"; };
-		94380775184E6AE100E2274B /* _ntsc-gauss-pass.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-gauss-pass.cg"; sourceTree = "<group>"; };
-		94380776184E6AE100E2274B /* _ntsc-param.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-param.inc"; sourceTree = "<group>"; };
-		9438077A184E6AE100E2274B /* _ntsc-pass2-3phase.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-pass2-3phase.cg"; sourceTree = "<group>"; };
-		94380781184E6AE100E2274B /* _ntsc-rgbyuv.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-rgbyuv.inc"; sourceTree = "<group>"; };
-		94380782184E6AE100E2274B /* _ntsc-stock.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-stock.cg"; sourceTree = "<group>"; };
-		94380783184E6AE100E2274B /* NTSC.cgp */ = {isa = PBXFileReference; lastKnownFileType = text; path = NTSC.cgp; sourceTree = "<group>"; };
 		943815B6165771EB00D55731 /* OEGenesisSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemController.h; sourceTree = "<group>"; };
 		943815B7165771EB00D55731 /* OEGenesisSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGenesisSystemController.m; sourceTree = "<group>"; };
 		943819C31658DAE800D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
@@ -2438,7 +2338,6 @@
 		94454ECE17861098006C057B /* psp_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = psp_library.png; sourceTree = "<group>"; };
 		94525EE017A9A778003CB1A2 /* OESega32XSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESega32XSystemController.h; sourceTree = "<group>"; };
 		94525EE117A9A778003CB1A2 /* OESega32XSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESega32XSystemController.m; sourceTree = "<group>"; };
-		94539AFD187D096C00CD1BA9 /* Pixellate.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = Pixellate.cg; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E430A1517F59900057D08 /* OEArcadeSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArcadeSystemResponder.h; sourceTree = "<group>"; };
@@ -2674,11 +2573,6 @@
 		94E6C303166DB15900082F27 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear_mask.png; sourceTree = "<group>"; };
 		94FC53871688FF60003C6AFE /* controller_gamegear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear.png; sourceTree = "<group>"; };
-		94FEFA4B18A80ECC0033A762 /* _ntsc-pass1-composite-3phase.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-pass1-composite-3phase.cg"; sourceTree = "<group>"; };
-		94FEFA4C18A80ECC0033A762 /* _ntsc-pass1-encode-demodulate.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-pass1-encode-demodulate.inc"; sourceTree = "<group>"; };
-		94FEFA4D18A80ECC0033A762 /* _ntsc-pass1-vertex.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-pass1-vertex.inc"; sourceTree = "<group>"; };
-		94FEFA4E18A80ECD0033A762 /* _ntsc-pass2-decode.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-pass2-decode.inc"; sourceTree = "<group>"; };
-		94FEFA4F18A80ECD0033A762 /* _ntsc-pass2-vertex.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-pass2-vertex.inc"; sourceTree = "<group>"; };
 		A902009F6D91025E828C1416 /* OESlangShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESlangShader.h; sourceTree = "<group>"; };
 		A902019312DE5D81DCEEDF26 /* OEGameHelperMetalLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameHelperMetalLayer.m; sourceTree = "<group>"; };
 		A902075D9FB462EB5568DCCB /* OEGameHelperMetalLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameHelperMetalLayer.h; sourceTree = "<group>"; };
@@ -3401,18 +3295,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1B22426B100D171700F42067 /* CRT Masks */ = {
-			isa = PBXGroup;
-			children = (
-				1B224267100D170F00F42067 /* CRTMaskStraightScanlineOnly.tiff */,
-				1B224268100D170F00F42067 /* CRTMaskStaggeredScanlineOnly.tiff */,
-				1B5B5FF7100986400043536B /* CRTMaskStaggered.tiff */,
-				1B224229100CF18E00F42067 /* CRTMaskStraight.tiff */,
-				1B2243AE100E92E700F42067 /* CRTMaskShadow.tiff */,
-			);
-			name = "CRT Masks";
-			sourceTree = "<group>";
-		};
 		1B32150F14DDD03200C5B50A /* Setup Assistant Animation Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -3539,24 +3421,6 @@
 			name = QuickLook;
 			sourceTree = "<group>";
 		};
-		2205C354196204A60013C675 /* HQx */ = {
-			isa = PBXGroup;
-			children = (
-				2205C355196204A60013C675 /* _hq2x.cg */,
-				2205C356196204A60013C675 /* _hq2x.png */,
-				2205C357196204A60013C675 /* _hq3x.cg */,
-				2205C358196204A60013C675 /* _hq3x.png */,
-				2205C359196204A60013C675 /* _hq4x.cg */,
-				2205C35A196204A60013C675 /* _hq4x.png */,
-				2205C35B196204A60013C675 /* _pass1.cg */,
-				2205C35C196204A60013C675 /* _pass2.inc */,
-				2205C35D196204A60013C675 /* HQ2x.cgp */,
-				2205C35E196204A60013C675 /* HQ3x.cgp */,
-				2205C35F196204A60013C675 /* HQ4x.cgp */,
-			);
-			path = HQx;
-			sourceTree = "<group>";
-		};
 		277CBA2E19DE52640059A2C1 /* Intellivision */ = {
 			isa = PBXGroup;
 			children = (
@@ -3639,6 +3503,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				05E4400A22991527009E6D27 /* Shaders */,
 				87191CC51F6F5524006D2EE3 /* dsa_pub.pem */,
 				8F071F3A1C255362007B76DA /* Credits.rtf */,
 				1B32150F14DDD03200C5B50A /* Setup Assistant Animation Resources */,
@@ -3647,8 +3512,6 @@
 				556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */,
 				53439B9D13B93920005C0CC8 /* Interface Graphics */,
 				1BEF34721168F8210090F72B /* XIBs */,
-				1B22426B100D171700F42067 /* CRT Masks */,
-				C344D5F6174C45050011579E /* Shaders */,
 				94AE2C0F17B07D450018DFBB /* cheats-database.xml */,
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
 				1B96BA55166BDD52005064C8 /* FRFeedbackReporter.sh */,
@@ -4630,25 +4493,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		94380773184E6AE100E2274B /* Themaister NTSC */ = {
-			isa = PBXGroup;
-			children = (
-				94380774184E6AE100E2274B /* _ntsc-decode-filter-3phase.inc */,
-				94380775184E6AE100E2274B /* _ntsc-gauss-pass.cg */,
-				94380776184E6AE100E2274B /* _ntsc-param.inc */,
-				94FEFA4B18A80ECC0033A762 /* _ntsc-pass1-composite-3phase.cg */,
-				94FEFA4C18A80ECC0033A762 /* _ntsc-pass1-encode-demodulate.inc */,
-				94FEFA4D18A80ECC0033A762 /* _ntsc-pass1-vertex.inc */,
-				94FEFA4E18A80ECD0033A762 /* _ntsc-pass2-decode.inc */,
-				94FEFA4F18A80ECD0033A762 /* _ntsc-pass2-vertex.inc */,
-				9438077A184E6AE100E2274B /* _ntsc-pass2-3phase.cg */,
-				94380781184E6AE100E2274B /* _ntsc-rgbyuv.inc */,
-				94380782184E6AE100E2274B /* _ntsc-stock.cg */,
-				94380783184E6AE100E2274B /* NTSC.cgp */,
-			);
-			path = "Themaister NTSC";
-			sourceTree = "<group>";
-		};
 		943C80141708A62F00D8D93E /* Jaguar */ = {
 			isa = PBXGroup;
 			children = (
@@ -5375,27 +5219,6 @@
 				94D7E8D815073DB000FBDD85 /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		C344D5F6174C45050011579E /* Shaders */ = {
-			isa = PBXGroup;
-			children = (
-				2205C354196204A60013C675 /* HQx */,
-				94380773184E6AE100E2274B /* Themaister NTSC */,
-				8C09E4BE1867975E0095DB4E /* Beam4.cgp */,
-				8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */,
-				8C09E4C01867975E0095DB4E /* _beam4_1.cg */,
-				8C09E4C11867975E0095DB4E /* _beam4_2.cg */,
-				8C09E4C21867975E0095DB4E /* _beam4_3.cg */,
-				8C09E4C31867975E0095DB4E /* _stock.cg */,
-				8C09E4C61867975E0095DB4E /* Blinky.cg */,
-				8C09E4C71867975E0095DB4E /* CRT.cg */,
-				8C09E4C81867975E0095DB4E /* LCD3x.cg */,
-				94539AFD187D096C00CD1BA9 /* Pixellate.cg */,
-				8C09E4C91867975E0095DB4E /* SABR.cg */,
-				8C09E4CA1867975E0095DB4E /* Scanline.cg */,
-			);
-			path = Shaders;
 			sourceTree = "<group>";
 		};
 		C60238E7179509CC00F4AF6C /* Game Core Helper Protocols */ = {
@@ -6914,6 +6737,7 @@
 				87AA7D092071870F00E5DB80 /* hud_fastforward_notification.png in Resources */,
 				83FE965919685F6700DD8DB9 /* OEGameScanner.xib in Resources */,
 				83B04E411968610F00CB985E /* InfoPlist.strings in Resources */,
+				05E4400B22991527009E6D27 /* Shaders in Resources */,
 				876FF0D8207B1269002F935A /* hud_stepbackward_notification@2x.png in Resources */,
 				83F607741BD3E4C9001236FC /* hud_quicksave_notification@2x.png in Resources */,
 				83FE963C1968596C00DD8DB9 /* OEMigrationWindowController.xib in Resources */,

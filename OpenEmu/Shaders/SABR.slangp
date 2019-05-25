@@ -1,0 +1,5 @@
+shaders = 1
+
+shader0 = sabr/shaders/sabr-v3.0.slang
+filter_linear0 = false
+scale_type_0 = source

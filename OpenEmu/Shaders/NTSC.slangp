@@ -1,0 +1,25 @@
+shaders = 4
+shader0 = ntsc/shaders/ntsc-pass1-composite-3phase.slang
+shader1 = ntsc/shaders/ntsc-pass2-3phase.slang
+shader2 = ntsc/shaders/ntsc-gauss-pass.slang
+shader3 = ntsc/shaders/ntsc-stock.slang
+
+filter_linear0 = false
+filter_linear1 = false
+filter_linear2 = false
+filter_linear3 = true 
+
+scale_type0 = source
+scale_x0 = 4.0
+scale_y0 = 1.0
+frame_count_mod0 = 2
+float_framebuffer0 = true
+
+scale_type1 = source
+scale_x1 = 0.5
+scale_y1 = 1.0
+
+scale_type_x2 = source
+scale_type_y2 = viewport
+scale2 = 1.0
+

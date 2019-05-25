@@ -29,9 +29,6 @@
 #import <OpenEmuShaders/OpenEmuShaders.h>
 #import <CoreImage/CoreImage.h>
 
-extern MTLPixelFormat SlangFormatToMTLPixelFormat(SlangFormat fmt);
-MTLPixelFormat SelectOptimalPixelFormat(MTLPixelFormat fmt);
-
 #define MTLALIGN(x) __attribute__((aligned(x)))
 
 typedef struct
@@ -632,7 +629,7 @@ typedef struct texture
         
         NSLog(@"updating framebuffer pass %d, size %lu x %lu", i, width, height);
         
-        MTLPixelFormat fmt = SelectOptimalPixelFormat(SlangFormatToMTLPixelFormat(_pass[i].semantics.format));
+        MTLPixelFormat fmt = _pass[i].semantics.format;
         if ((i != (_passSize - 1)) ||
                 (width != size.width) || (height != size.height) ||
                 fmt != MTLPixelFormatBGRA8Unorm) {
@@ -778,7 +775,7 @@ typedef struct texture
                 
                 MTLRenderPipelineColorAttachmentDescriptor *ca = psd.colorAttachments[0];
                 
-                ca.pixelFormat                 = SelectOptimalPixelFormat(SlangFormatToMTLPixelFormat(_pass[i].semantics.format));
+                ca.pixelFormat                 = _pass[i].semantics.format;
                 ca.blendingEnabled             = NO;
                 ca.sourceAlphaBlendFactor      = MTLBlendFactorSourceAlpha;
                 ca.sourceRGBBlendFactor        = MTLBlendFactorSourceAlpha;
@@ -894,66 +891,3 @@ typedef struct texture
 }
 
 @end
-
-MTLPixelFormat SlangFormatToMTLPixelFormat(SlangFormat fmt)
-{
-#undef FMT2
-#define FMT2(x, y) case SlangFormat##x: return MTLPixelFormat##y
-    
-    switch (fmt) {
-        FMT2(R8Unorm, R8Unorm);
-        FMT2(R8Sint, R8Sint);
-        FMT2(R8Uint, R8Uint);
-        FMT2(R8G8Unorm, RG8Unorm);
-        FMT2(R8G8Sint, RG8Sint);
-        FMT2(R8G8Uint, RG8Uint);
-        FMT2(R8G8B8A8Unorm, RGBA8Unorm);
-        FMT2(R8G8B8A8Sint, RGBA8Sint);
-        FMT2(R8G8B8A8Uint, RGBA8Uint);
-        FMT2(R8G8B8A8Srgb, RGBA8Unorm_sRGB);
-        
-        FMT2(A2B10G10R10UnormPack32, RGB10A2Unorm);
-        FMT2(A2B10G10R10UintPack32, RGB10A2Uint);
-        
-        FMT2(R16Uint, R16Uint);
-        FMT2(R16Sint, R16Sint);
-        FMT2(R16Sfloat, R16Float);
-        FMT2(R16G16Uint, RG16Uint);
-        FMT2(R16G16Sint, RG16Sint);
-        FMT2(R16G16Sfloat, RG16Float);
-        FMT2(R16G16B16A16Uint, RGBA16Uint);
-        FMT2(R16G16B16A16Sint, RGBA16Sint);
-        FMT2(R16G16B16A16Sfloat, RGBA16Float);
-        
-        FMT2(R32Uint, R32Uint);
-        FMT2(R32Sint, R32Sint);
-        FMT2(R32Sfloat, R32Float);
-        FMT2(R32G32Uint, RG32Uint);
-        FMT2(R32G32Sint, RG32Sint);
-        FMT2(R32G32Sfloat, RG32Float);
-        FMT2(R32G32B32A32Uint, RGBA32Uint);
-        FMT2(R32G32B32A32Sint, RGBA32Sint);
-        FMT2(R32G32B32A32Sfloat, RGBA32Float);
-        
-        case SlangFormatUnknown:
-        default:
-            break;
-    }
-#undef FMT2
-    return MTLPixelFormatInvalid;
-}
-
-MTLPixelFormat SelectOptimalPixelFormat(MTLPixelFormat fmt)
-{
-    switch (fmt) {
-        case MTLPixelFormatInvalid: /* fallthrough */
-        case MTLPixelFormatRGBA8Unorm:
-            return MTLPixelFormatBGRA8Unorm;
-        
-        case MTLPixelFormatRGBA8Unorm_sRGB:
-            return MTLPixelFormatBGRA8Unorm_sRGB;
-        
-        default:
-            return fmt;
-    }
-}
