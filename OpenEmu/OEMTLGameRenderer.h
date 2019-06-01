@@ -24,19 +24,18 @@
 
 #import "OEGameRenderer.h"
 #import "OEGameHelperMetalLayer.h"
-#import "ShaderTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OEMTLGameRenderer : NSObject <OEGameRenderer, OEGameHelperLayerDelegate>
+@class FrameView;
 
-@property (readonly) id<OEGameHelperLayer> helperLayer;
-
-@property (nonatomic, readonly) id<MTLDevice> device;
-@property (nonatomic, readwrite) MTLClearColor clearColor;
+@interface OEMTLGameRenderer : NSObject <OEGameRenderer>
 
 /*! @brief Specifies whether rendering is synchronized with the display */
 @property (nonatomic, readwrite) bool displaySyncEnabled;
+@property (nonatomic) OEIntSize surfaceSize;
+
+- (instancetype)initWithFrameView:(FrameView *)view;
 
 @end
 

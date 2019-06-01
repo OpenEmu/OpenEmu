@@ -1,0 +1,29 @@
+shaders = 5
+
+shader0 = crt-geom-deluxe/shaders/geom-deluxe/phosphor_apply.slang
+alias0 = internal1
+
+shader1 = crt-geom-deluxe/shaders/geom-deluxe/phosphor_update.slang
+alias1 = phosphorTex
+
+shader2 = crt-geom-deluxe/shaders/geom-deluxe/gaussx.slang
+filter_linear2 = true
+alias2 = internal2
+
+shader3 = crt-geom-deluxe/shaders/geom-deluxe/gaussy.slang
+filter_linear3 = true
+alias3 = blurTex
+
+shader4 = crt-geom-deluxe/shaders/geom-deluxe/crt-geom-deluxe.slang
+filter_linear4 = true
+
+textures = "aperture;slot;delta"
+delta = crt-geom-deluxe/shaders/geom-deluxe/masks/delta_2_4x1_rgb.png
+delta_filter_linear = true
+delta_repeat_mode = repeat
+slot = crt-geom-deluxe/shaders/geom-deluxe/masks/slot_2_5x4_bgr.png
+slot_filter_linear = true
+slot_repeat_mode = repeat
+aperture = crt-geom-deluxe/shaders/geom-deluxe/masks/aperture_2_4_rgb.png
+aperture_filter_linear = true
+aperture_repeat_mode = repeat

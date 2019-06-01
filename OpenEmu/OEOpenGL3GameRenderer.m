@@ -10,13 +10,16 @@
 #import <OpenGL/gl3.h>
 #import <OpenGL/gl3ext.h>
 #import <stdatomic.h>
+#import "OECoreVideoTexture.h"
 
 @implementation OEOpenGL3GameRenderer
 {
+    OECoreVideoTexture *_texture;
+    
     // GL stuff
     CGLContextObj         _glContext;
     CGLPixelFormatObj     _glPixelFormat;
-    GLuint                _ioSurfaceFBO;     // Framebuffer object which the ioSurfaceTexture is tied to
+    GLuint                _coreVideoFBO;     // Framebuffer object which the ioSurfaceTexture is tied to
     GLuint                _depthStencilRB;   // FBO RenderBuffer Attachment for depth and stencil buffer
     GLuint                _ioSurfaceTexture; // texture wrapping the IOSurface, used as the render target. Uses the usual pixel format.
 
@@ -34,16 +37,15 @@
 }
 
 @synthesize gameCore=_gameCore;
-@synthesize ioSurface=_ioSurface;
-@synthesize surfaceSize=_surfaceSize;
 
-- (id)init
+- (nonnull instancetype)initWithInteropTexture:(OECoreVideoTexture *)texture
 {
     self = [super init];
-
+    
+    _texture = texture;
     _renderingThreadCanProceedSemaphore = dispatch_semaphore_create(0);
     _executeThreadCanProceedSemaphore   = dispatch_semaphore_create(0);
-
+    
     return self;
 }
 
@@ -55,6 +57,11 @@
     }
 
     [self destroyGLResources];
+}
+
+- (OEIntSize)surfaceSize {
+    CGSize size = _texture.size;
+    return OEIntSizeMake(size.width, size.height);
 }
 
 - (void)updateRenderer
@@ -74,7 +81,7 @@
 
 - (id)presentationFramebuffer
 {
-    GLuint fbo = _isDoubleBufferFBOMode ? _alternateFBO : _ioSurfaceFBO;
+    GLuint fbo = _isDoubleBufferFBOMode ? _alternateFBO : _coreVideoFBO;
 
     return @(fbo);
 }
@@ -101,7 +108,8 @@
     static const CGLPixelFormatAttribute attributes[] = {
         kCGLPFAAccelerated,
         kCGLPFAAllowOfflineRenderers,
-        kCGLPFAOpenGLProfile, (CGLPixelFormatAttribute)kCGLOGLPVersion_3_2_Core,
+        kCGLPFAOpenGLProfile,
+        (CGLPixelFormatAttribute)kCGLOGLPVersion_3_2_Core,
         kCGLPFADepthSize, 24,
         0 };
 
@@ -127,40 +135,26 @@
     CGLEnable(_glContext, kCGLCECrashOnRemovedFunctions);
 
     CGLSetCurrentContext(_glContext);
+    _texture.openGLContext = _glContext;
 }
 
 - (void)setupFramebuffer
 {
     GLenum status;
-
-    // Wrap the IOSurface in a texture
-    glGenTextures(1, &_ioSurfaceTexture);
-    glBindTexture(GL_TEXTURE_RECTANGLE, _ioSurfaceTexture);
-
-    CGLError err = CGLTexImageIOSurface2D(_glContext, GL_TEXTURE_RECTANGLE, GL_RGBA8,
-                                          (GLsizei)_surfaceSize.width, (GLsizei)_surfaceSize.height,
-                                          GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, self.ioSurface, 0);
-    if(err != kCGLNoError) {
-        NSLog(@"Error creating IOSurface texture: %s & %x", CGLErrorString(err), glGetError());
-    }
-
-    // Unbind
-    glBindTexture(GL_TEXTURE_RECTANGLE, 0);
-
-    // Wrap the texture in an FBO (wow, so indirect)
-    glGenFramebuffers(1, &_ioSurfaceFBO);
-    glBindFramebuffer(GL_FRAMEBUFFER, _ioSurfaceFBO);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, _ioSurfaceTexture, 0);
+    
+    glGenFramebuffers(1, &_coreVideoFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, _coreVideoFBO);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, _texture.openGLTexture, 0);
     status = glGetError();
     if(status != 0)
     {
-        NSLog(@"setup: create ioSurface FBO 1, OpenGL error %04X", status);
+        NSLog(@"setup: create interop texture FBO 1, OpenGL error %04X", status);
     }
 
     // Complete the FBO
     glGenRenderbuffers(1, &_depthStencilRB);
     glBindRenderbuffer(GL_RENDERBUFFER, _depthStencilRB);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, (GLsizei)_surfaceSize.width, (GLsizei)_surfaceSize.height);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, (GLsizei)_texture.size.width, (GLsizei)_texture.size.height);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _depthStencilRB);
     status = glGetError();
     if(status != 0)
@@ -174,7 +168,7 @@
         NSLog(@"Cannot create FBO, OpenGL error %04X", status);
     }
 
-    glViewport(0, 0, _surfaceSize.width, _surfaceSize.height);
+    glViewport(0, 0, _texture.size.width, _texture.size.height);
 }
 
 - (void)setupAlternateRenderingThread
@@ -191,11 +185,11 @@
 
     glGenRenderbuffers(2, _tempRB);
     glBindRenderbuffer(GL_RENDERBUFFER, _tempRB[0]);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGB8, (GLsizei)_surfaceSize.width, (GLsizei)_surfaceSize.height);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGB8, (GLsizei)_texture.size.width, (GLsizei)_texture.size.height);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _tempRB[0]);
 
     glBindRenderbuffer(GL_RENDERBUFFER, _tempRB[1]);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH32F_STENCIL8, (GLsizei)_surfaceSize.width, (GLsizei)_surfaceSize.height);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH32F_STENCIL8, (GLsizei)_texture.size.width, (GLsizei)_texture.size.height);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _tempRB[1]);
 
     GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
@@ -225,11 +219,12 @@
             CGLReleaseContext(_alternateContext);
         CGLReleasePixelFormat(_glPixelFormat);
         CGLReleaseContext(_glContext);
-
-        _alternateContext = nil;
-        _glContext = nil;
-        _glPixelFormat = nil;
     }
+    
+    _alternateContext = nil;
+    _texture.openGLContext = nil;
+    _glContext = nil;
+    _glPixelFormat = nil;
 }
 
 // Execution
@@ -255,10 +250,10 @@
 - (void)presentDoubleBufferedFBO
 {
     glBindFramebuffer(GL_READ_FRAMEBUFFER, _alternateFBO);
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _ioSurfaceFBO);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _coreVideoFBO);
 
-    glBlitFramebuffer(0, 0, _surfaceSize.width, _surfaceSize.height,
-                      0, 0, _surfaceSize.width, _surfaceSize.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+    glBlitFramebuffer(0, 0, _texture.size.width, _texture.size.height,
+                      0, 0, _texture.size.width, _texture.size.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
     glBindFramebuffer(GL_FRAMEBUFFER, _alternateFBO);
 }
@@ -294,7 +289,7 @@
     // Bind the FBO just in case that works.
     // Note that most GL3 cores will use their own FBOs and overwrite ours.
     // Their graphics plugins will need to be adapted to write to ours - see -presentationFramebuffer.
-    [self bindFBO:_isDoubleBufferFBOMode ? _alternateFBO : _ioSurfaceFBO];
+    [self bindFBO:_isDoubleBufferFBOMode ? _alternateFBO : _coreVideoFBO];
 }
 
 - (void)didExecuteFrame
@@ -319,7 +314,7 @@
 {
     CGLSetCurrentContext(_alternateContext);
 
-    [self bindFBO:_isDoubleBufferFBOMode ? _alternateFBO : _ioSurfaceFBO];
+    [self bindFBO:_isDoubleBufferFBOMode ? _alternateFBO : _coreVideoFBO];
 }
 
 - (void)didRenderFrameOnAlternateThread

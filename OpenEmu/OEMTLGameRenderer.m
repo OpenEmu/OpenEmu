@@ -24,10 +24,8 @@
 
 @import Metal;
 @import QuartzCore;
+@import OpenEmuShaders;
 #import "OEMTLGameRenderer.h"
-#import "RendererCommon.h"
-#import "OEGameHelperMetalLayer.h"
-#import "FrameView.h"
 
 // imported for helpers
 #import <OpenGL/gl.h>
@@ -36,97 +34,28 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
 
 @implementation OEMTLGameRenderer
 {
-    OEGameHelperMetalLayer *_layer;
-    
     id<MTLBuffer> _backBuffer;
     
     // MetalDriver
     FrameView *_frameView;
-    
-    id<MTLDevice> _device;
-    
-    // Context
-    dispatch_semaphore_t _inflightSemaphore;
-    id<MTLCommandQueue>  _commandQueue;
-    OEMTLViewport        _viewport;
-    
-    MTLClearColor _clearColor;
-    
 }
 
 @synthesize gameCore = _gameCore;
-@synthesize ioSurface = _ioSurface;
-@synthesize surfaceSize = _surfaceSize;
 @synthesize presentationFramebuffer;
 
-- (id)init
+- (id)initWithFrameView:(FrameView *)view
 {
-    self = [super init];
+    if (!(self = [super init])) {
+        return nil;
+    }
     
-    _device       = MTLCreateSystemDefaultDevice();
-    _commandQueue = [_device newCommandQueue];
-    
-    _layer = [OEGameHelperMetalLayer new];
-    _layer.helperDelegate = self;
-    _layer.device         = _device;
-#if TARGET_OS_OSX
-    _layer.displaySyncEnabled = NO;
-#endif
-    
-    // Context
-    _inflightSemaphore = dispatch_semaphore_create(MAX_INFLIGHT);
-    
-    _clearColor = MTLClearColorMake(0, 0, 0, 1);
+    _frameView    = view;
     
     return self;
 }
 
-/*
- * Take the raw visible game rect and turn it into a smaller rect
- * which is centered inside 'bounds' and has aspect ratio 'aspectSize'.
- * ATM we try to fill the window, but maybe someday we'll support fixed zooms.
- */
-static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
-{
-    CGFloat wantAspect = aspectSize.width / (CGFloat)aspectSize.height;
-    CGFloat viewAspect = size.width / (CGFloat)size.height;
-    
-    CGFloat minFactor;
-    NSRect  outRect;
-    
-    if (viewAspect >= wantAspect) {
-        // Raw image is too wide (normal case), squish inwards
-        minFactor = wantAspect / viewAspect;
-        
-        outRect.size.height = size.height;
-        outRect.size.width  = size.width * minFactor;
-    } else {
-        // Raw image is too tall, squish upwards
-        minFactor = viewAspect / wantAspect;
-        
-        outRect.size.height = size.height * minFactor;
-        outRect.size.width  = size.width;
-    }
-    
-    outRect.origin.x = (size.width - outRect.size.width) / 2;
-    outRect.origin.y = (size.height - outRect.size.height) / 2;
-    
-    
-    // This is going into a Nearest Neighbor, so the edges should be on pixels!
-    outRect = NSIntegralRectWithOptions(outRect, NSAlignAllEdgesNearest);
-    
-    return OEIntRectMake(outRect.origin.x, outRect.origin.y, outRect.size.width, outRect.size.height);
-}
-
-- (void)setViewportSize:(OEIntSize)size
-{
-    if (memcmp(&size, &_viewport.fullSize, sizeof(size)) == 0) {
-        return;
-    }
-    
-    _viewport.fullSize  = size;
-    _viewport.view      = FitAspectRectIntoBounds(_gameCore.aspectSize, size);
-    _frameView.viewport = _viewport;
+- (OEIntSize)surfaceSize {
+    return _gameCore.bufferSize;
 }
 
 - (void)updateRenderer
@@ -149,29 +78,22 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
     pixelFormat = [_gameCore pixelFormat];
     pixelType   = [_gameCore pixelType];
     
+    OEIntSize bufferSize  = _gameCore.bufferSize;
+    
     OEMTLPixelFormat pf = GLToRPixelFormat(pixelFormat, pixelType);
     NSParameterAssert(pf != OEMTLPixelFormatInvalid);
     
-    if (_frameView == nil) {
-        _frameView = [[FrameView alloc] initWithFormat:pf device:_device];
-        _frameView.viewport = _viewport;
-        [_frameView setDefaultFilteringLinear:NO];
-        
-        NSString *shaderPath = [NSUserDefaults.oe_applicationUserDefaults stringForKey:@"shaderPath"];
-        if (shaderPath != nil) {
-            [_frameView setShaderFromURL:[NSURL fileURLWithPath:shaderPath]];
-        }
-    }
-    
-    _frameView.size = _gameCore.screenRect.size;
-    
+    CGSize sourceSize = CGSizeMake(_gameCore.screenRect.size.width, _gameCore.screenRect.size.height);
+    CGSize aspectSize = CGSizeMake(_gameCore.aspectSize.width, _gameCore.aspectSize.height);
+    [_frameView setSourceSize:sourceSize aspect:aspectSize];
+
     bytesPerRow = [_gameCore bytesPerRow];
     
-    _backBuffer = [_frameView allocateBufferHeight:(NSUInteger)_surfaceSize.height bytesPerRow:(NSUInteger)bytesPerRow bytes:nil];
+    _backBuffer = [_frameView allocateBufferWithFormat:pf height:(NSUInteger)bufferSize.height bytesPerRow:(NSUInteger)bytesPerRow];
     void *buf = (void *)[_gameCore getVideoBufferWithHint:_backBuffer.contents];
     if (buf != _backBuffer.contents) {
         // core wants its own buffer, so create a buffer with buf as the source pixels
-        _backBuffer = [_frameView allocateBufferHeight:(NSUInteger)_surfaceSize.height bytesPerRow:(NSUInteger)bytesPerRow bytes:buf];
+        _backBuffer = [_frameView allocateBufferWithFormat:pf height:(NSUInteger)bufferSize.height bytesPerRow:(NSUInteger)bytesPerRow bytes:buf];
     }
 }
 
@@ -179,17 +101,6 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 - (BOOL)canChangeBufferSize
 {
     return YES;
-}
-
-- (id<OEGameHelperLayer>)helperLayer
-{
-    return _layer;
-}
-
-- (void)helperLayer:(OEGameHelperMetalLayer *)layer drawableSizeWillChange:(CGSize)size
-{
-    OEIntSize sz = {.width = (int)size.width, .height = (int)size.height};
-    [self setViewportSize:sz];
 }
 
 // Execution
@@ -201,41 +112,7 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
 
 - (void)didExecuteFrame
 {
-    @autoreleasepool {
-        dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
-        id<CAMetalDrawable> drawable = _layer.nextDrawable;
-        if (drawable == nil) {
-            dispatch_semaphore_signal(_inflightSemaphore);
-            return;
-        }
-        
-        MTLRenderPassDescriptor *rpd = [MTLRenderPassDescriptor new];
-        rpd.colorAttachments[0].clearColor = _clearColor;
-        rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
-        rpd.colorAttachments[0].texture    = drawable.texture;
-        
-        id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
-        [_frameView renderWithCommandBuffer:commandBuffer renderPassDescriptor:rpd];
-        
-        __block dispatch_semaphore_t inflight = _inflightSemaphore;
-        [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> _) {
-            dispatch_semaphore_signal(inflight);
-        }];
-        
-        [commandBuffer presentDrawable:drawable];
-        [commandBuffer commit];
-    }
-}
-
-- (void)setFilterURL:(NSURL *)url
-{
-    NSLog(@"%@: %s", self.class, __FUNCTION__);
-    [_frameView setShaderFromURL:url];
-}
-
-- (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block
-{
-    block(filtered ? [_frameView captureOutputImage] : [_frameView captureSourceImage]);
+    
 }
 
 - (void)presentDoubleBufferedFBO
@@ -263,16 +140,6 @@ static OEIntRect FitAspectRectIntoBounds(OEIntSize aspectSize, OEIntSize size)
     ///!< Resume the FPS limiter when entering normal gameplay.
 }
 
-- (void)setDisplaySyncEnabled:(bool)displaySyncEnabled
-{
-    _layer.displaySyncEnabled = displaySyncEnabled;
-}
-
-- (bool)displaySyncEnabled
-{
-    return _layer.displaySyncEnabled;
-}
-
 @end
 
 OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType)
@@ -296,6 +163,14 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType)
             }
             break;
         
+        case GL_RGBA:
+            switch (pixelType) {
+                case GL_UNSIGNED_INT_8_8_8_8:
+                    return OEMTLPixelFormatRGBA8Unorm;
+                default:
+                    break;
+            }
+            break;
         default:
             break;
     }

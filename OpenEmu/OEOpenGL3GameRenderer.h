@@ -8,6 +8,8 @@
 
 #import "OEGameRenderer.h"
 
+@class OECoreVideoTexture;
+
 /*!
  * @class OEOpenGL3GameRenderer
  * @discussion
@@ -15,5 +17,9 @@
  * Doesn't support 2D games unless someone can think of why it should.
  */
 @interface OEOpenGL3GameRenderer : NSObject <OEGameRenderer>
+
+@property (nonatomic) OEIntSize surfaceSize;
+
+- (nonnull instancetype)initWithInteropTexture:(OECoreVideoTexture * _Nonnull )texture;
 
 @end

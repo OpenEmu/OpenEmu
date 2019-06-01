@@ -22,42 +22,23 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "RendererCommon.h"
+@import Foundation;
+@import Metal;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class SlangShader;
+@interface OECoreVideoTexture : NSObject
 
-@interface FrameView : NSObject
+@property (nonatomic, nullable) id<MTLDevice>   metalDevice;
+@property (nonatomic, readonly) id<MTLTexture>  metalTexture;
+@property (nonatomic, readonly) BOOL            metalTextureIsFlipped;
 
-@property (nonatomic, readonly) OEMTLPixelFormat format;
-/*! @brief the size of the source texture */
-@property (nonatomic, readwrite) OEIntSize       size;
-@property (nonatomic, readonly) SlangShader      *shader;
-@property (nonatomic, readwrite) OEMTLViewport   viewport;
+@property (nonatomic, nullable) CGLContextObj   openGLContext;
+@property (nonatomic, readonly) GLuint          openGLTexture;
 
-- (instancetype)initWithFormat:(OEMTLPixelFormat)format
-                        device:(id<MTLDevice>)device;
+@property (nonatomic)           CGSize          size;
 
-- (id<MTLBuffer>)allocateBufferHeight:(NSUInteger)height bytesPerRow:(NSUInteger)bytesPerRow bytes:(void *)pointer;
-- (void)renderWithCommandBuffer:(id<MTLCommandBuffer>)commandBuffer renderPassDescriptor:(MTLRenderPassDescriptor *)renderPassDescriptor;
-
-/*! @brief returns an image of the last rendered source image */
-- (NSBitmapImageRep *)captureSourceImage;
-
-/*! @brief returns an image of the last source image after all shaders have been applied */
-- (NSBitmapImageRep *)captureOutputImage;
-
-/*! @brief The default filtering mode when a shader pass leaves the value unspecified
- *
- * @details
- * When a shader does not specify a filtering mode, the default
- * will be determined by this method.
- *
- * @param linear
- */
-- (void)setDefaultFilteringLinear:(bool)linear;
-- (BOOL)setShaderFromURL:(NSURL *)url;
+- (nonnull instancetype)initMetalPixelFormat:(MTLPixelFormat)mtlPixelFormat;
 
 @end
 

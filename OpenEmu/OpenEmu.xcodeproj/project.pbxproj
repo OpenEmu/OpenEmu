@@ -121,21 +121,17 @@
 		012FE6591CE51D4100716960 /* LibraryToolbarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */; };
 		052B9295226ED63200701431 /* OEMTLGameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 052B9294226ED63200701431 /* OEMTLGameRenderer.m */; };
 		052B9296226ED63200701431 /* OEMTLGameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 052B9294226ED63200701431 /* OEMTLGameRenderer.m */; };
-		052B92C2226EE05C00701431 /* RendererCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 052B92B7226EE05000701431 /* RendererCommon.m */; };
-		052B92C3226EE05C00701431 /* RendererCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 052B92B7226EE05000701431 /* RendererCommon.m */; };
-		052B92C4226EE05C00701431 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 052B92B9226EE05300701431 /* Shaders.metal */; };
-		052B92C5226EE05C00701431 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 052B92B9226EE05300701431 /* Shaders.metal */; };
-		052B92C8226EE05C00701431 /* OEMTLPixelConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 052B92BB226EE05500701431 /* OEMTLPixelConverter.m */; };
-		052B92C9226EE05C00701431 /* OEMTLPixelConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 052B92BB226EE05500701431 /* OEMTLPixelConverter.m */; };
 		052B92D3226EE5FA00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
 		052B92D4226EE66C00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
-		0575181B2279424E009BCAA8 /* FrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0575181A2279424E009BCAA8 /* FrameView.m */; };
-		0575181C2279424E009BCAA8 /* FrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0575181A2279424E009BCAA8 /* FrameView.m */; };
 		05E4400B22991527009E6D27 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = 05E4400A22991527009E6D27 /* Shaders */; };
 		05E4400C22991545009E6D27 /* Shaders in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 05E4400A22991527009E6D27 /* Shaders */; };
 		05F5BAE9228662C5004D713C /* OpenEmuShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */; };
 		05F5BAED228662D3004D713C /* OpenEmuShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */; };
 		05F5BAEE22866317004D713C /* OpenEmuShaders.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		05FB7D8122A0A3D60070633C /* OEOpenGL2GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FB7D8022A0A3D60070633C /* OEOpenGL2GameRenderer.m */; };
+		05FB7D8222A0A3D60070633C /* OEOpenGL2GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FB7D8022A0A3D60070633C /* OEOpenGL2GameRenderer.m */; };
+		05FB7D8522A0A4A40070633C /* OECoreVideoTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FB7D8422A0A4A40070633C /* OECoreVideoTexture.m */; };
+		05FB7D8622A0A4A40070633C /* OECoreVideoTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FB7D8422A0A4A40070633C /* OECoreVideoTexture.m */; };
 		081A462F1B9574CE00565444 /* Pokemon mini.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 081A46261B95744A00565444 /* Pokemon mini.oesystemplugin */; };
 		0867695A1B96E8B2006545DA /* OEPMSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 086769591B96E8B2006545DA /* OEPMSystemResponder.m */; };
 		0867695D1B96E8D4006545DA /* pokemonmini_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 0867695C1B96E8D4006545DA /* pokemonmini_library.png */; };
@@ -188,9 +184,6 @@
 		3887A8061024D2BC000FC4CF /* GeneratePreviewForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */; };
 		3887A8071024D2BC000FC4CF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8041024D2BC000FC4CF /* main.c */; };
 		3D0D6FD31CC6366B00E3F284 /* OEGameLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0D6FD21CC6366B00E3F284 /* OEGameLayerView.m */; };
-		3D41E8EB1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */; };
-		3D41E8EC1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */; };
-		3D8861C21D153B4000B4FE3D /* OEGameHelperLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8861C11D153B4000B4FE3D /* OEGameHelperLayer.m */; };
 		3DA6EDCC1BD790B900560326 /* OEOpenGL3GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */; };
 		3DA6EDCD1BD790B900560326 /* OEOpenGL3GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */; };
 		3DB744AB1BD8BA9E00C23E74 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
@@ -206,7 +199,6 @@
 		3DB744C91BD8BACD00C23E74 /* psx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744871BD8B9DE00C23E74 /* psx_library.png */; };
 		3DB744CA1BD8BACD00C23E74 /* psx_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744881BD8B9DE00C23E74 /* psx_library@2x.png */; };
 		3DB744CE1BD8BB0B00C23E74 /* PlayStation 2.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3DB744BA1BD8BA9E00C23E74 /* PlayStation 2.oesystemplugin */; };
-		3DD7A23B1D17DF2E0003D426 /* OEGameHelperLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8861C11D153B4000B4FE3D /* OEGameHelperLayer.m */; };
 		3DD7A23C1D193DA40003D426 /* NSColor+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */; };
 		4FC6C54519AD7C4D00231545 /* controller_colecovision@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FC6C54019AD7BBB00231545 /* controller_colecovision@2x.png */; };
 		4FC6C54619AD7C5B00231545 /* controller_colecovision_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FC6C53F19AD7BBB00231545 /* controller_colecovision_mask@2x.png */; };
@@ -818,10 +810,8 @@
 		94EBBD31183F4DB000743756 /* Arcade.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */; };
 		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
 		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
-		A90207BF09EA1497DF24417B /* OEGameHelperOpenGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A9020994DF6C7CAD59D8FE40 /* OEGameHelperOpenGLLayer.m */; };
 		A90208FC9B5D10B9F8150E57 /* OEGameHelperMetalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A902019312DE5D81DCEEDF26 /* OEGameHelperMetalLayer.m */; };
 		A9020A6B0B5DCC3081F0DB19 /* OEGameHelperMetalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A902019312DE5D81DCEEDF26 /* OEGameHelperMetalLayer.m */; };
-		A9020E8C0821078FA787F358 /* OEGameHelperOpenGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A9020994DF6C7CAD59D8FE40 /* OEGameHelperOpenGLLayer.m */; };
 		A9020FB027B38FC91FA4695A /* OESlangShader.m in Sources */ = {isa = PBXBuildFile; fileRef = A9020BA03022B74F5DA5E13B /* OESlangShader.m */; };
 		C6096192179B461C00239067 /* OEXPCGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096191179B461C00239067 /* OEXPCGameCoreManager.m */; };
 		C609619A179B6E3F00239067 /* OpenEmuXPCHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096199179B6E3F00239067 /* OpenEmuXPCHelperApp.m */; };
@@ -1466,17 +1456,13 @@
 		01B035551C090E9A00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ControlLabels.strings; sourceTree = "<group>"; };
 		052B9293226ED63200701431 /* OEMTLGameRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEMTLGameRenderer.h; sourceTree = "<group>"; };
 		052B9294226ED63200701431 /* OEMTLGameRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEMTLGameRenderer.m; sourceTree = "<group>"; };
-		052B92B7226EE05000701431 /* RendererCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RendererCommon.m; sourceTree = "<group>"; };
-		052B92B9226EE05300701431 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
-		052B92BB226EE05500701431 /* OEMTLPixelConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMTLPixelConverter.m; sourceTree = "<group>"; };
-		052B92BC226EE05600701431 /* ShaderTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderTypes.h; sourceTree = "<group>"; };
-		052B92BF226EE05900701431 /* OEMTLPixelConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMTLPixelConverter.h; sourceTree = "<group>"; };
-		052B92C1226EE05B00701431 /* RendererCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererCommon.h; sourceTree = "<group>"; };
 		052B92D2226EE5FA00701431 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		057518192279424E009BCAA8 /* FrameView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameView.h; sourceTree = "<group>"; };
-		0575181A2279424E009BCAA8 /* FrameView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrameView.m; sourceTree = "<group>"; };
 		05E4400A22991527009E6D27 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OpenEmuShaders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		05FB7D7F22A0A3CD0070633C /* OEOpenGL2GameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOpenGL2GameRenderer.h; sourceTree = "<group>"; };
+		05FB7D8022A0A3D60070633C /* OEOpenGL2GameRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOpenGL2GameRenderer.m; sourceTree = "<group>"; };
+		05FB7D8322A0A4A40070633C /* OECoreVideoTexture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OECoreVideoTexture.h; sourceTree = "<group>"; };
+		05FB7D8422A0A4A40070633C /* OECoreVideoTexture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OECoreVideoTexture.m; sourceTree = "<group>"; };
 		081A46261B95744A00565444 /* Pokemon mini.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pokemon mini.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		086769581B96E8A2006545DA /* OEPMSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPMSystemResponder.h; path = "Pokemon mini/OEPMSystemResponder.h"; sourceTree = SOURCE_ROOT; };
 		086769591B96E8B2006545DA /* OEPMSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEPMSystemResponder.m; path = "Pokemon mini/OEPMSystemResponder.m"; sourceTree = SOURCE_ROOT; };
@@ -1573,10 +1559,6 @@
 		3D0D6FD11CC6366B00E3F284 /* OEGameLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameLayerView.h; sourceTree = "<group>"; };
 		3D0D6FD21CC6366B00E3F284 /* OEGameLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameLayerView.m; sourceTree = "<group>"; };
 		3D41E8E51BD47DEF00A76EFD /* OEGameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameRenderer.h; sourceTree = "<group>"; };
-		3D41E8E91BD4959300A76EFD /* OEOpenGL2GameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOpenGL2GameRenderer.h; sourceTree = "<group>"; };
-		3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOpenGL2GameRenderer.m; sourceTree = "<group>"; };
-		3D8861C01D153B4000B4FE3D /* OEGameHelperLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameHelperLayer.h; sourceTree = "<group>"; };
-		3D8861C11D153B4000B4FE3D /* OEGameHelperLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameHelperLayer.m; sourceTree = "<group>"; };
 		3DA6EDCA1BD790B900560326 /* OEOpenGL3GameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOpenGL3GameRenderer.h; sourceTree = "<group>"; };
 		3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOpenGL3GameRenderer.m; sourceTree = "<group>"; };
 		3DB744771BD8B95300C23E74 /* OEPS2SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPS2SystemController.h; path = "PlayStation 2/OEPS2SystemController.h"; sourceTree = "<group>"; };
@@ -2576,9 +2558,7 @@
 		A902009F6D91025E828C1416 /* OESlangShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESlangShader.h; sourceTree = "<group>"; };
 		A902019312DE5D81DCEEDF26 /* OEGameHelperMetalLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameHelperMetalLayer.m; sourceTree = "<group>"; };
 		A902075D9FB462EB5568DCCB /* OEGameHelperMetalLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameHelperMetalLayer.h; sourceTree = "<group>"; };
-		A9020994DF6C7CAD59D8FE40 /* OEGameHelperOpenGLLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameHelperOpenGLLayer.m; sourceTree = "<group>"; };
 		A9020BA03022B74F5DA5E13B /* OESlangShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESlangShader.m; sourceTree = "<group>"; };
-		A9020DB6B73D136E139FC5C3 /* OEGameHelperOpenGLLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameHelperOpenGLLayer.h; sourceTree = "<group>"; };
 		C60238E8179510C600F4AF6C /* OEGameCoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGameCoreHelper.h; sourceTree = "<group>"; };
 		C609618F179B278C00239067 /* OEXPCGameCoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXPCGameCoreHelper.h; sourceTree = "<group>"; };
 		C6096190179B461C00239067 /* OEXPCGameCoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPCGameCoreManager.h; sourceTree = "<group>"; };
@@ -3130,21 +3110,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		052B929B226ED66D00701431 /* Metal */ = {
-			isa = PBXGroup;
-			children = (
-				052B92BF226EE05900701431 /* OEMTLPixelConverter.h */,
-				052B92BB226EE05500701431 /* OEMTLPixelConverter.m */,
-				057518192279424E009BCAA8 /* FrameView.h */,
-				0575181A2279424E009BCAA8 /* FrameView.m */,
-				052B92C1226EE05B00701431 /* RendererCommon.h */,
-				052B92B7226EE05000701431 /* RendererCommon.m */,
-				052B92B9226EE05300701431 /* Shaders.metal */,
-				052B92BC226EE05600701431 /* ShaderTypes.h */,
-			);
-			name = Metal;
-			sourceTree = "<group>";
-		};
 		081A461F1B9572C400565444 /* Pokemon mini */ = {
 			isa = PBXGroup;
 			children = (
@@ -3545,12 +3510,11 @@
 		3D41E8E41BD47DA300A76EFD /* Renderers */ = {
 			isa = PBXGroup;
 			children = (
-				052B929B226ED66D00701431 /* Metal */,
 				3D41E8E51BD47DEF00A76EFD /* OEGameRenderer.h */,
 				052B9293226ED63200701431 /* OEMTLGameRenderer.h */,
 				052B9294226ED63200701431 /* OEMTLGameRenderer.m */,
-				3D41E8E91BD4959300A76EFD /* OEOpenGL2GameRenderer.h */,
-				3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */,
+				05FB7D7F22A0A3CD0070633C /* OEOpenGL2GameRenderer.h */,
+				05FB7D8022A0A3D60070633C /* OEOpenGL2GameRenderer.m */,
 				3DA6EDCA1BD790B900560326 /* OEOpenGL3GameRenderer.h */,
 				3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */,
 			);
@@ -3590,12 +3554,10 @@
 		3DCFA4991D02BD80005B8A3B /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				3D8861C01D153B4000B4FE3D /* OEGameHelperLayer.h */,
-				3D8861C11D153B4000B4FE3D /* OEGameHelperLayer.m */,
+				05FB7D8322A0A4A40070633C /* OECoreVideoTexture.h */,
+				05FB7D8422A0A4A40070633C /* OECoreVideoTexture.m */,
 				A902075D9FB462EB5568DCCB /* OEGameHelperMetalLayer.h */,
 				A902019312DE5D81DCEEDF26 /* OEGameHelperMetalLayer.m */,
-				A9020DB6B73D136E139FC5C3 /* OEGameHelperOpenGLLayer.h */,
-				A9020994DF6C7CAD59D8FE40 /* OEGameHelperOpenGLLayer.m */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -7379,23 +7341,18 @@
 				052B9296226ED63200701431 /* OEMTLGameRenderer.m in Sources */,
 				C6772A841710C9C400ED580A /* OEPlugin.m in Sources */,
 				C6772A851710C9C400ED580A /* OECorePlugin.m in Sources */,
-				052B92C5226EE05C00701431 /* Shaders.metal in Sources */,
 				C609619B179B74DE00239067 /* OESystemPlugin.m in Sources */,
 				1BEF2CA011684E7E0090F72B /* OEGameAudio.m in Sources */,
-				3D41E8EC1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */,
 				3DD7A23C1D193DA40003D426 /* NSColor+OEAdditions.m in Sources */,
-				052B92C9226EE05C00701431 /* OEMTLPixelConverter.m in Sources */,
 				1BEF2A9C11682A5E0090F72B /* OpenEmuHelperApp.m in Sources */,
-				0575181C2279424E009BCAA8 /* FrameView.m in Sources */,
 				1BEF2D15116855690090F72B /* OETaskWrapper.m in Sources */,
+				05FB7D8222A0A3D60070633C /* OEOpenGL2GameRenderer.m in Sources */,
 				3DA6EDCD1BD790B900560326 /* OEOpenGL3GameRenderer.m in Sources */,
-				052B92C3226EE05C00701431 /* RendererCommon.m in Sources */,
 				C6AC9D391190C6490083DDFD /* OpenEmuHelperAppMain.m in Sources */,
 				828BF57F1669F99600759F10 /* OEUtilities.m in Sources */,
 				C609619A179B6E3F00239067 /* OpenEmuXPCHelperApp.m in Sources */,
-				3D8861C21D153B4000B4FE3D /* OEGameHelperLayer.m in Sources */,
+				05FB7D8622A0A4A40070633C /* OECoreVideoTexture.m in Sources */,
 				A90208FC9B5D10B9F8150E57 /* OEGameHelperMetalLayer.m in Sources */,
-				A90207BF09EA1497DF24417B /* OEGameHelperOpenGLLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7514,6 +7471,7 @@
 				53439A9D13B92C97005C0CC8 /* OEDBSmartCollection.m in Sources */,
 				5A3DB1691D8C93C3009445EC /* PreferencesControlsBox.swift in Sources */,
 				53439AA213B92C9D005C0CC8 /* OEDBGame.m in Sources */,
+				05FB7D8522A0A4A40070633C /* OECoreVideoTexture.m in Sources */,
 				53439AA313B92C9D005C0CC8 /* OEDBSystem.m in Sources */,
 				53439AA613B92CC7005C0CC8 /* OELibraryController.m in Sources */,
 				5A9606EA1C0BD2BD0089B494 /* DLog.swift in Sources */,
@@ -7523,13 +7481,11 @@
 				53439AE413B92E59005C0CC8 /* OETableCornerView.m in Sources */,
 				53439AE513B92E59005C0CC8 /* OETableHeaderCell.m in Sources */,
 				53439AE613B92E59005C0CC8 /* OETableHeaderView.m in Sources */,
-				052B92C2226EE05C00701431 /* RendererCommon.m in Sources */,
 				53439AE713B92E59005C0CC8 /* OETableView.m in Sources */,
 				53439AEB13B92E91005C0CC8 /* OELibrarySplitView.m in Sources */,
 				53439AF413B92EA8005C0CC8 /* OESearchFieldCell.m in Sources */,
 				5AECA1491BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift in Sources */,
 				53439AF713B92EAD005C0CC8 /* OESlider.m in Sources */,
-				0575181B2279424E009BCAA8 /* FrameView.m in Sources */,
 				5A9606D21C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift in Sources */,
 				5AFD06BD2058893B00DFE765 /* GameScannerViewController.swift in Sources */,
 				53439AFA13B92EB3005C0CC8 /* OEImageButton.m in Sources */,
@@ -7543,13 +7499,11 @@
 				830CB918186878D6006EAE5A /* OEArrayController.m in Sources */,
 				8363A43F193CD12C00F18425 /* OEGridMediaGroupItemCell.m in Sources */,
 				53439B6E13B932DB005C0CC8 /* OEPrefLibraryController.m in Sources */,
-				052B92C8226EE05C00701431 /* OEMTLPixelConverter.m in Sources */,
 				53439B7113B932ED005C0CC8 /* OEPrefGameplayController.m in Sources */,
 				53439B7413B932FA005C0CC8 /* OEPrefControlsController.m in Sources */,
-				3D41E8EB1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */,
-				052B92C4226EE05C00701431 /* Shaders.metal in Sources */,
 				53439B7713B93303005C0CC8 /* OEPrefCoresController.m in Sources */,
 				53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */,
+				05FB7D8122A0A3D60070633C /* OEOpenGL2GameRenderer.m in Sources */,
 				5A46AC411DC66D8300771B3B /* OEGameViewController+TouchBar.swift in Sources */,
 				53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */,
 				836AEA711975BFE100B86935 /* OEGridCell.m in Sources */,
@@ -7567,7 +7521,6 @@
 				83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */,
 				83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */,
 				83025E60146BDD5E00A06EF9 /* OECoreTableButtonCell.m in Sources */,
-				3DD7A23B1D17DF2E0003D426 /* OEGameHelperLayer.m in Sources */,
 				83025E66146BE68E00A06EF9 /* OECoreTableProgressCell.m in Sources */,
 				8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */,
 				839310BC147802380020058E /* OECoreDownload.m in Sources */,
@@ -7673,7 +7626,6 @@
 				8CBD3AA217D23AA80022399B /* OEGridGameCell.m in Sources */,
 				5A9606D41C0A63740089B494 /* NSMutableDictionary+Pop.swift in Sources */,
 				A9020A6B0B5DCC3081F0DB19 /* OEGameHelperMetalLayer.m in Sources */,
-				A9020E8C0821078FA787F358 /* OEGameHelperOpenGLLayer.m in Sources */,
 				A9020FB027B38FC91FA4695A /* OESlangShader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

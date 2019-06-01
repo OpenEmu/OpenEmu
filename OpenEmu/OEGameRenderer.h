@@ -16,7 +16,6 @@
 
 // Setup
 @property (nonatomic) OEGameCore   *gameCore;
-@property (nonatomic) IOSurfaceRef  ioSurface;
 @property (nonatomic) OEIntSize     surfaceSize;
 
 @property (nonatomic, readonly) id presentationFramebuffer;
@@ -36,9 +35,5 @@
 
 - (void)suspendFPSLimiting;       ///!< (Temporarily) disable the FPS limiter for saving/setup, to avoid deadlock.
 - (void)resumeFPSLimiting;        ///!< Resume the FPS limiter when entering normal gameplay.
-
-@optional
-- (void)setFilterURL:(NSURL *)url;
-- (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block;
 
 @end

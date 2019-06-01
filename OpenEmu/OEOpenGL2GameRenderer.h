@@ -8,15 +8,17 @@
 
 #import "OEGameRenderer.h"
 
+@class OECoreVideoTexture;
+
 /*!
  * @class OEOpenGL2GameRenderer
  * @discussion
- * Renderer which provides an OpenGL 2.1/Compatibility context to 3D game cores
- * and uses GL2.1 to blit 2D games' video buffers to the IOSurface.
- *
- * The second is generally only used to convert pixel formats, so any faster
- * alternative is welcome.
+ * Renderer which provides an OpenGL 2.1/Compatibility context to 3D game cores.
  */
 @interface OEOpenGL2GameRenderer : NSObject <OEGameRenderer>
+
+@property (nonatomic) OEIntSize surfaceSize;
+
+- (nonnull instancetype)initWithInteropTexture:(OECoreVideoTexture * _Nonnull )texture;
 
 @end

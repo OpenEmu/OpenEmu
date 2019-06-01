@@ -25,9 +25,10 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
     if(backgroundColorName != nil)
     {
         NSColor *color = [NSColor colorFromString:backgroundColorName];
-        self.backgroundColor = color;
+        self.backgroundColor = color.CGColor;
     }
     
+    // TODO(sgc): this should come from the host
     self.contentsScale = 2.0;
 
     return self;
@@ -35,16 +36,10 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 
 #pragma mark - Properties
 
-- (CALayer *)layer
-{
-    return self;
-}
-
 - (void)setBounds:(CGRect)bounds
 {
     super.bounds = bounds;
     CGSize size = CGSizeApplyAffineTransform(bounds.size, CGAffineTransformMakeScale(self.contentsScale, self.contentsScale));
-    [self.helperDelegate helperLayer:self drawableSizeWillChange:size];
     self.drawableSize = size;
 }
 
