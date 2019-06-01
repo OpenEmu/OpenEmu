@@ -530,7 +530,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
          NSString *systemIdentifier = system.systemIdentifier;
          OEButton *button = [[OEButton alloc] initWithFrame:rect];
          [button setThemeKey:@"dark_checkbox"];
-         button.buttonType = NSSwitchButton;
+         button.buttonType = NSButtonTypeSwitch;
          button.target = self;
          button.action = @selector(toggleSystem:);
          button.title = system.name;

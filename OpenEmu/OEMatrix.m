@@ -128,7 +128,7 @@
 - (void)OE_windowKeyChanged:(NSNotification *)notification
 {
     // The keyedness of the window has changed, we want to redisplay the button with the new state, this is only fired when NSWindowDidBecomeMainNotification and NSWindowDidResignMainNotification is registered.
-    [self setNeedsDisplay];
+    [self setNeedsDisplay:YES];
 }
 
 - (void)setThemeKey:(NSString *)key
@@ -168,7 +168,7 @@
         {
             if([cell conformsToProtocol:@protocol(OECell)]) [cell setBackgroundThemeImage:_backgroundThemeImage];
         }
-        [self setNeedsDisplay];
+        [self setNeedsDisplay:YES];
     }
 }
 
@@ -182,7 +182,7 @@
         {
             if([cell conformsToProtocol:@protocol(OECell)]) [cell setThemeImage:_themeImage];
         }
-        [self setNeedsDisplay];
+        [self setNeedsDisplay:YES];
     }
 }
 
@@ -196,7 +196,7 @@
         {
             if([cell conformsToProtocol:@protocol(OECell)]) [cell setThemeTextAttributes:_themeTextAttributes];
         }
-        [self setNeedsDisplay];
+        [self setNeedsDisplay:YES];
     }
 }
 

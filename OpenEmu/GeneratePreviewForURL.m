@@ -49,13 +49,13 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
         CGContextRef cgContext = QLPreviewRequestCreateContext(preview, *(CGSize *)&canvasSize, true, NULL);
         if(cgContext)
         {
-            NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithGraphicsPort:(void *)cgContext flipped:YES];
+            NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithCGContext:(void *)cgContext flipped:YES];
             if(context)
             {
-                NSGraphicsContext *gc = [NSGraphicsContext graphicsContextWithGraphicsPort:cgContext flipped:NO];
+                NSGraphicsContext *gc = [NSGraphicsContext graphicsContextWithCGContext:cgContext flipped:NO];
                 [NSGraphicsContext saveGraphicsState];
                 [NSGraphicsContext setCurrentContext:gc];
-                [image drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0f];
+                [image drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0f];
                 [NSGraphicsContext restoreGraphicsState];
             }
             QLPreviewRequestFlushContext(preview, cgContext);

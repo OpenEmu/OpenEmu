@@ -123,7 +123,7 @@
     id item = [self itemAtRow:index];
 
     _highlightedRow = index;
-    [self setNeedsDisplay];
+    [self setNeedsDisplay:YES];
 
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem;
@@ -138,7 +138,7 @@
             {
                 menuItem = [[NSMenuItem alloc] initWithTitle:[system name] action:@selector(OE_toggleSystemForMenuItem:) keyEquivalent:@""];
                 [menuItem setRepresentedObject:system];
-                [menuItem setState:[[system enabled] boolValue] ? NSOnState : NSOffState];
+                [menuItem setState:[[system enabled] boolValue] ? NSControlStateValueOn : NSControlStateValueOff];
                 [menu addItem:menuItem];
             }
         }
@@ -169,7 +169,7 @@
                 NSString *coreIdentifier = [core bundleIdentifier];
 
                 NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:coreName action:@selector(changeDefaultCore:) keyEquivalent:@""];
-                NSInteger state = [coreIdentifier isEqualToString:defaultCoreIdentifier] ? NSOnState : NSOffState;
+                NSInteger state = [coreIdentifier isEqualToString:defaultCoreIdentifier] ? NSControlStateValueOn : NSControlStateValueOff;
                 [item setState:state];
 
                 [item setRepresentedObject:@{@"core":coreIdentifier, @"system":systemIdentifier}];
@@ -223,7 +223,7 @@
     }
 
     _highlightedRow = -1;
-    [self setNeedsDisplay];
+    [self setNeedsDisplay:YES];
 
     return nil;
 }

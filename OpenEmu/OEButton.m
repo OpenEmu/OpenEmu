@@ -130,7 +130,7 @@
 - (void)OE_windowKeyChanged:(NSNotification *)notification
 {
     // The keyedness of the window has changed, we want to redisplay the button with the new state, this is only fired when NSWindowDidBecomeMainNotification and NSWindowDidResignMainNotification is registered.
-    [self setNeedsDisplay];
+    [self setNeedsDisplay:YES];
 }
 
 - (void)OE_setShouldTrackWindowActivity:(BOOL)shouldTrackWindowActivity
@@ -149,7 +149,7 @@
     {
         _trackMouseActivity = shouldTrackMouseActivity;
         [self updateTrackingAreas];
-        [self setNeedsDisplay];
+        [self setNeedsDisplay:YES];
         
     }
 }
@@ -221,7 +221,7 @@
     {
         [cell setBackgroundThemeImage:backgroundThemeImage];
         [self OE_updateNotifications];
-        [self setNeedsDisplay];
+        [self setNeedsDisplay:YES];
     }
 }
 
@@ -238,7 +238,7 @@
     {
         [cell setThemeImage:themeImage];
         [self OE_updateNotifications];
-        [self setNeedsDisplay];
+        [self setNeedsDisplay:YES];
     }
 }
 
@@ -255,7 +255,7 @@
     {
         [cell setThemeTextAttributes:themeTextAttributes];
         [self OE_updateNotifications];
-        [self setNeedsDisplay];
+        [self setNeedsDisplay:YES];
     }
 }
 

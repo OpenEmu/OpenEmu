@@ -58,7 +58,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
      if (self == [OEDBGame class])
      {
          [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-                                                                   OEGameArtworkFormatKey : @(NSJPEGFileType),
+                                                                   OEGameArtworkFormatKey : @(NSBitmapImageFileTypeJPEG),
                                                                    OEGameArtworkPropertiesKey : @{
                                                                            NSImageCompressionFactor : @(0.9)
                                                                            }

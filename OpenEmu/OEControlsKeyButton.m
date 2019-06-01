@@ -67,7 +67,7 @@
 
 - (void)OE_commonControlsKeyButtonInit
 {
-    state = NSOffState;
+    state = NSControlStateValueOff;
 }
 
 - (void)dealloc
@@ -91,7 +91,7 @@
 {
     // Draw Backgrounds
     const NSRect bounds = [self bounds];
-    OEThemeState themeState = self.state==NSOnState ? OEThemeInputStateFocused : OEThemeStateDefault;
+    OEThemeState themeState = self.state==NSControlStateValueOn ? OEThemeInputStateFocused : OEThemeStateDefault;
     NSImage *image = [[OETheme sharedTheme] imageForKey:@"wood_textfield" forState:themeState];
     [image drawInRect:bounds fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 
@@ -123,13 +123,13 @@
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    [self setState:[self state] == NSOnState ? NSOffState : NSOnState];
+    [self setState:[self state] == NSControlStateValueOn ? NSControlStateValueOff : NSControlStateValueOn];
     
     // FIXME: It's not great to have the action triggered on mouseDown:
     if([self action] != NULL) [NSApp sendAction:[self action] to:[self target] from:self];
 }
 
-- (void)setState:(NSCellStateValue)aState
+- (void)setState:(NSControlStateValue)aState
 {
     if(state == aState) return;
     

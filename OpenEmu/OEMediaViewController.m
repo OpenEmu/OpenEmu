@@ -179,8 +179,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     
     toolbar.gridViewButton.enabled = NO;
     toolbar.listViewButton.enabled = NO;
-    toolbar.gridViewButton.state = NSOffState;
-    toolbar.listViewButton.state = NSOffState;
+    toolbar.gridViewButton.state = NSControlStateValueOff;
+    toolbar.listViewButton.state = NSControlStateValueOff;
     
     toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
     
@@ -206,8 +206,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         
         toolbar.gridViewButton.enabled = NO;
         toolbar.listViewButton.enabled = NO;
-        toolbar.gridViewButton.state = NSOffState;
-        toolbar.listViewButton.state = NSOffState;
+        toolbar.gridViewButton.state = NSControlStateValueOff;
+        toolbar.listViewButton.state = NSControlStateValueOff;
     }
 }
 
@@ -218,7 +218,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Everything", @"Search field filter selection title")
                                       action:@selector(searchScopeDidChange:) keyEquivalent:@""];
-    [item setState:NSOnState];
+    [item setState:NSControlStateValueOn];
     [item setRepresentedObject:@[@"rom.game.gameTitle", @"rom.game.name", @"rom.game.system.lastLocalizedName", @"name", @"userDescription"]];
     [menu addItem:item];
 
@@ -257,10 +257,10 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     NSMenu *menu = [sender menu];
     [[menu itemArray] enumerateObjectsUsingBlock:^(NSMenuItem *item, NSUInteger idx, BOOL *stop) {
-        [item setState:NSOffState];
+        [item setState:NSControlStateValueOff];
     }];
 
-    [sender setState:NSOnState];
+    [sender setState:NSControlStateValueOn];
     [self setSearchKeys:[sender representedObject]];
     NSSearchField *field = [[[self libraryController] toolbar] searchField];
     [self search:field];

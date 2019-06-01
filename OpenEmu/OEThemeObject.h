@@ -104,7 +104,7 @@ extern OEThemeState  OEThemeStateFromString(NSString *state);
 + (id _Nullable)parseWithDefinition:(NSDictionary *)definition;
 
 /// Convenience function for retrieving an OEThemeState based on the supplied inputs
-+ (OEThemeState)themeStateWithWindowActive:(BOOL)windowActive buttonState:(NSCellStateValue)state selected:(BOOL)selected enabled:(BOOL)enabled focused:(BOOL)focused houseHover:(BOOL)hover modifierMask:(NSUInteger)modifierMask;
++ (OEThemeState)themeStateWithWindowActive:(BOOL)windowActive buttonState:(NSControlStateValue)state selected:(BOOL)selected enabled:(BOOL)enabled focused:(BOOL)focused houseHover:(BOOL)hover modifierMask:(NSUInteger)modifierMask;
 
 /// Retrieves UI object for state specified
 - (id)objectForState:(OEThemeState)state;

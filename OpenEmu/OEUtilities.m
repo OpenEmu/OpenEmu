@@ -38,7 +38,7 @@ void tohex(const unsigned char *input, size_t len, char *output)
         output[2*i] = table[input[i]>>4];
         output[2*i+1] = table[input[i]&0xF];
     }
-    output[2*len+1] = '\0';
+    output[2*len] = '\0';
 }
 
 void OEPrintFirstResponderChain(void)

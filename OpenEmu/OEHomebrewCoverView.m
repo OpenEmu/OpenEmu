@@ -81,7 +81,7 @@ const static NSLock *lock;
 
     NSProgressIndicator *indicator = [[NSProgressIndicator alloc] initWithFrame:NSZeroRect];
     [indicator setIndeterminate:YES];
-    [indicator setStyle:NSProgressIndicatorSpinningStyle];
+    [indicator setStyle:NSProgressIndicatorStyleSpinning];
     [indicator setControlSize:NSControlSizeRegular];
     [indicator setHidden:YES];
     [indicator setUsesThreadedAnimation:YES];

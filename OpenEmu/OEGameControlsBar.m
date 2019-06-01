@@ -382,7 +382,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
             NSMenuItem *cheatsMenuItem = [[NSMenuItem alloc] initWithTitle:description action:@selector(setCheat:) keyEquivalent:@""];
             [cheatsMenuItem setRepresentedObject:cheatObject];
-            [cheatsMenuItem setState:enabled ? NSOnState : NSOffState];
+            [cheatsMenuItem setState:enabled ? NSControlStateValueOn : NSControlStateValueOff];
 
             [cheatsMenu addItem:cheatsMenuItem];
         }
@@ -405,7 +405,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             NSMenuItem *coreItem = [[NSMenuItem alloc] initWithTitle:[aPlugin displayName] action:@selector(switchCore:) keyEquivalent:@""];
             [coreItem setRepresentedObject:aPlugin];
 
-            if([[aPlugin bundleIdentifier] isEqual:[[self gameViewController] coreIdentifier]]) [coreItem setState:NSOnState];
+            if([[aPlugin bundleIdentifier] isEqual:[[self gameViewController] coreIdentifier]]) [coreItem setState:NSControlStateValueOn];
 
             [coresMenu addItem:coreItem];
         }
@@ -502,7 +502,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
                     NSMenuItem *displaySubmenuItem = [[NSMenuItem alloc] initWithTitle:mode action:@selector(changeDisplayMode:) keyEquivalent:@""];
                     displaySubmenuItem.representedObject = subModeDict;
-                    displaySubmenuItem.state = selected ? NSOnState : NSOffState;
+                    displaySubmenuItem.state = selected ? NSControlStateValueOn : NSControlStateValueOff;
                     displaySubmenuItem.enabled = enabled;
                     displaySubmenuItem.indentationLevel = indentationLevel;
                     [displaySubmenu addItem:displaySubmenuItem];
@@ -513,7 +513,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
             NSMenuItem *displayMenuItem = [[NSMenuItem alloc] initWithTitle:mode action:@selector(changeDisplayMode:) keyEquivalent:@""];
             displayMenuItem.representedObject = modeDict;
-            displayMenuItem.state = selected ? NSOnState : NSOffState;
+            displayMenuItem.state = selected ? NSControlStateValueOn : NSControlStateValueOff;
             displayMenuItem.enabled = enabled;
             displayMenuItem.indentationLevel = indentationLevel;
             [displayMenu addItem:displayMenuItem];
@@ -535,7 +535,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     {
         NSMenuItem *filterItem = [[NSMenuItem alloc] initWithTitle:aName action:@selector(selectFilter:) keyEquivalent:@""];
 
-        if([aName isEqualToString:selectedFilter]) [filterItem setState:NSOnState];
+        if([aName isEqualToString:selectedFilter]) [filterItem setState:NSControlStateValueOn];
 
         [filterMenu addItem:filterItem];
     }
@@ -566,7 +566,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             NSString *scaleTitle  = [NSString stringWithFormat:NSLocalizedString(@"%ux", @"Integral scale menu item title"), scale];
             NSMenuItem *scaleItem = [[NSMenuItem alloc] initWithTitle:scaleTitle action:@selector(changeIntegralScale:) keyEquivalent:@""];
             [scaleItem setRepresentedObject:@(scale)];
-            [scaleItem setState:(scale == currentScale ? NSOnState : NSOffState)];
+            [scaleItem setState:(scale == currentScale ? NSControlStateValueOn : NSControlStateValueOff)];
             [scaleMenu addItem:scaleItem];
         }
     }
@@ -752,14 +752,14 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 - (void)gameWindowDidEnterFullScreen:(NSNotification *)notification;
 {
     OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
-    [[view fullScreenButton] setState:NSOnState];
+    [[view fullScreenButton] setState:NSControlStateValueOn];
     [self _performMouseMoved:nil];  // Show HUD because fullscreen animation makes the cursor appear
 }
 
 - (void)gameWindowWillExitFullScreen:(NSNotification *)notification;
 {
     OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
-    [[view fullScreenButton] setState:NSOffState];
+    [[view fullScreenButton] setState:NSControlStateValueOff];
 }
 
 - (void)setGameWindow:(NSWindow *)gameWindow
@@ -798,7 +798,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [nc addObserver:self selector:@selector(gameWindowDidChangeScreen:) name:NSWindowDidChangeScreenNotification object:gameWindow];
 
         OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
-        [[view fullScreenButton] setState:[gameWindow isFullScreen] ? NSOnState : NSOffState];
+        [[view fullScreenButton] setState:[gameWindow isFullScreen] ? NSControlStateValueOn : NSControlStateValueOff];
     }
 }
 
@@ -837,7 +837,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [self addSubview:stopButton];
 
     _pauseButton = [[OEButton alloc] init];
-    [_pauseButton setButtonType:NSToggleButton];
+    [_pauseButton setButtonType:NSButtonTypeToggle];
     [_pauseButton setThemeKey:@"hud_button_toggle_pause"];
     [_pauseButton setTitle:@""];
     [_pauseButton setAction:@selector(toggleEmulationPaused:)];
@@ -922,7 +922,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     _fullScreenButton = [[OEButton alloc] init];
     [_fullScreenButton setTitle:@""];
     [_fullScreenButton setThemeKey:@"hud_button_fullscreen"];
-    [_fullScreenButton setButtonType:NSPushOnPushOffButton];
+    [_fullScreenButton setButtonType:NSButtonTypePushOnPushOff];
     [_fullScreenButton setAction:@selector(toggleFullScreen:)];
     [_fullScreenButton setFrame:NSMakeRect(370 + (hideOptions ? 0 : 50), 13, 51, 23)];
     [_fullScreenButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];

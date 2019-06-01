@@ -152,8 +152,8 @@ const static CGFloat TableViewSpacing = 86.0;
     
     toolbar.gridViewButton.enabled = NO;
     toolbar.listViewButton.enabled = NO;
-    toolbar.gridViewButton.state = NSOffState;
-    toolbar.listViewButton.state = NSOffState;
+    toolbar.gridViewButton.state = NSControlStateValueOff;
+    toolbar.listViewButton.state = NSControlStateValueOff;
     
     toolbar.gridSizeSlider.enabled = NO;
 

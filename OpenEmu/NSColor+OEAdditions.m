@@ -221,7 +221,7 @@
 // Inspired by http://www.w3.org/TR/css3-color/ and https://github.com/kballard/uicolor-utilities/blob/master/UIColor-Expanded.m
 - (NSString*)toString
 {
-    NSColor *rgbColor = [self colorUsingColorSpaceName:NSDeviceRGBColorSpace];
+    NSColor *rgbColor = [self colorUsingColorSpace:NSColorSpace.deviceRGBColorSpace];
     NSString *result  = [NSString stringWithFormat:@"#%02x%02x%02x", (int)([rgbColor redComponent]*255), (int)([rgbColor greenComponent]*255), (int)([rgbColor blueComponent]*255)];
 
     return result;

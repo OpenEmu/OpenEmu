@@ -1102,7 +1102,7 @@ typedef enum : NSUInteger
         [alert setShowsSuppressionButton:YES];
         [alert setSuppressionLabelText:NSLocalizedString(@"Do not show me again", @"Alert suppression label")];
         
-        if([alert runModal] == NSAlertFirstButtonReturn && [[alert suppressionButton] state] == NSOnState)
+        if([alert runModal] == NSAlertFirstButtonReturn && [[alert suppressionButton] state] == NSControlStateValueOn)
         {
             NSMutableDictionary *systemKeyGlitchInfo = [NSMutableDictionary dictionary];
             [systemKeyGlitchInfo addEntriesFromDictionary:glitchInfo];
@@ -1146,7 +1146,7 @@ typedef enum : NSUInteger
     if([alert runModal] == NSAlertFirstButtonReturn)
     {
         NSNumber *enabled;
-        if ([[alert suppressionButton] state] == NSOnState)
+        if ([[alert suppressionButton] state] == NSControlStateValueOn)
         {
             enabled = @YES;
             [self setCheat:[alert stringValue] withType:@"Unknown" enabled:[enabled boolValue]];

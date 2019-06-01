@@ -73,7 +73,7 @@
     if([cell isKindOfClass:[OELabelCell class]])
     {
         [cell setBackgroundThemeImage:backgroundThemeImage];
-        [self setNeedsDisplay];
+        [self setNeedsDisplay:YES];
     }
 }
 
@@ -89,7 +89,7 @@
     if([cell isKindOfClass:[OELabelCell class]])
     {
         [cell setThemeImage:themeImage];
-        [self setNeedsDisplay];
+        [self setNeedsDisplay:YES];
     }
 }
 
@@ -105,7 +105,7 @@
     if([cell isKindOfClass:[OELabelCell class]])
     {
         [cell setThemeTextAttributes:themeTextAttributes];
-        [self setNeedsDisplay];
+        [self setNeedsDisplay:YES];
     }
 }
 

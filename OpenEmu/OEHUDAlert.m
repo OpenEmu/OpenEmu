@@ -103,7 +103,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
         _hudWindow.releasedWhenClosed = NO;
         
         _suppressionButton = [[OEButton alloc] init];
-        _suppressionButton.buttonType = NSSwitchButton;
+        _suppressionButton.buttonType = NSButtonTypeSwitch;
         ((OEButton *)_suppressionButton).themeKey = @"hud_checkbox";
         
         _defaultButton = [[OEButton alloc] init];

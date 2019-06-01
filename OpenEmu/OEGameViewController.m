@@ -102,7 +102,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     if([self class] == [OEGameViewController class])
     {
         [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-                                                                  OEScreenshotFileFormatKey : @(NSPNGFileType),
+                                                                  OEScreenshotFileFormatKey : @(NSBitmapImageFileTypePNG),
                                                                   OEScreenshotPropertiesKey : @{},
                                                                   }];
     }
@@ -241,7 +241,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 - (void)toggleControlsVisibility:(NSMenuItem*)sender
 {
     [sender setState:![sender state]];
-    [[self controlsWindow] setCanShow:[sender state]==NSOffState];
+    [[self controlsWindow] setCanShow:[sender state]==NSControlStateValueOff];
 }
 
 #pragma mark - HUD Bar Actions
@@ -274,9 +274,9 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     if(action == @selector(toggleControlsVisibility:))
     {
         if([[self controlsWindow] canShow])
-            [menuItem setState:NSOffState];
+            [menuItem setState:NSControlStateValueOff];
         else
-            [menuItem setState:NSOnState];
+            [menuItem setState:NSControlStateValueOn];
     }
     
     

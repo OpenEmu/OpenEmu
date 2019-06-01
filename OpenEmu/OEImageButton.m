@@ -101,7 +101,7 @@
     BOOL windowActive = [[controlView window] isMainWindow] || ([[controlView window] parentWindow] && [[[controlView window] parentWindow] isMainWindow]);
     BOOL isPressed = [self isHighlighted];
     BOOL isEnabled = [self isEnabled];
-    BOOL isSelected = [self state]==NSOnState;
+    BOOL isSelected = [self state]==NSControlStateValueOn;
     
     BOOL rollover;
     if([controlView isKindOfClass:[OEImageButton class]])

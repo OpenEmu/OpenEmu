@@ -343,9 +343,9 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
     for(NSMenuItem *item in [inputButton itemArray])
     {
-        if([item state] == NSOnState) continue;
+        if([item state] == NSControlStateValueOn) continue;
         if([item representedObject])
-            [item setState:[item representedObject] == currentDeviceHandler ? NSMixedState : NSOffState];
+            [item setState:[item representedObject] == currentDeviceHandler ? NSControlStateValueMixed : NSControlStateValueOff];
     }
 
     [inputButton selectItemAtIndex:MAX(0, [inputButton indexOfItemWithRepresentedObject:representedObject])];

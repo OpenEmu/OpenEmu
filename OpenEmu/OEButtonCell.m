@@ -122,7 +122,7 @@
         NSButtonType buttonType = [[self valueForKey:@"buttonType"] unsignedIntegerValue];
         switch(buttonType)
         {
-            case NSSwitchButton:
+            case NSButtonTypeSwitch:
             {
                 NSSize imageSize = [self image].size;
                 result.origin.y = NSMinY(result) + (NSHeight(result) - imageSize.height) / 2.0;
@@ -169,8 +169,8 @@
         NSButtonType buttonType = [[self valueForKey:@"buttonType"] unsignedIntegerValue];
         switch(buttonType)
         {
-            case NSRadioButton:
-            case NSSwitchButton:
+            case NSButtonTypeRadio:
+            case NSButtonTypeSwitch:
                 result = NSInsetRect(result, 3.0, 0.0);
                 result.origin.y += 1.0;
                 break;

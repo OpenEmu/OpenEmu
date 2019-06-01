@@ -52,9 +52,9 @@
             [menuItem setRepresentedObject:column];
         
             if([[headerState valueForKey:[column identifier]] boolValue])
-                [menuItem setState:NSOffState];
+                [menuItem setState:NSControlStateValueOff];
             else
-                [menuItem setState:NSOnState];
+                [menuItem setState:NSControlStateValueOn];
         
             [menu addItem:menuItem];
         }

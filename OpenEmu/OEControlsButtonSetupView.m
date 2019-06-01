@@ -115,8 +115,8 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
         
         selectedKey = [value copy];
 
-        [previous setState:NSOffState];
-        [button   setState:NSOnState];
+        [previous setState:NSControlStateValueOff];
+        [button   setState:NSControlStateValueOn];
 
         if(value)
         {
@@ -650,7 +650,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     OEControlsSectionTitleView *labelField = [[OEControlsSectionTitleView alloc] initWithFrame:NSZeroRect];
     [labelField setStringValue:name];
     [labelField setCollapsible:flag];
-    if(flag) [labelField setState:NSOffState];
+    if(flag) [labelField setState:NSControlStateValueOff];
 
     return labelField;
 }

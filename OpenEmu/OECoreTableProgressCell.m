@@ -83,7 +83,7 @@
     
     NSRect trackRect = cellFrame;
     NSImage *image = [[OETheme sharedTheme] imageForKey:@"install_progress_track" forState:OEThemeStateDefault];
-    [image drawInRect:trackRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    [image drawInRect:trackRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     
     NSRect progressRect = cellFrame;
     float value = [[self objectValue] floatValue];

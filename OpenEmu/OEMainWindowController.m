@@ -479,7 +479,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     
     NSMenu *windowMenu = [[mainMenu itemAtIndex:5] submenu];
     NSMenuItem *item = [windowMenu itemWithTag:MainMenu_Window_OpenEmuTag];
-    [item setState:NSOnState];
+    [item setState:NSControlStateValueOn];
 }
 
 - (void)windowDidResignMain:(NSNotification *)notification
@@ -488,7 +488,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     
     NSMenu *windowMenu = [[mainMenu itemAtIndex:5] submenu];
     NSMenuItem *item = [windowMenu itemWithTag:MainMenu_Window_OpenEmuTag];
-    [item setState:NSOffState];
+    [item setState:NSControlStateValueOff];
 }
 
 - (void)windowWillEnterFullScreen:(NSNotification *)notification

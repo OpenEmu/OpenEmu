@@ -45,7 +45,7 @@ const static CGFloat buttonTitleGap = 5.0;
     if (self) {
         OEButtonCell *buttonCell = [[OEButtonCell alloc] initTextCell:@""];
         [buttonCell setThemeKey:@"controls_triangle"];
-        [buttonCell setState:NSOnState];
+        [buttonCell setState:NSControlStateValueOn];
         [buttonCell setControlView:self];
         
         [self setButtonCell:buttonCell];
@@ -103,7 +103,7 @@ const static CGFloat buttonTitleGap = 5.0;
     if([self isCollapsible])
     {
         NSRect buttonRect = [self buttonRect];
-        [[self buttonCell] setBezelStyle:NSDisclosureBezelStyle];
+        [[self buttonCell] setBezelStyle:NSBezelStyleDisclosure];
         [[self buttonCell] drawWithFrame:buttonRect inView:self];
     }
 

@@ -204,7 +204,7 @@ enum : OEFSMEventLabel
 
 - (IBAction)processAllowGameScannerNextButtonAction:(id)sender
 {
-    OEFSMEventLabel event = ([[self allowScanForGames] state] == NSOnState ? _OEFSMNextWithCheckmarkEvent : _OEFSMNextWithoutCheckmarkEvent);
+    OEFSMEventLabel event = ([[self allowScanForGames] state] == NSControlStateValueOn ? _OEFSMNextWithCheckmarkEvent : _OEFSMNextWithoutCheckmarkEvent);
     [_fsm processEvent:event];
 }
 
