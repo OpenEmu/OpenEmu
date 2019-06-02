@@ -117,13 +117,11 @@
     GLint numPixelFormats = 0;
 
     err = CGLChoosePixelFormat(attributes, &_glPixelFormat, &numPixelFormats);
-
     if(err != kCGLNoError)
     {
         NSLog(@"Error choosing pixel format %s", CGLErrorString(err));
         [[NSApplication sharedApplication] terminate:nil];
     }
-    CGLRetainPixelFormat(_glPixelFormat);
 
     err = CGLCreateContext(_glPixelFormat, NULL, &_glContext);
     if(err != kCGLNoError)
@@ -131,7 +129,6 @@
         NSLog(@"Error creating context %s", CGLErrorString(err));
         [[NSApplication sharedApplication] terminate:nil];
     }
-    CGLRetainContext(_glContext);
     CGLEnable(_glContext, kCGLCECrashOnRemovedFunctions);
 
     CGLSetCurrentContext(_glContext);

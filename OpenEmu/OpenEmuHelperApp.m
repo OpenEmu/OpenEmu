@@ -366,15 +366,20 @@ extern NSString * const kCAContextCIFilterBehavior;
     
     _systemResponder.client = _gameCore;
     _systemResponder.globalEventsHandler = self;
-    
+
+    __weak typeof(self) weakSelf = self;
     _unhandledEventsMonitor = [[OEDeviceManager sharedDeviceManager] addUnhandledEventMonitorHandler:^(OEDeviceHandler *handler, OEHIDEvent *event) {
-        if (!self->_handleEvents)
+        typeof(self) strongSelf = weakSelf;
+
+        if (strongSelf == nil) return;
+
+        if (!strongSelf->_handleEvents)
             return;
 
-        if (!self->_handleKeyboardEvents && event.type == OEHIDEventTypeKeyboard)
+        if (!strongSelf->_handleKeyboardEvents && event.type == OEHIDEventTypeKeyboard)
             return;
 
-        [self->_systemResponder handleHIDEvent:event];
+        [strongSelf->_systemResponder handleHIDEvent:event];
     }];
     
     DLog(@"Loaded bundle. About to load rom...");
