@@ -83,6 +83,9 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
     CGSize aspectSize = {.width = _gameCore.aspectSize.width, .height = _gameCore.aspectSize.height};
     [_frameView setSourceRect:sourceRect aspect:aspectSize];
 
+    // bufferSize is fixed for 2D, so doesn't need to be reallocated.
+    if (_backBuffer != nil) return;
+
     OEIntSize bufferSize   = _gameCore.bufferSize;
     NSUInteger bytesPerRow = (NSUInteger)[_gameCore bytesPerRow];
     
