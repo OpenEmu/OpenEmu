@@ -90,7 +90,7 @@
     NSMutableArray *spinnerValues = [[NSMutableArray alloc] initWithCapacity:stepCount];
 
     for(NSUInteger step = 0; step < stepCount; step++)
-        [spinnerValues addObject:[NSNumber numberWithDouble:-1*M_TAU * step / 12.0]];
+        [spinnerValues addObject:@(-1*M_TAU * step / 12.0)];
 
     animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
     [animation setCalculationMode:kCAAnimationDiscrete];

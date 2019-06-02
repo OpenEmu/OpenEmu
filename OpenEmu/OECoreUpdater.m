@@ -348,7 +348,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
     if(pluginDL == nil)
     {
-        [self checkForNewCores:[NSNumber numberWithBool:YES]];
+        [self checkForNewCores:@YES];
         pluginDL = [_coresDict objectForKey:[self coreIdentifier]];
     }
 

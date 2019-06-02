@@ -77,7 +77,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 + (NSSet *)keyPathsForValuesAffectingCurrentPlayerBindings
 {
-    return [NSSet setWithObjects:@"currentSystemBindings", @"currentSystemBindings.devicePlayerBindings", @"selectedPlayer", nil];
+    return [NSSet setWithArray:@[@"currentSystemBindings", @"currentSystemBindings.devicePlayerBindings", @"selectedPlayer"]];
 }
 
 #pragma mark - ViewController Overrides
@@ -220,12 +220,12 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (void)animationDidStart:(CAAnimation *)theAnimation
 {
-    [[[self controllerView] layer] setValue:[NSNumber numberWithFloat:1.0] forKeyPath:@"filters.pixellate.inputScale"];
+    [[[self controllerView] layer] setValue:@1.0 forKeyPath:@"filters.pixellate.inputScale"];
 }
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
 {
-    if(flag) [[[self controllerView] layer] setValue:[NSNumber numberWithInt:10.0] forKeyPath:@"filters.pixellate.inputScale"];
+    if(flag) [[[self controllerView] layer] setValue:@10.0 forKeyPath:@"filters.pixellate.inputScale"];
 }
 
 - (NSString *)nibName

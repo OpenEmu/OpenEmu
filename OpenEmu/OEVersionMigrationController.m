@@ -308,10 +308,10 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
         else
             *err = [NSError errorWithDomain:OEVersionMigrationErrorDomain
                                        code:1 
-                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                             NSLocalizedString(@"Some migrations failed to complete properly", @""),NSLocalizedDescriptionKey,
-                                             errors,OEVersionMigrationFailureErrorsKey,
-                                             nil]];
+                                   userInfo:@{
+                                              OEVersionMigrationFailureErrorsKey : errors,
+                                              NSLocalizedDescriptionKey : NSLocalizedString(@"Some migrations failed to complete properly", @"")
+                                              }];
         
         NSLog(@"Error migrating! %@,", *err);
     }

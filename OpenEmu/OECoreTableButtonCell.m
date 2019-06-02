@@ -99,22 +99,21 @@
     
     if([self isHighlighted])
     {
-        textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSFont systemFontOfSize:9], NSFontAttributeName,
-                                    [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName,
-                                    paraStyle, NSParagraphStyleAttributeName,
-                                    shadow, NSShadowAttributeName,
-                                    nil];
+        textAttributes = @{
+                           NSFontAttributeName : [NSFont systemFontOfSize:9],
+                           NSForegroundColorAttributeName : [NSColor colorWithWhite:1.0 alpha:1.0],
+                           NSParagraphStyleAttributeName : paraStyle,
+                           NSShadowAttributeName : shadow
+                           };
     }
     else
     {
-        textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                          [NSFont systemFontOfSize:9], NSFontAttributeName,
-                          [NSColor colorWithDeviceWhite:0.89 alpha:1.0], NSForegroundColorAttributeName,
-                          paraStyle, NSParagraphStyleAttributeName,
-                          shadow, NSShadowAttributeName,
-                          nil];
-   
+        textAttributes = @{
+                           NSFontAttributeName : [NSFont systemFontOfSize:9],
+                           NSForegroundColorAttributeName : [NSColor colorWithWhite:0.89 alpha:1.0],
+                           NSParagraphStyleAttributeName : paraStyle,
+                           NSShadowAttributeName : shadow
+                           };
     }
     
     [label drawInRect:cellFrame withAttributes:textAttributes];

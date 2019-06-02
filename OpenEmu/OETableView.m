@@ -301,7 +301,7 @@ static NSGradient *highlightGradient, *normalGradient;
 
     for(NSTableColumn *column in [self tableColumns])
     {
-        [defaultHeaderState setValue:[NSNumber numberWithBool:NO] forKey:[column identifier]];
+        [defaultHeaderState setValue:@NO forKey:[column identifier]];
     }
 
     return defaultHeaderState;

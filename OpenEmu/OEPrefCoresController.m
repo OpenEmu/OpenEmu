@@ -125,7 +125,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
     {
         if([plugin isDownloading])
         {
-            return [NSNumber numberWithFloat:[plugin progress]];
+            return @([plugin progress]);
         }
         
         return [plugin canBeInstalled] || [plugin hasUpdate] ? @"" : [plugin version];
