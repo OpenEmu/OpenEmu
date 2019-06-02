@@ -33,7 +33,7 @@
     dispatch_semaphore_t  _renderingThreadCanProceedSemaphore;
     dispatch_semaphore_t  _executeThreadCanProceedSemaphore;
 
-    volatile atomic_int   _isFPSLimiting; // Enable the "fake vsync" locking to prevent the GPU thread running ahead.
+    atomic_int            _isFPSLimiting; // Enable the "fake vsync" locking to prevent the GPU thread running ahead.
 }
 
 @synthesize gameCore=_gameCore;
