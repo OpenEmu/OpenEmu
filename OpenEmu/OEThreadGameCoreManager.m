@@ -78,7 +78,7 @@
         NSError *error;
         if(![_helper loadROMAtPath:[self ROMPath] romCRC32:[self ROMCRC32] romMD5:[self ROMMD5] romHeader:[self ROMHeader] romSerial:[self ROMSerial] systemRegion:[self systemRegion] displayModeInfo:[self displayModeInfo] withCorePluginAtPath:[[self plugin] path] systemPluginPath:[[self systemPlugin] path] error:&error])
         {
-            FIXME("Return a proper error object here.");
+
             if(_errorHandler != nil)
             {
                 _errorHandler(error);

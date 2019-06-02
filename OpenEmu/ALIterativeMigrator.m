@@ -237,7 +237,7 @@
                               code:code
                           userInfo:userInfo];
    
-   return NO;
+   return nil;
 }
 
 // Gets the metadata for the given persistent store.

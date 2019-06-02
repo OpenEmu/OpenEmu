@@ -40,7 +40,7 @@ typedef struct CSInputBuffer
 
 CSInputBuffer *CSInputBufferAlloc(CSHandle *parent,int size);
 CSInputBuffer *CSInputBufferAllocWithBuffer(const uint8_t *buffer,int length,off_t startoffs);
-CSInputBuffer *CSInputBufferAllocEmpty();
+CSInputBuffer *CSInputBufferAllocEmpty(void);
 void CSInputBufferFree(CSInputBuffer *self);
 
 void CSInputSetMemoryBuffer(CSInputBuffer *self,uint8_t *buffer,int length,off_t startoffs);
