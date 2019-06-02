@@ -311,10 +311,10 @@ extern NSString * const kCAContextCIFilterBehavior;
     }
     [_frameView setDrawableSize:_videoLayer.drawableSize];
     [CATransaction commit];
-    
+
+    // Game will try to render at the window size on its next frame.
     if ([_gameRenderer canChangeBufferSize] == NO) return;
     if ([_gameCore tryToResizeVideoTo:newBufferSize] == NO) return;
-    [self setupCVBuffer];
 }
 
 - (void)setBackingScaleFactor:(CGFloat)newBackingScaleFactor
