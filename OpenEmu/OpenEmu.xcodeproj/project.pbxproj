@@ -10446,7 +10446,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
 				);
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -10488,7 +10487,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
 				);
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (

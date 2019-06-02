@@ -37,7 +37,7 @@
     NSData *dataBuffer = [file readDataInRange:NSMakeRange(0, 2)];
 
     // MSX cart header starts at 0x0 with 41 42
-    uint8_t bytes[] = { 0x41, 0x42 };
+    const uint8_t bytes[] = { 0x41, 0x42 };
     if([dataBuffer isEqualToData:[[NSData alloc] initWithBytes:bytes length:sizeof(bytes)]])
         return OEFileSupportYes;
 
