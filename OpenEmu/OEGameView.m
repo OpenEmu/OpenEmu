@@ -629,6 +629,8 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     [self updateViewport];
 
     CGLUnlockContext(cgl_ctx);
+
+    [super reshape];
 }
 
 - (void)updateViewport
