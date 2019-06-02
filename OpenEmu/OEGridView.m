@@ -48,12 +48,15 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
 //Removed the Category (ScaleFactorAdditions) in the IKCGRenderer implementation, for Compatibility with MacOS 10.14(beta 5)
 //With this temporary fix the App compiles in XCode 10b and Runs without crashing on startup on Mojave
 
+#pragma GCC diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
 @implementation IKCGRenderer /*(ScaleFactorAdditions)*/
 - (unsigned long long)scaleFactor
 {
     return self->_currentScaleFactor ?: 1.0;
 }
 @end
+#pragma GCC diagnostic pop
 
 @interface NSView (ApplePrivate)
 - (void)setClipsToBounds:(BOOL)arg1;
@@ -122,7 +125,7 @@ static NSImage *lightingImage;
         [self setGroupThemeKey:@"grid_group"];
     }
 
-    [self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, NSPasteboardTypePNG, NSPasteboardTypeTIFF, nil]];
+    [self registerForDraggedTypes:@[NSFilenamesPboardType, NSPasteboardTypePNG, NSPasteboardTypeTIFF]];
     [self setAllowsReordering:NO];
     [self setAllowsDroppingOnItems:YES];
     [self setAnimates:NO];
@@ -478,10 +481,6 @@ static NSImage *lightingImage;
 
         NSMenu *contextMenu = [(id <OEGridViewMenuSource>)[self dataSource] gridView:self menuForItemsAtIndexes:indexes];
         if(!contextMenu) return nil;
-
-        IKImageBrowserCell *itemCell   = [self cellForItemAtIndex:index];
-
-        //NSRect          hitRectOnView       = [itemCell convertRect:hitRect toLayer:self.layer];
 
         // Display the menu
         [[self window] makeFirstResponder:self];

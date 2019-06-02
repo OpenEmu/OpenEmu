@@ -457,7 +457,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
     // nds and some isos might be recognized as compressed archives by XADArchive
     // but we don't ever want to extract anything from those files
-    NOTE("Exclusions added here also need added to OEGameInfoHelper and OpenEmuHelperApp");
+    // Exclusions added here also need added to OEGameInfoHelper and OpenEmuHelperApp
     if([extension isEqualToString:@"nds"] || [extension isEqualToString:@"iso"])
         return;
 

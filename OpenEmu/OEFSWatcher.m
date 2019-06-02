@@ -225,7 +225,7 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
 
 - (NSArray*)OE_restartingPropertyKeys
 {
-    return [NSArray arrayWithObjects:@"path", @"delay", @"callbackBlock", @"streamFlags", nil];
+    return @[@"path", @"delay", @"callbackBlock", @"streamFlags"];
 }
 #pragma mark -
 - (void)OE_storeLastEventID

@@ -691,24 +691,24 @@ static NSDictionary *disabledActions = nil;
     // Create fade animation for the status indicator
     CABasicAnimation *indicatorFadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
     [indicatorFadeAnimation setDuration:(7.0 * durationMultiplier) / framesPerSecond];
-    [indicatorFadeAnimation setFromValue:[NSNumber numberWithFloat:0.0]];
-    [indicatorFadeAnimation setToValue:[NSNumber numberWithFloat:1.0]];
+    [indicatorFadeAnimation setFromValue:@0.0f];
+    [indicatorFadeAnimation setToValue:@1.0];
 
     // Create fade animation for the image
     CAKeyframeAnimation *imageFadeAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
     [imageFadeAnimation setDuration:(13.0 * durationMultiplier) / framesPerSecond];
-    [imageFadeAnimation setKeyTimes:[NSArray arrayWithObjects:
-                                     [NSNumber numberWithFloat:0.0],
-                                     [NSNumber numberWithFloat:(4.0 * durationMultiplier) / ([imageFadeAnimation duration] * framesPerSecond)],
-                                     [NSNumber numberWithFloat:(9.0 * durationMultiplier) / ([imageFadeAnimation duration] * framesPerSecond)],
-                                     [NSNumber numberWithFloat:1.0],
-                                     nil]];
-    [imageFadeAnimation setValues:[NSArray arrayWithObjects:
-                                   [NSNumber numberWithFloat:0.0],
-                                   [NSNumber numberWithFloat:0.0],
-                                   [NSNumber numberWithFloat:0.8],
-                                   [NSNumber numberWithFloat:1.0],
-                                   nil]];
+    [imageFadeAnimation setKeyTimes:@[
+                                     @0.0f,
+                                     @((4.0 * durationMultiplier) / ([imageFadeAnimation duration] * framesPerSecond)),
+                                     @((9.0 * durationMultiplier) / ([imageFadeAnimation duration] * framesPerSecond)),
+                                     @1.0f,
+                                     ]];
+    [imageFadeAnimation setValues:@[
+                                   @0.0f,
+                                   @0.0f,
+                                   @0.8f,
+                                   @1.0f,
+                                   ]];
 
     // Create resize animation for the image
     const NSRect fromFrame  = CGRectMake(0.0, 0.0, CGRectGetWidth(imageRect) * 0.55, CGRectGetHeight(imageRect) * 0.55);
@@ -718,17 +718,17 @@ static NSDictionary *disabledActions = nil;
     CAKeyframeAnimation *imageResizeAnimation = [CAKeyframeAnimation animationWithKeyPath:@"bounds"];
     [imageResizeAnimation setDuration:[imageFadeAnimation duration]];
     [imageResizeAnimation setKeyTimes:[imageFadeAnimation keyTimes]];
-    [imageResizeAnimation setValues:[NSArray arrayWithObjects:
+    [imageResizeAnimation setValues:@[
                                      [NSValue valueWithRect:fromFrame],
                                      [NSValue valueWithRect:fromFrame],
                                      [NSValue valueWithRect:largeFrame],
                                      [NSValue valueWithRect:toFrame],
-                                     nil]];
-    [imageResizeAnimation setTimingFunctions:[NSArray arrayWithObjects:
+                                     ]];
+    [imageResizeAnimation setTimingFunctions:@[
                                               [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault],
                                               [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut],
                                               [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
-                                              nil]];
+                                              ]];
 
     // Set the layers to what we want them to be
     [_indicationLayer setOpacity:1.0f];
@@ -759,24 +759,24 @@ static NSDictionary *disabledActions = nil;
     // Create fade animation for the status indicator
     CABasicAnimation *indicatorFadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
     [indicatorFadeAnimation setDuration:(7.0 * durationMultiplier) / framesPerSecond];
-    [indicatorFadeAnimation setFromValue:[NSNumber numberWithFloat:1.0]];
-    [indicatorFadeAnimation setToValue:[NSNumber numberWithFloat:0.0]];
+    [indicatorFadeAnimation setFromValue:@1.0];
+    [indicatorFadeAnimation setToValue:@0.0f];
 
     // Create fade animation for the image
     CAKeyframeAnimation *imageFadeAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
     [imageFadeAnimation setDuration:(13.0 * durationMultiplier) / framesPerSecond];
-    [imageFadeAnimation setKeyTimes:[NSArray arrayWithObjects:
-                                     [NSNumber numberWithFloat:0.0],
-                                     [NSNumber numberWithFloat:(4.0 * durationMultiplier) / ([imageFadeAnimation duration] * framesPerSecond)],
-                                     [NSNumber numberWithFloat:(9.0 * durationMultiplier) / ([imageFadeAnimation duration] * framesPerSecond)],
-                                     [NSNumber numberWithFloat:1.0],
-                                     nil]];
-    [imageFadeAnimation setValues:[NSArray arrayWithObjects:
-                                   [NSNumber numberWithFloat:1.0],
-                                   [NSNumber numberWithFloat:1.0],
-                                   [NSNumber numberWithFloat:0.8],
-                                   [NSNumber numberWithFloat:0.0],
-                                   nil]];
+    [imageFadeAnimation setKeyTimes:@[
+                                     @0.0f,
+                                     @((4.0 * durationMultiplier) / ([imageFadeAnimation duration] * framesPerSecond)),
+                                     @((9.0 * durationMultiplier) / ([imageFadeAnimation duration] * framesPerSecond)),
+                                     @1.0f,
+                                     ]];
+    [imageFadeAnimation setValues:@[
+                                   @1.0f,
+                                   @1.0f,
+                                   @0.8f,
+                                   @0.0f,
+                                   ]];
 
     // Create resize animation for the image
     const CGRect imageRect  = [self relativeImageFrame];
@@ -787,17 +787,17 @@ static NSDictionary *disabledActions = nil;
     CAKeyframeAnimation *imageResizeAnimation = [CAKeyframeAnimation animationWithKeyPath:@"bounds"];
     [imageResizeAnimation setDuration:[imageFadeAnimation duration]];
     [imageResizeAnimation setKeyTimes:[imageFadeAnimation keyTimes]];
-    [imageResizeAnimation setValues:[NSArray arrayWithObjects:
+    [imageResizeAnimation setValues:@[
                                      [NSValue valueWithRect:fromFrame],
                                      [NSValue valueWithRect:fromFrame],
                                      [NSValue valueWithRect:largeFrame],
                                      [NSValue valueWithRect:toFrame],
-                                     nil]];
-    [imageResizeAnimation setTimingFunctions:[NSArray arrayWithObjects:
+                                     ]];
+    [imageResizeAnimation setTimingFunctions:@[
                                               [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault],
                                               [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut],
                                               [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
-                                              nil]];
+                                              ]];
 
     // Set the layers to what we want them to be
     [_indicationLayer setOpacity:0.0f];

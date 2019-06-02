@@ -250,12 +250,10 @@ typedef enum : NSUInteger
                 *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
                                                 code:OEFileDoesNotExistError
                                             userInfo:
-                             [NSDictionary dictionaryWithObjectsAndKeys:
-                              NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
-                              NSLocalizedFailureReasonErrorKey,
-                              NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
-                              NSLocalizedRecoverySuggestionErrorKey,
-                              nil]];
+                             @{
+                               NSLocalizedFailureReasonErrorKey : NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
+                               NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion.")
+                               }];
             }
             DLog(@"File does not exist");
             return NO;
@@ -568,12 +566,10 @@ typedef enum : NSUInteger
             *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
                                             code:OEFileDoesNotExistError
                                         userInfo:
-                         [NSDictionary dictionaryWithObjectsAndKeys:
-                          NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
-                          NSLocalizedFailureReasonErrorKey,
-                          NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
-                          NSLocalizedRecoverySuggestionErrorKey,
-                          nil]];
+                         @{
+                           NSLocalizedFailureReasonErrorKey : NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
+                           NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion.")
+                           }];
         }
         DLog(@"File does not exist");
         
@@ -923,7 +919,7 @@ typedef enum : NSUInteger
     [[self gameViewController] reflectVolume:volume];
     
     if(defaultFlag)
-        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:OEGameVolumeKey];
+        [[NSUserDefaults standardUserDefaults] setValue:@(volume) forKey:OEGameVolumeKey];
 }
 
 - (IBAction)changeVolume:(id)sender;

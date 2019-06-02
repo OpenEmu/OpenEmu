@@ -674,7 +674,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     id  firstItem = [[self items] objectAtIndex:range.location];
     OEDBGame   *game   = [[firstItem rom]  game];
     OEDBSystem *system = [[[firstItem rom] game] system];
-    TODO("seen a crash here for screenshots without a game");
+
     return @{
              IKImageBrowserGroupTitleKey : ([game gameTitle] ?: [game displayName]) ?: @"Missing Value",
              IKImageBrowserGroupRangeKey : groupRange,

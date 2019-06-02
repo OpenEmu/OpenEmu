@@ -67,7 +67,11 @@ NSString *const OEDebugDrawControllerMaskKey = @"drawControllerMask";
     ringAnimation.delegate = self;
     
     [self setWantsLayer:YES];
-    [self setAnimations:[NSDictionary dictionaryWithObjectsAndKeys:ringAnimation, @"ringAlpha", ringAnimation, @"ringPosition", anim, @"overlayAlpha",  nil]];
+    [self setAnimations:@{
+                          @"ringAlpha" : ringAnimation,
+                          @"ringPosition" : ringAnimation,
+                          @"overlayAlpha" : anim
+                          }];
 }
 
 - (id)initWithCoder:(NSCoder *)coder 

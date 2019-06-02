@@ -52,6 +52,8 @@
     _errorHandler = [errorHandler copy];
 
     _helperThread = [[NSThread alloc] initWithTarget:self selector:@selector(_executionThread:) object:nil];
+    _helperThread.name = @"org.openemu.core-manager-thread";
+    _helperThread.qualityOfService = NSQualityOfServiceUserInitiated;
 
     _helper = [[OpenEmuHelperApp alloc] init];
     _helperProxy = [OEThreadProxy threadProxyWithTarget:_helper thread:_helperThread];
@@ -70,16 +72,13 @@
 {
     @autoreleasepool
     {
-        [[NSThread currentThread] setName:@"org.openemu.core-manager-thread"];
-        [[NSThread currentThread] setQualityOfService:NSQualityOfServiceUserInitiated];
-
         [self setGameCoreHelper:(id<OEGameCoreHelper>)_helperProxy];
         [_helper setGameCoreOwner:(id<OEGameCoreOwner>)_gameCoreOwnerProxy];
 
         NSError *error;
         if(![_helper loadROMAtPath:[self ROMPath] romCRC32:[self ROMCRC32] romMD5:[self ROMMD5] romHeader:[self ROMHeader] romSerial:[self ROMSerial] systemRegion:[self systemRegion] displayModeInfo:[self displayModeInfo] withCorePluginAtPath:[[self plugin] path] systemPluginPath:[[self systemPlugin] path] error:&error])
         {
-            FIXME("Return a proper error object here.");
+
             if(_errorHandler != nil)
             {
                 _errorHandler(error);

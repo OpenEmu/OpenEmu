@@ -174,6 +174,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
 {
     // Setup a private managed object context
     _writerContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    _writerContext.name = @"OELibraryDatabase.writer";
 
     NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
     _writerContext.mergePolicy = policy;
@@ -191,6 +192,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     _mainThreadMOC.undoManager = nil;
     _mainThreadMOC.userInfo[OELibraryDatabaseUserInfoKey] = self;
     _mainThreadMOC.userInfo[@"name"] = @"UI";
+    _mainThreadMOC.name = @"OELibraryDatabase.mainThread";
 
     // remeber last loc as database path
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -408,6 +410,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     __block __unsafe_unretained OEFSBlock recFsBlock;
     __block OEFSBlock fsBlock = [^(NSString *path, FSEventStreamEventFlags flags) {
         NSManagedObjectContext *context = self.makeChildContext;
+        context.name = @"stateWatcher";
         if(flags & kFSEventStreamEventFlagItemIsDir)
         {
             NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -895,6 +898,8 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
         if(_syncThread == nil || _syncThread.isFinished)
         {
             _syncThread = [[NSThread alloc] initWithTarget:self selector:@selector(OpenVGSyncThreadMain) object:nil];
+            _syncThread.name = @"OEVGDBSync";
+            _syncThread.qualityOfService = NSQualityOfServiceUtility;
             [_syncThread start];
         }
     }

@@ -206,20 +206,20 @@ const CGFloat BadgeSpacing = 2.0;
 	
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-	NSDictionary *typeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    textColor, NSForegroundColorAttributeName,
-                                    paragraphStyle, NSParagraphStyleAttributeName,
-                                    font, NSFontAttributeName,
-                                    nil];
-	
+    NSDictionary *typeAttributes = @{
+                                     NSForegroundColorAttributeName : textColor,
+                                     NSParagraphStyleAttributeName : paragraphStyle,
+                                     NSFontAttributeName : font
+                                     };
+
 	NSColor *backgroundColor = [NSColor colorWithDeviceRed:0.788 green:0.871 blue:0.992 alpha:1.0];
-	NSDictionary *selectAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-									  textColor, NSForegroundColorAttributeName,
-									  paragraphStyle, NSParagraphStyleAttributeName,
-									  font, NSFontAttributeName,
-									  backgroundColor, NSBackgroundColorAttributeName,
-									  nil];
-	
+    NSDictionary *selectAttributes = @{
+                                       NSForegroundColorAttributeName : textColor,
+                                       NSParagraphStyleAttributeName : paragraphStyle,
+                                       NSFontAttributeName : font,
+                                       NSBackgroundColorAttributeName : backgroundColor
+                                       };
+
 	if([textObj isKindOfClass:[NSTextView class]])
     {
 		[(NSTextView*)textObj setFocusRingType:NSFocusRingTypeNone];
@@ -336,11 +336,11 @@ const CGFloat BadgeSpacing = 2.0;
         NSColor *textColor = [NSColor blackColor];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-        typeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                          textColor, NSForegroundColorAttributeName,
-                          paragraphStyle, NSParagraphStyleAttributeName,
-                          font, NSFontAttributeName,
-                          nil];
+        typeAttributes = @{
+                           NSForegroundColorAttributeName : textColor,
+                           NSParagraphStyleAttributeName : paragraphStyle,
+                           NSFontAttributeName : font
+                           };
 	}
 
 	return typeAttributes;

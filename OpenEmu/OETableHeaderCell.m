@@ -154,24 +154,23 @@ static const CGFloat _OESortIndicatorMargin = 5;
 		[glow setShadowOffset:NSMakeSize(0, 0)];
 		[glow setShadowBlurRadius:5];
 
-		attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-					  textColor, NSForegroundColorAttributeName,
-					  titleFont, NSFontAttributeName,
-					  glow, NSShadowAttributeName,
-					  paraStyle, NSParagraphStyleAttributeName,
-					  nil];
+        attributes = @{
+                       NSForegroundColorAttributeName : textColor,
+                       NSFontAttributeName : titleFont,
+                       NSShadowAttributeName : glow,
+                       NSParagraphStyleAttributeName : paraStyle
+                       };
 
 		header = [[NSAttributedString alloc] initWithString:[self title] attributes:attributes];
 		[header drawInRect:headerRect];
 	}
 
-	attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-				  textColor, NSForegroundColorAttributeName,
-				  titleFont, NSFontAttributeName,
-				  shadow, NSShadowAttributeName,
-				  paraStyle, NSParagraphStyleAttributeName,
-				  nil];
-
+    attributes = @{
+                   NSForegroundColorAttributeName : textColor,
+                   NSFontAttributeName : titleFont,
+                   NSShadowAttributeName : shadow,
+                   NSParagraphStyleAttributeName : paraStyle
+                   };
 
 	header = [[NSAttributedString alloc] initWithString:[self title] attributes:attributes];
 	[header drawInRect:headerRect];

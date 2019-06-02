@@ -76,7 +76,7 @@
     NSMutableDictionary *newHeaderState = [[NSMutableDictionary alloc] initWithDictionary:oldHeaderState];
     BOOL newState = ![[newHeaderState valueForKey:[column identifier]] boolValue];
 
-    [newHeaderState setValue:[NSNumber numberWithBool:newState] forKey:[column identifier]];
+    [newHeaderState setValue:@(newState) forKey:[column identifier]];
 
     [tableView setHeaderState:newHeaderState];
 }
