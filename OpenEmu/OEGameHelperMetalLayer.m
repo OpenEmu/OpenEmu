@@ -16,8 +16,10 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 - (instancetype)init
 {
     self = [super init];
-    
-    self.colorspace      = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGBLinear);
+
+    // TODO set the final colorspace here.
+    // Probably kCGColorSpaceSRGB (for int framebuffer) or kCGColorSpaceGenericRGBLinear (for float).
+    // But maybe NTSC, etc. will work for us.
     self.anchorPoint     = CGPointMake(0,0);
     self.contentsGravity = kCAGravityResizeAspect;
     
