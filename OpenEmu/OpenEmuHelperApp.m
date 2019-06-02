@@ -664,27 +664,36 @@ extern NSString * const kCAContextCIFilterBehavior;
     
     @autoreleasepool {
         dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
-        id<CAMetalDrawable> drawable = _videoLayer.nextDrawable;
-        if (drawable == nil) {
-            dispatch_semaphore_signal(_inflightSemaphore);
-            return;
-        }
+        __block id<CAMetalDrawable> drawable = nil;
         
-        MTLRenderPassDescriptor *rpd = [MTLRenderPassDescriptor new];
-        rpd.colorAttachments[0].clearColor = _clearColor;
-        rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
-        rpd.colorAttachments[0].texture    = drawable.texture;
+        MTLRenderPassDescriptor *(^getDescriptor)(void) = ^MTLRenderPassDescriptor *(void) {
+            drawable = self->_videoLayer.nextDrawable;
+            if (drawable == nil) {
+                dispatch_semaphore_signal(self->_inflightSemaphore);
+                return nil;
+            }
+            
+            MTLRenderPassDescriptor *rpd = [MTLRenderPassDescriptor new];
+            rpd.colorAttachments[0].clearColor = self->_clearColor;
+            rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
+            rpd.colorAttachments[0].texture    = drawable.texture;
+            
+            return rpd;
+        };
         
         id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
-        [_frameView renderWithCommandBuffer:commandBuffer renderPassDescriptor:rpd];
+        //[_frameView renderWithCommandBuffer:commandBuffer renderPassDescriptor:rpd];
+        [_frameView renderWithCommandBuffer:commandBuffer renderPassDescriptorBlock:getDescriptor];
         
-        __block dispatch_semaphore_t inflight = _inflightSemaphore;
-        [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> _) {
-            dispatch_semaphore_signal(inflight);
-        }];
-        
-        [commandBuffer presentDrawable:drawable];
-        [commandBuffer commit];
+        if (drawable) {
+            __block dispatch_semaphore_t inflight = _inflightSemaphore;
+            [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> _) {
+                dispatch_semaphore_signal(inflight);
+            }];
+            
+            [commandBuffer presentDrawable:drawable];
+            [commandBuffer commit];
+        }
     }
     
     [CATransaction begin];
