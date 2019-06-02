@@ -72,22 +72,19 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
 
 - (void)OE_setup2D
 {
-    GLenum    pixelFormat, pixelType;
-    NSInteger bytesPerRow;
-    
-    pixelFormat = [_gameCore pixelFormat];
-    pixelType   = [_gameCore pixelType];
-    
-    OEIntSize bufferSize  = _gameCore.bufferSize;
+    GLenum pixelFormat = [_gameCore pixelFormat];
+    GLenum pixelType   = [_gameCore pixelType];
     
     OEMTLPixelFormat pf = GLToRPixelFormat(pixelFormat, pixelType);
     NSParameterAssert(pf != OEMTLPixelFormatInvalid);
     
-    CGSize sourceSize = CGSizeMake(_gameCore.screenRect.size.width, _gameCore.screenRect.size.height);
-    CGSize aspectSize = CGSizeMake(_gameCore.aspectSize.width, _gameCore.aspectSize.height);
-    [_frameView setSourceSize:sourceSize aspect:aspectSize];
+    OEIntRect rect = _gameCore.screenRect;
+    CGRect sourceRect = {.origin = {.x = rect.origin.x, .y = rect.origin.y}, .size = {.width = rect.size.width, .height = rect.size.height}};
+    CGSize aspectSize = {.width = _gameCore.aspectSize.width, .height = _gameCore.aspectSize.height};
+    [_frameView setSourceRect:sourceRect aspect:aspectSize];
 
-    bytesPerRow = [_gameCore bytesPerRow];
+    OEIntSize bufferSize   = _gameCore.bufferSize;
+    NSUInteger bytesPerRow = (NSUInteger)[_gameCore bytesPerRow];
     
     _backBuffer = [_frameView allocateBufferWithFormat:pf height:(NSUInteger)bufferSize.height bytesPerRow:(NSUInteger)bytesPerRow];
     void *buf = (void *)[_gameCore getVideoBufferWithHint:_backBuffer.contents];

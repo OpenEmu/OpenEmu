@@ -272,9 +272,10 @@ extern NSString * const kCAContextCIFilterBehavior;
     }
 
     [_gameRenderer updateRenderer];
-    CGSize aspectSize = CGSizeMake(_gameCore.aspectSize.width, _gameCore.aspectSize.height);
-    size = CGSizeMake(_gameCore.screenRect.size.width, _gameCore.screenRect.size.height);
-    [_frameView setSourceSize:size aspect:aspectSize];
+    OEIntRect rect = _gameCore.screenRect;
+    CGRect sourceRect = {.origin = {.x = rect.origin.x, .y = rect.origin.y}, .size = {.width = rect.size.width, .height = rect.size.height}};
+    CGSize aspectSize = {.width = _gameCore.aspectSize.width, .height = _gameCore.aspectSize.height};
+    [_frameView setSourceRect:sourceRect aspect:aspectSize];
 }
 
 - (void)setupRemoteLayer
@@ -657,6 +658,7 @@ extern NSString * const kCAContextCIFilterBehavior;
         
         if (mustUpdate) {
             [self updateScreenSize:_previousScreenSize aspectSize:_previousAspectSize];
+            [self setupCVBuffer];
         }
     }
     
@@ -682,7 +684,6 @@ extern NSString * const kCAContextCIFilterBehavior;
         };
         
         id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
-        //[_frameView renderWithCommandBuffer:commandBuffer renderPassDescriptor:rpd];
         [_frameView renderWithCommandBuffer:commandBuffer renderPassDescriptorBlock:getDescriptor];
         
         if (drawable) {
