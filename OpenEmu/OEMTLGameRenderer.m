@@ -35,7 +35,8 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
 @implementation OEMTLGameRenderer
 {
     id<MTLBuffer> _backBuffer;
-    
+    BOOL _indirectRendering;
+
     // MetalDriver
     FrameView *_frameView;
 }
@@ -92,8 +93,14 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
     _backBuffer = [_frameView allocateBufferWithFormat:pf height:(NSUInteger)bufferSize.height bytesPerRow:(NSUInteger)bytesPerRow];
     void *buf = (void *)[_gameCore getVideoBufferWithHint:_backBuffer.contents];
     if (buf != _backBuffer.contents) {
-        // core wants its own buffer, so create a buffer with buf as the source pixels
-        _backBuffer = [_frameView allocateBufferWithFormat:pf height:(NSUInteger)bufferSize.height bytesPerRow:(NSUInteger)bytesPerRow bytes:buf];
+        if ((uintptr_t)buf % 4096 == 0) {
+            // core wants its own buffer, so create a buffer with buf as the source pixels
+            _backBuffer = [_frameView allocateBufferWithFormat:pf height:(NSUInteger)bufferSize.height bytesPerRow:(NSUInteger)bytesPerRow bytes:buf];
+        } else {
+            // Core doesn't meet Metal alignment requirements
+            _backBuffer = [_frameView allocateBufferWithFormat:pf height:(NSUInteger)bufferSize.height bytesPerRow:(NSUInteger)bytesPerRow];
+            _indirectRendering = YES;
+        }
     }
 }
 
@@ -106,13 +113,20 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
 // Execution
 - (void)willExecuteFrame
 {
-    const void *coreBuffer = [_gameCore getVideoBufferWithHint:_backBuffer.contents];
-    NSAssert(_backBuffer.contents == coreBuffer, @"Game suddenly stopped using direct rendering");
+#if DEBUG
+    if (!_indirectRendering) {
+        const void *coreBuffer = [_gameCore getVideoBufferWithHint:_backBuffer.contents];
+        NSAssert(_backBuffer.contents == coreBuffer, @"Game suddenly stopped using direct rendering");
+    }
+#endif
 }
 
 - (void)didExecuteFrame
 {
-    
+    if (_indirectRendering) {
+        const void *coreBuffer = [_gameCore getVideoBufferWithHint:_backBuffer.contents];
+        memcpy(_backBuffer.contents, coreBuffer, _backBuffer.length);
+    }
 }
 
 - (void)presentDoubleBufferedFBO
@@ -147,7 +161,7 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType)
     switch (pixelFormat) {
         case GL_BGRA:
             switch (pixelType) {
-                case GL_UNSIGNED_INT_8_8_8_8_REV:
+                case GL_UNSIGNED_INT_8_8_8_8:
                     return OEMTLPixelFormatBGRA8Unorm;
                 default:
                     break;
@@ -167,6 +181,8 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType)
             switch (pixelType) {
                 case GL_UNSIGNED_INT_8_8_8_8:
                     return OEMTLPixelFormatRGBA8Unorm;
+                case GL_UNSIGNED_SHORT_1_5_5_5_REV:
+                    return OEMTLPixelFormatR5G5B5A1Unorm;
                 default:
                     break;
             }
