@@ -160,7 +160,10 @@
 
 - (id)initWithTarget:(id)target
 {
-    return [self initWithTarget:target thread:[[NSThread alloc] init]];
+    NSThread *thread = [NSThread new];
+    thread.name = [NSString stringWithFormat:@"OEThreadProxy: %@", target];
+
+    return [self initWithTarget:target thread:thread];
 }
 
 - (id)initWithTarget:(id)target thread:(NSThread *)thread

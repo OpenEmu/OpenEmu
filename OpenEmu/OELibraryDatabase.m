@@ -895,6 +895,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
         if(_syncThread == nil || _syncThread.isFinished)
         {
             _syncThread = [[NSThread alloc] initWithTarget:self selector:@selector(OpenVGSyncThreadMain) object:nil];
+            _syncThread.name = @"OEVGDBSync";
             [_syncThread start];
         }
     }
