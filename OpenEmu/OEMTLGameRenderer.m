@@ -34,8 +34,7 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
 
 @implementation OEMTLGameRenderer
 {
-    id<MTLBuffer> _backBuffer;
-    BOOL _indirectRendering;
+    OEPixelBuffer *_buffer;
 
     // MetalDriver
     FrameView *_frameView;
@@ -85,22 +84,15 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
     [_frameView setSourceRect:sourceRect aspect:aspectSize];
 
     // bufferSize is fixed for 2D, so doesn't need to be reallocated.
-    if (_backBuffer != nil) return;
+    if (_buffer != nil) return;
 
     OEIntSize bufferSize   = _gameCore.bufferSize;
     NSUInteger bytesPerRow = (NSUInteger)[_gameCore bytesPerRow];
     
-    _backBuffer = [_frameView allocateBufferWithFormat:pf height:(NSUInteger)bufferSize.height bytesPerRow:(NSUInteger)bytesPerRow];
-    void *buf = (void *)[_gameCore getVideoBufferWithHint:_backBuffer.contents];
-    if (buf != _backBuffer.contents) {
-        if ((uintptr_t)buf % 4096 == 0) {
-            // core wants its own buffer, so create a buffer with buf as the source pixels
-            _backBuffer = [_frameView allocateBufferWithFormat:pf height:(NSUInteger)bufferSize.height bytesPerRow:(NSUInteger)bytesPerRow bytes:buf];
-        } else {
-            // Core doesn't meet Metal alignment requirements
-            _backBuffer = [_frameView allocateBufferWithFormat:pf height:(NSUInteger)bufferSize.height bytesPerRow:(NSUInteger)bytesPerRow];
-            _indirectRendering = YES;
-        }
+    _buffer = [_frameView newBufferWithFormat:pf height:bufferSize.height bytesPerRow:bytesPerRow];
+    void *buf = (void *)[_gameCore getVideoBufferWithHint:_buffer.contents];
+    if (buf != _buffer.contents) {
+        _buffer = [_frameView newBufferWithFormat:pf height:bufferSize.height bytesPerRow:bytesPerRow bytes:buf];
     }
 }
 
@@ -114,19 +106,14 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
 - (void)willExecuteFrame
 {
 #if DEBUG
-    if (!_indirectRendering) {
-        const void *coreBuffer = [_gameCore getVideoBufferWithHint:_backBuffer.contents];
-        NSAssert(_backBuffer.contents == coreBuffer, @"Game suddenly stopped using direct rendering");
-    }
+    const void *coreBuffer = [_gameCore getVideoBufferWithHint:_buffer.contents];
+    NSAssert(_buffer.contents == coreBuffer, @"Game suddenly stopped using direct rendering");
 #endif
 }
 
 - (void)didExecuteFrame
 {
-    if (_indirectRendering) {
-        const void *coreBuffer = [_gameCore getVideoBufferWithHint:_backBuffer.contents];
-        memcpy(_backBuffer.contents, coreBuffer, _backBuffer.length);
-    }
+    
 }
 
 - (void)presentDoubleBufferedFBO
@@ -161,7 +148,7 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType)
     switch (pixelFormat) {
         case GL_BGRA:
             switch (pixelType) {
-                case GL_UNSIGNED_INT_8_8_8_8:
+                case GL_UNSIGNED_INT_8_8_8_8_REV:
                     return OEMTLPixelFormatBGRA8Unorm;
                 default:
                     break;
