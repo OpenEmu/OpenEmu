@@ -1,0 +1,3 @@
+shaders = 1
+shader0 = stock/stock.slang
+filter_linear0 = true

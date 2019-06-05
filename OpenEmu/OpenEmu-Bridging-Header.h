@@ -47,7 +47,6 @@
 #import "OEVersionMigrationController.h"
 #import "OECorePlugin.h"
 #import "OESystemPlugin.h"
-#import "OEShaderPlugin.h"
 #import "OECoreUpdater.h"
 #import "OESetupAssistant.h"
 #import "OpenEmuHelperApp.h"

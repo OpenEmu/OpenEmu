@@ -26,10 +26,10 @@
 
 #import "OEPrefGameplayController.h"
 #import "OEPlugin.h"
-#import "OEShaderPlugin.h"
 #import "OEGameViewController.h"
 #import "OEDBSystem.h"
 #import "OELibraryDatabase.h"
+#import "OpenEmu-Swift.h"
 
 @implementation OEPrefGameplayController
 @synthesize filterSelection;
@@ -39,8 +39,7 @@
     // Setup plugins menu
     NSMutableSet   *filterSet     = [NSMutableSet set];
     NSMutableArray *filterPlugins = [NSMutableArray array];
-    [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
-    [filterSet filterUsingPredicate:[NSPredicate predicateWithFormat:@"NOT SELF beginswith '_'"]];
+    [filterSet addObjectsFromArray:OEShadersModel.shared.shaderNames];
     [filterPlugins addObjectsFromArray:[filterSet allObjects]];
     [filterPlugins sortUsingSelector:@selector(caseInsensitiveCompare:)];
 
@@ -57,8 +56,8 @@
     // Set Nearest Neighbor as default filter if the current one is not available (ie. deleted)
     if(![filterPlugins containsObject:selectedFilterName])
     {
-        selectedFilterName = @"Nearest Neighbor";
-        [sud setObject:@"Nearest Neighbor" forKey:OEGameDefaultVideoFilterKey];
+        selectedFilterName = @"Pixellate";
+        [sud setObject:@"Pixellate" forKey:OEGameDefaultVideoFilterKey];
     }
 
 	if(selectedFilterName != nil && [[self filterSelection] itemWithTitle:selectedFilterName])

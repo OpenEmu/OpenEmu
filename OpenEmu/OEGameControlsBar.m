@@ -32,7 +32,6 @@
 
 #import "OEDBRom.h"
 
-#import "OEShaderPlugin.h"
 #import "OECorePlugin.h"
 #import "OEGameDocument.h"
 #import "OEGameViewController.h"
@@ -137,7 +136,8 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
         // Setup plugins menu
         NSMutableSet   *filterSet     = [NSMutableSet set];
-        [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
+        
+        [filterSet addObjectsFromArray:OEShadersModel.shared.shaderNames];
         [filterSet filterUsingPredicate:[NSPredicate predicateWithFormat:@"NOT SELF beginswith '_'"]];
         _filterPlugins = [[filterSet allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     }

@@ -124,11 +124,6 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         
         [[self view] addSubview:_gameView];
 
-        for (OEShaderPlugin *plugin in [OEShaderPlugin allPlugins]) {
-            NSLog(@"%@", plugin.path);
-        }
-
-
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:_gameView];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidChangeScreen:) name:NSWindowDidMoveNotification object:self];
@@ -257,9 +252,9 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     else
         DLog(@"Invalid argument passed: %@", sender);
 
-    for (OEShaderPlugin *plugin in [OEShaderPlugin allPlugins]) {
-        if ([filterName isEqualToString:plugin.name]) {
-            [[self document] gameViewController:self setFilterURL:[NSURL fileURLWithPath:plugin.path]];
+    for (OEShaderModel *shader in OEShadersModel.shared.shaders) {
+        if ([filterName isEqualToString:shader.name]) {
+            [[self document] gameViewController:self setFilterURL:[NSURL fileURLWithPath:shader.path]];
         }
     }
 

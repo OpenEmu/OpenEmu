@@ -583,7 +583,6 @@ class AppDelegate: NSDocumentController {
         
         OEPlugin.registerPluginClass(OECorePlugin.self)
         OEPlugin.registerPluginClass(OESystemPlugin.self)
-        OEPlugin.registerPluginClass(OEShaderPlugin.self)
         
         // Register all system controllers with the bindings controller.
         for plugin in OESystemPlugin.allPlugins as! [OESystemPlugin] {
@@ -1039,7 +1038,7 @@ extension AppDelegate: NSMenuDelegate {
         updateControlsMenu()
         
         // Preload shader plug-ins so HUD controls bar and gameplay preferences load faster.
-        _ = OEShaderPlugin.allPluginNames
+        _ = OEShadersModel.shared.shaders
         
         if !restoreWindow {
             mainWindowController.showWindow(nil)
