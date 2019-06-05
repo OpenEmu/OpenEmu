@@ -56,8 +56,8 @@
 #import "OpenEmu-Swift.h"
 
 NSString *const OEGameVolumeKey = @"volume";
-NSString *const OEGameDefaultVideoFilterKey = @"videoFilter";
-NSString *const OEGameSystemVideoFilterKeyFormat = @"videoFilter.%@";
+NSString *const OEGameDefaultVideoShaderKey = @"videoShader";
+NSString *const OEGameSystemVideoShaderKeyFormat = @"videoShader.%@";
 NSString *const OEGameCoreDisplayModeKeyFormat = @"displayMode.%@";
 NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
 NSString *const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
@@ -260,7 +260,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
     //[[self document] gameViewController:self setFilterURL:url];
     //    [_gameView setFilterName:filterName];
-    [[NSUserDefaults standardUserDefaults] setObject:filterName forKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, [[self document] systemIdentifier]]];
+    [[NSUserDefaults standardUserDefaults] setObject:filterName forKey:[NSString stringWithFormat:OEGameSystemVideoShaderKeyFormat, [[self document] systemIdentifier]]];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem

@@ -23,14 +23,31 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Foundation
+import OpenEmuBase
 
-class OEShadersModel : NSObject {
+@objc
+public class OEShadersModel : NSObject {
+    enum Preferences {
+        case global
+        case system(String)
+        
+        var key: String {
+            get {
+                switch self {
+                case .global:
+                    return "videoShader"
+                case .system(let identifier):
+                    return "videoShader.\(identifier)"
+                }
+            }
+        }
+    }
     
     @objc(OEShaderModel)
     @objcMembers
-    class OEShaderModel : NSObject {
-        var name: String
-        var path: String
+    public class OEShaderModel : NSObject {
+        public var name: String
+        public var path: String
         
         init(path: String) {
             self.name = ((path as NSString).lastPathComponent as NSString).deletingPathExtension
@@ -39,12 +56,12 @@ class OEShadersModel : NSObject {
     }
     
     @objc
-    static var shared : OEShadersModel = {
+    public static var shared : OEShadersModel = {
         return OEShadersModel()
     }()
     
     @objc
-    lazy var shaders: [OEShaderModel] = {
+    public lazy var shaders: [OEShaderModel] = {
         var shaders = Bundle.main.paths(forResourcesOfType: "slangp", inDirectory: "Shaders").map(OEShaderModel.init(path:))
         
         let openEmuSearchPath = ("OpenEmu" as NSString).appendingPathComponent("Shaders")
@@ -67,7 +84,38 @@ class OEShadersModel : NSObject {
     }()
     
     @objc
-    var shaderNames: [String] {
+    public var shaderNames: [String] {
         return shaders.map { $0.name }
+    }
+    
+    @objc
+    public var defaultShader: OEShaderModel {
+        get {
+            if let name = UserDefaults.oe_application().string(forKey: Preferences.global.key),
+                let shader = self[name] {
+                return shader
+            }
+            
+            return self["Pixellate"]!
+        }
+        
+        set {
+            UserDefaults.standard.set(newValue.name, forKey: Preferences.global.key)
+        }
+    }
+    
+    @objc
+    public func shader(forSystem identifier: String) -> OEShaderModel? {
+        guard let name = UserDefaults.oe_application().string(forKey: Preferences.system(identifier).key) else {
+            return defaultShader
+        }
+        guard let shader = self[name] else {
+            return nil
+        }
+        return shader
+    }
+    
+    subscript(name: String) -> OEShaderModel? {
+        return shaders.first(where: { $0.name == name })
     }
 }

@@ -42,6 +42,13 @@
 #import "NSColor+OEAdditions.h"
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OECoreVideoTexture.h"
+#if __has_include("OpenEmuHelperApp-Swift.h")
+#import "OpenEmuHelperApp-Swift.h"
+#elif __has_include("OpenEmu-Swift.h")
+#import "OpenEmu-Swift.h"
+#else
+#error no header
+#endif
 
 #ifndef BOOL_STR
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
@@ -180,9 +187,9 @@ extern NSString * const kCAContextCIFilterBehavior;
     [self setupCVBuffer];
     [self setupRemoteLayer];
 
-    NSString *shaderPath = [NSUserDefaults.oe_applicationUserDefaults stringForKey:@"shaderPath"];
-    if (shaderPath != nil) {
-        [_frameView setShaderFromURL:[NSURL fileURLWithPath:shaderPath]];
+    OEShaderModel *shader = [OEShadersModel.shared shaderForSystem:_gameCore.systemIdentifier];
+    if (shader != nil) {
+        [_frameView setShaderFromURL:[NSURL fileURLWithPath:shader.path]];
     }
 }
 

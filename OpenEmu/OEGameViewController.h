@@ -28,8 +28,8 @@
 #import "OEGameCoreHelper.h"
 
 extern NSString *const OEGameVolumeKey;
-extern NSString *const OEGameDefaultVideoFilterKey;
-extern NSString *const OEGameSystemVideoFilterKeyFormat;
+extern NSString *const OEGameDefaultVideoShaderKey;
+extern NSString *const OEGameSystemVideoShaderKeyFormat;
 extern NSString *const OEGameCoreDisplayModeKeyFormat;
 extern NSString *const OEGameCoresInBackgroundKey;
 extern NSString *const OEAutoSwitchCoreAlertSuppressionKey;

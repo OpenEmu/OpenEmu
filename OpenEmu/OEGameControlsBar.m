@@ -524,12 +524,12 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     NSMenu *filterMenu = [[NSMenu alloc] init];
     [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];
 
-    NSString *selectedFilter = ([[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, systemIdentifier]]
-                                ? : [[NSUserDefaults standardUserDefaults] objectForKey:OEGameDefaultVideoFilterKey]);
+    NSString *selectedFilter = ([[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:OEGameSystemVideoShaderKeyFormat, systemIdentifier]]
+                                ? : [[NSUserDefaults standardUserDefaults] objectForKey:OEGameDefaultVideoShaderKey]);
 
     // Select the Default Filter if the current is not available (ie. deleted)
     if(![_filterPlugins containsObject:selectedFilter])
-        selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameDefaultVideoFilterKey];
+        selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameDefaultVideoShaderKey];
 
     for(NSString *aName in _filterPlugins)
     {

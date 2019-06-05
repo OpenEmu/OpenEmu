@@ -163,7 +163,7 @@ class AppDelegate: NSDocumentController {
             OEDefaultDatabasePathKey: path,
             OEDatabasePathKey: path,
             OEAutomaticallyGetInfoKey: true,
-            OEGameDefaultVideoFilterKey: "Pixellate",
+            OEShadersModel.Preferences.global.key: "Pixellate",
             OEGameVolumeKey: 0.5,
             "defaultCore.openemu.system.nes": "org.openemu.Nestopia",
             "defaultCore.openemu.system.snes": "org.openemu.SNES9x",

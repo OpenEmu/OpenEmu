@@ -51,13 +51,13 @@
 	[[self filterSelection] setMenu:filterMenu];
 
 	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
-	NSString *selectedFilterName = [sud objectForKey:OEGameDefaultVideoFilterKey];
+	NSString *selectedFilterName = [sud objectForKey:OEGameDefaultVideoShaderKey];
 
     // Set Nearest Neighbor as default filter if the current one is not available (ie. deleted)
     if(![filterPlugins containsObject:selectedFilterName])
     {
         selectedFilterName = @"Pixellate";
-        [sud setObject:@"Pixellate" forKey:OEGameDefaultVideoFilterKey];
+        [sud setObject:@"Pixellate" forKey:OEGameDefaultVideoShaderKey];
     }
 
 	if(selectedFilterName != nil && [[self filterSelection] itemWithTitle:selectedFilterName])
@@ -108,10 +108,10 @@
     
     for(OECorePlugin *systemIdentifiers in allSystemIdentifiers)
     {
-        [defaults removeObjectForKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, systemIdentifiers]];
+        [defaults removeObjectForKey:[NSString stringWithFormat:OEGameSystemVideoShaderKeyFormat, systemIdentifiers]];
     }
 
-	[defaults setObject:filterName forKey:OEGameDefaultVideoFilterKey];
+	[defaults setObject:filterName forKey:OEGameDefaultVideoShaderKey];
 }
 
 @end
