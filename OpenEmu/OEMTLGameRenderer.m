@@ -166,6 +166,8 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType)
         
         case GL_RGBA:
             switch (pixelType) {
+                case GL_UNSIGNED_INT_8_8_8_8_REV:
+                    return OEMTLPixelFormatABGR8Unorm;
                 case GL_UNSIGNED_INT_8_8_8_8:
                     return OEMTLPixelFormatRGBA8Unorm;
                 case GL_UNSIGNED_SHORT_1_5_5_5_REV:
