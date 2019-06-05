@@ -668,7 +668,9 @@ extern NSString * const kCAContextCIFilterBehavior;
             [self setupCVBuffer];
         }
     }
-    
+
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
     [_gameRenderer didExecuteFrame];
     
     @autoreleasepool {
@@ -698,14 +700,16 @@ extern NSString * const kCAContextCIFilterBehavior;
             [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> _) {
                 dispatch_semaphore_signal(inflight);
             }];
-            
-            [commandBuffer presentDrawable:drawable];
+
+            NSTimeInterval presentTime = _gameCore.nextFrameTime;
+            if (presentTime)
+                [commandBuffer presentDrawable:drawable atTime:presentTime];
+            else
+                [commandBuffer presentDrawable:drawable];
             [commandBuffer commit];
         }
     }
     
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
     [_videoLayer display];
     [CATransaction commit];
 
