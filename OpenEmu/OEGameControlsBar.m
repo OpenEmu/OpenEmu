@@ -110,9 +110,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [self setCanShow:YES];
         [self setGameViewController:controller];
         [self setAnimationBehavior:NSWindowAnimationBehaviorNone];
-        self.contentView.wantsLayer = YES;
-        self.contentView.canDrawConcurrently = YES;
-        self.contentView.canDrawSubviewsIntoLayer = YES;
 
         OEHUDControlsBarView *barView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
         [[self contentView] addSubview:barView];
@@ -807,6 +804,16 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 @implementation OEHUDControlsBarView
 
 - (BOOL)wantsLayer
+{
+    return YES;
+}
+
+- (BOOL)canDrawConcurrently
+{
+    return YES;
+}
+
+- (BOOL)canDrawSubviewsIntoLayer
 {
     return YES;
 }

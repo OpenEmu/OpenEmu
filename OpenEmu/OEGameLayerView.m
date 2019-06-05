@@ -45,14 +45,9 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 
 @interface OEGameLayerView () <CALayerDelegate>
 @end
-/*!
- * @abstract View which hosts and resizes the helper app's game rendering.
- * @description
- * The WindowServer takes care of drawing in the game's image, so this does no actual work.
- * TODO: Make sure game resizes when changing from/to HiDPI.
- * TODO: Tell the remote side to change pixel size after (not during) live resize - NSViewLayerContentsRedrawCrossfade?
- * TODO: Tell the remote side to change pixel size during setBounds:.
- */
+
+/// View which hosts and resizes the helper app's game rendering.
+/// TODO: If this was tvOS, we'd set a preferred frame rate here. Can we do that?
 @implementation OEGameLayerView
 {
     CALayerHost *_remoteLayer;
@@ -73,12 +68,8 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
     return YES;
 }
 
-- (BOOL)canDrawSubviewsIntoLayer {
-    return NO;
-}
-
 - (NSViewLayerContentsRedrawPolicy)layerContentsRedrawPolicy {
-    return NSViewLayerContentsRedrawDuringViewResize;
+    return NSViewLayerContentsRedrawBeforeViewResize;
 }
 
 - (CALayer *)makeBackingLayer {
