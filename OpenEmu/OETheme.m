@@ -44,7 +44,7 @@ static NSString * const OEThemeGradientKey = @"Gradients";
 /// Dictionary of themed object types.
 @property (copy) NSMutableDictionary <NSString *, NSDictionary <NSString *, id> *> *objectsByType;
 
-- (NSDictionary *)OE_parseThemeSection:(NSDictionary <NSString *, id> *)section forThemeClass:(Class)class;
+- (NSDictionary *)OE_parseThemeSection:(NSDictionary <NSString *, id> *)section forThemeClass:(Class)cls;
 - (OEThemeObject *)OE_itemForType:(NSString *)type forKey:(NSString *)key;
 
 @end
@@ -97,13 +97,13 @@ static NSString * const OEThemeGradientKey = @"Gradients";
     return sharedTheme;
 }
 
-- (NSDictionary <NSString *, id> *)OE_parseThemeSection:(NSDictionary *)sectionDictionary forThemeClass:(Class)class {
+- (NSDictionary <NSString *, id> *)OE_parseThemeSection:(NSDictionary *)sectionDictionary forThemeClass:(Class)cls {
     
     // Each type of UI element represented in the Theme.plist should have an associated subclass of OEThemeObject. OEThemeObject is responsible for parsing the elements specified in that section of the Theme.plist
     __block NSMutableDictionary <NSString *, id> *results = [NSMutableDictionary dictionary];
     [sectionDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, id definition, BOOL *stop) {
         // Each subclass of OEThemeObject should implement a customized version of +parseWithDefinition: to be able to parse the definitions
-        id themeItem = [[class alloc] initWithDefinition:definition];
+        id themeItem = [[cls alloc] initWithDefinition:definition];
         if (themeItem) {
             results[key] = themeItem;
         }

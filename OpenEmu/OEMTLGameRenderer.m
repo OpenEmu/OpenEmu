@@ -35,21 +35,19 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
 @implementation OEMTLGameRenderer
 {
     OEPixelBuffer *_buffer;
-
-    // MetalDriver
-    FrameView *_frameView;
+    OEFilterChain *_filterChain;
 }
 
 @synthesize gameCore = _gameCore;
 @synthesize presentationFramebuffer;
 
-- (id)initWithFrameView:(FrameView *)view
+- (id)initWithFilterChain:(OEFilterChain *)filterChain
 {
     if (!(self = [super init])) {
         return nil;
     }
     
-    _frameView    = view;
+    _filterChain = filterChain;
     
     return self;
 }
@@ -81,7 +79,7 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
     OEIntRect rect = _gameCore.screenRect;
     CGRect sourceRect = {.origin = {.x = rect.origin.x, .y = rect.origin.y}, .size = {.width = rect.size.width, .height = rect.size.height}};
     CGSize aspectSize = {.width = _gameCore.aspectSize.width, .height = _gameCore.aspectSize.height};
-    [_frameView setSourceRect:sourceRect aspect:aspectSize];
+    [_filterChain setSourceRect:sourceRect aspect:aspectSize];
 
     // bufferSize is fixed for 2D, so doesn't need to be reallocated.
     if (_buffer != nil) return;
@@ -89,10 +87,10 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
     OEIntSize bufferSize   = _gameCore.bufferSize;
     NSUInteger bytesPerRow = (NSUInteger)[_gameCore bytesPerRow];
     
-    _buffer = [_frameView newBufferWithFormat:pf height:bufferSize.height bytesPerRow:bytesPerRow];
+    _buffer = [_filterChain newBufferWithFormat:pf height:bufferSize.height bytesPerRow:bytesPerRow];
     void *buf = (void *)[_gameCore getVideoBufferWithHint:_buffer.contents];
     if (buf != _buffer.contents) {
-        _buffer = [_frameView newBufferWithFormat:pf height:bufferSize.height bytesPerRow:bytesPerRow bytes:buf];
+        _buffer = [_filterChain newBufferWithFormat:pf height:bufferSize.height bytesPerRow:bytesPerRow bytes:buf];
     }
 }
 

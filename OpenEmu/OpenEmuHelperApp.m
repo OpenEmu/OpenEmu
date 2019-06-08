@@ -24,8 +24,6 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// for speedz
-@import Accelerate;
 @import OpenEmuShaders;
 
 #import "OpenEmuHelperApp.h"
@@ -56,7 +54,7 @@
 
 // TODO(sgc): implement triple buffering
 /*! @brief maximum inflight frames */
-#define MAX_INFLIGHT 2
+#define MAX_INFLIGHT 3
 
 // SPI: Stolen from Chrome
 typedef uint32_t CGSConnectionID;
@@ -111,7 +109,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     CAContext             *_gameVideoCAContext;
     
     OEGameHelperMetalLayer  *_videoLayer;
-    FrameView               *_frameView;
+    OEFilterChain           *_filterChain;
     dispatch_semaphore_t    _inflightSemaphore;
     id<MTLDevice>           _device;
     id<MTLCommandQueue>     _commandQueue;
@@ -176,11 +174,11 @@ extern NSString * const kCAContextCIFilterBehavior;
     
     // 2. Video
     _inflightSemaphore = dispatch_semaphore_create(MAX_INFLIGHT);
-    _device       = MTLCreateSystemDefaultDevice();
-    _commandQueue = [_device newCommandQueue];
-    _clearColor   = MTLClearColorMake(0, 0, 0, 1);
-    _frameView    = [[FrameView alloc] initWithDevice:_device];
-    [_frameView setDefaultFilteringLinear:NO];
+    _device            = MTLCreateSystemDefaultDevice();
+    _commandQueue      = [_device newCommandQueue];
+    _clearColor        = MTLClearColorMake(0, 0, 0, 1);
+    _filterChain       = [[OEFilterChain alloc] initWithDevice:_device];
+    [_filterChain setDefaultFilteringLinear:NO];
     
     [self updateScreenSize];
     [self updateGameRenderer];
@@ -189,7 +187,7 @@ extern NSString * const kCAContextCIFilterBehavior;
 
     OEShaderModel *shader = [OEShadersModel.shared shaderForSystem:_gameCore.systemIdentifier];
     if (shader != nil) {
-        [_frameView setShaderFromURL:[NSURL fileURLWithPath:shader.path]];
+        [_filterChain setShaderFromURL:[NSURL fileURLWithPath:shader.path]];
     }
 }
 
@@ -218,7 +216,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     [[NSApplication sharedApplication] terminate:nil];
 }
 
-#pragma mark - IOSurface and Generic Video
+#pragma mark - Core Video and Generic Video
 
 - (void)updateScreenSize
 {
@@ -234,13 +232,13 @@ extern NSString * const kCAContextCIFilterBehavior;
     
     _videoLayer = [OEGameHelperMetalLayer new];
     _videoLayer.device = _device;
-#if TARGET_OS_OSX
+    _videoLayer.opaque = YES;
+    _videoLayer.framebufferOnly = YES;
     _videoLayer.displaySyncEnabled = NO;
-#endif
 
     switch (rendering) {
         case OEGameCoreRendering2DVideo:
-            _gameRenderer = [[OEMTLGameRenderer alloc] initWithFrameView:_frameView];
+            _gameRenderer = [[OEMTLGameRenderer alloc] initWithFilterChain:_filterChain];
             break;
             
         case OEGameCoreRenderingOpenGL2Video:
@@ -274,15 +272,15 @@ extern NSString * const kCAContextCIFilterBehavior;
     if (_gameCore.gameCoreRendering != OEGameCoreRendering2DVideo) {
         _surface.size = size;
         DLog(@"Updated surface size to %@", NSStringFromOEIntSize(surfaceSize));
-        _frameView.sourceTexture = _surface.metalTexture;
-        _frameView.sourceTextureIsFlipped = _surface.metalTextureIsFlipped;
+        _filterChain.sourceTexture          = _surface.metalTexture;
+        _filterChain.sourceTextureIsFlipped = _surface.metalTextureIsFlipped;
     }
 
     [_gameRenderer updateRenderer];
     OEIntRect rect = _gameCore.screenRect;
     CGRect sourceRect = {.origin = {.x = rect.origin.x, .y = rect.origin.y}, .size = {.width = rect.size.width, .height = rect.size.height}};
     CGSize aspectSize = {.width = _gameCore.aspectSize.width, .height = _gameCore.aspectSize.height};
-    [_frameView setSourceRect:sourceRect aspect:aspectSize];
+    [_filterChain setSourceRect:sourceRect aspect:aspectSize];
 }
 
 - (void)setupRemoteLayer
@@ -292,7 +290,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     
     // TODO: If there's a good default bounds, use that.
     [_videoLayer setBounds:NSMakeRect(0, 0, _gameCore.bufferSize.width, _gameCore.bufferSize.height)];
-    [_frameView setDrawableSize:_videoLayer.drawableSize];
+    [_filterChain setDrawableSize:_videoLayer.drawableSize];
     
     CGSConnectionID connection_id = CGSMainConnectionID();
     _gameVideoCAContext       = [CAContext contextWithCGSConnection:connection_id options:@{kCAContextCIFilterBehavior: @"ignore"}];
@@ -317,7 +315,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     if (_videoLayer) {
         _videoLayer.bounds = rect;
     }
-    [_frameView setDrawableSize:_videoLayer.drawableSize];
+    [_filterChain setDrawableSize:_videoLayer.drawableSize];
     [CATransaction commit];
 
     // Game will try to render at the window size on its next frame.
@@ -330,13 +328,13 @@ extern NSString * const kCAContextCIFilterBehavior;
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
     _videoLayer.contentsScale = newBackingScaleFactor;
-    [_frameView setDrawableSize:_videoLayer.drawableSize];
+    [_filterChain setDrawableSize:_videoLayer.drawableSize];
     [CATransaction commit];
 }
 
 - (void)setFilterURL:(NSURL *)url {
     [_gameCore performBlock:^{
-        [self->_frameView setShaderFromURL:url];
+        [self->_filterChain setShaderFromURL:url];
     }];
 }
 
@@ -434,7 +432,10 @@ extern NSString * const kCAContextCIFilterBehavior;
 
 - (void)setVolume:(CGFloat)volume
 {
-    [_gameAudio setVolume:volume];
+    [_gameCore performBlock:^{
+        [self->_gameAudio setVolume:volume];
+    }];
+    
 }
 
 - (void)setPauseEmulation:(BOOL)paused
@@ -447,7 +448,9 @@ extern NSString * const kCAContextCIFilterBehavior;
 - (void)setAudioOutputDeviceID:(AudioDeviceID)deviceID
 {
     DLog(@"Audio output device: %lu", (unsigned long)deviceID);
-    [_gameAudio setOutputDeviceID:deviceID];
+    [_gameCore performBlock:^{
+        [self->_gameAudio setOutputDeviceID:deviceID];
+    }];
 }
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(OEIntSize screenSize, OEIntSize aspectSize))handler
@@ -592,7 +595,7 @@ extern NSString * const kCAContextCIFilterBehavior;
 
 - (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block
 {
-    __block FrameView *view = _frameView;
+    __block OEFilterChain *view = _filterChain;
     [_gameCore performBlock:^{
         block(filtered ? [view captureOutputImage] : [view captureSourceImage]);
     }];
@@ -668,16 +671,14 @@ extern NSString * const kCAContextCIFilterBehavior;
             [self setupCVBuffer];
         }
     }
-
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
+    
     [_gameRenderer didExecuteFrame];
     
     @autoreleasepool {
         dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
         __block id<CAMetalDrawable> drawable = nil;
         
-        MTLRenderPassDescriptor *(^getDescriptor)(void) = ^MTLRenderPassDescriptor *(void) {
+        OEGetDescriptorBlock getDescriptor = ^MTLRenderPassDescriptor *(void) {
             drawable = self->_videoLayer.nextDrawable;
             if (drawable == nil) {
                 dispatch_semaphore_signal(self->_inflightSemaphore);
@@ -693,23 +694,21 @@ extern NSString * const kCAContextCIFilterBehavior;
         };
         
         id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
-        [_frameView renderWithCommandBuffer:commandBuffer renderPassDescriptorBlock:getDescriptor];
+        [_filterChain renderWithCommandBuffer:commandBuffer renderPassDescriptorBlock:getDescriptor];
         
         if (drawable) {
             __block dispatch_semaphore_t inflight = _inflightSemaphore;
             [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> _) {
                 dispatch_semaphore_signal(inflight);
             }];
-
-            NSTimeInterval presentTime = _gameCore.nextFrameTime;
-            if (presentTime)
-                [commandBuffer presentDrawable:drawable atTime:presentTime];
-            else
-                [commandBuffer presentDrawable:drawable];
+            
+            [commandBuffer presentDrawable:drawable];
             [commandBuffer commit];
         }
     }
     
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
     [_videoLayer display];
     [CATransaction commit];
 

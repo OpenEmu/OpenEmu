@@ -36,7 +36,6 @@
 
 - (id)initWithCore:(OEGameCore *)core;
 
-- (void)createGraph;
 - (void)startAudio;
 - (void)stopAudio;
 - (void)pauseAudio;

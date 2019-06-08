@@ -119,6 +119,10 @@
 /* Begin PBXBuildFile section */
 		010EDCA31CE628490020417C /* OELibraryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 010EDCA21CE628490020417C /* OELibraryController.xib */; };
 		012FE6591CE51D4100716960 /* LibraryToolbarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */; };
+		051F76C722A8817300E1C0C4 /* OEAudioUnit.mm in Sources */ = {isa = PBXBuildFile; fileRef = 051F76C422A8808100E1C0C4 /* OEAudioUnit.mm */; };
+		051F76C822A8817400E1C0C4 /* OEAudioUnit.mm in Sources */ = {isa = PBXBuildFile; fileRef = 051F76C422A8808100E1C0C4 /* OEAudioUnit.mm */; };
+		051F76DA22A887E700E1C0C4 /* OEGameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 051F76D522A887E600E1C0C4 /* OEGameAudio.m */; };
+		051F76DB22A887E700E1C0C4 /* OEGameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 051F76D522A887E600E1C0C4 /* OEGameAudio.m */; };
 		052B9295226ED63200701431 /* OEMTLGameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 052B9294226ED63200701431 /* OEMTLGameRenderer.m */; };
 		052B9296226ED63200701431 /* OEMTLGameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 052B9294226ED63200701431 /* OEMTLGameRenderer.m */; };
 		052B92D3226EE5FA00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
@@ -165,7 +169,6 @@
 		1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B47F104142F01E700EBC55B /* OESetupAssistant.m */; };
 		1B6DA4A914DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */; };
 		1BEF2A9C11682A5E0090F72B /* OpenEmuHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */; };
-		1BEF2CA011684E7E0090F72B /* OEGameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* OEGameAudio.m */; };
 		1BEF2D15116855690090F72B /* OETaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* OETaskWrapper.m */; };
 		1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */; };
 		1BFC2725116C1F6700B95689 /* OETaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* OETaskWrapper.m */; };
@@ -273,7 +276,6 @@
 		8227756B1489471A00B19E27 /* OEGGSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755C1489471A00B19E27 /* OEGGSystemResponder.m */; };
 		828BF57E1669F97B00759F10 /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
 		828BF57F1669F99600759F10 /* OEUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F738FB1617FF2B00BB2519 /* OEUtilities.m */; };
-		829779340E743F2A00631240 /* OEGameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* OEGameAudio.m */; };
 		82C2909014840024007C0214 /* OENGPSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820EB7551483F9D3008EC398 /* OENGPSystemController.m */; };
 		82C2909114840024007C0214 /* OENGPSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 820EB7571483F9D3008EC398 /* OENGPSystemResponder.m */; };
 		82C290931484002F007C0214 /* controller_ngp.png in Resources */ = {isa = PBXBuildFile; fileRef = 820EB74E1483F9D3008EC398 /* controller_ngp.png */; };
@@ -1443,6 +1445,10 @@
 		01B035531C090E9900BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		01B035541C090E9900BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		01B035551C090E9A00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ControlLabels.strings; sourceTree = "<group>"; };
+		051F76BF22A8806900E1C0C4 /* BufferedAudioBus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BufferedAudioBus.hpp; sourceTree = "<group>"; };
+		051F76C322A8808000E1C0C4 /* OEAudioUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAudioUnit.h; sourceTree = "<group>"; };
+		051F76C422A8808100E1C0C4 /* OEAudioUnit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OEAudioUnit.mm; sourceTree = "<group>"; };
+		051F76D522A887E600E1C0C4 /* OEGameAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameAudio.m; sourceTree = "<group>"; };
 		052B9293226ED63200701431 /* OEMTLGameRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEMTLGameRenderer.h; sourceTree = "<group>"; };
 		052B9294226ED63200701431 /* OEMTLGameRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEMTLGameRenderer.m; sourceTree = "<group>"; };
 		052B92D2226EE5FA00701431 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -1718,7 +1724,6 @@
 		82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuBase-Info.plist"; sourceTree = "<group>"; };
 		825CC280148C13750063A9B5 /* OpenEmu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmu-Info.plist"; sourceTree = "<group>"; };
 		829779320E743F2A00631240 /* OEGameAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameAudio.h; sourceTree = "<group>"; };
-		829779330E743F2A00631240 /* OEGameAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameAudio.m; sourceTree = "<group>"; };
 		82BBE7B121D961A0006CD402 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OEMigrationWindowController.strings"; sourceTree = "<group>"; };
 		82BBE7B221D961A1006CD402 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OELibraryGamesViewController.strings"; sourceTree = "<group>"; };
 		82BBE7B321D961A1006CD402 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OEPrefControlsController.strings"; sourceTree = "<group>"; };
@@ -3833,8 +3838,11 @@
 		8249C8E40E899CD30027EFDF /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				051F76BF22A8806900E1C0C4 /* BufferedAudioBus.hpp */,
+				051F76C322A8808000E1C0C4 /* OEAudioUnit.h */,
+				051F76C422A8808100E1C0C4 /* OEAudioUnit.mm */,
 				829779320E743F2A00631240 /* OEGameAudio.h */,
-				829779330E743F2A00631240 /* OEGameAudio.m */,
+				051F76D522A887E600E1C0C4 /* OEGameAudio.m */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -7334,9 +7342,9 @@
 				C6772A841710C9C400ED580A /* OEPlugin.m in Sources */,
 				C6772A851710C9C400ED580A /* OECorePlugin.m in Sources */,
 				C609619B179B74DE00239067 /* OESystemPlugin.m in Sources */,
-				1BEF2CA011684E7E0090F72B /* OEGameAudio.m in Sources */,
 				3DD7A23C1D193DA40003D426 /* NSColor+OEAdditions.m in Sources */,
 				1BEF2A9C11682A5E0090F72B /* OpenEmuHelperApp.m in Sources */,
+				051F76C822A8817400E1C0C4 /* OEAudioUnit.mm in Sources */,
 				1BEF2D15116855690090F72B /* OETaskWrapper.m in Sources */,
 				05FB7D8222A0A3D60070633C /* OEOpenGL2GameRenderer.m in Sources */,
 				0557CB1922A77D7C0037175F /* OEShadersModel.swift in Sources */,
@@ -7345,6 +7353,7 @@
 				828BF57F1669F99600759F10 /* OEUtilities.m in Sources */,
 				C609619A179B6E3F00239067 /* OpenEmuXPCHelperApp.m in Sources */,
 				05FB7D8622A0A4A40070633C /* OECoreVideoTexture.m in Sources */,
+				051F76DB22A887E700E1C0C4 /* OEGameAudio.m in Sources */,
 				A90208FC9B5D10B9F8150E57 /* OEGameHelperMetalLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7441,7 +7450,6 @@
 				8306CD2F1BD3AD480025BC6C /* OESidebarOutlineView.m in Sources */,
 				1BFC2725116C1F6700B95689 /* OETaskWrapper.m in Sources */,
 				8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */,
-				829779340E743F2A00631240 /* OEGameAudio.m in Sources */,
 				837820B61907E8520043593F /* OEBlankSlateForegroundLayer.m in Sources */,
 				83495DD419A38F31009DB6E5 /* OEPrefBiosController.m in Sources */,
 				C62F54710FE6ADC500DF15BA /* OEPlugin.m in Sources */,
@@ -7510,6 +7518,7 @@
 				83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */,
 				5A9606DE1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift in Sources */,
 				83C68ED114483579000F720A /* OEHUDAlert.m in Sources */,
+				051F76DA22A887E700E1C0C4 /* OEGameAudio.m in Sources */,
 				832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */,
 				8301557B1456BF7A0093D681 /* OEGameViewController.m in Sources */,
 				83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */,
@@ -7567,6 +7576,7 @@
 				831C9ADD1600973B00038D0D /* OEPopUpButtonCell.m in Sources */,
 				C6F738FC1617FF2B00BB2519 /* OEUtilities.m in Sources */,
 				5A886E581BF43AC900775123 /* NSWindow+Image.swift in Sources */,
+				051F76C722A8817300E1C0C4 /* OEAudioUnit.mm in Sources */,
 				83DEE48F162D52DC005D8AD7 /* OELabel.m in Sources */,
 				836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */,
 				83DEE490162D52DC005D8AD7 /* OELabelCell.m in Sources */,

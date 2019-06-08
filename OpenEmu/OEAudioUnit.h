@@ -22,21 +22,28 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "OEGameRenderer.h"
-#import "OEGameHelperMetalLayer.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OEFilterChain;
+CF_ENUM(UInt32) {
+    kAudioUnitSubType_Emulator = 'emu!'
+};
+    
+CF_ENUM(UInt32) {
+    kAudioUnitManufacturer_OpenEmu = 'oemu'
+};
+        
+@interface OEAudioUnit : AUAudioUnit
 
-@interface OEMTLGameRenderer : NSObject <OEGameRenderer>
++ (void)registerSelf;
 
-/*! @brief Specifies whether rendering is synchronized with the display */
-@property (nonatomic, readwrite) bool displaySyncEnabled;
-@property (nonatomic) OEIntSize surfaceSize;
-
-- (instancetype)initWithFilterChain:(OEFilterChain *)filterChain;
+/*! @property    outputProvider
+ @brief        The block that the output unit will call to get audio to send to the output.
+ @discussion    This block must be set if output is enabled.
+ */
+@property (nonatomic, copy, nullable) AURenderPullInputBlock outputProvider;
 
 @end
-
+        
 NS_ASSUME_NONNULL_END
