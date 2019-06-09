@@ -643,7 +643,10 @@ extern NSString * const kCAContextCIFilterBehavior;
     OEIntRect screenRect = _gameCore.screenRect;
     OEIntSize aspectSize = _gameCore.aspectSize;
     BOOL mustUpdate = NO;
-    
+
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+
     if (!OEIntSizeEqualToSize(previousBufferSize, bufferSize)) {
         DLog(@"Recreating IOSurface because of game size change to %@", NSStringFromOEIntSize(bufferSize));
         NSAssert(_gameRenderer.canChangeBufferSize == YES, @"Game tried changing IOSurface in a state we don't support");
@@ -701,14 +704,12 @@ extern NSString * const kCAContextCIFilterBehavior;
             [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> _) {
                 dispatch_semaphore_signal(inflight);
             }];
-            
+
             [commandBuffer presentDrawable:drawable];
             [commandBuffer commit];
         }
     }
     
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
     [_videoLayer display];
     [CATransaction commit];
 
