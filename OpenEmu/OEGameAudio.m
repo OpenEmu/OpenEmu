@@ -118,12 +118,9 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
     if ([buffer respondsToSelector:@selector(readBlock)]) {
         return [buffer readBlock];
     }
-    
-    typedef NSUInteger (*readBuffer)(id __unsafe_unretained obj, SEL sel, void * buf, NSUInteger maxlength);
-    SEL readSEL = @selector(read:maxLength:);
-    readBuffer read = (readBuffer)class_getMethodImplementation(buffer.class, readSEL);
+
     return ^NSUInteger(void * buf, NSUInteger max) {
-        return read(buffer, readSEL, buf, max);
+        return [buffer read:buf maxLength:max];
     };
 }
 
@@ -160,11 +157,10 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
     UInt32 channelCount      = (UInt32)[_gameCore channelCountForBuffer:0];
     UInt32 bytesPerSample    = (UInt32)[_gameCore audioBitDepth] / 8;
     
-    AudioFormatFlags formatFlag = (bytesPerSample == 4) ? kLinearPCMFormatFlagIsFloat : kLinearPCMFormatFlagIsSignedInteger;
     AudioStreamBasicDescription mDataFormat = {
         .mSampleRate       = [_gameCore audioSampleRateForBuffer:0],
         .mFormatID         = kAudioFormatLinearPCM,
-        .mFormatFlags      = formatFlag | kAudioFormatFlagsNativeEndian,
+        .mFormatFlags      = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian,
         .mBytesPerPacket   = bytesPerSample * channelCount,
         .mFramesPerPacket  = 1,
         .mBytesPerFrame    = bytesPerSample * channelCount,
@@ -194,10 +190,11 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
     NSAssert1(_gameCore.audioBufferCount == 1, @"only one buffer supported; got=%lu", _gameCore.audioBufferCount);
     
     AVAudioFormat *renderFormat = [self renderFormat];
-    AVAudioFormat *outputFormat = [_engine.outputNode outputFormatForBus:0];
-    
+    AVAudioFormat *floatRenderFormat = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:renderFormat.sampleRate channels:renderFormat.channelCount];
+
+    // AVAudioEngine only supports 32-bit float audio. Feed it our sample rate so it can figure out buffering.
     AudioConverterInputBlock b  = [self createConverterBlockFromStream:renderFormat.streamDescription
-                                                              toStream:outputFormat.streamDescription
+                                                              toStream:floatRenderFormat.streamDescription
                                                                 buffer:[_gameCore audioBufferAtIndex:0]];
     if (b == nil) {
         return;
@@ -209,14 +206,14 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
         .componentManufacturer  = kAudioUnitManufacturer_OpenEmu,
     };
     AVAudioUnitGenerator *gen = [[AVAudioUnitGenerator alloc] initWithAudioComponentDescription:desc];
-    AUAudioUnit          *au  = gen.AUAudioUnit;
+    OEAudioUnit          *au  = (OEAudioUnit*)gen.AUAudioUnit;
     __block AudioConverterRef conv = _conv;
     au.outputProvider = ^AUAudioUnitStatus(AudioUnitRenderActionFlags *actionFlags, const AudioTimeStamp *timestamp, AUAudioFrameCount frameCount, NSInteger inputBusNumber, AudioBufferList *inputData) {
         return AudioConverterFillComplexBufferBlock(conv, &frameCount, inputData, nil, b);
     };
     
     [_engine attachNode:gen];
-    [_engine connect:gen to:_engine.mainMixerNode format:nil];
+    [_engine connect:gen to:_engine.mainMixerNode format:floatRenderFormat];
     _engine.mainMixerNode.outputVolume = _volume;
     [_engine prepare];
     [self resumeAudio];

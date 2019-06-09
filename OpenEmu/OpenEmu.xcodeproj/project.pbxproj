@@ -1442,7 +1442,6 @@
 		01B035531C090E9900BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		01B035541C090E9900BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		01B035551C090E9A00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ControlLabels.strings; sourceTree = "<group>"; };
-		051F76BF22A8806900E1C0C4 /* BufferedAudioBus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BufferedAudioBus.hpp; sourceTree = "<group>"; };
 		051F76C322A8808000E1C0C4 /* OEAudioUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAudioUnit.h; sourceTree = "<group>"; };
 		051F76C422A8808100E1C0C4 /* OEAudioUnit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OEAudioUnit.mm; sourceTree = "<group>"; };
 		051F76D522A887E600E1C0C4 /* OEGameAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameAudio.m; sourceTree = "<group>"; };
@@ -3830,7 +3829,6 @@
 		8249C8E40E899CD30027EFDF /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				051F76BF22A8806900E1C0C4 /* BufferedAudioBus.hpp */,
 				051F76C322A8808000E1C0C4 /* OEAudioUnit.h */,
 				051F76C422A8808100E1C0C4 /* OEAudioUnit.mm */,
 				829779320E743F2A00631240 /* OEGameAudio.h */,

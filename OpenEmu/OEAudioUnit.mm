@@ -22,19 +22,19 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "OEAudioUnit.h"
-#import "BufferedAudioBus.hpp"
+#import <AudioUnit/AudioUnit.h>
+#import <AVFoundation/AVFoundation.h>
 
-@interface OEAudioUnit()
+#import "OEAudioUnit.h"
+
+@interface OEAudioUnit ()
 
 @property AUAudioUnitBus *outputBus;
 @property AUAudioUnitBusArray *outputBusArray;
 
 @end
 
-@implementation OEAudioUnit {
-    BufferedOutputBus _outputBusBuffer;
-}
+@implementation OEAudioUnit
 
 + (void)registerSelf {
     static dispatch_once_t onceToken;
@@ -61,20 +61,17 @@
         return nil;
     }
     
-    // Initialize a default format for the busses.
-    AVAudioFormat *defaultFormat = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:44100. channels:2];
+    // Initialize a default format for the busses. It doesn't matter what you put here.
+    AVAudioFormat *defaultFormat = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:44100 channels:2];
     
     // Create the output bus.
-    _outputBusBuffer.init(defaultFormat, 2);
-    _outputBus = _outputBusBuffer.bus;
-    
+    _outputBus = [[AUAudioUnitBus alloc] initWithFormat:defaultFormat error:nil];
+   
     // Create the input and output bus arrays.
     _outputBusArray = [[AUAudioUnitBusArray alloc] initWithAudioUnit:self
                                                              busType:AUAudioUnitBusTypeOutput
                                                               busses: @[_outputBus]];
-    
-    self.maximumFramesToRender = 512;
-    
+        
     return self;
 }
 
@@ -84,26 +81,9 @@
     return _outputBusArray;
 }
 
-- (BOOL)allocateRenderResourcesAndReturnError:(NSError **)outError {
-    if (![super allocateRenderResourcesAndReturnError:outError]) {
-        return NO;
-    }
-    
-    _outputBusBuffer.allocateRenderResources(self.maximumFramesToRender);
-    
-    return YES;
-}
-
-- (void)deallocateRenderResources {
-    _outputBusBuffer.deallocateRenderResources();
-    
-    [super deallocateRenderResources];
-}
-
 #pragma mark - AUAudioUnit (AUAudioUnitImplementation)
 
 - (AUInternalRenderBlock)internalRenderBlock {
-    BufferedOutputBus *outputBusBuffer = &_outputBusBuffer;
     AURenderPullInputBlock pullInput = _outputProvider;
     
     return ^AUAudioUnitStatus(
@@ -119,21 +99,9 @@
             return kAudioUnitErr_NoConnection;
         }
         
-        outputBusBuffer->prepareOutputBufferList(outputData, frameCount, true);
         AudioUnitRenderActionFlags pullFlags = 0;
         return pullInput(&pullFlags, timestamp, frameCount, 0, outputData);
     };
-}
-
-// Expresses whether an audio unit can process in place.
-// In-place processing is the ability for an audio unit to transform an input signal to an
-// output signal in-place in the input buffer, without requiring a separate output buffer.
-// A host can express its desire to process in place by using null mData pointers in the output
-// buffer list. The audio unit may process in-place in the input buffers.
-// See the discussion of renderBlock.
-// Partially bridged to the v2 property kAudioUnitProperty_InPlaceProcessing, the v3 property is not settable.
-- (BOOL)canProcessInPlace {
-    return YES;
 }
 
 @end
