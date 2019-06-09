@@ -52,9 +52,12 @@
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
 
-// TODO(sgc): implement triple buffering
-/*! @brief maximum inflight frames */
-#define MAX_INFLIGHT 3
+/// Only send 1 frame at once to the GPU.
+/// Since we aren't synced to the display, even one more
+/// is enough to block in nextDrawable for more than a frame
+/// and cause audio skipping.
+/// TODO(sgc): implement triple buffering
+#define MAX_INFLIGHT 1
 
 // SPI: Stolen from Chrome
 typedef uint32_t CGSConnectionID;
@@ -114,6 +117,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     id<MTLDevice>           _device;
     id<MTLCommandQueue>     _commandQueue;
     MTLClearColor           _clearColor;
+    NSUInteger              _skippedFrames;
     
     id   _unhandledEventsMonitor;
     BOOL _hasStartedAudio;
@@ -234,7 +238,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     _videoLayer.device = _device;
     _videoLayer.opaque = YES;
     _videoLayer.framebufferOnly = YES;
-    _videoLayer.displaySyncEnabled = NO;
+    _videoLayer.displaySyncEnabled = YES;
 
     switch (rendering) {
         case OEGameCoreRendering2DVideo:
@@ -678,38 +682,40 @@ extern NSString * const kCAContextCIFilterBehavior;
     [_gameRenderer didExecuteFrame];
     
     @autoreleasepool {
-        dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_FOREVER);
         __block id<CAMetalDrawable> drawable = nil;
-        
-        OEGetDescriptorBlock getDescriptor = ^MTLRenderPassDescriptor *(void) {
-            drawable = self->_videoLayer.nextDrawable;
-            if (drawable == nil) {
-                dispatch_semaphore_signal(self->_inflightSemaphore);
-                return nil;
-            }
-            
-            MTLRenderPassDescriptor *rpd = [MTLRenderPassDescriptor new];
-            rpd.colorAttachments[0].clearColor = self->_clearColor;
-            rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
-            rpd.colorAttachments[0].texture    = drawable.texture;
-            
-            return rpd;
-        };
-        
-        id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
-        [_filterChain renderWithCommandBuffer:commandBuffer renderPassDescriptorBlock:getDescriptor];
-        
-        if (drawable) {
-            __block dispatch_semaphore_t inflight = _inflightSemaphore;
-            [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> _) {
-                dispatch_semaphore_signal(inflight);
-            }];
+        if (dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_NOW) != 0) {
+            _skippedFrames++;
+        } else {
+            OEGetDescriptorBlock getDescriptor = ^MTLRenderPassDescriptor *(void) {
+                drawable = self->_videoLayer.nextDrawable;
+                if (drawable == nil) {
+                    dispatch_semaphore_signal(self->_inflightSemaphore);
+                    return nil;
+                }
 
-            [commandBuffer presentDrawable:drawable];
-            [commandBuffer commit];
+                MTLRenderPassDescriptor *rpd = [MTLRenderPassDescriptor new];
+                rpd.colorAttachments[0].clearColor = self->_clearColor;
+                rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
+                rpd.colorAttachments[0].texture    = drawable.texture;
+
+                return rpd;
+            };
+
+            id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
+            [_filterChain renderWithCommandBuffer:commandBuffer renderPassDescriptorBlock:getDescriptor];
+
+            if (drawable) {
+                __block dispatch_semaphore_t inflight = _inflightSemaphore;
+                [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> _) {
+                    dispatch_semaphore_signal(inflight);
+                }];
+
+                [commandBuffer presentDrawable:drawable atTime:_gameCore.nextFrameTime];
+                [commandBuffer commit];
+            }
         }
     }
-    
+
     [_videoLayer display];
     [CATransaction commit];
 
