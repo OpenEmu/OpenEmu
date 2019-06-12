@@ -1,0 +1,43 @@
+Thank you squarepusher and maister, for hammering out the shader framework that
+made this possible and being so receptive to my feedback for Retroarch and the
+libretro Cg shader spec.  Thank you especially maister, for designing the sRGB
+support with me and implementing all the code for both sRGB FBO's and mipmapped
+FBO's in less time than it took me to add mipmapped LUT's alone!
+
+I want to thank xythen and DOLLS for inspiring me with their early efforts:
+    http://board.byuu.org/viewtopic.php?f=10&t=147
+    http://board.byuu.org/viewtopic.php?p=3820#p3834
+I've never spoken with them, but I never would have thought to make this shader
+if xythen hadn't gotten the ball rolling, or if DOLLS hadn't made his point
+about just how far CRT emulation could go with his phosphor mask prototypes,
+convergence error images, and barrel distortion code.
+
+I also want to thank hunterk for his excellent blog, especially this post:
+    http://filthypants.blogspot.com/2011/05/
+        more-emulator-pixel-shaders-crt-updated.html
+Along with caligari's work, his PhosphorLUT shader provoked me to experiment
+with game-style bloom as a way to reconcile shadow masks with full brightness.
+Along with Pulp Fiction, he also gets credit for helping me name this shader. :D
+
+Thank you Hyllian for your enthusiasm: It kept me focused on actually releasing
+this shader instead of refining it in perpetuity!
+
+Finally, I want to thank cgwg for everything he has done for CRT emulation:
+He was the first to consider the effects of halation, and (in addition to
+caligari?) he did the most research on the Gaussian properties of scanline
+electron beams.  His forum posts and links to academic research were very
+helpful, and so were the few PM's we exchanged many months ago: I originally
+meant to wet my feet by extending his shader with cylindrical curvature before
+writing my own.  I never managed to understand his curvature code (due to all of
+the different algebraic/trigonometric stages being rolled into one), and I gave
+up and started from scratch, but talking with him helped me piece together how
+his spherical uv<=>xyz mapping worked mathematically.  My own is subtly
+different, but not on purpose. ;)  A lot of the user parameters for geometry
+were inspired by his own (including Euler angle tilt and a "view distance" for
+controlling the field of view with a simplified near-plane).  Last but not
+least, my border dimming code was based more directly off of his: I did what I
+could to write a fresh implementation of his algorithm with new features, but
+the line between code and algorithm is pretty thin in that function, and it's
+a testament to him coming up with such an elegant solution.
+
+TroggleMonkey

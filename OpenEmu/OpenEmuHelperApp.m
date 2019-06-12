@@ -114,6 +114,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     OEGameHelperMetalLayer  *_videoLayer;
     OEFilterChain           *_filterChain;
     dispatch_semaphore_t    _inflightSemaphore;
+    id<MTLCaptureScope>     _scope;
     id<MTLDevice>           _device;
     id<MTLCommandQueue>     _commandQueue;
     MTLClearColor           _clearColor;
@@ -179,6 +180,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     // 2. Video
     _inflightSemaphore = dispatch_semaphore_create(MAX_INFLIGHT);
     _device            = MTLCreateSystemDefaultDevice();
+    _scope             = [[MTLCaptureManager sharedCaptureManager] newCaptureScopeWithDevice:_device];
     _commandQueue      = [_device newCommandQueue];
     _clearColor        = MTLClearColorMake(0, 0, 0, 1);
     _filterChain       = [[OEFilterChain alloc] initWithDevice:_device];
@@ -634,6 +636,7 @@ extern NSString * const kCAContextCIFilterBehavior;
 
 - (void)willExecute
 {
+    [_scope beginScope];
     [_gameRenderer willExecuteFrame];
 }
 
@@ -715,6 +718,8 @@ extern NSString * const kCAContextCIFilterBehavior;
             }
         }
     }
+    
+    [_scope endScope];
 
     [_videoLayer display];
     [CATransaction commit];
