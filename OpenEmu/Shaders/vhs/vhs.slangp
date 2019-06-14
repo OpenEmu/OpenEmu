@@ -1,0 +1,4 @@
+shaders = 1
+
+shader0 = shaders/vhs.slang
+filter_linear0 = true

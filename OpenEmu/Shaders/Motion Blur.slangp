@@ -1,0 +1,4 @@
+shaders = 1
+
+shader0 = motionblur/shaders/motionblur-simple.slang
+filter_linear0 = false

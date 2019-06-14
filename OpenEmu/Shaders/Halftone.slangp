@@ -1,0 +1,10 @@
+shaders = 2
+
+shader0 = reshade/shaders/LUT/LUT.slang
+shader1 = misc/cmyk-halftone-dot.slang
+filter_linear1 = true
+
+textures = SamplerLUT
+
+SamplerLUT = reshade/shaders/LUT/cmyk-16.png
+SamplerLUT_linear = true

@@ -190,10 +190,22 @@ extern NSString * const kCAContextCIFilterBehavior;
     [self updateGameRenderer];
     [self setupCVBuffer];
     [self setupRemoteLayer];
+    
+    NSURL *shaderURL  = nil;
+    
+    // Option to override shader with absolute path
+    NSString *shaderPath = [NSUserDefaults.oe_applicationUserDefaults stringForKey:@"shaderPath"];
+    if (shaderPath != nil && [NSFileManager.defaultManager fileExistsAtPath:shaderPath]) {
+        shaderURL = [NSURL fileURLWithPath:shaderPath];
+    } else {
+        OEShaderModel *shader = [OEShadersModel.shared shaderForSystem:_gameCore.systemIdentifier];
+        if (shader != nil) {
+            shaderURL = [NSURL fileURLWithPath:shader.path];
+        }
+    }
 
-    OEShaderModel *shader = [OEShadersModel.shared shaderForSystem:_gameCore.systemIdentifier];
-    if (shader != nil) {
-        [_filterChain setShaderFromURL:[NSURL fileURLWithPath:shader.path]];
+    if (shaderURL != nil) {
+        [_filterChain setShaderFromURL:shaderURL];
     }
 }
 

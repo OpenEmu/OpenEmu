@@ -1,0 +1,4 @@
+shaders = 1
+
+shader0 = dithering/shaders/bayer-matrix-dithering.slang
+filter_linear0 = false

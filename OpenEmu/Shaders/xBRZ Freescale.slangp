@@ -1,0 +1,6 @@
+shaders = 1
+
+shader0 = xbrz/shaders/xbrz-freescale.slang
+filter_linear0 = false
+scale_type0 = viewport
+scale0 = 1.0
