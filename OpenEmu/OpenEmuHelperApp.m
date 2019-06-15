@@ -697,36 +697,36 @@ extern NSString * const kCAContextCIFilterBehavior;
     [_gameRenderer didExecuteFrame];
     
     @autoreleasepool {
-        __block id<CAMetalDrawable> drawable = nil;
         if (dispatch_semaphore_wait(_inflightSemaphore, DISPATCH_TIME_NOW) != 0) {
             _skippedFrames++;
         } else {
-            OEGetDescriptorBlock getDescriptor = ^MTLRenderPassDescriptor *(void) {
-                drawable = self->_videoLayer.nextDrawable;
-                if (drawable == nil) {
-                    dispatch_semaphore_signal(self->_inflightSemaphore);
-                    return nil;
-                }
+            id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
+            commandBuffer.label = @"offscreen";
+            [commandBuffer enqueue];
+            [_filterChain renderOffscreenPassesWithCommandBuffer:commandBuffer];
+            [commandBuffer commit];
 
+            id<CAMetalDrawable> drawable = _videoLayer.nextDrawable;
+            if (drawable != nil) {
                 MTLRenderPassDescriptor *rpd = [MTLRenderPassDescriptor new];
                 rpd.colorAttachments[0].clearColor = self->_clearColor;
                 rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
                 rpd.colorAttachments[0].texture    = drawable.texture;
+                commandBuffer = [_commandQueue commandBuffer];
+                commandBuffer.label = @"final";
+                id<MTLRenderCommandEncoder> rce = [commandBuffer renderCommandEncoderWithDescriptor:rpd];
+                [_filterChain renderFinalPassWithCommandEncoder:rce];
+                [rce endEncoding];
 
-                return rpd;
-            };
-
-            id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
-            [_filterChain renderWithCommandBuffer:commandBuffer renderPassDescriptorBlock:getDescriptor];
-
-            if (drawable) {
                 __block dispatch_semaphore_t inflight = _inflightSemaphore;
                 [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> _) {
                     dispatch_semaphore_signal(inflight);
                 }];
 
-                [commandBuffer presentDrawable:drawable atTime:_gameCore.nextFrameTime];
+                [commandBuffer presentDrawable:drawable];
                 [commandBuffer commit];
+            } else {
+                dispatch_semaphore_signal(self->_inflightSemaphore);
             }
         }
     }
