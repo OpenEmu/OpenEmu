@@ -1,4 +1,11 @@
-shaders = 1
+shaders = 2
 
 shader0 = vhs/shaders/vhs.slang
 filter_linear0 = true
+
+shader1 = vhs/shaders/rewind.slang
+filter_linear1 = true
+
+textures = "rew;play"
+play = vhs/resources/play.png
+rew = vhs/resources/rew.png

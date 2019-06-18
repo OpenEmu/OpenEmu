@@ -1,21 +1,18 @@
-shaders = 5
+shaders = 4
 
 shader0 = crt-geom-deluxe/shaders/geom-deluxe/phosphor_apply.slang
 alias0 = internal1
 
-shader1 = crt-geom-deluxe/shaders/geom-deluxe/phosphor_update.slang
-alias1 = phosphorTex
+shader1 = crt-geom-deluxe/shaders/geom-deluxe/gaussx.slang
+filter_linear1 = true
+alias1 = internal2
 
-shader2 = crt-geom-deluxe/shaders/geom-deluxe/gaussx.slang
+shader2 = crt-geom-deluxe/shaders/geom-deluxe/gaussy.slang
 filter_linear2 = true
-alias2 = internal2
+alias2 = blurTex
 
-shader3 = crt-geom-deluxe/shaders/geom-deluxe/gaussy.slang
+shader3 = crt-geom-deluxe/shaders/geom-deluxe/crt-geom-deluxe.slang
 filter_linear3 = true
-alias3 = blurTex
-
-shader4 = crt-geom-deluxe/shaders/geom-deluxe/crt-geom-deluxe.slang
-filter_linear4 = true
 
 textures = "aperture;slot;delta"
 delta = crt-geom-deluxe/shaders/geom-deluxe/masks/delta_2_4x1_rgb.png

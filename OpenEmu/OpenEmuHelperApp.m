@@ -864,6 +864,8 @@ extern NSString * const kCAContextCIFilterBehavior;
 
 - (void)rewindGameplay:(BOOL)enable
 {
+    // TODO: technically a data race, but it is only updating a single NSInteger
+    _filterChain.frameDirection = enable ? -1 : 1;
     [_gameCoreOwner rewindGameplay:enable];
 }
 
