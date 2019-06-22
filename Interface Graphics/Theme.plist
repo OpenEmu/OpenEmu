@@ -119,28 +119,6 @@
 				</dict>
 			</dict>
 		</dict>
-		<key>game_scanner_headline</key>
-		<dict>
-			<key>Color</key>
-			<string>rgba(174,173,173,1.0)</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>1</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,1.0)</string>
-				<key>Offset</key>
-				<string>{0,1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>11</integer>
-			<key>Traits</key>
-			<string>Bold</string>
-			<key>Weight</key>
-			<integer>3</integer>
-		</dict>
 		<key>grid_group_title</key>
 		<dict>
 			<key>Color</key>
@@ -190,26 +168,6 @@
 			<integer>3</integer>
 			<key>Baseline Offset</key>
 			<integer>-1</integer>
-		</dict>
-		<key>game_scanner_text</key>
-		<dict>
-			<key>Color</key>
-			<string>rgba(156,156,156,1.0)</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>1</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,0.4)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>11</integer>
-			<key>Weight</key>
-			<real>0.1</real>
 		</dict>
 		<key>gloss_button</key>
 		<dict>
@@ -793,21 +751,7 @@
 		</dict>
 	</dict>
 	<key>Gradients</key>
-	<dict>
-		<key>game_scanner_line</key>
-		<dict>
-			<key>Colors</key>
-			<array>
-				<string>#4a4a4a</string>
-				<string>#292929</string>
-			</array>
-			<key>Locations</key>
-			<array>
-				<integer>0</integer>
-				<integer>1</integer>
-			</array>
-		</dict>
-	</dict>
+	<dict/>
 	<key>Images</key>
 	<dict>
 		<key>grid_group_background</key>
