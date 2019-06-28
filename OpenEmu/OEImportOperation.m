@@ -150,8 +150,11 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
 + (BOOL)OE_isSBIFileAtURL:(NSURL*)url
 {
+    NSUserDefaults *standardUserDefaults = NSUserDefaults.standardUserDefaults;
+    BOOL copyToLibrary = [standardUserDefaults boolForKey:OECopyToLibraryKey];
+
     NSString *pathExtension = url.pathExtension.lowercaseString;
-    if([pathExtension isEqualToString:@"sbi"])
+    if([pathExtension isEqualToString:@"sbi"] && copyToLibrary)
     {
         // Check 4-byte SBI header
         NSFileHandle *header = [NSFileHandle fileHandleForReadingFromURL:url error:nil];
@@ -166,14 +169,24 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
         IMPORTDLog(@"File seems to be a SBI file at %@", url);
 
-        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSFileManager *fileManager = NSFileManager.defaultManager;
         NSError       *error       = nil;
         NSString      *sbiFilename = url.lastPathComponent;
-        NSURL         *sbiURL      = [[[OELibraryDatabase defaultDatabase] databaseFolderURL] URLByAppendingPathComponent:@"roms/Sony PlayStation" isDirectory:YES];
-        NSURL *destination = [sbiURL URLByAppendingPathComponent:sbiFilename];
+        NSString      *sbiExtensionlessFilename = sbiFilename.stringByDeletingPathExtension;
+        // RegEx pattern match the parentheses e.g. " (Disc 1)" and trim sbiExtensionlessFilename string.
+        NSString      *sbiFolderName = [sbiExtensionlessFilename stringByReplacingOccurrencesOfString:@"\\ \\(Disc.*\\)" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, sbiExtensionlessFilename.length)];
+        // Get the PlayStation system's Game Library folder URL.
+        OELibraryDatabase      *database = OELibraryDatabase.defaultDatabase;
+        NSManagedObjectContext *context  = database.mainThreadContext;
+        OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:@"openemu.system.psx" inContext:context];
+        NSURL *systemFolderURL = [database romsFolderURLForSystem:system];
+        // Copy SBI to subfolder where (presumably) the user also imported their game files - SBI files must be in the same folder as the game.
+        // NOTE: This is for convenience and cannot be perfect now that games for disc-supporting systems are copied into a unique subfolder in the system's folder - users may have to manually import.
+        // Does not handle SBI-requiring M3U games well (FF VIII, FF IX, Galerians and Parasite Eve II), unless the M3U is named as the basename SBI (e.g. Final Fantasy IX (Europe).m3u and Final Fantasy IX (Europe) (Disc 1).sbi).
+        NSURL *sbiSubFolderURL = [systemFolderURL URLByAppendingPathComponent:sbiFolderName isDirectory:YES];
+        NSURL *destination = [sbiSubFolderURL URLByAppendingPathComponent:sbiFilename];
 
-
-        if(![fileManager createDirectoryAtURL:sbiURL withIntermediateDirectories:YES attributes:nil error:&error])
+        if(![fileManager createDirectoryAtURL:sbiSubFolderURL withIntermediateDirectories:YES attributes:nil error:&error])
         {
             IMPORTDLog(@"Could not create directory before copying SBI file at %@", url);
             IMPORTDLog(@"%@", error);
