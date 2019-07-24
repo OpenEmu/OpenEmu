@@ -240,27 +240,22 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 }
 
 #pragma mark - HUD Bar Actions
-- (void)selectFilter:(id)sender
+- (void)selectShader:(id)sender
 {
-    NSString *filterName;
-    if([sender isKindOfClass:[NSString class]])
-        filterName = sender;
-    else if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] isKindOfClass:[NSString class]])
-        filterName = [sender representedObject];
-    else if([sender respondsToSelector:@selector(title)] && [[sender title] isKindOfClass:[NSString class]])
-        filterName = [sender title];
+    NSString *shaderName;
+    if([sender respondsToSelector:@selector(title)] && [[sender title] isKindOfClass:[NSString class]])
+        shaderName = [sender title];
     else
         DLog(@"Invalid argument passed: %@", sender);
 
     for (OEShaderModel *shader in OEShadersModel.shared.shaders) {
-        if ([filterName isEqualToString:shader.name]) {
-            [[self document] gameViewController:self setFilterURL:[NSURL fileURLWithPath:shader.path]];
+        if ([shaderName isEqualToString:shader.name]) {
+            [[self document] gameViewController:self setShaderURL:[NSURL fileURLWithPath:shader.path]];
         }
     }
 
-    //[[self document] gameViewController:self setFilterURL:url];
-    //    [_gameView setFilterName:filterName];
-    [[NSUserDefaults standardUserDefaults] setObject:filterName forKey:[NSString stringWithFormat:OEGameSystemVideoShaderKeyFormat, [[self document] systemIdentifier]]];
+    //[[self document] gameViewController:self setShaderURL:url];
+    [NSUserDefaults.standardUserDefaults setObject:shaderName forKey:[NSString stringWithFormat:OEGameSystemVideoShaderKeyFormat, [[self document] systemIdentifier]]];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem

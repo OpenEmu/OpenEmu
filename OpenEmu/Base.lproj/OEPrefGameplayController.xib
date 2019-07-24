@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPrefGameplayController">
             <connections>
-                <outlet property="filterSelection" destination="11" id="41"/>
+                <outlet property="globalDefaultShaderSelection" destination="11" id="uUR-kc-hHZ"/>
                 <outlet property="view" destination="3" id="27"/>
             </connections>
         </customObject>
@@ -96,12 +95,12 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="OELabel">
-                    <rect key="frame" x="39" y="213" width="42" height="17"/>
+                    <rect key="frame" x="39" y="213" width="51" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="138" id="RzW-xY-L99"/>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="38" id="e4J-aE-P1L"/>
                     </constraints>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Filter:" id="21" customClass="OELabelCell">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Shader:" id="21" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -110,8 +109,8 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
                     </userDefinedRuntimeAttributes>
                 </textField>
-                <popUpButton focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11" customClass="OEPopUpButton">
-                    <rect key="frame" x="83" y="205" width="217" height="28"/>
+                <popUpButton focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11" userLabel="Shader Selection" customClass="OEPopUpButton">
+                    <rect key="frame" x="92" y="205" width="217" height="27"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="212" id="6jh-MX-q9D"/>
                         <constraint firstAttribute="height" constant="23" id="cz9-gs-8lo"/>
@@ -128,16 +127,7 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <action selector="changeFilter:" target="-2" id="47"/>
-                        <binding destination="28" name="selectedValue" keyPath="values.videoFilter" id="55">
-                            <dictionary key="options">
-                                <string key="NSMultipleValuesPlaceholder">Linear Interpolation</string>
-                                <string key="NSNoSelectionPlaceholder">Linear Interpolation</string>
-                                <string key="NSNotApplicablePlaceholder">Linear Interpolation</string>
-                                <string key="NSNullPlaceholder">Linear Interpolation</string>
-                                <bool key="NSValidatesImmediately" value="YES"/>
-                            </dictionary>
-                        </binding>
+                        <action selector="changeGlobalDefaultShader:" target="-2" id="2yL-s2-xjM"/>
                     </connections>
                 </popUpButton>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="rUN-Tz-mZH" userLabel="Check Box 3" customClass="OEButton">

@@ -2,8 +2,8 @@
 /* Class = "NSTextFieldCell"; title = "Window Management"; ObjectID = "14"; */
 "14.title" = "窗口管理";
 
-/* Class = "NSTextFieldCell"; title = "Filter:"; ObjectID = "21"; */
-"21.title" = "滤镜:";
+/* Class = "NSTextFieldCell"; title = "Shader:"; ObjectID = "21"; */
+"21.title" = "着色器:";
 
 /* Class = "NSTextFieldCell"; title = "Display Mode"; ObjectID = "23"; */
 "23.title" = "显示模式";

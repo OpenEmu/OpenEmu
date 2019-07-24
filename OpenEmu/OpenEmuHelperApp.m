@@ -350,7 +350,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     [CATransaction commit];
 }
 
-- (void)setFilterURL:(NSURL *)url {
+- (void)setShaderURL:(NSURL *)url {
     [_gameCore performBlock:^{
         [self->_filterChain setShaderFromURL:url];
     }];

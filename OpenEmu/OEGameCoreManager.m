@@ -120,9 +120,9 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
     [[self gameCoreHelper] setBackingScaleFactor:newScaleFactor];
 }
 
-- (void)setFilterURL:(NSURL *)url
+- (void)setShaderURL:(NSURL *)url
 {
-    [[self gameCoreHelper] setFilterURL:url];
+    [[self gameCoreHelper] setShaderURL:url];
 }
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(OEIntSize screenSize, OEIntSize aspectSize))handler;

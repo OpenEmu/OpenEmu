@@ -29,7 +29,6 @@
 @import QuartzCore;
 
 NSString * const OEScreenshotAspectRatioCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
-NSString * const OEDefaultVideoFilterKey = @"videoFilter";
 
 @interface CAContext : NSObject
 + (id)contextWithCGSConnection:(CAContextID)contextId options:(NSDictionary*)optionsDict;

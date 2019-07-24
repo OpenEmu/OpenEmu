@@ -2,8 +2,8 @@
 /* Class = "NSTextFieldCell"; title = "Window Management"; ObjectID = "14"; */
 "14.title" = "Gerenciar Janelas";
 
-/* Class = "NSTextFieldCell"; title = "Filter:"; ObjectID = "21"; */
-"21.title" = "Filtro:";
+/* Class = "NSTextFieldCell"; title = "Shader:"; ObjectID = "21"; */
+"21.title" = "Shader:";
 
 /* Class = "NSTextFieldCell"; title = "Display Mode"; ObjectID = "23"; */
 "23.title" = "Modo de Visualização";

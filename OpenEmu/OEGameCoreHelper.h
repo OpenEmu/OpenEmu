@@ -37,7 +37,7 @@
 - (void)setAudioOutputDeviceID:(AudioDeviceID)deviceID;
 - (void)setOutputBounds:(NSRect)rect;
 - (void)setBackingScaleFactor:(CGFloat)newBackingScaleFactor;
-- (void)setFilterURL:(NSURL *)url;
+- (void)setShaderURL:(NSURL *)url;
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(OEIntSize screenSize, OEIntSize aspectSize))handler;
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler;

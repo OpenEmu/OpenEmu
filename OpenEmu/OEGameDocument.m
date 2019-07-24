@@ -1699,8 +1699,8 @@ typedef enum : NSUInteger
     [_gameCoreManager setBackingScaleFactor:newScaleFactor];
 }
 
-- (void)gameViewController:(OEGameViewController *)sender setFilterURL:(NSURL *)url {
-    [_gameCoreManager setFilterURL:url];
+- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url {
+    [_gameCoreManager setShaderURL:url];
 }
 
 #pragma mark - OESystemBindingsObserver

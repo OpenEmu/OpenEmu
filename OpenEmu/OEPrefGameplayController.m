@@ -32,38 +32,34 @@
 #import "OpenEmu-Swift.h"
 
 @implementation OEPrefGameplayController
-@synthesize filterSelection;
+@synthesize globalDefaultShaderSelection;
 
 - (void)awakeFromNib
 {
-    // Setup plugins menu
-    NSMutableSet   *filterSet     = [NSMutableSet set];
-    NSMutableArray *filterPlugins = [NSMutableArray array];
-    [filterSet addObjectsFromArray:OEShadersModel.shared.shaderNames];
-    [filterPlugins addObjectsFromArray:[filterSet allObjects]];
-    [filterPlugins sortUsingSelector:@selector(caseInsensitiveCompare:)];
+    // Setup shaders menu
+    NSArray *sortedShaders = [OEShadersModel.shared.shaderNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 
-	NSMenu *filterMenu = [[NSMenu alloc] init];
+	NSMenu *globalShaderMenu = [NSMenu new];
 
-    for(NSString *aName in filterPlugins)
-		[filterMenu addItemWithTitle:aName action:NULL keyEquivalent:@""];
+    for(NSString *aName in sortedShaders)
+		[globalShaderMenu addItemWithTitle:aName action:NULL keyEquivalent:@""];
 
-	[[self filterSelection] setMenu:filterMenu];
+    self.globalDefaultShaderSelection.menu = globalShaderMenu;
 
-	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
-	NSString *selectedFilterName = [sud objectForKey:OEGameDefaultVideoShaderKey];
+	NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+	NSString *selectedShaderName = [defaults objectForKey:OEGameDefaultVideoShaderKey];
 
-    // Set Nearest Neighbor as default filter if the current one is not available (ie. deleted)
-    if(![filterPlugins containsObject:selectedFilterName])
+    // Set Pixellate as default shader if the current one is not available (ie. deleted)
+    if(![sortedShaders containsObject:selectedShaderName])
     {
-        selectedFilterName = @"Pixellate";
-        [sud setObject:@"Pixellate" forKey:OEGameDefaultVideoShaderKey];
+        selectedShaderName = @"Pixellate";
+        [defaults setObject:@"Pixellate" forKey:OEGameDefaultVideoShaderKey];
     }
 
-	if(selectedFilterName != nil && [[self filterSelection] itemWithTitle:selectedFilterName])
-		[[self filterSelection] selectItemWithTitle:selectedFilterName];
+	if(selectedShaderName != nil && [self.globalDefaultShaderSelection itemWithTitle:selectedShaderName])
+		[self.globalDefaultShaderSelection selectItemWithTitle:selectedShaderName];
     else
-		[[self filterSelection] selectItemAtIndex:0];
+		[self.globalDefaultShaderSelection selectItemAtIndex:0];
 }
 
 #pragma mark ViewController Overrides
@@ -98,20 +94,20 @@
 #pragma mark -
 #pragma mark UI Actions
 
-- (IBAction)changeFilter:(id)sender
+- (IBAction)changeGlobalDefaultShader:(id)sender
 {
-    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
-    NSManagedObjectContext *context = [database mainThreadContext];
-    NSString *filterName = [[[self filterSelection] selectedItem] title];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    OELibraryDatabase *database = OELibraryDatabase.defaultDatabase;
+    NSManagedObjectContext *context = database.mainThreadContext;
+    NSString *shaderName = self.globalDefaultShaderSelection.selectedItem.title;
+    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
     NSArray *allSystemIdentifiers = [OEDBSystem allSystemIdentifiersInContext:context];
-    
+
     for(OECorePlugin *systemIdentifiers in allSystemIdentifiers)
     {
         [defaults removeObjectForKey:[NSString stringWithFormat:OEGameSystemVideoShaderKeyFormat, systemIdentifiers]];
     }
 
-	[defaults setObject:filterName forKey:OEGameDefaultVideoShaderKey];
+	[defaults setObject:shaderName forKey:OEGameDefaultVideoShaderKey];
 }
 
 @end

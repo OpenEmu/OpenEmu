@@ -37,8 +37,8 @@
 #pragma mark -
 #pragma mark UI Actions
 
-- (IBAction)changeFilter:(id)sender;
+- (IBAction)changeGlobalDefaultShader:(id)sender;
 
-@property(weak, readonly) IBOutlet NSPopUpButton *filterSelection;
+@property(weak, readonly) IBOutlet NSPopUpButton *globalDefaultShaderSelection;
 
 @end

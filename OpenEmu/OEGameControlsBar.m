@@ -70,7 +70,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 @interface OEGameControlsBar () <CAAnimationDelegate>
 @property (strong) id eventMonitor;
 @property (strong) NSTimer *fadeTimer;
-@property (strong) NSArray *filterPlugins;
+@property (strong) NSArray *sortedShaders;
 @property (strong) NSMutableArray *cheats;
 @property          NSMutableSet *openMenus;
 @property          BOOL cheatsLoaded;
@@ -131,12 +131,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [nc addObserver:self selector:@selector(mouseMoved:) name:NSApplicationDidBecomeActiveNotification object:nil];
         [nc addObserver:self selector:@selector(didMove:) name:NSWindowDidMoveNotification object:self];
 
-        // Setup plugins menu
-        NSMutableSet   *filterSet     = [NSMutableSet set];
-        
-        [filterSet addObjectsFromArray:OEShadersModel.shared.shaderNames];
-        [filterSet filterUsingPredicate:[NSPredicate predicateWithFormat:@"NOT SELF beginswith '_'"]];
-        _filterPlugins = [[filterSet allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+        _sortedShaders = [OEShadersModel.shared.shaderNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     }
     return self;
 }
@@ -517,30 +512,30 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         }
     }
 
-    // Setup Video Filter Menu
-    NSMenu *filterMenu = [[NSMenu alloc] init];
-    [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];
+    // Setup Video Shader Menu
+    NSMenu *shaderMenu = [NSMenu new];
 
-    NSString *selectedFilter = ([[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:OEGameSystemVideoShaderKeyFormat, systemIdentifier]]
-                                ? : [[NSUserDefaults standardUserDefaults] objectForKey:OEGameDefaultVideoShaderKey]);
+    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+    NSString *selectedShader = ([defaults objectForKey:[NSString stringWithFormat:OEGameSystemVideoShaderKeyFormat, systemIdentifier]]
+                                ? : [defaults objectForKey:OEGameDefaultVideoShaderKey]);
 
-    // Select the Default Filter if the current is not available (ie. deleted)
-    if(![_filterPlugins containsObject:selectedFilter])
-        selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameDefaultVideoShaderKey];
+    // Select the Default Shader if the current is not available (ie. deleted)
+    if(![_sortedShaders containsObject:selectedShader])
+        selectedShader = [defaults objectForKey:OEGameDefaultVideoShaderKey];
 
-    for(NSString *aName in _filterPlugins)
+    for(NSString *shaderName in _sortedShaders)
     {
-        NSMenuItem *filterItem = [[NSMenuItem alloc] initWithTitle:aName action:@selector(selectFilter:) keyEquivalent:@""];
+        NSMenuItem *shaderItem = [[NSMenuItem alloc] initWithTitle:shaderName action:@selector(selectShader:) keyEquivalent:@""];
 
-        if([aName isEqualToString:selectedFilter]) [filterItem setState:NSControlStateValueOn];
+        if([shaderName isEqualToString:selectedShader]) shaderItem.state = NSControlStateValueOn;
 
-        [filterMenu addItem:filterItem];
+        [shaderMenu addItem:shaderItem];
     }
 
-    item = [[NSMenuItem alloc] init];
-    item.title = NSLocalizedString(@"Select Filter", @"");
+    item = [NSMenuItem new];
+    item.title = NSLocalizedString(@"Select Shader", @"");
     [menu addItem:item];
-    [item setSubmenu:filterMenu];
+    item.submenu = shaderMenu;
 
     // Setup integral scaling
     id<OEGameIntegralScalingDelegate> integralScalingDelegate = [[self gameViewController] integralScalingDelegate];

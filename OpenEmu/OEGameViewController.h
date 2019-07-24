@@ -65,7 +65,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 - (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
 - (void)gameViewController:(OEGameViewController *)sender updateBounds:(CGRect)newBounds;
 - (void)gameViewController:(OEGameViewController *)sender updateBackingScaleFactor:(CGFloat)newScaleFactor;
-- (void)gameViewController:(OEGameViewController *)sender setFilterURL:(NSURL *)url;
+- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url;
 
 @end
 
@@ -93,7 +93,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 - (void)reflectEmulationPaused:(BOOL)paused;
 #pragma mark - HUD Bar Actions
 // switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation
-- (void)selectFilter:(id)sender;
+- (void)selectShader:(id)sender;
 - (void)toggleControlsVisibility:(id)sender;
 
 #pragma mark - Taking Screenshots
