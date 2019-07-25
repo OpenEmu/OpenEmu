@@ -122,9 +122,6 @@
                     </popUpButtonCell>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_popup_button"/>
-                        <userDefinedRuntimeAttribute type="number" keyPath="menuStyle">
-                            <real key="value" value="1"/>
-                        </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="changeGlobalDefaultShader:" target="-2" id="2yL-s2-xjM"/>
