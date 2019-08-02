@@ -55,6 +55,8 @@
 
 #import "OpenEmu-Swift.h"
 
+#import "OEShaderParametersWindowController.h"
+
 NSString *const OEGameVolumeKey = @"volume";
 NSString *const OEGameDefaultVideoShaderKey = @"videoShader";
 NSString *const OEGameSystemVideoShaderKeyFormat = @"videoShader.%@";
@@ -90,6 +92,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     // Standard game document stuff
     OEGameLayerView *_gameView;
     BOOL        _pausedByGoingToBackground;
+    OEShaderParametersWindowController *_controller;
 }
 
 @property(readonly) OEGameLayerView *gameView;
@@ -115,6 +118,8 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         _controlsWindow = [[OEGameControlsBar alloc] initWithGameViewController:self];
         [_controlsWindow setReleasedWhenClosed:YES];
         
+        _controller = [[OEShaderParametersWindowController alloc] initWithGameViewController:self];
+        
         NSView *view = [[NSView alloc] initWithFrame:(NSRect){ .size = { 1.0, 1.0 }}];
         [self setView:view];
         
@@ -139,6 +144,9 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     [_controlsWindow setGameWindow:nil];
     [_controlsWindow close];
     _controlsWindow = nil;
+    
+    [_controller.window close];
+    _controller = nil;
 }
 
 #pragma mark -
@@ -250,12 +258,38 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
     for (OEShaderModel *shader in OEShadersModel.shared.shaders) {
         if ([shaderName isEqualToString:shader.name]) {
-            [[self document] gameViewController:self setShaderURL:[NSURL fileURLWithPath:shader.path]];
+            [[self document] gameViewController:self setShaderURL:[NSURL fileURLWithPath:shader.path] completionHandler:^(BOOL success, NSError *error) {
+                if (success)
+                {
+                    [self didLoadShader:shader];
+                }
+            }];
         }
     }
 
-    //[[self document] gameViewController:self setShaderURL:url];
-    [NSUserDefaults.standardUserDefaults setObject:shaderName forKey:[NSString stringWithFormat:OEGameSystemVideoShaderKeyFormat, [[self document] systemIdentifier]]];
+    [NSUserDefaults.standardUserDefaults setObject:shaderName forKey:[NSString stringWithFormat:OEGameSystemVideoShaderKeyFormat, self.document.systemIdentifier]];
+}
+
+- (void)didLoadShader:(OEShaderModel *)shader
+{
+    _controller.shader = shader;
+    if (_controller.window.isVisible)
+    {
+        [self configureShader:nil];
+    }
+}
+
+- (void)configureShader:(id)sender
+{
+    if (_controller.shader == nil)
+    {
+        _controller.shader = [OEShadersModel.shared shaderForSystem:self.document.systemIdentifier];
+    }
+    
+    [self.document gameViewController:self shaderParametersWithCompletionHandler:^(NSArray<OEShaderParameterValue *> *params) {
+        self->_controller.params = params;
+        [self->_controller showWindow:self->_controller];
+    }];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem

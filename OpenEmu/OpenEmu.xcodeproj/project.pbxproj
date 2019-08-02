@@ -134,6 +134,10 @@
 		05F5BAE9228662C5004D713C /* OpenEmuShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */; };
 		05F5BAED228662D3004D713C /* OpenEmuShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */; };
 		05F5BAEE22866317004D713C /* OpenEmuShaders.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		05F6381422E3C08100FC49FF /* OEShaderParameterValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F6381322E3C08100FC49FF /* OEShaderParameterValue.m */; };
+		05F6381522E3C08100FC49FF /* OEShaderParameterValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F6381322E3C08100FC49FF /* OEShaderParameterValue.m */; };
+		05F6381A22E3CA2900FC49FF /* ShaderParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05F6381922E3CA2900FC49FF /* ShaderParameters.xib */; };
+		05F6381F22E3D1CE00FC49FF /* OEShaderParametersWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F6381E22E3D1CE00FC49FF /* OEShaderParametersWindowController.m */; };
 		05FB7D8122A0A3D60070633C /* OEOpenGL2GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FB7D8022A0A3D60070633C /* OEOpenGL2GameRenderer.m */; };
 		05FB7D8222A0A3D60070633C /* OEOpenGL2GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FB7D8022A0A3D60070633C /* OEOpenGL2GameRenderer.m */; };
 		05FB7D8522A0A4A40070633C /* OECoreVideoTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FB7D8422A0A4A40070633C /* OECoreVideoTexture.m */; };
@@ -1452,6 +1456,11 @@
 		0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEShadersModel+OpenEmu.swift"; sourceTree = "<group>"; };
 		05E4400A22991527009E6D27 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OpenEmuShaders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		05F6381222E3C08100FC49FF /* OEShaderParameterValue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEShaderParameterValue.h; sourceTree = "<group>"; };
+		05F6381322E3C08100FC49FF /* OEShaderParameterValue.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEShaderParameterValue.m; sourceTree = "<group>"; };
+		05F6381922E3CA2900FC49FF /* ShaderParameters.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaderParameters.xib; sourceTree = "<group>"; };
+		05F6381D22E3D1CE00FC49FF /* OEShaderParametersWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEShaderParametersWindowController.h; sourceTree = "<group>"; };
+		05F6381E22E3D1CE00FC49FF /* OEShaderParametersWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEShaderParametersWindowController.m; sourceTree = "<group>"; };
 		05FB7D7F22A0A3CD0070633C /* OEOpenGL2GameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOpenGL2GameRenderer.h; sourceTree = "<group>"; };
 		05FB7D8022A0A3D60070633C /* OEOpenGL2GameRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOpenGL2GameRenderer.m; sourceTree = "<group>"; };
 		05FB7D8322A0A4A40070633C /* OECoreVideoTexture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OECoreVideoTexture.h; sourceTree = "<group>"; };
@@ -3098,8 +3107,12 @@
 		0557CB1322A750260037175F /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				05F6381222E3C08100FC49FF /* OEShaderParameterValue.h */,
+				05F6381322E3C08100FC49FF /* OEShaderParameterValue.m */,
 				0557CB1722A7504B0037175F /* OEShadersModel.swift */,
 				0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */,
+				05F6381D22E3D1CE00FC49FF /* OEShaderParametersWindowController.h */,
+				05F6381E22E3D1CE00FC49FF /* OEShaderParametersWindowController.m */,
 			);
 			name = Shaders;
 			sourceTree = "<group>";
@@ -3273,7 +3286,7 @@
 			name = "Helper Classes";
 			sourceTree = "<group>";
 		};
-		1BEF2A621168265D0090F72B /* Helper App (IOSurface helper) */ = {
+		1BEF2A621168265D0090F72B /* Helper App (Remote Layer) */ = {
 			isa = PBXGroup;
 			children = (
 				3D41E8E41BD47DA300A76EFD /* Renderers */,
@@ -3284,7 +3297,7 @@
 				C6096198179B6E3F00239067 /* OpenEmuXPCHelperApp.h */,
 				C6096199179B6E3F00239067 /* OpenEmuXPCHelperApp.m */,
 			);
-			name = "Helper App (IOSurface helper)";
+			name = "Helper App (Remote Layer)";
 			sourceTree = "<group>";
 		};
 		1BEF34721168F8210090F72B /* XIBs */ = {
@@ -3298,6 +3311,7 @@
 				832D29421451ACF200BDF950 /* MainWindow.xib */,
 				83FE965B19685F6700DD8DB9 /* OEGameScanner.xib */,
 				83FE966619685F8F00DD8DB9 /* OESetupAssistant.xib */,
+				05F6381922E3CA2900FC49FF /* ShaderParameters.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -3431,7 +3445,7 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				1BEF2A621168265D0090F72B /* Helper App (IOSurface helper) */,
+				1BEF2A621168265D0090F72B /* Helper App (Remote Layer) */,
 				C60238E7179509CC00F4AF6C /* Game Core Helper Protocols */,
 				3887A8011024D29D000FC4CF /* OpenEmuQLGenerator */,
 				C66DFA600F51C9550080AA28 /* GameCore framework */,
@@ -6660,6 +6674,7 @@
 				876FF0DC207B2BA6002F935A /* hud_stepforward_notification.png in Resources */,
 				1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */,
 				8F5074741C10BCEC00F52B83 /* OELibraryGamesViewController.xib in Resources */,
+				05F6381A22E3CA2900FC49FF /* ShaderParameters.xib in Resources */,
 				82DD29DB12369F1100B58A8F /* KeyboardUsages.plist in Resources */,
 				833ADC4D196B078E00217D9A /* OECollectionViewController.xib in Resources */,
 				876FF0DA207B2B96002F935A /* hud_stepbackward_notification.png in Resources */,
@@ -7343,6 +7358,7 @@
 				C609619A179B6E3F00239067 /* OpenEmuXPCHelperApp.m in Sources */,
 				05FB7D8622A0A4A40070633C /* OECoreVideoTexture.m in Sources */,
 				051F76DB22A887E700E1C0C4 /* OEGameAudio.m in Sources */,
+				05F6381522E3C08100FC49FF /* OEShaderParameterValue.m in Sources */,
 				A90208FC9B5D10B9F8150E57 /* OEGameHelperMetalLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7575,10 +7591,12 @@
 				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,
 				14F8750D1649377E002AE3B8 /* OEFiniteStateMachine.m in Sources */,
 				5A575DFB1E92B6CE00491B0D /* BIOSFile.swift in Sources */,
+				05F6381422E3C08100FC49FF /* OEShaderParameterValue.m in Sources */,
 				830BBECB1B7BE979000B13CB /* OEGameViewNotificationRenderer.m in Sources */,
 				83955CB5165D939100572B34 /* OEBlankSlateView.m in Sources */,
 				83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */,
 				83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */,
+				05F6381F22E3D1CE00FC49FF /* OEShaderParametersWindowController.m in Sources */,
 				5A6C157C1DC96C3700839986 /* OEMediaViewController+TouchBar.swift in Sources */,
 				83955CB8165DA9BC00572B34 /* OEBackgroundNoisePattern.m in Sources */,
 				5AC349331D89EB7B0089B26F /* GameIntegralScalingDelegate.swift in Sources */,

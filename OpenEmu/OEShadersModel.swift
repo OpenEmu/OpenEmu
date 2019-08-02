@@ -46,12 +46,44 @@ public class OEShadersModel : NSObject {
     @objc(OEShaderModel)
     @objcMembers
     public class OEShaderModel : NSObject {
+        enum Params {
+            case global(String)
+            case system(String, String)
+            
+            var key: String {
+                get {
+                    switch self {
+                    case .global(let shader):
+                        return "videoShader.\(shader).params"
+                    case .system(let shader, let identifier):
+                        return "videoShader.\(identifier).\(shader).params"
+                    }
+                }
+            }
+        }
+        
         public var name: String
         public var path: String
         
         init(path: String) {
             self.name = ((path as NSString).lastPathComponent as NSString).deletingPathExtension
             self.path = path
+        }
+        
+        @objc
+        public func parameters(forIdentifier identifier: String) -> [String: Double]? {
+            if let state = UserDefaults.oe_application().string(forKey: Params.system(self.name, identifier).key) {
+                var res = [String:Double]()
+                for param in state.split(separator: ";") {
+                    let vals = param.split(separator: "=")
+                    if let d = Double(vals[1]) {
+                        res[String(vals[0])] = d
+                    }
+                }
+                return res
+            }
+            
+            return nil
         }
     }
     
@@ -113,6 +145,11 @@ public class OEShadersModel : NSObject {
             return nil
         }
         return shader
+    }
+    
+    @objc
+    public func shader(forURL url: URL) -> OEShaderModel? {
+        return OEShaderModel(path: url.path)
     }
     
     subscript(name: String) -> OEShaderModel? {

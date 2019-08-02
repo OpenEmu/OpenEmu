@@ -22,32 +22,26 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import Foundation
+#import <Foundation/Foundation.h>
 
-// Extensions for OpenEmu.app
-extension OEShadersModel {
-    func setDefaultShader(_ name: String) {
-        UserDefaults.oe_application().set(name, forKey: Preferences.global.key)
-    }
-    
-    func setShader(name: String, forSystem id: String) {
-        UserDefaults.oe_application().set(name, forKey: Preferences.system(id).key)
-    }
-}
+NS_ASSUME_NONNULL_BEGIN
 
-extension OEShadersModel.OEShaderModel {
-    @objc
-    public func write(parameters params: [OEShaderParameterValue], identifier: String) {
-        var state = [String]()
-        
-        for p in params.filter({ !$0.isInitial }) {
-            state.append("\(p.name)=\(p.value)")
-        }
-        if state.isEmpty {
-            UserDefaults.oe_application().removeObject(forKey: Params.system(self.name, identifier).key)
-        } else {
-            UserDefaults.oe_application().set(state.joined(separator: ";"), forKey: Params.system(self.name, identifier).key)
-        }
-    }
-}
+@class OEShaderParameter;
 
+@interface OEShaderParameterValue : NSObject<NSSecureCoding>
+
+@property (nonatomic) NSInteger index;
+@property (nonatomic) NSString  *name;
+@property (nonatomic) NSString  *desc;
+@property (nonatomic) NSNumber  *value;
+@property (nonatomic) NSNumber  *initial;
+@property (nonatomic) NSNumber  *minimum;
+@property (nonatomic) NSNumber  *maximum;
+@property (nonatomic) NSNumber  *step;
+@property (nonatomic) BOOL      isInitial;
+
++ (NSArray<OEShaderParameterValue *> *)withParameters:(NSArray<OEShaderParameter *> *)params;
+
+@end
+
+NS_ASSUME_NONNULL_END

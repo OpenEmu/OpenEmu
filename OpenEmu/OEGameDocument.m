@@ -1699,8 +1699,18 @@ typedef enum : NSUInteger
     [_gameCoreManager setBackingScaleFactor:newScaleFactor];
 }
 
-- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url {
-    [_gameCoreManager setShaderURL:url];
+- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block {
+    [_gameCoreManager setShaderURL:url completionHandler:block];
+}
+
+- (void)gameViewController:(OEGameViewController *)sender shaderParametersWithCompletionHandler:(void (^)(NSArray<OEShaderParameterValue *> *))handler
+{
+    [_gameCoreManager shaderParametersWithCompletionHandler:handler];
+}
+
+- (void)gameViewController:(OEGameViewController *)sender setShaderParameterValue:(CGFloat)value forIndex:(NSUInteger)index
+{
+    [_gameCoreManager setShaderParameterValue:value forIndex:index];
 }
 
 #pragma mark - OESystemBindingsObserver

@@ -29,6 +29,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 @class OEEvent;
+@class OEShaderParameterValue;
 
 @protocol OEGameCoreHelper <NSObject>
 
@@ -37,7 +38,12 @@
 - (void)setAudioOutputDeviceID:(AudioDeviceID)deviceID;
 - (void)setOutputBounds:(NSRect)rect;
 - (void)setBackingScaleFactor:(CGFloat)newBackingScaleFactor;
-- (void)setShaderURL:(NSURL *)url;
+
+#pragma mark - Shader management
+- (void)setShaderURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block;
+/*! fetch a list of shader parameters */
+- (void)shaderParametersWithCompletionHandler:(void(^)(NSArray<OEShaderParameterValue *> *params))handler;
+- (void)setShaderParameterValue:(CGFloat)value forIndex:(NSUInteger)index;
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(OEIntSize screenSize, OEIntSize aspectSize))handler;
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler;

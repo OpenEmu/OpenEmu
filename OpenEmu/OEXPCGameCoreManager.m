@@ -31,6 +31,7 @@
 #import "OESystemPlugin.h"
 #import "OEThreadProxy.h"
 #import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
+#import "OEShaderParameterValue.h"
 
 @interface OEXPCGameCoreManager ()
 {
@@ -110,10 +111,15 @@
 
          self->_gameCoreOwnerProxy = [OEThreadProxy threadProxyWithTarget:[self gameCoreOwner] thread:[NSThread mainThread]];
          self->_helperConnection = [[NSXPCConnection alloc] initWithListenerEndpoint:endpoint];
+        
          [self->_helperConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEGameCoreOwner)]];
          [self->_helperConnection setExportedObject:self->_gameCoreOwnerProxy];
 
-         [self->_helperConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEXPCGameCoreHelper)]];
+         NSXPCInterface *intf = [NSXPCInterface interfaceWithProtocol:@protocol(OEXPCGameCoreHelper)];
+         NSSet *set = [NSSet setWithObjects:OEShaderParameterValue.class, NSArray.class, nil];
+         [intf setClasses:set forSelector:@selector(shaderParametersWithCompletionHandler:) argumentIndex:0 ofReply:YES];
+        
+         [self->_helperConnection setRemoteObjectInterface:intf];
          [self->_helperConnection resume];
 
          __block void *gameCoreHelperPointer;

@@ -120,9 +120,27 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
     [[self gameCoreHelper] setBackingScaleFactor:newScaleFactor];
 }
 
-- (void)setShaderURL:(NSURL *)url
+- (void)setShaderURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block
 {
-    [[self gameCoreHelper] setShaderURL:url];
+    [[self gameCoreHelper] setShaderURL:url completionHandler:^(BOOL success, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block(success, error);
+        });
+    }];
+}
+
+- (void)shaderParametersWithCompletionHandler:(void (^)(NSArray<OEShaderParameterValue *> *))handler
+{
+    [self.gameCoreHelper shaderParametersWithCompletionHandler:^(NSArray<OEShaderParameterValue *> *params) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            handler(params);
+        });
+    }];
+}
+
+- (void)setShaderParameterValue:(CGFloat)value forIndex:(NSUInteger)index
+{
+    [self.gameCoreHelper setShaderParameterValue:value forIndex:index];
 }
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(OEIntSize screenSize, OEIntSize aspectSize))handler;

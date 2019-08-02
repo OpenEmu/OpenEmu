@@ -130,6 +130,8 @@ enum _OEGameDocumentErrorCodes
 - (void)setOutputBounds:(NSRect)bounds;
 - (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
 - (void)gameViewController:(OEGameViewController *)sender updateBounds:(CGRect)newBounds;
-- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url;
+- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block;
+- (void)gameViewController:(OEGameViewController *)sender shaderParametersWithCompletionHandler:(void (^)(NSArray<OEShaderParameterValue *> *))handler;
+- (void)gameViewController:(OEGameViewController *)sender setShaderParameterValue:(CGFloat)value forIndex:(NSUInteger)index;
 
 @end

@@ -59,13 +59,17 @@ extern NSString *const OEScreenshotPropertiesKey;
 @class OECorePlugin;
 @class OEGameViewController;
 
+@class OEShaderParameterValue;
+
 @protocol OEGameIntegralScalingDelegate;
 
 @protocol OEGameViewControllerDelegate <NSObject>
 - (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
 - (void)gameViewController:(OEGameViewController *)sender updateBounds:(CGRect)newBounds;
 - (void)gameViewController:(OEGameViewController *)sender updateBackingScaleFactor:(CGFloat)newScaleFactor;
-- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url;
+- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block;
+- (void)gameViewController:(OEGameViewController *)sender shaderParametersWithCompletionHandler:(void (^)(NSArray<OEShaderParameterValue *> *))handler;
+- (void)gameViewController:(OEGameViewController *)sender setShaderParameterValue:(CGFloat)value forIndex:(NSUInteger)index;
 
 @end
 
@@ -94,6 +98,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 #pragma mark - HUD Bar Actions
 // switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation
 - (void)selectShader:(id)sender;
+- (void)configureShader:(id)sender;
 - (void)toggleControlsVisibility:(id)sender;
 
 #pragma mark - Taking Screenshots

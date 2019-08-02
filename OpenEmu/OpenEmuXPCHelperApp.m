@@ -28,6 +28,7 @@
 #import "OESystemPlugin.h"
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
+#import "OEShaderParameterValue.h"
 
 @interface OpenEmuXPCHelperApp () <NSXPCListenerDelegate, OEXPCGameCoreHelper>
 {
@@ -65,8 +66,11 @@
         if(_gameCoreConnection != nil)
             return NO;
 
+        NSXPCInterface *intf = [NSXPCInterface interfaceWithProtocol:@protocol(OEXPCGameCoreHelper)];
+        NSSet *set = [NSSet setWithObjects:OEShaderParameterValue.class, NSArray.class, nil];
+        [intf setClasses:set forSelector:@selector(shaderParametersWithCompletionHandler:) argumentIndex:0 ofReply:YES];
         _gameCoreConnection = newConnection;
-        [_gameCoreConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEXPCGameCoreHelper)]];
+        [_gameCoreConnection setExportedInterface:intf];
         [_gameCoreConnection setExportedObject:self];
         [_gameCoreConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEGameCoreOwner)]];
         [_gameCoreConnection setInvalidationHandler:^{

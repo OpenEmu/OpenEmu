@@ -40,6 +40,7 @@
 #import "NSColor+OEAdditions.h"
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OECoreVideoTexture.h"
+#import "OEShaderParameterValue.h"
 #if __has_include("OpenEmuHelperApp-Swift.h")
 #import "OpenEmuHelperApp-Swift.h"
 #elif __has_include("OpenEmu-Swift.h")
@@ -205,7 +206,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     }
 
     if (shaderURL != nil) {
-        [_filterChain setShaderFromURL:shaderURL];
+        [self setShaderURL:shaderURL error:nil];
     }
 }
 
@@ -350,10 +351,45 @@ extern NSString * const kCAContextCIFilterBehavior;
     [CATransaction commit];
 }
 
-- (void)setShaderURL:(NSURL *)url {
+- (void)setShaderURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block {
     [_gameCore performBlock:^{
-        [self->_filterChain setShaderFromURL:url];
+        NSError *err = nil;
+        BOOL success = [self setShaderURL:url error:&err];
+        block(success, err);
     }];
+}
+
+- (BOOL)setShaderURL:(NSURL *)url error:(NSError **)error
+{
+    BOOL success = [_filterChain setShaderFromURL:url error:error];
+    if (success)
+    {
+        // apply user overrides for parameters
+        OEShaderModel *shader = [OEShadersModel.shared shaderForURL:url];
+        NSDictionary<NSString *, NSNumber *> *params = [shader parametersForIdentifier:_gameCore.systemIdentifier];
+        
+        for (NSString *key in params.allKeys) {
+            for (OEShaderParameter *p in _filterChain.shader.parameters) {
+                if ([p.name isEqualToString:key]) {
+                    p.value = params[key].doubleValue;
+                    break;
+                }
+            }
+        }
+    }
+    
+    return success;
+}
+
+- (void)shaderParametersWithCompletionHandler:(void (^)(NSArray<OEShaderParameterValue *> *))handler
+{
+    NSArray<OEShaderParameterValue *> *res = [OEShaderParameterValue withParameters:_filterChain.shader.parameters];
+    handler(res);
+}
+
+- (void)setShaderParameterValue:(CGFloat)value forIndex:(NSUInteger)index
+{
+    _filterChain.shader.parameters[index].value = value;
 }
 
 #pragma mark - Game Core methods

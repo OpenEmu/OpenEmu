@@ -536,6 +536,15 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     item.title = NSLocalizedString(@"Select Shader", @"");
     [menu addItem:item];
     item.submenu = shaderMenu;
+    
+    // Configure shader
+    {
+        item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Configure Shader…", @"")
+                                                                 action:@selector(configureShader:)
+                                                          keyEquivalent:@""];
+        [menu addItem:item];
+        
+    }
 
     // Setup integral scaling
     id<OEGameIntegralScalingDelegate> integralScalingDelegate = [[self gameViewController] integralScalingDelegate];
