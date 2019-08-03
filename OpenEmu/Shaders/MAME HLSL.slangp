@@ -1,0 +1,124 @@
+# info on how the passes come together can be found in mame/src/osd/modules/render/d3d/d3dhlsl.cpp
+shaders = 12
+
+shader0 = mame_hlsl/shaders/mame_hlsl/shaders/mame_ntsc.slang
+filter_linear0 = true
+alias0 = NTSCPass
+scale_type0 = source
+scale0 = 1.0
+
+shader1 = mame_hlsl/shaders/mame_hlsl/shaders/mame_color.slang
+alias1 = ColorPass
+scale_type1 = source
+scale1 = 1.0
+filter_linear1 = true
+
+shader2 = interpolation/shaders/sharp-bilinear.slang
+alias2 = PrescalePass
+scale_type2 = source
+filter_linear2 = true
+scale2 = 4.0
+
+shader3 = mame_hlsl/shaders/mame_hlsl/shaders/mame_deconverge.slang
+alias3 = DeconvergePass
+filter_linear3 = true
+scale_type3 = source
+scale3 = 0.5
+
+shader4 = mame_hlsl/shaders/mame_hlsl/shaders/mame_scanline.slang
+alias4 = ScanlinePass
+filter_linear4 = true
+scale_type4 = source
+scale4 = 2.0
+
+shader5 = mame_hlsl/shaders/mame_hlsl/shaders/mame_focus.slang
+alias5 = FocusPass
+filter_linear5 = true
+
+shader6 = mame_hlsl/shaders/mame_hlsl/shaders/mame_phosphor.slang
+alias6 = PhosphorPass
+filter_linear6 = true
+
+shader7 = mame_hlsl/shaders/mame_hlsl/shaders/mame_post.slang
+alias7 = PostPass
+filter_linear7 = true
+scale_type7 = viewport
+
+shader8 = mame_hlsl/shaders/mame_hlsl/shaders/mame_chroma.slang
+alias8 = ChromaPass
+filter_linear8 = true
+scale_type8 = viewport
+
+shader9 = mame_hlsl/shaders/mame_hlsl/shaders/mame_downsample.slang
+alias9 = DownsamplePass
+filter_linear9 = true
+
+shader10 = mame_hlsl/shaders/mame_hlsl/shaders/mame_bloom.slang
+alias10 = BloomPass
+filter_linear10 = true
+mipmap_input10 = true
+scale_type10 = source
+
+shader11 = mame_hlsl/shaders/mame_hlsl/shaders/mame_distortion.slang
+alias11 = DistortionPass
+filter_linear11 = true
+
+# doesn't work, so commenting
+# shader12 = mame_hlsl/shaders/mame_hlsl/shaders/mame_vector.slang
+# alias12 = VectorPass
+# filter_linear12 = true
+
+# mame's textures are available here: https://github.com/mamedev/mame/tree/master/artwork
+textures = "MaskTexture"
+MaskTexture = mame_hlsl/shaders/mame_hlsl/resources/aperture-grille.png
+
+parameters = "AUTO_PRESCALE;chromaa_x;chromaa_y;chromab_x;chromab_y;chromac_x;chromac_y;ygain_r;ygain_g;ygain_b"
+chromaa_x = "0.630"
+chromaa_y = "0.340"
+chromab_x = "0.310"
+chromab_y = "0.595"
+chromac_x = "0.155"
+chromac_y = "0.070"
+ygain_r = "0.1875"
+ygain_g = "0.6940"
+ygain_b = "0.1185"
+AUTO_PRESCALE = "0.0"
+
+parameter_groups = "feat;screen;bloom;post;ntsc;color;deconverge;scanline;defocus;phosphor;chroma;distortion;default"
+feat_group_desc = "Features"
+feat_group_parameters = "ntscsignal;scanlinetoggle;bloomtoggle;chromatoggle;distortiontoggle;phosphortoggle;swapxy"
+
+screen_group_desc = "Screen Layout"
+screen_group_parameters = "screenscale_x;screenscale_y;screenoffset_x;screenoffset_y"
+
+bloom_group_desc = "Bloom Pass"
+bloom_group_parameters = "bloomblendmode;bloomscale;bloomoverdrive_r;bloomoverdrive_g;bloomoverdrive_b;level0weight;level1weight;level2weight;level3weight;level4weight;level5weight;level6weight;level7weight;level8weight"
+
+post_group_desc = "Post Pass"
+post_group_parameters = "preparebloom;chromamode;humbaralpha;backcolor_r;backcolor_g;backcolor_b;shadowtilemode;shadowalpha;shadowcount_x;shadowcount_y;shadowuv_x;shadowuv_y;mask_width;mask_height;mask_offset_x;mask_offset_y;conversiongain_x;conversiongain_y;conversiongain_z;power_r;power_g;power_b;floor_r;floor_g;floor_b"
+
+ntsc_group_desc = "NTSC Pass"
+ntsc_group_parameters = "avalue;bvalue;ccvalue;ovalue;pvalue;scantime;notchhalfwidth;yfreqresponse;ifreqresponse;qfreqresponse;signaloffset"
+
+color_group_desc = "Color Pass"
+color_group_parameters = "col_red;col_grn;col_blu;col_offset_x;col_offset_y;col_offset_z;col_scale_x;col_scale_y;col_scale_z;col_saturation"
+
+deconverge_group_desc = "Deconverge Pass"
+deconverge_group_parameters = "converge_x_r;converge_x_g;converge_x_b;converge_y_r;converge_y_g;converge_y_b;radial_conv_x_r;radial_conv_x_g;radial_conv_x_b;radial_conv_y_r;radial_conv_y_g;radial_conv_y_b"
+
+scanline_group_desc = "Scanline Pass"
+scanline_group_parameters = "scanlinealpha;scanlinescale;scanlineheight;scanlinevariation;scanlineoffset;scanlinebrightscale;scanlinebrightoffset"
+
+defocus_group_desc = "Defocus Pass"
+defocus_group_parameters = "defocus_x;defocus_y"
+
+phosphor_group_desc = "Phosphor Pass"
+phosphor_group_parameters = "deltatime;phosphor_r;phosphor_g;phosphor_b"
+
+chroma_group_desc = "Chroma Pass"
+chroma_group_parameters = "ygain_r;ygain_g;ygain_b;chromaa_x;chromaa_y;chromab_x;chromab_y;chromac_x;chromac_y"
+
+distortion_group_desc = "Distortion Pass"
+distortion_group_parameters = "distortion_amount;cubic_distortion_amount;distort_corner_amount;round_corner_amount;smooth_border_amount;vignette_amount;reflection_amount;reflection_col_r;reflection_col_g;reflection_col_b"
+
+default_group_desc = "Other parameters"

@@ -30,6 +30,7 @@
 
 static NSUserInterfaceItemIdentifier const CheckboxType  = @"Checkbox";
 static NSUserInterfaceItemIdentifier const SliderType    = @"Slider";
+static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
 
 @interface OEShaderParameterValue (View)
 - (NSString *)selectCellType;
@@ -97,6 +98,39 @@ static NSUserInterfaceItemIdentifier const SliderType    = @"Slider";
            fromObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _params.count)]
                      forKeyPath:@"value"];
     }
+
+    // are there groups?
+    BOOL hasGroups = NO;
+    {
+        NSEnumerator<OEShaderParameterValue *> *pe = params.objectEnumerator;
+        OEShaderParameterValue *p = [pe nextObject];
+        NSString *group = p.group;
+        
+        while ((p = [pe nextObject])) {
+            if (![p.group isEqualToString:group]) {
+                hasGroups = YES;
+                break;
+            }
+        }
+    }
+    
+    if (hasGroups)
+    {
+        NSMutableArray<OEShaderParameterValue *> *p2 = [NSMutableArray new];
+        NSEnumerator<OEShaderParameterValue *> *pe = params.objectEnumerator;
+        OEShaderParameterValue *p = [pe nextObject];
+        while (p != nil) {
+            NSString *group = p.group;
+            // add a dummy group parameter
+            [p2 addObject:[OEShaderParameterValue groupWithName:group]];
+            while (p != nil && [p.group isEqualToString:group])
+            {
+                [p2 addObject:p];
+                p = [pe nextObject];
+            }
+        }
+        params = p2;
+    }
     
     _params = params;
     
@@ -121,7 +155,6 @@ static NSUserInterfaceItemIdentifier const SliderType    = @"Slider";
     [_params enumerateObjectsUsingBlock:^(OEShaderParameterValue * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         obj.value = obj.initial;
     }];
-    
     
 }
 
@@ -184,6 +217,10 @@ static NSUserInterfaceItemIdentifier const SliderType    = @"Slider";
         [slid bind:@"value" toObject:param withKeyPath:@"value" options:options];
         [num bind:@"value" toObject:param withKeyPath:@"value" options:options];
         [step bind:@"value" toObject:param withKeyPath:@"value" options:options];
+    } else if (type == GroupType)
+    {
+        NSTextField *lbl = cellView.subviews.firstObject;
+        [lbl setStringValue:param.group];
     }
     
     return cellView;
@@ -207,6 +244,10 @@ static NSUserInterfaceItemIdentifier const SliderType    = @"Slider";
 
 - (NSString *)selectCellType
 {
+    if (self.index == -1) {
+        return GroupType;
+    }
+    
     if (self.minimum.doubleValue == 0.0 && self.maximum.doubleValue == 1.0 && self.step.doubleValue == 1.0)
     {
         return CheckboxType;

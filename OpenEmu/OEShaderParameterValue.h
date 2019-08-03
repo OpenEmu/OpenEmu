@@ -30,16 +30,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEShaderParameterValue : NSObject<NSSecureCoding>
 
-@property (nonatomic) NSInteger index;
-@property (nonatomic) NSString  *name;
-@property (nonatomic) NSString  *desc;
-@property (nonatomic) NSNumber  *value;
-@property (nonatomic) NSNumber  *initial;
-@property (nonatomic) NSNumber  *minimum;
-@property (nonatomic) NSNumber  *maximum;
-@property (nonatomic) NSNumber  *step;
-@property (nonatomic) BOOL      isInitial;
+@property (nonatomic)           NSInteger index;
+@property (nonatomic, nonnull)  NSString  *name;
+@property (nonatomic, nonnull)  NSString  *desc;
+@property (nonatomic, nullable) NSString  *group;
+@property (nonatomic, nonnull)  NSNumber  *value;
+@property (nonatomic, nonnull)  NSNumber  *initial;
+@property (nonatomic, nonnull)  NSNumber  *minimum;
+@property (nonatomic, nonnull)  NSNumber  *maximum;
+@property (nonatomic, nonnull)  NSNumber  *step;
+@property (nonatomic)           BOOL      isInitial;
 
++ (nonnull instancetype)groupWithName:(NSString *)name;
 + (NSArray<OEShaderParameterValue *> *)withParameters:(NSArray<OEShaderParameter *> *)params;
 
 @end

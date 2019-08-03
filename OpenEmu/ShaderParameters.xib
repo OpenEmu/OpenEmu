@@ -114,8 +114,32 @@
                                                         <real value="3.4028234663852886e+38"/>
                                                     </customSpacing>
                                                 </stackView>
+                                                <stackView identifier="Group" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" id="gMR-jg-47v" userLabel="Group">
+                                                    <rect key="frame" x="1" y="83" width="435" height="36"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gd4-g8-74G" customClass="OELabel">
+                                                            <rect key="frame" x="8" y="10" width="37" height="16"/>
+                                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="9g5-ia-iUM" customClass="OELabelCell">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </textField>
+                                                    </subviews>
+                                                    <edgeInsets key="edgeInsets" left="10" right="10" top="10" bottom="10"/>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
                                                 <stackView identifier="Checkbox" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" id="cRO-kS-k1H" userLabel="Checkbox">
-                                                    <rect key="frame" x="1" y="83" width="502" height="34"/>
+                                                    <rect key="frame" x="1" y="121" width="502" height="34"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="48p-mO-T4c" customClass="OEButton">

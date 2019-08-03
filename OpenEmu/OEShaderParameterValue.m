@@ -34,12 +34,21 @@
     p.index   = index;
     p.name    = param.name;
     p.desc    = param.desc;
+    p.group   = param.group;
     p.value   = @(param.value);
     p.initial = @(param.initial);
     p.minimum = @(param.minimum);
     p.maximum = @(param.maximum);
     p.step    = @(param.step);
     
+    return p;
+}
+
++ (nonnull instancetype)groupWithName:(NSString *)name
+{
+    OEShaderParameterValue *p = [OEShaderParameterValue new];
+    p.index = -1; // "group"
+    p.group = name;
     return p;
 }
 
@@ -61,6 +70,7 @@
         _index   = [coder decodeIntegerForKey:@"index"];
         _name    = [coder decodeObjectOfClass:NSString.class forKey:@"name"];
         _desc    = [coder decodeObjectOfClass:NSString.class forKey:@"desc"];
+        _group   = [coder decodeObjectOfClass:NSString.class forKey:@"group"];
         _value   = [coder decodeObjectOfClass:NSNumber.class forKey:@"value"];
         _initial = [coder decodeObjectOfClass:NSNumber.class forKey:@"initial"];
         _minimum = [coder decodeObjectOfClass:NSNumber.class forKey:@"minimum"];
@@ -80,6 +90,7 @@
     [coder encodeInteger:_index forKey:@"index"];
     [coder encodeObject:_name forKey:@"name"];
     [coder encodeObject:_desc forKey:@"desc"];
+    [coder encodeObject:_group forKey:@"group"];
     [coder encodeObject:_value forKey:@"value"];
     [coder encodeObject:_initial forKey:@"initial"];
     [coder encodeObject:_minimum forKey:@"minimum"];
