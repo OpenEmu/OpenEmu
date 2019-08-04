@@ -129,18 +129,18 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
     }];
 }
 
-- (void)shaderParametersWithCompletionHandler:(void (^)(NSArray<OEShaderParameterValue *> *))handler
+- (void)shaderParamGroupsWithCompletionHandler:(void (^)(NSArray<OEShaderParamGroupValue *> *))handler
 {
-    [self.gameCoreHelper shaderParametersWithCompletionHandler:^(NSArray<OEShaderParameterValue *> *params) {
+    [self.gameCoreHelper shaderParamGroupsWithCompletionHandler:^(NSArray<OEShaderParamGroupValue *> *groups) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            handler(params);
+            handler(groups);
         });
     }];
 }
 
-- (void)setShaderParameterValue:(CGFloat)value forIndex:(NSUInteger)index
+- (void)setShaderParameterValue:(CGFloat)value atIndex:(NSUInteger)index atGroupIndex:(NSUInteger)group
 {
-    [self.gameCoreHelper setShaderParameterValue:value forIndex:index];
+    [self.gameCoreHelper setShaderParameterValue:value atIndex:index atGroupIndex:group];
 }
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(OEIntSize screenSize, OEIntSize aspectSize))handler;

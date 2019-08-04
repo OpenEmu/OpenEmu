@@ -29,7 +29,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 @class OEEvent;
-@class OEShaderParameterValue;
+@class OEShaderParamGroupValue;
 
 @protocol OEGameCoreHelper <NSObject>
 
@@ -42,8 +42,8 @@
 #pragma mark - Shader management
 - (void)setShaderURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block;
 /*! fetch a list of shader parameters */
-- (void)shaderParametersWithCompletionHandler:(void(^)(NSArray<OEShaderParameterValue *> *params))handler;
-- (void)setShaderParameterValue:(CGFloat)value forIndex:(NSUInteger)index;
+- (void)shaderParamGroupsWithCompletionHandler:(void(^)(NSArray<OEShaderParamGroupValue *> *groups))handler;
+- (void)setShaderParameterValue:(CGFloat)value atIndex:(NSUInteger)index atGroupIndex:(NSUInteger)group;
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(OEIntSize screenSize, OEIntSize aspectSize))handler;
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler;

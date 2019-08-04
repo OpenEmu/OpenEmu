@@ -286,10 +286,11 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         _controller.shader = [OEShadersModel.shared shaderForSystem:self.document.systemIdentifier];
     }
     
-    [self.document gameViewController:self shaderParametersWithCompletionHandler:^(NSArray<OEShaderParameterValue *> *params) {
-        self->_controller.params = params;
+    [self.document gameViewController:self shaderParamGroupsWithCompletionHandler:^(NSArray<OEShaderParamGroupValue *> *groups) {
+        self->_controller.groups = groups;
         [self->_controller showWindow:self->_controller];
     }];
+
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem

@@ -22,23 +22,42 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OEShaderParamGroupValue, OEShaderParamValue, OEGameViewController, OEShaderModel;
+@class OEShaderParamGroup, OEShaderParameter, OEShaderParamValue, OEShaderParamGroupValue;
 
-@interface OEShaderParametersWindowController : NSWindowController
+typedef NSArray<OEShaderParamGroupValue *> *    OEShaderParamGroups;
+typedef NSArray<OEShaderParamValue *> *         OEShaderParamValues;
 
-@property (assign) IBOutlet NSTableView *tableView;
+@interface OEShaderParamGroupValue : NSObject<NSSecureCoding>
 
-@property (nonatomic) OEShaderModel *shader;
-@property (nonatomic) NSArray<OEShaderParamValue *> *params;
-@property (nonatomic) NSArray<OEShaderParamGroupValue *> *groups;
+@property (nonatomic)          NSInteger index;
+@property (nonatomic, nonnull) NSString  *name;
+@property (nonatomic, nonnull) NSString  *desc;
+@property (nonatomic, nonnull) OEShaderParamValues parameters;
 
-- (instancetype)initWithGameViewController:(OEGameViewController *)controller;
++ (OEShaderParamGroups)fromGroups:(NSArray<OEShaderParamGroup *> *)groups;
 
-- (IBAction)resetAll:(id)sender;
+@end
+
+@interface OEShaderParamValue : NSObject<NSSecureCoding>
+
+@property (nonatomic)           NSInteger index;
+@property (nonatomic)           NSInteger groupIndex;
+@property (nonatomic, nonnull)  NSString  *name;
+@property (nonatomic, nonnull)  NSString  *desc;
+@property (nonatomic, nullable) NSString  *group;
+@property (nonatomic, nonnull)  NSNumber  *value;
+@property (nonatomic, nonnull)  NSNumber  *initial;
+@property (nonatomic, nonnull)  NSNumber  *minimum;
+@property (nonatomic, nonnull)  NSNumber  *maximum;
+@property (nonatomic, nonnull)  NSNumber  *step;
+@property (nonatomic)           BOOL      isInitial;
+
++ (nonnull instancetype)groupWithName:(NSString *)name;
++ (OEShaderParamValues)withParameters:(NSArray<OEShaderParameter *> *)params;
 
 @end
 

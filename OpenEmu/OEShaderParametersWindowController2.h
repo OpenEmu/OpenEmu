@@ -22,27 +22,22 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OEShaderParameter;
+@class OEShaderParameterValue, OEGameViewController, OEShaderModel;
 
-@interface OEShaderParameterValue : NSObject<NSSecureCoding>
+@interface OEShaderParametersWindowController : NSWindowController
 
-@property (nonatomic)           NSInteger index;
-@property (nonatomic, nonnull)  NSString  *name;
-@property (nonatomic, nonnull)  NSString  *desc;
-@property (nonatomic, nullable) NSString  *group;
-@property (nonatomic, nonnull)  NSNumber  *value;
-@property (nonatomic, nonnull)  NSNumber  *initial;
-@property (nonatomic, nonnull)  NSNumber  *minimum;
-@property (nonatomic, nonnull)  NSNumber  *maximum;
-@property (nonatomic, nonnull)  NSNumber  *step;
-@property (nonatomic)           BOOL      isInitial;
+@property (assign) IBOutlet NSTableView *tableView;
 
-+ (nonnull instancetype)groupWithName:(NSString *)name;
-+ (NSArray<OEShaderParameterValue *> *)withParameters:(NSArray<OEShaderParameter *> *)params;
+@property (nonatomic) OEShaderModel *shader;
+@property (nonatomic) NSArray<OEShaderParameterValue *> *params;
+
+- (instancetype)initWithGameViewController:(OEGameViewController *)controller;
+
+- (IBAction)resetAll:(id)sender;
 
 @end
 

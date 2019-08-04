@@ -1703,14 +1703,14 @@ typedef enum : NSUInteger
     [_gameCoreManager setShaderURL:url completionHandler:block];
 }
 
-- (void)gameViewController:(OEGameViewController *)sender shaderParametersWithCompletionHandler:(void (^)(NSArray<OEShaderParameterValue *> *))handler
+- (void)gameViewController:(OEGameViewController *)sender shaderParamGroupsWithCompletionHandler:(void (^)(NSArray<OEShaderParamGroupValue *> *))handler
 {
-    [_gameCoreManager shaderParametersWithCompletionHandler:handler];
+    [_gameCoreManager shaderParamGroupsWithCompletionHandler:handler];
 }
 
-- (void)gameViewController:(OEGameViewController *)sender setShaderParameterValue:(CGFloat)value forIndex:(NSUInteger)index
+- (void)gameViewController:(OEGameViewController *)sender setShaderParameterValue:(CGFloat)value atIndex:(NSUInteger)index atGroupIndex:(NSUInteger)group
 {
-    [_gameCoreManager setShaderParameterValue:value forIndex:index];
+    [_gameCoreManager setShaderParameterValue:value atIndex:index atGroupIndex:group];
 }
 
 #pragma mark - OESystemBindingsObserver

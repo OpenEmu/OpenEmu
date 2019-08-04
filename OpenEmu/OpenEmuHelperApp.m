@@ -40,7 +40,7 @@
 #import "NSColor+OEAdditions.h"
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OECoreVideoTexture.h"
-#import "OEShaderParameterValue.h"
+#import "OEShaderParamValue.h"
 #if __has_include("OpenEmuHelperApp-Swift.h")
 #import "OpenEmuHelperApp-Swift.h"
 #elif __has_include("OpenEmu-Swift.h")
@@ -381,16 +381,16 @@ extern NSString * const kCAContextCIFilterBehavior;
     return success;
 }
 
-- (void)shaderParametersWithCompletionHandler:(void (^)(NSArray<OEShaderParameterValue *> *))handler
+- (void)shaderParamGroupsWithCompletionHandler:(void (^)(NSArray<OEShaderParamGroupValue *> *))handler
 {
-    NSArray<OEShaderParameterValue *> *res = [OEShaderParameterValue withParameters:_filterChain.shader.parameters];
-    handler(res);
+    handler([OEShaderParamGroupValue fromGroups:_filterChain.shader.parameterGroups]);
 }
 
-- (void)setShaderParameterValue:(CGFloat)value forIndex:(NSUInteger)index
+- (void)setShaderParameterValue:(CGFloat)value atIndex:(NSUInteger)index atGroupIndex:(NSUInteger)group
 {
-    _filterChain.shader.parameters[index].value = value;
+    _filterChain.shader.parameterGroups[group].parameters[index].value = value;
 }
+
 
 #pragma mark - Game Core methods
 

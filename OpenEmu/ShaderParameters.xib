@@ -23,7 +23,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="505" height="331"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="98" horizontalPageScroll="10" verticalLineScroll="98" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFo-Wu-2n5" customClass="OEScrollView">
+                    <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="98" horizontalPageScroll="10" verticalLineScroll="98" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFo-Wu-2n5">
                         <rect key="frame" x="-1" y="49" width="507" height="283"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" ambiguous="YES" id="9K8-wp-dbi">
@@ -212,6 +212,5 @@
             </connections>
             <point key="canvasLocation" x="151.5" y="177.5"/>
         </window>
-        <userDefaultsController representsSharedInstance="YES" id="hjj-AU-Lhr"/>
     </objects>
 </document>

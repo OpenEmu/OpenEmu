@@ -59,7 +59,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 @class OECorePlugin;
 @class OEGameViewController;
 
-@class OEShaderParameterValue;
+@class OEShaderParamGroupValue;
 
 @protocol OEGameIntegralScalingDelegate;
 
@@ -68,8 +68,8 @@ extern NSString *const OEScreenshotPropertiesKey;
 - (void)gameViewController:(OEGameViewController *)sender updateBounds:(CGRect)newBounds;
 - (void)gameViewController:(OEGameViewController *)sender updateBackingScaleFactor:(CGFloat)newScaleFactor;
 - (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block;
-- (void)gameViewController:(OEGameViewController *)sender shaderParametersWithCompletionHandler:(void (^)(NSArray<OEShaderParameterValue *> *))handler;
-- (void)gameViewController:(OEGameViewController *)sender setShaderParameterValue:(CGFloat)value forIndex:(NSUInteger)index;
+- (void)gameViewController:(OEGameViewController *)sender shaderParamGroupsWithCompletionHandler:(void (^)(NSArray<OEShaderParamGroupValue *> *))handler;
+- (void)gameViewController:(OEGameViewController *)sender setShaderParameterValue:(CGFloat)value atIndex:(NSUInteger)index atGroupIndex:(NSUInteger)group;
 
 @end
 

@@ -37,7 +37,7 @@ extension OEShadersModel {
 
 extension OEShadersModel.OEShaderModel {
     @objc
-    public func write(parameters params: [OEShaderParameterValue], identifier: String) {
+    public func write(parameters params: [OEShaderParamValue], identifier: String) {
         var state = [String]()
         
         for p in params.filter({ !$0.isInitial }) {

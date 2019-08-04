@@ -131,7 +131,7 @@ enum _OEGameDocumentErrorCodes
 - (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
 - (void)gameViewController:(OEGameViewController *)sender updateBounds:(CGRect)newBounds;
 - (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block;
-- (void)gameViewController:(OEGameViewController *)sender shaderParametersWithCompletionHandler:(void (^)(NSArray<OEShaderParameterValue *> *))handler;
-- (void)gameViewController:(OEGameViewController *)sender setShaderParameterValue:(CGFloat)value forIndex:(NSUInteger)index;
+- (void)gameViewController:(OEGameViewController *)sender shaderParamGroupsWithCompletionHandler:(void (^)(NSArray<OEShaderParamGroupValue *> *))handler;
+- (void)gameViewController:(OEGameViewController *)sender setShaderParameterValue:(CGFloat)value atIndex:(NSUInteger)index atGroupIndex:(NSUInteger)group;
 
 @end

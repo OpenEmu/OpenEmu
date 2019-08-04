@@ -25,14 +25,14 @@
 #import "OEShaderParametersWindowController.h"
 #import "OEGameViewController.h"
 #import "OEGameDocument.h"
-#import "OEShaderParamValue.h"
+#import "OEShaderParameterValue.h"
 #import "OpenEmu-Swift.h"
 
 static NSUserInterfaceItemIdentifier const CheckboxType  = @"Checkbox";
 static NSUserInterfaceItemIdentifier const SliderType    = @"Slider";
 static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
 
-@interface OEShaderParamValue (View)
+@interface OEShaderParameterValue (View)
 - (NSString *)selectCellType;
 @end
 
@@ -55,11 +55,10 @@ static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
-    OEShaderParamValue *param = (OEShaderParamValue *)object;
+    OEShaderParameterValue *param = (OEShaderParameterValue *)object;
     [_controller.document gameViewController:_controller
                      setShaderParameterValue:param.value.doubleValue
-                                     atIndex:param.index
-                                atGroupIndex:param.groupIndex];
+                                    forIndex:param.index];
     [self.shader writeWithParameters:_params identifier:_controller.document.systemIdentifier];
 }
 
@@ -84,41 +83,7 @@ static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
     
 }
 
-- (void)setGroups:(NSArray<OEShaderParamGroupValue *> *)groups
-{
-    if ([_groups isEqualTo:groups])
-    {
-        return;
-    }
-    
-    [self willChangeValueForKey:@"groups"];
-    
-    NSArray<OEShaderParamValue *> *params;
-    
-    if (groups.count > 1)
-    {
-        NSMutableArray *p2 = [NSMutableArray new];
-        for (OEShaderParamGroupValue *g in groups) {
-            [p2 addObject:[OEShaderParamValue groupWithName:g.desc]];
-            [p2 addObjectsFromArray:g.parameters];
-        }
-        params = p2;
-    }
-    else
-    {
-        params = groups[0].parameters;
-    }
-    
-    _groups = groups;
-    
-    [self didChangeValueForKey:@"groups"];
-    
-    self.params = params;
-    
-    [self.tableView reloadData];
-}
-
-- (void)setParams:(NSArray<OEShaderParamValue *> *)params
+- (void)setParams:(NSArray<OEShaderParameterValue *> *)params
 {
     if ([_params isEqualTo:params])
     {
@@ -134,6 +99,39 @@ static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
                      forKeyPath:@"value"];
     }
 
+    // are there groups?
+    BOOL hasGroups = NO;
+    {
+        NSEnumerator<OEShaderParameterValue *> *pe = params.objectEnumerator;
+        OEShaderParameterValue *p = [pe nextObject];
+        NSString *group = p.group;
+        
+        while ((p = [pe nextObject])) {
+            if (![p.group isEqualToString:group]) {
+                hasGroups = YES;
+                break;
+            }
+        }
+    }
+    
+    if (hasGroups)
+    {
+        NSMutableArray<OEShaderParameterValue *> *p2 = [NSMutableArray new];
+        NSEnumerator<OEShaderParameterValue *> *pe = params.objectEnumerator;
+        OEShaderParameterValue *p = [pe nextObject];
+        while (p != nil) {
+            NSString *group = p.group;
+            // add a dummy group parameter
+            [p2 addObject:[OEShaderParameterValue groupWithName:group]];
+            while (p != nil && [p.group isEqualToString:group])
+            {
+                [p2 addObject:p];
+                p = [pe nextObject];
+            }
+        }
+        params = p2;
+    }
+    
     _params = params;
     
     [self didChangeValueForKey:@"params"];
@@ -154,7 +152,7 @@ static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
 
 - (IBAction)resetAll:(id)sender
 {
-    [_params enumerateObjectsUsingBlock:^(OEShaderParamValue * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [_params enumerateObjectsUsingBlock:^(OEShaderParameterValue * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         obj.value = obj.initial;
     }];
     
@@ -174,7 +172,7 @@ static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
 
 - (NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    OEShaderParamValue *param = [_params objectAtIndex:row];
+    OEShaderParameterValue *param = [_params objectAtIndex:row];
     NSString *type = [param selectCellType];
     NSView *cellView = [tableView makeViewWithIdentifier:type owner:self];
 
@@ -242,7 +240,7 @@ static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
 
 @end
 
-@implementation OEShaderParamValue (View)
+@implementation OEShaderParameterValue (View)
 
 - (NSString *)selectCellType
 {
