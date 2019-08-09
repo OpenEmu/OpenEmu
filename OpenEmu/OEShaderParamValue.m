@@ -157,6 +157,7 @@ static float newPrecision(double n, double i)
     g.index      = index;
     g.name       = group.name;
     g.desc       = group.desc;
+    g.hidden     = group.hidden;
     g.parameters = [OEShaderParamValue fromParameters:group.parameters atGroupIndex:index];
     
     return g;
@@ -192,6 +193,7 @@ static float newPrecision(double n, double i)
         _index      = [coder decodeIntegerForKey:@"index"];
         _name       = [coder decodeObjectOfClass:NSString.class forKey:@"name"];
         _desc       = [coder decodeObjectOfClass:NSString.class forKey:@"desc"];
+        _hidden     = [coder decodeBoolForKey:@"hidden"];
         _parameters = [coder decodeObjectOfClasses:OEShaderParamGroupValue.codingClasses
                                             forKey:@"parameters"];
     }
@@ -208,6 +210,7 @@ static float newPrecision(double n, double i)
     [coder encodeInteger:_index forKey:@"index"];
     [coder encodeObject:_name forKey:@"name"];
     [coder encodeObject:_desc forKey:@"desc"];
+    [coder encodeBool:_hidden forKey:@"hidden"];
     [coder encodeObject:_parameters forKey:@"parameters"];
 }
 

@@ -250,3 +250,41 @@ border_darkness = "0.000000"
 border_compress = "2.500000"
 interlace_bff = "0.000000"
 interlace_1080i = "0.000000"
+
+parameter_groups = "gamma;halation;bloom;beam;convergence;mask;aa;geom;border;interlace;default"
+
+gamma_group_desc = "Gamma and Contrast"
+gamma_group_parameters = "crt_gamma;lcd_gamma;levels_contrast"
+
+halation_group_desc = "Halation and Diffusion"
+halation_group_parameters = "halation_weight;diffusion_weight"
+
+bloom_group_desc = "Bloom"
+bloom_group_parameters = "bloom_underestimate_levels;bloom_excess"
+
+beam_group_desc = "Beam"
+beam_group_parameters = "beam_min_sigma;beam_max_sigma;beam_spot_power;beam_min_shape;beam_max_shape;beam_shape_power;beam_horiz_filter;beam_horiz_sigma;beam_horiz_linear_rgb_weight"
+
+
+convergence_group_desc = "Convergence"
+convergence_group_parameters = "convergence_offset_x_r;convergence_offset_x_g;convergence_offset_x_b;convergence_offset_y_r;convergence_offset_y_g;convergence_offset_y_b"
+
+mask_group_desc = "Mask"
+mask_group_parameters = "mask_type;mask_sample_mode_desired;mask_specify_num_triads;mask_triad_size_desired;mask_num_triads_desired"
+
+aa_group_desc = "Anti Aliasing"
+aa_group_parameters = "aa_subpixel_r_offset_x_runtime;aa_subpixel_r_offset_y_runtime;aa_cubic_c;aa_gauss_sigma"
+
+geom_group_desc = "Geometry"
+geom_group_parameters = "geom_mode_runtime;geom_radius;geom_view_dist;geom_tilt_angle_x;geom_tilt_angle_y;geom_aspect_ratio_x;geom_aspect_ratio_y;geom_overscan_x;geom_overscan_y"
+# geom is broken
+geom_group_hidden = true
+
+border_group_desc = "Border"
+border_group_parameters = "border_size;border_darkness;border_compress"
+
+interlace_group_desc = "Interlacing"
+interlace_group_parameters = "interlace_bff;interlace_1080i"
+
+default_group_desc = "Other"
+default_group_hidden = true

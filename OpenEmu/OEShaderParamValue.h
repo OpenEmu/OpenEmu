@@ -36,6 +36,7 @@ typedef NSArray<OEShaderParamValue *> *         OEShaderParamValues;
 @property (nonatomic)          NSInteger index;
 @property (nonatomic, nonnull) NSString  *name;
 @property (nonatomic, nonnull) NSString  *desc;
+@property (nonatomic)          BOOL      hidden;
 @property (nonatomic, nonnull) OEShaderParamValues parameters;
 
 + (OEShaderParamGroups)fromGroups:(NSArray<OEShaderParamGroup *> *)groups;

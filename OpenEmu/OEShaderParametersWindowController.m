@@ -36,9 +36,10 @@ static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
 - (NSString *)selectCellType;
 @end
 
-@interface OEShaderParametersWindowController ()<NSTableViewDelegate, NSTableViewDataSource>
+@interface OEShaderParametersWindowController ()<NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
     OEGameViewController * __weak _controller;
+    NSArray<OEShaderParamValue *> *_params;
 }
 @end
 
@@ -57,31 +58,33 @@ static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
 {
     OEShaderParamValue *param = (OEShaderParamValue *)object;
     [_controller.document gameViewController:_controller
-                     setShaderParameterValue:param.value.doubleValue
-                                     atIndex:param.index
-                                atGroupIndex:param.groupIndex];
+    setShaderParameterValue:param.value.doubleValue
+                    atIndex:param.index
+               atGroupIndex:param.groupIndex];
     [self.shader writeWithParameters:_params identifier:_controller.document.systemIdentifier];
 }
 
 - (void)windowDidLoad {
     [super windowDidLoad];
     
-    NSTableView *tableView = self.tableView;
-    [tableView setDelegate:self];
-    [tableView setDataSource:self];
+    NSOutlineView *outlineView = self.outlineView;
+    [outlineView setDelegate:self];
+    [outlineView setDataSource:self];
     
-    [tableView setHeaderView:nil];
-    [tableView setRowHeight:30.0];
-    [tableView setGridStyleMask:0];
-    [tableView setAllowsColumnReordering:NO];
-    [tableView setAllowsColumnResizing:NO];
-    [tableView setAllowsColumnSelection:NO];
-    [tableView setAllowsEmptySelection:YES];
-    [tableView setAllowsMultipleSelection:NO];
-    [tableView setAllowsTypeSelect:NO];
+    [outlineView setHeaderView:nil];
+    [outlineView setGridStyleMask:0];
+    [outlineView setAllowsColumnReordering:NO];
+    [outlineView setAllowsColumnResizing:NO];
+    [outlineView setAllowsColumnSelection:NO];
+    [outlineView setAllowsEmptySelection:YES];
+    [outlineView setAllowsMultipleSelection:NO];
+    [outlineView setAllowsTypeSelect:NO];
     
-    //[tableView registerNib:nil forIdentifier:SliderType];
+#define CELL(name) [[NSNib alloc] initWithNibNamed:name bundle:nil]
     
+    [outlineView registerNib:CELL(@"SliderCell") forIdentifier:SliderType];
+    [outlineView registerNib:CELL(@"GroupCell") forIdentifier:GroupType];
+    [outlineView registerNib:CELL(@"CheckboxCell") forIdentifier:CheckboxType];
 }
 
 - (void)setGroups:(NSArray<OEShaderParamGroupValue *> *)groups
@@ -97,11 +100,15 @@ static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
     
     if (groups.count > 1)
     {
+        NSMutableArray<OEShaderParamGroupValue *> *filtered = [NSMutableArray new];
         NSMutableArray *p2 = [NSMutableArray new];
         for (OEShaderParamGroupValue *g in groups) {
-            [p2 addObject:[OEShaderParamValue groupWithName:g.desc]];
+            if (g.hidden) continue; // skip hidden groups
+            
+            [filtered addObject:g];
             [p2 addObjectsFromArray:g.parameters];
         }
+        groups = filtered;
         params = p2;
     }
     else
@@ -115,7 +122,7 @@ static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
     
     self.params = params;
     
-    [self.tableView reloadData];
+    [self.outlineView reloadData];
 }
 
 - (void)setParams:(NSArray<OEShaderParamValue *> *)params
@@ -146,8 +153,6 @@ static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
                      options:NSKeyValueObservingOptionNew
                      context:nil];
     }
-    
-    [self.tableView reloadData];
 }
 
 #pragma mark - Actions
@@ -160,84 +165,110 @@ static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
     
 }
 
-#pragma mark - NSTableViewDelegate
+#pragma mark - NSOutlineViewDelegate
 
-- (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+- (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-    return YES;
-}
-
-- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
-{
-    return NO;
-}
-
-- (NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{
-    OEShaderParamValue *param = [_params objectAtIndex:row];
-    NSString *type = [param selectCellType];
-    NSView *cellView = [tableView makeViewWithIdentifier:type owner:self];
-
-    if(type == CheckboxType)
+    if ([item isKindOfClass:OEShaderParamValue.class])
     {
-        NSButton *checkbox = cellView.subviews.lastObject;
-        [checkbox setTitle:param.desc];
-
-        NSDictionary *options = @{ NSContinuouslyUpdatesValueBindingOption:@YES };
-        [checkbox bind:@"value" toObject:param withKeyPath:@"value" options:options];
-    }
-    else if(type == SliderType)
-    {
-        NSTextField *lbl = cellView.subviews.firstObject;
-        [lbl setStringValue:param.desc];
+        OEShaderParamValue *param = item;
+        NSString *type = [param selectCellType];
+        NSView *cellView = [outlineView makeViewWithIdentifier:type owner:self];
         
-        NSSlider  *slid  = [cellView viewWithTag:100];
-        slid.continuous  = YES;
-        slid.minValue    = param.minimum.doubleValue;
-        slid.maxValue    = param.maximum.doubleValue;
-        NSUInteger ticks = (NSUInteger)(slid.maxValue - slid.minValue) + 1;
-        if (param.step.doubleValue == 1.0 && ticks <= 11)
+        if(type == CheckboxType)
         {
-            slid.numberOfTickMarks        = ticks;
-            slid.allowsTickMarkValuesOnly = YES;
+            NSButton *checkbox = cellView.subviews.firstObject;
+            [checkbox setTitle:param.desc];
+
+            NSDictionary *options = @{ NSContinuouslyUpdatesValueBindingOption:@YES };
+            [checkbox bind:@"value" toObject:param withKeyPath:@"value" options:options];
         }
-        else
+        else if(type == SliderType)
         {
-            slid.numberOfTickMarks = 0;
-            slid.allowsTickMarkValuesOnly = NO;
+            NSTextField *lbl = cellView.subviews.firstObject;
+            [lbl setStringValue:param.desc];
+            
+            NSSlider  *slid  = [cellView viewWithTag:100];
+            slid.continuous  = YES;
+            slid.minValue    = param.minimum.doubleValue;
+            slid.maxValue    = param.maximum.doubleValue;
+            NSUInteger ticks = (NSUInteger)(slid.maxValue - slid.minValue) + 1;
+            if (param.step.doubleValue == 1.0 && ticks <= 11)
+            {
+                slid.numberOfTickMarks        = ticks;
+                slid.allowsTickMarkValuesOnly = YES;
+            }
+            else
+            {
+                slid.numberOfTickMarks = 0;
+                slid.allowsTickMarkValuesOnly = NO;
+            }
+            
+            NSTextField *num  = [cellView viewWithTag:101];
+            
+            NSStepper *step = [cellView viewWithTag:102];
+            step.minValue   = param.minimum.doubleValue;
+            step.maxValue   = param.maximum.doubleValue;
+            step.increment  = param.step.doubleValue;
+            
+            NSDictionary *options = @{ NSContinuouslyUpdatesValueBindingOption:@YES };
+            
+            [slid bind:@"value" toObject:param withKeyPath:@"value" options:options];
+            [num bind:@"value" toObject:param withKeyPath:@"value" options:options];
+            [step bind:@"value" toObject:param withKeyPath:@"value" options:options];
         }
         
-        NSTextField *num  = [cellView viewWithTag:101];
-        
-        NSStepper *step = [cellView viewWithTag:102];
-        step.minValue   = param.minimum.doubleValue;
-        step.maxValue   = param.maximum.doubleValue;
-        step.increment  = param.step.doubleValue;
-        
-        NSDictionary *options = @{ NSContinuouslyUpdatesValueBindingOption:@YES };
-        
-        [slid bind:@"value" toObject:param withKeyPath:@"value" options:options];
-        [num bind:@"value" toObject:param withKeyPath:@"value" options:options];
-        [step bind:@"value" toObject:param withKeyPath:@"value" options:options];
-    } else if (type == GroupType)
-    {
-        NSTextField *lbl = cellView.subviews.firstObject;
-        [lbl setStringValue:param.group];
+        return cellView;
     }
+    
+    OEShaderParamGroupValue *group = item;
+    NSTableCellView *cellView = [outlineView makeViewWithIdentifier:GroupType owner:self];
+    cellView.textField.stringValue = group.desc;
     
     return cellView;
 }
 
-#pragma mark - NSTableViewDataSource
+#pragma mark - NSOutlineViewDataSource
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-    return [_params count];
+    if (_groups.count == 1)
+    {
+        // no outline necessary for a single group, just return parameters
+        return _params.count;
+    }
+    
+    if ([item isKindOfClass:OEShaderParamGroupValue.class])
+    {
+        OEShaderParamGroupValue *g = (OEShaderParamGroupValue *)item;
+        return g.parameters.count;
+    }
+    
+    return _groups.count;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
-    return [_params objectAtIndex:row];
+    if (_groups.count == 1)
+    {
+        // no outline necessary for a single group, just return parameters
+        return _params[index];
+    }
+    
+    if ([item isKindOfClass:OEShaderParamGroupValue.class])
+    {
+        OEShaderParamGroupValue *g = (OEShaderParamGroupValue *)item;
+        return g.parameters[index];
+    }
+    
+    return _groups[index];
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
+{
+    if (_groups.count == 1) return NO;
+    
+    return [item isKindOfClass:OEShaderParamGroupValue.class];
 }
 
 @end
@@ -246,10 +277,6 @@ static NSUserInterfaceItemIdentifier const GroupType     = @"Group";
 
 - (NSString *)selectCellType
 {
-    if (self.index == -1) {
-        return GroupType;
-    }
-    
     if (self.minimum.doubleValue == 0.0 && self.maximum.doubleValue == 1.0 && self.step.doubleValue == 1.0)
     {
         return CheckboxType;

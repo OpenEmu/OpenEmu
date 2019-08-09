@@ -26,14 +26,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OEShaderParamGroupValue, OEShaderParamValue, OEGameViewController, OEShaderModel;
+@class OEShaderParamGroupValue, OEGameViewController, OEShaderModel;
 
 @interface OEShaderParametersWindowController : NSWindowController
 
-@property (assign) IBOutlet NSTableView *tableView;
+@property (assign) IBOutlet NSOutlineView *outlineView;
 
 @property (nonatomic) OEShaderModel *shader;
-@property (nonatomic) NSArray<OEShaderParamValue *> *params;
 @property (nonatomic) NSArray<OEShaderParamGroupValue *> *groups;
 
 - (instancetype)initWithGameViewController:(OEGameViewController *)controller;

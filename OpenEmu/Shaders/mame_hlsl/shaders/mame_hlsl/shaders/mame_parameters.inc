@@ -137,25 +137,25 @@ layout(std140, set = 0, binding = 0) uniform UBO
 } global;
 
 // Effect Toggles and Settings Used In Multiple Passes
-#pragma parameter ntscsignal "NTSC Signal Mode" 0.0 0.0 1.0 1.0
+#pragma parameter ntscsignal "NTSC Signal Mode"     1.0 0.0 1.0 1.0
 bool NTSCSignal = bool(global.ntscsignal);
-#pragma parameter scanlinetoggle "Scanline Toggle" 1.0 0.0 1.0 1.0
+#pragma parameter scanlinetoggle "Scanline"         1.0 0.0 1.0 1.0
 bool ScanlineToggle = bool(global.scanlinetoggle);
-#pragma parameter bloomtoggle "Bloom Enable" 0.0 0.0 1.0 1.0
+#pragma parameter bloomtoggle "Bloom Enable"        1.0 0.0 1.0 1.0
 bool BloomToggle = bool(global.bloomtoggle);
-#pragma parameter chromatoggle "Chromaticity Toggle" 0.0 0.0 1.0 1.0
+#pragma parameter chromatoggle "Chromaticity"       0.0 0.0 1.0 1.0
 bool Chromaticity = bool(global.chromatoggle);
-#pragma parameter distortiontoggle "Distortion Toggle" 0.0 0.0 1.0 1.0
+#pragma parameter distortiontoggle "Distortion"     1.0 0.0 1.0 1.0
 bool Distortion = bool(global.distortiontoggle);
-#pragma parameter phosphortoggle "Phosphor Toggle" 0.0 0.0 1.0 1.0
+#pragma parameter phosphortoggle "Phosphor"         1.0 0.0 1.0 1.0
 bool Passthrough = !bool(global.phosphortoggle);
-#pragma parameter screenscale_x "Screen Scale X" 1.0 0.5 3.0 0.01
-#pragma parameter screenscale_y "Screen Scale Y" 1.0 0.5 3.0 0.01
-vec2 ScreenScale = vec2(global.screenscale_x, global.screenscale_y);
 //#pragma parameter vectorscreen "Vector Screen Mode" 0.0 0.0 1.0 1.0 // TODO/FIXME
 const float vectorscreen = 0.0;
 bool VectorScreen = bool(vectorscreen);
 
+#pragma parameter screenscale_x "Screen Scale X" 1.0 0.5 3.0 0.01
+#pragma parameter screenscale_y "Screen Scale Y" 1.0 0.5 3.0 0.01
+vec2 ScreenScale = vec2(global.screenscale_x, global.screenscale_y);
 #pragma parameter screenoffset_x "Screen Offset X" 0.0 -1.0 1.0 0.005
 #pragma parameter screenoffset_y "Screen Offset Y" 0.0 -1.0 1.0 0.005
 vec2 ScreenOffset = vec2(global.screenoffset_x, global.screenoffset_y);
@@ -163,8 +163,8 @@ vec2 ScreenOffset = vec2(global.screenoffset_x, global.screenoffset_y);
 bool SwapXY = bool(global.swapxy);
 
 // Bloom Pass
-#pragma parameter bloomblendmode "Bloom Blend Mode" 0.0 0.0 1.0 1.0
-#pragma parameter bloomscale "Bloom Scale" 0.33 0.0 1.0 0.01
+#pragma parameter bloomblendmode "Bloom Blend Mode (Brighten, Darken)"    0.0  0.0 1.0 1.0
+#pragma parameter bloomscale "Bloom Scale"             0.33 0.0 2.0 0.05
 #pragma parameter bloomoverdrive_r "Bloom Overdrive R" 1.0 0.0 2.0 0.01
 #pragma parameter bloomoverdrive_g "Bloom Overdrive G" 1.0 0.0 2.0 0.01
 #pragma parameter bloomoverdrive_b "Bloom Overdrive B" 1.0 0.0 2.0 0.01
@@ -183,17 +183,17 @@ bool SwapXY = bool(global.swapxy);
 #pragma parameter backcolor_r "Back Color R" 0.0 0.0 1.0 0.01
 #pragma parameter backcolor_g "Back Color G" 0.0 0.0 1.0 0.01
 #pragma parameter backcolor_b "Back Color B" 0.0 0.0 1.0 0.01
-#pragma parameter shadowtilemode "Mask Tiling Mode" 0.0 0.0 1.0 1.0
+#pragma parameter shadowtilemode "Mask Tiling Mode (Screen, Source)" 0.0 0.0 1.0 1.0
 #pragma parameter shadowalpha "Mask Alpha" 0.3 0.0 1.0 0.01
-#pragma parameter shadowcount_x "Mask Tile Size X" 6.0 1.0 32.0 1.0
-#pragma parameter shadowcount_y "Mask Tile Size Y" 6.0 1.0 32.0 1.0
-#pragma parameter shadowuv_x "Mask UV X" 0.25 0.0 1.0 0.01
-#pragma parameter shadowuv_y "Mask UV Y" 0.25 0.0 1.0 0.01
-#pragma parameter mask_width "Mask Texture Width" 32.0 0.0 256.0 16.0
-#pragma parameter mask_height "Mask Texture Height" 32.0 0.0 256.0 16.0
-#pragma parameter mask_offset_x "Mask Offset X" 0.0 -10.0 10.0 0.1
-#pragma parameter mask_offset_y "Mask Offset Y" 0.0 -10.0 10.0 0.1
-#pragma parameter chromamode "Chroma Mode" 3.0 1.0 3.0 1.0
+#pragma parameter shadowcount_x "Mask Tile Size X" 12.0 1.0 32.0 1.0
+#pragma parameter shadowcount_y "Mask Tile Size Y" 12.0 1.0 32.0 1.0
+#pragma parameter shadowuv_x "Mask UV X" 0.25 0.03125 1.0 0.03125
+#pragma parameter shadowuv_y "Mask UV Y" 0.25 0.03125 1.0 0.03125
+#pragma parameter mask_width "Mask Texture Width"       32.0 0.0 256.0 16.0
+#pragma parameter mask_height "Mask Texture Height"     32.0 0.0 256.0 16.0
+#pragma parameter mask_offset_x "Mask Offset X"         0.0 -1.0 1.0 0.01
+#pragma parameter mask_offset_y "Mask Offset Y"         0.0 -1.0 1.0 0.01
+#pragma parameter chromamode "Color Mode (Monochrome, Dichrome, Trichrome)" 3.0 1.0 3.0 1.0
 #pragma parameter conversiongain_x "Conversion Gain X" 0.0 -5.0 5.0 0.5
 #pragma parameter conversiongain_y "Conversion Gain Y" 0.0 -5.0 5.0 0.5
 #pragma parameter conversiongain_z "Conversion Gain Z" 0.0 -5.0 5.0 0.5
@@ -206,17 +206,17 @@ bool SwapXY = bool(global.swapxy);
 #pragma parameter preparebloom "Prepare Bloom" 0.0 0.0 1.0 1.0
 
 // NTSC Pass
-#pragma parameter avalue "A Value" 0.5 -1.0 1.0 0.01
-#pragma parameter bvalue "B Value" 0.5 -1.0 1.0 0.01
-#pragma parameter ccvalue "CC Value" 3.5795454 0.0 6.0 0.0005
-#pragma parameter ovalue "O Value" 0.0 -3.0 3.0 0.1
-#pragma parameter pvalue "P Value" 1.0 -3.0 3.0 0.1
-#pragma parameter scantime "Scan Time" 52.6 0.0 100.0 0.1
-#pragma parameter notchhalfwidth "Notch Half Width" 1.0 0.0 6.0 0.05
-#pragma parameter yfreqresponse "Y Freq Response" 6.0 0.0 6.0 0.05
-#pragma parameter ifreqresponse "I Freq Response" 1.2 0.0 6.0 0.05
-#pragma parameter qfreqresponse "Q Freq Response" 0.6 0.0 6.0 0.05
-#pragma parameter signaloffset "Signal Offset" 1.0 0.0 1.0 0.01
+#pragma parameter avalue "A Value"                          0.5 -1.0 1.0 0.01
+#pragma parameter bvalue "B Value"                          0.5 -1.0 1.0 0.01
+#pragma parameter ccvalue "Color Carrier (Hz)"              3.5795454 0.0 6.0 0.00001
+#pragma parameter ovalue "Outgoing Phase Offset"            0.0 -3.0 3.0 0.01
+#pragma parameter pvalue "Incoming Phase Pixel Clock Scale" 1.0 -3.0 3.0 0.01
+#pragma parameter scantime "Scanline Duration (uSec)"       52.6 0.0 100.0 0.1
+#pragma parameter notchhalfwidth "Color Notch Filter Width" 1.0 0.0 6.0 0.05
+#pragma parameter yfreqresponse "Y Signal Bandwidth (Hz)"   6.0 0.0 21.0 0.01
+#pragma parameter ifreqresponse "I Signal Bandwidth (Hz)"   1.2 0.0 21.0 0.01
+#pragma parameter qfreqresponse "Q Signal Bandwidth (Hz)"   0.6 0.0 21.0 0.01
+#pragma parameter signaloffset "Signal Offset"              1.0 0.0 1.0 0.01
 
 // Color Pass
 #pragma parameter col_red "Red Shift" 1.0 0.0 2.0 0.01
@@ -228,40 +228,40 @@ bool SwapXY = bool(global.swapxy);
 #pragma parameter col_scale_x "Scale X" 1.0 0.0 2.0 0.01
 #pragma parameter col_scale_y "Scale Y" 1.0 0.0 2.0 0.01
 #pragma parameter col_scale_z "Scale Z" 1.0 0.0 2.0 0.01
-#pragma parameter col_saturation "Saturation" 1.0 0.0 5.0 0.01
+#pragma parameter col_saturation "Saturation" 1.2 0.0 5.0 0.01
 
 // Deconverge Pass
-#pragma parameter converge_x_r "Convergence X Red" 0.0 -10.0 10.0 0.05
-#pragma parameter converge_x_g "Convergence X Green" 0.0 -10.0 10.0 0.05
-#pragma parameter converge_x_b "Convergence X Blue" 0.0 -10.0 10.0 0.05
-#pragma parameter converge_y_r "Convergence Y Red" 0.0 -10.0 10.0 0.05
-#pragma parameter converge_y_g "Convergence Y Green" 0.0 -10.0 10.0 0.05
-#pragma parameter converge_y_b "Convergence Y Blue" 0.0 -10.0 10.0 0.05
-#pragma parameter radial_conv_x_r "Radial Conv X Red" 0.0 -10.0 10.0 0.05
-#pragma parameter radial_conv_x_g "Radial Conv X Green" 0.0 -10.0 10.0 0.05
-#pragma parameter radial_conv_x_b "Radial Conv X Blue" 0.0 -10.0 10.0 0.05
-#pragma parameter radial_conv_y_r "Radial Conv Y Red" 0.0 -10.0 10.0 0.05
-#pragma parameter radial_conv_y_g "Radial Conv Y Green" 0.0 -10.0 10.0 0.05
-#pragma parameter radial_conv_y_b "Radial Conv Y Blue" 0.0 -10.0 10.0 0.05
+#pragma parameter converge_x_r "Red Linear Convergence, X"      0.0 -10.0 10.0 0.05
+#pragma parameter converge_y_r "Red Linear Convergence, Y"      0.0 -10.0 10.0 0.05
+#pragma parameter converge_x_g "Green Linear Convergence, X"    0.0 -10.0 10.0 0.05
+#pragma parameter converge_y_g "Green Linear Convergence, Y"    0.0 -10.0 10.0 0.05
+#pragma parameter converge_x_b "Blue Linear Convergence, X"     0.0 -10.0 10.0 0.05
+#pragma parameter converge_y_b "Blue Linear Convergence, Y"     0.0 -10.0 10.0 0.05
+#pragma parameter radial_conv_x_r "Red Radial Convergence, X"   0.0 -10.0 10.0 0.05
+#pragma parameter radial_conv_y_r "Red Radial Convergence, Y"   0.0 -10.0 10.0 0.05
+#pragma parameter radial_conv_x_g "Green Radial Convergence, X" 0.0 -10.0 10.0 0.05
+#pragma parameter radial_conv_y_g "Green Radial Convergence, Y" 0.0 -10.0 10.0 0.05
+#pragma parameter radial_conv_x_b "Blue Radial Convergence, X"  0.0 -10.0 10.0 0.05
+#pragma parameter radial_conv_y_b "Blue Radial Convergence, Y"  0.0 -10.0 10.0 0.05
 
 // Scanline Pass
-#pragma parameter scanlinealpha "Scanline Alpha" 0.5 0.0 1.0 0.01
-#pragma parameter scanlinescale "Scanline Scale" 5.0 1.0 5.0 1.0
-#pragma parameter scanlineheight "Scanline Height" 1.0 0.0 2.0 0.1
-#pragma parameter scanlinevariation "Scanline Variation" 1.0 0.0 5.0 0.5
-#pragma parameter scanlineoffset "Scanline Offset" 1.0 -1.5 3.0 0.1
-#pragma parameter scanlinebrightscale "Scanline Bright Scale" 1.0 0.0 2.0 0.1
-#pragma parameter scanlinebrightoffset "Scanline Bright Offset" 1.0 -1.5 3.0 0.1
+#pragma parameter scanlinealpha "Scanline Alpha"                    0.0  0.0 1.0 0.01
+#pragma parameter scanlinescale "Overall Scanline Scale"            1.0  0.0 4.0 0.01
+#pragma parameter scanlineheight "Individual Scanline Scale"        1.0  0.0 4.0 0.01
+#pragma parameter scanlinevariation "Scanline Variation"            1.0  0.0 4.0 0.01
+#pragma parameter scanlineoffset "Scanline Offset"                  1.5 -1.5 3.0 0.01
+#pragma parameter scanlinebrightscale "Scanline Brightness Scale"   1.0  0.0 2.0 0.01
+#pragma parameter scanlinebrightoffset "Scanline Brightness Offset" 1.5 -1.5 4.0 0.01
 
 // Defocus Pass
-#pragma parameter defocus_x "Defocus X Axis" 0.0 0.0 10.0 0.1
-#pragma parameter defocus_y "Defocus Y Axis" 0.0 0.0 10.0 0.1
+#pragma parameter defocus_x "Defocus X Axis" 0.5 0.0 10.0 0.1
+#pragma parameter defocus_y "Defocus Y Axis" 0.5 0.0 10.0 0.1
 
 // Phosphor Pass
-#pragma parameter deltatime "Delta Time" 1.0 0.0 2.0 0.1
-#pragma parameter phosphor_r "Phosphor Red" 0.8 0.0 0.99 0.1
-#pragma parameter phosphor_g "Phosphor Green" 0.0 0.0 0.99 0.1
-#pragma parameter phosphor_b "Phosphor Blue" 0.0 0.0 0.99 0.1
+#pragma parameter deltatime "Delta Time"                    0.50 0.0 2.0 0.1
+#pragma parameter phosphor_r "Phosphor Persistence Red"     0.45 0.0 1.0 0.01
+#pragma parameter phosphor_g "Phosphor Persistence Green"   0.45 0.0 1.0 0.01
+#pragma parameter phosphor_b "Phosphor Persistence Blue"    0.45 0.0 1.0 0.01
 
 // Chroma Pass
 #pragma parameter ygain_r "Y Gain R Channel" 0.2126 0.0 1.0 0.01
@@ -275,13 +275,13 @@ bool SwapXY = bool(global.swapxy);
 #pragma parameter chromac_y "Chroma C Y" 0.070 0.0 1.0 0.01
 
 // Distortion Pass
-#pragma parameter distortion_amount "Distortion Amount" 0.0 0.0 1.0 0.01
-#pragma parameter cubic_distortion_amount "Cubic Dist. Amt" 0.0 0.0 1.0 0.01
-#pragma parameter distort_corner_amount "Corner Dist. Amt" 0.0 0.0 1.0 0.01
-#pragma parameter round_corner_amount "Corner Rounding" 0.0 0.0 1.0 0.01
-#pragma parameter smooth_border_amount "Border Smoothing" 0.0 0.0 1.0 0.01
-#pragma parameter vignette_amount "Vignetting Amount" 0.0 0.0 1.0 0.01
-#pragma parameter reflection_amount "Reflection Amount" 0.0 0.0 1.0 0.01
+#pragma parameter distortion_amount "Quadric Distortion Amount"     0.05 -2.0 2.0 0.01
+#pragma parameter cubic_distortion_amount "Cubic Distortion Amount" 0.00 -2.0 2.0 0.01
+#pragma parameter distort_corner_amount "Distorted Corner Amount"   0.05  0.0 2.0 0.01
+#pragma parameter round_corner_amount "Rounded Corner Amount"       0.05  0.0 2.0 0.01
+#pragma parameter smooth_border_amount "Smooth Border Amount"       0.03  0.0 2.0 0.01
+#pragma parameter vignette_amount "Vignetting Amount"               0.08  0.0 2.0 0.01
+#pragma parameter reflection_amount "Reflection Amount"             0.00 0.0 1.0 0.01
 #pragma parameter reflection_col_r "Reflection Color R" 1.0 0.0 1.0 0.01
 #pragma parameter reflection_col_g "Reflection Color G" 0.9 0.0 1.0 0.01
 #pragma parameter reflection_col_b "Reflection Color B" 0.8 0.0 1.0 0.01

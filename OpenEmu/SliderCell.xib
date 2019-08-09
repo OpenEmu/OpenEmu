@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14854.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14854.2"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="2" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gwt-w0-CXy">
+            <rect key="frame" x="0.0" y="0.0" width="429" height="94"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kQu-Kx-uO9">
+                    <rect key="frame" x="6" y="70" width="37" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="u6i-Vu-Haa">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Scy-Dg-ZI1">
+                    <rect key="frame" x="8" y="0.0" width="366" height="68"/>
+                    <subviews>
+                        <slider verticalHuggingPriority="750" tag="100" translatesAutoresizingMaskIntoConstraints="NO" id="Tz5-Rx-tyL">
+                            <rect key="frame" x="-2" y="51" width="241" height="19"/>
+                            <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="flr-84-D09"/>
+                        </slider>
+                        <textField verticalHuggingPriority="750" tag="101" translatesAutoresizingMaskIntoConstraints="NO" id="Jj4-Gz-vjh">
+                            <rect key="frame" x="245" y="47" width="100" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="100" id="ABm-Ah-mJd"/>
+                            </constraints>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="2lW-MV-nON">
+                                <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="rEU-wz-93X"/>
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" tag="102" translatesAutoresizingMaskIntoConstraints="NO" id="AJx-L9-82S">
+                            <rect key="frame" x="350" y="43" width="19" height="27"/>
+                            <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="KRu-qU-J8B"/>
+                        </stepper>
+                    </subviews>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
+            </subviews>
+            <edgeInsets key="edgeInsets" left="8" right="0.0" top="8" bottom="0.0"/>
+            <visibilityPriorities>
+                <integer value="1000"/>
+                <integer value="1000"/>
+            </visibilityPriorities>
+            <customSpacing>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+            </customSpacing>
+            <point key="canvasLocation" x="138.5" y="151"/>
+        </stackView>
+    </objects>
+</document>
