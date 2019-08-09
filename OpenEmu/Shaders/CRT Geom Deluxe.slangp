@@ -24,3 +24,25 @@ slot_wrap_mode = repeat
 aperture = crt-geom-deluxe/shaders/geom-deluxe/masks/aperture_2_4_rgb.png
 aperture_linear = true
 aperture_wrap_mode = repeat
+
+parameter_groups = "gamma;halation;phosphor;mask;geom;border;default"
+
+gamma_group_desc = "Gamma"
+gamma_group_parameters = "CRTgamma;monitorgamma"
+
+halation_group_desc = "Halation"
+halation_group_parameters = "halation;width"
+
+phosphor_group_desc = "Phosphor"
+phosphor_group_parameters = "phosphor_power;phosphor_amplitude"
+
+mask_group_desc = "Mask"
+mask_group_parameters = "mask_type;aperture_strength"
+
+geom_group_desc = "Geometry"
+geom_group_parameters = "curvature;R;d;angle_x;angle_y"
+
+border_group_desc = "Border"
+border_group_parameters = "cornersize;cornersmooth;overscan_x;overscan_y;aspect_x;aspect_y"
+
+default_group_hidden = true
