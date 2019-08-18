@@ -320,21 +320,21 @@
 		<key>OEArcadeButtonRight</key>
 		<string>OEControllerGCExtendedGamepadProfileDPadRight</string>
 		<key>OEArcadeButton1</key>
-		<string>OEControllerGCExtendedGamepadProfileButtonY</string>
-		<key>OEArcadeButton2</key>
-		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
-		<key>OEArcadeButton3</key>
-		<string>OEControllerGCExtendedGamepadProfileButtonR1</string>
-		<key>OEArcadeButton4</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
-		<key>OEArcadeButton5</key>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerGCExtendedGamepadProfileButtonY</string>
+		<key>OEArcadeButton3</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
-		<key>OEArcadeButton6</key>
+		<key>OEArcadeButton4</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonB</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerGCExtendedGamepadProfileButtonR2</string>
 		<key>OEArcadeButtonP1Start</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
 		<key>OEArcadeButtonInsertCoin</key>
-		<string>OEControllerGCExtendedGamepadProfileButtonR2</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonR1</string>
 	</dict>
 	<key>OEControllerNintendoSwitchProController</key>
 	<dict>

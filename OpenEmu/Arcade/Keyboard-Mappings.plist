@@ -23,10 +23,12 @@
 	<key>OEArcadeButton6</key>
 	<integer>7</integer>
 	<key>OEArcadeButtonP1Start</key>
-	<integer>40</integer>
+	<integer>89</integer>
 	<key>OEArcadeButtonInsertCoin</key>
-	<integer>229</integer>
+	<integer>93</integer>
 	<key>OEArcadeButtonService</key>
 	<integer>59</integer>
+	<key>OEArcadeUIConfigure</key>
+	<integer>43</integer>
 </dict>
 </plist>

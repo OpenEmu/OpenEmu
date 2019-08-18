@@ -57,6 +57,18 @@
 		<array>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
+				<string>Configure</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeUIConfigure</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Cancel</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeUICancel</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
 				<string>Insert Coin</string>
 				<key>OEControlListKeyNameKey</key>
 				<string>OEArcadeButtonInsertCoin</string>
@@ -161,6 +173,7 @@
 		<string>OEArcadeButtonP1Start</string>
 		<string>OEArcadeButtonInsertCoin</string>
 		<string>OEArcadeButtonService</string>
+		<string>OEArcadeUIConfigure</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
 	<integer>8</integer>

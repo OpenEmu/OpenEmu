@@ -43,6 +43,10 @@ typedef enum _OEArcadeButton
     OEArcadeButtonP1Start,
     OEArcadeButtonInsertCoin,
     OEArcadeButtonService,
+    
+    // UI commands
+    OEArcadeUIConfigure,
+    
     OEArcadeButtonCount
 } OEArcadeButton;
 
