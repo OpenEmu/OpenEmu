@@ -3720,7 +3720,7 @@
 			<key>OEControllerNintendoSwitchProControllerButtonPlus</key>
 			<dict>
 				<key>Name</key>
-				<string>Start</string>
+				<string>+</string>
 				<key>Type</key>
 				<string>Button</string>
 				<key>Usage</key>
@@ -3729,7 +3729,7 @@
 			<key>OEControllerNintendoSwitchProControllerButtonMinus</key>
 			<dict>
 				<key>Name</key>
-				<string>Select</string>
+				<string>−</string>
 				<key>Type</key>
 				<string>Button</string>
 				<key>Usage</key>
