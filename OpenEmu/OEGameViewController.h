@@ -106,9 +106,6 @@ extern NSString *const OEScreenshotPropertiesKey;
 - (NSImage *)nativeScreenshot;
 - (IBAction)takeScreenshot:(id)sender;
 
-#pragma mark - Notifications
-- (void)showQuickSaveNotification;
-
 #pragma mark - Info
 @property(readonly) NSSize defaultScreenSize;
 
@@ -117,5 +114,16 @@ extern NSString *const OEScreenshotPropertiesKey;
 @property (nonatomic) NSUInteger discCount;
 @property (nonatomic) NSArray <NSDictionary <NSString *, id> *> *displayModes;
 @property (nonatomic) NSUInteger remoteContextID;
+
+@end
+
+@interface OEGameViewController (Notifications)
+
+- (void)showQuickSaveNotification;
+- (void)showScreenShotNotification;
+- (void)showFastForwardNotification:(BOOL)enable;
+- (void)showRewindNotification:(BOOL)enable;
+- (void)showStepForwardNotification;
+- (void)showStepBackwardNotification;
 
 @end

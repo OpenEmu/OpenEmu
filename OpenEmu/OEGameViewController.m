@@ -91,6 +91,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 {
     // Standard game document stuff
     OEGameLayerView *_gameView;
+    OEGameLayerNotificationView   *_notificationView;
     BOOL        _pausedByGoingToBackground;
     OEShaderParametersWindowController *_controller;
 }
@@ -128,6 +129,17 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         [_gameView setDelegate:self];
         
         [[self view] addSubview:_gameView];
+        
+        _notificationView = [[OEGameLayerNotificationView alloc] initWithFrame:NSMakeRect(0, 0, 28, 28)];
+        _notificationView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:_notificationView];
+        
+        NSDictionary<NSString *, id> *views = @{@"notification": _notificationView};
+        NSMutableArray<NSLayoutConstraint *> *all = [NSMutableArray new];
+        [all addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-20-[notification(28)]" options:0 metrics:nil views:views]];
+        [all addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[notification(28)]" options:0 metrics:nil views:views]];
+        
+        [NSLayoutConstraint activateConstraints:all];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:_gameView];
         
@@ -366,12 +378,6 @@ static NSSize CorrectScreenSizeForAspectSize(OEIntSize screenSize, OEIntSize asp
     [_controlsWindow repositionOnGameWindow];
 }
 
-- (void)showQuickSaveNotification
-{
-    // Add new view that does this.
-    NSAssert(0, @"Not implemented");
-}
-
 #pragma mark - OEGameViewDelegate Protocol
 
 - (void)gameView:(OEGameLayerView *)gameView didReceiveMouseEvent:(OEEvent *)event
@@ -387,6 +393,37 @@ static NSSize CorrectScreenSizeForAspectSize(OEIntSize screenSize, OEIntSize asp
 - (void)gameView:(OEGameLayerView *)gameView updateBackingScaleFactor:(CGFloat)newScaleFactor
 {
     [[self document] gameViewController:self updateBackingScaleFactor:newScaleFactor];
+}
+
+@end
+
+@implementation OEGameViewController (Notifications)
+
+- (void)showQuickSaveNotification
+{
+    [_notificationView showQuickSave];
+}
+
+- (void)showScreenShotNotification
+{
+    
+}
+
+- (void)showFastForwardNotification:(BOOL)enable
+{
+    
+}
+- (void)showRewindNotification:(BOOL)enable
+{
+    
+}
+- (void)showStepForwardNotification
+{
+    
+}
+- (void)showStepBackwardNotification
+{
+    
 }
 
 @end
