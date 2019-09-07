@@ -136,9 +136,8 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         
         NSDictionary<NSString *, id> *views = @{@"notification": _notificationView};
         NSMutableArray<NSLayoutConstraint *> *all = [NSMutableArray new];
-        [all addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-20-[notification(28)]" options:0 metrics:nil views:views]];
-        [all addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[notification(28)]" options:0 metrics:nil views:views]];
-        
+        [all addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-60-[notification(28)]" options:0 metrics:nil views:views]];
+        [all addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[notification(28)]" options:0 metrics:nil views:views]];
         [NSLayoutConstraint activateConstraints:all];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:_gameView];
@@ -406,24 +405,27 @@ static NSSize CorrectScreenSizeForAspectSize(OEIntSize screenSize, OEIntSize asp
 
 - (void)showScreenShotNotification
 {
-    
+    [_notificationView showScreenShot];
 }
 
 - (void)showFastForwardNotification:(BOOL)enable
 {
-    
+    [_notificationView showFastForwardWithEnabled:enable];
 }
+
 - (void)showRewindNotification:(BOOL)enable
 {
-    
+    [_notificationView showRewindWithEnabled:enable];
 }
+
 - (void)showStepForwardNotification
 {
-    
+    [_notificationView showStepForward];
 }
+
 - (void)showStepBackwardNotification
 {
-    
+    [_notificationView showStepBackward];
 }
 
 @end

@@ -58,7 +58,6 @@
 #import "OEGameViewController.h"
 #import "OEGridGameCell.h"
 #import "OEGameLayerView.h"
-#import "OEGameViewNotificationRenderer.h"
 #import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"
 #import "OEDBDataSourceAdditions.h"
@@ -180,7 +179,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Group(@"HUD Bar / Gameplay"),
                               Checkbox(OEGameControlsBarCanDeleteSaveStatesKey, @"Can delete save states"),
                               NCheckbox(OEGameControlsBarHidesOptionButtonKey, @"Show options button"),
-                              Checkbox(OEShowNotificationsKey, @"Show notifications during gameplay"),
+                              Checkbox(OEGameLayerNotificationView.OEShowNotificationsKey, @"Show notifications during gameplay"),
                               Checkbox(OESaveStateUseQuickSaveSlotsKey, @"Use quicksave slots"),
                               Checkbox(OEGameControlsBarShowsQuickSaveStateKey, @"Show quicksave in menu"),
                               Checkbox(OEGameControlsBarShowsAutoSaveStateKey, @"Show autosave in menu"),

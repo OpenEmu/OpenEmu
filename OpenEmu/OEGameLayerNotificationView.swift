@@ -28,11 +28,29 @@ import Cocoa
 @objc
 class OEGameLayerNotificationView: NSImageView {
     
+    @objc static let OEShowNotificationsKey = "OEShowNotifications"
+    
     public var disableNotifications: Bool = false
     
-    lazy var quicksaveImage = NSImage(named: "hud_quicksave_notification")
+    lazy var quicksaveImage     = NSImage(named: "hud_quicksave_notification")
+    lazy var screenshotImage    = NSImage(named: "hud_screenshot_notification")
+    lazy var fastForwardImage   = NSImage(named: "hud_fastforward_notification")
+    lazy var rewindImage        = NSImage(named: "hud_rewind_notification")
+    lazy var stepForwardImage   = NSImage(named: "hud_stepforward_notification")
+    lazy var stepBackwardImage  = NSImage(named: "hud_stepbackward_notification")
+    
+    var isFastForwarding: Bool  = false
+    var isRewinding: Bool       = false
     
     override var wantsUpdateLayer: Bool { return true }
+    
+    var showNotifications: Bool {
+        return UserDefaults.standard.bool(forKey: OEGameLayerNotificationView.OEShowNotificationsKey)
+    }
+    
+    private static let initializeDefaults: Void = {
+        UserDefaults.standard.register(defaults: [OEShowNotificationsKey : true])
+    }()
     
     // MARK: - Initialization
     
@@ -49,57 +67,94 @@ class OEGameLayerNotificationView: NSImageView {
     private func setup() {
         self.wantsLayer = true
         self.layerContentsRedrawPolicy = .onSetNeedsDisplay
+
+        OEGameLayerNotificationView.initializeDefaults
     }
     
     // MARK: - Notifications
     
-    @objc public func showQuickSave() {
-        CATransaction.begin()
-        CATransaction.disableActions()
-        self.image = quicksaveImage
-        self.layer?.opacity = 0.0
-        CATransaction.commit()
-        
-        CATransaction.begin()
-        CATransaction.setCompletionBlock {
-            NSLog("FINISHED")
-        }
-        self.layer?.add(self.makeOpacityAnimation(), forKey: "opacityAnim")
-        CATransaction.commit()
-    }
-    
-    @objc public func showScreenShot() {
-        
-    }
-    
     @objc public func showFastForward(enabled: Bool) {
-        
+        performNotification(img: fastForwardImage, enabled: enabled, state: &isRewinding)
     }
     
     @objc public func showRewind(enabled: Bool) {
-        
+        performNotification(img: rewindImage, enabled: enabled, state: &isRewinding)
+    }
+    
+    @objc public func showQuickSave() {
+        performShowHideNotification(img: quicksaveImage)
+    }
+    
+    @objc public func showScreenShot() {
+        performShowHideNotification(img: screenshotImage)
     }
     
     @objc public func showStepForward() {
-        
+        performShowHideNotification(img: stepForwardImage)
     }
     
     @objc public func showStepBackward() {
-        
+        performShowHideNotification(img: stepBackwardImage)
     }
     
-    func makeOpacityAnimation() -> CAAnimation {
-        let opacityAnimation = CAKeyframeAnimation()
-        opacityAnimation.beginTime = self.layer!.convertTime(CACurrentMediaTime(), from: nil) + 0.005
+    // MARK: - Animation
+    
+    func performShowHideNotification(img: NSImage?) {
+        if !self.showNotifications {
+            return
+        }
+        
+        CATransaction.begin()
+        CATransaction.disableActions()
+        self.image = img
+        self.layer?.opacity = 0.0
+        CATransaction.commit()
+        
+        self.layer?.add(makeFadeInOutAnimation(), forKey: "fadeInOutAnim")
+    }
+    
+    func makeFadeInOutAnimation() -> CAAnimation {
+        let opacityAnimation = CAKeyframeAnimation(keyPath: "opacity")
         opacityAnimation.duration = 1.75
         opacityAnimation.fillMode = .forwards
-        opacityAnimation.isRemovedOnCompletion = false
-        opacityAnimation.timingFunction = CAMediaTimingFunction(name: .linear)
-        opacityAnimation.keyPath = "opacity"
         opacityAnimation.values = [ 0, 1, 1, 0 ]
         opacityAnimation.keyTimes = [ 0, 0.15, 0.85, 1 ]
-        opacityAnimation.calculationMode = .linear
         return opacityAnimation
     }
     
+    func performNotification(img: NSImage?, enabled: Bool, state: inout Bool) {
+        if !self.showNotifications {
+            return
+        }
+        
+        if enabled && state {
+            return
+        }
+
+        guard let layer = self.layer else {
+            return
+        }
+
+        state = enabled
+        layer.removeAllAnimations()
+        if enabled {
+            CATransaction.begin()
+            CATransaction.disableActions()
+            CATransaction.commit()
+            image = img
+            layer.add(makeFadeAnimation(from: 0), forKey: "fadeInAnim")
+            layer.opacity = 1.0
+        } else {
+            layer.add(makeFadeAnimation(from: layer.opacity), forKey: "fadeOutAnim")
+            layer.opacity = 0.0
+        }
+    }
+    
+    func makeFadeAnimation(from: Float) -> CAAnimation {
+        let opacityAnimation = CABasicAnimation(keyPath: "opacity")
+        opacityAnimation.duration = 0.25
+        opacityAnimation.fillMode = .forwards
+        opacityAnimation.fromValue = from
+        return opacityAnimation
+    }
 }

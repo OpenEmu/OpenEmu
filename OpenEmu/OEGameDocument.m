@@ -884,6 +884,7 @@ typedef enum : NSUInteger
         } else {
             OEDBScreenshot *screenshot = [OEDBScreenshot createObjectInContext:[rom managedObjectContext] forROM:rom withFile:temporaryURL];
             [screenshot save];
+            [[self gameViewController] showScreenShotNotification];
         }
     }];
 }
@@ -1765,15 +1766,15 @@ typedef enum : NSUInteger
 - (void)fastForwardGameplay:(BOOL)enable
 {
     if(_emulationStatus != OEEmulationStatusPlaying) return;
-
-//    [[[self gameViewController] gameView] showFastForwardNotification:enable];
+    
+    [self.gameViewController showFastForwardNotification:enable];
 }
 
 - (void)rewindGameplay:(BOOL)enable
 {
     if(_emulationStatus != OEEmulationStatusPlaying) return;
 
-//    [[[self gameViewController] gameView] showRewindNotification:enable];
+    [self.gameViewController showRewindNotification:enable];
 }
 
 - (void)stepGameplayFrameForward
@@ -1781,8 +1782,8 @@ typedef enum : NSUInteger
     if(_emulationStatus == OEEmulationStatusPlaying)
         [self toggleEmulationPaused:self];
 
-//    if(_emulationStatus == OEEmulationStatusPaused)
-//        [[[self gameViewController] gameView] showStepForwardNotification];
+    if(_emulationStatus == OEEmulationStatusPaused)
+        [self.gameViewController showStepForwardNotification];
 }
 
 - (void)stepGameplayFrameBackward
@@ -1790,8 +1791,8 @@ typedef enum : NSUInteger
     if(_emulationStatus == OEEmulationStatusPlaying)
         [self toggleEmulationPaused:self];
 
-//    if(_emulationStatus == OEEmulationStatusPaused)
-//        [[[self gameViewController] gameView] showStepBackwardNotification];
+    if(_emulationStatus == OEEmulationStatusPaused)
+        [self.gameViewController showStepBackwardNotification];
 }
 
 - (void)nextDisplayMode
