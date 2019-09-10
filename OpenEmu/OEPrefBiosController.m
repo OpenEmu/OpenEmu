@@ -73,7 +73,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     tableView.usesAlternatingRowBackgroundColors = NO;
     tableView.floatsGroupRows = YES;
 
-    [tableView registerForDraggedTypes:@[NSURLPboardType]];
+    [tableView registerForDraggedTypes:@[NSPasteboardTypeURL]];
 
     NSString *biosPath = [OEBIOSFile biosPath];
     self.fileSystemWatcher = [OEFSWatcher watcherForPath:biosPath withBlock:^(NSString *path, FSEventStreamEventFlags flags) {

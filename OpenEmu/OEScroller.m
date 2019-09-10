@@ -133,10 +133,6 @@
 }
 
 #pragma mark - Scroller Drawing
-- (void)drawArrow:(NSScrollerArrow)arrow highlight:(BOOL)flag
-{
-    return [super drawArrow:arrow highlight:flag];
-}
 
 - (void)drawKnobSlotInRect:(NSRect)slotRect highlight:(BOOL)flag
 {
