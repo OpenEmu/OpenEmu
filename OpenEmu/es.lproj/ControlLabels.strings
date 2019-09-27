@@ -146,6 +146,9 @@
 "Pause" = "Pausa";
 "Quick Load Button" = "Carga rápida";
 "Quick Save Button" = "Guardado rápido";
+"Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
+"Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
+"Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
 "Reset" = "Reiniciar";
 "Rewind" = "Retroceso";
 "Save" = "Guardar";

@@ -8239,8 +8239,10 @@
 				7699EC941D6303EC005BC437 /* ca */,
 				82BBE7BD21D961A2006CD402 /* zh-Hant */,
 			);
+			indentWidth = 2;
 			name = ControlLabels.strings;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		83FE963E1968596C00DD8DB9 /* OEMigrationWindowController.xib */ = {
 			isa = PBXVariantGroup;

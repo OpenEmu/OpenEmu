@@ -146,6 +146,9 @@
   "Pause" = "Sospendi";
   "Quick Load Button" = "Carica veloce";
   "Quick Save Button" = "Salva veloce";
+  "Rapid Fire Clear" = "Disattiva Turbo";
+  "Rapid Fire Reset" = "Resetta Turbo";
+  "Rapid Fire Toggle" = "Attiva Turbo";
   "Reset" = "Resetta";
   "Rewind" = "Riavvolgi";
   "Save" = "Salva";

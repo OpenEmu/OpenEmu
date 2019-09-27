@@ -146,6 +146,9 @@
   "Pause" = "暫停";
   "Quick Load Button" = "快速載入按鈕";
   "Quick Save Button" = "快速儲存按鈕";
+  "Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
+  "Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
+  "Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
   "Reset" = "重設";
   "Rewind" = "倒轉";
   "Save" = "儲存";

@@ -148,6 +148,9 @@
   "Pause" = "一時停止";
   "Quick Load Button" = "クイックロード";
   "Quick Save Button" = "クイックセーブ";
+  "Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
+  "Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
+  "Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
   "Reset" = "リセット";
   "Rewind" = "巻き戻し";
   "Save" = "セーブ";

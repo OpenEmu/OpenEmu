@@ -146,6 +146,9 @@
   "Pause" = "Pause";
   "Quick Load Button" = "Quick Load";
   "Quick Save Button" = "Quick Save";
+  "Rapid Fire Clear" = "Rapid Fire Clear";
+  "Rapid Fire Reset" = "Rapid Fire Reset";
+  "Rapid Fire Toggle" = "Rapid Fire Toggle";
   "Reset" = "Reset";
   "Rewind" = "Rewind";
   "Save" = "Save";

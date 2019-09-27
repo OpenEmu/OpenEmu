@@ -146,6 +146,9 @@
   "Pause" = "Pauze";
   "Quick Load Button" = "Snel laden";
   "Quick Save Button" = "Snel opslaan";
+  "Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
+  "Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
+  "Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
   "Reset" = "Opnieuw instellen";
   "Rewind" = "Terugspoelen";
   "Save" = "Opslaan";
