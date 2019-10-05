@@ -117,7 +117,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     if((self = [super init]))
     {
         _controlsWindow = [[OEGameControlsBar alloc] initWithGameViewController:self];
-        [_controlsWindow setReleasedWhenClosed:YES];
+        [_controlsWindow setReleasedWhenClosed:NO];
         
         _controller = [[OEShaderParametersWindowController alloc] initWithGameViewController:self];
         
