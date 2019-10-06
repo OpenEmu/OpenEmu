@@ -898,11 +898,6 @@ extern NSString * const kCAContextCIFilterBehavior;
     [_gameCoreOwner fastForwardGameplay:enable];
 }
 
-- (void)fastForwardAtSpeed:(CGFloat)value
-{
-
-}
-
 - (void)rewindGameplay:(BOOL)enable
 {
     // TODO: technically a data race, but it is only updating a single NSInteger
