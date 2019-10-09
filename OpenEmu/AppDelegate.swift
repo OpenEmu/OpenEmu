@@ -646,7 +646,32 @@ class AppDelegate: NSDocumentController {
     fileprivate func setUpHIDSupport() {
         // Set up OEBindingsController.
         _ = OEBindingsController.self
-        _ = OEDeviceManager.shared()
+        let dm = OEDeviceManager.shared()
+        if #available(macOS 10.15, *) {
+            if !dm.accessGranted {
+                DispatchQueue.global(qos: .default).async {
+                    let ok = dm.requestAccess()
+                    if !ok {
+                        DispatchQueue.main.async {
+                            self.showInputMonitoringPermissionsAlert()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    fileprivate func showInputMonitoringPermissionsAlert() {
+        let alert = OEHUDAlert()
+        alert.headlineText = NSLocalizedString("OpenEmu requires additional permissions", comment:"Headline for Input Monitoring permissions")
+        alert.messageText = NSLocalizedString("OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues.", comment:"Message for Input Monitoring permissions")
+        alert.defaultButtonTitle = NSLocalizedString("Show", comment:"")
+        alert.alternateButtonTitle = NSLocalizedString("Ignore", comment: "")
+
+        let res = alert.runModal()
+        if res == .alertFirstButtonReturn {
+            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_InputMonitoring")!)
+        }
     }
     
     // MARK: - Help Menu

@@ -156,7 +156,14 @@ extern NSString * const kCAContextCIFilterBehavior;
         [self setupProcessPollingTimer];
     }
     
-    [OEDeviceManager sharedDeviceManager];
+    OEDeviceManager *dm = [OEDeviceManager sharedDeviceManager];
+    if (@available(macOS 10.15, *))
+    {
+        if (!dm.accessGranted)
+        {
+            NSLog(@"Input Monitoring: Access Denied");
+        }
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
