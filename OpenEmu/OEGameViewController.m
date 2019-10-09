@@ -84,7 +84,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
  - Native screenshot
  
  Messages from remote layer:
- - Default screen size/aspect size
+ - Default screen size/aspect size - DONE?
  */
 
 @interface OEGameViewController () <OEGameViewDelegate>
@@ -335,30 +335,15 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 #pragma mark - Info
 
-// TODO: This is nearly the same as a method in the helper layer.
-static NSSize CorrectScreenSizeForAspectSize(OEIntSize screenSize, OEIntSize aspectSize)
-{
-    // calculate aspect ratio
-    CGFloat wr = (CGFloat) aspectSize.width / screenSize.width;
-    CGFloat hr = (CGFloat) aspectSize.height / screenSize.height;
-    CGFloat ratio = MAX(hr, wr);
-    NSSize scaled = NSMakeSize((wr / ratio), (hr / ratio));
-    
-    CGFloat halfw = scaled.width;
-    CGFloat halfh = scaled.height;
-    
-    NSSize corrected;
-    corrected = NSMakeSize(screenSize.width / halfh, screenSize.height / halfw);
-    
-    return corrected;
-}
-
 - (NSSize)defaultScreenSize
 {
-    NSParameterAssert(_screenSize.width);
-    NSParameterAssert(_aspectSize.width);
-    
-    return CorrectScreenSizeForAspectSize(_screenSize, _aspectSize);
+    // Slow to boot systems are triggering this line right now.
+    // Sync issue between the remote layer and helper?
+    if(OEIntSizeIsEmpty(_screenSize) || OEIntSizeIsEmpty(_aspectSize))
+        return NSMakeSize(400, 300);
+
+    NSSize corrected = [_gameView correctScreenSize:_screenSize forAspectSize:_aspectSize returnVertices:NO];
+    return corrected;
 }
 
 #pragma mark - Private Methods
