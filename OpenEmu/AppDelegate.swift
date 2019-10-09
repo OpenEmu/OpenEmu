@@ -648,15 +648,17 @@ class AppDelegate: NSDocumentController {
         _ = OEBindingsController.self
         let dm = OEDeviceManager.shared()
         if #available(macOS 10.15, *) {
-            if !dm.accessGranted {
-                DispatchQueue.global(qos: .default).async {
-                    let ok = dm.requestAccess()
-                    if !ok {
-                        DispatchQueue.main.async {
-                            self.showInputMonitoringPermissionsAlert()
-                        }
-                    }
+            switch dm.accessType {
+            case .unknown:
+                dm.requestAccess()
+                
+            case .denied:
+                DispatchQueue.main.async {
+                    self.showInputMonitoringPermissionsAlert()
                 }
+                
+            default:
+                break
             }
         }
     }
@@ -670,7 +672,7 @@ class AppDelegate: NSDocumentController {
 
         let res = alert.runModal()
         if res == .alertFirstButtonReturn {
-            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_InputMonitoring")!)
+            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent")!)
         }
     }
     

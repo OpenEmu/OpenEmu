@@ -159,7 +159,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     OEDeviceManager *dm = [OEDeviceManager sharedDeviceManager];
     if (@available(macOS 10.15, *))
     {
-        if (!dm.accessGranted)
+        if (dm.accessType != OEDeviceAccessTypeGranted)
         {
             NSLog(@"Input Monitoring: Access Denied");
         }
