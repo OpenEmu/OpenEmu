@@ -74,7 +74,7 @@ class OEGameLayerNotificationView: NSImageView {
     // MARK: - Notifications
     
     @objc public func showFastForward(enabled: Bool) {
-        performNotification(img: fastForwardImage, enabled: enabled, state: &isRewinding)
+        performNotification(img: fastForwardImage, enabled: enabled, state: &isFastForwarding)
     }
     
     @objc public func showRewind(enabled: Bool) {
@@ -136,12 +136,27 @@ class OEGameLayerNotificationView: NSImageView {
         }
 
         state = enabled
+
+        var localImg = img
+        var localEnabled = enabled
+
+        // Rewind + Fast Forward = Fast Rewind
+        if localImg == fastForwardImage && isRewinding {
+            return
+        }
+
+        // Resume fast forward notification after rewind ends if fast forward is still pressed
+        if localImg == rewindImage && !enabled && isFastForwarding {
+            localImg = fastForwardImage
+            localEnabled = true
+        }
+
         layer.removeAllAnimations()
-        if enabled {
+        if localEnabled {
             CATransaction.begin()
             CATransaction.disableActions()
             CATransaction.commit()
-            image = img
+            image = localImg
             layer.add(makeFadeAnimation(from: 0), forKey: "fadeInAnim")
             layer.opacity = 1.0
         } else {
