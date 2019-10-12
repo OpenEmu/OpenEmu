@@ -103,10 +103,8 @@ OEMTLPixelFormat GLToRPixelFormat(GLenum pixelFormat, GLenum pixelType);
 // Execution
 - (void)willExecuteFrame
 {
-#if DEBUG
     const void *coreBuffer = [_gameCore getVideoBufferWithHint:_buffer.contents];
     NSAssert(_buffer.contents == coreBuffer, @"Game suddenly stopped using direct rendering");
-#endif
 }
 
 - (void)didExecuteFrame
