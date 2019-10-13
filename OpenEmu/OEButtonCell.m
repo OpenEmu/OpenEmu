@@ -181,7 +181,7 @@
                 default:
                 {
                     NSRect tmp = [super imageRectForBounds:theRect];
-                    if (!NSEqualRects(tmp, NSZeroRect)) {
+                    if (NSEqualRects(tmp, NSZeroRect)) {
                         result.origin.x = NSMinX(theRect) + (NSWidth(theRect)-imageSize.width) / 2.0;
                         result.origin.y = NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0;
                     } else
