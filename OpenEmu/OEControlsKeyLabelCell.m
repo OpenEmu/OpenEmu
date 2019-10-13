@@ -64,4 +64,11 @@
     _fontFamily = aFontFamily;
 }
 
+- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+{
+    /* Overriding this method fixes shadow rendering in macOS Catalina.
+     * Don't ask how because I have no idea. */
+    [super drawWithFrame:cellFrame inView:controlView];
+}
+
 @end
