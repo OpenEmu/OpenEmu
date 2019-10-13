@@ -25,6 +25,7 @@
  */
 
 import Foundation
+import CoreGraphics
 
 class ThreePartImage: NSImage {
     
@@ -178,15 +179,37 @@ extension NSImage {
     
     @objc(subImageFromRect:)
     func subImage(from rect: NSRect) -> NSImage {
-        
-        return NSImage(size: rect.size, flipped: false) { [unowned self] dstRect in
-            self.draw(in: dstRect,
-                from: rect,
-                operation: .sourceOver,
-                fraction: 1)
-
-            return true
+        if rect.origin == NSZeroPoint && rect.size == self.size {
+            return self.copy() as! NSImage
         }
+        
+        let newImage = NSImage(size: rect.size)
+        let flippedRect = NSMakeRect(rect.origin.x, (self.size.height-(rect.origin.y+rect.size.height)), rect.size.width, rect.size.height)
+        for representation in self.representations {
+            if representation.pixelsWide == 0 && representation.pixelsHigh == 0 {
+                continue
+            }
+            let cgrep = representation.cgImage(forProposedRect: nil, context: nil, hints: nil)
+            let xscale = CGFloat(representation.pixelsHigh) / representation.size.height;
+            let yscale = CGFloat(representation.pixelsWide) / representation.size.width;
+            if let croppedrep = cgrep?.cropping(to: CGRect(x:flippedRect.origin.x * xscale, y:flippedRect.origin.y * yscale, width:flippedRect.size.width * xscale, height:flippedRect.size.height * yscale)) {
+                let newrep = NSBitmapImageRep(cgImage: croppedrep)
+                newrep.size = rect.size
+                newImage.addRepresentation(newrep)
+            }
+        }
+        
+        if newImage.representations.count == 0 {
+            return NSImage(size: rect.size, flipped: false) { [unowned self] dstRect in
+                self.draw(in: dstRect,
+                    from: rect,
+                    operation: .sourceOver,
+                    fraction: 1)
+
+                return true
+            }
+        }
+        return newImage
     }
     
     @objc(imageFromParts:vertical:)

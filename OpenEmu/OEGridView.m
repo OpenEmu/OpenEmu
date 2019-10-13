@@ -763,7 +763,7 @@ static NSImage *lightingImage;
     NSImage *nsbackgroundImage = [[self groupBackgroundImage] imageForState:state];
     IKImageWrapper *backgroundImage = [IKImageWrapper imageWithNSImage:nsbackgroundImage];
 
-    const NSSize backgroundImageSize = [backgroundImage size];
+    const NSSize backgroundImageSize = nsbackgroundImage.size;
     headerRect.origin.y   += NSHeight(headerRect)-backgroundImageSize.height;
     headerRect.size.height = backgroundImageSize.height;
 
