@@ -30,6 +30,14 @@
 #import "OEThemeTextAttributes.h"
 #import "OEThemeImage.h"
 
+
+@interface NSButtonCell ()
+
+- (NSButtonType)_buttonType;
+
+@end
+
+
 @implementation OEButtonCell
 @synthesize themed = _themed;
 @synthesize hovering = _hovering;
@@ -114,45 +122,75 @@
     return size;
 }
 
+- (NSCellImagePosition)_oe_realImagePosition
+{
+    NSCellImagePosition imgpos = self.imagePosition;
+    if (self.userInterfaceLayoutDirection == NSUserInterfaceLayoutDirectionLeftToRight) {
+        imgpos =
+            imgpos == NSImageLeading  ? NSImageLeft :
+            imgpos == NSImageTrailing ? NSImageRight :
+            imgpos;
+    } else {
+        imgpos =
+            imgpos == NSImageLeading  ? NSImageRight :
+            imgpos == NSImageTrailing ? NSImageLeft :
+            imgpos;
+    }
+    return imgpos;
+}
+
 - (NSRect)imageRectForBounds:(NSRect)theRect
 {
-    NSRect result = [super imageRectForBounds:theRect];
-    if(_themed && _themeImage)
+    if (!(_themed && _themeImage))
+        return [super imageRectForBounds:theRect];
+    
+    NSRect result = NSZeroRect;
+    NSButtonType buttonType = [self _buttonType];
+    switch(buttonType)
     {
-        NSButtonType buttonType = [[self valueForKey:@"buttonType"] unsignedIntegerValue];
-        switch(buttonType)
+        case NSButtonTypeSwitch:
         {
-            case NSButtonTypeSwitch:
-            {
-                NSSize imageSize = [self image].size;
-                result.origin.y = NSMinY(result) + (NSHeight(result) - imageSize.height) / 2.0;
-                result.size = imageSize;
-                break;
-            }
-            default:
-                if(NSIsEmptyRect(result))
+            result = [super imageRectForBounds:theRect];
+            NSSize imageSize = [self image].size;
+            result.origin.y = NSMinY(result) + (NSHeight(result) - imageSize.height) / 2.0;
+            result.size = imageSize;
+            break;
+        }
+        default:
+        {
+            NSSize imageSize = [self image].size;
+            result.size = imageSize;
+            
+            switch ([self _oe_realImagePosition]) {
+                case NSImageRight:
                 {
-                    NSSize imageSize = [self image].size;
-                    result.size = imageSize;
-                    
-                    switch ([self imagePosition]) {
-                        // TODO: Take other imagePositions and imageScaling into account
-                        case NSImageRight:
-                            result.origin.x = NSMaxX(theRect) - imageSize.width;
-                            result.origin.y = NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0;
-                            break;
-                        default:
-                            result.origin.x = NSMinX(theRect) + (NSWidth(theRect)-imageSize.width) / 2.0;
-                            result.origin.y = NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0;
-                            break;
-                    }
+                    NSRect textRect = [self titleRectForBounds:theRect];
+                    result.origin.x = NSMaxX(textRect) + 4.0;
+                    result.origin.y = floor(NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0);
+                    break;
                 }
-                else
-                    result.origin.x -= 2;
-                break;
+                case NSImageLeft:
+                    result.origin.x = theRect.origin.x;
+                    result.origin.y = floor(NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0);
+                    break;
+                case NSImageOnly:
+                case NSImageBelow:
+                case NSImageAbove:
+                case NSImageOverlaps:
+                case NSNoImage:
+                default:
+                {
+                    NSRect tmp = [super imageRectForBounds:theRect];
+                    if (!NSEqualRects(tmp, NSZeroRect)) {
+                        result.origin.x = NSMinX(theRect) + (NSWidth(theRect)-imageSize.width) / 2.0;
+                        result.origin.y = NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0;
+                    } else
+                        result = tmp;
+                    break;
+                }
+            }
         }
     }
-
 
     if([self controlView])
         return [[self controlView] backingAlignedRect:result options:NSAlignAllEdgesNearest];
@@ -162,41 +200,60 @@
 
 - (NSRect)titleRectForBounds:(NSRect)theRect
 {
-    NSRect result = [super titleRectForBounds:theRect];
-
-    if(_themed)
+    if (!_themed)
+        return [super titleRectForBounds:theRect];
+    
+    NSRect result = NSZeroRect;
+    NSButtonType buttonType = [self _buttonType];
+    switch(buttonType)
     {
-        NSButtonType buttonType = [[self valueForKey:@"buttonType"] unsignedIntegerValue];
-        switch(buttonType)
-        {
-            case NSButtonTypeRadio:
-            case NSButtonTypeSwitch:
-                result = NSInsetRect(result, 3.0, 0.0);
-                result.origin.y += 1.0;
-                break;
-            default:
-                if([self isHighlighted] && [self isBordered])
-                {
+        case NSButtonTypeRadio:
+        case NSButtonTypeSwitch:
+            result = [super titleRectForBounds:theRect];
+            result = NSInsetRect(result, 3.0, 0.0);
+            result.origin.y += 1.0;
+            break;
+            
+        default:
+            if (!_themeImage) {
+                result = [super titleRectForBounds:theRect];
+                if ([self isHighlighted] && [self isBordered]) {
                     result.origin.x -= 1.0;
                     result.origin.y -= 1.0;
                 }
-                
-                if(_themeImage)
-                {
-                    NSSize imageSize = [self image].size;
-                    switch ([self imagePosition]) {
-                    // TODO: Take other imagePositions and imageScaling into account
-                        case NSImageRight:
-                            result.size.width -= imageSize.width;
-                            result.origin.y += 1;
-                            break;
-                        default:
-                            break;
+            } else {
+                result = [self.attributedTitle boundingRectWithSize:theRect.size options:0];
+                result.origin.x = theRect.origin.x;
+                result.origin.y = NSMinY(theRect) + (NSHeight(theRect)-result.size.height) / 2.0;
+                switch ([self imagePosition]) {
+                    case NSImageRight:  // text on the left
+                        result.origin.x += 3.0;
+                        break;
+                    case NSImageLeft:  // text on the right
+                    {
+                        NSRect imageRect = [self imageRectForBounds:theRect];
+                        result.origin.x = imageRect.origin.x + 4.0;
+                        break;
                     }
+                    case NSImageOnly:
+                    case NSImageBelow:
+                    case NSImageAbove:
+                    case NSImageOverlaps:
+                    case NSImageLeading:
+                    case NSImageTrailing:
+                    case NSNoImage:
+                    default:
+                        result = [super titleRectForBounds:theRect];
+                        if ([self isHighlighted] && [self isBordered]) {
+                            result.origin.x -= 1.0;
+                            result.origin.y -= 1.0;
+                        }
+                        break;
                 }
-                break;
-        }
+            }
+            break;
     }
+    
     return result;
 }
 

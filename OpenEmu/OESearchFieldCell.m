@@ -85,37 +85,27 @@
 - (NSRect)searchTextRectForBounds:(NSRect)rect
 {
     // Left gap (loupe image)
-    rect.size.width -= 26.0;
-    rect.origin.x   += 26.0;
+    rect.size.width -= 24.0;
+    rect.origin.x   += 24.0;
 
     // Right gap (cancel image)
     rect.size.width -= 23.0;
     
     // Limit the text to the cell's bounds
     rect.size.height = 14.0;
-    rect.origin.y += 3.0;
+    rect.origin.y += 4.0;
 
     return rect;
 }
 
 - (NSRect)cancelButtonRectForBounds:(NSRect)rect
 {
-    rect = [super cancelButtonRectForBounds:rect];
-    rect.origin.y -= 1.0;
-    return rect;
+    return NSMakeRect(NSMaxX(rect) - 23.0, rect.origin.y, 23.0, rect.size.height);
 }
 
 - (NSRect)searchButtonRectForBounds:(NSRect)rect
 {
-    NSRect r = [super searchButtonRectForBounds:rect];
-
-    r.origin.x += 5.0;
-    if([self searchMenuTemplate])
-        r.size.width = 18.0;
-    else
-        r.size.width = 13.0;
-
-    return r;
+    return NSMakeRect(rect.origin.x + 5.0, rect.origin.y, 23.0, rect.size.height + 1.0);
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView

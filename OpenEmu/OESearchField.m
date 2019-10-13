@@ -236,6 +236,7 @@
     [cancelButtonCell setAction:[oldCancelButtonCell action]];
     [cancelButtonCell setTarget:[oldCancelButtonCell target]];
     [cancelButtonCell setThemeKey:[key stringByAppendingString:@"_cancel"]];
+    [cancelButtonCell setImagePosition:NSImageLeft];
     [[self cell] setCancelButtonCell:cancelButtonCell];
 
     // setup search button
