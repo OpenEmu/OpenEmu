@@ -716,18 +716,17 @@ static NSImage *lightingImage;
     [renderer drawRoundedRect:dragRect radius:8.0 lineWidth:2.0*scaleFactor cacheIt:YES];
 }
 
-- (void)drawGroupsOverlays
-{
-    [super drawGroupsOverlays];
+#pragma mark - Groups
 
-    const id <IKRenderer> renderer = [self renderer];
-    const NSRect visibleRect = [[self enclosingScrollView] documentVisibleRect];
-    
-    [renderer setColorRed:0.0 Green:0.0 Blue:0.0 Alpha:1.0];
-    [renderer fillRect:NSMakeRect(0, NSMinY(visibleRect)-10, NSWidth(visibleRect), 10)];
+- (CGRect)_rectOfGroupHeader:(IKImageBrowserGridGroup *)group
+{
+    CGRect rect = [super _rectOfGroupHeader:group];
+    NSImage *bgimg = [[self groupBackgroundImage] imageForState:OEThemeStateDefault];
+    rect.origin.y = rect.origin.y + rect.size.height - (bgimg.size.height - 3.0);
+    rect.size.height = bgimg.size.height - 3.0;
+    return rect;
 }
 
-#pragma mark - Groups
 - (id)gridGroupFromDictionary:(NSDictionary*)arg1
 {
     IKImageBrowserGridGroup *group = [super gridGroupFromDictionary:arg1];
@@ -740,16 +739,27 @@ static NSImage *lightingImage;
 
 - (void)drawGroupsBackground
 {
-    const NSRect visibleRect = [self visibleRect];
+}
+
+- (void)drawGroupsOverlays
+{
+    [super drawGroupsOverlays];
+
+    const id <IKRenderer> renderer = [self renderer];
+    const NSRect visibleRect = [[self enclosingScrollView] documentVisibleRect];
+    
+    [renderer setColorRed:0.0 Green:0.0 Blue:0.0 Alpha:1.0];
+    [renderer fillRect:NSMakeRect(0, NSMinY(visibleRect)-10, NSWidth(visibleRect), 10)];
+    
+    //const NSRect visibleRect = [self visibleRect];
     [[[self layoutManager] groups] enumerateObjectsUsingBlock:^(IKImageBrowserGridGroup *group, NSUInteger idx, BOOL *stop) {
-        const NSRect groupHeaderRect = [self _rectOfGroupHeader:group];
+        const NSRect groupHeaderRect = [self rectOfFloatingGroupHeader:group];
         // draw group header if it's visible
         if(!NSEqualRects(NSIntersectionRect(visibleRect, groupHeaderRect), NSZeroRect))
         {
             [self drawGroup:group withRect:groupHeaderRect];
         }
     }];
-
 }
 
 - (void)drawGroup:(IKImageBrowserGridGroup*)group withRect:(NSRect)headerRect
