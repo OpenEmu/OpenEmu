@@ -702,17 +702,18 @@ static NSImage *lightingImage;
     if([self dropOperation] != IKImageBrowserDropBefore) return;
 
     NSUInteger scaleFactor = [renderer scaleFactor];
-    [renderer setColorRed:0.03 Green:0.41 Blue:0.85 Alpha:1.0];
+    NSColor *dragColor = [[NSColor controlAccentColor] colorUsingColorSpace:self.window.colorSpace];
+    [renderer setColorRed:dragColor.redComponent Green:dragColor.greenComponent Blue:dragColor.blueComponent Alpha:dragColor.alphaComponent];
     
-    NSRect dragRect = [[self enclosingScrollView] documentVisibleRect];
-    
-    NSEdgeInsets contentInsets = [[self enclosingScrollView] contentInsets];
-    dragRect.size.height -= contentInsets.top + contentInsets.bottom + 2;
-    
-    dragRect = NSInsetRect(dragRect, 1.0*scaleFactor, 1.0*scaleFactor);
-    dragRect = NSIntegralRect(dragRect);
+    NSRect dragRect = NSIntegralRect([[self enclosingScrollView] documentVisibleRect]);
+    NSEdgeInsets insets = [[self enclosingScrollView] contentInsets];
+    dragRect.origin.x += insets.left;
+    dragRect.origin.y += insets.bottom;
+    dragRect.size.width -= insets.left + insets.right;
+    dragRect.size.height -= insets.bottom + insets.top;
+    dragRect = NSInsetRect(NSIntegralRect(dragRect), 2.0+1.0, 2.0+1.0);
 
-    [renderer drawRoundedRect:dragRect radius:8.0*scaleFactor lineWidth:2.0*scaleFactor cacheIt:YES];
+    [renderer drawRoundedRect:dragRect radius:8.0 lineWidth:2.0*scaleFactor cacheIt:YES];
 }
 
 - (void)drawGroupsOverlays
