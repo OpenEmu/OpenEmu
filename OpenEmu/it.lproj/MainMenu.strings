@@ -231,7 +231,7 @@
 "oKt-cF-ZgP.title" = "Invia una donazione…";
 
 /* Class = "NSMenuItem"; title = "Next Display Mode"; ObjectID = "VVR-iO-axh"; */
-"VVR-iO-axh.title" = "Next Display Mode"; // TODO
+"VVR-iO-axh.title" = "Vista successiva";
 
 /* Class = "NSMenuItem"; title = "Last Display Mode"; ObjectID = "HzI-NP-sNP"; */
-"HzI-NP-sNP.title" = "Last Display Mode"; // TODO
+"HzI-NP-sNP.title" = "Vista precedente";
