@@ -86,8 +86,8 @@
 
 - (void)OE_setupDefaultColors
 {
-    [self setDropBorderColor:[NSColor colorWithDeviceRed:0.03 green:0.41 blue:0.85 alpha:1.0]];
-    [self setDropBackgroundColor:[NSColor colorWithDeviceRed:0.03 green:0.24 blue:0.34 alpha:1.0]];
+    [self setDropBorderColor:[NSColor controlAccentColor]];
+    [self setDropBackgroundColor:[NSColor selectedContentBackgroundColor]];
     [self setDropBorderWidth:2.0];
     [self setDropCornerRadius:8.0];
 }
@@ -308,7 +308,7 @@
     if(isActive)
     {
         // Active
-        fillColor = [NSColor colorWithDeviceRed:0.243 green:0.502 blue:0.871 alpha:1];
+        fillColor = [NSColor controlAccentColor];
     }
     else 
     {
@@ -378,7 +378,7 @@
 
 - (id)_dropHighlightColor
 {
-    return [NSColor colorWithDeviceRed:8/255.0 green:105/255.0 blue:216/255.0 alpha:1.0];
+    return [NSColor controlAccentColor];
 }
 
 - (void)_flashOutlineCell
