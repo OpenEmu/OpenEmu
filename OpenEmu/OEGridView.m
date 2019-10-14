@@ -760,10 +760,11 @@ static NSImage *lightingImage;
 
     OEThemeState state = OEThemeStateDefault;
 
-    NSImage *nsbackgroundImage = [[self groupBackgroundImage] imageForState:state];
-    IKImageWrapper *backgroundImage = [IKImageWrapper imageWithNSImage:nsbackgroundImage];
+    NSImage *bgimg = [[self groupBackgroundImage] imageForState:state];
+    CGImageRef img = [bgimg CGImageForProposedRect:NULL context:[NSGraphicsContext currentContext] hints:nil];
+    IKImageWrapper *backgroundImage = [IKImageWrapper imageWithCGImage:img];
 
-    const NSSize backgroundImageSize = nsbackgroundImage.size;
+    const NSSize backgroundImageSize = bgimg.size;
     headerRect.origin.y   += NSHeight(headerRect)-backgroundImageSize.height;
     headerRect.size.height = backgroundImageSize.height;
 
