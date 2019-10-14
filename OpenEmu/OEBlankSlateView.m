@@ -111,7 +111,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 
     // Setup drag indication layer
     _dragIndicationLayer = [[CALayer alloc] init];
-    _dragIndicationLayer.borderColor = [[NSColor colorWithDeviceRed:0.03 green:0.41 blue:0.85 alpha:1.0] CGColor];
+    _dragIndicationLayer.borderColor = [[NSColor controlAccentColor] CGColor];
     _dragIndicationLayer.borderWidth = 2.0;
     _dragIndicationLayer.cornerRadius = 8.0;
     _dragIndicationLayer.hidden = YES;
