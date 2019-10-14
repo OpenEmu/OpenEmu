@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPrefBiosController">
@@ -24,7 +25,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="90" rowSizeStyle="automatic" viewBased="YES" id="LIj-Tj-6II" customClass="OETableView">
-                                <rect key="frame" x="0.0" y="0.0" width="426" height="0.0"/>
+                                <rect key="frame" x="0.0" y="0.0" width="426" height="460"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -49,6 +50,7 @@
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GS8-0y-6Ry" customClass="OETextField">
                                                         <rect key="frame" x="0.0" y="1" width="423" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="YrR-8w-4CP" customClass="OETextFieldCell">
                                                             <font key="font" metaFont="smallSystem"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -72,6 +74,7 @@
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tkx-gB-e8N" customClass="OETextField">
                                                         <rect key="frame" x="12" y="34" width="411" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="PlayStation (EU) SCPH-5502 BIOS" id="Hbv-dS-4vw" customClass="OETextFieldCell">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -86,6 +89,7 @@
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="xLs-XI-X6L" customClass="OETextField">
                                                         <rect key="frame" x="30" y="14" width="225" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" sendsActionOnEndEditing="YES" title="scph5502.bin" id="FjA-9l-aL6" customClass="OETextFieldCell">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -100,6 +104,7 @@
                                                     </textField>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="oAo-6M-zyF">
                                                         <rect key="frame" x="337" y="3" width="65" height="48"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="right" imageScaling="proportionallyUpOrDown" id="2BP-Vx-P5a"/>
                                                     </imageView>
                                                 </subviews>
@@ -113,6 +118,7 @@
                                                 <subviews>
                                                     <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="eFR-Km-ZoQ">
                                                         <rect key="frame" x="15" y="9" width="394" height="73"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="kho-xU-BTB">
                                                             <rect key="frame" x="0.0" y="0.0" width="394" height="73"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -120,20 +126,20 @@
                                                                 <textView ambiguous="YES" editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="Ynq-yb-Moe" customClass="OEArrowCursorTextView">
                                                                     <rect key="frame" x="0.0" y="0.0" width="394" height="73"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     <size key="minSize" width="394" height="73"/>
                                                                     <size key="maxSize" width="394" height="10000000"/>
                                                                     <attributedString key="textStorage">
                                                                         <fragment content="asdasd">
                                                                             <attributes>
+                                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                                 <font key="NSFont" metaFont="smallSystem"/>
                                                                                 <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                                                                             </attributes>
                                                                         </fragment>
                                                                     </attributedString>
                                                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                    <size key="minSize" width="394" height="73"/>
-                                                                    <size key="maxSize" width="394" height="10000000"/>
                                                                     <connections>
                                                                         <binding destination="Byy-Ku-AfU" name="attributedString" keyPath="objectValue" id="2R3-AZ-NEA">
                                                                             <dictionary key="options">
@@ -145,7 +151,6 @@
                                                                     </connections>
                                                                 </textView>
                                                             </subviews>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </clipView>
                                                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="4rK-O0-egZ">
                                                             <rect key="frame" x="-100" y="-100" width="87" height="18"/>
@@ -163,7 +168,7 @@
                                 </tableColumns>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <nil key="backgroundColor"/>
                     </clipView>
                     <constraints>
                         <constraint firstAttribute="width" constant="423" id="PTh-Zk-jNi"/>
@@ -183,11 +188,7 @@
                 <constraint firstItem="EjW-Ja-3BR" firstAttribute="top" secondItem="3" secondAttribute="top" id="Fp7-AI-02X"/>
                 <constraint firstItem="EjW-Ja-3BR" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="cHR-ZC-Tmh"/>
             </constraints>
-            <userDefinedRuntimeAttributes>
-                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                    <color key="value" name="textColor" catalog="System" colorSpace="catalog"/>
-                </userDefinedRuntimeAttribute>
-            </userDefinedRuntimeAttributes>
+            <point key="canvasLocation" x="140" y="154"/>
         </view>
     </objects>
 </document>
