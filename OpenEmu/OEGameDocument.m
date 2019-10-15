@@ -862,9 +862,8 @@ typedef enum : NSUInteger
     bool takeNativeScreenshots = [standardUserDefaults boolForKey:OETakeNativeScreenshots];
     
     [_gameCoreManager takeScreenshotWithFiltering:!takeNativeScreenshots completionHandler:^(NSBitmapImageRep *image) {
+        __block NSData *imageData = [image representationUsingType:type properties:properties];
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSData *imageData = [image representationUsingType:type properties:properties];
-            
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"yyyy-MM-dd HH.mm.ss"];
             NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
@@ -1559,9 +1558,8 @@ typedef enum : NSUInteger
          NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEScreenshotPropertiesKey];
          
          [self->_gameCoreManager takeScreenshotWithFiltering:NO completionHandler:^(NSBitmapImageRep *image) {
+             __block NSData *convertedData = [image representationUsingType:type properties:properties];
              dispatch_async(dispatch_get_main_queue(), ^{
-                 NSData *convertedData = [image representationUsingType:type properties:properties];
-                 
                  __autoreleasing NSError *saveError = nil;
                  if([state screenshotURL] == nil || ![convertedData writeToURL:[state screenshotURL] options:NSDataWritingAtomic error:&saveError])
                      NSLog(@"Could not create screenshot at url: %@ with error: %@", [state screenshotURL], saveError);
