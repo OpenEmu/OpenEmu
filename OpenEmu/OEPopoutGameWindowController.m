@@ -63,7 +63,7 @@ typedef enum
 
 @interface OEScreenshotWindow : NSWindow
 @property(nonatomic, unsafe_unretained) NSImageView *screenshotView;
-@property(nonatomic, unsafe_unretained) NSImage     *screenshot;
+- (void)setScreenshot:(NSImage *)screenshot;
 @end
 
 

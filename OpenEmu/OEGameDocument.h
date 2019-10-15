@@ -94,6 +94,9 @@ enum _OEGameDocumentErrorCodes
 - (IBAction)stopEmulation:(id)sender;
 - (IBAction)takeScreenshot:(id)sender;
 
+/*! Return a filtered screenshot of the currently running core */
+- (NSImage *)screenshot;
+
 #pragma mark - Cheats
 - (IBAction)addCheat:(id)sender;
 - (IBAction)setCheat:(id)sender;

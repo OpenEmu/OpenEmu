@@ -103,7 +103,6 @@ extern NSString *const OEScreenshotPropertiesKey;
 
 #pragma mark - Taking Screenshots
 - (NSImage *)screenshot;
-- (NSImage *)nativeScreenshot;
 - (IBAction)takeScreenshot:(id)sender;
 
 #pragma mark - Info

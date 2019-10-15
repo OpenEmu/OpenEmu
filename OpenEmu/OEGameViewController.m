@@ -225,16 +225,9 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     return [[self document] systemIdentifier];
 }
 
-- (NSImage *)nativeScreenshot
-{
-    NSAssert(0, @"Must send to helper.");
-    return nil;
-}
-
 - (NSImage *)screenshot
 {
-    NSAssert(0, @"Must send to helper.");
-    return nil;
+    return [self.document screenshot];
 }
 
 - (IBAction)takeScreenshot:(id)sender
