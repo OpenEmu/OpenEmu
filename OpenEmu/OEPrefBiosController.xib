@@ -88,7 +88,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="xLs-XI-X6L" customClass="OETextField">
-                                                        <rect key="frame" x="30" y="14" width="225" height="17"/>
+                                                        <rect key="frame" x="30" y="14" width="393" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" sendsActionOnEndEditing="YES" title="scph5502.bin" id="FjA-9l-aL6" customClass="OETextFieldCell">
                                                             <font key="font" metaFont="system"/>
@@ -152,11 +152,11 @@
                                                                 </textView>
                                                             </subviews>
                                                         </clipView>
-                                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="4rK-O0-egZ">
+                                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="4rK-O0-egZ">
                                                             <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
-                                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="yBD-o4-yLk">
+                                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="yBD-o4-yLk">
                                                             <rect key="frame" x="224" y="1" width="15" height="133"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
@@ -174,11 +174,11 @@
                         <constraint firstAttribute="width" constant="423" id="PTh-Zk-jNi"/>
                         <constraint firstAttribute="height" constant="460" id="r0A-VV-D5h"/>
                     </constraints>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Pte-Dx-7ad">
+                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="Pte-Dx-7ad">
                         <rect key="frame" x="1" y="119" width="223" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
-                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="b5L-TB-dhP">
+                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="b5L-TB-dhP">
                         <rect key="frame" x="224" y="17" width="15" height="102"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
@@ -188,7 +188,7 @@
                 <constraint firstItem="EjW-Ja-3BR" firstAttribute="top" secondItem="3" secondAttribute="top" id="Fp7-AI-02X"/>
                 <constraint firstItem="EjW-Ja-3BR" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="cHR-ZC-Tmh"/>
             </constraints>
-            <point key="canvasLocation" x="140" y="154"/>
+            <point key="canvasLocation" x="139.5" y="154"/>
         </view>
     </objects>
 </document>
