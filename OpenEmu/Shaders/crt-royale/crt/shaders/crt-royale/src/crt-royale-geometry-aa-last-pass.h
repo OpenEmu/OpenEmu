@@ -158,23 +158,23 @@ void main()
         const float2 sin_tilt = sin(geom_tilt_angle);
         const float2 cos_tilt = cos(geom_tilt_angle);
         //  Conceptual breakdown:
-        //      static const float3x3 rot_x_matrix = float3x3(
-        //          1.0, 0.0, 0.0,
-        //          0.0, cos_tilt.y, -sin_tilt.y,
-        //          0.0, sin_tilt.y, cos_tilt.y);
-        //      static const float3x3 rot_y_matrix = float3x3(
-        //          cos_tilt.x, 0.0, sin_tilt.x,
-        //          0.0, 1.0, 0.0,
-        //          -sin_tilt.x, 0.0, cos_tilt.x);
-        //      static const float3x3 local_to_global =
-        //          mul(rot_y_matrix, rot_x_matrix);
-        //      static const float3x3 global_to_local =
-        //          transpose(local_to_global);
+              static const float3x3 rot_x_matrix = float3x3(
+                  1.0, 0.0, 0.0,
+                  0.0, cos_tilt.y, -sin_tilt.y,
+                  0.0, sin_tilt.y, cos_tilt.y);
+              static const float3x3 rot_y_matrix = float3x3(
+                  cos_tilt.x, 0.0, sin_tilt.x,
+                  0.0, 1.0, 0.0,
+                  -sin_tilt.x, 0.0, cos_tilt.x);
+              static const float3x3 local_to_global =
+                  mul(rot_y_matrix, rot_x_matrix);
+/*              static const float3x3 global_to_local =
+                  transpose(local_to_global);
         const float3x3 local_to_global = float3x3(
             cos_tilt.x, sin_tilt.y*sin_tilt.x, cos_tilt.y*sin_tilt.x,
-            0.0, cos_tilt.y, -sin_tilt.y,
-            -sin_tilt.x, sin_tilt.y*cos_tilt.x, cos_tilt.y*cos_tilt.x);
-        //  This is a pure rotation, so transpose = inverse:
+            0.0, cos_tilt.y, sin_tilt.y,
+            sin_tilt.x, sin_tilt.y*cos_tilt.x, cos_tilt.y*cos_tilt.x);
+*/        //  This is a pure rotation, so transpose = inverse:
         const float3x3 global_to_local = transpose(local_to_global);
         //  Decompose the matrix into 3 float3's for output:
         global_to_local_row0 = float3(global_to_local[0][0], global_to_local[0][1], global_to_local[0][2]);//._m00_m01_m02);
@@ -265,16 +265,16 @@ void main()
     //  2.) Overscan == float2(1.0, 1.0)
     //  Skipping AA is sharper, but it's only faster with dynamic branches.
     const float2 abs_aa_r_offset = abs(get_aa_subpixel_r_offset());
-    const bool need_subpixel_aa = abs_aa_r_offset.x + abs_aa_r_offset.y > 0.0;
+    const bool need_subpixel_aa = false;//abs_aa_r_offset.x + abs_aa_r_offset.y > 0.0;
     float3 color;
-/*  //TODO/FIXME: This block is what causes the black screen when geom_mode >= 1.0
+
     if(aa_level > 0.5 && (geom_mode > 0.5 || any(bool2((geom_overscan.x != 1.0), (geom_overscan.y != 1.0)))))
     {
         //  Sample the input with antialiasing (due to sharp phosphors, etc.):
         color = tex2Daa(input_texture, tex_uv, pixel_to_tex_uv, float(IN.frame_count));
     }
 
-    else */if(aa_level > 0.5 && need_subpixel_aa)
+    else if(aa_level > 0.5 && need_subpixel_aa)
     {
         //  Sample at each subpixel location:
         color = tex2Daa_subpixel_weights_only(
