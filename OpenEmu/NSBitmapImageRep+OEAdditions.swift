@@ -41,7 +41,7 @@ import Cocoa
         }
         
         NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
-        NSGraphicsContext.current?.imageInterpolation = .high
+        NSGraphicsContext.current?.imageInterpolation = .none
         if !self.draw(in: NSRect(x: 0, y: 0, width: sz.width, height: sz.height)) {
             return nil
         }
