@@ -861,39 +861,54 @@ typedef enum : NSUInteger
     NSDictionary *properties   = [standardUserDefaults dictionaryForKey:OEScreenshotPropertiesKey];
     bool takeNativeScreenshots = [standardUserDefaults boolForKey:OETakeNativeScreenshots];
     
-    [_gameCoreManager takeScreenshotWithFiltering:!takeNativeScreenshots completionHandler:^(NSBitmapImageRep *image) {
-        __block NSData *imageData = [image representationUsingType:type properties:properties];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd HH.mm.ss"];
-            NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
-            
-            // Replace forward slashes in the game title with underscores because forward slashes aren't allowed in filenames.
-            OEDBRom *rom = self.rom;
-            NSMutableString *displayName = [rom.game.displayName mutableCopy];
-            [displayName replaceOccurrencesOfString:@"/" withString:@"_" options:0 range:NSMakeRange(0, displayName.length)];
-            
-            NSString *fileName = [NSString stringWithFormat:@"%@ %@.png", displayName, timeStamp];
-            NSString *temporaryPath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
-            NSURL *temporaryURL = [NSURL fileURLWithPath:temporaryPath];
-            
-            __autoreleasing NSError *error;
-            if(![imageData writeToURL:temporaryURL options:NSDataWritingAtomic error:&error])
-            {
-                NSLog(@"Could not save screenshot at URL: %@, with error: %@", temporaryURL, error);
-            } else {
-                OEDBScreenshot *screenshot = [OEDBScreenshot createObjectInContext:[rom managedObjectContext] forROM:rom withFile:temporaryURL];
-                [screenshot save];
-                [[self gameViewController] showScreenShotNotification];
-            }
-        });
-    }];
+    if (takeNativeScreenshots)
+    {
+        [_gameCoreManager captureSourceImageWithCompletionHandler:^(NSBitmapImageRep *image) {
+            NSSize newSize = self->_gameViewController.defaultScreenSize;
+            image = [image resized:newSize];
+            __block NSData *imageData = [image representationUsingType:type properties:properties];
+            [self performSelectorOnMainThread:@selector(OE_writeScreenshotImageData:) withObject:imageData waitUntilDone:NO];
+        }];
+    }
+    else
+    {
+        [_gameCoreManager captureOutputImageWithCompletionHandler:^(NSBitmapImageRep *image) {
+            __block NSData *imageData = [image representationUsingType:type properties:properties];
+            [self performSelectorOnMainThread:@selector(OE_writeScreenshotImageData:) withObject:imageData waitUntilDone:NO];
+        }];
+    }
+}
+
+- (void)OE_writeScreenshotImageData:(NSData *)imageData
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH.mm.ss"];
+    NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
+    
+    // Replace forward slashes in the game title with underscores because forward slashes aren't allowed in filenames.
+    OEDBRom *rom = self.rom;
+    NSMutableString *displayName = [rom.game.displayName mutableCopy];
+    [displayName replaceOccurrencesOfString:@"/" withString:@"_" options:0 range:NSMakeRange(0, displayName.length)];
+    
+    NSString *fileName = [NSString stringWithFormat:@"%@ %@.png", displayName, timeStamp];
+    NSString *temporaryPath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+    NSURL *temporaryURL = [NSURL fileURLWithPath:temporaryPath];
+    
+    __autoreleasing NSError *error;
+    if(![imageData writeToURL:temporaryURL options:NSDataWritingAtomic error:&error])
+    {
+        NSLog(@"Could not save screenshot at URL: %@, with error: %@", temporaryURL, error);
+    } else {
+        OEDBScreenshot *screenshot = [OEDBScreenshot createObjectInContext:[rom managedObjectContext] forROM:rom withFile:temporaryURL];
+        [screenshot save];
+        [[self gameViewController] showScreenShotNotification];
+    }
 }
 
 - (NSImage *)screenshot {
     __block dispatch_semaphore_t sem = dispatch_semaphore_create(0);
     __block NSImage *screenshot = nil;
-    [_gameCoreManager takeScreenshotWithFiltering:YES completionHandler:^(NSBitmapImageRep *image) {
+    [_gameCoreManager captureOutputImageWithCompletionHandler:^(NSBitmapImageRep *image) {
         screenshot = [[NSImage alloc] initWithSize:image.size];
         [screenshot addRepresentation:image];
         dispatch_semaphore_signal(sem);

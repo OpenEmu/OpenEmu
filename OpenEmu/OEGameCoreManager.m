@@ -205,9 +205,16 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
      }];
 }
 
-- (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block
+- (void)captureOutputImageWithCompletionHandler:(void (^)(NSBitmapImageRep *image))block
 {
-    [[self gameCoreHelper] takeScreenshotWithFiltering:filtered completionHandler:^(NSBitmapImageRep *image) {
+    [[self gameCoreHelper] captureOutputImageWithCompletionHandler:^(NSBitmapImageRep *image) {
+        block(image);
+    }];
+}
+
+- (void)captureSourceImageWithCompletionHandler:(void (^)(NSBitmapImageRep *image))block
+{
+    [[self gameCoreHelper] captureSourceImageWithCompletionHandler:^(NSBitmapImageRep *image) {
         block(image);
     }];
 }

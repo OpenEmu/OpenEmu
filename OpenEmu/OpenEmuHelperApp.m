@@ -652,15 +652,24 @@ extern NSString * const kCAContextCIFilterBehavior;
     [_pendingDeviceHandlerBindings removeObjectForKey:placeholder];
 }
 
-#pragma mark - OEGameCoreOwner subclass handles
+#pragma mark - OEGameCoreOwner image capture
 
-- (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block
+- (void)captureOutputImageWithCompletionHandler:(void (^)(NSBitmapImageRep *image))block
 {
-    __block OEFilterChain *view = _filterChain;
+    __block OEFilterChain *chain = _filterChain;
     [_gameCore performBlock:^{
-        block(filtered ? [view captureOutputImage] : [view captureSourceImage]);
+        block(chain.captureOutputImage);
     }];
 }
+
+- (void)captureSourceImageWithCompletionHandler:(void (^)(NSBitmapImageRep *image))block
+{
+    __block OEFilterChain *chain = _filterChain;
+    [_gameCore performBlock:^{
+        block(chain.captureSourceImage);
+    }];
+}
+
 
 #pragma mark - OEGameCoreOwner subclass handles
 

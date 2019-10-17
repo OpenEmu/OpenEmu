@@ -66,7 +66,10 @@
 - (void)systemBindingsDidSetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber;
 - (void)systemBindingsDidUnsetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber;
 
-- (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block;
+#pragma mark - screenshot support
+
+- (void)captureOutputImageWithCompletionHandler:(void (^)(NSBitmapImageRep *image))block;
+- (void)captureSourceImageWithCompletionHandler:(void (^)(NSBitmapImageRep *image))block;
 
 @end
 

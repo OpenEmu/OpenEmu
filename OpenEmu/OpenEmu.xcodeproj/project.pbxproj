@@ -127,6 +127,7 @@
 		052B9296226ED63200701431 /* OEMTLGameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 052B9294226ED63200701431 /* OEMTLGameRenderer.m */; };
 		052B92D3226EE5FA00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
 		052B92D4226EE66C00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
+		052EA5BC2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */; };
 		05410EE122F68ED900303424 /* ShaderParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EE022F68ED900303424 /* ShaderParameters.xib */; };
 		05410EE722F690E200303424 /* OEShaderParametersWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05410EE622F690E200303424 /* OEShaderParametersWindowController.m */; };
 		05410EF122F7538B00303424 /* SliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF022F7538B00303424 /* SliderCell.xib */; };
@@ -1443,6 +1444,7 @@
 		052B9293226ED63200701431 /* OEMTLGameRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEMTLGameRenderer.h; sourceTree = "<group>"; };
 		052B9294226ED63200701431 /* OEMTLGameRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEMTLGameRenderer.m; sourceTree = "<group>"; };
 		052B92D2226EE5FA00701431 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBitmapImageRep+OEAdditions.swift"; sourceTree = "<group>"; };
 		05410EE022F68ED900303424 /* ShaderParameters.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaderParameters.xib; sourceTree = "<group>"; };
 		05410EE522F690DB00303424 /* OEShaderParametersWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEShaderParametersWindowController.h; sourceTree = "<group>"; };
 		05410EE622F690E200303424 /* OEShaderParametersWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEShaderParametersWindowController.m; sourceTree = "<group>"; };
@@ -3346,6 +3348,7 @@
 				5A2CE895206EA5E900790F89 /* NSArray+OEAdditions.h */,
 				5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.m */,
 				5A9606DD1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift */,
+				052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */,
 				EFBD5D7614EFE19A00FBD1E0 /* NSColor+OEAdditions.h */,
 				EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */,
 				5A9606DF1C0B12FE0089B494 /* NSControl+TargetAction.swift */,
@@ -7469,6 +7472,7 @@
 				5A9606DC1C0A84BC0089B494 /* LibraryToolbar.swift in Sources */,
 				53439A9B13B92C97005C0CC8 /* OEDBCollection.m in Sources */,
 				53439A9C13B92C97005C0CC8 /* OEDBCollectionFolder.m in Sources */,
+				052EA5BC2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift in Sources */,
 				53439A9D13B92C97005C0CC8 /* OEDBSmartCollection.m in Sources */,
 				5A3DB1691D8C93C3009445EC /* PreferencesControlsBox.swift in Sources */,
 				53439AA213B92C9D005C0CC8 /* OEDBGame.m in Sources */,
