@@ -1572,7 +1572,9 @@ typedef enum : NSUInteger
          NSBitmapImageFileType type = [standardUserDefaults integerForKey:OEScreenshotFileFormatKey];
          NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEScreenshotPropertiesKey];
          
-         [self->_gameCoreManager takeScreenshotWithFiltering:NO completionHandler:^(NSBitmapImageRep *image) {
+         [self->_gameCoreManager captureSourceImageWithCompletionHandler:^(NSBitmapImageRep *image) {
+             NSSize newSize = self->_gameViewController.defaultScreenSize;
+             image = [image resized:newSize];
              __block NSData *convertedData = [image representationUsingType:type properties:properties];
              dispatch_async(dispatch_get_main_queue(), ^{
                  __autoreleasing NSError *saveError = nil;
