@@ -28,8 +28,6 @@
 #import "NSColor+OEAdditions.h"
 @import QuartzCore;
 
-NSString * const OEScreenshotAspectRatioCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
-
 @interface CAContext : NSObject
 + (id)contextWithCGSConnection:(CAContextID)contextId options:(NSDictionary*)optionsDict;
 @property(readonly) CAContextID contextId;

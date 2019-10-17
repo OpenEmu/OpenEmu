@@ -26,8 +26,6 @@
 
 @import Cocoa;
 
-extern NSString * const OEScreenshotAspectRatioCorrectionDisabled;
-
 // SPI USE: Stolen from Chrome.
 typedef uint32_t CAContextID;
 

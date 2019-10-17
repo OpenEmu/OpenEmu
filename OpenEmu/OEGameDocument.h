@@ -27,6 +27,8 @@
 @import Cocoa;
 #import "OEGameViewController.h"
 
+extern NSString * const OEScreenshotAspectRatioCorrectionDisabled;
+
 extern NSString *const OEGameCoreManagerModePreferenceKey;
 extern NSString *const OEGameDocumentErrorDomain;
 

@@ -57,6 +57,8 @@
 
 #import "OpenEmu-Swift.h"
 
+NSString * const OEScreenshotAspectRatioCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
+
 NSString *const OEGameCoreManagerModePreferenceKey = @"OEGameCoreManagerModePreference";
 NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
@@ -859,13 +861,16 @@ typedef enum : NSUInteger
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSBitmapImageFileType type = [standardUserDefaults integerForKey:OEScreenshotFileFormatKey];
     NSDictionary *properties   = [standardUserDefaults dictionaryForKey:OEScreenshotPropertiesKey];
-    bool takeNativeScreenshots = [standardUserDefaults boolForKey:OETakeNativeScreenshots];
+    BOOL takeNativeScreenshots = [standardUserDefaults boolForKey:OETakeNativeScreenshots];
+    BOOL disableAspectRatioFix = [standardUserDefaults boolForKey:OEScreenshotAspectRatioCorrectionDisabled];
     
     if (takeNativeScreenshots)
     {
         [_gameCoreManager captureSourceImageWithCompletionHandler:^(NSBitmapImageRep *image) {
-            NSSize newSize = self->_gameViewController.defaultScreenSize;
-            image = [image resized:newSize];
+            if (!disableAspectRatioFix) {
+                NSSize newSize = self->_gameViewController.defaultScreenSize;
+                image = [image resized:newSize];
+            }
             __block NSData *imageData = [image representationUsingType:type properties:properties];
             [self performSelectorOnMainThread:@selector(OE_writeScreenshotImageData:) withObject:imageData waitUntilDone:NO];
         }];
