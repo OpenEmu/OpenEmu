@@ -589,7 +589,7 @@
 
 "Take screenshots in native size" = "Neem schermafbeeldingen in native grootte";
 
-"Disable aspect ratio correction" = "Schakel aspect ratio correctie uit";
+"Disable aspect ratio correction in screenshots" = "Schakel aspect ratio correctie uit"; // TODO: specify "in screenshots"
 
 "Game View Background color" = "Achtergrondkleur van spellenvenster";
 

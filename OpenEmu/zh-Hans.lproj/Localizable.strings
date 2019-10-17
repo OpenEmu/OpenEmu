@@ -599,7 +599,7 @@
 
 "Take screenshots in native size" = "以原始尺寸截屏";
 
-"Disable aspect ratio correction" = "禁用长宽比修正";
+"Disable aspect ratio correction in screenshots" = "禁用长宽比修正"; // TODO: specify "in screenshots"
 
 "Game View Background color" = "游戏视图背景颜色";
 

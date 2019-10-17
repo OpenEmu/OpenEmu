@@ -589,7 +589,7 @@
 
 "Take screenshots in native size" = "Делать снимки экрана в реальном размере";
 
-"Disable aspect ratio correction" = "Отключить коррекцию соотношения сторон";
+"Disable aspect ratio correction in screenshots" = "Отключить коррекцию соотношения сторон"; // TODO: specify "in screenshots"
 
 "Game View Background color" = "Цвет фона окна игры";
 

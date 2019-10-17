@@ -185,7 +185,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox(OEGameControlsBarShowsAutoSaveStateKey, @"Show autosave in menu"),
                               Checkbox(OEGameControlsBarShowsAudioOutput, @"Show audio output device in menu"),
                               Checkbox(OETakeNativeScreenshots, @"Take screenshots in native size"),
-                              Checkbox(OEScreenshotAspectRatioCorrectionDisabled, @"Disable aspect ratio correction"),
+                              Checkbox(OEScreenshotAspectRatioCorrectionDisabled, @"Disable aspect ratio correction in screenshots"),
                               ColorWell(OEGameViewBackgroundColorKey, @"Game View Background color"),
 
                               Group(@"Controls Setup"),

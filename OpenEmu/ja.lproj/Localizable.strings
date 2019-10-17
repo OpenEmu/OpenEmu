@@ -599,7 +599,7 @@
 
 "Take screenshots in native size" = "スクリーンショットをネイティブサイズで表示";
 
-"Disable aspect ratio correction" = "アスペクト比調整を無効にする";
+"Disable aspect ratio correction in screenshots" = "アスペクト比調整を無効にする"; // TODO: specify "in screenshots"
 
 "Game View Background color" = "ゲーム画面の背景色";
 

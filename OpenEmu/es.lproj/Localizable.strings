@@ -589,7 +589,7 @@
 
 "Take screenshots in native size" = "Hacer capturas de pantalla en tamaño original";
 
-"Disable aspect ratio correction" = "Desactivar corrección de relación de aspecto";
+"Disable aspect ratio correction in screenshots" = "Desactivar corrección de relación de aspecto"; // TODO: specify "in screenshots"
 
 "Game View Background color" = "Color de fondo de vista de juego";
 
