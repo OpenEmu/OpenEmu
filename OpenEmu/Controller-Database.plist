@@ -751,8 +751,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerMicrosoftXbox360LeftAnalogLeft</key>
@@ -779,8 +777,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerMicrosoftXbox360LeftAnalogUp</key>
@@ -807,8 +803,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Rx</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerMicrosoftXbox360RightAnalogLeft</key>
@@ -835,8 +829,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Ry</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerMicrosoftXbox360RightAnalogUp</key>
@@ -1017,8 +1009,6 @@
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerLogitechDualActionDPadUp</key>
@@ -1059,8 +1049,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerLogitechDualActionLeftAnalogLeft</key>
@@ -1087,8 +1075,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerLogitechDualActionLeftAnalogUp</key>
@@ -1115,8 +1101,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Z</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerLogitechDualActionRightAnalogLeft</key>
@@ -1143,8 +1127,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Rz</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerLogitechDualActionRightAnalogUp</key>
@@ -1300,8 +1282,6 @@
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerPS3NeoGeoPadDPadUp</key>
@@ -1470,8 +1450,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerSegaSaturnDPadLeft</key>
@@ -1498,8 +1476,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerSegaSaturnDPadUp</key>
@@ -1636,8 +1612,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>73</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerRetrodeDPadLeft</key>
@@ -1664,8 +1638,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>74</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerRetrodeDPadUp</key>
@@ -1692,8 +1664,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>5</string>
-				<key>Cookie</key>
-				<integer>13</integer>
 			</dict>
 			<key>OEControllerRetrodeButtonB</key>
 			<dict>
@@ -1703,8 +1673,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>1</string>
-				<key>Cookie</key>
-				<integer>9</integer>
 			</dict>
 			<key>OEControllerRetrodeButtonX</key>
 			<dict>
@@ -1714,8 +1682,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>6</string>
-				<key>Cookie</key>
-				<integer>14</integer>
 			</dict>
 			<key>OEControllerRetrodeButtonY</key>
 			<dict>
@@ -1725,8 +1691,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>2</string>
-				<key>Cookie</key>
-				<integer>10</integer>
 			</dict>
 			<key>OEControllerRetrodeButtonLeftShoulder</key>
 			<dict>
@@ -1736,8 +1700,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>7</string>
-				<key>Cookie</key>
-				<integer>15</integer>
 			</dict>
 			<key>OEControllerRetrodeButtonRightShoulder</key>
 			<dict>
@@ -1747,8 +1709,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>8</string>
-				<key>Cookie</key>
-				<integer>16</integer>
 			</dict>
 			<key>OEControllerRetrodeButtonStart</key>
 			<dict>
@@ -1758,8 +1718,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>4</string>
-				<key>Cookie</key>
-				<integer>12</integer>
 			</dict>
 			<key>OEControllerRetrodeButtonSelect</key>
 			<dict>
@@ -1769,8 +1727,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>3</string>
-				<key>Cookie</key>
-				<integer>11</integer>
 			</dict>
 		</dict>
 	</dict>
@@ -2318,8 +2274,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>17</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerAdaptoidN64AnalogLeft</key>
@@ -2346,8 +2300,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>18</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerAdaptoidN64AnalogUp</key>
@@ -2485,8 +2437,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerGravisGamePadProDPadLeft</key>
@@ -2513,8 +2463,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerGravisGamePadProDPadUp</key>
@@ -2948,8 +2896,6 @@
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerSonyPS4Dualshock4DPadUp</key>
@@ -3311,8 +3257,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerGCExtendedGamepadProfileLeftAnalogLeft</key>
@@ -3339,8 +3283,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerGCExtendedGamepadProfileLeftAnalogUp</key>
@@ -3367,8 +3309,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Z</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerGCExtendedGamepadProfileRightAnalogLeft</key>
@@ -3395,8 +3335,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Rz</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerGCExtendedGamepadProfileRightAnalogUp</key>
@@ -3525,8 +3463,6 @@
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerNintendoSwitchProControllerDPadUp</key>
