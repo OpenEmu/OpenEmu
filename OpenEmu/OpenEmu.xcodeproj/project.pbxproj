@@ -6379,21 +6379,165 @@
 				TargetAttributes = {
 					081A46251B95744A00565444 = {
 						CreatedOnToolsVersion = 6.4;
+						ProvisioningStyle = Manual;
+					};
+					1415540E1442B3B300A01683 = {
+						ProvisioningStyle = Manual;
+					};
+					1BEF2A9311682A530090F72B = {
+						ProvisioningStyle = Manual;
+					};
+					277CBA3219DE54200059A2C1 = {
+						ProvisioningStyle = Manual;
+					};
+					37C802FF101564A300356EF3 = {
+						ProvisioningStyle = Manual;
+					};
+					3887A7F51024D1F9000FC4CF = {
+						ProvisioningStyle = Manual;
+					};
+					3DB744A51BD8BA9E00C23E74 = {
+						ProvisioningStyle = Manual;
+					};
+					820EB7391483F9A2008EC398 = {
+						ProvisioningStyle = Manual;
+					};
+					8227753E148946DF00B19E27 = {
+						ProvisioningStyle = Manual;
+					};
+					82C9C96F0F080C7F0071460B = {
+						ProvisioningStyle = Manual;
 					};
 					837964E01A6149C000A8DE5C = {
 						CreatedOnToolsVersion = 6.1.1;
+						ProvisioningStyle = Manual;
+					};
+					83F37141140BB166005A7353 = {
+						ProvisioningStyle = Manual;
 					};
 					87DF04FD1BCE2D100060E2C2 = {
 						CreatedOnToolsVersion = 7.0.1;
+						ProvisioningStyle = Manual;
 					};
 					87FBC06C1BFC70FE00AECF5A = {
 						CreatedOnToolsVersion = 7.1.1;
+						ProvisioningStyle = Manual;
 					};
 					87FBC08D1C0790B400AECF5A = {
 						CreatedOnToolsVersion = 7.1.1;
+						ProvisioningStyle = Manual;
 					};
 					8D15AC270486D014006FF6A4 = {
 						LastSwiftMigration = 1020;
+						ProvisioningStyle = Manual;
+					};
+					9405538317A34C6B009B505D = {
+						ProvisioningStyle = Manual;
+					};
+					941F5A0017A785AD0005D7EA = {
+						ProvisioningStyle = Manual;
+					};
+					943C80111708A62E00D8D93E = {
+						ProvisioningStyle = Manual;
+					};
+					943C80341708F23900D8D93E = {
+						ProvisioningStyle = Manual;
+					};
+					943F998A1707D51100270E89 = {
+						ProvisioningStyle = Manual;
+					};
+					943F99B21707DF3700270E89 = {
+						ProvisioningStyle = Manual;
+					};
+					94404754199D4DF0002D805E = {
+						ProvisioningStyle = Manual;
+					};
+					94454EB317860E1D006C057B = {
+						ProvisioningStyle = Manual;
+					};
+					945E42FA1517F2B500057D08 = {
+						ProvisioningStyle = Manual;
+					};
+					946B9461178289BA00A212AC = {
+						ProvisioningStyle = Manual;
+					};
+					9479664E15EDE645004316AB = {
+						ProvisioningStyle = Manual;
+					};
+					94A224321707537F00098DA0 = {
+						ProvisioningStyle = Manual;
+					};
+					94A224421707539D00098DA0 = {
+						ProvisioningStyle = Manual;
+					};
+					94A22452170753C800098DA0 = {
+						ProvisioningStyle = Manual;
+					};
+					94A22462170753D500098DA0 = {
+						ProvisioningStyle = Manual;
+					};
+					94A22472170753E100098DA0 = {
+						ProvisioningStyle = Manual;
+					};
+					94A224821707541E00098DA0 = {
+						ProvisioningStyle = Manual;
+					};
+					94A224921707542A00098DA0 = {
+						ProvisioningStyle = Manual;
+					};
+					94A224A21707543600098DA0 = {
+						ProvisioningStyle = Manual;
+					};
+					94A224B21707544100098DA0 = {
+						ProvisioningStyle = Manual;
+					};
+					94A224C21707544B00098DA0 = {
+						ProvisioningStyle = Manual;
+					};
+					94A224D21707556D00098DA0 = {
+						ProvisioningStyle = Manual;
+					};
+					94A224E21707559100098DA0 = {
+						ProvisioningStyle = Manual;
+					};
+					94A224F51707596100098DA0 = {
+						ProvisioningStyle = Manual;
+					};
+					94BE9E4F171683E000AB08E6 = {
+						ProvisioningStyle = Manual;
+					};
+					94C51FBC1847077700206E6F = {
+						ProvisioningStyle = Manual;
+					};
+					94CEB26C17A84809005A2107 = {
+						ProvisioningStyle = Manual;
+					};
+					94D7E8C815073BA000FBDD85 = {
+						ProvisioningStyle = Manual;
+					};
+					94EBBCD7183F422500743756 = {
+						ProvisioningStyle = Manual;
+					};
+					C646574713771F12002A4F70 = {
+						ProvisioningStyle = Manual;
+					};
+					C6480FC013648F670094FA33 = {
+						ProvisioningStyle = Manual;
+					};
+					C64BB08C136478E600C1AB23 = {
+						ProvisioningStyle = Manual;
+					};
+					C671180E136368330034379A = {
+						ProvisioningStyle = Manual;
+					};
+					C6B947AE1364ECA600A425F0 = {
+						ProvisioningStyle = Manual;
+					};
+					C6B947E51365080B00A425F0 = {
+						ProvisioningStyle = Manual;
+					};
+					FEB6625A187B791800D14713 = {
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -10352,6 +10496,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -10411,6 +10556,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
