@@ -126,6 +126,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         // Clear any previously applied search filter.
         self.currentSearchTerm = nil;
         _searchPredicate = [NSPredicate predicateWithValue:YES];
+        _searchKeys = @[@"rom.game.gameTitle", @"rom.game.name", @"rom.game.system.lastLocalizedName", @"name", @"userDescription"];
         [self reloadData];
     }
 }
