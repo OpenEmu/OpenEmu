@@ -41,4 +41,4 @@ Currently OpenEmu can load the following game engines as plugins:
 Minimum Requirements
 --------------------
 
-macOS 10.11 El Capitan
+macOS 10.14 Mojave
