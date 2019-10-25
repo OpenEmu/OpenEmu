@@ -175,6 +175,10 @@ class AppDelegate: NSDocumentController {
             OEDBSavedGamesMediaShowsAutoSaves: true,
             OEDBSavedGamesMediaShowsQuickSaves: true,
             ])
+        
+        #if !DEBUG_PRINT
+            UserDefaults.standard.removeObject(forKey: OEGameCoreManagerModePreferenceKey)
+        #endif
 
         // Don't let an old setting override automatically checking for app updates.
         if let automaticChecksEnabled = UserDefaults.standard.object(forKey: "SUEnableAutomaticChecks") as? Bool, automaticChecksEnabled == false {
