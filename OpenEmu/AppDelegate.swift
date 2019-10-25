@@ -1075,7 +1075,10 @@ extension AppDelegate: NSMenuDelegate {
         bind(NSBindingName(rawValue: "backgroundControllerPlay"), to: userDefaultsController, withKeyPath: "values.backgroundControllerPlay", options: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.windowDidBecomeKey), name: NSWindow.didBecomeKeyNotification, object: nil)
-        
+
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.deviceManagerDidChangeGlobalEventMonitor(_:)), name: NSNotification.Name.OEDeviceManagerDidAddGlobalEventMonitorHandler, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.deviceManagerDidChangeGlobalEventMonitor(_:)), name: NSNotification.Name.OEDeviceManagerDidRemoveGlobalEventMonitorHandler, object: nil)
+
         for startupQueueItem in startupQueue {
             startupQueueItem()
         }
@@ -1138,6 +1141,10 @@ extension AppDelegate: NSMenuDelegate {
         } else {
             startupQueue.append(block)
         }
+    }
+
+    @objc func deviceManagerDidChangeGlobalEventMonitor(_ notification: Notification) {
+        updateEventHandlers()
     }
     
     func applicationDidResignActive(_ notification: Notification) {
