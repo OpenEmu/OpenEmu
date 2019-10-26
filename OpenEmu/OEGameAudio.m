@@ -77,8 +77,9 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
 }
 
 - (void)freeResources {
+    
     if (_engine) {
-        [_engine stop];
+        [self stopAudio];
         _engine = nil;
     }
     
@@ -111,6 +112,7 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
     NSError *err;
     if (![_engine startAndReturnError:&err]) {
         NSLog(@"failed to start audio hardware, %@", err.localizedDescription);
+        return;
     }
 }
 
@@ -171,20 +173,32 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
     return [[AVAudioFormat alloc] initWithStreamDescription:&mDataFormat];
 }
 
+- (AudioDeviceID)currentAudioOutputDeviceID {
+    AudioObjectPropertyAddress addr = {
+        .mSelector = kAudioHardwarePropertyDefaultOutputDevice,
+        .mScope    = kAudioObjectPropertyScopeGlobal,
+        .mElement  = kAudioObjectPropertyElementMaster,
+    };
+    
+    AudioObjectID deviceID = kAudioDeviceUnknown;
+    UInt32 size = sizeof(deviceID);
+    AudioObjectGetPropertyData(kAudioObjectSystemObject, &addr, 0, nil, &size, &deviceID);
+    return deviceID;
+}
+
 - (void)createAudioEngine {
     [self freeResources];
     
     _engine = [AVAudioEngine new];
     
-    if (_outputDeviceID != 0) {
-        AudioDeviceID outputDeviceID = _outputDeviceID;
-        AudioUnit output = _engine.outputNode.audioUnit;
-        OSStatus err = AudioUnitSetProperty(output, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0, &outputDeviceID, sizeof(outputDeviceID));
-        if (err != noErr) {
-            NSLog(@"unable to set output device");
-        }
-    } else {
-        _outputDeviceID = _engine.outputNode.AUAudioUnit.deviceID;
+    if (_outputDeviceID == 0) {
+        _outputDeviceID = [self currentAudioOutputDeviceID];
+    }
+    
+    NSError *err;
+    if (![_engine.outputNode.AUAudioUnit setDeviceID:_outputDeviceID error:&err]) {
+        NSLog(@"unable to set output device: %@", err.localizedDescription);
+        return;
     }
     
     NSAssert1(_gameCore.audioBufferCount == 1, @"only one buffer supported; got=%lu", _gameCore.audioBufferCount);
