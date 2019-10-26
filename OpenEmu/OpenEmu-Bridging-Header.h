@@ -55,6 +55,7 @@
 #import "NSDocument+OEAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 #import "OEShaderParamValue.h"
+#import "OEAudioDeviceManager.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>

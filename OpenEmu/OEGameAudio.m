@@ -230,7 +230,9 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
     [_engine connect:gen to:_engine.mainMixerNode format:floatRenderFormat];
     _engine.mainMixerNode.outputVolume = _volume;
     [_engine prepare];
-    [self resumeAudio];
+    // per the following, we need to wait before resuming to allow devices to start 🤦🏻‍♂️
+    //  https://github.com/AudioKit/AudioKit/blob/f2a404ff6cf7492b93759d2cd954c8a5387c8b75/Examples/macOS/OutputSplitter/OutputSplitter/Audio/Output.swift#L88-L95
+    [self performSelector:@selector(resumeAudio) withObject:nil afterDelay:0.020];
 }
 
 
