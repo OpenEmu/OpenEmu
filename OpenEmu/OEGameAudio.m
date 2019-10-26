@@ -247,7 +247,9 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
     if(outputDeviceID != currentID)
     {
         _outputDeviceID = outputDeviceID;
-        [self createAudioEngine];
+        [self stopAudio];
+        [self performSelector:@selector(createAudioEngine) withObject:nil afterDelay:0.020];
+        //[self createAudioEngine];
     }
 }
 
