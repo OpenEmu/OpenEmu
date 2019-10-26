@@ -83,8 +83,7 @@
     NSData *headerDataTrackBuffer = [file readDataInRange:NSMakeRange(bytesFound ? 0x60 : 0x50, 16)];
 
     // Format the hexadecimal representation and return
-    NSString *buffer = [[headerDataTrackBuffer description] uppercaseString];
-    NSString *hex = [[buffer componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]] componentsJoinedByString:@""];
+    NSString *hex = [headerDataTrackBuffer oe_hexStringRepresentation];
     
     return hex;
 }

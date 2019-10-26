@@ -93,8 +93,7 @@
     NSData *romBuffer = [NSData dataWithBytes:rom length:romSize];
     
     // Format the hexadecimal representation and return
-    NSString *buffer = [[romBuffer description] uppercaseString];
-    NSString *hex = [[buffer componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]] componentsJoinedByString:@""];
+    NSString *hex = [romBuffer oe_hexStringRepresentation];
     
     return hex;
 }
