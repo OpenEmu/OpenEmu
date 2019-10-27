@@ -31,32 +31,10 @@
 @import AVFoundation;
 @import CoreAudioKit;
 
-typedef OSStatus (^AudioConverterInputBlock)(AVAudioPacketCount * ioNumberDataPackets, AudioBufferList * ioData);
-
-static OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter, AVAudioPacketCount * ioNumberDataPackets, AudioBufferList * ioData, AudioStreamPacketDescription * __nullable * __nullable ioDataPacketDescription, void * inUserData)
-{
-    AudioConverterInputBlock block = (__bridge AudioConverterInputBlock)inUserData;
-    return block(ioNumberDataPackets, ioData);
-}
-
-static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioConverter, AVAudioPacketCount * ioOutputDataPacketSize, AudioBufferList * outOutputData, AudioStreamPacketDescription * __nullable outPacketDescription, AudioConverterInputBlock block)
-{
-    return AudioConverterFillComplexBuffer(inAudioConverter,
-                                           audioConverterComplexInputDataProc,
-                                           (__bridge void *)block,
-                                           ioOutputDataPacketSize,
-                                           outOutputData,
-                                           outPacketDescription);
-}
-
-
 @implementation OEGameAudio {
-    AVAudioEngine               *_engine;
-    __weak OEGameCore           *_gameCore;
-    AudioDeviceID               _outputDeviceID;
-    AudioConverterRef           _conv;
-    void                        *_convBuffer;
-    AudioConverterInputBlock    _block;
+    AVAudioEngine       *_engine;
+    __weak OEGameCore   *_gameCore;
+    AudioDeviceID       _outputDeviceID;
 }
 
 - (id)initWithCore:(OEGameCore *)core
@@ -82,18 +60,6 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
     if (_engine) {
         [self stopAudio];
         _engine = nil;
-    }
-    
-    _block = nil;
-    
-    if (_convBuffer) {
-        free(_convBuffer);
-        _convBuffer = nil;
-    }
-    
-    if (_conv) {
-        AudioConverterDispose(_conv);
-        _conv = nil;
     }
 }
 
@@ -126,35 +92,6 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
 
     return ^NSUInteger(void * buf, NSUInteger max) {
         return [buffer read:buf maxLength:max];
-    };
-}
-
-- (AudioConverterInputBlock)createConverterBlockFromStream:(AudioStreamBasicDescription const *)src
-                                                  toStream:(AudioStreamBasicDescription const *)dst
-                                                    buffer:(id<OEAudioBuffer>)buffer {
-    OSStatus status = AudioConverterNew(src, dst, &_conv);
-    if (status != noErr) {
-        NSLog(@"unable to create audio converter: %d", status);
-        return nil;
-    }
-    _convBuffer = malloc(buffer.length);
-
-    // block state
-    OEAudioBufferReadBlock read = [self readBlockForBuffer:buffer];
-    
-    NSUInteger      bytesPerFrame   = src->mBytesPerFrame;
-    UInt32          channelCount    = src->mChannelsPerFrame;
-    void            *outBuffer      = _convBuffer;
-    
-    return ^OSStatus(AVAudioPacketCount * ioNumberDataPackets, AudioBufferList * ioData) {
-        NSUInteger bytesRequested = *ioNumberDataPackets * bytesPerFrame;
-        NSUInteger bytesCopied    = read(outBuffer, bytesRequested);
-        
-        ioData->mBuffers[0].mData = outBuffer;
-        ioData->mBuffers[0].mDataByteSize = (UInt32)bytesCopied;
-        ioData->mBuffers[0].mNumberChannels = channelCount;
-        
-        return noErr;
     };
 }
 
@@ -209,14 +146,6 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
     AVAudioFormat *renderFormat = [self renderFormat];
     AVAudioFormat *floatRenderFormat = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:renderFormat.sampleRate channels:renderFormat.channelCount];
 
-    // AVAudioEngine only supports 32-bit float audio. Feed it our sample rate so it can figure out buffering.
-    _block  = [self createConverterBlockFromStream:renderFormat.streamDescription
-                                          toStream:floatRenderFormat.streamDescription
-                                            buffer:[_gameCore audioBufferAtIndex:0]];
-    if (_block == nil) {
-        return;
-    }
-    
     AudioComponentDescription desc = {
         .componentType          = kAudioUnitType_Generator,
         .componentSubType       = kAudioUnitSubType_Emulator,
@@ -224,10 +153,25 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
     };
     AVAudioUnitGenerator *gen = [[AVAudioUnitGenerator alloc] initWithAudioComponentDescription:desc];
     OEAudioUnit          *au  = (OEAudioUnit*)gen.AUAudioUnit;
-    __block AudioConverterInputBlock cb = _block;
-    __block AudioConverterRef conv = _conv;
+    AUAudioUnitBus * inp = au.inputBusses[0];
+    if (![inp setFormat:renderFormat error:&err]) {
+        NSLog(@"unable to set input bus render format");
+        return;
+    }
+    
+    OEAudioBufferReadBlock read = [self readBlockForBuffer:[_gameCore audioBufferAtIndex:0]];
+    AudioStreamBasicDescription const *src = renderFormat.streamDescription;
+    NSUInteger      bytesPerFrame = src->mBytesPerFrame;
+    UInt32          channelCount  = src->mChannelsPerFrame;
+    
     au.outputProvider = ^AUAudioUnitStatus(AudioUnitRenderActionFlags *actionFlags, const AudioTimeStamp *timestamp, AUAudioFrameCount frameCount, NSInteger inputBusNumber, AudioBufferList *inputData) {
-        return AudioConverterFillComplexBufferBlock(conv, &frameCount, inputData, nil, cb);
+        NSUInteger bytesRequested = frameCount * bytesPerFrame;
+        NSUInteger bytesCopied    = read(inputData->mBuffers[0].mData, bytesRequested);
+        
+        inputData->mBuffers[0].mDataByteSize = (UInt32)bytesCopied;
+        inputData->mBuffers[0].mNumberChannels = channelCount;
+        
+        return noErr;
     };
     
     [_engine attachNode:gen];

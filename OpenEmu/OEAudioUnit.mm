@@ -27,10 +27,39 @@
 
 #import "OEAudioUnit.h"
 
-@interface OEAudioUnit ()
+typedef struct {
+    AURenderPullInputBlock  pullInput;
+    AudioTimeStamp const    *timestamp;
+    void                    **buffer;
+    UInt32                  *bufferSizeBytes;
+} inputData;
 
-@property AUAudioUnitBus *outputBus;
-@property AUAudioUnitBusArray *outputBusArray;
+static OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter, AVAudioPacketCount * ioNumberDataPackets, AudioBufferList * ioData, AudioStreamPacketDescription * __nullable * __nullable ioDataPacketDescription, void * inUserData)
+{
+    inputData *inp = (inputData *)inUserData;
+    
+    AudioUnitRenderActionFlags pullFlags = 0;
+    ioData->mBuffers[0].mData = *inp->buffer;
+    ioData->mBuffers[0].mDataByteSize = *inp->bufferSizeBytes;
+
+    return inp->pullInput(&pullFlags, inp->timestamp, *ioNumberDataPackets, 0, ioData);
+}
+
+@interface CustomBus: AUAudioUnitBus
+@end
+
+@interface OEAudioUnit () {
+    AudioConverterRef   _conv;
+    void                *_convBuffer;
+    UInt32              _convSizeBytes;
+    BOOL                _requiresConversion;
+}
+
+@property (nonatomic, readonly) BOOL    requiresConversion;
+@property AUAudioUnitBus                *inputBus;
+@property AUAudioUnitBusArray           *inputBusArray;
+@property AUAudioUnitBus                *outputBus;
+@property AUAudioUnitBusArray           *outputBusArray;
 
 @end
 
@@ -64,27 +93,114 @@
     // Initialize a default format for the busses. It doesn't matter what you put here.
     AVAudioFormat *defaultFormat = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:44100 channels:2];
     
-    // Create the output bus.
-    _outputBus = [[AUAudioUnitBus alloc] initWithFormat:defaultFormat error:nil];
-   
-    // Create the input and output bus arrays.
+    _inputBus       = [[CustomBus alloc] initWithFormat:defaultFormat error:nil];
+    _inputBusArray  = [[AUAudioUnitBusArray alloc] initWithAudioUnit:self
+                                                            busType:AUAudioUnitBusTypeInput
+                                                             busses:@[_inputBus]];
+    
+    _outputBus      = [[AUAudioUnitBus alloc] initWithFormat:defaultFormat error:nil];
     _outputBusArray = [[AUAudioUnitBusArray alloc] initWithAudioUnit:self
                                                              busType:AUAudioUnitBusTypeOutput
                                                               busses: @[_outputBus]];
+    
         
+    self.maximumFramesToRender = 512;
+    
     return self;
 }
 
 #pragma mark - AUAudioUnit (Overrides)
 
+- (AUAudioUnitBusArray *)inputBusses {
+    return _inputBusArray;
+}
+
 - (AUAudioUnitBusArray *)outputBusses {
     return _outputBusArray;
+}
+
+- (BOOL)requiresConversion {
+    return ![_inputBus.format isEqual:_outputBus.format];
+}
+
+- (BOOL)allocateRenderResourcesAndReturnError:(NSError *__autoreleasing  _Nullable *)outError {
+    if (![super allocateRenderResourcesAndReturnError:outError]) {
+        return NO;
+    }
+    
+    if (!self.requiresConversion) {
+        return YES;
+    }
+    
+    AudioStreamBasicDescription const *srcDesc = _inputBus.format.streamDescription;
+    AudioStreamBasicDescription const *dstDesc = _outputBus.format.streamDescription;
+    
+    OSStatus status = AudioConverterNew(srcDesc, dstDesc, &_conv);
+    if (status != noErr) {
+        NSLog(@"unable to create audio converter: %d", status);
+        return nil;
+    }
+    _convSizeBytes  = (UInt32)(srcDesc->mBytesPerFrame * self.maximumFramesToRender);
+    _convBuffer     = malloc(_convSizeBytes);
+    
+    return YES;
+}
+
+- (void)deallocateRenderResources {
+    [super deallocateRenderResources];
+    
+    _convSizeBytes = 0;
+    if (_convBuffer) {
+        free(_convBuffer);
+        _convBuffer = nil;
+    }
+    
+    if (_conv) {
+        AudioConverterDispose(_conv);
+        _conv = nil;
+    }
 }
 
 #pragma mark - AUAudioUnit (AUAudioUnitImplementation)
 
 - (AUInternalRenderBlock)internalRenderBlock {
     AURenderPullInputBlock pullInput = _outputProvider;
+
+    if (self.requiresConversion) {
+        AudioConverterRef *conv = &_conv;
+        
+        __block inputData data = {
+            .buffer             = &_convBuffer,
+            .bufferSizeBytes    = &_convSizeBytes,
+            .pullInput          = _outputProvider,
+        };
+        
+        return ^AUAudioUnitStatus(
+                                  AudioUnitRenderActionFlags *actionFlags,
+                                  const AudioTimeStamp       *timestamp,
+                                  AVAudioFrameCount           frameCount,
+                                  NSInteger                   outputBusNumber,
+                                  AudioBufferList            *outputData,
+                                  const AURenderEvent        *realtimeEventListHead,
+                                  AURenderPullInputBlock      pullInputBlock) {
+            
+            if (pullInput == nil) {
+                return kAudioUnitErr_NoConnection;
+            }
+            
+            data.timestamp = timestamp;
+            UInt32 packetSize = frameCount;
+            
+            OSStatus res = AudioConverterFillComplexBuffer(*conv,
+                                                   audioConverterComplexInputDataProc,
+                                                   (void *)&data,
+                                                   &packetSize,
+                                                   outputData,
+                                                   nil);
+            
+            return res;
+        };
+    }
     
     return ^AUAudioUnitStatus(
                               AudioUnitRenderActionFlags *actionFlags,
@@ -102,6 +218,31 @@
         AudioUnitRenderActionFlags pullFlags = 0;
         return pullInput(&pullFlags, timestamp, frameCount, 0, outputData);
     };
+}
+
+@end
+
+@implementation CustomBus {
+    AVAudioFormat *_format;
+}
+
+- (BOOL)setFormat:(AVAudioFormat *)format error:(NSError *__autoreleasing  _Nullable *)outError {
+    if (outError) {
+        *outError = nil;
+    }
+    
+    if ([_format isEqual:format]) {
+        return YES;
+    }
+    
+    [self willChangeValueForKey:@"format"];
+    _format = format;
+    [self didChangeValueForKey:@"format"];
+    return YES;
+}
+
+- (AVAudioFormat *)format {
+    return _format;
 }
 
 @end
