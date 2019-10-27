@@ -51,11 +51,12 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
 
 
 @implementation OEGameAudio {
-    AVAudioEngine           *_engine;
-    __weak OEGameCore       *_gameCore;
-    AudioDeviceID           _outputDeviceID;
-    AudioConverterRef       _conv;
-    void                    *_convBuffer;
+    AVAudioEngine               *_engine;
+    __weak OEGameCore           *_gameCore;
+    AudioDeviceID               _outputDeviceID;
+    AudioConverterRef           _conv;
+    void                        *_convBuffer;
+    AudioConverterInputBlock    _block;
 }
 
 - (id)initWithCore:(OEGameCore *)core
@@ -82,6 +83,8 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
         [self stopAudio];
         _engine = nil;
     }
+    
+    _block = nil;
     
     if (_convBuffer) {
         free(_convBuffer);
@@ -207,10 +210,10 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
     AVAudioFormat *floatRenderFormat = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:renderFormat.sampleRate channels:renderFormat.channelCount];
 
     // AVAudioEngine only supports 32-bit float audio. Feed it our sample rate so it can figure out buffering.
-    AudioConverterInputBlock b  = [self createConverterBlockFromStream:renderFormat.streamDescription
-                                                              toStream:floatRenderFormat.streamDescription
-                                                                buffer:[_gameCore audioBufferAtIndex:0]];
-    if (b == nil) {
+    _block  = [self createConverterBlockFromStream:renderFormat.streamDescription
+                                          toStream:floatRenderFormat.streamDescription
+                                            buffer:[_gameCore audioBufferAtIndex:0]];
+    if (_block == nil) {
         return;
     }
     
@@ -221,9 +224,10 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
     };
     AVAudioUnitGenerator *gen = [[AVAudioUnitGenerator alloc] initWithAudioComponentDescription:desc];
     OEAudioUnit          *au  = (OEAudioUnit*)gen.AUAudioUnit;
+    __block AudioConverterInputBlock cb = _block;
     __block AudioConverterRef conv = _conv;
     au.outputProvider = ^AUAudioUnitStatus(AudioUnitRenderActionFlags *actionFlags, const AudioTimeStamp *timestamp, AUAudioFrameCount frameCount, NSInteger inputBusNumber, AudioBufferList *inputData) {
-        return AudioConverterFillComplexBufferBlock(conv, &frameCount, inputData, nil, b);
+        return AudioConverterFillComplexBufferBlock(conv, &frameCount, inputData, nil, cb);
     };
     
     [_engine attachNode:gen];
@@ -247,9 +251,9 @@ static OSStatus AudioConverterFillComplexBufferBlock(AudioConverterRef inAudioCo
     if(outputDeviceID != currentID)
     {
         _outputDeviceID = outputDeviceID;
-        [self stopAudio];
-        [self performSelector:@selector(createAudioEngine) withObject:nil afterDelay:0.020];
-        //[self createAudioEngine];
+        //[self stopAudio];
+        //[self performSelector:@selector(createAudioEngine) withObject:nil afterDelay:0.020];
+        [self createAudioEngine];
     }
 }
 
