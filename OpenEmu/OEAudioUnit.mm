@@ -52,7 +52,6 @@ static OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConv
     AudioConverterRef   _conv;
     void                *_convBuffer;
     UInt32              _convSizeBytes;
-    BOOL                _requiresConversion;
 }
 
 @property (nonatomic, readonly) BOOL    requiresConversion;
