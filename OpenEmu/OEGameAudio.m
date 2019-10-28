@@ -69,6 +69,13 @@
     [self createAudioEngine];
 }
 
+- (void)prepareAndResume {
+    [_engine prepare];
+    // per the following, we need to wait before resuming to allow devices to start 🤦🏻‍♂️
+    //  https://github.com/AudioKit/AudioKit/blob/f2a404ff6cf7492b93759d2cd954c8a5387c8b75/Examples/macOS/OutputSplitter/OutputSplitter/Audio/Output.swift#L88-L95
+    [self performSelector:@selector(resumeAudio) withObject:nil afterDelay:0.020];
+}
+
 - (void)stopAudio {
     [_engine stop];
     _running = NO;
@@ -87,6 +94,15 @@
     if (![_engine startAndReturnError:&err]) {
         NSLog(@"failed to start audio hardware, %@", err.localizedDescription);
         return;
+    }
+    
+    [self performSelector:@selector(checkRunning) withObject:nil afterDelay:1.000];
+}
+
+- (void)checkRunning {
+    if (_running && !_engine.isRunning) {
+        NSLog(@"engine should be running; we'll try again 🤦🏻‍♂️");
+        [self prepareAndResume];
     }
 }
 
@@ -183,10 +199,7 @@
     [_engine connect:gen to:_engine.mainMixerNode format:floatRenderFormat];
     [_engine connect:_engine.mainMixerNode to:_engine.outputNode format: nil];
     _engine.mainMixerNode.outputVolume = _volume;
-    [_engine prepare];
-    // per the following, we need to wait before resuming to allow devices to start 🤦🏻‍♂️
-    //  https://github.com/AudioKit/AudioKit/blob/f2a404ff6cf7492b93759d2cd954c8a5387c8b75/Examples/macOS/OutputSplitter/OutputSplitter/Audio/Output.swift#L88-L95
-    [self performSelector:@selector(resumeAudio) withObject:nil afterDelay:0.020];
+    [self prepareAndResume];
 }
 
 - (AudioDeviceID)outputDeviceID
