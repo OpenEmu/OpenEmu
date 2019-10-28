@@ -32,10 +32,11 @@
 @import CoreAudioKit;
 
 @implementation OEGameAudio {
-    AVAudioEngine       *_engine;
-    __weak OEGameCore   *_gameCore;
-    AudioDeviceID       _outputDeviceID;
-    BOOL                _running; // specifies the expected state of OEGameAudio
+    AVAudioEngine           *_engine;
+    AVAudioUnitGenerator    *_gen;
+    __weak OEGameCore       *_gameCore;
+    AudioDeviceID           _outputDeviceID;
+    BOOL                    _running; // specifies the expected state of OEGameAudio
 }
 
 - (id)initWithCore:(OEGameCore *)core
@@ -49,27 +50,18 @@
     _gameCore = core;
     _volume   = 1.0;
     _running  = NO;
+    _engine   = [AVAudioEngine new];
     
     return self;
 }
 
-- (void)dealloc {
-    [self freeResources];
-}
-
-- (void)freeResources {
-    
-    if (_engine) {
-        [self stopAudio];
-        _engine = nil;
-    }
-}
-
 - (void)startAudio {
-    [self createAudioEngine];
-}
-
-- (void)prepareAndResume {
+    NSAssert1(_gameCore.audioBufferCount == 1, @"only one buffer supported; got=%lu", _gameCore.audioBufferCount);
+    
+    [self createNodes];
+    [self attachNodes];
+    [self setDeviceAndConnections];
+    
     [_engine prepare];
     // per the following, we need to wait before resuming to allow devices to start 🤦🏻‍♂️
     //  https://github.com/AudioKit/AudioKit/blob/f2a404ff6cf7492b93759d2cd954c8a5387c8b75/Examples/macOS/OutputSplitter/OutputSplitter/Audio/Output.swift#L88-L95
@@ -78,6 +70,9 @@
 
 - (void)stopAudio {
     [_engine stop];
+    [_engine reset];
+    [self detachNodes];
+    [self destroyNodes];
     _running = NO;
 }
 
@@ -94,15 +89,6 @@
     if (![_engine startAndReturnError:&err]) {
         NSLog(@"failed to start audio hardware, %@", err.localizedDescription);
         return;
-    }
-    
-    [self performSelector:@selector(checkRunning) withObject:nil afterDelay:1.000];
-}
-
-- (void)checkRunning {
-    if (_running && !_engine.isRunning) {
-        NSLog(@"engine should be running; we'll try again 🤦🏻‍♂️");
-        [self prepareAndResume];
     }
 }
 
@@ -147,23 +133,7 @@
     return deviceID;
 }
 
-- (void)createAudioEngine {
-    [self freeResources];
-    
-    _engine = [AVAudioEngine new];
-    
-    if (_outputDeviceID == 0) {
-        _outputDeviceID = [self currentAudioOutputDeviceID];
-    }
-    
-    NSError *err;
-    if (![_engine.outputNode.AUAudioUnit setDeviceID:_outputDeviceID error:&err]) {
-        NSLog(@"unable to set output device: %@", err.localizedDescription);
-        return;
-    }
-    
-    NSAssert1(_gameCore.audioBufferCount == 1, @"only one buffer supported; got=%lu", _gameCore.audioBufferCount);
-    
+- (void)createNodes {
     AVAudioFormat *renderFormat = [self renderFormat];
     AVAudioFormat *floatRenderFormat = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:renderFormat.sampleRate channels:renderFormat.channelCount];
 
@@ -172,11 +142,20 @@
         .componentSubType       = kAudioUnitSubType_Emulator,
         .componentManufacturer  = kAudioUnitManufacturer_OpenEmu,
     };
-    AVAudioUnitGenerator *gen = [[AVAudioUnitGenerator alloc] initWithAudioComponentDescription:desc];
-    OEAudioUnit          *au  = (OEAudioUnit*)gen.AUAudioUnit;
-    AUAudioUnitBus * inp = au.inputBusses[0];
-    if (![inp setFormat:renderFormat error:&err]) {
+    _gen = [[AVAudioUnitGenerator alloc] initWithAudioComponentDescription:desc];
+    
+    OEAudioUnit     *au  = (OEAudioUnit*)_gen.AUAudioUnit;
+    AUAudioUnitBus  *bus = au.inputBusses[0];
+
+    NSError *err;
+    if (![bus setFormat:renderFormat error:&err]) {
         NSLog(@"unable to set input bus render format");
+        return;
+    }
+
+    bus = au.outputBusses[0];
+    if (![bus setFormat:floatRenderFormat error:&err]) {
+        NSLog(@"unable to set output bus render format");
         return;
     }
     
@@ -194,12 +173,35 @@
         
         return noErr;
     };
+}
+
+- (void)destroyNodes {
+    _gen = nil;
+}
+
+- (void)setDeviceAndConnections {
+    if (_outputDeviceID == 0) {
+        _outputDeviceID = [self currentAudioOutputDeviceID];
+        NSLog(@"createAudioEngine: using default device %d", _outputDeviceID);
+    }
     
-    [_engine attachNode:gen];
-    [_engine connect:gen to:_engine.mainMixerNode format:floatRenderFormat];
-    [_engine connect:_engine.mainMixerNode to:_engine.outputNode format: nil];
+    NSError *err;
+    if (![_engine.outputNode.AUAudioUnit setDeviceID:_outputDeviceID error:&err]) {
+        NSLog(@"unable to set output device: %@", err.localizedDescription);
+        return;
+    }
+
+    [_engine connect:_gen to:_engine.mainMixerNode format:nil];
+    [_engine connect:_engine.mainMixerNode to:_engine.outputNode format:nil];
     _engine.mainMixerNode.outputVolume = _volume;
-    [self prepareAndResume];
+}
+
+- (void)attachNodes {
+    [_engine attachNode:_gen];
+}
+
+- (void)detachNodes {
+    [_engine detachNode:_gen];
 }
 
 - (AudioDeviceID)outputDeviceID
@@ -218,14 +220,10 @@
         }
 
         _outputDeviceID = outputDeviceID;
-
-        NSError *err;
-        if (![_engine.outputNode.AUAudioUnit setDeviceID:_outputDeviceID error:&err]) {
-            NSLog(@"unable to change output device: %@", err.localizedDescription);
-            return;
-        }
         
-        if (_running) {
+        [self setDeviceAndConnections];
+        
+        if (_running && !_engine.isRunning) {
             [self performSelector:@selector(resumeAudio) withObject:nil afterDelay:0.020];
         }
     }

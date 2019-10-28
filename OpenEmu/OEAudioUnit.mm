@@ -108,6 +108,10 @@ static OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConv
     return self;
 }
 
+- (void)dealloc {
+    [self _freeResources];
+}
+
 #pragma mark - AUAudioUnit (Overrides)
 
 - (AUAudioUnitBusArray *)inputBusses {
@@ -147,7 +151,10 @@ static OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConv
 
 - (void)deallocateRenderResources {
     [super deallocateRenderResources];
-    
+    [self _freeResources];
+}
+
+- (void)_freeResources {
     _convSizeBytes = 0;
     if (_convBuffer) {
         free(_convBuffer);

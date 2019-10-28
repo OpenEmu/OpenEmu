@@ -467,7 +467,11 @@ typedef enum : NSUInteger
 {
     OEAudioDevice *device = OEAudioDeviceManager.sharedAudioDeviceManager.defaultOutputDevice;
     NSLog(@"default output device has changed: %@ (%d)", device.deviceName, device.deviceID);
-    [_gameCoreManager setAudioOutputDeviceID:0];
+    // delay the device change as it is racy with AVAudioEngine updating its device
+    __weak typeof(_gameCoreManager) mgr = _gameCoreManager;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [mgr setAudioOutputDeviceID:0];
+    });
 }
 
 #pragma mark - Device Notifications
