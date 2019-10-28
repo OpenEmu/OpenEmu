@@ -453,20 +453,20 @@ typedef enum : NSUInteger
     NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
     [nc addObserver:self
            selector:@selector(OE_didReceiveOutputDeviceNotification:)
-               name:OEAudioDeviceManagerDidChangeDefaultSystemOutputDeviceNotification
+               name:OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification
              object:nil];
 }
 
 - (void)OE_removeOutputDeviceNotificationObservers
 {
     NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
-    [nc removeObserver:self name:OEAudioDeviceManagerDidChangeDefaultSystemOutputDeviceNotification object:nil];
+    [nc removeObserver:self name:OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification object:nil];
 }
 
 - (void)OE_didReceiveOutputDeviceNotification:(NSNotification *)notification
 {
     OEAudioDevice *device = OEAudioDeviceManager.sharedAudioDeviceManager.defaultOutputDevice;
-    NSLog(@"default output device has changed: %@", device.deviceName);
+    NSLog(@"default output device has changed: %@ (%d)", device.deviceName, device.deviceID);
     [_gameCoreManager setAudioOutputDeviceID:0];
 }
 

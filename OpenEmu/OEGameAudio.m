@@ -35,6 +35,7 @@
     AVAudioEngine       *_engine;
     __weak OEGameCore   *_gameCore;
     AudioDeviceID       _outputDeviceID;
+    BOOL                _running; // specifies the expected state of OEGameAudio
 }
 
 - (id)initWithCore:(OEGameCore *)core
@@ -47,6 +48,7 @@
     [OEAudioUnit registerSelf];
     _gameCore = core;
     _volume   = 1.0;
+    _running  = NO;
     
     return self;
 }
@@ -69,15 +71,18 @@
 
 - (void)stopAudio {
     [_engine stop];
+    _running = NO;
 }
 
 - (void)pauseAudio
 {
     [_engine pause];
+    _running = NO;
 }
 
 - (void)resumeAudio
 {
+    _running = YES;
     NSError *err;
     if (![_engine startAndReturnError:&err]) {
         NSLog(@"failed to start audio hardware, %@", err.localizedDescription);
@@ -176,13 +181,13 @@
     
     [_engine attachNode:gen];
     [_engine connect:gen to:_engine.mainMixerNode format:floatRenderFormat];
+    [_engine connect:_engine.mainMixerNode to:_engine.outputNode format: nil];
     _engine.mainMixerNode.outputVolume = _volume;
     [_engine prepare];
     // per the following, we need to wait before resuming to allow devices to start 🤦🏻‍♂️
     //  https://github.com/AudioKit/AudioKit/blob/f2a404ff6cf7492b93759d2cd954c8a5387c8b75/Examples/macOS/OutputSplitter/OutputSplitter/Audio/Output.swift#L88-L95
     [self performSelector:@selector(resumeAudio) withObject:nil afterDelay:0.020];
 }
-
 
 - (AudioDeviceID)outputDeviceID
 {
@@ -191,12 +196,25 @@
 
 - (void)setOutputDeviceID:(AudioDeviceID)outputDeviceID
 {
-    AudioDeviceID currentID = _outputDeviceID;
-    if(outputDeviceID != currentID)
+    if(outputDeviceID != _outputDeviceID)
     {
+        // 0 indicates use the current system default output
+        if (outputDeviceID == 0) {
+            outputDeviceID = [self currentAudioOutputDeviceID];
+            NSLog(@"setOutputDeviceID: using default device %d", _outputDeviceID);
+        }
+
         _outputDeviceID = outputDeviceID;
-        [self stopAudio];
-        [self performSelector:@selector(createAudioEngine) withObject:nil afterDelay:0.020];
+
+        NSError *err;
+        if (![_engine.outputNode.AUAudioUnit setDeviceID:_outputDeviceID error:&err]) {
+            NSLog(@"unable to change output device: %@", err.localizedDescription);
+            return;
+        }
+        
+        if (_running) {
+            [self performSelector:@selector(resumeAudio) withObject:nil afterDelay:0.020];
+        }
     }
 }
 
