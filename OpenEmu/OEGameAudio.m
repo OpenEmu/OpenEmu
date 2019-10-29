@@ -55,10 +55,20 @@
     return self;
 }
 
+- (void)audioSampleRateDidChange {
+    if (_running) {
+        [_engine stop];
+        [self configureNodes];
+        [_engine prepare];
+        [self performSelector:@selector(resumeAudio) withObject:nil afterDelay:0.020];
+    }
+}
+
 - (void)startAudio {
     NSAssert1(_gameCore.audioBufferCount == 1, @"only one buffer supported; got=%lu", _gameCore.audioBufferCount);
     
     [self createNodes];
+    [self configureNodes];
     [self attachNodes];
     [self setDeviceAndConnections];
     
@@ -70,7 +80,6 @@
 
 - (void)stopAudio {
     [_engine stop];
-    [_engine reset];
     [self detachNodes];
     [self destroyNodes];
     _running = NO;
@@ -133,32 +142,16 @@
     return deviceID;
 }
 
-- (void)createNodes {
+- (void)configureNodes {
     AVAudioFormat *renderFormat = [self renderFormat];
-    AVAudioFormat *floatRenderFormat = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:renderFormat.sampleRate channels:renderFormat.channelCount];
-
-    AudioComponentDescription desc = {
-        .componentType          = kAudioUnitType_Generator,
-        .componentSubType       = kAudioUnitSubType_Emulator,
-        .componentManufacturer  = kAudioUnitManufacturer_OpenEmu,
-    };
-    _gen = [[AVAudioUnitGenerator alloc] initWithAudioComponentDescription:desc];
-    
     OEAudioUnit     *au  = (OEAudioUnit*)_gen.AUAudioUnit;
+    NSError         *err;
     AUAudioUnitBus  *bus = au.inputBusses[0];
-
-    NSError *err;
     if (![bus setFormat:renderFormat error:&err]) {
-        NSLog(@"unable to set input bus render format");
+        NSLog(@"createNodes: unable to set input bus render format %@: %@", renderFormat.description, err.localizedDescription);
         return;
     }
 
-    bus = au.outputBusses[0];
-    if (![bus setFormat:floatRenderFormat error:&err]) {
-        NSLog(@"unable to set output bus render format");
-        return;
-    }
-    
     OEAudioBufferReadBlock read = [self readBlockForBuffer:[_gameCore audioBufferAtIndex:0]];
     AudioStreamBasicDescription const *src = renderFormat.streamDescription;
     NSUInteger      bytesPerFrame = src->mBytesPerFrame;
@@ -173,6 +166,15 @@
         
         return noErr;
     };
+}
+
+- (void)createNodes {
+    AudioComponentDescription desc = {
+        .componentType          = kAudioUnitType_Generator,
+        .componentSubType       = kAudioUnitSubType_Emulator,
+        .componentManufacturer  = kAudioUnitManufacturer_OpenEmu,
+    };
+    _gen = [[AVAudioUnitGenerator alloc] initWithAudioComponentDescription:desc];
 }
 
 - (void)destroyNodes {
@@ -192,7 +194,6 @@
     }
 
     [_engine connect:_gen to:_engine.mainMixerNode format:nil];
-    [_engine connect:_engine.mainMixerNode to:_engine.outputNode format:nil];
     _engine.mainMixerNode.outputVolume = _volume;
 }
 
@@ -221,9 +222,11 @@
 
         _outputDeviceID = outputDeviceID;
         
+        [_engine stop];
         [self setDeviceAndConnections];
         
         if (_running && !_engine.isRunning) {
+            [_engine prepare];
             [self performSelector:@selector(resumeAudio) withObject:nil afterDelay:0.020];
         }
     }

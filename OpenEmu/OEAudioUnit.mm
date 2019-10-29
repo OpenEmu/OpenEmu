@@ -90,7 +90,7 @@ static OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConv
     }
     
     // Initialize a default format for the busses. It doesn't matter what you put here.
-    AVAudioFormat *defaultFormat = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:44100 channels:2];
+    AVAudioFormat *defaultFormat = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:48000 channels:2];
     
     _inputBus       = [[CustomBus alloc] initWithFormat:defaultFormat error:nil];
     _inputBusArray  = [[AUAudioUnitBusArray alloc] initWithAudioUnit:self

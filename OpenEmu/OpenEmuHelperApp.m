@@ -833,18 +833,23 @@ extern NSString * const kCAContextCIFilterBehavior;
 
 - (void)audioSampleRateDidChange
 {
-    [_gameAudio stopAudio];
-    [_gameAudio startAudio];
+    [_gameCore performBlock:^{
+        [self->_gameAudio audioSampleRateDidChange];
+    }];
 }
 
 - (void)pauseAudio
 {
-    [_gameAudio pauseAudio];
+    [_gameCore performBlock:^{
+        [self->_gameAudio pauseAudio];
+    }];
 }
 
 - (void)resumeAudio
 {
-    [_gameAudio resumeAudio];
+    [_gameCore performBlock:^{
+        [self->_gameAudio resumeAudio];
+    }];
 }
 
 #pragma mark - OEGlobalEventsHandler

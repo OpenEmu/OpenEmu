@@ -40,5 +40,6 @@
 - (void)stopAudio;
 - (void)pauseAudio;
 - (void)resumeAudio;
+- (void)audioSampleRateDidChange;
 
 @end
