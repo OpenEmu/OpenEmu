@@ -446,34 +446,6 @@ typedef enum : NSUInteger
     [_gameCoreManager setOutputBounds:bounds];
 }
 
-#pragma mark - Audio Notifications
-
-- (void)OE_addOutputDeviceNotificationObservers
-{
-    NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
-    [nc addObserver:self
-           selector:@selector(OE_didReceiveOutputDeviceNotification:)
-               name:OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification
-             object:nil];
-}
-
-- (void)OE_removeOutputDeviceNotificationObservers
-{
-    NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
-    [nc removeObserver:self name:OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification object:nil];
-}
-
-- (void)OE_didReceiveOutputDeviceNotification:(NSNotification *)notification
-{
-    OEAudioDevice *device = OEAudioDeviceManager.sharedAudioDeviceManager.defaultOutputDevice;
-    NSLog(@"default output device has changed: %@ (%d)", device.deviceName, device.deviceID);
-    // delay the device change as it is racy with AVAudioEngine updating its device
-    __weak typeof(_gameCoreManager) mgr = _gameCoreManager;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [mgr setAudioOutputDeviceID:0];
-    });
-}
-
 #pragma mark - Device Notifications
 - (void)OE_addDeviceNotificationObservers
 {
@@ -736,7 +708,6 @@ typedef enum : NSUInteger
 
             // TODO: #567 and #568 need to be fixed first
             //[self OE_addDeviceNotificationObservers];
-            [self OE_addOutputDeviceNotificationObservers];
             
             [self disableOSSleep];
             [[self rom] incrementPlayCount];
@@ -1111,7 +1082,6 @@ typedef enum : NSUInteger
         self->_emulationStatus = OEEmulationStatusTerminating;
         // TODO: #567 and #568 need to be fixed first
         //[self OE_removeDeviceNotificationObservers];
-        [self OE_removeOutputDeviceNotificationObservers];
 
         [self->_gameCoreManager stopEmulationWithCompletionHandler:^{
             DLog(@"Emulation stopped");

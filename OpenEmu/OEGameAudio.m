@@ -24,8 +24,8 @@
 
 #import "OEGameAudio.h"
 #import "OEAudioUnit.h"
+#import "OELogging.h"
 #import <OpenEmuBase/OpenEmuBase.h>
-#import <objc/runtime.h>
 
 @import AudioToolbox;
 @import AVFoundation;
@@ -33,6 +33,7 @@
 
 @implementation OEGameAudio {
     AVAudioEngine           *_engine;
+    id                      _token;
     AVAudioUnitGenerator    *_gen;
     __weak OEGameCore       *_gameCore;
     AudioDeviceID           _outputDeviceID;
@@ -51,8 +52,25 @@
     _volume   = 1.0;
     _running  = NO;
     _engine   = [AVAudioEngine new];
-    
+
+    __weak typeof(self) weakSelf = self;
+    _token = [NSNotificationCenter.defaultCenter addObserverForName:AVAudioEngineConfigurationChangeNotification object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification * _Nonnull note) {
+        os_log_info(OE_LOG_AUDIO, "AVAudioEngine configuration change");
+        if (weakSelf) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            strongSelf->_outputDeviceID = [strongSelf defaultAudioOutputDeviceID];
+            [strongSelf setDeviceAndConnections];
+            [strongSelf resumeAudio];
+        }
+    }];
+
     return self;
+}
+
+- (void)dealloc {
+    if (_token) {
+        [NSNotificationCenter.defaultCenter removeObserver:_token];
+    }
 }
 
 - (void)audioSampleRateDidChange {
@@ -66,7 +84,7 @@
 
 - (void)startAudio {
     NSAssert1(_gameCore.audioBufferCount == 1, @"only one buffer supported; got=%lu", _gameCore.audioBufferCount);
-    
+
     [self createNodes];
     [self configureNodes];
     [self attachNodes];
@@ -96,7 +114,7 @@
     _running = YES;
     NSError *err;
     if (![_engine startAndReturnError:&err]) {
-        NSLog(@"failed to start audio hardware, %@", err.localizedDescription);
+        os_log_error(OE_LOG_AUDIO, "unable to start AVAudioEngine: %{public}s", err.localizedDescription.UTF8String);
         return;
     }
 }
@@ -129,7 +147,7 @@
     return [[AVAudioFormat alloc] initWithStreamDescription:&mDataFormat];
 }
 
-- (AudioDeviceID)currentAudioOutputDeviceID {
+- (AudioDeviceID)defaultAudioOutputDeviceID {
     AudioObjectPropertyAddress addr = {
         .mSelector = kAudioHardwarePropertyDefaultOutputDevice,
         .mScope    = kAudioObjectPropertyScopeGlobal,
@@ -148,7 +166,9 @@
     NSError         *err;
     AUAudioUnitBus  *bus = au.inputBusses[0];
     if (![bus setFormat:renderFormat error:&err]) {
-        NSLog(@"createNodes: unable to set input bus render format %@: %@", renderFormat.description, err.localizedDescription);
+        os_log_error(OE_LOG_AUDIO, "unable to set input bus render format %{public}s: %{public}s",
+                     renderFormat.description.UTF8String,
+                     err.localizedDescription.UTF8String);
         return;
     }
 
@@ -183,13 +203,15 @@
 
 - (void)setDeviceAndConnections {
     if (_outputDeviceID == 0) {
-        _outputDeviceID = [self currentAudioOutputDeviceID];
-        NSLog(@"createAudioEngine: using default device %d", _outputDeviceID);
+        _outputDeviceID = [self defaultAudioOutputDeviceID];
+        os_log_info(OE_LOG_AUDIO, "using default audio device %d", _outputDeviceID);
     }
-    
+
     NSError *err;
     if (![_engine.outputNode.AUAudioUnit setDeviceID:_outputDeviceID error:&err]) {
-        NSLog(@"unable to set output device: %@", err.localizedDescription);
+        os_log_error(OE_LOG_AUDIO, "unable to set output device ID %d: %{public}s",
+                     _outputDeviceID,
+                     err.localizedDescription.UTF8String);
         return;
     }
 
@@ -216,8 +238,8 @@
     {
         // 0 indicates use the current system default output
         if (outputDeviceID == 0) {
-            outputDeviceID = [self currentAudioOutputDeviceID];
-            NSLog(@"setOutputDeviceID: using default device %d", _outputDeviceID);
+            outputDeviceID = [self defaultAudioOutputDeviceID];
+            os_log_info(OE_LOG_AUDIO, "using default audio device %d", _outputDeviceID);
         }
 
         _outputDeviceID = outputDeviceID;
