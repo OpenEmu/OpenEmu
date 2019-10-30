@@ -90,7 +90,7 @@ extern NSString * const kCAContextCIFilterBehavior;
 
 @implementation OpenEmuHelperApp
 {
-    OEIntSize _previousScreenSize;
+    OEIntRect _previousScreenRect;
     OEIntSize _previousAspectSize;
     
     NSRunningApplication *_parentApplication; // the process id of the parent app (Open Emu or our debug helper)
@@ -247,7 +247,7 @@ extern NSString * const kCAContextCIFilterBehavior;
 - (void)updateScreenSize
 {
     _previousAspectSize = _gameCore.aspectSize;
-    _previousScreenSize = _gameCore.screenRect.size;
+    _previousScreenRect = _gameCore.screenRect;
 }
 
 - (void)updateGameRenderer
@@ -520,7 +520,7 @@ extern NSString * const kCAContextCIFilterBehavior;
         [self setupGameCoreAudioAndVideo];
         
         if(handler)
-            handler(self->_previousScreenSize, self->_previousAspectSize);
+            handler(self->_previousScreenRect.size, self->_previousAspectSize);
     }];
 }
 
@@ -708,7 +708,7 @@ extern NSString * const kCAContextCIFilterBehavior;
 {
     OEIntSize previousBufferSize = _gameRenderer.surfaceSize;
     OEIntSize previousAspectSize = _previousAspectSize;
-    OEIntSize previousScreenSize = _previousScreenSize;
+    OEIntRect previousScreenRect = _previousScreenRect;
     
     OEIntSize bufferSize = _gameCore.bufferSize;
     OEIntRect screenRect = _gameCore.screenRect;
@@ -724,7 +724,8 @@ extern NSString * const kCAContextCIFilterBehavior;
         
         [self setupCVBuffer];
     } else {
-        if(!OEIntSizeEqualToSize(screenRect.size, previousScreenSize))
+        if (!OEIntRectEqualToRect(screenRect, previousScreenRect))
+        //if (!OEIntSizeEqualToSize(screenRect.size, previousScreenSize))
         {
             NSAssert((screenRect.origin.x + screenRect.size.width) <= bufferSize.width, @"screen rect must not be larger than buffer size");
             NSAssert((screenRect.origin.y + screenRect.size.height) <= bufferSize.height, @"screen rect must not be larger than buffer size");
@@ -741,7 +742,7 @@ extern NSString * const kCAContextCIFilterBehavior;
         }
         
         if (mustUpdate) {
-            [self updateScreenSize:_previousScreenSize aspectSize:_previousAspectSize];
+            [self updateScreenSize:_previousScreenRect.size aspectSize:_previousAspectSize];
             [self setupCVBuffer];
         }
     }
