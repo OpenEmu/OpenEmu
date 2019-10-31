@@ -725,7 +725,6 @@ extern NSString * const kCAContextCIFilterBehavior;
         [self setupCVBuffer];
     } else {
         if (!OEIntRectEqualToRect(screenRect, previousScreenRect))
-        //if (!OEIntSizeEqualToSize(screenRect.size, previousScreenSize))
         {
             NSAssert((screenRect.origin.x + screenRect.size.width) <= bufferSize.width, @"screen rect must not be larger than buffer size");
             NSAssert((screenRect.origin.y + screenRect.size.height) <= bufferSize.height, @"screen rect must not be larger than buffer size");
