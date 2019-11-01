@@ -1026,6 +1026,19 @@ extension AppDelegate: NSMenuDelegate {
         DispatchQueue.main.async {
             self.loadDatabase()
         }
+        
+        /* Check if there is at least one metal-enabled device in the system.
+         * Informs users that are using unsupported hacks for installing macOS on old machines,
+         * so that we do not get issues like #4020 posted */
+        let metalDevices = MTLCopyAllDevices()
+        if metalDevices.count == 0 {
+            let metalAlert = NSAlert()
+            metalAlert.messageText = NSLocalizedString("Your Mac is too old for this version of OpenEmu", comment: "Message for the alert which appears when no Metal-enabled GPUs are detected")
+            metalAlert.informativeText = NSLocalizedString("Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close.", comment: "Informative text for the alert which appears when no Metal-enabled GPUs are detected")
+            metalAlert.addButton(withTitle: NSLocalizedString("Quit OpenEmu", comment: "Button title for the alert which appears when no Metal-enabled GPUs are detected"))
+            metalAlert.runModal()
+            NSApp.terminate(nil)
+        }
     }
     
     func libraryDatabaseDidLoad(notification: Notification) {

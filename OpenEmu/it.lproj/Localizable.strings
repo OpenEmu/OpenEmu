@@ -536,6 +536,12 @@
 
 "Keycode 0x%lX" = "Codice 0x%lX";  // Fallback for unknown keys
 
+"Your Mac is too old for this version of OpenEmu" = "Questo Mac è troppo vecchio per la versione attuale di OpenEmu";  // Message for the alert which appears when no Metal-enabled GPUs are detected
+
+"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "A partire dalla versione 2.1, OpenEmu ha come requisito minimo una scheda grafica che supporta Metal. Metal è disponibile su tutti i Mac supportati da macOS 10.14 o versioni più recenti.\n\nSiccome OpenEmu non funziona con la configurazione hardware/software attuale, esso verrà chiuso.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected
+
+"Quit OpenEmu" = "Esci da OpenEmu";  // Button title for the alert which appears when no Metal-enabled GPUs are detected
+
 
 /* Secrets */
 
