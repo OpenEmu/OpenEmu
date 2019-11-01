@@ -452,9 +452,12 @@ extern NSString * const kCAContextCIFilterBehavior;
     DLog(@"Loaded bundle. About to load rom...");
     
     // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
+    BOOL romWasCompressed = NO;
     NSString *extension = aPath.pathExtension.lowercaseString;
-    if(![systemIdentifier isEqualToString:@"openemu.system.arcade"] && ![extension isEqualToString:@"md"] && ![extension isEqualToString:@"nds"] && ![extension isEqualToString:@"iso"])
+    if(![systemIdentifier isEqualToString:@"openemu.system.arcade"] && ![extension isEqualToString:@"md"] && ![extension isEqualToString:@"nds"] && ![extension isEqualToString:@"iso"]) {
         aPath = OEDecompressFileInArchiveAtPathWithHash(aPath, romMD5);
+        romWasCompressed = YES;
+    }
 
     if([_gameCore loadFileAtPath:aPath error:error])
     {
@@ -475,6 +478,9 @@ extern NSString * const kCAContextCIFilterBehavior;
     
     NSLog(@"ROM did not load.");
     _gameCore = nil;
+    
+    if (romWasCompressed)
+        [[NSFileManager defaultManager] removeItemAtPath:aPath error:NULL];
     
     return NO;
 }
