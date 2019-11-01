@@ -27,6 +27,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 #define TODO(x)
 #define FIXME(x)
 #define NOTE(x)
@@ -38,5 +40,10 @@
 void tohex(const unsigned char *input, size_t len, char *output);
 void OEPrintFirstResponderChain(void);
 NSArray *OENextRespondersFromResponder(NSResponder *responder);
+
 NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath);
 NSString *decompressedPathForRomAtPath(NSString *aPath);
+NSString *OETemporaryDirectoryForDecompressionOfFileWithHash(NSString *aPath, NSString * __nullable hash);
+NSString *OEDecompressFileInArchiveAtPathWithHash(NSString *aPath, NSString * __nullable hash);
+
+NS_ASSUME_NONNULL_END

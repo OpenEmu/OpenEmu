@@ -454,7 +454,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
     NSString *extension = aPath.pathExtension.lowercaseString;
     if(![systemIdentifier isEqualToString:@"openemu.system.arcade"] && ![extension isEqualToString:@"md"] && ![extension isEqualToString:@"nds"] && ![extension isEqualToString:@"iso"])
-        aPath = decompressedPathForRomAtPath(aPath);
+        aPath = OEDecompressFileInArchiveAtPathWithHash(aPath, romMD5);
 
     if([_gameCore loadFileAtPath:aPath error:error])
     {
