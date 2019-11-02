@@ -63,11 +63,11 @@ public class OEShadersModel : NSObject {
         }
         
         public var name: String
-        public var path: String
+        public var url: URL
         
-        init(path: String) {
-            self.name = ((path as NSString).lastPathComponent as NSString).deletingPathExtension
-            self.path = path
+        init(url: URL) {
+            self.name = url.deletingLastPathComponent().lastPathComponent
+            self.url  = url
         }
         
         @objc
@@ -85,6 +85,14 @@ public class OEShadersModel : NSObject {
             
             return nil
         }
+        
+        override public var description: String {
+            return self.name
+        }
+        
+        public override var debugDescription: String {
+            return "\(name) \(url.absoluteString)"
+        }
     }
     
     @objc
@@ -92,24 +100,46 @@ public class OEShadersModel : NSObject {
         return OEShadersModel()
     }()
     
+    static func urlsForShaders(at url: URL) -> [URL] {
+        var res = [URL]()
+        
+        guard
+            let urls = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.isDirectoryKey], options: .skipsSubdirectoryDescendants)
+            else { return [] }
+        
+        let dirs = urls.filter({ (try? $0.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false })
+        for dir in dirs {
+            guard
+                let files = try? FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])
+                else { continue }
+            if let slangp = files.first(where: { $0.pathExtension == "slangp" }) {
+                // we have a file!
+                res.append(slangp)
+            }
+        }
+        
+        return res
+    }
+    
     @objc
     public lazy var shaders: [OEShaderModel] = {
-        var shaders = Bundle.main.paths(forResourcesOfType: "slangp", inDirectory: "Shaders").map(OEShaderModel.init(path:))
+        // load main bundle resources
         
-        let openEmuSearchPath = ("OpenEmu" as NSString).appendingPathComponent("Shaders")
+        var shaders = [OEShaderModel]()
+        
+        if let path = Bundle.main.resourcePath {
+            let url = URL(fileURLWithPath: path, isDirectory: true).appendingPathComponent("Shaders", isDirectory: true)
+            let urls = Self.urlsForShaders(at: url)
+            shaders = urls.map(OEShaderModel.init(url:))
+        }
+        
         let paths = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)
-        
         for path in paths {
-            let subpath  = (path as NSString).appendingPathComponent(openEmuSearchPath)
-            guard let subpaths = try? FileManager.default.contentsOfDirectory(atPath: subpath) else {
-                continue
+            let subpath = URL(fileURLWithPath: path, isDirectory: true).appendingPathComponent("OpenEmu").appendingPathComponent("Shaders")
+            let urls    = Self.urlsForShaders(at: subpath)
+            if urls.count > 0 {
+                shaders.append(contentsOf: urls.map(OEShaderModel.init(url:)))
             }
-            
-            let subpath2 = subpath as NSString
-            let models = subpaths .filter { ($0 as NSString).pathExtension == "slangp" }.map {
-                return OEShaderModel(path: subpath2.appendingPathComponent($0))
-            }
-            shaders.append(contentsOf: models)
         }
         
         return shaders
@@ -149,7 +179,7 @@ public class OEShadersModel : NSObject {
     
     @objc
     public func shader(forURL url: URL) -> OEShaderModel? {
-        return OEShaderModel(path: url.path)
+        return OEShaderModel(url: url)
     }
     
     subscript(name: String) -> OEShaderModel? {

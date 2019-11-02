@@ -23,12 +23,12 @@ shaders = "13"
 # non-mipmapped version and a large mipmapped version.
 # TODO: Test masks in other directories.
 textures = "mask_grille_texture_small;mask_grille_texture_large;mask_slot_texture_small;mask_slot_texture_large;mask_shadow_texture_small;mask_shadow_texture_large;SamplerLUT1;SamplerLUT2"
-mask_grille_texture_small = "crt-royale/crt/shaders/crt-royale/TileableLinearApertureGrille15Wide8And5d5SpacingResizeTo64.png"
-mask_grille_texture_large = "crt-royale/crt/shaders/crt-royale/TileableLinearApertureGrille15Wide8And5d5Spacing.png"
-mask_slot_texture_small = "crt-royale/crt/shaders/crt-royale/TileableLinearSlotMaskTall15Wide9And4d5Horizontal9d14VerticalSpacingResizeTo64.png"
-mask_slot_texture_large = "crt-royale/crt/shaders/crt-royale/TileableLinearSlotMaskTall15Wide9And4d5Horizontal9d14VerticalSpacing.png"
-mask_shadow_texture_small = "crt-royale/crt/shaders/crt-royale/TileableLinearShadowMaskEDPResizeTo64.png"
-mask_shadow_texture_large = "crt-royale/crt/shaders/crt-royale/TileableLinearShadowMaskEDP.png"
+mask_grille_texture_small = "crt/shaders/crt-royale/TileableLinearApertureGrille15Wide8And5d5SpacingResizeTo64.png"
+mask_grille_texture_large = "crt/shaders/crt-royale/TileableLinearApertureGrille15Wide8And5d5Spacing.png"
+mask_slot_texture_small = "crt/shaders/crt-royale/TileableLinearSlotMaskTall15Wide9And4d5Horizontal9d14VerticalSpacingResizeTo64.png"
+mask_slot_texture_large = "crt/shaders/crt-royale/TileableLinearSlotMaskTall15Wide9And4d5Horizontal9d14VerticalSpacing.png"
+mask_shadow_texture_small = "crt/shaders/crt-royale/TileableLinearShadowMaskEDPResizeTo64.png"
+mask_shadow_texture_large = "crt/shaders/crt-royale/TileableLinearShadowMaskEDP.png"
 mask_grille_texture_small_wrap_mode = "repeat"
 mask_grille_texture_large_wrap_mode = "repeat"
 mask_slot_texture_small_wrap_mode = "repeat"
@@ -58,7 +58,7 @@ shader0 = "reshade/shaders/LUT/multiLUT.slang"
 
 # Pass1: Linearize the input based on CRT gamma and bob interlaced fields.
 # (Bobbing ensures we can immediately blur without getting artifacts.)
-shader1 = "crt-royale/crt/shaders/crt-royale/src/crt-royale-first-pass-linearize-crt-gamma-bob-fields.slang"
+shader1 = "crt/shaders/crt-royale/src/crt-royale-first-pass-linearize-crt-gamma-bob-fields.slang"
 alias1 = "ORIG_LINEARIZED"
 filter_linear1 = "false"
 scale_type1 = "source"
@@ -71,7 +71,7 @@ srgb_framebuffer1 = "true"
 # it reduces our samples from vertical*horizontal to vertical+horizontal.
 # This has to come right after ORIG_LINEARIZED, because there's no
 # "original_source" scale_type we can use later.
-shader2 = "crt-royale/crt/shaders/crt-royale/src/crt-royale-scanlines-vertical-interlacing.slang"
+shader2 = "crt/shaders/crt-royale/src/crt-royale-scanlines-vertical-interlacing.slang"
 alias2 = "VERTICAL_SCANLINES"
 filter_linear2 = "true"
 scale_type_x2 = "source"
@@ -93,7 +93,7 @@ srgb_framebuffer2 = "true"
 #     may be a good thing for people who like to crank it up).
 # Note the 4:4 aspect ratio assumes the input has cropped geom_overscan (so it's
 # *intended* for an ~4:4 aspect ratio).
-shader3 = "crt-royale/crt/shaders/crt-royale/src/crt-royale-bloom-approx.slang"
+shader3 = "crt/shaders/crt-royale/src/crt-royale-bloom-approx.slang"
 alias3 = "BLOOM_APPROX"
 filter_linear3 = "true"
 scale_type3 = "absolute"
@@ -105,7 +105,7 @@ srgb_framebuffer3 = "true"
 # Base this on BLOOM_APPROX: This blur should be small and fast, and blurring
 # a constant portion of the screen is probably physically correct if the
 # viewport resolution is proportional to the simulated CRT size.
-shader4 = "crt-royale/blurs/blur5fast-vertical.slang"
+shader4 = "blurs/blur5fast-vertical.slang"
 filter_linear4 = "true"
 scale_type4 = "source"
 scale4 = "1.0"
@@ -113,7 +113,7 @@ srgb_framebuffer4 = "true"
 
 # Pass5: Horizontally blur the input for halation and refractive diffusion.
 # Note: Using a one-pass 9x10 blur is about 1% slower.
-shader5 = "crt-royale/blurs/blur5fast-horizontal.slang"
+shader5 = "blurs/blur5fast-horizontal.slang"
 alias5 = "HALATION_BLUR"
 filter_linear5 = "true"
 scale_type5 = "source"
@@ -153,7 +153,7 @@ srgb_framebuffer5 = "true"
 #   scale_y6 = 4.0/3.0 * 2.0/(341.33334 / 8.0) = 0.0625
 # IMPORTANT: The scales MUST be calculated in this way.  If you wish to change
 # geom_max_aspect_ratio, update that constant in user-cgp-constants.h!
-shader6 = "crt-royale/crt/shaders/crt-royale/src/crt-royale-mask-resize-vertical.slang"
+shader6 = "crt/shaders/crt-royale/src/crt-royale-mask-resize-vertical.slang"
 filter_linear6 = "true"
 scale_type_x6 = "absolute"
 scale_x6 = "64"
@@ -163,7 +163,7 @@ scale_y6 = "0.0625" # Safe for >= 341.334 horizontal triads at viewport size
 
 # Pass7: Lanczos-resize the phosphor mask horizontally.  scale_x7 = scale_y5.
 # TODO: Check again if the shaders actually require equal scales.
-shader7 = "crt-royale/crt/shaders/crt-royale/src/crt-royale-mask-resize-horizontal.slang"
+shader7 = "crt/shaders/crt-royale/src/crt-royale-mask-resize-horizontal.slang"
 alias7 = "MASK_RESIZE"
 filter_linear7 = "false"
 scale_type_x7 = "viewport"
@@ -174,7 +174,7 @@ scale_y7 = "1.0"
 
 # Pass8: Resample (misconverged) scanlines horizontally, apply halation, and
 # apply the phosphor mask.
-shader8 = "crt-royale/crt/shaders/crt-royale/src/crt-royale-scanlines-horizontal-apply-mask.slang"
+shader8 = "crt/shaders/crt-royale/src/crt-royale-scanlines-horizontal-apply-mask.slang"
 alias8 = "MASKED_SCANLINES"
 filter_linear8 = "true" # This could just as easily be nearest neighbor.
 scale_type8 = "viewport"
@@ -183,7 +183,7 @@ scale8 = "1.0"
 srgb_framebuffer8 = "true"
 
 # Pass 9: Compute a brightpass.  This will require reading the final mask.
-shader9 = "crt-royale/crt/shaders/crt-royale/src/crt-royale-brightpass.slang"
+shader9 = "crt/shaders/crt-royale/src/crt-royale-brightpass.slang"
 alias9 = "BRIGHTPASS"
 filter_linear9 = "true" # This could just as easily be nearest neighbor.
 scale_type9 = "viewport"
@@ -191,21 +191,21 @@ scale9 = "1.0"
 srgb_framebuffer9 = "true"
 
 # Pass 10: Blur the brightpass vertically
-shader10 = "crt-royale/crt/shaders/crt-royale/src/crt-royale-bloom-vertical.slang"
+shader10 = "crt/shaders/crt-royale/src/crt-royale-bloom-vertical.slang"
 filter_linear10 = "true" # This could just as easily be nearest neighbor.
 scale_type10 = "source"
 scale10 = "1.0"
 srgb_framebuffer10 = "true"
 
 # Pass 11: Blur the brightpass horizontally and combine it with the dimpass:
-shader11 = "crt-royale/crt/shaders/crt-royale/src/crt-royale-bloom-horizontal-reconstitute.slang"
+shader11 = "crt/shaders/crt-royale/src/crt-royale-bloom-horizontal-reconstitute.slang"
 filter_linear11 = "true"
 scale_type11 = "source"
 scale11 = "1.0"
 srgb_framebuffer11 = "true"
 
 # Pass 12: Compute curvature/AA:
-shader12 = "crt-royale/crt/shaders/crt-royale/src/crt-royale-geometry-aa-last-pass.slang"
+shader12 = "crt/shaders/crt-royale/src/crt-royale-geometry-aa-last-pass.slang"
 filter_linear12 = "true"
 scale_type12 = "viewport"
 mipmap_input12 = "true"

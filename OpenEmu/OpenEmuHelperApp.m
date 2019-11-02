@@ -208,7 +208,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     } else {
         OEShaderModel *shader = [OEShadersModel.shared shaderForSystem:_gameCore.systemIdentifier];
         if (shader != nil) {
-            shaderURL = [NSURL fileURLWithPath:shader.path];
+            shaderURL = shader.url;
         }
     }
 

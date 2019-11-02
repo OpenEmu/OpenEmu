@@ -262,7 +262,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
     for (OEShaderModel *shader in OEShadersModel.shared.shaders) {
         if ([shaderName isEqualToString:shader.name]) {
-            [[self document] gameViewController:self setShaderURL:[NSURL fileURLWithPath:shader.path] completionHandler:^(BOOL success, NSError *error) {
+            [[self document] gameViewController:self setShaderURL:shader.url completionHandler:^(BOOL success, NSError *error) {
                 if (success)
                 {
                     [self didLoadShader:shader];
