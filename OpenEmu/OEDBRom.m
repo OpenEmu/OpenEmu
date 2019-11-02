@@ -236,8 +236,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeMissingStates
 {
     NSSet *set = self.saveStates.copy;
-    [set makeObjectsPerformSelector:@selector(deleteAndRemoveFilesIfInvalid)];
-    [self save];
+    BOOL needsSave = NO;
+    for (OEDBSaveState *state in set)
+        needsSave |= [state deleteAndRemoveFilesIfInvalid];
+    if (needsSave)
+        [self save];
 }
 
 - (void)incrementPlayCount

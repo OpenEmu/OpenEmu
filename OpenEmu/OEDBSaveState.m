@@ -503,10 +503,12 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     [self save];
 }
 
-- (void)deleteAndRemoveFilesIfInvalid
+- (BOOL)deleteAndRemoveFilesIfInvalid
 {
-    if(!self.isValid)
+    BOOL invalid = !self.isValid;
+    if (invalid)
         [self deleteAndRemoveFiles];
+    return invalid;
 }
 
 - (BOOL)moveToDefaultLocation

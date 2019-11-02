@@ -67,7 +67,8 @@ extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 @property(readonly, getter=isValid) BOOL valid;
 
 - (void)deleteAndRemoveFiles;
-- (void)deleteAndRemoveFilesIfInvalid;
+// returns YES if it was invalid
+- (BOOL)deleteAndRemoveFilesIfInvalid;
 
 #pragma mark - Data Accessors
 
