@@ -6,7 +6,7 @@
 "Lkc-nZ-qig.title" = "Nouvelle collection";
 
 /* Class = "NSTextFieldCell"; title = "Game Scanner"; ObjectID = "R5g-ov-B26"; */
-"R5g-ov-B26.title" = "Analyse des jeux";
+"R5g-ov-B26.title" = "Détection de jeux";
 
 /* Class = "NSTextFieldCell"; title = "Scanner Paused"; ObjectID = "gJT-pJ-BJg"; */
-"gJT-pJ-BJg.title" = "Analyse en pause";
+"gJT-pJ-BJg.title" = "Détection en pause";

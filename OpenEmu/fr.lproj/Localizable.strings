@@ -26,9 +26,9 @@
 
 "%@ copy" = "%@ - copie";
 
-"%@ could not be enabled because its plugin was not found." = "Impossible d’activer %@ car son plugin n’a pas été trouvé.";
+"%@ could not be enabled because its plugin was not found." = "Impossible d’activer %@ car son plug-in n’a pas été trouvé.";
 
-"%@ games will appear here. Check out %@ on how to add disc-based games." = "Les jeux %@ apparaîtront ici. Lisez %@ pour savoir comment ajouter des jeux à base de disque.";
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "Les jeux %@ apparaîtront ici. Lisez %@ pour savoir comment ajouter des jeux à disque.";
 
 "%@ games you add to OpenEmu will appear in this Console Library" = "Les jeux %@ ajoutés à OpenEmu apparaîtront dans la bibliothèque de la console";
 
@@ -38,11 +38,11 @@
 
 "Add a Wiimote…" = "Ajouter une Wiimote…";
 
-"Add Cheat…" = "Ajouter un code de triche…";
+"Add Cheat…" = "Ajouter un code…";
 
 "Add Cheat" = "Ajouter un code";
 
-"Add Cover Art from File…" = "Ajouter l’illustration à partir d’un fichier…";
+"Add Cover Art from File…" = "Ajouter une illustration à partir d’un fichier…";
 
 "Add to Collection" = "Ajouter à la collection";
 
@@ -74,13 +74,13 @@
 
 "At least one System must be enabled" = "Au moins un système doit être activé";
 
-"Auto Save State" = "Sauvegarde auto";
+"Auto Save State" = "Sauvegarde automatique";
 
 "Automatically Import" = "Importation automatique";
 
 "Bluetooth must be enabled to pair a Wii controller." = "Bluetooth doit être activé pour associer une manette Wii.";
 
-"Bluetooth Not Enabled" = "Bluetooth non activé";
+"Bluetooth Not Enabled" = "Bluetooth désactivé";
 
 "Cancel Cover Art Download" = "Annuler le téléchargement de l’illustration";
 
@@ -90,17 +90,17 @@
 
 "Change Volume" = "Changer le volume";
 
-"Cheat Description" = "Description du code de triche";
+"Cheat Description" = "Description du code";
 
 "Check out some excellent homebrew games." = "Découvrez d’excellents jeux homebrew.";
 
-"Choose a valid file." = "Choisir un fichier valide.";
+"Choose a valid file." = "Sélectionner un fichier valide.";
 
-"Choose Library…" = "Choisir la bibliothèque…";
+"Choose Library…" = "Sélectionner une bibliothèque…";
 
-"Choose OpenEmu Library" = "Choisir la bibliothèque OpenEmu";
+"Choose OpenEmu Library" = "Sélectionner une bibliothèque OpenEmu";
 
-"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Choisissez Oui pour supprimer tous les éléments de file d’attente. Les éléments importés seront conservés dans votre bibliothèque.";
+"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Sélectionnez Oui pour supprimer tous les éléments de la file d’attente. Les éléments déjà importés seront conservés dans votre bibliothèque.";
 
 "Code:" = "Code :";
 
@@ -110,11 +110,11 @@
 
 "Consoles" = "Consoles";
 
-"Consolidate Files…" = "Consolider les fichiers…";
+"Consolidate Files…" = "Réunir les fichiers…";
 
-"Consolidate" = "Consolider";
+"Consolidate" = "Réunir";
 
-"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "La consolidation copiera tous les jeux sélectionnés dans le dossier de la bibliothèque OpenEmu.\n\nCette opération est irréversible.";
+"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Réunir les fichiers copiera tous les jeux sélectionnés dans le dossier de la bibliothèque OpenEmu.\n\nCette opération est irréversible.";
 
 "Controls" = "Contrôles";
 
@@ -134,9 +134,9 @@
 
 "Could not move library data!" = "Impossible de déplacer les données de la bibliothèque !";
 
-"Couldn't load %@ plugin" = "Impossible de charger le plugin %@";
+"Couldn't load %@ plugin" = "Impossible de charger le plug-in %@";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Créer une sélection de jeux personnelle. Pour ajouter un jeu à une collection, sélectionnez-le dans votre bibliothèque de consoles et glissez-le vers « %@ » sur la gauche.";
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Créer une sélection de jeux personnelle. Pour ajouter un jeu à une collection, sélectionnez-le dans votre bibliothèque de consoles et glissez-le vers « %@ » dans la barre latérale.";
 
 "Create Library…" = "Créer une bibiothèque…";
 
@@ -156,13 +156,13 @@
 
 "Delete Save States" = "Supprimer les parties sauvegardées";
 
-"Delete Save" = "Supprimer";
+"Delete Save" = "Supprimer la sauvegarde";
 
-"Delete Saves" = "Supprimer";
+"Delete Saves" = "Supprimer les sauvegardes";
 
-"Delete Screenshot" = "Supprimer capture";
+"Delete Screenshot" = "Supprimer la capture d'écran";
 
-"Delete Screenshots" = "Supprimer captures";
+"Delete Screenshots" = "Supprimer les captures d'écran";
 
 "Delete" = "Supprimer";
 
@@ -174,7 +174,7 @@
 
 "Device number %lu, %@, has disconnected." = "Le périphérique numéro %lu, %@, a été déconnecté.";
 
-"Disc-based games have special requirements. Please read the disc importing guide." = "Les jeux à base de disque ont des exigences particulières. Lisez le guide d’importation de disque.";
+"Disc-based games have special requirements. Please read the disc importing guide." = "Les jeux sur disque ont des exigences particulières. Lisez le guide d’importation de disques.";
 
 "Disc %u" = "Disque %u";
 
@@ -184,7 +184,7 @@
 
 "Do not show me again" = "Ne plus afficher";
 
-"Do you really want to cancel the import process?" = "Voules-vous vraiment annuler le processus d’importation ?";
+"Do you really want to cancel importation?" = "Voules-vous vraiment annuler l’importation ?";
 
 "Do you want to continue playing where you left off?" = "Voulez-vous continuer la partie là où vous l’avez quittée ?";
 
@@ -200,7 +200,7 @@
 
 "Downloading and Installing Core…" = "Téléchargement et installation du cœur…";
 
-"Downloading Game DB" = "Téléchargement données";
+"Downloading Game DB" = "Téléchargement de la base de données de jeux";
 
 "Drag & Drop Games Here" = "Glissez et déposez des jeux ici";
 
@@ -246,13 +246,13 @@
 
 "In order to play the game it must be downloaded." = "Pour lancer le jeu, il doit être téléchargé.";
 
-"Insert Cart/Disk/Tape…" = "Insérer Cart/Disk/Tape…";
+"Insert Cart/Disk/Tape…" = "Insérer Cartouche / Disque / Cassette…";
 
 "Install" = "Installer";
 
 "Installing Core" = "Installation du cœur";
 
-"Join multi-line cheats with '+' e.g. 000-000+111-111" = "Joindre les codes avec « + » ex. 000-000+111-111";
+"Join multi-line cheats with '+' e.g. 000-000+111-111" = "Joindre les codes multilignes avec « + » ex. 000-000+111-111";
 
 "Keep Files" = "Conserver";
 
@@ -320,7 +320,7 @@
 
 "OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu inclut une fonctionnalité de sauvegarde qui vous permet de continuer votre partie exactement là où vous l’avez quitée.";
 
-"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu nécessite une bibliothèque pour continuer. Vous devez choisir une bibliothèque OpenEmu existante ou en créer une nouvelle";
+"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu nécessite une bibliothèque pour continuer. Vous devez sélectionner une bibliothèque OpenEmu existante ou en créer une nouvelle";
 
 "OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu utilise des « cœurs » pour émuler les jeux. Vous avez besoin du cœur %@ pour jouer à %@";
 
@@ -342,15 +342,15 @@
 
 "Player %ld" = "Joueur %ld";
 
-"Please close all games and wait for the importer to finish." = "Fermez tous les jeux et patientez jusqu’à la fin de l’importation.";
+"Please close all games and wait for the importer to finish." = "Veuillez fermer tous les jeux et patienter jusqu’à la fin de l’importation.";
 
-"Quick Load" = "Chargement rapide ";
+"Quick Load" = "Chargement rapide";
 
 "Quick Save State" = "Sauvegarde rapide";
 
-"Quick Save, Slot %@" = "Sauvegarde rapide, fente %@";
+"Quick Save, Slot %@" = "Sauvegarde rapide, emplacement %@";
 
-"Quick Save" = "Sauvegarde rapide ";
+"Quick Save" = "Sauvegarde rapide";
 
 "Quit" = "Quitter";
 
@@ -394,9 +394,9 @@
 
 "Save Current Game…" = "Sauvegarder la partie en cours…";
 
-"Save Game" = "Sauvegarder partie";
+"Save Game" = "Sauvegarder la partie";
 
-"Save States" = "Sauvegarder parties";
+"Save States" = "Sauvegarder les parties";
 
 "Save-Game-%ld %@" = "Sauvegarde-%ld %@";
 
@@ -416,25 +416,23 @@
 
 "Select Audio Output Device" = "Sélectionner le périphérique de sortie audio";
 
-"Select Cheat" = "Sélectionner le code de triche";
+"Select Cheat" = "Sélectionner un code de triche";
 
-"Select Core" = "Sélectionner le cœur";
+"Select Core" = "Sélectionner un cœur";
 
-"Select Disc" = "Sélectionner le disque";
+"Select Disc" = "Sélectionner un disque";
 
-"Select Display Mode" = "Sélectionner le mode affichage";
+"Select Display Mode" = "Sélectionner un mode d'affichage";
 
-"Select Shader" = "Sélectionner le shader";
+"Select Shader" = "Sélectionner un shader";
 
-"Select Scale" = "Sélectionner l’échelle";
+"Select Scale" = "Sélectionner une échelle";
 
 "Share" = "Partager";
 
 "Show in Finder" = "Afficher dans le Finder";
 
-"Slot %d" = "Fente %d";
-
-"Slot %ld" = "Fente %ld";
+"Slot %ld" = "Emplacement %ld";
 
 "Some migrations failed to complete properly" = "Quelques migrations ne se sont pas terminées correctement";
 
@@ -454,7 +452,7 @@
 
 "System" = "Système";
 
-"Takes you to the %@ project website" = "Atteindre le site web du projet %@";
+"Takes you to the %@ project website" = "Aller au site web du projet %@";
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "Le cœur %@ a des problèmes de compatibilité et certains jeux peuvent poser problème ou ne pas fonctionner du tout.\n\nVeuillez ne pas nous signaler ces problèmes car nous ne sommes pas responsables du développement de %@.";
 
@@ -484,15 +482,15 @@
 
 "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "Pour exécuter ce cœur, vous devez :\n\n%@Glisser et déposer le(s) fichier(s) requis dans la fenêtre de la bibliothèque de jeu et réessayer.";
 
-"Toggle Fullscreen" = "Basculer le mode plein écran";
+"Toggle Fullscreen" = "Basculer en mode plein écran";
 
-"Trash downloaded Files" = "Placer dans la corbeille les fichiers téléchargés";
+"Trash downloaded Files" = "Placer les fichiers téléchargés dans la corbeille";
 
 "Unmute Audio" = "Réactiver le son";
 
 "Update" = "Mettre à jour";
 
-"User guide on BIOS files" = "Guide de l’utilisateur des fichiers BIOS";
+"User guide on BIOS files" = "Guide de l’utilisateur de fichiers BIOS";
 
 "View Guide In Browser" = "Afficher le guide";
 
@@ -532,9 +530,9 @@
 
 "An issue was detected with one of your controllers." = "An issue was detected with one of your controllers.";  //TODO // Headline for bindings repaired alert
 
-"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.";  // TODO // Message for bindings repaired alert
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "Le profile des boutons de l'un de vos contrôlleur ne correspond pas au profile détecté la dernière fois qu'elle a été connectée à OpenEmu. Certaines associations de controls ont été restaurées.\n\nVous pouvez aller dans les préférences Contrôlleur pour vérifier les associations affectées.";  // TODO // Message for bindings repaired alert
 
-"Keycode 0x%lX" = "Keycode 0x%lX";  // TODO  // Fallback for unknown keys
+"Keycode 0x%lX" = "Code de touch 0x%lX";  // TODO  // Fallback for unknown keys
 
 "Your Mac is too old for this version of OpenEmu" = "Your Mac is too old for this version of OpenEmu";  // Message for the alert which appears when no Metal-enabled GPUs are detected // TODO
 
@@ -547,9 +545,9 @@
 
 "General" = "Général";
 
-"Debug Mode" = "Mode de débogage";
+"Debug Mode" = "Mode débogage";
 
-"Setup Assistant has finished" = "L’assistant d’installation a terminé";
+"Setup Assistant has finished" = "L’assistant d’installation s'est terminé";
 
 "Region" = "Région";
 
@@ -585,7 +583,7 @@
 
 "Show notifications during gameplay" = "Afficher les notifications pendant le jeu";
 
-"Use quicksave slots" = "Utiliser les fentes de sauvegarde rapide";
+"Use quicksave slots" = "Utiliser les emplacements de sauvegarde rapide";
 
 "Show quicksave in menu" = "Afficher la sauvegarde rapide dans le menu";
 
@@ -595,7 +593,7 @@
 
 "Take screenshots in native size" = "Faire des captures d’écran en conservant la taille d’origine";
 
-"Disable aspect ratio correction in screenshots" = "Désactiver la correction du rapport d’aspect"; // TODO: specify "in screenshots"
+"Disable aspect ratio correction in screenshots" = "Désactiver la correction de résolution pour les captures d'écran";
 
 "Game View Background color" = "Couleur de fond de l’affichage du jeu";
 
@@ -603,9 +601,9 @@
 
 "WiiRemote support (requires relaunch)" = "Support de la télécommande Wii (nécessite un redémarrage)";
 
-"Clicking on image selects button" = "Cliquer sur l’image pour sélectionner le bouton";
+"Clicking on image selects button" = "Cliquer sur l’image sélectionne le bouton";
 
-"Clicking outside image deselects button" = "Cliquer hors de l’image pour désélectionner le bouton";
+"Clicking outside image deselects button" = "Cliquer hors de l’image désélectionne le bouton";
 
 "Select first field after setting the last" = "Sélectionner le premier champ après avoir configuré le dernier";
 
@@ -631,7 +629,7 @@
 
 "Cancel OpenVGDB Update" = "Annuler la mise à jour d’OpenVGDB";
 
-"Database Actions" = "Actions de la base de données";
+"Database Actions" = "Actions sur la base de données";
 
 "Delete artwork that can be downloaded" = "Supprimer l’illustration qui peut être téléchargée";
 
@@ -649,7 +647,7 @@
 
 "While performing this operation OpenEmu will be unresponsive." = "OpenEmu ne répondra pas pendant l’exécution de cette opération.";
 
-"Do it!" = "Faites-le !";
+"Do it!" = "Fais-le !";
 
 "Cancel Operation" = "Annuler l’opération";
 
@@ -661,12 +659,12 @@
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "Les fichiers binaires ECM compressés ne peuvent pas être importés. Veuillez lire le guide d’importation de disque.";
 
-"Threshold for analog controls bound to buttons" = "Threshold for analog controls bound to buttons";    // TODO
+"Threshold for analog controls bound to buttons" = "Seuil pour les contrôls analogiques associés à des boutons";
 
-"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
+"Range: %@ to %@" = "Intervalle: %@ à %@";
 
-"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+"Default Value: %@" = "Valeur par défaut: %@";
 
-"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+"Checked" = "Activé";
 
-"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+"Unchecked" = "Désactivé";

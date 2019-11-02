@@ -21,7 +21,7 @@
 "24.title" = "Bibliothèques disponibles :";
 
 /* Class = "NSTextFieldCell"; title = "Reset all dialog warnings:"; ObjectID = "Ua1-J2-mdy"; */
-"Ua1-J2-mdy.title" = "Réinitialiser les avertissements :";
+"Ua1-J2-mdy.title" = "Rétablir tous les avertissements d'alerte :";
 
 /* Class = "NSButtonCell"; title = "Reset warnings"; ObjectID = "all-Wd-1Dy"; */
-"all-Wd-1Dy.title" = "Rétablir avertissements";
+"all-Wd-1Dy.title" = "Rétablir les avertissements";

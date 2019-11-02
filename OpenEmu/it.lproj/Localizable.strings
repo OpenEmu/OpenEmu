@@ -136,7 +136,7 @@
 
 "Couldn't load %@ plugin" = "Non è stato possibile caricare il plugin %@";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Crea una raccolta di giochi personalizzata. Per aggiungere un gioco alla raccolta, selezionalo nella sua libreria console e trascinalo su \"%@\", nella barra laterale.";
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Crea una raccolta di giochi personalizzata. Per aggiungere un gioco alla raccolta, selezionalo nella sua libreria console e trascinalo su \"%@\", nella barra laterale."; // TODO
 
 "Create Library…" = "Crea una Libreria…";
 
@@ -184,7 +184,7 @@
 
 "Do not show me again" = "Non avvisarmi più";
 
-"Do you really want to cancel the import process?" = "Vuoi davvero annullare il processo di importazione?";
+"Do you really want to cancel importation?" = "Vuoi davvero annullare il processo di importazione?"; // TODO
 
 "Do you want to continue playing where you left off?" = "Vuoi riprendere a giocare da dove avevi interrotto?";
 
@@ -431,8 +431,6 @@
 "Share" = "Condividi";
 
 "Show in Finder" = "Mostra nel Finder";
-
-"Slot %d" = "Slot %d";
 
 "Slot %ld" = "Slot %ld";
 
