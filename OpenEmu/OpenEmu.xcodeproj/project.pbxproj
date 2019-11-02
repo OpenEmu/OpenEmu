@@ -7449,7 +7449,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Define BUILD_VERSION with git revision and build configuration\ngitBundle=`which git`\ngitDescribe=`${gitBundle} describe`\ngitRefInfo=$(echo $gitDescribe | grep -oE \"([0-9]{1,3})\\-([a-zA-Z0-9]{8})\")\n\nlongBuildRef=`${gitBundle} rev-parse --verify HEAD`\n\nbundleConfiguration=\"$CONFIGURATION\"\nbuildRef=\"${gitRefInfo}-${bundleConfiguration}\"\n\necho \"#define BUILD_VERSION @\\\"$buildRef\\\"\" > OEBuildVersion.h\necho \"#define LONG_BUILD_VERSION @\\\"$longBuildRef\\\"\" >> OEBuildVersion.h";
+			shellScript = "# Define BUILD_VERSION with git revision and build configuration\ngitBundle=`which git`\ngitLastTag=`${gitBundle} describe --abbrev=0 --tags`\ngitNumCommitsToLastTag=`${gitBundle} rev-list --count ${gitLastTag}`\ngitNumCommitsSinceLastTag=`${gitBundle} rev-list --count ${gitLastTag}..`\ngitCommitSha=`${gitBundle} rev-parse --short HEAD`\nbundleConfiguration=\"$CONFIGURATION\"\nbuildRef=\"${gitNumCommitsToLastTag}.${gitNumCommitsSinceLastTag}-g${gitCommitSha}-${bundleConfiguration}\"\n\nlongBuildRef=`${gitBundle} rev-parse --verify HEAD`\n\necho \"#define BUILD_VERSION @\\\"$buildRef\\\"\" > OEBuildVersion.h\necho \"#define LONG_BUILD_VERSION @\\\"$longBuildRef\\\"\" >> OEBuildVersion.h\n";
 		};
 		94C51FBD1847077700206E6F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
