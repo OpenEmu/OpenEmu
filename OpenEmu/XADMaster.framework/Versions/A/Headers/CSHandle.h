@@ -142,10 +142,10 @@ extern NSString *CSNotSupportedException;
 
 -(void)writeInt16LE:(int16_t)val;
 -(void)writeInt32LE:(int32_t)val;
-//-(void)writeInt64LE:(int64_t)val;
+-(void)writeInt64LE:(int64_t)val;
 -(void)writeUInt16LE:(uint16_t)val;
 -(void)writeUInt32LE:(uint32_t)val;
-//-(void)writeUInt64LE:(uint64_t)val;
+-(void)writeUInt64LE:(uint64_t)val;
 
 -(void)writeID:(uint32_t)val;
 
@@ -189,6 +189,9 @@ static inline void CSSetUInt16BE(uint8_t *b,uint16_t n) { b[0]=(n>>8)&0xff; b[1]
 static inline void CSSetUInt32BE(uint8_t *b,uint32_t n) { b[0]=(n>>24)&0xff; b[1]=(n>>16)&0xff; b[2]=(n>>8)&0xff; b[3]=n&0xff; }
 static inline void CSSetInt16LE(uint8_t *b,int16_t n) { b[1]=(n>>8)&0xff; b[0]=n&0xff; }
 static inline void CSSetInt32LE(uint8_t *b,int32_t n) { b[3]=(n>>24)&0xff; b[2]=(n>>16)&0xff; b[1]=(n>>8)&0xff; b[0]=n&0xff; }
+static inline void CSSetInt64LE(uint8_t *b,int64_t n) { b[7]=(n>>56)&0xff; b[6]=(n>>48)&0xff; b[5]=(n>>40)&0xff; b[4]=(n>>32)&0xff; b[3]=(n>>24)&0xff; b[2]=(n>>16)&0xff; b[1]=(n>>8)&0xff; b[0]=(n>>0)&0xff;}
 static inline void CSSetUInt16LE(uint8_t *b,uint16_t n) { b[1]=(n>>8)&0xff; b[0]=n&0xff; }
 static inline void CSSetUInt32LE(uint8_t *b,uint32_t n) { b[3]=(n>>24)&0xff; b[2]=(n>>16)&0xff; b[1]=(n>>8)&0xff; b[0]=n&0xff; }
+static inline void CSSetUInt64LE(uint8_t *b,uint64_t n) { b[7]=(n>>56)&0xff; b[6]=(n>>48)&0xff; b[5]=(n>>40)&0xff; b[4]=(n>>32)&0xff; b[3]=(n>>24)&0xff; b[2]=(n>>16)&0xff; b[1]=(n>>8)&0xff; b[0]=(n>>0)&0xff;}
+
 
