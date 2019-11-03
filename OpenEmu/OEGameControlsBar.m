@@ -70,7 +70,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 @interface OEGameControlsBar () <CAAnimationDelegate>
 @property (strong) id eventMonitor;
 @property (strong) NSTimer *fadeTimer;
-@property (strong) NSArray *sortedShaders;
 @property (strong) NSMutableArray *cheats;
 @property          NSMutableSet *openMenus;
 @property          BOOL cheatsLoaded;
@@ -81,6 +80,10 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 @end
 
 @implementation OEGameControlsBar
+{
+    NSArray<NSString *> *_sortedSystemShaders;
+    NSArray<NSString *> *_sortedCustomShaders;
+}
 
 + (void)initialize
 {
@@ -131,7 +134,8 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [nc addObserver:self selector:@selector(mouseMoved:) name:NSApplicationDidBecomeActiveNotification object:nil];
         [nc addObserver:self selector:@selector(didMove:) name:NSWindowDidMoveNotification object:self];
 
-        _sortedShaders = [OEShadersModel.shared.shaderNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+        _sortedSystemShaders = [OEShadersModel.shared.systemShaderNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+        _sortedCustomShaders = [OEShadersModel.shared.customShaderNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     }
     return self;
 }
@@ -527,16 +531,30 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                                 ? : [defaults objectForKey:OEGameDefaultVideoShaderKey]);
 
     // Select the Default Shader if the current is not available (ie. deleted)
-    if(![_sortedShaders containsObject:selectedShader])
+    if(![_sortedSystemShaders containsObject:selectedShader] && ![_sortedCustomShaders containsObject:selectedShader])
         selectedShader = [defaults objectForKey:OEGameDefaultVideoShaderKey];
 
-    for(NSString *shaderName in _sortedShaders)
+    // add system shaders first
+    for(NSString *shaderName in _sortedSystemShaders)
     {
         NSMenuItem *shaderItem = [[NSMenuItem alloc] initWithTitle:shaderName action:@selector(selectShader:) keyEquivalent:@""];
 
         if([shaderName isEqualToString:selectedShader]) shaderItem.state = NSControlStateValueOn;
 
         [shaderMenu addItem:shaderItem];
+    }
+    
+    if (_sortedCustomShaders.count > 0) {
+        [shaderMenu addItem:[NSMenuItem separatorItem]];
+    
+        for(NSString *shaderName in _sortedCustomShaders)
+        {
+            NSMenuItem *shaderItem = [[NSMenuItem alloc] initWithTitle:shaderName action:@selector(selectShader:) keyEquivalent:@""];
+
+            if([shaderName isEqualToString:selectedShader]) shaderItem.state = NSControlStateValueOn;
+
+            [shaderMenu addItem:shaderItem];
+        }
     }
 
     item = [NSMenuItem new];

@@ -27,6 +27,10 @@ import OpenEmuBase
 
 @objc
 public class OEShadersModel : NSObject {
+    // MARK: Notifications
+    
+    @objc static let shaderModelCustomShadersDidChange = Notification.Name(rawValue: "OEShaderModelCustomShadersDidChangeNotification")
+    
     enum Preferences {
         case global
         case system(String)
@@ -43,6 +47,166 @@ public class OEShadersModel : NSObject {
         }
     }
     
+    @objc
+    public static var shared : OEShadersModel = {
+        return OEShadersModel()
+    }()
+    
+    private var systemShaders: [OEShaderModel]
+    private var customShaders: [OEShaderModel]
+    
+    override init() {
+        systemShaders = OEShadersModel.loadSystemShaders()
+        customShaders = OEShadersModel.loadCustomShaders()
+        super.init()
+    }
+    
+    @objc
+    public func reload() {
+        customShaders       = OEShadersModel.loadCustomShaders()
+        _allShaderNames     = nil
+        _customShaderNames  = nil
+        NotificationCenter.default.post(name: OEShadersModel.shaderModelCustomShadersDidChange, object: nil)
+    }
+    
+    private var _systemShaderNames: [String]?
+    
+    @objc
+    public var systemShaderNames: [String] {
+        if _systemShaderNames == nil {
+            _systemShaderNames = systemShaders.map { $0.name }
+        }
+        return _systemShaderNames!
+    }
+
+    private var _customShaderNames: [String]?
+    
+    @objc
+    public var customShaderNames: [String] {
+        if _customShaderNames == nil {
+            _customShaderNames = customShaders.map { $0.name }
+        }
+        return _customShaderNames!
+    }
+
+    private var _allShaderNames: [String]?
+    
+    @objc
+    public var allShaderNames: [String] {
+        if _allShaderNames == nil {
+            
+        }
+        return _allShaderNames!
+    }
+    
+    @objc
+    public var defaultShader: OEShaderModel {
+        get {
+            if let name = UserDefaults.oe_application().string(forKey: Preferences.global.key),
+                let shader = self[name] {
+                return shader
+            }
+            
+            return self["Pixellate"]!
+        }
+        
+        set {
+            UserDefaults.standard.set(newValue.name, forKey: Preferences.global.key)
+        }
+    }
+    
+    @objc
+    public func shader(withName name: String) -> OEShaderModel? {
+        return self[name]
+    }
+    
+    @objc
+    public func shader(forSystem identifier: String) -> OEShaderModel? {
+        guard let name = UserDefaults.oe_application().string(forKey: Preferences.system(identifier).key) else {
+            return defaultShader
+        }
+        return self[name]
+    }
+    
+    @objc
+    public func shader(forURL url: URL) -> OEShaderModel? {
+        return OEShaderModel(url: url)
+    }
+    
+    subscript(name: String) -> OEShaderModel? {
+        return systemShaders.first(where: { $0.name == name }) ?? customShaders.first(where: { $0.name == name })
+    }
+    
+    // MARK: - helpers
+    
+    private static func loadSystemShaders() -> [OEShaderModel] {
+        if let path = Bundle.main.resourcePath {
+            let url = URL(fileURLWithPath: path, isDirectory: true).appendingPathComponent("Shaders", isDirectory: true)
+            let urls = urlsForShaders(at: url)
+            return urls.map(OEShaderModel.init(url:))
+        }
+        return []
+    }
+    
+    private static func loadCustomShaders() -> [OEShaderModel] {
+        var shaders = [OEShaderModel]()
+        
+        let paths = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)
+        for path in paths {
+            let subpath = URL(fileURLWithPath: path, isDirectory: true).appendingPathComponent("OpenEmu").appendingPathComponent("Shaders")
+            let urls    = urlsForShaders(at: subpath)
+            if urls.count > 0 {
+                shaders.append(contentsOf: urls.map(OEShaderModel.init(url:)))
+            }
+        }
+        
+        return shaders
+    }
+
+    static func urlsForShaders(at url: URL) -> [URL] {
+        var res = [URL]()
+        
+        guard
+            let urls = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.isDirectoryKey], options: .skipsSubdirectoryDescendants)
+            else { return [] }
+        
+        let dirs = urls.filter({ (try? $0.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false })
+        for dir in dirs {
+            guard
+                let files = try? FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])
+                else { continue }
+            if let slangp = files.first(where: { $0.pathExtension == "slangp" }) {
+                // we have a file!
+                res.append(slangp)
+            }
+        }
+        
+        return res
+    }
+
+    private static func loadShaders() -> [OEShaderModel] {
+        var shaders = [OEShaderModel]()
+        
+        if let path = Bundle.main.resourcePath {
+            let url = URL(fileURLWithPath: path, isDirectory: true).appendingPathComponent("Shaders", isDirectory: true)
+            let urls = Self.urlsForShaders(at: url)
+            shaders = urls.map(OEShaderModel.init(url:))
+        }
+        
+        let paths = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)
+        for path in paths {
+            let subpath = URL(fileURLWithPath: path, isDirectory: true).appendingPathComponent("OpenEmu").appendingPathComponent("Shaders")
+            let urls    = Self.urlsForShaders(at: subpath)
+            if urls.count > 0 {
+                shaders.append(contentsOf: urls.map(OEShaderModel.init(url:)))
+            }
+        }
+        
+        return shaders
+    }
+    
+    // MARK: - Shader Model
+
     @objc(OEShaderModel)
     @objcMembers
     public class OEShaderModel : NSObject {
@@ -93,96 +257,5 @@ public class OEShadersModel : NSObject {
         public override var debugDescription: String {
             return "\(name) \(url.absoluteString)"
         }
-    }
-    
-    @objc
-    public static var shared : OEShadersModel = {
-        return OEShadersModel()
-    }()
-    
-    static func urlsForShaders(at url: URL) -> [URL] {
-        var res = [URL]()
-        
-        guard
-            let urls = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.isDirectoryKey], options: .skipsSubdirectoryDescendants)
-            else { return [] }
-        
-        let dirs = urls.filter({ (try? $0.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false })
-        for dir in dirs {
-            guard
-                let files = try? FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])
-                else { continue }
-            if let slangp = files.first(where: { $0.pathExtension == "slangp" }) {
-                // we have a file!
-                res.append(slangp)
-            }
-        }
-        
-        return res
-    }
-    
-    @objc
-    public lazy var shaders: [OEShaderModel] = {
-        // load main bundle resources
-        
-        var shaders = [OEShaderModel]()
-        
-        if let path = Bundle.main.resourcePath {
-            let url = URL(fileURLWithPath: path, isDirectory: true).appendingPathComponent("Shaders", isDirectory: true)
-            let urls = Self.urlsForShaders(at: url)
-            shaders = urls.map(OEShaderModel.init(url:))
-        }
-        
-        let paths = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)
-        for path in paths {
-            let subpath = URL(fileURLWithPath: path, isDirectory: true).appendingPathComponent("OpenEmu").appendingPathComponent("Shaders")
-            let urls    = Self.urlsForShaders(at: subpath)
-            if urls.count > 0 {
-                shaders.append(contentsOf: urls.map(OEShaderModel.init(url:)))
-            }
-        }
-        
-        return shaders
-    }()
-    
-    @objc
-    public var shaderNames: [String] {
-        return shaders.map { $0.name }
-    }
-    
-    @objc
-    public var defaultShader: OEShaderModel {
-        get {
-            if let name = UserDefaults.oe_application().string(forKey: Preferences.global.key),
-                let shader = self[name] {
-                return shader
-            }
-            
-            return self["Pixellate"]!
-        }
-        
-        set {
-            UserDefaults.standard.set(newValue.name, forKey: Preferences.global.key)
-        }
-    }
-    
-    @objc
-    public func shader(forSystem identifier: String) -> OEShaderModel? {
-        guard let name = UserDefaults.oe_application().string(forKey: Preferences.system(identifier).key) else {
-            return defaultShader
-        }
-        guard let shader = self[name] else {
-            return nil
-        }
-        return shader
-    }
-    
-    @objc
-    public func shader(forURL url: URL) -> OEShaderModel? {
-        return OEShaderModel(url: url)
-    }
-    
-    subscript(name: String) -> OEShaderModel? {
-        return shaders.first(where: { $0.name == name })
     }
 }

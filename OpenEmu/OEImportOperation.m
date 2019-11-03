@@ -40,6 +40,8 @@
 #import "OEDBSaveState.h"
 #import "OEDBSystem+CoreDataProperties.h"
 
+#import "OELogging.h"
+
 #import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -87,13 +89,10 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         return nil;
     }
 
-#ifdef CG_SUPPORT
-    // Check for .cg filters and copy them directly (not going through importer queue)
-    if([self OE_isFilterAtURL:url])
+    // Import .oeshaderplugin
+    if ([self OE_isShaderAtURL:url]) {
         return nil;
-#endif
-
-    // TODO(sgc): add .slangp import support
+    }
 
     // Check for PlayStation .sbi subchannel data files and copy them directly (not going through importer queue)
     if([self OE_isSBIFileAtURL:url])
@@ -114,39 +113,54 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     return item;
 }
 
-#ifdef CG_SUPPORT
-+ (BOOL)OE_isFilterAtURL:(NSURL*)url
++ (BOOL)OE_isShaderAtURL:(NSURL *)url
 {
     NSString *pathExtension = url.pathExtension.lowercaseString;
-    if([pathExtension isEqualToString:@"cg"])
+    if([pathExtension isEqualToString:@"oeshaderplugin"])
     {
-        IMPORTDLog(@"File seems to be a filter at %@", url);
-
+        os_log_info(OE_LOG_IMPORT, "File seems to be a shader plugin at %{public}@", url.path);
+        
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSError       *error       = nil;
-        NSString      *cgFilename  = url.lastPathComponent;
-        NSString      *filtersPath = [NSString pathWithComponents:@[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES).lastObject, @"OpenEmu", @"Filters"]];
-        NSString      *destination = [filtersPath stringByAppendingPathComponent:cgFilename];
-
-
-        if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:filtersPath] withIntermediateDirectories:YES attributes:nil error:&error])
-        {
-            IMPORTDLog(@"Could not create directory before copying filter at %@", url);
-            IMPORTDLog(@"%@", error);
-            error = nil;
+        NSString      *filename    = url.lastPathComponent.stringByDeletingPathExtension;
+        NSString      *shadersPath = [NSString pathWithComponents:@[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES).lastObject, @"OpenEmu", @"Shaders"]];
+        NSString      *destination = [shadersPath stringByAppendingPathComponent:filename];
+        
+        if ([OEShadersModel.shared.systemShaderNames containsObject:filename]) {
+            // ignore customer shaders with the same name
+            os_log_error(OE_LOG_IMPORT, "Custom shader name '%{public}@' collides with system shader", filename);
+            return NO;
         }
-
-        if(![fileManager copyItemAtURL:url toURL:[NSURL fileURLWithPath:destination] error:&error])
-        {
-            IMPORTDLog(@"Could not copy filter %@ to %@", url, destination);
-            IMPORTDLog(@"%@", error);
+        
+        if ([fileManager fileExistsAtPath:destination]) {
+            // lets remove it first
+            if (![fileManager removeItemAtPath:destination error:&error])
+            {
+                os_log_error(OE_LOG_IMPORT, "Could not remove existing directory '%{public}@' before copying shader: %{public}@", destination, error.localizedDescription);
+                return NO;
+            }
         }
-
+        
+        if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:destination] withIntermediateDirectories:YES attributes:nil error:&error])
+        {
+            os_log_error(OE_LOG_IMPORT, "Could not create directory '%{public}@' before copying shader: %{public}@", destination, error.localizedDescription);
+            return NO;
+        }
+        
+        @try {
+            XADArchive *archive = [XADArchive archiveForFile:url.path];
+            [archive extractTo:destination];
+            [OEShadersModel.shared reload];
+        } @catch (NSException *e) {
+            os_log_error(OE_LOG_IMPORT, "Error extracting shader plugin: %{public}@", e.reason);
+            return NO;
+        }
+        
         return YES;
     }
     return NO;
+    
 }
-#endif
 
 + (BOOL)OE_isSBIFileAtURL:(NSURL*)url
 {

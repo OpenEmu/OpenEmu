@@ -1078,7 +1078,7 @@ extension AppDelegate: NSMenuDelegate {
         updateControlsMenu()
         
         // Preload shader plug-ins so HUD controls bar and gameplay preferences load faster.
-        _ = OEShadersModel.shared.shaders
+        _ = OEShadersModel.shared
         
         if !restoreWindow {
             mainWindowController.showWindow(nil)

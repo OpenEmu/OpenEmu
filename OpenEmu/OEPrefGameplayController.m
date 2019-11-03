@@ -32,34 +32,50 @@
 #import "OpenEmu-Swift.h"
 
 @implementation OEPrefGameplayController
+{
+    id<NSObject> _token;
+}
+
 @synthesize globalDefaultShaderSelection;
 
 - (void)awakeFromNib
 {
+    [self loadShaderMenu];
+}
+
+- (void)loadShaderMenu
+{
     // Setup shaders menu
-    NSArray *sortedShaders = [OEShadersModel.shared.shaderNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    NSArray *systemShaders = [OEShadersModel.shared.systemShaderNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 
-	NSMenu *globalShaderMenu = [NSMenu new];
+    NSMenu *globalShaderMenu = [NSMenu new];
 
-    for(NSString *aName in sortedShaders)
-		[globalShaderMenu addItemWithTitle:aName action:NULL keyEquivalent:@""];
+    for(NSString *aName in systemShaders)
+        [globalShaderMenu addItemWithTitle:aName action:NULL keyEquivalent:@""];
+    
+    NSArray *customShaders = [OEShadersModel.shared.customShaderNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    if (customShaders.count > 0) {
+        [globalShaderMenu addItem:[NSMenuItem separatorItem]];
+        for(NSString *aName in customShaders)
+            [globalShaderMenu addItemWithTitle:aName action:NULL keyEquivalent:@""];
+    }
 
     self.globalDefaultShaderSelection.menu = globalShaderMenu;
 
-	NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
-	NSString *selectedShaderName = [defaults objectForKey:OEGameDefaultVideoShaderKey];
+    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+    NSString *selectedShaderName = [defaults objectForKey:OEGameDefaultVideoShaderKey];
 
     // Set Pixellate as default shader if the current one is not available (ie. deleted)
-    if(![sortedShaders containsObject:selectedShaderName])
+    if(![systemShaders containsObject:selectedShaderName] && ![customShaders containsObject:selectedShaderName])
     {
         selectedShaderName = @"Pixellate";
         [defaults setObject:@"Pixellate" forKey:OEGameDefaultVideoShaderKey];
     }
 
-	if(selectedShaderName != nil && [self.globalDefaultShaderSelection itemWithTitle:selectedShaderName])
-		[self.globalDefaultShaderSelection selectItemWithTitle:selectedShaderName];
+    if(selectedShaderName != nil && [self.globalDefaultShaderSelection itemWithTitle:selectedShaderName])
+        [self.globalDefaultShaderSelection selectItemWithTitle:selectedShaderName];
     else
-		[self.globalDefaultShaderSelection selectItemAtIndex:0];
+        [self.globalDefaultShaderSelection selectItemAtIndex:0];
 }
 
 #pragma mark ViewController Overrides
@@ -67,6 +83,31 @@
 - (NSString *)nibName
 {
 	return @"OEPrefGameplayController";
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    __weak typeof(self) weakSelf = self;
+    _token = [NSNotificationCenter.defaultCenter addObserverForName:OEShadersModel.shaderModelCustomShadersDidChange
+                                                             object:nil
+                                                              queue:NSOperationQueue.mainQueue
+                                                         usingBlock:
+              ^(NSNotification * _Nonnull note) {
+        [weakSelf loadShaderMenu];
+    }];
+}
+
+- (void)viewWillDisappear
+{
+    [super viewWillDisappear];
+    
+    if (_token)
+    {
+        [NSNotificationCenter.defaultCenter removeObserver:_token];
+        _token = nil;
+    }
 }
 
 #pragma mark OEPreferencePane Protocol

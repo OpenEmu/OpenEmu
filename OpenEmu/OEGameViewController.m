@@ -260,15 +260,14 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     else
         DLog(@"Invalid argument passed: %@", sender);
 
-    for (OEShaderModel *shader in OEShadersModel.shared.shaders) {
-        if ([shaderName isEqualToString:shader.name]) {
-            [[self document] gameViewController:self setShaderURL:shader.url completionHandler:^(BOOL success, NSError *error) {
-                if (success)
-                {
-                    [self didLoadShader:shader];
-                }
-            }];
-        }
+    OEShaderModel *shader = [OEShadersModel.shared shaderWithName:shaderName];
+    if (shader) {
+        [[self document] gameViewController:self setShaderURL:shader.url completionHandler:^(BOOL success, NSError *error) {
+            if (success)
+            {
+                [self didLoadShader:shader];
+            }
+        }];
     }
 
     [NSUserDefaults.standardUserDefaults setObject:shaderName forKey:[NSString stringWithFormat:OEGameSystemVideoShaderKeyFormat, self.document.systemIdentifier]];

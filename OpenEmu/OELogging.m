@@ -24,10 +24,11 @@
 
 #import "OELogging.h"
 
-os_log_t OE_LOG_AUDIO;
+os_log_t OE_LOG_AUDIO, OE_LOG_IMPORT;
 
 __attribute__((constructor))
 static void InitializeLogging() {
-    OE_LOG_AUDIO = os_log_create("org.openemu.OpenEmu.audio", "OEGameAudio");
+    OE_LOG_AUDIO  = os_log_create("org.openemu.OpenEmu", "OEGameAudio");
+    OE_LOG_IMPORT = os_log_create("org.openemu.OpenEmu", "import");
 }
 
