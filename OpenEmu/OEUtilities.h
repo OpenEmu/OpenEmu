@@ -44,6 +44,6 @@ NSArray *OENextRespondersFromResponder(NSResponder *responder);
 NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath);
 NSString *decompressedPathForRomAtPath(NSString *aPath);
 NSString *OETemporaryDirectoryForDecompressionOfFileWithHash(NSString *aPath, NSString * __nullable hash);
-NSString *OEDecompressFileInArchiveAtPathWithHash(NSString *aPath, NSString * __nullable hash);
+NSString *OEDecompressFileInArchiveAtPathWithHash(NSString *aPath, NSString * __nullable hash, BOOL * __nullable success);
 
 NS_ASSUME_NONNULL_END

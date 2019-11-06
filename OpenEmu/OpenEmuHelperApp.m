@@ -455,8 +455,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     BOOL romWasCompressed = NO;
     NSString *extension = aPath.pathExtension.lowercaseString;
     if(![systemIdentifier isEqualToString:@"openemu.system.arcade"] && ![extension isEqualToString:@"md"] && ![extension isEqualToString:@"nds"] && ![extension isEqualToString:@"iso"]) {
-        aPath = OEDecompressFileInArchiveAtPathWithHash(aPath, romMD5);
-        romWasCompressed = YES;
+        aPath = OEDecompressFileInArchiveAtPathWithHash(aPath, romMD5, &romWasCompressed);
     }
 
     if([_gameCore loadFileAtPath:aPath error:error])

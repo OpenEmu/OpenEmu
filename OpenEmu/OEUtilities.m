@@ -108,8 +108,11 @@ NSString *OETemporaryDirectoryForDecompressionOfFileWithHash(NSString *aPath, NS
 }
 
 
-NSString *OEDecompressFileInArchiveAtPathWithHash(NSString *aPath, NSString *hash)
+NSString *OEDecompressFileInArchiveAtPathWithHash(NSString *aPath, NSString * __nullable hash, BOOL * __nullable outSuccess)
 {
+    if (outSuccess)
+        *outSuccess = NO;
+        
     // check path for :entryIndex appendix, extract it and restore original path
     // paths will look like this /path/to/rom/file.zip:2
 
@@ -177,6 +180,8 @@ NSString *OEDecompressFileInArchiveAtPathWithHash(NSString *aPath, NSString *has
         return aPath;
     }
 
+    if (outSuccess)
+        *outSuccess = YES;
     return tmpPath;
 }
 
@@ -189,7 +194,7 @@ NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath)
 
 NSString *decompressedPathForRomAtPath(NSString *aPath)
 {
-    return OEDecompressFileInArchiveAtPathWithHash(aPath, nil);
+    return OEDecompressFileInArchiveAtPathWithHash(aPath, nil, NULL);
 }
 
 
