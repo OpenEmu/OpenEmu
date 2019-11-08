@@ -122,7 +122,7 @@
         NSRect imageRect = [self imageRectForBounds:cellFrame];
 
         if(!NSIsEmptyRect(textRect) && [[self attributedTitle] length] > 0) {
-          [self drawTitle:[self attributedTitle] withFrame:textRect inView:controlView];
+            [self drawTitle:[self attributedTitle] withFrame:textRect inView:controlView];
         }
         if(!NSIsEmptyRect(imageRect)) [self drawImage:[self image] withFrame:imageRect inView:controlView];
     }
