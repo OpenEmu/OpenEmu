@@ -97,7 +97,7 @@ static NSGradient *highlightGradient, *normalGradient;
         normalGradient = [[NSGradient alloc] initWithStartingColor:c1 endingColor:c2];
     }
 
-    self.selectionColor = [NSColor colorWithDeviceRed:0.0 green:0.36 blue:0.86 alpha:1.0];
+    self.selectionColor = [NSColor selectedContentBackgroundColor];
     [self setIntercellSpacing:NSMakeSize(1, 0)];
 
     [self setBackgroundColor:[NSColor blackColor]];
@@ -180,12 +180,12 @@ static NSGradient *highlightGradient, *normalGradient;
 	if([self OE_isActive])
 	{
 		fillColor = self.selectionColor;
-		lineColor = [NSColor colorWithDeviceRed:0.114 green:0.188 blue:0.635 alpha:1.0];
+		lineColor = [NSColor clearColor];
 	} 
 	else 
 	{
-		fillColor = [NSColor colorWithDeviceWhite:0.55 alpha:1.0];
-		lineColor = [NSColor colorWithDeviceWhite:0.35 alpha:1.0];
+		fillColor = [NSColor unemphasizedSelectedContentBackgroundColor];
+		lineColor = [NSColor clearColor];
 	}
 	
 	[fillColor setFill];
