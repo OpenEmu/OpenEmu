@@ -63,12 +63,6 @@
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>Cancel</string>
-				<key>OEControlListKeyNameKey</key>
-				<string>OEArcadeUICancel</string>
-			</dict>
-			<dict>
-				<key>OEControlListKeyLabelKey</key>
 				<string>Insert Coin</string>
 				<key>OEControlListKeyNameKey</key>
 				<string>OEArcadeButtonInsertCoin</string>
