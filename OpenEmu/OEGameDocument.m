@@ -1312,6 +1312,7 @@ typedef enum : NSUInteger
     BOOL isSelected   = [modeDict[OEGameCoreDisplayModeStateKey] boolValue];
     BOOL isToggleable = [modeDict[OEGameCoreDisplayModeAllowsToggleKey] boolValue];
     BOOL isPrefSaveDisallowed = [modeDict[OEGameCoreDisplayModeDisallowPrefSaveKey] boolValue];
+    BOOL isManual     = [modeDict[OEGameCoreDisplayModeManualOnlyKey] boolValue];
 
     // Mutually exclusive option is already selected, do nothing
     if (isSelected && !isToggleable)
@@ -1329,7 +1330,7 @@ typedef enum : NSUInteger
         displayModeInfo = [defaults.dictionaryRepresentation[displayModeKeyForCore] mutableCopy];
 
     // Mutually exclusive option is unselected
-    if (!isToggleable)
+    if (!isToggleable && !isManual)
     {
         displayModeInfo[prefKey] = prefVal ?: modeName;
         _lastSelectedDisplayModeOption = modeName;
@@ -1348,15 +1349,16 @@ typedef enum : NSUInteger
 {
     NSMutableArray <NSDictionary <NSString *, id> *> *availableOptions = [NSMutableArray array];
     NSString *mode;
-    BOOL isToggleable, isSelected;
+    BOOL isToggleable, isSelected, isManual;
 
     for (NSDictionary *optionsDict in self.gameViewController.displayModes)
     {
         mode         = optionsDict[OEGameCoreDisplayModeNameKey];
         isToggleable = [optionsDict[OEGameCoreDisplayModeAllowsToggleKey] boolValue];
         isSelected   = [optionsDict[OEGameCoreDisplayModeStateKey] boolValue];
+        isManual     = [optionsDict[OEGameCoreDisplayModeManualOnlyKey] boolValue];
 
-        if (optionsDict[OEGameCoreDisplayModeSeparatorItemKey] || optionsDict[OEGameCoreDisplayModeLabelKey])
+        if (optionsDict[OEGameCoreDisplayModeSeparatorItemKey] || optionsDict[OEGameCoreDisplayModeLabelKey] || isManual)
         {
             continue;
         }
@@ -1376,8 +1378,9 @@ typedef enum : NSUInteger
                 mode         = subOptionsDict[OEGameCoreDisplayModeNameKey];
                 isToggleable = [subOptionsDict[OEGameCoreDisplayModeAllowsToggleKey] boolValue];
                 isSelected   = [subOptionsDict[OEGameCoreDisplayModeStateKey] boolValue];
+                isManual     = [subOptionsDict[OEGameCoreDisplayModeManualOnlyKey] boolValue];
 
-                if (subOptionsDict[OEGameCoreDisplayModeSeparatorItemKey] || subOptionsDict[OEGameCoreDisplayModeLabelKey])
+                if (subOptionsDict[OEGameCoreDisplayModeSeparatorItemKey] || subOptionsDict[OEGameCoreDisplayModeLabelKey] || isManual)
                 {
                     continue;
                 }
