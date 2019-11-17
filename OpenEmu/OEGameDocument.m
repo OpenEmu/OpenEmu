@@ -1301,11 +1301,18 @@ typedef enum : NSUInteger
 
 - (void)changeDisplayMode:(id)sender
 {
+    BOOL fromMenu;
     NSDictionary <NSString *, id> *modeDict;
     if ([sender respondsToSelector:@selector(representedObject)])
+    {
+        fromMenu = YES;
         modeDict = [sender representedObject];
+    }
     else if ([sender isKindOfClass:[NSDictionary class]])
+    {
+        fromMenu = NO;
         modeDict = sender;
+    }
     else
         return;
 
@@ -1333,7 +1340,8 @@ typedef enum : NSUInteger
     if (!isToggleable && !isManual)
     {
         displayModeInfo[prefKey] = prefVal ?: modeName;
-        _lastSelectedDisplayModeOption = modeName;
+        if (fromMenu)
+            _lastSelectedDisplayModeOption = modeName;
     }
     // Toggleable option, swap YES/NO
     else if (isToggleable)
@@ -1400,40 +1408,69 @@ typedef enum : NSUInteger
     // Reverse
     if (flag)
         availableOptions = [[availableOptions reverseObjectEnumerator].allObjects mutableCopy];
-
-    // Get index of last selected option
-    NSUInteger index = [availableOptions indexOfObjectPassingTest:
-        ^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop)
-        {
-            return [[dict objectForKey:OEGameCoreDisplayModeNameKey] isEqual:self->_lastSelectedDisplayModeOption];
-        }
-    ];
-
-    // Get indexes of currently selected options
-    NSIndexSet *selectedIndexes = [availableOptions indexesOfObjectsPassingTest:
-        ^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop)
-        {
-            return [[dict objectForKey:OEGameCoreDisplayModeStateKey] isEqual:@(YES)];
-        }
-    ];
-
-    // Next option index
-    index += 1;
-    // Return to the top if end reached
-    if (index >= availableOptions.count) index = 0;
-
-    // Skip indexes of currently selected options - multiple groups of mutually exclusive options are possible
-    if (selectedIndexes.count > 1)
+        
+    // If there are multiple mutually-exclusive groups of modes we want to enumerate
+    // all the combinations.
+    
+    // List of pref keys used by each group of mutually exclusive modes
+    NSMutableArray <NSString *> *prefKeys = [NSMutableArray array];
+    // Index of the currently selected mode for each group
+    NSMutableDictionary <NSString *, NSNumber *> *prefKeyToSelected = [NSMutableDictionary dictionary];
+    // Indexes of the modes that are part of the same group
+    NSMutableDictionary <NSString *, NSMutableIndexSet *> *prefKeyToOptions = [NSMutableDictionary dictionary];
+    
+    NSInteger i = 0;
+    for (NSDictionary *optionsDict in availableOptions)
     {
-        while ([selectedIndexes containsIndex:index]) {
-            index += 1;
-            // Should never happen
-            if (index >= availableOptions.count) index = 0;
+        NSString *prefKey = optionsDict[OEGameCoreDisplayModePrefKeyNameKey];
+        NSString *name = optionsDict[OEGameCoreDisplayModeNameKey];
+        
+        if ([name isEqual:_lastSelectedDisplayModeOption])
+        {
+            // Put the group of the last mode manually selected by the user in front of the list
+            // This way the options of this group will be cycled through first
+            [prefKeys removeObject:prefKey];
+            [prefKeys insertObject:prefKey atIndex:0];
         }
+        else if (![prefKeys containsObject:prefKey])
+        {
+            // Prioritize cycling all other modes in the order that they appear
+            [prefKeys addObject:prefKey];
+        }
+            
+        if ([optionsDict[OEGameCoreDisplayModeStateKey] isEqual:@(YES)])
+            prefKeyToSelected[prefKey] = @(i);
+        
+        NSMutableIndexSet *optionsIdxes = prefKeyToOptions[prefKey];
+        if (!optionsIdxes)
+        {
+            optionsIdxes = [NSMutableIndexSet indexSet];
+            prefKeyToOptions[prefKey] = optionsIdxes;
+        }
+        [optionsIdxes addIndex:i];
+        
+        i++;
     }
-
-    NSDictionary *nextMode = [availableOptions objectAtIndex:index];
-    [self changeDisplayMode:nextMode];
+    
+    for (NSString *prefKey in prefKeys)
+    {
+        NSInteger current = [prefKeyToSelected[prefKey] integerValue];
+        NSIndexSet *options = prefKeyToOptions[prefKey];
+        
+        BOOL carry = NO;
+        NSInteger next = [options indexGreaterThanIndex:current];
+        if (next == NSNotFound)
+        {
+            // Finished cycling through this mode; advance to the next one
+            carry = YES;
+            next = [options firstIndex];
+        }
+        
+        NSDictionary *nextMode = [availableOptions objectAtIndex:next];
+        [self changeDisplayMode:nextMode];
+        
+        if (!carry) break;
+    }
 }
 
 - (IBAction)nextDisplayMode:(id)sender
