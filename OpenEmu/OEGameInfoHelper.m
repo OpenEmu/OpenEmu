@@ -283,19 +283,10 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
                 return;
             }
 
-            // check if the system is 'hashless' in the db and instead match by filename (Arcade)
+            // check if the system is 'hashless' in the db and instead match by filename (arcade)
             if (isSystemWithHashlessROM) {
                 key = DBROMFileNameKey;
                 value = url.lastPathComponent.lowercaseString;
-
-                // Database stores drivername.zip but sets can also be .7z, so rename.
-                if ([value.pathExtension isEqualToString:@"7z"])
-                {
-                    DLog(@"7z for Arcade found, renaming lookup value to zip");
-                    value = value.stringByDeletingPathExtension;
-                    NSString *newValue = [value stringByAppendingPathExtension:@"zip"];
-                    value = newValue;
-                }
             }
             // check if the system has headers in the db and instead match by header
             else if (isSystemWithROMHeader) {
