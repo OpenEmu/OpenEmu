@@ -272,7 +272,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
         NSString * const DBMD5Key = @"romHashMD5";
         NSString * const DBCRCKey = @"romHashCRC";
-        NSString * const DBROMFileNameKey = @"romFileName";
+        NSString * const DBROMExtensionlessFileNameKey = @"romExtensionlessFileName";
         NSString * const DBROMHeaderKey = @"romHeader";
         NSString * const DBROMSerialKey = @"romSerial";
 
@@ -283,10 +283,10 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
                 return;
             }
 
-            // check if the system is 'hashless' in the db and instead match by filename (arcade)
+            // check if the system is 'hashless' in the db and instead match by filename (Arcade)
             if (isSystemWithHashlessROM) {
-                key = DBROMFileNameKey;
-                value = url.lastPathComponent.lowercaseString;
+                key = DBROMExtensionlessFileNameKey;
+                value = url.lastPathComponent.stringByDeletingPathExtension.lowercaseString;
             }
             // check if the system has headers in the db and instead match by header
             else if (isSystemWithROMHeader) {
