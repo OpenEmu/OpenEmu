@@ -40,6 +40,7 @@
 #import "OEDBRom.h"
 #import "OEDBSystem.h"
 #import "OEDBSaveState.h"
+#import "OEDBSaveCheat.h"
 #import "OEDBCollection.h"
 #import "OEDBSmartCollection.h"
 #import "OEDBAllGamesCollection.h"

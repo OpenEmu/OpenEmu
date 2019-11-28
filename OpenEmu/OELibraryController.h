@@ -76,7 +76,7 @@ extern NSString * const OELibraryLastCategoryKey;
 @property (strong) IBOutlet OELibraryToolbar *toolbar;
 @end
 
-@class OEDBGame, OEDBRom, OEDBSaveState;
+@class OEDBGame, OEDBRom, OEDBSaveState, OEDBSaveCheat;
 @protocol OELibraryControllerDelegate <NSObject>
 @optional
 - (void)libraryController:(OELibraryController *)sender didSelectGame:(OEDBGame *)aGame;

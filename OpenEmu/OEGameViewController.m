@@ -40,6 +40,7 @@
 #import "OECorePlugin.h"
 
 #import "OEDBSaveState.h"
+#import "OEDBSaveCheat.h"
 #import "OEGameControlsBar.h"
 
 #import "OECoreUpdater.h"

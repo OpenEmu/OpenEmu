@@ -49,7 +49,7 @@
 #import "OEDBCollection.h"
 #import "OEDBSmartCollection.h"
 #import "OEDBSaveState.h"
-
+#import "OEDBSaveCheat.h"
 #import "OEDBAllGamesCollection.h"
 
 #import "OELibraryDatabase.h"

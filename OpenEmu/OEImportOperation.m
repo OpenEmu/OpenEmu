@@ -38,6 +38,7 @@
 #import "OEDBRom.h"
 #import "OEDBCollection.h"
 #import "OEDBSaveState.h"
+#import "OEDBSaveCheat.h"
 #import "OEDBSystem+CoreDataProperties.h"
 
 #import "OELogging.h"

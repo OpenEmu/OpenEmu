@@ -36,7 +36,7 @@ enum _OECoreUpdaterErrorCode
 };
 
 @class OEHUDAlert;
-@class OEDBGame, OEDBSaveState;
+@class OEDBGame, OEDBSaveState, OEDBSaveCheat;
 
 @interface OECoreUpdater : NSObject <OECoreDownloadDelegate>
 

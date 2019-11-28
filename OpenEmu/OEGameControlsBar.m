@@ -40,6 +40,7 @@
 #import "OEHUDAlert.h"
 
 #import "OEDBSaveState.h"
+#import "OEDBSaveCheat.h"
 
 #import "OEAudioDeviceManager.h"
 
@@ -171,6 +172,16 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         {
             OECheats *cheatsXML = [[OECheats alloc] initWithMd5Hash:md5Hash];
             _cheats             = [[cheatsXML allCheats] mutableCopy];
+            [[[[self gameViewController] document] rom].saveCheats enumerateObjectsUsingBlock:^(OEDBSaveCheat * _Nonnull obj, BOOL * _Nonnull stop) {
+                [_cheats addObject:[@{
+                @"code" : obj.code,
+                @"type" : obj.type,
+                @"description" : obj.name,
+                @"enabled" : @(obj.enabled),
+                @"identifier": obj.identifier,
+                } mutableCopy]];
+                [[[self gameViewController] document] setCheat:obj.code withType:obj.type enabled:obj.enabled];
+            }];
             _cheatsLoaded       = YES;
         }
     }
@@ -381,6 +392,26 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             [cheatsMenuItem setState:enabled ? NSControlStateValueOn : NSControlStateValueOff];
 
             [cheatsMenu addItem:cheatsMenuItem];
+            
+            NSUUID *identifier = [cheatObject objectForKey:@"identifier"];
+            if (identifier != nil && [identifier isKindOfClass:NSUUID.class]) {
+                NSMenu *submenu = [[NSMenu alloc] init];
+                [cheatsMenuItem setSubmenu:submenu];
+                {
+                    NSMenuItem *deleteCheatItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete", @"")
+                                                                             action:@selector(deleteCheat:)
+                                                                      keyEquivalent:@""];
+                    [deleteCheatItem setRepresentedObject:@[_cheats, cheatObject]];
+                    
+                    [submenu addItem:deleteCheatItem];
+                    
+                    NSMenuItem *editCheatItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Update", @"")
+                                                                           action:@selector(updateCheat:)
+                                                                    keyEquivalent:@""];
+                    [editCheatItem setRepresentedObject:cheatObject];
+                    [submenu addItem:editCheatItem];
+                }
+            }
         }
     }
 

@@ -30,6 +30,7 @@
 @class OELibraryDatabase;
 @class OEDBGame;
 @class OEDBSaveState;
+@class OEDBSaveCheat;
 @class OEDBScreenshot;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -66,6 +67,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable OEDBSaveState *)quickSaveStateInSlot:(NSInteger)num;
 - (nullable OEDBSaveState *)saveStateWithName:(NSString *)string;
+
+- (nullable OEDBSaveCheat *)saveCheatWithIdentifier:(NSUUID *)identifier;
 
 - (void)incrementPlayCount;
 - (void)addTimeIntervalToPlayTime:(NSTimeInterval)timeInterval;

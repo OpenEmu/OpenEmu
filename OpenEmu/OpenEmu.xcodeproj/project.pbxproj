@@ -811,6 +811,7 @@
 		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
 		A90208FC9B5D10B9F8150E57 /* OEGameHelperMetalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A902019312DE5D81DCEEDF26 /* OEGameHelperMetalLayer.m */; };
 		A9020A6B0B5DCC3081F0DB19 /* OEGameHelperMetalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A902019312DE5D81DCEEDF26 /* OEGameHelperMetalLayer.m */; };
+		C070E65A238F612400F04EBE /* OEDBSaveCheat.m in Sources */ = {isa = PBXBuildFile; fileRef = C070E659238F612400F04EBE /* OEDBSaveCheat.m */; };
 		C6096192179B461C00239067 /* OEXPCGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096191179B461C00239067 /* OEXPCGameCoreManager.m */; };
 		C609619A179B6E3F00239067 /* OpenEmuXPCHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096199179B6E3F00239067 /* OpenEmuXPCHelperApp.m */; };
 		C609619B179B74DE00239067 /* OESystemPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C6289C31135B215B00EEE97C /* OESystemPlugin.m */; };
@@ -2553,6 +2554,9 @@
 		94FC53871688FF60003C6AFE /* controller_gamegear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear.png; sourceTree = "<group>"; };
 		A902019312DE5D81DCEEDF26 /* OEGameHelperMetalLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameHelperMetalLayer.m; sourceTree = "<group>"; };
 		A902075D9FB462EB5568DCCB /* OEGameHelperMetalLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameHelperMetalLayer.h; sourceTree = "<group>"; };
+		C070E658238F612400F04EBE /* OEDBSaveCheat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveCheat.h; sourceTree = "<group>"; };
+		C070E659238F612400F04EBE /* OEDBSaveCheat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveCheat.m; sourceTree = "<group>"; };
+		C070E661238F8C2F00F04EBE /* OEDatabase 1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.4.xcdatamodel"; sourceTree = "<group>"; };
 		C60238E8179510C600F4AF6C /* OEGameCoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGameCoreHelper.h; sourceTree = "<group>"; };
 		C609618F179B278C00239067 /* OEXPCGameCoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXPCGameCoreHelper.h; sourceTree = "<group>"; };
 		C6096190179B461C00239067 /* OEXPCGameCoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPCGameCoreManager.h; sourceTree = "<group>"; };
@@ -3664,6 +3668,8 @@
 				8328D9E413C75CAE0026D2A7 /* OEDBImage.m */,
 				83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */,
 				83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */,
+				C070E658238F612400F04EBE /* OEDBSaveCheat.h */,
+				C070E659238F612400F04EBE /* OEDBSaveCheat.m */,
 				838AC27E14434EED00AC74C3 /* OEDBRom.h */,
 				838AC27F14434EED00AC74C3 /* OEDBRom.m */,
 				83633445195D798600470AB8 /* OEDBScreenshot.h */,
@@ -7660,6 +7666,7 @@
 				53439B7113B932ED005C0CC8 /* OEPrefGameplayController.m in Sources */,
 				53439B7413B932FA005C0CC8 /* OEPrefControlsController.m in Sources */,
 				53439B7713B93303005C0CC8 /* OEPrefCoresController.m in Sources */,
+				C070E65A238F612400F04EBE /* OEDBSaveCheat.m in Sources */,
 				53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */,
 				05FB7D8122A0A3D60070633C /* OEOpenGL2GameRenderer.m in Sources */,
 				5A46AC411DC66D8300771B3B /* OEGameViewController+TouchBar.swift in Sources */,
@@ -11502,6 +11509,7 @@
 		C68A54E41516AD3C001053F2 /* OEDatabase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				C070E661238F8C2F00F04EBE /* OEDatabase 1.4.xcdatamodel */,
 				83D175B918FF218200E5ED34 /* OEDatabase 1.2.xcdatamodel */,
 				8393FD33195D71B50021D3D9 /* OEDatabase 1.3.xcdatamodel */,
 				942388B218922E2E0030A325 /* OEDatabase 1.1.xcdatamodel */,
@@ -11512,7 +11520,7 @@
 				8353EB1A15FF41930026E326 /* OEDatabase 0.2.xcdatamodel */,
 				C68A54E51516AD3C001053F2 /* OEDatabase.xcdatamodel */,
 			);
-			currentVersion = 8393FD33195D71B50021D3D9 /* OEDatabase 1.3.xcdatamodel */;
+			currentVersion = C070E661238F8C2F00F04EBE /* OEDatabase 1.4.xcdatamodel */;
 			path = OEDatabase.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

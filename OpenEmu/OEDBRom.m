@@ -27,7 +27,7 @@
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 #import "OEDBSaveState.h"
-
+#import "OEDBSaveCheat.h"
 #import "OELibraryDatabase.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
@@ -231,6 +231,14 @@ NS_ASSUME_NONNULL_BEGIN
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", string];
     
     return [self.saveStates filteredSetUsingPredicate:predicate].anyObject;
+}
+
+
+- (nullable OEDBSaveCheat *)saveCheatWithIdentifier:(NSUUID *)identifier
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"identifier == %@", identifier];
+    
+    return [self.saveCheats filteredSetUsingPredicate:predicate].anyObject;
 }
 
 - (void)removeMissingStates

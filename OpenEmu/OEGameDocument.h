@@ -47,6 +47,7 @@ enum _OEGameDocumentErrorCodes
 @class OEDBGame;
 @class OEDBRom;
 @class OEDBSaveState;
+@class OEDBSaveCheat;
 @class OEGameViewController;
 @class OESystemPlugin;
 @class OEEvent;
@@ -103,6 +104,8 @@ enum _OEGameDocumentErrorCodes
 - (IBAction)addCheat:(id)sender;
 - (IBAction)setCheat:(id)sender;
 - (IBAction)toggleCheat:(id)sender;
+- (IBAction)updateCheat:(id)sender;
+- (IBAction)deleteCheat:(id)sender;
 - (BOOL)supportsCheats;
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 

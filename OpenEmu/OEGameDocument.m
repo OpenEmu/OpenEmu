@@ -35,6 +35,7 @@
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 #import "OEDBSaveState.h"
+#import "OEDBSaveCheat.h"
 #import "OEDBSystem.h"
 #import "OEGameCoreManager.h"
 #import "OEGameViewController.h"
@@ -1178,7 +1179,7 @@ typedef enum : NSUInteger
     if([alert runModal] == NSAlertFirstButtonReturn)
     {
         NSNumber *enabled;
-        if ([[alert suppressionButton] state] == NSControlStateValueOn)
+        if ([[alert suppressionButton] state] == NSControlStateValueOn) // 现在启用
         {
             enabled = @YES;
             [self setCheat:[alert stringValue] withType:@"Unknown" enabled:[enabled boolValue]];
@@ -1189,13 +1190,87 @@ typedef enum : NSUInteger
         }
         
         TODO("decide how to handle setting a cheat type from the modal and save added cheats to file");
+        NSUUID *identifier = [[NSUUID alloc] init];
+        NSString *description = [alert otherStringValue];
+        NSString *code = [alert stringValue];
+        NSString *type = @"Unknown";
+        
         [[sender representedObject] addObject:[@{
-                                                 @"code" : [alert stringValue],
-                                                 @"type" : @"Unknown",
-                                                 @"description" : [alert otherStringValue],
+                                                 @"code" : code,
+                                                 @"type" : type,
+                                                 @"description" : description,
                                                  @"enabled" : enabled,
+                                                 @"identifier": identifier,
                                                  } mutableCopy]];
+        NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+        OEDBSaveCheat *saveCheat = [OEDBSaveCheat createSaveCheatIdentifier:identifier name:description type:type code:code enabled:[enabled boolValue] forRom:[self rom] inContext:context];
+        saveCheat.name = [alert otherStringValue];
+        saveCheat.code = [alert stringValue];
+        saveCheat.enabled = [enabled boolValue];
+        [saveCheat save];
     }
+}
+
+- (void)updateCheat:(id)sender {
+    NSString *code, *type, *description;
+    BOOL enabled;
+    code = [[sender representedObject] objectForKey:@"code"];
+    type = [[sender representedObject] objectForKey:@"type"];
+    description = [[sender representedObject] objectForKey:@"description"];
+    enabled = [[[sender representedObject] objectForKey:@"enabled"] boolValue];
+    NSUUID *identifier = [[sender representedObject] objectForKey:@"identifier"];
+    
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+
+    [alert setOtherInputLabelText:NSLocalizedString(@"Title:", @"")];
+    [alert setShowsOtherInputField:YES];
+    [alert setOtherStringValue:description ?: NSLocalizedString(@"Cheat Description", @"")];
+    
+    [alert setInputLabelText:NSLocalizedString(@"Code:", @"")];
+    [alert setShowsInputField:YES];
+    [alert setStringValue:code?: NSLocalizedString(@"Join multi-line cheats with '+' e.g. 000-000+111-111", @"")];
+    
+    [alert setDefaultButtonTitle:NSLocalizedString(@"Update", @"")];
+    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+    
+    [alert setShowsSuppressionButton:YES];
+    [alert setSuppressionLabelText:NSLocalizedString(@"Enable now", @"Cheats button label")];
+    
+    [[alert suppressionButton] setState: enabled ? NSControlStateValueOn : NSControlStateValueOff];
+    
+    [alert setInputLimit:1000];
+    
+    if([alert runModal] == NSAlertFirstButtonReturn)
+    {
+        NSNumber *enabled;
+        if ([[alert suppressionButton] state] == NSControlStateValueOn) // 现在启用
+        {
+            enabled = @YES;
+        }
+        else
+        {
+            enabled = @NO;
+        }
+        [self setCheat:[alert stringValue] withType:type enabled:[enabled boolValue]];
+
+        [[sender representedObject] setObject:[alert stringValue] forKey:@"code"];
+        [[sender representedObject] setObject:[alert otherStringValue] forKey:@"description"];
+        [[sender representedObject] setObject:enabled forKey:@"enabled"];
+        OEDBSaveCheat *saveCheat = [[self rom] saveCheatWithIdentifier:identifier];
+        saveCheat.name = [alert otherStringValue];
+        saveCheat.code = [alert stringValue];
+        saveCheat.enabled = [enabled boolValue];
+        [saveCheat save];
+    }
+}
+
+- (void)deleteCheat:(id)sender {
+    NSArray *arr = [sender representedObject];
+    NSAssert([arr isKindOfClass:NSArray.class], nil);
+    NSAssert(arr.count == 2, nil);
+    NSUUID *identifier = [arr[1] objectForKey:@"identifier"];
+    [[[self rom] saveCheatWithIdentifier:identifier] delete];
+    [arr.firstObject removeObject:arr[1]];
 }
 
 - (IBAction)setCheat:(id)sender;
@@ -1482,6 +1557,7 @@ typedef enum : NSUInteger
 {
     [self OE_changeDisplayModeWithDirectionReversed:YES];
 }
+
 
 #pragma mark - Saving States
 

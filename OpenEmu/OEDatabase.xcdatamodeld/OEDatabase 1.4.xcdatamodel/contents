@@ -105,6 +105,7 @@
         <attribute name="serial" optional="YES" attributeType="String"/>
         <attribute name="source" optional="YES" attributeType="String"/>
         <relationship name="game" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="roms" inverseEntity="Game"/>
+        <relationship name="saveCheats" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SaveCheat" inverseName="rom" inverseEntity="SaveCheat"/>
         <relationship name="saveStates" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SaveState" inverseName="rom" inverseEntity="SaveState"/>
         <relationship name="screenShots" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Screenshot" inverseName="rom" inverseEntity="Screenshot"/>
         <fetchIndex name="byGameIndex">
@@ -112,6 +113,17 @@
         </fetchIndex>
         <fetchIndex name="bySaveStatesIndex">
             <fetchIndexElement property="saveStates" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="SaveCheat" representedClassName="OEDBSaveCheat" syncable="YES" codeGenerationType="category">
+        <attribute name="code" optional="YES" attributeType="String"/>
+        <attribute name="enabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="rom" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ROM" inverseName="saveCheats" inverseEntity="ROM"/>
+        <fetchIndex name="byRomIndex">
+            <fetchIndexElement property="rom" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
     <entity name="SaveState" representedClassName="OEDBSaveState" syncable="YES" codeGenerationType="category">
@@ -152,8 +164,9 @@
         <element name="Credit" positionX="0" positionY="0" width="128" height="90"/>
         <element name="Game" positionX="0" positionY="0" width="128" height="240"/>
         <element name="Genre" positionX="0" positionY="0" width="128" height="75"/>
-        <element name="Image" positionX="0" positionY="0" width="128" height="133"/>
-        <element name="ROM" positionX="0" positionY="0" width="128" height="298"/>
+        <element name="Image" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="ROM" positionX="0" positionY="0" width="128" height="313"/>
+        <element name="SaveCheat" positionX="18" positionY="144" width="128" height="133"/>
         <element name="SaveState" positionX="0" positionY="0" width="128" height="150"/>
         <element name="Screenshot" positionX="0" positionY="0" width="128" height="120"/>
         <element name="SmartCollection" positionX="0" positionY="0" width="128" height="45"/>

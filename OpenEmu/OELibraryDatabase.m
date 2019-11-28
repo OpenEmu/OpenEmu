@@ -33,6 +33,7 @@
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBSaveState.h"
+#import "OEDBSaveCheat.h"
 #import "OEDBImage.h"
 
 #import "OEDBSavedGamesMedia.h"
@@ -836,6 +837,41 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
         fileName = rom.sourceURL.lastPathComponent;
 
     NSURL *result = [[self stateFolderURLForSystem:rom.game.system] URLByAppendingPathComponent:fileName.stringByDeletingPathExtension];
+    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+    return result.standardizedURL;
+}
+
+- (NSURL *)cheatsFolderURL
+{
+    NSString *saveStateFolderName = @"Cheats";
+    NSURL    *result = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];
+    result = [result URLByAppendingPathComponent:saveStateFolderName isDirectory:YES];
+
+    // [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+
+    return result;
+}
+
+- (NSURL *)cheatsFolderURLForSystem:(OEDBSystem *)system
+{
+    OESystemPlugin *plugin = system.plugin;
+    NSString *displayName = plugin.displayName ?: @"Unkown System";
+    NSURL *result = [self.cheatsFolderURL URLByAppendingPathComponent:displayName isDirectory:YES];
+    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+
+    return result;
+}
+
+- (NSURL *)cheatsFolderURLForROM:(OEDBRom *)rom
+{
+    NSString *fileName = rom.fileName;
+    if(fileName == nil)
+        fileName = rom.URL.lastPathComponent;
+    if(fileName == nil)
+        fileName = rom.sourceURL.lastPathComponent;
+
+    NSURL *result = [[self cheatsFolderURLForSystem:rom.game.system] URLByAppendingPathComponent:fileName.stringByDeletingPathExtension];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
     return result.standardizedURL;
 }

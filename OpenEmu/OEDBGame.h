@@ -30,6 +30,7 @@
 @class OELibraryDatabase;
 @class OEDBSystem, OEDBRom, OEDBSaveState, OEDBCollection;
 @class OEDBImage;
+@class OEDBSaveCheat;
 
 NS_ASSUME_NONNULL_BEGIN
 

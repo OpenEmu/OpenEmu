@@ -48,6 +48,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 @class OEDBRom;
 @class OEDBGame;
 @class OEDBSaveState;
+@class OEDBSaveCheat;
 
 @class OEGameView;
 @class OEGameLayerView;
