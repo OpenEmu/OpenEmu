@@ -117,9 +117,10 @@
     </entity>
     <entity name="SaveCheat" representedClassName="OEDBSaveCheat" syncable="YES" codeGenerationType="category">
         <attribute name="code" optional="YES" attributeType="String"/>
+        <attribute name="codeDescription" optional="YES" attributeType="String"/>
         <attribute name="enabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="identifier" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="String"/>
         <relationship name="rom" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ROM" inverseName="saveCheats" inverseEntity="ROM"/>
         <fetchIndex name="byRomIndex">
@@ -166,7 +167,7 @@
         <element name="Genre" positionX="0" positionY="0" width="128" height="75"/>
         <element name="Image" positionX="0" positionY="0" width="128" height="135"/>
         <element name="ROM" positionX="0" positionY="0" width="128" height="313"/>
-        <element name="SaveCheat" positionX="18" positionY="144" width="128" height="133"/>
+        <element name="SaveCheat" positionX="18" positionY="144" width="128" height="148"/>
         <element name="SaveState" positionX="0" positionY="0" width="128" height="150"/>
         <element name="Screenshot" positionX="0" positionY="0" width="128" height="120"/>
         <element name="SmartCollection" positionX="0" positionY="0" width="128" height="45"/>

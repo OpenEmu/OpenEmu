@@ -38,10 +38,6 @@
 
 "Add a Wiimote…" = "Добавить Wiimote…";
 
-"Add Cheat…" = "Добавить Чит-код…";
-
-"Add Cheat" = "Добавить Чит-код";
-
 "Add Cover Art from File…" = "Добавить обложку из файла…";
 
 "Add to Collection" = "Добавить в коллекцию";
@@ -670,3 +666,7 @@
 "Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
 
 "Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+
+"Notes" = "Заметки";
+
+"Cheat Setting" = "Настройка Чит-код";

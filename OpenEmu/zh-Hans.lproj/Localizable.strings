@@ -38,10 +38,6 @@
 
 "Add a Wiimote…" = "添加一个 Wiimote…";
 
-"Add Cheat…" = "添加金手指…";
-
-"Add Cheat" = "添加金手指";
-
 "Add Cover Art From File…" = "从文件添加封面插图…";
 
 "Add To Collection" = "添加到收藏";
@@ -672,3 +668,7 @@
 "Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
 
 "Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+
+"Notes" = "备注";
+
+"Cheat Setting" = "金手指设置";

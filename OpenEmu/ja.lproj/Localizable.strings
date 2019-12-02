@@ -38,10 +38,6 @@
 
 "Add a Wiimote…" = "Wiimoteを追加…";
 
-"Add Cheat…" = "チートコードを追加…";
-
-"Add Cheat" = "チートコードを追加";
-
 "Add Cover Art From File…" = "カバーアートをファイルから追加…";
 
 "Add To Collection" = "コレクションへ追加";
@@ -672,3 +668,7 @@
 "Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
 
 "Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+
+"Notes" = "ノート";
+
+"Cheat Setting" = "チート設定";

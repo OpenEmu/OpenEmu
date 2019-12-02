@@ -38,10 +38,6 @@
 
 "Add a Wiimote…" = "加入一個 Wiimote…";
 
-"Add Cheat…" = "加入金手指…";
-
-"Add Cheat" = "加入金手指";
-
 "Add Cover Art from File…" = "Add Cover Art from File…";
 
 "Add to Collection" = "Add to Collection";
@@ -664,3 +660,7 @@
 "Threshold for analog controls bound to buttons" = "Threshold for analog controls bound to buttons";
 
 "Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
+
+"Notes" = "備註";
+
+"Cheat Setting" = "金手指設置";

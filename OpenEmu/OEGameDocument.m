@@ -39,6 +39,7 @@
 #import "OEDBSystem.h"
 #import "OEGameCoreManager.h"
 #import "OEGameViewController.h"
+#import "OECheatsSettingViewController.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "OEHUDWindow.h"
 #import "OELibraryDatabase.h"
@@ -96,6 +97,7 @@ typedef enum : NSUInteger
 }
 
 @property OEGameViewController *gameViewController;
+@property OECheatsSettingViewController *cheatsSettingController;
 @property NSViewController *viewController;
 
 @end
@@ -108,6 +110,9 @@ typedef enum : NSUInteger
     {
         _gameViewController = [[OEGameViewController alloc] init];
         [[self gameViewController] setDocument:self];
+        
+        _cheatsSettingController = [[OECheatsSettingViewController alloc] initWithNibName:NSStringFromClass([OECheatsSettingViewController class]) bundle:[NSBundle mainBundle]];
+        [[self cheatsSettingController] setDocument:self];
     }
     
     return self;
@@ -1050,6 +1055,8 @@ typedef enum : NSUInteger
         return NO;
     }
     
+    [[[[self cheatsSettingController] view] window] close];
+    
     return YES;
 }
 
@@ -1156,150 +1163,20 @@ typedef enum : NSUInteger
     return [[[_gameCoreManager plugin] controller] supportsCheatCodeForSystemIdentifier:[_systemPlugin systemIdentifier]];
 }
 
-- (IBAction)addCheat:(id)sender;
-{
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
-    
-    [alert setOtherInputLabelText:NSLocalizedString(@"Title:", @"")];
-    [alert setShowsOtherInputField:YES];
-    [alert setOtherStringValue:NSLocalizedString(@"Cheat Description", @"")];
-    
-    [alert setInputLabelText:NSLocalizedString(@"Code:", @"")];
-    [alert setShowsInputField:YES];
-    [alert setStringValue:NSLocalizedString(@"Join multi-line cheats with '+' e.g. 000-000+111-111", @"")];
-    
-    [alert setDefaultButtonTitle:NSLocalizedString(@"Add Cheat", @"")];
-    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
-    
-    [alert setShowsSuppressionButton:YES];
-    [alert setSuppressionLabelText:NSLocalizedString(@"Enable now", @"Cheats button label")];
-    
-    [alert setInputLimit:1000];
-    
-    if([alert runModal] == NSAlertFirstButtonReturn)
-    {
-        NSNumber *enabled;
-        if ([[alert suppressionButton] state] == NSControlStateValueOn) // 现在启用
-        {
-            enabled = @YES;
-            [self setCheat:[alert stringValue] withType:@"Unknown" enabled:[enabled boolValue]];
-        }
-        else
-        {
-            enabled = @NO;
-        }
-        
-        TODO("decide how to handle setting a cheat type from the modal and save added cheats to file");
-        NSUUID *identifier = [[NSUUID alloc] init];
-        NSString *description = [alert otherStringValue];
-        NSString *code = [alert stringValue];
-        NSString *type = @"Unknown";
-        
-        [[sender representedObject] addObject:[@{
-                                                 @"code" : code,
-                                                 @"type" : type,
-                                                 @"description" : description,
-                                                 @"enabled" : enabled,
-                                                 @"identifier": identifier,
-                                                 } mutableCopy]];
-        NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
-        OEDBSaveCheat *saveCheat = [OEDBSaveCheat createSaveCheatIdentifier:identifier name:description type:type code:code enabled:[enabled boolValue] forRom:[self rom] inContext:context];
-        saveCheat.name = [alert otherStringValue];
-        saveCheat.code = [alert stringValue];
-        saveCheat.enabled = [enabled boolValue];
-        [saveCheat save];
+- (IBAction)openCheatSettingController {
+    NSWindow *cheatsSettingWindow = [[[self cheatsSettingController] view] window];
+    NSWindowController *cheatsSettingWindowController = [cheatsSettingWindow windowController];
+    OECheatsSettingViewController *cheatsSettingController = [self cheatsSettingController];
+    [cheatsSettingController setDocument:self];
+    if (!cheatsSettingWindow) {
+        cheatsSettingWindow = [NSWindow windowWithContentViewController:cheatsSettingController];
+        cheatsSettingWindow.minSize = CGSizeMake(560, 550);
     }
-}
-
-- (void)updateCheat:(id)sender {
-    NSString *code, *type, *description;
-    BOOL enabled;
-    code = [[sender representedObject] objectForKey:@"code"];
-    type = [[sender representedObject] objectForKey:@"type"];
-    description = [[sender representedObject] objectForKey:@"description"];
-    enabled = [[[sender representedObject] objectForKey:@"enabled"] boolValue];
-    NSUUID *identifier = [[sender representedObject] objectForKey:@"identifier"];
-    
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
-
-    [alert setOtherInputLabelText:NSLocalizedString(@"Title:", @"")];
-    [alert setShowsOtherInputField:YES];
-    [alert setOtherStringValue:description ?: NSLocalizedString(@"Cheat Description", @"")];
-    
-    [alert setInputLabelText:NSLocalizedString(@"Code:", @"")];
-    [alert setShowsInputField:YES];
-    [alert setStringValue:code?: NSLocalizedString(@"Join multi-line cheats with '+' e.g. 000-000+111-111", @"")];
-    
-    [alert setDefaultButtonTitle:NSLocalizedString(@"Update", @"")];
-    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
-    
-    [alert setShowsSuppressionButton:YES];
-    [alert setSuppressionLabelText:NSLocalizedString(@"Enable now", @"Cheats button label")];
-    
-    [[alert suppressionButton] setState: enabled ? NSControlStateValueOn : NSControlStateValueOff];
-    
-    [alert setInputLimit:1000];
-    
-    if([alert runModal] == NSAlertFirstButtonReturn)
-    {
-        NSNumber *enabled;
-        if ([[alert suppressionButton] state] == NSControlStateValueOn) // 现在启用
-        {
-            enabled = @YES;
-        }
-        else
-        {
-            enabled = @NO;
-        }
-        [self setCheat:[alert stringValue] withType:type enabled:[enabled boolValue]];
-
-        [[sender representedObject] setObject:[alert stringValue] forKey:@"code"];
-        [[sender representedObject] setObject:[alert otherStringValue] forKey:@"description"];
-        [[sender representedObject] setObject:enabled forKey:@"enabled"];
-        OEDBSaveCheat *saveCheat = [[self rom] saveCheatWithIdentifier:identifier];
-        saveCheat.name = [alert otherStringValue];
-        saveCheat.code = [alert stringValue];
-        saveCheat.enabled = [enabled boolValue];
-        [saveCheat save];
+    if (!cheatsSettingWindowController) {
+        cheatsSettingWindowController = [[NSWindowController alloc] initWithWindow:cheatsSettingWindow];
     }
-}
-
-- (void)deleteCheat:(id)sender {
-    NSArray *arr = [sender representedObject];
-    NSAssert([arr isKindOfClass:NSArray.class], nil);
-    NSAssert(arr.count == 2, nil);
-    NSUUID *identifier = [arr[1] objectForKey:@"identifier"];
-    [[[self rom] saveCheatWithIdentifier:identifier] delete];
-    [arr.firstObject removeObject:arr[1]];
-}
-
-- (IBAction)setCheat:(id)sender;
-{
-    NSString *code, *type;
-    BOOL enabled;
-    code = [[sender representedObject] objectForKey:@"code"];
-    type = [[sender representedObject] objectForKey:@"type"];
-    enabled = [[[sender representedObject] objectForKey:@"enabled"] boolValue];
-    
-    if (enabled) {
-        [[sender representedObject] setObject:@NO forKey:@"enabled"];
-        enabled = NO;
-    }
-    else {
-        [[sender representedObject] setObject:@YES forKey:@"enabled"];
-        enabled = YES;
-    }
-    
-    [self setCheat:code withType:type enabled:enabled];
-}
-
-- (IBAction)toggleCheat:(id)sender;
-{
-    NSString *code = [[sender representedObject] objectForKey:@"code"];
-    NSString *type = [[sender representedObject] objectForKey:@"type"];
-    BOOL enabled = ![[[sender representedObject] objectForKey:@"enabled"] boolValue];
-    [[sender representedObject] setObject:@(enabled) forKey:@"enabled"];
-    [self setCheat:code withType:type enabled:enabled];
+    [cheatsSettingWindowController showWindow:nil];
+    [cheatsSettingWindow makeKeyWindow];
 }
 
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
@@ -1765,14 +1642,16 @@ typedef enum : NSUInteger
         [self->_gameCoreManager loadStateFromFileAtPath:[[state dataFileURL] path] completionHandler:
          ^(BOOL success, NSError *error)
          {
-             if(!success)
-             {
-                 [self presentError:error];
-                 return;
-             }
-             
-             [self setEmulationPaused:NO];
-         }];
+            if(!success)
+            {
+                [self presentError:error];
+                return;
+            }
+            [self setEmulationPaused:NO];
+            [[[self rom] saveCheats] enumerateObjectsUsingBlock:^(OEDBSaveCheat * _Nonnull obj, BOOL * _Nonnull stop) {
+                [self setCheat:obj.code withType:obj.type enabled:obj.enabled];
+            }];
+        }];
     };
     
     if([[[_gameCoreManager plugin] bundleIdentifier] isEqualToString:[state coreIdentifier]])

@@ -38,10 +38,6 @@
 
 "Add a Wiimote…" = "Voeg een Wiimote toe…";
 
-"Add Cheat…" = "Voeg cheat toe…";
-
-"Add Cheat" = "Voeg cheat toe";
-
 "Add Cover Art From File…" = "Voeg omslagafbeelding uit bestand toe…";
 
 "Add To Collection" = "Voeg toe aan verzameling";
@@ -670,3 +666,7 @@
 "Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
 
 "Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+
+"Notes" = "Notes";
+
+"Cheat Setting" = "Cheat instelling";

@@ -34,8 +34,7 @@
 
 @implementation OEDBSaveCheat
 
-
-+ (nullable instancetype)createSaveCheatIdentifier:(NSUUID *)identifier name:(NSString *)name type:(NSString *)type code:(NSString *)code enabled:(BOOL)enabled forRom:(OEDBRom *)rom inContext:(NSManagedObjectContext *)context
++ (nullable instancetype)createSaveCheatIdentifier:(NSUUID *)identifier description:(NSString *)description type:(NSString *)type code:(NSString *)code notes:(NSString *)notes enabled:(BOOL)enabled forRom:(OEDBRom *)rom inContext:(NSManagedObjectContext *)context
 {
     if(identifier == nil)
     {
@@ -51,11 +50,12 @@
 
     OEDBSaveCheat *saveCheat = [OEDBSaveCheat createObjectInContext:context];
     saveCheat.identifier = identifier;
-    saveCheat.name = name;
+    saveCheat.codeDescription = description;
     saveCheat.code = code;
     saveCheat.type = type;
     saveCheat.enabled = enabled;
     saveCheat.rom = rom;
+    saveCheat.notes = notes;
     [saveCheat save];
     return saveCheat;
 }
@@ -64,5 +64,4 @@
 {
     return @"SaveCheat";
 }
-
 @end

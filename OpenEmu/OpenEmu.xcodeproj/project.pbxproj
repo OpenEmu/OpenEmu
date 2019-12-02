@@ -812,6 +812,8 @@
 		A90208FC9B5D10B9F8150E57 /* OEGameHelperMetalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A902019312DE5D81DCEEDF26 /* OEGameHelperMetalLayer.m */; };
 		A9020A6B0B5DCC3081F0DB19 /* OEGameHelperMetalLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A902019312DE5D81DCEEDF26 /* OEGameHelperMetalLayer.m */; };
 		C070E65A238F612400F04EBE /* OEDBSaveCheat.m in Sources */ = {isa = PBXBuildFile; fileRef = C070E659238F612400F04EBE /* OEDBSaveCheat.m */; };
+		C070E6A32390DF4E00F04EBE /* OECheatsSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C070E6A12390DF4D00F04EBE /* OECheatsSettingViewController.m */; };
+		C070E6A623912D9400F04EBE /* OECheatsSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C070E6A823912D9400F04EBE /* OECheatsSettingViewController.xib */; };
 		C6096192179B461C00239067 /* OEXPCGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096191179B461C00239067 /* OEXPCGameCoreManager.m */; };
 		C609619A179B6E3F00239067 /* OpenEmuXPCHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096199179B6E3F00239067 /* OpenEmuXPCHelperApp.m */; };
 		C609619B179B74DE00239067 /* OESystemPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C6289C31135B215B00EEE97C /* OESystemPlugin.m */; };
@@ -2557,6 +2559,20 @@
 		C070E658238F612400F04EBE /* OEDBSaveCheat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveCheat.h; sourceTree = "<group>"; };
 		C070E659238F612400F04EBE /* OEDBSaveCheat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveCheat.m; sourceTree = "<group>"; };
 		C070E661238F8C2F00F04EBE /* OEDatabase 1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.4.xcdatamodel"; sourceTree = "<group>"; };
+		C070E6A02390DF4C00F04EBE /* OECheatsSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECheatsSettingViewController.h; sourceTree = "<group>"; };
+		C070E6A12390DF4D00F04EBE /* OECheatsSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECheatsSettingViewController.m; sourceTree = "<group>"; };
+		C070E6A723912D9400F04EBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OECheatsSettingViewController.xib; sourceTree = "<group>"; };
+		C070E6AF23912DA300F04EBE /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OECheatsSettingViewController.strings; sourceTree = "<group>"; };
+		C070E6B323912DB000F04EBE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OECheatsSettingViewController.strings"; sourceTree = "<group>"; };
+		C070E6B523912DB300F04EBE /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/OECheatsSettingViewController.strings; sourceTree = "<group>"; };
+		C070E6B723912DB600F04EBE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OECheatsSettingViewController.strings; sourceTree = "<group>"; };
+		C070E6B923912DB900F04EBE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OECheatsSettingViewController.strings; sourceTree = "<group>"; };
+		C070E6BB23912DBC00F04EBE /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OECheatsSettingViewController.strings; sourceTree = "<group>"; };
+		C070E6BD23912DBF00F04EBE /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/OECheatsSettingViewController.strings; sourceTree = "<group>"; };
+		C070E6BF23912DC200F04EBE /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OECheatsSettingViewController.strings; sourceTree = "<group>"; };
+		C070E6C123912DC500F04EBE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OECheatsSettingViewController.strings; sourceTree = "<group>"; };
+		C070E6C323912DC800F04EBE /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OECheatsSettingViewController.strings; sourceTree = "<group>"; };
+		C070E6D22394DE0C00F04EBE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/OECheatsSettingViewController.strings"; sourceTree = "<group>"; };
 		C60238E8179510C600F4AF6C /* OEGameCoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGameCoreHelper.h; sourceTree = "<group>"; };
 		C609618F179B278C00239067 /* OEXPCGameCoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXPCGameCoreHelper.h; sourceTree = "<group>"; };
 		C6096190179B461C00239067 /* OEXPCGameCoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPCGameCoreManager.h; sourceTree = "<group>"; };
@@ -3220,6 +3236,9 @@
 				5A46AC401DC66D8300771B3B /* OEGameViewController+TouchBar.swift */,
 				14F6A924168180CF0071386D /* OEPopoutGameWindowController.h */,
 				14F6A925168180CF0071386D /* OEPopoutGameWindowController.m */,
+				C070E6A02390DF4C00F04EBE /* OECheatsSettingViewController.h */,
+				C070E6A12390DF4D00F04EBE /* OECheatsSettingViewController.m */,
+				C070E6A823912D9400F04EBE /* OECheatsSettingViewController.xib */,
 				5AC349321D89EB7B0089B26F /* GameIntegralScalingDelegate.swift */,
 			);
 			name = "Game Document";
@@ -6831,6 +6850,7 @@
 				05E4400B22991527009E6D27 /* Shaders in Resources */,
 				C6C3734316BE7BAF003E57AE /* OE Startup.qtz in Resources */,
 				8306CD261BD3AC3D0025BC6C /* OESidebarController.xib in Resources */,
+				C070E6A623912D9400F04EBE /* OECheatsSettingViewController.xib in Resources */,
 				1B32151514DDD49E00C5B50A /* OpenEmu.dae in Resources */,
 				1B32151614DDD49E00C5B50A /* OpenEmuText.dae in Resources */,
 				1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */,
@@ -7648,6 +7668,7 @@
 				53439AF413B92EA8005C0CC8 /* OESearchFieldCell.m in Sources */,
 				5AECA1491BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift in Sources */,
 				53439AF713B92EAD005C0CC8 /* OESlider.m in Sources */,
+				C070E6A32390DF4E00F04EBE /* OECheatsSettingViewController.m in Sources */,
 				5A9606D21C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift in Sources */,
 				5AFD06BD2058893B00DFE765 /* GameScannerViewController.swift in Sources */,
 				53439AFA13B92EB3005C0CC8 /* OEImageButton.m in Sources */,
@@ -8576,6 +8597,25 @@
 				82BBE7B321D961A1006CD402 /* zh-Hant */,
 			);
 			name = OEPrefControlsController.xib;
+			sourceTree = "<group>";
+		};
+		C070E6A823912D9400F04EBE /* OECheatsSettingViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C070E6A723912D9400F04EBE /* Base */,
+				C070E6AF23912DA300F04EBE /* ca */,
+				C070E6B323912DB000F04EBE /* zh-Hant */,
+				C070E6B523912DB300F04EBE /* nl */,
+				C070E6B723912DB600F04EBE /* fr */,
+				C070E6B923912DB900F04EBE /* de */,
+				C070E6BB23912DBC00F04EBE /* it */,
+				C070E6BD23912DBF00F04EBE /* ja */,
+				C070E6BF23912DC200F04EBE /* pt */,
+				C070E6C123912DC500F04EBE /* ru */,
+				C070E6C323912DC800F04EBE /* es */,
+				C070E6D22394DE0C00F04EBE /* zh-Hans */,
+			);
+			name = OECheatsSettingViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

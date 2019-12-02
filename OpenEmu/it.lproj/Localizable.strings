@@ -38,10 +38,6 @@
 
 "Add a Wiimote…" = "Collega Wiimote…";
 
-"Add Cheat…" = "Aggiungi trucco…";
-
-"Add Cheat" = "Aggiungi trucco";
-
 "Add Cover Art from File…" = "Imposta copertina da file…";
 
 "Add to Collection" = "Aggiungi a raccolta";
@@ -670,3 +666,7 @@
 "Checked" = "selezionato";  // Default value tooltip for checkboxes: checked default
 
 "Unchecked" = "deselezionato";  // Default value tooltip for checkboxes: unchecked default
+
+"Notes" = "Gli appunti";
+
+"Cheat Setting" = "Cheat Setting";

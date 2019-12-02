@@ -101,12 +101,8 @@ enum _OEGameDocumentErrorCodes
 - (NSImage *)screenshot;
 
 #pragma mark - Cheats
-- (IBAction)addCheat:(id)sender;
-- (IBAction)setCheat:(id)sender;
-- (IBAction)toggleCheat:(id)sender;
-- (IBAction)updateCheat:(id)sender;
-- (IBAction)deleteCheat:(id)sender;
 - (BOOL)supportsCheats;
+- (void)openCheatSettingController;
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 
 #pragma mark - Discs

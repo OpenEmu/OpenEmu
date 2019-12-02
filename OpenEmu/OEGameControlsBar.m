@@ -40,7 +40,6 @@
 #import "OEHUDAlert.h"
 
 #import "OEDBSaveState.h"
-#import "OEDBSaveCheat.h"
 
 #import "OEAudioDeviceManager.h"
 
@@ -172,16 +171,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         {
             OECheats *cheatsXML = [[OECheats alloc] initWithMd5Hash:md5Hash];
             _cheats             = [[cheatsXML allCheats] mutableCopy];
-            [[[[self gameViewController] document] rom].saveCheats enumerateObjectsUsingBlock:^(OEDBSaveCheat * _Nonnull obj, BOOL * _Nonnull stop) {
-                [_cheats addObject:[@{
-                @"code" : obj.code,
-                @"type" : obj.type,
-                @"description" : obj.name,
-                @"enabled" : @(obj.enabled),
-                @"identifier": obj.identifier,
-                } mutableCopy]];
-                [[[self gameViewController] document] setCheat:obj.code withType:obj.type enabled:obj.enabled];
-            }];
             _cheatsLoaded       = YES;
         }
     }
@@ -366,53 +355,8 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     // Setup Cheats Menu
     if([[self gameViewController] supportsCheats])
     {
-        NSMenu *cheatsMenu = [[NSMenu alloc] init];
-        [cheatsMenu setTitle:NSLocalizedString(@"Select Cheat", @"")];
-        item = [[NSMenuItem alloc] init];
-        [item setTitle:NSLocalizedString(@"Select Cheat", @"")];
-        [menu addItem:item];
-        [item setSubmenu:cheatsMenu];
-
-        NSMenuItem *addCheatMenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Add Cheat…", @"")
-                                                                  action:@selector(addCheat:)
-                                                           keyEquivalent:@""];
-        [addCheatMenuItem setRepresentedObject:_cheats];
-        [cheatsMenu addItem:addCheatMenuItem];
-
-        if([_cheats count] != 0)
-            [cheatsMenu addItem:[NSMenuItem separatorItem]];
-
-        for(NSDictionary *cheatObject in _cheats)
-        {
-            NSString *description = [cheatObject objectForKey:@"description"];
-            BOOL enabled          = [[cheatObject objectForKey:@"enabled"] boolValue];
-
-            NSMenuItem *cheatsMenuItem = [[NSMenuItem alloc] initWithTitle:description action:@selector(setCheat:) keyEquivalent:@""];
-            [cheatsMenuItem setRepresentedObject:cheatObject];
-            [cheatsMenuItem setState:enabled ? NSControlStateValueOn : NSControlStateValueOff];
-
-            [cheatsMenu addItem:cheatsMenuItem];
-            
-            NSUUID *identifier = [cheatObject objectForKey:@"identifier"];
-            if (identifier != nil && [identifier isKindOfClass:NSUUID.class]) {
-                NSMenu *submenu = [[NSMenu alloc] init];
-                [cheatsMenuItem setSubmenu:submenu];
-                {
-                    NSMenuItem *deleteCheatItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete", @"")
-                                                                             action:@selector(deleteCheat:)
-                                                                      keyEquivalent:@""];
-                    [deleteCheatItem setRepresentedObject:@[_cheats, cheatObject]];
-                    
-                    [submenu addItem:deleteCheatItem];
-                    
-                    NSMenuItem *editCheatItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Update", @"")
-                                                                           action:@selector(updateCheat:)
-                                                                    keyEquivalent:@""];
-                    [editCheatItem setRepresentedObject:cheatObject];
-                    [submenu addItem:editCheatItem];
-                }
-            }
-        }
+        NSMenuItem *cheatsItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Cheat Setting", @"") action:@selector(openCheatSettingController) keyEquivalent:@""];
+        [menu addItem:cheatsItem];
     }
 
     // Setup Core selection menu

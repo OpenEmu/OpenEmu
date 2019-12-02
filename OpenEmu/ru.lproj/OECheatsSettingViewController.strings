@@ -1,0 +1,26 @@
+
+/* Class = "NSTextFieldCell"; title = "Available Cheats:"; ObjectID = "5cl-xX-ujb"; */
+"5cl-xX-ujb.title" = "Доступные читы:";
+
+/* Class = "NSButtonCell"; title = "Close"; ObjectID = "NWs-NN-nRq"; */
+"NWs-NN-nRq.title" = "близко";
+
+/* Class = "NSTextFieldCell"; title = "Notes:"; ObjectID = "Y8G-E1-3rU"; */
+"Y8G-E1-3rU.title" = "Заметки:";
+
+/* Class = "NSMenu"; title = "Types"; ObjectID = "kFi-FU-qdV"; */
+"kFi-FU-qdV.title" = "Типы";
+
+/* Class = "NSTableColumn"; headerCell.title = "Type"; ObjectID = "ulS-lr-tG3"; */
+"ulS-lr-tG3.headerCell.title" = "Тип";
+
+/* Class = "NSTextFieldCell"; title = "Code:"; ObjectID = "w9q-fI-gEL"; */
+"w9q-fI-gEL.title" = "Код:";
+
+/* Class = "NSTableColumn"; headerCell.title = "Description"; ObjectID = "yDA-5l-JfB"; */
+"yDA-5l-JfB.headerCell.title" = "Описание";
+
+/* Class = "NSTextFieldCell"; placeholderString = "Cheat Description"; ObjectID = "z85-xF-PjI"; */
+"z85-xF-PjI.placeholderString" = "Описание Чит-кода";
+
+"Vhl-Gp-VfX.title" = "Описание Чит-кода:";
