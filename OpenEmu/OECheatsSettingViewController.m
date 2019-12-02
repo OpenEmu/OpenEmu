@@ -49,7 +49,7 @@ static NSString *const OECheatsSettingTableColumnIdentifierType = @"OECheatsSett
 - (void)drawRect:(NSRect)rect {
   [super drawRect:rect];
     if ([[self string] isEqualToString:@""] && self != [[self window] firstResponder] && _placeHolderString != nil && _placeHolderString.length > 0) {
-        NSEdgeInsets edge = NSEdgeInsetsMake(0, 5, 0, 5);
+        NSEdgeInsets edge = NSEdgeInsetsMake(2, 3, 2, 3);
         NSRect resultRect = NSMakeRect(rect.origin.x + edge.left, rect.origin.y + edge.bottom, rect.size.width - edge.left - edge.right, rect.size.height - edge.top - edge.bottom);
         [[[NSAttributedString alloc] initWithString:_placeHolderString attributes:@{NSForegroundColorAttributeName: [NSColor grayColor]}] drawInRect:resultRect];
     }
@@ -234,13 +234,14 @@ static NSString *const OECheatsSettingTableColumnIdentifierType = @"OECheatsSett
     _codeTextView.string = cheat.code ?: @"";
     _notesTextView.string = cheat.notes ?: @"";
     _descriptionTextField.stringValue = cheat.codeDescription ?: @"";
-    _descriptionTextField.placeholderString = enable ? NSLocalizedString(@"Cheat Description", @"") : @"";
-    _codeTextView.placeHolderString = enable ? NSLocalizedString(@"Join multi-line cheats with '+' e.g. 000-000+111-111", @"") : @"";
+    _descriptionTextField.placeholderAttributedString = [[NSAttributedString alloc] initWithString:enable ? NSLocalizedString(@"Cheat Description", @"") : @"" attributes:@{NSForegroundColorAttributeName: [NSColor grayColor]}];
+    _codeTextView.placeHolderString = enable ? NSLocalizedString(@"Cheat code", @"") : @"";
     _notesTextView.placeHolderString = enable ? NSLocalizedString(@"Notes", @"") : @"";
 }
 
 #pragma mark - NSTextViewDelegate
-- (void)textDidChange:(NSNotification *)notification {
+- (void)textDidEndEditing:(NSNotification *)notification {
+    if (notification.object != _codeTextView) return;
     if (_tableView.selectedRow >= 0 && _tableView.selectedRow < _cheats.count) {
         OEDBSaveCheat *cheat = _cheats[_tableView.selectedRow];
         if (notification.object == _codeTextView) {
@@ -248,13 +249,6 @@ static NSString *const OECheatsSettingTableColumnIdentifierType = @"OECheatsSett
         } else if (notification.object == _notesTextView) {
             cheat.notes = _notesTextView.string;
         }
-    }
-}
-
-- (void)textDidEndEditing:(NSNotification *)notification {
-    if (notification.object != _codeTextView) return;
-    if (_tableView.selectedRow >= 0 && _tableView.selectedRow < _cheats.count) {
-        OEDBSaveCheat *cheat = _cheats[_tableView.selectedRow];
         [cheat save];
         if (cheat.enabled) {
             [self.document setCheat:cheat.code withType:cheat.type enabled:cheat.enabled];
@@ -282,6 +276,4 @@ static NSString *const OECheatsSettingTableColumnIdentifierType = @"OECheatsSett
         [menu addItem:[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete", @"") action:@selector(removeCheatByMenu) keyEquivalent:@""]];
     }
 }
-
-#pragma mark - Updating UI States
 @end

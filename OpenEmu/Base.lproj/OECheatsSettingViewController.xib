@@ -41,17 +41,17 @@
                     </textFieldCell>
                 </textField>
                 <scrollView borderType="line" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pKd-KM-MGB">
-                    <rect key="frame" x="464" y="267" width="217" height="244"/>
+                    <rect key="frame" x="464" y="267" width="217" height="229"/>
                     <clipView key="contentView" copiesOnScroll="NO" id="yvp-BY-3z8">
-                        <rect key="frame" x="1" y="1" width="215" height="242"/>
+                        <rect key="frame" x="1" y="1" width="215" height="227"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView editable="NO" selectable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="0mf-2d-E8k" customClass="_CheatsTextViewWithPlaceHolder">
-                                <rect key="frame" x="0.0" y="0.0" width="215" height="242"/>
+                                <rect key="frame" x="0.0" y="0.0" width="215" height="227"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                <size key="minSize" width="215" height="242"/>
+                                <size key="minSize" width="215" height="227"/>
                                 <size key="maxSize" width="474" height="10000000"/>
                                 <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             </textView>
@@ -62,12 +62,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Kuf-k9-05P">
-                        <rect key="frame" x="200" y="1" width="16" height="242"/>
+                        <rect key="frame" x="200" y="1" width="16" height="227"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="J9r-CV-rcv">
-                    <rect key="frame" x="462" y="511" width="54" height="20"/>
+                    <rect key="frame" x="462" y="496" width="54" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="gwf-zc-Shw"/>
                         <constraint firstAttribute="width" constant="50" id="prl-QM-5xq"/>
@@ -176,7 +176,7 @@
                                 <tableColumns>
                                     <tableColumn editable="NO" width="40" minWidth="40" maxWidth="40" id="UaM-x4-Wy2">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center">
-                                            <font key="font" metaFont="message" size="11"/>
+                                            <font key="font" metaFont="label" size="11"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                         </tableHeaderCell>
@@ -187,7 +187,7 @@
                                     </tableColumn>
                                     <tableColumn editable="NO" width="262" minWidth="120" maxWidth="1000" id="yDA-5l-JfB">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Description">
-                                            <font key="font" metaFont="message" size="11"/>
+                                            <font key="font" metaFont="label" size="11"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                         </tableHeaderCell>
@@ -200,7 +200,7 @@
                                     </tableColumn>
                                     <tableColumn editable="NO" width="121" minWidth="70" maxWidth="1000" id="ulS-lr-tG3">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Type">
-                                            <font key="font" metaFont="message" size="11"/>
+                                            <font key="font" metaFont="label" size="11"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                         </tableHeaderCell>
@@ -228,7 +228,7 @@
                     </tableHeaderView>
                 </scrollView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JSG-hl-tvq">
-                    <rect key="frame" x="462" y="576" width="117" height="20"/>
+                    <rect key="frame" x="462" y="556" width="117" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="PTT-x6-Dkx"/>
                     </constraints>
@@ -239,9 +239,9 @@
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yv9-nO-Vca">
-                    <rect key="frame" x="464" y="546" width="217" height="30"/>
+                    <rect key="frame" x="464" y="531" width="217" height="25"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="30" id="dqJ-ne-pBT"/>
+                        <constraint firstAttribute="height" constant="25" id="dqJ-ne-pBT"/>
                     </constraints>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="border" alignment="left" drawsBackground="YES" usesSingleLineMode="YES" id="NzD-wM-pj8">
                         <font key="font" metaFont="system"/>
@@ -254,12 +254,12 @@
                 <constraint firstAttribute="bottom" secondItem="ChO-Eg-nBa" secondAttribute="bottom" constant="22" id="4FE-w7-6PZ"/>
                 <constraint firstItem="MTJ-OZ-bVZ" firstAttribute="top" secondItem="pKd-KM-MGB" secondAttribute="bottom" constant="15" id="4xL-rT-K5U"/>
                 <constraint firstItem="s2Y-Jk-V9w" firstAttribute="bottom" secondItem="yeD-0B-ARX" secondAttribute="bottom" id="8Ba-Y6-ox1"/>
-                <constraint firstItem="JSG-hl-tvq" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="15" id="9qh-3T-HXJ"/>
                 <constraint firstAttribute="trailing" secondItem="ChO-Eg-nBa" secondAttribute="trailing" constant="15" id="AUi-UL-gVs"/>
                 <constraint firstAttribute="trailing" secondItem="Yv9-nO-Vca" secondAttribute="trailing" constant="15" id="Aht-er-FPC"/>
                 <constraint firstItem="gAr-hK-flH" firstAttribute="top" secondItem="yeD-0B-ARX" secondAttribute="bottom" constant="6" id="Brb-9M-T73"/>
                 <constraint firstItem="gAr-hK-flH" firstAttribute="top" secondItem="yeD-0B-ARX" secondAttribute="bottom" constant="6" id="D91-gL-5MV"/>
                 <constraint firstItem="J9r-CV-rcv" firstAttribute="leading" secondItem="yeD-0B-ARX" secondAttribute="trailing" constant="15" id="FYm-Ud-82Y"/>
+                <constraint firstItem="JSG-hl-tvq" firstAttribute="top" secondItem="yeD-0B-ARX" secondAttribute="top" id="FlA-cj-Hm7"/>
                 <constraint firstItem="gAr-hK-flH" firstAttribute="leading" secondItem="Tk8-q2-iSB" secondAttribute="trailing" constant="5" id="K7c-xA-CYM"/>
                 <constraint firstItem="Tk8-q2-iSB" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="15" id="M1L-TE-pD6"/>
                 <constraint firstItem="s2Y-Jk-V9w" firstAttribute="top" secondItem="MTJ-OZ-bVZ" secondAttribute="bottom" id="O8r-zG-kpE"/>
