@@ -1181,7 +1181,10 @@ typedef enum : NSUInteger
 
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 {
-    [_gameCoreManager setCheat:cheatCode withType:type enabled:enabled];
+    NSString *newCheatCode = [[[cheatCode componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]
+                              filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.length > 0"]]
+                              componentsJoinedByString:@"+"];
+    [_gameCoreManager setCheat:newCheatCode withType:type enabled:enabled];
 }
 
 #pragma mark - Discs
