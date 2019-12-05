@@ -132,7 +132,7 @@
 
 "Couldn't load %@ plugin" = "No s'ha pogut carregar el connector %@";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Creeu una selecció personal de jocs. Per a afegir un joc a la col·lecció, seleccioneu-lo de la biblioteca i arrossegueu-lo a ’%@’ a l'esquerra.";
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Creeu una selecció personal de jocs. Per a afegir un joc a la col·lecció, seleccioneu-lo de la biblioteca i arrossegueu-lo a ’%@’ a l'esquerra."; // TODO
 
 "Create Library…" = "Crea una biblioteca…";
 
@@ -180,7 +180,7 @@
 
 "Do not show me again" = "No m'ho tornis a mostrar";
 
-"Do you really want to cancel the import process?" = "Segur que voleu cancel·lar el procés d'importació?";
+"Do you really want to cancel importation?" = "Segur que voleu cancel·lar el procés d'importació?"; // TODO
 
 "Do you want to continue playing where you left off?" = "Voleu continuar la partida on la vau deixar?";
 
@@ -427,8 +427,6 @@
 "Share" = "Comparteix";
 
 "Show in Finder" = "Obre la carpeta on es troba";
-
-"Slot %d" = "Espai %d";
 
 "Slot %ld" = "Espai %ld";
 

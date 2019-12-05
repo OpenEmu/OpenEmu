@@ -132,7 +132,7 @@
 
 "Couldn't load %@ plugin" = "Kon plug-in %@ niet laden";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.";
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar."; // TODO
 
 "Create Library…" = "Maak bibliotheek aan…";
 
@@ -180,7 +180,7 @@
 
 "Do not show me again" = "Laat me dit niet opnieuw zien";
 
-"Do you really want to cancel the import process?" = "Wilt u het importproces echt annuleren?";
+"Do you really want to cancel importation?" = "Wilt u het importproces echt annuleren?"; // TODO
 
 "Do you want to continue playing where you left off?" = "Wilt u verder spelen waar u geëindigd was?";
 
@@ -427,8 +427,6 @@
 "Share" = "Deel";
 
 "Show in Finder" = "Toon in Finder";
-
-"Slot %d" = "Slot %d";
 
 "Slot %ld" = "Slot %ld";
 

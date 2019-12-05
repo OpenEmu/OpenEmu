@@ -136,7 +136,7 @@
 
 "Couldn't load %@ plugin" = "%@という名称のプラグインをロード出来ませんでした。";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "自分好みのゲームセレクションを作成しましょう。コレクションを追加するには、コンソールライブラリからゲームを選択し、左側の’%@’へドラッグして下さい。";
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "自分好みのゲームセレクションを作成しましょう。コレクションを追加するには、コンソールライブラリからゲームを選択し、左側の’%@’へドラッグして下さい。"; // TODO
 
 "Create Library…" = "ライブラリを作成…";
 
@@ -186,7 +186,7 @@
 
 "Do not show me again" = "再表示しない";
 
-"Do you really want to cancel the import process?" = "インポートをキャンセルしますか？";
+"Do you really want to cancel importation?" = "インポートをキャンセルしますか？"; // TODO
 
 "Do you want to continue playing where you left off?" = "最後に中断したところから再開しますか？";
 
@@ -435,8 +435,6 @@
 "Share" = "共有";
 
 "Show in Finder" = "Finderで表示";
-
-"Slot %d" = "スロット %d";
 
 "Slot %ld" = "スロット %ld";
 

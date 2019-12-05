@@ -132,7 +132,7 @@
 
 "Couldn't load %@ plugin" = "無法加載 %@ 外掛";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "創建一個個人遊戲選集。要加入到收藏，從你的主機庫選擇一個遊戲然後拖到左邊的“%@”。";
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "創建一個個人遊戲選集。要加入到收藏，從你的主機庫選擇一個遊戲然後拖到左邊的“%@”。"; // TODO
 
 "Create Library…" = "創建庫…";
 
@@ -180,7 +180,7 @@
 
 "Do not show me again" = "不再彈出";
 
-"Do you really want to cancel the import process?" = "你確定要取消導入進程？";
+"Do you really want to cancel importation?" = "你確定要取消導入進程？"; // TODO
 
 "Do you want to continue playing where you left off?" = "你要從之前離開的位置繼續玩嗎？";
 
@@ -427,8 +427,6 @@
 "Share" = "共享";
 
 "Show in Finder" = "在 Finder 中顯示";
-
-"Slot %d" = "位置 %d";
 
 "Slot %ld" = "位置 %ld";
 

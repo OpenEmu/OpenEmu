@@ -654,7 +654,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                 {
                     OEDBSaveState *state = [rom quickSaveStateInSlot:i];
 
-                    loadTitle = [NSString stringWithFormat:NSLocalizedString(@"Slot %d", @"Quick load menu item title"), i];
+                    loadTitle = [NSString stringWithFormat:NSLocalizedString(@"Slot %ld", @"Quick load menu item title"), (long)i];
                     NSMenuItem *loadItem = [[NSMenuItem alloc] initWithTitle:loadTitle action:@selector(quickLoad:) keyEquivalent:@""];
                     [loadItem setEnabled:state != nil];
                     [loadItem setRepresentedObject:@(i)];

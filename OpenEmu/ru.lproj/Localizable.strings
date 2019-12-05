@@ -132,7 +132,7 @@
 
 "Couldn't load %@ plugin" = "Не удалось загрузить плагин: %@";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Создайте свой набор игр. Чтобы добавить игры в коллекцию, выберите игру из вашей библиотеки и перетащите ’%@’ на левую панель.";
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Создайте свой набор игр. Чтобы добавить игры в коллекцию, выберите игру из вашей библиотеки и перетащите ’%@’ на левую панель."; // TODO
 
 "Create Library…" = "Создать библиотеку…";
 
@@ -180,7 +180,7 @@
 
 "Do not show me again" = "Больше не показывать";
 
-"Do you really want to cancel the import process?" = "Вы действительно хотите прекратить процесс импорта?";
+"Do you really want to cancel importation?" = "Вы действительно хотите прекратить процесс импорта?"; // TODO
 
 "Do you want to continue playing where you left off?" = "Вы хотите продолжить игру там где остановились?";
 
@@ -427,8 +427,6 @@
 "Share" = "Share"; // TODO
 
 "Show in Finder" = "Показать в Finder";
-
-"Slot %d" = "Слот %d";
 
 "Slot %ld" = "Слот %ld";
 

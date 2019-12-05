@@ -194,7 +194,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     [self OE_setupDragAndDropBox];
     [self addLeftHeadlineWithText:NSLocalizedString(@"Collections", @"")];
 
-    NSString *text = [NSString stringWithFormat:NSLocalizedString(@"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.", @""), collectionName];
+    NSString *text = [NSString stringWithFormat:NSLocalizedString(@"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar.", @""), collectionName];
     [self addInformationalText:text];
 }
 
