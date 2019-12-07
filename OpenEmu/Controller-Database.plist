@@ -1602,6 +1602,8 @@
 				<integer>1406</integer>
 				<key>OEControllerProductID</key>
 				<integer>816</integer>
+				<key>OEControllerRequiresNameMatch</key>
+				<true/>
 			</dict>
 			<dict>
 				<key>OEControllerDeviceName</key>
@@ -2437,6 +2439,8 @@
 				<integer>1406</integer>
 				<key>OEControllerProductID</key>
 				<integer>816</integer>
+				<key>OEControllerRequiresNameMatch</key>
+				<true/>
 			</dict>
 		</array>
 		<key>OEControllerMappings</key>
