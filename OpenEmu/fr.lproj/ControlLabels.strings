@@ -146,12 +146,12 @@
   "Pause" = "Pause";
   "Quick Load Button" = "Chargement rapide";
   "Quick Save Button" = "Sauvegarde rapide";
-  "Rapid Fire Clear" = "Supprimer tire rapide";
-  "Rapid Fire Reset" = "Réinit. tire rapide";
-  "Rapid Fire Toggle" = "Activer tire rapide";
+  "Rapid Fire Clear" = "Supprimer tir rapide";
+  "Rapid Fire Reset" = "Réinit. tir rapide";
+  "Rapid Fire Toggle" = "Activer tir rapide";
   "Reset" = "Reset";
   "Rewind" = "Retour rapide";
-  "Save" = "Sauver";
+  "Save" = "Sauvegarder";
   "Screenshot" = "Capture d'écran";
   "Step Backward" = "Retour par image";
   "Step Forward" = "Avance par image";
