@@ -53,4 +53,9 @@
     return OEFileSupportNo;
 }
 
+- (NSString *)serialLookupForFile:(__kindof OEFile *)file
+{
+    return [file readASCIIStringInRange:NSMakeRange(0x0, 6)];
+}
+
 @end
