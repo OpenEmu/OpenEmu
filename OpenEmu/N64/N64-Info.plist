@@ -239,5 +239,7 @@
 	<string>openemu.system.n64</string>
 	<key>OESystemName</key>
 	<string>Nintendo 64</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

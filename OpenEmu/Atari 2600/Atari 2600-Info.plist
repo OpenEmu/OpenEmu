@@ -168,5 +168,7 @@
 	<string>openemu.system.2600</string>
 	<key>OESystemName</key>
 	<string>Atari 2600</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

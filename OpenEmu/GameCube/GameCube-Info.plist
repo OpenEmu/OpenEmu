@@ -251,5 +251,7 @@
 	<string>openemu.system.gc</string>
 	<key>OESystemName</key>
 	<string>GameCube</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

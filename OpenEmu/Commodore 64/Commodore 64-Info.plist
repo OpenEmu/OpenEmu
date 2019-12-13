@@ -132,5 +132,7 @@
 	<string>openemu.system.c64</string>
 	<key>OESystemName</key>
 	<string>Commodore 64</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeComputer</string>
 </dict>
 </plist>

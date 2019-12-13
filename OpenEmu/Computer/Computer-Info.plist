@@ -47,5 +47,7 @@
 	<string>openemu.system.computer</string>
 	<key>OESystemName</key>
 	<string>Computer</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeComputer</string>
 </dict>
 </plist>

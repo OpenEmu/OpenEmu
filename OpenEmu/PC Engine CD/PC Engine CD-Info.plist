@@ -165,5 +165,7 @@
 	<string>openemu.system.pcecd</string>
 	<key>OESystemName</key>
 	<string>TurboGrafx-CD</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

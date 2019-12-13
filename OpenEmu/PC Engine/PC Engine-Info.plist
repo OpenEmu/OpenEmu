@@ -164,5 +164,7 @@
 	<string>openemu.system.pce</string>
 	<key>OESystemName</key>
 	<string>TurboGrafx-16</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

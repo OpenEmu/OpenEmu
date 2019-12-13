@@ -35,6 +35,7 @@
 
 @property(strong, readonly) NSString *systemIdentifier;
 @property(strong, readonly) NSString *systemName;
+@property(strong, readonly) NSString *systemType;
 @property(strong, readonly) NSImage  *systemIcon;
 @property(readonly)         BOOL     supportsDiscs;
 @property(readonly)         CGFloat  coverAspectRatio;
@@ -44,6 +45,8 @@
 
 + (NSArray *)supportedTypeExtensions;
 - (NSArray *)supportedTypeExtensions;
++ (NSArray *)supportedSystemTypes;
+- (NSString *)systemType;
 + (OESystemPlugin *)systemPluginForIdentifier:(NSString *)gameSystemIdentifier;
 + (void)registerGameSystemPlugin:(OESystemPlugin *)plugin forIdentifier:(NSString *)gameSystemIdentifier;
 + (OESystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;

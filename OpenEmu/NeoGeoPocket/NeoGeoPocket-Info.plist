@@ -126,5 +126,7 @@
 	<string>openemu.system.ngp</string>
 	<key>OESystemName</key>
 	<string>NeoGeo Pocket</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeHandheld</string>
 </dict>
 </plist>

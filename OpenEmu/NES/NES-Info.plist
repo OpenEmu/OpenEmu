@@ -129,5 +129,7 @@
 	<string>openemu.system.nes</string>
 	<key>OESystemName</key>
 	<string>Nintendo (NES)</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

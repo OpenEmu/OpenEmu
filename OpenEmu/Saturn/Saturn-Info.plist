@@ -240,5 +240,7 @@
 	<string>openemu.system.saturn</string>
 	<key>OESystemName</key>
 	<string>Sega Saturn</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

@@ -152,5 +152,7 @@
 	<string>openemu.system.7800</string>
 	<key>OESystemName</key>
 	<string>Atari 7800</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

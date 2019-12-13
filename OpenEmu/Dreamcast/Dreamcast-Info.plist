@@ -202,5 +202,7 @@
 	<string>openemu.system.dc</string>
 	<key>OESystemName</key>
 	<string>Dreamcast</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

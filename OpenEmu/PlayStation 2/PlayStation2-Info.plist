@@ -288,5 +288,7 @@
 	<string>openemu.system.ps2</string>
 	<key>OESystemName</key>
 	<string>Sony PlayStation 2</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

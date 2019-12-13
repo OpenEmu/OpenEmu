@@ -216,5 +216,7 @@
 	<string>openemu.system.intellivision</string>
 	<key>OESystemName</key>
 	<string>Intellivision</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

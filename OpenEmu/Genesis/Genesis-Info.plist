@@ -164,5 +164,7 @@
 	<string>openemu.system.sg</string>
 	<key>OESystemName</key>
 	<string>Sega Genesis</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

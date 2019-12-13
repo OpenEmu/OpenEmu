@@ -290,5 +290,7 @@
 	<string>openemu.system.psx</string>
 	<key>OESystemName</key>
 	<string>Sony PlayStation</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

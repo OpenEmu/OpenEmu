@@ -138,5 +138,7 @@
 	<string>openemu.system.fds</string>
 	<key>OESystemName</key>
 	<string>Famicom Disk System</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

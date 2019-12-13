@@ -133,5 +133,7 @@
 	<string>openemu.system.gb</string>
 	<key>OESystemName</key>
 	<string>Game Boy</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeHandheld</string>
 </dict>
 </plist>

@@ -161,5 +161,7 @@
 	<string>openemu.system.scd</string>
 	<key>OESystemName</key>
 	<string>Sega CD</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

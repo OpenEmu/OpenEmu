@@ -108,5 +108,7 @@
 	<string>openemu.system.odyssey2</string>
 	<key>OESystemName</key>
 	<string>Odyssey2</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

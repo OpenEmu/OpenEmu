@@ -124,5 +124,7 @@
 	<string>openemu.system.sg1000</string>
 	<key>OESystemName</key>
 	<string>SG-1000</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

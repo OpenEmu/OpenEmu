@@ -123,5 +123,7 @@
 	<string>openemu.system.gg</string>
 	<key>OESystemName</key>
 	<string>Game Gear</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeHandheld</string>
 </dict>
 </plist>

@@ -164,5 +164,7 @@
 	<string>openemu.system.snes</string>
 	<key>OESystemName</key>
 	<string>Super Nintendo (SNES)</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

@@ -38,6 +38,7 @@
 
 static NSMutableDictionary *_pluginsBySystemIdentifiers = nil;
 static NSArray *_cachedSupportedTypeExtensions = nil;
+static NSArray *_cachedSupportedSystemTypes = nil;
 
 + (void)initialize
 {
@@ -65,6 +66,7 @@ static NSArray *_cachedSupportedTypeExtensions = nil;
 
     // Invalidate supported type extenesions cache
     _cachedSupportedTypeExtensions = nil;
+    _cachedSupportedSystemTypes = nil;
 }
 
 + (NSArray *)supportedTypeExtensions;
@@ -79,6 +81,20 @@ static NSArray *_cachedSupportedTypeExtensions = nil;
     }
 
     return _cachedSupportedTypeExtensions;
+}
+
++ (NSArray *)supportedSystemTypes;
+{
+    if(_cachedSupportedSystemTypes == nil)
+    {
+        NSMutableSet *extensions = [NSMutableSet set];
+        for(OESystemPlugin *plugin in [OEPlugin pluginsForType:self])
+            [extensions addObject:plugin.systemType];
+
+        _cachedSupportedSystemTypes = extensions.allObjects;
+    }
+
+    return _cachedSupportedSystemTypes;
 }
 
 + (OESystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;
@@ -113,6 +129,11 @@ static NSArray *_cachedSupportedTypeExtensions = nil;
 - (NSString *)systemName
 {
     return [[self controller] systemName];
+}
+
+- (NSString *)systemType
+{
+    return [[self controller] systemType];
 }
 
 - (NSImage *)systemIcon
