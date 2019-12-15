@@ -8,6 +8,8 @@
 		<string>PS3 Sixaxis</string>
 		<key>OEGenericControllerName</key>
 		<string>OEControllerSonyPS3Sixaxis</string>
+		<key>OEDisableCalibration</key>
+		<true/>
 		<key>OEControllerDevices</key>
 		<array>
 			<dict>
@@ -286,6 +288,8 @@
 		<string>Xbox 360</string>
 		<key>OEGenericControllerName</key>
 		<string>OEControllerMicrosoftXbox360</string>
+		<key>OEDisableCalibration</key>
+		<true/>
 		<key>OEControllerDevices</key>
 		<array>
 			<dict>
@@ -2718,6 +2722,8 @@
 		<string>PS4 Dualshock 4</string>
 		<key>OEGenericControllerName</key>
 		<string>OEControllerSonyPS4Dualshock4</string>
+		<key>OEDisableCalibration</key>
+		<true/>
 		<key>OEControllerDevices</key>
 		<array>
 			<dict>
@@ -3035,6 +3041,8 @@
 		<string>MFi Extended Gamepad Profile</string>
 		<key>OEGenericControllerName</key>
 		<string>OEControllerGCExtendedGamepadProfile</string>
+		<key>OEDisableCalibration</key>
+		<true/>
 		<key>OEControllerDevices</key>
 		<array>
 			<dict>
