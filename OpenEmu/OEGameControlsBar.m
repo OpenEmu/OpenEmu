@@ -626,6 +626,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 - (void)showSaveMenu:(id)sender
 {
     NSMenu *menu = [[NSMenu alloc] init];
+    menu.autoenablesItems = NO;
 
     NSMenuItem *newSaveItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game…", @"") action:@selector(saveState:) keyEquivalent:@""];
     [newSaveItem setEnabled:[[self gameViewController] supportsSaveStates]];
