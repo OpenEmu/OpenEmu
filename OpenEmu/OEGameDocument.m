@@ -1555,6 +1555,13 @@ typedef enum : NSUInteger
 
 - (void)OE_saveStateWithName:(NSString *)stateName completionHandler:(void(^)(void))handler
 {
+    if(![self supportsSaveStates])
+    {
+        if(handler)
+            handler();
+        return;
+    }
+
     if(_emulationStatus <= OEEmulationStatusStarting || [self rom] == nil)
     {
         if(handler)
