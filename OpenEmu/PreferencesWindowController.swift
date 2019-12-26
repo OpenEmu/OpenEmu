@@ -60,17 +60,9 @@ class PreferencesWindowController: NSWindowController {
     override func windowDidLoad() {
         
         super.windowDidLoad()
-        
-        backgroundView.wantsLayer = true
-        
-        window!.backgroundColor = NSColor(deviceWhite: 0.149, alpha: 1)
     
         preferencesTabViewController = PreferencesTabViewController()
-        
-        preferencesTabViewController.view.frame = backgroundView.bounds
-        preferencesTabViewController.view.autoresizingMask = [.width, .height]
-        
-        backgroundView.addSubview(preferencesTabViewController.view)
+        self.window?.contentView = preferencesTabViewController.view
         
         window!.center()
     }

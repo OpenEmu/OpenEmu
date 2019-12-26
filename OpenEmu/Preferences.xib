@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPreferencesWindowController">
             <connections>
-                <outlet property="backgroundView" destination="cur-ZQ-bTs" id="EAL-rC-5lb"/>
                 <outlet property="window" destination="36" id="40"/>
             </connections>
         </customObject>
@@ -18,21 +17,10 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenAuxiliary="YES"/>
             <rect key="contentRect" x="261" y="109" width="423" height="200"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="37">
                 <rect key="frame" x="0.0" y="0.0" width="423" height="200"/>
                 <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="cur-ZQ-bTs">
-                        <rect key="frame" x="0.0" y="0.0" width="423" height="200"/>
-                    </customView>
-                </subviews>
-                <constraints>
-                    <constraint firstAttribute="trailing" secondItem="cur-ZQ-bTs" secondAttribute="trailing" id="E3e-t8-6ZK"/>
-                    <constraint firstAttribute="bottom" secondItem="cur-ZQ-bTs" secondAttribute="bottom" id="gBO-Zx-g7V"/>
-                    <constraint firstItem="cur-ZQ-bTs" firstAttribute="top" secondItem="37" secondAttribute="top" id="gcH-bK-8NE"/>
-                    <constraint firstItem="cur-ZQ-bTs" firstAttribute="leading" secondItem="37" secondAttribute="leading" id="iqJ-48-vtI"/>
-                </constraints>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="480"/>
