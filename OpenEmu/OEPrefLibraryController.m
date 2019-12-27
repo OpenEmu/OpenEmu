@@ -107,7 +107,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
 
 - (NSSize)viewSize
 {
-	return NSMakeSize(458, 553);
+	return self.view.fittingSize;
 }
 
 #pragma mark -
@@ -495,9 +495,9 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
     NSInteger rows = ceil(systems.count / 2.0);
 
     // set some spaces and dimensions
-    CGFloat hSpace = 16, vSpace = 10;
+    CGFloat hSpace = 6, vSpace = 6;
     CGFloat iWidth = 163, iHeight = 18;
-    CGFloat topGap = 16, bottomGap = 16;
+    CGFloat topGap = 6, bottomGap = 6;
 
     if(self.librariesView == nil) return;
 

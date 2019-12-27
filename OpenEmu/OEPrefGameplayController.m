@@ -129,7 +129,7 @@
 
 - (NSSize)viewSize
 {
-	return NSMakeSize(423, 282);
+	return self.view.fittingSize;
 }
 
 #pragma mark -

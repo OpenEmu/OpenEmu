@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,125 +14,148 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <view id="3" userLabel="Gameplay">
-            <rect key="frame" x="0.0" y="0.0" width="423" height="282"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+        <view translatesAutoresizingMaskIntoConstraints="NO" id="3" userLabel="Gameplay">
+            <rect key="frame" x="0.0" y="0.0" width="433" height="210"/>
             <subviews>
-                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="we6-u0-tpL">
-                    <rect key="frame" x="0.0" y="186" width="423" height="5"/>
-                </box>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="5" userLabel="Check Box 1">
-                    <rect key="frame" x="42" y="119" width="215" height="18"/>
-                    <buttonCell key="cell" type="check" title="Always launch games fullscreen" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="26" userLabel="Check Box Cell">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <binding destination="28" name="value" keyPath="values.fullScreen" id="32"/>
-                    </connections>
-                </button>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="6" userLabel="Check Box 2">
-                    <rect key="frame" x="42" y="90" width="248" height="18"/>
-                    <buttonCell key="cell" type="check" title="Always use popout gameplay window" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="25" userLabel="Check Box Cell">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <binding destination="28" name="value" keyPath="values.forcePopout" id="65"/>
-                    </connections>
-                </button>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="56" userLabel="Check Box 3">
-                    <rect key="frame" x="42" y="61" width="293" height="18"/>
-                    <buttonCell key="cell" type="check" title="Always pause gameplay when in background" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="57" userLabel="Check Box Cell">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <binding destination="28" name="value" keyPath="values.backgroundPause" id="58"/>
-                    </connections>
-                </button>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="13">
-                    <rect key="frame" x="39" y="153" width="366" height="14"/>
+                <gridView horizontalHuggingPriority="249" verticalHuggingPriority="600" xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" translatesAutoresizingMaskIntoConstraints="NO" id="xCG-ky-Cuo">
+                    <rect key="frame" x="30" y="0.0" width="374" height="190"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="362" id="aQ7-gQ-82u"/>
+                        <constraint firstItem="N8p-Zl-FSZ" firstAttribute="leading" secondItem="xCG-ky-Cuo" secondAttribute="leading" id="om9-Z9-MOB"/>
                     </constraints>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Window Management" id="14">
-                        <font key="font" metaFont="smallSystemBold"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8">
-                    <rect key="frame" x="39" y="248" width="366" height="14"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="362" id="osw-t6-slj"/>
-                    </constraints>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Display Mode" id="23">
-                        <font key="font" metaFont="smallSystemBold"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10">
-                    <rect key="frame" x="39" y="214" width="51" height="16"/>
-                    <constraints>
-                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="138" id="RzW-xY-L99"/>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="38" id="e4J-aE-P1L"/>
-                    </constraints>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Shader:" id="21">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <popUpButton focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11" userLabel="Shader Selection">
-                    <rect key="frame" x="92" y="206" width="217" height="27"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="212" id="6jh-MX-q9D"/>
-                        <constraint firstAttribute="height" constant="23" id="cz9-gs-8lo"/>
-                    </constraints>
-                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="16">
-                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="menu"/>
-                        <menu key="menu" id="17"/>
-                    </popUpButtonCell>
-                    <connections>
-                        <action selector="changeGlobalDefaultShader:" target="-2" id="2yL-s2-xjM"/>
-                    </connections>
-                </popUpButton>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="rUN-Tz-mZH" userLabel="Check Box 3">
-                    <rect key="frame" x="42" y="32" width="325" height="18"/>
-                    <buttonCell key="cell" type="check" title="Allow playing with controllers when in background" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="zUK-Vv-IqE" userLabel="Check Box Cell">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <binding destination="28" name="value" keyPath="values.backgroundControllerPlay" id="2Zc-Kh-gZj"/>
-                    </connections>
-                </button>
+                    <rows>
+                        <gridRow bottomPadding="3" id="kTP-uJ-bK8"/>
+                        <gridRow id="E8f-q6-hH2"/>
+                        <gridRow topPadding="6" bottomPadding="6" id="VqM-FE-fRe"/>
+                        <gridRow bottomPadding="3" id="cUI-Hi-TBP"/>
+                        <gridRow id="NYF-Xp-end"/>
+                        <gridRow id="gwW-IR-buB"/>
+                        <gridRow id="2nx-mB-NI1"/>
+                        <gridRow id="yKY-8Y-qiL"/>
+                        <gridRow topPadding="14" id="FOW-iY-D2z"/>
+                    </rows>
+                    <columns>
+                        <gridColumn xPlacement="trailing" id="4tC-Ji-VhF"/>
+                        <gridColumn id="TUh-4W-YMM"/>
+                    </columns>
+                    <gridCells>
+                        <gridCell row="kTP-uJ-bK8" column="4tC-Ji-VhF" id="Oip-MM-s22"/>
+                        <gridCell row="kTP-uJ-bK8" column="TUh-4W-YMM" id="8jM-0z-LvO">
+                            <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8">
+                                <rect key="frame" x="51" y="174" width="91" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Display Mode" id="23">
+                                    <font key="font" metaFont="systemBold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="E8f-q6-hH2" column="4tC-Ji-VhF" id="ryl-5a-XfQ">
+                            <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10">
+                                <rect key="frame" x="-2" y="148" width="51" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Shader:" id="21">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="E8f-q6-hH2" column="TUh-4W-YMM" id="PAz-I3-Led">
+                            <popUpButton key="contentView" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11" userLabel="Shader Selection">
+                                <rect key="frame" x="51" y="141" width="217" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="212" id="6jh-MX-q9D"/>
+                                </constraints>
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="16">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="17"/>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="changeGlobalDefaultShader:" target="-2" id="2yL-s2-xjM"/>
+                                </connections>
+                            </popUpButton>
+                        </gridCell>
+                        <gridCell row="VqM-FE-fRe" column="4tC-Ji-VhF" headOfMergedCell="DrK-gt-qKR" id="DrK-gt-qKR">
+                            <box key="contentView" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="N8p-Zl-FSZ">
+                                <rect key="frame" x="0.0" y="129" width="374" height="5"/>
+                            </box>
+                        </gridCell>
+                        <gridCell row="VqM-FE-fRe" column="TUh-4W-YMM" headOfMergedCell="DrK-gt-qKR" id="2zx-TO-int"/>
+                        <gridCell row="cUI-Hi-TBP" column="4tC-Ji-VhF" id="u6v-SF-6aT"/>
+                        <gridCell row="cUI-Hi-TBP" column="TUh-4W-YMM" id="eFt-R4-uTb">
+                            <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="13">
+                                <rect key="frame" x="51" y="103" width="144" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Window Management" id="14">
+                                    <font key="font" metaFont="systemBold"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="NYF-Xp-end" column="4tC-Ji-VhF" id="rfF-E8-SRq"/>
+                        <gridCell row="NYF-Xp-end" column="TUh-4W-YMM" id="9GN-RA-hIB">
+                            <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="5" userLabel="Check Box 1">
+                                <rect key="frame" x="51" y="78" width="215" height="18"/>
+                                <buttonCell key="cell" type="check" title="Always launch games fullscreen" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="26" userLabel="Check Box Cell">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="28" name="value" keyPath="values.fullScreen" id="32"/>
+                                </connections>
+                            </button>
+                        </gridCell>
+                        <gridCell row="gwW-IR-buB" column="4tC-Ji-VhF" id="mEr-Bj-g6D"/>
+                        <gridCell row="gwW-IR-buB" column="TUh-4W-YMM" id="Iqu-nh-gRu">
+                            <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="6" userLabel="Check Box 2">
+                                <rect key="frame" x="51" y="58" width="248" height="18"/>
+                                <buttonCell key="cell" type="check" title="Always use popout gameplay window" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="25" userLabel="Check Box Cell">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="28" name="value" keyPath="values.forcePopout" id="65"/>
+                                </connections>
+                            </button>
+                        </gridCell>
+                        <gridCell row="2nx-mB-NI1" column="4tC-Ji-VhF" id="zAD-ZG-w11"/>
+                        <gridCell row="2nx-mB-NI1" column="TUh-4W-YMM" id="b8u-ae-67z">
+                            <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="56" userLabel="Check Box 3">
+                                <rect key="frame" x="51" y="38" width="293" height="18"/>
+                                <buttonCell key="cell" type="check" title="Always pause gameplay when in background" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="57" userLabel="Check Box Cell">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="28" name="value" keyPath="values.backgroundPause" id="58"/>
+                                </connections>
+                            </button>
+                        </gridCell>
+                        <gridCell row="yKY-8Y-qiL" column="4tC-Ji-VhF" id="btA-hR-Dul"/>
+                        <gridCell row="yKY-8Y-qiL" column="TUh-4W-YMM" id="xoH-GT-cx1">
+                            <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="rUN-Tz-mZH" userLabel="Check Box 3">
+                                <rect key="frame" x="51" y="18" width="325" height="18"/>
+                                <buttonCell key="cell" type="check" title="Allow playing with controllers when in background" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="zUK-Vv-IqE" userLabel="Check Box Cell">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="28" name="value" keyPath="values.backgroundControllerPlay" id="2Zc-Kh-gZj"/>
+                                </connections>
+                            </button>
+                        </gridCell>
+                        <gridCell row="FOW-iY-D2z" column="4tC-Ji-VhF" id="jf9-H4-wFq"/>
+                        <gridCell row="FOW-iY-D2z" column="TUh-4W-YMM" id="oDw-yj-IgK"/>
+                    </gridCells>
+                </gridView>
             </subviews>
             <constraints>
-                <constraint firstItem="5" firstAttribute="top" secondItem="13" secondAttribute="bottom" constant="18" id="1Sm-n6-qK3"/>
-                <constraint firstItem="13" firstAttribute="top" secondItem="we6-u0-tpL" secondAttribute="bottom" constant="21" id="3di-KU-LXi"/>
-                <constraint firstItem="11" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="16" id="4El-4g-6vX"/>
-                <constraint firstAttribute="trailing" secondItem="we6-u0-tpL" secondAttribute="trailing" id="8wy-jN-32d"/>
-                <constraint firstItem="13" firstAttribute="leading" secondItem="8" secondAttribute="leading" id="94z-fj-rki"/>
-                <constraint firstItem="rUN-Tz-mZH" firstAttribute="top" secondItem="56" secondAttribute="bottom" constant="15" id="CA3-T1-CUc"/>
-                <constraint firstItem="we6-u0-tpL" firstAttribute="top" secondItem="11" secondAttribute="bottom" constant="20" id="G1e-Lb-zhM"/>
-                <constraint firstItem="56" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="J4j-df-qzA"/>
-                <constraint firstItem="we6-u0-tpL" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="K3o-NA-FAx"/>
-                <constraint firstItem="6" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="15" id="N4M-iK-I7Q"/>
-                <constraint firstItem="10" firstAttribute="leading" secondItem="8" secondAttribute="leading" id="PBs-z6-n4i"/>
-                <constraint firstItem="11" firstAttribute="leading" secondItem="10" secondAttribute="trailing" constant="6" id="WIH-K9-L8E"/>
-                <constraint firstItem="5" firstAttribute="leading" secondItem="13" secondAttribute="leading" constant="3" id="YSV-6s-eIC"/>
-                <constraint firstItem="8" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" id="ZSG-dU-6tI"/>
-                <constraint firstItem="56" firstAttribute="top" secondItem="6" secondAttribute="bottom" constant="15" id="ash-0e-CGw"/>
-                <constraint firstAttribute="trailing" secondItem="8" secondAttribute="trailing" constant="20" symbolic="YES" id="hRM-uD-Zll"/>
-                <constraint firstItem="10" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="18" id="pnr-Sm-nkC"/>
-                <constraint firstItem="rUN-Tz-mZH" firstAttribute="leading" secondItem="56" secondAttribute="leading" id="t1k-1o-X9R"/>
-                <constraint firstItem="6" firstAttribute="leading" secondItem="5" secondAttribute="leading" id="vYB-95-LrV"/>
+                <constraint firstItem="xCG-ky-Cuo" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" id="EME-2y-oiv"/>
+                <constraint firstAttribute="bottom" secondItem="xCG-ky-Cuo" secondAttribute="bottom" priority="200" id="I7f-Rn-JKH"/>
+                <constraint firstItem="xCG-ky-Cuo" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="30" id="U0A-gZ-ChQ"/>
+                <constraint firstAttribute="trailing" secondItem="xCG-ky-Cuo" secondAttribute="trailing" priority="200" constant="30" id="lIZ-hr-2s2"/>
             </constraints>
-            <point key="canvasLocation" x="260.5" y="463"/>
+            <point key="canvasLocation" x="336.5" y="612"/>
         </view>
         <userDefaultsController id="28" userLabel="Shared User Defaults Controller"/>
     </objects>
