@@ -36,6 +36,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				87F077B023B68C64001FFC9B /* PBXTargetDependency */,
 				873A363E1FE233BA0004D81D /* PBXTargetDependency */,
 				87BD9E231C2A6652006722DF /* PBXTargetDependency */,
 				87BD9E211C2A663B006722DF /* PBXTargetDependency */,
@@ -104,7 +105,6 @@
 				3DB744CD1BD8BB0300C23E74 /* PBXTargetDependency */,
 				87DF05401BCE3CDC0060E2C2 /* PBXTargetDependency */,
 				081A462E1B9574B800565444 /* PBXTargetDependency */,
-				8378DE941A785849003DA046 /* PBXTargetDependency */,
 				837964F71A614B3600A8DE5C /* PBXTargetDependency */,
 				94A5321618DF8A2B00AE11B3 /* PBXTargetDependency */,
 				94CE3FB618DE92A20079CC16 /* PBXTargetDependency */,
@@ -361,7 +361,6 @@
 		837820B61907E8520043593F /* OEBlankSlateForegroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820B51907E8520043593F /* OEBlankSlateForegroundLayer.m */; };
 		837820BD19081A090043593F /* OELibraryMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820BC19081A090043593F /* OELibraryMigrator.m */; };
 		837820C119081B1C0043593F /* OEMigrationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820BF19081B1C0043593F /* OEMigrationWindowController.m */; };
-		8378DE951A785853003DA046 /* GameCube.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94CEB26D17A84809005A2107 /* GameCube.oesystemplugin */; };
 		837964F11A614ACD00A8DE5C /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 837964EA1A614ACD00A8DE5C /* Controller-Mappings.plist */; };
 		837964F21A614ACD00A8DE5C /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 837964EB1A614ACD00A8DE5C /* Controller-Preferences.plist */; };
 		837964F31A614ACD00A8DE5C /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 837964EC1A614ACD00A8DE5C /* Keyboard-Mappings.plist */; };
@@ -516,6 +515,7 @@
 		87DF05291BCE302F0060E2C2 /* OEDCSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DF05171BCE302F0060E2C2 /* OEDCSystemResponder.m */; };
 		87DF05411BCE3CEA0060E2C2 /* Dreamcast.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87DF04FE1BCE2D100060E2C2 /* Dreamcast.oesystemplugin */; };
 		87DF05441BCE3DA50060E2C2 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87DF05431BCE3DA50060E2C2 /* OpenEmuSystem.framework */; };
+		87F077B423B68D02001FFC9B /* GameCube.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94CEB26D17A84809005A2107 /* GameCube.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		87F7BB101C1EB0F9005B83C4 /* atari2600_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87F7BB0F1C1EB0F9005B83C4 /* atari2600_library@2x.png */; };
 		87F7BB121C1EB177005B83C4 /* atari5200_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87F7BB111C1EB177005B83C4 /* atari5200_library@2x.png */; };
 		87F7BB141C1EB19B005B83C4 /* atari7800_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87F7BB131C1EB19B005B83C4 /* atari7800_library@2x.png */; };
@@ -1022,13 +1022,6 @@
 			remoteGlobalIDString = 3887A7F51024D1F9000FC4CF;
 			remoteInfo = OESaveStateQLPlugin;
 		};
-		8378DE931A785849003DA046 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 94CEB26C17A84809005A2107;
-			remoteInfo = GameCube;
-		};
 		837964F61A614B3600A8DE5C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1196,6 +1189,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 87DF04FD1BCE2D100060E2C2;
 			remoteInfo = Dreamcast;
+		};
+		87F077AF23B68C64001FFC9B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94CEB26C17A84809005A2107;
+			remoteInfo = GameCube;
 		};
 		87FBC0871BFC77E300AECF5A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1370,6 +1370,7 @@
 			dstPath = Systems;
 			dstSubfolderSpec = 13;
 			files = (
+				87F077B423B68D02001FFC9B /* GameCube.oesystemplugin in Copy System Plugins to App Plugins */,
 				873A36421FE233E00004D81D /* Saturn.oesystemplugin in Copy System Plugins to App Plugins */,
 				87BD9E331C2A679B006722DF /* WonderSwan.oesystemplugin in Copy System Plugins to App Plugins */,
 				87BD9E321C2A6788006722DF /* Vectrex.oesystemplugin in Copy System Plugins to App Plugins */,
@@ -1415,7 +1416,6 @@
 				3DB744CE1BD8BB0B00C23E74 /* PlayStation 2.oesystemplugin in CopyFiles */,
 				87DF05411BCE3CEA0060E2C2 /* Dreamcast.oesystemplugin in CopyFiles */,
 				081A462F1B9574CE00565444 /* Pokemon mini.oesystemplugin in CopyFiles */,
-				8378DE951A785853003DA046 /* GameCube.oesystemplugin in CopyFiles */,
 				837964FA1A614C6A00A8DE5C /* Supervision.oesystemplugin in CopyFiles */,
 				94A5321918DF8A3700AE11B3 /* Jaguar.oesystemplugin in CopyFiles */,
 				94CE3FB218DE92970079CC16 /* 3DO.oesystemplugin in CopyFiles */,
@@ -8124,11 +8124,6 @@
 			target = 3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */;
 			targetProxy = 8309A780166CE6360013AD4A /* PBXContainerItemProxy */;
 		};
-		8378DE941A785849003DA046 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 94CEB26C17A84809005A2107 /* GameCube */;
-			targetProxy = 8378DE931A785849003DA046 /* PBXContainerItemProxy */;
-		};
 		837964F71A614B3600A8DE5C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 837964E01A6149C000A8DE5C /* Supervision */;
@@ -8248,6 +8243,11 @@
 			isa = PBXTargetDependency;
 			target = 87DF04FD1BCE2D100060E2C2 /* Dreamcast */;
 			targetProxy = 87DF053F1BCE3CDC0060E2C2 /* PBXContainerItemProxy */;
+		};
+		87F077B023B68C64001FFC9B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94CEB26C17A84809005A2107 /* GameCube */;
+			targetProxy = 87F077AF23B68C64001FFC9B /* PBXContainerItemProxy */;
 		};
 		87FBC0881BFC77E300AECF5A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
