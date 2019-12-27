@@ -55,7 +55,26 @@
 
 - (NSString *)serialLookupForFile:(__kindof OEFile *)file
 {
-    return [file readASCIIStringInRange:NSMakeRange(0x0, 6)];
+    // Read the game ID
+    NSMutableString *gameID = [NSMutableString stringWithString:[file readASCIIStringInRange:NSMakeRange(0x0, 6)]];
+
+    // Read the disc number and version number bytes from the header.
+    int headerDiscByte    = *(int*)([file readDataInRange:NSMakeRange(0x6, 1)].bytes);
+    int headerVersionByte = *(int*)([file readDataInRange:NSMakeRange(0x7, 1)].bytes);
+
+    // Append disc and version to the game ID if found.
+    if (headerDiscByte > 0) {
+        headerDiscByte++;
+        [gameID appendString:[NSString stringWithFormat:@"-DISC%d", headerDiscByte]];
+    }
+
+    if (headerVersionByte > 0) {
+        [gameID appendString:[NSString stringWithFormat:@"-REV%d", headerVersionByte]];
+    }
+
+    NSLog(@"Game ID: %@", gameID);
+
+    return gameID;
 }
 
 @end
