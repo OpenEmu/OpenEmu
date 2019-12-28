@@ -24,10 +24,9 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 @import Foundation;
 #import "OEPreferencePane.h"
 
 @interface OEPrefDebugController : NSViewController <OEPreferencePane>
-@property (assign) IBOutlet NSTableView *tableView;
+@property (weak, nonatomic) IBOutlet NSGridView *contentView;
 @end

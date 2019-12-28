@@ -685,7 +685,7 @@
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM圧縮バイナリをインポート出来ませんでした。ディスクインポートガイドをご確認ください。";  // TODO
 
-"Threshold for analog controls bound to buttons" = "Threshold for analog controls bound to buttons";    // TODO
+"Threshold for analog controls bound to buttons" = "Threshold for analog controls\nbound to buttons";    // TODO
 
 "Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
 

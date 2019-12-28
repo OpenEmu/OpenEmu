@@ -619,7 +619,7 @@
 
 "Disable aspect ratio correction in screenshots" = "Disattiva la correzione del rapporto d'aspetto nelle istantanee";
 
-"Game View Background color" = "Colore di sfondo della schermata di gioco";
+"Game View Background color" = "Colore di sfondo schermata di gioco";
 
 "Controls Setup" = "Opzioni pannello controlli";
 
@@ -683,7 +683,7 @@
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "I file binari compressi in formato ECM non possono essere importati. Leggi la guida all'importazione dei dischi di gioco.";
 
-"Threshold for analog controls bound to buttons" = "Sensibilità pulsanti associati a controlli analogici";
+"Threshold for analog controls bound to buttons" = "Sensibilità pulsanti\nassociati a controlli analogici";
 
 "Range: %@ to %@" = "Intervallo valido: %@ ÷ %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
 

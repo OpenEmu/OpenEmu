@@ -683,7 +683,7 @@
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "Les fichiers binaires ECM compressés ne peuvent pas être importés. Veuillez lire le guide d’importation de disque.";
 
-"Threshold for analog controls bound to buttons" = "Seuil pour les contrôls analogiques associés à des boutons";
+"Threshold for analog controls bound to buttons" = "Seuil pour les contrôls analogiques\nassociés à des boutons";
 
 "Range: %@ to %@" = "Intervalle: %@ à %@";
 

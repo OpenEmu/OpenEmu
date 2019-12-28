@@ -120,26 +120,14 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 @{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_, @"Debug Label"), NumberFormatterKey:_FORMATTER_, TypeKey:NumericTextFieldType }
 
 @implementation OEPrefDebugController
+
+@synthesize viewSize;
+
 - (void)awakeFromNib
 {
     if([self keyDescriptions] != nil) return;
     [self OE_setupKeyDescription];
-
-	NSTableView *tableView = [self tableView];
-	[tableView setDelegate:self];
-	[tableView setDataSource:self];
-
-    [tableView setHeaderView:nil];
-	[tableView setRowHeight:30.0];
-	[tableView setGridStyleMask:0];
-	[tableView setAllowsColumnReordering:NO];
-	[tableView setAllowsColumnResizing:NO];
-	[tableView setAllowsColumnSelection:NO];
-	[tableView setAllowsEmptySelection:YES];
-	[tableView setAllowsMultipleSelection:NO];
-	[tableView setAllowsTypeSelect:NO];
-    
-    [tableView reloadData];
+	[self setupGridView];
 }
 
 - (void)OE_setupKeyDescription
@@ -755,10 +743,8 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 #pragma mark -
 - (void)changeUDColor:(id)sender
 {
-    NSRect    frame = [sender convertRect:[sender bounds] toView:[self tableView]];
-
-    NSInteger index = [[self tableView] rowAtPoint:(NSPoint){NSMidX(frame), NSMidY(frame)}];
-    if(index != -1)
+    NSInteger index = [sender tag];
+    if(index >= 0)
     {
         NSDictionary *colorObject = [[self keyDescriptions] objectAtIndex:index];
         if([colorObject objectForKey:TypeKey] != ColorType)
@@ -773,32 +759,60 @@ NSString * const NumberFormatterKey = @"numberFormatter";
         [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
     }
 }
-#pragma mark - NSTableView Delegate
-- (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+
+
+#pragma mark - Grid View Setup
+
+
+- (void)setupGridView
 {
-	return YES;
+    NSGridView *gridView = [NSGridView gridViewWithNumberOfColumns:2 rows:0];
+    [[gridView columnAtIndex:0] setXPlacement:NSGridCellPlacementTrailing];
+    [gridView setRowAlignment:NSGridRowAlignmentFirstBaseline];
+    NSInteger i = 0;
+    for (NSDictionary *keyDesc in self.keyDescriptions) {
+        [self createRowForGridView:gridView index:i fromDescription:keyDesc];
+        i++;
+    }
+    
+    [gridView setContentHuggingPriority:NSLayoutPriorityDefaultLow-1 forOrientation:NSLayoutConstraintOrientationHorizontal];
+    [gridView setContentHuggingPriority:NSLayoutPriorityDefaultHigh-1 forOrientation:NSLayoutConstraintOrientationVertical];
+    gridView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.contentView addSubview:gridView];
+    
+    NSSize fittingSize = gridView.fittingSize;
+    fittingSize.width += 60;
+    fittingSize.height += 40;
+    [self.contentView setFrameSize:fittingSize];
+    [self.contentView.enclosingScrollView.contentView scrollToPoint:NSMakePoint(0, fittingSize.height)];
+    
+    viewSize = NSMakeSize(fittingSize.width, 500);
+    
+    [self.contentView addConstraints:@[
+        [NSLayoutConstraint constraintWithItem:gridView attribute:NSLayoutAttributeLeft
+            relatedBy:NSLayoutRelationEqual
+            toItem:self.contentView attribute:NSLayoutAttributeLeft
+            multiplier:1.0 constant:30],
+        [NSLayoutConstraint constraintWithItem:gridView attribute:NSLayoutAttributeTop
+            relatedBy:NSLayoutRelationEqual
+            toItem:self.contentView attribute:NSLayoutAttributeTop
+            multiplier:1.0 constant:20]]];
 }
 
-- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
-{
-	return NO;
-}
 
-- (NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+- (void)createRowForGridView:(NSGridView *)gridView index:(NSInteger)i fromDescription:(NSDictionary *)keyDescription
 {
-    NSDictionary *keyDescription = [[self keyDescriptions] objectAtIndex:row];
 	NSString *type   = [keyDescription objectForKey:@"type"];
-    NSView *cellView = [tableView makeViewWithIdentifier:type owner:self];
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSDictionary<NSString *, id> *defaultDefaults = [userDefaults volatileDomainForName:NSRegistrationDomain];
-    if(type == CheckboxType)
-    {
+    
+    if(type == CheckboxType) {
         NSString *label = [keyDescription objectForKey:LabelKey];
         NSString *udkey = [keyDescription objectForKey:KeyKey];
         BOOL negated    = [[keyDescription objectForKey:NegatedKey] boolValue];
 
-        NSButton *checkbox = [[cellView subviews] lastObject];
+        NSButton *checkbox = [NSButton checkboxWithTitle:label target:nil action:nil];
         [checkbox setTitle:label];
 
         NSDictionary *options = @{ NSContinuouslyUpdatesValueBindingOption:@YES };
@@ -820,38 +834,33 @@ NSString * const NumberFormatterKey = @"numberFormatter";
             NSString *defaultTooltip = [NSString stringWithFormat:fmt, val];
             [checkbox setToolTip:defaultTooltip];
         }
-    }
-    else if(type == GroupType)
-    {
+        
+        [gridView addRowWithViews:@[[NSGridCell emptyContentView], checkbox]];
+        
+    } else if(type == GroupType) {
         NSString *label = [keyDescription objectForKey:LabelKey];
-        NSTextField *field = [[cellView subviews] lastObject];
+        NSTextField *field = [NSTextField labelWithString:label];
         [field setStringValue:label];
-    }
-    else if(type == ButtonType)
-    {
+        [field setFont:[NSFont systemFontOfSize:0 weight:NSFontWeightBold]];
+        
+        NSGridRow *row = [gridView addRowWithViews:@[[NSGridCell emptyContentView], field]];
+        row.bottomPadding = 4;
+        
+    } else if(type == ButtonType) {
         NSString *label = [keyDescription objectForKey:LabelKey];
         NSString *action = [keyDescription objectForKey:ActionKey];
 
-        NSButton *button = [[cellView subviews] lastObject];
-        [button setTitle:label];
-        [button setAction:NSSelectorFromString(action)];
-        [button setTarget:self];
-
-        [button sizeToFit];
-        NSRect frame = [button frame];
-        frame.size.height = 23.0;
-        frame.size.width += 30;
-        [button setFrame:frame];
-    }
-    else if(type == ColorType)
-    {
+        NSButton *button = [NSButton buttonWithTitle:label target:self action:NSSelectorFromString(action)];
+        [gridView addRowWithViews:@[[NSGridCell emptyContentView], button]];
+        
+    } else if(type == ColorType) {
         NSString *label  = [keyDescription objectForKey:LabelKey];
         NSString *key    = [keyDescription objectForKey:KeyKey];
 
-        NSTextField *labelField = [[cellView subviews] objectAtIndex:0];
-        [labelField setStringValue:label];
+        NSTextField *labelField = [NSTextField labelWithString:label];
+        [labelField setAlignment:NSTextAlignmentRight];
 
-        NSColorWell *colorWell = [[cellView subviews] lastObject];
+        NSColorWell *colorWell = [[NSColorWell alloc] init];
         NSColor     *color     = [NSColor blackColor];
         if([userDefaults stringForKey:key])
         {
@@ -860,24 +869,30 @@ NSString * const NumberFormatterKey = @"numberFormatter";
         [colorWell setColor:color];
         [colorWell setAction:@selector(changeUDColor:)];
         [colorWell setTarget:self];
-    }
-    else if(type == LabelType)
-    {
+        colorWell.tag = i;
+        colorWell.autoresizingMask = NSViewWidthSizable + NSViewHeightSizable;
+        
+        NSGridRow *row = [gridView addRowWithViews:@[labelField, colorWell]];
+        row.rowAlignment = NSGridRowAlignmentNone;
+        row.yPlacement = NSGridCellPlacementCenter;
+        [gridView addConstraints:@[
+            [NSLayoutConstraint constraintWithItem:colorWell attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:60],
+            [NSLayoutConstraint constraintWithItem:colorWell attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:24],
+        ]];
+        
+    } else if(type == LabelType) {
         NSString *label  = [keyDescription objectForKey:LabelKey];
-
-        NSTextField *labelField = [[cellView subviews] objectAtIndex:0];
-        [labelField setStringValue:label];
-    }
-    else if(type == PopoverType)
-    {
+        NSTextField *labelField = [NSTextField labelWithString:label];
+        [gridView addRowWithViews:@[[NSGridCell emptyContentView], labelField]];
+        
+    } else if(type == PopoverType) {
         NSString *label  = [keyDescription objectForKey:LabelKey];
         NSArray *options = [keyDescription objectForKey:OptionsKey];
         NSString *action = [keyDescription objectForKey:ActionKey];
-        NSTextField *labelField = [[cellView subviews] objectAtIndex:0];
-        [labelField setStringValue:label];
+        NSTextField *labelField = [NSTextField labelWithString:label];
+        [labelField setAlignment:NSTextAlignmentRight];
 
-        NSPopUpButton *popup = [[cellView subviews] lastObject];
-        [popup removeAllItems];
+        NSPopUpButton *popup = [[NSPopUpButton alloc] init];
         [popup setAction:NSSelectorFromString(action)];
         [popup setTarget:self];
 
@@ -887,17 +902,18 @@ NSString * const NumberFormatterKey = @"numberFormatter";
         }];
 
         [self OE_setupSelectedItemForPopupButton:popup withKeyDescription:keyDescription];
-    }
-    else if (type == NumericTextFieldType)
-    {
+        [popup sizeToFit];
+        [gridView addRowWithViews:@[labelField, popup]];
+        
+    } else if (type == NumericTextFieldType) {
         NSString *label = [keyDescription objectForKey:LabelKey];
         NSNumberFormatter *nf = [keyDescription objectForKey:NumberFormatterKey];
         NSString *udkey = [keyDescription objectForKey:KeyKey];
         
-        NSTextField *labelField = [[cellView subviews] objectAtIndex:0];
-        NSTextField *inputField = [[cellView subviews] objectAtIndex:1];
+        NSTextField *labelField = [NSTextField labelWithString:label];
+        [labelField setAlignment:NSTextAlignmentRight];
         
-        [labelField setStringValue:label];
+        NSTextField *inputField = [NSTextField textFieldWithString:@""];
         [inputField setFormatter:nf];
         NSString *keypath = [NSString stringWithFormat:@"values.%@", udkey];
         [inputField bind:NSValueBinding toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:keypath options:nil];
@@ -914,10 +930,21 @@ NSString * const NumberFormatterKey = @"numberFormatter";
             [tooltip appendString:@"\n"];
             [tooltip appendFormat:fmt, defaultstr];
         }
-        
         [inputField setToolTip:tooltip];
+        
+        [gridView addRowWithViews:@[labelField, inputField]];
+        [gridView addConstraints:@[
+            [NSLayoutConstraint constraintWithItem:inputField attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:70]]];
+        
+    } else if (type == SeparatorType) {
+        NSBox *sep = [[NSBox alloc] init];
+        sep.boxType = NSBoxSeparator;
+        
+        NSGridRow *row = [gridView addRowWithViews:@[sep]];
+        [row mergeCellsInRange:NSMakeRange(0, 2)];
+        row.topPadding = 6;
+        row.bottomPadding = 6;
     }
-    return cellView;
 }
 
 - (void)OE_setupSelectedItemForPopupButton:(NSPopUpButton*)button withKeyDescription:(NSDictionary*)keyDescription
@@ -959,24 +986,6 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     [button selectItemAtIndex:index];
 }
 
-- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
-{
-    NSDictionary *keyDescription = [[self keyDescriptions] objectAtIndex:row];
-	NSString *type   = [keyDescription objectForKey:@"type"];
-    if(type == SeparatorType) return 10.0;
-    if(type == CheckboxType)  return 20.0;
-    return 29.0;
-}
-#pragma mark - NSTableView DataSource
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
-{
-	return [[self keyDescriptions] count];
-}
-
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{
-	return [[self keyDescriptions] objectAtIndex:row];
-}
 
 #pragma mark - OEPreferencePane Protocol
 - (NSImage *)icon
@@ -992,11 +1001,6 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 - (NSString *)localizedTitle
 {
     return NSLocalizedString([self title], @"Preferences: Debug Toolbar Item");
-}
-
-- (NSSize)viewSize
-{
-    return NSMakeSize(423, 400);
 }
 
 - (NSString *)nibName

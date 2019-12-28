@@ -683,7 +683,7 @@
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "No es poden importar binaris comprimits amb ECM. Llegiu la guia d'importació dels discs.";
 
-"Threshold for analog controls bound to buttons" = "Llindar de la vinculació dels controls analògics amb els botons";
+"Threshold for analog controls bound to buttons" = "Llindar de la vinculació dels controls\nanalògics amb els botons";
 
 "Range: %@ to %@" = "Interval: %@ a %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
 

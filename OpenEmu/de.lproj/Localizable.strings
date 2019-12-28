@@ -681,7 +681,7 @@
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM-komprimierte Binärdateien können nicht importiert werden. Bitte lies die Hilfe zum Thema „Importieren von CDs“.";
 
-"Threshold for analog controls bound to buttons" = "Grenzwert für auf Knöpfe gelegte analoge Eingaben";
+"Threshold for analog controls bound to buttons" = "Grenzwert für auf Knöpfe\ngelegte analoge Eingaben";
 
 "Range: %@ to %@" = "Bereich: %@ bis %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
 
