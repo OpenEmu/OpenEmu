@@ -9,45 +9,45 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEGCButtonUp</key>
-		<string>{0, 0}</string>
+		<string>{182, 235}</string>
 		<key>OEGCButtonDown</key>
-		<string>{0, 0}</string>
+		<string>{182, 190}</string>
 		<key>OEGCButtonLeft</key>
-		<string>{0, 0}</string>
+		<string>{160, 212}</string>
 		<key>OEGCButtonRight</key>
-		<string>{0, 0}</string>
+		<string>{205, 212}</string>
 		<key>OEGCAnalogUp</key>
-		<string>{0, 0}</string>
+		<string>{113, 340}</string>
 		<key>OEGCAnalogDown</key>
-		<string>{0, 0}</string>
+		<string>{113, 300}</string>
 		<key>OEGCAnalogLeft</key>
-		<string>{0, 0}</string>
+		<string>{90, 317}</string>
 		<key>OEGCAnalogRight</key>
-		<string>{0, 0}</string>
+		<string>{130, 317}</string>
 		<key>OEGCAnalogCUp</key>
-		<string>{0, 0}</string>
+		<string>{318, 235}</string>
 		<key>OEGCAnalogCDown</key>
-		<string>{0, 0}</string>
+		<string>{318, 190}</string>
 		<key>OEGCAnalogCLeft</key>
-		<string>{0, 0}</string>
+		<string>{340, 212}</string>
 		<key>OEGCAnalogCRight</key>
-		<string>{0, 0}</string>
+		<string>{300, 212}</string>
 		<key>OEGCButtonA</key>
-		<string>{0, 0}</string>
+		<string>{387, 314}</string>
 		<key>OEGCButtonB</key>
-		<string>{0, 0}</string>
+		<string>{338, 287}</string>
 		<key>OEGCButtonX</key>
-		<string>{0, 0}</string>
+		<string>{436, 324}</string>
 		<key>OEGCButtonY</key>
-		<string>{0, 0}</string>
+		<string>{380, 362}</string>
 		<key>OEGCButtonL</key>
-		<string>{0, 0}</string>
+		<string>{95, 400}</string>
 		<key>OEGCButtonR</key>
-		<string>{0, 0}</string>
+		<string>{400, 400}</string>
 		<key>OEGCButtonZ</key>
-		<string>{0, 0}</string>
+		<string>{430, 390}</string>
 		<key>OEGCButtonStart</key>
-		<string>{0, 0}</string>
+		<string>{250, 306}</string>
 	</dict>
 </dict>
 </plist>
