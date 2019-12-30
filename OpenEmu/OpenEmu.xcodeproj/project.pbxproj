@@ -473,6 +473,7 @@
 		8763A38F1D5694E90089C30B /* OEArcadeSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8763A38E1D5694E90089C30B /* OEArcadeSystemController.m */; };
 		876E455C23B98D5500867DF9 /* controller_gc_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 876E455B23B98D5500867DF9 /* controller_gc_mask@2x.png */; };
 		876E455E23B98D6B00867DF9 /* controller_gc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 876E455D23B98D6A00867DF9 /* controller_gc@2x.png */; };
+		876E456223B9B02700867DF9 /* gamecube_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 876E456123B9B02600867DF9 /* gamecube_library@2x.png */; };
 		877EDD151E24BC63004D68E7 /* controller_pce_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 877EDD101E24BC63004D68E7 /* controller_pce_mask.png */; };
 		877EDD161E24BC63004D68E7 /* controller_pce_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 877EDD111E24BC63004D68E7 /* controller_pce_mask@2x.png */; };
 		877EDD171E24BC63004D68E7 /* controller_pce.png in Resources */ = {isa = PBXBuildFile; fileRef = 877EDD121E24BC63004D68E7 /* controller_pce.png */; };
@@ -2046,6 +2047,7 @@
 		8763A38E1D5694E90089C30B /* OEArcadeSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEArcadeSystemController.m; sourceTree = "<group>"; };
 		876E455B23B98D5500867DF9 /* controller_gc_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_gc_mask@2x.png"; sourceTree = "<group>"; };
 		876E455D23B98D6A00867DF9 /* controller_gc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_gc@2x.png"; sourceTree = "<group>"; };
+		876E456123B9B02600867DF9 /* gamecube_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gamecube_library@2x.png"; sourceTree = "<group>"; };
 		876FF0D2207B0A3C002F935A /* hud_stepforward_notification@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_stepforward_notification@2x.png"; sourceTree = "<group>"; };
 		876FF0D7207B1268002F935A /* hud_stepbackward_notification@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_stepbackward_notification@2x.png"; sourceTree = "<group>"; };
 		876FF0D9207B2B95002F935A /* hud_stepbackward_notification.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_stepbackward_notification.png; sourceTree = "<group>"; };
@@ -5170,6 +5172,7 @@
 				94CEB28317A84A8F005A2107 /* controller_gc.png */,
 				876E455B23B98D5500867DF9 /* controller_gc_mask@2x.png */,
 				876E455D23B98D6A00867DF9 /* controller_gc@2x.png */,
+				876E456123B9B02600867DF9 /* gamecube_library@2x.png */,
 				94CEB27117A84809005A2107 /* GameCube-Info.plist */,
 				94CEB28717A84A8F005A2107 /* Keyboard-Mappings.plist */,
 				94CEB28417A84A8F005A2107 /* Controller-Mappings.plist */,
@@ -7284,6 +7287,7 @@
 				94CEB28B17A84A8F005A2107 /* Controller-Preferences.plist in Resources */,
 				94CEB28C17A84A8F005A2107 /* gamecube_library.png in Resources */,
 				876E455E23B98D6B00867DF9 /* controller_gc@2x.png in Resources */,
+				876E456223B9B02700867DF9 /* gamecube_library@2x.png in Resources */,
 				94CEB28D17A84A8F005A2107 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
