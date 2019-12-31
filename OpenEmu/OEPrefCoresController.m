@@ -67,7 +67,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
     
     self.coresTableView.delegate = self;
     self.coresTableView.dataSource = self;
-    ((OETableView *)self.coresTableView).headerClickable = NO;
+    //((OETableView *)self.coresTableView).headerClickable = NO;
     
     [[OECoreUpdater sharedUpdater] checkForNewCores:@(NO)];
     [[OECoreUpdater sharedUpdater] checkForUpdates];

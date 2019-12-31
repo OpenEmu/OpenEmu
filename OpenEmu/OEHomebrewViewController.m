@@ -150,11 +150,7 @@ const static CGFloat TableViewSpacing = 86.0;
     OELibraryController *libraryController = self.libraryController;
     OELibraryToolbar *toolbar = libraryController.toolbar;
     
-    toolbar.gridViewButton.enabled = NO;
-    toolbar.listViewButton.enabled = NO;
-    toolbar.gridViewButton.state = NSControlStateValueOff;
-    toolbar.listViewButton.state = NSControlStateValueOff;
-    
+    toolbar.viewSelector.enabled = NO;
     toolbar.gridSizeSlider.enabled = NO;
 
     NSSearchField *field = toolbar.searchField;

@@ -576,7 +576,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 #pragma mark - Data Accessors
 
-- (NSString *)displayName
+- (nullable NSString *)displayName
 {
     if(!self.isSpecialState)
         return self.name;

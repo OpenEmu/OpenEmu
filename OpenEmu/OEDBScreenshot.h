@@ -41,6 +41,8 @@ extern NSString * const OEDBScreenshotImportRequired;
 - (void)updateFile;
 
 @property (nonatomic, assign) NSURL *URL;
+@property (nonatomic, readonly) NSURL *screenshotURL;
+
 @end
 
 NS_ASSUME_NONNULL_END

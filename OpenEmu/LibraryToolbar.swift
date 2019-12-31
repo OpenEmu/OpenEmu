@@ -29,8 +29,9 @@ import Cocoa
 @objc(OELibraryToolbar)
 class LibraryToolbar: NSToolbar {
     @IBOutlet weak var categorySelector: NSSegmentedControl!
-    @IBOutlet weak var gridViewButton: OEButton!
-    @IBOutlet weak var listViewButton: OEButton!
+    @IBOutlet weak var viewSelector: NSSegmentedControl!
+    @IBOutlet weak var gridViewButton: NSButton!
+    @IBOutlet weak var listViewButton: NSButton!
     @IBOutlet weak var gridSizeSlider: NSSlider!
-    @IBOutlet weak var searchField: OESearchField!
+    @IBOutlet weak var searchField: NSSearchField!
 }

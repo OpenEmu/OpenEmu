@@ -40,7 +40,4 @@
 - (BOOL)isGroupHeaderInSidebar;
 
 - (BOOL)hasSubCollections;
-
-@optional
-- (NSString*)badge;
 @end

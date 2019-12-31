@@ -263,6 +263,8 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEGameCoreManagerModePreferenceKey];
 }
 #pragma mark -
+extern NSString *const OELibrarySplitViewResetSidebarNotification;
+
 - (void)resetMainWindow:(id)sender
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

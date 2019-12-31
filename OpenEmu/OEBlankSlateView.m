@@ -318,12 +318,11 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
                                   NSWidth(containerFrame) - OEBlankSlateRightColumnX,
                                   20.0);
         
-        OEButton *gotoButton = [[OEButton alloc] initWithFrame:frame];
+        NSButton *gotoButton = [[NSButton alloc] initWithFrame:frame];
         
         gotoButton.autoresizingMask = NSViewWidthSizable;
         gotoButton.alignment = NSTextAlignmentLeft;
         gotoButton.imagePosition = NSImageRight;
-        [gotoButton setThemeKey:@"open_weblink"];
         gotoButton.target = self;
         gotoButton.action = @selector(gotoProjectURL:);
         gotoButton.title = name;

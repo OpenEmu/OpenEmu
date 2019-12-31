@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -23,14 +24,14 @@
             <rect key="frame" x="0.0" y="0.0" width="755" height="450"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <customView wantsLayer="YES" id="4" customClass="OEBackgroundGradientView">
+                <customView wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="OEBackgroundGradientView">
                     <rect key="frame" x="0.0" y="409" width="755" height="41"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </customView>
-                <popUpButton verticalHuggingPriority="750" id="7" customClass="OEPopUpButton">
+                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7">
                     <rect key="frame" x="499" y="401" width="232" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="Super Nintendo (SNES)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="38" id="30" customClass="OEPopUpButtonCell">
+                    <popUpButtonCell key="cell" type="push" title="Super Nintendo (SNES)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="38" id="30">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" id="31">
@@ -40,21 +41,18 @@
                             </items>
                         </menu>
                     </popUpButtonCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood_popup_button"/>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="changeSystem:" target="-2" id="48"/>
                     </connections>
                 </popUpButton>
-                <customView id="116" customClass="OEPreferencesControlsBox">
+                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="116" customClass="OEPreferencesControlsBox">
                     <rect key="frame" x="498" y="25" width="232" height="363"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <popUpButton verticalHuggingPriority="750" id="8" customClass="OEPopUpButton">
+                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8">
                             <rect key="frame" x="17" y="327" width="200" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <popUpButtonCell key="cell" type="push" title="Player 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="29" id="24" customClass="OEPopUpButtonCell">
+                            <popUpButtonCell key="cell" type="push" title="Player 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="29" id="24">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
                                 <menu key="menu" id="25">
@@ -64,57 +62,45 @@
                                     </items>
                                 </menu>
                             </popUpButtonCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood_popup_button"/>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="changePlayer:" target="-2" id="47"/>
                             </connections>
                         </popUpButton>
-                        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" id="111" customClass="OEScrollView">
+                        <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="111">
                             <rect key="frame" x="1" y="47" width="230" height="269"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <clipView key="contentView" drawsBackground="NO" id="P60-Lp-yJ1">
+                            <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="P60-Lp-yJ1">
                                 <rect key="frame" x="0.0" y="0.0" width="230" height="269"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <view id="112" customClass="OEControlsButtonSetupView">
+                                    <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="112" customClass="OEControlsButtonSetupView">
                                         <rect key="frame" x="0.0" y="0.0" width="321" height="270"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                     </view>
                                 </subviews>
                             </clipView>
-                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="113" customClass="OEScroller">
+                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="113">
                                 <rect key="frame" x="-100" y="-100" width="506" height="15"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood"/>
-                                </userDefinedRuntimeAttributes>
                             </scroller>
-                            <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="114" customClass="OEScroller">
+                            <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="114">
                                 <rect key="frame" x="214" y="0.0" width="16" height="269"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood"/>
-                                </userDefinedRuntimeAttributes>
                             </scroller>
                         </scrollView>
-                        <textField verticalHuggingPriority="750" id="10" customClass="OELabel">
+                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="10">
                             <rect key="frame" x="14" y="14" width="42" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Input:" id="11" customClass="OELabelCell">
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Input:" id="11">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_wood_text"/>
-                            </userDefinedRuntimeAttributes>
                         </textField>
-                        <popUpButton verticalHuggingPriority="750" id="9" customClass="OEPopUpButton">
-                            <rect key="frame" x="56" y="12" width="161" height="26"/>
+                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9">
+                            <rect key="frame" x="56" y="9" width="161" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="12" customClass="OEPopUpButtonCell">
+                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="12">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
                                 <menu key="menu" id="13">
@@ -128,20 +114,18 @@
                                     </items>
                                 </menu>
                             </popUpButtonCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood_popup_button"/>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="changeInputDevice:" target="-2" id="46"/>
                             </connections>
                         </popUpButton>
                     </subviews>
                 </customView>
-                <customView id="103">
+                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="103">
                     <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES" heightSizable="YES"/>
                 </customView>
             </subviews>
+            <point key="canvasLocation" x="140" y="154"/>
         </view>
     </objects>
 </document>

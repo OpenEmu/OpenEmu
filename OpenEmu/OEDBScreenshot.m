@@ -97,6 +97,11 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
     return [NSURL URLWithString:self.location relativeToURL:screenshotDirectory];
 }
 
+- (NSURL *)screenshotURL
+{
+    return self.URL;
+}
+
 - (void)prepareForDeletion
 {
     NSURL *url = self.URL;

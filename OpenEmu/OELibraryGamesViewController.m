@@ -91,14 +91,14 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     OELibraryToolbar *toolbar = libraryController.toolbar;
 
     toolbar.gridSizeSlider.enabled = YES;
-    toolbar.gridViewButton.enabled = YES;
-    toolbar.listViewButton.enabled = YES;
+    toolbar.viewSelector.enabled = YES;
     
     OECollectionViewControllerViewTag selectedViewTag = self.collectionController.selectedViewTag;
-    BOOL setGridView = selectedViewTag == OEGridViewTag || selectedViewTag == OEBlankSlateTag;
-    toolbar.gridViewButton.state = setGridView ? NSControlStateValueOn : NSControlStateValueOff;
-    toolbar.listViewButton.state = !setGridView ? NSControlStateValueOn : NSControlStateValueOff;
-
+    if (selectedViewTag == OEGridViewTag)
+        toolbar.viewSelector.selectedSegment = 0;
+    else
+        toolbar.viewSelector.selectedSegment = 1;
+    
     NSSearchField *field = toolbar.searchField;
     field.searchMenuTemplate = nil;
     field.enabled = NO;
@@ -107,7 +107,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
 #pragma mark - OELibrarySubviewController
 
-- (NSArray*)selectedGames
+- (NSArray<OEDBGame *> *)selectedGames
 {
     return [[self collectionController] selectedGames];
 }
@@ -199,7 +199,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 - (void)makeNewCollectionWithSelectedGames:(id)sender
 {
     OECoreDataMainThreadAssertion();
-    NSArray *selectedGames = [self selectedGames];
+    NSArray<OEDBGame *> *selectedGames = [self selectedGames];
     OEDBCollection *collection = [[self sidebarController] addCollection:NO];
     [collection setGames:[NSSet setWithArray:selectedGames]];
     [collection save];

@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright
@@ -177,12 +177,8 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 - (void)setUpToolbarButtonTooltips
 {
     OELibraryToolbar *toolbar = [[self libraryController] toolbar];
-    
-    [[toolbar gridViewButton] setToolTip:NSLocalizedString(@"Switch To Grid View", @"Tooltip")];
-    [[toolbar gridViewButton] setToolTipStyle:OEToolTipStyleDefault];
-    
-    [[toolbar listViewButton] setToolTip:NSLocalizedString(@"Switch To List View", @"Tooltip")];
-    [[toolbar listViewButton] setToolTipStyle:OEToolTipStyleDefault];
+    [toolbar.viewSelector setToolTip:NSLocalizedString(@"Switch To Grid View", @"Tooltip") forSegment:0];
+    [toolbar.viewSelector setToolTip:NSLocalizedString(@"Switch To List View", @"Tooltip") forSegment:1];
 }
 
 - (NSString *)windowNibName

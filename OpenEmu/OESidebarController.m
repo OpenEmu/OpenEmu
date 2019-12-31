@@ -47,7 +47,7 @@
 
 #import "OpenEmu-Swift.h"
 
-extern NSString *const OELastSidebarSelectionKey;
+NSString *const OELastSidebarSelectionKey = @"lastSidebarSelection";
 NSString *const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWithoutConfirmation";
 extern NSString * const OEDBSystemAvailabilityDidChangeNotification;
 
@@ -608,8 +608,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         
         OESidebarCell *sidebarCell = (OESidebarCell *)cell;
         sidebarCell.image = sidebarItem.sidebarIcon;
-        NSString *badge = [sidebarItem respondsToSelector:@selector(badge)] ? sidebarItem.badge : nil;
-        sidebarCell.badge = badge;
         sidebarCell.isGroup = sidebarItem.isGroupHeaderInSidebar;
 
         if (self.editingItem == nil)

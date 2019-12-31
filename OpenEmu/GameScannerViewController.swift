@@ -35,11 +35,11 @@ class GameScannerViewController: NSViewController {
     @IBOutlet var togglePauseButton: NSButton!
     @IBOutlet var progressIndicator: NSProgressIndicator!
     @IBOutlet var statusLabel: NSTextField!
-    @IBOutlet var fixButton: OEButton!
+    @IBOutlet var fixButton: NSButton!
     
     @IBOutlet var issuesView: NSTableView!
     @IBOutlet var actionPopUpButton: NSPopUpButton!
-    @IBOutlet var applyButton: OEButton!
+    @IBOutlet var applyButton: NSButton!
    
     @IBOutlet private weak var bottomBar: NSView!
     @IBOutlet private weak var sourceListScrollView: NSScrollView!
@@ -178,7 +178,7 @@ class GameScannerViewController: NSViewController {
     
     private func createFixButton() {
         
-        fixButton = OEButton(frame: NSRect(x: 14,
+        fixButton = NSButton(frame: NSRect(x: 14,
                                            y: 4,
                                            width: scannerView.frame.width - 20,
                                            height: 20))
@@ -186,7 +186,6 @@ class GameScannerViewController: NSViewController {
         fixButton.autoresizingMask = .width
         fixButton.alignment = .left
         fixButton.imagePosition = .imageRight
-        fixButton.setThemeKey("game_scanner_fix_issues")
         fixButton.target = libraryGamesViewController
         fixButton.action = #selector(OELibraryGamesViewController.showIssuesView(_:))
         fixButton.title = NSLocalizedString("Resolve Issues", comment: "")

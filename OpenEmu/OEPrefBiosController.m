@@ -237,7 +237,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
 
         int rowsFromHeader = 0;
         while(![self tableView:view isGroupRow:row + 1 - rowsFromHeader++])
-        fileCell.backgroundColor = rowsFromHeader % 2 ? rowBackground : alternateRowBackground;
+            fileCell.backgroundColor = rowsFromHeader % 2 ? rowBackground : alternateRowBackground;
 
         return fileCell;
     }

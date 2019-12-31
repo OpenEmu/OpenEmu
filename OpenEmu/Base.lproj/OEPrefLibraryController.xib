@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,169 +19,119 @@
             <rect key="frame" x="0.0" y="0.0" width="458" height="553"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
             <subviews>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="11" customClass="OEBackgroundImageView">
-                    <rect key="frame" x="42" y="461" width="374" height="40"/>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Library Location:">
+                    <rect key="frame" x="39" y="517" width="187" height="16"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Game Library Folder Location:" id="19">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="11">
+                    <rect key="frame" x="42" y="463" width="374" height="39"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="374" id="pGd-gQ-HQm"/>
                     </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
-                    </userDefinedRuntimeAttributes>
                 </customView>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Dbf-Vf-eb2" customClass="OEBackgroundImageView">
-                    <rect key="frame" x="42" y="29" width="374" height="140"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="374" id="jXE-NG-3GQ"/>
-                        <constraint firstAttribute="height" constant="140" id="six-02-ub8"/>
-                    </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
-                    </userDefinedRuntimeAttributes>
-                </customView>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="5" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="401" width="458" height="2"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="2" id="Ad6-Ai-BHU"/>
-                        <constraint firstAttribute="width" constant="458" id="PyQ-IG-AR5"/>
-                    </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
-                    </userDefinedRuntimeAttributes>
-                </customView>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Iz3-4e-tBC" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="329" width="458" height="2"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="458" id="x8h-Xv-jEq"/>
-                        <constraint firstAttribute="height" constant="2" id="zIp-aZ-uJB"/>
-                    </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
-                    </userDefinedRuntimeAttributes>
-                </customView>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="214" width="458" height="2"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="458" id="0Le-oY-5rb"/>
-                        <constraint firstAttribute="height" constant="2" id="zRG-hS-zMl"/>
-                    </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
-                    </userDefinedRuntimeAttributes>
-                </customView>
-                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Library Location:" customClass="OELabel">
-                    <rect key="frame" x="39" y="516" width="187" height="17"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Game Library Folder Location:" id="19" customClass="OELabelCell">
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="12">
+                    <rect key="frame" x="61" y="473" width="336" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="~/Library/Application Support/OpenEmu/Game Library" id="17">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
-                    </userDefinedRuntimeAttributes>
                 </textField>
-                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="12" customClass="OELabel">
-                    <rect key="frame" x="61" y="471" width="336" height="17"/>
-                    <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="~/Library/Application Support/OpenEmu/Game Library" id="17" customClass="OELabelCell">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_text"/>
-                    </userDefinedRuntimeAttributes>
-                </textField>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="14" customClass="OEButton">
-                    <rect key="frame" x="249" y="425" width="78" height="23"/>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="14" customClass="OEButton">
+                    <rect key="frame" x="235" y="420" width="98" height="34"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="78" id="dR8-g5-Cek"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" title="Change…" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15" customClass="OEButtonCell">
+                    <buttonCell key="cell" type="push" title="Change…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="changeLibraryFolder:" target="-2" id="44"/>
                     </connections>
                 </button>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="OEButton">
-                    <rect key="frame" x="338" y="425" width="78" height="23"/>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="13">
+                    <rect key="frame" x="332" y="420" width="90" height="34"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="23" id="BJz-gR-ZST"/>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="78" id="fVw-4e-dSp"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" title="Reset" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="16" customClass="OEButtonCell">
+                    <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="16">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="resetLibraryFolder:" target="-2" id="45"/>
                     </connections>
                 </button>
-                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="etg-C7-Lej" userLabel="Reset all warnings:" customClass="OELabel">
-                    <rect key="frame" x="39" y="355" width="158" height="17"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Reset all dialog warnings:" id="Ua1-J2-mdy" customClass="OELabelCell">
+                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="5">
+                    <rect key="frame" x="0.0" y="401" width="458" height="6"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="Ad6-Ai-BHU"/>
+                        <constraint firstAttribute="width" constant="458" id="PyQ-IG-AR5"/>
+                    </constraints>
+                </box>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="etg-C7-Lej" userLabel="Reset all warnings:">
+                    <rect key="frame" x="39" y="357" width="158" height="17"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Reset all dialog warnings:" id="Ua1-J2-mdy">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
-                    </userDefinedRuntimeAttributes>
                 </textField>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="Q95-qb-F7X" customClass="OEButton">
-                    <rect key="frame" x="284" y="354" width="132" height="23"/>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q95-qb-F7X">
+                    <rect key="frame" x="278" y="346" width="144" height="34"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="132" id="5dU-fr-4hH"/>
                         <constraint firstAttribute="height" constant="23" id="VPt-UI-L3m"/>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="232" id="fBl-JJ-wm3"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" title="Reset warnings" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy" customClass="OEButtonCell">
+                    <buttonCell key="cell" type="push" title="Reset warnings" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="resetWarningDialogs:" target="-2" id="Ohg-fM-nsc"/>
                     </connections>
                 </button>
-                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="OELabel">
-                    <rect key="frame" x="39" y="292" width="138" height="17"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Organization Methods" id="18" customClass="OELabelCell">
+                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Iz3-4e-tBC">
+                    <rect key="frame" x="0.0" y="329" width="458" height="6"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="458" id="x8h-Xv-jEq"/>
+                        <constraint firstAttribute="height" constant="2" id="zIp-aZ-uJB"/>
+                    </constraints>
+                </box>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10">
+                    <rect key="frame" x="39" y="295" width="138" height="16"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Organization Methods" id="18">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
-                    </userDefinedRuntimeAttributes>
                 </textField>
-                <matrix verticalHuggingPriority="750" mode="highlight" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="OEMatrix">
-                    <rect key="frame" x="42" y="239" width="416" height="44"/>
+                <matrix verticalHuggingPriority="750" mode="highlight" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8">
+                    <rect key="frame" x="42" y="242" width="416" height="44"/>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     <size key="cellSize" width="416" height="17"/>
                     <size key="intercellSpacing" width="16" height="10"/>
-                    <buttonCell key="prototype" type="radio" imagePosition="left" alignment="left" inset="2" id="22" userLabel="Check Box Cell" customClass="OEButtonCell">
+                    <buttonCell key="prototype" type="radio" imagePosition="left" alignment="left" inset="2" id="22" userLabel="Check Box Cell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <cells>
                         <column>
-                            <buttonCell type="check" title="Copy files to Game Library folder when adding to library" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="20" userLabel="Check Box Cell" customClass="OEButtonCell">
+                            <buttonCell type="check" title="Copy files to Game Library folder when adding to library" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="20" userLabel="Check Box Cell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <connections>
                                     <binding destination="36" name="value" keyPath="values.copyToLibrary" id="DR7-wE-4OX"/>
                                 </connections>
                             </buttonCell>
-                            <buttonCell type="check" title="Automatically lookup game information &amp; artwork" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="21" userLabel="Check Box Cell" customClass="OEButtonCell">
+                            <buttonCell type="check" title="Automatically lookup game information &amp; artwork" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="21" userLabel="Check Box Cell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <connections>
@@ -190,39 +140,41 @@
                             </buttonCell>
                         </column>
                     </cells>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_checkbox"/>
-                    </userDefinedRuntimeAttributes>
                 </matrix>
-                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7" customClass="OELabel">
-                    <rect key="frame" x="39" y="177" width="118" height="17"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Available Libraries:" id="24" customClass="OELabelCell">
+                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="4">
+                    <rect key="frame" x="0.0" y="215" width="458" height="6"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="458" id="0Le-oY-5rb"/>
+                        <constraint firstAttribute="height" constant="2" id="zRG-hS-zMl"/>
+                    </constraints>
+                </box>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7">
+                    <rect key="frame" x="39" y="181" width="118" height="16"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Available Libraries:" id="24">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
-                    </userDefinedRuntimeAttributes>
                 </textField>
-                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="yl9-Jz-OKA" customClass="OEScrollView">
-                    <rect key="frame" x="47" y="32" width="366" height="134"/>
-                    <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="DeO-cc-bgL">
-                        <rect key="frame" x="0.0" y="0.0" width="366" height="134"/>
+                <scrollView fixedFrame="YES" borderType="groove" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="yl9-Jz-OKA">
+                    <rect key="frame" x="47" y="36" width="366" height="134"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="DeO-cc-bgL">
+                        <rect key="frame" x="2" y="2" width="362" height="130"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view autoresizesSubviews="NO" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VRZ-d2-kfy">
-                                <rect key="frame" x="0.0" y="0.0" width="381" height="134"/>
+                                <rect key="frame" x="0.0" y="0.0" width="362" height="130"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </view>
                         </subviews>
                     </clipView>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="tdT-Hf-vsm" customClass="OEScroller">
+                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="tdT-Hf-vsm">
                         <rect key="frame" x="-100" y="-100" width="342" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
-                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6uK-mj-F0v">
-                        <rect key="frame" x="350" y="0.0" width="16" height="134"/>
+                    <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6uK-mj-F0v">
+                        <rect key="frame" x="348" y="2" width="16" height="130"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
@@ -230,33 +182,27 @@
             <constraints>
                 <constraint firstItem="etg-C7-Lej" firstAttribute="top" relation="greaterThanOrEqual" secondItem="5" secondAttribute="bottom" constant="5" id="3Nw-R4-nJe"/>
                 <constraint firstItem="Q95-qb-F7X" firstAttribute="trailing" secondItem="13" secondAttribute="trailing" id="4GU-IB-QJc"/>
-                <constraint firstItem="yl9-Jz-OKA" firstAttribute="leading" secondItem="Dbf-Vf-eb2" secondAttribute="leading" constant="5" id="6aX-Bk-FoC"/>
                 <constraint firstItem="8" firstAttribute="leading" secondItem="10" secondAttribute="leading" constant="1" id="6cn-6S-RIe"/>
                 <constraint firstItem="etg-C7-Lej" firstAttribute="top" relation="lessThanOrEqual" secondItem="5" secondAttribute="bottom" constant="29" id="7ep-ZX-eid"/>
-                <constraint firstItem="yl9-Jz-OKA" firstAttribute="bottom" secondItem="Dbf-Vf-eb2" secondAttribute="bottom" constant="-3" id="89q-yY-EeU"/>
-                <constraint firstItem="Iz3-4e-tBC" firstAttribute="top" secondItem="Q95-qb-F7X" secondAttribute="bottom" constant="23" id="8mQ-ve-S2C"/>
+                <constraint firstItem="Iz3-4e-tBC" firstAttribute="top" secondItem="Q95-qb-F7X" secondAttribute="bottom" constant="20" id="8mQ-ve-S2C"/>
                 <constraint firstItem="12" firstAttribute="bottom" secondItem="11" secondAttribute="bottom" constant="-10" id="Bxm-44-nGc"/>
                 <constraint firstItem="10" firstAttribute="top" secondItem="Iz3-4e-tBC" secondAttribute="bottom" constant="20" id="D8B-a4-p1K"/>
                 <constraint firstItem="etg-C7-Lej" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Q95-qb-F7X" secondAttribute="leading" constant="-6" id="Dyf-yc-G48"/>
                 <constraint firstItem="14" firstAttribute="bottom" secondItem="13" secondAttribute="bottom" id="GuP-09-hnN"/>
                 <constraint firstItem="4" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="J4z-f9-LSA"/>
                 <constraint firstItem="14" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="11" secondAttribute="leading" id="KEF-qZ-3qi"/>
-                <constraint firstItem="Q95-qb-F7X" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="24" id="Kvu-hk-JuA"/>
+                <constraint firstItem="Q95-qb-F7X" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="27" id="Kvu-hk-JuA"/>
                 <constraint firstItem="4" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="23" id="KyR-1h-YcK"/>
                 <constraint firstItem="11" firstAttribute="top" secondItem="9" secondAttribute="bottom" constant="15" id="MPL-gV-GIz"/>
                 <constraint firstItem="5" firstAttribute="top" secondItem="13" secondAttribute="bottom" constant="22" id="Pq8-Nh-Z8m"/>
-                <constraint firstItem="Dbf-Vf-eb2" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="8" symbolic="YES" id="T7V-fI-AYI"/>
                 <constraint firstItem="Iz3-4e-tBC" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="V56-NJ-ZXM"/>
                 <constraint firstItem="etg-C7-Lej" firstAttribute="leading" secondItem="9" secondAttribute="leading" id="VJe-Eq-uJQ"/>
-                <constraint firstItem="Dbf-Vf-eb2" firstAttribute="leading" secondItem="11" secondAttribute="leading" id="Vds-fJ-bwp"/>
                 <constraint firstItem="14" firstAttribute="top" secondItem="13" secondAttribute="top" id="Vdu-yQ-fvO"/>
                 <constraint firstItem="7" firstAttribute="top" secondItem="4" secondAttribute="bottom" constant="20" id="Vff-Y8-wVR"/>
                 <constraint firstItem="9" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" id="YsC-jS-gtr"/>
                 <constraint firstItem="9" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="41" id="ZMh-2k-bbb"/>
-                <constraint firstItem="yl9-Jz-OKA" firstAttribute="trailing" secondItem="Dbf-Vf-eb2" secondAttribute="trailing" constant="-3" id="ZwZ-Wc-afO"/>
                 <constraint firstItem="5" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="byU-tL-Zg0"/>
-                <constraint firstItem="etg-C7-Lej" firstAttribute="centerY" secondItem="Q95-qb-F7X" secondAttribute="centerY" constant="2" id="c5m-XL-jQZ"/>
-                <constraint firstItem="yl9-Jz-OKA" firstAttribute="top" secondItem="Dbf-Vf-eb2" secondAttribute="top" constant="3" id="cHf-8P-Ha5"/>
+                <constraint firstItem="etg-C7-Lej" firstAttribute="centerY" secondItem="Q95-qb-F7X" secondAttribute="centerY" constant="-1" id="c5m-XL-jQZ"/>
                 <constraint firstItem="12" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" constant="-21" id="cOL-ex-dsL"/>
                 <constraint firstItem="8" firstAttribute="top" secondItem="10" secondAttribute="bottom" constant="9" id="evm-Zd-Rmc"/>
                 <constraint firstItem="13" firstAttribute="top" secondItem="11" secondAttribute="bottom" constant="13" id="gkc-EX-PDo"/>
@@ -266,11 +212,11 @@
                 <constraint firstItem="13" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" id="pmj-Kq-Pp3"/>
                 <constraint firstItem="12" firstAttribute="leading" secondItem="11" secondAttribute="leading" constant="21" id="tJ5-0B-odf"/>
                 <constraint firstItem="etg-C7-Lej" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Iz3-4e-tBC" secondAttribute="top" constant="-24" id="tOy-Wj-rkd"/>
-                <constraint firstItem="Dbf-Vf-eb2" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" id="u70-nd-Ka6"/>
                 <constraint firstItem="etg-C7-Lej" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="Iz3-4e-tBC" secondAttribute="top" id="uxI-mb-G0G"/>
                 <constraint firstItem="10" firstAttribute="leading" secondItem="etg-C7-Lej" secondAttribute="leading" id="vwr-1E-sVa"/>
                 <constraint firstItem="11" firstAttribute="leading" secondItem="9" secondAttribute="leading" constant="1" id="ydY-uC-8iZ"/>
             </constraints>
+            <point key="canvasLocation" x="139" y="154.5"/>
         </view>
         <userDefaultsController id="36"/>
     </objects>

@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15504" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="2F5-DV-zRf">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15504"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Window Controller-->
+        <scene sceneID="6OI-k5-62e">
+            <objects>
+                <windowController id="2F5-DV-zRf" sceneMemberID="viewController">
+                    <window key="window" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="fZB-6A-wcH">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+                        <windowCollectionBehavior key="collectionBehavior" fullScreenAuxiliary="YES"/>
+                        <rect key="contentRect" x="294" y="313" width="423" height="200"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+                        <connections>
+                            <outlet property="delegate" destination="2F5-DV-zRf" id="21O-vR-em6"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="8BS-GB-INR" kind="relationship" relationship="window.shadowedContentViewController" id="2vD-7v-qez"/>
+                    </connections>
+                </windowController>
+                <customObject id="GxK-dB-joM" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-231" y="-407"/>
+        </scene>
+        <!--Tab View Controller-->
+        <scene sceneID="xGq-69-2VW">
+            <objects>
+                <tabViewController tabStyle="toolbar" id="8BS-GB-INR" sceneMemberID="viewController">
+                    <tabViewItems>
+                        <tabViewItem identifier="" image="library_tab_icon" id="rFT-aH-tTb"/>
+                        <tabViewItem identifier="" image="gameplay_tab_icon" id="y2m-FE-O0z"/>
+                    </tabViewItems>
+                    <tabView key="tabView" type="noTabsNoBorder" id="HEj-BE-wWy">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <font key="font" metaFont="system"/>
+                        <connections>
+                            <outlet property="delegate" destination="8BS-GB-INR" id="voG-69-Htl"/>
+                        </connections>
+                    </tabView>
+                    <connections>
+                        <outlet property="tabView" destination="HEj-BE-wWy" id="JgC-Ek-188"/>
+                        <segue destination="vLm-8g-dP6" kind="relationship" relationship="tabItems" id="tfd-Gy-RgU"/>
+                        <segue destination="Big-dB-3pr" kind="relationship" relationship="tabItems" id="84O-YR-wsE"/>
+                    </connections>
+                </tabViewController>
+                <customObject id="1Z6-YM-4au" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-78" y="108"/>
+        </scene>
+        <!--Pref Library Controller-->
+        <scene sceneID="XzG-sr-057">
+            <objects>
+                <viewController id="vLm-8g-dP6" customClass="OEPrefLibraryController" sceneMemberID="viewController">
+                    <view key="view" id="3" userLabel="Library">
+                        <rect key="frame" x="0.0" y="0.0" width="458" height="553"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+                        <subviews>
+                            <stackView distribution="fillEqually" orientation="vertical" alignment="leading" spacing="24" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lbM-Q1-WHN" userLabel="Main">
+                                <rect key="frame" x="0.0" y="31" width="458" height="502"/>
+                                <subviews>
+                                    <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W0M-W2-xvw" userLabel="Library Folder Stack">
+                                        <rect key="frame" x="41" y="399" width="374" height="103"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Library Location:">
+                                                <rect key="frame" x="-2" y="87" width="187" height="16"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Game Library Folder Location:" id="19">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="11">
+                                                <rect key="frame" x="0.0" y="29" width="374" height="50"/>
+                                                <subviews>
+                                                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="12">
+                                                        <rect key="frame" x="19" y="17" width="336" height="16"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="~/Library/Application Support/OpenEmu/Game Library" id="17">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="374" id="4gN-cP-rBd"/>
+                                                </constraints>
+                                            </customView>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="11" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8j-pj-ZpM" userLabel="Buttons Stack">
+                                                <rect key="frame" x="191" y="0.0" width="183" height="21"/>
+                                                <subviews>
+                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="14">
+                                                        <rect key="frame" x="-6" y="-7" width="98" height="32"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="78" id="dR8-g5-Cek"/>
+                                                            <constraint firstAttribute="width" constant="86" id="kCp-Bc-CTf"/>
+                                                        </constraints>
+                                                        <buttonCell key="cell" type="push" title="Change…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="13">
+                                                        <rect key="frame" x="91" y="-7" width="98" height="32"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="86" id="9Dh-aW-Aqn"/>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="78" id="fVw-4e-dSp"/>
+                                                        </constraints>
+                                                        <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="16">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                    </button>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="N8j-pj-ZpM" secondAttribute="trailing" id="Kg6-dm-08U"/>
+                                        </constraints>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                    <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="5">
+                                        <rect key="frame" x="0.0" y="372" width="458" height="5"/>
+                                    </box>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="1" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0y1-rR-05h" userLabel="Warnings Stack">
+                                        <rect key="frame" x="41" y="328" width="376" height="22"/>
+                                        <subviews>
+                                            <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="etg-C7-Lej" userLabel="Reset all warnings:">
+                                                <rect key="frame" x="-2" y="3" width="258" height="16"/>
+                                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Reset all dialog warnings:" id="Ua1-J2-mdy">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q95-qb-F7X">
+                                                <rect key="frame" x="249" y="-6" width="133" height="32"/>
+                                                <buttonCell key="cell" type="push" title="Reset warnings" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                            </button>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                    <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Iz3-4e-tBC">
+                                        <rect key="frame" x="0.0" y="301" width="458" height="5"/>
+                                    </box>
+                                    <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="17" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d9s-PK-qID" userLabel="Organization Stack">
+                                        <rect key="frame" x="41" y="210" width="356" height="69"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10">
+                                                <rect key="frame" x="-2" y="53" width="138" height="16"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Organization Methods" id="18">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zBF-IR-n5D">
+                                                <rect key="frame" x="0.0" y="0.0" width="356" height="36"/>
+                                                <subviews>
+                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9WN-ox-hAP">
+                                                        <rect key="frame" x="-2" y="20" width="360" height="18"/>
+                                                        <buttonCell key="cell" type="check" title="Copy files to Game Library folder when adding to library" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="20">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="C3M-Kf-aGw">
+                                                        <rect key="frame" x="-2" y="-2" width="321" height="18"/>
+                                                        <buttonCell key="cell" type="check" title="Automatically lookup game information &amp; artwork" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="21">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                    </button>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                    <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="4">
+                                        <rect key="frame" x="0.0" y="183" width="458" height="5"/>
+                                    </box>
+                                    <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="11" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UKm-kL-G0f" userLabel="Libraries Stack">
+                                        <rect key="frame" x="41" y="0.0" width="366" height="161"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7">
+                                                <rect key="frame" x="-2" y="145" width="118" height="16"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Available Libraries:" id="24">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <scrollView borderType="groove" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="yl9-Jz-OKA">
+                                                <rect key="frame" x="0.0" y="0.0" width="366" height="134"/>
+                                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="DeO-cc-bgL">
+                                                    <rect key="frame" x="2" y="2" width="362" height="130"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <view autoresizesSubviews="NO" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VRZ-d2-kfy">
+                                                            <rect key="frame" x="0.0" y="0.0" width="377" height="130"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        </view>
+                                                    </subviews>
+                                                </clipView>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="366" id="LYq-TX-Q75"/>
+                                                    <constraint firstAttribute="height" constant="134" id="ohw-fu-oZh"/>
+                                                </constraints>
+                                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="tdT-Hf-vsm">
+                                                    <rect key="frame" x="-100" y="-100" width="342" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </scroller>
+                                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6uK-mj-F0v">
+                                                    <rect key="frame" x="348" y="2" width="16" height="130"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </scroller>
+                                            </scrollView>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                </subviews>
+                                <edgeInsets key="edgeInsets" left="41" right="41" top="0.0" bottom="0.0"/>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="lbM-Q1-WHN" secondAttribute="trailing" id="Rx0-0U-BbD"/>
+                            <constraint firstItem="lbM-Q1-WHN" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" id="cqE-CS-uIx"/>
+                            <constraint firstItem="lbM-Q1-WHN" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="tYC-xk-DVe"/>
+                            <constraint firstAttribute="bottom" secondItem="lbM-Q1-WHN" secondAttribute="bottom" constant="31" id="udF-z0-jYZ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="librariesView" destination="VRZ-d2-kfy" id="ACA-wf-ptx"/>
+                        <outlet property="pathField" destination="12" id="Mmr-ux-frD"/>
+                    </connections>
+                </viewController>
+                <customObject id="7A5-iY-b7o" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController id="36"/>
+            </objects>
+            <point key="canvasLocation" x="619" y="-129"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Xts-d6-9Zc">
+            <objects>
+                <viewController id="Big-dB-3pr" sceneMemberID="viewController">
+                    <view key="view" id="pGQ-rs-K9f">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="8bE-Kw-aPl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="606" y="525"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="gameplay_tab_icon" width="32" height="32"/>
+        <image name="library_tab_icon" width="32" height="32"/>
+    </resources>
+</document>

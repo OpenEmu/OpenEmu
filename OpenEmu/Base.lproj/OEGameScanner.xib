@@ -20,27 +20,24 @@
             <rect key="frame" x="0.0" y="0.0" width="517" height="366"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
             <subviews>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="125" customClass="OEBackgroundColorView">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="125">
                     <rect key="frame" x="0.0" y="0.0" width="517" height="366"/>
                     <subviews>
-                        <button translatesAutoresizingMaskIntoConstraints="NO" id="138" customClass="OEButton">
+                        <button translatesAutoresizingMaskIntoConstraints="NO" id="138" >
                             <rect key="frame" x="419" y="20" width="78" height="23"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="23" id="0R5-FC-BdF"/>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="78" id="n53-mn-X4r"/>
                             </constraints>
-                            <buttonCell key="cell" type="square" title="Apply" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="139" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="square" title="Apply" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="139" >
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="resolveIssues:" target="-2" id="142"/>
                             </connections>
                         </button>
-                        <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64" customClass="OEScrollView">
+                        <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64" >
                             <rect key="frame" x="0.0" y="57" width="517" height="264"/>
                             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="KDl-6X-opB">
                                 <rect key="frame" x="0.0" y="0.0" width="517" height="264"/>
@@ -59,12 +56,9 @@
                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                 </tableHeaderCell>
-                                                <buttonCell key="dataCell" type="check" title="Check" bezelStyle="regularSquare" imagePosition="only" alignment="center" inset="2" id="124" customClass="OEButtonCell">
+                                                <buttonCell key="dataCell" type="check" title="Check" bezelStyle="regularSquare" imagePosition="only" alignment="center" inset="2" id="124" >
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_checkbox"/>
-                                                    </userDefinedRuntimeAttributes>
                                                 </buttonCell>
                                             </tableColumn>
                                             <tableColumn identifier="path" width="463" minWidth="100" maxWidth="1100000" id="75">
@@ -99,42 +93,33 @@
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
                         </scrollView>
-                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nfP-Bk-Jmp" customClass="OELabel">
+                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nfP-Bk-Jmp" >
                             <rect key="frame" x="17" y="333" width="97" height="17"/>
-                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Resolve Issues:" id="0HB-UU-ULs" customClass="OELabelCell">
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Resolve Issues:" id="0HB-UU-ULs" >
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_issues_headline"/>
-                            </userDefinedRuntimeAttributes>
                         </textField>
-                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="130" customClass="OEPopUpButton">
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="130">
                             <rect key="frame" x="97" y="18" width="174" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="23" id="Mev-cn-noN"/>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="169" id="nAL-px-BBp"/>
                             </constraints>
-                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="131" customClass="OEPopUpButtonCell">
+                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="131">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
                                 <menu key="menu" id="132"/>
                             </popUpButtonCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_popup_button"/>
-                            </userDefinedRuntimeAttributes>
                         </popUpButton>
-                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="juM-7u-mF2" customClass="OELabel">
+                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="juM-7u-mF2" >
                             <rect key="frame" x="18" y="22" width="75" height="17"/>
-                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Import Into:" id="QPy-Ob-0E6" customClass="OELabelCell">
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Import Into:" id="QPy-Ob-0E6" >
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_text"/>
-                            </userDefinedRuntimeAttributes>
                         </textField>
                     </subviews>
                     <constraints>
@@ -154,9 +139,6 @@
                         <constraint firstItem="juM-7u-mF2" firstAttribute="leading" secondItem="125" secondAttribute="leading" constant="20" id="zZ4-LC-1Eg"/>
                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nfP-Bk-Jmp" secondAttribute="trailing" constant="19" id="zxn-0M-7EL"/>
                     </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_issues_background"/>
-                    </userDefinedRuntimeAttributes>
                 </customView>
             </subviews>
             <constraints>

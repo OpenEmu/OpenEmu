@@ -84,19 +84,15 @@
                                 <constraint firstItem="317" firstAttribute="top" secondItem="315" secondAttribute="bottom" constant="8" id="lG2-v4-eqO"/>
                                 <constraint firstItem="315" firstAttribute="leading" secondItem="298" secondAttribute="leading" constant="19" id="uh2-p1-uFl"/>
                             </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
-                            </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="300" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="300" >
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="301" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="301" >
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button_blue"/>
                                 <userDefinedRuntimeAttribute type="number" keyPath="OEFSMEventNumber">
                                     <integer key="value" value="2"/>
                                 </userDefinedRuntimeAttribute>
@@ -128,10 +124,10 @@
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="294">
                     <rect key="frame" x="164" y="102" width="504" height="335"/>
                     <subviews>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="249" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="249" >
                             <rect key="frame" x="21" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="250" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="250" >
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -190,12 +186,9 @@
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </tableHeaderCell>
-                                                                <buttonCell key="dataCell" type="check" bezelStyle="regularSquare" imagePosition="only" alignment="left" inset="2" id="293" customClass="OEButtonCell">
+                                                                <buttonCell key="dataCell" type="check" bezelStyle="regularSquare" imagePosition="only" alignment="left" inset="2" id="293" >
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_checkbox"/>
-                                                                    </userDefinedRuntimeAttributes>
                                                                 </buttonCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
@@ -261,19 +254,15 @@
                                 <constraint firstItem="A5g-3z-11R" firstAttribute="top" secondItem="327" secondAttribute="bottom" constant="12" id="eHI-hY-dtC"/>
                                 <constraint firstItem="327" firstAttribute="leading" secondItem="239" secondAttribute="leading" constant="19" id="xKa-7D-jsP"/>
                             </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
-                            </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="245" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="245" >
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="246" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="246" >
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button_blue"/>
                                 <userDefinedRuntimeAttribute type="number" keyPath="OEFSMEventNumber">
                                     <integer key="value" value="2"/>
                                 </userDefinedRuntimeAttribute>
@@ -308,15 +297,12 @@
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="269" customClass="OEBackgroundImageView">
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
                             <subviews>
-                                <button translatesAutoresizingMaskIntoConstraints="NO" id="277" customClass="OEButton">
+                                <button translatesAutoresizingMaskIntoConstraints="NO" id="277" >
                                     <rect key="frame" x="18" y="102" width="239" height="18"/>
-                                    <buttonCell key="cell" type="check" title="Allow OpenEmu To Scan For Games" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="280" customClass="OEButtonCell">
+                                    <buttonCell key="cell" type="check" title="Allow OpenEmu To Scan For Games" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="280" >
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_checkbox"/>
-                                    </userDefinedRuntimeAttributes>
                                 </button>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="330">
                                     <rect key="frame" x="17" y="219" width="98" height="17"/>
@@ -348,33 +334,26 @@
                                 <constraint firstItem="330" firstAttribute="leading" secondItem="269" secondAttribute="leading" constant="19" id="i1H-Jw-PqH"/>
                                 <constraint firstItem="277" firstAttribute="leading" secondItem="269" secondAttribute="leading" constant="20" id="xnb-Nj-JAv"/>
                             </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
-                            </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="271" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="271" >
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="274" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="274" >
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button_blue"/>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="processAllowGameScannerNextButtonAction:" target="-2" id="588"/>
                             </connections>
                         </button>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="270" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="270" >
                             <rect key="frame" x="21" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="275" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="275" >
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button"/>
                                 <userDefinedRuntimeAttribute type="number" keyPath="OEFSMEventNumber">
                                     <integer key="value" value="1"/>
                                 </userDefinedRuntimeAttribute>
@@ -406,15 +385,14 @@
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="339">
                     <rect key="frame" x="164" y="102" width="504" height="335"/>
                     <subviews>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="340" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="340" >
                             <rect key="frame" x="21" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="358" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="358" >
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button"/>
                                 <userDefinedRuntimeAttribute type="number" keyPath="OEFSMEventNumber">
                                     <integer key="value" value="1"/>
                                 </userDefinedRuntimeAttribute>
@@ -465,12 +443,9 @@
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </tableHeaderCell>
-                                                                <buttonCell key="dataCell" type="check" bezelStyle="regularSquare" imagePosition="only" alignment="left" inset="2" id="356" customClass="OEButtonCell">
+                                                                <buttonCell key="dataCell" type="check" bezelStyle="regularSquare" imagePosition="only" alignment="left" inset="2" id="356" >
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_checkbox"/>
-                                                                    </userDefinedRuntimeAttributes>
                                                                 </buttonCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
@@ -524,19 +499,15 @@
                                 <constraint firstItem="koe-1r-ibi" firstAttribute="leading" secondItem="341" secondAttribute="leading" constant="20" id="jen-7g-K2r"/>
                                 <constraint firstItem="344" firstAttribute="top" secondItem="346" secondAttribute="bottom" constant="8" id="kHc-aY-CjL"/>
                             </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
-                            </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="342" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="342" >
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="343" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="343" >
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button_blue"/>
                                 <userDefinedRuntimeAttribute type="number" keyPath="OEFSMEventNumber">
                                     <integer key="value" value="2"/>
                                 </userDefinedRuntimeAttribute>
@@ -608,19 +579,15 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                 <constraint firstItem="398" firstAttribute="leading" secondItem="397" secondAttribute="leading" constant="19" id="cdv-uS-b7E"/>
                                 <constraint firstItem="399" firstAttribute="leading" secondItem="397" secondAttribute="leading" constant="19" id="dxJ-V6-qdA"/>
                             </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
-                            </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="396" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="396" >
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Go" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="404" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Go" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="404" >
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button_green"/>
                                 <userDefinedRuntimeAttribute type="number" keyPath="OEFSMEventNumber">
                                     <integer key="value" value="2"/>
                                 </userDefinedRuntimeAttribute>
@@ -629,15 +596,14 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                 <action selector="processFSMButtonAction:" target="-2" id="587"/>
                             </connections>
                         </button>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="412" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="412" >
                             <rect key="frame" x="20" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="413" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="413" >
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button"/>
                                 <userDefinedRuntimeAttribute type="number" keyPath="OEFSMEventNumber">
                                     <integer key="value" value="1"/>
                                 </userDefinedRuntimeAttribute>

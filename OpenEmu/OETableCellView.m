@@ -28,11 +28,14 @@
 
 @implementation OETableCellView
 
-- (void)drawRect:(NSRect)dirtyRect {
-    [[self backgroundColor] setFill];
-    NSRectFill(dirtyRect);
+- (BOOL)wantsUpdateLayer
+{
+    return YES;
+}
 
-    [super drawRect:dirtyRect];
+- (void)updateLayer
+{
+    self.layer.backgroundColor = self.backgroundColor.CGColor;
 }
 
 @end

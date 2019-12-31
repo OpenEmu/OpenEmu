@@ -28,7 +28,6 @@
 
 #import "OEDBSavedGamesMedia.h"
 #import "OEGridMediaItemCell.h"
-#import "OEGridMediaGroupItemCell.h"
 
 #import "OELibraryDatabase.h"
 #import "OEDBSaveState.h"
@@ -42,7 +41,6 @@
 #import "OELibraryController.h"
 
 #import "OEButton.h"
-#import "OESearchField.h"
 
 #import "OEGridView.h"
 
@@ -107,7 +105,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     
     [self _setupToolbar];
     
-    OESearchField *searchField = self.libraryController.toolbar.searchField;
+    NSSearchField *searchField = self.libraryController.toolbar.searchField;
     searchField.enabled = YES;
     searchField.stringValue = self.currentSearchTerm ?: @"";
     
@@ -178,11 +176,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     OELibraryController *libraryController = self.libraryController;
     OELibraryToolbar *toolbar = libraryController.toolbar;
     
-    toolbar.gridViewButton.enabled = NO;
-    toolbar.listViewButton.enabled = NO;
-    toolbar.gridViewButton.state = NSControlStateValueOff;
-    toolbar.listViewButton.state = NSControlStateValueOff;
-    
+    toolbar.viewSelector.enabled = NO;
     toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
     
     NSSearchField *field = toolbar.searchField;
@@ -205,10 +199,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         toolbar.searchField.enabled = !_shouldShowBlankSlate;
         toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
         
-        toolbar.gridViewButton.enabled = NO;
-        toolbar.listViewButton.enabled = NO;
-        toolbar.gridViewButton.state = NSControlStateValueOff;
-        toolbar.listViewButton.state = NSControlStateValueOff;
+        toolbar.viewSelector.enabled = YES;
     }
 }
 
@@ -295,7 +286,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
 #pragma mark - OELibrarySubviewController Implementation
 
-- (NSArray*)selectedGames
+- (NSArray<OEDBGame *> *)selectedGames
 {
     return @[];
 }

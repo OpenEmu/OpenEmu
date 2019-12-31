@@ -62,7 +62,7 @@ extern NSString * const OELastCollectionViewKey;
 - (BOOL)shouldShowBlankSlate;
 
 #pragma mark -
-- (NSArray *)selectedGames;
+@property (readonly) NSArray<OEDBGame *> *selectedGames;
 @property (nonatomic) NSIndexSet *selectionIndexes;
 
 #pragma mark - Toolbar

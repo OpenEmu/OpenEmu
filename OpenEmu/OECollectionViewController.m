@@ -35,7 +35,6 @@
 
 #import "OEButton.h"
 #import "OESearchField.h"
-#import "OETableHeaderCell.h"
 #import "OECenteredTextFieldCell.h"
 #import "OEListViewDataSourceItem.h"
 
@@ -175,11 +174,6 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [listView setRowHeight:20.0];
     [listView setSortDescriptors:[self defaultSortDescriptors]];
     [listView setAllowsMultipleSelection:YES];
-
-    // There's no natural order for status indicators, so we don't allow that column to be sorted
-    OETableHeaderCell *romStatusHeaderCell = [[listView tableColumnWithIdentifier:@"listViewStatus"] headerCell];
-    [romStatusHeaderCell setClickable:NO];
-
     [listView registerForDraggedTypes:@[NSFilenamesPboardType]];
 
     for(NSTableColumn *aColumn in [listView tableColumns])
@@ -276,7 +270,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     return NO;
 }
 
-- (NSArray *)selectedGames
+- (NSArray<OEDBGame *> *)selectedGames
 {
     [self doesNotImplementOptionalSelector:_cmd];
     return nil;
@@ -409,18 +403,15 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     OELibraryToolbar *toolbar = self.libraryController.toolbar;
     switch (tag) {
         case OEGridViewTag:
-            toolbar.gridViewButton.state = NSControlStateValueOn;
-            toolbar.listViewButton.state = NSControlStateValueOff;
+            toolbar.viewSelector.selectedSegment = 0;
             toolbar.gridSizeSlider.enabled = YES;
             break;
         case OEListViewTag:
-            toolbar.gridViewButton.state = NSControlStateValueOff;
-            toolbar.listViewButton.state = NSControlStateValueOn;
+            toolbar.viewSelector.selectedSegment = 1;
             toolbar.gridSizeSlider.enabled = NO;
             break;
         case OEBlankSlateTag:
-            toolbar.gridSizeSlider.enabled = NO;
-            toolbar.gridViewButton.enabled = NO;
+            toolbar.viewSelector.enabled = NO;
             toolbar.listViewButton.enabled = NO;
             break;
     }
@@ -434,8 +425,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
         if (self.isSelected) {
             OELibraryToolbar *toolbar = self.libraryController.toolbar;
-            toolbar.gridViewButton.enabled = YES;
-            toolbar.listViewButton.enabled = YES;
+            toolbar.viewSelector.enabled = YES;
             toolbar.gridSizeSlider.enabled = self.selectedViewTag == OEGridViewTag;
             toolbar.searchField.enabled = YES;
             toolbar.searchField.menu = nil;
@@ -447,8 +437,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
         if (self.isSelected) {
             OELibraryToolbar *toolbar = self.libraryController.toolbar;
-            toolbar.gridViewButton.enabled = NO;
-            toolbar.listViewButton.enabled = NO;
+            toolbar.viewSelector.enabled = NO;
             toolbar.gridSizeSlider.enabled = NO;
             toolbar.searchField.enabled = NO;
             toolbar.searchField.menu = nil;
@@ -465,10 +454,9 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 - (OECollectionViewControllerViewTag)OE_currentViewTagByToolbarState
 {
-    if (self.libraryController.toolbar.gridViewButton.state == NSControlStateValueOn)
+    if (self.libraryController.toolbar.viewSelector.selectedSegment == 0)
         return OEGridViewTag;
-    else
-        return OEListViewTag;
+    return OEListViewTag;
 }
 
 #pragma mark - Toolbar Actions

@@ -42,7 +42,6 @@ class AppDelegate: NSDocumentController {
     static let releaseNotesAddress = "https://github.com/OpenEmu/OpenEmu/wiki/Release-notes"
     static let feedbackAddress = "https://github.com/OpenEmu/OpenEmu/issues"
     
-    @IBOutlet weak var aboutWindow: NSWindow!
     @IBOutlet weak var fileMenu: NSMenu!
     
     lazy var mainWindowController = OEMainWindowController(windowNibName: "MainWindow")
@@ -52,31 +51,10 @@ class AppDelegate: NSDocumentController {
         return Bundle.main.path(forResource: "Credits", ofType: "rtf")!
     }
     
-    dynamic var appVersion: String {
-        return Bundle.main.infoDictionary!["CFBundleVersion"] as! String
-    }
-    
-    dynamic var buildVersion: String {
-        return OEBuildInfo.buildVersion
-    }
-    
     dynamic var projectURLHyperlink: NSAttributedString {
         let address = "http://openemu.org"
         return NSAttributedString(string: address, hyperlinkURL: URL(string: address)!)
     }
-    
-    dynamic lazy var specialThanks: NSAttributedString = {
-        let msg = NSLocalizedString("Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub.", comment: "Special thanks message (about window).")
-        let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-        paragraphStyle.alignment = .center
-        paragraphStyle.lineHeightMultiple = 1.225
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize),
-            .paragraphStyle: paragraphStyle,
-            .foregroundColor: NSColor.white
-        ]
-        return NSAttributedString(string: msg, attributes: attributes)
-    }()
     
     var restoreWindow = false
     var libraryDidLoadObserverForRestoreWindow: AnyObject?
@@ -666,22 +644,8 @@ class AppDelegate: NSDocumentController {
         NSWorkspace.shared.open(URL(string: AppDelegate.feedbackAddress)!)
     }
     
-    // MARK: - About Window
-    
-    @IBAction func showAboutWindow(_ sender: AnyObject?) {
-        aboutWindow.center()
-        aboutWindow.makeKeyAndOrderFront(self)
-    }
-    
     @IBAction func showOpenEmuWindow(_ sender: AnyObject?) {
         mainWindowController.showWindow(sender)
-    }
-    
-    @IBAction func openWeblink(_ sender: AnyObject?) {
-        if let button = sender as? OEButton {
-            let url = URL(string: "http://" + button.title)!
-            NSWorkspace.shared.open(url)
-        }
     }
     
     // MARK: - Preferences Window

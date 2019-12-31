@@ -91,9 +91,9 @@ enum : OEFSMEventLabel
 @end
 
 
-#pragma mark - OEButton (OESetupAssistantAdditions)
+#pragma mark - NSButton (OESetupAssistantAdditions)
 
-@interface OEButton (OESetupAssistantAdditions)
+@interface NSButton (OESetupAssistantAdditions)
 @property(nonatomic, strong) NSNumber *OEFSMEventNumber;
 @end
 
@@ -198,7 +198,7 @@ enum : OEFSMEventLabel
 
 - (IBAction)processFSMButtonAction:(id)sender
 {
-    OEFSMEventLabel event = [[(OEButton *)sender OEFSMEventNumber] unsignedIntegerValue];
+    OEFSMEventLabel event = [[(NSButton *)sender OEFSMEventNumber] unsignedIntegerValue];
     [_fsm processEvent:event];
 }
 
@@ -559,9 +559,9 @@ enum : OEFSMEventLabel
 }
 @end
 
-#pragma mark - OEButton (OESetupAssistantAdditions)
+#pragma mark - NSButton (OESetupAssistantAdditions)
 
-@implementation OEButton (OESetupAssistantAdditions)
+@implementation NSButton (OESetupAssistantAdditions)
 
 - (void)setOEFSMEventNumber:(NSNumber *)number
 {
