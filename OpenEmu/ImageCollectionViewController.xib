@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ImageCollectionViewController" customModule="OpenEmu" customModuleProvider="target">
+            <connections>
+                <outlet property="blankSlateView" destination="ipW-DC-E2x" id="7Ic-n3-Zsm"/>
+                <outlet property="collectionView" destination="z2P-1K-PXA" id="IzT-Hy-IFD"/>
+                <outlet property="flowLayout" destination="Z0G-bd-ZRg" id="EaR-9c-1xM"/>
+                <outlet property="view" destination="omC-VH-llA" id="teQ-Uw-oY2"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customView id="omC-VH-llA">
+            <rect key="frame" x="0.0" y="0.0" width="163" height="96"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <point key="canvasLocation" x="65" y="246"/>
+        </customView>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="d28-O9-LD1">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="357"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <clipView key="contentView" drawsBackground="NO" id="btG-C4-DRG">
+                <rect key="frame" x="1" y="1" width="398" height="355"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <collectionView selectable="YES" allowsMultipleSelection="YES" id="z2P-1K-PXA" customClass="CollectionView" customModule="OpenEmu" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="398" height="355"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="40" sectionHeadersPinToVisibleBounds="YES" id="Z0G-bd-ZRg">
+                            <size key="itemSize" width="168" height="143"/>
+                            <size key="headerReferenceSize" width="1000" height="27"/>
+                            <edgeInsets key="sectionInset" left="45" right="45" top="40" bottom="40"/>
+                        </collectionViewFlowLayout>
+                        <color key="primaryBackgroundColor" name="Media Background"/>
+                        <connections>
+                            <outlet property="dataSource" destination="-2" id="7gH-3u-4lC"/>
+                            <outlet property="delegate" destination="-2" id="mTN-Zo-ceQ"/>
+                        </connections>
+                    </collectionView>
+                </subviews>
+            </clipView>
+            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="L3a-PR-GMF">
+                <rect key="frame" x="-100" y="-100" width="233" height="15"/>
+                <autoresizingMask key="autoresizingMask"/>
+            </scroller>
+            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="y44-Ea-XY1">
+                <rect key="frame" x="383" y="1" width="16" height="335"/>
+                <autoresizingMask key="autoresizingMask"/>
+            </scroller>
+            <point key="canvasLocation" x="64" y="537.5"/>
+        </scrollView>
+        <customView id="ipW-DC-E2x" customClass="OEBlankSlateView">
+            <rect key="frame" x="0.0" y="0.0" width="163" height="96"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <point key="canvasLocation" x="65" y="833"/>
+        </customView>
+    </objects>
+    <resources>
+        <namedColor name="Media Background">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

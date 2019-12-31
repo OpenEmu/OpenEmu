@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <visualEffectView blendingMode="withinWindow" material="headerView" state="followsWindowActiveState" id="01D-Kh-crt" customClass="ImageCollectionHeaderView" customModule="OpenEmu" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="563" height="27"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ez8-x4-kUV">
+                    <rect key="frame" x="463" y="6" width="82" height="16"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Image Count" id="j1Z-nR-9yt">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NHb-8I-u1p">
+                    <rect key="frame" x="18" y="5" width="86" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="17" id="dao-tQ-N3M"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Section Title" id="BKq-b6-TJb" userLabel="Section Title">
+                        <font key="font" metaFont="systemBold"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="NHb-8I-u1p" firstAttribute="leading" secondItem="01D-Kh-crt" secondAttribute="leading" constant="20" symbolic="YES" id="GSx-vc-TI3"/>
+                <constraint firstAttribute="trailing" secondItem="Ez8-x4-kUV" secondAttribute="trailing" constant="20" symbolic="YES" id="SLw-9c-ns2"/>
+                <constraint firstItem="NHb-8I-u1p" firstAttribute="centerY" secondItem="01D-Kh-crt" secondAttribute="centerY" id="VSd-7m-QXh"/>
+                <constraint firstItem="Ez8-x4-kUV" firstAttribute="baseline" secondItem="NHb-8I-u1p" secondAttribute="firstBaseline" id="xVC-Sn-ibn"/>
+            </constraints>
+            <connections>
+                <outlet property="imageCount" destination="Ez8-x4-kUV" id="ijq-Ak-a3L"/>
+                <outlet property="sectionTitle" destination="NHb-8I-u1p" id="ReH-VI-4Ea"/>
+            </connections>
+            <point key="canvasLocation" x="415.5" y="371.5"/>
+        </visualEffectView>
+    </objects>
+</document>
