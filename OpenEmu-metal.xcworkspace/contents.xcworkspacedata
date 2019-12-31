@@ -11,18 +11,6 @@
       location = "group:OpenEmu-SDK/OpenEmu-SDK.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:PPSSPP/PPSSPP.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:SNES9x/SNES9x.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:OpenEmu-Shaders/OpenEmuShaders.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Mupen64Plus/Mupen64Plus.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Stella/Stella.xcodeproj">
    </FileRef>
 </Workspace>
