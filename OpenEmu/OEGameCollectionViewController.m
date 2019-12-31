@@ -32,7 +32,6 @@
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "OERatingCell.h"
 #import "OEMainWindowController.h"
-#import "OELibraryController.h"
 #import "OELibraryGamesViewController.h"
 
 #import "OELibraryDatabase.h"

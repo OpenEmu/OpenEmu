@@ -29,7 +29,6 @@
 
 #import "OESetupAssistant.h"
 #import "OECoreUpdater.h"
-#import "OELibraryController.h"
 #import "OELibraryDatabase.h"
 #import "OEButton.h"
 

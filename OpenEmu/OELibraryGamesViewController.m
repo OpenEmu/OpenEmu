@@ -31,7 +31,6 @@
 #import "OEButton.h"
 #import "OESearchField.h"
 #import "OELibrarySplitView.h"
-#import "OELibraryController.h"
 
 #import "OEDBCollection.h"
 #import "OEDBSystem+CoreDataProperties.h"

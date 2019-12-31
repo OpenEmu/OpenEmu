@@ -31,7 +31,6 @@
 #import "OEBlankSlateBackgroundView.h"
 #import "OEHomebrewCoverView.h"
 #import "OEDBSystem+CoreDataProperties.h"
-#import "OELibraryController.h"
 #import "OELibraryDatabase.h"
 
 #import "OEHomebrewBlankSlateView.h"

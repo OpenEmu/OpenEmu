@@ -133,6 +133,7 @@
 		05410EF122F7538B00303424 /* SliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF022F7538B00303424 /* SliderCell.xib */; };
 		05410EF322F756BD00303424 /* GroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF222F756BD00303424 /* GroupCell.xib */; };
 		05410EF522F7573D00303424 /* CheckboxCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF422F7573D00303424 /* CheckboxCell.xib */; };
+		05427663236152CB009B6615 /* LibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05427662236152CB009B6615 /* LibraryController.swift */; };
 		0557CB1822A7504B0037175F /* OEShadersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1722A7504B0037175F /* OEShadersModel.swift */; };
 		0557CB1922A77D7C0037175F /* OEShadersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1722A7504B0037175F /* OEShadersModel.swift */; };
 		0557CB1B22A781B60037175F /* OEShadersModel+OpenEmu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */; };
@@ -226,7 +227,6 @@
 		53439A9D13B92C97005C0CC8 /* OEDBSmartCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9913B92C97005C0CC8 /* OEDBSmartCollection.m */; };
 		53439AA213B92C9D005C0CC8 /* OEDBGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9F13B92C9D005C0CC8 /* OEDBGame.m */; };
 		53439AA313B92C9D005C0CC8 /* OEDBSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AA113B92C9D005C0CC8 /* OEDBSystem.m */; };
-		53439AA613B92CC7005C0CC8 /* OELibraryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AA513B92CC7005C0CC8 /* OELibraryController.m */; };
 		53439AAB13B92CE6005C0CC8 /* OECollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */; };
 		53439AE313B92E59005C0CC8 /* OERatingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439ADA13B92E59005C0CC8 /* OERatingCell.m */; };
 		53439AE613B92E59005C0CC8 /* OETableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AE013B92E59005C0CC8 /* OETableHeaderView.m */; };
@@ -1448,6 +1448,7 @@
 		05410EF022F7538B00303424 /* SliderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SliderCell.xib; sourceTree = "<group>"; };
 		05410EF222F756BD00303424 /* GroupCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupCell.xib; sourceTree = "<group>"; };
 		05410EF422F7573D00303424 /* CheckboxCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CheckboxCell.xib; sourceTree = "<group>"; };
+		05427662236152CB009B6615 /* LibraryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryController.swift; sourceTree = "<group>"; };
 		0557CB1722A7504B0037175F /* OEShadersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEShadersModel.swift; sourceTree = "<group>"; };
 		0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEShadersModel+OpenEmu.swift"; sourceTree = "<group>"; };
 		05644A06233312C60033576F /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Main.strings; sourceTree = "<group>"; };
@@ -1616,8 +1617,6 @@
 		53439A9F13B92C9D005C0CC8 /* OEDBGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OEDBGame.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		53439AA013B92C9D005C0CC8 /* OEDBSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSystem.h; sourceTree = "<group>"; };
 		53439AA113B92C9D005C0CC8 /* OEDBSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSystem.m; sourceTree = "<group>"; };
-		53439AA413B92CC7005C0CC8 /* OELibraryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryController.h; sourceTree = "<group>"; };
-		53439AA513B92CC7005C0CC8 /* OELibraryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryController.m; sourceTree = "<group>"; };
 		53439AA813B92CE5005C0CC8 /* OECollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECollectionViewController.h; sourceTree = "<group>"; };
 		53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OECollectionViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		53439AB113B92DA3005C0CC8 /* OECoverGridDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverGridDataSourceItem.h; sourceTree = "<group>"; };
@@ -4019,8 +4018,7 @@
 				53439AA713B92CD4005C0CC8 /* Collection View */,
 				83F444FA196CA207007E8C63 /* Homebrew */,
 				8306CD0C1BD3ABFD0025BC6C /* Games Library */,
-				53439AA413B92CC7005C0CC8 /* OELibraryController.h */,
-				53439AA513B92CC7005C0CC8 /* OELibraryController.m */,
+				05427662236152CB009B6615 /* LibraryController.swift */,
 				8337393515BFD77900D83D2F /* OELibrarySubviewController.h */,
 				012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */,
 				5A9606DB1C0A84BC0089B494 /* LibraryToolbar.swift */,
@@ -7616,7 +7614,6 @@
 				53439AA213B92C9D005C0CC8 /* OEDBGame.m in Sources */,
 				05FB7D8522A0A4A40070633C /* OECoreVideoTexture.m in Sources */,
 				53439AA313B92C9D005C0CC8 /* OEDBSystem.m in Sources */,
-				53439AA613B92CC7005C0CC8 /* OELibraryController.m in Sources */,
 				5A9606EA1C0BD2BD0089B494 /* DLog.swift in Sources */,
 				8306CD3E1BD3DB180025BC6C /* OEGameCollectionViewController.m in Sources */,
 				53439AAB13B92CE6005C0CC8 /* OECollectionViewController.m in Sources */,
@@ -7709,6 +7706,7 @@
 				836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */,
 				831C9AD0160096E000038D0D /* OEMatrix.m in Sources */,
 				831C9AD61600971600038D0D /* OEButton.m in Sources */,
+				05427663236152CB009B6615 /* LibraryController.swift in Sources */,
 				831C9AD71600971600038D0D /* OEButtonCell.m in Sources */,
 				83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */,
 				5A79F7951C15F542003124D5 /* PreferencesWindowController.swift in Sources */,

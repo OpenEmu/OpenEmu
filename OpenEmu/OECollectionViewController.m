@@ -30,7 +30,6 @@
 #import "OEGameViewController.h"
 #import "OEGameDocument.h"
 
-#import "OELibraryController.h"
 #import "OEROMImporter.h"
 
 #import "OEButton.h"
