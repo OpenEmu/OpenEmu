@@ -26,7 +26,6 @@
 @import Cocoa;
 #import "OEPreferencePane.h"
 
-@class OEBackgroundGradientView;
 @class OECenteredTextFieldCell;
 @interface OEPrefCoresController : NSViewController <OEPreferencePane, NSTableViewDataSource, NSTableViewDelegate>
 

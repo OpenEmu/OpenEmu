@@ -26,7 +26,6 @@
 @import Cocoa;
 #import "OEPreferencePane.h"
 
-@class OEBackgroundGradientView;
 @class OECenteredTextFieldCell;
 
 extern NSString * const OEPreferencesAlwaysShowBiosKey;
