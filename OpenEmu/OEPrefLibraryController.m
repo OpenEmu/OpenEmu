@@ -442,7 +442,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
 
 - (IBAction)toggleSystem:(id)sender
 {    
-    OEButton *checkbox = (OEButton *)sender;
+    NSButton *checkbox = (NSButton *)sender;
     NSString *systemIdentifier = checkbox.cell.representedObject;
 
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
@@ -528,8 +528,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
          // creating the button
          NSRect rect = NSMakeRect(x, y, iWidth, iHeight);
          NSString *systemIdentifier = system.systemIdentifier;
-         OEButton *button = [[OEButton alloc] initWithFrame:rect];
-         [button setThemeKey:@"dark_checkbox"];
+         NSButton *button = [[NSButton alloc] initWithFrame:rect];
          button.buttonType = NSButtonTypeSwitch;
          button.target = self;
          button.action = @selector(toggleSystem:);
@@ -568,8 +567,11 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
          {
              // Show a warning badge next to the checkbox
              // this is currently misusing the beta_icon image
-
-             NSPoint badgePosition = button.badgePosition;
+             
+             const NSRect frame = button.frame;
+             const CGFloat y = floor(NSMinY(frame) + 1);
+             const CGFloat x = floor(NSMinX(frame) + button.attributedTitle.size.width + 27);
+             NSPoint badgePosition = NSMakePoint(x, y);
              NSImageView *imageView = [[NSImageView alloc] initWithFrame:(NSRect){ badgePosition, { 16, 17 } }];
              imageView.image = [NSImage imageNamed:@"beta_icon"];
 
