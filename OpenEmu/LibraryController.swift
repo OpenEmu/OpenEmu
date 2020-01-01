@@ -256,7 +256,7 @@ class OELibraryController: NSViewController {
                 return true
             }
             
-            if let ctl = currentSubviewController as? OEMediaViewController, ctl.representedObject() as? OEDBSavedGamesMedia != nil && ctl.selectedSaveStates.count > 0 {
+            if let ctl = currentSubviewController as? OEMediaViewController, ctl.representedObject as? OEDBSavedGamesMedia != nil && ctl.selectedSaveStates.count > 0 {
                 return true
             }
             

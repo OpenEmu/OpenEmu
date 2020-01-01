@@ -59,7 +59,7 @@ extern NSString *const OEMainViewMinWidth;
 
 - (void)changeDefaultCore:(id)sender;
 
-- (id<OESidebarItem>)selectedSidebarItem;
+@property (nonatomic, readonly) id<OESidebarItem> selectedSidebarItem;
 
 @property (strong) OESidebarOutlineView *view;
 @property (strong, nonatomic) OELibraryDatabase *database;

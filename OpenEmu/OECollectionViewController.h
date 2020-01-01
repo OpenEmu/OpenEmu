@@ -85,7 +85,7 @@ extern NSString * const OELastCollectionViewKey;
 - (NSInteger)imageBrowserViewIndexForPreviewItem:(id <QLPreviewItem>)item;
 
 #pragma mark -
-- (id <OECollectionViewItemProtocol>)representedObject;
+@property(strong) id<OECollectionViewItemProtocol> representedObject;
 
 @property(nonatomic, readonly) OECollectionViewControllerViewTag selectedViewTag;
 @property(nonatomic, weak) IBOutlet OELibraryController *libraryController;
