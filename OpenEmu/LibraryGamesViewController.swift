@@ -29,5 +29,160 @@ class LibraryGamesViewController: NSViewController {
     @objc
     weak public var libraryController: OELibraryController!
     
-    @IBOutlet weak public var collectionController: GameCollectionViewController!
+    @IBOutlet weak public var sidebarController: OESidebarController!
+    @IBOutlet weak public var collectionController: OEGameCollectionViewController!
+    @IBOutlet weak public var gameScannerController: GameScannerViewController!
+    
+    @IBOutlet weak public var collectionViewContainer: NSView!
+    
+    override var nibName: NSNib.Name? {
+        return NSNib.Name("OELibraryGamesViewController")
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        sidebarController.database = libraryController.database
+        collectionController.libraryController = libraryController
+        gameScannerController.libraryController = libraryController
+    }
+    
+    @objc func showIssuesView(_ sender: Any?) {
+        presentAsSheet(gameScannerController)
+    }
+    
+    @objc func makeNewCollectionWithSelectedGames(_ sender: Any?) {
+        precondition(Thread.isMainThread, "Only call on main thread")
+        
+        let collection = sidebarController.addCollection()
+        collection.games = Set(selectedGames)
+        collection.save()
+        
+        collectionController.setNeedsReload()
+    }
+    
+    // MARK: - Overrides
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let noc = NotificationCenter.default
+        noc.addObserver(self, selector: #selector(updateCollectionContentsFromSidebar(_:)), name: Notification.Name(rawValue: OESidebarSelectionDidChangeNotificationName), object: sidebarController)
+        
+        let collectionView = collectionController.view
+        collectionView.frame = collectionViewContainer.bounds
+        collectionView.autoresizingMask = [.width, .height]
+        collectionViewContainer.addSubview(collectionView)
+        
+        addChild(sidebarController)
+        addChild(collectionController)
+        
+        updateCollectionContentsFromSidebar(nil)
+    }
+    
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        
+        setupToolbar()
+        
+        view.needsDisplay = true
+    }
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        collectionController.updateBlankSlate()
+    }
+    
+    // MARK: - Private
+    
+    private func setupToolbar() {
+        guard let toolbar = libraryController.toolbar else { return }
+        
+        toolbar.gridSizeSlider.isEnabled = true
+        toolbar.viewSelector.isEnabled = true
+        
+        if collectionController.selectedViewTag == .gridViewTag {
+            toolbar.viewSelector.selectedSegment = 0
+        } else {
+            toolbar.viewSelector.selectedSegment = 1
+        }
+        
+        guard let field = toolbar.searchField else { return }
+        field.searchMenuTemplate = nil
+        field.isEnabled = false
+        field.stringValue = ""
+    }
+    
+    // MARK: - Toolbar
+    
+    @IBAction func addCollectionAction(_ sender: Any?) {
+        sidebarController.addCollectionAction(sender)
+    }
+    
+    enum MainMenuTag: Int {
+        case grid = 301
+        case list = 302
+    }
+    
+    @IBAction func switchToGridView(_ sender: Any?) {
+        collectionController.switchToGridView(sender)
+        guard let viewMenu = NSApp.mainMenu?.item(at: 3)?.submenu else { return }
+        viewMenu.item(withTag: MainMenuTag.grid.rawValue)?.state = .on
+        viewMenu.item(withTag: MainMenuTag.list.rawValue)?.state = .off
+    }
+    
+    @IBAction func switchToListView(_ sender: Any?) {
+        collectionController.switchToListView(sender)
+        guard let viewMenu = NSApp.mainMenu?.item(at: 3)?.submenu else { return }
+        viewMenu.item(withTag: MainMenuTag.grid.rawValue)?.state = .off
+        viewMenu.item(withTag: MainMenuTag.list.rawValue)?.state = .on
+    }
+    
+    @IBAction func search(_ sender: Any?) {
+        collectionController.search(sender)
+    }
+    
+    @IBAction func changeGridSize(_ sender: Any?) {
+        collectionController.changeGridSize(sender)
+    }
+    
+    // MARK: - Sidebar Handling
+    
+    @objc func updateCollectionContentsFromSidebar(_ sender: Any?) {
+        guard let selectedItem = sidebarController.selectedSidebarItem else { return }
+        precondition(selectedItem is OECollectionViewItemProtocol, "does not implement protocol")
+        collectionController.representedObject = (selectedItem as! OECollectionViewItemProtocol)
+        
+        if
+            let system = selectedItem as? OEDBSystem,
+            let plugin = system.plugin,
+            let games = system.games,
+            
+            plugin.supportsDiscs && games.count == 0 && !Self.skipDiscGuideMessage {
+            
+            let alert = NSAlert()
+            alert.messageText = NSLocalizedString("Have you read the guide?", comment: "")
+            alert.informativeText = NSLocalizedString("Disc-based games have special requirements. Please read the disc importing guide.", comment: "")
+            alert.alertStyle = .informational
+            alert.addButton(withTitle: NSLocalizedString("View Guide in Browser", comment: ""))
+            alert.addButton(withTitle: NSLocalizedString("Dismiss", comment: ""))
+            
+            alert.beginSheetModal(for: view.window!) { (returnCode) in
+                guard returnCode == .alertFirstButtonReturn else { return }
+                let guideURL = URL(string: OECDBasedGamesUserGuideURLString)!
+                NSWorkspace.shared.open(guideURL)
+            }
+        }
+    }
+    
+    // MARK: - Defaults
+    
+    @UserDefault("OESkipDiscGuideMessageKey", defaultValue: false)
+    static var skipDiscGuideMessage: Bool
+}
+
+extension LibraryGamesViewController: OELibrarySubviewController {
+    @objc var selectedGames: [OEDBGame]! {
+        return collectionController.selectedGames
+    }
 }

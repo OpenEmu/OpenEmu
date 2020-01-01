@@ -63,7 +63,6 @@
 #import "OEImportOperation.h"
 #import "OEPrefBiosController.h"
 #import "OEMainWindowController.h"
-#import "OELibraryGamesViewController.h"
 #import "OEDBSavedGamesMedia.h"
 
 #import "OpenEmu-Swift.h"
@@ -286,23 +285,13 @@ extern NSString *const OELibrarySplitViewResetSidebarNotification;
 - (void)showGameScannerView:(id)sender {
     
     OEMainWindowController *mainWindowController = self.mainWindow.windowController;
-    id <OELibrarySubviewController> currentViewController = mainWindowController.libraryController.currentSubviewController;
-    
-    if([currentViewController isKindOfClass:[OELibraryGamesViewController class]])
-    {
-        [((OELibraryGamesViewController *)currentViewController).gameScannerController showGameScannerViewAnimated:YES];
-    }
+    [mainWindowController.libraryController showGameScannerViewWithAnimated:YES];
 }
 
 - (void)hideGameScannerView:(id)sender {
     
     OEMainWindowController *mainWindowController = self.mainWindow.windowController;
-    id <OELibrarySubviewController> currentViewController = mainWindowController.libraryController.currentSubviewController;
-    
-    if([currentViewController isKindOfClass:[OELibraryGamesViewController class]])
-    {
-        [((OELibraryGamesViewController *)currentViewController).gameScannerController hideGameScannerViewAnimated:YES];
-    }
+    [mainWindowController.libraryController hideGameScannerViewWithAnimated:YES];
 }
 
 #pragma mark -

@@ -32,7 +32,6 @@
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "OERatingCell.h"
 #import "OEMainWindowController.h"
-#import "OELibraryGamesViewController.h"
 
 #import "OELibraryDatabase.h"
 #import "OEDBGame.h"
@@ -207,7 +206,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 
 - (BOOL)isSelected
 {
-    return [self.libraryController.currentSubviewController isKindOfClass:[OELibraryGamesViewController class]];
+    return [self.libraryController.currentSubviewController isKindOfClass:[LibraryGamesViewController class]];
 }
 
 - (NSArray<OEDBGame *> *)selectedGames

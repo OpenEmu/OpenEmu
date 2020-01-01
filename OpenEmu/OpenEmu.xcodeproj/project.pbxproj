@@ -316,7 +316,6 @@
 		83025E60146BDD5E00A06EF9 /* OECoreTableButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83025E5F146BDD5E00A06EF9 /* OECoreTableButtonCell.m */; };
 		83025E66146BE68E00A06EF9 /* OECoreTableProgressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83025E65146BE68D00A06EF9 /* OECoreTableProgressCell.m */; };
 		8305A48018FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */; };
-		8306CD101BD3AC180025BC6C /* OELibraryGamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD0E1BD3AC180025BC6C /* OELibraryGamesViewController.m */; };
 		8306CD261BD3AC3D0025BC6C /* OESidebarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8306CD1A1BD3AC3D0025BC6C /* OESidebarController.xib */; };
 		8306CD2B1BD3AD480025BC6C /* OESidebarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD161BD3AC3D0025BC6C /* OESidebarCell.m */; };
 		8306CD2C1BD3AD480025BC6C /* OESidebarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD181BD3AC3D0025BC6C /* OESidebarController.m */; };
@@ -1791,8 +1790,6 @@
 		83025E65146BE68D00A06EF9 /* OECoreTableProgressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreTableProgressCell.m; sourceTree = "<group>"; };
 		8305A47E18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewCellIndicationLayer.h; sourceTree = "<group>"; };
 		8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewCellIndicationLayer.m; sourceTree = "<group>"; };
-		8306CD0D1BD3AC180025BC6C /* OELibraryGamesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryGamesViewController.h; sourceTree = "<group>"; };
-		8306CD0E1BD3AC180025BC6C /* OELibraryGamesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryGamesViewController.m; sourceTree = "<group>"; };
 		8306CD151BD3AC3D0025BC6C /* OESidebarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarCell.h; sourceTree = "<group>"; };
 		8306CD161BD3AC3D0025BC6C /* OESidebarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarCell.m; sourceTree = "<group>"; };
 		8306CD171BD3AC3D0025BC6C /* OESidebarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarController.h; sourceTree = "<group>"; };
@@ -3190,7 +3187,6 @@
 			children = (
 				056549DB23BB94AD00150FAF /* GameCollectionViewController.swift */,
 				056549E523BBAD1E00150FAF /* GameTableView.xib */,
-				056549ED23BBC6F000150FAF /* LibraryGamesViewController.swift */,
 			);
 			name = "Games Library";
 			sourceTree = "<group>";
@@ -4016,8 +4012,7 @@
 				8306CD3D1BD3DB180025BC6C /* OEGameCollectionViewItemProtocol.h */,
 				5AFD06BC2058893B00DFE765 /* GameScannerViewController.swift */,
 				8306CD121BD3AC1B0025BC6C /* Sidebar */,
-				8306CD0D1BD3AC180025BC6C /* OELibraryGamesViewController.h */,
-				8306CD0E1BD3AC180025BC6C /* OELibraryGamesViewController.m */,
+				056549ED23BBC6F000150FAF /* LibraryGamesViewController.swift */,
 				8F5074761C10BCEC00F52B83 /* OELibraryGamesViewController.xib */,
 			);
 			name = "Games Library";
@@ -7716,7 +7711,6 @@
 				53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */,
 				054276532361318E009B6615 /* ImageCollectionHeaderView.swift in Sources */,
 				83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */,
-				8306CD101BD3AC180025BC6C /* OELibraryGamesViewController.m in Sources */,
 				5A9606DC1C0A84BC0089B494 /* LibraryToolbar.swift in Sources */,
 				53439A9B13B92C97005C0CC8 /* OEDBCollection.m in Sources */,
 				53439A9C13B92C97005C0CC8 /* OEDBCollectionFolder.m in Sources */,

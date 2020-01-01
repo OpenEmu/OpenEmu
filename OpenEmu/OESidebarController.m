@@ -236,6 +236,11 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     return item;
 }
 
+- (OEDBCollection *)addCollection
+{
+    return (OEDBCollection *)[self addCollection:NO];
+}
+
 - (id)duplicateCollection:(id)originalCollection
 {
     OEDBCollection *duplicateCollection = [self.database addNewCollection:[NSString stringWithFormat:NSLocalizedString(@"%@ copy", @"Duplicated collection name"), [originalCollection valueForKey:@"name"]]];

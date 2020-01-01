@@ -43,7 +43,7 @@ class GameScannerViewController: NSViewController {
    
     @IBOutlet private weak var bottomBar: NSView!
     @IBOutlet private weak var sourceListScrollView: NSScrollView!
-    @IBOutlet private weak var libraryGamesViewController: OELibraryGamesViewController!
+    @IBOutlet private weak var libraryGamesViewController: LibraryGamesViewController!
     
     private var itemsRequiringAttention = [OEImportOperation]()
     private var isScanningDirectory = false
@@ -187,7 +187,7 @@ class GameScannerViewController: NSViewController {
         fixButton.alignment = .left
         fixButton.imagePosition = .imageRight
         fixButton.target = libraryGamesViewController
-        fixButton.action = #selector(OELibraryGamesViewController.showIssuesView(_:))
+        fixButton.action = #selector(LibraryGamesViewController.showIssuesView(_:))
         fixButton.title = NSLocalizedString("Resolve Issues", comment: "")
         fixButton.isHidden = true
         

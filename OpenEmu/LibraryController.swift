@@ -40,11 +40,31 @@ class OELibraryController: NSViewController {
         case grid, list
     }
     
+    // MARK: Properties
+    
     @objc weak var delegate: LibraryControllerDelegate?
     
     override var nibName: NSNib.Name? {
         return NSNib.Name("OELibraryController")
     }
+    
+    @objc lazy var database: OELibraryDatabase = {
+        return OELibraryDatabase.default!
+    }()
+    
+    @objc var currentSubviewController: (NSViewController & OELibrarySubviewController)?
+    var selectedCatagory: Category = .games
+    
+    @IBOutlet var toolbar: LibraryToolbar?
+    
+    var libraryGamesViewController: LibraryGamesViewController!
+    var saveStatesViewController: OEMediaViewController!
+    var saveStatesViewController2: SaveStateViewController!
+    var screenshotsViewController: OEMediaViewController!
+    var screenshotsViewController2: ScreenshotViewController!
+    var homebrewViewController: OEHomebrewViewController!
+
+    // MARK: - Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,12 +73,10 @@ class OELibraryController: NSViewController {
         selectedCatagory = Category(rawValue: last) ?? .games
         showSubviewController(category: selectedCatagory)
     }
-    
-    var selectedCatagory: Category = .games
-    
+
     func setUpCategoryViewControllers()
     {
-        libraryGamesViewController = OELibraryGamesViewController()
+        libraryGamesViewController = LibraryGamesViewController()
         libraryGamesViewController.libraryController = self
         
         #if !USE_NEW
@@ -252,7 +270,7 @@ class OELibraryController: NSViewController {
         
         switch sel {
         case #selector(startSelectedGame(_:)):
-            if let ctl = currentSubviewController as? OELibraryGamesViewController, ctl.selectedGames.count > 0 {
+            if let ctl = currentSubviewController as? LibraryGamesViewController, ctl.selectedGames.count > 0 {
                 return true
             }
             
@@ -361,23 +379,22 @@ class OELibraryController: NSViewController {
         
         delegate?.libraryController?(self, didSelectSaveState: saveState)
     }
+}
+
+// MARK: - Debug
+
+extension OELibraryController {
+    @objc func showGameScannerView(animated: Bool) {
+        if let ctl = currentSubviewController as? LibraryGamesViewController {
+            ctl.gameScannerController.showGameScannerView(animated: animated)
+        }
+    }
     
-    // MARK: Properties
-    @objc lazy var database: OELibraryDatabase = {
-        return OELibraryDatabase.default!
-    }()
-    
-    @objc var currentSubviewController: (NSViewController & OELibrarySubviewController)?
-    
-    @IBOutlet var toolbar: LibraryToolbar?
-    
-    var libraryGamesViewController: OELibraryGamesViewController!
-    var saveStatesViewController: OEMediaViewController!
-    var saveStatesViewController2: SaveStateViewController!
-    var screenshotsViewController: OEMediaViewController!
-    var screenshotsViewController2: ScreenshotViewController!
-    var homebrewViewController: OEHomebrewViewController!
-    
+    @objc func hideGameScannerView(animated: Bool) {
+        if let ctl = currentSubviewController as? LibraryGamesViewController {
+            ctl.gameScannerController.hideGameScannerView(animated: animated)
+        }
+    }
 }
 
 @objc(OELibraryControllerDelegate)
