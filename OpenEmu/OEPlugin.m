@@ -192,6 +192,15 @@ static NSMutableDictionary *_pluginsForNamesByTypes  = nil;
         if(_path != nil)
         {
             [self OE_setupWithBundleAtPath:aPath];
+            if (self.outOfSupport) {
+                /* plugin must be removed */
+                NSLog(@"Removing out-of-support plugin %@", _path);
+                NSFileManager *fm = [NSFileManager defaultManager];
+                NSError *error;
+                if (![fm removeItemAtPath:_path error:&error])
+                    NSLog(@"Error when removing out-of-support plugin: %@", error);
+                return nil;
+            }
             [[self class] OE_pluginsForPathsOfType:[self class] createIfNeeded:YES][_path] = self;
         }
 
@@ -262,6 +271,16 @@ static NSString *OE_pluginPathForNameType(NSString *aName, Class aType)
     return (  _bundle != nil
             ? [NSString stringWithFormat:@"Type: %@, Bundle: %@, Version: %@", [[self class] pluginType], _displayName, _version]
             : [NSString stringWithFormat:@"Type: %@, Path: %@", [[self class] pluginType], _path]);
+}
+
+- (BOOL)isDeprecated
+{
+    return self.outOfSupport;
+}
+
+- (BOOL)isOutOfSupport
+{
+    return NO;
 }
 
 NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)

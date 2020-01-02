@@ -155,4 +155,19 @@ static NSArray *_cachedSupportedSystemTypes = nil;
 {
     return [[self controller] coverAspectRatio];
 }
+
+- (BOOL)isOutOfSupport
+{
+    /* system plugins are shipped inside the application bundle; all
+     * plugins located in the application support directory must be removed. */
+    NSURL *bundlePath = [[[self bundle] bundleURL] baseURL];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSURL *systemsDirectory = [[fm URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
+    systemsDirectory = [systemsDirectory URLByAppendingPathComponent:@"OpenEmu/Systems"];
+    if ([systemsDirectory.path isEqual:bundlePath.path])
+        return YES;
+        
+    return NO;
+}
+
 @end

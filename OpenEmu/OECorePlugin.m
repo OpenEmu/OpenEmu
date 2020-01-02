@@ -144,4 +144,26 @@ static NSArray *_cachedRequiredFiles = nil;
     return _gameCoreClass;
 }
 
+#pragma mark Deprecation Handling
+
+- (BOOL)isOutOfSupport
+{
+    /* plugins deprecated 2017-11-04 */
+    NSString *bundleName = [[[self bundle] bundleURL] lastPathComponent];
+    NSArray *deprecatedPlugins = @[
+        @"NeoPop.oecoreplugin",
+        @"TwoMbit.oecoreplugin",
+        @"VisualBoyAdvance.oecoreplugin",
+        @"Yabause.oecoreplugin"];
+    if ([deprecatedPlugins containsObject:bundleName])
+        return YES;
+        
+    /* beta-era plugins */
+    NSString *appcastURL = self.infoDictionary[@"SUFeedURL"];
+    if ([appcastURL containsString:@"openemu.org/update"])
+        return YES;
+    
+    return NO;
+}
+
 @end

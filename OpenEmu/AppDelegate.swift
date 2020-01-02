@@ -145,9 +145,6 @@ class AppDelegate: NSDocumentController {
         
         super.init()
 
-        // Needs to happen early to hopefully prevent a Sparkle crash.
-        removeDeprecatedPlugins()
-
         // Load the XPC communicator framework. This used to be conditional on the existence of NSXPCConnection, but now OpenEmu's minimum supported version of macOS will always have NSXPCConnection.
         let xpcFrameworkPath = (Bundle.main.privateFrameworksPath! as NSString).appendingPathComponent("OpenEmuXPCCommunicator.framework")
         let xpcFrameworkBundle = Bundle(path: xpcFrameworkPath)
@@ -516,23 +513,7 @@ class AppDelegate: NSDocumentController {
     
     // MARK: -
 
-    fileprivate func removeDeprecatedPlugins() {
-        // Remove deprecated core plugins.
-        let corePlugins = [
-            "NeoPop.oecoreplugin",
-            "TwoMbit.oecoreplugin",
-            "VisualBoyAdvance.oecoreplugin",
-            "Yabause.oecoreplugin"
-        ]
-        let supportDirectoryURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!
-        let coresDirectoryURL = supportDirectoryURL.appendingPathComponent("OpenEmu/Cores")
-        for plugin in corePlugins {
-            let coreBundleURL = coresDirectoryURL.appendingPathComponent(plugin, isDirectory: false)
-            try? FileManager.default.removeItem(at: coreBundleURL)
-        }
-    }
-
-    fileprivate func removeInvalidPlugins() {
+    fileprivate func validateDefaultPluginAssignments() {
 
         // Remove Higan WIP systems as defaults if found, since our core port does not support them.
         let defaults = UserDefaults.standard
@@ -563,19 +544,6 @@ class AppDelegate: NSDocumentController {
         if defaults.string(forKey: "defaultCore.openemu.system.sms") == "org.openemu.CrabEmu" ||
            defaults.string(forKey: "defaultCore.openemu.system.sms") == "org.openemu.TwoMbit" {
             defaults.removeObject(forKey: "defaultCore.openemu.system.sms")
-        }
-
-        // Remove beta-era core plug-ins.
-        let betaPlugins = OECorePlugin.allPlugins.filter { ($0.infoDictionary["SUFeedURL"] as! String).contains("openemu.org/update") }
-        for plugin in betaPlugins {
-            let coreBundleURL = plugin.bundle.bundleURL
-            try? FileManager.default.removeItem(at: coreBundleURL)
-        }
-
-        // Remove system plugins in app support (they ship in the app bundle).
-        let systemsDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!.appendingPathComponent("OpenEmu/Systems")
-        if let result = try? systemsDirectory.checkResourceIsReachable(), result == true {
-            try? FileManager.default.removeItem(at: systemsDirectory)
         }
     }
     
@@ -1023,6 +991,8 @@ extension AppDelegate: NSMenuDelegate {
         
         NSDocumentController.shared.clearRecentDocuments(nil)
         
+        validateDefaultPluginAssignments()
+        
         DispatchQueue.main.async {
             self.loadDatabase()
         }
@@ -1044,8 +1014,6 @@ extension AppDelegate: NSMenuDelegate {
     func libraryDatabaseDidLoad(notification: Notification) {
         
         libraryLoaded = true
-        // Needs to happen before initializing OECorePlugin to prevent a crash.
-        removeInvalidPlugins()
 
         OECoreUpdater.shared.checkForUpdatesAndInstall()
 

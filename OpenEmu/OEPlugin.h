@@ -73,4 +73,7 @@
 
 @property(readonly) NSArray <NSString *> *availablePreferenceViewControllerKeys;
 
+@property (readonly, getter=isDeprecated) BOOL deprecated;
+@property (readonly, getter=isOutOfSupport) BOOL outOfSupport;
+
 @end
