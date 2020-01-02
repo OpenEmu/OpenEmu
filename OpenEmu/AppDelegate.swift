@@ -1015,10 +1015,10 @@ extension AppDelegate: NSMenuDelegate {
         
         libraryLoaded = true
 
-        OECoreUpdater.shared.checkForUpdatesAndInstall()
-
         loadPlugins()
         removeIncompatibleSaveStates()
+        
+        OECoreUpdater.shared.checkForUpdatesAndInstall()
         
         DLog("")
         
