@@ -222,7 +222,7 @@
     static const float2 convergence_offsets_g_static = float2(0.3, 0.4);
     static const float2 convergence_offsets_b_static = float2(0.5, 0.6);
     //  Detect interlacing (static option only for now)?
-    static const bool interlace_detect = true;
+    static const bool interlace_detect_static = true;
     //  Assume 1080-line sources are interlaced?
     static const bool interlace_1080i_static = false;
     //  For interlaced sources, assume TFF (top-field first) or BFF order?
