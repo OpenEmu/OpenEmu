@@ -74,6 +74,7 @@
 @property(readonly) NSArray <NSString *> *availablePreferenceViewControllerKeys;
 
 @property (readonly, getter=isDeprecated) BOOL deprecated;
+// When YES, the plugin is automatically removed
 @property (readonly, getter=isOutOfSupport) BOOL outOfSupport;
 
 @end

@@ -144,7 +144,32 @@ static NSArray *_cachedRequiredFiles = nil;
     return _gameCoreClass;
 }
 
-#pragma mark Deprecation Handling
+- (BOOL)_isMarkedDeprecatedInInfoPlist
+{
+    if (![self.infoDictionary[OEGameCoreDeprecatedKey] boolValue])
+        return NO;
+        
+    NSString *minOSXVer = self.infoDictionary[OEGameCoreDeprecatedMinMacOSVersionKey];
+    if (!minOSXVer)
+        return YES;
+    NSArray *osxVerComponents = [minOSXVer componentsSeparatedByString:@"."];
+    if (osxVerComponents.count < 2)
+        return YES;
+    NSOperatingSystemVersion minOsxVerParsed = (NSOperatingSystemVersion){
+        atoi([osxVerComponents[0] UTF8String]),
+        atoi([osxVerComponents[1] UTF8String]),
+        osxVerComponents.count > 2 ? atoi([osxVerComponents[2] UTF8String]) : 0};
+    if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:minOsxVerParsed])
+        return YES;
+    return NO;
+}
+
+- (BOOL)isDeprecated
+{
+    if (self.isOutOfSupport)
+        return YES;
+    return [self _isMarkedDeprecatedInInfoPlist];
+}
 
 - (BOOL)isOutOfSupport
 {
@@ -162,8 +187,37 @@ static NSArray *_cachedRequiredFiles = nil;
     NSString *appcastURL = self.infoDictionary[@"SUFeedURL"];
     if ([appcastURL containsString:@"openemu.org/update"])
         return YES;
+        
+    /* plugins marked as deprecated in the Info.plist keys */
+    if ([self _isMarkedDeprecatedInInfoPlist]) {
+        NSDate *deadline = self.infoDictionary[OEGameCoreSupportDeadlineKey];
+        if (!deadline) return NO;
+        if ([[NSDate date] compare:deadline] == NSOrderedDescending) {
+            // we are past the support deadline; return YES to remove the core
+            [self _prepareForRemoval];
+            return YES;
+        }
+    }
     
     return NO;
+}
+
+- (void)_prepareForRemoval
+{
+    NSDictionary *replacements = self.infoDictionary[OEGameCoreSuggestedReplacement];
+
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    for (NSString *system in self.systemIdentifiers) {
+        NSString *replacement = [replacements objectForKey:system];
+        NSString *prefKey = [@"defaultCore." stringByAppendingString:system];
+        NSString *currentCore = [ud stringForKey:prefKey];
+        if (currentCore && [currentCore isEqual:self.bundleIdentifier]) {
+            if (replacement)
+                [ud setObject:replacement forKey:prefKey];
+            else
+                [ud removeObjectForKey:prefKey];
+        }
+    }
 }
 
 @end
