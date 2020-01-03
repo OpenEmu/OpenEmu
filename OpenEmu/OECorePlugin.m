@@ -108,7 +108,7 @@ static NSArray *_cachedRequiredFiles = nil;
 
 - (NSArray *)systemIdentifiers;
 {
-    return [[self infoDictionary] objectForKey:@"OESystemIdentifiers"];
+    return [[self infoDictionary] objectForKey:OEGameCoreSystemIdentifiersKey];
 }
 
 - (NSDictionary *)coreOptions
@@ -123,8 +123,8 @@ static NSArray *_cachedRequiredFiles = nil;
     
     for (id key in options) {
         id resultDict = [options objectForKey:key];
-        if([resultDict objectForKey:@"OERequiredFiles"] != nil)
-            [allRequiredFiles addObjectsFromArray:[resultDict objectForKey:@"OERequiredFiles"]];
+        if([resultDict objectForKey:OEGameCoreRequiredFilesKey] != nil)
+            [allRequiredFiles addObjectsFromArray:[resultDict objectForKey:OEGameCoreRequiredFilesKey]];
     }
     
     if([allRequiredFiles count] > 0)
