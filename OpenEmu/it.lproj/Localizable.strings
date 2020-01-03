@@ -540,6 +540,16 @@
 
 "Quit OpenEmu" = "Esci da OpenEmu";  // Button title for the alert which appears when no Metal-enabled GPUs are detected
 
+"The %@ core plugin is deprecated" = "Il core %@ è deprecato";  // Message title (removal far away)
+
+"The %@ core plugin is deprecated, and will be removed soon" = "Il core %@ è deprecato, e sta per essere rimosso";  // Message title (removal happening soon)
+
+"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "In futuro, questo core non sarà più disponibile. A quel punto, i salvataggi emulazione creati con esso smetteranno di funzionare.";  // Message info, part 1 (removal far away)
+
+"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "In pochi giorni, questo core verrà rimosso automaticamente. A quel punto, i salvataggi emulazione creati con esso smetteranno di funzionare.";  // Message info, part 1 (removal happening soon)
+
+"We suggest you switch to the %@ core plugin as soon as possible." = "In alternativa, consigliamo di iniziare subito a usare il core %@.";  // Message info, part 2 (shown only if the replacement plugin is available)
+
 
 /* Secrets */
 

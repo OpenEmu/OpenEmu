@@ -1145,6 +1145,62 @@ typedef enum : NSUInteger
         
         return YES;
     }
+    
+    if (_gameCoreManager.plugin.deprecated) {
+        NSDate *removalDate = _gameCoreManager.plugin.infoDictionary[OEGameCoreSupportDeadlineKey];
+        BOOL deadlineInLessThanOneMonth = NO;
+        NSTimeInterval oneMonth = 30 * 24 * 60 * 60;
+        if (!removalDate || [removalDate timeIntervalSinceNow] > oneMonth)
+            deadlineInLessThanOneMonth = YES;
+            
+        NSDictionary *replacements = _gameCoreManager.plugin.infoDictionary[OEGameCoreSuggestedReplacement];
+        NSString *replacement = [replacements objectForKey:systemIdentifier];
+        NSString *replacementName;
+        if (replacement) {
+            OECorePlugin *plugin = [OECorePlugin corePluginWithBundleIdentifier:replacement];
+            if (plugin)
+                replacementName = plugin.controller.pluginName;
+        }
+        
+        NSString *title;
+        if (deadlineInLessThanOneMonth) {
+            title = [NSString stringWithFormat:NSLocalizedString(
+                @"The %@ core plugin is deprecated",
+                @"Message title (removal far away)"), coreName];
+        } else {
+            title = [NSString stringWithFormat:NSLocalizedString(
+                @"The %@ core plugin is deprecated, and will be removed soon",
+                @"Message title (removal happening soon)"),
+                coreName];
+        }
+        
+        NSMutableArray *infoMsgParts = [NSMutableArray array];
+        if (deadlineInLessThanOneMonth) {
+            [infoMsgParts addObject:NSLocalizedString(
+                @"This core plugin will not be available in the future. "
+                @"Once it is removed, any save states created with it will stop working.",
+                @"Message info, part 1 (removal far away)")];
+        } else {
+            [infoMsgParts addObject:NSLocalizedString(
+                @"In a few days, this core plugin is going to be automatically removed. "
+                @"Once it is removed, any save states created with it will stop working.",
+                @"Message info, part 1 (removal happening soon)")];
+        }
+        
+        if (replacementName) {
+            [infoMsgParts addObject:[NSString stringWithFormat:NSLocalizedString(
+                @"We suggest you switch to the %@ core plugin as soon as possible.",
+                @"Message info, part 2 (shown only if the replacement plugin is available)"),
+                replacementName]];
+        }
+        
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.messageText = title;
+        alert.informativeText = [infoMsgParts componentsJoinedByString:@"\n\n"];
+        [alert addButtonWithTitle:NSLocalizedString(@"OK", @"")];
+        [alert runModal];
+    }
+    
     return NO;
 }
 
