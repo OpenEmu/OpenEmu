@@ -1104,6 +1104,9 @@ extension AppDelegate: NSMenuDelegate {
                 
                 let url = URL(fileURLWithPath: filenames.last!)
                 self.openDocument(withContentsOf: url, display: true, completionHandler: { (document, documentWasAlreadyOpen, error) in
+                    if error != nil {
+                        self.presentError(error!)
+                    }
                     NSApp.reply(toOpenOrPrint: document != nil ? .success : .failure)
                 })
                 
