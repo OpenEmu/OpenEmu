@@ -26,6 +26,12 @@
 
 @import Cocoa;
 
+NS_ERROR_ENUM(OEGameCoreErrorDomain) {
+    OEGameCorePluginAlreadyLoadedError = -1000,
+    OEGameCorePluginInvalidError       = -1001,
+    OEGameCorePluginOutOfSupportError  = -1002,
+};
+
 @interface NSObject (OEPlugin)
 @property(class, readonly) BOOL isPluginClass;
 @end
@@ -57,12 +63,15 @@
 + (instancetype)pluginWithName:(NSString *)aName type:(Class)pluginType;
 + (instancetype)pluginWithFileAtPath:(NSString *)aPath type:(Class)aType;
 + (instancetype)pluginWithFileAtPath:(NSString *)aPath type:(Class)aType forceReload:(BOOL)reload;
++ (instancetype)pluginWithFileAtPath:(NSString *)aPath type:(Class)aType forceReload:(BOOL)reload error:(NSError *__autoreleasing *)outError;
 + (instancetype)pluginWithBundle:(NSBundle *)aBundle type:(Class)aType forceReload:(BOOL)reload;
 + (NSArray *)pluginsForType:(Class)aType;
 @property(class, readonly) NSArray <__kindof OEPlugin *> *allPlugins;
 @property(class, readonly) NSArray <NSString *> *allPluginNames;
 
 // Designated initializer for plugin files that do not use bundles.
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName error:(NSError *__autoreleasing *)outError NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName;
 - (instancetype)initWithBundle:(NSBundle *)aBundle;
 

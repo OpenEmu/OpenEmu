@@ -102,9 +102,9 @@ static NSArray *_cachedSupportedSystemTypes = nil;
     return [self pluginWithFileAtPath:bundlePath type:self];
 }
 
-- (id)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName
+- (id)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName error:(NSError *__autoreleasing *)outError
 {
-    if((self = [super initWithFileAtPath:aPath name:aName]))
+    if((self = [super initWithFileAtPath:aPath name:aName error:outError]))
     {
         _systemIdentifier = [[self infoDictionary] objectForKey:OESystemIdentifier];
         _responderClass   = [[self controller] responderClass];
