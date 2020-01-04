@@ -1403,10 +1403,10 @@ typedef enum : NSUInteger
         displayModeInfo = [defaults.dictionaryRepresentation[displayModeKeyForCore] mutableCopy];
 
     // Mutually exclusive option is unselected
-    if (!isToggleable && !isManual)
+    if (!isToggleable)
     {
         displayModeInfo[prefKey] = prefVal ?: modeName;
-        if (fromMenu)
+        if (fromMenu && !isManual)
             _lastSelectedDisplayModeOption = modeName;
     }
     // Toggleable option, swap YES/NO
