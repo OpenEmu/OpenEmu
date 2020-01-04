@@ -425,7 +425,7 @@ extern NSString * const kCAContextCIFilterBehavior;
     
     [_gameCore setSystemIdentifier:systemIdentifier];
     [_gameCore setSystemRegion:systemRegion];
-    [_gameCore setDisplayModeInfo:displayModeInfo];
+    [_gameCore setDisplayModeInfo:displayModeInfo ?: @{}];
     [_gameCore setROMCRC32:romCRC32];
     [_gameCore setROMMD5:romMD5];
     [_gameCore setROMHeader:romHeader];
