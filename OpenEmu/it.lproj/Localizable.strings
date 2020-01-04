@@ -550,6 +550,8 @@
 
 "We suggest you switch to the %@ core plugin as soon as possible." = "In alternativa, consigliamo di iniziare subito a usare il core %@.";  // Message info, part 2 (shown only if the replacement plugin is available)
 
+"This plugin is currently unsupported" = "Questo plugin non è supportato";
+
 
 /* Secrets */
 
