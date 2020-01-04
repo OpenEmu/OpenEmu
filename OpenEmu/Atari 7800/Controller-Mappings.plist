@@ -288,5 +288,20 @@
 		<key>OE7800ButtonReset</key>
 		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OE7800ButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OE7800ButtonFire2</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OE7800ButtonFire1</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OE7800ButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OE7800ButtonPause</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+		<key>OE7800ButtonReset</key>
+		<string>OEControllerMicrosoftXboxOneButtonXbox</string>
+	</dict>
 </dict>
 </plist>

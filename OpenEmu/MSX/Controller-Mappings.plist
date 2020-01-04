@@ -194,5 +194,14 @@
 		<key>OEMSXButtonB</key>
 		<string>OEControllerNintendoSwitchProControllerButtonB</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEMSXButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEMSXButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEMSXButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+	</dict>
 </dict>
 </plist>

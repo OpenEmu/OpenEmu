@@ -320,5 +320,22 @@
 		<key>OEGBAButtonSelect</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEGBAButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEGBAButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEGBAButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEGBAButtonL</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftShoulder</string>
+		<key>OEGBAButtonR</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightShoulder</string>
+		<key>OEGBAButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OEGBAButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
 </dict>
 </plist>

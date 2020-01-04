@@ -224,5 +224,16 @@
 		<key>OE2600ButtonSelect</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OE2600ButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OE2600ButtonFire1</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OE2600ButtonReset</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OE2600ButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
 </dict>
 </plist>

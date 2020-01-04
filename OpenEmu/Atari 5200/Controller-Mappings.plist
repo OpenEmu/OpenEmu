@@ -288,5 +288,20 @@
 		<key>OE5200ButtonReset</key>
 		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OE5200ButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OE5200ButtonFire2</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OE5200ButtonFire1</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OE5200ButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OE5200ButtonPause</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+		<key>OE5200ButtonReset</key>
+		<string>OEControllerMicrosoftXboxOneButtonXbox</string>
+	</dict>
 </dict>
 </plist>

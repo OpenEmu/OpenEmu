@@ -378,5 +378,26 @@
 		<key>OESegaCDButtonMode</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerMicrosoftXboxOneButtonB</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftShoulder</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightShoulder</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
 </dict>
 </plist>

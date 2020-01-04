@@ -357,5 +357,26 @@
 		<key>OENDSButtonSelect</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OENDSButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OENDSButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonB</string>
+		<key>OENDSButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OENDSButtonX</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OENDSButtonY</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OENDSButtonL</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftShoulder</string>
+		<key>OENDSButtonR</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightShoulder</string>
+		<key>OENDSButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OENDSButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
 </dict>
 </plist>

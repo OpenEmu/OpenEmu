@@ -393,5 +393,30 @@
 		<key>OEPSPButtonSelect</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEPSPButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEPSPAnalogUp</key>
+		<string>OEControllerMicrosoftXboxOneLeftAnalogUp</string>
+		<key>OEPSPAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxOneLeftAnalogLeft</string>
+		<key>OEPSPButtonCircle</key>
+		<string>OEControllerMicrosoftXboxOneButtonB</string>
+		<key>OEPSPButtonCross</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEPSPButtonTriangle</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OEPSPButtonSquare</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEPSPButtonL1</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftShoulder</string>
+		<key>OEPSPButtonR1</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightShoulder</string>
+		<key>OEPSPButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OEPSPButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
 </dict>
 </plist>

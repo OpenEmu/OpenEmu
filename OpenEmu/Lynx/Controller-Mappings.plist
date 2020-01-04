@@ -256,5 +256,18 @@
 		<key>OELynxButtonOption2</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OELynxButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OELynxButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OELynxButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OELynxButtonOption1</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OELynxButtonOption2</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
 </dict>
 </plist>

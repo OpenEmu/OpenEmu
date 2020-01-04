@@ -192,5 +192,14 @@
 		<key>OEColecoVisionButtonRightAction</key>
 		<string>OEControllerNintendoSwitchProControllerButtonB</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEColecoVisionButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEColecoVisionButtonLeftAction</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEColecoVisionButtonRightAction</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+	</dict>
 </dict>
 </plist>

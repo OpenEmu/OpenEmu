@@ -442,5 +442,34 @@
 		<key>OESaturnButtonAnalogMode</key>
 		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OESaturnButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>OEControllerMicrosoftXboxOneLeftAnalogUp</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxOneLeftAnalogLeft</string>
+		<key>OESaturnButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OESaturnButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OESaturnButtonC</key>
+		<string>OEControllerMicrosoftXboxOneButtonB</string>
+		<key>OESaturnButtonX</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OESaturnButtonY</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftShoulder</string>
+		<key>OESaturnButtonZ</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightShoulder</string>
+		<key>OESaturnButtonL</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftTrigger</string>
+		<key>OESaturnButtonR</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightTrigger</string>
+		<key>OESaturnButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OESaturnButtonAnalogMode</key>
+		<string>OEControllerMicrosoftXboxOneButtonXbox</string>
+	</dict>
 </dict>
 </plist>

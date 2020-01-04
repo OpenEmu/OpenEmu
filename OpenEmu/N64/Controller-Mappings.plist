@@ -381,5 +381,30 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEN64AnalogUp</key>
+		<string>OEControllerMicrosoftXboxOneLeftAnalogUp</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEControllerMicrosoftXboxOneLeftAnalogLeft</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEControllerMicrosoftXboxOneRightAnalogUp</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEControllerMicrosoftXboxOneRightAnalogLeft</string>
+		<key>OEN64ButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEN64ButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEN64ButtonL</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftShoulder</string>
+		<key>OEN64ButtonR</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightShoulder</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftTrigger</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+	</dict>
 </dict>
 </plist>

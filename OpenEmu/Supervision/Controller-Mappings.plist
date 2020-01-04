@@ -256,5 +256,18 @@
 		<key>OESVButtonSelect</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OESVButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OESVButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OESVButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OESVButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OESVButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
 </dict>
 </plist>

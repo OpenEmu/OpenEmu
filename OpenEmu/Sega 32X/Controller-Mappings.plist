@@ -378,5 +378,26 @@
 		<key>OESega32XButtonMode</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OESega32XButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OESega32XButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OESega32XButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OESega32XButtonC</key>
+		<string>OEControllerMicrosoftXboxOneButtonB</string>
+		<key>OESega32XButtonX</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OESega32XButtonY</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftShoulder</string>
+		<key>OESega32XButtonZ</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightShoulder</string>
+		<key>OESega32XButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OESega32XButtonMode</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
 </dict>
 </plist>

@@ -224,5 +224,16 @@
 		<key>OESMSButtonStart</key>
 		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OESMSButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OESMSButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OESMSButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+	</dict>
 </dict>
 </plist>

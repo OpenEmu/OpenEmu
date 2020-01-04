@@ -288,5 +288,20 @@
 		<key>OEJaguarButtonOption</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEJaguarButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEJaguarButtonC</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEJaguarButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEJaguarButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonB</string>
+		<key>OEJaguarButtonPause</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OEJaguarButtonOption</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
 </dict>
 </plist>

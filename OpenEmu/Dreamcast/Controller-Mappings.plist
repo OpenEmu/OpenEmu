@@ -379,5 +379,28 @@
 		<key>OEDCButtonStart</key>
 		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEDCButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEDCAnalogUp</key>
+		<string>OEControllerMicrosoftXboxOneLeftAnalogUp</string>
+		<key>OEDCAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxOneLeftAnalogLeft</string>
+		<key>OEDCButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonB</string>
+		<key>OEDCButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEDCButtonY</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OEDCButtonX</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEDCAnalogL</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftTrigger</string>
+		<key>OEDCAnalogR</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightTrigger</string>
+		<key>OEDCButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+	</dict>
 </dict>
 </plist>

@@ -160,5 +160,12 @@
 		<key>OEA8ButtonFire</key>
 		<string>OEControllerNintendoSwitchProControllerButtonB</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEA8JoystickUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEA8ButtonFire</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+	</dict>
 </dict>
 </plist>

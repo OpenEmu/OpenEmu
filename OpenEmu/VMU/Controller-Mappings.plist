@@ -256,5 +256,18 @@
 		<key>OEVMUButtonMode</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEVMUButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEVMUButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEVMUButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEVMUButtonSleep</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OEVMUButtonMode</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
 </dict>
 </plist>

@@ -198,5 +198,16 @@
 		<key>OEIntellivisionButtonBottomRightAction</key>
 		<string>OEControllerNintendoSwitchProControllerButtonB</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEIntellivisionButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OEIntellivisionButtonBottomLeftAction</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEIntellivisionButtonBottomRightAction</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+	</dict>
 </dict>
 </plist>

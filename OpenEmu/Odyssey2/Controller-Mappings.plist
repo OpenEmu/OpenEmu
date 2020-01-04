@@ -160,5 +160,12 @@
 		<key>OEOdyssey2ButtonAction</key>
 		<string>OEControllerNintendoSwitchProControllerButtonB</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEOdyssey2ButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEOdyssey2ButtonAction</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+	</dict>
 </dict>
 </plist>

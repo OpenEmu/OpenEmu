@@ -491,5 +491,44 @@
 		<key>OEPSXButtonAnalogMode</key>
 		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerMicrosoftXboxOneLeftAnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxOneLeftAnalogLeft</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>OEControllerMicrosoftXboxOneRightAnalogUp</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxOneRightAnalogLeft</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerMicrosoftXboxOneButtonB</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftShoulder</string>
+		<key>OEPSXButtonL2</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftTrigger</string>
+		<key>OEPSXButtonL3</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftAnalog</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightShoulder</string>
+		<key>OEPSXButtonR2</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightTrigger</string>
+		<key>OEPSXButtonR3</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightAnalog</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+		<key>OEPSXButtonAnalogMode</key>
+		<string>OEControllerMicrosoftXboxOneButtonXbox</string>
+	</dict>
 </dict>
 </plist>

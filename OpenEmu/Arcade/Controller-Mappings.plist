@@ -357,5 +357,26 @@
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftShoulder</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightShoulder</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerMicrosoftXboxOneButtonB</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
 </dict>
 </plist>
