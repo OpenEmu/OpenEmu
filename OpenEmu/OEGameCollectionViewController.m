@@ -26,7 +26,6 @@
 
 #import "OEGameCollectionViewController.h"
 
-#import "OEArrayController.h"
 #import "OEAlert.h"
 
 #import "OELibraryDatabase.h"

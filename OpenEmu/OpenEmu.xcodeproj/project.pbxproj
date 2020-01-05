@@ -198,6 +198,7 @@
 		054A757525B1160100F2F3D6 /* ShaderCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054A757425B1160100F2F3D6 /* ShaderCommand.swift */; };
 		054A75B025B141C200F2F3D6 /* Chalk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054A75AF25B141C200F2F3D6 /* Chalk.swift */; };
 		0557CB1B22A781B60037175F /* OEShadersModel+OpenEmu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */; };
+		0559044F23C0E4C9007C46FA /* ArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0559044E23C0E4C9007C46FA /* ArrayController.swift */; };
 		05644A4823331EA90033576F /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05644A4723331EA90033576F /* AboutViewController.swift */; };
 		0570B85725449E4C008EC8A6 /* ImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B68A23D16D0B00F63D61 /* ImageCollectionViewController.swift */; };
 		0571307F259A8859001CB13A /* AppMover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0571307E259A8859001CB13A /* AppMover.swift */; };
@@ -338,7 +339,6 @@
 		8306CD3E1BD3DB180025BC6C /* OEGameCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */; };
 		83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */; };
 		8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy SaveState QL Generator */ = {isa = PBXBuildFile; fileRef = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		830CB918186878D6006EAE5A /* OEArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 830CB917186878D6006EAE5A /* OEArrayController.m */; };
 		8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A98B155410EF00DF13B5 /* OEDBItem.m */; };
 		83199722142741790068C865 /* ROMImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* ROMImporter.swift */; };
 		832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */; };
@@ -1379,6 +1379,7 @@
 		054A757425B1160100F2F3D6 /* ShaderCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderCommand.swift; sourceTree = "<group>"; };
 		054A75AF25B141C200F2F3D6 /* Chalk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chalk.swift; sourceTree = "<group>"; };
 		0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEShadersModel+OpenEmu.swift"; sourceTree = "<group>"; };
+		0559044E23C0E4C9007C46FA /* ArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayController.swift; sourceTree = "<group>"; };
 		05644A06233312C60033576F /* ca */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		05644A08233312E20033576F /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		05644A0A233312E70033576F /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/MainMenu.strings"; sourceTree = "<group>"; };
@@ -1583,8 +1584,6 @@
 		8306CD3D1BD3DB180025BC6C /* OEGameCollectionViewItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCollectionViewItemProtocol.h; sourceTree = "<group>"; };
 		83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+OEHashingAdditions.h"; sourceTree = "<group>"; };
 		83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+OEHashingAdditions.m"; sourceTree = "<group>"; };
-		830CB916186878D6006EAE5A /* OEArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArrayController.h; sourceTree = "<group>"; };
-		830CB917186878D6006EAE5A /* OEArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEArrayController.m; sourceTree = "<group>"; };
 		8314A98A155410EF00DF13B5 /* OEDBItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBItem.h; sourceTree = "<group>"; };
 		8314A98B155410EF00DF13B5 /* OEDBItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBItem.m; sourceTree = "<group>"; };
 		83199721142741790068C865 /* ROMImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ROMImporter.swift; sourceTree = "<group>"; };
@@ -3250,8 +3249,7 @@
 				94A4E994179FAB9E00AD8C7D /* OEMediaViewController.h */,
 				94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */,
 				5A6C157B1DC96C3700839986 /* OEMediaViewController+TouchBar.swift */,
-				830CB916186878D6006EAE5A /* OEArrayController.h */,
-				830CB917186878D6006EAE5A /* OEArrayController.m */,
+				0559044E23C0E4C9007C46FA /* ArrayController.swift */,
 			);
 			name = "Collection View";
 			sourceTree = "<group>";
@@ -6691,7 +6689,6 @@
 				5AFD06BD2058893B00DFE765 /* GameScannerViewController.swift in Sources */,
 				8370D3E11A8D2A7600313F87 /* ArrowCursorTextView.swift in Sources */,
 				83F444FD196CA24B007E8C63 /* HomebrewViewController.swift in Sources */,
-				830CB918186878D6006EAE5A /* OEArrayController.m in Sources */,
 				53439B6E13B932DB005C0CC8 /* PrefLibraryController.swift in Sources */,
 				0557CB1B22A781B60037175F /* OEShadersModel+OpenEmu.swift in Sources */,
 				53439B7113B932ED005C0CC8 /* PrefGameplayController.swift in Sources */,
@@ -6728,6 +6725,7 @@
 				EF2FDBED14CFFE1B002A64F2 /* ControlsKeySeparatorView.swift in Sources */,
 				1B6DA4A914DDE6A40067F7F6 /* SetupAssistantQCOpenGLLayer.swift in Sources */,
 				83F4DE1314DFF9C200A82E36 /* InputLimitFormatter.swift in Sources */,
+				0559044F23C0E4C9007C46FA /* ArrayController.swift in Sources */,
 				5A2CE89A206EA61B00790F89 /* NSArray+OEAdditions.m in Sources */,
 				83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */,
 				83955CB5165D939100572B34 /* BlankSlateView.swift in Sources */,
