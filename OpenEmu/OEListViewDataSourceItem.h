@@ -29,7 +29,8 @@
 
 @protocol OEListViewDataSourceItem <NSObject>
 
-- (OEThemeImage *)listViewStatus;
+@property (nonatomic, readonly) OEThemeImage *listViewStatus;
+
 - (NSNumber *)listViewRating;
 - (NSString *)listViewTitle;
 - (NSString *)listViewLastPlayed;

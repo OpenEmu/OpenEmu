@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="LibraryGamesViewController" customModule="OpenEmu" customModuleProvider="target">
             <connections>
                 <outlet property="collectionController" destination="ZI1-g0-Ovb" id="UFH-j4-ahm"/>
+                <outlet property="collectionControllerV2" destination="8M9-fo-aCS" id="2Aa-td-irb"/>
                 <outlet property="collectionViewContainer" destination="0nE-Pi-8Ai" id="4Fj-Az-faN"/>
                 <outlet property="gameScannerController" destination="juh-5x-f5U" id="d2Q-Um-3Fo"/>
                 <outlet property="sidebarController" destination="Rft-IF-Ag9" id="icY-DX-yAy"/>
@@ -52,7 +53,7 @@
                                                 <tableColumns>
                                                     <tableColumn width="183" minWidth="16" maxWidth="1000" id="TQT-sV-f9j">
                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                            <font key="font" metaFont="label" size="11"/>
+                                                            <font key="font" metaFont="controlContent" size="11"/>
                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                                         </tableHeaderCell>
@@ -114,7 +115,7 @@
                                             <rect key="frame" x="17" y="7" width="151" height="14"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                             <textFieldCell key="cell" lineBreakMode="truncatingHead" sendsActionOnEndEditing="YES" title="Scanner Paused" id="gJT-pJ-BJg" customClass="OELabelCell">
-                                                <font key="font" metaFont="label" size="11"/>
+                                                <font key="font" metaFont="controlContent" size="11"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
@@ -127,7 +128,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" imagePosition="only" alignment="center" inset="2" id="J1i-Ms-dUn" customClass="OEButtonCell">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="menu" size="10"/>
+                                                <font key="font" metaFont="system" size="10"/>
                                             </buttonCell>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_toggle_pause_cancel"/>
@@ -188,6 +189,7 @@
             </holdingPriorities>
             <point key="canvasLocation" x="91" y="106"/>
         </splitView>
+        <viewController id="8M9-fo-aCS" customClass="GameCollectionViewController" customModule="OpenEmu" customModuleProvider="target"/>
         <viewController id="juh-5x-f5U" customClass="OEGameScannerViewController">
             <connections>
                 <outlet property="bottomBar" destination="aoh-d8-ctm" id="MAg-kQ-hP4"/>

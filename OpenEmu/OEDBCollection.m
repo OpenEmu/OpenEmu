@@ -123,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
     return 0;
 }
 
-- (NSArray <NSSortDescriptor *> *)fetchSortDescriptors
+- (NSArray<NSSortDescriptor *> *)fetchSortDescriptors
 {
     return @[];
 }

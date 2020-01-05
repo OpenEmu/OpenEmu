@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
     return 30;
 }
 
-- (NSArray <NSSortDescriptor *> *)fetchSortDescriptors
+- (NSArray<NSSortDescriptor *> *)fetchSortDescriptors
 {
     if([self OE_isRecentlyAddedCollection])
         return @[[NSSortDescriptor sortDescriptorWithKey:@"importDate" ascending:NO]];

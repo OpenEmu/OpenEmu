@@ -29,15 +29,23 @@ protocol LibraryControllerProtocol: NSObjectProtocol {
     @objc optional func delete(_ sender: Any?)
 }
 
+struct ViewMode2: RawRepresentable {
+    typealias RawValue = Int
+    
+    var rawValue: Int
+    
+    static let collection = ViewMode2(rawValue: 1)
+}
+
 @objc
 class ImageCollectionViewController: NSViewController {
     
     @objc
     weak public var libraryController: OELibraryController!
     
-    @IBOutlet weak var collectionView: CollectionView!
-    @IBOutlet weak var flowLayout: NSCollectionViewFlowLayout!
-    @IBOutlet weak var blankSlateView: OEBlankSlateView!
+    @IBOutlet var collectionView: CollectionView!
+    @IBOutlet var flowLayout: NSCollectionViewFlowLayout!
+    @IBOutlet var blankSlateView: OEBlankSlateView!
     
     var shouldShowBlankSlate = false
     var searchKeys = ["rom.game.gameTitle", "rom.game.name", "rom.game.system.lastLocalizedName", "name", "userDescription"]
@@ -62,6 +70,8 @@ class ImageCollectionViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let vm: ViewMode2 = .collection
         
         itemSize = flowLayout.itemSize
         
@@ -108,6 +118,11 @@ class ImageCollectionViewController: NSViewController {
     func scheduleUpdateViews() {
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(updateViews), object: nil)
         perform(#selector(updateViews), with: nil, afterDelay: 0.5)
+    }
+    
+    func setNeedsReload() {
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reloadData), object: nil)
+        perform(#selector(reloadData), with: nil, afterDelay: 0.5)
     }
     
     @objc func updateViews() {
@@ -299,6 +314,18 @@ class ImageCollectionViewController: NSViewController {
         
         reloadData()
     }
+    
+    @objc func reloadData() {
+        precondition(Thread.isMainThread, "should only be called on main thread")
+        
+        // TODO: save selection,
+        
+        dataSourceDelegate.fetchItems()
+        shouldShowBlankSlate = dataSourceDelegate.isEmpty
+        
+        collectionView.reloadData()
+        updateBlankSlate()
+    }
 }
 
 extension ImageCollectionViewController: OELibrarySubviewController {
@@ -313,10 +340,8 @@ extension ImageCollectionViewController: NSUserInterfaceValidations {
         switch action {
         case #selector(search(_:)), #selector(changeGridSize(_:)):
             return valid
-        case #selector(OELibraryController.switchViewMode(_:)):
-            return false
         default:
-            return true
+            return false
         }
     }
 }
@@ -363,20 +388,6 @@ extension ImageCollectionViewController: NSCollectionViewDataSource {
         dataSourceDelegate.loadHeaderView(headerView, at: indexPath)
         
         return view
-    }
-    
-    func reloadData() {
-        precondition(Thread.isMainThread, "should only be called on main thread")
-        
-        // TODO: save selection,
-        
-        dataSourceDelegate.fetchItems()
-        if dataSourceDelegate.isEmpty {
-            shouldShowBlankSlate = true
-        }
-        
-        collectionView.reloadData()
-        updateBlankSlate()
     }
 }
 

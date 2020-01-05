@@ -155,6 +155,7 @@
 		05679A16238DF20300C11F06 /* SaveStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05679A15238DF20300C11F06 /* SaveStateViewController.swift */; };
 		056DEF45237E310C005F129B /* ImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056DEF44237E310C005F129B /* ImageCacheService.swift */; };
 		0586AB22231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */; };
+		05919B6523C24A6B00D0F35E /* GameCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05919B6423C24A6B00D0F35E /* GameCollectionDataSource.swift */; };
 		0592E031236CFFAB00A46885 /* ImageCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E030236CFFAB00A46885 /* ImageCollectionViewItem.swift */; };
 		0592E036236CFFB600A46885 /* ImageCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0592E035236CFFB600A46885 /* ImageCollectionViewItem.xib */; };
 		05B2E05E23693A7600644C58 /* OELogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B2E05D23693A7500644C58 /* OELogging.m */; };
@@ -1498,6 +1499,7 @@
 		05679A15238DF20300C11F06 /* SaveStateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveStateViewController.swift; sourceTree = "<group>"; };
 		056DEF44237E310C005F129B /* ImageCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheService.swift; sourceTree = "<group>"; };
 		0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEGameLayerNotificationView.swift; sourceTree = "<group>"; };
+		05919B6423C24A6B00D0F35E /* GameCollectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollectionDataSource.swift; sourceTree = "<group>"; };
 		0592E030236CFFAB00A46885 /* ImageCollectionViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewItem.swift; sourceTree = "<group>"; };
 		0592E035236CFFB600A46885 /* ImageCollectionViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionViewItem.xib; sourceTree = "<group>"; };
 		05B2E05923693A7500644C58 /* OELogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELogging.h; sourceTree = "<group>"; };
@@ -3185,6 +3187,7 @@
 			isa = PBXGroup;
 			children = (
 				056549DB23BB94AD00150FAF /* GameCollectionViewController.swift */,
+				05919B6423C24A6B00D0F35E /* GameCollectionDataSource.swift */,
 				056549E223BB979400150FAF /* GameTableView.swift */,
 				056549E523BBAD1E00150FAF /* GameTableView.xib */,
 			);
@@ -7814,6 +7817,7 @@
 				831C9AD0160096E000038D0D /* OEMatrix.m in Sources */,
 				831C9AD61600971600038D0D /* OEButton.m in Sources */,
 				05427663236152CB009B6615 /* LibraryController.swift in Sources */,
+				05919B6523C24A6B00D0F35E /* GameCollectionDataSource.swift in Sources */,
 				831C9AD71600971600038D0D /* OEButtonCell.m in Sources */,
 				83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */,
 				5A79F7951C15F542003124D5 /* PreferencesWindowController.swift in Sources */,

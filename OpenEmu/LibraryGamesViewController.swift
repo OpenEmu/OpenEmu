@@ -31,7 +31,12 @@ class LibraryGamesViewController: NSViewController {
     
     @IBOutlet weak public var sidebarController: OESidebarController!
     @IBOutlet weak public var collectionController: OEGameCollectionViewController!
+    @IBOutlet weak public var collectionControllerV2: GameCollectionViewController!
     @IBOutlet weak public var gameScannerController: GameScannerViewController!
+    
+    private var currentCollectionController: GameCollectionViewController {
+        return collectionControllerV2
+    }
     
     @IBOutlet weak public var collectionViewContainer: NSView!
     
@@ -44,6 +49,7 @@ class LibraryGamesViewController: NSViewController {
         
         sidebarController.database = libraryController.database
         collectionController.libraryController = libraryController
+        collectionControllerV2.libraryController = libraryController
         gameScannerController.libraryController = libraryController
     }
     
@@ -58,7 +64,7 @@ class LibraryGamesViewController: NSViewController {
         collection.games = Set(selectedGames)
         collection.save()
         
-        collectionController.setNeedsReload()
+        currentCollectionController.setNeedsReload()
     }
     
     // MARK: - Overrides
@@ -69,15 +75,16 @@ class LibraryGamesViewController: NSViewController {
         let noc = NotificationCenter.default
         noc.addObserver(self, selector: #selector(updateCollectionContentsFromSidebar(_:)), name: Notification.Name(rawValue: OESidebarSelectionDidChangeNotificationName), object: sidebarController)
         
-        let collectionView = collectionController.view
+        let collectionView = currentCollectionController.view
         collectionView.frame = collectionViewContainer.bounds
         collectionView.autoresizingMask = [.width, .height]
         collectionViewContainer.addSubview(collectionView)
         
         addChild(sidebarController)
-        addChild(collectionController)
+        addChild(currentCollectionController)
         
         updateCollectionContentsFromSidebar(nil)
+        currentCollectionController.setNeedsReload()
     }
     
     override func viewWillAppear() {
@@ -90,7 +97,7 @@ class LibraryGamesViewController: NSViewController {
     
     override func viewDidAppear() {
         super.viewDidAppear()
-        collectionController.updateBlankSlate()
+        currentCollectionController.updateBlankSlate()
     }
     
     // MARK: - Private
@@ -101,7 +108,7 @@ class LibraryGamesViewController: NSViewController {
         toolbar.gridSizeSlider.isEnabled = true
         toolbar.viewSelector.isEnabled = true
         
-        if collectionController.selectedViewTag == .gridViewTag {
+        if currentCollectionController.selectedViewTag == .gridViewTag {
             toolbar.viewSelector.selectedSegment = 0
         } else {
             toolbar.viewSelector.selectedSegment = 1
@@ -125,14 +132,14 @@ class LibraryGamesViewController: NSViewController {
     }
     
     @IBAction func switchToGridView(_ sender: Any?) {
-        collectionController.switchToGridView(sender)
+        currentCollectionController.switchToGridView(sender)
         guard let viewMenu = NSApp.mainMenu?.item(at: 3)?.submenu else { return }
         viewMenu.item(withTag: MainMenuTag.grid.rawValue)?.state = .on
         viewMenu.item(withTag: MainMenuTag.list.rawValue)?.state = .off
     }
     
     @IBAction func switchToListView(_ sender: Any?) {
-        collectionController.switchToListView(sender)
+        currentCollectionController.switchToListView(sender)
         guard let viewMenu = NSApp.mainMenu?.item(at: 3)?.submenu else { return }
         viewMenu.item(withTag: MainMenuTag.grid.rawValue)?.state = .off
         viewMenu.item(withTag: MainMenuTag.list.rawValue)?.state = .on
@@ -152,11 +159,11 @@ class LibraryGamesViewController: NSViewController {
     }
     
     @IBAction func search(_ sender: Any?) {
-        collectionController.search(sender)
+        currentCollectionController.search(sender)
     }
     
     @IBAction func changeGridSize(_ sender: Any?) {
-        collectionController.changeGridSize(sender)
+        currentCollectionController.changeGridSize(sender as? NSSlider)
     }
     
     // MARK: - Sidebar Handling
@@ -164,7 +171,7 @@ class LibraryGamesViewController: NSViewController {
     @objc func updateCollectionContentsFromSidebar(_ sender: Any?) {
         guard let selectedItem = sidebarController.selectedSidebarItem else { return }
         precondition(selectedItem is OECollectionViewItemProtocol, "does not implement protocol")
-        collectionController.representedObject = (selectedItem as! OECollectionViewItemProtocol)
+        currentCollectionController.representedObject = (selectedItem as! OECollectionViewItemProtocol)
         
         if
             let system = selectedItem as? OEDBSystem,
@@ -196,12 +203,12 @@ class LibraryGamesViewController: NSViewController {
 
 extension LibraryGamesViewController: NSUserInterfaceValidations {
     func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool {
-        return collectionController.validateUserInterfaceItem(item)
+        return currentCollectionController.validateUserInterfaceItem(item)
     }
 }
 
 extension LibraryGamesViewController: OELibrarySubviewController {
     @objc var selectedGames: [OEDBGame]! {
-        return collectionController.selectedGames
+        return currentCollectionController.selectedGames
     }
 }

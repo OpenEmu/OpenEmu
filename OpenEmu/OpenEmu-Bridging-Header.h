@@ -29,7 +29,11 @@
 #import "OEBackgroundColorView.h"
 #import "OEBackgroundImageView.h"
 
+// themeing
+#import "OEThemeImage.h"
+
 #import "OEDatabase+CoreDataModel.h"
+#import "OEListViewDataSourceItem.h"
 #import "OEDBGame.h"
 #import "OEDBCollection.h"
 #import "OEDBSavedGamesMedia.h"
