@@ -57,8 +57,6 @@
 #import "OESidebarController.h"
 #import "OETableView.h"
 
-#import "OEArrayController.h"
-
 #import "OEBackgroundNoisePattern.h"
 
 #import "OEGridGameCell.h"

@@ -26,7 +26,6 @@
 
 #import "OEGameCollectionViewController.h"
 
-#import "OEArrayController.h"
 #import "OESidebarController.h"
 #import "OEHUDAlert.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
