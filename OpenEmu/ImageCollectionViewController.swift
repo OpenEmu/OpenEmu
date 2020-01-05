@@ -126,9 +126,7 @@ class ImageCollectionViewController: NSViewController {
     
     func setupToolbar() {
         guard let toolbar = libraryController.toolbar else { return }
-        
-        toolbar.viewSelector.isEnabled = false
-        toolbar.gridSizeSlider.isEnabled = !shouldShowBlankSlate
+
         zoomGridView(zoomValue: CGFloat(toolbar.gridSizeSlider.floatValue))
         
         if let field = toolbar.searchField {
@@ -159,22 +157,9 @@ class ImageCollectionViewController: NSViewController {
     func updateBlankSlate() {
         if shouldShowBlankSlate {
             switchTo(tag: .blankSlate)
-            if let toolbar = libraryController.toolbar, isSelected {
-                toolbar.viewSelector.isEnabled = false
-                toolbar.gridSizeSlider.isEnabled = false
-                toolbar.searchField.isEnabled = false
-                toolbar.searchField.menu = nil
-            }
-            
             blankSlateView.representedObject = representedObject
         } else {
             switchTo(tag: .collection)
-            if let toolbar = libraryController.toolbar, isSelected {
-                toolbar.viewSelector.isEnabled = true
-                toolbar.gridSizeSlider.isEnabled = true
-                toolbar.searchField.isEnabled = true
-                toolbar.searchField.menu = nil
-            }
         }
     }
     
@@ -187,16 +172,8 @@ class ImageCollectionViewController: NSViewController {
     }
     
     func setupToolbar(tag: ViewTag) {
-        guard let toolbar = libraryController.toolbar else { return }
-        
-        switch tag {
-        case .collection:
+        if let toolbar = libraryController.toolbar, tag == .collection {
             toolbar.viewSelector.selectedSegment = 0
-            toolbar.gridSizeSlider.isEnabled = true
-            
-        case .blankSlate:
-            toolbar.viewSelector.isEnabled = false
-            toolbar.gridSizeSlider.isEnabled = false
         }
     }
     
@@ -231,6 +208,7 @@ class ImageCollectionViewController: NSViewController {
     }
     
     func zoomGridView(zoomValue: CGFloat) {
+        NSApp.target(forAction: #selector(delete(_:)), to: nil, from: nil)
         let finalZoom = zoomValue * 1.07 // multiplier replicates zoom level of IKImageBrowserView
         flowLayout.itemSize = itemSize.applying(CGAffineTransform(scaleX: finalZoom, y: finalZoom))
         Self.lastGridSize = Float(zoomValue)
@@ -325,6 +303,22 @@ class ImageCollectionViewController: NSViewController {
 
 extension ImageCollectionViewController: OELibrarySubviewController {
     
+}
+
+extension ImageCollectionViewController: NSUserInterfaceValidations {
+    func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool {
+        guard let action = item.action else { return true }
+        
+        let valid = self.shouldShowBlankSlate ? false : true
+        switch action {
+        case #selector(search(_:)), #selector(changeGridSize(_:)):
+            return valid
+        case #selector(OELibraryController.switchViewMode(_:)):
+            return false
+        default:
+            return true
+        }
+    }
 }
 
 extension NSUserInterfaceItemIdentifier {

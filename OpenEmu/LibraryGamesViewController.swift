@@ -121,7 +121,7 @@ class LibraryGamesViewController: NSViewController {
     
     enum MainMenuTag: Int {
         case grid = 301
-        case list = 302
+        case list = 303
     }
     
     @IBAction func switchToGridView(_ sender: Any?) {
@@ -136,6 +136,19 @@ class LibraryGamesViewController: NSViewController {
         guard let viewMenu = NSApp.mainMenu?.item(at: 3)?.submenu else { return }
         viewMenu.item(withTag: MainMenuTag.grid.rawValue)?.state = .off
         viewMenu.item(withTag: MainMenuTag.list.rawValue)?.state = .on
+    }
+    
+    @IBAction func switchViewMode(_ sender: Any?) {
+        guard let ctl = sender as? NSSegmentedControl else { return }
+        
+        switch OELibraryController.ViewMode(rawValue: ctl.selectedSegment) {
+        case .grid:
+            switchToGridView(sender)
+        case .list:
+            switchToListView(sender)
+        default:
+            return
+        }
     }
     
     @IBAction func search(_ sender: Any?) {
@@ -179,6 +192,12 @@ class LibraryGamesViewController: NSViewController {
     
     @UserDefault("OESkipDiscGuideMessageKey", defaultValue: false)
     static var skipDiscGuideMessage: Bool
+}
+
+extension LibraryGamesViewController: NSUserInterfaceValidations {
+    func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool {
+        return collectionController.validateUserInterfaceItem(item)
+    }
 }
 
 extension LibraryGamesViewController: OELibrarySubviewController {

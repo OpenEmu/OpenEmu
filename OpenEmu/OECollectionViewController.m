@@ -401,15 +401,11 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     switch (tag) {
         case OEGridViewTag:
             toolbar.viewSelector.selectedSegment = 0;
-            toolbar.gridSizeSlider.enabled = YES;
             break;
         case OEListViewTag:
             toolbar.viewSelector.selectedSegment = 1;
-            toolbar.gridSizeSlider.enabled = NO;
             break;
         case OEBlankSlateTag:
-            toolbar.viewSelector.enabled = NO;
-            toolbar.listViewButton.enabled = NO;
             break;
     }
 }
@@ -419,29 +415,31 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     if (!self.shouldShowBlankSlate) {
         
         [self OE_switchToView:self.OE_currentViewTagByToolbarState];
-
-        if (self.isSelected) {
-            OELibraryToolbar *toolbar = self.libraryController.toolbar;
-            toolbar.viewSelector.enabled = YES;
-            toolbar.gridSizeSlider.enabled = self.selectedViewTag == OEGridViewTag;
-            toolbar.searchField.enabled = YES;
-            toolbar.searchField.menu = nil;
-        }
     }
     else
     {
         [self OE_switchToView:OEBlankSlateTag];
-
-        if (self.isSelected) {
-            OELibraryToolbar *toolbar = self.libraryController.toolbar;
-            toolbar.viewSelector.enabled = NO;
-            toolbar.gridSizeSlider.enabled = NO;
-            toolbar.searchField.enabled = NO;
-            toolbar.searchField.menu = nil;
-        }
-
         blankSlateView.representedObject = self.representedObject;
     }
+}
+
+- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
+{
+    SEL action = item.action;
+    
+    if (
+        action == @selector(search:) ||
+        action == @selector(changeGridSize:))
+    {
+        // actions are disabled if the blank slate is shown
+        return self.shouldShowBlankSlate ? NO : YES;
+    }
+    
+    if (action == @selector(switchViewMode:)) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 - (BOOL)shouldShowBlankSlate

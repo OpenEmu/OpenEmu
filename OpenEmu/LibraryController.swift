@@ -133,17 +133,8 @@ class OELibraryController: NSViewController {
     }
     
     @IBAction func switchViewMode(_ sender: Any?) {
-        switch ViewMode(rawValue: toolbar!.viewSelector.selectedSegment) {
-        case .grid:
-            if let ctl = currentSubviewController, ctl.responds(to: #selector(OECollectionViewController.switchToGridView(_:))) {
-                ctl.perform(#selector(OECollectionViewController.switchToGridView(_:)), with: sender)
-            }
-        case .list:
-            if let ctl = currentSubviewController, ctl.responds(to: #selector(OECollectionViewController.switchToListView(_:))) {
-                ctl.perform(#selector(OECollectionViewController.switchToListView(_:)), with: sender)
-            }
-        default:
-            return
+        if let ctl = currentSubviewController, ctl.responds(to: #selector(switchViewMode(_:))) {
+            ctl.perform(#selector(switchViewMode(_:)), with: sender)
         }
     }
     
@@ -402,4 +393,20 @@ protocol LibraryControllerDelegate {
     @objc optional func libraryController(_ controller: OELibraryController, didSelectGame: OEDBGame)
     @objc optional func libraryController(_ controller: OELibraryController, didSelectRom: OEDBRom)
     @objc optional func libraryController(_ controller: OELibraryController, didSelectSaveState: OEDBSaveState)
+}
+
+extension OELibraryController: NSUserInterfaceValidations {
+    func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool {
+        guard let action = item.action else { return true }
+        switch action {
+        case #selector(search(_:)),
+             #selector(changeGridSize(_:)),
+             #selector(switchViewMode(_:)):
+            guard let val = currentSubviewController as? NSUserInterfaceValidations else { return false }
+            return val.validateUserInterfaceItem(item)
+        default:
+            return true
+        }
+        
+    }
 }

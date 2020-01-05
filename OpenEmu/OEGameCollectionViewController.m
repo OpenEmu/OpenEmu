@@ -103,6 +103,29 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     [[self listView] setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 }
 
+- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
+{
+    SEL action = item.action;
+    
+    // actions are disabled if the blank slate is shown
+    BOOL valid = self.shouldShowBlankSlate ? NO : YES;
+    
+    if (
+        action == @selector(switchViewMode:) ||
+        action == @selector(search:))
+    {
+        return valid;
+    }
+    
+    if (action == @selector(changeGridSize:))
+    {
+        // we can only change the grid size when the grid view is visible
+        return valid && self.selectedViewTag == OEGridViewTag;
+    }
+    
+    return [super validateUserInterfaceItem:item];
+}
+
 - (void)viewWillAppear
 {
     [super viewWillAppear];

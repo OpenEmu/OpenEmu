@@ -29,7 +29,7 @@ import Cocoa
 @objc(OELibraryToolbarDelegate)
 class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     
-    final let OEToolbarItemIdentifierGridSize = NSToolbarItem.Identifier(rawValue: "OEToolbarItemIdentifierGridSize")
+    final let OEToolbarItemIdentifierGridSize = NSToolbarItem.Identifier("OEToolbarItemIdentifierGridSize")
     final let OEToolbarItemIdentifierViewMode = NSToolbarItem.Identifier("OEToolbarItemIdentifierViewMode")
     final let OEToolbarItemIdentifierSearch = NSToolbarItem.Identifier("OEToolbarItemIdentifierSearch")
     final let OEToolbarItemIdentifierCategory = NSToolbarItem.Identifier("OEToolbarItemIdentifierCategory")
@@ -92,33 +92,24 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         if let item = itemCache[OEToolbarItemIdentifierGridSize.rawValue] {
             return item
         }
-        let item = NSToolbarItem.init(itemIdentifier: OEToolbarItemIdentifierGridSize)
+        let item = ControlToolbarItem(itemIdentifier: OEToolbarItemIdentifierGridSize)
         
-        let minHint = NSImageView(frame: NSRect(x: 12, y: 14, width: 7, height: 7))
-        let maxHint = NSImageView(frame: NSRect(x: 84, y: 12, width: 10, height: 10))
+        let view = NSSlider(frame: NSRect(x: 20, y: 0, width: 64, height: 15))
+        view.controlSize = .small
+        view.isContinuous = true
+        view.minValue = 0.5
+        view.maxValue = 2.5
+        view.doubleValue = 1.0
+        view.sliderType = .linear
+        view.action = #selector(OECollectionViewController.changeGridSize(_:))
+        view.target = toolbarOwner
+        view.awakeFromNib()
         
-        let slider = NSSlider(frame: NSRect(x: 20, y: 9, width: 64, height: 15))
-        slider.controlSize = .small
-        slider.isContinuous = true
-        slider.minValue = 0.5
-        slider.maxValue = 2.5
-        slider.doubleValue = 1.0
-        slider.sliderType = .linear
-        slider.action = #selector(OECollectionViewController.changeGridSize(_:))
-        slider.target = toolbarOwner
-        slider.awakeFromNib()
-        
-        let view = NSBox(frame: NSRect(x: 0, y: 14, width: 106, height: 32))
-        view.borderType = .noBorder
-        view.titlePosition = .noTitle
-        view.contentView!.frame = NSRect(x: 0, y: 0, width: 106, height: 32)
-        view.contentView!.subviews = [minHint, slider, maxHint]
-
         item.view = view
         item.label = NSLocalizedString("Grid Size", comment:"Grid size toolbar button label, main window")
         item.minSize = view.frame.size
         item.maxSize = view.frame.size
-        toolbar.gridSizeSlider = slider
+        toolbar.gridSizeSlider = view
         itemCache[item.itemIdentifier.rawValue] = item
         return item;
     }
@@ -128,27 +119,21 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         if let item = itemCache[OEToolbarItemIdentifierViewMode.rawValue] {
             return item
         }
-        let item = NSToolbarItem.init(itemIdentifier: OEToolbarItemIdentifierViewMode)
+        let item = ControlToolbarItem(itemIdentifier: OEToolbarItemIdentifierViewMode)
         
-        let segmControl = NSSegmentedControl(frame: NSRect(x: 0, y: 8, width: 54, height: 24))
-        segmControl.segmentCount = 2
-        segmControl.setImage(NSImage(named: NSImage.iconViewTemplateName), forSegment: 0)
-        segmControl.setImage(NSImage(named: NSImage.listViewTemplateName), forSegment: 1)
-        segmControl.sizeToFit()
-        segmControl.action = #selector(OELibraryController.switchViewMode(_:))
-        segmControl.target = toolbarOwner
-        
-        let view = NSBox(frame: NSRect(x: 0, y: 14, width: segmControl.bounds.size.width, height: 38))
-        view.borderType = .noBorder
-        view.titlePosition = .noTitle
-        view.contentView!.frame = NSRect(x: 0, y: 0, width: segmControl.bounds.size.width, height: 38)
-        view.contentView!.subviews = [segmControl]
+        let view = NSSegmentedControl(frame: NSRect(x: 0, y: 0, width: 54, height: 24))
+        view.segmentCount = 2
+        view.setImage(NSImage(named: NSImage.iconViewTemplateName), forSegment: 0)
+        view.setImage(NSImage(named: NSImage.listViewTemplateName), forSegment: 1)
+        view.sizeToFit()
+        view.action = #selector(OELibraryController.switchViewMode(_:))
+        view.target = toolbarOwner
         
         item.view = view
         item.label = NSLocalizedString("View Mode", comment:"View mode toolbar button label, main window")
         item.minSize = view.frame.size
         item.maxSize = item.minSize
-        toolbar.viewSelector = segmControl
+        toolbar.viewSelector = view
         itemCache[item.itemIdentifier.rawValue] = item
         return item;
     }
@@ -158,29 +143,23 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         if let item = itemCache[OEToolbarItemIdentifierCategory.rawValue] {
             return item
         }
-        let item = NSToolbarItem.init(itemIdentifier: OEToolbarItemIdentifierCategory)
+        let item = NSToolbarItem(itemIdentifier: OEToolbarItemIdentifierCategory)
         
-        let segmControl = NSSegmentedControl(frame: NSRect(x: 0, y: 8, width: 50, height: 24))
-        segmControl.segmentCount = 4
-        segmControl.setLabel(NSLocalizedString("Library", comment: "Main window, Library category button"), forSegment: 0)
-        segmControl.setLabel(NSLocalizedString("Save States", comment: "Main window, Save States category button"), forSegment: 1)
-        segmControl.setLabel(NSLocalizedString("Screenshots", comment: "Main window, Screenshots category button"), forSegment: 2)
-        segmControl.setLabel(NSLocalizedString("Homebrew", comment: "Main window, Homebrew category button"), forSegment: 3)
-        segmControl.sizeToFit()
-        segmControl.action = #selector(OELibraryController.switchCategory(_:))
-        segmControl.target = toolbarOwner
-        
-        let view = NSBox(frame: NSRect(x: 0, y: 14, width: segmControl.bounds.size.width, height: 38))
-        view.borderType = .noBorder
-        view.titlePosition = .noTitle
-        view.contentView!.frame = NSRect(x: 0, y: 0, width: segmControl.bounds.size.width, height: 38)
-        view.contentView!.subviews = [segmControl]
+        let view = NSSegmentedControl(frame: NSRect(x: 0, y: 0, width: 50, height: 24))
+        view.segmentCount = 4
+        view.setLabel(NSLocalizedString("Library", comment: "Main window, Library category button"), forSegment: 0)
+        view.setLabel(NSLocalizedString("Save States", comment: "Main window, Save States category button"), forSegment: 1)
+        view.setLabel(NSLocalizedString("Screenshots", comment: "Main window, Screenshots category button"), forSegment: 2)
+        view.setLabel(NSLocalizedString("Homebrew", comment: "Main window, Homebrew category button"), forSegment: 3)
+        view.sizeToFit()
+        view.action = #selector(OELibraryController.switchCategory(_:))
+        view.target = toolbarOwner
         
         item.view = view
         item.label = NSLocalizedString("Category", comment:"Category selector toolbar label, main window")
         item.minSize = view.frame.size
         item.maxSize = item.minSize
-        toolbar.categorySelector = segmControl
+        toolbar.categorySelector = view
         itemCache[item.itemIdentifier.rawValue] = item
         return item;
     }
@@ -190,33 +169,50 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         if let item = itemCache[OEToolbarItemIdentifierSearch.rawValue] {
             return item
         }
-        let item = NSToolbarItem.init(itemIdentifier: OEToolbarItemIdentifierSearch)
+        let item = ControlToolbarItem(itemIdentifier: OEToolbarItemIdentifierSearch)
         
-        let searchField = NSSearchField(frame: NSRect(x: 0, y: 8, width: 166, height: 22))
-        searchField.wantsLayer = true
-        searchField.lineBreakMode = .byClipping
-        searchField.usesSingleLineMode = true
+        let view = NSSearchField(frame: NSRect(x: 0, y: 0, width: 166, height: 22))
+        view.wantsLayer = true
+        view.lineBreakMode = .byClipping
+        view.usesSingleLineMode = true
         // searchCell.isScrollable = true
-        searchField.sendsWholeSearchString = false
-        searchField.sendsSearchStringImmediately = true
-        searchField.font = NSFont.systemFont(ofSize: 13.0)
-        searchField.textColor = NSColor.controlBackgroundColor
-        searchField.action = #selector(OELibraryController.search(_:))
-        searchField.target = toolbarOwner
+        view.sendsWholeSearchString = false
+        view.sendsSearchStringImmediately = true
+        view.font = NSFont.systemFont(ofSize: 13.0)
+        view.textColor = NSColor.controlBackgroundColor
+        view.action = #selector(OELibraryController.search(_:))
+        view.target = toolbarOwner
         
-        let view = NSBox(frame: NSRect(x: 0, y: 14, width: 166, height: 38))
-        view.borderType = .noBorder
-        view.titlePosition = .noTitle
-        view.contentView!.frame = NSRect(x: 0, y: 0, width: 166, height: 38)
-        view.contentView!.subviews = [searchField]
-
         item.view = view;
         item.label = NSLocalizedString("Search", comment:"Search field toolbar label, main window")
         item.minSize = view.frame.size
         item.maxSize = item.minSize
-        toolbar.searchField = searchField
+        toolbar.searchField = view
         itemCache[item.itemIdentifier.rawValue] = item
         return item;
     }
 }
 
+class ControlToolbarItem: NSToolbarItem {
+    override func validate() {
+        control?.isEnabled = {
+            guard
+                let action = self.action,
+                let validator = NSApp.target(forAction: action, to: self.target, from: self) as AnyObject?
+                else { return false }
+            
+            switch validator {
+            case let validator as NSToolbarItemValidation:
+                return validator.validateToolbarItem(self)
+            case let validator as NSUserInterfaceValidations:
+                return validator.validateUserInterfaceItem(self)
+            default:
+                return true
+            }
+        }()
+    }
+    
+    final var control: NSControl? {
+        return view as? NSControl
+    }
+}

@@ -45,7 +45,7 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 extern NSString * const OELastGridSizeKey;
 extern NSString * const OELastCollectionViewKey;
 
-@interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController, OEGridViewDelegate, OEGridViewMenuSource, QLPreviewPanelDelegate, QLPreviewPanelDataSource>
+@interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController, OEGridViewDelegate, OEGridViewMenuSource, QLPreviewPanelDelegate, QLPreviewPanelDataSource, NSUserInterfaceValidations>
 
 /// If YES, the collection view controller is selected and visible to the user. Must be overridden by subclasses.
 @property (nonatomic, readonly) BOOL isSelected;
