@@ -35,8 +35,16 @@
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" id="31">
                             <items>
-                                <menuItem title="Nintendo (NES)" id="37"/>
-                                <menuItem title="Super Nintendo (SNES)" state="on" id="38"/>
+                                <menuItem title="Nintendo (NES)" id="37">
+                                    <attributedString key="userComments">
+                                        <fragment content="DNT"/>
+                                    </attributedString>
+                                </menuItem>
+                                <menuItem title="Super Nintendo (SNES)" state="on" id="38">
+                                    <attributedString key="userComments">
+                                        <fragment content="DNT"/>
+                                    </attributedString>
+                                </menuItem>
                             </items>
                         </menu>
                     </popUpButtonCell>
@@ -59,8 +67,16 @@
                                 <font key="font" metaFont="menu"/>
                                 <menu key="menu" id="25">
                                     <items>
-                                        <menuItem title="Player 1" state="on" id="29"/>
-                                        <menuItem title="Player 2" id="28"/>
+                                        <menuItem title="Player 1" state="on" id="29">
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
+                                        </menuItem>
+                                        <menuItem title="Player 2" id="28">
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </popUpButtonCell>
@@ -121,9 +137,15 @@
                                     <items>
                                         <menuItem title="Keyboard" id="16">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
                                         </menuItem>
                                         <menuItem title="Gamepad" tag="1" id="15">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
                                         </menuItem>
                                     </items>
                                 </menu>
