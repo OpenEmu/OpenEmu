@@ -146,13 +146,13 @@
   "Pause" = "Pause";
   "Quick Load Button" = "Schnell laden";
   "Quick Save Button" = "Schnell sichern";
-  "Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
-  "Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
-  "Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
+  "Rapid Fire Clear" = "Schnellfeuer Clear";      // TODO
+  "Rapid Fire Reset" = "Schnellfeuer Reset";      // TODO
+  "Rapid Fire Toggle" = "Schnellfeuer Toggle";    // TODO
   "Reset" = "Neustart";
   "Rewind" = "Zurück-spulen";
   "Save" = "Sichern";
-  "Screenshot" = "Screenshot";
+  "Screenshot" = "Bildschirm-foto";
   "Step Backward" = "Schritt zurück";
   "Step Forward" = "Schritt vor";
   "Volume Down" = "Ton leiser";

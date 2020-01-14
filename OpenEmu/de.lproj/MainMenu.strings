@@ -51,7 +51,7 @@
 "997.title" = "Papierformat …";
 
 /* Class = "NSMenuItem"; title = "None"; ObjectID = "1000"; */
-"1000.title" = "Keine";
+"1000.title" = "Ohne";
 
 /* Class = "NSMenuItem"; title = "Back Up…"; ObjectID = "1007"; */
 "1007.title" = "Backup …";
@@ -204,7 +204,7 @@
 "1306.title" = "Mediathek anzeigen";
 
 /* Class = "NSMenuItem"; title = "Take Screenshot"; ObjectID = "1322"; */
-"1322.title" = "Screenshot aufnehmen";
+"1322.title" = "Bildschirmfoto aufnehmen";
 
 /* Class = "NSMenu"; title = "Help"; ObjectID = "0ql-Da-Qro"; */
 "0ql-Da-Qro.title" = "Hilfe";

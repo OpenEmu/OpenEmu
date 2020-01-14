@@ -52,11 +52,11 @@
 
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Möchtest du wirklich %ld Spielstände aus der Mediathek entfernen?";
 
-"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Möchtest du wirklich %ld Screenshots aus der Mediathek entfernen?";
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Möchtest du wirklich %ld Bildschirmfotos aus der Mediathek entfernen?";
 
 "Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Möchtest du den Spielstand „%@“ wirklich aus der Mediathek entfernen?";
 
-"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Möchtest du den Screenshot „%@“ wirklich aus der Mediathek entfernen?";
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Möchtest du das Bildschirmfoto „%@“ wirklich aus der Mediathek entfernen?";
 
 "Are you sure you want to delete the selected game from your OpenEmu library?" = "Möchtest du das ausgewählte Spiel wirklich aus der Mediathek entfernen?";
 
@@ -136,13 +136,13 @@
 
 "Couldn't load %@ plugin" = "Konnte Plugin %@ nicht laden";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Erstelle eine eigene Spieleauswahl. Um ein Spiel zur Sammlung hinzuzufügen, wähle es in der Konsolenansicht aus und ziehe es auf „%@“ in der Seitenleiste."; // TODO
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Erstelle eine eigene Spieleauswahl. Um ein Spiel zur Sammlung hinzuzufügen, wähle es in der Konsolenansicht aus und ziehe es auf „%@“ in der Seitenleiste.";
 
 "Create Library…" = "Neue erstellen …";
 
 "Create or Load Save State" = "Spielstand erstellen oder laden";
 
-"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Erstelle deine persönliche Screenshot-Sammlung. Um einen Screenshot aufzunehmen, drücke während eines Spiels die Tasten ⌘ + T.";
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Erstelle deine persönliche Bildschirmfoto-Sammlung. Um ein Bildschirmfoto aufzunehmen, drücke während du spielst die Tasten ⌘ + T.";
 
 "Default Core" = "Standard-Kern";
 
@@ -160,9 +160,9 @@
 
 "Delete Saves" = "Löschen"; //Spielstände löschen
 
-"Delete Screenshot" = "Löschen"; //Screenshot löschen
+"Delete Screenshot" = "Löschen"; //Bildschirmfoto löschen
 
-"Delete Screenshots" = "Löschen"; //Screenshots löschen
+"Delete Screenshots" = "Löschen"; //Bildschirmfotos löschen
 
 "Delete" = "Löschen";
 
@@ -184,7 +184,7 @@
 
 "Do not show me again" = "Nicht erneut anzeigen";
 
-"Do you really want to cancel importation?" = "Möchtest du den Import wirklich abbrechen?"; // TODO
+"Do you really want to cancel importation?" = "Möchtest du den Import wirklich abbrechen?";
 
 "Do you want to continue playing where you left off?" = "Möchtest du dort weiterspielen, wo du zuletzt aufgehört hast?";
 
@@ -286,7 +286,7 @@
 
 "Name" = "Name";
 
-"New Collection from Selection" = "Neue Sammlung von Auswahl";
+"New Collection from Selection" = "Neue Sammlung aus Auswahl";
 
 "New Collection" = "Neue Sammlung";
 
@@ -302,11 +302,11 @@
 
 "No Save States available" = "Keine Spielstände verfügbar";
 
-"No Screenshots Found" = "Keine Screenshots gefunden";
+"No Screenshots Found" = "Keine Bildschirmfotos gefunden";
 
 "No" = "Nein";
 
-"None" = "Keine";
+"None" = "Ohne";
 
 "OK" = "OK";
 
@@ -406,7 +406,7 @@
 
 "Scanning Directory" = "Ordner durchsuchen";
 
-"Screenshots" = "Screenshots";
+"Screenshots" = "Bildschirmfotos";
 
 "Search" = "Suchen";
 
@@ -518,8 +518,6 @@
 
 "Save States" = "Spielstände";
 
-"Screenshots" = "Screenshots";
-
 "Homebrew" = "Homebrew";
 
 "Grid Size" = "Gittergröße";
@@ -534,23 +532,23 @@
 
 "Keycode 0x%lX" = "Keycode 0x%lX";  // TODO  // Fallback for unknown keys
 
-"Your Mac is too old for this version of OpenEmu" = "Your Mac is too old for this version of OpenEmu";  // Message for the alert which appears when no Metal-enabled GPUs are detected // TODO
+"Your Mac is too old for this version of OpenEmu" = "Dein Mac ist zu alt für diese OpenEmu-Version";  // Message for the alert which appears when no Metal-enabled GPUs are detected
 
-"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected // TODO
+"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "OpenEmu benötigt seit Version 2.1 eine GPU, die Metal unterstützt. Metal ist für alle Macs verfügbar, die macOS 10.14 oder neuer unterstützen.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected
 
 "Quit OpenEmu" = "OpenEmu beenden";  // Button title for the alert which appears when no Metal-enabled GPUs are detected
 
-"The %@ core plugin is deprecated" = "The %@ core plugin is deprecated";  // Message title (removal far away) // TODO
+"The %@ core plugin is deprecated" = "Der Kern „%@“ ist veraltet";  // Message title (removal far away)
 
-"The %@ core plugin is deprecated, and will be removed soon" = "The %@ core plugin is deprecated, and will be removed soon";  // Message title (removal happening soon) // TODO
+"The %@ core plugin is deprecated, and will be removed soon" = "Der Kern „%@“ ist veraltet und wird bald entfernt";  // Message title (removal happening soon)
 
-"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working.";  // Message info, part 1 (removal far away) // TODO
+"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "Dieser Kern wird bald nicht mehr verfügbar sein. Sobald er entfernt wurde, werden mit ihm erstellte Spielstände nicht mehr funktionieren.";  // Message info, part 1 (removal far away)
 
-"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working.";  // Message info, part 1 (removal happening soon) // TODO
+"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "Dieser Kern wird in wenigen Tagen automatisch entfernt. Sobald er entfernt wurde, werden mit ihm erstellte Spielstände nicht mehr funktionieren.";  // Message info, part 1 (removal happening soon)
 
-"We suggest you switch to the %@ core plugin as soon as possible." = "We suggest you switch to the %@ core plugin as soon as possible.";  // Message info, part 2 (shown only if the replacement plugin is available) // TODO
+"We suggest you switch to the %@ core plugin as soon as possible." = "Wir empfehlen, so bald wie möglich zum Kern „%@“ zu wechseln.";  // Message info, part 2 (shown only if the replacement plugin is available)
 
-"This plugin is currently unsupported" = "This plugin is currently unsupported";  // TODO
+"This plugin is currently unsupported" = "Dieses Plugin wird zur Zeit nicht unterstützt.";
 
 
 /* Secrets */
@@ -603,9 +601,9 @@
 
 "Show audio output device in menu" = "Audio-Ausgabegerät in Menü anzeigen";
 
-"Take screenshots in native size" = "Screenshots in Originalgröße aufnehmen";
+"Take screenshots in native size" = "Bildschirmfotos in Originalgröße aufnehmen";
 
-"Disable aspect ratio correction in screenshots" = "Seitenverhältnis-Korrektur deaktivieren"; // TODO: specify "in screenshots"
+"Disable aspect ratio correction in screenshots" = "Seitenverhältnis-Korrektur von Bildschirmfotos deaktivieren";
 
 "Game View Background color" = "Hintergrund der Spieleansicht";
 
@@ -675,8 +673,16 @@
 
 "Range: %@ to %@" = "Bereich: %@ bis %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
 
-"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+"Default Value: %@" = "Standartwert: %@";  // Default value tooltip format in the Debug Preferences
 
-"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+"Checked" = "Ausgewählt";  // Default value tooltip for checkboxes: checked default
 
-"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+"Unchecked" = "Nicht ausgewählt";  // Default value tooltip for checkboxes: unchecked default
+
+"OpenEmu requires additional permissions" = "OpenEmu benötigt zusätzliche Rechte";
+
+"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu benötigt Input-Monitoring-Rechte, damit die Tastatur als Eingabegerät verwendet werden kann.\n\nDas Aus-/Abwählen der Berechtigung kann dabei helfen, Tastatureingabeprobleme zu beheben.";
+
+"Show" = "Anzeigen";
+
+"Ignore" = "Ignorieren";
