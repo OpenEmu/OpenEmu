@@ -53,8 +53,7 @@
     if(image == nil)
     {
         NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-        NSString *path = [bundle pathForImageResource:imageName];
-        image = [[NSImage alloc] initWithContentsOfFile:path];
+        image = [bundle imageForResource:imageName];
         [image setName:imageName];
     }
     return image;
