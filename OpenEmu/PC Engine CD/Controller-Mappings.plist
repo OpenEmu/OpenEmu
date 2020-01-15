@@ -269,5 +269,18 @@
 		<key>OEPCECDButtonSelect</key>
 		<string>OEControllerMicrosoftXboxOneButtonView</string>
 	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEPCECDButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEPCECDButton1</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OEPCECDButton2</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OEPCECDButtonRun</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+		<key>OEPCECDButtonSelect</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
+	</dict>
 </dict>
 </plist>

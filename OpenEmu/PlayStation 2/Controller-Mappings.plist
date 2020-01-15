@@ -530,5 +530,26 @@
 		<key>OEPS2ButtonAnalogMode</key>
 		<string>OEControllerMicrosoftXboxOneButtonXbox</string>
 	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEPS2ButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEPS2ButtonCircle</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OEPS2ButtonCross</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonB</string>
+		<key>OEPS2ButtonTriangle</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OEPS2ButtonSquare</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonY</string>
+		<key>OEPS2ButtonL1</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonLeftShoulder</string>
+		<key>OEPS2ButtonR1</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonRightShoulder</string>
+		<key>OEPS2ButtonStart</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+		<key>OEPS2ButtonSelect</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
+	</dict>
 </dict>
 </plist>

@@ -235,5 +235,16 @@
 		<key>OESG1000ButtonPause</key>
 		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
 	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OESG1000ButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OESG1000Button1</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OESG1000Button2</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+	</dict>
 </dict>
 </plist>

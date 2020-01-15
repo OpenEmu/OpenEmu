@@ -303,5 +303,20 @@
 		<key>OE7800ButtonReset</key>
 		<string>OEControllerMicrosoftXboxOneButtonXbox</string>
 	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OE7800ButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OE7800ButtonFire2</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OE7800ButtonFire1</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OE7800ButtonSelect</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+		<key>OE7800ButtonPause</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
+		<key>OE7800ButtonReset</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonHome</string>
+	</dict>
 </dict>
 </plist>

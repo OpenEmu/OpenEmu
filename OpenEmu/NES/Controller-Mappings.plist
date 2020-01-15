@@ -269,5 +269,18 @@
 		<key>OENESButtonSelect</key>
 		<string>OEControllerMicrosoftXboxOneButtonView</string>
 	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OENESButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OENESButtonA</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OENESButtonB</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OENESButtonStart</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+		<key>OENESButtonSelect</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
+	</dict>
 </dict>
 </plist>

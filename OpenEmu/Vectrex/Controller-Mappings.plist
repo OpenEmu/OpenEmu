@@ -250,5 +250,18 @@
 		<key>OEVectrexButton1</key>
 		<string>OEControllerMicrosoftXboxOneButtonX</string>
 	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEVectrexAnalogUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEVectrexButton3</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OEVectrexButton2</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonB</string>
+		<key>OEVectrexButton4</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OEVectrexButton1</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonY</string>
+	</dict>
 </dict>
 </plist>

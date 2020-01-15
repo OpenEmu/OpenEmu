@@ -402,5 +402,26 @@
 		<key>OEDCButtonStart</key>
 		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
 	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEDCButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEDCButtonB</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OEDCButtonA</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonB</string>
+		<key>OEDCButtonY</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OEDCButtonX</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonY</string>
+		<key>OEDCAnalogL</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonLeftShoulder</string>
+		<key>OEDCAnalogR</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonRightShoulder</string>
+		<key>OEDCButtonStart</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+		<key>OEDCButtonSelect</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
+	</dict>
 </dict>
 </plist>

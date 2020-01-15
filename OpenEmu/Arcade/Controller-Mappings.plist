@@ -378,5 +378,28 @@
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerMicrosoftXboxOneButtonView</string>
 	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonX</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonY</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonA</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonB</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonHome</string>
+	</dict>
 </dict>
 </plist>

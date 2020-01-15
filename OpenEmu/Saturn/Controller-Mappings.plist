@@ -471,5 +471,28 @@
 		<key>OESaturnButtonAnalogMode</key>
 		<string>OEControllerMicrosoftXboxOneButtonXbox</string>
 	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OESaturnButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OESaturnButtonA</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonA</string>
+		<key>OESaturnButtonB</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonB</string>
+		<key>OESaturnButtonC</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OESaturnButtonX</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonX</string>
+		<key>OESaturnButtonY</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonY</string>
+		<key>OESaturnButtonZ</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OESaturnButtonL</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonLeftShoulder</string>
+		<key>OESaturnButtonR</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonRightShoulder</string>
+		<key>OESaturnButtonStart</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+	</dict>
 </dict>
 </plist>

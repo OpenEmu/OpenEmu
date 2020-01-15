@@ -203,5 +203,14 @@
 		<key>OEMSXButtonB</key>
 		<string>OEControllerMicrosoftXboxOneButtonA</string>
 	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEMSXButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEMSXButtonA</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OEMSXButtonB</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+	</dict>
 </dict>
 </plist>

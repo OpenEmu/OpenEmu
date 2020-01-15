@@ -406,5 +406,34 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
 	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEN64AnalogUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEN64AnalogDown</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadDown</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadLeft</string>
+		<key>OEN64AnalogRight</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadRight</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonY</string>
+		<key>OEN64ButtonCDown</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonA</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonX</string>
+		<key>OEN64ButtonCRight</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonB</string>
+		<key>OEN64ButtonA</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OEN64ButtonB</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OEN64ButtonR</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonRightShoulder</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonLeftShoulder</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+	</dict>
 </dict>
 </plist>

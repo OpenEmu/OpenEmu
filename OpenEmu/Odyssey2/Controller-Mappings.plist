@@ -167,5 +167,12 @@
 		<key>OEOdyssey2ButtonAction</key>
 		<string>OEControllerMicrosoftXboxOneButtonA</string>
 	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEOdyssey2ButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEOdyssey2ButtonAction</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+	</dict>
 </dict>
 </plist>
