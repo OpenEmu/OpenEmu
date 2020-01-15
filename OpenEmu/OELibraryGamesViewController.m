@@ -107,7 +107,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
 #pragma mark - OELibrarySubviewController
 
-- (NSArray*)selectedGames
+- (NSArray<OEDBGame *> *)selectedGames
 {
     return [[self collectionController] selectedGames];
 }
@@ -199,7 +199,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 - (void)makeNewCollectionWithSelectedGames:(id)sender
 {
     OECoreDataMainThreadAssertion();
-    NSArray *selectedGames = [self selectedGames];
+    NSArray<OEDBGame *> *selectedGames = [self selectedGames];
     OEDBCollection *collection = [[self sidebarController] addCollection:NO];
     [collection setGames:[NSSet setWithArray:selectedGames]];
     [collection save];

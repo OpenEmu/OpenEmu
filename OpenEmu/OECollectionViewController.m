@@ -276,7 +276,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     return NO;
 }
 
-- (NSArray *)selectedGames
+- (NSArray<OEDBGame *> *)selectedGames
 {
     [self doesNotImplementOptionalSelector:_cmd];
     return nil;

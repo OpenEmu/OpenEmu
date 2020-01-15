@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Lb9-LN-3oE">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Window Controller-->
+        <scene sceneID="46p-NO-Kac">
+            <objects>
+                <windowController showSeguePresentationStyle="single" id="Lb9-LN-3oE" sceneMemberID="viewController">
+                    <window key="window" identifier="LibraryWindow" title="OpenEmu" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" frameAutosaveName="LibraryWindow" animationBehavior="default" id="wJp-Kd-sNu">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
+                        <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
+                        <rect key="contentRect" x="294" y="313" width="830" height="555"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+                        <value key="minSize" type="size" width="618" height="491"/>
+                        <toolbar key="toolbar" implicitIdentifier="D5AE3419-BD49-4066-B445-CE74C3A674EA" centeredItem="fX7-6m-0ZB" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="small" id="aMf-YX-s3z">
+                            <allowedToolbarItems>
+                                <toolbarItem implicitItemIdentifier="8AC0808B-CA57-431D-82B4-A894190C274D" explicitItemIdentifier="OEToolbarItemIdentifierViewMode" label="" paletteLabel="View Mode" sizingBehavior="auto" id="EOf-K8-FKT" customClass="ControlToolbarItem" customModule="OpenEmu" customModuleProvider="target">
+                                    <nil key="toolTip"/>
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="QOV-EL-QwU">
+                                        <rect key="frame" x="2" y="14" width="61" height="23"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedRounded" trackingMode="selectOne" id="zC8-kf-vBL">
+                                            <font key="font" metaFont="system"/>
+                                            <segments>
+                                                <segment image="NSIconViewTemplate" width="27" selected="YES"/>
+                                                <segment image="NSListViewTemplate" width="27" tag="1"/>
+                                            </segments>
+                                        </segmentedCell>
+                                    </segmentedControl>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="D048D93B-CB2B-45DE-BF48-3488E44E1571" explicitItemIdentifier="OEToolbarItemIdentifierGridSize" label="" paletteLabel="Grid Size" id="AMt-jS-EBQ" customClass="ControlToolbarItem" customModule="OpenEmu" customModuleProvider="target">
+                                    <nil key="toolTip"/>
+                                    <size key="minSize" width="60" height="17"/>
+                                    <size key="maxSize" width="64" height="21"/>
+                                    <slider key="view" verticalHuggingPriority="750" id="ZUJ-gn-42l">
+                                        <rect key="frame" x="0.0" y="14" width="60" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" minValue="0.5" maxValue="2.5" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="Kh2-ii-NLq"/>
+                                    </slider>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="10z-n5-Nhi"/>
+                                <toolbarItem implicitItemIdentifier="8AFEF8B7-AE34-4A1C-B99A-6BD928B807DE" explicitItemIdentifier="OEToolbarItemIdentifierCategory" label="" paletteLabel="Category" sizingBehavior="auto" id="fX7-6m-0ZB">
+                                    <nil key="toolTip"/>
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="Dr0-HL-fE9">
+                                        <rect key="frame" x="0.0" y="14" width="389" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="texturedSquare" trackingMode="selectOne" id="nXm-nv-KOP">
+                                            <font key="font" metaFont="system"/>
+                                            <segments>
+                                                <segment label="Library" selected="YES"/>
+                                                <segment label="Save States" tag="1"/>
+                                                <segment label="Screenshots"/>
+                                                <segment label="Homebrew"/>
+                                            </segments>
+                                        </segmentedCell>
+                                    </segmentedControl>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="E17889F9-BEEF-4A6E-9239-3911378A3B1C" explicitItemIdentifier="OEToolbarItemIdentifierSearch" label="" paletteLabel="Search" sizingBehavior="auto" id="cHd-86-9tm" customClass="ControlToolbarItem" customModule="OpenEmu" customModuleProvider="target">
+                                    <nil key="toolTip"/>
+                                    <searchField key="view" wantsLayer="YES" verticalHuggingPriority="750" textCompletion="NO" id="1kU-3F-stz">
+                                        <rect key="frame" x="0.0" y="14" width="166" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="QRq-9Z-2y6">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </searchFieldCell>
+                                    </searchField>
+                                </toolbarItem>
+                            </allowedToolbarItems>
+                            <defaultToolbarItems>
+                                <toolbarItem reference="EOf-K8-FKT"/>
+                                <toolbarItem reference="AMt-jS-EBQ"/>
+                                <toolbarItem reference="10z-n5-Nhi"/>
+                                <toolbarItem reference="fX7-6m-0ZB"/>
+                                <toolbarItem reference="10z-n5-Nhi"/>
+                                <toolbarItem reference="cHd-86-9tm"/>
+                            </defaultToolbarItems>
+                        </toolbar>
+                        <connections>
+                            <outlet property="delegate" destination="Lb9-LN-3oE" id="S8Y-pU-uen"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="RL5-8a-lg3" kind="relationship" relationship="window.shadowedContentViewController" id="L7o-B5-UQD"/>
+                    </connections>
+                </windowController>
+                <customObject id="P3c-YK-v2s" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="151.5" y="110"/>
+        </scene>
+        <!--Library-->
+        <scene sceneID="mWj-hS-59B">
+            <objects>
+                <tabViewController title="Library" tabStyle="unspecified" id="RL5-8a-lg3" sceneMemberID="viewController">
+                    <tabViewItems>
+                        <tabViewItem identifier="" id="YXm-nV-rAb"/>
+                        <tabViewItem identifier="" id="BRF-xo-Xg4"/>
+                    </tabViewItems>
+                    <tabView key="tabView" id="rTP-4j-vyH">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <font key="font" metaFont="system"/>
+                        <connections>
+                            <outlet property="delegate" destination="RL5-8a-lg3" id="SrP-N8-s0N"/>
+                        </connections>
+                    </tabView>
+                    <connections>
+                        <outlet property="tabView" destination="rTP-4j-vyH" id="i75-US-L1c"/>
+                        <segue destination="Sah-tm-mbf" kind="relationship" relationship="tabItems" id="BUh-59-hNe"/>
+                        <segue destination="2gw-ng-cLr" kind="relationship" relationship="tabItems" id="vcD-6j-Qjc"/>
+                    </connections>
+                </tabViewController>
+                <customObject id="Oww-Bz-jvc" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="151" y="736"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="sPc-nz-ETY">
+            <objects>
+                <viewController id="Sah-tm-mbf" sceneMemberID="viewController">
+                    <view key="view" id="NBi-cW-IHS">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="Z3q-qh-AeB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-83" y="1240"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="ALh-hB-5IH">
+            <objects>
+                <viewController id="2gw-ng-cLr" sceneMemberID="viewController">
+                    <view key="view" id="XFE-2J-Pas">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="vET-v2-J8W" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="404" y="1240"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="NSIconViewTemplate" width="14" height="10"/>
+        <image name="NSListViewTemplate" width="14" height="10"/>
+    </resources>
+</document>

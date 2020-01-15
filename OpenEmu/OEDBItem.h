@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly) NSManagedObjectID *permanentID;
 @property(readonly) NSURL *permanentIDURI;
 
-+ (NSString *)entityName;
+@property(class, readonly) NSString *entityName;
 @property(readonly) NSString *entityName;
 
 - (BOOL)save;

@@ -33,5 +33,5 @@
 
 - (NSPredicate *)fetchPredicate;
 - (NSInteger)fetchLimit;
-- (NSArray*)fetchSortDescriptors;
+@property (nonatomic, readonly) NSArray<NSSortDescriptor *> *fetchSortDescriptors;
 @end

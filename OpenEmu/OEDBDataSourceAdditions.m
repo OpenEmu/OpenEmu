@@ -355,7 +355,7 @@ NSString * OE_localizedStringFromElapsedTime(NSTimeInterval timeInterval)
 {
     return 0;
 }
-- (NSArray*)fetchSortDescriptors
+- (NSArray<NSSortDescriptor *> *)fetchSortDescriptors
 {
     return @[];
 }
@@ -393,7 +393,7 @@ NSString * OE_localizedStringFromElapsedTime(NSTimeInterval timeInterval)
     return 0;
 }
 
-- (NSArray*)fetchSortDescriptors
+- (NSArray<NSSortDescriptor *> *)fetchSortDescriptors
 {
     return @[];
 }

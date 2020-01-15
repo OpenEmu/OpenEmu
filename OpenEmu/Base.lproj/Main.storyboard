@@ -30,7 +30,7 @@
         <scene sceneID="0gg-RE-F1M">
             <objects>
                 <viewController showSeguePresentationStyle="single" id="Slx-nK-pNK" customClass="AboutViewController" customModule="OpenEmu" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="fAX-jG-jEV">
+                    <view key="view" wantsLayer="YES" id="fAX-jG-jEV">
                         <rect key="frame" x="0.0" y="0.0" width="400" height="463"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>

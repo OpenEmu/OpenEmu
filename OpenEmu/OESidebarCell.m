@@ -46,7 +46,7 @@ const CGFloat BadgeSpacing = 2.0;
 @end
 
 @implementation OESidebarCell
-@synthesize isGroup = _isGroup, isEditing=_isEditing, image=_image, badge=_badge;
+@synthesize isGroup = _isGroup, isEditing=_isEditing, image=_image;
 @synthesize themed = _themed;
 @synthesize hovering = _hovering;
 @synthesize stateMask = _stateMask;
@@ -70,7 +70,6 @@ const CGFloat BadgeSpacing = 2.0;
     OESidebarCell *cell = (OESidebarCell *)[super copyWithZone:zone];
 
     [cell setImage:[self image]];
-    [cell setBadge:[self badge]];
     [cell setThemeKey:[self themeKey]];
 
     return cell;
@@ -150,27 +149,9 @@ const CGFloat BadgeSpacing = 2.0;
         result = [super titleRectForBounds:cellFrame];
     }
 
-    NSRect badgeRect = [self badgeRectForBounds:cellFrame];
-    if(!NSEqualRects(badgeRect, NSZeroRect))
-    {
-        result.size.width -= NSMaxX(result)-NSMinX(badgeRect);
-    }
-
     return result;
 }
 
-- (NSRect)badgeRectForBounds:(NSRect)bounds
-{
-    if([self badge] == nil || [[self badge] length] == 0) return NSZeroRect;
-
-    NSRect rect = bounds;
-
-    CGFloat width = [[self badge] sizeWithAttributes:@{}].width;
-    rect.origin.x += rect.size.width -width -2*BadgeSpacing;
-    rect.size.width = width+2*BadgeSpacing;
-
-    return rect;
-}
 #pragma mark - Drawing
 - (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent 
 {
@@ -276,28 +257,6 @@ const CGFloat BadgeSpacing = 2.0;
 	[self setAttributedStringValue:strVal];
 
     [super drawWithFrame:titleFrame inView:controlView];
-
-    NSRect badgeFrame = [self badgeRectForBounds:cellFrame];
-    [self drawBadgeInFrame:badgeFrame highlighted:isSelected active:isActive];
-}
-
-- (void)drawBadgeInFrame:(NSRect)frame highlighted:(BOOL)highlighted active:(BOOL)isActive
-{
-    OEThemeState state = (isActive   ? OEThemeInputStateWindowActive : OEThemeInputStateWindowInactive) | (highlighted ? OEThemeInputStateFocused : OEThemeInputStateUnfocused);
-
-    frame = NSInsetRect(frame, BadgeSpacing, BadgeSpacing);
-
-    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:frame xRadius:3.0 yRadius:3.0];
-
-    [[NSColor lightGrayColor] setFill];
-    [[NSColor yellowColor] setStroke];
-
-    [path fill];
-    [path stroke];
-
-    NSString *badge = [self badge];
-    NSDictionary *attributes = [[self badgeAttributes] textAttributesForState:state];
-    [badge drawInRect:frame withAttributes:attributes];
 }
 
 - (NSCellHitResult)hitTestForEvent:(NSEvent *)event inRect:(NSRect)cellFrame ofView:(NSView *)controlView
