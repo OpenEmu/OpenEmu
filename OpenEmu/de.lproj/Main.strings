@@ -51,7 +51,7 @@
 "997.title" = "Papierformat …";
 
 /* Class = "NSMenuItem"; title = "None"; ObjectID = "1000"; */
-"1000.title" = "Ohne";
+"1000.title" = "Keine";
 
 /* Class = "NSMenuItem"; title = "Back Up…"; ObjectID = "1007"; */
 "1007.title" = "Backup …";
@@ -204,7 +204,7 @@
 "1306.title" = "Mediathek anzeigen";
 
 /* Class = "NSMenuItem"; title = "Take Screenshot"; ObjectID = "1322"; */
-"1322.title" = "Bildschirmfoto aufnehmen";
+"1322.title" = "Screenshot aufnehmen";
 
 /* Class = "NSMenu"; title = "Help"; ObjectID = "0ql-Da-Qro"; */
 "0ql-Da-Qro.title" = "Hilfe";
@@ -231,7 +231,7 @@
 "oKt-cF-ZgP.title" = "Spenden …";
 
 /* Class = "NSMenuItem"; title = "Next Display Mode"; ObjectID = "VVR-iO-axh"; */
-"VVR-iO-axh.title" = "Nächster Anzeigemodus";
+"VVR-iO-axh.title" = "Next Display Mode"; // TODO
 
 /* Class = "NSMenuItem"; title = "Last Display Mode"; ObjectID = "HzI-NP-sNP"; */
-"HzI-NP-sNP.title" = "Vorheriger Anzeigemodus";
+"HzI-NP-sNP.title" = "Last Display Mode"; // TODO
