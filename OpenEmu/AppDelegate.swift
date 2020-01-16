@@ -35,7 +35,7 @@ extension OEDBRom: CachedLastPlayedInfoItem {}
 @NSApplicationMain
 @objc(OEApplicationDelegate)
 @objcMembers
-class AppDelegate: NSDocumentController {
+class AppDelegate: NSObject {
     
     static let websiteAddress = "http://openemu.org/"
     static let userGuideAddress = "https://github.com/OpenEmu/OpenEmu/wiki/User-guide"
@@ -45,21 +45,13 @@ class AppDelegate: NSDocumentController {
     @IBOutlet weak var fileMenu: NSMenu!
     
     lazy var mainWindowController = OEMainWindowController(windowNibName: "MainWindow")
+    
     lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: "Preferences")
     
-    dynamic var aboutCreditsPath: String {
-        return Bundle.main.path(forResource: "Credits", ofType: "rtf")!
-    }
-    
-    dynamic var projectURLHyperlink: NSAttributedString {
-        let address = "http://openemu.org"
-        return NSAttributedString(string: address, hyperlinkURL: URL(string: address)!)
-    }
+    var documentController = GameDocumentController.shared
     
     var restoreWindow = false
     var libraryDidLoadObserverForRestoreWindow: AnyObject?
-    
-    var gameDocuments = [OEGameDocument]()
     
     var hidEventsMonitor: Any?
     var keyboardEventsMonitor: Any?
@@ -72,12 +64,12 @@ class AppDelegate: NSDocumentController {
         didSet {
             
             if let hidEventsMonitor = hidEventsMonitor {
-                OEDeviceManager.shared().removeMonitor(hidEventsMonitor)
+                OEDeviceManager.shared.removeMonitor(hidEventsMonitor)
                 self.hidEventsMonitor = nil
             }
             
             if logHIDEvents {
-                hidEventsMonitor = OEDeviceManager.shared().addGlobalEventMonitorHandler { handler, event in
+                hidEventsMonitor = OEDeviceManager.shared.addGlobalEventMonitorHandler { handler, event in
                     if event.type != OEHIDEventTypeKeyboard {
                         NSLog("\(event)")
                     }
@@ -92,12 +84,12 @@ class AppDelegate: NSDocumentController {
         didSet {
             
             if let keyboardEventsMonitor = keyboardEventsMonitor {
-                OEDeviceManager.shared().removeMonitor(keyboardEventsMonitor)
+                OEDeviceManager.shared.removeMonitor(keyboardEventsMonitor)
                 self.keyboardEventsMonitor = nil
             }
             
             if logKeyboardEvents {
-                keyboardEventsMonitor = OEDeviceManager.shared().addGlobalEventMonitorHandler { handler, event in
+                keyboardEventsMonitor = OEDeviceManager.shared.addGlobalEventMonitorHandler { handler, event in
                     if event.type == OEHIDEventTypeKeyboard {
                         NSLog("\(event)")
                     }
@@ -107,12 +99,6 @@ class AppDelegate: NSDocumentController {
         }
     }
 
-    var backgroundControllerPlay = false {
-        didSet {
-            updateEventHandlers()
-        }
-    }
-    
     var libraryLoaded = false
     var reviewingUnsavedDocuments = false
     
@@ -174,165 +160,6 @@ class AppDelegate: NSDocumentController {
     
     deinit {
         OECorePlugin.self.removeObserver(self, forKeyPath: #keyPath(OECorePlugin.allPlugins), context: &allPluginsKVOContext)
-    }
-    
-    // MARK: - NSDocumentController Overrides
-    
-    override func addDocument(_ document: NSDocument) {
-        
-        if let document = document as? OEGameDocument {
-            gameDocuments.append(document)
-        }
-        
-        super.addDocument(document)
-    }
-    
-    override func removeDocument(_ document: NSDocument) {
-        
-        if let document = document as? OEGameDocument {
-            gameDocuments.remove(at: gameDocuments.firstIndex(of: document)!)
-        }
-        
-        super.removeDocument(document)
-    }
-    
-    private func sendDelegateCallback(toTarget target: AnyObject, selector: Selector, documentController: NSDocumentController, didReviewAll: Bool, contextInfo: UnsafeMutableRawPointer?) {
-        
-        guard let method = class_getInstanceMethod(Swift.type(of: target), selector) else {
-            return
-        }
-        
-        let implementation = method_getImplementation(method)
-        
-        typealias Function = @convention(c) (AnyObject, Selector, NSDocumentController, Bool, UnsafeMutableRawPointer?) -> Void
-        let function = unsafeBitCast(implementation, to: Function.self)
-        
-        function(target, selector, documentController, didReviewAll, contextInfo)
-    }
-    
-    override func reviewUnsavedDocuments(withAlertTitle title: String?, cancellable: Bool, delegate: Any?, didReviewAllSelector: Selector?, contextInfo: UnsafeMutableRawPointer?) {
-        
-        guard !reviewingUnsavedDocuments else {
-            sendDelegateCallback(toTarget: delegate as AnyObject, selector: didReviewAllSelector!, documentController: self, didReviewAll: false, contextInfo: contextInfo)
-            return
-        }
-        reviewingUnsavedDocuments = true
-        
-        guard !gameDocuments.isEmpty else {
-            reviewingUnsavedDocuments = false
-            super.reviewUnsavedDocuments(withAlertTitle: title, cancellable: cancellable, delegate: delegate, didReviewAllSelector: didReviewAllSelector, contextInfo: contextInfo)
-            return
-        }
-        
-        if OEHUDAlert.quitApplication().runModal() == .alertFirstButtonReturn {
-            closeAllDocuments(withDelegate: delegate, didCloseAllSelector: didReviewAllSelector, contextInfo: contextInfo)
-        } else {
-            sendDelegateCallback(toTarget: delegate as AnyObject, selector: didReviewAllSelector!, documentController: self, didReviewAll: false, contextInfo: contextInfo)
-        }
-        
-        reviewingUnsavedDocuments = false
-    }
-    
-    override func closeAllDocuments(withDelegate delegate: Any?, didCloseAllSelector: Selector?, contextInfo: UnsafeMutableRawPointer?) {
-        
-        guard !gameDocuments.isEmpty else {
-            super.closeAllDocuments(withDelegate: delegate, didCloseAllSelector: didCloseAllSelector, contextInfo: contextInfo)
-            return
-        }
-        
-        let documents = gameDocuments
-        var remainingDocuments = documents.count
-        
-        for document in documents {
-            
-            document.canClose { document, shouldClose in
-                
-                remainingDocuments -= 1
-                
-                if shouldClose {
-                    document!.close()
-                }
-                
-                guard remainingDocuments == 0 else {
-                    return
-                }
-                
-                if !self.gameDocuments.isEmpty {
-                    self.sendDelegateCallback(toTarget: delegate as AnyObject, selector: didCloseAllSelector!, documentController: self, didReviewAll: false, contextInfo: contextInfo)
-                } else {
-                    super.closeAllDocuments(withDelegate: delegate, didCloseAllSelector: didCloseAllSelector, contextInfo: contextInfo)
-                }
-            }
-        }
-    }
-    
-    fileprivate func setUpGameDocument(_ document: OEGameDocument, display displayDocument: Bool, fullScreen: Bool, completionHandler: ((OEGameDocument?, NSError?) -> Void)?) {
-        
-        addDocument(document)
-        
-        document.setupGame { success, error in
-            
-            if success {
-                
-                if displayDocument {
-                    document.showInSeparateWindow(inFullScreen: fullScreen)
-                }
-                
-                completionHandler?(document, nil)
-                
-            } else {
-                completionHandler?(nil, error as NSError?)
-            }
-            
-            self.updateEventHandlers()
-        }
-    }
-    
-    override func openDocument(withContentsOf url: URL, display displayDocument: Bool, completionHandler: @escaping (NSDocument?, Bool, Error?) -> Void) {
-        
-        super.openDocument(withContentsOf: url, display: false) { document, documentWasAlreadyOpen, error in
-            
-            if let document = document as? OEGameDocument {
-                let fullScreen = UserDefaults.standard.bool(forKey: OEFullScreenGameWindowKey)
-                self.setUpGameDocument(document, display: true, fullScreen: fullScreen, completionHandler: nil)
-            }
-            
-            if let error = error as NSError?, error.domain == OEGameDocumentErrorDomain, error.code == Int(OEImportRequiredError.rawValue) {
-                completionHandler(nil, false, nil)
-                return
-            }
-            
-            completionHandler(document, documentWasAlreadyOpen, error)
-            
-            NSDocumentController.shared.clearRecentDocuments(nil)
-        }
-    }
-    
-    override func openGameDocument(with game: OEDBGame?, display displayDocument: Bool, fullScreen: Bool, completionHandler: @escaping (OEGameDocument?, Error?) -> Void) {
-        do {
-            let document = try OEGameDocument(game: game, core: nil)
-            setUpGameDocument(document, display: displayDocument, fullScreen: fullScreen, completionHandler: completionHandler)
-        } catch {
-            completionHandler(nil, error)
-        }
-    }
-    
-    override func openGameDocument(with rom: OEDBRom, display displayDocument: Bool, fullScreen: Bool, completionHandler: @escaping (OEGameDocument?, Error?) -> Void) {
-        do {
-            let document = try OEGameDocument(rom: rom, core: nil)
-            setUpGameDocument(document, display: displayDocument, fullScreen: fullScreen, completionHandler: completionHandler)
-        } catch {
-            completionHandler(nil, error)
-        }
-    }
-    
-    override func openGameDocument(with saveState: OEDBSaveState, display displayDocument: Bool, fullScreen: Bool, completionHandler: @escaping (OEGameDocument?, Error?) -> Void) {
-        do {
-            let document = try OEGameDocument(saveState: saveState)
-            setUpGameDocument(document, display: displayDocument, fullScreen: fullScreen, completionHandler: completionHandler)
-        } catch {
-            completionHandler(nil, error)
-        }
     }
     
     // MARK: - Library Database
@@ -413,7 +240,7 @@ class AppDelegate: NSDocumentController {
                 
             } else {
                 DispatchQueue.main.async {
-                    self.presentError(error)
+                    self.documentController.presentError(error)
                     self.performDatabaseSelection()
                 }
             }
@@ -596,7 +423,7 @@ class AppDelegate: NSDocumentController {
     fileprivate func setUpHIDSupport() {
         // Set up OEBindingsController.
         _ = OEBindingsController.self
-        let dm = OEDeviceManager.shared()
+        let dm = OEDeviceManager.shared
         if #available(macOS 10.15, *) {
             switch dm.accessType {
             case .unknown:
@@ -1019,9 +846,8 @@ extension AppDelegate: NSMenuDelegate {
         OECoreUpdater.shared.check(forNewCores: false)
         
         let userDefaultsController = NSUserDefaultsController.shared
-        bind(NSBindingName(rawValue: "logHIDEvents"), to: userDefaultsController, withKeyPath: "values.logsHIDEvents", options: nil)
-        bind(NSBindingName(rawValue: "logKeyboardEvents"), to: userDefaultsController, withKeyPath: "values.logsHIDEventsNoKeyboard", options: nil)
-        bind(NSBindingName(rawValue: "backgroundControllerPlay"), to: userDefaultsController, withKeyPath: "values.backgroundControllerPlay", options: nil)
+        bind(.logHIDEvents, to: userDefaultsController, withKeyPath: "values.logsHIDEvents", options: nil)
+        bind(.logKeyboardEvents, to: userDefaultsController, withKeyPath: "values.logsHIDEventsNoKeyboard", options: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.windowDidBecomeKey), name: NSWindow.didBecomeKeyNotification, object: nil)
 
@@ -1067,9 +893,9 @@ extension AppDelegate: NSMenuDelegate {
             if filenames.count == 1 {
                 
                 let url = URL(fileURLWithPath: filenames.last!)
-                self.openDocument(withContentsOf: url, display: true, completionHandler: { (document, documentWasAlreadyOpen, error) in
+                self.documentController.openDocument(withContentsOf: url, display: true, completionHandler: { (document, documentWasAlreadyOpen, error) in
                     if error != nil {
-                        self.presentError(error!)
+                        self.documentController.presentError(error!)
                     }
                     NSApp.reply(toOpenOrPrint: document != nil ? .success : .failure)
                 })
@@ -1094,74 +920,28 @@ extension AppDelegate: NSMenuDelegate {
             startupQueue.append(block)
         }
     }
-
+    
     @objc func deviceManagerDidChangeGlobalEventMonitor(_ notification: Notification) {
-        updateEventHandlers()
+        documentController.updateEventHandlers()
     }
     
     func applicationDidResignActive(_ notification: Notification) {
-        updateEventHandlers()
+        documentController.updateEventHandlers()
     }
     
     func applicationDidBecomeActive(_ notification: Notification) {
-        updateEventHandlers()
+        documentController.updateEventHandlers()
     }
     
     @objc func windowDidBecomeKey(notification: Notification) {
-        updateEventHandlers()
+        documentController.updateEventHandlers()
     }
     
     func spotlightStatusDidChange(for application: OpenEmuApplication) {
-        updateEventHandlers()
+        documentController.updateEventHandlers()
     }
     
     func application(_ application: OpenEmuApplication, didBeginModalSessionForWindow window: NSWindow) {
-        updateEventHandlers()
-    }
-
-    fileprivate func shouldHandleControllerEvents() -> Bool {
-        if NSApp.modalWindow != nil {
-            return false
-        }
-
-        if OEDeviceManager.shared().hasEventMonitor() {
-            return false
-        }
-
-        if (NSApp as! OpenEmuApplication).isSpotlightFrontmost {
-            return false
-        }
-
-        if NSApp.isActive {
-            return true
-        }
-
-        return backgroundControllerPlay
-    }
-
-    fileprivate func shouldHandleKeyboardEvents() -> Bool {
-        if NSApp.modalWindow != nil {
-            return false
-        }
-
-        if (NSApp as! OpenEmuApplication).isSpotlightFrontmost {
-            return false
-        }
-
-        return NSApp.isActive
-    }
-    
-    fileprivate func updateEventHandlers() {
-        var shouldHandleEvents = self.shouldHandleControllerEvents()
-        var shouldHandleKeyboardEvents = self.shouldHandleKeyboardEvents()
-        
-        for gameDocument in NSApp.orderedDocuments.filter({ $0 is OEGameDocument }) as! [OEGameDocument] {
-            
-            gameDocument.handleEvents = shouldHandleEvents
-            gameDocument.handleKeyboardEvents = shouldHandleKeyboardEvents
-            
-            shouldHandleEvents = false
-            shouldHandleKeyboardEvents = false
-        }
+        documentController.updateEventHandlers()
     }
 }

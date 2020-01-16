@@ -103,3 +103,7 @@ class OpenEmuApplication: NSApplication {
         }
     }
 }
+
+var OEApp: OpenEmuApplication {
+    return NSApp as! OpenEmuApplication
+}

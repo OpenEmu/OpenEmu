@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Lb9-LN-3oE">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -8,8 +9,8 @@
         <!--Window Controller-->
         <scene sceneID="46p-NO-Kac">
             <objects>
-                <windowController showSeguePresentationStyle="single" id="Lb9-LN-3oE" sceneMemberID="viewController">
-                    <window key="window" identifier="LibraryWindow" title="OpenEmu" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" frameAutosaveName="LibraryWindow" animationBehavior="default" id="wJp-Kd-sNu">
+                <windowController showSeguePresentationStyle="single" id="Lb9-LN-3oE" customClass="MainWindowController" customModule="OpenEmu" sceneMemberID="viewController">
+                    <window key="window" identifier="LibraryWindowV2" title="OpenEmu" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" appearanceType="darkAqua" frameAutosaveName="LibraryWindowV2" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="wJp-Kd-sNu">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
                         <rect key="contentRect" x="294" y="313" width="830" height="555"/>
@@ -58,8 +59,10 @@
                                         </segmentedCell>
                                     </segmentedControl>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="E17889F9-BEEF-4A6E-9239-3911378A3B1C" explicitItemIdentifier="OEToolbarItemIdentifierSearch" label="" paletteLabel="Search" sizingBehavior="auto" id="cHd-86-9tm" customClass="ControlToolbarItem" customModule="OpenEmu" customModuleProvider="target">
+                                <toolbarItem implicitItemIdentifier="E17889F9-BEEF-4A6E-9239-3911378A3B1C" explicitItemIdentifier="OEToolbarItemIdentifierSearch" label="" paletteLabel="Search" id="cHd-86-9tm" customClass="ControlToolbarItem" customModule="OpenEmu" customModuleProvider="target">
                                     <nil key="toolTip"/>
+                                    <size key="minSize" width="166" height="22"/>
+                                    <size key="maxSize" width="166" height="22"/>
                                     <searchField key="view" wantsLayer="YES" verticalHuggingPriority="750" textCompletion="NO" id="1kU-3F-stz">
                                         <rect key="frame" x="0.0" y="14" width="166" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -81,7 +84,7 @@
                             </defaultToolbarItems>
                         </toolbar>
                         <connections>
-                            <outlet property="delegate" destination="Lb9-LN-3oE" id="S8Y-pU-uen"/>
+                            <outlet property="delegate" destination="Lb9-LN-3oE" id="jtZ-R3-orI"/>
                         </connections>
                     </window>
                     <connections>
@@ -100,7 +103,7 @@
                         <tabViewItem identifier="" id="YXm-nV-rAb"/>
                         <tabViewItem identifier="" id="BRF-xo-Xg4"/>
                     </tabViewItems>
-                    <tabView key="tabView" id="rTP-4j-vyH">
+                    <tabView key="tabView" type="noTabsNoBorder" id="rTP-4j-vyH">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <font key="font" metaFont="system"/>
