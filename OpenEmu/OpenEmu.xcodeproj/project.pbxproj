@@ -2016,7 +2016,6 @@
 		83FBA37E14F2C81C001F1299 /* gameboy_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameboy_library.png; sourceTree = "<group>"; };
 		83FBA38014F2C857001F1299 /* genesis_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = genesis_library.png; sourceTree = "<group>"; };
 		83FBA38214F2C870001F1299 /* gba_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba_library.png; sourceTree = "<group>"; };
-		83FC3CC4156D155B00F0CDB6 /* OEMainWindowContentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEMainWindowContentController.h; sourceTree = "<group>"; };
 		870320A11F5CCB2000470B55 /* controller_saturn_jp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_saturn_jp.png; sourceTree = "<group>"; };
 		870320A21F5CCB2000470B55 /* controller_saturn_jp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_saturn_jp@2x.png"; sourceTree = "<group>"; };
 		870320A81F5CCB3200470B55 /* Controller-Preferences-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-JAP.plist"; sourceTree = "<group>"; };
@@ -3636,7 +3635,6 @@
 		53439A8813B92BF4005C0CC8 /* Main Window */ = {
 			isa = PBXGroup;
 			children = (
-				83FC3CC4156D155B00F0CDB6 /* OEMainWindowContentController.h */,
 				832D293E1451A68700BDF950 /* OEMainWindowController.h */,
 				832D293F1451A68700BDF950 /* OEMainWindowController.m */,
 				832D29441451B0CA00BDF950 /* MainWindow: Library */,

@@ -25,7 +25,6 @@
  */
 
 #import "OEMainWindowController.h"
-#import "OEMainWindowContentController.h"
 
 #import "OESetupAssistant.h"
 #import "OECoreUpdater.h"
