@@ -99,6 +99,12 @@ class AppDelegate: NSObject {
         }
     }
 
+    var backgroundControllerPlay = false {
+        didSet {
+            updateEventHandlers()
+        }
+    }
+    
     var libraryLoaded = false
     var reviewingUnsavedDocuments = false
     
@@ -848,11 +854,13 @@ extension AppDelegate: NSMenuDelegate {
         let userDefaultsController = NSUserDefaultsController.shared
         bind(.logHIDEvents, to: userDefaultsController, withKeyPath: "values.logsHIDEvents", options: nil)
         bind(.logKeyboardEvents, to: userDefaultsController, withKeyPath: "values.logsHIDEventsNoKeyboard", options: nil)
+        bind(.backgroundControllerPlay, to: userDefaultsController, withKeyPath: "values.backgroundControllerPlay", options: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.windowDidBecomeKey), name: NSWindow.didBecomeKeyNotification, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.deviceManagerDidChangeGlobalEventMonitor(_:)), name: NSNotification.Name.OEDeviceManagerDidAddGlobalEventMonitorHandler, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.deviceManagerDidChangeGlobalEventMonitor(_:)), name: NSNotification.Name.OEDeviceManagerDidRemoveGlobalEventMonitorHandler, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.gameDocumentSetupDidFinish(_:)), name: .OEGameDocumentSetupDidFinish, object: nil)
 
         for startupQueueItem in startupQueue {
             startupQueueItem()
@@ -921,27 +929,78 @@ extension AppDelegate: NSMenuDelegate {
         }
     }
     
+    func gameDocumentSetupDidFinish(_ notification: Notification) {
+        updateEventHandlers()
+    }
+    
     @objc func deviceManagerDidChangeGlobalEventMonitor(_ notification: Notification) {
-        documentController.updateEventHandlers()
+        updateEventHandlers()
     }
     
     func applicationDidResignActive(_ notification: Notification) {
-        documentController.updateEventHandlers()
+        updateEventHandlers()
     }
     
     func applicationDidBecomeActive(_ notification: Notification) {
-        documentController.updateEventHandlers()
+        updateEventHandlers()
     }
     
     @objc func windowDidBecomeKey(notification: Notification) {
-        documentController.updateEventHandlers()
+        updateEventHandlers()
     }
     
     func spotlightStatusDidChange(for application: OpenEmuApplication) {
-        documentController.updateEventHandlers()
+        updateEventHandlers()
     }
     
     func application(_ application: OpenEmuApplication, didBeginModalSessionForWindow window: NSWindow) {
-        documentController.updateEventHandlers()
+        updateEventHandlers()
+    }
+    
+    fileprivate var shouldHandleControllerEvents: Bool {
+        if NSApp.modalWindow != nil {
+            return false
+        }
+
+        if OEDeviceManager.shared.hasEventMonitor() {
+            return false
+        }
+
+        if OEApp.isSpotlightFrontmost {
+            return false
+        }
+
+        if NSApp.isActive {
+            return true
+        }
+
+        return backgroundControllerPlay
+    }
+
+    fileprivate var shouldHandleKeyboardEvents: Bool {
+        if NSApp.modalWindow != nil {
+            return false
+        }
+
+        if OEApp.isSpotlightFrontmost {
+            return false
+        }
+
+        return NSApp.isActive
+    }
+    
+    func updateEventHandlers() {
+        let games = NSApp.orderedDocuments.compactMap({$0 as? OEGameDocument})
+        guard games.count > 0 else { return }
+
+        if let game = games.first {
+            game.handleEvents = shouldHandleControllerEvents
+            game.handleKeyboardEvents = shouldHandleKeyboardEvents
+        }
+
+        games.dropFirst().forEach {
+            $0.handleEvents = false
+            $0.handleKeyboardEvents = false
+        }
     }
 }

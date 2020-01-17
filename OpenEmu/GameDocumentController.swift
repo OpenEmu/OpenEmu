@@ -34,21 +34,6 @@ class GameDocumentController: NSDocumentController {
     var gameDocuments = [OEGameDocument]()
     var reviewingUnsavedDocuments = false
     
-    @objc dynamic var backgroundControllerPlay = false {
-        didSet {
-            updateEventHandlers()
-        }
-    }
-    
-    override init() {
-        super.init()
-        bind(.backgroundControllerPlay, to: NSUserDefaultsController.shared, withKeyPath: "values.backgroundControllerPlay", options: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
     override func addDocument(_ document: NSDocument) {
         
         if let document = document as? OEGameDocument {
@@ -156,8 +141,7 @@ class GameDocumentController: NSDocumentController {
             } else {
                 completionHandler?(nil, error as NSError?)
             }
-            
-            self.updateEventHandlers()
+            NotificationCenter.default.post(name: .OEGameDocumentSetupDidFinish, object: nil)
         }
     }
     
@@ -207,51 +191,8 @@ class GameDocumentController: NSDocumentController {
             completionHandler(nil, error)
         }
     }
-    
-    fileprivate var shouldHandleControllerEvents: Bool {
-        if NSApp.modalWindow != nil {
-            return false
-        }
+}
 
-        if OEDeviceManager.shared.hasEventMonitor() {
-            return false
-        }
-
-        if OEApp.isSpotlightFrontmost {
-            return false
-        }
-
-        if NSApp.isActive {
-            return true
-        }
-
-        return backgroundControllerPlay
-    }
-
-    fileprivate var shouldHandleKeyboardEvents: Bool {
-        if NSApp.modalWindow != nil {
-            return false
-        }
-
-        if OEApp.isSpotlightFrontmost {
-            return false
-        }
-
-        return NSApp.isActive
-    }
-    
-    func updateEventHandlers() {
-        let games = NSApp.orderedDocuments.compactMap({$0 as? OEGameDocument})
-        guard games.count > 0 else { return }
-
-        if let game = games.first {
-            game.handleEvents = shouldHandleControllerEvents
-            game.handleKeyboardEvents = shouldHandleKeyboardEvents
-        }
-
-        games.dropFirst().forEach {
-            $0.handleEvents = false
-            $0.handleKeyboardEvents = false
-        }
-    }
+extension NSNotification.Name {
+    static let OEGameDocumentSetupDidFinish = NSNotification.Name("OEGameDocumentSetupDidFinish")
 }
