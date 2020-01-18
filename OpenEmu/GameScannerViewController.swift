@@ -450,37 +450,37 @@ extension GameScannerViewController {
 
 extension GameScannerViewController: OESidebarItem {
     
-    func sidebarIcon() -> NSImage! {
+    var sidebarIcon: NSImage? {
         return nil
     }
     
-    func sidebarName() -> String! {
+    var sidebarName: String {
         return NSLocalizedString("Game Scanner", comment: "")
     }
     
-    func sidebarID() -> String! {
+    var sidebarID: String? {
         return "Game Scanner"
     }
     
-    func viewControllerClassName() -> String! {
+    var viewControllerClassName: String? {
         return className
     }
     
-    func setSidebarName(_ newName: String!) {}
+    func setSidebarName(_ newName: String) {}
     
-    func isSelectableInSidebar() -> Bool {
+    var isSelectableInSidebar: Bool {
         return true
     }
     
-    func isEditableInSidebar() -> Bool {
+    var isEditableInSidebar: Bool {
         return false
     }
     
-    func isGroupHeaderInSidebar() -> Bool {
+    var isGroupHeaderInSidebar: Bool {
         return false
     }
     
-    func hasSubCollections() -> Bool {
+    var hasSubCollections: Bool {
         return false
     }
 }

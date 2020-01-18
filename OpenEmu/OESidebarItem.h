@@ -26,18 +26,21 @@
 
 @import Foundation;
 
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol OESidebarItem <NSObject>
-- (NSImage *)sidebarIcon;
-- (NSString*)sidebarName;
-- (NSString*)sidebarID;
 
-- (NSString*)viewControllerClassName;
+@property (readonly, nullable)  NSImage *sidebarIcon;
+@property (readonly)            NSString* sidebarName;
+@property (readonly, nullable)  NSString* sidebarID;
+@property (readonly, nullable)  NSString* viewControllerClassName;
+@property (readonly)            BOOL isSelectableInSidebar;
+@property (readonly)            BOOL isEditableInSidebar;
+@property (readonly)            BOOL isGroupHeaderInSidebar;
+@property (readonly)            BOOL hasSubCollections;
 
-- (void)setSidebarName:(NSString*)newName;
-- (BOOL)isSelectableInSidebar;
-- (BOOL)isEditableInSidebar;
-- (BOOL)isGroupHeaderInSidebar;
+- (void)setSidebarName:(NSString *)newName;
 
-- (BOOL)hasSubCollections;
 @end
+
+NS_ASSUME_NONNULL_END

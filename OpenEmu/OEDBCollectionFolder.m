@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SidebarItem Protocol
 
-- (NSImage *)sidebarIcon
+- (NSImage * _Nullable)sidebarIcon
 {
     return [[OETheme sharedTheme] imageForKey:@"collections_folder" forState:OEThemeStateDefault];
 }

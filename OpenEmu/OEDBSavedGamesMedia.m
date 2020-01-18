@@ -47,7 +47,7 @@ NSString * const OEDBSavedGamesMediaShowsQuickSaves = @"OEDBSavedGamesMediaShows
 
 #pragma mark - OESidebarItem
 
-- (NSImage *)sidebarIcon
+- (nullable NSImage *)sidebarIcon
 {
     return [[OETheme sharedTheme] imageForKey:@"media_saved_games" forState:OEThemeStateDefault];
 }
@@ -62,12 +62,12 @@ NSString * const OEDBSavedGamesMediaShowsQuickSaves = @"OEDBSavedGamesMediaShows
     NSLog(@"OEDBSavedGamesMedia: can not change name!");
 }
 
-- (NSString*)viewControllerClassName
+- (nullable NSString*)viewControllerClassName
 {
     return @"OEMediaViewController";
 }
 
-- (NSString*)sidebarID
+- (nullable NSString*)sidebarID
 {
     return @"savedGames";
 }
