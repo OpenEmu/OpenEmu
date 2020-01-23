@@ -82,3 +82,6 @@
 [submodule "OpenEmu-Shaders"]
 	path = OpenEmu-Shaders
 	url = https://github.com/OpenEmu/OpenEmu-Shaders.git
+[submodule "BSNES"]
+	path = BSNES
+	url = git@github.com:OpenEmu/BSNES-Core.git
