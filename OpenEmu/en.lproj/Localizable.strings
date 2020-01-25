@@ -556,6 +556,12 @@
 
 "Ignore" = "Ignore";
 
+"OpenEmu requires additional permissions" = "OpenEmu requires additional permissions";  // Headline for Input Monitoring permissions
+
+"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues.";  // "Message for Input Monitoring permissions"
+
+"Show" = "Show";
+
 
 /* Secrets */
 
