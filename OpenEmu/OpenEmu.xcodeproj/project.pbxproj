@@ -100,6 +100,7 @@
 				94EBBCFB183F42CE00743756 /* CopyFiles */,
 			);
 			dependencies = (
+				01853AC523C0FB5F00619549 /* PBXTargetDependency */,
 				87FBC0AA1C07A23400AECF5A /* PBXTargetDependency */,
 				87FBC0881BFC77E300AECF5A /* PBXTargetDependency */,
 				3DB744CD1BD8BB0300C23E74 /* PBXTargetDependency */,
@@ -967,6 +968,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		01853AC423C0FB5F00619549 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
+			remoteInfo = OpenEmu;
+		};
 		081A462D1B9574B800565444 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -8131,6 +8139,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		01853AC523C0FB5F00619549 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D15AC270486D014006FF6A4 /* OpenEmu */;
+			targetProxy = 01853AC423C0FB5F00619549 /* PBXContainerItemProxy */;
+		};
 		081A462E1B9574B800565444 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 081A46251B95744A00565444 /* Pokemon mini */;
