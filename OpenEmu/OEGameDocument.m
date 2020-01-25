@@ -693,7 +693,10 @@ typedef enum : NSUInteger
     }
     
     [self OE_checkGlitches];
-    [self OE_checkDeprecatedCore];
+    if ([self OE_checkDeprecatedCore]) {
+        handler(NO, nil);
+        return;
+    }
     
     if(_emulationStatus != OEEmulationStatusNotSetup) {
         handler(NO, nil);
@@ -1167,10 +1170,21 @@ typedef enum : NSUInteger
     NSDictionary *replacements = _gameCoreManager.plugin.infoDictionary[OEGameCoreSuggestedReplacement];
     NSString *replacement = [replacements objectForKey:systemIdentifier];
     NSString *replacementName;
+    OECoreDownload *download;
     if (replacement) {
         OECorePlugin *plugin = [OECorePlugin corePluginWithBundleIdentifier:replacement];
-        if (plugin)
+        if (plugin) {
             replacementName = plugin.controller.pluginName;
+        } else {
+            NSInteger repl = [[[OECoreUpdater sharedUpdater] coreList] indexOfObjectPassingTest:
+                    ^BOOL(OECoreDownload *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                return [obj.bundleIdentifier caseInsensitiveCompare:replacement] == NSOrderedSame;
+            }];
+            if (repl != NSNotFound) {
+                download = [[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:repl];
+                replacementName = download.name;
+            }
+        }
     }
     
     NSString *title;
@@ -1208,10 +1222,33 @@ typedef enum : NSUInteger
     NSAlert *alert = [[NSAlert alloc] init];
     alert.messageText = title;
     alert.informativeText = [infoMsgParts componentsJoinedByString:@"\n\n"];
-    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"")];
-    [alert runModal];
     
-    return YES;
+    if (download && !_gameWindowController) {
+        [alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Install %@ and Set as Default", @""), replacementName]];
+        [alert addButtonWithTitle:NSLocalizedString(@"Ignore", @"")];
+        
+        NSModalResponse resp = [alert runModal];
+        if (resp != NSAlertFirstButtonReturn)
+            return NO;
+        
+        [[OECoreUpdater sharedUpdater] installCoreWithDownload:download completionHandler:^(OECorePlugin *plugin, NSError *error) {
+            if (!plugin)
+                return;
+            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+            NSString *prefKey = [@"defaultCore." stringByAppendingString:systemIdentifier];
+            NSString *currentCore = [ud stringForKey:prefKey];
+            if (!currentCore || [currentCore isEqual:self->_gameCoreManager.plugin.bundleIdentifier]) {
+                [ud setObject:plugin.bundleIdentifier forKey:prefKey];
+            }
+        }];
+        return YES;
+        
+    } else {
+        [alert addButtonWithTitle:NSLocalizedString(@"OK", @"")];
+        [alert runModal];
+    }
+    
+    return NO;
 }
 
 #pragma mark - Cheats

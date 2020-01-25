@@ -552,6 +552,10 @@
 
 "This plugin is currently unsupported" = "Questo plugin non è supportato";
 
+"Install %@ and Set as Default" = "Installa %@ e imposta come default";
+
+"Ignore" = "Ignora";
+
 
 /* Secrets */
 

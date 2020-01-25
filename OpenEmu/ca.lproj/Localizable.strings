@@ -552,6 +552,10 @@
 
 "This plugin is currently unsupported" = "This plugin is currently unsupported";  // TODO
 
+"Install %@ and Set as Default" = "Install %@ and Set as Default";  // TODO
+
+"Ignore" = "Ignore";  // TODO
+
 
 /* Secrets */
 

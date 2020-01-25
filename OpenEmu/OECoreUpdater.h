@@ -49,6 +49,7 @@ enum _OECoreUpdaterErrorCode
 - (void)installCoreForGame:(OEDBGame *)game withCompletionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;
 - (void)installCoreForSaveState:(OEDBSaveState *)state withCompletionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;
 - (void)installCoreWithDownload:(OECoreDownload *)download message:(NSString *)message completionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;
+- (void)installCoreWithDownload:(OECoreDownload *)download completionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;
 
 @property(readonly) NSArray *coreList;
 
