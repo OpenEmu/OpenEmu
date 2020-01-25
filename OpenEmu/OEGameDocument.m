@@ -1224,7 +1224,16 @@ typedef enum : NSUInteger
     alert.informativeText = [infoMsgParts componentsJoinedByString:@"\n\n"];
     
     if (download && !_gameWindowController) {
-        [alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Install %@ and Set as Default", @""), replacementName]];
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        NSString *prefKey = [@"defaultCore." stringByAppendingString:systemIdentifier];
+        NSString *currentCore = [ud stringForKey:prefKey];
+        BOOL deprecatedIsDefault = currentCore && [currentCore isEqual:self->_gameCoreManager.plugin.bundleIdentifier];
+        
+        if (deprecatedIsDefault) {
+            [alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Install %@ and Set as Default", @""), replacementName]];
+        } else {
+            [alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Install %@", @""), replacementName]];
+        }
         [alert addButtonWithTitle:NSLocalizedString(@"Ignore", @"")];
         
         NSModalResponse resp = [alert runModal];
@@ -1234,10 +1243,7 @@ typedef enum : NSUInteger
         [[OECoreUpdater sharedUpdater] installCoreWithDownload:download completionHandler:^(OECorePlugin *plugin, NSError *error) {
             if (!plugin)
                 return;
-            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-            NSString *prefKey = [@"defaultCore." stringByAppendingString:systemIdentifier];
-            NSString *currentCore = [ud stringForKey:prefKey];
-            if (!currentCore || [currentCore isEqual:self->_gameCoreManager.plugin.bundleIdentifier]) {
+            if (deprecatedIsDefault) {
                 [ud setObject:plugin.bundleIdentifier forKey:prefKey];
             }
         }];

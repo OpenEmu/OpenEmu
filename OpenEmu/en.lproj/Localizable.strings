@@ -552,6 +552,8 @@
 
 "This plugin is currently unsupported" = "This plugin is currently unsupported";
 
+"Install %@" = "Install %@";
+
 "Install %@ and Set as Default" = "Install %@ and Set as Default";
 
 "Ignore" = "Ignore";

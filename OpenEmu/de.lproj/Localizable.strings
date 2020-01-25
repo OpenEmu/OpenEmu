@@ -550,6 +550,8 @@
 
 "This plugin is currently unsupported" = "Dieses Plugin wird zur Zeit nicht unterstützt.";
 
+"Install %@" = "Install %@";  // TODO
+
 "Install %@ and Set as Default" = "Install %@ and Set as Default";  // TODO
 
 "Ignore" = "Ignore";  // TODO
