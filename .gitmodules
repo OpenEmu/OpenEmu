@@ -31,9 +31,6 @@
 [submodule "picodrive"]
 	path = picodrive
 	url = git@github.com:OpenEmu/picodrive.git
-[submodule "Higan"]
-	path = Higan
-	url = git@github.com:OpenEmu/Higan-Core.git
 [submodule "PPSSPP"]
 	path = PPSSPP
 	url = git@github.com:OpenEmu/PPSSPP-Core.git
