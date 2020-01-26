@@ -33,7 +33,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSString * const OEDBSystemAvailabilityDidChangeNotification = @"OEDBSystemAvailabilityDidChangeNotification";
+NSNotificationName const OEDBSystemAvailabilityDidChangeNotification = @"OEDBSystemAvailabilityDidChangeNotification";
 
 NSString * const OEDBSystemErrorDomain = @"OEDBSystemErrorDomain";
 typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {

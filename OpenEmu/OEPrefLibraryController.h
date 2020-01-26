@@ -27,7 +27,7 @@
 @import Cocoa;
 #import "OEPreferencePane.h"
 
-extern NSString * const OELibraryLocationDidChangeNotificationName;
+extern NSNotificationName const OELibraryLocationDidChangeNotification;
 
 @interface OEPrefLibraryController : NSViewController <OEPreferencePane>
 

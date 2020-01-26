@@ -56,9 +56,9 @@ class GameScannerViewController: NSViewController {
         super.init(coder: coder)
         
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperWillUpdate(_:)), name: NSNotification.Name(rawValue: OEGameInfoHelperWillUpdateNotificationName), object: nil)
-        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidChangeUpdateProgress(_:)), name: NSNotification.Name(rawValue: OEGameInfoHelperDidChangeUpdateProgressNotificationName), object: nil)
-        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidUpdate(_:)), name: NSNotification.Name(rawValue: OEGameInfoHelperDidUpdateNotificationName), object: nil)
+        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperWillUpdate(_:)), name: .OEGameInfoHelperWillUpdate, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidChangeUpdateProgress(_:)), name: .OEGameInfoHelperDidChangeUpdateProgress, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidUpdate(_:)), name: .OEGameInfoHelperDidUpdate, object: nil)
     }
     
     override var nibName: NSNib.Name? {
@@ -345,7 +345,7 @@ class GameScannerViewController: NSViewController {
         
         importer.start()
         
-        NotificationCenter.default.post(name: Notification.Name(rawValue: OESidebarSelectionDidChangeNotificationName), object: self)
+        NotificationCenter.default.post(name: .OESidebarSelectionDidChange, object: self)
         
         if importer.numberOfProcessedItems == importer.totalNumberOfItems {
             hideGameScannerView(animated: true)

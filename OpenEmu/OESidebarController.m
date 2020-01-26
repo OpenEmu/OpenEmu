@@ -49,9 +49,9 @@
 
 extern NSString *const OELastSidebarSelectionKey;
 NSString *const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWithoutConfirmation";
-extern NSString * const OEDBSystemAvailabilityDidChangeNotification;
+extern NSNotificationName const OEDBSystemAvailabilityDidChangeNotification;
 
-NSString * const OESidebarSelectionDidChangeNotificationName = @"OESidebarSelectionDidChange";
+NSNotificationName const OESidebarSelectionDidChangeNotification = @"OESidebarSelectionDidChange";
 
 NSString * const OESidebarGroupConsolesAutosaveName    = @"sidebarConsolesItem";
 NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsItem";
@@ -120,7 +120,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     [defaults addObserver:self selector:@selector(controlTextDidEndEditing:) name:NSControlTextDidEndEditingNotification object:cell];
     [defaults addObserver:self selector:@selector(controlTextDidBeginEditing:) name:NSControlTextDidBeginEditingNotification object:cell];
     
-    [defaults addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
+    [defaults addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotification object:nil];
 
     sidebarView.indentationPerLevel = 7;
     sidebarView.intercellSpacing = NSMakeSize(0, 4);
@@ -414,7 +414,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         if(index != NSNotFound)
         {
             [outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-            [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotification object:self userInfo:nil];
         }
     }
 
@@ -495,7 +495,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         [[NSUserDefaults standardUserDefaults] setValue:selectedItem.sidebarID forKey:OELastSidebarSelectionKey];
     }
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotification object:self userInfo:nil];
 }
 
 - (void)outlineViewSelectionIsChanging:(NSNotification *)notification

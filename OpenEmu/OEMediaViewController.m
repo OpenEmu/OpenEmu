@@ -50,7 +50,7 @@
 
 #import "OpenEmu-Swift.h"
 
-NSString * const OEMediaViewControllerDidSetSelectionIndexesNotification = @"OEMediaViewControllerDidSetSelectionIndexesNotification";
+NSNotificationName const OEMediaViewControllerDidSetSelectionIndexesNotification = @"OEMediaViewControllerDidSetSelectionIndexesNotification";
 
 /// Archived URI representations of managed object IDs for selected media.
 static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";

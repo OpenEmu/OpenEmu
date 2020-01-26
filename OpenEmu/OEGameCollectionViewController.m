@@ -60,7 +60,7 @@
 
 #import "OpenEmu-Swift.h"
 
-NSString * const OEGameCollectionViewControllerDidSetSelectionIndexesNotification = @"OEGameCollectionViewControllerDidSetSelectionIndexesNotification";
+NSNotificationName const OEGameCollectionViewControllerDidSetSelectionIndexesNotification = @"OEGameCollectionViewControllerDidSetSelectionIndexesNotification";
 
 static NSArray *OE_defaultSortDescriptors;
 

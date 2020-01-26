@@ -208,7 +208,7 @@ class AppDelegate: NSObject {
             assert(OELibraryDatabase.default != nil, "No database available!")
             
             DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name(OELibraryDidLoadNotificationName), object: OELibraryDatabase.default!)
+                NotificationCenter.default.post(name: .OELibraryDidLoadNotificationName, object: OELibraryDatabase.default!)
             }
             
         } catch let error as NSError {
@@ -781,7 +781,7 @@ extension AppDelegate: NSMenuDelegate {
         
         let notificationCenter = NotificationCenter.default
         
-        notificationCenter.addObserver(self, selector: #selector(AppDelegate.libraryDatabaseDidLoad), name: NSNotification.Name(OELibraryDidLoadNotificationName), object: nil)
+        notificationCenter.addObserver(self, selector: #selector(AppDelegate.libraryDatabaseDidLoad), name: .OELibraryDidLoadNotificationName, object: nil)
         notificationCenter.addObserver(self, selector: #selector(AppDelegate.openPreferencePane), name: PreferencesWindowController.openPaneNotificationName, object: nil)
         
         notificationCenter.addObserver(self, selector: #selector(AppDelegate.didRepairBindings), name: NSNotification.Name.OEBindingsRepaired, object: nil)

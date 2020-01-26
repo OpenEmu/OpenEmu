@@ -39,7 +39,7 @@ extern const int OELibraryErrorCodeFileInFolderNotFound;
 
 #define OEDatabaseFileName @"Library.storedata"
 
-extern NSString *const OELibraryDidLoadNotificationName;
+extern NSNotificationName const OELibraryDidLoadNotificationName;
 
 extern NSString *const OEDatabasePathKey;
 extern NSString *const OEDefaultDatabasePathKey;

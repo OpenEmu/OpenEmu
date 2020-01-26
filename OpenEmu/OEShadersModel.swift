@@ -29,7 +29,7 @@ import OpenEmuBase
 public class OEShadersModel : NSObject {
     // MARK: Notifications
     
-    @objc static let shaderModelCustomShadersDidChange = Notification.Name(rawValue: "OEShaderModelCustomShadersDidChangeNotification")
+    @objc static let shaderModelCustomShadersDidChange = Notification.Name("OEShaderModelCustomShadersDidChangeNotification")
     
     enum Preferences {
         case global

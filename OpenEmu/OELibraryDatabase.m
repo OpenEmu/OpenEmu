@@ -56,7 +56,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSString *const OELibraryDidLoadNotificationName = @"OELibraryDidLoadNotificationName";
+NSNotificationName const OELibraryDidLoadNotificationName = @"OELibraryDidLoadNotificationName";
 
 NSString *const OEDatabasePathKey            = @"databasePath";
 NSString *const OEDefaultDatabasePathKey     = @"defaultDatabasePath";

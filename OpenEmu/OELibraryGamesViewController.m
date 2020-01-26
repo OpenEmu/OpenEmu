@@ -55,7 +55,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     [self _assignLibraryController];
 
     NSNotificationCenter *noc = [NSNotificationCenter defaultCenter];
-    [noc addObserver:self selector:@selector(_updateCollectionContentsFromSidebar:) name:OESidebarSelectionDidChangeNotificationName object:[self sidebarController]];
+    [noc addObserver:self selector:@selector(_updateCollectionContentsFromSidebar:) name:OESidebarSelectionDidChangeNotification object:[self sidebarController]];
 
     NSView *collectionView = [[self collectionController] view];
     NSView *collectionViewContainer = [self collectionViewContainer];

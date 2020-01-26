@@ -30,7 +30,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const OESuppressRemoveCollectionConfirmationKey;
-extern NSString *const OESidebarSelectionDidChangeNotificationName;
+extern NSNotificationName const OESidebarSelectionDidChangeNotification;
 
 extern NSString *const OESidebarMinWidth;
 extern NSString *const OESidebarMaxWidth;

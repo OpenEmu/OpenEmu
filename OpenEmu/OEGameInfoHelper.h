@@ -32,9 +32,9 @@ extern NSString * const OEOpenVGDBVersionKey;
 extern NSString * const OEOpenVGDBUpdateCheckKey;
 extern NSString * const OEOpenVGDBUpdateIntervalKey;
 
-extern NSString * const OEGameInfoHelperWillUpdateNotificationName;
-extern NSString * const OEGameInfoHelperDidChangeUpdateProgressNotificationName;
-extern NSString * const OEGameInfoHelperDidUpdateNotificationName;
+extern NSNotificationName const OEGameInfoHelperWillUpdateNotification;
+extern NSNotificationName const OEGameInfoHelperDidChangeUpdateProgressNotification;
+extern NSNotificationName const OEGameInfoHelperDidUpdateNotification;
 
 @interface OEGameInfoHelper : NSObject
 

@@ -68,7 +68,7 @@ typedef NS_ENUM(NSUInteger, OELibraryCategory) {
 };
 
 #pragma mark - Imported variables
-extern NSString * const OESidebarSelectionDidChangeNotificationName;
+extern NSString * const OESidebarSelectionDidChangeNotification;
 
 @interface OELibraryController ()
 

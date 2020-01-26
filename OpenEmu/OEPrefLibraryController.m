@@ -45,7 +45,7 @@
 
 #import "OpenEmu-Swift.h"
 
-NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocationDidChangeNotificationName";
+NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLocationDidChangeNotificationName";
 
 @implementation OEPrefLibraryController
 
@@ -388,7 +388,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
                     // Make sure to post notification on main thread!
                     void (^postNotification)(void) = ^(){
                         [[OELibraryDatabase defaultDatabase] setPersistentStoreCoordinator:coord];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryLocationDidChangeNotificationName object:self userInfo:nil];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryLocationDidChangeNotification object:self userInfo:nil];
                     };
                     dispatch_async(dispatch_get_main_queue(), postNotification);
                     [context save:nil];
