@@ -104,7 +104,7 @@ class PrefCoresController: NSViewController, OEPreferencePane, NSTableViewDelega
             
         } else if ident == "versionColumn" {
             if plugin.isDownloading {
-                return plugin.progress
+                return plugin
             } else if plugin.canBeInstalled {
                 return NSLocalizedString("Install", comment: "Install Core")
             } else if plugin.hasUpdate {

@@ -431,6 +431,7 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
 
 - (void)coreDownloadDidStart:(OECoreDownload *)download
 {
+    [self OE_updateCoreList];
     [download addObserver:self forKeyPath:@"progress" options:0xF context:_OECoreDownloadProgressContext];
 }
 
@@ -455,8 +456,6 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
 
     if(object == [self coreDownload])
         [[self alert] setProgress:[[self coreDownload] progress]];
-    else
-        [self OE_updateCoreList];
 }
 
 #pragma mark -

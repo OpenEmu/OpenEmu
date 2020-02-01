@@ -46,7 +46,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="coreNameCell" translatesAutoresizingMaskIntoConstraints="NO" id="0hM-aV-idd">
-                                                <rect key="frame" x="0.0" y="0.0" width="138" height="20"/>
+                                                <rect key="frame" x="1" y="1" width="138" height="20"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="XpL-si-BiM">
                                                         <rect key="frame" x="2" y="3" width="76" height="14"/>
@@ -86,7 +86,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="systemListCell" translatesAutoresizingMaskIntoConstraints="NO" id="gN8-El-DRI">
-                                                <rect key="frame" x="0.0" y="0.0" width="272" height="20"/>
+                                                <rect key="frame" x="142" y="1" width="272" height="20"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="QoN-QD-7G4">
                                                         <rect key="frame" x="2" y="3" width="77" height="14"/>
@@ -127,7 +127,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="versionCell" translatesAutoresizingMaskIntoConstraints="NO" id="7mR-ms-kh4">
-                                                <rect key="frame" x="0.0" y="0.0" width="81" height="20"/>
+                                                <rect key="frame" x="417" y="1" width="81" height="20"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="5NB-uo-U74">
                                                         <rect key="frame" x="2" y="3" width="52" height="14"/>
@@ -181,7 +181,7 @@
                                                     <progressIndicator wantsLayer="YES" maxValue="1" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="MqO-ra-5nP">
                                                         <rect key="frame" x="3" y="0.0" width="75" height="20"/>
                                                         <connections>
-                                                            <binding destination="Egz-N3-POl" name="value" keyPath="objectValue" id="7YO-k6-2k2"/>
+                                                            <binding destination="Egz-N3-POl" name="value" keyPath="objectValue.progress" id="QmP-3I-36S"/>
                                                         </connections>
                                                     </progressIndicator>
                                                 </subviews>
