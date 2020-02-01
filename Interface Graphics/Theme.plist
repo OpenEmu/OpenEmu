@@ -1426,40 +1426,6 @@
 				<string>{{0,0}, {1, 27}}</string>
 			</dict>
 		</dict>
-		<key>install_progress_bar</key>
-		<dict>
-			<key>Resource</key>
-			<string>install_progress_bar</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {6, 15}}</string>
-						<string>{{6, 0}, {16, 15}}</string>
-						<string>{{22, 0}, 6, 15}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
-		<key>install_progress_track</key>
-		<dict>
-			<key>Resource</key>
-			<string>install_progress_bar_track</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {10, 15}}</string>
-						<string>{{10, 0}, {8, 15}}</string>
-						<string>{{18, 0}, 10, 15}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
 		<key>tab_selector</key>
 		<dict>
 			<key>Resource</key>
@@ -1490,32 +1456,6 @@
 						<string>{{0, 0}, {15, 45}}</string>
 						<string>{{15, 0}, {1, 45}}</string>
 						<string>{{16, 0}, {15, 45}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
-		<key>slim_dark_pill_button</key>
-		<dict>
-			<key>Resource</key>
-			<string>slim_dark_pill_button</string>
-			<key>States</key>
-			<dict>
-				<key>Pressed</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 15}, {9, 15}}</string>
-						<string>{{9, 15}, {10, 15}}</string>
-						<string>{{19, 15}, {9, 15}}</string>
-					</array>
-				</dict>
-				<key>Default</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {9, 15}}</string>
-						<string>{{9, 0}, {10, 15}}</string>
-						<string>{{19, 0}, {9, 15}}</string>
 					</array>
 				</dict>
 			</dict>
