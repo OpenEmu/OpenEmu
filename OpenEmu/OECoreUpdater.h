@@ -44,7 +44,7 @@ enum _OECoreUpdaterErrorCode
 
 - (void)checkForUpdates;
 - (void)checkForUpdatesAndInstall;
-- (void)checkForNewCores:(NSNumber *)fromModal;
+- (void)checkForNewCores:(NSNumber *)fromModal NS_SWIFT_NAME(checkForNewCores(fromModal:));
 
 - (void)installCoreForGame:(OEDBGame *)game withCompletionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;
 - (void)installCoreForSaveState:(OEDBSaveState *)state withCompletionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;

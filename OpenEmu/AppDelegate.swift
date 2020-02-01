@@ -849,7 +849,7 @@ extension AppDelegate: NSMenuDelegate {
             mainWindowController.showWindow(nil)
         }
         
-        OECoreUpdater.shared.check(forNewCores: false)
+        OECoreUpdater.shared.checkForNewCores(fromModal: false)
         
         let userDefaultsController = NSUserDefaultsController.shared
         bind(.logHIDEvents, to: userDefaultsController, withKeyPath: "values.logsHIDEvents", options: nil)
