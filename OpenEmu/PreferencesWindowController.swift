@@ -159,7 +159,7 @@ class PreferencesTabViewController: NSTabViewController {
             OEPrefLibraryController(),
             OEPrefGameplayController(),
             OEPrefControlsController(),
-            OEPrefCoresController(),
+            PrefCoresController(),
             OEPrefBiosController()
         ]
         
