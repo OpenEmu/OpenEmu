@@ -65,8 +65,7 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
 {
     [self OE_rebuildAvailableLibraries];
 
-    NSString *databasePath = [[[[OELibraryDatabase defaultDatabase] databaseFolderURL] path] stringByAbbreviatingWithTildeInPath];
-    [[self pathField] setStringValue:databasePath];
+    self.pathField.URL = [OELibraryDatabase defaultDatabase].databaseFolderURL;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -436,8 +435,7 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
         if(error) [self presentError:error];
     }
     
-    NSString *databasePath = [[[library databaseFolderURL] path] stringByAbbreviatingWithTildeInPath];
-    [[self pathField] setStringValue:databasePath];
+    self.pathField.URL = library.databaseFolderURL;
 }
 
 - (IBAction)toggleSystem:(id)sender

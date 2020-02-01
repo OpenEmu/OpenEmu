@@ -36,7 +36,7 @@ extern NSNotificationName const OELibraryLocationDidChangeNotification;
 
 - (NSSize)viewSize;
 
-@property IBOutlet NSTextField *pathField;
+@property IBOutlet NSPathControl *pathField;
 @property IBOutlet NSView      *librariesView;
 
 #pragma mark -
