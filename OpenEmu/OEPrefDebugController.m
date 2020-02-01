@@ -993,14 +993,14 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     return [NSImage imageNamed:@"debug_tab_icon"];
 }
 
-- (NSString *)title
+- (NSString *)panelTitle
 {
     return @"Secrets";
 }
 
-- (NSString *)localizedTitle
+- (NSString *)localizedPanelTitle
 {
-    return NSLocalizedString([self title], @"Preferences: Debug Toolbar Item");
+    return NSLocalizedString([self panelTitle], @"Preferences: Debug Toolbar Item");
 }
 
 - (NSString *)nibName

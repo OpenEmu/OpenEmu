@@ -94,12 +94,12 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
 	return [NSImage imageNamed:@"library_tab_icon"];
 }
 
-- (NSString *)title
+- (NSString *)panelTitle
 {
 	return @"Library";
 }
 
-- (NSString *)localizedTitle
+- (NSString *)localizedPanelTitle
 {
     return NSLocalizedString(@"Library", @"Preferences: Library Toolbar Item");
 }

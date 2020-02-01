@@ -31,11 +31,6 @@ extern NSNotificationName const OELibraryLocationDidChangeNotification;
 
 @interface OEPrefLibraryController : NSViewController <OEPreferencePane>
 
-- (NSImage *)icon;
-- (NSString *)title;
-
-- (NSSize)viewSize;
-
 @property IBOutlet NSPathControl *pathField;
 @property IBOutlet NSView      *librariesView;
 

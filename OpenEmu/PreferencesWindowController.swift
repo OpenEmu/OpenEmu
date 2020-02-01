@@ -225,8 +225,8 @@ class PreferencesTabViewController: NSTabViewController {
         let item = NSTabViewItem(viewController: pane as! NSViewController)
         
         item.image = pane.icon
-        item.identifier = pane.title
-        item.label = pane.localizedTitle
+        item.identifier = pane.panelTitle
+        item.label = pane.localizedPanelTitle
         
         addTabViewItem(item)
     }

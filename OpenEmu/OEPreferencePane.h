@@ -31,8 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol OEPreferencePane <NSObject>
 
 @property (readonly) NSImage *icon;
-@property (readonly) NSString *title;
-@property (readonly) NSString *localizedTitle;
+@property (readonly) NSString *panelTitle;
+@property (readonly) NSString *localizedPanelTitle;
 
 @property (readonly) NSSize viewSize;
 

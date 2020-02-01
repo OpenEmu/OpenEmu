@@ -29,11 +29,6 @@
 @class OECenteredTextFieldCell;
 @interface OEPrefCoresController : NSViewController <OEPreferencePane, NSTableViewDataSource, NSTableViewDelegate>
 
-- (NSImage *)icon;
-- (NSString *)title;
-
-- (NSSize)viewSize;
-
 @property(nonatomic, weak) IBOutlet NSTableView *coresTableView;
 
 @end

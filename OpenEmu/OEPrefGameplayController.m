@@ -117,14 +117,14 @@
 	return [NSImage imageNamed:@"gameplay_tab_icon"];
 }
 
-- (NSString *)title
+- (NSString *)panelTitle
 {
 	return @"Gameplay";
 }
 
-- (NSString *)localizedTitle
+- (NSString *)localizedPanelTitle
 {
-    return NSLocalizedString([self title], @"Preferences: Gamplay Toolbar Item");
+    return NSLocalizedString([self panelTitle], @"Preferences: Gamplay Toolbar Item");
 }
 
 - (NSSize)viewSize

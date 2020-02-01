@@ -288,14 +288,14 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     return [NSImage imageNamed:@"bios_tab_icon"];
 }
 
-- (NSString *)title
+- (NSString *)panelTitle
 {
     return @"System Files";
 }
 
-- (NSString *)localizedTitle
+- (NSString *)localizedPanelTitle
 {
-    return NSLocalizedString(self.title, @"Preferences: Bios Toolbar item");
+    return NSLocalizedString(self.panelTitle, @"Preferences: Bios Toolbar item");
 }
 
 - (NSSize)viewSize

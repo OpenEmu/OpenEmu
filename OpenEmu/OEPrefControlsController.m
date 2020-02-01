@@ -752,14 +752,14 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     return [NSImage imageNamed:@"controls_tab_icon"];
 }
 
-- (NSString *)title
+- (NSString *)panelTitle
 {
     return @"Controls";
 }
 
-- (NSString *)localizedTitle
+- (NSString *)localizedPanelTitle
 {
-    return NSLocalizedString([self title], @"Preferences: Controls Toolbar Item");
+    return NSLocalizedString([self panelTitle], @"Preferences: Controls Toolbar Item");
 }
 
 - (NSSize)viewSize
@@ -774,7 +774,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     NSDictionary *userInfo = [notification userInfo];
     NSString     *paneName = [userInfo valueForKey:[OEPreferencesWindowController userInfoPanelNameKey]];
 
-    if([paneName isNotEqualTo:[self title]]) return;
+    if([paneName isNotEqualTo:[self panelTitle]]) return;
 
     NSString *systemIdentifier = [userInfo valueForKey:[OEPreferencesWindowController userInfoSystemIdentifierKey]];
     NSUInteger itemIndex = -1;

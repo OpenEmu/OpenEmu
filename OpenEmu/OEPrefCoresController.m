@@ -241,14 +241,14 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
     return [NSImage imageNamed:@"cores_tab_icon"];
 }
 
-- (NSString *)title
+- (NSString *)panelTitle
 {
     return @"Cores";
 }
 
-- (NSString *)localizedTitle
+- (NSString *)localizedPanelTitle
 {
-    return NSLocalizedString([self title], @"Preferences: Cores Toolbar item");
+    return NSLocalizedString([self panelTitle], @"Preferences: Cores Toolbar item");
 }
 
 - (NSSize)viewSize
