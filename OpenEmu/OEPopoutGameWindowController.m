@@ -364,9 +364,7 @@ typedef enum
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
     _integralScale = _OEFitToWindowScale;
-    const NSSize windowSize = [sender frameRectForContentRect:(NSRect){.size = frameSize}].size;
-
-    return windowSize;
+    return frameSize;
 }
 
 - (void)cancelOperation:(id)sender
