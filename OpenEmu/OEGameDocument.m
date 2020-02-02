@@ -39,7 +39,6 @@
 #import "OEGameCoreManager.h"
 #import "OEGameViewController.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
-#import "OEHUDWindow.h"
 #import "OELibraryDatabase.h"
 #import "OEPopoutGameWindowController.h"
 #import "OESystemPlugin.h"
@@ -495,8 +494,13 @@ typedef enum : NSUInteger
 
 - (void)showInSeparateWindowInFullScreen:(BOOL)fullScreen;
 {
-    OEHUDWindow *window = [[OEHUDWindow alloc] initWithContentRect:NSZeroRect];
-    OEPopoutGameWindowController *windowController = [[OEPopoutGameWindowController alloc] initWithWindow:window];
+    NSWindow *window = [[NSWindow alloc]
+            initWithContentRect:NSZeroRect
+            styleMask:NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
+                NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable
+            backing:NSBackingStoreBuffered defer:YES];
+    OEPopoutGameWindowController *windowController =
+            [[OEPopoutGameWindowController alloc] initWithWindow:window];
     
     [windowController setWindowFullScreen:fullScreen];
     [self setGameWindowController:windowController];

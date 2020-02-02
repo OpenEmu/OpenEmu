@@ -26,7 +26,6 @@
 
 #import "OEPopoutGameWindowController.h"
 
-#import "OEHUDWindow.h"
 #import "OEGameDocument.h"
 #import "OEGameViewController.h"
 #import "OEGameControlsBar.h"
@@ -138,7 +137,7 @@ typedef enum
         else
             windowSize = [self OE_windowSizeForGameViewIntegralScale:_integralScale];
 
-        OEHUDWindow *window     = (OEHUDWindow *)[self window];
+        NSWindow *window        = self.window;
         const NSRect windowRect = {NSZeroPoint, windowSize};
 
         [gameViewController setIntegralScalingDelegate:self];
@@ -146,7 +145,7 @@ typedef enum
         [window setFrame:windowRect display:NO animate:NO];
         [window center];
         [window setContentAspectRatio:[gameViewController defaultScreenSize]];
-        [window setMainContentView:[gameViewController view]];
+        window.contentView = gameViewController.view;
 
         [self OE_buildScreenshotWindow];
     }
@@ -198,7 +197,7 @@ typedef enum
 - (unsigned int)maximumIntegralScale
 {
     NSScreen *screen            = ([[self window] screen] ? : [NSScreen mainScreen]);
-    const NSSize maxContentSize = [OEHUDWindow mainContentRectForFrameRect:[screen visibleFrame]].size;
+    const NSSize maxContentSize = [self.window contentRectForFrameRect:screen.visibleFrame].size;
     const NSSize defaultSize    = [[[self OE_gameDocument] gameViewController] defaultScreenSize];
     const unsigned int maxScale = MAX(MIN(floor(maxContentSize.height / defaultSize.height), floor(maxContentSize.width / defaultSize.width)), 1);
 
@@ -228,7 +227,7 @@ typedef enum
 - (NSSize)OE_windowSizeForGameViewIntegralScale:(unsigned int)gameViewIntegralScale
 {
     const NSSize contentSize = [self OE_windowContentSizeForGameViewIntegralScale:gameViewIntegralScale];
-    const NSSize windowSize  = [OEHUDWindow frameRectForMainContentRect:(NSRect){.size = contentSize}].size;
+    const NSSize windowSize  = [self.window frameRectForContentRect:(NSRect){.size = contentSize}].size;
 
     return windowSize;
 }
@@ -404,7 +403,7 @@ typedef enum
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
     _integralScale = _OEFitToWindowScale;
-    const NSSize windowSize  = [OEHUDWindow frameRectForMainContentRect:(NSRect){.size = frameSize}].size;
+    const NSSize windowSize = [sender frameRectForContentRect:(NSRect){.size = frameSize}].size;
 
     return windowSize;
 }
@@ -452,12 +451,12 @@ typedef enum
 {
     OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
     CALayer *layer                           = [[_screenshotWindow screenshotView] layer];
-    NSView *contentView                      = [(OEHUDWindow *)window mainContentView];
+    NSView *contentView                      = window.contentView;
     NSScreen *mainScreen                     = [[NSScreen screens] objectAtIndex:0];
     const NSRect screenFrame                 = [mainScreen frame];
     const NSTimeInterval hideBorderDuration  = duration / 4;
     const NSTimeInterval resizeDuration      = duration - hideBorderDuration;
-    const NSRect contentFrame                = [OEHUDWindow mainContentRectForFrameRect:[window frame]];
+    const NSRect contentFrame                = [window contentRectForFrameRect:window.frame];
     const NSRect screenshotWindowFrame       = [self OE_screenshotWindowFrameForOriginalFrame:contentFrame];
     const NSRect fullScreenWindowFrame       = [self OE_screenshotWindowFrameForOriginalFrame:screenFrame];
 
@@ -486,7 +485,6 @@ typedef enum
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         [context setDuration:hideBorderDuration];
         [[window animator] setAlphaValue:0.0];
-        [[[(OEHUDWindow *)window borderWindow] animator] setAlphaValue:0.0];
     } completionHandler:^{
         [window setFrame:screenFrame display:YES];
         [contentView setFrame:(NSRect){.size = screenFrame.size}]; // ignore title bar area
@@ -541,7 +539,7 @@ typedef enum
 {
     OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
     CALayer *layer                           = [[_screenshotWindow screenshotView] layer];
-    NSView *contentView                      = [(OEHUDWindow *)window mainContentView];
+    NSView *contentView                      = window.contentView;
     NSScreen *mainScreen                     = [[NSScreen screens] objectAtIndex:0];
     const NSRect screenFrame                 = [mainScreen frame];
     const NSRect fullScreenGameArea          = [self OE_screenshotWindowFrameForOriginalFrame:screenFrame];
@@ -553,7 +551,7 @@ typedef enum
     [self OE_forceLayerReposition:layer toFrame:fullScreenGameArea];
     [_screenshotWindow orderFront:self];
 
-    const NSRect contentFrame          = [OEHUDWindow mainContentRectForFrameRect:_frameForNonFullScreenMode];
+    const NSRect contentFrame          = [window contentRectForFrameRect:_frameForNonFullScreenMode];
     const NSRect screenshotWindowFrame = [self OE_screenshotWindowFrameForOriginalFrame:contentFrame];
 
     // Restore the window to its original frame
@@ -562,7 +560,7 @@ typedef enum
         [window setFrame:_frameForNonFullScreenMode display:YES];
 
         // Resize the content view so that it takes window decoration into account
-        NSRect contentRect = [window convertRectFromScreen:[OEHUDWindow mainContentRectForFrameRect:_frameForNonFullScreenMode]];
+        NSRect contentRect = [window convertRectFromScreen:[window contentRectForFrameRect:_frameForNonFullScreenMode]];
         [contentView setFrame:contentRect];
     }
 
@@ -590,7 +588,6 @@ typedef enum
             [context setDuration:showBorderDuration];
 
             [[window animator] setAlphaValue:1.0];
-            [[[(OEHUDWindow *)[self window] borderWindow] animator] setAlphaValue:1.0];
         } completionHandler:^{
             [self OE_hideScreenshotWindow];
         }];
