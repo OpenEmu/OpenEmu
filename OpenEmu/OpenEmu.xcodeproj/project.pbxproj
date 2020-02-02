@@ -182,7 +182,6 @@
 		052B92D3226EE5FA00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
 		052B92D4226EE66C00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
 		052EA5BC2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */; };
-		05410EE122F68ED900303424 /* ShaderParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EE022F68ED900303424 /* ShaderParameters.xib */; };
 		05410EE722F690E200303424 /* OEShaderParametersWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05410EE622F690E200303424 /* OEShaderParametersWindowController.m */; };
 		05410EF122F7538B00303424 /* SliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF022F7538B00303424 /* SliderCell.xib */; };
 		05410EF322F756BD00303424 /* GroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF222F756BD00303424 /* GroupCell.xib */; };
@@ -627,6 +626,7 @@
 		8F4BDF7D1CE4AB34007DCB86 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7C1CE4AB34007DCB86 /* libsqlite3.tbd */; };
 		8F4BDF801CE4ACC6007DCB86 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */; };
 		8F5074741C10BCEC00F52B83 /* OELibraryGamesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5074761C10BCEC00F52B83 /* OELibraryGamesViewController.xib */; };
+		8F7BFC9623E653E100B1F6C8 /* ShaderParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F7BFC9823E653E100B1F6C8 /* ShaderParameters.xib */; };
 		8FD905771AA2927100FA7662 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8FD905791AA2927100FA7662 /* OEPrefControlsController.xib */; };
 		94052EFE172DC1DD00B90DE6 /* controller_nds_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */; };
 		94052EFF172DC1DD00B90DE6 /* controller_nds@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052EFD172DC1DD00B90DE6 /* controller_nds@2x.png */; };
@@ -1472,7 +1472,6 @@
 		052B92D2226EE5FA00701431 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBitmapImageRep+OEAdditions.swift"; sourceTree = "<group>"; };
 		0533EA5C24CDF9070095146E /* OpenEmuKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OpenEmuKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		05410EE022F68ED900303424 /* ShaderParameters.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaderParameters.xib; sourceTree = "<group>"; };
 		05410EE522F690DB00303424 /* OEShaderParametersWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEShaderParametersWindowController.h; sourceTree = "<group>"; };
 		05410EE622F690E200303424 /* OEShaderParametersWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEShaderParametersWindowController.m; sourceTree = "<group>"; };
 		05410EF022F7538B00303424 /* SliderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SliderCell.xib; sourceTree = "<group>"; };
@@ -2230,6 +2229,8 @@
 		8F50747E1C10BD0500F52B83 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
 		8F5074801C10BD0900F52B83 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
 		8F5074821C10BD0C00F52B83 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
+		8F7BFC9723E653E100B1F6C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ShaderParameters.xib; sourceTree = "<group>"; };
+		8F7BFC9A23E653ED00B1F6C8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
 		8FF29BE51C10A46C00E5E134 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
 		8FF29BE61C10A47200E5E134 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
 		8FF29BE71C10A47500E5E134 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
@@ -3464,7 +3465,7 @@
 				832D29421451ACF200BDF950 /* MainWindow.xib */,
 				83FE965B19685F6700DD8DB9 /* OEGameScanner.xib */,
 				83FE966619685F8F00DD8DB9 /* OESetupAssistant.xib */,
-				05410EE022F68ED900303424 /* ShaderParameters.xib */,
+				8F7BFC9823E653E100B1F6C8 /* ShaderParameters.xib */,
 				05410EEF22F7535A00303424 /* Cell Views */,
 			);
 			name = XIBs;
@@ -6872,7 +6873,7 @@
 				556CEBF01BCE173B00F00EAA /* Graphics.xcassets in Resources */,
 				051DDCB923E5E50100325147 /* AvailableLibrariesCollectionViewItem.xib in Resources */,
 				832D29431451ACF200BDF950 /* MainWindow.xib in Resources */,
-				05410EE122F68ED900303424 /* ShaderParameters.xib in Resources */,
+				8F7BFC9623E653E100B1F6C8 /* ShaderParameters.xib in Resources */,
 				83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */,
 				838E2A231600A05C00CF7198 /* Theme.plist in Resources */,
 				051A6F3C23CFF75F007B7C4F /* MainWindow.storyboard in Resources */,
@@ -8617,6 +8618,15 @@
 				82BBE7B221D961A1006CD402 /* zh-Hant */,
 			);
 			name = OELibraryGamesViewController.xib;
+			sourceTree = "<group>";
+		};
+		8F7BFC9823E653E100B1F6C8 /* ShaderParameters.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8F7BFC9723E653E100B1F6C8 /* Base */,
+				8F7BFC9A23E653ED00B1F6C8 /* de */,
+			);
+			name = ShaderParameters.xib;
 			sourceTree = "<group>";
 		};
 		8FD905791AA2927100FA7662 /* OEPrefControlsController.xib */ = {
