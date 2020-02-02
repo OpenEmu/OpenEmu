@@ -30,6 +30,7 @@
 #import "OEGameViewController.h"
 #import "OEGameControlsBar.h"
 #import "OEUtilities.h"
+#import "NSColor+OEAdditions.h"
 
 #import "OEDBRom.h"
 #import "OEDBGame.h"
@@ -91,6 +92,11 @@ typedef enum
     [window setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
     [window setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
     [window setMinSize:_OEPopoutGameWindowMinSize];
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSString *bgColorStr = [ud objectForKey:OEGameViewBackgroundColorKey];
+    NSColor *bgColor = bgColorStr ? [NSColor colorFromString:bgColorStr] : [NSColor blackColor];
+    window.backgroundColor = bgColor;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_constrainIntegralScaleIfNeeded) name:NSApplicationDidChangeScreenParametersNotification object:nil];
 
