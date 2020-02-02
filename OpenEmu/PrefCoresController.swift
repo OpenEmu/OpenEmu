@@ -32,37 +32,26 @@ class PrefCoresController: NSViewController, OEPreferencePane, NSTableViewDelega
     private let versionCellIdentifier = NSUserInterfaceItemIdentifier(rawValue:"versionCell")
     private let installBtnCellIdentifier = NSUserInterfaceItemIdentifier(rawValue:"installBtnCell")
     private let installProgressCellIdentifier = NSUserInterfaceItemIdentifier(rawValue:"installProgressCell")
-
+    
     @IBOutlet var coresTableView: NSTableView!
     
     var coreListObservation: NSKeyValueObservation?
     
-    var icon: NSImage {
-        get { return NSImage.init(named: "cores_tab_icon")! }
-    }
+    var icon: NSImage { NSImage(named: "cores_tab_icon")! }
     
-    var panelTitle: String {
-        get { return "Cores" }
-    }
+    var panelTitle: String { "Cores" }
     
-    var localizedPanelTitle: String {
-        get { return NSLocalizedString(self.panelTitle, comment: "Preferences: Cores Toolbar item")}
-    }
+    var localizedPanelTitle: String { NSLocalizedString(panelTitle, comment: "Preferences: Cores Toolbar item") }
     
-    var viewSize: NSSize {
-        get { return self.view.fittingSize }
-    }
+    var viewSize: NSSize { view.fittingSize }
     
-    override var nibName: NSNib.Name? {
-        get { return "OEPrefCoresController" }
-    }
-
-
+    override var nibName: NSNib.Name? { "OEPrefCoresController" }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         coreListObservation = OECoreUpdater.shared.observe(\OECoreUpdater.coreList) {
-                object, _ in
+            object, _ in
             self.coresTableView.reloadData()
         }
         OECoreUpdater.shared.checkForNewCores(fromModal: false)
@@ -83,7 +72,7 @@ class PrefCoresController: NSViewController, OEPreferencePane, NSTableViewDelega
     
     private func coreDownload(_ row: Int) -> OECoreDownload
     {
-        return OECoreUpdater.shared.coreList[row] as! OECoreDownload
+        return OECoreUpdater.shared.coreList[row]
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int

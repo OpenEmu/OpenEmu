@@ -40,8 +40,6 @@ class PreferencesWindowController: NSWindowController {
     static let toolbarItemIdentiftierDebug = "OEToolBarItemIdentifierDebug"
     static let toolbarItemIdentifierSeparator = "OEToolbarItemIdentifierSeparator"
     
-    @IBOutlet var backgroundView: OEBackgroundColorView!
-    
     let konamiCode = [NSEvent.SpecialKey.upArrow.rawValue,
                       NSEvent.SpecialKey.upArrow.rawValue,
                       NSEvent.SpecialKey.downArrow.rawValue,
@@ -105,9 +103,7 @@ extension PreferencesWindowController: NSWindowDelegate {
         konamiCodeIndex = 0
         
         konamiCodeMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-            
-            if Int((event.characters! as NSString).character(at: 0)) == self.konamiCode[self.konamiCodeIndex] {
-                
+            if let char = event.characters?.unicodeScalars.first, char.value == self.konamiCode[self.konamiCodeIndex] {
                 self.konamiCodeIndex += 1
                 
                 if self.konamiCodeIndex == self.konamiCode.count {
@@ -145,6 +141,8 @@ extension PreferencesWindowController: NSWindowDelegate {
 
 class PreferencesTabViewController: NSTabViewController {
     
+    typealias PreferencesViewController = (NSViewController & OEPreferencePane)
+    
     /// Used to track when viewDidLoad has completed so that the default pane index selection of 0 doesn't get recorded in tabView(_:, didSelectTabViewItem:).
     fileprivate var viewDidLoadFinished = false
     
@@ -155,7 +153,7 @@ class PreferencesTabViewController: NSTabViewController {
         tabStyle = .toolbar
         
         // The collection of preference panes to add.
-        var preferencePanes: [OEPreferencePane] = [
+        var preferencePanes: [PreferencesViewController] = [
             OEPrefLibraryController(),
             OEPrefGameplayController(),
             OEPrefControlsController(),
@@ -196,14 +194,14 @@ class PreferencesTabViewController: NSTabViewController {
     
     override func transition(from fromViewController: NSViewController, to toViewController: NSViewController, options: NSViewController.TransitionOptions, completionHandler completion: (() -> Void)?) {
         
-        NSAnimationContext.runAnimationGroup({ context in
+        NSAnimationContext.runAnimationGroup { _ in
             
             self.updateWindowTitle()
             self.updateWindowFrame(animated: true)
             
             super.transition(from: fromViewController, to: toViewController, options: [.crossfade, .allowUserInteraction], completionHandler: completion)
             
-        }, completionHandler: nil)
+        }
     }
     
     override func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
@@ -220,9 +218,9 @@ class PreferencesTabViewController: NSTabViewController {
     
     // MARK: -
     
-    func addTabViewItem(with pane: OEPreferencePane) {
+    func addTabViewItem(with pane: PreferencesViewController) {
         
-        let item = NSTabViewItem(viewController: pane as! NSViewController)
+        let item = NSTabViewItem(viewController: pane)
         
         item.image = pane.icon
         item.identifier = pane.panelTitle

@@ -51,7 +51,7 @@ enum _OECoreUpdaterErrorCode
 - (void)installCoreWithDownload:(OECoreDownload *)download message:(NSString *)message completionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;
 - (void)installCoreWithDownload:(OECoreDownload *)download completionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;
 
-@property(readonly) NSArray *coreList;
+@property(readonly) NSArray<OECoreDownload *> *coreList;
 
 @property(copy, nullable) void(^completionHandler)(OECorePlugin * _Nullable plugin, NSError * _Nullable);
 @property(nullable) NSString *coreIdentifier;

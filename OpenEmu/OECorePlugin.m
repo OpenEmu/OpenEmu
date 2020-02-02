@@ -106,7 +106,7 @@ static NSArray *_cachedRequiredFiles = nil;
     return [[self infoDictionary] objectForKey:@"CFBundleIdentifier"];
 }
 
-- (NSArray *)systemIdentifiers;
+- (NSArray<NSString *> *)systemIdentifiers;
 {
     return [[self infoDictionary] objectForKey:OEGameCoreSystemIdentifiersKey];
 }

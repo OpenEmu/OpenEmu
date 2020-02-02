@@ -42,7 +42,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
 @interface OECoreUpdater () <NSFileManagerDelegate, SUUpdaterDelegate>
 {
-    NSMutableDictionary *_coresDict;
+    NSMutableDictionary<NSString *, OECoreDownload *> *_coresDict;
     BOOL autoInstall;
 }
 
