@@ -26,11 +26,13 @@
 
 @import Cocoa;
 #import "OEPreferencePane.h"
+@class OEAvailableLibrariesViewController;
 
 extern NSNotificationName const OELibraryLocationDidChangeNotification;
 
 @interface OEPrefLibraryController : NSViewController <OEPreferencePane>
 
+@property (strong) IBOutlet OEAvailableLibrariesViewController *availableLibrariesViewController;
 @property IBOutlet NSPathControl *pathField;
 @property IBOutlet NSView      *librariesView;
 

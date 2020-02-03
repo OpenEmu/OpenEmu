@@ -125,6 +125,9 @@
 		01E2A2F323E60F7E00194150 /* PrefCoresController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E2A2F223E60F7D00194150 /* PrefCoresController.swift */; };
 		051A6F3B23CFF30C007B7C4F /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A6F3A23CFF30C007B7C4F /* MainWindowController.swift */; };
 		051A6F3C23CFF75F007B7C4F /* MainWindow.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05D50C2B23CEA2C200733BA2 /* MainWindow.storyboard */; };
+		051DDCB523E5D74400325147 /* AvailableLibrariesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051DDCB423E5D74400325147 /* AvailableLibrariesViewController.swift */; };
+		051DDCB723E5D9E400325147 /* AvailableLibrariesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 051DDCB623E5D9E400325147 /* AvailableLibrariesViewController.xib */; };
+		051DDCB923E5E50100325147 /* AvailableLibrariesCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 051DDCB823E5E50100325147 /* AvailableLibrariesCollectionViewItem.xib */; };
 		051F76C722A8817300E1C0C4 /* OEAudioUnit.mm in Sources */ = {isa = PBXBuildFile; fileRef = 051F76C422A8808100E1C0C4 /* OEAudioUnit.mm */; };
 		051F76C822A8817400E1C0C4 /* OEAudioUnit.mm in Sources */ = {isa = PBXBuildFile; fileRef = 051F76C422A8808100E1C0C4 /* OEAudioUnit.mm */; };
 		051F76DA22A887E700E1C0C4 /* OEGameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 051F76D522A887E600E1C0C4 /* OEGameAudio.m */; };
@@ -1410,6 +1413,9 @@
 		01BE371123DCDCC500932DE7 /* OpenEmuXPCCommunicator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEmuXPCCommunicator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		01E2A2F223E60F7D00194150 /* PrefCoresController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefCoresController.swift; sourceTree = "<group>"; };
 		051A6F3A23CFF30C007B7C4F /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		051DDCB423E5D74400325147 /* AvailableLibrariesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableLibrariesViewController.swift; sourceTree = "<group>"; };
+		051DDCB623E5D9E400325147 /* AvailableLibrariesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AvailableLibrariesViewController.xib; sourceTree = "<group>"; };
+		051DDCB823E5E50100325147 /* AvailableLibrariesCollectionViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AvailableLibrariesCollectionViewItem.xib; sourceTree = "<group>"; };
 		051F76C322A8808000E1C0C4 /* OEAudioUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAudioUnit.h; sourceTree = "<group>"; };
 		051F76C422A8808100E1C0C4 /* OEAudioUnit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OEAudioUnit.mm; sourceTree = "<group>"; };
 		051F76D522A887E600E1C0C4 /* OEGameAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameAudio.m; sourceTree = "<group>"; };
@@ -3122,6 +3128,8 @@
 			children = (
 				05B753A223330EB60063BD73 /* Main.storyboard */,
 				05D50C2B23CEA2C200733BA2 /* MainWindow.storyboard */,
+				051DDCB623E5D9E400325147 /* AvailableLibrariesViewController.xib */,
+				051DDCB823E5E50100325147 /* AvailableLibrariesCollectionViewItem.xib */,
 			);
 			name = "Modern UI";
 			sourceTree = "<group>";
@@ -3603,9 +3611,10 @@
 		53439A8713B92BEF005C0CC8 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				53439B3313B930A9005C0CC8 /* Controls */,
 				53439B6813B932C5005C0CC8 /* OEPreferencePane.h */,
 				5A79F7941C15F542003124D5 /* PreferencesWindowController.swift */,
-				53439B3313B930A9005C0CC8 /* Controls */,
+				051DDCB423E5D74400325147 /* AvailableLibrariesViewController.swift */,
 				53439B6C13B932DB005C0CC8 /* OEPrefLibraryController.h */,
 				53439B6D13B932DB005C0CC8 /* OEPrefLibraryController.m */,
 				53439B6F13B932ED005C0CC8 /* OEPrefGameplayController.h */,
@@ -6355,7 +6364,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1110;
+				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					081A46251B95744A00565444 = {
 						CreatedOnToolsVersion = 6.4;
@@ -6773,6 +6782,7 @@
 				83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */,
 				05410EF122F7538B00303424 /* SliderCell.xib in Resources */,
 				83B04E421968610F00CB985E /* Localizable.strings in Resources */,
+				051DDCB723E5D9E400325147 /* AvailableLibrariesViewController.xib in Resources */,
 				87191CC61F6F5524006D2EE3 /* dsa_pub.pem in Resources */,
 				83FE9642196859B100DD8DB9 /* OEPrefCoresController.xib in Resources */,
 				83FE9646196859D300DD8DB9 /* OEPrefGameplayController.xib in Resources */,
@@ -6784,6 +6794,7 @@
 				83FE966419685F8F00DD8DB9 /* OESetupAssistant.xib in Resources */,
 				83C748CC196DF34D0090BC91 /* OEHomebrewViewController.xib in Resources */,
 				556CEBF01BCE173B00F00EAA /* Graphics.xcassets in Resources */,
+				051DDCB923E5E50100325147 /* AvailableLibrariesCollectionViewItem.xib in Resources */,
 				832D29431451ACF200BDF950 /* MainWindow.xib in Resources */,
 				05410EE122F68ED900303424 /* ShaderParameters.xib in Resources */,
 				83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */,
@@ -7604,6 +7615,7 @@
 				53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */,
 				05FB7D8122A0A3D60070633C /* OEOpenGL2GameRenderer.m in Sources */,
 				5A46AC411DC66D8300771B3B /* OEGameViewController+TouchBar.swift in Sources */,
+				051DDCB523E5D74400325147 /* AvailableLibrariesViewController.swift in Sources */,
 				53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */,
 				836AEA711975BFE100B86935 /* OEGridCell.m in Sources */,
 				C6289C32135B215B00EEE97C /* OESystemPlugin.m in Sources */,

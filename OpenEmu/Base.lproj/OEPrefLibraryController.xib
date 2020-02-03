@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPrefLibraryController">
             <connections>
+                <outlet property="availableLibrariesViewController" destination="3wi-9o-3qK" id="1hd-mR-TTJ"/>
                 <outlet property="librariesView" destination="VRZ-d2-kfy" id="R1s-tv-Yoy"/>
                 <outlet property="pathField" destination="j1X-tf-vv5" id="pJX-b2-pHE"/>
                 <outlet property="view" destination="3" id="34"/>
@@ -225,6 +226,7 @@
             </constraints>
             <point key="canvasLocation" x="217" y="80"/>
         </view>
+        <viewController id="3wi-9o-3qK" customClass="AvailableLibrariesViewController" customModule="OpenEmu" customModuleProvider="target"/>
         <userDefaultsController id="36"/>
     </objects>
 </document>

@@ -49,42 +49,31 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
 
 @implementation OEPrefLibraryController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_rebuildAvailableLibraries) name:OEDBSystemAvailabilityDidChangeNotification object:nil];
-
-        [[OEPlugin class] addObserver:self forKeyPath:@"allPlugins" options:0 context:nil];
-    }
-
-    return self;
-}
-
 - (void)awakeFromNib
 {
-    [self OE_rebuildAvailableLibraries];
-
     self.pathField.URL = [OELibraryDatabase defaultDatabase].databaseFolderURL;
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if([keyPath isEqualToString:@"allPlugins"])
-    {
-        [self OE_rebuildAvailableLibraries];
-    }
 }
 
 - (void)dealloc
 {
-    [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins" context:nil];
+    self.availableLibrariesViewController.isEnableObservers = NO;
 }
 #pragma mark - ViewController Overrides
 
 - (NSString *)nibName
 {
 	return @"OEPrefLibraryController";
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.availableLibrariesViewController.isEnableObservers = YES;
+    [self addChildViewController:self.availableLibrariesViewController];
+    NSView *lv = self.availableLibrariesViewController.view;
+    lv.frame = self.librariesView.bounds;
+    [self.librariesView addSubview:self.availableLibrariesViewController.view];
 }
 
 #pragma mark - OEPreferencePane Protocol
@@ -438,20 +427,6 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
     self.pathField.URL = library.databaseFolderURL;
 }
 
-- (IBAction)toggleSystem:(id)sender
-{    
-    NSButton *checkbox = (NSButton *)sender;
-    NSString *systemIdentifier = checkbox.cell.representedObject;
-
-    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
-    NSManagedObjectContext *context = [database mainThreadContext];
-    OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inContext:context];
-    
-    [system toggleEnabledAndPresentError];
-    
-    [self OE_rebuildAvailableLibraries];
-}
-
 - (IBAction)resetWarningDialogs:(id)sender
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
@@ -475,119 +450,6 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
     [keysToRemove enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
         [standardUserDefaults removeObjectForKey:key];
     }];
-}
-
-#pragma mark -
-
-- (void)OE_rebuildAvailableLibraries
-{
-    NSRect visibleRect  = self.librariesView.visibleRect;
-    BOOL rebuildingList = self.librariesView.subviews.count != 0;
-    [[self.librariesView.subviews copy] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
-
-    // get all system plugins, ordered them by name
-    NSManagedObjectContext *context = OELibraryDatabase.defaultDatabase.mainThreadContext;
-    NSArray *systems = [OEDBSystem allSystemsInContext:context];
-
-    // calculate number of rows (using 2 columns)
-    NSInteger rows = ceil(systems.count / 2.0);
-
-    // set some spaces and dimensions
-    CGFloat hSpace = 6, vSpace = 6;
-    CGFloat iWidth = 163, iHeight = 18;
-    CGFloat topGap = 6, bottomGap = 6;
-
-    if(self.librariesView == nil) return;
-
-    CGFloat height = (iHeight * rows + (rows - 1) * vSpace) + topGap + bottomGap;
-    
-    NSRect librariesViewFrame = self.librariesView.frame;
-    librariesViewFrame.size.height = height;
-    self.librariesView.frame = librariesViewFrame;
-
-    __block CGFloat x = vSpace;
-    __block CGFloat y = height-topGap;
-
-    // enumerate plugins and add buttons for them
-    [systems enumerateObjectsUsingBlock:
-     ^(OEDBSystem *system, NSUInteger idx, BOOL *stop)
-     {
-         // if we're still in the first column an we should be in the second
-         if(x == vSpace && idx >= rows)
-         {
-             // we reset x and y
-             x += iWidth + hSpace;
-             y =  height-topGap;
-         }
-
-         // decreasing y to go have enough space to actually see the button
-         y -= iHeight;
-
-         // creating the button
-         NSRect rect = NSMakeRect(x, y, iWidth, iHeight);
-         NSString *systemIdentifier = system.systemIdentifier;
-         NSButton *button = [[NSButton alloc] initWithFrame:rect];
-         button.buttonType = NSButtonTypeSwitch;
-         button.target = self;
-         button.action = @selector(toggleSystem:);
-         button.title = system.name;
-         button.state = system.enabled.intValue;
-         button.cell.representedObject = systemIdentifier;
-
-         // Check if a core is installed that is capable of running this system
-         BOOL foundCore = NO;
-         NSArray *allPlugins = OECorePlugin.allPlugins;
-         for(OECorePlugin *obj in allPlugins)
-         {
-             if([obj.systemIdentifiers containsObject:systemIdentifier])
-             {
-                 foundCore = YES;
-                 break;
-             }
-         }
-
-         // TODO: warnings should also give advice on how to solve them
-         // e.g. Go to Cores preferences and download Core x
-         // or we could add a "Fix This" button that automatically launches the "No core for system ... " - Dialog
-         NSMutableArray *warnings = [NSMutableArray arrayWithCapacity:2];
-         if(system.plugin == nil)
-         {
-             [warnings addObject:NSLocalizedString(@"The System plugin could not be found!", @"")];
-
-             // disabling ui element here so no system without a plugin can be enabled
-             button.enabled = NO;
-         }
-
-         if(!foundCore)
-             [warnings addObject:NSLocalizedString(@"This System has no corresponding core installed.", @"")];
-
-         if(warnings.count != 0)
-         {
-             // Show a warning badge next to the checkbox
-             // this is currently misusing the beta_icon image
-             
-             const NSRect frame = button.frame;
-             const CGFloat y = floor(NSMinY(frame) + 1);
-             const CGFloat x = floor(NSMinX(frame) + button.attributedTitle.size.width + 27);
-             NSPoint badgePosition = NSMakePoint(x, y);
-             NSImageView *imageView = [[NSImageView alloc] initWithFrame:(NSRect){ badgePosition, { 16, 17 } }];
-             imageView.image = [NSImage imageNamed:@"beta_icon"];
-
-             // TODO: Use a custom tooltip that fits our style better
-             imageView.toolTip = [warnings componentsJoinedByString:@"\n"];
-             [self.librariesView addSubview:imageView];
-         }
-
-         [self.librariesView addSubview:button];
-
-         // leave a little gap before we start the next item
-         y -= vSpace;
-     }];
-
-    if(!rebuildingList)
-        [self.librariesView scrollPoint:NSMakePoint(0, height)];
-    else
-        [self.librariesView scrollRectToVisible:visibleRect];
 }
 
 @end
