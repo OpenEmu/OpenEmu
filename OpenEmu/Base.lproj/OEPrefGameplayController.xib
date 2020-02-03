@@ -151,9 +151,9 @@
             </subviews>
             <constraints>
                 <constraint firstItem="xCG-ky-Cuo" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" id="EME-2y-oiv"/>
-                <constraint firstAttribute="bottom" secondItem="xCG-ky-Cuo" secondAttribute="bottom" priority="200" id="I7f-Rn-JKH"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="xCG-ky-Cuo" secondAttribute="bottom" priority="200" id="I7f-Rn-JKH"/>
                 <constraint firstItem="xCG-ky-Cuo" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="30" id="U0A-gZ-ChQ"/>
-                <constraint firstAttribute="trailing" secondItem="xCG-ky-Cuo" secondAttribute="trailing" priority="200" constant="30" id="lIZ-hr-2s2"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xCG-ky-Cuo" secondAttribute="trailing" priority="200" constant="30" id="lIZ-hr-2s2"/>
             </constraints>
             <point key="canvasLocation" x="336.5" y="612"/>
         </view>

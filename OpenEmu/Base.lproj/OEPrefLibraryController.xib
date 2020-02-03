@@ -219,8 +219,8 @@
                 </gridView>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="T5w-dz-S0s" secondAttribute="bottom" priority="200" constant="22" id="7JS-Y7-hIx"/>
-                <constraint firstAttribute="trailing" secondItem="T5w-dz-S0s" secondAttribute="trailing" priority="200" constant="30" id="kRF-tv-kvy"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="T5w-dz-S0s" secondAttribute="bottom" priority="200" constant="22" id="7JS-Y7-hIx"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="T5w-dz-S0s" secondAttribute="trailing" priority="200" constant="30" id="kRF-tv-kvy"/>
                 <constraint firstItem="T5w-dz-S0s" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" id="vOL-vu-y7p"/>
                 <constraint firstItem="T5w-dz-S0s" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="30" id="ySQ-aN-xEj"/>
             </constraints>

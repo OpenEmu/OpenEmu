@@ -18,13 +18,15 @@
             <rect key="frame" x="0.0" y="0.0" width="500" height="460"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="92" horizontalPageScroll="10" verticalLineScroll="92" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="EjW-Ja-3BR">
+                <scrollView borderType="none" horizontalLineScroll="56" horizontalPageScroll="10" verticalLineScroll="56" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="EjW-Ja-3BR">
                     <rect key="frame" x="0.0" y="0.0" width="500" height="460"/>
-                    <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1xA-E0-138">
+                    <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="1xA-E0-138">
                         <rect key="frame" x="0.0" y="0.0" width="500" height="460"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" selectionHighlightStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="90" usesAutomaticRowHeights="YES" viewBased="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LIj-Tj-6II">
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="54" usesAutomaticRowHeights="YES" viewBased="YES" id="LIj-Tj-6II">
                                 <rect key="frame" x="0.0" y="0.0" width="500" height="460"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -40,10 +42,10 @@
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
-                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="CoreCell" translatesAutoresizingMaskIntoConstraints="NO" id="hFf-wE-j2a">
-                                                <rect key="frame" x="1" y="1" width="497" height="18"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="497" height="18"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7e0-tb-Uzr">
                                                         <rect key="frame" x="2" y="2" width="33" height="14"/>
@@ -65,7 +67,7 @@
                                                 </connections>
                                             </tableCellView>
                                             <tableCellView identifier="FileCell" translatesAutoresizingMaskIntoConstraints="NO" id="hP5-d6-JZ7">
-                                                <rect key="frame" x="1" y="21" width="497" height="54"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="497" height="54"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="tkx-gB-e8N">
                                                         <rect key="frame" x="14" y="30" width="213" height="16"/>
@@ -115,7 +117,7 @@
                                                 </connections>
                                             </tableCellView>
                                             <tableCellView identifier="InfoCell" translatesAutoresizingMaskIntoConstraints="NO" id="Byy-Ku-AfU">
-                                                <rect key="frame" x="1" y="77" width="497" height="34"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="497" height="34"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="afz-Gl-1XJ">
                                                         <rect key="frame" x="14" y="10" width="469" height="16"/>
@@ -141,12 +143,6 @@
                                 </tableColumns>
                             </tableView>
                         </subviews>
-                        <constraints>
-                            <constraint firstItem="LIj-Tj-6II" firstAttribute="top" secondItem="1xA-E0-138" secondAttribute="top" id="3VZ-Ze-6Qy"/>
-                            <constraint firstAttribute="trailing" secondItem="LIj-Tj-6II" secondAttribute="trailing" id="9kM-lD-Q4O"/>
-                            <constraint firstItem="LIj-Tj-6II" firstAttribute="leading" secondItem="1xA-E0-138" secondAttribute="leading" id="egg-Nd-srT"/>
-                            <constraint firstAttribute="bottom" secondItem="LIj-Tj-6II" secondAttribute="bottom" id="lcd-md-YHE"/>
-                        </constraints>
                         <nil key="backgroundColor"/>
                     </clipView>
                     <constraints>
@@ -157,19 +153,19 @@
                         <rect key="frame" x="1" y="119" width="223" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
-                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="b5L-TB-dhP">
-                        <rect key="frame" x="224" y="17" width="15" height="102"/>
+                    <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="b5L-TB-dhP">
+                        <rect key="frame" x="484" y="0.0" width="16" height="460"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
             </subviews>
             <constraints>
                 <constraint firstItem="EjW-Ja-3BR" firstAttribute="top" secondItem="3" secondAttribute="top" id="Fp7-AI-02X"/>
-                <constraint firstAttribute="trailing" secondItem="EjW-Ja-3BR" secondAttribute="trailing" priority="200" id="Xoy-as-J3u"/>
-                <constraint firstAttribute="bottom" secondItem="EjW-Ja-3BR" secondAttribute="bottom" priority="200" id="aRv-DW-52W"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="EjW-Ja-3BR" secondAttribute="trailing" priority="200" id="Xoy-as-J3u"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="EjW-Ja-3BR" secondAttribute="bottom" priority="200" id="aRv-DW-52W"/>
                 <constraint firstItem="EjW-Ja-3BR" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="cHR-ZC-Tmh"/>
             </constraints>
-            <point key="canvasLocation" x="139.5" y="154"/>
+            <point key="canvasLocation" x="139" y="154"/>
         </view>
     </objects>
 </document>

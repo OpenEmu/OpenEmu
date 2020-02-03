@@ -780,12 +780,14 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     gridView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:gridView];
     
+    CGFloat scrollerWidth = [NSScroller scrollerWidthForControlSize:NSControlSizeRegular scrollerStyle:NSScrollerStyleOverlay];
     NSSize fittingSize = gridView.fittingSize;
-    fittingSize.width += 60;
+    fittingSize.width += 60 - scrollerWidth;
     fittingSize.height += 40;
     [self.contentView setFrameSize:fittingSize];
     [self.contentView.enclosingScrollView.contentView scrollToPoint:NSMakePoint(0, fittingSize.height)];
     
+    fittingSize.width += scrollerWidth;
     viewSize = NSMakeSize(fittingSize.width, 500);
     
     [self.contentView addConstraints:@[
