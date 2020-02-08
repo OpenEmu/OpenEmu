@@ -226,7 +226,7 @@
             </constraints>
             <point key="canvasLocation" x="217" y="80"/>
         </view>
-        <viewController id="3wi-9o-3qK" customClass="AvailableLibrariesViewController" customModule="OpenEmu" customModuleProvider="target"/>
+        <viewController id="3wi-9o-3qK" customClass="OEAvailableLibrariesViewController"/>
         <userDefaultsController id="36"/>
     </objects>
 </document>
