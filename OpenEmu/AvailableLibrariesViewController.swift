@@ -25,7 +25,7 @@
 import Cocoa
 
 extension NSUserInterfaceItemIdentifier {
-    static let availableLibrariesCollectionViewItem: NSUserInterfaceItemIdentifier = "AvailableLibrariesCollectionViewItem"
+    static let availableLibrariesCollectionViewItem: NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier("AvailableLibrariesCollectionViewItem")
 }
 
 @objc(OEAvailableLibrariesViewController)
