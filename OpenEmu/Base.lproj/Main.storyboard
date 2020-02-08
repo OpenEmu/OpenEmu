@@ -70,7 +70,7 @@
                                     <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </shadow>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="center" title="Version" id="1182" userLabel="Text Field Cell - Label">
-                                    <font key="font" metaFont="system" size="10"/>
+                                    <font key="font" metaFont="menu" size="10"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     <attributedString key="userComments">
@@ -657,6 +657,15 @@ DQ
                                             </attributedString>
                                             <connections>
                                                 <action selector="showOpenEmuWindow:" target="-1" id="1158"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="OpenEmu 2" tag="502" keyEquivalent="2" id="Dye-Hd-BVp" userLabel="OpenEmu 2">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="DNT"/>
+                                            </attributedString>
+                                            <connections>
+                                                <action selector="showOpenEmuWindow2:" target="-1" id="xUJ-uy-6qX"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="1031">

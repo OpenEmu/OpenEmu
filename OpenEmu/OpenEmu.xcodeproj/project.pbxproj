@@ -142,11 +142,36 @@
 		05410EF122F7538B00303424 /* SliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF022F7538B00303424 /* SliderCell.xib */; };
 		05410EF322F756BD00303424 /* GroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF222F756BD00303424 /* GroupCell.xib */; };
 		05410EF522F7573D00303424 /* CheckboxCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF422F7573D00303424 /* CheckboxCell.xib */; };
+		0544B68323D1355500F63D61 /* LibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B68223D1355400F63D61 /* LibraryController.swift */; };
+		0544B68923D14E6300F63D61 /* SidebarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B68823D14E6300F63D61 /* SidebarController.swift */; };
+		0544B69223D16D0C00F63D61 /* ImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B68A23D16D0B00F63D61 /* ImageCollectionViewController.swift */; };
+		0544B69323D16D0C00F63D61 /* ImageCollectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0544B68B23D16D0B00F63D61 /* ImageCollectionHeaderView.xib */; };
+		0544B69423D16D0C00F63D61 /* ImageCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B68C23D16D0C00F63D61 /* ImageCollectionViewItem.swift */; };
+		0544B69523D16D0C00F63D61 /* ImageCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0544B68D23D16D0C00F63D61 /* ImageCollectionViewController.xib */; };
+		0544B69623D16D0C00F63D61 /* ImageCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0544B68E23D16D0C00F63D61 /* ImageCollectionViewItem.xib */; };
+		0544B69723D16D0C00F63D61 /* ImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B68F23D16D0C00F63D61 /* ImageCacheService.swift */; };
+		0544B69823D16D0C00F63D61 /* ImageCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B69023D16D0C00F63D61 /* ImageCollectionDataSource.swift */; };
+		0544B69923D16D0C00F63D61 /* ImageCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B69123D16D0C00F63D61 /* ImageCollectionHeaderView.swift */; };
+		0544B69E23D16D3100F63D61 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B69B23D16D3100F63D61 /* CollectionView.swift */; };
+		0544B69F23D16D3100F63D61 /* CollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0544B69C23D16D3100F63D61 /* CollectionViewItem.xib */; };
+		0544B6A023D16D3100F63D61 /* CollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B69D23D16D3100F63D61 /* CollectionViewItem.swift */; };
+		0544B6A323D16D6300F63D61 /* NSImageView+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B6A223D16D6300F63D61 /* NSImageView+OEAdditions.swift */; };
+		0544B6A923D16DDC00F63D61 /* ScreenshotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B6A623D16DDB00F63D61 /* ScreenshotViewController.swift */; };
+		0544B6AA23D16DDC00F63D61 /* SaveStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B6A723D16DDB00F63D61 /* SaveStateViewController.swift */; };
+		0544B6AF23D1780C00F63D61 /* GameTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B6AD23D1780C00F63D61 /* GameTableView.swift */; };
+		0544B6B023D1780C00F63D61 /* GameTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0544B6AE23D1780C00F63D61 /* GameTableView.xib */; };
+		0551E21223E7675D00CFE976 /* PluginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0551E21123E7675D00CFE976 /* PluginManager.swift */; };
 		0557CB1822A7504B0037175F /* OEShadersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1722A7504B0037175F /* OEShadersModel.swift */; };
 		0557CB1922A77D7C0037175F /* OEShadersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1722A7504B0037175F /* OEShadersModel.swift */; };
 		0557CB1B22A781B60037175F /* OEShadersModel+OpenEmu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */; };
 		05644A4823331EA90033576F /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05644A4723331EA90033576F /* AboutViewController.swift */; };
+		0578B85023D6553E00C86848 /* LibraryGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0578B84F23D6553E00C86848 /* LibraryGamesViewController.swift */; };
 		0586AB22231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */; };
+		05A002D423DE1006007F0DB7 /* UserDefaults+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */; };
+		05A002D623DE5389007F0DB7 /* SidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */; };
+		05A002D823DE539F007F0DB7 /* SidebarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D723DE539F007F0DB7 /* SidebarItemView.swift */; };
+		05A002DA23DE583E007F0DB7 /* SidebarHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */; };
+		05A002DC23DE5E1B007F0DB7 /* SidebarItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */; };
 		05B2E05E23693A7600644C58 /* OELogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B2E05D23693A7500644C58 /* OELogging.m */; };
 		05B2E05F23693A7600644C58 /* OELogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B2E05D23693A7500644C58 /* OELogging.m */; };
 		05B753A023330EB60063BD73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B753A223330EB60063BD73 /* Main.storyboard */; };
@@ -1429,6 +1454,26 @@
 		05410EF022F7538B00303424 /* SliderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SliderCell.xib; sourceTree = "<group>"; };
 		05410EF222F756BD00303424 /* GroupCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupCell.xib; sourceTree = "<group>"; };
 		05410EF422F7573D00303424 /* CheckboxCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CheckboxCell.xib; sourceTree = "<group>"; };
+		0544B68223D1355400F63D61 /* LibraryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryController.swift; sourceTree = "<group>"; };
+		0544B68823D14E6300F63D61 /* SidebarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarController.swift; sourceTree = "<group>"; };
+		0544B68A23D16D0B00F63D61 /* ImageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewController.swift; sourceTree = "<group>"; };
+		0544B68B23D16D0B00F63D61 /* ImageCollectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionHeaderView.xib; sourceTree = "<group>"; };
+		0544B68C23D16D0C00F63D61 /* ImageCollectionViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewItem.swift; sourceTree = "<group>"; };
+		0544B68D23D16D0C00F63D61 /* ImageCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionViewController.xib; sourceTree = "<group>"; };
+		0544B68E23D16D0C00F63D61 /* ImageCollectionViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionViewItem.xib; sourceTree = "<group>"; };
+		0544B68F23D16D0C00F63D61 /* ImageCacheService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheService.swift; sourceTree = "<group>"; };
+		0544B69023D16D0C00F63D61 /* ImageCollectionDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionDataSource.swift; sourceTree = "<group>"; };
+		0544B69123D16D0C00F63D61 /* ImageCollectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionHeaderView.swift; sourceTree = "<group>"; };
+		0544B69B23D16D3100F63D61 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
+		0544B69C23D16D3100F63D61 /* CollectionViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewItem.xib; sourceTree = "<group>"; };
+		0544B69D23D16D3100F63D61 /* CollectionViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewItem.swift; sourceTree = "<group>"; };
+		0544B6A223D16D6300F63D61 /* NSImageView+OEAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImageView+OEAdditions.swift"; sourceTree = "<group>"; };
+		0544B6A623D16DDB00F63D61 /* ScreenshotViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenshotViewController.swift; sourceTree = "<group>"; };
+		0544B6A723D16DDB00F63D61 /* SaveStateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveStateViewController.swift; sourceTree = "<group>"; };
+		0544B6AB23D16E7A00F63D61 /* OEResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEResponder.h; sourceTree = "<group>"; };
+		0544B6AD23D1780C00F63D61 /* GameTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTableView.swift; sourceTree = "<group>"; };
+		0544B6AE23D1780C00F63D61 /* GameTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameTableView.xib; sourceTree = "<group>"; };
+		0551E21123E7675D00CFE976 /* PluginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginManager.swift; sourceTree = "<group>"; };
 		0557CB1722A7504B0037175F /* OEShadersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEShadersModel.swift; sourceTree = "<group>"; };
 		0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEShadersModel+OpenEmu.swift"; sourceTree = "<group>"; };
 		05644A06233312C60033576F /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Main.strings; sourceTree = "<group>"; };
@@ -1443,7 +1488,13 @@
 		05644A18233313070033576F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		05644A1A2333130B0033576F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		05644A4723331EA90033576F /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		0578B84F23D6553E00C86848 /* LibraryGamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryGamesViewController.swift; sourceTree = "<group>"; };
 		0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEGameLayerNotificationView.swift; sourceTree = "<group>"; };
+		05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+OEAdditions.swift"; sourceTree = "<group>"; };
+		05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarHeaderView.swift; sourceTree = "<group>"; };
+		05A002D723DE539F007F0DB7 /* SidebarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItemView.swift; sourceTree = "<group>"; };
+		05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SidebarHeaderView.xib; sourceTree = "<group>"; };
+		05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SidebarItemView.xib; sourceTree = "<group>"; };
 		05B2E05923693A7500644C58 /* OELogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELogging.h; sourceTree = "<group>"; };
 		05B2E05D23693A7500644C58 /* OELogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELogging.m; sourceTree = "<group>"; };
 		05B753A123330EB60063BD73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -3110,6 +3161,87 @@
 			name = "Cell Views";
 			sourceTree = "<group>";
 		};
+		0544B68423D1415900F63D61 /* Collection View */ = {
+			isa = PBXGroup;
+			children = (
+				0544B6A423D16DC400F63D61 /* Media View */,
+				0544B69A23D16D2500F63D61 /* Grid View */,
+				0544B6AC23D177F400F63D61 /* List View */,
+				0544B68F23D16D0C00F63D61 /* ImageCacheService.swift */,
+				0544B69023D16D0C00F63D61 /* ImageCollectionDataSource.swift */,
+				0544B69123D16D0C00F63D61 /* ImageCollectionHeaderView.swift */,
+				0544B68B23D16D0B00F63D61 /* ImageCollectionHeaderView.xib */,
+				0544B68A23D16D0B00F63D61 /* ImageCollectionViewController.swift */,
+				0544B68D23D16D0C00F63D61 /* ImageCollectionViewController.xib */,
+				0544B68C23D16D0C00F63D61 /* ImageCollectionViewItem.swift */,
+				0544B68E23D16D0C00F63D61 /* ImageCollectionViewItem.xib */,
+			);
+			name = "Collection View";
+			sourceTree = "<group>";
+		};
+		0544B68523D1416300F63D61 /* Games Library */ = {
+			isa = PBXGroup;
+			children = (
+				0544B68723D14E4200F63D61 /* Sidebar */,
+				0578B84F23D6553E00C86848 /* LibraryGamesViewController.swift */,
+			);
+			name = "Games Library";
+			sourceTree = "<group>";
+		};
+		0544B68623D141AF00F63D61 /* Homebrew */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Homebrew;
+			sourceTree = "<group>";
+		};
+		0544B68723D14E4200F63D61 /* Sidebar */ = {
+			isa = PBXGroup;
+			children = (
+				0544B68823D14E6300F63D61 /* SidebarController.swift */,
+				05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */,
+				05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */,
+				05A002D723DE539F007F0DB7 /* SidebarItemView.swift */,
+				05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */,
+			);
+			name = Sidebar;
+			sourceTree = "<group>";
+		};
+		0544B69A23D16D2500F63D61 /* Grid View */ = {
+			isa = PBXGroup;
+			children = (
+				0544B69B23D16D3100F63D61 /* CollectionView.swift */,
+				0544B69D23D16D3100F63D61 /* CollectionViewItem.swift */,
+				0544B69C23D16D3100F63D61 /* CollectionViewItem.xib */,
+			);
+			name = "Grid View";
+			sourceTree = "<group>";
+		};
+		0544B6A123D16D4900F63D61 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		0544B6A423D16DC400F63D61 /* Media View */ = {
+			isa = PBXGroup;
+			children = (
+				0544B6A723D16DDB00F63D61 /* SaveStateViewController.swift */,
+				0544B6A623D16DDB00F63D61 /* ScreenshotViewController.swift */,
+			);
+			name = "Media View";
+			sourceTree = "<group>";
+		};
+		0544B6AC23D177F400F63D61 /* List View */ = {
+			isa = PBXGroup;
+			children = (
+				0544B6AD23D1780C00F63D61 /* GameTableView.swift */,
+				0544B6AE23D1780C00F63D61 /* GameTableView.xib */,
+			);
+			name = "List View";
+			sourceTree = "<group>";
+		};
 		0557CB1322A750260037175F /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
@@ -3137,6 +3269,11 @@
 		05E789A223D0085F000E14EE /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				0544B68423D1415900F63D61 /* Collection View */,
+				0544B68623D141AF00F63D61 /* Homebrew */,
+				0544B68523D1416300F63D61 /* Games Library */,
+				0544B6A123D16D4900F63D61 /* Utilities */,
+				0544B68223D1355400F63D61 /* LibraryController.swift */,
 				05E789A823D021B8000E14EE /* ControlToolbarItem.swift */,
 			);
 			name = Library;
@@ -3376,6 +3513,7 @@
 				83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */,
 				83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */,
 				5A9606E71C0BCD350089B494 /* NSImage+DrawingAdditions.swift */,
+				0544B6A223D16D6300F63D61 /* NSImageView+OEAdditions.swift */,
 				5A9606D11C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift */,
 				5A9606D31C0A63740089B494 /* NSMutableDictionary+Pop.swift */,
 				5A9606E31C0BA85F0089B494 /* NSURL+LibraryAdditions.swift */,
@@ -3383,6 +3521,7 @@
 				5A9606D51C0A7C9D0089B494 /* NSWindow+FullScreen.swift */,
 				83F7DBAD18C0E2470029199C /* OEFileManager.h */,
 				83F7DBAE18C0E2470029199C /* OEFileManager.m */,
+				05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -3876,6 +4015,7 @@
 		828E64D00E84656900B1860B /* OpenEmuCore */ = {
 			isa = PBXGroup;
 			children = (
+				0544B6AB23D16E7A00F63D61 /* OEResponder.h */,
 				5A438A1A1D89AEB60061A47C /* OpenEmuApplication.swift */,
 				5A3DB1B01D8E6806009445EC /* AppDelegate.swift */,
 				05E789A623D01B16000E14EE /* GameDocumentController.swift */,
@@ -5253,6 +5393,7 @@
 				C62F549A0FE6CC1500DF15BA /* OECorePlugin.m */,
 				C6289C30135B215B00EEE97C /* OESystemPlugin.h */,
 				C6289C31135B215B00EEE97C /* OESystemPlugin.m */,
+				0551E21123E7675D00CFE976 /* PluginManager.swift */,
 			);
 			name = Plugins;
 			sourceTree = "<group>";
@@ -6778,14 +6919,19 @@
 				82DD29DB12369F1100B58A8F /* KeyboardUsages.plist in Resources */,
 				833ADC4D196B078E00217D9A /* OECollectionViewController.xib in Resources */,
 				8F071F3B1C255362007B76DA /* Credits.rtf in Resources */,
+				0544B69623D16D0C00F63D61 /* ImageCollectionViewItem.xib in Resources */,
 				05410EF522F7573D00303424 /* CheckboxCell.xib in Resources */,
+				05A002DA23DE583E007F0DB7 /* SidebarHeaderView.xib in Resources */,
 				83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */,
 				05410EF122F7538B00303424 /* SliderCell.xib in Resources */,
 				83B04E421968610F00CB985E /* Localizable.strings in Resources */,
 				051DDCB723E5D9E400325147 /* AvailableLibrariesViewController.xib in Resources */,
 				87191CC61F6F5524006D2EE3 /* dsa_pub.pem in Resources */,
 				83FE9642196859B100DD8DB9 /* OEPrefCoresController.xib in Resources */,
+				0544B69F23D16D3100F63D61 /* CollectionViewItem.xib in Resources */,
+				0544B69523D16D0C00F63D61 /* ImageCollectionViewController.xib in Resources */,
 				83FE9646196859D300DD8DB9 /* OEPrefGameplayController.xib in Resources */,
+				0544B69323D16D0C00F63D61 /* ImageCollectionHeaderView.xib in Resources */,
 				05B753A023330EB60063BD73 /* Main.storyboard in Resources */,
 				8F071F391C25534E007B76DA /* Preferences.xib in Resources */,
 				010EDCA31CE628490020417C /* OELibraryController.xib in Resources */,
@@ -6800,11 +6946,13 @@
 				83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */,
 				838E2A231600A05C00CF7198 /* Theme.plist in Resources */,
 				051A6F3C23CFF75F007B7C4F /* MainWindow.storyboard in Resources */,
+				0544B6B023D1780C00F63D61 /* GameTableView.xib in Resources */,
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
 				83FE965919685F6700DD8DB9 /* OEGameScanner.xib in Resources */,
 				83B04E411968610F00CB985E /* InfoPlist.strings in Resources */,
 				83FE963C1968596C00DD8DB9 /* OEMigrationWindowController.xib in Resources */,
 				83495DD819A38F3D009DB6E5 /* OEPrefBiosController.xib in Resources */,
+				05A002DC23DE5E1B007F0DB7 /* SidebarItemView.xib in Resources */,
 				83338C2217A281C7007E32E9 /* secret.mp3 in Resources */,
 				94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */,
 				05410EF322F756BD00303424 /* GroupCell.xib in Resources */,
@@ -7557,11 +7705,15 @@
 				1BFC2725116C1F6700B95689 /* OETaskWrapper.m in Sources */,
 				8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */,
 				837820B61907E8520043593F /* OEBlankSlateForegroundLayer.m in Sources */,
+				0544B69923D16D0C00F63D61 /* ImageCollectionHeaderView.swift in Sources */,
 				83495DD419A38F31009DB6E5 /* OEPrefBiosController.m in Sources */,
+				0544B69423D16D0C00F63D61 /* ImageCollectionViewItem.swift in Sources */,
 				C62F54710FE6ADC500DF15BA /* OEPlugin.m in Sources */,
 				C62F549B0FE6CC1500DF15BA /* OECorePlugin.m in Sources */,
 				C69DCD010FE994A5009AE5A6 /* OEPluginDocument.m in Sources */,
 				8370D3DC1A8D25D900313F87 /* OETableCellView.m in Sources */,
+				05A002D823DE539F007F0DB7 /* SidebarItemView.swift in Sources */,
+				05A002D423DE1006007F0DB7 /* UserDefaults+OEAdditions.swift in Sources */,
 				1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */,
 				C6AC9D4D1190C9AE0083DDFD /* OEGameCoreManager.m in Sources */,
 				C6AC9DEF1190E2C90083DDFD /* OpenEmuHelperApp.m in Sources */,
@@ -7572,6 +7724,7 @@
 				53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */,
 				83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */,
 				8306CD101BD3AC180025BC6C /* OELibraryGamesViewController.m in Sources */,
+				0544B6A023D16D3100F63D61 /* CollectionViewItem.swift in Sources */,
 				5A9606DC1C0A84BC0089B494 /* LibraryToolbar.swift in Sources */,
 				53439A9B13B92C97005C0CC8 /* OEDBCollection.m in Sources */,
 				53439A9C13B92C97005C0CC8 /* OEDBCollectionFolder.m in Sources */,
@@ -7589,6 +7742,7 @@
 				53439AE313B92E59005C0CC8 /* OERatingCell.m in Sources */,
 				53439AE413B92E59005C0CC8 /* OETableCornerView.m in Sources */,
 				53439AE513B92E59005C0CC8 /* OETableHeaderCell.m in Sources */,
+				05A002D623DE5389007F0DB7 /* SidebarHeaderView.swift in Sources */,
 				53439AE613B92E59005C0CC8 /* OETableHeaderView.m in Sources */,
 				53439AE713B92E59005C0CC8 /* OETableView.m in Sources */,
 				53439AEB13B92E91005C0CC8 /* OELibrarySplitView.m in Sources */,
@@ -7614,6 +7768,7 @@
 				53439B7413B932FA005C0CC8 /* OEPrefControlsController.m in Sources */,
 				53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */,
 				05FB7D8122A0A3D60070633C /* OEOpenGL2GameRenderer.m in Sources */,
+				0544B69E23D16D3100F63D61 /* CollectionView.swift in Sources */,
 				5A46AC411DC66D8300771B3B /* OEGameViewController+TouchBar.swift in Sources */,
 				051DDCB523E5D74400325147 /* AvailableLibrariesViewController.swift in Sources */,
 				53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */,
@@ -7661,6 +7816,7 @@
 				8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */,
 				8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */,
 				83633447195D798600470AB8 /* OEDBScreenshot.m in Sources */,
+				0544B68323D1355500F63D61 /* LibraryController.swift in Sources */,
 				8353EB7D15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel in Sources */,
 				051A6F3B23CFF30C007B7C4F /* MainWindowController.swift in Sources */,
 				831C9AAD160095BA00038D0D /* OETheme.m in Sources */,
@@ -7674,10 +7830,12 @@
 				832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */,
 				831C9ABB160095F800038D0D /* OEThemeImage.m in Sources */,
 				831C9ABC160095F800038D0D /* OEThemeTextAttributes.m in Sources */,
+				0578B85023D6553E00C86848 /* LibraryGamesViewController.swift in Sources */,
 				836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */,
 				831C9AD61600971600038D0D /* OEButton.m in Sources */,
 				83D94FAF19A4CD2A007583E1 /* OETableCellGroupView.m in Sources */,
 				831C9AD71600971600038D0D /* OEButtonCell.m in Sources */,
+				0544B68923D14E6300F63D61 /* SidebarController.swift in Sources */,
 				83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */,
 				5A79F7951C15F542003124D5 /* PreferencesWindowController.swift in Sources */,
 				831C9ADC1600973B00038D0D /* OEPopUpButton.m in Sources */,
@@ -7688,11 +7846,13 @@
 				5A886E581BF43AC900775123 /* NSWindow+Image.swift in Sources */,
 				05E789AB23D0256D000E14EE /* NSBindingName+Additions.swift in Sources */,
 				051F76C722A8817300E1C0C4 /* OEAudioUnit.mm in Sources */,
+				0544B69223D16D0C00F63D61 /* ImageCollectionViewController.swift in Sources */,
 				83DEE48F162D52DC005D8AD7 /* OELabel.m in Sources */,
 				836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */,
 				83DEE490162D52DC005D8AD7 /* OELabelCell.m in Sources */,
 				83DEE495162D61C7005D8AD7 /* OEBackgroundColorView.m in Sources */,
 				83DEE498162D6218005D8AD7 /* OEHorizontalLine.m in Sources */,
+				0544B6A923D16DDC00F63D61 /* ScreenshotViewController.swift in Sources */,
 				83DEE4A4162D62E4005D8AD7 /* OEProgressIndicator.m in Sources */,
 				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,
 				14F8750D1649377E002AE3B8 /* OEFiniteStateMachine.m in Sources */,
@@ -7704,6 +7864,7 @@
 				5A6C157C1DC96C3700839986 /* OEMediaViewController+TouchBar.swift in Sources */,
 				83955CB8165DA9BC00572B34 /* OEBackgroundNoisePattern.m in Sources */,
 				5AC349331D89EB7B0089B26F /* GameIntegralScalingDelegate.swift in Sources */,
+				0544B6AA23D16DDC00F63D61 /* SaveStateViewController.swift in Sources */,
 				83CB0C7A1A3F000700409FB2 /* OEBlankSlateSpinnerView.m in Sources */,
 				5A6E80A71DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift in Sources */,
 				835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */,
@@ -7713,14 +7874,17 @@
 				8305A48018FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m in Sources */,
 				0557CB1822A7504B0037175F /* OEShadersModel.swift in Sources */,
 				5A3BB03E1D964C1100E10F27 /* OEControlsKeyHeadlineCell.m in Sources */,
+				0544B6AF23D1780C00F63D61 /* GameTableView.swift in Sources */,
 				834B6F2E1A3B453000CA6A26 /* OEHomebrewBlankSlateView.m in Sources */,
 				5A9606E41C0BA85F0089B494 /* NSURL+LibraryAdditions.swift in Sources */,
 				5A3BB0391D964A4500E10F27 /* OECenteredTextFieldCell.m in Sources */,
 				838DB01916DBE14E00B8DDC8 /* OETextField.m in Sources */,
+				0544B6A323D16D6300F63D61 /* NSImageView+OEAdditions.swift in Sources */,
 				838DB01C16DBE15900B8DDC8 /* OETextFieldCell.m in Sources */,
 				14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */,
 				3D0D6FD31CC6366B00E3F284 /* OEGameLayerView.m in Sources */,
 				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,
+				0544B69723D16D0C00F63D61 /* ImageCacheService.swift in Sources */,
 				836AEA6E19755FE300B86935 /* OEOutlinedButtonCell.m in Sources */,
 				83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */,
 				837820BD19081A090043593F /* OELibraryMigrator.m in Sources */,
@@ -7734,6 +7898,8 @@
 				C6096192179B461C00239067 /* OEXPCGameCoreManager.m in Sources */,
 				83E89274197471F8004D4489 /* OEHomebrewCoverView.m in Sources */,
 				C60961A4179C4A1C00239067 /* OEThreadGameCoreManager.m in Sources */,
+				0544B69823D16D0C00F63D61 /* ImageCollectionDataSource.swift in Sources */,
+				0551E21223E7675D00CFE976 /* PluginManager.swift in Sources */,
 				C60961A7179C4BD000239067 /* OEThreadProxy.m in Sources */,
 				5A9606D61C0A7C9D0089B494 /* NSWindow+FullScreen.swift in Sources */,
 				83AB259917A6A432009C80BC /* OEControlsSectionTitleView.m in Sources */,

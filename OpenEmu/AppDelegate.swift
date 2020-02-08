@@ -45,13 +45,17 @@ class AppDelegate: NSObject {
     @IBOutlet weak var fileMenu: NSMenu!
     
     lazy var mainWindowController = OEMainWindowController(windowNibName: "MainWindow")
+    lazy var mainWindowController2 = {
+        NSStoryboard(name: NSStoryboard.Name("MainWindow"), bundle: Bundle.main).instantiateInitialController() as! MainWindowController
+    }()
     
     lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: "Preferences")
     
     var documentController = GameDocumentController.shared
     
     var restoreWindow = false
-    var libraryDidLoadObserverForRestoreWindow: AnyObject?
+    var libraryDidLoadObserverForRestoreWindow: NSObjectProtocol?
+    var libraryDidLoadObserverForRestoreWindow2: NSObjectProtocol?
     
     var hidEventsMonitor: Any?
     var keyboardEventsMonitor: Any?
@@ -359,7 +363,6 @@ class AppDelegate: NSObject {
     }
     
     fileprivate func loadPlugins() {
-        
         OEPlugin.registerPluginClass(OECorePlugin.self)
         OEPlugin.registerPluginClass(OESystemPlugin.self)
         
@@ -479,6 +482,10 @@ class AppDelegate: NSObject {
     
     @IBAction func showOpenEmuWindow(_ sender: AnyObject?) {
         mainWindowController.showWindow(sender)
+    }
+    
+    @IBAction func showOpenEmuWindow2(_ sender: AnyObject?) {
+        mainWindowController2.showWindow(sender)
     }
     
     // MARK: - Preferences Window
@@ -769,6 +776,11 @@ extension AppDelegate: NSMenuDelegate {
             libraryDidLoadObserverForRestoreWindow = nil
         }
         
+        if let observer = libraryDidLoadObserverForRestoreWindow2 {
+            notificationCenter.removeObserver(observer)
+            libraryDidLoadObserverForRestoreWindow2 = nil
+        }
+        
         notificationCenter.removeObserver(self, name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
     }
     
@@ -821,6 +833,7 @@ extension AppDelegate: NSMenuDelegate {
         
         if !restoreWindow {
             _ = mainWindowController.window
+            // _ = mainWindowController2.window
         }
         
         // Remove the Open Recent menu item.
@@ -847,6 +860,7 @@ extension AppDelegate: NSMenuDelegate {
         
         if !restoreWindow {
             mainWindowController.showWindow(nil)
+            // mainWindowController2.showWindow(nil)
         }
         
         OECoreUpdater.shared.checkForNewCores(fromModal: false)

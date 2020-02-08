@@ -488,7 +488,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
 #pragma mark - Database queries
 
-- (NSArray *)collections
+- (NSArray<id<OESidebarItem>> *)collections
 {
     OECoreDataMainThreadAssertion();
 

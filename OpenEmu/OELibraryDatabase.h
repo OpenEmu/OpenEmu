@@ -31,6 +31,7 @@
 @class OEDBGame;
 @class OEDBSystem;
 @class OEROMImporter;
+@protocol OESidebarItem;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -70,7 +71,7 @@ extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 
 #pragma mark - Database queries
 
-@property(readonly) NSArray *collections;
+@property(readonly) NSArray<id<OESidebarItem>> *collections;
 - (NSArray *)romsForPredicate:(NSPredicate *)predicate;
 @property(readonly, nullable) NSArray <OEDBRom *> *lastPlayedRoms;
 @property(readonly, nullable) NSDictionary <NSString *, NSArray <OEDBRom *> *> *lastPlayedRomsBySystem;

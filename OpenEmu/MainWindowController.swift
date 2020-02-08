@@ -26,10 +26,15 @@ import Cocoa
 
 class MainWindowController: NSWindowController {
     
+    @IBOutlet weak var categoryControl: NSSegmentedControl!
+    
+    var tabViewController: NSTabViewController?
     var allowWindowResizing = true
     var isLaunchingGame = false
     
     var gameDocument: OEGameDocument?
+    
+    var observer: NSKeyValueObservation?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,20 +43,70 @@ class MainWindowController: NSWindowController {
         precondition(window.identifier! == .libraryWindow)
         
         window.isExcludedFromWindowsMenu = true
+        
+        tabViewController = self.contentViewController as? NSTabViewController
+        
+        categoryControl.bind(.selectedIndex, to: tabViewController!, withKeyPath: "selectedTabViewItemIndex", options: nil)
+        observer = tabViewController?.observe(\.selectedTabViewItemIndex, options: [.new]) { (_, change) in
+            print("\(change.newValue ?? -1)")
+        }
+        
+        self.window?.restorationClass = MainWindowController.self
     }
 
     override func windowDidLoad() {
         super.windowDidLoad()
-    
         
+        if let window = window {
+            // https://stackoverflow.com/a/44140102/12606
+            window.setFrameUsingName(.libraryWindow)
+            windowFrameAutosaveName = .libraryWindow
+        }
     }
 
 }
 
+extension MainWindowController: NSWindowRestoration {
+    static func restoreWindow(withIdentifier identifier: NSUserInterfaceItemIdentifier, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Void) {
+        guard
+            identifier == .libraryWindow,
+            let delegate = NSApp.delegate as? AppDelegate
+        else { return }
+        
+        NSApp.extendStateRestoration()
+        delegate.restoreWindow = true
+        
+        let observer = NotificationCenter.default.addObserver(forName: .OELibraryDidLoadNotificationName, object: nil, queue: .main) { _ in
+            defer { NSApp.completeStateRestoration() }
+            completionHandler(delegate.mainWindowController2.window, nil)
+        }
+        delegate.libraryDidLoadObserverForRestoreWindow2 = observer
+    }
+}
+
 extension MainWindowController: NSWindowDelegate {
+    
+    static let openEmuWindowMenuTag = 502
+    
+    var windowMenuItem: NSMenuItem? {
+        NSApp.mainMenu?.item(at: 5)?.submenu?.item(withTag: Self.openEmuWindowMenuTag)
+    }
+    
     func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
         allowWindowResizing ? frameSize : sender.frame.size
     }
+    
+    func windowDidBecomeMain(_ notification: Notification) {
+        windowMenuItem?.state = .on
+    }
+    
+    func windowDidResignMain(_ notification: Notification) {
+        windowMenuItem?.state = .off
+    }
+}
+
+extension NSWindow.FrameAutosaveName {
+    static let libraryWindow = NSWindow.FrameAutosaveName("LibraryWindowV2")
 }
 
 extension NSUserInterfaceItemIdentifier {

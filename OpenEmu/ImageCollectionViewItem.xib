@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView wantsLayer="YES" id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="168" height="143"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" placeholderIntrinsicWidth="0.0" placeholderIntrinsicHeight="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="FSe-ep-RM0">
+                    <rect key="frame" x="13" y="47" width="142" height="89"/>
+                    <shadow key="shadow" blurRadius="1">
+                        <size key="offset" width="0.0" height="-1"/>
+                        <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </shadow>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="bottom" imageScaling="proportionallyUpOrDown" id="3vS-2J-sw2"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HhR-2S-1Qc" userLabel="Title">
+                    <rect key="frame" x="-2" y="15" width="172" height="15"/>
+                    <shadow key="shadow" blurRadius="1">
+                        <size key="offset" width="0.0" height="1"/>
+                        <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </shadow>
+                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Title" id="kKj-Vf-rng">
+                        <font key="font" metaFont="systemBold" size="12"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B5S-Vm-oi3" userLabel="Subtitle">
+                    <rect key="frame" x="-2" y="0.0" width="172" height="13"/>
+                    <shadow key="shadow" blurRadius="1">
+                        <size key="offset" width="0.0" height="1"/>
+                        <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </shadow>
+                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Subtitle" id="8Bu-nU-mco">
+                        <font key="font" metaFont="systemBold" size="10"/>
+                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="FSe-ep-RM0" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="13" id="Cac-fe-lhi"/>
+                <constraint firstAttribute="trailing" secondItem="FSe-ep-RM0" secondAttribute="trailing" constant="13" id="E7f-E0-rXP"/>
+                <constraint firstAttribute="trailing" secondItem="B5S-Vm-oi3" secondAttribute="trailing" id="FXp-ph-PcC"/>
+                <constraint firstItem="B5S-Vm-oi3" firstAttribute="top" secondItem="HhR-2S-1Qc" secondAttribute="bottom" constant="2" id="H4P-Fi-SRE"/>
+                <constraint firstAttribute="bottom" secondItem="B5S-Vm-oi3" secondAttribute="bottom" id="Q7H-cQ-cPh"/>
+                <constraint firstAttribute="trailing" secondItem="HhR-2S-1Qc" secondAttribute="trailing" id="eus-uP-aKn"/>
+                <constraint firstItem="FSe-ep-RM0" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="7" id="sjp-Lb-bll"/>
+                <constraint firstItem="B5S-Vm-oi3" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="szo-xD-emo"/>
+                <constraint firstItem="HhR-2S-1Qc" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="y4F-IE-8V6"/>
+                <constraint firstItem="HhR-2S-1Qc" firstAttribute="top" secondItem="FSe-ep-RM0" secondAttribute="bottom" constant="17" id="y58-l0-pFt"/>
+            </constraints>
+            <point key="canvasLocation" x="188" y="183.5"/>
+        </customView>
+        <collectionViewItem id="v95-P0-ozm" customClass="ImageCollectionViewItem" customModule="OpenEmu" customModuleProvider="target">
+            <connections>
+                <outlet property="imageView" destination="FSe-ep-RM0" id="9XX-6X-i4C"/>
+                <outlet property="subtitleField" destination="B5S-Vm-oi3" id="svo-kR-ITk"/>
+                <outlet property="textField" destination="HhR-2S-1Qc" id="ygi-Ge-msH"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="zi7-3K-coZ"/>
+            </connections>
+        </collectionViewItem>
+    </objects>
+</document>

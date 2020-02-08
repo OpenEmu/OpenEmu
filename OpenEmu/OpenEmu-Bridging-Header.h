@@ -4,6 +4,8 @@
 
 #import "OEBuildInfo.h"
 
+#import "OEResponder.h"
+
 #import "OELibraryDatabase.h"
 #import "OELibraryMigrator.h"
 
@@ -29,7 +31,9 @@
 
 #import "OEDatabase+CoreDataModel.h"
 #import "OEDBGame.h"
+#import "OEDBDataSourceAdditions.h"
 #import "OEDBSavedGamesMedia.h"
+#import "OEDBScreenshotsMedia.h"
 
 #import "OEGameDocument.h"
 #import "OEMainWindowController.h"
