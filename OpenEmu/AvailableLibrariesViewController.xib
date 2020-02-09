@@ -24,9 +24,10 @@
                     <collectionView id="Tar-jg-tno">
                         <rect key="frame" x="0.0" y="0.0" width="433" height="158"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                        <collectionViewGridLayout key="collectionViewLayout" id="iED-pT-SdO">
-                            <size key="minimumItemSize" width="163" height="24"/>
-                        </collectionViewGridLayout>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="5" minimumLineSpacing="5" id="a5c-A0-8Kc">
+                            <size key="itemSize" width="163" height="19"/>
+                            <edgeInsets key="sectionInset" left="10" right="10" top="10" bottom="10"/>
+                        </collectionViewFlowLayout>
                         <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         <connections>
                             <outlet property="dataSource" destination="-2" id="ICP-h8-zva"/>
@@ -35,8 +36,8 @@
                     </collectionView>
                 </subviews>
             </clipView>
-            <edgeInsets key="contentInsets" left="10" right="0.0" top="10" bottom="10"/>
-            <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="9Xn-P1-Twp">
+            <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="9Xn-P1-Twp">
                 <rect key="frame" x="10" y="389" width="423" height="16"/>
                 <autoresizingMask key="autoresizingMask"/>
             </scroller>
