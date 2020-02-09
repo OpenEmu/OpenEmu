@@ -66,6 +66,9 @@ class AvailableLibrariesViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear() {
         loadData()
     }
     
