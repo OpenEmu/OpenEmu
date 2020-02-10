@@ -709,11 +709,11 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
         [inputGrid.leadingAnchor constraintEqualToAnchor:effectiveLeadingAnchor constant:OEAlertLeadingInset],
         [contentView.trailingAnchor constraintEqualToAnchor:inputGrid.trailingAnchor constant:OEAlertTrailingInset]]];
     
-    if (self.showsInputField) {
-        [inputGrid addRowWithViews:@[self.inputLabel, self.inputField]];
-    }
     if (self.showsOtherInputField) {
         [inputGrid addRowWithViews:@[self.otherInputLabel, self.otherInputField]];
+    }
+    if (self.showsInputField) {
+        [inputGrid addRowWithViews:@[self.inputLabel, self.inputField]];
     }
     
     return inputGrid.bottomAnchor;
