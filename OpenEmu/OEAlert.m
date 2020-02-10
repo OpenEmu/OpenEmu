@@ -63,11 +63,11 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 @property (nonatomic, readonly) NSButton *alternateButton;
 @property (nonatomic, readonly) NSButton *otherButton;
 
-@property (nonatomic, readonly) NSTextField *messageTextView;
-@property (nonatomic, readonly) NSTextField *headlineTextView;
+@property (nonatomic, readonly) NSTextField *messageLabel;
+@property (nonatomic, readonly) NSTextField *headlineLabel;
 
-@property (nonatomic, readonly) NSTextField *inputLabelView;
-@property (nonatomic, readonly) NSTextField *otherInputLabelView;
+@property (nonatomic, readonly) NSTextField *inputLabel;
+@property (nonatomic, readonly) NSTextField *otherInputLabel;
 @property (nonatomic, readonly) NSTextField *inputField;
 @property (nonatomic, readonly) NSTextField *otherInputField;
 
@@ -296,24 +296,24 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 - (void)setHeadlineText:(nullable NSString *)headlineText
 {
-    self.headlineTextView.stringValue = headlineText ? : @"";
+    self.headlineLabel.stringValue = headlineText ? : @"";
     _needsRebuild = YES;
 }
 
 - (NSString *)headlineText
 {
-    return self.headlineTextView.stringValue;
+    return self.headlineLabel.stringValue;
 }
 
 - (void)setMessageText:(nullable NSString *)messageText
 {
-    self.messageTextView.stringValue = messageText ? : @"";
+    self.messageLabel.stringValue = messageText ? : @"";
     _needsRebuild = YES;
 }
 
 - (NSString *)messageText
 {
-    return self.messageTextView.stringValue;
+    return self.messageLabel.stringValue;
 }
 
 #pragma mark - Callbacks
@@ -435,22 +435,22 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 - (void)setInputLabelText:(NSString *)inputLabelText
 {
-    self.inputLabelView.stringValue = inputLabelText;
+    self.inputLabel.stringValue = inputLabelText;
 }
 
 - (NSString *)inputLabelText
 {
-    return self.inputLabelView.stringValue;
+    return self.inputLabel.stringValue;
 }
 
 - (void)setOtherInputLabelText:(NSString *)otherInputLabelText
 {
-    self.otherInputLabelView.stringValue = otherInputLabelText;
+    self.otherInputLabel.stringValue = otherInputLabelText;
 }
 
 - (NSString *)otherInputLabelText
 {
-    return self.otherInputLabelView.stringValue;
+    return self.otherInputLabel.stringValue;
 }
 
 - (void)setInputPlaceholderText:(NSString *)str
@@ -521,17 +521,17 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     self.otherButton.title = @"";
 
     // Setup Headline Text View
-    _headlineTextView = [NSTextField wrappingLabelWithString:@""];
-    self.headlineTextView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.headlineTextView.editable = NO;
-    self.headlineTextView.selectable = YES;
-    self.headlineTextView.font = [NSFont systemFontOfSize:NSFont.systemFontSize weight:NSFontWeightBold];
+    _headlineLabel = [NSTextField wrappingLabelWithString:@""];
+    self.headlineLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.headlineLabel.editable = NO;
+    self.headlineLabel.selectable = YES;
+    self.headlineLabel.font = [NSFont systemFontOfSize:NSFont.systemFontSize weight:NSFontWeightBold];
 
     // Setup Message Text View
-    _messageTextView = [NSTextField wrappingLabelWithString:@""];
-    self.messageTextView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.messageTextView.editable = NO;
-    self.messageTextView.selectable = YES;
+    _messageLabel = [NSTextField wrappingLabelWithString:@""];
+    self.messageLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.messageLabel.editable = NO;
+    self.messageLabel.selectable = YES;
     
     // Setup Input Field
     _inputField = [NSTextField textFieldWithString:@""];
@@ -539,10 +539,10 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     self.inputField.usesSingleLineMode = YES;
     self.inputField.editable = YES;
     
-    _inputLabelView = [NSTextField labelWithString:@""];
-    self.inputLabelView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.inputLabelView.editable = NO;
-    self.inputLabelView.selectable = NO;
+    _inputLabel = [NSTextField labelWithString:@""];
+    self.inputLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.inputLabel.editable = NO;
+    self.inputLabel.selectable = NO;
     
     // Setup Other Input Field
     _otherInputField = [NSTextField textFieldWithString:@""];
@@ -550,10 +550,10 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     self.otherInputField.usesSingleLineMode = YES;
     self.otherInputField.editable = YES;
 
-    _otherInputLabelView = [NSTextField labelWithString:@""];
-    self.otherInputLabelView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.otherInputLabelView.editable = NO;
-    self.otherInputLabelView.selectable = NO;
+    _otherInputLabel = [NSTextField labelWithString:@""];
+    self.otherInputLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.otherInputLabel.editable = NO;
+    self.otherInputLabel.selectable = NO;
     
     // Setup Progressbar
     _progressbar = [[NSProgressIndicator alloc] init];
@@ -639,11 +639,11 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
      * exactly equal to the bounding box of the text itself.  */
     if (contentView.fittingSize.width <= OEAlertMaximumWidth) {
         CGFloat maxTextWidth = OEAlertMaximumWidth - OEAlertTrailingInset - OEAlertLeadingInset - OEAlertImageWidth - OEAlertImageLeadingInset;
-        self.messageTextView.preferredMaxLayoutWidth = maxTextWidth;
-        self.headlineTextView.preferredMaxLayoutWidth = maxTextWidth;
+        self.messageLabel.preferredMaxLayoutWidth = maxTextWidth;
+        self.headlineLabel.preferredMaxLayoutWidth = maxTextWidth;
     } else {
-        self.messageTextView.preferredMaxLayoutWidth = 0;
-        self.headlineTextView.preferredMaxLayoutWidth = 0;
+        self.messageLabel.preferredMaxLayoutWidth = 0;
+        self.headlineLabel.preferredMaxLayoutWidth = 0;
     }
     
     [self.window setContentSize:contentView.fittingSize];
@@ -656,13 +656,13 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 {
     NSView *contentView = self.window.contentView;
     
-    [self.headlineTextView setContentHuggingPriority:NSLayoutPriorityDefaultHigh+1 forOrientation:NSLayoutConstraintOrientationVertical];
-    [contentView addSubview:self.headlineTextView];
+    [self.headlineLabel setContentHuggingPriority:NSLayoutPriorityDefaultHigh+1 forOrientation:NSLayoutConstraintOrientationVertical];
+    [contentView addSubview:self.headlineLabel];
     [contentView addConstraints:@[
-        [self.headlineTextView.topAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertTopInset],
-        [self.headlineTextView.leadingAnchor constraintEqualToAnchor:effectiveLeadingAnchor constant:OEAlertLeadingInset],
-        [contentView.trailingAnchor constraintGreaterThanOrEqualToAnchor:self.headlineTextView.trailingAnchor constant:OEAlertTrailingInset]]];
-    return self.headlineTextView.bottomAnchor;
+        [self.headlineLabel.topAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertTopInset],
+        [self.headlineLabel.leadingAnchor constraintEqualToAnchor:effectiveLeadingAnchor constant:OEAlertLeadingInset],
+        [contentView.trailingAnchor constraintGreaterThanOrEqualToAnchor:self.headlineLabel.trailingAnchor constant:OEAlertTrailingInset]]];
+    return self.headlineLabel.bottomAnchor;
 }
 
 - (NSLayoutAnchor *)OE_layoutMessageUnderAnchor:(NSLayoutAnchor *)lastAnchor leadingAnchor:(NSLayoutAnchor *)effectiveLeadingAnchor
@@ -671,16 +671,16 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     BOOL hasHeadline = self.headlineText.length != 0;
     
     if (self.headlineText.length == 0) {
-        self.messageTextView.font = [NSFont systemFontOfSize:NSFont.systemFontSize];
+        self.messageLabel.font = [NSFont systemFontOfSize:NSFont.systemFontSize];
     } else {
-        self.messageTextView.font = [NSFont systemFontOfSize:NSFont.smallSystemFontSize];
+        self.messageLabel.font = [NSFont systemFontOfSize:NSFont.smallSystemFontSize];
     }
-    [contentView addSubview:self.messageTextView];
+    [contentView addSubview:self.messageLabel];
     [contentView addConstraints:@[
-        [self.messageTextView.topAnchor constraintEqualToAnchor:lastAnchor constant:hasHeadline ? OEAlertHeadlineToMessageSpacing : OEAlertTopInset],
-        [self.messageTextView.leadingAnchor constraintEqualToAnchor:effectiveLeadingAnchor constant:OEAlertLeadingInset],
-        [contentView.trailingAnchor constraintGreaterThanOrEqualToAnchor:self.messageTextView.trailingAnchor constant:OEAlertTrailingInset]]];
-    return self.messageTextView.bottomAnchor;
+        [self.messageLabel.topAnchor constraintEqualToAnchor:lastAnchor constant:hasHeadline ? OEAlertHeadlineToMessageSpacing : OEAlertTopInset],
+        [self.messageLabel.leadingAnchor constraintEqualToAnchor:effectiveLeadingAnchor constant:OEAlertLeadingInset],
+        [contentView.trailingAnchor constraintGreaterThanOrEqualToAnchor:self.messageLabel.trailingAnchor constant:OEAlertTrailingInset]]];
+    return self.messageLabel.bottomAnchor;
 }
 
 - (NSLayoutAnchor *)OE_layoutProgressBarUnderAnchor:(NSLayoutAnchor *)lastAnchor leadingAnchor:(NSLayoutAnchor *)effectiveLeadingAnchor
@@ -710,10 +710,10 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
         [contentView.trailingAnchor constraintEqualToAnchor:inputGrid.trailingAnchor constant:OEAlertTrailingInset]]];
     
     if (self.showsInputField) {
-        [inputGrid addRowWithViews:@[self.inputLabelView, self.inputField]];
+        [inputGrid addRowWithViews:@[self.inputLabel, self.inputField]];
     }
     if (self.showsOtherInputField) {
-        [inputGrid addRowWithViews:@[self.otherInputLabelView, self.otherInputField]];
+        [inputGrid addRowWithViews:@[self.otherInputLabel, self.otherInputField]];
     }
     
     return inputGrid.bottomAnchor;
