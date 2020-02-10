@@ -453,6 +453,26 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     return self.otherInputLabelView.stringValue;
 }
 
+- (void)setInputPlaceholderText:(NSString *)str
+{
+    self.inputField.placeholderString = str;
+}
+
+- (NSString *)inputPlaceholderText
+{
+    return self.inputField.placeholderString;
+}
+
+- (void)setOtherInputPlaceholderText:(NSString *)str
+{
+    self.otherInputField.placeholderString = str;
+}
+
+- (NSString *)otherInputPlaceholderText
+{
+    return self.otherInputField.placeholderString;
+}
+
 - (NSInteger)inputLimit
 {
     OEInputLimitFormatter *formatter = self.inputField.formatter;

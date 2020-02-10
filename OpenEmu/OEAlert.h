@@ -66,6 +66,8 @@ typedef void (^OEAlertCompletionHandler)(OEAlert *alert, NSModalResponse result)
 @property (copy) NSString *otherStringValue;
 @property (copy) NSString *inputLabelText;
 @property (copy) NSString *otherInputLabelText;
+@property (copy) NSString *inputPlaceholderText;
+@property (copy) NSString *otherInputPlaceholderText;
 @property NSInteger inputLimit;
 
 #pragma mark - Progress Bar
