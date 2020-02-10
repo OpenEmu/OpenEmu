@@ -71,9 +71,19 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
     
     self.availableLibrariesViewController.isEnableObservers = YES;
     [self addChildViewController:self.availableLibrariesViewController];
-    NSView *lv = self.availableLibrariesViewController.view;
-    lv.frame = self.librariesView.bounds;
-    [self.librariesView addSubview:self.availableLibrariesViewController.view];
+    
+    NSSize size = self.librariesView.frame.size;
+    NSScrollView *lv = (NSScrollView *)self.availableLibrariesViewController.view;
+    NSGridView *gridview = (NSGridView *)self.librariesView.superview;
+    NSGridCell *cell = [gridview cellForView:self.librariesView];
+    [cell setContentView:lv];
+    [self.librariesView removeFromSuperview];
+    self.librariesView = lv;
+    
+    lv.borderType = NSBezelBorder;
+    [lv addConstraints:@[
+        [lv.widthAnchor constraintEqualToConstant:size.width],
+        [lv.heightAnchor constraintEqualToConstant:size.height]]];
 }
 
 #pragma mark - OEPreferencePane Protocol
