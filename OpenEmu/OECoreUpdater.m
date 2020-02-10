@@ -324,11 +324,6 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 - (void)installCoreWithDownload:(OECoreDownload *)download completionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler
 {
     OEAlert *aAlert = [[OEAlert alloc] init];
-    /* FIXME: the following 4 lines are only required because OEHUDAlert is buggy */
-    [aAlert setDefaultButtonTitle:NSLocalizedString(@"Install", @"")];
-    [aAlert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
-    [aAlert setHeadlineText:NSLocalizedString(@"Missing Core", @"")];
-    [aAlert setMessageText:@"placeholder"];
     
     NSString *coreIdentifier = [[_coresDict allKeysForObject:download] lastObject];
     [self setCoreIdentifier:coreIdentifier];
