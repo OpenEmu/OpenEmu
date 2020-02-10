@@ -72,6 +72,22 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 @property (copy, readonly) NSMutableArray <void(^)(void)> *blocks;
 
+@property (nonatomic, readonly) NSButton *defaultButton;
+@property (nonatomic, readonly) NSButton *alternateButton;
+@property (nonatomic, readonly) NSButton *otherButton;
+
+@property (nonatomic, readonly) NSTextField *messageTextView;
+@property (nonatomic, readonly) NSTextField *headlineTextView;
+
+@property (nonatomic, readonly) NSTextField *inputLabelView;
+@property (nonatomic, readonly) NSTextField *otherInputLabelView;
+@property (nonatomic, readonly) NSTextField *inputField;
+@property (nonatomic, readonly) NSTextField *otherInputField;
+
+@property (nonatomic, readonly) NSProgressIndicator *progressbar;
+
+@property (nonatomic, readonly) NSButton *suppressionButton;
+
 @end
 
 @implementation OEHUDAlert {
@@ -386,6 +402,16 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
         [standardUserDefaults removeObjectForKey:self.suppressionUDKey];
 }
 
+- (BOOL)suppressionButtonState
+{
+    return self.suppressionButton.state == NSControlStateValueOn;
+}
+
+- (void)setSuppressionButtonState:(BOOL)state
+{
+    self.suppressionButton.state = state ? NSControlStateValueOn : NSControlStateValueOff;
+}
+
 #pragma mark - Input Field
 
 - (void)setShowsInputField:(BOOL)showsInputField
@@ -504,7 +530,6 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     _inputField = [NSTextField textFieldWithString:@""];
     self.inputField.translatesAutoresizingMaskIntoConstraints = NO;
     self.inputField.usesSingleLineMode = YES;
-    //[self.inputField setTarget:self andAction:@selector(buttonAction:)];
     self.inputField.editable = YES;
     
     _inputLabelView = [NSTextField labelWithString:@""];
@@ -516,7 +541,6 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     _otherInputField = [NSTextField textFieldWithString:@""];
     self.otherInputField.translatesAutoresizingMaskIntoConstraints = NO;
     self.otherInputField.usesSingleLineMode = YES;
-    //[self.otherInputField setTarget:self andAction:@selector(buttonAction:)];
     self.otherInputField.editable = YES;
 
     _otherInputLabelView = [NSTextField labelWithString:@""];

@@ -1142,7 +1142,7 @@ typedef enum : NSUInteger
         [alert setShowsSuppressionButton:YES];
         [alert setSuppressionLabelText:NSLocalizedString(@"Do not show me again", @"Alert suppression label")];
         
-        if([alert runModal] == NSAlertFirstButtonReturn && [[alert suppressionButton] state] == NSControlStateValueOn)
+        if([alert runModal] == NSAlertFirstButtonReturn && alert.suppressionButtonState)
         {
             NSMutableDictionary *systemKeyGlitchInfo = [NSMutableDictionary dictionary];
             [systemKeyGlitchInfo addEntriesFromDictionary:glitchInfo];
@@ -1291,7 +1291,7 @@ typedef enum : NSUInteger
     if([alert runModal] == NSAlertFirstButtonReturn)
     {
         NSNumber *enabled;
-        if ([[alert suppressionButton] state] == NSControlStateValueOn)
+        if (alert.suppressionButtonState)
         {
             enabled = @YES;
             [self setCheat:[alert stringValue] withType:@"Unknown" enabled:[enabled boolValue]];
@@ -1634,8 +1634,14 @@ typedef enum : NSUInteger
     NSString    *proposedName = [NSString stringWithFormat:format, saveGameNo, [formatter stringFromDate:date]];
     OEHUDAlert  *alert        = [OEHUDAlert saveGameAlertWithProposedName:proposedName];
     
-    [alert setWindow:[[[self gameViewController] view] window]];
-    
+    [alert performBlockInModalSession:^{
+        NSRect parentFrame = self.gameViewController.view.window.frame;
+        NSSize alertSize = alert.window.frame.size;
+        CGFloat alertX = (parentFrame.size.width - alertSize.width) / 2.0 + parentFrame.origin.x;
+        CGFloat alertY = (parentFrame.size.height - alertSize.height) / 2.0 + parentFrame.origin.y;
+        [alert.window setFrameOrigin:NSMakePoint(alertX, alertY)];
+    }];
+
     if ([alert runModal] == NSAlertFirstButtonReturn) {
         [self OE_saveStateWithName:[alert stringValue] completionHandler:nil];
     }

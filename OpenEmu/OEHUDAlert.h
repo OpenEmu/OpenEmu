@@ -26,10 +26,7 @@
 
 @import Cocoa;
 
-@class OEProgressIndicator;
 @class OEHUDAlert;
-@class OEButton;
-@class OETextField;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -46,45 +43,34 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSModalResponse resu
 - (NSModalResponse)runModal;
 - (void)performBlockInModalSession:(void(^)(void))block;
 - (void)closeWithResult:(NSInteger)result;
-
 @property (readonly) NSModalResponse result;
-@property NSWindow *window;
+@property (readonly, nonatomic) NSWindow *window;
 
 #pragma mark - Buttons
 
-@property (readonly) NSButton *defaultButton;
-@property (readonly) NSButton *alternateButton;
-@property (readonly) NSButton *otherButton;
-
-@property (readonly) NSTextField *messageTextView;
-@property (readonly) NSTextField *headlineTextView;
-
-@property (copy) NSString *stringValue;
-@property (copy) NSString *otherStringValue;
-@property (copy) NSString *inputLabelText;
-@property (copy) NSString *otherInputLabelText;
 @property (copy, null_resettable) NSString *defaultButtonTitle;
 @property (copy, null_resettable) NSString *alternateButtonTitle;
 @property (copy, null_resettable) NSString *otherButtonTitle;
+
+#pragma mark - Message
+
 @property (copy) NSString *title;
 @property (copy, null_resettable) NSString *messageText;
 @property (copy, null_resettable) NSString *headlineText;
 
 #pragma mark - Input Field
 
-@property (readonly) NSTextField *inputLabelView;
-@property (readonly) NSTextField *otherInputLabelView;
-@property (readonly) NSTextField *inputField;
-@property (readonly) NSTextField *otherInputField;
 @property (nonatomic) BOOL showsInputField;
 @property (nonatomic) BOOL showsOtherInputField;
+@property (copy) NSString *stringValue;
+@property (copy) NSString *otherStringValue;
+@property (copy) NSString *inputLabelText;
+@property (copy) NSString *otherInputLabelText;
 @property NSInteger inputLimit;
 
 #pragma mark - Progress Bar
 
 @property (nonatomic) BOOL showsProgressbar;
-@property (readonly) NSProgressIndicator *progressbar;
-
 @property double progress;
 
 #pragma mark - Button Actions
@@ -102,15 +88,15 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSModalResponse resu
 
 #pragma mark - Suppression Button
 
-- (void)showSuppressionButtonForUDKey:(NSString *)key;
-
 @property (nonatomic) BOOL showsSuppressionButton;
-@property (readonly) NSButton *suppressionButton;
-/// Default is YES meaning follow up alerts will not be suppressed if user clicked cancel.
-@property BOOL suppressOnDefaultReturnOnly;
-@property (copy) NSString *suppressionUDKey;
 /// Default is "Do not ask me again", can be changed (e.g. if alert is too small).
 @property (copy) NSString *suppressionLabelText;
+@property (nonatomic) BOOL suppressionButtonState;
+
+- (void)showSuppressionButtonForUDKey:(NSString *)key;
+@property (copy) NSString *suppressionUDKey;
+/// Default is YES meaning follow up alerts will not be suppressed if user clicked cancel.
+@property BOOL suppressOnDefaultReturnOnly;
 
 @end
 
