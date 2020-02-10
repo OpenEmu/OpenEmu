@@ -260,7 +260,7 @@ class AppDelegate: NSObject {
     fileprivate func performDatabaseSelection() {
         
         // Set up alert with "Quit", "Select", and "Create".
-        let alert = OEHUDAlert()
+        let alert = OEAlert()
         
         alert.headlineText = NSLocalizedString("Choose OpenEmu Library", comment: "")
         alert.messageText = NSLocalizedString("OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one", comment: "")
@@ -450,7 +450,7 @@ class AppDelegate: NSObject {
     }
     
     fileprivate func showInputMonitoringPermissionsAlert() {
-        let alert = OEHUDAlert()
+        let alert = OEAlert()
         alert.headlineText = NSLocalizedString("OpenEmu requires additional permissions", comment:"Headline for Input Monitoring permissions")
         alert.messageText = NSLocalizedString("OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues.", comment:"Message for Input Monitoring permissions")
         alert.defaultButtonTitle = NSLocalizedString("Show", comment:"")
@@ -576,7 +576,7 @@ class AppDelegate: NSObject {
     
     @objc(didRepairBindings:)
     func didRepairBindings(_ notif: NSNotification!) {
-        let alert = OEHUDAlert.init()
+        let alert = OEAlert.init()
         alert.headlineText = NSLocalizedString("An issue was detected with one of your controllers.", comment:"Headline for bindings repaired alert")
         alert.messageText = NSLocalizedString("The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.", comment:"Message for bindings repaired alert")
         alert.defaultButtonTitle = NSLocalizedString("OK", comment:"")

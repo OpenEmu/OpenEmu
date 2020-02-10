@@ -25,7 +25,7 @@
  */
 
 
-#import "OEHUDAlert+DefaultAlertsAdditions.h"
+#import "OEAlert+DefaultAlertsAdditions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -45,11 +45,11 @@ NSString *const OEDeleteScreenshotAlertSuppressionKey = @"OEDeleteScreenshotAler
 NSString *const OEDeleteSaveStateAlertSuppressionKey = @"OEDeleteSaveStateAlertSuppressionKey";
 NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSupperssionKey";
 
-@implementation OEHUDAlert (DefaultAlertsAdditions)
+@implementation OEAlert (DefaultAlertsAdditions)
 
-+ (OEHUDAlert *)quitApplicationAlert
++ (OEAlert *)quitApplicationAlert
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
 
     alert.headlineText = NSLocalizedString(@"Are you sure you want to quit the application?", @"");
     alert.messageText = NSLocalizedString(@"OpenEmu will save and quit all games that are currently running.", @"");
@@ -59,9 +59,9 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
     return alert;
 }
 
-+ (OEHUDAlert *)loadAutoSaveGameAlert
++ (OEAlert *)loadAutoSaveGameAlert
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     
     alert.headlineText = NSLocalizedString(@"Would you like to continue your last game?", @"");
     alert.messageText = NSLocalizedString(@"Do you want to continue playing where you left off?", @"");
@@ -75,9 +75,9 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
 }
 
 
-+ (OEHUDAlert *)saveGameAlertWithProposedName:(NSString*)name
++ (OEAlert *)saveGameAlertWithProposedName:(NSString*)name
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
 
     [NSUserDefaults.standardUserDefaults registerDefaults:@{OEMaxSaveGameNameLengthKey:@40}];
     
@@ -99,9 +99,9 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
     return alert;
 }
 
-+ (OEHUDAlert *)resetSystemAlert
++ (OEAlert *)resetSystemAlert
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     
     alert.headlineText = NSLocalizedString(@"Are you sure you want to reset the console?", @"");
     alert.defaultButtonTitle = NSLocalizedString(@"Restart", @"");
@@ -113,9 +113,9 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
     return alert;
 }
 
-+ (OEHUDAlert *)stopEmulationAlert
++ (OEAlert *)stopEmulationAlert
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
 
     alert.headlineText = NSLocalizedString(@"Are you sure you want to stop emulation?", @"");
     alert.defaultButtonTitle = NSLocalizedString(@"Stop", @"");
@@ -128,9 +128,9 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
 }
 
 
-+ (OEHUDAlert *)deleteStateAlertWithStateName:(NSString*)stateName
++ (OEAlert *)deleteStateAlertWithStateName:(NSString*)stateName
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete the save game called '%@' from your OpenEmu library?", @""), stateName];
     alert.messageText = messageText;
     alert.defaultButtonTitle = NSLocalizedString(@"Delete Save", @"");
@@ -141,9 +141,9 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
     return alert;
 }
 
-+ (OEHUDAlert *)deleteStateAlertWithStateCount:(NSUInteger)count
++ (OEAlert *)deleteStateAlertWithStateCount:(NSUInteger)count
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete %ld save games from your OpenEmu library?", @""), count];
     alert.messageText = messageText;
     alert.defaultButtonTitle = NSLocalizedString(@"Delete Saves", @"");
@@ -156,9 +156,9 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
 
 
 
-+ (OEHUDAlert *)deleteScreenshotAlertWithScreenshotName:(NSString*)screenshotName
++ (OEAlert *)deleteScreenshotAlertWithScreenshotName:(NSString*)screenshotName
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?", @""), screenshotName];
     alert.messageText = messageText;
     alert.defaultButtonTitle = NSLocalizedString(@"Delete Screenshot", @"");
@@ -169,9 +169,9 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
     return alert;
 }
 
-+ (OEHUDAlert *)deleteScreenshotAlertWithScreenshotCount:(NSUInteger)count
++ (OEAlert *)deleteScreenshotAlertWithScreenshotCount:(NSUInteger)count
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete %ld screenshots from your OpenEmu library?", @""), count];
     alert.messageText = messageText;
     alert.defaultButtonTitle = NSLocalizedString(@"Delete Screenshots", @"");
@@ -182,9 +182,9 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
     return alert;
 }
 
-+ (OEHUDAlert *)removeGamesFromCollectionAlert
++ (OEAlert *)removeGamesFromCollectionAlert
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to remove the selected games from the collection?", @"")];
     alert.messageText = messageText;
     alert.defaultButtonTitle = NSLocalizedString(@"Remove", @"");
@@ -196,9 +196,9 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
 }
 
 
-+ (OEHUDAlert *)removeGamesFromLibraryAlert:(BOOL)multipleGames
++ (OEAlert *)removeGamesFromLibraryAlert:(BOOL)multipleGames
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     NSString *messageText = multipleGames ? [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete the selected games from your OpenEmu library?", @"")]
                                           : [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete the selected game from your OpenEmu library?", @"")];
     alert.messageText = messageText;
@@ -210,9 +210,9 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
     return alert;
 }
 
-+ (OEHUDAlert *)removeGameFilesFromLibraryAlert:(BOOL)multipleGames
++ (OEAlert *)removeGameFilesFromLibraryAlert:(BOOL)multipleGames
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     NSString *headlineText = multipleGames ? [NSString stringWithFormat:NSLocalizedString(@"Move selected games to Trash, or keep them in the Library folder?", @"")] : [NSString stringWithFormat:NSLocalizedString(@"Move selected game to Trash, or keep it in the Library folder?", @"")];
     alert.headlineText = headlineText;
     NSString *messageText = NSLocalizedString(@"Only files in the OpenEmu Library folder will be moved to the Trash.", @"");
@@ -226,9 +226,9 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
 }
 
 
-+ (OEHUDAlert *)renameSpecialStateAlert
++ (OEAlert *)renameSpecialStateAlert
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     NSString *headlineText = [NSString stringWithFormat:NSLocalizedString(@"Rename Special Save State or something?", @"")];
     alert.headlineText = headlineText;
     NSString *messageText = NSLocalizedString(@"Won't be able to recognize it as special save state…", @"");
@@ -241,9 +241,9 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
     return alert;
 }
 
-+ (OEHUDAlert *)romDownloadRequiredAlert:(NSString*)name server:(NSString*)server
++ (OEAlert *)romDownloadRequiredAlert:(NSString*)name server:(NSString*)server
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     NSString *headlineText = [NSString stringWithFormat:NSLocalizedString(@"Game requires download", @"Download rom dialog headline")];
     alert.headlineText = headlineText;
     NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"In order to play the game it must be downloaded.", @"")];
@@ -256,12 +256,12 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
     return alert;
 }
 
-+ (OEHUDAlert *)missingBIOSFilesAlert:(NSString*)missingFilesList
++ (OEAlert *)missingBIOSFilesAlert:(NSString*)missingFilesList
 {
     NSMutableString *missingFilesMessage = [[NSMutableString alloc] init];
     [missingFilesMessage appendString:[NSString stringWithFormat:NSLocalizedString(@"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.", @"Missing files dialog text"), missingFilesList]];
 
-    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(missingFilesMessage, @"")
+    OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(missingFilesMessage, @"")
                                            defaultButton:NSLocalizedString(@"OK", @"")
                                          alternateButton:NSLocalizedString(@"Learn More", @"")];
     alert.headlineText = NSLocalizedString(@"Required files are missing.", @"");

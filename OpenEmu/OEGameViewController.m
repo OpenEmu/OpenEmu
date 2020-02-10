@@ -47,7 +47,7 @@
 #import "OEGameDocument.h"
 #import "OEAudioDeviceManager.h"
 
-#import "OEHUDAlert+DefaultAlertsAdditions.h"
+#import "OEAlert+DefaultAlertsAdditions.h"
 
 #import "OELibraryDatabase.h"
 

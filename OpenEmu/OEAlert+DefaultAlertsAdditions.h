@@ -25,7 +25,7 @@
  */
 
 
-#import "OEHUDAlert.h"
+#import "OEAlert.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -45,27 +45,27 @@ extern NSString *const OERenameSpecialSaveStateAlertSuppressionKey;
 extern NSString *const OEGameCoreGlitchesSuppressionKey;
 extern NSString *const OEDownloadRomWarningSupperssionKey;
 
-@interface OEHUDAlert (DefaultAlertsAdditions)
+@interface OEAlert (DefaultAlertsAdditions)
 
-+ (OEHUDAlert *)quitApplicationAlert;
-+ (OEHUDAlert *)saveGameAlertWithProposedName:(NSString *)name;
-+ (OEHUDAlert *)loadAutoSaveGameAlert;
-+ (OEHUDAlert *)deleteStateAlertWithStateName:(NSString *)stateName;
-+ (OEHUDAlert *)deleteStateAlertWithStateCount:(NSUInteger)count;
-+ (OEHUDAlert *)resetSystemAlert;
-+ (OEHUDAlert *)stopEmulationAlert;
++ (OEAlert *)quitApplicationAlert;
++ (OEAlert *)saveGameAlertWithProposedName:(NSString *)name;
++ (OEAlert *)loadAutoSaveGameAlert;
++ (OEAlert *)deleteStateAlertWithStateName:(NSString *)stateName;
++ (OEAlert *)deleteStateAlertWithStateCount:(NSUInteger)count;
++ (OEAlert *)resetSystemAlert;
++ (OEAlert *)stopEmulationAlert;
 
-+ (OEHUDAlert *)deleteScreenshotAlertWithScreenshotName:(NSString*)screenshotName;
-+ (OEHUDAlert *)deleteScreenshotAlertWithScreenshotCount:(NSUInteger)count;
++ (OEAlert *)deleteScreenshotAlertWithScreenshotName:(NSString*)screenshotName;
++ (OEAlert *)deleteScreenshotAlertWithScreenshotCount:(NSUInteger)count;
 
-+ (OEHUDAlert *)removeGamesFromCollectionAlert;
-+ (OEHUDAlert *)removeGamesFromLibraryAlert:(BOOL)multipleGames;
-+ (OEHUDAlert *)removeGameFilesFromLibraryAlert:(BOOL)multipleGames;
-+ (OEHUDAlert *)renameSpecialStateAlert;
++ (OEAlert *)removeGamesFromCollectionAlert;
++ (OEAlert *)removeGamesFromLibraryAlert:(BOOL)multipleGames;
++ (OEAlert *)removeGameFilesFromLibraryAlert:(BOOL)multipleGames;
++ (OEAlert *)renameSpecialStateAlert;
 
-+ (OEHUDAlert *)romDownloadRequiredAlert:(NSString*)name server:(NSString*)server;
++ (OEAlert *)romDownloadRequiredAlert:(NSString*)name server:(NSString*)server;
 
-+ (OEHUDAlert *)missingBIOSFilesAlert:(NSString*)missingFilesList;
++ (OEAlert *)missingBIOSFilesAlert:(NSString*)missingFilesList;
 
 @end
 

@@ -26,15 +26,15 @@
 
 @import Cocoa;
 
-@class OEHUDAlert;
+@class OEAlert;
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSModalResponse result);
+typedef void (^OEAlertCompletionHandler)(OEAlert *alert, NSModalResponse result);
 
-@interface OEHUDAlert : NSObject
+@interface OEAlert : NSObject
 
-+ (OEHUDAlert *)alertWithMessageText:(nullable NSString *)msgText
++ (OEAlert *)alertWithMessageText:(nullable NSString *)msgText
                        defaultButton:(nullable NSString *)defaultButtonLabel
                      alternateButton:(nullable NSString *)alternateButtonLabel;
 

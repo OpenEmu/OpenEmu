@@ -61,7 +61,7 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
             return
         }
         
-        if !item.isSpecialState || OEHUDAlert.renameSpecialState().runModal() == .alertFirstButtonReturn {
+        if !item.isSpecialState || OEAlert.renameSpecialState().runModal() == .alertFirstButtonReturn {
             item.name = title
             item.moveToDefaultLocation()
             if !item.writeToDisk() {
@@ -122,11 +122,11 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
             return
         }
         
-        var alert: OEHUDAlert
+        var alert: OEAlert
         if items.count == 1 {
-            alert = OEHUDAlert.deleteStateAlert(withStateName: items.first!.name!)
+            alert = OEAlert.deleteStateAlert(withStateName: items.first!.name!)
         } else {
-            alert = OEHUDAlert.deleteStateAlert(withStateCount: UInt(items.count))
+            alert = OEAlert.deleteStateAlert(withStateCount: UInt(items.count))
         }
         
         if alert.runModal() == .alertFirstButtonReturn {

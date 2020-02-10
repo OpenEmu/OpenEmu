@@ -360,7 +360,7 @@ class GameScannerViewController: NSViewController {
             
             importer.pause()
             
-            let cancelAlert = OEHUDAlert()
+            let cancelAlert = OEAlert()
             cancelAlert.headlineText = NSLocalizedString("Do you really want to cancel importation?", comment: "")
             cancelAlert.messageText = NSLocalizedString("Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.", comment: "")
             cancelAlert.defaultButtonTitle = NSLocalizedString("Yes", comment: "")

@@ -31,7 +31,7 @@
 #import "OECoreDownload.h"
 #import "OECorePlugin.h"
 
-#import "OEHUDAlert.h"
+#import "OEAlert.h"
 #import "OEButton.h"
 
 #import "OEDBGame+CoreDataProperties.h"
@@ -211,7 +211,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 }
 
 #pragma mark -
-#pragma mark Installing with OEHUDAlert
+#pragma mark Installing with OEAlert
 
 - (void)installCoreForGame:(OEDBGame *)game withCompletionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler
 {
@@ -293,7 +293,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
 - (void)installCoreWithDownload:(OECoreDownload *)download message:(NSString *)message completionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler
 {
-    OEHUDAlert *aAlert = [[OEHUDAlert alloc] init];
+    OEAlert *aAlert = [[OEAlert alloc] init];
     [aAlert setDefaultButtonTitle:NSLocalizedString(@"Install", @"")];
     [aAlert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
 
@@ -323,7 +323,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
 - (void)installCoreWithDownload:(OECoreDownload *)download completionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler
 {
-    OEHUDAlert *aAlert = [[OEHUDAlert alloc] init];
+    OEAlert *aAlert = [[OEAlert alloc] init];
     /* FIXME: the following 4 lines are only required because OEHUDAlert is buggy */
     [aAlert setDefaultButtonTitle:NSLocalizedString(@"Install", @"")];
     [aAlert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];

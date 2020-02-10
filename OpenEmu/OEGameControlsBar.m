@@ -37,7 +37,7 @@
 #import "OEGameViewController.h"
 #import "OEPopoutGameWindowController.h"
 
-#import "OEHUDAlert.h"
+#import "OEAlert.h"
 
 #import "OEDBSaveState.h"
 

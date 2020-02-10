@@ -49,7 +49,7 @@
 #import "OEGameInfoHelper.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
-#import "OEHUDAlert.h"
+#import "OEAlert.h"
 #import "NSFileManager+OEHashingAdditions.h"
 
 #pragma mark Key sources
@@ -516,7 +516,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 
 - (void)downloadMissingArtwork:(id)sender
 {
-    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"While performing this operation OpenEmu will be unresponsive.", @"")
+    OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"While performing this operation OpenEmu will be unresponsive.", @"")
                                      defaultButton:NSLocalizedString(@"Do it!", @"")
                                    alternateButton:NSLocalizedString(@"Cancel Operation", @"")];
     if([alert runModal] != NSAlertFirstButtonReturn) return;

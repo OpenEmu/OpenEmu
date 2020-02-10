@@ -35,7 +35,7 @@
 #import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"
 
-#import "OEHUDAlert+DefaultAlertsAdditions.h"
+#import "OEAlert+DefaultAlertsAdditions.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
@@ -533,7 +533,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 {
     [self OE_updateInputPopupButtonSelection];
 
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     
     if([[OEDeviceManager sharedDeviceManager] isBluetoothEnabled])
     {

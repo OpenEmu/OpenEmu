@@ -34,12 +34,12 @@
 #import "OEROMImporter.h"
 
 #import "OEButton.h"
-#import "OEHUDAlert.h"
+#import "OEAlert.h"
 
 // Required for warning dialog keys:
 #import "OEGameViewController.h"
 #import "OESidebarController.h"
-#import "OEHUDAlert+DefaultAlertsAdditions.h"
+#import "OEAlert+DefaultAlertsAdditions.h"
 
 #import "OEFileManager.h"
 
@@ -151,7 +151,7 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
     NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
     if([documents count] != 0 || [[library importer] status] == OEImporterStatusRunning)
     {
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"Please close all games and wait for the importer to finish.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
+        OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"Please close all games and wait for the importer to finish.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
         return;
     }
@@ -162,7 +162,7 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
     NSURL *newLocation     = [newParentLocation URLByAppendingPathComponent:[currentLocation lastPathComponent] isDirectory:YES];
     if([newLocation isSubpathOfURL:currentLocation])
     {
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"You can't move your library here!", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
+        OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"You can't move your library here!", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
         return;
     }
@@ -204,7 +204,7 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
         {
             __block NSInteger alertResult = -1;
             
-            OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+            OEAlert *alert = [[OEAlert alloc] init];
             
             [alert setShowsProgressbar:YES];
             [alert setProgress:0.0];
@@ -417,7 +417,7 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
         // point openemu to new library location
         [[NSUserDefaults standardUserDefaults] setObject:[[newLocation path] stringByAbbreviatingWithTildeInPath] forKey:OEDatabasePathKey];
 
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"Your library was moved sucessfully.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
+        OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"Your library was moved sucessfully.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
     }
     else

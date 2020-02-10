@@ -82,7 +82,7 @@ class GameDocumentController: NSDocumentController {
             return
         }
         
-        if OEHUDAlert.quitApplication().runModal() == .alertFirstButtonReturn {
+        if OEAlert.quitApplication().runModal() == .alertFirstButtonReturn {
             closeAllDocuments(withDelegate: delegate, didCloseAllSelector: didReviewAllSelector, contextInfo: contextInfo)
         } else {
             sendDelegateCallback(toTarget: delegate as AnyObject, selector: didReviewAllSelector!, documentController: self, didReviewAll: false, contextInfo: contextInfo)

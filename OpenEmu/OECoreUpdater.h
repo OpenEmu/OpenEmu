@@ -35,7 +35,7 @@ enum _OECoreUpdaterErrorCode
     OENoDownloadableCoreForIdentifier = -1,
 };
 
-@class OEHUDAlert;
+@class OEAlert;
 @class OEDBGame, OEDBSaveState;
 
 @interface OECoreUpdater : NSObject <OECoreDownloadDelegate>
@@ -55,7 +55,7 @@ enum _OECoreUpdaterErrorCode
 
 @property(copy, nullable) void(^completionHandler)(OECorePlugin * _Nullable plugin, NSError * _Nullable);
 @property(nullable) NSString *coreIdentifier;
-@property(nullable) OEHUDAlert *alert;
+@property(nullable) OEAlert *alert;
 @property(nullable) OECoreDownload *coreDownload;
 @end
 

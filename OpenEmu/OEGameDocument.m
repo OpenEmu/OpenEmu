@@ -38,7 +38,7 @@
 #import "OEDBSystem.h"
 #import "OEGameCoreManager.h"
 #import "OEGameViewController.h"
-#import "OEHUDAlert+DefaultAlertsAdditions.h"
+#import "OEAlert+DefaultAlertsAdditions.h"
 #import "OELibraryDatabase.h"
 #import "OEPopoutGameWindowController.h"
 #import "OESystemPlugin.h"
@@ -179,13 +179,13 @@ typedef enum : NSUInteger
             NSString *name   = [rom fileName] ?: [[sourceURL lastPathComponent] stringByDeletingPathExtension];
             NSString *server = [sourceURL host];
             
-            if([[OEHUDAlert romDownloadRequiredAlert:name server:server] runModal] == NSAlertFirstButtonReturn)
+            if([[OEAlert romDownloadRequiredAlert:name server:server] runModal] == NSAlertFirstButtonReturn)
             {
                 __block NSURL   *destination;
                 __block NSError *error;
                 
                 NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Downloading %@…", @"Downloading rom message text"), name];
-                OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message defaultButton:NSLocalizedString(@"Cancel",@"") alternateButton:@""];
+                OEAlert *alert = [OEAlert alertWithMessageText:message defaultButton:NSLocalizedString(@"Cancel",@"") alternateButton:@""];
                 [alert setShowsProgressbar:YES];
                 [alert setProgress:-1];
                 
@@ -467,7 +467,7 @@ typedef enum : NSUInteger
     
     OEDeviceHandler *devHandler = [notification object];
     NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"The battery in device number %lu, %@, is low. Please charge or replace the battery.", @"Low battery alert detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
-    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:lowBatteryString
+    OEAlert *alert = [OEAlert alertWithMessageText:lowBatteryString
                                            defaultButton:NSLocalizedString(@"Resume", nil)
                                          alternateButton:nil];
     [alert setHeadlineText:[NSString stringWithFormat:NSLocalizedString(@"Low Controller Battery", @"Device battery level is low.")]];
@@ -483,7 +483,7 @@ typedef enum : NSUInteger
     
     OEDeviceHandler *devHandler = [[notification userInfo] objectForKey:OEDeviceManagerDeviceHandlerUserInfoKey];
     NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"Device number %lu, %@, has disconnected.", @"Device disconnection detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
-    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:lowBatteryString
+    OEAlert *alert = [OEAlert alertWithMessageText:lowBatteryString
                                            defaultButton:NSLocalizedString(@"Resume", @"Resume game after battery warning button label")
                                          alternateButton:nil];
     [alert setHeadlineText:[NSString stringWithFormat:NSLocalizedString(@"Device Disconnected", @"A controller device has disconnected.")]];
@@ -600,7 +600,7 @@ typedef enum : NSUInteger
             // import probably failed
             if(!romID) return;
             
-            OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+            OEAlert *alert = [[OEAlert alloc] init];
             
             NSString *fileName    = [[absoluteURL lastPathComponent] stringByDeletingPathExtension];
             NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"The game '%@' was imported.", @""), fileName];
@@ -641,7 +641,7 @@ typedef enum : NSUInteger
     
     // TODO: Load rom that was just imported instead of the default one
     OEDBSaveState *state = [game autosaveForLastPlayedRom];
-    if(state != nil && [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertFirstButtonReturn)
+    if(state != nil && [[OEAlert loadAutoSaveGameAlert] runModal] == NSAlertFirstButtonReturn)
         return [self OE_setupDocumentWithSaveState:state error:outError];
     else
         return [self OE_setupDocumentWithROM:[game defaultROM] usingCorePlugin:nil error:outError];
@@ -829,13 +829,13 @@ typedef enum : NSUInteger
     
     [self setEmulationPaused:YES];
     
-    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"If you change the core you current progress will be lost and save states will not work anymore.", @"")
+    OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"If you change the core you current progress will be lost and save states will not work anymore.", @"")
                                            defaultButton:NSLocalizedString(@"Change Core", @"")
                                          alternateButton:NSLocalizedString(@"Cancel", @"")];
     [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
     
     [alert setCallbackHandler:
-     ^(OEHUDAlert *alert, NSModalResponse result)
+     ^(OEAlert *alert, NSModalResponse result)
      {
          if(result != NSAlertFirstButtonReturn)
              return;
@@ -1033,7 +1033,7 @@ typedef enum : NSUInteger
 
 - (void)resetEmulation:(id)sender;
 {
-    if([[OEHUDAlert resetSystemAlert] runModal] == NSAlertFirstButtonReturn)
+    if([[OEAlert resetSystemAlert] runModal] == NSAlertFirstButtonReturn)
     {
         [_gameCoreManager resetEmulationWithCompletionHandler:
          ^{
@@ -1049,7 +1049,7 @@ typedef enum : NSUInteger
     
     //[[self controlsWindow] setCanShow:NO];
     
-    if([[OEHUDAlert stopEmulationAlert] runModal] != NSAlertFirstButtonReturn)
+    if([[OEAlert stopEmulationAlert] runModal] != NSAlertFirstButtonReturn)
     {
         //[[self controlsWindow] setCanShow:YES];
         [self disableOSSleep];
@@ -1135,7 +1135,7 @@ typedef enum : NSUInteger
     if([[[_gameCoreManager plugin] controller] hasGlitchesForSystemIdentifier:[_systemPlugin systemIdentifier]] && showAlert)
     {
         NSString *message = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", @""), coreName, coreName];
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message
+        OEAlert *alert = [OEAlert alertWithMessageText:message
                                                defaultButton:NSLocalizedString(@"OK", @"")
                                              alternateButton:nil];
         [alert setHeadlineText:NSLocalizedString(@"Warning", @"")];
@@ -1270,7 +1270,7 @@ typedef enum : NSUInteger
 
 - (IBAction)addCheat:(id)sender;
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     
     [alert setOtherInputLabelText:NSLocalizedString(@"Title:", @"")];
     [alert setShowsOtherInputField:YES];
@@ -1632,7 +1632,7 @@ typedef enum : NSUInteger
     
     NSString *format = NSLocalizedString(@"Save-Game-%ld %@", @"default save game name");
     NSString    *proposedName = [NSString stringWithFormat:format, saveGameNo, [formatter stringFromDate:date]];
-    OEHUDAlert  *alert        = [OEHUDAlert saveGameAlertWithProposedName:proposedName];
+    OEAlert  *alert        = [OEAlert saveGameAlertWithProposedName:proposedName];
     
     [alert performBlockInModalSession:^{
         NSRect parentFrame = self.gameViewController.view.window.frame;
@@ -1847,7 +1847,7 @@ typedef enum : NSUInteger
          }];
     };
     
-    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"This save state was created with a different core. Do you want to switch to that core now?", @"")
+    OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"This save state was created with a different core. Do you want to switch to that core now?", @"")
                                            defaultButton:NSLocalizedString(@"OK", @"")
                                          alternateButton:NSLocalizedString(@"Cancel", @"")];
     [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
@@ -1882,7 +1882,7 @@ typedef enum : NSUInteger
     }
     
     NSString *stateName = [state name];
-    OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
+    OEAlert *alert = [OEAlert deleteStateAlertWithStateName:stateName];
     
     if([alert runModal] == NSAlertFirstButtonReturn) [state deleteAndRemoveFiles];
 }

@@ -25,6 +25,6 @@
 #ifndef SwiftBridging_h
 #define SwiftBridging_h
 
-#include "OEHUDAlert.h"
+#include "OEAlert.h"
 
 #endif /* SwiftBridging_h */

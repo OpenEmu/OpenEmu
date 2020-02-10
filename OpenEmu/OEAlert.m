@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEHUDAlert.h"
+#import "OEAlert.h"
 #import "OEInputLimitFormatter.h"
 #import "OpenEmu-Swift.h"
 
@@ -50,7 +50,7 @@ static const CGFloat OEAlertInterButtonSpacing       = 14.0;
 static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 
-@interface OEHUDAlert ()
+@interface OEAlert ()
 
 - (void)OE_performCallback;
 - (void)OE_createControls;
@@ -77,15 +77,15 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 @end
 
-@implementation OEHUDAlert {
+@implementation OEAlert {
     BOOL _needsRebuild;
 }
 
 @synthesize callbackHandler = _callbackHandler;
 
-+ (OEHUDAlert *)alertWithMessageText:(nullable NSString *)msgText defaultButton:(nullable NSString *)defaultButtonLabel alternateButton:(nullable NSString *)alternateButtonLabel
++ (OEAlert *)alertWithMessageText:(nullable NSString *)msgText defaultButton:(nullable NSString *)defaultButtonLabel alternateButton:(nullable NSString *)alternateButtonLabel
 {
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    OEAlert *alert = [[OEAlert alloc] init];
     
     alert.defaultButtonTitle = defaultButtonLabel;
     alert.alternateButtonTitle = alternateButtonLabel;

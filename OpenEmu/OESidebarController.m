@@ -39,7 +39,7 @@
 #import "OEDBSmartCollection.h"
 #import "OEGameCollectionViewItemProtocol.h"
 
-#import "OEHUDAlert.h"
+#import "OEAlert.h"
 
 #import "OEROMImporter.h"
 
@@ -637,7 +637,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         NSString *confirm = NSLocalizedString(@"Remove", @"");
         NSString *cancel = NSLocalizedString(@"Cancel", @"");
 
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel];
+        OEAlert *alert = [OEAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel];
         [alert showSuppressionButtonForUDKey:OESuppressRemoveCollectionConfirmationKey];
 
         if ([alert runModal] == NSAlertFirstButtonReturn) {

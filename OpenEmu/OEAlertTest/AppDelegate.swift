@@ -44,7 +44,7 @@ class AlertStatus: NSObject
     @objc var showsSuppressionButton = false
     
     
-    func update(_ alert: OEHUDAlert)
+    func update(_ alert: OEAlert)
     {
         alert.messageText = messageText
         alert.defaultButtonTitle = defaultButtonText
@@ -74,7 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate
     @objc var currentStatus = AlertStatus()
     var nextStatuses = [AlertStatus]()
     
-    var alert = OEHUDAlert(messageText: "", defaultButton: "", alternateButton: "")
+    var alert = OEAlert(messageText: "", defaultButton: "", alternateButton: "")
 
 
     func applicationWillFinishLaunching(_ aNotification: Notification)
@@ -99,7 +99,7 @@ class AppDelegate: NSObject, NSApplicationDelegate
 
     @IBAction func runModal(_ sender: Any?)
     {
-        alert = OEHUDAlert(messageText: "", defaultButton: "", alternateButton: "")
+        alert = OEAlert(messageText: "", defaultButton: "", alternateButton: "")
         updateAlert()
         if !nextStatuses.isEmpty {
             alert.setDefaultButtonAction(#selector(alertButtonPressed(_:)), andTarget: self)

@@ -122,8 +122,8 @@
 		012FE6591CE51D4100716960 /* LibraryToolbarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */; };
 		016F22DF23F19F5F00181842 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016F22DE23F19F5F00181842 /* AppDelegate.swift */; };
 		016F22E423F19F6100181842 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 016F22E223F19F6100181842 /* MainMenu.xib */; };
-		016F22EA23F1A35400181842 /* OEHUDAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEHUDAlert.m */; };
-		016F22EC23F1A35B00181842 /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */; };
+		016F22EA23F1A35400181842 /* OEAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEAlert.m */; };
+		016F22EC23F1A35B00181842 /* OEAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.m */; };
 		016F22ED23F1A36E00181842 /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; };
 		016F22EF23F1A57F00181842 /* OETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 838DB01816DBE14E00B8DDC8 /* OETextField.m */; };
 		016F22F023F1A58200181842 /* OESearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7EAD9171D911400D32E26 /* OESearchField.m */; };
@@ -471,8 +471,8 @@
 		83B04E411968610F00CB985E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3D1968610F00CB985E /* InfoPlist.strings */; };
 		83B04E421968610F00CB985E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3F1968610F00CB985E /* Localizable.strings */; };
 		83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */; };
-		83BC345E1516456000F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */; };
-		83C68ED114483579000F720A /* OEHUDAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEHUDAlert.m */; };
+		83BC345E1516456000F05A2B /* OEAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.m */; };
+		83C68ED114483579000F720A /* OEAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEAlert.m */; };
 		83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */; };
 		83C748CC196DF34D0090BC91 /* OEHomebrewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83C748CB196DF34D0090BC91 /* OEHomebrewViewController.xib */; };
 		83CA87B41961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */; };
@@ -1480,7 +1480,7 @@
 		0162C81A1AFACDE0003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0162C81B1AFACDE1003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0162C81C1AFACDE1003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/ControlLabels.strings; sourceTree = "<group>"; };
-		016F22DC23F19F5F00181842 /* OEHUDAlertTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OEHUDAlertTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		016F22DC23F19F5F00181842 /* OEAlertTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OEAlertTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		016F22DE23F19F5F00181842 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		016F22E323F19F6100181842 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		016F22E523F19F6100181842 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2013,10 +2013,10 @@
 		83B04E401968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		83BABBEC1458978B0097F6B2 /* OESetupAssistantTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantTableView.h; sourceTree = "<group>"; };
 		83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantTableView.m; sourceTree = "<group>"; };
-		83BC345C1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEHUDAlert+DefaultAlertsAdditions.h"; sourceTree = "<group>"; };
-		83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEHUDAlert+DefaultAlertsAdditions.m"; sourceTree = "<group>"; };
-		83C68ECF14483579000F720A /* OEHUDAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDAlert.h; sourceTree = "<group>"; };
-		83C68ED014483579000F720A /* OEHUDAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDAlert.m; sourceTree = "<group>"; };
+		83BC345C1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEAlert+DefaultAlertsAdditions.h"; sourceTree = "<group>"; };
+		83BC345D1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEAlert+DefaultAlertsAdditions.m"; sourceTree = "<group>"; };
+		83C68ECF14483579000F720A /* OEAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAlert.h; sourceTree = "<group>"; };
+		83C68ED014483579000F720A /* OEAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAlert.m; sourceTree = "<group>"; };
 		83C6C1DA190536CC00DD7B13 /* OEDBImageMigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBImageMigrationPolicy.h; sourceTree = "<group>"; };
 		83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImageMigrationPolicy.m; sourceTree = "<group>"; };
 		83C748CB196DF34D0090BC91 /* OEHomebrewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEHomebrewViewController.xib; sourceTree = "<group>"; };
@@ -3188,7 +3188,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		016F22DD23F19F5F00181842 /* OEHUDAlertTest */ = {
+		016F22DD23F19F5F00181842 /* OEAlertTest */ = {
 			isa = PBXGroup;
 			children = (
 				016F22DE23F19F5F00181842 /* AppDelegate.swift */,
@@ -3196,7 +3196,7 @@
 				016F22E223F19F6100181842 /* MainMenu.xib */,
 				016F22E523F19F6100181842 /* Info.plist */,
 			);
-			path = OEHUDAlertTest;
+			path = OEAlertTest;
 			sourceTree = "<group>";
 		};
 		01E2A2F123E6027900194150 /* Other Custom Controls */ = {
@@ -3491,7 +3491,7 @@
 				3DB744BA1BD8BA9E00C23E74 /* PlayStation 2.oesystemplugin */,
 				87FBC06D1BFC70FE00AECF5A /* Commodore 64.oesystemplugin */,
 				87FBC08E1C0790B400AECF5A /* Atari 8bit.oesystemplugin */,
-				016F22DC23F19F5F00181842 /* OEHUDAlertTest.app */,
+				016F22DC23F19F5F00181842 /* OEAlertTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3689,7 +3689,7 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				016F22DD23F19F5F00181842 /* OEHUDAlertTest */,
+				016F22DD23F19F5F00181842 /* OEAlertTest */,
 				837820B91907FB3A0043593F /* Image Kit Headers (Private) */,
 				14CB5DA516FE1F6600342817 /* Audio Devices */,
 				1BEF2D13116855690090F72B /* OETaskWrapper.h */,
@@ -3804,10 +3804,10 @@
 		53439A8613B92BEB005C0CC8 /* Alert */ = {
 			isa = PBXGroup;
 			children = (
-				83BC345C1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.h */,
-				83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */,
-				83C68ECF14483579000F720A /* OEHUDAlert.h */,
-				83C68ED014483579000F720A /* OEHUDAlert.m */,
+				83BC345C1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.h */,
+				83BC345D1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.m */,
+				83C68ECF14483579000F720A /* OEAlert.h */,
+				83C68ED014483579000F720A /* OEAlert.m */,
 				83F4DE1114DFF9C200A82E36 /* OEInputLimitFormatter.h */,
 				83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */,
 			);
@@ -5758,9 +5758,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		016F22DB23F19F5F00181842 /* OEHUDAlertTest */ = {
+		016F22DB23F19F5F00181842 /* OEAlertTest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 016F22E723F19F6100181842 /* Build configuration list for PBXNativeTarget "OEHUDAlertTest" */;
+			buildConfigurationList = 016F22E723F19F6100181842 /* Build configuration list for PBXNativeTarget "OEAlertTest" */;
 			buildPhases = (
 				016F22D823F19F5F00181842 /* Sources */,
 				016F22D923F19F5F00181842 /* Frameworks */,
@@ -5770,9 +5770,9 @@
 			);
 			dependencies = (
 			);
-			name = OEHUDAlertTest;
+			name = OEAlertTest;
 			productName = OEHUDAlertTest;
-			productReference = 016F22DC23F19F5F00181842 /* OEHUDAlertTest.app */;
+			productReference = 016F22DC23F19F5F00181842 /* OEAlertTest.app */;
 			productType = "com.apple.product-type.application";
 		};
 		081A46251B95744A00565444 /* Pokemon mini */ = {
@@ -6818,7 +6818,7 @@
 				9479664E15EDE645004316AB /* Update Build Version */,
 				94EBBCD7183F422500743756 /* Build & Copy Experimental SystemPlugins */,
 				94C51FBC1847077700206E6F /* Set Experimental Appcast URLs */,
-				016F22DB23F19F5F00181842 /* OEHUDAlertTest */,
+				016F22DB23F19F5F00181842 /* OEAlertTest */,
 			);
 		};
 /* End PBXProject section */
@@ -7658,7 +7658,7 @@
 				016F231323F1A89B00181842 /* NSDocument+OEAdditions.m in Sources */,
 				016F230D23F1A6CC00181842 /* OEInputLimitFormatter.m in Sources */,
 				016F22F623F1A59500181842 /* OEButton.m in Sources */,
-				016F22EA23F1A35400181842 /* OEHUDAlert.m in Sources */,
+				016F22EA23F1A35400181842 /* OEAlert.m in Sources */,
 				016F230023F1A5AA00181842 /* OEScroller.m in Sources */,
 				016F231023F1A89B00181842 /* NSArray+OEAdditions.m in Sources */,
 				016F22F723F1A59500181842 /* OEPopUpButton.m in Sources */,
@@ -7670,7 +7670,7 @@
 				016F230223F1A5AD00181842 /* OESliderCell.m in Sources */,
 				016F22FA23F1A59A00181842 /* OEOutlinedButtonCell.m in Sources */,
 				016F231C23F1A89B00181842 /* UserDefaults+OEAdditions.swift in Sources */,
-				016F22EC23F1A35B00181842 /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */,
+				016F22EC23F1A35B00181842 /* OEAlert+DefaultAlertsAdditions.m in Sources */,
 				016F22F823F1A59A00181842 /* OEButtonCell.m in Sources */,
 				016F22F223F1A58900181842 /* OESearchFieldCell.m in Sources */,
 				016F22FB23F1A59E00181842 /* OELabel.m in Sources */,
@@ -7919,7 +7919,7 @@
 				012FE6591CE51D4100716960 /* LibraryToolbarDelegate.swift in Sources */,
 				83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */,
 				5A9606DE1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift in Sources */,
-				83C68ED114483579000F720A /* OEHUDAlert.m in Sources */,
+				83C68ED114483579000F720A /* OEAlert.m in Sources */,
 				051F76DA22A887E700E1C0C4 /* OEGameAudio.m in Sources */,
 				832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */,
 				8301557B1456BF7A0093D681 /* OEGameViewController.m in Sources */,
@@ -7940,7 +7940,7 @@
 				EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */,
 				83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */,
 				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,
-				83BC345E1516456000F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */,
+				83BC345E1516456000F05A2B /* OEAlert+DefaultAlertsAdditions.m in Sources */,
 				C68A54E61516AD3C001053F2 /* OEDatabase.xcdatamodeld in Sources */,
 				837820C119081B1C0043593F /* OEMigrationWindowController.m in Sources */,
 				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,
@@ -8857,15 +8857,15 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = OEHUDAlertTest/Info.plist;
+				INFOPLIST_FILE = OEAlertTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.openemu.OEHUDAlertTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openemu.OEAlertTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = OEHUDAlertTest/SwiftBridging.h;
+				SWIFT_OBJC_BRIDGING_HEADER = OEAlertTest/SwiftBridging.h;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "OpenEmu-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -8894,14 +8894,14 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = OEHUDAlertTest/Info.plist;
+				INFOPLIST_FILE = OEAlertTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.openemu.OEHUDAlertTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openemu.OEAlertTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = OEHUDAlertTest/SwiftBridging.h;
+				SWIFT_OBJC_BRIDGING_HEADER = OEAlertTest/SwiftBridging.h;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "OpenEmu-Swift.h";
 				SWIFT_VERSION = 5.0;
 			};
@@ -11352,7 +11352,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		016F22E723F19F6100181842 /* Build configuration list for PBXNativeTarget "OEHUDAlertTest" */ = {
+		016F22E723F19F6100181842 /* Build configuration list for PBXNativeTarget "OEAlertTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				016F22E823F19F6100181842 /* Debug */,
