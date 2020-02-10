@@ -26,7 +26,7 @@
                         <constraint firstItem="3Ox-G1-m3j" firstAttribute="leading" secondItem="T5w-dz-S0s" secondAttribute="leading" id="Oth-70-wjf"/>
                         <constraint firstItem="etg-C7-Lej" firstAttribute="baseline" secondItem="Q95-qb-F7X" secondAttribute="firstBaseline" id="TBh-Tr-Kyn"/>
                         <constraint firstItem="CJp-OR-KY8" firstAttribute="leading" secondItem="T5w-dz-S0s" secondAttribute="leading" id="bB7-eJ-Jch"/>
-                        <constraint firstItem="7" firstAttribute="top" secondItem="CJp-OR-KY8" secondAttribute="bottom" constant="20" id="oEp-0l-V7j"/>
+                        <constraint firstItem="7" firstAttribute="top" secondItem="CJp-OR-KY8" secondAttribute="bottom" constant="23" id="oEp-0l-V7j"/>
                     </constraints>
                     <rows>
                         <gridRow id="uy1-hz-6Cy"/>
@@ -179,7 +179,7 @@
                         <gridCell row="VHu-NG-zcQ" column="WTK-4D-5ET" headOfMergedCell="jV8-cD-Kuu" id="Dj6-46-OCB"/>
                         <gridCell row="MBs-vR-wBC" column="oTy-pp-h5N" yPlacement="none" rowAlignment="none" id="zOg-fe-UcB">
                             <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7">
-                                <rect key="frame" x="67" y="110" width="118" height="16"/>
+                                <rect key="frame" x="67" y="107" width="118" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Available Libraries:" id="24">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
