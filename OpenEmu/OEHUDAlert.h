@@ -50,18 +50,14 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSModalResponse resu
 @property (readonly) NSModalResponse result;
 @property NSWindow *window;
 
-@property CGFloat height;
-@property CGFloat width;
-@property (readonly) NSView *boxView;
-
 #pragma mark - Buttons
 
-@property (readonly) OEButton *defaultButton;
-@property (readonly) OEButton *alternateButton;
-@property (readonly) OEButton *otherButton;
+@property (readonly) NSButton *defaultButton;
+@property (readonly) NSButton *alternateButton;
+@property (readonly) NSButton *otherButton;
 
-@property (readonly) NSTextView *messageTextView;
-@property (readonly) NSTextView *headlineTextView;
+@property (readonly) NSTextField *messageTextView;
+@property (readonly) NSTextField *headlineTextView;
 
 @property (copy) NSString *stringValue;
 @property (copy) NSString *otherStringValue;
@@ -76,18 +72,18 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSModalResponse resu
 
 #pragma mark - Input Field
 
-@property (readonly) NSTextView *inputLabelView;
-@property (readonly) NSTextView *otherInputLabelView;
-@property (readonly) OETextField *inputField;
-@property (readonly) OETextField *otherInputField;
-@property BOOL showsInputField;
-@property BOOL showsOtherInputField;
+@property (readonly) NSTextField *inputLabelView;
+@property (readonly) NSTextField *otherInputLabelView;
+@property (readonly) NSTextField *inputField;
+@property (readonly) NSTextField *otherInputField;
+@property (nonatomic) BOOL showsInputField;
+@property (nonatomic) BOOL showsOtherInputField;
 @property NSInteger inputLimit;
 
 #pragma mark - Progress Bar
 
-@property BOOL showsProgressbar;
-@property (readonly) OEProgressIndicator *progressbar;
+@property (nonatomic) BOOL showsProgressbar;
+@property (readonly) NSProgressIndicator *progressbar;
 
 @property double progress;
 
@@ -108,7 +104,7 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSModalResponse resu
 
 - (void)showSuppressionButtonForUDKey:(NSString *)key;
 
-@property BOOL showsSuppressionButton;
+@property (nonatomic) BOOL showsSuppressionButton;
 @property (readonly) NSButton *suppressionButton;
 /// Default is YES meaning follow up alerts will not be suppressed if user clicked cancel.
 @property BOOL suppressOnDefaultReturnOnly;

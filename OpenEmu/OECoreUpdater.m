@@ -388,7 +388,6 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
         [[self alert] setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
         [[self alert] setAlternateButtonTitle:nil];
 
-        [[[self alert] defaultButton] setThemeKey:@"hud_button_red"];
         [[self alert] setDefaultButtonAction:@selector(buttonAction:) andTarget:[self alert]];
         
         return;

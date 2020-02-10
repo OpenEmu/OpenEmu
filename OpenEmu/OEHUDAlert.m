@@ -43,42 +43,39 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static const CGFloat _OEHUDAlertBoxSideMargin           =  18.0;
-static const CGFloat _OEHUDAlertBoxTopMargin            =  51.0;
-static const CGFloat _OEHUDAlertBoxBottomMargin         =  39.0;
-static const CGFloat _OEHUDAlertBoxTextSideMargin       =  48.0;
-static const CGFloat _OEHUDAlertBoxTextTopMargin        =  28.0;
-static const CGFloat _OEHUDAlertBoxTextBottomMargin     =  28.0;
-static const CGFloat _OEHUDAlertBoxTextHeight           =  14.0;
-static const CGFloat _OEHUDAlertDefaultBoxWidth         = 387.0;
-static const CGFloat _OEHUDAlertSuppressionButtonLength = 150.0;
-static const CGFloat _OEHUDAlertSuppressionButtonHeight =  18.0;
-static const CGFloat _OEHUDAlertButtonLength            = 103.0;
-static const CGFloat _OEHUDAlertButtonHeight            =  23.0;
-static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
+static const CGFloat OEAlertTopInset                 = 16.0;
+static const CGFloat OEAlertBottomInset              = 20.0;
+static const CGFloat OEAlertLeadingInset             = 20.0;
+static const CGFloat OEAlertTrailingInset            = 20.0;
+static const CGFloat OEAlertMinimumWidth             = 420.0;
+static const CGFloat OEAlertMaximumWidth             = 500.0;
+       
+static const CGFloat OEAlertImageLeadingInset        = 24.0;
+static const CGFloat OEAlertImageWidth               = 64.0;
+static const CGFloat OEAlertImageHeight              = 64.0;
 
-@interface OEAlertWindow : NSWindow
-@end
+static const CGFloat OEAlertHeadlineToMessageSpacing = 6.0;
+static const CGFloat OEAlertProgressBarSpacing       = 12.0;
+static const CGFloat OEAlertButtonSpacing            = 12.0;
 
-@interface HUDAlertContentView : NSView
-@property NSPoint draggingPoint;
-@end
+static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
+
 
 @interface OEHUDAlert ()
 
-@property NSWindow *hudWindow;
-
 - (void)OE_performCallback;
-- (void)OE_layoutButtons;
-- (void)OE_setupWindow;
-- (void)OE_autosizeWindow;
-- (NSUInteger)OE_countLinesOfTextView:(NSTextView *)textView;
+- (void)OE_createControls;
+- (void)OE_layoutWindow;
+- (void)OE_layoutWindowIfNeeded;
 
 @property (copy, readonly) NSMutableArray <void(^)(void)> *blocks;
 
 @end
 
-@implementation OEHUDAlert
+@implementation OEHUDAlert {
+    BOOL _needsRebuild;
+}
+
 @synthesize callbackHandler = _callbackHandler;
 
 + (OEHUDAlert *)alertWithMessageText:(nullable NSString *)msgText defaultButton:(nullable NSString *)defaultButtonLabel alternateButton:(nullable NSString *)alternateButtonLabel
@@ -99,36 +96,11 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     self = [super init];
     if(self)
     {
-        _hudWindow = [[OEAlertWindow alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0) styleMask:NSWindowStyleMaskTitled backing:NSBackingStoreBuffered defer:YES];
-        _hudWindow.releasedWhenClosed = NO;
-        
-        _suppressionButton = [[OEButton alloc] init];
-        _suppressionButton.buttonType = NSButtonTypeSwitch;
-        ((OEButton *)_suppressionButton).themeKey = @"hud_checkbox";
-        
-        _defaultButton = [[OEButton alloc] init];
-        _alternateButton = [[OEButton alloc] init];
-        _otherButton = [[OEButton alloc] init];
-        
-        _progressbar = [[OEProgressIndicator alloc] init];
-        _progressbar.minValue = 0.0;
-        _progressbar.maxValue = 1.0;
-        _progressbar.themeKey = @"hud_progress";
-        
-        _messageTextView = [[NSTextView alloc] init];
-        _headlineTextView = [[NSTextView alloc] init];
-        
-        _inputField = [[OETextField alloc] init];
-        _inputLabelView = [[NSTextView alloc] init];
-        _otherInputField = [[OETextField alloc] init];
-        _otherInputLabelView = [[NSTextView alloc] init];
-
-        OEBackgroundImageView *box = [[OEBackgroundImageView alloc] initWithThemeKey:@"dark_inset_box"];
-        box.shouldFlipCoordinates = YES;
-        _boxView = box;
+        _window = [[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0) styleMask:NSWindowStyleMaskTitled backing:NSBackingStoreBuffered defer:YES];
+        _window.releasedWhenClosed = NO;
         
         self.suppressOnDefaultReturnOnly = YES;
-        [self OE_setupWindow];
+        [self OE_createControls];
 
         _blocks = [[NSMutableArray alloc] init];
     }
@@ -148,23 +120,10 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
         return _result;
     }
 
-    [self OE_autosizeWindow];
+    [self OE_layoutWindow];
     
-    if(_window)
-    {
-        NSRect hudWindowFrame = _hudWindow.frame;
-        NSRect windowFrame = _window.frame;
-        NSPoint p = NSMakePoint(
-            windowFrame.origin.x + (NSWidth(windowFrame) - NSWidth(hudWindowFrame)) / 2,
-            windowFrame.origin.y + (NSHeight(windowFrame) - NSHeight(hudWindowFrame)) / 2
-        );
-        _hudWindow.frameOrigin = p;
-    }
-    else 
-    {
-        [_hudWindow center];
-    }
-    [_hudWindow makeKeyAndOrderFront:nil];
+    _window.animationBehavior = NSWindowAnimationBehaviorAlertPanel;
+    [_window makeKeyAndOrderFront:nil];
     
     void(^executeBlocks)(void) = ^{
         NSMutableArray *blocks = self.blocks;
@@ -180,9 +139,10 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
                 [blocks removeObjectAtIndex:0];
             }
         }
+        [self OE_layoutWindowIfNeeded];
     };
 
-    NSModalSession session = [NSApp beginModalSessionForWindow:_hudWindow];
+    NSModalSession session = [NSApp beginModalSessionForWindow:_window];
     while([NSApp runModalSession:session] == NSModalResponseContinue)
     {
         [NSRunLoop.mainRunLoop runMode:NSDefaultRunLoopMode beforeDate:NSDate.distantFuture];
@@ -194,7 +154,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
    
     [NSApp endModalSession:session];
 
-    [_hudWindow close];
+    [_window close];
 
     return _result;
 }
@@ -213,63 +173,29 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [NSApp stopModalWithCode:_result];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self->_hudWindow close];
+        [self->_window close];
         [self OE_performCallback];
     });
-}
-
-- (void)show
-{
-    [_hudWindow makeKeyAndOrderFront:self];
-    [_hudWindow center];
 }
 
 #pragma mark - Window Configuration
 
 - (void)setTitle:(NSString *)title
 {
-    _hudWindow.title = title;
+    _window.title = title;
 }
 
 - (NSString *)title
 {
-    return _hudWindow.title;
-}
-
-- (CGFloat)height
-{
-    return NSHeight(_hudWindow.frame);
-}
-
-- (void)setHeight:(CGFloat)height
-{
-    NSRect frame = _hudWindow.frame;
-    frame.size.height = height;
-    [_hudWindow setFrame:frame display:YES];
-}
-
-- (CGFloat)width
-{
-    return NSWidth(_hudWindow.frame);
-}
-
-- (void)setWidth:(CGFloat)width
-{
-    NSRect frame = _hudWindow.frame;
-    frame.size.width = width;
-    [_hudWindow setFrame:frame display:YES];
+    return _window.title;
 }
 
 #pragma mark - Progress Bar
 
 - (void)setShowsProgressbar:(BOOL)showsProgressbar
 {
-    self.progressbar.hidden = !showsProgressbar;
-}
-
-- (BOOL)showsProgressbar
-{
-    return self.progressbar.isHidden;
+    _showsProgressbar = showsProgressbar;
+    _needsRebuild = YES;
 }
 
 - (double)progress
@@ -288,8 +214,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 - (void)setDefaultButtonTitle:(nullable NSString *)defaultButtonTitle
 {
     self.defaultButton.title = defaultButtonTitle ? : @"";
-    
-    [self OE_layoutButtons];
+    _needsRebuild = YES;
 }
 
 - (NSString *)defaultButtonTitle
@@ -300,8 +225,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 - (void)setAlternateButtonTitle:(nullable NSString *)alternateButtonTitle
 {
     self.alternateButton.title = alternateButtonTitle ? : @"";
-    
-    [self OE_layoutButtons];
+    _needsRebuild = YES;
 }
 
 - (NSString *)alternateButtonTitle
@@ -312,7 +236,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 - (void)setOtherButtonTitle:(nullable NSString *)otherButtonTitle
 {
     self.otherButton.title = otherButtonTitle ? : @"";
-    [self OE_layoutButtons];
+    _needsRebuild = YES;
 }
 
 - (NSString *)otherButtonTitle
@@ -345,36 +269,6 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [self OE_performCallback];
 }
 
-- (void)OE_layoutButtons
-{
-    BOOL showsDefaultButton   = self.defaultButtonTitle.length != 0;
-    BOOL showsAlternateButton = self.alternateButtonTitle.length != 0;
-    BOOL showsOtherButton = self.otherButtonTitle.length != 0;
-    
-    NSRect defaultButtonRect = NSMakeRect(304, 14, _OEHUDAlertButtonLength, _OEHUDAlertButtonHeight);
-    
-    if(showsDefaultButton)
-    {
-        self.defaultButton.frame = defaultButtonRect;
-    }
-    
-    if(showsAlternateButton)
-    {
-        NSRect alternateButtonRect = showsDefaultButton ? NSMakeRect(190, 14, _OEHUDAlertButtonLength, _OEHUDAlertButtonHeight) : defaultButtonRect;
-        self.alternateButton.frame = alternateButtonRect;
-    }
-    
-    if(showsOtherButton)
-    {
-        NSRect otherButtonRect = NSMakeRect(16, 14, _OEHUDAlertButtonLength, _OEHUDAlertButtonHeight);
-        self.otherButton.frame = otherButtonRect;
-    }
-    
-    self.defaultButton.hidden = !showsDefaultButton;
-    self.alternateButton.hidden = !showsAlternateButton;
-    self.otherButton.hidden = !showsOtherButton;
-}
-
 - (void)setDefaultButtonAction:(SEL)sel andTarget:(id)aTarget
 {
     self.defaultButton.target = aTarget;
@@ -397,25 +291,24 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 - (void)setHeadlineText:(nullable NSString *)headlineText
 {
-    self.headlineTextView.string = headlineText ? : @"";
-    self.headlineTextView.hidden = headlineText.length == 0;
+    self.headlineTextView.stringValue = headlineText ? : @"";
+    _needsRebuild = YES;
 }
 
 - (NSString *)headlineText
 {
-    return self.headlineTextView.string;
+    return self.headlineTextView.stringValue;
 }
 
 - (void)setMessageText:(nullable NSString *)messageText
 {
-    self.messageTextView.string = messageText ? : @"";
-    self.messageTextView.hidden = messageText.length == 0;
-    [self.messageTextView sizeToFit];
+    self.messageTextView.stringValue = messageText ? : @"";
+    _needsRebuild = YES;
 }
 
 - (NSString *)messageText
 {
-    return self.messageTextView.string;
+    return self.messageTextView.stringValue;
 }
 
 #pragma mark - Callbacks
@@ -454,14 +347,10 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 #pragma mark - Suppression Button
 
-- (BOOL)showsSuppressionButton
-{
-    return !self.suppressionButton.isHidden;
-}
-
 - (void)setShowsSuppressionButton:(BOOL)showsSuppressionButton
 {
-    self.suppressionButton.hidden = !showsSuppressionButton;
+    _showsSuppressionButton = showsSuppressionButton;
+    _needsRebuild = YES;
 }
 
 - (void)showSuppressionButtonForUDKey:(NSString *)key
@@ -477,7 +366,6 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 - (void)setSuppressionLabelText:(NSString *)suppressionLabelText
 {
     self.suppressionButton.title = suppressionLabelText;
-    [self.suppressionButton sizeToFit];
 }
 
 - (NSString *)suppressionLabelText
@@ -500,26 +388,14 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 - (void)setShowsInputField:(BOOL)showsInputField
 {
-    self.inputField.hidden = !showsInputField;
-    self.inputLabelView.hidden = !showsInputField;
-    self.boxView.hidden = showsInputField;
-}
-
-- (BOOL)showsInputField
-{
-    return !self.inputField.isHidden;
+    _showsInputField = showsInputField;
+    _needsRebuild = YES;
 }
 
 - (void)setShowsOtherInputField:(BOOL)showsOtherInputField
 {
-    self.otherInputField.hidden = !showsOtherInputField;
-    self.otherInputLabelView.hidden = !showsOtherInputField;
-    self.boxView.hidden = showsOtherInputField;
-}
-
-- (BOOL)showsOtherInputField
-{
-    return !self.otherInputField.isHidden;
+    _showsOtherInputField = showsOtherInputField;
+    _needsRebuild = YES;
 }
 
 - (void)setStringValue:(NSString *)stringValue
@@ -544,22 +420,22 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 - (void)setInputLabelText:(NSString *)inputLabelText
 {
-    self.inputLabelView.string = inputLabelText;
+    self.inputLabelView.stringValue = inputLabelText;
 }
 
 - (NSString *)inputLabelText
 {
-    return self.inputLabelView.string;
+    return self.inputLabelView.stringValue;
 }
 
 - (void)setOtherInputLabelText:(NSString *)otherInputLabelText
 {
-    self.otherInputLabelView.string = otherInputLabelText;
+    self.otherInputLabelView.stringValue = otherInputLabelText;
 }
 
 - (NSString *)otherInputLabelText
 {
-    return self.otherInputLabelView.string;
+    return self.otherInputLabelView.stringValue;
 }
 
 - (NSInteger)inputLimit
@@ -585,261 +461,265 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
         self.inputField.formatter = formatter;
     }
 }
+
 #pragma mark - Private Methods
 
-- (void)OE_setupWindow
-{    
-    NSRect frame = _hudWindow.frame;
-    frame.size = (NSSize){ _OEHUDAlertBoxSideMargin + _OEHUDAlertDefaultBoxWidth + _OEHUDAlertBoxSideMargin, 1 };
-    [_hudWindow setFrame:frame display:NO];
-
-    NSFont *defaultFont = [NSFont systemFontOfSize:11];
-    NSFont *boldFont = [NSFont boldSystemFontOfSize:11];
-
-    NSColor *defaultColor = [NSColor colorWithDeviceWhite:0.859 alpha:1.0];
-
+- (void)OE_createControls
+{
     // Setup Button
-    self.defaultButton.themeKey = @"hud_button_blue";
+    _defaultButton = [NSButton buttonWithTitle:@"" target:nil action:nil];
+    self.defaultButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.defaultButton setTarget:self andAction:@selector(buttonAction:)];
     self.defaultButton.keyEquivalent = @"\r";
-    self.defaultButton.autoresizingMask = NSViewMinXMargin | NSViewMaxYMargin;
     self.defaultButton.title = @"";
-    self.defaultButton.hidden = YES;
-    [_hudWindow.contentView addSubview:self.defaultButton];
     
-    self.alternateButton.themeKey = @"hud_button";
+    _alternateButton = [NSButton buttonWithTitle:@"" target:nil action:nil];
+    self.alternateButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.alternateButton setTarget:self andAction:@selector(buttonAction:)];
     self.alternateButton.keyEquivalent = @"\E";
-    self.alternateButton.autoresizingMask = NSViewMinXMargin | NSViewMaxYMargin;
     self.alternateButton.title = @"";
-    self.alternateButton.hidden = YES;
-    [_hudWindow.contentView addSubview:self.alternateButton];
     
-    self.otherButton.themeKey = @"hud_button";
+    _otherButton = [NSButton buttonWithTitle:@"" target:nil action:nil];
+    self.otherButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.otherButton setTarget:self andAction:@selector(buttonAction:)];
-    self.otherButton.keyEquivalent = @"\r";
-    self.otherButton.autoresizingMask = NSViewMinXMargin | NSViewMaxYMargin;
+    self.otherButton.keyEquivalent = @"";
     self.otherButton.title = @"";
-    self.otherButton.hidden = YES;
-    [_hudWindow.contentView addSubview:self.otherButton];
-
-    // Setup Box
-    self.boxView.frame = (NSRect){{_OEHUDAlertBoxSideMargin, _OEHUDAlertBoxTopMargin},{_OEHUDAlertDefaultBoxWidth, 1}};
-    self.boxView.autoresizingMask = NSViewHeightSizable | NSViewWidthSizable;
-    [_hudWindow.contentView addSubview:self.boxView];
 
     // Setup Headline Text View
+    _headlineTextView = [NSTextField wrappingLabelWithString:@""];
+    self.headlineTextView.translatesAutoresizingMaskIntoConstraints = NO;
     self.headlineTextView.editable = NO;
-    self.headlineTextView.selectable = NO;
-    self.headlineTextView.font = boldFont;
-    self.headlineTextView.textColor = defaultColor;
-    self.headlineTextView.drawsBackground = NO;
-    self.headlineTextView.frame = NSMakeRect(_OEHUDAlertBoxTextSideMargin, _OEHUDAlertBoxTextTopMargin, 1, _OEHUDAlertBoxTextHeight);
-    self.headlineTextView.hidden = YES;
-    [self.boxView addSubview:self.headlineTextView];
+    self.headlineTextView.selectable = YES;
+    self.headlineTextView.font = [NSFont systemFontOfSize:NSFont.systemFontSize weight:NSFontWeightBold];
 
-    // Setup Message Text View    
+    // Setup Message Text View
+    _messageTextView = [NSTextField wrappingLabelWithString:@""];
+    self.messageTextView.translatesAutoresizingMaskIntoConstraints = NO;
     self.messageTextView.editable = NO;
-    self.messageTextView.selectable = NO;
-    self.messageTextView.font = defaultFont;
-    self.messageTextView.textColor = defaultColor;
-    self.messageTextView.drawsBackground = NO;
-    self.messageTextView.frame = NSMakeRect(_OEHUDAlertBoxTextSideMargin, _OEHUDAlertBoxTextTopMargin + (2 * _OEHUDAlertBoxTextHeight),
-                                                _OEHUDAlertDefaultBoxWidth - (2 * _OEHUDAlertBoxTextSideMargin), 1);
-    self.messageTextView.hidden = YES;
-    [self.boxView addSubview:self.messageTextView];
-
-    // Setup Input Field
-    OETextFieldCell *inputCell = [[OETextFieldCell alloc] init];
-    self.inputField.cell = inputCell;
-    self.inputField.frame = NSMakeRect(68, 51, 337, 23);
-    self.inputField.hidden = YES;
-    self.inputField.autoresizingMask = NSViewWidthSizable | NSViewMaxYMargin;
-    [self.inputField setTarget:self andAction:@selector(buttonAction:)];
-    self.inputField.editable = YES;
-    self.inputField.themeKey = @"hud_textfield";
-    [_hudWindow.contentView addSubview:self.inputField];
+    self.messageTextView.selectable = YES;
     
+    // Setup Input Field
+    _inputField = [NSTextField textFieldWithString:@""];
+    self.inputField.translatesAutoresizingMaskIntoConstraints = NO;
+    self.inputField.usesSingleLineMode = YES;
+    //[self.inputField setTarget:self andAction:@selector(buttonAction:)];
+    self.inputField.editable = YES;
+    
+    _inputLabelView = [NSTextField labelWithString:@""];
+    self.inputLabelView.translatesAutoresizingMaskIntoConstraints = NO;
     self.inputLabelView.editable = NO;
     self.inputLabelView.selectable = NO;
-    self.inputLabelView.autoresizingMask = NSViewMaxXMargin | NSViewMaxYMargin;
-    self.inputLabelView.font = defaultFont;
-    self.inputLabelView.textColor = defaultColor;
-    self.inputLabelView.drawsBackground = NO;
-    self.inputLabelView.alignment = NSTextAlignmentRight;
-    self.inputLabelView.frame = NSMakeRect(1, 57, 61, 23);
-    self.inputLabelView.hidden = YES;
-    [_hudWindow.contentView addSubview:self.inputLabelView];
     
     // Setup Other Input Field
-    OETextFieldCell *otherInputCell = [[OETextFieldCell alloc] init];
-    self.otherInputField.cell = otherInputCell;
-    self.otherInputField.frame = NSMakeRect(68, 90, 337, 23);
-    self.otherInputField.hidden = YES;
-    self.otherInputField.autoresizingMask = NSViewWidthSizable | NSViewMaxYMargin;
-    self.otherInputField.focusRingType = NSFocusRingTypeNone;
-    [self.otherInputField setTarget:self andAction:@selector(buttonAction:)];
+    _otherInputField = [NSTextField textFieldWithString:@""];
+    self.otherInputField.translatesAutoresizingMaskIntoConstraints = NO;
+    self.otherInputField.usesSingleLineMode = YES;
+    //[self.otherInputField setTarget:self andAction:@selector(buttonAction:)];
     self.otherInputField.editable = YES;
-    self.otherInputField.wantsLayer = YES;
-    self.otherInputField.themeKey = @"hud_textfield";
-    [_hudWindow.contentView addSubview:self.otherInputField];
 
+    _otherInputLabelView = [NSTextField labelWithString:@""];
+    self.otherInputLabelView.translatesAutoresizingMaskIntoConstraints = NO;
     self.otherInputLabelView.editable = NO;
     self.otherInputLabelView.selectable = NO;
-    self.otherInputLabelView.autoresizingMask = NSViewMaxXMargin | NSViewMaxYMargin;
-    self.otherInputLabelView.font = defaultFont;
-    self.otherInputLabelView.textColor = defaultColor;
-    self.otherInputLabelView.drawsBackground = NO;
-    self.otherInputLabelView.alignment = NSTextAlignmentRight;
-    self.otherInputLabelView.frame = NSMakeRect(1, 96, 61, 23);
-    self.otherInputLabelView.hidden = YES;
-    [_hudWindow.contentView addSubview:self.otherInputLabelView];
     
     // Setup Progressbar
-    self.progressbar.frame = NSMakeRect(64, 47, 258, 14);
-    self.progressbar.hidden = YES;
-    [self.boxView addSubview:self.progressbar];
+    _progressbar = [[NSProgressIndicator alloc] init];
+    _progressbar.translatesAutoresizingMaskIntoConstraints = NO;
+    _progressbar.minValue = 0.0;
+    _progressbar.maxValue = 1.0;
     
     // Setup Suppression Button
+    _suppressionButton = [NSButton checkboxWithTitle:@"" target:nil action:nil];
+    self.suppressionButton.translatesAutoresizingMaskIntoConstraints = NO;
+    self.suppressionButton.buttonType = NSButtonTypeSwitch;
     self.suppressionButton.title = NSLocalizedString(@"Do not ask me again", @"");
-    self.suppressionButton.autoresizingMask = NSViewMaxXMargin|NSViewMaxYMargin;
-    self.suppressionButton.frame = NSMakeRect(_OEHUDAlertBoxSideMargin,
-                                              _OEHUDAlertBoxSideMargin - 1,
-                                              _OEHUDAlertSuppressionButtonLength,
-                                              _OEHUDAlertSuppressionButtonHeight);
-    self.suppressionButton.hidden = YES;
     [self.suppressionButton setTarget:self andAction:@selector(suppressionButtonAction:)];
-    [_hudWindow.contentView addSubview:self.suppressionButton];
 }
 
-- (void)OE_autosizeWindow
+- (void)OE_layoutWindowIfNeeded
 {
-    NSRect frame = _hudWindow.frame;
+    if (_needsRebuild)
+        [self OE_layoutWindow];
+}
+
+- (void)OE_layoutWindow
+{
+    NSView *contentView = self.window.contentView;
+    contentView.subviews = @[];
+    contentView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    NSLayoutAnchor *lastAnchor = contentView.topAnchor;
+    NSLayoutAnchor *effectiveLeftBorderAnchor = contentView.leadingAnchor;
+    NSImageView *image;
     
-    if(self.boxView.isHidden)
-    {
-        if(self.showsOtherInputField)
-            frame.size.height = 150;
-        else
-            frame.size.height = 112;
-
-        [_hudWindow setFrame:frame display:NO];
+    /* create a NSAlert-style decoration image only if at least one of the messages is displayed. */
+    if (self.headlineText.length != 0 || self.messageText.length != 0) {
+        image = [NSImageView imageViewWithImage:[NSImage imageNamed:NSImageNameApplicationIcon]];
+        image.translatesAutoresizingMaskIntoConstraints = NO;
+        image.imageFrameStyle = NSImageFrameNone;
+        image.imageScaling = NSImageScaleProportionallyUpOrDown;
+        [contentView addSubview:image];
+        [contentView addConstraints:@[
+            [image.topAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertTopInset],
+            [image.leadingAnchor constraintEqualToAnchor:contentView.leadingAnchor constant:OEAlertImageLeadingInset],
+            [image.heightAnchor constraintEqualToConstant:OEAlertImageWidth],
+            [image.widthAnchor constraintEqualToConstant:OEAlertImageHeight]]];
+        effectiveLeftBorderAnchor = image.trailingAnchor;
     }
-    else
-    {
-        NSRect boxFrame = self.boxView.frame;
-        NSRect headlineTextFrame = self.headlineTextView.frame;
-        NSRect messageTextFrame = self.messageTextView.frame;
-        BOOL isMessageTextVisible = !self.messageTextView.isHidden;
-        BOOL isHeadlineTextVisible = !self.headlineTextView.isHidden;
-
-        // To show the whole headline text, need to add about 10, otherwise the last glyph gets clipped
-        NSSize headlineTextSize = [self.headlineText sizeWithAttributes:@{  NSFontAttributeName : _headlineTextView.font }];
-        headlineTextSize.width += 10;
-        headlineTextSize.width = MAX(headlineTextSize.width, _OEHUDAlertMinimumHeadlineLength);
-
-        if(isMessageTextVisible && isHeadlineTextVisible)
-        {
-            headlineTextFrame.size.width = headlineTextSize.width;
-            messageTextFrame.size.width = NSWidth(headlineTextFrame);
-            self.headlineTextView.frame = headlineTextFrame;
-            self.messageTextView.frame = messageTextFrame;
-
-            NSUInteger linesInMessageTextView = [self OE_countLinesOfTextView:self.messageTextView];
-
-            // Add together the margins and the lines in the messageTextView + headline and empty line
-            boxFrame.size.height = _OEHUDAlertBoxTextTopMargin + _OEHUDAlertBoxTextHeight * (linesInMessageTextView + 2) + _OEHUDAlertBoxTextBottomMargin;
-            boxFrame.size.width = (2 * _OEHUDAlertBoxTextSideMargin) + headlineTextFrame.size.width;
-        }
-        else if(isHeadlineTextVisible)
-        {
-            headlineTextFrame.size.width = headlineTextSize.width;
-            self.headlineTextView.frame = headlineTextFrame;
-            
-            boxFrame.size.height = _OEHUDAlertBoxTextTopMargin + _OEHUDAlertBoxTextHeight + _OEHUDAlertBoxTextBottomMargin;
-            boxFrame.size.width = (2 * _OEHUDAlertBoxTextSideMargin) + headlineTextFrame.size.width;
-        }
-        else if(isMessageTextVisible)
-        {
-            messageTextFrame.origin = headlineTextFrame.origin;
-            self.messageTextView.frame = messageTextFrame;
-
-            NSUInteger linesInMessageTextView = [self OE_countLinesOfTextView:self.messageTextView];
-            boxFrame.size.height = _OEHUDAlertBoxTextTopMargin + (_OEHUDAlertBoxTextHeight * linesInMessageTextView) + _OEHUDAlertBoxTextBottomMargin;
-        }
-
-        frame.size.height = _OEHUDAlertBoxTopMargin + NSHeight(boxFrame) + _OEHUDAlertBoxBottomMargin;
-        frame.size.width = (2 * _OEHUDAlertBoxSideMargin) + NSWidth(boxFrame);
-        [_hudWindow setFrame:frame display:NO];
-        self.boxView.frame = boxFrame;
+    
+    lastAnchor = [self OE_layoutHeadlineUnderAnchor:lastAnchor leadingAnchor:effectiveLeftBorderAnchor];
+    lastAnchor = [self OE_layoutMessageUnderAnchor:lastAnchor leadingAnchor:effectiveLeftBorderAnchor];
+    lastAnchor = [self OE_layoutProgressBarUnderAnchor:lastAnchor leadingAnchor:effectiveLeftBorderAnchor];
+    
+    /* add padding under the previous views in case they have less height than
+     * the decoration image */
+    if (image) {
+        NSView *dummyView = [[NSView alloc] init];
+        dummyView.translatesAutoresizingMaskIntoConstraints = NO;
+        [contentView addSubview:dummyView];
+        [contentView addConstraints:@[
+            [dummyView.topAnchor constraintEqualToAnchor:lastAnchor],
+            [dummyView.bottomAnchor constraintGreaterThanOrEqualToAnchor:image.bottomAnchor constant:0],
+            [dummyView.widthAnchor constraintEqualToConstant:0],
+            [dummyView.leftAnchor constraintEqualToAnchor:contentView.leftAnchor]]];
+        lastAnchor = dummyView.bottomAnchor;
     }
-}
-
-- (NSUInteger)OE_countLinesOfTextView:(NSTextView *)textView
-{
-    NSLayoutManager *layoutManager = textView.layoutManager;
-    NSUInteger numberOfLines, index, numberOfGlyphs = layoutManager.numberOfGlyphs;
-    NSRange lineRange;
-    for(numberOfLines = 0, index = 0; index < numberOfGlyphs; numberOfLines++)
-    {
-        (void) [layoutManager lineFragmentRectForGlyphAtIndex:index effectiveRange:&lineRange];
-        index = NSMaxRange(lineRange);
+    effectiveLeftBorderAnchor = contentView.leadingAnchor;
+    
+    lastAnchor = [self OE_layoutInputFieldsUnderAnchor:lastAnchor leadingAnchor:effectiveLeftBorderAnchor];
+    lastAnchor = [self OE_layoutButtonsUnderAnchor:lastAnchor leadingAnchor:effectiveLeftBorderAnchor];
+    
+    NSLayoutConstraint *maxWidthConstraint = [contentView.widthAnchor constraintLessThanOrEqualToConstant:OEAlertMaximumWidth];
+    maxWidthConstraint.priority = NSLayoutPriorityDefaultHigh-1;
+    [contentView addConstraints:@[
+        [contentView.bottomAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertBottomInset],
+        [contentView.widthAnchor constraintGreaterThanOrEqualToConstant:OEAlertMinimumWidth],
+        maxWidthConstraint]];
+        
+    /* Set preferredMaxLayoutWidth on the message and the headline text fields.
+     * In this way, in case the text wraps, the width of the label will be
+     * exactly equal to the bounding box of the text itself.  */
+    if (contentView.fittingSize.width <= OEAlertMaximumWidth) {
+        CGFloat maxTextWidth = OEAlertMaximumWidth - OEAlertTrailingInset - OEAlertLeadingInset - OEAlertImageWidth - OEAlertImageLeadingInset;
+        self.messageTextView.preferredMaxLayoutWidth = maxTextWidth;
+        self.headlineTextView.preferredMaxLayoutWidth = maxTextWidth;
+    } else {
+        self.messageTextView.preferredMaxLayoutWidth = 0;
+        self.headlineTextView.preferredMaxLayoutWidth = 0;
     }
-
-    return numberOfLines;
+    
+    [self.window setContentSize:contentView.fittingSize];
+    [self.window center];
+    
+    _needsRebuild = NO;
 }
 
-@end
-
-#pragma mark -
-
-@implementation OEAlertWindow
-
-- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
+- (NSLayoutAnchor *)OE_layoutHeadlineUnderAnchor:(NSLayoutAnchor *)lastAnchor leadingAnchor:(NSLayoutAnchor *)effectiveLeftBorderAnchor
 {
-    self = [super initWithContentRect:contentRect styleMask:NSWindowStyleMaskBorderless backing:bufferingType defer:flag];
-    if(self)
-    {
-        self.opaque = NO;
-        self.backgroundColor = NSColor.clearColor;
-        self.movableByWindowBackground = YES;
+    if (self.headlineText.length == 0)
+        return lastAnchor;
+    NSView *contentView = self.window.contentView;
+    
+    [self.headlineTextView setContentHuggingPriority:NSLayoutPriorityDefaultHigh+1 forOrientation:NSLayoutConstraintOrientationVertical];
+    [contentView addSubview:self.headlineTextView];
+    [contentView addConstraints:@[
+        [self.headlineTextView.topAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertTopInset],
+        [self.headlineTextView.leadingAnchor constraintEqualToAnchor:effectiveLeftBorderAnchor constant:OEAlertLeadingInset],
+        [contentView.trailingAnchor constraintGreaterThanOrEqualToAnchor:self.headlineTextView.trailingAnchor constant:OEAlertTrailingInset]]];
+    return self.headlineTextView.bottomAnchor;
+}
 
-        NSRect frame = contentRect;
-        contentRect.origin = NSMakePoint(0, 0);
-        NSView *contentView = [[HUDAlertContentView alloc] initWithFrame:frame];
-        self.contentView = contentView;
+- (NSLayoutAnchor *)OE_layoutMessageUnderAnchor:(NSLayoutAnchor *)lastAnchor leadingAnchor:(NSLayoutAnchor *)effectiveLeftBorderAnchor
+{
+    if (self.messageText.length == 0)
+        return lastAnchor;
+    NSView *contentView = self.window.contentView;
+    BOOL hasHeadline = self.headlineText.length != 0;
+    
+    if (self.headlineText.length == 0) {
+        self.messageTextView.font = [NSFont systemFontOfSize:NSFont.systemFontSize];
+    } else {
+        self.messageTextView.font = [NSFont systemFontOfSize:NSFont.smallSystemFontSize];
     }
-    return self;
+    [contentView addSubview:self.messageTextView];
+    [contentView addConstraints:@[
+        [self.messageTextView.topAnchor constraintEqualToAnchor:lastAnchor constant:hasHeadline ? OEAlertHeadlineToMessageSpacing : OEAlertTopInset],
+        [self.messageTextView.leadingAnchor constraintEqualToAnchor:effectiveLeftBorderAnchor constant:OEAlertLeadingInset],
+        [contentView.trailingAnchor constraintGreaterThanOrEqualToAnchor:self.messageTextView.trailingAnchor constant:OEAlertTrailingInset]]];
+    return self.messageTextView.bottomAnchor;
 }
 
-- (BOOL)canBecomeKeyWindow
+- (NSLayoutAnchor *)OE_layoutProgressBarUnderAnchor:(NSLayoutAnchor *)lastAnchor leadingAnchor:(NSLayoutAnchor *)effectiveLeftBorderAnchor
 {
-    return YES;
+    if (!self.showsProgressbar)
+        return lastAnchor;
+    NSView *contentView = self.window.contentView;
+    
+    [contentView addSubview:self.progressbar];
+    [contentView addConstraints:@[
+        [self.progressbar.topAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertProgressBarSpacing],
+        [self.progressbar.leadingAnchor constraintEqualToAnchor:effectiveLeftBorderAnchor constant:OEAlertLeadingInset],
+        [contentView.trailingAnchor constraintEqualToAnchor:self.progressbar.trailingAnchor constant:OEAlertTrailingInset]]];
+    return self.progressbar.bottomAnchor;
 }
 
-- (BOOL)canBecomeMainWindow
+- (NSLayoutAnchor *)OE_layoutInputFieldsUnderAnchor:(NSLayoutAnchor *)lastAnchor leadingAnchor:(NSLayoutAnchor *)effectiveLeftBorderAnchor
 {
-    return YES;
+    if (!self.showsInputField && !self.showsOtherInputField)
+        return lastAnchor;
+    NSView *contentView = self.window.contentView;
+    
+    NSGridView *inputGrid = [NSGridView gridViewWithNumberOfColumns:2 rows:0];
+    inputGrid.translatesAutoresizingMaskIntoConstraints = NO;
+    inputGrid.rowAlignment = NSGridRowAlignmentLastBaseline;
+    [inputGrid columnAtIndex:0].xPlacement = NSGridCellPlacementTrailing;
+    [contentView addSubview:inputGrid];
+    [contentView addConstraints:@[
+        [inputGrid.topAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertTopInset],
+        [inputGrid.leadingAnchor constraintEqualToAnchor:effectiveLeftBorderAnchor constant:OEAlertLeadingInset],
+        [contentView.trailingAnchor constraintEqualToAnchor:inputGrid.trailingAnchor constant:OEAlertTrailingInset]]];
+    
+    if (self.showsInputField) {
+        [inputGrid addRowWithViews:@[self.inputLabelView, self.inputField]];
+    }
+    if (self.showsOtherInputField) {
+        [inputGrid addRowWithViews:@[self.otherInputLabelView, self.otherInputField]];
+    }
+    
+    return inputGrid.bottomAnchor;
 }
 
-@end
-
-@implementation HUDAlertContentView
-
-- (BOOL)isOpaque
+- (NSLayoutAnchor *)OE_layoutButtonsUnderAnchor:(NSLayoutAnchor *)lastAnchor leadingAnchor:(NSLayoutAnchor *)effectiveLeftBorderAnchor
 {
-    return NO;
-}
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-    NSRect bounds = self.bounds;
-
-    NSWindow *window = self.window;
-    OEThemeState state = window.isMainWindow ? OEThemeInputStateWindowActive : OEThemeInputStateWindowInactive;
-    OEThemeImage *image = [OETheme.sharedTheme themeImageForKey:@"hud_alert_window"];
-    NSImage *nsimage = [image imageForState:state];
-    [nsimage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
+    NSView *contentView = self.window.contentView;
+    
+    NSStackView *buttonStackView = [[NSStackView alloc] init];
+    buttonStackView.orientation = NSUserInterfaceLayoutOrientationHorizontal;
+    buttonStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    buttonStackView.alignment = NSLayoutAttributeLastBaseline;
+    [contentView addSubview:buttonStackView];
+    [contentView addConstraints:@[
+        [buttonStackView.topAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertButtonSpacing],
+        [buttonStackView.leadingAnchor constraintEqualToAnchor:contentView.leadingAnchor constant:OEAlertLeadingInset],
+        [contentView.trailingAnchor constraintEqualToAnchor:buttonStackView.trailingAnchor constant:OEAlertTrailingInset]]];
+        
+    if (self.alternateButtonTitle.length != 0) {
+        [buttonStackView addView:self.alternateButton inGravity:NSStackViewGravityTrailing];
+        [contentView addConstraint:[self.alternateButton.widthAnchor constraintGreaterThanOrEqualToConstant:OEAlertMinimumButtonWidth]];
+    }
+    if (self.defaultButtonTitle.length != 0) {
+        [buttonStackView addView:self.defaultButton inGravity:NSStackViewGravityTrailing];
+        [contentView addConstraint:[self.defaultButton.widthAnchor constraintGreaterThanOrEqualToConstant:OEAlertMinimumButtonWidth]];
+    }
+    if (self.showsSuppressionButton) {
+        [buttonStackView addView:self.suppressionButton inGravity:NSStackViewGravityLeading];
+    }
+    if (self.otherButtonTitle.length != 0) {
+        [buttonStackView addView:self.otherButton inGravity:NSStackViewGravityLeading];
+        [contentView addConstraint:[self.otherButton.widthAnchor constraintGreaterThanOrEqualToConstant:OEAlertMinimumButtonWidth]];
+    }
+    
+    return buttonStackView.bottomAnchor;
 }
 
 @end
