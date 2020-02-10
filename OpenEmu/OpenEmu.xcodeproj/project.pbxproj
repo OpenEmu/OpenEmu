@@ -123,7 +123,6 @@
 		016F22DF23F19F5F00181842 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016F22DE23F19F5F00181842 /* AppDelegate.swift */; };
 		016F22E423F19F6100181842 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 016F22E223F19F6100181842 /* MainMenu.xib */; };
 		016F22EA23F1A35400181842 /* OEHUDAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEHUDAlert.m */; };
-		016F22EB23F1A35900181842 /* OEHUDWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B8113B933E9005C0CC8 /* OEHUDWindow.m */; };
 		016F22EC23F1A35B00181842 /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */; };
 		016F22ED23F1A36E00181842 /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; };
 		016F22EF23F1A57F00181842 /* OETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 838DB01816DBE14E00B8DDC8 /* OETextField.m */; };
@@ -332,7 +331,6 @@
 		53439B7113B932ED005C0CC8 /* OEPrefGameplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7013B932ED005C0CC8 /* OEPrefGameplayController.m */; };
 		53439B7413B932FA005C0CC8 /* OEPrefControlsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7313B932FA005C0CC8 /* OEPrefControlsController.m */; };
 		53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */; };
-		53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B8113B933E9005C0CC8 /* OEHUDWindow.m */; };
 		556CEBF01BCE173B00F00EAA /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; };
 		5A221A6D1BFD5A6E002FDD10 /* segacd_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221A6C1BFD5A6E002FDD10 /* segacd_library@2x.png */; };
 		5A221A7B1BFD87AF002FDD10 /* c64_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221A791BFD87AF002FDD10 /* c64_library.png */; };
@@ -1748,8 +1746,6 @@
 		53439B7313B932FA005C0CC8 /* OEPrefControlsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OEPrefControlsController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		53439B7813B933B8005C0CC8 /* OEGameControlsBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameControlsBar.h; sourceTree = "<group>"; };
 		53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameControlsBar.m; sourceTree = "<group>"; };
-		53439B8013B933E9005C0CC8 /* OEHUDWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDWindow.h; sourceTree = "<group>"; };
-		53439B8113B933E9005C0CC8 /* OEHUDWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDWindow.m; sourceTree = "<group>"; };
 		556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Graphics.xcassets; sourceTree = "<group>"; };
 		5A221A6C1BFD5A6E002FDD10 /* segacd_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "segacd_library@2x.png"; sourceTree = "<group>"; };
 		5A221A791BFD87AF002FDD10 /* c64_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c64_library.png; sourceTree = "<group>"; };
@@ -3805,19 +3801,17 @@
 			name = Video;
 			sourceTree = "<group>";
 		};
-		53439A8613B92BEB005C0CC8 /* HUD */ = {
+		53439A8613B92BEB005C0CC8 /* Alert */ = {
 			isa = PBXGroup;
 			children = (
 				83BC345C1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.h */,
 				83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */,
 				83C68ECF14483579000F720A /* OEHUDAlert.h */,
 				83C68ED014483579000F720A /* OEHUDAlert.m */,
-				53439B8013B933E9005C0CC8 /* OEHUDWindow.h */,
-				53439B8113B933E9005C0CC8 /* OEHUDWindow.m */,
 				83F4DE1114DFF9C200A82E36 /* OEInputLimitFormatter.h */,
 				83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */,
 			);
-			name = HUD;
+			name = Alert;
 			sourceTree = "<group>";
 		};
 		53439A8713B92BEF005C0CC8 /* Preferences */ = {
@@ -4102,7 +4096,7 @@
 				051A6F3923CFEFDD007B7C4F /* Main Window V2 */,
 				53439A8813B92BF4005C0CC8 /* Main Window */,
 				53439A8713B92BEF005C0CC8 /* Preferences */,
-				53439A8613B92BEB005C0CC8 /* HUD */,
+				53439A8613B92BEB005C0CC8 /* Alert */,
 				1E2F3DB810DEAB370019AA84 /* Migration */,
 				82DE498810263A09007184EB /* Downloader */,
 				0557CB1322A750260037175F /* Shaders */,
@@ -7677,7 +7671,6 @@
 				016F22FA23F1A59A00181842 /* OEOutlinedButtonCell.m in Sources */,
 				016F231C23F1A89B00181842 /* UserDefaults+OEAdditions.swift in Sources */,
 				016F22EC23F1A35B00181842 /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */,
-				016F22EB23F1A35900181842 /* OEHUDWindow.m in Sources */,
 				016F22F823F1A59A00181842 /* OEButtonCell.m in Sources */,
 				016F22F223F1A58900181842 /* OESearchFieldCell.m in Sources */,
 				016F22FB23F1A59E00181842 /* OELabel.m in Sources */,
@@ -7915,7 +7908,6 @@
 				0544B69E23D16D3100F63D61 /* CollectionView.swift in Sources */,
 				5A46AC411DC66D8300771B3B /* OEGameViewController+TouchBar.swift in Sources */,
 				051DDCB523E5D74400325147 /* AvailableLibrariesViewController.swift in Sources */,
-				53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */,
 				836AEA711975BFE100B86935 /* OEGridCell.m in Sources */,
 				C6289C32135B215B00EEE97C /* OESystemPlugin.m in Sources */,
 				05644A4823331EA90033576F /* AboutViewController.swift in Sources */,
