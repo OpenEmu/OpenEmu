@@ -309,6 +309,12 @@
                                                     <menuItem title="Export Collection" id="1012">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                     </menuItem>
+                                                    <menuItem title="Display Duplicates" tag="110" id="991">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem title="Display Exact Duplicates" tag="110" id="990">
+                                                        <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                                                    </menuItem>
                                                 </items>
                                                 <attributedString key="userComments">
                                                     <fragment content="DNT"/>
@@ -316,13 +322,13 @@
                                             </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="989"/>
-                                        <menuItem title="Get Info" tag="107" enabled="NO" id="994">
+                                        <menuItem title="Get Info" tag="107" hidden="YES" enabled="NO" id="994">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="showGamesAtArchive:" target="-1" id="1228"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Rating" tag="108" enabled="NO" id="993">
+                                        <menuItem title="Rating" tag="108" hidden="YES" enabled="NO" id="993">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Rating" id="999">
                                                 <items>
@@ -370,19 +376,11 @@
                                                 <action selector="showInFinder:" target="-1" id="Zyl-Jt-bkp"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Display Duplicates" tag="110" hidden="YES" id="991">
+                                        <menuItem isSeparatorItem="YES" id="998"/>
+                                        <menuItem title="Page Setup…" hidden="YES" id="997">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
-                                        <menuItem title="Display Exact Duplicates" tag="110" hidden="YES" alternate="YES" id="990">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="998">
-                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                                        </menuItem>
-                                        <menuItem title="Page Setup…" id="997">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                        </menuItem>
-                                        <menuItem title="Print…" id="996">
+                                        <menuItem title="Print…" hidden="YES" id="996">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                     </items>
