@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString *const OEMaxSaveGameNameLengthKey;
 
 extern NSString *const OERemoveGameFromCollectionAlertSuppressionKey;
+extern NSString *const OERemoveGameFromLibraryAlertSuppressionKey;
 extern NSString *const OELoadAutoSaveAlertSuppressionKey;
 extern NSString *const OEDeleteGameAlertSuppressionKey;
 extern NSString *const OESaveGameAlertSuppressionKey;

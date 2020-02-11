@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 NSString *const OEMaxSaveGameNameLengthKey = @"MaxSaveGameNameLength";
 
 NSString *const OERemoveGameFromCollectionAlertSuppressionKey = @"removeGamesFromCollectionWithoutConfirmation";
+NSString *const OERemoveGameFromLibraryAlertSuppressionKey = @"removeGamesFromLibraryWithoutConfirmation";
 NSString *const OELoadAutoSaveAlertSuppressionKey = @"loadAutosaveDialogChoice";
 NSString *const OEDeleteGameAlertSuppressionKey = @"removeStatesWithoutConfirmation";
 NSString *const OESaveGameAlertSuppressionKey = @"saveGameWithoutConfirmation";
@@ -205,7 +206,7 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
     alert.defaultButtonTitle = multipleGames?NSLocalizedString(@"Delete Games", @""):NSLocalizedString(@"Delete Game", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
     alert.headlineText = nil;
-    [alert showSuppressionButtonForUDKey:OERemoveGameFromCollectionAlertSuppressionKey];
+    [alert showSuppressionButtonForUDKey:OERemoveGameFromLibraryAlertSuppressionKey];
     
     return alert;
 }

@@ -432,6 +432,7 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
     NSArray *keysToRemove = @[OESuppressRemoveCollectionConfirmationKey,
                               OEAutoSwitchCoreAlertSuppressionKey,
                               OERemoveGameFromCollectionAlertSuppressionKey,
+                              OERemoveGameFromLibraryAlertSuppressionKey,
                               OELoadAutoSaveAlertSuppressionKey,
                               OEDeleteGameAlertSuppressionKey,
                               OESaveGameAlertSuppressionKey,
