@@ -86,6 +86,7 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
     alert.defaultButtonTitle = NSLocalizedString(@"Save Game", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
     alert.showsInputField = YES;
+    alert.inputPlaceholderText = name;
     
     NSInteger maxiumumSaveGameLength = [NSUserDefaults.standardUserDefaults integerForKey:OEMaxSaveGameNameLengthKey];
     if(name.length > maxiumumSaveGameLength)

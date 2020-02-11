@@ -1640,7 +1640,11 @@ typedef enum : NSUInteger
     }];
 
     if ([alert runModal] == NSAlertFirstButtonReturn) {
+        if ([[alert stringValue] isEqual: @""]) {
+            [self OE_saveStateWithName:proposedName completionHandler:nil];
+        } else {
         [self OE_saveStateWithName:[alert stringValue] completionHandler:nil];
+        }
     }
     
     if(didPauseEmulation) [self setEmulationPaused:NO];
