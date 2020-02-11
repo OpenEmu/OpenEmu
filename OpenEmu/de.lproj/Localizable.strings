@@ -50,17 +50,17 @@
 
 "All Homebrew" = "Alle Homebrew-Spiele";
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Möchtest du wirklich %ld Spielstände aus der Mediathek entfernen?";
+"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Möchtest du die %ld ausgewählten Spielstände wirklich aus der Mediathek löschen?";
 
-"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Möchtest du wirklich %ld Bildschirmfotos aus der Mediathek entfernen?";
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Möchtest du die %ld ausgewählten Bildschirmfotos wirklich aus der Mediathek löschen?";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Möchtest du den Spielstand „%@“ wirklich aus der Mediathek entfernen?";
+"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Möchtest du den Spielstand „%@“ wirklich aus der Mediathek löschen?";
 
-"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Möchtest du das Bildschirmfoto „%@“ wirklich aus der Mediathek entfernen?";
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Möchtest du das Bildschirmfoto „%@“ wirklich aus der Mediathek löschen?";
 
-"Are you sure you want to delete the selected game from your OpenEmu library?" = "Möchtest du das ausgewählte Spiel wirklich aus der Mediathek entfernen?";
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "Möchtest du das ausgewählte Spiel wirklich aus der Mediathek löschen?";
 
-"Are you sure you want to delete the selected games from your OpenEmu library?" = "Möchtest du die ausgewählten Spiele wirklich aus der Mediathek entfernen?";
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "Möchtest du die ausgewählten Spiele wirklich aus der Mediathek löschen?";
 
 "Are you sure you want to quit the application?" = "Möchtest du OpenEmu wirklich beenden?";
 
@@ -96,7 +96,7 @@
 
 "Choose a valid file." = "Wähle eine gültige Datei aus.";
 
-"Choose Library…" = "Auswählen …";
+"Choose Library…" = "Mediathek wählen …";
 
 "Choose OpenEmu Library" = "OpenEmu-Mediathek auswählen";
 
@@ -138,7 +138,7 @@
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Erstelle eine eigene Spieleauswahl. Um ein Spiel zur Sammlung hinzuzufügen, wähle es in der Konsolenansicht aus und ziehe es auf „%@“ in der Seitenleiste.";
 
-"Create Library…" = "Neue erstellen …";
+"Create Library…" = "Neu erstellen …";
 
 "Create or Load Save State" = "Spielstand erstellen oder laden";
 
@@ -156,13 +156,13 @@
 
 "Delete Save States" = "Spielstände löschen";
 
-"Delete Save" = "Löschen"; //Spielstand löschen
+"Delete Save" = "Spielstand löschen";
 
-"Delete Saves" = "Löschen"; //Spielstände löschen
+"Delete Saves" = "Spielstände löschen";
 
-"Delete Screenshot" = "Löschen"; //Bildschirmfoto löschen
+"Delete Screenshot" = "Bildschirmfoto löschen";
 
-"Delete Screenshots" = "Löschen"; //Bildschirmfotos löschen
+"Delete Screenshots" = "Bildschirmfotos löschen";
 
 "Delete" = "Löschen";
 
@@ -246,7 +246,7 @@
 
 "In order to play the game it must be downloaded." = "Um das Spiel zu starten, muss es zunächst heruntergeladen werden.";
 
-"Insert Cart/Disk/Tape…" = "Cart/Disk/Tape einwerfen…";
+"Insert Cart/Disk/Tape…" = "Cart/Disk/Tape einlegen …";
 
 "Install" = "Installieren";
 
@@ -322,7 +322,7 @@
 
 "OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu besitzt eine Funktion, dank der du dort weiterspielen kannst, wo du zuletzt aufgehört hast.";
 
-"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu benötigt eine Mediathek, um fortzufahren. Du kannst eine bereits existierende OpenEmu-Mediathek auswählen oder eine neue erstellen.";
+"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu benötigt zum Fortfahren eine Mediathek. Du kannst eine vorhandene OpenEmu-Mediathek wählen oder eine neue erstellen.";
 
 "OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu nutzt sogenannte „Kerne“, um Spiele zu emulieren. Du benötigst den „%1$@“-Kern, um „%2$@“ zu spielen.";
 
@@ -396,7 +396,7 @@
 
 "Save Current Game…" = "Aktuelles Spiel sichern …";
 
-"Save Game" = "Sichern"; //Spielstand sichern
+"Save Game" = "Spielstand sichern";
 
 "Save States" = "Spielstände";
 
@@ -430,7 +430,7 @@
 
 "Select Shader" = "Shader";
 
-"Share" = "Senden";
+"Share" = "Teilen";
 
 "Show in Finder" = "Im Finder anzeigen";
 
@@ -518,10 +518,6 @@
 
 "Your library was moved sucessfully." = "Die Mediathek wurde erfolgreich verschoben.";
 
-"Library" = "Spiele";
-
-"Save States" = "Spielstände";
-
 "Homebrew" = "Homebrew";
 
 "Grid Size" = "Gittergröße";
@@ -554,17 +550,17 @@
 
 "This plugin is currently unsupported" = "Dieses Plugin wird zur Zeit nicht unterstützt.";
 
-"Install %@" = "Install %@";  // TODO
+"Install %@" = "%@ installieren";
 
-"Install %@ and Set as Default" = "Install %@ and Set as Default";  // TODO
+"Install %@ and Set as Default" = "%@ installieren und als Standard festlegen";
 
-"Ignore" = "Ignore";  // TODO
+"Ignore" = "Ignorieren";
 
-"OpenEmu requires additional permissions" = "OpenEmu requires additional permissions";  // Headline for Input Monitoring permissions // TODO
+"OpenEmu requires additional permissions" = "OpenEmu benötigt zusätzliche Rechte";
 
-"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues.";  // "Message for Input Monitoring permissions" // TODO
+"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu benötigt Input-Monitoring-Rechte, damit die Tastatur als Eingabegerät verwendet werden kann.\n\nDas Aus-/Abwählen der Berechtigung kann dabei helfen, Tastatureingabeprobleme zu beheben.";
 
-"Show" = "Show";  // TODO
+"Show" = "Anzeigen";
 
 "Moving the Game Library is not recommended" = "Moving the Game Library is not recommended";  //Message headline (attempted to change location of library)  // TODO
 
@@ -700,14 +696,6 @@
 "Checked" = "Ausgewählt";  // Default value tooltip for checkboxes: checked default
 
 "Unchecked" = "Nicht ausgewählt";  // Default value tooltip for checkboxes: unchecked default
-
-"OpenEmu requires additional permissions" = "OpenEmu benötigt zusätzliche Rechte";
-
-"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu benötigt Input-Monitoring-Rechte, damit die Tastatur als Eingabegerät verwendet werden kann.\n\nDas Aus-/Abwählen der Berechtigung kann dabei helfen, Tastatureingabeprobleme zu beheben.";
-
-"Show" = "Anzeigen";
-
-"Ignore" = "Ignorieren";
 
 "Shaders" = "Shaders";  // TODO
 
