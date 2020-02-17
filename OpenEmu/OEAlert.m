@@ -59,9 +59,14 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 @property (copy, readonly) NSMutableArray <void(^)(void)> *blocks;
 
+// dialog buttons
 @property (nonatomic, readonly) NSButton *defaultButton;
 @property (nonatomic, readonly) NSButton *alternateButton;
 @property (nonatomic, readonly) NSButton *otherButton;
+// touch bar buttons
+@property (nonatomic, readonly) NSButton *defaultTBButton;
+@property (nonatomic, readonly) NSButton *alternateTBButton;
+@property (nonatomic, readonly) NSButton *otherTBButton;
 
 @property (nonatomic, readonly) NSTextField *messageLabel;
 @property (nonatomic, readonly) NSTextField *headlineLabel;
@@ -106,6 +111,8 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
         
         self.suppressOnDefaultReturnOnly = YES;
         [self OE_createControls];
+        [self OE_createTouchBarControls];
+        _needsRebuild = YES;
 
         _blocks = [[NSMutableArray alloc] init];
     }
@@ -125,7 +132,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
         return _result;
     }
 
-    [self OE_layoutWindow];
+    [self OE_layoutWindowIfNeeded];
     
     _window.animationBehavior = NSWindowAnimationBehaviorAlertPanel;
     [_window makeKeyAndOrderFront:nil];
@@ -219,6 +226,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 - (void)setDefaultButtonTitle:(nullable NSString *)defaultButtonTitle
 {
     self.defaultButton.title = defaultButtonTitle ? : @"";
+    self.defaultTBButton.title = self.defaultButton.title;
     _needsRebuild = YES;
 }
 
@@ -230,6 +238,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 - (void)setAlternateButtonTitle:(nullable NSString *)alternateButtonTitle
 {
     self.alternateButton.title = alternateButtonTitle ? : @"";
+    self.alternateTBButton.title = self.alternateButton.title;
     _needsRebuild = YES;
 }
 
@@ -241,6 +250,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 - (void)setOtherButtonTitle:(nullable NSString *)otherButtonTitle
 {
     self.otherButton.title = otherButtonTitle ? : @"";
+    self.otherTBButton.title = self.otherButton.title;
     _needsRebuild = YES;
 }
 
@@ -251,11 +261,11 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 - (void)buttonAction:(id)sender
 {
-    if(sender == self.defaultButton || sender == self.inputField)
+    if(sender == self.defaultButton || sender == self.defaultTBButton)
         _result = NSAlertFirstButtonReturn;
-    else if(sender == self.alternateButton)
+    else if(sender == self.alternateButton || sender == self.alternateTBButton)
         _result = NSAlertSecondButtonReturn;
-    else if(sender == self.otherButton)
+    else if(sender == self.otherButton || sender == self.otherTBButton)
         _result = NSAlertThirdButtonReturn;
     else 
         _result = NSAlertFirstButtonReturn;
@@ -571,8 +581,10 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 - (void)OE_layoutWindowIfNeeded
 {
-    if (_needsRebuild)
+    if (_needsRebuild) {
         [self OE_layoutWindow];
+        [self OE_createTouchBar];
+    }
 }
 
 - (void)OE_layoutWindow
@@ -756,6 +768,58 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     }
     
     return buttonStackView.bottomAnchor;
+}
+
+- (void)OE_createTouchBarControls
+{
+    _defaultTBButton = [NSButton buttonWithTitle:@"" target:nil action:nil];
+    [self.defaultTBButton setTarget:self andAction:@selector(buttonAction:)];
+    self.defaultTBButton.keyEquivalent = @"\r";
+    
+    _alternateTBButton = [NSButton buttonWithTitle:@"" target:nil action:nil];
+    [self.alternateTBButton setTarget:self andAction:@selector(buttonAction:)];
+    
+    _otherTBButton = [NSButton buttonWithTitle:@"" target:nil action:nil];
+    [self.otherTBButton setTarget:self andAction:@selector(buttonAction:)];
+}
+
+- (void)OE_createTouchBar
+{
+    NSTouchBar *tb = [[NSTouchBar alloc] init];
+    NSGroupTouchBarItem *childTb = [NSGroupTouchBarItem alertStyleGroupItemWithIdentifier:@"OEAlertGroup"];
+    tb.templateItems = [NSSet setWithObject:childTb];
+    tb.defaultItemIdentifiers = @[@"OEAlertGroup"];
+    tb.principalItemIdentifier = @"OEAlertGroup";
+    
+    NSMutableSet *allItems = [NSMutableSet set];
+    NSMutableArray *allItemIds = [NSMutableArray array];
+    NSCustomTouchBarItem *defaultTbi;
+    NSCustomTouchBarItem *altTbi;
+    NSCustomTouchBarItem *otherTbi;
+    
+    if (self.otherButtonTitle.length > 0) {
+        otherTbi = [[NSCustomTouchBarItem alloc] initWithIdentifier:@"OEAlertOtherButton"];
+        otherTbi.view = self.otherTBButton;
+        [allItems addObject:otherTbi];
+        [allItemIds addObject:@"OEAlertOtherButton"];
+        [allItemIds addObject:NSTouchBarItemIdentifierFixedSpaceLarge];
+    }
+    if (self.alternateButtonTitle.length > 0) {
+        altTbi = [[NSCustomTouchBarItem alloc] initWithIdentifier:@"OEAlertAlternateButton"];
+        altTbi.view = self.alternateTBButton;
+        [allItems addObject:altTbi];
+        [allItemIds addObject:@"OEAlertAlternateButton"];
+    }
+    if (self.defaultButtonTitle.length > 0) {
+        defaultTbi = [[NSCustomTouchBarItem alloc] initWithIdentifier:@"OEAlertDefaultButton"];
+        defaultTbi.view = self.defaultTBButton;
+        [allItems addObject:defaultTbi];
+        [allItemIds addObject:@"OEAlertDefaultButton"];
+    }
+    
+    childTb.groupTouchBar.templateItems = allItems;
+    childTb.groupTouchBar.defaultItemIdentifiers = allItemIds;
+    self.window.touchBar = tb;
 }
 
 @end
