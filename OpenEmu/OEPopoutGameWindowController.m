@@ -395,6 +395,11 @@ typedef enum
 
     _resumePlayingAfterFullScreenTransition = ![[self document] isEmulationPaused];
     [[self document] setEmulationPaused:YES];
+    
+    // move the screenshot window to the same screen as the game window
+    // otherwise it will be shown in the system full-screen animation
+    NSScreen *mainScreen = self.window.screen;
+    [_screenshotWindow setFrameOrigin:mainScreen.frame.origin];
 
     [NSCursor hide];
     [[gameViewController controlsWindow] setCanShow:NO];
