@@ -760,9 +760,9 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
     if (draggingOperation == IKImageBrowserDropBefore || draggingOperation == IKImageBrowserDropOn)
     {
-        NSArray *files = [draggingPasteboard propertyListForType:NSFilenamesPboardType];
+        NSArray *files = [draggingPasteboard readObjectsForClasses:@[[NSURL class]] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
         OEROMImporter *romImporter = [[[self libraryController] database] importer];
-        [romImporter importItemsAtPaths:files intoCollectionWithID:nil];
+        [romImporter importItemsAtURLs:files intoCollectionWithID:nil];
     }
     else if (draggingOperation == IKImageBrowserDropNone)
     {

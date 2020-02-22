@@ -129,7 +129,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     sidebarView.delegate = self;
     sidebarView.dataSource = self;
     sidebarView.allowsEmptySelection = NO;
-    [sidebarView registerForDraggedTypes:@[ OEPasteboardTypeGame, NSFilenamesPboardType ]];
+    [sidebarView registerForDraggedTypes:@[ OEPasteboardTypeGame, NSPasteboardTypeFileURL ]];
     [sidebarView expandItem:nil expandChildren:YES];
 
     NSScrollView *enclosingScrollView = sidebarView.enclosingScrollView;
@@ -441,7 +441,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 - (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
     NSPasteboard *pboard = [info draggingPasteboard];
-    if(![[pboard types] containsObject:OEPasteboardTypeGame] && ![[pboard types] containsObject:NSFilenamesPboardType])
+    if(![[pboard types] containsObject:OEPasteboardTypeGame] && ![[pboard types] containsObject:NSPasteboardTypeFileURL])
         return NSDragOperationNone;
 
     // Ignore anything that is between two rows

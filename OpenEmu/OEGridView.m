@@ -125,7 +125,7 @@ static NSImage *lightingImage;
         [self setGroupThemeKey:@"grid_group"];
     }
 
-    [self registerForDraggedTypes:@[NSFilenamesPboardType, NSPasteboardTypePNG, NSPasteboardTypeTIFF]];
+    [self registerForDraggedTypes:@[NSPasteboardTypeFileURL, NSPasteboardTypePNG, NSPasteboardTypeTIFF]];
     [self setAllowsReordering:NO];
     [self setAllowsDroppingOnItems:YES];
     [self setAnimates:NO];

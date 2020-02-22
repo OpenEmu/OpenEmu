@@ -869,10 +869,10 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     else if (draggingOperation == IKImageBrowserDropBefore || draggingOperation == IKImageBrowserDropOn)
     {
         id <OEGameCollectionViewItemProtocol>representedObject = (id <OEGameCollectionViewItemProtocol>)[self representedObject];
-        NSArray *files = [draggingPasteboard propertyListForType:NSFilenamesPboardType];
+        NSArray *files = [draggingPasteboard readObjectsForClasses:@[[NSURL class]] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
         OEROMImporter *romImporter = [[[self libraryController] database] importer];
         OEDBCollection *collection = [representedObject isKindOfClass:[OEDBCollection class]] ? (OEDBCollection *)representedObject : nil;
-        [romImporter importItemsAtPaths:files intoCollectionWithID:[collection permanentID]];
+        [romImporter importItemsAtURLs:files intoCollectionWithID:[collection permanentID]];
     }
     else if (draggingOperation == IKImageBrowserDropNone)
     {
@@ -979,16 +979,16 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 - (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id < NSDraggingInfo >)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation
 {
     NSPasteboard *pboard = [info draggingPasteboard];
-    if (![[pboard types] containsObject:NSFilenamesPboardType])
+    if (![[pboard types] containsObject:NSPasteboardTypeFileURL])
         return NO;
 
     if([[pboard types] containsObject:OEPasteboardTypeGame])
         return NO;
 
-    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+    NSArray *files = [pboard readObjectsForClasses:@[[NSURL class]] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
     OEROMImporter *romImporter = [[[self libraryController] database] importer];
     OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? (OEDBCollection*)[self representedObject] : nil;
-    [romImporter importItemsAtPaths:files intoCollectionWithID:[collection permanentID]];
+    [romImporter importItemsAtURLs:files intoCollectionWithID:[collection permanentID]];
 
     return YES;
 }
@@ -996,7 +996,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 - (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
 {
     NSPasteboard *pboard = [info draggingPasteboard];
-    if (![[pboard types] containsObject:NSFilenamesPboardType])
+    if (![[pboard types] containsObject:NSPasteboardTypeFileURL])
         return NSDragOperationNone;
 
     if([[pboard types] containsObject:OEPasteboardTypeGame])

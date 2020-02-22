@@ -180,7 +180,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     OETableHeaderCell *romStatusHeaderCell = [[listView tableColumnWithIdentifier:@"listViewStatus"] headerCell];
     [romStatusHeaderCell setClickable:NO];
 
-    [listView registerForDraggedTypes:@[NSFilenamesPboardType]];
+    [listView registerForDraggedTypes:@[NSPasteboardTypeFileURL]];
 
     for(NSTableColumn *aColumn in [listView tableColumns])
     {
@@ -193,7 +193,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     // Setup BlankSlate View
     [blankSlateView setDelegate:self];
     [blankSlateView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    [blankSlateView registerForDraggedTypes:@[NSFilenamesPboardType]];
+    [blankSlateView registerForDraggedTypes:@[NSPasteboardTypeFileURL]];
     [blankSlateView setFrame:[[self view] bounds]];
 
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
@@ -505,7 +505,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 #pragma mark - Blank Slate Delegate
 - (NSDragOperation)blankSlateView:(OEBlankSlateView *)blankSlateView validateDrop:(id<NSDraggingInfo>)draggingInfo
 {
-    if (![[[draggingInfo draggingPasteboard] types] containsObject:NSFilenamesPboardType])
+    if (![[[draggingInfo draggingPasteboard] types] containsObject:NSPasteboardTypeFileURL])
         return NSDragOperationNone;
 
     return NSDragOperationCopy;
@@ -514,13 +514,13 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 - (BOOL)blankSlateView:(OEBlankSlateView*)blankSlateView acceptDrop:(id<NSDraggingInfo>)draggingInfo
 {
     NSPasteboard *pboard = [draggingInfo draggingPasteboard];
-    if (![[pboard types] containsObject:NSFilenamesPboardType])
+    if (![[pboard types] containsObject:NSPasteboardTypeFileURL])
         return NO;
 
-    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+    NSArray<NSURL*> *files = [pboard readObjectsForClasses:@[[NSURL class]] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
     OEROMImporter *romImporter = [[[self libraryController] database] importer];
     OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? (OEDBCollection *)[self representedObject] : nil;
-    [romImporter importItemsAtPaths:files intoCollectionWithID:[collection permanentID]];
+    [romImporter importItemsAtURLs:files intoCollectionWithID:[collection permanentID]];
 
     return YES;
 }
