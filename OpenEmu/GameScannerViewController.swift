@@ -39,7 +39,7 @@ class GameScannerViewController: NSViewController {
     
     @IBOutlet var issuesView: NSTableView!
     @IBOutlet var actionPopUpButton: NSPopUpButton!
-    @IBOutlet var applyButton: OEButton!
+    @IBOutlet var applyButton: NSButton!
    
     @IBOutlet private weak var bottomBar: NSView!
     @IBOutlet private weak var sourceListScrollView: NSScrollView!
