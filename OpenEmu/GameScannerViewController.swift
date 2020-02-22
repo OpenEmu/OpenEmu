@@ -109,6 +109,10 @@ class GameScannerViewController: NSViewController {
         
         super.viewWillAppear()
         
+        var styleMask = self.view.window!.styleMask
+        styleMask.remove(.resizable)
+        self.view.window!.styleMask = styleMask
+        
         issuesView.reloadData()
         enableOrDisableApplyButton()
     }
@@ -544,15 +548,6 @@ extension GameScannerViewController: NSTableViewDelegate {
         } else {
             return ""
         }
-    }
-}
-
-// MARK: - NSWindowDelegate
-
-extension GameScannerViewController: NSWindowDelegate {
-    
-    func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
-        return sender.frame.size
     }
 }
 
