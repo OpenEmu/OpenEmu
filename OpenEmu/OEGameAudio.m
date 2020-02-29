@@ -133,10 +133,18 @@
     UInt32 channelCount      = (UInt32)[_gameCore channelCountForBuffer:0];
     UInt32 bytesPerSample    = (UInt32)[_gameCore audioBitDepth] / 8;
     
+    CAFFormatFlags formatFlags;
+    if (bytesPerSample == 4) {
+        // assume 32-bit float
+        formatFlags = kAudioFormatFlagIsFloat | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsNonInterleaved | kAudioFormatFlagIsPacked;
+    } else {
+        formatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian;
+    }
+    
     AudioStreamBasicDescription mDataFormat = {
         .mSampleRate       = [_gameCore audioSampleRateForBuffer:0],
         .mFormatID         = kAudioFormatLinearPCM,
-        .mFormatFlags      = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian,
+        .mFormatFlags      = formatFlags,
         .mBytesPerPacket   = bytesPerSample * channelCount,
         .mFramesPerPacket  = 1,
         .mBytesPerFrame    = bytesPerSample * channelCount,
