@@ -29,11 +29,6 @@
 
 @interface OEPrefGameplayController : NSViewController <OEPreferencePane>
 
-- (NSImage *)icon;
-- (NSString *)title;
-
-- (NSSize)viewSize;
-
 #pragma mark -
 #pragma mark UI Actions
 

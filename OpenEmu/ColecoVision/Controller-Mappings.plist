@@ -192,5 +192,23 @@
 		<key>OEColecoVisionButtonRightAction</key>
 		<string>OEControllerNintendoSwitchProControllerButtonB</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEColecoVisionButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEColecoVisionButtonLeftAction</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEColecoVisionButtonRightAction</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEColecoVisionButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEColecoVisionButtonLeftAction</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonA</string>
+		<key>OEColecoVisionButtonRightAction</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonB</string>
+	</dict>
 </dict>
 </plist>

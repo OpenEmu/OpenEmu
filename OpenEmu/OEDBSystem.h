@@ -31,7 +31,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString * const OEDBSystemAvailabilityDidChangeNotification;
+extern NSNotificationName const OEDBSystemAvailabilityDidChangeNotification;
 
 @interface OEDBSystem : OEDBItem
 

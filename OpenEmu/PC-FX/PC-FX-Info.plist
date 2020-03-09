@@ -163,5 +163,7 @@
 	<string>openemu.system.pcfx</string>
 	<key>OESystemName</key>
 	<string>PC-FX</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

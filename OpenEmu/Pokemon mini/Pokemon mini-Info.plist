@@ -145,5 +145,7 @@
 	<string>openemu.system.pokemonmini</string>
 	<key>OESystemName</key>
 	<string>Pokémon mini</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeHandheld</string>
 </dict>
 </plist>

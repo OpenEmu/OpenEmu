@@ -113,5 +113,7 @@
 	<string>openemu.system.atari8bit</string>
 	<key>OESystemName</key>
 	<string>Atari 8-bit</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeComputer</string>
 </dict>
 </plist>

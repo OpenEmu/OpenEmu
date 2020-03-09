@@ -66,25 +66,25 @@
  * @abstract   Posted whenever an audio device is connected or disconnected.
  * @discussion Corresponds to Core Audio’s kAudioHardwarePropertyDevices.
  */
-extern NSString *const OEAudioDeviceManagerDidChangeDeviceListNotification;
+extern NSNotificationName const OEAudioDeviceManagerDidChangeDeviceListNotification;
 
 /*
  * @const      OEAudioDeviceManagerDidChangeDefaultInputDeviceNotification
  * @abstract   Posted when the user changes the default audio input device.
  * @discussion Corresponds to Core Audio’s kAudioHardwarePropertyDefaultInputDevice.
  */
-extern NSString *const OEAudioDeviceManagerDidChangeDefaultInputDeviceNotification;
+extern NSNotificationName const OEAudioDeviceManagerDidChangeDefaultInputDeviceNotification;
 
 /*
  * @const      OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification
  * @abstract   Posted when the user changes the default audio output device.
  * @discussion Corresponds to Core Audio’s kAudioHardwarePropertyDefaultOutputDevice.
  */
-extern NSString *const OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification;
+extern NSNotificationName const OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification;
 
 /*
  * @const      OEAudioDeviceManagerDidChangeDefaultSystemOutputDeviceNotification
  * @abstract   Posted when the user changes the default system audio output device.
  * @discussion Corresponds to Core Audio’s kAudioHardwarePropertyDefaultSystemOutputDevice.
  */
-extern NSString *const OEAudioDeviceManagerDidChangeDefaultSystemOutputDeviceNotification;
+extern NSNotificationName const OEAudioDeviceManagerDidChangeDefaultSystemOutputDeviceNotification;

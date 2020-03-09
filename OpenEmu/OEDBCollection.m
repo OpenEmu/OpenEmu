@@ -51,27 +51,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Sidebar Item Protocol
 
-- (NSString *)viewControllerClassName
+- (nullable NSString *)viewControllerClassName
 {
     return @"OEGameCollectionViewController";
 }
 
-- (NSString *)sidebarID
+- (nullable NSString *)sidebarID
 {
     return self.permanentIDURI.absoluteString;
 }
 
-- (NSImage *)sidebarIcon
+- (nullable NSImage *)sidebarIcon
 {
     return [[OETheme sharedTheme] imageForKey:@"collections_simple" forState:OEThemeStateDefault];
 }
 
-- (nullable NSString *)sidebarName
+- (NSString *)sidebarName
 {
     return [self valueForKey:@"name"];
 }
 
-- (void)setSidebarName:(nullable NSString *)newName
+- (void)setSidebarName:(NSString *)newName
 {
     [self setValue:newName forKey:@"name"];
 }

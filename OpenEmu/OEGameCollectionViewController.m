@@ -28,8 +28,8 @@
 
 #import "OEArrayController.h"
 #import "OESidebarController.h"
-#import "OEHUDAlert.h"
-#import "OEHUDAlert+DefaultAlertsAdditions.h"
+#import "OEAlert.h"
+#import "OEAlert+DefaultAlertsAdditions.h"
 #import "OERatingCell.h"
 #import "OEMainWindowController.h"
 #import "OELibraryController.h"
@@ -61,7 +61,7 @@
 
 #import "OpenEmu-Swift.h"
 
-NSString * const OEGameCollectionViewControllerDidSetSelectionIndexesNotification = @"OEGameCollectionViewControllerDidSetSelectionIndexesNotification";
+NSNotificationName const OEGameCollectionViewControllerDidSetSelectionIndexesNotification = @"OEGameCollectionViewControllerDidSetSelectionIndexesNotification";
 
 static NSArray *OE_defaultSortDescriptors;
 
@@ -213,7 +213,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     return [self.libraryController.currentSubviewController isKindOfClass:[OELibraryGamesViewController class]];
 }
 
-- (NSArray *)selectedGames
+- (NSArray<OEDBGame *> *)selectedGames
 {
     return [gamesController selectedObjects];
 }
@@ -389,7 +389,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     // TODO: localize and rephrase text
     OEDBSaveState *state = [stateItem representedObject];
     NSString *stateName = [state name];
-    OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
+    OEAlert *alert = [OEAlert deleteStateAlertWithStateName:stateName];
 
     NSUInteger result = [alert runModal];
     if(result == NSAlertFirstButtonReturn)
@@ -400,7 +400,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 {
     OECoreDataMainThreadAssertion();
 
-    NSArray *selectedGames = [self selectedGames];
+    NSArray<OEDBGame *> *selectedGames = [self selectedGames];
     BOOL multipleGames = ([selectedGames count]>1);
 
     // deleting from 'All Games', Smart Collections and consoles removes games from the library
@@ -409,7 +409,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
        || [[self representedObject] isKindOfClass:[OEDBSystem class]])
     {
         // delete games from library if user allows it
-        if([[OEHUDAlert removeGamesFromLibraryAlert:multipleGames] runModal] == NSAlertFirstButtonReturn)
+        if([[OEAlert removeGamesFromLibraryAlert:multipleGames] runModal] == NSAlertFirstButtonReturn)
         {
             NSURL* romsFolderURL             = [[[self libraryController] database] romsFolderURL];
             __block BOOL romsAreInRomsFolder = NO;
@@ -429,7 +429,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
             BOOL deleteFiles = NO;
             if(romsAreInRomsFolder)
             {
-                //NSUInteger alertReturn = [[OEHUDAlert removeGameFilesFromLibraryAlert:multipleGames] runModal];
+                //NSUInteger alertReturn = [[OEAlert removeGameFilesFromLibraryAlert:multipleGames] runModal];
                 //deleteFiles = (alertReturn == NSAlertFirstButtonReturn);
                 deleteFiles = YES;
             }
@@ -451,7 +451,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     else if([[self representedObject] isMemberOfClass:[OEDBCollection class]])
     {
         // remove games from collection if user allows it
-        if([[OEHUDAlert removeGamesFromCollectionAlert] runModal] == NSAlertFirstButtonReturn)
+        if([[OEAlert removeGamesFromCollectionAlert] runModal] == NSAlertFirstButtonReturn)
         {
             OEDBCollection* collection = (OEDBCollection*)[self representedObject];
             [[collection mutableGames] minusSet:[NSSet setWithArray:selectedGames]];
@@ -471,7 +471,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         collection = [sender representedObject];
     }
 
-    NSArray *selectedGames = [self selectedGames];
+    NSArray<OEDBGame *> *selectedGames = [self selectedGames];
     [[collection mutableGames] addObjectsFromArray:selectedGames];
     [collection save];
 
@@ -507,7 +507,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         if(result != NSModalResponseOK)
             return;
 
-        NSArray *selectedGames = [self selectedGames];
+        NSArray<OEDBGame *> *selectedGames = [self selectedGames];
         [selectedGames makeObjectsPerformSelector:@selector(setBoxImageByURL:) withObject:[openPanel URL]];
         NSManagedObjectContext *context = [[selectedGames lastObject] managedObjectContext];
         [context save:nil];
@@ -527,14 +527,14 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         NSArray *games = [self selectedGames];
         if([games count] == 0) return;
 
-        OEHUDAlert  *alert = [[OEHUDAlert alloc] init];
+        OEAlert  *alert = [[OEAlert alloc] init];
         [alert setHeadlineText:@""];
         [alert setMessageText:NSLocalizedString(@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.", @"")];
         [alert setDefaultButtonTitle:NSLocalizedString(@"Consolidate", @"")];
         [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
         if([alert runModal] != NSAlertFirstButtonReturn) return;
 
-        alert = [[OEHUDAlert alloc] init];
+        alert = [[OEAlert alloc] init];
         [alert setShowsProgressbar:YES];
         [alert setProgress:0.0];
         [alert setHeadlineText:NSLocalizedString(@"Copying Game Files…", @"")];
@@ -580,9 +580,9 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
                 if(error != nil)
                 {
                     OEAlertCompletionHandler originalCompletionHandler = [alert callbackHandler];
-                    [alert setCallbackHandler:^(OEHUDAlert *alert, NSModalResponse result){
+                    [alert setCallbackHandler:^(OEAlert *alert, NSModalResponse result){
                         NSString *messageText = [error localizedDescription];
-                        OEHUDAlert *errorAlert = [OEHUDAlert alertWithMessageText:messageText defaultButton:@"OK" alternateButton:@""];
+                        OEAlert *errorAlert = [OEAlert alertWithMessageText:messageText defaultButton:@"OK" alternateButton:@""];
                         [errorAlert setTitle:@"Consolidating files failed."];
                         [errorAlert runModal];
 
@@ -816,7 +816,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 
 - (void)setRatingForSelectedGames:(id)sender
 {
-    NSArray *selectedGames = [self selectedGames];
+    NSArray<OEDBGame *> *selectedGames = [self selectedGames];
     for(OEDBGame *game in selectedGames)
     {
         [game setRating:[sender representedObject]];
@@ -870,10 +870,10 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     else if (draggingOperation == IKImageBrowserDropBefore || draggingOperation == IKImageBrowserDropOn)
     {
         id <OEGameCollectionViewItemProtocol>representedObject = (id <OEGameCollectionViewItemProtocol>)[self representedObject];
-        NSArray *files = [draggingPasteboard propertyListForType:NSFilenamesPboardType];
+        NSArray *files = [draggingPasteboard readObjectsForClasses:@[[NSURL class]] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
         OEROMImporter *romImporter = [[[self libraryController] database] importer];
         OEDBCollection *collection = [representedObject isKindOfClass:[OEDBCollection class]] ? (OEDBCollection *)representedObject : nil;
-        [romImporter importItemsAtPaths:files intoCollectionWithID:[collection permanentID]];
+        [romImporter importItemsAtURLs:files intoCollectionWithID:[collection permanentID]];
     }
     else if (draggingOperation == IKImageBrowserDropNone)
     {
@@ -980,16 +980,16 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 - (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id < NSDraggingInfo >)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation
 {
     NSPasteboard *pboard = [info draggingPasteboard];
-    if (![[pboard types] containsObject:NSFilenamesPboardType])
+    if (![[pboard types] containsObject:NSPasteboardTypeFileURL])
         return NO;
 
     if([[pboard types] containsObject:OEPasteboardTypeGame])
         return NO;
 
-    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+    NSArray *files = [pboard readObjectsForClasses:@[[NSURL class]] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
     OEROMImporter *romImporter = [[[self libraryController] database] importer];
     OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? (OEDBCollection*)[self representedObject] : nil;
-    [romImporter importItemsAtPaths:files intoCollectionWithID:[collection permanentID]];
+    [romImporter importItemsAtURLs:files intoCollectionWithID:[collection permanentID]];
 
     return YES;
 }
@@ -997,7 +997,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 - (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
 {
     NSPasteboard *pboard = [info draggingPasteboard];
-    if (![[pboard types] containsObject:NSFilenamesPboardType])
+    if (![[pboard types] containsObject:NSPasteboardTypeFileURL])
         return NSDragOperationNone;
 
     if([[pboard types] containsObject:OEPasteboardTypeGame])

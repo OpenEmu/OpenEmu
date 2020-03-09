@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
     return sharedInstance;
 }
 
-- (NSImage *)sidebarIcon
+- (nullable NSImage *)sidebarIcon
 {
     return [[OETheme sharedTheme] imageForKey:@"collections_smart" forState:OEThemeStateDefault];
 }
@@ -56,12 +56,12 @@ NS_ASSUME_NONNULL_BEGIN
     NSLog(@"OEDBAllGamesCollection: can not change name!");
 }
 
-- (NSString*)viewControllerClassName
+- (nullable NSString*)viewControllerClassName
 {
     return @"OEGameCollectionViewController";
 }
 
-- (NSString*)sidebarID
+- (nullable NSString*)sidebarID
 {
     return @"OEDBAllGamesCollection";
 }

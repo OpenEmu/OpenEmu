@@ -179,5 +179,7 @@
 	<string>openemu.system.arcade</string>
 	<key>OESystemName</key>
 	<string>Arcade</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeArcade</string>
 </dict>
 </plist>

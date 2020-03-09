@@ -25,6 +25,7 @@
  */
 
 #import "OEGameLayerView.h"
+#import "OEGameViewController.h"
 #import "NSColor+OEAdditions.h"
 @import QuartzCore;
 
@@ -37,8 +38,6 @@
 @interface CALayerHost : CALayer
 @property CAContextID contextId;
 @end
-
-static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor";
 
 @interface OEGameLayerView () <CALayerDelegate>
 @end

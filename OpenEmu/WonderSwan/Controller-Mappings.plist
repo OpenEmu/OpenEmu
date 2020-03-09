@@ -256,5 +256,31 @@
 		<key>OEWSButtonSound</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEWSButtonX1</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEWSButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEWSButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEWSButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OEWSButtonSound</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEWSButtonX1</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEWSButtonB</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OEWSButtonA</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OEWSButtonStart</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+		<key>OEWSButtonSound</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
+	</dict>
 </dict>
 </plist>

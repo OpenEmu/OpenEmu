@@ -26,16 +26,8 @@
 @import Cocoa;
 #import "OEPreferencePane.h"
 
-@class OEBackgroundGradientView;
-@class OECenteredTextFieldCell;
-
 extern NSString * const OEPreferencesAlwaysShowBiosKey;
 @interface OEPrefBiosController : NSViewController <OEPreferencePane, NSTableViewDataSource, NSTableViewDelegate>
-
-- (NSImage *)icon;
-- (NSString *)title;
-
-- (NSSize)viewSize;
 
 @property (assign) IBOutlet NSTableView *tableView;
 

@@ -40,6 +40,8 @@
 	<dict>
 		<key>OEIntellivisionButtonUp</key>
 		<string>OEControllerLogitechDualActionDPadUp</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerLogitechDualActionButton4</string>
 		<key>OEIntellivisionButtonBottomLeftAction</key>
 		<string>OEControllerLogitechDualActionButton1</string>
 		<key>OEIntellivisionButtonBottomRightAction</key>
@@ -51,10 +53,12 @@
 		<string>OEControllerSegaSaturnDPadUp</string>
 		<key>OEIntellivisionButtonLeft</key>
 		<string>OEControllerSegaSaturnDPadLeft</string>
-		<key>OEIntellivisionButtonBottomLeftAction</key>
+		<key>OEIntellivisionButtonTopAction</key>
 		<string>OEControllerSegaSaturnButtonA</string>
-		<key>OEIntellivisionButtonBottomRightAction</key>
+		<key>OEIntellivisionButtonBottomLeftAction</key>
 		<string>OEControllerSegaSaturnButtonB</string>
+		<key>OEIntellivisionButtonBottomRightAction</key>
+		<string>OEControllerSegaSaturnButtonC</string>
 	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
@@ -62,6 +66,8 @@
 		<string>OEControllerGravisGamePadProDPadUp</string>
 		<key>OEIntellivisionButtonLeft</key>
 		<string>OEControllerGravisGamePadProDPadLeft</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerGravisGamePadProButton4</string>
 		<key>OEIntellivisionButtonBottomLeftAction</key>
 		<string>OEControllerGravisGamePadProButton1</string>
 		<key>OEIntellivisionButtonBottomRightAction</key>
@@ -82,6 +88,8 @@
 	<dict>
 		<key>OEIntellivisionButtonUp</key>
 		<string>OEControllerPS3NeoGeoPadDPadUp</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerPS3NeoGeoPadButtonTriangle</string>
 		<key>OEIntellivisionButtonBottomLeftAction</key>
 		<string>OEControllerPS3NeoGeoPadButtonCross</string>
 		<key>OEIntellivisionButtonBottomRightAction</key>
@@ -128,6 +136,8 @@
 		<string>OEControllerAdaptoidN64DPadLeft</string>
 		<key>OEIntellivisionButtonRight</key>
 		<string>OEControllerAdaptoidN64DPadRight</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerAdaptoidN64ButtonB</string>
 		<key>OEIntellivisionButtonBottomLeftAction</key>
 		<string>OEControllerAdaptoidN64ButtonA</string>
 		<key>OEIntellivisionButtonBottomRightAction</key>
@@ -143,6 +153,8 @@
 		<string>OEControllerWiimoteDPadUp</string>
 		<key>OEIntellivisionButtonRight</key>
 		<string>OEControllerWiimoteDPadDown</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerWiimoteButtonA</string>
 		<key>OEIntellivisionButtonBottomLeftAction</key>
 		<string>OEControllerWiimoteButton1</string>
 		<key>OEIntellivisionButtonBottomRightAction</key>
@@ -158,6 +170,8 @@
 		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
 		<key>OEIntellivisionButtonRight</key>
 		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerNintendoWiiUProControllerButtonX</string>
 		<key>OEIntellivisionButtonBottomLeftAction</key>
 		<string>OEControllerNintendoWiiUProControllerButtonY</string>
 		<key>OEIntellivisionButtonBottomRightAction</key>
@@ -167,6 +181,8 @@
 	<dict>
 		<key>OEIntellivisionButtonUp</key>
 		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonTriangle</string>
 		<key>OEIntellivisionButtonBottomLeftAction</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
 		<key>OEIntellivisionButtonBottomRightAction</key>
@@ -193,10 +209,34 @@
 	<dict>
 		<key>OEIntellivisionButtonUp</key>
 		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
 		<key>OEIntellivisionButtonBottomLeftAction</key>
 		<string>OEControllerNintendoSwitchProControllerButtonY</string>
 		<key>OEIntellivisionButtonBottomRightAction</key>
 		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEIntellivisionButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OEIntellivisionButtonBottomLeftAction</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEIntellivisionButtonBottomRightAction</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEIntellivisionButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonA</string>
+		<key>OEIntellivisionButtonBottomLeftAction</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonB</string>
+		<key>OEIntellivisionButtonBottomRightAction</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
 	</dict>
 </dict>
 </plist>

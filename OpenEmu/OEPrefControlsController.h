@@ -72,10 +72,4 @@
 - (IBAction)changeInputControl:(id)sender;
 - (IBAction)searchForWiimote:(id)sender;
 
-#pragma mark -
-- (NSImage *)icon;
-- (NSString *)title;
-
-- (NSSize)viewSize;
-
 @end

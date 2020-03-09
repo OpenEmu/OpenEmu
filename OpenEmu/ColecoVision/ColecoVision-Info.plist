@@ -207,5 +207,7 @@
 	<string>openemu.system.colecovision</string>
 	<key>OESystemName</key>
 	<string>ColecoVision</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

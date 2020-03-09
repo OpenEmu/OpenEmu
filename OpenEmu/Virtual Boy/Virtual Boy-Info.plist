@@ -177,5 +177,7 @@
 	<string>openemu.system.vb</string>
 	<key>OESystemName</key>
 	<string>Virtual Boy</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

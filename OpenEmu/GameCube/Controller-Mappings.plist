@@ -421,5 +421,55 @@
 		<key>OEGCButtonStart</key>
 		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEGCButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEGCAnalogUp</key>
+		<string>OEControllerMicrosoftXboxOneLeftAnalogUp</string>
+		<key>OEGCAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxOneLeftAnalogLeft</string>
+		<key>OEGCAnalogCUp</key>
+		<string>OEControllerMicrosoftXboxOneRightAnalogUp</string>
+		<key>OEGCAnalogCLeft</key>
+		<string>OEControllerMicrosoftXboxOneRightAnalogLeft</string>
+		<key>OEGCButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonB</string>
+		<key>OEGCButtonX</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEGCButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OEGCButtonY</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEGCButtonL</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftTrigger</string>
+		<key>OEGCButtonR</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightTrigger</string>
+		<key>OEGCButtonZ</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightShoulder</string>
+		<key>OEGCButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEGCButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEGCButtonB</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OEGCButtonX</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonB</string>
+		<key>OEGCButtonA</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OEGCButtonY</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonY</string>
+		<key>OEGCButtonL</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonLeftShoulder</string>
+		<key>OEGCButtonR</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonRightShoulder</string>
+		<key>OEGCButtonZ</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonX</string>
+		<key>OEGCButtonStart</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+	</dict>
 </dict>
 </plist>

@@ -39,7 +39,7 @@
 #import "OEDBSmartCollection.h"
 #import "OEGameCollectionViewItemProtocol.h"
 
-#import "OEHUDAlert.h"
+#import "OEAlert.h"
 
 #import "OEROMImporter.h"
 
@@ -49,9 +49,9 @@
 
 extern NSString *const OELastSidebarSelectionKey;
 NSString *const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWithoutConfirmation";
-extern NSString * const OEDBSystemAvailabilityDidChangeNotification;
+extern NSNotificationName const OEDBSystemAvailabilityDidChangeNotification;
 
-NSString * const OESidebarSelectionDidChangeNotificationName = @"OESidebarSelectionDidChange";
+NSNotificationName const OESidebarSelectionDidChangeNotification = @"OESidebarSelectionDidChange";
 
 NSString * const OESidebarGroupConsolesAutosaveName    = @"sidebarConsolesItem";
 NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsItem";
@@ -120,7 +120,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     [defaults addObserver:self selector:@selector(controlTextDidEndEditing:) name:NSControlTextDidEndEditingNotification object:cell];
     [defaults addObserver:self selector:@selector(controlTextDidBeginEditing:) name:NSControlTextDidBeginEditingNotification object:cell];
     
-    [defaults addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
+    [defaults addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotification object:nil];
 
     sidebarView.indentationPerLevel = 7;
     sidebarView.intercellSpacing = NSMakeSize(0, 4);
@@ -129,7 +129,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     sidebarView.delegate = self;
     sidebarView.dataSource = self;
     sidebarView.allowsEmptySelection = NO;
-    [sidebarView registerForDraggedTypes:@[ OEPasteboardTypeGame, NSFilenamesPboardType ]];
+    [sidebarView registerForDraggedTypes:@[ OEPasteboardTypeGame, NSPasteboardTypeFileURL ]];
     [sidebarView expandItem:nil expandChildren:YES];
 
     NSScrollView *enclosingScrollView = sidebarView.enclosingScrollView;
@@ -234,6 +234,11 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     [self startEditingItem:item];
 
     return item;
+}
+
+- (OEDBCollection *)addCollection
+{
+    return (OEDBCollection *)[self addCollection:NO];
 }
 
 - (id)duplicateCollection:(id)originalCollection
@@ -409,7 +414,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         if(index != NSNotFound)
         {
             [outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-            [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotification object:self userInfo:nil];
         }
     }
 
@@ -436,7 +441,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 - (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
     NSPasteboard *pboard = [info draggingPasteboard];
-    if(![[pboard types] containsObject:OEPasteboardTypeGame] && ![[pboard types] containsObject:NSFilenamesPboardType])
+    if(![[pboard types] containsObject:OEPasteboardTypeGame] && ![[pboard types] containsObject:NSPasteboardTypeFileURL])
         return NSDragOperationNone;
 
     // Ignore anything that is between two rows
@@ -490,7 +495,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         [[NSUserDefaults standardUserDefaults] setValue:selectedItem.sidebarID forKey:OELastSidebarSelectionKey];
     }
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotification object:self userInfo:nil];
 }
 
 - (void)outlineViewSelectionIsChanging:(NSNotification *)notification
@@ -608,8 +613,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         
         OESidebarCell *sidebarCell = (OESidebarCell *)cell;
         sidebarCell.image = sidebarItem.sidebarIcon;
-        NSString *badge = [sidebarItem respondsToSelector:@selector(badge)] ? sidebarItem.badge : nil;
-        sidebarCell.badge = badge;
         sidebarCell.isGroup = sidebarItem.isGroupHeaderInSidebar;
 
         if (self.editingItem == nil)
@@ -619,7 +622,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     }
 }
 
-- (void)setEditingItem:(id)newEdItem
+- (void)setEditingItem:(nullable id)newEdItem
 {
     editingItem = newEdItem;
 }
@@ -634,7 +637,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         NSString *confirm = NSLocalizedString(@"Remove", @"");
         NSString *cancel = NSLocalizedString(@"Cancel", @"");
 
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel];
+        OEAlert *alert = [OEAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel];
         [alert showSuppressionButtonForUDKey:OESuppressRemoveCollectionConfirmationKey];
 
         if ([alert runModal] == NSAlertFirstButtonReturn) {

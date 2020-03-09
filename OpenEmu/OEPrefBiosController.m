@@ -70,7 +70,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     
     tableView.delegate = self;
     tableView.dataSource = self;
-    tableView.usesAlternatingRowBackgroundColors = NO;
+    tableView.usesAutomaticRowHeights = YES;
     tableView.floatsGroupRows = YES;
 
     [tableView registerForDraggedTypes:@[NSPasteboardTypeURL]];
@@ -161,21 +161,25 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
 
 - (NSView *)tableView:(NSTableView *)view viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    NSColor *rowBackground = [NSColor colorWithDeviceWhite:0.059 alpha:1.0];
-    NSColor *alternateRowBackground = [NSColor colorWithDeviceWhite:0.114 alpha:1.0];
-
     if(row == 0)
     {
-        OETableCellView *groupCell = [view makeViewWithIdentifier:@"InfoCell" owner:self];
-
-        OETheme *theme = [OETheme sharedTheme];
-        NSMutableDictionary *attributes = [[theme textAttributesForKey:@"bios_info" forState:OEThemeStateDefault] mutableCopy];
-        NSMutableDictionary *linkAttributes = [[theme textAttributesForKey:@"bios_info_link" forState:OEThemeStateDefault] mutableCopy];
-
-        // Change cursors
-        [attributes     setObject:[NSCursor arrowCursor]        forKey:NSCursorAttributeName];
-        [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
-        [linkAttributes setObject:[NSURL URLWithString:OEBiosUserGuideURLString] forKey:NSLinkAttributeName];
+        NSTableCellView *groupCell = [view makeViewWithIdentifier:@"InfoCell" owner:self];
+        NSTextField *textField = groupCell.textField;
+        
+        NSMutableParagraphStyle *parStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        parStyle.alignment = NSTextAlignmentJustified;
+        NSDictionary *attributes = @{
+            NSFontAttributeName: [NSFont systemFontOfSize:NSFont.smallSystemFontSize],
+            NSForegroundColorAttributeName: [NSColor labelColor],
+            NSParagraphStyleAttributeName: parStyle
+        };
+        NSDictionary *linkAttributes = @{
+            NSFontAttributeName: [NSFont systemFontOfSize:NSFont.smallSystemFontSize],
+            NSForegroundColorAttributeName: [NSColor linkColor],
+            NSParagraphStyleAttributeName: parStyle,
+            NSUnderlineStyleAttributeName: @(NSUnderlineStylePatternSolid),
+            NSLinkAttributeName: [NSURL URLWithString:OEBiosUserGuideURLString]
+        };
         
         NSString *wildcard = @"\uFFFC";
         NSString *infoText = [NSString stringWithFormat:NSLocalizedString(@"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information.", @"BIOS files preferences introduction text"), wildcard];
@@ -186,18 +190,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
         [attributedString setAttributes:linkAttributes range:linkRange];
         [attributedString replaceCharactersInRange:linkRange withString:linkText];
         
-        [groupCell setObjectValue:attributedString];
-
-        NSTextView *textView = [groupCell.subviews.lastObject documentView];
-        textView.delegate = self;
-        textView.editable = NO;
-        textView.selectable = YES;
-        textView.drawsBackground = YES;
-        textView.typingAttributes = attributes;
-        textView.selectedTextAttributes = attributes;
-        textView.linkTextAttributes = linkAttributes;
-        textView.backgroundColor = rowBackground;
-        groupCell.backgroundColor = rowBackground;
+        textField.attributedStringValue = attributedString;
 
         return groupCell;
     }
@@ -214,7 +207,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     }
     else
     {
-        OETableCellView *fileCell = [self.tableView makeViewWithIdentifier:@"FileCell" owner:self];
+        NSTableCellView *fileCell = [self.tableView makeViewWithIdentifier:@"FileCell" owner:self];
 
         NSTextField *descriptionField = fileCell.textField;
         NSTextField *fileNameField = [fileCell viewWithTag:1];
@@ -234,31 +227,10 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
         NSString *sizeString = [NSByteCountFormatter stringFromByteCount:size.longLongValue countStyle:NSByteCountFormatterCountStyleFile];
         fileNameField.stringValue = [NSString stringWithFormat:@"%@ (%@)", name, sizeString];
         availabilityIndicator.image = image;
-
-        int rowsFromHeader = 0;
-        while(![self tableView:view isGroupRow:row + 1 - rowsFromHeader++])
-        fileCell.backgroundColor = rowsFromHeader % 2 ? rowBackground : alternateRowBackground;
-
+        
         return fileCell;
     }
     return nil;
-}
-
-- (CGFloat)tableView:(NSTableView *)view heightOfRow:(NSInteger)row
-{
-    if(row == 0)
-    {
-        // TODO: Localize height of row
-        return 80.0;
-    }
-    else if([self tableView:view isGroupRow:row])
-    {
-        return 17.0;
-    }
-    else
-    {
-        return 56.0;
-    }
 }
 
 #pragma mark - NSTextView Delegate
@@ -316,19 +288,19 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     return [NSImage imageNamed:@"bios_tab_icon"];
 }
 
-- (NSString *)title
+- (NSString *)panelTitle
 {
     return @"System Files";
 }
 
-- (NSString *)localizedTitle
+- (NSString *)localizedPanelTitle
 {
-    return NSLocalizedString(self.title, @"Preferences: Bios Toolbar item");
+    return NSLocalizedString(self.panelTitle, @"Preferences: Bios Toolbar item");
 }
 
 - (NSSize)viewSize
 {
-    return NSMakeSize(423, 460);
+    return self.view.fittingSize;
 }
 
 @end

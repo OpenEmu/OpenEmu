@@ -281,7 +281,7 @@ NSString * OE_localizedStringFromElapsedTime(NSTimeInterval timeInterval)
 
 @implementation OEDBSystem (DataSourceAdditions)
 
-- (NSString*)viewControllerClassName
+- (nullable NSString*)viewControllerClassName
 {
     return @"OEGameCollectionViewController";
 }
@@ -291,7 +291,7 @@ NSString * OE_localizedStringFromElapsedTime(NSTimeInterval timeInterval)
     return self.systemIdentifier;
 }
 
-- (NSImage *)sidebarIcon
+- (nullable NSImage *)sidebarIcon
 {
     return self.icon;
 }
@@ -355,7 +355,7 @@ NSString * OE_localizedStringFromElapsedTime(NSTimeInterval timeInterval)
 {
     return 0;
 }
-- (NSArray*)fetchSortDescriptors
+- (NSArray<NSSortDescriptor *> *)fetchSortDescriptors
 {
     return @[];
 }
@@ -393,7 +393,7 @@ NSString * OE_localizedStringFromElapsedTime(NSTimeInterval timeInterval)
     return 0;
 }
 
-- (NSArray*)fetchSortDescriptors
+- (NSArray<NSSortDescriptor *> *)fetchSortDescriptors
 {
     return @[];
 }

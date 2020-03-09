@@ -26,7 +26,7 @@
 
 #import "OEHomebrewCoverView.h"
 
-NSString * const OEURLImagesViewImageDidLoadNotificationName = @"OEURLImagesViewImageDidLoad";
+NSNotificationName const OEURLImagesViewImageDidLoadNotification = @"OEURLImagesViewImageDidLoad";
 
 @interface OEHomebrewCoverView ()
 @property (assign) NSProgressIndicator *loadingIndicator;
@@ -86,7 +86,7 @@ const static NSLock *lock;
     [indicator setHidden:YES];
     [indicator setUsesThreadedAnimation:YES];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDidLoad:) name:OEURLImagesViewImageDidLoadNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDidLoad:) name:OEURLImagesViewImageDidLoadNotification object:nil];
 
     _loadingIndicator = indicator;
 
@@ -335,7 +335,7 @@ const static NSLock *lock;
             [lock unlock];
 
             NSDictionary *userInfo = @{ @"URL": url };
-            [[NSNotificationCenter defaultCenter] postNotificationName:OEURLImagesViewImageDidLoadNotificationName object:nil userInfo:userInfo];
+            [[NSNotificationCenter defaultCenter] postNotificationName:OEURLImagesViewImageDidLoadNotification object:nil userInfo:userInfo];
         });
     }
     [lock unlock];

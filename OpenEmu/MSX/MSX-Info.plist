@@ -119,5 +119,7 @@
 	<string>openemu.system.msx</string>
 	<key>OESystemName</key>
 	<string>MSX</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeComputer</string>
 </dict>
 </plist>

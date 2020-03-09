@@ -80,7 +80,6 @@
                                 <imageCell key="dataCell" refusesFirstResponder="YES" alignment="left" id="21">
                                     <font key="font" metaFont="label" size="11"/>
                                 </imageCell>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                             </tableColumn>
                             <tableColumn identifier="listViewTitle" width="334" minWidth="100" maxWidth="1000" id="19">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Name">
@@ -106,7 +105,7 @@
                                     <font key="font" metaFont="label" size="11"/>
                                 </customCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="listViewRating"/>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                             </tableColumn>
                             <tableColumn identifier="listViewLastPlayed" editable="NO" width="103" minWidth="100" maxWidth="1000" id="17">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Last Played">
@@ -120,7 +119,7 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="OE_compareDMYTranslatingNilToDistantPast:" sortKey="lastPlayed"/>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                             </tableColumn>
                             <tableColumn identifier="listViewConsoleName" editable="NO" width="104" minWidth="100" maxWidth="1000" id="16">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="System">
@@ -134,9 +133,9 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="listViewConsoleName"/>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                             </tableColumn>
-                            <tableColumn identifier="listViewSaveStateCount" editable="NO" width="90" minWidth="90" maxWidth="3.4028234663852886e+38" id="103">
+                            <tableColumn identifier="listViewSaveStateCount" editable="NO" width="90" minWidth="90" maxWidth="1000" id="103">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Save Games">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -148,9 +147,9 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="saveStateCount"/>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                             </tableColumn>
-                            <tableColumn identifier="listViewPlayCount" editable="NO" width="90" minWidth="90" maxWidth="3.4028234663852886e+38" id="105">
+                            <tableColumn identifier="listViewPlayCount" editable="NO" width="90" minWidth="90" maxWidth="1000" id="105">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Play Count">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -162,9 +161,9 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="playCount"/>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                             </tableColumn>
-                            <tableColumn identifier="listViewPlayTime" editable="NO" width="90" minWidth="90" maxWidth="3.4028234663852886e+38" id="107">
+                            <tableColumn identifier="listViewPlayTime" editable="NO" width="90" minWidth="90" maxWidth="1000" id="107">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Play Time">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -176,7 +175,7 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="playTime"/>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                             </tableColumn>
                         </tableColumns>
                     </tableView>

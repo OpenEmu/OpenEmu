@@ -13,21 +13,23 @@
 		<key>OEArcadeButtonRight</key>
 		<string>OEControllerMicrosoftXbox360DPadRight</string>
 		<key>OEArcadeButton1</key>
-		<string>OEControllerMicrosoftXbox360ButtonY</string>
-		<key>OEArcadeButton2</key>
-		<string>OEControllerMicrosoftXbox360ButtonLeftShoulder</string>
-		<key>OEArcadeButton3</key>
-		<string>OEControllerMicrosoftXbox360ButtonRightShoulder</string>
-		<key>OEArcadeButton4</key>
 		<string>OEControllerMicrosoftXbox360ButtonX</string>
-		<key>OEArcadeButton5</key>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerMicrosoftXbox360ButtonY</string>
+		<key>OEArcadeButton3</key>
 		<string>OEControllerMicrosoftXbox360ButtonA</string>
-		<key>OEArcadeButton6</key>
+		<key>OEArcadeButton4</key>
 		<string>OEControllerMicrosoftXbox360ButtonB</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerMicrosoftXbox360ButtonRightShoulder</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerMicrosoftXbox360ButtonRightTrigger</string>
 		<key>OEArcadeButtonP1Start</key>
 		<string>OEControllerMicrosoftXbox360ButtonStart</string>
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerMicrosoftXbox360ButtonBack</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerMicrosoftXbox360ButtonHome</string>
 	</dict>
 	<key>OEControllerSonyPS3Sixaxis</key>
 	<dict>
@@ -40,42 +42,46 @@
 		<key>OEArcadeButtonRight</key>
 		<string>OEControllerSonyPS3SixaxisDPadRight</string>
 		<key>OEArcadeButton1</key>
-		<string>OEControllerSonyPS3SixaxisButtonTriangle</string>
-		<key>OEArcadeButton2</key>
-		<string>OEControllerSonyPS3SixaxisButtonL1</string>
-		<key>OEArcadeButton3</key>
-		<string>OEControllerSonyPS3SixaxisButtonR1</string>
-		<key>OEArcadeButton4</key>
 		<string>OEControllerSonyPS3SixaxisButtonSquare</string>
-		<key>OEArcadeButton5</key>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerSonyPS3SixaxisButtonTriangle</string>
+		<key>OEArcadeButton3</key>
 		<string>OEControllerSonyPS3SixaxisButtonCross</string>
-		<key>OEArcadeButton6</key>
+		<key>OEArcadeButton4</key>
 		<string>OEControllerSonyPS3SixaxisButtonCircle</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerSonyPS3SixaxisButtonR1</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerSonyPS3SixaxisButtonR2</string>
 		<key>OEArcadeButtonP1Start</key>
 		<string>OEControllerSonyPS3SixaxisButtonStart</string>
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerSonyPS3SixaxisButtonSelect</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerSonyPS3SixaxisButtonHome</string>
 	</dict>
 	<key>OEControllerLogitechDualAction</key>
 	<dict>
 		<key>OEArcadeButtonUp</key>
 		<string>OEControllerLogitechDualActionDPadUp</string>
 		<key>OEArcadeButton1</key>
-		<string>OEControllerLogitechDualActionButton4</string>
-		<key>OEArcadeButton2</key>
-		<string>OEControllerLogitechDualActionButtonLeftShoulder</string>
-		<key>OEArcadeButton3</key>
-		<string>OEControllerLogitechDualActionButtonRightShoulder</string>
-		<key>OEArcadeButton4</key>
 		<string>OEControllerLogitechDualActionButton1</string>
-		<key>OEArcadeButton5</key>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerLogitechDualActionButton4</string>
+		<key>OEArcadeButton3</key>
 		<string>OEControllerLogitechDualActionButton2</string>
-		<key>OEArcadeButton6</key>
+		<key>OEArcadeButton4</key>
 		<string>OEControllerLogitechDualActionButton3</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerLogitechDualActionButtonRightShoulder</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerLogitechDualActionButtonRightTrigger</string>
 		<key>OEArcadeButtonP1Start</key>
 		<string>OEControllerLogitechDualActionButtonStart</string>
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerLogitechDualActionButtonSelect</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerLogitechDualActionButtonLeftShoulder</string>
 	</dict>
 	<key>OEControllerSegaSaturn</key>
 	<dict>
@@ -99,6 +105,8 @@
 		<string>OEControllerSegaSaturnButtonStart</string>
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerSegaSaturnButtonRightShoulder</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerSegaSaturnButtonLeftShoulder</string>
 	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
@@ -107,21 +115,23 @@
 		<key>OEArcadeButtonLeft</key>
 		<string>OEControllerGravisGamePadProDPadLeft</string>
 		<key>OEArcadeButton1</key>
-		<string>OEControllerGravisGamePadProButton4</string>
-		<key>OEArcadeButton2</key>
-		<string>OEControllerGravisGamePadProButtonLeftShoulder</string>
-		<key>OEArcadeButton3</key>
-		<string>OEControllerGravisGamePadProButtonRightShoulder</string>
-		<key>OEArcadeButton4</key>
 		<string>OEControllerGravisGamePadProButton1</string>
-		<key>OEArcadeButton5</key>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerGravisGamePadProButton4</string>
+		<key>OEArcadeButton3</key>
 		<string>OEControllerGravisGamePadProButton2</string>
-		<key>OEArcadeButton6</key>
+		<key>OEArcadeButton4</key>
 		<string>OEControllerGravisGamePadProButton3</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerGravisGamePadProButtonRightShoulder</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerGravisGamePadProButtonRightTrigger</string>
 		<key>OEArcadeButtonP1Start</key>
 		<string>OEControllerGravisGamePadProButtonStart</string>
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerGravisGamePadProButtonSelect</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerGravisGamePadProButtonLeftShoulder</string>
 	</dict>
 	<key>OEControllerRetroUSBSNES</key>
 	<dict>
@@ -166,6 +176,8 @@
 		<string>OEControllerPS3NeoGeoPadButtonStart</string>
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerPS3NeoGeoPadButtonSelect</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerPS3NeoGeoPadButtonHome</string>
 	</dict>
 	<key>OEControllerRetrode</key>
 	<dict>
@@ -245,13 +257,13 @@
 		<key>OEArcadeButtonRight</key>
 		<string>OEControllerAdaptoidN64DPadRight</string>
 		<key>OEArcadeButton1</key>
-		<string>OEControllerAdaptoidN64CPadUp</string>
+		<string>OEControllerAdaptoidN64ButtonB</string>
 		<key>OEArcadeButton2</key>
-		<string>OEControllerAdaptoidN64ButtonLeftShoulder</string>
-		<key>OEArcadeButton3</key>
-		<string>OEControllerAdaptoidN64ButtonRightShoulder</string>
-		<key>OEArcadeButton4</key>
 		<string>OEControllerAdaptoidN64CPadLeft</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerAdaptoidN64CPadUp</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerAdaptoidN64ButtonA</string>
 		<key>OEArcadeButton5</key>
 		<string>OEControllerAdaptoidN64CPadDown</string>
 		<key>OEArcadeButton6</key>
@@ -260,6 +272,8 @@
 		<string>OEControllerAdaptoidN64ButtonStart</string>
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerAdaptoidN64ButtonZ</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerAdaptoidN64ButtonLeftShoulder</string>
 	</dict>
 	<key>OEControllerNintendoWiiUProController</key>
 	<dict>
@@ -272,42 +286,46 @@
 		<key>OEArcadeButtonRight</key>
 		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
 		<key>OEArcadeButton1</key>
-		<string>OEControllerNintendoWiiUProControllerButtonX</string>
-		<key>OEArcadeButton2</key>
-		<string>OEControllerNintendoWiiUProControllerButtonL</string>
-		<key>OEArcadeButton3</key>
-		<string>OEControllerNintendoWiiUProControllerButtonR</string>
-		<key>OEArcadeButton4</key>
 		<string>OEControllerNintendoWiiUProControllerButtonY</string>
-		<key>OEArcadeButton5</key>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerNintendoWiiUProControllerButtonX</string>
+		<key>OEArcadeButton3</key>
 		<string>OEControllerNintendoWiiUProControllerButtonB</string>
-		<key>OEArcadeButton6</key>
+		<key>OEArcadeButton4</key>
 		<string>OEControllerNintendoWiiUProControllerButtonA</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerNintendoWiiUProControllerButtonR</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerNintendoWiiUProControllerButtonZR</string>
 		<key>OEArcadeButtonP1Start</key>
 		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerNintendoWiiUProControllerButtonHome</string>
 	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
 		<key>OEArcadeButtonUp</key>
 		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
 		<key>OEArcadeButton1</key>
-		<string>OEControllerSonyPS4Dualshock4ButtonTriangle</string>
-		<key>OEArcadeButton2</key>
-		<string>OEControllerSonyPS4Dualshock4ButtonL1</string>
-		<key>OEArcadeButton3</key>
-		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
-		<key>OEArcadeButton4</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
-		<key>OEArcadeButton5</key>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonTriangle</string>
+		<key>OEArcadeButton3</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
-		<key>OEArcadeButton6</key>
+		<key>OEArcadeButton4</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCircle</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR2</string>
 		<key>OEArcadeButtonP1Start</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
 	</dict>
 	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
@@ -328,34 +346,84 @@
 		<key>OEArcadeButton4</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonB</string>
 		<key>OEArcadeButton5</key>
-		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonR1</string>
 		<key>OEArcadeButton6</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonR2</string>
 		<key>OEArcadeButtonP1Start</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
 		<key>OEArcadeButtonInsertCoin</key>
-		<string>OEControllerGCExtendedGamepadProfileButtonR1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
 	</dict>
 	<key>OEControllerNintendoSwitchProController</key>
 	<dict>
 		<key>OEArcadeButtonUp</key>
 		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
 		<key>OEArcadeButton1</key>
-		<string>OEControllerNintendoSwitchProControllerButtonX</string>
-		<key>OEArcadeButton2</key>
-		<string>OEControllerNintendoSwitchProControllerButtonL</string>
-		<key>OEArcadeButton3</key>
-		<string>OEControllerNintendoSwitchProControllerButtonR</string>
-		<key>OEArcadeButton4</key>
 		<string>OEControllerNintendoSwitchProControllerButtonY</string>
-		<key>OEArcadeButton5</key>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OEArcadeButton3</key>
 		<string>OEControllerNintendoSwitchProControllerButtonB</string>
-		<key>OEArcadeButton6</key>
+		<key>OEArcadeButton4</key>
 		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerNintendoSwitchProControllerButtonZR</string>
 		<key>OEArcadeButtonP1Start</key>
 		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerMicrosoftXboxOneButtonB</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightShoulder</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightTrigger</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerMicrosoftXboxOneButtonXbox</string>
+	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonX</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonY</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonA</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonB</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonHome</string>
 	</dict>
 </dict>
 </plist>

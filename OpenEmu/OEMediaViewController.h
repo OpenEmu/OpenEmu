@@ -31,7 +31,7 @@
 
 @class OEDBSaveState, OEDBScreenshot;
 
-extern NSString * const OEMediaViewControllerDidSetSelectionIndexesNotification;
+extern NSNotificationName const OEMediaViewControllerDidSetSelectionIndexesNotification;
 
 @interface OEMediaViewController : OECollectionViewController <OELibrarySubviewController, OEBlankSlateViewDelegate>
 

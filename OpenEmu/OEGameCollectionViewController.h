@@ -27,7 +27,7 @@
 #import "OECollectionViewController.h"
 #import "OEGameGridViewDelegate.h"
 
-extern NSString * const OEGameCollectionViewControllerDidSetSelectionIndexesNotification;
+extern NSNotificationName const OEGameCollectionViewControllerDidSetSelectionIndexesNotification;
 
 @interface OEGameCollectionViewController : OECollectionViewController <OEGameGridViewDelegate>
 - (IBAction)showInFinder:(id)sender;

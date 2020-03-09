@@ -256,5 +256,31 @@
 		<key>OEVMUButtonMode</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEVMUButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEVMUButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEVMUButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEVMUButtonSleep</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OEVMUButtonMode</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEVMUButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEVMUButtonB</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OEVMUButtonA</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OEVMUButtonSleep</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+		<key>OEVMUButtonMode</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
+	</dict>
 </dict>
 </plist>

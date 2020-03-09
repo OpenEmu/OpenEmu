@@ -902,110 +902,6 @@
 			<key>Traits</key>
 			<string>Bold</string>
 		</dict>
-		<key>bios_main</key>
-		<dict>
-			<key>Color</key>
-			<string>rgb(245,245,245)</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>1</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,0.4)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>11</integer>
-			<key>Weight</key>
-			<real>0.5</real>
-		</dict>
-		<key>bios_info</key>
-		<dict>
-			<key>Color</key>
-			<string>rgb(245,245,245)</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>0</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,0.4)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>12</integer>
-			<key>Traits</key>
-			<string>Regular</string>
-			<key>Weight</key>
-			<integer>0</integer>
-		</dict>
-		<key>bios_info_link</key>
-		<dict>
-			<key>Color</key>
-			<string>#526ba0</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>0</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,0.4)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>12</integer>
-			<key>Weight</key>
-			<integer>0</integer>
-		</dict>
-		<key>bios_sub</key>
-		<dict>
-			<key>Color</key>
-			<string>rgb(215,215,215)</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>1</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,0.4)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>10</integer>
-			<key>Traits</key>
-			<string>Regular</string>
-			<key>Weight</key>
-			<real>0.2</real>
-		</dict>
-		<key>bios_group</key>
-		<dict>
-			<key>Color</key>
-			<string>#d9d9d9</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>0</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,1)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>11</integer>
-			<key>Weight</key>
-			<real>0.2</real>
-		</dict>
 		<key>preferences_text</key>
 		<dict>
 			<key>Color</key>
@@ -1530,40 +1426,6 @@
 				<string>{{0,0}, {1, 27}}</string>
 			</dict>
 		</dict>
-		<key>install_progress_bar</key>
-		<dict>
-			<key>Resource</key>
-			<string>install_progress_bar</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {6, 15}}</string>
-						<string>{{6, 0}, {16, 15}}</string>
-						<string>{{22, 0}, 6, 15}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
-		<key>install_progress_track</key>
-		<dict>
-			<key>Resource</key>
-			<string>install_progress_bar_track</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {10, 15}}</string>
-						<string>{{10, 0}, {8, 15}}</string>
-						<string>{{18, 0}, 10, 15}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
 		<key>tab_selector</key>
 		<dict>
 			<key>Resource</key>
@@ -1594,32 +1456,6 @@
 						<string>{{0, 0}, {15, 45}}</string>
 						<string>{{15, 0}, {1, 45}}</string>
 						<string>{{16, 0}, {15, 45}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
-		<key>slim_dark_pill_button</key>
-		<dict>
-			<key>Resource</key>
-			<string>slim_dark_pill_button</string>
-			<key>States</key>
-			<dict>
-				<key>Pressed</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 15}, {9, 15}}</string>
-						<string>{{9, 15}, {10, 15}}</string>
-						<string>{{19, 15}, {9, 15}}</string>
-					</array>
-				</dict>
-				<key>Default</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {9, 15}}</string>
-						<string>{{9, 0}, {10, 15}}</string>
-						<string>{{19, 0}, {9, 15}}</string>
 					</array>
 				</dict>
 			</dict>
@@ -1747,82 +1583,6 @@
 						<string>{{0, 17}, {6, 17}}</string>
 						<string>{{6, 17}, {1, 17}}</string>
 						<string>{7, 17}, {8, 17}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
-		<key>hud_alert_window</key>
-		<dict>
-			<key>Resource</key>
-			<string>hud_alert_window</string>
-			<key>States</key>
-			<dict>
-				<key>Window Active</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0,0},{14,24}}</string>
-						<string>{{15,0},{1,24}}</string>
-						<string>{{16,0},{14,24}}</string>
-						<string>{{0,24},{14,1}}</string>
-						<string>{{15,24},{1,1}}</string>
-						<string>{{16,24},{14,1}}</string>
-						<string>{{0,25},{14,22}}</string>
-						<string>{{15,25},{1,22}}</string>
-						<string>{{16,25},{14,22}}</string>
-					</array>
-				</dict>
-				<key>Window Inactive</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0,0},{14,24}}</string>
-						<string>{{15,0},{1,24}}</string>
-						<string>{{16,0},{14,24}}</string>
-						<string>{{0,24},{14,1}}</string>
-						<string>{{15,24},{1,1}}</string>
-						<string>{{16,24},{14,1}}</string>
-						<string>{{0,25},{14,22}}</string>
-						<string>{{15,25},{1,22}}</string>
-						<string>{{16,25},{14,22}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
-		<key>hud_window</key>
-		<dict>
-			<key>Resource</key>
-			<string>hud_window</string>
-			<key>States</key>
-			<dict>
-				<key>Window Active</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {14, 26}}</string>
-						<string>{{14, 0}, {1, 26}}</string>
-						<string>{{15, 0}, {14, 26}}</string>
-						<string>{{0, 26}, {14, 1}}</string>
-						<string>{{14, 26}, {1, 1}}</string>
-						<string>{{15, 26}, {14, 1}}</string>
-						<string>{{0, 27}, {14, 20}}</string>
-						<string>{{14, 27}, {1, 20}}</string>
-						<string>{{15, 27}, {14, 20}}</string>
-					</array>
-				</dict>
-				<key>Window Inactive</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{29, 0}, {14, 26}}</string>
-						<string>{{43, 0}, {1, 26}}</string>
-						<string>{{44, 0}, {14, 26}}</string>
-						<string>{{29, 26}, {14, 1}}</string>
-						<string>{{43, 26}, {1, 1}}</string>
-						<string>{{44, 26}, {14, 1}}</string>
-						<string>{{29, 27}, {14, 20}}</string>
-						<string>{{43, 27}, {1, 20}}</string>
-						<string>{{44, 27}, {14, 20}}</string>
 					</array>
 				</dict>
 			</dict>
@@ -2671,24 +2431,6 @@
 				<string>{{0,16},{16,16}}</string>
 				<key>Toggle On, Pressed</key>
 				<string>{{16,16},{16,16}}</string>
-			</dict>
-		</dict>
-		<key>hud_close_button</key>
-		<dict>
-			<key>Resource</key>
-			<string>hud_close_button</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{0,0},{21,21}}</string>
-				<key>Mouse Over</key>
-				<string>{{21,0},{21,21}}</string>
-				<key>Mouse Over, Pressed</key>
-				<string>{{42,0},{21,21}}</string>
-				<key>Pressed</key>
-				<string>{{42,0},{21,21}}</string>
-				<key>Window Inactive</key>
-				<string>{{0,0},{21,21}}</string>
 			</dict>
 		</dict>
 		<key>hud_progress_bar</key>

@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - OESidebarItem
 
-- (NSImage *)sidebarIcon
+- (nullable NSImage *)sidebarIcon
 {
     return [[OETheme sharedTheme] imageForKey:@"media_screenshots" forState:OEThemeStateDefault];
 }
@@ -58,12 +58,12 @@ NS_ASSUME_NONNULL_BEGIN
     NSLog(@"OEDBScreenshotsMedia: can not change name!");
 }
 
-- (NSString*)viewControllerClassName
+- (nullable NSString *)viewControllerClassName
 {
     return @"OEMediaViewController";
 }
 
-- (NSString*)sidebarID
+- (nullable NSString *)sidebarID
 {
     return @"screenshotMedia";
 }

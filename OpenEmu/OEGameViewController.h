@@ -27,14 +27,14 @@
 @import Cocoa;
 #import "OEGameCoreHelper.h"
 
+extern NSNotificationName const OEGameViewControllerEmulationWillFinishNotification;
+extern NSNotificationName const OEGameViewControllerEmulationDidFinishNotification;
 extern NSString *const OEGameVolumeKey;
 extern NSString *const OEGameDefaultVideoShaderKey;
 extern NSString *const OEGameSystemVideoShaderKeyFormat;
 extern NSString *const OEGameCoreDisplayModeKeyFormat;
 extern NSString *const OEGameCoresInBackgroundKey;
 extern NSString *const OEAutoSwitchCoreAlertSuppressionKey;
-extern NSString *const OEGameViewControllerEmulationWillFinishNotification;
-extern NSString *const OEGameViewControllerEmulationDidFinishNotification;
 extern NSString *const OEGameViewControllerROMKey;
 extern NSString *const OEBackgroundPauseKey;
 extern NSString *const OEBackgroundControllerPlayKey;

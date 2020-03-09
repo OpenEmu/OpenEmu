@@ -176,5 +176,7 @@
 	<string>openemu.system.nds</string>
 	<key>OESystemName</key>
 	<string>Nintendo DS</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeHandheld</string>
 </dict>
 </plist>

@@ -129,5 +129,7 @@
 	<string>openemu.system.sms</string>
 	<key>OESystemName</key>
 	<string>Sega Master System</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

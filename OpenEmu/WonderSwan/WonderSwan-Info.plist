@@ -162,5 +162,7 @@
 	<string>openemu.system.ws</string>
 	<key>OESystemName</key>
 	<string>WonderSwan</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeHandheld</string>
 </dict>
 </plist>

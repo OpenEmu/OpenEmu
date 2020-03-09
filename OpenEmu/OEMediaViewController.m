@@ -46,11 +46,11 @@
 
 #import "OEGridView.h"
 
-#import "OEHUDAlert+DefaultAlertsAdditions.h"
+#import "OEAlert+DefaultAlertsAdditions.h"
 
 #import "OpenEmu-Swift.h"
 
-NSString * const OEMediaViewControllerDidSetSelectionIndexesNotification = @"OEMediaViewControllerDidSetSelectionIndexesNotification";
+NSNotificationName const OEMediaViewControllerDidSetSelectionIndexesNotification = @"OEMediaViewControllerDidSetSelectionIndexesNotification";
 
 /// Archived URI representations of managed object IDs for selected media.
 static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
@@ -295,7 +295,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
 #pragma mark - OELibrarySubviewController Implementation
 
-- (NSArray*)selectedGames
+- (NSArray<OEDBGame *> *)selectedGames
 {
     return @[];
 }
@@ -605,7 +605,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
     if([[items lastObject] isKindOfClass:[OEDBSaveState class]])
     {
-        OEHUDAlert *alert = nil;
+        OEAlert *alert = nil;
         if([items count] < 1)
         {
             DLog(@"delete empty selection");
@@ -613,11 +613,11 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         }
         else if([items count] == 1)
         {
-            alert = [OEHUDAlert deleteStateAlertWithStateName:[[items lastObject] displayName]];
+            alert = [OEAlert deleteStateAlertWithStateName:[[items lastObject] displayName]];
         }
         else if([items count] > 1)
         {
-            alert = [OEHUDAlert deleteStateAlertWithStateCount:[items count]];
+            alert = [OEAlert deleteStateAlertWithStateCount:[items count]];
         }
 
         if([alert runModal] == NSAlertFirstButtonReturn)
@@ -629,7 +629,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     }
     else if([[items lastObject] isKindOfClass:[OEDBScreenshot class]])
     {
-        OEHUDAlert *alert = nil;
+        OEAlert *alert = nil;
         if([items count] < 1)
         {
             DLog(@"delete empty selection");
@@ -638,11 +638,11 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         else if([items count] == 1)
         {
             OEDBScreenshot *screenshot = [items lastObject];
-            alert = [OEHUDAlert deleteScreenshotAlertWithScreenshotName:[screenshot name]];
+            alert = [OEAlert deleteScreenshotAlertWithScreenshotName:[screenshot name]];
         }
         else if([items count] > 1)
         {
-            alert = [OEHUDAlert deleteScreenshotAlertWithScreenshotCount:[items count]];
+            alert = [OEAlert deleteScreenshotAlertWithScreenshotCount:[items count]];
         }
 
         if([alert runModal] == NSAlertFirstButtonReturn)
@@ -705,7 +705,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         if([[item displayName] isEqualToString:title]) return;
 
         OEDBSaveState *saveState = item;
-        if(![saveState isSpecialState] || [[OEHUDAlert renameSpecialStateAlert] runModal] == NSAlertFirstButtonReturn)
+        if(![saveState isSpecialState] || [[OEAlert renameSpecialStateAlert] runModal] == NSAlertFirstButtonReturn)
         {
             [saveState setName:title];
             [saveState moveToDefaultLocation];
@@ -760,9 +760,9 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
     if (draggingOperation == IKImageBrowserDropBefore || draggingOperation == IKImageBrowserDropOn)
     {
-        NSArray *files = [draggingPasteboard propertyListForType:NSFilenamesPboardType];
+        NSArray *files = [draggingPasteboard readObjectsForClasses:@[[NSURL class]] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
         OEROMImporter *romImporter = [[[self libraryController] database] importer];
-        [romImporter importItemsAtPaths:files intoCollectionWithID:nil];
+        [romImporter importItemsAtURLs:files intoCollectionWithID:nil];
     }
     else if (draggingOperation == IKImageBrowserDropNone)
     {

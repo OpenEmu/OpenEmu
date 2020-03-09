@@ -174,6 +174,8 @@
 			<string>OEGCAnalogCDown</string>
 			<string>OEGCAnalogCLeft</string>
 			<string>OEGCAnalogCRight</string>
+			<string>OEGCButtonL</string>
+			<string>OEGCButtonR</string>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
@@ -251,5 +253,7 @@
 	<string>openemu.system.gc</string>
 	<key>OESystemName</key>
 	<string>GameCube</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

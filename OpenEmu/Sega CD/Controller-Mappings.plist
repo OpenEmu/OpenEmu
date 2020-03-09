@@ -378,5 +378,47 @@
 		<key>OESegaCDButtonMode</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerMicrosoftXboxOneButtonB</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerMicrosoftXboxOneButtonLeftShoulder</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightShoulder</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonA</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonB</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonX</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonY</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
+	</dict>
 </dict>
 </plist>

@@ -38,6 +38,7 @@
 
 static NSMutableDictionary *_pluginsBySystemIdentifiers = nil;
 static NSArray *_cachedSupportedTypeExtensions = nil;
+static NSArray *_cachedSupportedSystemTypes = nil;
 
 + (void)initialize
 {
@@ -65,6 +66,7 @@ static NSArray *_cachedSupportedTypeExtensions = nil;
 
     // Invalidate supported type extenesions cache
     _cachedSupportedTypeExtensions = nil;
+    _cachedSupportedSystemTypes = nil;
 }
 
 + (NSArray *)supportedTypeExtensions;
@@ -81,14 +83,28 @@ static NSArray *_cachedSupportedTypeExtensions = nil;
     return _cachedSupportedTypeExtensions;
 }
 
++ (NSArray *)supportedSystemTypes;
+{
+    if(_cachedSupportedSystemTypes == nil)
+    {
+        NSMutableSet *extensions = [NSMutableSet set];
+        for(OESystemPlugin *plugin in [OEPlugin pluginsForType:self])
+            [extensions addObject:plugin.systemType];
+
+        _cachedSupportedSystemTypes = extensions.allObjects;
+    }
+
+    return _cachedSupportedSystemTypes;
+}
+
 + (OESystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;
 {
     return [self pluginWithFileAtPath:bundlePath type:self];
 }
 
-- (id)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName
+- (id)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName error:(NSError *__autoreleasing *)outError
 {
-    if((self = [super initWithFileAtPath:aPath name:aName]))
+    if((self = [super initWithFileAtPath:aPath name:aName error:outError]))
     {
         _systemIdentifier = [[self infoDictionary] objectForKey:OESystemIdentifier];
         _responderClass   = [[self controller] responderClass];
@@ -115,6 +131,11 @@ static NSArray *_cachedSupportedTypeExtensions = nil;
     return [[self controller] systemName];
 }
 
+- (NSString *)systemType
+{
+    return [[self controller] systemType];
+}
+
 - (NSImage *)systemIcon
 {
     return [[self controller] systemIcon];
@@ -134,4 +155,19 @@ static NSArray *_cachedSupportedTypeExtensions = nil;
 {
     return [[self controller] coverAspectRatio];
 }
+
+- (BOOL)isOutOfSupport
+{
+    /* system plugins are shipped inside the application bundle; all
+     * plugins located in the application support directory must be removed. */
+    NSURL *bundlePath = [[[self bundle] bundleURL] baseURL];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSURL *systemsDirectory = [[fm URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
+    systemsDirectory = [systemsDirectory URLByAppendingPathComponent:@"OpenEmu/Systems"];
+    if ([systemsDirectory.path isEqual:bundlePath.path])
+        return YES;
+        
+    return NO;
+}
+
 @end

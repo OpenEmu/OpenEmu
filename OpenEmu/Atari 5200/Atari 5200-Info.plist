@@ -230,5 +230,7 @@
 	<string>openemu.system.5200</string>
 	<key>OESystemName</key>
 	<string>Atari 5200</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

@@ -207,5 +207,7 @@
 	<string>openemu.system.psp</string>
 	<key>OESystemName</key>
 	<string>Sony PSP</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeHandheld</string>
 </dict>
 </plist>

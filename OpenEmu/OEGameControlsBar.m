@@ -37,7 +37,7 @@
 #import "OEGameViewController.h"
 #import "OEPopoutGameWindowController.h"
 
-#import "OEHUDAlert.h"
+#import "OEAlert.h"
 
 #import "OEDBSaveState.h"
 
@@ -83,6 +83,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 {
     NSArray<NSString *> *_sortedSystemShaders;
     NSArray<NSString *> *_sortedCustomShaders;
+    NSRect _lastGameWindowFrame;
 }
 
 + (void)initialize
@@ -132,6 +133,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         // Show HUD when switching back from other applications
         [nc addObserver:self selector:@selector(mouseMoved:) name:NSApplicationDidBecomeActiveNotification object:nil];
+        [nc addObserver:self selector:@selector(willMove:) name:NSWindowWillMoveNotification object:self];
         [nc addObserver:self selector:@selector(didMove:) name:NSWindowDidMoveNotification object:self];
 
         _sortedSystemShaders = [OEShadersModel.shared.systemShaderNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
@@ -296,17 +298,24 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [self setFrameOrigin:origin];
 }
 #pragma mark -
-- (void)gameWindowDidChangeScreen:(NSNotification*)notification
+
+- (void)willMove:(NSNotification *)notification
 {
-    [self adjustWindowAttachment:YES];
+    if (self.parentWindow)
+        _lastGameWindowFrame = self.parentWindow.frame;
 }
 
 - (void)didMove:(NSNotification*)notification
 {
-    [self adjustWindowAttachment:NO];
+    BOOL userMoved = NO;
+    if (!self.parentWindow)
+        userMoved = YES;
+    else
+        userMoved = NSEqualRects(self.parentWindow.frame, _lastGameWindowFrame);
+    [self adjustWindowAttachment:userMoved];
 }
 
-- (void)adjustWindowAttachment:(BOOL)userMovesGameWindow;
+- (void)adjustWindowAttachment:(BOOL)userMovesGameWindow
 {
     NSWindow *gameWindow = [self gameWindow];
     NSScreen *barScreen  = [self screen];
@@ -314,7 +323,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
     BOOL screensDiffer = barScreen != gameScreen;
 
-    if(!userMovesGameWindow && screensDiffer && [self parentWindow] != nil && barScreen != nil)
+    if(userMovesGameWindow && screensDiffer && [self parentWindow] != nil && barScreen != nil)
     {
         NSRect f = [self frame];
         [self orderOut:nil];
@@ -601,6 +610,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 - (void)showSaveMenu:(id)sender
 {
     NSMenu *menu = [[NSMenu alloc] init];
+    menu.autoenablesItems = NO;
 
     NSMenuItem *newSaveItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game…", @"") action:@selector(saveState:) keyEquivalent:@""];
     [newSaveItem setEnabled:[[self gameViewController] supportsSaveStates]];
@@ -787,7 +797,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     {
         [nc addObserver:self selector:@selector(gameWindowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:gameWindow];
         [nc addObserver:self selector:@selector(gameWindowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:gameWindow];
-        [nc addObserver:self selector:@selector(gameWindowDidChangeScreen:) name:NSWindowDidChangeScreenNotification object:gameWindow];
 
         OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
         [[view fullScreenButton] setState:[gameWindow isFullScreen] ? NSControlStateValueOn : NSControlStateValueOff];

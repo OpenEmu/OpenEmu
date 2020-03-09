@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1110"
+   LastUpgradeVersion = "1130"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -116,20 +116,6 @@
                BuildableName = "Build &amp; Install Picodrive"
                BlueprintName = "Build &amp; Install Picodrive"
                ReferencedContainer = "container:picodrive/Picodrive.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8CC8D3BA17A948E000BC796A"
-               BuildableName = "Build &amp; Install Higan (Performance)"
-               BlueprintName = "Build &amp; Install Higan (Performance)"
-               ReferencedContainer = "container:Higan/Higan.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -256,6 +242,20 @@
                BuildableName = "Build &amp; Install mGBA"
                BlueprintName = "Build &amp; Install mGBA"
                ReferencedContainer = "container:mGBA/mGBA.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82B9195310150EA2007BD6DB"
+               BuildableName = "Build &amp; Install BSNES"
+               BlueprintName = "Build &amp; Install BSNES"
+               ReferencedContainer = "container:BSNES/BSNES.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

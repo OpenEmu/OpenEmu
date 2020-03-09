@@ -126,11 +126,6 @@ static NSMutableDictionary *_pluginsForNamesByTypes  = nil;
     return YES;
 }
 
-- (id)init
-{
-    return nil;
-}
-
 + (NSMutableDictionary *)OE_pluginsForNamesOfType:(Class)cls createIfNeeded:(BOOL)create
 {
     NSMutableDictionary *plugins = [_pluginsForNamesByTypes objectForKey:cls];
@@ -173,9 +168,12 @@ static NSMutableDictionary *_pluginsForNamesByTypes  = nil;
     _displayName    = [_infoDictionary objectForKey:@"CFBundleName"] ? : [_infoDictionary objectForKey:@"CFBundleExecutable"];
 }
 
-- (id)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName;
+- (id)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName error:(NSError *__autoreleasing *)outError
 {
-    if(aPath == nil && aName == nil) return nil;
+    if(aPath == nil && aName == nil) {
+        if (outError) *outError = nil;
+        return nil;
+    }
 
     id existing = (   [[self class] OE_pluginsForNamesOfType:[self class] createIfNeeded:NO][aName]
                   ? : [[self class] OE_pluginsForPathsOfType:[self class] createIfNeeded:NO][aPath]);
@@ -183,8 +181,10 @@ static NSMutableDictionary *_pluginsForNamesByTypes  = nil;
 
     if((self = [super init]))
     {
-        if(aPath != nil && ![[aPath pathExtension] isEqualToString:[[self class] pluginExtension]])
+        if(aPath != nil && ![[aPath pathExtension] isEqualToString:[[self class] pluginExtension]]) {
+            if (outError) *outError = [NSError errorWithDomain:OEGameCoreErrorDomain code:OEGameCorePluginInvalidError userInfo:nil];
             return nil;
+        }
 
         _path = [aPath copy];
         _name = [aName copy] ? : [[_path lastPathComponent] stringByDeletingPathExtension];
@@ -192,12 +192,27 @@ static NSMutableDictionary *_pluginsForNamesByTypes  = nil;
         if(_path != nil)
         {
             [self OE_setupWithBundleAtPath:aPath];
+            if (self.outOfSupport) {
+                /* plugin must be removed */
+                NSLog(@"Removing out-of-support plugin %@", _path);
+                NSFileManager *fm = [NSFileManager defaultManager];
+                NSError *error;
+                if (![fm removeItemAtPath:_path error:&error])
+                    NSLog(@"Error when removing out-of-support plugin: %@", error);
+                if (outError) *outError = [NSError errorWithDomain:OEGameCoreErrorDomain code:OEGameCorePluginOutOfSupportError userInfo:nil];
+                return nil;
+            }
             [[self class] OE_pluginsForPathsOfType:[self class] createIfNeeded:YES][_path] = self;
         }
 
         [[self class] OE_pluginsForNamesOfType:[self class] createIfNeeded:YES][_name] = self;
     }
     return self;
+}
+
+- (id)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName
+{
+    return [self initWithFileAtPath:aPath name:aName error:NULL];
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle
@@ -262,6 +277,16 @@ static NSString *OE_pluginPathForNameType(NSString *aName, Class aType)
     return (  _bundle != nil
             ? [NSString stringWithFormat:@"Type: %@, Bundle: %@, Version: %@", [[self class] pluginType], _displayName, _version]
             : [NSString stringWithFormat:@"Type: %@, Path: %@", [[self class] pluginType], _path]);
+}
+
+- (BOOL)isDeprecated
+{
+    return self.outOfSupport;
+}
+
+- (BOOL)isOutOfSupport
+{
+    return NO;
 }
 
 NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
@@ -344,7 +369,15 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
 
 + (instancetype)pluginWithFileAtPath:(NSString *)filePath type:(Class)aType forceReload:(BOOL)reload
 {
-    if(filePath == nil || ![aType isPluginClass]) return nil;
+    return [self pluginWithFileAtPath:filePath type:aType forceReload:reload error:NULL];
+}
+
++ (instancetype)pluginWithFileAtPath:(NSString *)filePath type:(Class)aType forceReload:(BOOL)reload error:(NSError *__autoreleasing *)outError
+{
+    if(filePath == nil || ![aType isPluginClass]) {
+        if (outError) *outError = nil;
+        return nil;
+    }
 
     NSMutableDictionary *plugins = [_allPlugins objectForKey:aType];
     if(plugins == nil)
@@ -361,7 +394,10 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
         // Will override a previous failed attempt at loading a plugin
         if(ret == [NSNull null]) ret = nil;
         // A plugin was already successfully loaded
-        else if(ret != nil) return nil;
+        else if(ret != nil) {
+            if (outError) *outError = [NSError errorWithDomain:OEGameCoreErrorDomain code:OEGameCorePluginAlreadyLoadedError userInfo:nil];
+            return nil;
+        }
     }
 
     // No plugin with such name, attempt to actually load the file at the given path
@@ -370,7 +406,7 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
         [OEPlugin willChangeValueForKey:@"allPlugins"];
         [aType willChangeValueForKey:@"allPlugins"];
 
-        ret = [[aType alloc] initWithFileAtPath:filePath name:pluginName];
+        ret = [[aType alloc] initWithFileAtPath:filePath name:pluginName error:outError];
 
         // If ret is still nil at this point, it means the plugin can't be loaded (old-style version for example)
         if(ret == nil) ret = [NSNull null];

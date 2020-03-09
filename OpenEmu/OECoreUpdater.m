@@ -31,7 +31,7 @@
 #import "OECoreDownload.h"
 #import "OECorePlugin.h"
 
-#import "OEHUDAlert.h"
+#import "OEAlert.h"
 #import "OEButton.h"
 
 #import "OEDBGame+CoreDataProperties.h"
@@ -42,7 +42,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
 @interface OECoreUpdater () <NSFileManagerDelegate, SUUpdaterDelegate>
 {
-    NSMutableDictionary *_coresDict;
+    NSMutableDictionary<NSString *, OECoreDownload *> *_coresDict;
     BOOL autoInstall;
 }
 
@@ -211,7 +211,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 }
 
 #pragma mark -
-#pragma mark Installing with OEHUDAlert
+#pragma mark Installing with OEAlert
 
 - (void)installCoreForGame:(OEDBGame *)game withCompletionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler
 {
@@ -293,7 +293,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
 - (void)installCoreWithDownload:(OECoreDownload *)download message:(NSString *)message completionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler
 {
-    OEHUDAlert *aAlert = [[OEHUDAlert alloc] init];
+    OEAlert *aAlert = [[OEAlert alloc] init];
     [aAlert setDefaultButtonTitle:NSLocalizedString(@"Install", @"")];
     [aAlert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
 
@@ -314,6 +314,27 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
         handler(nil, nil);
     }
 
+    [self setCompletionHandler:nil];
+    [self setCoreDownload:nil];
+    [self setCoreIdentifier:nil];
+
+    [self setAlert:nil];
+}
+
+- (void)installCoreWithDownload:(OECoreDownload *)download completionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler
+{
+    OEAlert *aAlert = [[OEAlert alloc] init];
+    
+    NSString *coreIdentifier = [[_coresDict allKeysForObject:download] lastObject];
+    [self setCoreIdentifier:coreIdentifier];
+    [self setCompletionHandler:handler];
+    [self setAlert:aAlert];
+    
+    [aAlert performBlockInModalSession:^{
+        [self startInstall];
+    }];
+    [aAlert runModal];
+    
     [self setCompletionHandler:nil];
     [self setCoreDownload:nil];
     [self setCoreIdentifier:nil];
@@ -362,7 +383,6 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
         [[self alert] setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
         [[self alert] setAlternateButtonTitle:nil];
 
-        [[[self alert] defaultButton] setThemeKey:@"hud_button_red"];
         [[self alert] setDefaultButtonAction:@selector(buttonAction:) andTarget:[self alert]];
         
         return;
@@ -405,6 +425,7 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
 
 - (void)coreDownloadDidStart:(OECoreDownload *)download
 {
+    [self OE_updateCoreList];
     [download addObserver:self forKeyPath:@"progress" options:0xF context:_OECoreDownloadProgressContext];
 }
 
@@ -429,8 +450,6 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
 
     if(object == [self coreDownload])
         [[self alert] setProgress:[[self coreDownload] progress]];
-    else
-        [self OE_updateCoreList];
 }
 
 #pragma mark -

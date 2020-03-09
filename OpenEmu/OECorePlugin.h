@@ -36,7 +36,7 @@
 @property(readonly) Class     gameCoreClass;
 @property(readonly) NSImage  *icon;
 @property(readonly) NSString *bundleIdentifier;
-@property(readonly) NSArray  *systemIdentifiers;
+@property(readonly) NSArray<NSString *> *systemIdentifiers;
 @property(readonly) NSArray *requiredFiles;
 @property(readonly) NSDictionary *coreOptions;
 

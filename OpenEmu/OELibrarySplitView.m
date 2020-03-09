@@ -30,7 +30,7 @@
 
 #pragma mark - Public variables
 
-NSString *const OELibrarySplitViewResetSidebarNotification = @"OELibrarySplitViewResetSidebarNotification";
+NSNotificationName const OELibrarySplitViewResetSidebarNotification = @"OELibrarySplitViewResetSidebarNotification";
 
 #pragma mark - Private variables
 

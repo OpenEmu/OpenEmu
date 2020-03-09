@@ -27,13 +27,13 @@
 #import "OEDBSystem+CoreDataProperties.h"
 #import "OESystemPlugin.h"
 #import "OELibraryDatabase.h"
-#import "OEHUDAlert.h"
+#import "OEAlert.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSString * const OEDBSystemAvailabilityDidChangeNotification = @"OEDBSystemAvailabilityDidChangeNotification";
+NSNotificationName const OEDBSystemAvailabilityDidChangeNotification = @"OEDBSystemAvailabilityDidChangeNotification";
 
 NSString * const OEDBSystemErrorDomain = @"OEDBSystemErrorDomain";
 typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
@@ -257,7 +257,7 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
     NSError *error;
     if (![self toggleEnabledWithError:&error]) {
         
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:error.localizedDescription defaultButton:NSLocalizedString(@"OK", nil) alternateButton:nil];
+        OEAlert *alert = [OEAlert alertWithMessageText:error.localizedDescription defaultButton:NSLocalizedString(@"OK", nil) alternateButton:nil];
         [alert runModal];
         
         return NO;

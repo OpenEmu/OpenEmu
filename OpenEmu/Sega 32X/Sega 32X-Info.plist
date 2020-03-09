@@ -162,5 +162,7 @@
 	<string>openemu.system.32x</string>
 	<key>OESystemName</key>
 	<string>Sega 32X</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

@@ -8,6 +8,8 @@
 		<string>PS3 Sixaxis</string>
 		<key>OEGenericControllerName</key>
 		<string>OEControllerSonyPS3Sixaxis</string>
+		<key>OEDisableCalibration</key>
+		<true/>
 		<key>OEControllerDevices</key>
 		<array>
 			<dict>
@@ -286,6 +288,8 @@
 		<string>Xbox 360</string>
 		<key>OEGenericControllerName</key>
 		<string>OEControllerMicrosoftXbox360</string>
+		<key>OEDisableCalibration</key>
+		<true/>
 		<key>OEControllerDevices</key>
 		<array>
 			<dict>
@@ -1602,6 +1606,8 @@
 				<integer>1406</integer>
 				<key>OEControllerProductID</key>
 				<integer>816</integer>
+				<key>OEControllerRequiresNameMatch</key>
+				<true/>
 			</dict>
 			<dict>
 				<key>OEControllerDeviceName</key>
@@ -2437,6 +2443,8 @@
 				<integer>1406</integer>
 				<key>OEControllerProductID</key>
 				<integer>816</integer>
+				<key>OEControllerRequiresNameMatch</key>
+				<true/>
 			</dict>
 		</array>
 		<key>OEControllerMappings</key>
@@ -2714,6 +2722,8 @@
 		<string>PS4 Dualshock 4</string>
 		<key>OEGenericControllerName</key>
 		<string>OEControllerSonyPS4Dualshock4</string>
+		<key>OEDisableCalibration</key>
+		<true/>
 		<key>OEControllerDevices</key>
 		<array>
 			<dict>
@@ -3031,6 +3041,8 @@
 		<string>MFi Extended Gamepad Profile</string>
 		<key>OEGenericControllerName</key>
 		<string>OEControllerGCExtendedGamepadProfile</string>
+		<key>OEDisableCalibration</key>
+		<true/>
 		<key>OEControllerDevices</key>
 		<array>
 			<dict>
@@ -3571,6 +3583,454 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>14</string>
+			</dict>
+		</dict>
+	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEControllerName</key>
+		<string>Xbox One</string>
+		<key>OEGenericControllerName</key>
+		<string>OEControllerMicrosoftXboxOne</string>
+		<key>OEDisableCalibration</key>
+		<true/>
+		<key>OEControllerDevices</key>
+		<array>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Xbox One S Wireless</string>
+				<key>OEControllerVendorID</key>
+				<integer>1118</integer>
+				<key>OEControllerProductID</key>
+				<integer>765</integer>
+			</dict>
+		</array>
+		<key>OEControllerMappings</key>
+		<dict>
+			<key>OEControllerMicrosoftXboxOneDPad</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad</string>
+				<key>Type</key>
+				<string>HatSwitch</string>
+				<key>Usage</key>
+				<string>HatSwitch</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerMicrosoftXboxOneDPadUp</key>
+					<dict>
+						<key>Direction</key>
+						<string>N</string>
+						<key>Name</key>
+						<string>D-Pad Up</string>
+					</dict>
+					<key>OEControllerMicrosoftXboxOneDPadDown</key>
+					<dict>
+						<key>Direction</key>
+						<string>S</string>
+						<key>Name</key>
+						<string>D-Pad Down</string>
+					</dict>
+					<key>OEControllerMicrosoftXboxOneDPadLeft</key>
+					<dict>
+						<key>Direction</key>
+						<string>W</string>
+						<key>Name</key>
+						<string>D-Pad Left</string>
+					</dict>
+					<key>OEControllerMicrosoftXboxOneDPadRight</key>
+					<dict>
+						<key>Direction</key>
+						<string>E</string>
+						<key>Name</key>
+						<string>D-Pad Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneLeftAnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>X</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerMicrosoftXboxOneLeftAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Left</string>
+					</dict>
+					<key>OEControllerMicrosoftXboxOneLeftAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneLeftAnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Y</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerMicrosoftXboxOneLeftAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Up</string>
+					</dict>
+					<key>OEControllerMicrosoftXboxOneLeftAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Down</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneRightAnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Z</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerMicrosoftXboxOneRightAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Right Analog Left</string>
+					</dict>
+					<key>OEControllerMicrosoftXboxOneRightAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Right Analog Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneRightAnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Rz</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerMicrosoftXboxOneRightAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Right Analog Up</string>
+					</dict>
+					<key>OEControllerMicrosoftXboxOneRightAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Right Analog Down</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneButtonA</key>
+			<dict>
+				<key>Name</key>
+				<string>A</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>1</string>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneButtonB</key>
+			<dict>
+				<key>Name</key>
+				<string>B</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>2</string>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneButtonX</key>
+			<dict>
+				<key>Name</key>
+				<string>X</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>4</string>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneButtonY</key>
+			<dict>
+				<key>Name</key>
+				<string>Y</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>5</string>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneButtonLeftShoulder</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Shoulder</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>7</string>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneButtonLeftTrigger</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Trigger</string>
+				<key>Type</key>
+				<string>Trigger</string>
+				<key>Usage</key>
+				<string>Brake</string>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneButtonLeftAnalog</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Stick</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>14</string>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneButtonRightShoulder</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Shoulder</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>8</string>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneButtonRightTrigger</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Trigger</string>
+				<key>Type</key>
+				<string>Trigger</string>
+				<key>Usage</key>
+				<string>Accelerator</string>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneButtonRightAnalog</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Stick</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>15</string>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneButtonMenu</key>
+			<dict>
+				<key>Name</key>
+				<string>Menu</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>12</string>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneButtonView</key>
+			<dict>
+				<key>Name</key>
+				<string>View</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>548</string>
+			</dict>
+			<key>OEControllerMicrosoftXboxOneButtonXbox</key>
+			<dict>
+				<key>Name</key>
+				<string>Xbox</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>547</string>
+			</dict>
+		</dict>
+	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEControllerName</key>
+		<string>Retro-Bit Sega Bluetooth 8-Button Arcade Pad</string>
+		<key>OEGenericControllerName</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</string>
+		<key>OEControllerDevices</key>
+		<array>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Retro-Bit Sega Bluetooth 8-Button Arcade Pad</string>
+				<key>OEControllerProductName</key>
+				<string>Retro Bit Bluetooth Controller</string>
+				<key>OEControllerVendorID</key>
+				<real>1118</real>
+				<key>OEControllerProductID</key>
+				<integer>736</integer>
+				<key>OEControllerRequiresNameMatch</key>
+				<true/>
+			</dict>
+		</array>
+		<key>OEControllerMappings</key>
+		<dict>
+			<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPad</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad</string>
+				<key>Type</key>
+				<string>HatSwitch</string>
+				<key>Usage</key>
+				<string>HatSwitch</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</key>
+					<dict>
+						<key>Direction</key>
+						<string>N</string>
+						<key>Name</key>
+						<string>D-Pad Up</string>
+					</dict>
+					<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadDown</key>
+					<dict>
+						<key>Direction</key>
+						<string>S</string>
+						<key>Name</key>
+						<string>D-Pad Down</string>
+					</dict>
+					<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadLeft</key>
+					<dict>
+						<key>Direction</key>
+						<string>W</string>
+						<key>Name</key>
+						<string>D-Pad Left</string>
+					</dict>
+					<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadRight</key>
+					<dict>
+						<key>Direction</key>
+						<string>E</string>
+						<key>Name</key>
+						<string>D-Pad Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonA</key>
+			<dict>
+				<key>Name</key>
+				<string>A</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>1</string>
+			</dict>
+			<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonB</key>
+			<dict>
+				<key>Name</key>
+				<string>B</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>2</string>
+			</dict>
+			<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</key>
+			<dict>
+				<key>Name</key>
+				<string>C</string>
+				<key>Type</key>
+				<string>Trigger</string>
+				<key>Usage</key>
+				<string>Rz</string>
+			</dict>
+			<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonX</key>
+			<dict>
+				<key>Name</key>
+				<string>X</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>3</string>
+			</dict>
+			<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonY</key>
+			<dict>
+				<key>Name</key>
+				<string>Y</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>4</string>
+			</dict>
+			<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</key>
+			<dict>
+				<key>Name</key>
+				<string>Z</string>
+				<key>Type</key>
+				<string>Trigger</string>
+				<key>Usage</key>
+				<string>Z</string>
+			</dict>
+			<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonLeftShoulder</key>
+			<dict>
+				<key>Name</key>
+				<string>L</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>5</string>
+			</dict>
+			<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonRightShoulder</key>
+			<dict>
+				<key>Name</key>
+				<string>R</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>6</string>
+			</dict>
+			<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</key>
+			<dict>
+				<key>Name</key>
+				<string>Start</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>8</string>
+			</dict>
+			<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</key>
+			<dict>
+				<key>Name</key>
+				<string>Select</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>7</string>
+			</dict>
+			<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonHome</key>
+			<dict>
+				<key>Name</key>
+				<string>Home</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>133</string>
 			</dict>
 		</dict>
 	</dict>

@@ -38,4 +38,4 @@
 
 @end
 
-extern NSString *const OELibrarySplitViewResetSidebarNotification;
+extern NSNotificationName const OELibrarySplitViewResetSidebarNotification;

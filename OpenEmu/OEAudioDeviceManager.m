@@ -239,7 +239,7 @@ OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNumberAddr
     NSNotificationCenter *nc  = [NSNotificationCenter defaultCenter];
     OEAudioDeviceManager *mgr = [OEAudioDeviceManager sharedAudioDeviceManager];
 
-    for(NSString *notificationName in notificationNames)
+    for(NSNotificationName notificationName in notificationNames)
     {
         if(notificationName == OEAudioDeviceManagerDidChangeDeviceListNotification)
             [[OEAudioDeviceManager sharedAudioDeviceManager] OE_updateDeviceList];
@@ -357,7 +357,7 @@ OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNumberAddr
 
 #pragma mark -
 
-NSString *const OEAudioDeviceManagerDidChangeDeviceListNotification                = @"OEAudioDeviceManagerDidChangeDeviceListNotification";
-NSString *const OEAudioDeviceManagerDidChangeDefaultInputDeviceNotification        = @"OEAudioDeviceManagerDidChangeDefaultInputDeviceNotification";
-NSString *const OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification       = @"OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification";
-NSString *const OEAudioDeviceManagerDidChangeDefaultSystemOutputDeviceNotification = @"OEAudioDeviceManagerDidChangeDefaultSystemOutputDeviceNotification";
+NSNotificationName const OEAudioDeviceManagerDidChangeDeviceListNotification                = @"OEAudioDeviceManagerDidChangeDeviceListNotification";
+NSNotificationName const OEAudioDeviceManagerDidChangeDefaultInputDeviceNotification        = @"OEAudioDeviceManagerDidChangeDefaultInputDeviceNotification";
+NSNotificationName const OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification       = @"OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification";
+NSNotificationName const OEAudioDeviceManagerDidChangeDefaultSystemOutputDeviceNotification = @"OEAudioDeviceManagerDidChangeDefaultSystemOutputDeviceNotification";

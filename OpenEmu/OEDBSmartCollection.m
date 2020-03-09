@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Sidebar Item Protocol
 
-- (NSImage *)sidebarIcon
+- (nullable NSImage *)sidebarIcon
 {
     return [[OETheme sharedTheme] imageForKey:@"collections_smart" forState:OEThemeStateDefault];
 }
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
-- (nullable NSString *)sidebarName
+- (NSString *)sidebarName
 {
     if(self.OE_isRecentlyAddedCollection)
     {
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self valueForKey:@"name"];
 }
 
-- (void)setSidebarName:(nullable NSString *)newName
+- (void)setSidebarName:(NSString *)newName
 {}
 
 #pragma mark - Game Collection View Item

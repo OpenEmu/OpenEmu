@@ -29,7 +29,7 @@ import OpenEmuBase
 public class OEShadersModel : NSObject {
     // MARK: Notifications
     
-    @objc static let shaderModelCustomShadersDidChange = Notification.Name(rawValue: "OEShaderModelCustomShadersDidChangeNotification")
+    @objc static let shaderModelCustomShadersDidChange = Notification.Name("OEShaderModelCustomShadersDidChangeNotification")
     
     enum Preferences {
         case global
@@ -102,7 +102,7 @@ public class OEShadersModel : NSObject {
     @objc
     public var defaultShader: OEShaderModel {
         get {
-            if let name = UserDefaults.oe_application().string(forKey: Preferences.global.key),
+            if let name = UserDefaults.oe_application.string(forKey: Preferences.global.key),
                 let shader = self[name] {
                 return shader
             }
@@ -122,7 +122,7 @@ public class OEShadersModel : NSObject {
     
     @objc
     public func shader(forSystem identifier: String) -> OEShaderModel? {
-        guard let name = UserDefaults.oe_application().string(forKey: Preferences.system(identifier).key) else {
+        guard let name = UserDefaults.oe_application.string(forKey: Preferences.system(identifier).key) else {
             return defaultShader
         }
         return self[name]
@@ -236,7 +236,7 @@ public class OEShadersModel : NSObject {
         
         @objc
         public func parameters(forIdentifier identifier: String) -> [String: Double]? {
-            if let state = UserDefaults.oe_application().string(forKey: Params.system(self.name, identifier).key) {
+            if let state = UserDefaults.oe_application.string(forKey: Params.system(self.name, identifier).key) {
                 var res = [String:Double]()
                 for param in state.split(separator: ";") {
                     let vals = param.split(separator: "=")

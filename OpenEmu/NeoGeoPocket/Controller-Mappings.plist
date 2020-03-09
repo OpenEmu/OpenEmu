@@ -226,5 +226,27 @@
 		<key>OENGPButtonOption</key>
 		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OENGPButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OENGPButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OENGPButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OENGPButtonOption</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OENGPButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OENGPButtonA</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OENGPButtonB</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OENGPButtonOption</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+	</dict>
 </dict>
 </plist>

@@ -288,5 +288,35 @@
 		<key>OEFDSButtonChangeSide</key>
 		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEFDSButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEFDSButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEControllerMicrosoftXboxOneButtonRightShoulder</string>
+	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEFDSButtonA</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OEFDSButtonB</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonZ</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonHome</string>
+	</dict>
 </dict>
 </plist>

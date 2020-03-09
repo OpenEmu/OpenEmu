@@ -320,5 +320,39 @@
 		<key>OEPMButtonPower</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOne</key>
+	<dict>
+		<key>OEPMButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneDPadUp</string>
+		<key>OEPMButtonA</key>
+		<string>OEControllerMicrosoftXboxOneButtonX</string>
+		<key>OEPMButtonB</key>
+		<string>OEControllerMicrosoftXboxOneButtonY</string>
+		<key>OEPMButtonC</key>
+		<string>OEControllerMicrosoftXboxOneButtonB</string>
+		<key>OEPMButtonShake</key>
+		<string>OEControllerMicrosoftXboxOneButtonA</string>
+		<key>OEPMButtonMenu</key>
+		<string>OEControllerMicrosoftXboxOneButtonMenu</string>
+		<key>OEPMButtonPower</key>
+		<string>OEControllerMicrosoftXboxOneButtonView</string>
+	</dict>
+	<key>OEControllerRetroBitSegaBluetooth8ButtonArcadePad</key>
+	<dict>
+		<key>OEPMButtonUp</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadDPadUp</string>
+		<key>OEPMButtonA</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonA</string>
+		<key>OEPMButtonB</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonB</string>
+		<key>OEPMButtonC</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
+		<key>OEPMButtonShake</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonX</string>
+		<key>OEPMButtonMenu</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
+		<key>OEPMButtonPower</key>
+		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
+	</dict>
 </dict>
 </plist>

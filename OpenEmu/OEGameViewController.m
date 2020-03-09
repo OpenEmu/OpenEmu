@@ -48,7 +48,7 @@
 #import "OEGameDocument.h"
 #import "OEAudioDeviceManager.h"
 
-#import "OEHUDAlert+DefaultAlertsAdditions.h"
+#import "OEAlert+DefaultAlertsAdditions.h"
 
 #import "OELibraryDatabase.h"
 
@@ -58,6 +58,8 @@
 
 #import "OEShaderParametersWindowController.h"
 
+NSNotificationName const OEGameViewControllerEmulationWillFinishNotification = @"OEGameViewControllerEmulationWillFinishNotification";
+NSNotificationName const OEGameViewControllerEmulationDidFinishNotification = @"OEGameViewControllerEmulationDidFinishNotification";
 NSString *const OEGameVolumeKey = @"volume";
 NSString *const OEGameDefaultVideoShaderKey = @"videoShader";
 NSString *const OEGameSystemVideoShaderKeyFormat = @"videoShader.%@";
@@ -66,8 +68,6 @@ NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
 NSString *const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
 NSString *const OEBackgroundPauseKey = @"backgroundPause";
 NSString *const OEBackgroundControllerPlayKey = @"backgroundControllerPlay";
-NSString *const OEGameViewControllerEmulationWillFinishNotification = @"OEGameViewControllerEmulationWillFinishNotification";
-NSString *const OEGameViewControllerEmulationDidFinishNotification = @"OEGameViewControllerEmulationDidFinishNotification";
 NSString *const OETakeNativeScreenshots = @"takeNativeScreenshots";
 NSString *const OEGameViewControllerROMKey = @"OEROM";
 NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor";

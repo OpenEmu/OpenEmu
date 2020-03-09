@@ -26,7 +26,6 @@
 
 @import Cocoa;
 
-#import "OEMainWindowContentController.h"
 #import "OELibrarySplitView.h"
 
 @class OELibraryDatabase;
@@ -39,7 +38,7 @@ extern NSString * const OELibraryStatesKey;
 extern NSString * const OELibraryLastCategoryKey;
 
 @protocol OELibraryControllerDelegate, OELibrarySubviewController;
-@interface OELibraryController : NSViewController <OEMainWindowContentController>
+@interface OELibraryController : NSViewController
 
 @property(unsafe_unretained) id<OELibraryControllerDelegate> delegate;
 

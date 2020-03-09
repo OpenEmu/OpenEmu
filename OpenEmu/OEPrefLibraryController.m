@@ -34,58 +34,56 @@
 #import "OEROMImporter.h"
 
 #import "OEButton.h"
-#import "OEHUDAlert.h"
+#import "OEAlert.h"
 
 // Required for warning dialog keys:
 #import "OEGameViewController.h"
 #import "OESidebarController.h"
-#import "OEHUDAlert+DefaultAlertsAdditions.h"
+#import "OEAlert+DefaultAlertsAdditions.h"
 
 #import "OEFileManager.h"
 
 #import "OpenEmu-Swift.h"
 
-NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocationDidChangeNotificationName";
+NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLocationDidChangeNotificationName";
 
 @implementation OEPrefLibraryController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_rebuildAvailableLibraries) name:OEDBSystemAvailabilityDidChangeNotification object:nil];
-
-        [[OEPlugin class] addObserver:self forKeyPath:@"allPlugins" options:0 context:nil];
-    }
-
-    return self;
-}
-
 - (void)awakeFromNib
 {
-    [self OE_rebuildAvailableLibraries];
-
-    NSString *databasePath = [[[[OELibraryDatabase defaultDatabase] databaseFolderURL] path] stringByAbbreviatingWithTildeInPath];
-    [[self pathField] setStringValue:databasePath];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if([keyPath isEqualToString:@"allPlugins"])
-    {
-        [self OE_rebuildAvailableLibraries];
-    }
+    self.pathField.URL = [OELibraryDatabase defaultDatabase].databaseFolderURL;
 }
 
 - (void)dealloc
 {
-    [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins" context:nil];
+    self.availableLibrariesViewController.isEnableObservers = NO;
 }
 #pragma mark - ViewController Overrides
 
 - (NSString *)nibName
 {
 	return @"OEPrefLibraryController";
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.availableLibrariesViewController.isEnableObservers = YES;
+    [self addChildViewController:self.availableLibrariesViewController];
+    
+    NSSize size = self.librariesView.frame.size;
+    NSScrollView *lv = (NSScrollView *)self.availableLibrariesViewController.view;
+    NSGridView *gridview = (NSGridView *)self.librariesView.superview;
+    NSGridCell *cell = [gridview cellForView:self.librariesView];
+    [cell setContentView:lv];
+    [self.librariesView removeFromSuperview];
+    self.librariesView = lv;
+    
+    lv.borderType = NSBezelBorder;
+    [lv addConstraints:@[
+        [lv.widthAnchor constraintEqualToConstant:size.width],
+        [lv.heightAnchor constraintEqualToConstant:size.height]]];
 }
 
 #pragma mark - OEPreferencePane Protocol
@@ -95,19 +93,19 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
 	return [NSImage imageNamed:@"library_tab_icon"];
 }
 
-- (NSString *)title
+- (NSString *)panelTitle
 {
 	return @"Library";
 }
 
-- (NSString *)localizedTitle
+- (NSString *)localizedPanelTitle
 {
     return NSLocalizedString(@"Library", @"Preferences: Library Toolbar Item");
 }
 
 - (NSSize)viewSize
 {
-	return NSMakeSize(458, 553);
+	return self.view.fittingSize;
 }
 
 #pragma mark -
@@ -153,7 +151,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
     NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
     if([documents count] != 0 || [[library importer] status] == OEImporterStatusRunning)
     {
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"Please close all games and wait for the importer to finish.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
+        OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"Please close all games and wait for the importer to finish.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
         return;
     }
@@ -164,7 +162,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
     NSURL *newLocation     = [newParentLocation URLByAppendingPathComponent:[currentLocation lastPathComponent] isDirectory:YES];
     if([newLocation isSubpathOfURL:currentLocation])
     {
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"You can't move your library here!", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
+        OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"You can't move your library here!", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
         return;
     }
@@ -206,7 +204,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
         {
             __block NSInteger alertResult = -1;
             
-            OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+            OEAlert *alert = [[OEAlert alloc] init];
             
             [alert setShowsProgressbar:YES];
             [alert setProgress:0.0];
@@ -388,7 +386,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
                     // Make sure to post notification on main thread!
                     void (^postNotification)(void) = ^(){
                         [[OELibraryDatabase defaultDatabase] setPersistentStoreCoordinator:coord];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryLocationDidChangeNotificationName object:self userInfo:nil];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryLocationDidChangeNotification object:self userInfo:nil];
                     };
                     dispatch_async(dispatch_get_main_queue(), postNotification);
                     [context save:nil];
@@ -419,7 +417,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
         // point openemu to new library location
         [[NSUserDefaults standardUserDefaults] setObject:[[newLocation path] stringByAbbreviatingWithTildeInPath] forKey:OEDatabasePathKey];
 
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"Your library was moved sucessfully.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
+        OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"Your library was moved sucessfully.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
     }
     else
@@ -436,22 +434,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
         if(error) [self presentError:error];
     }
     
-    NSString *databasePath = [[[library databaseFolderURL] path] stringByAbbreviatingWithTildeInPath];
-    [[self pathField] setStringValue:databasePath];
-}
-
-- (IBAction)toggleSystem:(id)sender
-{    
-    OEButton *checkbox = (OEButton *)sender;
-    NSString *systemIdentifier = checkbox.cell.representedObject;
-
-    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
-    NSManagedObjectContext *context = [database mainThreadContext];
-    OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inContext:context];
-    
-    [system toggleEnabledAndPresentError];
-    
-    [self OE_rebuildAvailableLibraries];
+    self.pathField.URL = library.databaseFolderURL;
 }
 
 - (IBAction)resetWarningDialogs:(id)sender
@@ -477,117 +460,6 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
     [keysToRemove enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
         [standardUserDefaults removeObjectForKey:key];
     }];
-}
-
-#pragma mark -
-
-- (void)OE_rebuildAvailableLibraries
-{
-    NSRect visibleRect  = self.librariesView.visibleRect;
-    BOOL rebuildingList = self.librariesView.subviews.count != 0;
-    [[self.librariesView.subviews copy] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
-
-    // get all system plugins, ordered them by name
-    NSManagedObjectContext *context = OELibraryDatabase.defaultDatabase.mainThreadContext;
-    NSArray *systems = [OEDBSystem allSystemsInContext:context];
-
-    // calculate number of rows (using 2 columns)
-    NSInteger rows = ceil(systems.count / 2.0);
-
-    // set some spaces and dimensions
-    CGFloat hSpace = 16, vSpace = 10;
-    CGFloat iWidth = 163, iHeight = 18;
-    CGFloat topGap = 16, bottomGap = 16;
-
-    if(self.librariesView == nil) return;
-
-    CGFloat height = (iHeight * rows + (rows - 1) * vSpace) + topGap + bottomGap;
-    
-    NSRect librariesViewFrame = self.librariesView.frame;
-    librariesViewFrame.size.height = height;
-    self.librariesView.frame = librariesViewFrame;
-
-    __block CGFloat x = vSpace;
-    __block CGFloat y = height-topGap;
-
-    // enumerate plugins and add buttons for them
-    [systems enumerateObjectsUsingBlock:
-     ^(OEDBSystem *system, NSUInteger idx, BOOL *stop)
-     {
-         // if we're still in the first column an we should be in the second
-         if(x == vSpace && idx >= rows)
-         {
-             // we reset x and y
-             x += iWidth + hSpace;
-             y =  height-topGap;
-         }
-
-         // decreasing y to go have enough space to actually see the button
-         y -= iHeight;
-
-         // creating the button
-         NSRect rect = NSMakeRect(x, y, iWidth, iHeight);
-         NSString *systemIdentifier = system.systemIdentifier;
-         OEButton *button = [[OEButton alloc] initWithFrame:rect];
-         [button setThemeKey:@"dark_checkbox"];
-         button.buttonType = NSButtonTypeSwitch;
-         button.target = self;
-         button.action = @selector(toggleSystem:);
-         button.title = system.name;
-         button.state = system.enabled.intValue;
-         button.cell.representedObject = systemIdentifier;
-
-         // Check if a core is installed that is capable of running this system
-         BOOL foundCore = NO;
-         NSArray *allPlugins = OECorePlugin.allPlugins;
-         for(OECorePlugin *obj in allPlugins)
-         {
-             if([obj.systemIdentifiers containsObject:systemIdentifier])
-             {
-                 foundCore = YES;
-                 break;
-             }
-         }
-
-         // TODO: warnings should also give advice on how to solve them
-         // e.g. Go to Cores preferences and download Core x
-         // or we could add a "Fix This" button that automatically launches the "No core for system ... " - Dialog
-         NSMutableArray *warnings = [NSMutableArray arrayWithCapacity:2];
-         if(system.plugin == nil)
-         {
-             [warnings addObject:NSLocalizedString(@"The System plugin could not be found!", @"")];
-
-             // disabling ui element here so no system without a plugin can be enabled
-             button.enabled = NO;
-         }
-
-         if(!foundCore)
-             [warnings addObject:NSLocalizedString(@"This System has no corresponding core installed.", @"")];
-
-         if(warnings.count != 0)
-         {
-             // Show a warning badge next to the checkbox
-             // this is currently misusing the beta_icon image
-
-             NSPoint badgePosition = button.badgePosition;
-             NSImageView *imageView = [[NSImageView alloc] initWithFrame:(NSRect){ badgePosition, { 16, 17 } }];
-             imageView.image = [NSImage imageNamed:@"beta_icon"];
-
-             // TODO: Use a custom tooltip that fits our style better
-             imageView.toolTip = [warnings componentsJoinedByString:@"\n"];
-             [self.librariesView addSubview:imageView];
-         }
-
-         [self.librariesView addSubview:button];
-
-         // leave a little gap before we start the next item
-         y -= vSpace;
-     }];
-
-    if(!rebuildingList)
-        [self.librariesView scrollPoint:NSMakePoint(0, height)];
-    else
-        [self.librariesView scrollRectToVisible:visibleRect];
 }
 
 @end

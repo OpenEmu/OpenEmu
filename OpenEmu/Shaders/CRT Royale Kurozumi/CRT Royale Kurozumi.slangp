@@ -289,7 +289,7 @@ border_group_desc = "Border"
 border_group_parameters = "border_size;border_darkness;border_compress"
 
 interlace_group_desc = "Interlacing"
-interlace_group_parameters = "interlace_bff;interlace_1080i"
+interlace_group_parameters = "interlace_detect_toggle;interlace_bff;interlace_1080i"
 
 default_group_desc = "Other"
 default_group_hidden = true

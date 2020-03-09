@@ -60,7 +60,7 @@
     static const float2 convergence_offsets_r_static = float2(0.1, 0.2);
     static const float2 convergence_offsets_g_static = float2(0.3, 0.4);
     static const float2 convergence_offsets_b_static = float2(0.5, 0.6);
-    static const bool interlace_detect = true;
+    static const bool interlace_detect_static = true;
     static const bool interlace_1080i_static = false;
     static const bool interlace_bff_static = false;
     static const float aa_level = 12.0;                         //  range [0, 24]

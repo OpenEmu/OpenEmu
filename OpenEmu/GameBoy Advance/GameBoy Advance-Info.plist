@@ -145,5 +145,7 @@
 	<string>openemu.system.gba</string>
 	<key>OESystemName</key>
 	<string>Game Boy Advance</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeHandheld</string>
 </dict>
 </plist>

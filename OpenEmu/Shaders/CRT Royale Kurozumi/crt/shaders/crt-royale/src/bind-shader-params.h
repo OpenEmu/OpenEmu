@@ -22,6 +22,57 @@
 
 /////////////////////////////  SETTINGS MANAGEMENT  ////////////////////////////
 
+layout(std140, set = 0, binding = 0) uniform UBO
+{
+	mat4 MVP;
+	float crt_gamma;
+	float lcd_gamma;
+	float levels_contrast;
+	float halation_weight;
+	float diffusion_weight;
+	float bloom_underestimate_levels;
+	float bloom_excess;
+	float beam_min_sigma;
+	float beam_max_sigma;
+	float beam_spot_power;
+	float beam_min_shape;
+	float beam_max_shape;
+	float beam_shape_power;
+	float beam_horiz_filter;
+	float beam_horiz_sigma;
+	float beam_horiz_linear_rgb_weight;
+	float convergence_offset_x_r;
+	float convergence_offset_x_g;
+	float convergence_offset_x_b;
+	float convergence_offset_y_r;
+	float convergence_offset_y_g;
+	float convergence_offset_y_b;
+	float mask_type;
+	float mask_sample_mode_desired;
+	float mask_num_triads_desired;
+	float mask_triad_size_desired;
+	float mask_specify_num_triads;
+	float aa_subpixel_r_offset_x_runtime;
+	float aa_subpixel_r_offset_y_runtime;
+	float aa_cubic_c;
+	float aa_gauss_sigma;
+	float geom_mode_runtime;
+	float geom_radius;
+	float geom_view_dist;
+	float geom_tilt_angle_x;
+	float geom_tilt_angle_y;
+	float geom_aspect_ratio_x;
+	float geom_aspect_ratio_y;
+	float geom_overscan_x;
+	float geom_overscan_y;
+	float border_size;
+	float border_darkness;
+	float border_compress;
+	float interlace_bff;
+	float interlace_1080i;
+	float interlace_detect_toggle;
+} global;
+
 #include "../user-settings.h"
 #include "derived-settings-and-constants.h"
 
@@ -96,6 +147,7 @@ static const float gba_gamma = 3.5; //  Irrelevant but necessary to define.
     static const float border_size = clamp(border_size_static, 0.0, 0.5);           //  0.5 reaches to image center
     static const float border_darkness = max(0.0, border_darkness_static);
     static const float border_compress = max(1.0, border_compress_static);          //  < 1.0 darkens whole image
+    static const float interlace_detect = float(interlace_detect_static);
     static const float interlace_bff = float(interlace_bff_static);
     static const float interlace_1080i = float(interlace_1080i_static);
 #else
@@ -178,6 +230,8 @@ static const float gba_gamma = 3.5; //  Irrelevant but necessary to define.
 #define border_darkness global.border_darkness
 #pragma parameter border_compress "Border - Compression" 2.5 1.0 64.0 0.0625
 #define border_compress global.border_compress
+#pragma parameter interlace_detect_toggle "Interlacing - Toggle" 1.0 0.0 1.0 1.0
+bool interlace_detect = bool(global.interlace_detect_toggle);
 #pragma parameter interlace_bff "Interlacing - Bottom Field First" 0.0 0.0 1.0 1.0
 //#define interlace_bff global.interlace_bff
 #pragma parameter interlace_1080i "Interlace - Detect 1080i" 0.0 0.0 1.0 1.0

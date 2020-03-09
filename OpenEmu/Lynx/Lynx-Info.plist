@@ -131,5 +131,7 @@
 	<string>openemu.system.lynx</string>
 	<key>OESystemName</key>
 	<string>Atari Lynx</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeHandheld</string>
 </dict>
 </plist>

@@ -81,8 +81,11 @@
 
             if(_errorHandler != nil)
             {
-                _errorHandler(error);
+                __block typeof(_errorHandler) errorHandler = _errorHandler;
                 _errorHandler = nil;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    errorHandler(error);
+                });
             }
             return;
         }

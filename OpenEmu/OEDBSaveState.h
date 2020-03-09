@@ -72,7 +72,7 @@ extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 
 #pragma mark - Data Accessors
 
-@property(readonly) NSString *displayName; // Should be used instead of -name if the string is to be displayed to the user
+@property(readonly, nullable) NSString *displayName; // Should be used instead of -name if the string is to be displayed to the user
 @property(readonly) BOOL isSpecialState;
 
 #pragma mark - Data Model Properties

@@ -39,7 +39,7 @@ class GameScannerViewController: NSViewController {
     
     @IBOutlet var issuesView: NSTableView!
     @IBOutlet var actionPopUpButton: NSPopUpButton!
-    @IBOutlet var applyButton: OEButton!
+    @IBOutlet var applyButton: NSButton!
    
     @IBOutlet private weak var bottomBar: NSView!
     @IBOutlet private weak var sourceListScrollView: NSScrollView!
@@ -56,9 +56,9 @@ class GameScannerViewController: NSViewController {
         super.init(coder: coder)
         
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperWillUpdate(_:)), name: NSNotification.Name(rawValue: OEGameInfoHelperWillUpdateNotificationName), object: nil)
-        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidChangeUpdateProgress(_:)), name: NSNotification.Name(rawValue: OEGameInfoHelperDidChangeUpdateProgressNotificationName), object: nil)
-        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidUpdate(_:)), name: NSNotification.Name(rawValue: OEGameInfoHelperDidUpdateNotificationName), object: nil)
+        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperWillUpdate(_:)), name: .OEGameInfoHelperWillUpdate, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidChangeUpdateProgress(_:)), name: .OEGameInfoHelperDidChangeUpdateProgress, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidUpdate(_:)), name: .OEGameInfoHelperDidUpdate, object: nil)
     }
     
     override var nibName: NSNib.Name? {
@@ -108,6 +108,10 @@ class GameScannerViewController: NSViewController {
     override func viewWillAppear() {
         
         super.viewWillAppear()
+        
+        var styleMask = self.view.window!.styleMask
+        styleMask.remove(.resizable)
+        self.view.window!.styleMask = styleMask
         
         issuesView.reloadData()
         enableOrDisableApplyButton()
@@ -345,7 +349,7 @@ class GameScannerViewController: NSViewController {
         
         importer.start()
         
-        NotificationCenter.default.post(name: Notification.Name(rawValue: OESidebarSelectionDidChangeNotificationName), object: self)
+        NotificationCenter.default.post(name: .OESidebarSelectionDidChange, object: self)
         
         if importer.numberOfProcessedItems == importer.totalNumberOfItems {
             hideGameScannerView(animated: true)
@@ -360,7 +364,7 @@ class GameScannerViewController: NSViewController {
             
             importer.pause()
             
-            let cancelAlert = OEHUDAlert()
+            let cancelAlert = OEAlert()
             cancelAlert.headlineText = NSLocalizedString("Do you really want to cancel importation?", comment: "")
             cancelAlert.messageText = NSLocalizedString("Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.", comment: "")
             cancelAlert.defaultButtonTitle = NSLocalizedString("Yes", comment: "")
@@ -450,37 +454,37 @@ extension GameScannerViewController {
 
 extension GameScannerViewController: OESidebarItem {
     
-    func sidebarIcon() -> NSImage! {
+    var sidebarIcon: NSImage? {
         return nil
     }
     
-    func sidebarName() -> String! {
+    var sidebarName: String {
         return NSLocalizedString("Game Scanner", comment: "")
     }
     
-    func sidebarID() -> String! {
+    var sidebarID: String? {
         return "Game Scanner"
     }
     
-    func viewControllerClassName() -> String! {
+    var viewControllerClassName: String? {
         return className
     }
     
-    func setSidebarName(_ newName: String!) {}
+    func setSidebarName(_ newName: String) {}
     
-    func isSelectableInSidebar() -> Bool {
+    var isSelectableInSidebar: Bool {
         return true
     }
     
-    func isEditableInSidebar() -> Bool {
+    var isEditableInSidebar: Bool {
         return false
     }
     
-    func isGroupHeaderInSidebar() -> Bool {
+    var isGroupHeaderInSidebar: Bool {
         return false
     }
     
-    func hasSubCollections() -> Bool {
+    var hasSubCollections: Bool {
         return false
     }
 }
@@ -544,15 +548,6 @@ extension GameScannerViewController: NSTableViewDelegate {
         } else {
             return ""
         }
-    }
-}
-
-// MARK: - NSWindowDelegate
-
-extension GameScannerViewController: NSWindowDelegate {
-    
-    func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
-        return sender.frame.size
     }
 }
 

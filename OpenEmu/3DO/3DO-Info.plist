@@ -154,5 +154,7 @@
 	<string>openemu.system.3do</string>
 	<key>OESystemName</key>
 	<string>3DO</string>
+	<key>OESystemType</key>
+	<string>OESystemTypeConsole</string>
 </dict>
 </plist>

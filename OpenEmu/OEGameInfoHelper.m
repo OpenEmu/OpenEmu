@@ -27,7 +27,7 @@
 #import "OEGameInfoHelper.h"
 #import "OESQLiteDatabase.h"
 #import "NSFileManager+OEHashingAdditions.h"
-#import "OEHUDAlert.h"
+#import "OEAlert.h"
 #import "OEDBSystem.h"
 #import <XADMaster/XADArchive.h>
 
@@ -44,9 +44,9 @@ NSString * const OpenVGDBFileName = @"openvgdb";
 NSString * const OpenVGDBDownloadURL = @"https://github.com/OpenVGDB/OpenVGDB/releases/download";
 NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/OpenVGDB/releases?page=1&per_page=1";
 
-NSString * const OEGameInfoHelperWillUpdateNotificationName = @"OEGameInfoHelperWillUpdateNotificationName";
-NSString * const OEGameInfoHelperDidChangeUpdateProgressNotificationName = @"OEGameInfoHelperDidChangeUpdateProgressNotificationName";
-NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperDidUpdateNotificationName";
+NSNotificationName const OEGameInfoHelperWillUpdateNotification = @"OEGameInfoHelperWillUpdateNotificationName";
+NSNotificationName const OEGameInfoHelperDidChangeUpdateProgressNotification = @"OEGameInfoHelperDidChangeUpdateProgressNotificationName";
+NSNotificationName const OEGameInfoHelperDidUpdateNotification = @"OEGameInfoHelperDidUpdateNotificationName";
 
 @interface OEGameInfoHelper () <NSURLSessionDownloadDelegate>
 
@@ -217,7 +217,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
             
             self.updating = YES;
             
-            [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperWillUpdateNotificationName object:self];
+            [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperWillUpdateNotification object:self];
             
             self.downloadProgress = 0.0;
             self.downloadVersion = versionTag;
@@ -545,7 +545,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     
     self.downloadProgress = (CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite;
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidChangeUpdateProgressNotificationName object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidChangeUpdateProgressNotification object:self];
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
@@ -583,7 +583,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
 - (void)OE_postDidUpdateNotification {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotification object:self];
     });
 }
 

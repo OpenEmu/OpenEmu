@@ -4,6 +4,8 @@
 
 #import "OEBuildInfo.h"
 
+#import "OEResponder.h"
+
 #import "OELibraryDatabase.h"
 #import "OELibraryMigrator.h"
 
@@ -18,7 +20,6 @@
 #import "OEPrefLibraryController.h"
 #import "OEPrefGameplayController.h"
 #import "OEPrefControlsController.h"
-#import "OEPrefCoresController.h"
 #import "OEPrefDebugController.h"
 #import "OEPrefBiosController.h"
 
@@ -30,7 +31,9 @@
 
 #import "OEDatabase+CoreDataModel.h"
 #import "OEDBGame.h"
+#import "OEDBDataSourceAdditions.h"
 #import "OEDBSavedGamesMedia.h"
+#import "OEDBScreenshotsMedia.h"
 
 #import "OEGameDocument.h"
 #import "OEMainWindowController.h"
@@ -50,8 +53,8 @@
 #import "OECoreUpdater.h"
 #import "OESetupAssistant.h"
 #import "OpenEmuHelperApp.h"
-#import "OEHUDAlert.h"
-#import "OEHUDAlert+DefaultAlertsAdditions.h"
+#import "OEAlert.h"
+#import "OEAlert+DefaultAlertsAdditions.h"
 #import "NSDocument+OEAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 #import "OEShaderParamValue.h"
