@@ -287,8 +287,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     return NO;
 }
 
-#pragma mark - NSCoding Protocol
-
 - (instancetype)init
 {
     self = [super init];
@@ -301,13 +299,15 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     return self;
 }
 
+#pragma mark - NSSecureCoding Protocol
+
 - (nullable instancetype)initWithCoder:(NSCoder *)decoder
 {
     self = [self init];
     if (self)
     {
-        self.URL = [decoder decodeObjectForKey:@"URL"];
-        self.sourceURL = [decoder decodeObjectForKey:@"sourceURL"];
+        self.URL = [decoder decodeObjectOfClass:NSURL.class forKey:@"URL"];
+        self.sourceURL = [decoder decodeObjectOfClass:NSURL.class forKey:@"sourceURL"];
         self.exitStatus = OEImportExitNone;
     }
     return self;
@@ -317,6 +317,11 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 {
     [encoder encodeObject:self.URL forKey:@"URL"];
     [encoder encodeObject:self.sourceURL forKey:@"sourceURL"];
+}
+
++ (BOOL)supportsSecureCoding
+{
+    return YES;
 }
 
 - (instancetype)copyWithZone:(nullable NSZone *)zone
