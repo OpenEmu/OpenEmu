@@ -60,9 +60,11 @@
 
 "Are you sure you want to delete the selected game from your OpenEmu library?" = "Esteu segur que voleu esborrar el joc seleccionat de la biblioteca de l'OpenEmu?";
 
-"Are you sure you want to delete the selected games from your OpenEmu library?" = "Esteu segur que voleu esborrar el jocs seleccionats de la biblioteca de l'OpenEmu?";
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "Esteu segur que voleu esborrar els jocs seleccionats de la biblioteca de l'OpenEmu?";
 
 "Are you sure you want to quit the application?" = "Esteu segur que voleu sortir de l'aplicació?";
+
+"Are you sure you want to remove the selected game from the collection?" = "Esteu segur que voleu esborrar el joc seleccionat de la col·lecció?";
 
 "Are you sure you want to remove the selected games from the collection?" = "Esteu segur que voleu esborrar els jocs seleccionats de la col·lecció?";
 

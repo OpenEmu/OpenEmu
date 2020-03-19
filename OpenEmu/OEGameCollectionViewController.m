@@ -450,7 +450,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     else if([[self representedObject] isMemberOfClass:[OEDBCollection class]])
     {
         // remove games from collection if user allows it
-        if([[OEAlert removeGamesFromCollectionAlert] runModal] == NSAlertFirstButtonReturn)
+        if([[OEAlert removeGamesFromCollectionAlert:multipleGames] runModal] == NSAlertFirstButtonReturn)
         {
             OEDBCollection* collection = (OEDBCollection*)[self representedObject];
             [[collection mutableGames] minusSet:[NSSet setWithArray:selectedGames]];

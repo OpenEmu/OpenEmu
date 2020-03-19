@@ -64,6 +64,8 @@
 
 "Are you sure you want to quit the application?" = "Вы уверены, что хотите закрыть приложение?";
 
+"Are you sure you want to remove the selected game from the collection?" = "Вы уверены, что хотите удалить выбранные игры из коллекции?"; //TODO
+
 "Are you sure you want to remove the selected games from the collection?" = "Вы уверены, что хотите удалить выбранные игры из коллекции?";
 
 "Are you sure you want to remove this collection?" = "Вы уверены, что хотите удалить коллекцию?";

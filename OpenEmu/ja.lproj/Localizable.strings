@@ -64,6 +64,8 @@
 
 "Are you sure you want to quit the application?" = "アプリケーションを終了してもよろしいですか？";
 
+"Are you sure you want to remove the selected game from the collection?" = "選択したゲームをコレクションから削除してもよろしいですか？";
+
 "Are you sure you want to remove the selected games from the collection?" = "選択したゲームをコレクションから削除してもよろしいですか？";
 
 "Are you sure you want to remove this collection?" = "このコレクションを本当に削除してもよろしいですか？";

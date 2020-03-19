@@ -59,7 +59,7 @@ extern NSString *const OEDownloadRomWarningSupperssionKey;
 + (OEAlert *)deleteScreenshotAlertWithScreenshotName:(NSString*)screenshotName;
 + (OEAlert *)deleteScreenshotAlertWithScreenshotCount:(NSUInteger)count;
 
-+ (OEAlert *)removeGamesFromCollectionAlert;
++ (OEAlert *)removeGamesFromCollectionAlert:(BOOL)multipleGames;
 + (OEAlert *)removeGamesFromLibraryAlert:(BOOL)multipleGames;
 + (OEAlert *)removeGameFilesFromLibraryAlert:(BOOL)multipleGames;
 + (OEAlert *)renameSpecialStateAlert;

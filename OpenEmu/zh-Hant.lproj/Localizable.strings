@@ -64,6 +64,8 @@
 
 "Are you sure you want to quit the application?" = "你確定要退出應用？";
 
+"Are you sure you want to remove the selected game from the collection?" = "你確定要從收藏移除所選遊戲？"; //TODO
+
 "Are you sure you want to remove the selected games from the collection?" = "你確定要從收藏移除所選遊戲？";
 
 "Are you sure you want to remove this collection?" = "你確定要移除這個收藏？";

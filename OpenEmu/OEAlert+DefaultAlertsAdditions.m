@@ -184,12 +184,12 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
     return alert;
 }
 
-+ (OEAlert *)removeGamesFromCollectionAlert
++ (OEAlert *)removeGamesFromCollectionAlert:(BOOL)multipleGames
 {
     OEAlert *alert = [[OEAlert alloc] init];
-    NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to remove the selected games from the collection?", @"")];
+    NSString *messageText = multipleGames ? NSLocalizedString(@"Are you sure you want to remove the selected games from the collection?", @"") : NSLocalizedString(@"Are you sure you want to remove the selected game from the collection?", @"");
     alert.messageText = messageText;
-    alert.defaultButtonTitle = NSLocalizedString(@"Remove", @"");
+    alert.defaultButtonTitle = multipleGames ? NSLocalizedString(@"Remove Games", @"") : NSLocalizedString(@"Remove Game", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
     alert.headlineText = nil;
     [alert showSuppressionButtonForUDKey:OERemoveGameFromCollectionAlertSuppressionKey];
