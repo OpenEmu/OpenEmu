@@ -2237,6 +2237,11 @@
 		8FF29BE81C10A47800E5E134 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
 		8FF29BE91C10A47B00E5E134 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
 		8FF29BEA1C10A47D00E5E134 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
+		8FFB4248242459A0006CB9C4 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		8FFB4249242459A1006CB9C4 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/ControlLabels.strings"; sourceTree = "<group>"; };
+		8FFB424D242459BB006CB9C4 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/OEPrefLibraryController.strings"; sourceTree = "<group>"; };
+		8FFB424F242459CF006CB9C4 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/OESetupAssistant.strings"; sourceTree = "<group>"; };
+		8FFB4251242459E5006CB9C4 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Main.strings"; sourceTree = "<group>"; };
 		94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_nds_mask@2x.png"; sourceTree = "<group>"; };
 		94052EFD172DC1DD00B90DE6 /* controller_nds@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_nds@2x.png"; sourceTree = "<group>"; };
 		94052F02172DC21700B90DE6 /* controller_psx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psx_mask@2x.png"; sourceTree = "<group>"; };
@@ -6609,6 +6614,7 @@
 				ja,
 				ca,
 				"zh-Hant",
+				"en-GB",
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			projectDirPath = "";
@@ -8405,6 +8411,7 @@
 				05644A16233313030033576F /* pt */,
 				05644A18233313070033576F /* ru */,
 				05644A1A2333130B0033576F /* es */,
+				8FFB4251242459E5006CB9C4 /* en-GB */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -8462,6 +8469,7 @@
 				87ACB6E21D250A6800138B7E /* ja */,
 				7699EC931D6303EC005BC437 /* ca */,
 				82BBE7BC21D961A2006CD402 /* zh-Hant */,
+				8FFB4248242459A0006CB9C4 /* en-GB */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -8481,6 +8489,7 @@
 				87ACB6E31D250A6C00138B7E /* ja */,
 				7699EC941D6303EC005BC437 /* ca */,
 				82BBE7BD21D961A2006CD402 /* zh-Hant */,
+				8FFB4249242459A1006CB9C4 /* en-GB */,
 			);
 			indentWidth = 2;
 			name = ControlLabels.strings;
@@ -8559,6 +8568,7 @@
 				87ACB6C21D2509B900138B7E /* ja */,
 				7699EC8C1D6303E8005BC437 /* ca */,
 				82BBE7B621D961A1006CD402 /* zh-Hant */,
+				8FFB424D242459BB006CB9C4 /* en-GB */,
 			);
 			name = OEPrefLibraryController.xib;
 			sourceTree = "<group>";
@@ -8597,6 +8607,7 @@
 				87ACB6C91D2509C800138B7E /* ja */,
 				7699EC911D6303EB005BC437 /* ca */,
 				82BBE7BA21D961A1006CD402 /* zh-Hant */,
+				8FFB424F242459CF006CB9C4 /* en-GB */,
 			);
 			name = OESetupAssistant.xib;
 			sourceTree = "<group>";
