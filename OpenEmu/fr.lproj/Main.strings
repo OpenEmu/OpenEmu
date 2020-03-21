@@ -131,7 +131,7 @@
 /* Class = "NSMenuItem"; title = "Start Game"; ObjectID = "1046"; */
 "1046.title" = "Démarrer le jeu";
 
-/* Class = "NSMenuItem"; title = "Volume Up "; ObjectID = "1047"; */
+/* Class = "NSMenuItem"; title = "Volume Up"; ObjectID = "1047"; */
 "1047.title" = "Augmenter le son";
 
 /* Class = "NSMenuItem"; title = "Last Played"; ObjectID = "1050"; */

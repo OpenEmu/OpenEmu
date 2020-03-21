@@ -382,8 +382,6 @@
 
 "Resolve Issues" = "Probleme beheben";
 
-"Restart now" = "Jetzt neu starten";
-
 "Restart System" = "Spiel neu starten";
 
 "Restart" = "Neu starten";
@@ -586,8 +584,6 @@
 "Library Window" = "Mediathek-Ansicht";
 
 "Reset main window size" = "Hauptfenster-Größe zurücksetzen";
-
-"Dark GridView context menu" = "Dunkles Kontextmenü in Spieleansicht verwenden";
 
 "Download missing artwork on the fly" = "Fehlende Cover on-the-fly herunterladen";
 

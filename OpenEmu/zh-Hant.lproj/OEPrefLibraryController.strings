@@ -14,7 +14,7 @@
 /* Class = "NSButtonCell"; title = "Copy files to Game Library folder when adding to library"; ObjectID = "20"; */
 "20.title" = "加入到媒體櫃時將檔案複製到遊戲庫檔案夾";
 
-/* Class = "NSButtonCell"; title =: "Automatically lookup game information & artwork"; ObjectID = "21"; */
+/* Class = "NSButtonCell"; title = "Automatically lookup game information & artwork"; ObjectID = "21"; */
 "21.title" = "自動查找遊戲信息和插圖";
 
 /* Class = "NSTextFieldCell"; title = "Available Libraries:"; ObjectID = "24"; */

@@ -2,9 +2,6 @@
 /* Class = "NSWindow"; title = "About"; ObjectID = "793"; */
 "793.title" = "關於";
 
-/* Class = "NSTextFieldCell"; title = "Label"; ObjectID = "803"; */
-"803.title" = "標記";
-
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "971"; */
 "971.title" = "編輯";
 
@@ -16,9 +13,6 @@
 
 /* Class = "NSMenuItem"; title = "Window"; ObjectID = "974"; */
 "974.title" = "視窗";
-
-/* Class = "NSMenuItem"; title = "OpenEmu"; ObjectID = "975"; */
-"975.title" = "OpenEmu";
 
 /* Class = "NSMenuItem"; title = "File"; ObjectID = "976"; */
 "976.title" = "檔案";
@@ -77,21 +71,6 @@
 /* Class = "NSMenuItem"; title = "None"; ObjectID = "1000"; */
 "1000.title" = "無";
 
-/* Class = "NSMenuItem"; title = "★★"; ObjectID = "1001"; */
-"1001.title" = "★★";
-
-/* Class = "NSMenuItem"; title = "★★★"; ObjectID = "1002"; */
-"1002.title" = "★★★";
-
-/* Class = "NSMenuItem"; title = "★★★★"; ObjectID = "1003"; */
-"1003.title" = "★★★★";
-
-/* Class = "NSMenuItem"; title = "★"; ObjectID = "1004"; */
-"1004.title" = "★";
-
-/* Class = "NSMenuItem"; title = "★★★★★"; ObjectID = "1005"; */
-"1005.title" = "★★★★★";
-
 /* Class = "NSMenu"; title = "Library"; ObjectID = "1006"; */
 "1006.title" = "媒體櫃";
 
@@ -109,9 +88,6 @@
 
 /* Class = "NSMenuItem"; title = "Export Collection"; ObjectID = "1012"; */
 "1012.title" = "匯出收藏";
-
-/* Class = "NSMenu"; title = "OpenEmu"; ObjectID = "1013"; */
-"1013.title" = "OpenEmu";
 
 /* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "1014"; */
 "1014.title" = "偏好設定…";
@@ -142,9 +118,6 @@
 
 /* Class = "NSMenu"; title = "Window"; ObjectID = "1028"; */
 "1028.title" = "視窗";
-
-/* Class = "NSMenuItem"; title = "OpenEmu"; ObjectID = "1029"; */
-"1029.title" = "OpenEmu";
 
 /* Class = "NSMenuItem"; title = "Bring All to Front"; ObjectID = "1032"; */
 "1032.title" = "前置全部窗口";
@@ -182,7 +155,7 @@
 /* Class = "NSMenuItem"; title = "Start Game"; ObjectID = "1046"; */
 "1046.title" = "開始遊戲";
 
-/* Class = "NSMenuItem"; title = "Volume Up "; ObjectID = "1047"; */
+/* Class = "NSMenuItem"; title = "Volume Up"; ObjectID = "1047"; */
 "1047.title" = "音量升高";
 
 /* Class = "NSMenuItem"; title = "Last Played"; ObjectID = "1050"; */
@@ -196,24 +169,6 @@
 
 /* Class = "NSMenu"; title = "Last Played"; ObjectID = "1054"; */
 "1054.title" = "最近遊玩";
-
-/* Class = "NSMenuItem"; title = "SNES"; ObjectID = "1055"; */
-"1055.title" = "SNES";
-
-/* Class = "NSMenuItem"; title = "Super Mario World"; ObjectID = "1056"; */
-"1056.title" = "Super Mario World";
-
-/* Class = "NSMenuItem"; title = "Mario Kart"; ObjectID = "1057"; */
-"1057.title" = "Mario Kart";
-
-/* Class = "NSMenuItem"; title = "Secret Of Mana"; ObjectID = "1058"; */
-"1058.title" = "Secret Of Mana";
-
-/* Class = "NSMenuItem"; title = "3DO"; ObjectID = "1059"; */
-"1059.title" = "3DO";
-
-/* Class = "NSMenuItem"; title = "Demolition Man"; ObjectID = "1060"; */
-"1060.title" = "Demolition Man";
 
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "1061"; */
 "1061.title" = "編輯";
@@ -263,12 +218,6 @@
 /* Class = "NSMenuItem"; title = "Stop Emulation"; ObjectID = "1167"; */
 "1167.title" = "停止模擬";
 
-/* Class = "NSTextFieldCell"; title = "Version"; ObjectID = "1182"; */
-"1182.title" = "版本";
-
-/* Class = "CocoaBindingsConnection"; ibShadowedDisplayPattern = "%{value1}@"; ObjectID = "1185"; */
-"1185.ibShadowedDisplayPattern" = "%{value1}@";
-
 /* Class = "NSMenuItem"; title = "Debug"; ObjectID = "1208"; */
 "1208.title" = "偵錯";
 
@@ -296,9 +245,6 @@
 /* Class = "NSMenuItem"; title = "Restart System"; ObjectID = "2rj-Sq-LdF"; */
 "2rj-Sq-LdF.title" = "重啟系統";
 
-/* Class = "NSButtonCell"; title = "openemu.org"; ObjectID = "50H-ys-sAp"; */
-"50H-ys-sAp.title" = "openemu.org";
-
 /* Class = "NSMenuItem"; title = "Release Notes"; ObjectID = "5YI-Il-P9H"; */
 "5YI-Il-P9H.title" = "版本說明";
 
@@ -317,9 +263,6 @@
 /* Class = "NSMenuItem"; title = "Always Hide HUD"; ObjectID = "ayc-Ld-Nyd"; */
 "ayc-Ld-Nyd.title" = "總是隱藏 HUD";
 
-/* Class = "CocoaBindingsConnection"; ibShadowedDisplayPattern = "OpenEmu v%{value1}@"; ObjectID = "dC7-Fu-BLw"; */
-"dC7-Fu-BLw.ibShadowedDisplayPattern" = "OpenEmu v%{value1}@";
-
 /* Class = "NSMenuItem"; title = "Submit Feedback…"; ObjectID = "ftM-3D-CSh"; */
 "ftM-3D-CSh.title" = "提交反饋…";
 
@@ -328,6 +271,3 @@
 
 /* Class = "NSMenuItem"; title = "User Guide"; ObjectID = "q7W-GV-n3p"; */
 "q7W-GV-n3p.title" = "用戶指南";
-
-/* Class = "NSButtonCell"; title = "github.com/openemu"; ObjectID = "y9C-BZ-tbY"; */
-"y9C-BZ-tbY.title" = "github.com/openemu";

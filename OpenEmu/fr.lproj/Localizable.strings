@@ -382,8 +382,6 @@
 
 "Resolve Issues" = "Résoudre les problèmes";
 
-"Restart now" = "Redémarrer maintenant";
-
 "Restart System" = "Redémarrer le système";
 
 "Restart" = "Redémarrer";
@@ -418,19 +416,19 @@
 
 "Select All" = "Tout sélectionner";
 
-"Select Audio Output Device" = "Sélectionner le périphérique de sortie audio";
+"Select Audio Output Device" = "Périphérique de sortie audio";
 
-"Select Cheat" = "Sélectionner un code de triche";
+"Select Cheat" = "Codes de triche";
 
-"Select Core" = "Sélectionner un cœur";
+"Select Core" = "Cœurs";
 
-"Select Disc" = "Sélectionner un disque";
+"Select Disc" = "Disque";
 
-"Select Display Mode" = "Sélectionner un mode d'affichage";
+"Select Display Mode" = "Modes d'affichage";
 
-"Select Shader" = "Sélectionner un shader";
+"Select Shader" = "Shaders";
 
-"Select Scale" = "Sélectionner une échelle";
+"Select Scale" = "Échelle";
 
 "Share" = "Partager";
 
@@ -592,8 +590,6 @@
 "Library Window" = "Fenêtre de la bibliothèque";
 
 "Reset main window size" = "Rétablir la taille de la fenêtre principale";
-
-"Dark GridView context menu" = "Menu contextuel sombre dans la présentation par grille";
 
 "Download missing artwork on the fly" = "Télécharger l’illustration manquante à la volée";
 

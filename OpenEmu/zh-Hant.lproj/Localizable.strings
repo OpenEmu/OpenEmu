@@ -382,8 +382,6 @@
 
 "Resolve Issues" = "解決問題";
 
-"Restart now" = "現在重新啟動";
-
 "Restart System" = "重新啟動系統";
 
 "Restart" = "重新啟動";
@@ -592,8 +590,6 @@
 "Library Window" = "資源庫視窗";
 
 "Reset main window size" = "重設主視窗大小";
-
-"Dark GridView context menu" = "深色網格視圖上下文菜單";
 
 "Download missing artwork on the fly" = "自動下載缺少的插圖";
 

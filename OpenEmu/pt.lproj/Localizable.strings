@@ -382,8 +382,6 @@
 
 "Resolve Issues" = "Resolver Conflitos";
 
-"Restart now" = "Reiniciar Agora";
-
 "Restart System" = "Reiniciar Sistema";
 
 "Restart" = "Reiniciar";
@@ -592,8 +590,6 @@
 "Library Window" = "Janela de Biblioteca";
 
 "Reset main window size" = "Reset main window size";
-
-"Dark GridView context menu" = "Menu contextual GridView Preto";
 
 "Download missing artwork on the fly" = "Baixar artworks automaticamente";
 

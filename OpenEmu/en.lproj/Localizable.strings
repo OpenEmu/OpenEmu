@@ -418,7 +418,7 @@
 
 "Select All" = "Select All";
 
-"Select Audio Output Device" = "Select Audio Output Device";
+"Select Audio Output Device" = "Audio Output Device";
 
 "Select Cheat" = "Cheats";
 
@@ -592,8 +592,6 @@
 "Library Window" = "Library Window";
 
 "Reset main window size" = "Reset main window size";
-
-"Dark GridView context menu" = "Dark GridView context menu";
 
 "Download missing artwork on the fly" = "Download missing artwork on the fly";
 

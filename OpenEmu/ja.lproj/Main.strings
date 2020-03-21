@@ -155,7 +155,7 @@
 /* Class = "NSMenuItem"; title = "Start Game"; ObjectID = "1046"; */
 "1046.title" = "ゲームを開始する";
 
-/* Class = "NSMenuItem"; title = "Volume Up "; ObjectID = "1047"; */
+/* Class = "NSMenuItem"; title = "Volume Up"; ObjectID = "1047"; */
 "1047.title" = "音量を上げる";
 
 /* Class = "NSMenuItem"; title = "Last Played"; ObjectID = "1050"; */
@@ -217,9 +217,6 @@
 
 /* Class = "NSMenuItem"; title = "Stop Emulation"; ObjectID = "1167"; */
 "1167.title" = "エミュレーションを停止する";
-
-/* Class = "NSTextFieldCell"; title = "Version"; ObjectID = "1182"; */
-"1182.title" = "バージョン";
 
 /* Class = "NSMenuItem"; title = "Debug"; ObjectID = "1208"; */
 "1208.title" = "デバッグ";

@@ -382,8 +382,6 @@
 
 "Resolve Issues" = "Risolvi i problemi";
 
-"Restart now" = "Riavvia ora";
-
 "Restart System" = "Riavvia il sistema";
 
 "Restart" = "Riavvia";
@@ -394,7 +392,7 @@
 
 "Resume" = "Riprendi";
 
-"Save As:" = "Nome:";  // "Salva come:" does not fit
+"Save As:" = "Salva come:";
 
 "Save Current Game…" = "Salva la partita in corso…";
 
@@ -592,8 +590,6 @@
 "Library Window" = "Finestra della libreria";
 
 "Reset main window size" = "Reimposta dimensioni finestra principale";
-
-"Dark GridView context menu" = "Menu contestuale scuro nella GridView";
 
 "Download missing artwork on the fly" = "Scarica automaticamente le illustrazioni mancanti";
 

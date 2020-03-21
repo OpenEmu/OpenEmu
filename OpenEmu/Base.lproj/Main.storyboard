@@ -385,9 +385,6 @@
                                         </menuItem>
                                     </items>
                                 </menu>
-                                <attributedString key="userComments">
-                                    <fragment content="DNT"/>
-                                </attributedString>
                             </menuItem>
                             <menuItem title="Edit" id="971">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -450,9 +447,6 @@ CA
                                         </menuItem>
                                     </items>
                                 </menu>
-                                <attributedString key="userComments">
-                                    <fragment content="DNT"/>
-                                </attributedString>
                             </menuItem>
                             <menuItem title="View" id="973">
                                 <menu key="submenu" title="View" id="1035">
@@ -499,9 +493,6 @@ CA
                                         </menuItem>
                                     </items>
                                 </menu>
-                                <attributedString key="userComments">
-                                    <fragment content="DNT"/>
-                                </attributedString>
                             </menuItem>
                             <menuItem title="Controls" id="972">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -565,7 +556,7 @@ DQ
                                             </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="1048"/>
-                                        <menuItem title="Volume Up " enabled="NO" keyEquivalent="+" id="1047">
+                                        <menuItem title="Volume Up" enabled="NO" keyEquivalent="+" id="1047">
                                             <connections>
                                                 <action selector="volumeUp:" target="-1" id="1162"/>
                                             </connections>
@@ -628,9 +619,6 @@ DQ
                                         </menuItem>
                                     </items>
                                 </menu>
-                                <attributedString key="userComments">
-                                    <fragment content="DNT"/>
-                                </attributedString>
                             </menuItem>
                             <menuItem title="Window" id="974">
                                 <menu key="submenu" title="Window" systemMenu="window" id="1028">
@@ -676,9 +664,6 @@ DQ
                                         </menuItem>
                                     </items>
                                 </menu>
-                                <attributedString key="userComments">
-                                    <fragment content="DNT"/>
-                                </attributedString>
                             </menuItem>
                             <menuItem title="Debug" id="1208">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -696,9 +681,6 @@ DQ
                                         </menuItem>
                                     </items>
                                 </menu>
-                                <attributedString key="userComments">
-                                    <fragment content="DNT"/>
-                                </attributedString>
                                 <connections>
                                     <binding destination="1212" name="hidden" keyPath="values.debug" id="1216">
                                         <dictionary key="options">
@@ -738,9 +720,6 @@ DQ
                                         </menuItem>
                                     </items>
                                 </menu>
-                                <attributedString key="userComments">
-                                    <fragment content="DNT"/>
-                                </attributedString>
                             </menuItem>
                         </items>
                     </menu>

@@ -390,8 +390,6 @@
 
 "Resolve Issues" = "問題を解決する";
 
-"Restart now" = "今すぐ再起動する";
-
 "Restart System" = "システムを再起動する";
 
 "Restart" = "再起動";
@@ -602,8 +600,6 @@
 "Library Window" = "ライブラリ ウィンドウ";
 
 "Reset main window size" = "メインウィンドウのサイズをリセット";
-
-"Dark GridView context menu" = "ダーク・グリッドビュー";
 
 "Download missing artwork on the fly" = "ダウンロードした写真が見つかりません";
 

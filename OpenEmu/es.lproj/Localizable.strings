@@ -382,8 +382,6 @@
 
 "Resolve Issues" = "Solucionar errores";
 
-"Restart now" = "Reiniciar ahora";
-
 "Restart System" = "Reiniciar sistema";
 
 "Restart" = "Reiniciar";
@@ -592,8 +590,6 @@
 "Library Window" = "Ventana de biblioteca";
 
 "Reset main window size" = "Restablecer tamaño de ventana principal";
-
-"Dark GridView context menu" = "Menú contextual oscuro en vista cuadrícula";
 
 "Download missing artwork on the fly" = "Descargar carátula no encontrada al instante";
 

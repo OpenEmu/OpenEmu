@@ -382,8 +382,6 @@
 
 "Resolve Issues" = "Resolve Issues";
 
-"Restart now" = "Herstart nu";
-
 "Restart System" = "Herstart systeem";
 
 "Restart" = "Herstart";
@@ -418,19 +416,19 @@
 
 "Select All" = "Selecteer alles";
 
-"Select Audio Output Device" = "Selecteer audio-uitvoerapparaat";
+"Select Audio Output Device" = "Audio-uitvoerapparaat";
 
-"Select Cheat" = "Selecteer cheat";
+"Select Cheat" = "Cheats";
 
-"Select Core" = "Selecteer kern";
+"Select Core" = "Kernen";
 
-"Select Disc" = "Selecteer schijf";
+"Select Disc" = "Schijven";
 
-"Select Display Mode" = "Selecteer weergavemodus";
+"Select Display Mode" = "Weergavemodus";
 
-"Select Shader" = "Selecteer shader";
+"Select Shader" = "Shaders";
 
-"Select Scale" = "Selecteer schaal";
+"Select Scale" = "Schaal";
 
 "Share" = "Deel";
 
@@ -592,8 +590,6 @@
 "Library Window" = "Bibliotheekvenster";
 
 "Reset main window size" = "Herstel grootte van hoofdvenster";
-
-"Dark GridView context menu" = "Dark GridView context menu";
 
 "Download missing artwork on the fly" = "Download ontbrekend artwork wanneer nodig";
 

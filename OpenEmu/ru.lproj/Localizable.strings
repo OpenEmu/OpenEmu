@@ -382,8 +382,6 @@
 
 "Resolve Issues" = "Решить проблемы";
 
-"Restart now" = "Перезапустить сейчас";
-
 "Restart System" = "Перезапустить систему";
 
 "Restart" = "Перезапустить";
@@ -592,8 +590,6 @@
 "Library Window" = "Окно библиотеки";
 
 "Reset main window size" = "Сбросить размер главного окна";
-
-"Dark GridView context menu" = "Контекстное меню темного GridView";
 
 "Download missing artwork on the fly" = "Автоматически загружать недостающие обложки";
 
