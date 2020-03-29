@@ -57,7 +57,7 @@
 "402.title" = "¡Excelente! ¡Ahora está todo configurado y listo para los juegos!\n\nRecuerde que puede modificar tanto su teclado y los controles del gamepad como los de otros jugadores a través de las preferencias en cualquier momento.";
 
 /* Class = "NSTextFieldCell"; title = "Click the ‘Go’ button to begin your adventure."; ObjectID = "403"; */
-"403.title" = "Haga clic en el botón ‘Ir’ para comenzar su aventura.";
+"403.title" = "Haga clic en el botón ‘Continuar’ para comenzar su aventura.";
 
 /* Class = "NSButtonCell"; title = "Go"; ObjectID = "404"; */
 "404.title" = "Continuar";
