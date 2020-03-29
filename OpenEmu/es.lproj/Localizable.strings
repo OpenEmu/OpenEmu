@@ -90,7 +90,7 @@
 
 "Change Volume" = "Cambiar volumen";
 
-"Cheat Description" = "Descripción del truco";
+"Cheat Description" = "Descripción de truco";
 
 "Check out some excellent homebrew games." = "Eche un vistazo a algunos excelentes juegos caseros.";
 
@@ -136,7 +136,7 @@
 
 "Couldn't load %@ plugin" = "No ha podido cargar el plugin %@";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Cree una selección personal de juegos. Para añadir a la colección, seleccione un juego de su biblioteca de consolas y arrástrelo a ’%@’ en la izquierda."; // TODO
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Cree una selección personal de juegos. Para añadir a la colección, seleccione un juego de su biblioteca de consolas y arrástrelo a ’%@’ en la izquierda.";
 
 "Create Library…" = "Crear biblioteca…";
 
@@ -184,7 +184,7 @@
 
 "Do not show me again" = "No volver a mostrar";
 
-"Do you really want to cancel importation?" = "¿Realmente desea cancelar el proceso de importación?"; // TODO
+"Do you really want to cancel importation?" = "¿Realmente desea cancelar el proceso de importación?";
 
 "Do you want to continue playing where you left off?" = "¿Desea continuar jugando donde lo dejó?";
 
@@ -246,13 +246,13 @@
 
 "In order to play the game it must be downloaded." = "Para jugar al juego debe ser descargado.";
 
-"Insert Cart/Disk/Tape…" = "Inserte Cart/Disk/Tape…";
+"Insert Cart/Disk/Tape…" = "Insertar tarjeta/disco/cinta…";
 
 "Install" = "Instalar";
 
 "Installing Core" = "Instalando núcleo";
 
-"Join multi-line cheats with '+' e.g. 000-000+111-111" = "Join multi-line cheats with '+' e.g. 000-000+111-111";
+"Join multi-line cheats with '+' e.g. 000-000+111-111" = "Añadir varias líneas de trucos con '+' e.j. 000-000+111-111";
 
 "Keep Files" = "Mantener archivos";
 
@@ -512,7 +512,7 @@
 
 "Your game finished importing, do you want to play it now?" = "Finalizada la importación del juego, ¿desea jugar ahora?";
 
-"Your library was moved sucessfully." = "Your library was moved sucessfully."; // TODO
+"Your library was moved sucessfully." = "Su biblioteca fue movida correctamente.";
 
 "Library" = "Biblioteca";
 
@@ -534,35 +534,35 @@
 
 "Keycode 0x%lX" = "Keycode 0x%lX";  // TODO  // Fallback for unknown keys
 
-"Your Mac is too old for this version of OpenEmu" = "Your Mac is too old for this version of OpenEmu";  // Message for the alert which appears when no Metal-enabled GPUs are detected // TODO
+"Your Mac is too old for this version of OpenEmu" = "Su Mac es demasiado viejo para esta versión de OpenEmu";
 
-"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected // TODO
+"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "Desde la versión 2.1, OpenEmu necesita una GPU que soporte Metal. Metal está disponible en todos los Macs que soportan macOS 10.14 o posterior.\n\nComo OpenEmu no funciona con su configuración actual de hardware/software, se cerrará ahora.";
 
-"Quit OpenEmu" = "Salir de OpenEmu";  // Button title for the alert which appears when no Metal-enabled GPUs are detected
+"Quit OpenEmu" = "Salir de OpenEmu";
 
-"The %@ core plugin is deprecated" = "The %@ core plugin is deprecated";  // Message title (removal far away) // TODO
+"The %@ core plugin is deprecated" = "El plugin del núcleo %@ está obsoleto";
 
-"The %@ core plugin is deprecated, and will be removed soon" = "The %@ core plugin is deprecated, and will be removed soon";  // Message title (removal happening soon) // TODO
+"The %@ core plugin is deprecated, and will be removed soon" = "El plugin del núcleo %@ está obsoleto, y será borrado pronto";
 
-"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working.";  // Message info, part 1 (removal far away) // TODO
+"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "Este plugin del núcleo no estará disponible en el futuro. Una vez borrado, cualquier estado guardado creado con él dejará de funcionar.";
 
-"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working.";  // Message info, part 1 (removal happening soon) // TODO
+"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "En unos días, este plugin del núcleo va a ser automáticamente borrado. Una vez borrado, cualquier estado guardado creado con él dejará de funcionar.";
 
-"We suggest you switch to the %@ core plugin as soon as possible." = "We suggest you switch to the %@ core plugin as soon as possible.";  // Message info, part 2 (shown only if the replacement plugin is available) // TODO
+"We suggest you switch to the %@ core plugin as soon as possible." = "Le sugerimos cambiar al plugin del núcleo %@ lo antes posible.";
 
 "This plugin is currently unsupported" = "This plugin is currently unsupported";  // TODO
 
-"Install %@" = "Install %@";  // TODO
+"Install %@" = "Instalar %@";
 
-"Install %@ and Set as Default" = "Install %@ and Set as Default";  // TODO
+"Install %@ and Set as Default" = "Instalar %@ y establecer como predeterminado";
 
-"Ignore" = "Ignore";  // TODO
+"Ignore" = "Ignorar";
 
-"OpenEmu requires additional permissions" = "OpenEmu requires additional permissions";  // Headline for Input Monitoring permissions // TODO
+"OpenEmu requires additional permissions" = "OpenEmu necesita permisos adicionales";
 
-"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues.";  // "Message for Input Monitoring permissions" // TODO
+"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "Debe ser concedido a OpenEmu el permiso de monitorización de entrada para usar el teclado como un dispositivo de entrada.\n\nCambiar el permiso también puede resolver problemas de entrada de teclado.";
 
-"Show" = "Show";  // TODO
+"Show" = "Mostrar";
 
 
 /* Secrets */
@@ -617,13 +617,13 @@
 
 "Take screenshots in native size" = "Hacer capturas de pantalla en tamaño original";
 
-"Disable aspect ratio correction in screenshots" = "Desactivar corrección de relación de aspecto"; // TODO: specify "in screenshots"
+"Disable aspect ratio correction in screenshots" = "Desactivar corrección de relación de aspecto en capturas de pantalla";
 
 "Game View Background color" = "Color de fondo de vista de juego";
 
 "Controls Setup" = "Configuración de mandos";
 
-"WiiRemote support (requires relaunch)" = "Compatible WiiRemote (requiere reiniciar)";
+"WiiRemote support (requires relaunch)" = "Compatible WiiRemote (necesita reiniciar)";
 
 "Clicking on image selects button" = "Al hacer clic sobre la imagen marca botón";
 
@@ -683,12 +683,12 @@
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "Los binarios de compresión ECM no se pueden importar. Por favor lea la guía de importación de disco.";
 
-"Threshold for analog controls bound to buttons" = "Threshold for analog controls\nbound to buttons";    // TODO
+"Threshold for analog controls bound to buttons" = "Umbral para controles analógicos\nvinculados a botones";
 
-"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
+"Range: %@ to %@" = "Rango: %@ a %@";
 
-"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+"Default Value: %@" = "Valor por defecto: %@";
 
-"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+"Checked" = "Marcado";
 
-"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+"Unchecked" = "No marcado";
