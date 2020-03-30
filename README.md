@@ -16,6 +16,7 @@ Currently OpenEmu can load the following game engines as plugins:
 * Game Boy / Game Boy Color ([Gambatte](https://github.com/sinamas/gambatte))
 * Game Boy Advance ([mGBA](https://mgba.io))
 * Game Gear ([Genesis Plus](https://github.com/ekeeke/Genesis-Plus-GX))
+* GameCube ([Dolphin](https://github.com/dolphin-emu/dolphin))
 * Intellivision ([Bliss](https://github.com/jeremiah-sypult/BlissEmu))
 * NeoGeo Pocket ([Mednafen](https://mednafen.github.io))
 * Nintendo (NES) / Famicom ([FCEUX](https://github.com/TASVideos/fceux), [Nestopia](https://github.com/0ldsk00l/nestopia))
