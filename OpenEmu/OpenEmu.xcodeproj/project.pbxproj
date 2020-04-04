@@ -210,7 +210,6 @@
 		0544B6AA23D16DDC00F63D61 /* SaveStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B6A723D16DDB00F63D61 /* SaveStateViewController.swift */; };
 		0544B6AF23D1780C00F63D61 /* GameTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B6AD23D1780C00F63D61 /* GameTableView.swift */; };
 		0544B6B023D1780C00F63D61 /* GameTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0544B6AE23D1780C00F63D61 /* GameTableView.xib */; };
-		0551E21223E7675D00CFE976 /* PluginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0551E21123E7675D00CFE976 /* PluginManager.swift */; };
 		0557CB1822A7504B0037175F /* OEShadersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1722A7504B0037175F /* OEShadersModel.swift */; };
 		0557CB1922A77D7C0037175F /* OEShadersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1722A7504B0037175F /* OEShadersModel.swift */; };
 		0557CB1B22A781B60037175F /* OEShadersModel+OpenEmu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */; };
@@ -1527,7 +1526,6 @@
 		0544B6AB23D16E7A00F63D61 /* OEResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEResponder.h; sourceTree = "<group>"; };
 		0544B6AD23D1780C00F63D61 /* GameTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTableView.swift; sourceTree = "<group>"; };
 		0544B6AE23D1780C00F63D61 /* GameTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameTableView.xib; sourceTree = "<group>"; };
-		0551E21123E7675D00CFE976 /* PluginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginManager.swift; sourceTree = "<group>"; };
 		0557CB1722A7504B0037175F /* OEShadersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEShadersModel.swift; sourceTree = "<group>"; };
 		0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEShadersModel+OpenEmu.swift"; sourceTree = "<group>"; };
 		05644A06233312C60033576F /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Main.strings; sourceTree = "<group>"; };
@@ -5460,7 +5458,6 @@
 				C62F549A0FE6CC1500DF15BA /* OECorePlugin.m */,
 				C6289C30135B215B00EEE97C /* OESystemPlugin.h */,
 				C6289C31135B215B00EEE97C /* OESystemPlugin.m */,
-				0551E21123E7675D00CFE976 /* PluginManager.swift */,
 			);
 			name = Plugins;
 			sourceTree = "<group>";
@@ -6571,7 +6568,6 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
@@ -8035,7 +8031,6 @@
 				83E89274197471F8004D4489 /* OEHomebrewCoverView.m in Sources */,
 				C60961A4179C4A1C00239067 /* OEThreadGameCoreManager.m in Sources */,
 				0544B69823D16D0C00F63D61 /* ImageCollectionDataSource.swift in Sources */,
-				0551E21223E7675D00CFE976 /* PluginManager.swift in Sources */,
 				C60961A7179C4BD000239067 /* OEThreadProxy.m in Sources */,
 				5A9606D61C0A7C9D0089B494 /* NSWindow+FullScreen.swift in Sources */,
 				83AB259917A6A432009C80BC /* OEControlsSectionTitleView.m in Sources */,

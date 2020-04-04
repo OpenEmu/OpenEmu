@@ -183,6 +183,18 @@ public class OEShadersModel : NSObject {
         
         return res
     }
+    
+    @objc
+    public lazy var userShadersPath: URL? = {
+        guard let path = try? FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else { return nil }
+        return path.appendingPathComponent("OpenEmu", isDirectory: true).appendingPathComponent("Shaders", isDirectory: true)
+    }()
+    
+    @objc
+    public lazy var shadersCachePath: URL? = {
+        guard let path = try? FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else { return nil }
+        return path.appendingPathComponent("OpenEmu", isDirectory: true).appendingPathComponent("Shaders", isDirectory: true)
+    }()
 
     private static func loadShaders() -> [OEShaderModel] {
         var shaders = [OEShaderModel]()
