@@ -267,6 +267,11 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
             {
                 [self didLoadShader:shader];
             }
+            else if (error != nil)
+            {
+                NSAlert *alert = [NSAlert alertWithError:error];
+                [alert runModal];
+            }
         }];
     }
 
