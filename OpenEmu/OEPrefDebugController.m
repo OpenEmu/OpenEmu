@@ -163,6 +163,10 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox(OEDBSavedGamesMediaShowsQuickSaves, @"Show quicksave states in save state category"),
                               Button(@"Show game scanner view", @selector(showGameScannerView:)),
                               Button(@"Hide game scanner view", @selector(hideGameScannerView:)),
+                              
+                              Group(@"Shaders"),
+                              Button(@"Clear shader cache", @selector(clearShaderCache:)),
+                              Button(@"Reveal user shader folder", @selector(openUserShaderFolder:)),
 
                               Group(@"HUD Bar / Gameplay"),
                               Checkbox(OEGameControlsBarCanDeleteSaveStatesKey, @"Can delete save states"),
@@ -758,6 +762,18 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 
         [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
     }
+}
+
+#pragma mark - Shader group actions
+
+- (void)clearShaderCache:(id)sender
+{
+    [NSFileManager.defaultManager removeItemAtURL:OEShadersModel.shared.shadersCachePath error:nil];
+}
+
+- (void)openUserShaderFolder:(id)sender
+{
+    [NSWorkspace.sharedWorkspace openURL:OEShadersModel.shared.userShadersPath];
 }
 
 
