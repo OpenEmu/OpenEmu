@@ -1,0 +1,120 @@
+
+"General" = "Основное";
+
+"Debug Mode" = "Режим отладки";
+
+"Setup Assistant has finished" = "Ассистент установки закончил свою работу";
+
+"Region" = "Регион";
+
+"Run games using" = "Запустить игры используя";
+
+"Library Window" = "Окно библиотеки";
+
+"Reset main window size" = "Сбросить размер главного окна";
+
+"Download missing artwork on the fly" = "Автоматически загружать недостающие обложки";
+
+"Show game titles instead of rom names" = "Показывать название игры вместо названия рома";
+
+"Manually choose system on import" = "Определить систему вручную в процессе импорта";
+
+"Show autosave states in save state category" = "Show autosave states in save state category"; // TODO
+
+"Show quicksave states in save state category" = "Show quicksave states in save state category"; // TODO
+
+"Show game scanner view" = "Show game scanner view"; // TODO
+
+"Hide game scanner view" = "Hide game scanner view"; // TODO
+
+"HUD Bar / Gameplay" = "HUD-полоса / Геймплей";
+
+"Can delete save states" = "Можете удалить сохраненные состояния";
+
+"Show options button" = "Показать кнопку опций";
+
+"Show notifications during gameplay" = "Показать уведомления в процессе игры";
+
+"Use quicksave slots" = "Использовать слоты быстрых сохранений";
+
+"Show quicksave in menu" = "Показать быстрое сохранение в меню";
+
+"Show autosave in menu" = "Показать автоматическое сохранение в меню";
+
+"Show audio output device in menu" = "Показать звуковыводящее устройство в меню";
+
+"Take screenshots in native size" = "Делать снимки экрана в реальном размере";
+
+"Disable aspect ratio correction in screenshots" = "Отключить коррекцию соотношения сторон"; // TODO: specify "in screenshots"
+
+"Game View Background color" = "Цвет фона окна игры";
+
+"Controls Setup" = "Настроить управление";
+
+"WiiRemote support (requires relaunch)" = "Поддержка WiiRemote (необходим перезапуск)";
+
+"Clicking on image selects button" = "Щелчок по изображению назначает кнопку";
+
+"Clicking outside image deselects button" = "Щелчок за пределы изображения снимает назначение кнопки";
+
+"Select first field after setting the last" = "Выберите первое поле после установки последнего";
+
+"Draw button mask above image" = "Нарисуйте маску кнопки на изображении";
+
+"Log HID Events" = "Логировать события HID";
+
+"Log Keyboard Events" = "Логировать события клавиатуры";
+
+"Show all global keys" = "Показать все глобальные кнопки";
+
+"Set default save states directory" = "Установить директорию по-умолчанию для сохранения состояний";
+
+"Choose save states directory…" = "Выберите директорию для сохраненных состояний…";
+
+"Cleanup autosave state" = "Очистить автоматически сохраненное состояние";
+
+"Cleanup Save States" = "Очистить сохраненные состояния";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "Обновить OpenVGDB";
+
+"Cancel OpenVGDB Update" = "Отменить обновление OpenVGDB";
+
+"Database Actions" = "Действия с базой данных";
+
+"Delete artwork that can be downloaded" = "Удалить обложку, которая может быть загружена";
+
+"Download missing artwork…" = "Загрузить отсутствующую обложку…";
+
+"Remove untracked artwork files" = "Удалить неотслеживаемые файлы обложек";
+
+"Cleanup rom hashes" = "Очистить хэши ромов";
+
+"Remove duplicated roms" = "Удалить дубликаты ромов";
+
+"Cancel cover sync for all games" = "Прекратить синхронизацию обложек для всех игр";
+
+"Perform Sanity Check on Database" = "Выполните проверку исправности базы данных";
+
+"While performing this operation OpenEmu will be unresponsive." = "Во время выполнения данной операции OpenEmu может не отвечать.";
+
+"Delete useless image objects" = "Delete useless image objects"; // TODO
+
+"Sync games without artwork" = "Sync games without artwork"; // TODO
+
+"Threshold for analog controls bound to buttons" = "Threshold for analog controls\nbound to buttons";    // TODO
+
+"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
+
+"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+
+"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+
+"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+
+"Shaders" = "Shaders";  // TODO
+
+"Clear shader cache" = "Clear shader cache";  // TODO
+
+"Reveal user shader folder" = "Reveal user shader folder";  // TODO

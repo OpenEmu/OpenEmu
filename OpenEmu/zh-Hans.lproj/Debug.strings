@@ -1,0 +1,120 @@
+
+"General" = "通用";
+
+"Debug Mode" = "调试模式";
+
+"Setup Assistant has finished" = "设置助理已完成";
+
+"Region" = "地区";
+
+"Run games using" = "运行游戏，使用";
+
+"Library Window" = "库窗口";
+
+"Reset main window size" = "重置主窗口大小";
+
+"Download missing artwork on the fly" = "自动下载缺少的插图";
+
+"Show game titles instead of rom names" = "显示游戏标题而不是 rom 名";
+
+"Manually choose system on import" = "导入时手动选择系统";
+
+"Show autosave states in save state category" = "在保存状态分类中显示自动保存状态";
+
+"Show quicksave states in save state category" = "在保存状态分类中显示快速保存状态";
+
+"Show game scanner view" = "显示游戏扫描视图";
+
+"Hide game scanner view" = "隐藏游戏扫描视图";
+
+"HUD Bar / Gameplay" = "HUD 条 / 游戏";
+
+"Can delete save states" = "可以删除保存状态";
+
+"Show options button" = "显示选项按钮";
+
+"Show notifications during gameplay" = "在游戏过程中显示通知";   // TODO
+
+"Use quicksave slots" = "使用快速保存位置";
+
+"Show quicksave in menu" = "在菜单显示快速保存";
+
+"Show autosave in menu" = "在菜单显示自动保存";
+
+"Show audio output device in menu" = "在菜单显示音频输出设备";
+
+"Take screenshots in native size" = "以原始尺寸截屏";
+
+"Disable aspect ratio correction in screenshots" = "禁用长宽比修正"; // TODO: specify "in screenshots"
+
+"Game View Background color" = "游戏视图背景颜色";
+
+"Controls Setup" = "控制键设置";
+
+"WiiRemote support (requires relaunch)" = "WiiRemote 支持（需要重新打开）";
+
+"Clicking on image selects button" = "在图像选择按钮上单击";
+
+"Clicking outside image deselects button" = "在图像取消选择按钮外单击";
+
+"Select first field after setting the last" = "设置完最后一项后选择第一项";
+
+"Draw button mask above image" = "在图像上绘制按钮蒙版";
+
+"Log HID Events" = "记录 HID 事件";
+
+"Log Keyboard Events" = "记录键盘事件";
+
+"Show all global keys" = "显示所有全局按键";
+
+"Set default save states directory" = "设置默认保存状态目录";
+
+"Choose save states directory…" = "选择保存状态目录…";
+
+"Cleanup autosave state" = "清除自动保存状态";
+
+"Cleanup Save States" = "清除保存状态";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "更新 OpenVGDB";
+
+"Cancel OpenVGDB Update" = "取消 OpenVGDB 更新";
+
+"Database Actions" = "数据库操作";
+
+"Delete artwork that can be downloaded" = "删除可下载的插图";
+
+"Download missing artwork…" = "下载缺少的插图…";
+
+"Remove untracked artwork files" = "移除未使用的插图文件";
+
+"Cleanup rom hashes" = "清除 rom 散列值";
+
+"Remove duplicated roms" = "移除重复的 rom";
+
+"Cancel cover sync for all games" = "为所有游戏取消封面同步";
+
+"Perform Sanity Check on Database" = "对数据库执行完整性检查";
+
+"While performing this operation OpenEmu will be unresponsive." = "执行此操作时 OpenEmu 将无响应。";
+
+"Delete useless image objects" = "Delete useless image objects"; // TODO
+
+"Sync games without artwork" = "Sync games without artwork"; // TODO
+
+"Threshold for analog controls bound to buttons" = "模拟控件的阈值绑定到按钮";    // TODO
+
+"Range: %@ to %@" = "范围: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
+
+"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+
+"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+
+"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+
+"Shaders" = "Shaders";  // TODO
+
+"Clear shader cache" = "Clear shader cache";  // TODO
+
+"Reveal user shader folder" = "Reveal user shader folder";  // TODO

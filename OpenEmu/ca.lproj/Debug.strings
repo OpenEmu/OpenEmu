@@ -1,0 +1,120 @@
+
+"General" = "General";
+
+"Debug Mode" = "Mode de depuració";
+
+"Setup Assistant has finished" = "L'assistent de configuració ha acabat";
+
+"Region" = "Regió";
+
+"Run games using" = "Executeu els jocs utilitzant";
+
+"Library Window" = "Finestra de la biblioteca";
+
+"Reset main window size" = "Restableix la mida de la finestra principal";
+
+"Download missing artwork on the fly" = "Baixa les imatges que faltin sobre la marxa";
+
+"Show game titles instead of rom names" = "Mostra el nom dels jocs en comptes del nom dels fitxers ROM";
+
+"Manually choose system on import" = "Selecciona el sistema manualment durant la importació";
+
+"Show autosave states in save state category" = "Mostra les partides desades automàticament a la categoria de les partides desades";
+
+"Show quicksave states in save state category" = "Mostra les partides desades ràpidament a la categoria de les partides desades";
+
+"Show game scanner view" = "Mostra la visualització de l'escàner de jocs";
+
+"Hide game scanner view" = "Amaga la visualització de l'escàner de jocs";
+
+"HUD Bar / Gameplay" = "Barra HUD / Joc";
+
+"Can delete save states" = "Això pot esborrar les partides desades";
+
+"Show options button" = "Mostra el botó d'opcions";
+
+"Show notifications during gameplay" = "Mostra notificacions mentre jugueu";
+
+"Use quicksave slots" = "Utilitza els espais del desat ràpid";
+
+"Show quicksave in menu" = "Motra el desat ràpid al menú";
+
+"Show autosave in menu" = "Mostra el desat automàtic al menú";
+
+"Show audio output device in menu" = "Mostra el dispositiu de sortida del so al menú";
+
+"Take screenshots in native size" = "Fes les captures de pantalla en la mida nativa";
+
+"Disable aspect ratio correction in screenshots" = "Desactiva la correcció de la relació de l'aspecte"; // TODO: specify "in screenshots"
+
+"Game View Background color" = "Color de fons de la vista del joc";
+
+"Controls Setup" = "Configuració dels controls";
+
+"WiiRemote support (requires relaunch)" = "Suporta el WiiRemote (requereix reinici)";
+
+"Clicking on image selects button" = "En fer clic a la imatge es selecciona el botó";
+
+"Clicking outside image deselects button" = "En fer clic fora de la imatge es deselecciona el botó";
+
+"Select first field after setting the last" = "Seleccioneu el primer camp després de selecionar l'últim";
+
+"Draw button mask above image" = "Dibuixa la màscara del botó a sobre de la imatge";
+
+"Log HID Events" = "Registra els esdeveniments del dispositiu d'interfície humana";
+
+"Log Keyboard Events" = "Registra els esdeveniments del teclat";
+
+"Show all global keys" = "Mostra totes les tecles globals";
+
+"Set default save states directory" = "Defineix el directori de les partides desades";
+
+"Choose save states directory…" = "Trieu el directori de les partides desades…";
+
+"Cleanup autosave state" = "Neteja les partides desades automàticament";
+
+"Cleanup Save States" = "Neteja les partides desades";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "Actualitza l'OpenVGDB";
+
+"Cancel OpenVGDB Update" = "Cancel·la l'actualització de l'OpenVGDB";
+
+"Database Actions" = "Accions de la base de dades";
+
+"Delete artwork that can be downloaded" = "Esborra les imatges que es poden baixar";
+
+"Download missing artwork…" = "Baixa les imatges que falten…";
+
+"Remove untracked artwork files" = "Esborra les imatges sense seguiment";
+
+"Cleanup rom hashes" = "Neteja les sumes de verificació dels fitxers ROM";
+
+"Remove duplicated roms" = "Esborra els fitxers ROM duplicats";
+
+"Cancel cover sync for all games" = "Cancel·la la sincronització de caràtules de tots els jocs";
+
+"Perform Sanity Check on Database" = "Realitza les comprovacions de validesa a la base de dades";
+
+"While performing this operation OpenEmu will be unresponsive." = "L'OpenEmu no respondrà durant aquesta operació.";
+
+"Delete useless image objects" = "Esborra els objectes d'imatge inútils";
+
+"Sync games without artwork" = "Sincronitza els jocs sense imatges";
+
+"Threshold for analog controls bound to buttons" = "Llindar de la vinculació dels controls\nanalògics amb els botons";
+
+"Range: %@ to %@" = "Interval: %@ a %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
+
+"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+
+"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+
+"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+
+"Shaders" = "Shaders";  // TODO
+
+"Clear shader cache" = "Clear shader cache";  // TODO
+
+"Reveal user shader folder" = "Reveal user shader folder";  // TODO

@@ -1,0 +1,120 @@
+
+"General" = "Général";
+
+"Debug Mode" = "Mode débogage";
+
+"Setup Assistant has finished" = "L’assistant d’installation s'est terminé";
+
+"Region" = "Région";
+
+"Run games using" = "Exécuter les jeux avec";
+
+"Library Window" = "Fenêtre de la bibliothèque";
+
+"Reset main window size" = "Rétablir la taille de la fenêtre principale";
+
+"Download missing artwork on the fly" = "Télécharger l’illustration manquante à la volée";
+
+"Show game titles instead of rom names" = "Afficher les titres des jeux à la place des noms des roms";
+
+"Manually choose system on import" = "Choisir manuellement le système lors de l’importation";
+
+"Show autosave states in save state category" = "Afficher les sauvegardes auto dans la catégorie des sauvegardes";
+
+"Show quicksave states in save state category" = "Afficher les sauvegardes rapides dans la catégorie des sauvegardes";
+
+"Show game scanner view" = "Afficher la vue d’analyse des jeux";
+
+"Hide game scanner view" = "Masquer la vue d’analyse des jeux";
+
+"HUD Bar / Gameplay" = "Barre HUD / Jeu";
+
+"Can delete save states" = "Peut supprimer les parties sauvegardées";
+
+"Show options button" = "Afficher le bouton des options";
+
+"Show notifications during gameplay" = "Afficher les notifications pendant le jeu";
+
+"Use quicksave slots" = "Utiliser les emplacements de sauvegarde rapide";
+
+"Show quicksave in menu" = "Afficher la sauvegarde rapide dans le menu";
+
+"Show autosave in menu" = "Afficher la sauvegarde automatique dans le menu";
+
+"Show audio output device in menu" = "Afficher le périphérique de sortie dans le menu";
+
+"Take screenshots in native size" = "Faire des captures d’écran en conservant la taille d’origine";
+
+"Disable aspect ratio correction in screenshots" = "Désactiver la correction de résolution pour les captures d'écran";
+
+"Game View Background color" = "Couleur de fond de l’affichage du jeu";
+
+"Controls Setup" = "Configuration des contrôles";
+
+"WiiRemote support (requires relaunch)" = "Support de la télécommande Wii (nécessite un redémarrage)";
+
+"Clicking on image selects button" = "Cliquer sur l’image sélectionne le bouton";
+
+"Clicking outside image deselects button" = "Cliquer hors de l’image désélectionne le bouton";
+
+"Select first field after setting the last" = "Sélectionner le premier champ après avoir configuré le dernier";
+
+"Draw button mask above image" = "Dessiner un masque de bouton au-dessus de l’image";
+
+"Log HID Events" = "Journaliser les événements HID";
+
+"Log Keyboard Events" = "Journaliser les événements du clavier";
+
+"Show all global keys" = "Afficher toutes les touches globales ";
+
+"Set default save states directory" = "Répertoire des parties sauvegardées par défaut";
+
+"Choose save states directory…" = "Choisir le répertoire des parties sauvegardées…";
+
+"Cleanup autosave state" = "Nettoyer la partie sauvegardée automatiquement";
+
+"Cleanup Save States" = "Nettoyer les parties sauvegardées";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "Mettre à jour OpenVGDB";
+
+"Cancel OpenVGDB Update" = "Annuler la mise à jour d’OpenVGDB";
+
+"Database Actions" = "Actions sur la base de données";
+
+"Delete artwork that can be downloaded" = "Supprimer l’illustration qui peut être téléchargée";
+
+"Download missing artwork…" = "Télécharger l’illustration manquante…";
+
+"Remove untracked artwork files" = "Supprimer les fichiers d’illustration externes";
+
+"Cleanup rom hashes" = "Nettoyer les hachages des roms";
+
+"Remove duplicated roms" = "Supprimer les roms dupliquées";
+
+"Cancel cover sync for all games" = "Annuler la synchronisation des illustrations pour tous les jeux";
+
+"Perform Sanity Check on Database" = "Vérifier l’intégrité de la base de données";
+
+"While performing this operation OpenEmu will be unresponsive." = "OpenEmu ne répondra pas pendant l’exécution de cette opération.";
+
+"Delete useless image objects" = "Supprimer les objets d’image inutiles";
+
+"Sync games without artwork" = "Synchroniser les jeux sans illustration";
+
+"Threshold for analog controls bound to buttons" = "Seuil pour les contrôls analogiques\nassociés à des boutons";
+
+"Range: %@ to %@" = "Intervalle: %@ à %@";
+
+"Default Value: %@" = "Valeur par défaut: %@";
+
+"Checked" = "Activé";
+
+"Unchecked" = "Désactivé";
+
+"Shaders" = "Shaders";  // TODO
+
+"Clear shader cache" = "Clear shader cache";  // TODO
+
+"Reveal user shader folder" = "Reveal user shader folder";  // TODO

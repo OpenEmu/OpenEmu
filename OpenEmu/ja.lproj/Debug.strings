@@ -1,0 +1,120 @@
+
+"General" = "一般";
+
+"Debug Mode" = "デバッグモード";
+
+"Setup Assistant has finished" = "セットアップ・アシスタントが完了しました。";
+
+"Region" = "地域";
+
+"Run games using" = "以下を用いてゲームを起動";
+
+"Library Window" = "ライブラリ ウィンドウ";
+
+"Reset main window size" = "メインウィンドウのサイズをリセット";
+
+"Download missing artwork on the fly" = "ダウンロードした写真が見つかりません";
+
+"Show game titles instead of rom names" = "ROMの名前の代わりにゲームタイトルを表示する";
+
+"Manually choose system on import" = "インポート時にシステムを自分で選択";
+
+"Show autosave states in save state category" = "セーブステートカテゴリのオートセーブを表示";
+
+"Show quicksave states in save state category" = "セーブステートカテゴリのクイックセーブを表示";
+
+"Show game scanner view" = "ゲームスキャナービューを表示";
+
+"Hide game scanner view" = "ゲームスキャナービューを隠す";
+
+"HUD Bar / Gameplay" = "HUDバー / ゲームプレイ";
+
+"Can delete save states" = "セーブステートを削除可能にする";
+
+"Show options button" = "オプションボタンを表示";
+
+"Show notifications during gameplay" = "ゲームプレイ中に通知を表示";
+
+"Use quicksave slots" = "クイックセーブスロットを使用";
+
+"Show quicksave in menu" = "クイックセーブをメニューに表示";
+
+"Show autosave in menu" = "オートセーブをメニューに表示";
+
+"Show audio output device in menu" = "オーディオ出力デバイスをメニューに表示";
+
+"Take screenshots in native size" = "スクリーンショットをネイティブサイズで表示";
+
+"Disable aspect ratio correction in screenshots" = "スクリーンショットのアスペクト比調整を無効にする";
+
+"Game View Background color" = "ゲーム画面の背景色";
+
+"Controls Setup" = "コントローラー設定";
+
+"WiiRemote support (requires relaunch)" = "WiiRemoteサポート(再起動が必要です)";
+
+"Clicking on image selects button" = "画像をクリックしてボタンを選択";
+
+"Clicking outside image deselects button" = "画像の外をクリックして選択を解除";
+
+"Select first field after setting the last" = "設定後に最初のフィールドを選択";
+
+"Draw button mask above image" = "画像の上に重なるボタンマスクを作成";
+
+"Log HID Events" = "HID イベントを記録";
+
+"Log Keyboard Events" = "Keyboard イベントを記録";
+
+"Show all global keys" = "グローバルキーを全て表示する";
+
+"Set default save states directory" = "デフォルトのオートセーブステートディレクトリを設定";
+
+"Choose save states directory…" = "セーブステートディレクトリを選択…";
+
+"Cleanup autosave state" = "オートセーブステートをクリーンアップ";
+
+"Cleanup Save States" = "セーブステートをクリーンアップ";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "OpenVGDBをアップデート";
+
+"Cancel OpenVGDB Update" = "OpenVGDBのアップデートをキャンセル";
+
+"Database Actions" = "データベース操作";
+
+"Delete artwork that can be downloaded" = "ダウンロード可能な写真を削除";
+
+"Download missing artwork…" = "写真をダウンロード…";
+
+"Remove untracked artwork files" = "追跡不可能な写真を削除";
+
+"Cleanup rom hashes" = "ROMのハッシュをクリーンアップ";
+
+"Remove duplicated roms" = "重複しているROMを削除";
+
+"Cancel cover sync for all games" = "全てのゲームのカバー同期をキャンセル";
+
+"Perform Sanity Check on Database" = "データベース上のSanity Checkを開始";
+
+"While performing this operation OpenEmu will be unresponsive." = "これをしている間、OpenEmu は責任を負いかねます。";
+
+"Delete useless image objects" = "Delete useless image objects"; // TODO
+
+"Sync games without artwork" = "Sync games without artwork"; // TODO
+
+"Threshold for analog controls bound to buttons" = "ボタンによるアナログ操作のしきい値";
+
+"Range: %@ to %@" = "範囲: %@ から %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
+
+"Default Value: %@" = "デフォルト値: %@";  // Default value tooltip format in the Debug Preferences
+
+"Checked" = "チェックあり";  // Default value tooltip for checkboxes: checked default
+
+"Unchecked" = "チェックなし";  // Default value tooltip for checkboxes: unchecked default
+
+"Shaders" = "Shaders";  // TODO
+
+"Clear shader cache" = "Clear shader cache";  // TODO
+
+"Reveal user shader folder" = "Reveal user shader folder";  // TODO

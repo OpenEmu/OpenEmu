@@ -97,25 +97,25 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 #define Separator() \
 @{ TypeKey:SeparatorType }
 #define FirstGroup(_NAME_) \
-@{ TypeKey:GroupType, LabelKey:NSLocalizedString(_NAME_, @"Debug Group") }
+@{ TypeKey:GroupType, LabelKey:NSLocalizedStringFromTable(_NAME_, @"Debug", @"Debug Group") }
 #define Group(_NAME_) Separator(), \
-@{ TypeKey:GroupType, LabelKey:NSLocalizedString(_NAME_, @"Debug Group") }
+@{ TypeKey:GroupType, LabelKey:NSLocalizedStringFromTable(_NAME_, @"Debug", @"Debug Group") }
 #define Checkbox(_KEY_, _LABEL_)  \
-@{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_, @"Debug Checkbox Label"), TypeKey:CheckboxType }
+@{ KeyKey:_KEY_, LabelKey:NSLocalizedStringFromTable(_LABEL_, @"Debug", @"Debug Checkbox Label"), TypeKey:CheckboxType }
 #define NCheckbox(_KEY_, _LABEL_) \
-@{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_, @"Debug Checkbox Label"), TypeKey:CheckboxType, NegatedKey:@YES }
+@{ KeyKey:_KEY_, LabelKey:NSLocalizedStringFromTable(_LABEL_, @"Debug", @"Debug Checkbox Label"), TypeKey:CheckboxType, NegatedKey:@YES }
 #define Button(_LABEL_, _ACTION_)  \
-@{ LabelKey:NSLocalizedString(_LABEL_, @"Debug Button Label"), TypeKey:ButtonType, ActionKey:NSStringFromSelector(_ACTION_) }
+@{ LabelKey:NSLocalizedStringFromTable(_LABEL_, @"Debug", @"Debug Button Label"), TypeKey:ButtonType, ActionKey:NSStringFromSelector(_ACTION_) }
 #define Label(_LABEL_)  \
-@{ LabelKey:NSLocalizedString(_LABEL_, @"Debug Label"), TypeKey:LabelType }
+@{ LabelKey:NSLocalizedStringFromTable(_LABEL_, @"Debug", @"Debug Label"), TypeKey:LabelType }
 #define Popover(_LABEL_, _ACTION_, ...)  \
-@{ LabelKey:NSLocalizedString(_LABEL_, @"Debug Popover Label"), TypeKey:PopoverType, ActionKey:NSStringFromSelector(_ACTION_), OptionsKey:@[__VA_ARGS__] }
+@{ LabelKey:NSLocalizedStringFromTable(_LABEL_, @"Debug", @"Debug Popover Label"), TypeKey:PopoverType, ActionKey:NSStringFromSelector(_ACTION_), OptionsKey:@[__VA_ARGS__] }
 #define Option(_OLABEL_, _OVAL_) \
 @{ LabelKey:_OLABEL_, ValueKey:_OVAL_ }
 #define ColorWell(_KEY_, _LABEL_) \
-@{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_, @"DebugModeLabel"), TypeKey:ColorType }
+@{ KeyKey:_KEY_, LabelKey:NSLocalizedStringFromTable(_LABEL_, @"Debug", @"DebugModeLabel"), TypeKey:ColorType }
 #define NumberTextBox(_KEY_, _LABEL_, _FORMATTER_) \
-@{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_, @"Debug Label"), NumberFormatterKey:_FORMATTER_, TypeKey:NumericTextFieldType }
+@{ KeyKey:_KEY_, LabelKey:NSLocalizedStringFromTable(_LABEL_, @"Debug", @"Debug Label"), NumberFormatterKey:_FORMATTER_, TypeKey:NumericTextFieldType }
 
 @implementation OEPrefDebugController
 
@@ -518,7 +518,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 
 - (void)downloadMissingArtwork:(id)sender
 {
-    OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"While performing this operation OpenEmu will be unresponsive.", @"")
+    OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedStringFromTable(@"While performing this operation OpenEmu will be unresponsive.", @"Debug", @"")
                                      defaultButton:NSLocalizedString(@"Continue", @"")
                                    alternateButton:NSLocalizedString(@"Cancel", @"")];
     if([alert runModal] != NSAlertFirstButtonReturn) return;
@@ -842,10 +842,10 @@ NSString * const NumberFormatterKey = @"numberFormatter";
         id originalValue = [defaultDefaults objectForKey:udkey] ?: @NO;
         if ([originalValue isKindOfClass:[NSNumber class]])  {
             BOOL origbool = [originalValue boolValue] ^ negated;
-            NSString *fmt = NSLocalizedString(@"Default Value: %@", @"Default value tooltip format in the Debug Preferences");
+            NSString *fmt = NSLocalizedStringFromTable(@"Default Value: %@", @"Debug", @"Default value tooltip format in the Debug Preferences");
             NSString *val = origbool ?
-                NSLocalizedString(@"Checked", @"Default value tooltip for checkboxes: checked default") :
-                NSLocalizedString(@"Unchecked", @"Default value tooltip for checkboxes: unchecked default");
+                NSLocalizedStringFromTable(@"Checked", @"Debug", @"Default value tooltip for checkboxes: checked default") :
+                NSLocalizedStringFromTable(@"Unchecked", @"Debug", @"Default value tooltip for checkboxes: unchecked default");
             NSString *defaultTooltip = [NSString stringWithFormat:fmt, val];
             [checkbox setToolTip:defaultTooltip];
         }
@@ -933,14 +933,14 @@ NSString * const NumberFormatterKey = @"numberFormatter";
         NSString *keypath = [NSString stringWithFormat:@"values.%@", udkey];
         [inputField bind:NSValueBinding toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:keypath options:nil];
         
-        NSString *validRangeFormat = NSLocalizedString(@"Range: %@ to %@", @"Range indicator tooltip for numeric text boxes in the Debug Preferences");
+        NSString *validRangeFormat = NSLocalizedStringFromTable(@"Range: %@ to %@", @"Debug", @"Range indicator tooltip for numeric text boxes in the Debug Preferences");
         NSString *min = [nf stringFromNumber:nf.minimum];
         NSString *max = [nf stringFromNumber:nf.maximum];
         NSMutableString *tooltip = [NSMutableString stringWithFormat:validRangeFormat, min, max];
         
         id defaultv = [defaultDefaults objectForKey:udkey] ?: @0;
         if ([defaultv isKindOfClass:[NSNumber class]]) {
-            NSString *fmt = NSLocalizedString(@"Default Value: %@", @"Default value tooltip format in the Debug Preferences");
+            NSString *fmt = NSLocalizedStringFromTable(@"Default Value: %@", @"Debug", @"Default value tooltip format in the Debug Preferences");
             NSString *defaultstr = [nf stringFromNumber:defaultv];
             [tooltip appendString:@"\n"];
             [tooltip appendFormat:fmt, defaultstr];
