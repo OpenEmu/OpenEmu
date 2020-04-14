@@ -510,7 +510,7 @@
 
 "Yes" = "是";
 
-"You can't move your library here!" = "不能將庫移動到這裡！";
+"You can't move your library into one of its subfolders." = "不能將庫移動到這裡！"; // TODO
 
 "You need to restart the application to commit the change" = "你需要重啟應用程序以使更改生效。";
 

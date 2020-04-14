@@ -185,9 +185,13 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
     // TODO: use migratePersistentStore:toURL:options:withType:error so we don't have to restart the app
     NSURL *currentLocation = [library databaseFolderURL];
     NSURL *newLocation     = [newParentLocation URLByAppendingPathComponent:[currentLocation lastPathComponent] isDirectory:YES];
+    if([newLocation isEqual:currentLocation])
+    {
+        return;
+    }
     if([newLocation isSubpathOfURL:currentLocation])
     {
-        OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"You can't move your library here!", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
+        OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"You can't move your library into one of its subfolders.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
         return;
     }

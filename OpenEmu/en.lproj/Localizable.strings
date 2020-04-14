@@ -512,7 +512,7 @@
 
 "Yes" = "Yes";
 
-"You can't move your library here!" = "You can’t move your library here!";
+"You can't move your library into one of its subfolders." = "You can’t move your library into one of its subfolders.";
 
 "You need to restart the application to commit the change" = "You need to restart the application to commit the change";
 

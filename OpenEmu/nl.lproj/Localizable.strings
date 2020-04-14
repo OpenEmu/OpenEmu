@@ -510,7 +510,7 @@
 
 "Yes" = "Ja";
 
-"You can't move your library here!" = "U kan uw bibliotheek niet hiernaar verplaatsen!";
+"You can't move your library into one of its subfolders." = "U kan uw bibliotheek niet hiernaar verplaatsen!"; // TODO
 
 "You need to restart the application to commit the change" = "U moet de toepassing herstarten om de aanpassing door te voeren";
 

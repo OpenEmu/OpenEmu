@@ -512,7 +512,7 @@
 
 "Yes" = "Sí";
 
-"You can't move your library here!" = "No es pot moure la biblioteca aquí.";
+"You can't move your library into one of its subfolders." = "No es pot moure la biblioteca aquí."; // TODO
 
 "You need to restart the application to commit the change" = "Heu de reiniciar l'aplicació per aplicar el canvi";
 

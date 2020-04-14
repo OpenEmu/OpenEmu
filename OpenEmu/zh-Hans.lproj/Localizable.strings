@@ -520,7 +520,7 @@
 
 "Yes" = "是";
 
-"You can't move your library here!" = "不能将库移动到这里！";
+"You can't move your library into one of its subfolders." = "不能将库移动到这里！"; // TODO
 
 "You need to restart the application to commit the change" = "你需要重启应用程序以使更改生效。";
 

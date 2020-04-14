@@ -520,7 +520,7 @@
 
 "Yes" = "はい";
 
-"You can't move your library here!" = "ここへはライブラリを移動できません。";
+"You can't move your library into one of its subfolders." = "ここへはライブラリを移動できません。"; // TODO
 
 "You need to restart the application to commit the change" = "変更を適用するには、OpenEmuを再起動してください。";
 

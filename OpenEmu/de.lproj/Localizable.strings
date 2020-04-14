@@ -510,7 +510,7 @@
 
 "Yes" = "Ja";
 
-"You can't move your library here!" = "Die Mediathek kann nicht hierhin verschoben werden.";
+"You can't move your library into one of its subfolders." = "Die Mediathek kann nicht in einen ihrer Unterordner verschoben werden.";
 
 "You need to restart the application to commit the change" = "OpenEmu muss neu gestartet werden, um die Änderung anzuwenden";
 

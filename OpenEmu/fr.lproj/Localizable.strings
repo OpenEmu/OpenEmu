@@ -510,7 +510,7 @@
 
 "Yes" = "Oui";
 
-"You can't move your library here!" = "Vous ne pouvez pas déplacer votre bibliothèque ici !";
+"You can't move your library into one of its subfolders." = "Vous ne pouvez pas déplacer votre bibliothèque ici !"; // TODO
 
 "You need to restart the application to commit the change" = "Vous devez redémarrer l’application pour valider la modification";
 
