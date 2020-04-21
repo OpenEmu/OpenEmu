@@ -767,6 +767,8 @@ extern NSString * const kCAContextCIFilterBehavior;
             if (drawable != nil) {
                 MTLRenderPassDescriptor *rpd = [MTLRenderPassDescriptor new];
                 rpd.colorAttachments[0].clearColor = self->_clearColor;
+                // TODO: Investigate whether we can avoid the MTLLoadActionClear
+                // Frame buffer should be overwritten completely by final pass.
                 rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
                 rpd.colorAttachments[0].texture    = drawable.texture;
                 commandBuffer = [_commandQueue commandBuffer];
