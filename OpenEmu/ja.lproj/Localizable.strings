@@ -26,9 +26,9 @@
 
 "%@ copy" = "%@ コピー";
 
-"%@ could not be enabled because its plugin was not found." = "%@を有効化できませんでした。プラグインが見付かりません。";
+"%@ could not be enabled because its plugin was not found." = "%@を有効化できませんでした。プラグインが見つかりません。";
 
-"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@のゲームがここに表示されます。 ディスクの入れ替えが必要なゲームは、こちらから%@を確認して下さい。";
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@のゲームがここに表示されます。 ディスクの入れ替えが必要なゲームは、こちらから%@を確認してください。";
 
 "%@ games you add to OpenEmu will appear in this Console Library" = "%@ OpenEmuへ追加されたゲームは、このコンソールライブラリへ表示されます。";
 
@@ -50,35 +50,35 @@
 
 "All Homebrew" = "全てのHomebrew";
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "本当に&ldのセーブデータをOpenEmuライブラリから削除しても宜しいですか？";
+"Are you sure you want to delete %ld save games from your OpenEmu library?" = "&ld のセーブデータをOpenEmuライブラリから削除してもよろしいですか？";
 
-"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "本当に%ldのスクリーンショットデータをOpenEmuライブラリから削除しても宜しいですか？";
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "%ld のスクリーンショットデータをOpenEmuライブラリから削除してもよろしいですか？";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "本当に'%@'という名前のセーブデータをOpenEmuライブラリから削除しても宜しいですか？";
+"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "'%@'という名前のセーブデータをOpenEmuライブラリから削除してもよろしいですか？";
 
-"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "本当に'%@'という名前のスクリーンショットデータをOpenEmuライブラリから削除しても宜しいですか？";
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "'%@'という名前のスクリーンショットデータをOpenEmuライブラリから削除してもよろしいですか？";
 
-"Are you sure you want to delete the selected game from your OpenEmu library?" = "選択したゲームをOpenEmuライブラリから本当に削除しても宜しいですか？";
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "選択したゲームをOpenEmuライブラリから削除してもよろしいですか？";
 
-"Are you sure you want to delete the selected games from your OpenEmu library?" = "選択したゲームをOpenEmuライブラリから本当に削除しても宜しいですか？";
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "選択したゲームをOpenEmuライブラリから削除してもよろしいですか？";
 
-"Are you sure you want to quit the application?" = "アプリケーションを終了しても宜しいですか？";
+"Are you sure you want to quit the application?" = "アプリケーションを終了してもよろしいですか？";
 
-"Are you sure you want to remove the selected games from the collection?" = "選択したゲームをコレクションから削除しても宜しいですか？";
+"Are you sure you want to remove the selected games from the collection?" = "選択したゲームをコレクションから削除してもよろしいですか？";
 
-"Are you sure you want to remove this collection?" = "このコレクションを本当に削除しても宜しいですか？";
+"Are you sure you want to remove this collection?" = "このコレクションを本当に削除してもよろしいですか？";
 
 "Are you sure you want to reset the console?" = "コンソールをリセットしますか？";
 
 "Are you sure you want to stop emulation?" = "エミュレータを停止しますか？";
 
-"At least one System must be enabled" = "最低一つ以上のシステムを有効にして下さい。";
+"At least one System must be enabled" = "最低一つ以上のシステムを有効にしてください。";
 
 "Auto Save State" = "オートセーブステート";
 
 "Automatically Import" = "自動でインポート";
 
-"Bluetooth must be enabled to pair a Wii controller." = "Wiiコントローラを接続するには、Bluetoothを有効にして下さい。";
+"Bluetooth must be enabled to pair a Wii controller." = "Wiiコントローラを接続するには、Bluetoothを有効にしてください。";
 
 "Bluetooth Not Enabled" = "Bluetoothが無効になっています。";
 
@@ -96,7 +96,7 @@
 
 "Check out some excellent homebrew games." = "Homebrewゲームをチェックする";
 
-"Choose a valid file." = "有効なファイルを選択して下さい。";
+"Choose a valid file." = "有効なファイルを選択してください。";
 
 "Choose Library…" = "ライブラリを選択…";
 
@@ -136,17 +136,17 @@
 
 "Could not move complete library! %ld roms were moved" = "ライブラリの移動に失敗しました。%ld個のロムを移動しました。";
 
-"Could not move library data!" = "ライブラリデータを移動出来ません。";
+"Could not move library data!" = "ライブラリデータを移動できません。";
 
-"Couldn't load %@ plugin" = "%@という名称のプラグインをロード出来ませんでした。";
+"Couldn't load %@ plugin" = "%@という名称のプラグインをロードできませんでした。";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "自分好みのゲームセレクションを作成しましょう。コレクションを追加するには、コンソールライブラリからゲームを選択し、左側の’%@’へドラッグして下さい。"; // TODO
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "自分好みのゲームセレクションを作成しましょう。コレクションを追加するには、コンソールライブラリからゲームを選択し、左側の’%@’へドラッグしてください。";
 
 "Create Library…" = "ライブラリを作成…";
 
 "Create or Load Save State" = "セーブステートを作成/ロードする";
 
-"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "自分好みのスクリーンショットセレクションを作成しましょう。スクリーンショットを撮るには、ゲームをプレイ中に ⌘ + T を押して下さい。";
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "自分好みのスクリーンショットセレクションを作成しましょう。スクリーンショットを撮るには、ゲームをプレイ中に ⌘ + T を押してください。";
 
 "Default Core" = "デフォルトのコア";
 
@@ -178,9 +178,9 @@
 
 "Device number %lu, %@, has disconnected." = "%1$lu, %2$@, 個のデバイスの接続が解除されました。";
 
-"Disc %u" = "Disc %u"; // TODO
+"Disc %u" = "ディスク %u";
 
-"Disc-based games have special requirements. Please read the disc importing guide." = "ディスクゲームは特別な操作が必要です。ディスクのインポートガイドを確認して下さい。";
+"Disc-based games have special requirements. Please read the disc importing guide." = "ディスクゲームは特別な操作が必要です。ディスクのインポートガイドを確認してください。";
 
 "Dismiss" = "無視する";
 
@@ -190,7 +190,7 @@
 
 "Do not show me again" = "再表示しない";
 
-"Do you really want to cancel importation?" = "インポートをキャンセルしますか？"; // TODO
+"Do you really want to cancel importation?" = "インポートをキャンセルしますか？";
 
 "Do you want to continue playing where you left off?" = "最後に中断したところから再開しますか？";
 
@@ -208,9 +208,9 @@
 
 "Downloading Game DB" = "ゲームDBをダウンロード中";
 
-"Drag & Drop Games Here" = "ここにゲームをドラッグ&ドロップして下さい";
+"Drag & Drop Games Here" = "ここにゲームをドラッグ&ドロップしてください";
 
-"Drag & Drop Save States Here" = "ここにセーブステートをドラッグ&ドロップして下さい";
+"Drag & Drop Save States Here" = "ここにセーブステートをドラッグ&ドロップしてください";
 
 "Duplicate Collection" = "コレクションを複製";
 
@@ -244,11 +244,11 @@
 
 "Homebrew Games" = "Homebrewゲーム";
 
-"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "背面のバッテリーカバーに赤いボタンがある場合は押して下さい。\nそうでない場合は①+②ボタンを押し続けて下さい。";
+"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "背面のバッテリーカバーに赤いボタンがある場合は押してください。\nそうでない場合は①+②ボタンを押し続けてください。";
 
 "If you change the core you current progress will be lost and save states will not work anymore." = "コアを変更すると、現在までの進行が失われ、セーブステートも無効になります。";
 
-"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "いくつかのコンソールでは、複雑なハードウェア要件やゲームソフトの要件をエミュレートするため、BIOSファイルが必要になります。詳しくはこちらのガイド%@を読んで下さい。";
+"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "いくつかのコンソールでは、ハードウェアやゲームソフトの複雑な要件をエミュレートするため、BIOSファイルが必要です。詳しくは%@をお読みください。";
 
 "In order to play the game it must be downloaded." = "ゲームで遊ぶためにダウンロードが必要です。";
 
@@ -276,11 +276,11 @@
 
 "Low Controller Battery" = "コントローラのバッテリが少なくなっています";
 
-"Make sure your internet connection is active and download a suitable core." = "インターネットが接続され、コアがダウンロードされていることを確認して下さい。";
+"Make sure your internet connection is active and download a suitable core." = "インターネットが接続され、コアがダウンロードされていることを確認してください。";
 
-"Make your Wiimote discoverable" = "Wiimoteを発見可能な状態にして下さい。";
+"Make your Wiimote discoverable" = "Wiimoteを発見可能な状態にしてください。";
 
-"Missing Core" = "見付からないコア";
+"Missing Core" = "コアがありません";
 
 "Move selected game to Trash, or keep it in the Library folder?" = "選択したゲームをゴミ箱へ移動します。ライブラリフォルダに残しますか？";
 
@@ -288,11 +288,11 @@
 
 "Move to Trash" = "ゴミ箱へ移動";
 
-"Mute Audio" = "消音にする";
+"Mute Audio" = "音声をミュート";
 
 "Name" = "名前"; // Search field menu, only search names
 
-"New Collection from Selection" = "セレクションから新しいコレクションを作成";
+"New Collection from Selection" = "選択から新しいコレクションを作成";
 
 "New Collection" = "新しいコレクション";
 
@@ -324,11 +324,11 @@
 
 "Open Library" = "ライブラリを開く";
 
-"OpenEmu could not find a Core to launch the game" = "このゲームを開くためのコアが見付かりませんでした。";
+"OpenEmu could not find a Core to launch the game" = "このゲームを開くためのコアが見つかりませんでした。";
 
-"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmuは、あなたがゲームを止めた段階でゲームをセーブする機能を備えています。";
+"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmuは、ゲームを中断したときの状態をセーブする機能があります。";
 
-"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmuを続けるためにはライブラリが必要です。既存のOpenEmuライブラリを選択するか、新規ライブラリを作成して下さい。";
+"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmuを続けるためにはライブラリが必要です。既存のOpenEmuライブラリを選択するか、新規ライブラリを作成してください。";
 
 "OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmuでゲームをエミュレートするには、'コア'が必要です。%2$@ をプレイするには %1$@ が必要です。";
 
@@ -336,7 +336,7 @@
 
 "Options" = "オプション";
 
-"Pause Emulation" = "エミュレートを一時停止";
+"Pause Emulation" = "エミュレーションを一時停止";
 
 "Pause Gameplay" = "ゲームを一時停止";
 
@@ -350,7 +350,7 @@
 
 "Player %ld" = "プレーヤー %ld";
 
-"Please close all games and wait for the importer to finish." = "全てのゲームを閉じ、インポートが終了するのをお待ち下さい。";
+"Please close all games and wait for the importer to finish." = "全てのゲームを閉じ、インポートが終了するのをお待ちください。";
 
 "Quick Load" = "クイックロード";
 
@@ -366,7 +366,7 @@
 
 "Recently Added" = "最近追加されたもの";
 
-"Recovered Auto Save" = "リカバリされたオートセーブ";
+"Recovered Auto Save" = "復旧されたオートセーブ";
 
 "Remove" = "削除";
 
@@ -378,11 +378,11 @@
 
 "Rename" = "名称を変更";
 
-"Required files are missing." = "要求されたファイルが見付かりません。";
+"Required files are missing." = "要求されたファイルが見つかりません。";
 
-"Resolve %ld Issue" = "%ld の問題を解決する";
+"Resolve %ld Issue" = "%ld 個の問題を解決する";
 
-"Resolve %ld Issues" = "%ld の問題を解決する";
+"Resolve %ld Issues" = "%ld 個の問題を解決する";
 
 "Resolve Issues" = "問題を解決する";
 
@@ -392,9 +392,9 @@
 
 "Restart" = "再起動";
 
-"Resume Emulation" = "エミュレーションをレジューム";
+"Resume Emulation" = "エミュレーションを復帰";
 
-"Resume Gameplay" = "ゲームを一時停止";  // TODO
+"Resume Gameplay" = "ゲームプレイを復帰";
 
 "Resume" = "レジューム";
 
@@ -428,7 +428,7 @@
 
 "Select Core" = "コアを選択";
 
-"Select Disc" = "Select Disc"; // TODO
+"Select Disc" = "ディスクを選択";
 
 "Select Display Mode" = "ディスプレイモード";
 
@@ -460,33 +460,33 @@
 
 "Takes you to the %@ project website" = "%@ プロジェクトのウェブサイトを表示";
 
-"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "%1$@ コアは互換性の問題を抱えているため、グリッチが発生するか、全くプレイが出来ません。\n\n%2$@の問題についての報告は必要ありません。";
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "%1$@ コアは互換性の問題を抱えているため、グリッチが発生するか、全くプレイができません。\n\n%2$@の問題についての報告は必要ありません。";
 
-"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "デバイス番号 %1$lu、及び %2$@, のバッテリが弱くなっています。電池を交換して下さい。";
+"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "デバイス番号 %1$lu、及び %2$@, のバッテリが弱くなっています。電池を交換してください。";
 
-"The core could not be downloaded. Try installing it from the Cores preferences." = "コアがダウンロード出来ませんでした。コア設定からダウンロードし直して下さい。";
+"The core could not be downloaded. Try installing it from the Cores preferences." = "コアがダウンロードできませんでした。コア設定からダウンロードし直してください。";
 
 "The file you selected doesn't exist" = "選択されたファイルは存在しません。";
 
-"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "ROMファイルが見付からなかったため、'%@'を開始することが出来ませんでした。ファイルを再度指定しますか？";
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "ROMファイルが見つからなかったため、'%@'を開始することができませんでした。ファイルを再度指定しますか？";
 
 "The game '%@' was imported." = "'%@' がインポートされました。";
 
-"The OpenEmu Library could not be found." = "OpenEmuライブラリが見付かりませんでした。";
+"The OpenEmu Library could not be found." = "OpenEmuライブラリが見つかりませんでした。";
 
-"The System plugin could not be found!" = "システムプラグインが見付かりませんでした。";
+"The System plugin could not be found!" = "システムプラグインが見つかりませんでした。";
 
 "this guide" = "ガイド";
 
 "This save state was created with a different core. Do you want to switch to that core now?" = "このセーブステートは、別のコアで作成されています。作成されたコアへ変更しますか？";
 
-"This System has no corresponding core installed." = "関連するコアが見付かりません。";
+"This System has no corresponding core installed." = "関連するコアが見つかりません。";
 
 "Title:" = "タイトル:";
 
 "To launch the save state %@ you will need to install the '%@' Core" = "%1$@ のセーブステートを起動するには、'%2$@' のコアが必要です。";
 
-"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "このコアを起動するには、以下のコアが必要です:\n\n%@要求されたファイルをゲームライブラリのウィンドウへドラッグ&ドロップして下さい。";
+"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "このコアを起動するには、以下のコアが必要です:\n\n%@要求されたファイルをゲームライブラリのウィンドウへドラッグ&ドロップしてください。";
 
 "Toggle Fullscreen" = "フルスクリーンモード";
 
@@ -494,7 +494,7 @@
 
 "Trash downloaded Files" = "ダウンロードされたファイルを捨てる";
 
-"Unmute Audio" = "消音を解除";
+"Unmute Audio" = "音声のミュートを解除";
 
 "Update" = "アップデート";
 
@@ -516,21 +516,21 @@
 
 "Yes" = "はい";
 
-"You can't move your library here!" = "ここへはライブラリを移動出来ません。";
+"You can't move your library here!" = "ここへはライブラリを移動できません。";
 
-"You need to restart the application to commit the change" = "変更を適用するには、OpenEmuを再起動して下さい。";
+"You need to restart the application to commit the change" = "変更を適用するには、OpenEmuを再起動してください。";
 
 "Your game finished importing, do you want to play it now?" = "ゲームのインポートが完了しました。ゲームを起動しますか？";
 
 "Your library was moved sucessfully." = "ライブラリの移動が正常に完了しました。";
 
-"Library" = "ライブラリ";  // TODO
+"Library" = "ライブラリ";
 
-"Save States" = "セーブステート";  // TODO
+"Save States" = "セーブステート";
 
-"Screenshots" = "スクリーンショット";  // TODO
+"Screenshots" = "スクリーンショット";
 
-"Homebrew" = "Homebrew";  // TODO
+"Homebrew" = "Homebrew";
 
 "Grid Size" = "グリッドサイズ";   // TODO shown when the corresponding item does not fit in the main window's toolbar
 
@@ -538,41 +538,41 @@
 
 "Category" = "カテゴリ";   // TODO shown when the corresponding item does not fit in the main window's toolbar
 
-"An issue was detected with one of your controllers." = "An issue was detected with one of your controllers.";  //TODO // Headline for bindings repaired alert
+"An issue was detected with one of your controllers." = "お使いのコントローラーのひとつに問題が検出されました。";
 
-"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.";  // TODO // Message for bindings repaired alert
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "コントローラのボタンプロファイルが、前回OpenEmuに接続したときに検出されたプロファイルと一致しません。影響を受けたコントローラに関連付けられた操作の一部がリセットされました。"; // Message for bindings repaired alert
 
-"Keycode 0x%lX" = "Keycode 0x%lX";  // TODO  // Fallback for unknown keys
+"Keycode 0x%lX" = "キーコード 0x%lX";   // Fallback for unknown keys
 
-"Your Mac is too old for this version of OpenEmu" = "Your Mac is too old for this version of OpenEmu";  // Message for the alert which appears when no Metal-enabled GPUs are detected // TODO
+"Your Mac is too old for this version of OpenEmu" = "このMacは古いため、このバージョンのOpenEmuを使用できません。";  // Message for the alert which appears when no Metal-enabled GPUs are detected
 
-"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected // TODO
+"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "OpenEmuはバージョン2.1から、MetalをサポートするGPUが必要になりました。現在お使いのハードウェアやソフトウェアの設定ではOpenEmuが動作しないため、終了します。";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected
 
 "Quit OpenEmu" = "OpenEmuを終了する";  // Button title for the alert which appears when no Metal-enabled GPUs are detected
 
-"The %@ core plugin is deprecated" = "The %@ core plugin is deprecated";  // Message title (removal far away) // TODO
+"The %@ core plugin is deprecated" = "コアプラグイン %@ は非推奨です。";  // Message title (removal far away)
 
-"The %@ core plugin is deprecated, and will be removed soon" = "The %@ core plugin is deprecated, and will be removed soon";  // Message title (removal happening soon) // TODO
+"The %@ core plugin is deprecated, and will be removed soon" = "コアプラグイン %@ は非推奨のため削除されます。";  // Message title (removal happening soon)
 
-"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working.";  // Message info, part 1 (removal far away) // TODO
+"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "このコアプラグインは将来的に利用できなくなります。このコアプラグインが削除されると、これで作成されたセーブステートはすべて動作しなくなります。";  // Message info, part 1 (removal far away)
 
-"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working.";  // Message info, part 1 (removal happening soon) // TODO
+"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "数日後、このコアプラグインは自動的に削除されます。このコアプラグインが削除されると、これで作成されたセーブステートはすべて動作しなくなります。";  // Message info, part 1 (removal happening soon)
 
-"We suggest you switch to the %@ core plugin as soon as possible." = "We suggest you switch to the %@ core plugin as soon as possible.";  // Message info, part 2 (shown only if the replacement plugin is available) // TODO
+"We suggest you switch to the %@ core plugin as soon as possible." = "なるべく早く、コアプラグイン %@ への切り替えをおすすめします。";  // Message info, part 2 (shown only if the replacement plugin is available)
 
-"This plugin is currently unsupported" = "This plugin is currently unsupported";  // TODO
+"This plugin is currently unsupported" = "このプラグインは現在ほサポートされていません";
 
-"Install %@" = "Install %@";  // TODO
+"Install %@" = "%@ をインストール";
 
-"Install %@ and Set as Default" = "Install %@ and Set as Default";  // TODO
+"Install %@ and Set as Default" = "%@ をインストールして標準に設定";
 
-"Ignore" = "Ignore";  // TODO
+"Ignore" = "無視";
 
 "OpenEmu requires additional permissions" = "OpenEmu requires additional permissions";  // Headline for Input Monitoring permissions // TODO
 
-"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues.";  // "Message for Input Monitoring permissions" // TODO
+"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "キーボードを入力デバイスとして使用するには、OpenEmu に入力監視の権限を許可する必要があります。";  // "Message for Input Monitoring permissions" // TODO
 
-"Show" = "Show";  // TODO
+"Show" = "見る";
 
 
 /* Secrets */
@@ -593,7 +593,7 @@
 
 "Dark GridView context menu" = "ダーク・グリッドビュー";
 
-"Download missing artwork on the fly" = "ダウンロードした写真が見付かりません";
+"Download missing artwork on the fly" = "ダウンロードした写真が見つかりません";
 
 "Show game titles instead of rom names" = "ROMの名前の代わりにゲームタイトルを表示する";
 
@@ -615,7 +615,7 @@
 
 "Show options button" = "オプションボタンを表示";
 
-"Show notifications during gameplay" = "Show notifications during gameplay";   // TODO
+"Show notifications during gameplay" = "ゲームプレイ中に通知を表示";
 
 "Use quicksave slots" = "クイックセーブスロットを使用";
 
@@ -627,7 +627,7 @@
 
 "Take screenshots in native size" = "スクリーンショットをネイティブサイズで表示";
 
-"Disable aspect ratio correction in screenshots" = "アスペクト比調整を無効にする"; // TODO: specify "in screenshots"
+"Disable aspect ratio correction in screenshots" = "スクリーンショットのアスペクト比調整を無効にする";
 
 "Game View Background color" = "ゲーム画面の背景色";
 
@@ -681,16 +681,16 @@
 
 "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "OpenEmuの発展に寄与した全ての方へ感謝申し上げます。\n全てのコントリビュータ、エミュレータコア作者、\nドキュメント、ライセンス、イシュー、\nバグレポートなどの確認は、GitHubにてご確認ください。";
 
-"ECM compressed binary detected." = "ECM圧縮バイナリを検知しました";  // TODO
+"ECM compressed binary detected." = "ECM圧縮バイナリを検知しました";
 
-"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM圧縮バイナリをインポート出来ませんでした。ディスクインポートガイドをご確認ください。";  // TODO
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM圧縮バイナリをインポートできませんでした。ディスクインポートガイドをご確認ください。";
 
-"Threshold for analog controls bound to buttons" = "Threshold for analog controls\nbound to buttons";    // TODO
+"Threshold for analog controls bound to buttons" = "アナログのしきい値";
 
-"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
+"Range: %@ to %@" = "範囲: %@ から %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
 
-"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+"Default Value: %@" = "デフォルト値: %@";  // Default value tooltip format in the Debug Preferences
 
-"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+"Checked" = "チェックあり";  // Default value tooltip for checkboxes: checked default
 
-"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+"Unchecked" = "チェックなし";  // Default value tooltip for checkboxes: unchecked default // TODO
