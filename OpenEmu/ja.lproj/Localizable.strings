@@ -685,7 +685,7 @@
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM圧縮バイナリをインポートできませんでした。ディスクインポートガイドをご確認ください。";
 
-"Threshold for analog controls bound to buttons" = "アナログのしきい値";
+"Threshold for analog controls bound to buttons" = "ボタンによるアナログ操作のしきい値";
 
 "Range: %@ to %@" = "範囲: %@ から %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
 
@@ -693,4 +693,4 @@
 
 "Checked" = "チェックあり";  // Default value tooltip for checkboxes: checked default
 
-"Unchecked" = "チェックなし";  // Default value tooltip for checkboxes: unchecked default // TODO
+"Unchecked" = "チェックなし";  // Default value tooltip for checkboxes: unchecked default
