@@ -337,7 +337,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                 
                 NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", @""), [game name]];
                 if([[OEAlert alertWithMessageText:messageText
-                                       defaultButton:NSLocalizedString(@"Locate", @"")
+                                       defaultButton:NSLocalizedString(@"Locate…", @"")
                                      alternateButton:NSLocalizedString(@"Cancel", @"")] runModal] == NSAlertFirstButtonReturn)
                 {
                     OEDBRom  *missingRom = [[game roms] anyObject];
@@ -346,7 +346,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                     
                     NSString *panelTitle = [NSString stringWithFormat:NSLocalizedString(@"Locate '%@'", @"Locate panel title"), [[originalURL pathComponents] lastObject]];
                     NSOpenPanel  *panel = [NSOpenPanel openPanel];
-                    [panel setTitle:panelTitle];
+                    [panel setMessage:panelTitle];
                     [panel setCanChooseDirectories:NO];
                     [panel setCanChooseFiles:YES];
                     [panel setDirectoryURL:[originalURL URLByDeletingLastPathComponent]];
