@@ -464,9 +464,9 @@ typedef enum : NSUInteger
     OEDeviceHandler *devHandler = [notification object];
     NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"The battery in device number %lu, %@, is low. Please charge or replace the battery.", @"Low battery alert detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
     OEAlert *alert = [OEAlert alertWithMessageText:lowBatteryString
-                                           defaultButton:NSLocalizedString(@"Resume", nil)
-                                         alternateButton:nil];
-    [alert setHeadlineText:[NSString stringWithFormat:NSLocalizedString(@"Low Controller Battery", @"Device battery level is low.")]];
+                                     defaultButton:NSLocalizedString(@"Resume", nil)
+                                   alternateButton:nil];
+    [alert setHeadlineText:NSLocalizedString(@"Low Controller Battery", @"Device battery level is low.")];
     [alert runModal];
     
     if(isRunning) [self setEmulationPaused:NO];
@@ -480,9 +480,9 @@ typedef enum : NSUInteger
     OEDeviceHandler *devHandler = [[notification userInfo] objectForKey:OEDeviceManagerDeviceHandlerUserInfoKey];
     NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"Device number %lu, %@, has disconnected.", @"Device disconnection detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
     OEAlert *alert = [OEAlert alertWithMessageText:lowBatteryString
-                                           defaultButton:NSLocalizedString(@"Resume", @"Resume game after battery warning button label")
-                                         alternateButton:nil];
-    [alert setHeadlineText:[NSString stringWithFormat:NSLocalizedString(@"Device Disconnected", @"A controller device has disconnected.")]];
+                                     defaultButton:NSLocalizedString(@"Resume", @"Resume game after battery warning button label")
+                                   alternateButton:nil];
+    [alert setHeadlineText:NSLocalizedString(@"Device Disconnected", @"A controller device has disconnected.")];
     [alert runModal];
     
     if(isRunning) [self setEmulationPaused:NO];
