@@ -141,7 +141,7 @@
 "1040.title" = "グリッド表示";
 
 /* Class = "NSMenuItem"; title = "Undock Game Window"; ObjectID = "1041"; */
-"1041.title" = "ゲーム画面をDockにしまえなくする";
+"1041.title" = "ゲームウインドウを切り離す";
 
 /* Class = "NSMenu"; title = "Controls"; ObjectID = "1042"; */
 "1042.title" = "制御";
@@ -177,7 +177,7 @@
 "1066.title" = "検索";
 
 /* Class = "NSMenuItem"; title = "Select All"; ObjectID = "1068"; */
-"1068.title" = "全てを選択";
+"1068.title" = "すべてを選択";
 
 /* Class = "NSMenuItem"; title = "Delete"; ObjectID = "1069"; */
 "1069.title" = "削除";
@@ -201,7 +201,7 @@
 "1077.title" = "検索";
 
 /* Class = "NSMenuItem"; title = "Jump to Selection"; ObjectID = "1078"; */
-"1078.title" = "セレクションへ移動";
+"1078.title" = "選択した項目へ移動";
 
 /* Class = "NSMenuItem"; title = "Use Selection for Find"; ObjectID = "1079"; */
 "1079.title" = "Use Selection for Find";
@@ -270,7 +270,7 @@
 "q7W-GV-n3p.title" = "ユーザーガイド";
 
 /* Class = "NSMenuItem"; title = "Next Display Mode"; ObjectID = "VVR-iO-axh"; */
-"VVR-iO-axh.title" = "Next Display Mode"; // TODO
+"VVR-iO-axh.title" = "次のディスプレイモード";
 
 /* Class = "NSMenuItem"; title = "Last Display Mode"; ObjectID = "HzI-NP-sNP"; */
-"HzI-NP-sNP.title" = "Last Display Mode"; // TODO
+"HzI-NP-sNP.title" = "前のディスプレイモード";
