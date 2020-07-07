@@ -166,7 +166,8 @@
     NSString *helperPath = [[NSBundle mainBundle] pathForResource:@"OpenEmuHelperApp" ofType:nil];
     _backgroundProcessTask = [[NSTask alloc] init];
 
-    [_backgroundProcessTask setLaunchPath:helperPath];
+    [_backgroundProcessTask setExecutableURL:[NSURL fileURLWithPath:helperPath]];
+    [_backgroundProcessTask setCurrentDirectoryURL:[NSURL fileURLWithPath:[helperPath stringByDeletingLastPathComponent]]];
     [_backgroundProcessTask setArguments:@[ [configuration agentServiceNameProcessArgument], [configuration processIdentifierArgumentForIdentifier:_processIdentifier] ]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_taskDidTerminate:) name:NSTaskDidTerminateNotification object:_backgroundProcessTask];
