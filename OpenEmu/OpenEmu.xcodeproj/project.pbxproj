@@ -8975,7 +8975,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
@@ -8997,7 +8996,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
@@ -9007,6 +9005,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -9021,19 +9020,14 @@
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
+				"OTHER_LDFLAGS[arch=i386]" = (
 					"$(inherited)",
-					"-sectcreate",
-					__TEXT,
-					__info_plist,
-					"$(INFOPLIST_FILE)",
 					"-pagezero_size",
 					0x1000,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.OpenEmuHelperApp;
 				PRODUCT_NAME = OpenEmuHelperApp;
 				SWIFT_VERSION = 5.0;
-				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -9042,6 +9036,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -9057,19 +9052,14 @@
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
+				"OTHER_LDFLAGS[arch=i386]" = (
 					"$(inherited)",
-					"-sectcreate",
-					__TEXT,
-					__info_plist,
-					"$(INFOPLIST_FILE)",
 					"-pagezero_size",
 					0x1000,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.OpenEmuHelperApp;
 				PRODUCT_NAME = OpenEmuHelperApp;
 				SWIFT_VERSION = 5.0;
-				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
@@ -9229,7 +9219,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "NeoGeo Pocket";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
@@ -9251,7 +9240,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "NeoGeo Pocket";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
@@ -9275,7 +9263,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = GameGear;
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
@@ -9297,7 +9284,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = GameGear;
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
@@ -10841,7 +10827,6 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "OpenEmu-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -10879,7 +10864,6 @@
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "OpenEmu-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
@@ -11018,7 +11002,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
@@ -11040,7 +11023,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
@@ -11064,7 +11046,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
@@ -11086,7 +11067,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
@@ -11110,7 +11090,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
@@ -11132,7 +11111,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
@@ -11156,7 +11134,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
@@ -11178,7 +11155,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
@@ -11202,7 +11178,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
@@ -11224,7 +11199,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
@@ -11248,7 +11222,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
@@ -11270,7 +11243,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
@@ -11307,7 +11279,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
@@ -11339,7 +11310,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
