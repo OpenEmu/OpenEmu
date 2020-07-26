@@ -34,6 +34,12 @@ int main(int argc, const char * argv[])
     static OpenEmuHelperApp *helperApp;
     @autoreleasepool
     {
+#if 0
+        // NOTE: enable this block and be given 10s to attach Xcode
+        // to debug process
+        [OEXPCCDebugSupport waitForDebuggerUntil:10 * NSEC_PER_SEC];
+#endif
+
         if([OEXPCCAgent canParseProcessArgumentsForDefaultAgent])
             helperApp = [[OpenEmuXPCHelperApp alloc] init];
 
