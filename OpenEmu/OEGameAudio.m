@@ -53,24 +53,11 @@
     _running  = NO;
     _engine   = [AVAudioEngine new];
 
-    __weak typeof(self) weakSelf = self;
-    _token = [NSNotificationCenter.defaultCenter addObserverForName:AVAudioEngineConfigurationChangeNotification object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification * _Nonnull note) {
-        os_log_info(OE_LOG_AUDIO, "AVAudioEngine configuration change");
-        if (weakSelf) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            strongSelf->_outputDeviceID = [strongSelf defaultAudioOutputDeviceID];
-            [strongSelf setDeviceAndConnections];
-            [strongSelf resumeAudio];
-        }
-    }];
-
     return self;
 }
 
 - (void)dealloc {
-    if (_token) {
-        [NSNotificationCenter.defaultCenter removeObserver:_token];
-    }
+    [self stopMonitoringEngineConfiguration];
 }
 
 - (void)audioSampleRateDidChange {
@@ -94,6 +81,7 @@
     // per the following, we need to wait before resuming to allow devices to start 🤦🏻‍♂️
     //  https://github.com/AudioKit/AudioKit/blob/f2a404ff6cf7492b93759d2cd954c8a5387c8b75/Examples/macOS/OutputSplitter/OutputSplitter/Audio/Output.swift#L88-L95
     [self performSelector:@selector(resumeAudio) withObject:nil afterDelay:0.020];
+    [self startMonitoringEngineConfiguration];
 }
 
 - (void)stopAudio {
@@ -116,6 +104,28 @@
     if (![_engine startAndReturnError:&err]) {
         os_log_error(OE_LOG_AUDIO, "unable to start AVAudioEngine: %{public}s", err.localizedDescription.UTF8String);
         return;
+    }
+}
+
+- (void)startMonitoringEngineConfiguration
+{
+    __weak typeof(self) weakSelf = self;
+    _token = [NSNotificationCenter.defaultCenter addObserverForName:AVAudioEngineConfigurationChangeNotification object:_engine queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification * _Nonnull note) {
+        os_log_info(OE_LOG_AUDIO, "AVAudioEngine configuration change");
+        if (weakSelf) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            strongSelf->_outputDeviceID = [strongSelf defaultAudioOutputDeviceID];
+            [strongSelf setDeviceAndConnections];
+            if (strongSelf->_running)
+                [strongSelf resumeAudio];
+        }
+    }];
+}
+
+- (void)stopMonitoringEngineConfiguration
+{
+    if (_token) {
+        [NSNotificationCenter.defaultCenter removeObserver:_token];
     }
 }
 
