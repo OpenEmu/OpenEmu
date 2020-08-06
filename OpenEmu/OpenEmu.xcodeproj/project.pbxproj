@@ -170,6 +170,7 @@
 		016F231A23F1A89B00181842 /* NSWindow+FullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606D51C0A7C9D0089B494 /* NSWindow+FullScreen.swift */; };
 		016F231B23F1A89B00181842 /* OEFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DBAE18C0E2470029199C /* OEFileManager.m */; };
 		016F231C23F1A89B00181842 /* UserDefaults+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */; };
+		016F9D2624DC88F6001DD1D2 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		01BE371223DCDCCB00932DE7 /* OpenEmuXPCCommunicator.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 01BE371123DCDCC500932DE7 /* OpenEmuXPCCommunicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		01BE371323DCE1DD00932DE7 /* OpenEmuXPCCommunicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01BE371123DCDCC500932DE7 /* OpenEmuXPCCommunicator.framework */; };
 		01E2A2F323E60F7E00194150 /* PrefCoresController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E2A2F223E60F7D00194150 /* PrefCoresController.swift */; };
@@ -2875,6 +2876,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				016F9D2624DC88F6001DD1D2 /* OpenEmuSystem.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
