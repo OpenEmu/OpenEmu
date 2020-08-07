@@ -330,7 +330,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         self->_isLaunchingGame = NO;
         if(document == nil)
         {
-            if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEFileDoesNotExistError)
+            if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEFileDoesNotExistError && game)
             {
                 [game setStatus:@(OEDBGameStatusAlert)];
                 [game save];
@@ -360,6 +360,24 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                         [self OE_openGameDocumentWithGame:game saveState:state];
                     }
                 }
+            }
+            // FIXME: make it possible to locate missing rom files when the game is started from a savestate
+            else if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEFileDoesNotExistError && !game)
+            {
+                NSString *messageText = NSLocalizedString(@"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", @"");
+                
+                NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[\"'“„« ]+%@[\"'”“» ]+[ を]?" options:NSRegularExpressionCaseInsensitive error:NULL];
+                messageText = [regex stringByReplacingMatchesInString:messageText options:0 range:NSMakeRange(0, messageText.length) withTemplate:@""];
+                
+                NSRange range = [messageText rangeOfString:@"."];
+                if (range.location == NSNotFound)
+                    range = [messageText rangeOfString:@"。"];
+                if (range.location != NSNotFound)
+                    messageText = [messageText substringToIndex:range.location+1];
+                
+                messageText = [messageText stringByAppendingString:NSLocalizedString(@" Start the game from the library view if you want to locate it.", @"")];
+                
+                [[OEAlert alertWithMessageText:messageText defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil] runModal];
             }
             else if(error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
