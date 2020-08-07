@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.openemu.OpenEmuHelperApp</string>
 	<key>CFBundleInfoDictionaryVersion</key>
