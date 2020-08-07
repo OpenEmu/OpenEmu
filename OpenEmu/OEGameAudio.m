@@ -36,7 +36,7 @@
     id                      _token;
     AVAudioUnitGenerator    *_gen;
     __weak OEGameCore       *_gameCore;
-    AudioDeviceID           _outputDeviceID;
+    BOOL                    _outputDeviceIsDefault;
     BOOL                    _running; // specifies the expected state of OEGameAudio
 }
 
@@ -52,6 +52,7 @@
     _volume   = 1.0;
     _running  = NO;
     _engine   = [AVAudioEngine new];
+    _outputDeviceIsDefault = YES;
 
     return self;
 }
@@ -75,7 +76,7 @@
     [self createNodes];
     [self configureNodes];
     [self attachNodes];
-    [self setDeviceAndConnections];
+    [self setOutputDeviceID:self.outputDeviceID];
     
     [_engine prepare];
     // per the following, we need to wait before resuming to allow devices to start 🤦🏻‍♂️
@@ -111,14 +112,12 @@
 {
     __weak typeof(self) weakSelf = self;
     _token = [NSNotificationCenter.defaultCenter addObserverForName:AVAudioEngineConfigurationChangeNotification object:_engine queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification * _Nonnull note) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf)
+            return;
+            
         os_log_info(OE_LOG_AUDIO, "AVAudioEngine configuration change");
-        if (weakSelf) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            strongSelf->_outputDeviceID = [strongSelf defaultAudioOutputDeviceID];
-            [strongSelf setDeviceAndConnections];
-            if (strongSelf->_running)
-                [strongSelf resumeAudio];
-        }
+        [self setOutputDeviceID:self.outputDeviceID];
     }];
 }
 
@@ -219,20 +218,7 @@
     _gen = nil;
 }
 
-- (void)setDeviceAndConnections {
-    if (_outputDeviceID == 0) {
-        _outputDeviceID = [self defaultAudioOutputDeviceID];
-        os_log_info(OE_LOG_AUDIO, "using default audio device %d", _outputDeviceID);
-    }
-
-    NSError *err;
-    if (![_engine.outputNode.AUAudioUnit setDeviceID:_outputDeviceID error:&err]) {
-        os_log_error(OE_LOG_AUDIO, "unable to set output device ID %d: %{public}s",
-                     _outputDeviceID,
-                     err.localizedDescription.UTF8String);
-        return;
-    }
-
+- (void)connectNodes {
     [_engine connect:_gen to:_engine.mainMixerNode format:nil];
     _engine.mainMixerNode.outputVolume = _volume;
 }
@@ -247,28 +233,32 @@
 
 - (AudioDeviceID)outputDeviceID
 {
-    return _outputDeviceID;
+    return _outputDeviceIsDefault ? 0 : _engine.outputNode.AUAudioUnit.deviceID;
 }
 
 - (void)setOutputDeviceID:(AudioDeviceID)outputDeviceID
 {
-    if(outputDeviceID != _outputDeviceID)
-    {
-        // 0 indicates use the current system default output
-        if (outputDeviceID == 0) {
-            outputDeviceID = [self defaultAudioOutputDeviceID];
-            os_log_info(OE_LOG_AUDIO, "using default audio device %d", _outputDeviceID);
-        }
-
-        _outputDeviceID = outputDeviceID;
-        
-        [_engine stop];
-        [self setDeviceAndConnections];
-        
-        if (_running && !_engine.isRunning) {
-            [_engine prepare];
-            [self performSelector:@selector(resumeAudio) withObject:nil afterDelay:0.020];
-        }
+    if (outputDeviceID == 0) {
+        outputDeviceID = [self defaultAudioOutputDeviceID];
+        os_log_info(OE_LOG_AUDIO, "using default audio device %d", outputDeviceID);
+        _outputDeviceIsDefault = YES;
+    } else {
+        _outputDeviceIsDefault = NO;
+    }
+    
+    [_engine stop];
+    NSError *err;
+    if (![_engine.outputNode.AUAudioUnit setDeviceID:outputDeviceID error:&err]) {
+        os_log_error(OE_LOG_AUDIO, "unable to set output device ID %d: %{public}s",
+                     outputDeviceID,
+                     err.localizedDescription.UTF8String);
+        return;
+    }
+    [self connectNodes];
+    
+    if (_running && !_engine.isRunning) {
+        [_engine prepare];
+        [self performSelector:@selector(resumeAudio) withObject:nil afterDelay:0.020];
     }
 }
 
