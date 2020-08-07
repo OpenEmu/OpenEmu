@@ -448,6 +448,8 @@
 
 "Switch To List View" = "切換到列表視圖";
 
+"System Default" = "System Default"; // Default audio device setting // TODO
+
 "System Files" = "系統文件";
 
 "System" = "系統";

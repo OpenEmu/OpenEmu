@@ -448,6 +448,8 @@
 
 "Switch To List View" = "Switch To List View";
 
+"System Default" = "System Default"; // Default audio device setting
+
 "System Files" = "System Files";
 
 "System" = "System";

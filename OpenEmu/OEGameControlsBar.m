@@ -613,15 +613,22 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             return [device numberOfOutputChannels] > 0;
         }];
         NSArray *audioOutputDevices = [[[OEAudioDeviceManager sharedAudioDeviceManager] audioDevices] filteredArrayUsingPredicate:outputPredicate];
-        if([audioOutputDevices count] == 0)
+        if([audioOutputDevices count] == 0) {
             [item setEnabled:NO];
-        else
+        } else {
+            NSMenuItem *deviceItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"System Default", @"Default audio device setting") action:@selector(changeAudioOutputDevice:) keyEquivalent:@""];
+            [deviceItem setRepresentedObject:nil];
+            [audioOutputMenu addItem:deviceItem];
+            
+            [audioOutputMenu addItem:[NSMenuItem separatorItem]];
+            
             for(OEAudioDevice *device in audioOutputDevices)
             {
-                NSMenuItem *deviceItem = [[NSMenuItem alloc] initWithTitle:[device deviceName] action:@selector(changeAudioOutputDevice:) keyEquivalent:@""];
+                deviceItem = [[NSMenuItem alloc] initWithTitle:[device deviceName] action:@selector(changeAudioOutputDevice:) keyEquivalent:@""];
                 [deviceItem setRepresentedObject:device];
                 [audioOutputMenu addItem:deviceItem];
             }
+        }
     }
 
     [menu setDelegate:self];

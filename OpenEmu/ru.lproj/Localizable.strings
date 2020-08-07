@@ -448,6 +448,8 @@
 
 "Switch To List View" = "Переключиться на List View";
 
+"System Default" = "System Default"; // Default audio device setting // TODO
+
 "System Files" = "Системные файлы";
 
 "System" = "Система";

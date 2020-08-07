@@ -945,11 +945,12 @@ typedef enum : NSUInteger
     
     if(device == nil)
     {
-        DLog(@"Invalid argument: %@", sender);
-        return;
+        [_gameCoreManager setAudioOutputDeviceID:0];
     }
-    
-    [_gameCoreManager setAudioOutputDeviceID:[device deviceID]];
+    else
+    {
+        [_gameCoreManager setAudioOutputDeviceID:[device deviceID]];
+    }
 }
 
 - (float)volume

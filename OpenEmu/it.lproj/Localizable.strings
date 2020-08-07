@@ -448,6 +448,8 @@
 
 "Switch To List View" = "Visualizza come elenco";   // tooltip
 
+"System Default" = "Predefinita di sistema"; // Default audio device setting
+
 "System Files" = "File di sistema";
 
 "System" = "Sistema";

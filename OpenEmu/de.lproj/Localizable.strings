@@ -448,6 +448,8 @@
 
 "Switch To List View" = "Objekte in einer Liste zeigen";
 
+"System Default" = "System Default"; // Default audio device setting // TODO
+
 "System Files" = "BIOS-Dateien";
 
 "System" = "Konsole";

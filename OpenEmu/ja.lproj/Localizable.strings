@@ -454,6 +454,8 @@
 
 "Switch To List View" = "リスト表示にする";
 
+"System Default" = "System Default"; // Default audio device setting // TODO
+
 "System Files" = "システムファイル";
 
 "System" = "システム";

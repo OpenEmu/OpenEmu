@@ -448,6 +448,8 @@
 
 "Switch To List View" = "Canvia a la visualització de llista";
 
+"System Default" = "System Default"; // Default audio device setting // TODO
+
 "System Files" = "Fitxers del sistema";
 
 "System" = "Sistema";
