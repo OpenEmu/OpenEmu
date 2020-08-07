@@ -1636,21 +1636,21 @@
 		3C335CBF1C70E49F00E33B79 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		3C335CC01C70E4A000E33B79 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		3C335CC11C70E4A000E33B79 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ControlLabels.strings"; sourceTree = "<group>"; };
-		3DB744771BD8B95300C23E74 /* OEPS2SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPS2SystemController.h; path = "PlayStation 2/OEPS2SystemController.h"; sourceTree = "<group>"; };
-		3DB744781BD8B95300C23E74 /* OEPS2SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEPS2SystemController.m; path = "PlayStation 2/OEPS2SystemController.m"; sourceTree = "<group>"; };
-		3DB744791BD8B95300C23E74 /* OEPS2SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPS2SystemResponder.h; path = "PlayStation 2/OEPS2SystemResponder.h"; sourceTree = "<group>"; };
-		3DB7447A1BD8B95300C23E74 /* OEPS2SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEPS2SystemResponder.m; path = "PlayStation 2/OEPS2SystemResponder.m"; sourceTree = "<group>"; };
-		3DB7447B1BD8B95300C23E74 /* OEPS2SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPS2SystemResponderClient.h; path = "PlayStation 2/OEPS2SystemResponderClient.h"; sourceTree = "<group>"; };
-		3DB7447F1BD8B9DE00C23E74 /* controller_psx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controller_psx_mask.png; path = "PlayStation 2/controller_psx_mask.png"; sourceTree = "<group>"; };
-		3DB744801BD8B9DE00C23E74 /* controller_psx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "controller_psx_mask@2x.png"; path = "PlayStation 2/controller_psx_mask@2x.png"; sourceTree = "<group>"; };
-		3DB744811BD8B9DE00C23E74 /* controller_psx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controller_psx.png; path = "PlayStation 2/controller_psx.png"; sourceTree = "<group>"; };
-		3DB744821BD8B9DE00C23E74 /* controller_psx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "controller_psx@2x.png"; path = "PlayStation 2/controller_psx@2x.png"; sourceTree = "<group>"; };
-		3DB744831BD8B9DE00C23E74 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Controller-Mappings.plist"; path = "PlayStation 2/Controller-Mappings.plist"; sourceTree = "<group>"; };
-		3DB744841BD8B9DE00C23E74 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Controller-Preferences.plist"; path = "PlayStation 2/Controller-Preferences.plist"; sourceTree = "<group>"; };
-		3DB744851BD8B9DE00C23E74 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Keyboard-Mappings.plist"; path = "PlayStation 2/Keyboard-Mappings.plist"; sourceTree = "<group>"; };
-		3DB744861BD8B9DE00C23E74 /* PlayStation2-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "PlayStation2-Info.plist"; path = "PlayStation 2/PlayStation2-Info.plist"; sourceTree = "<group>"; };
-		3DB744871BD8B9DE00C23E74 /* psx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = psx_library.png; path = "PlayStation 2/psx_library.png"; sourceTree = "<group>"; };
-		3DB744881BD8B9DE00C23E74 /* psx_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "psx_library@2x.png"; path = "PlayStation 2/psx_library@2x.png"; sourceTree = "<group>"; };
+		3DB744771BD8B95300C23E74 /* OEPS2SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPS2SystemController.h; sourceTree = "<group>"; };
+		3DB744781BD8B95300C23E74 /* OEPS2SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPS2SystemController.m; sourceTree = "<group>"; };
+		3DB744791BD8B95300C23E74 /* OEPS2SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPS2SystemResponder.h; sourceTree = "<group>"; };
+		3DB7447A1BD8B95300C23E74 /* OEPS2SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPS2SystemResponder.m; sourceTree = "<group>"; };
+		3DB7447B1BD8B95300C23E74 /* OEPS2SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPS2SystemResponderClient.h; sourceTree = "<group>"; };
+		3DB7447F1BD8B9DE00C23E74 /* controller_psx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_psx_mask.png; sourceTree = "<group>"; };
+		3DB744801BD8B9DE00C23E74 /* controller_psx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psx_mask@2x.png"; sourceTree = "<group>"; };
+		3DB744811BD8B9DE00C23E74 /* controller_psx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_psx.png; sourceTree = "<group>"; };
+		3DB744821BD8B9DE00C23E74 /* controller_psx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psx@2x.png"; sourceTree = "<group>"; };
+		3DB744831BD8B9DE00C23E74 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		3DB744841BD8B9DE00C23E74 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		3DB744851BD8B9DE00C23E74 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		3DB744861BD8B9DE00C23E74 /* PlayStation2-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PlayStation2-Info.plist"; sourceTree = "<group>"; };
+		3DB744871BD8B9DE00C23E74 /* psx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = psx_library.png; sourceTree = "<group>"; };
+		3DB744881BD8B9DE00C23E74 /* psx_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "psx_library@2x.png"; sourceTree = "<group>"; };
 		3DB744BA1BD8BA9E00C23E74 /* PlayStation 2.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlayStation 2.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E35119B1C35DA8E0063E8CA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
 		3E35119C1C35DA8E0063E8CA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
@@ -2138,20 +2138,20 @@
 		87BC4DA01BA3A88600BF1F86 /* controller_7800_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_7800_mask@2x.png"; sourceTree = "<group>"; };
 		87BC4DA11BA3A88600BF1F86 /* controller_7800@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_7800@2x.png"; sourceTree = "<group>"; };
 		87DF04FE1BCE2D100060E2C2 /* Dreamcast.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Dreamcast.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		87DF05041BCE2DA30060E2C2 /* Dreamcast-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Dreamcast-Info.plist"; path = "Dreamcast/Dreamcast-Info.plist"; sourceTree = "<group>"; };
-		87DF05061BCE302E0060E2C2 /* controller_dc_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controller_dc_mask.png; path = Dreamcast/controller_dc_mask.png; sourceTree = "<group>"; };
-		87DF05071BCE302E0060E2C2 /* controller_dc_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "controller_dc_mask@2x.png"; path = "Dreamcast/controller_dc_mask@2x.png"; sourceTree = "<group>"; };
-		87DF05081BCE302E0060E2C2 /* controller_dc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controller_dc.png; path = Dreamcast/controller_dc.png; sourceTree = "<group>"; };
-		87DF05091BCE302E0060E2C2 /* controller_dc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "controller_dc@2x.png"; path = "Dreamcast/controller_dc@2x.png"; sourceTree = "<group>"; };
-		87DF050A1BCE302E0060E2C2 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Controller-Mappings.plist"; path = "Dreamcast/Controller-Mappings.plist"; sourceTree = "<group>"; };
-		87DF050B1BCE302E0060E2C2 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Controller-Preferences.plist"; path = "Dreamcast/Controller-Preferences.plist"; sourceTree = "<group>"; };
-		87DF050C1BCE302E0060E2C2 /* dc_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dc_library.png; path = Dreamcast/dc_library.png; sourceTree = "<group>"; };
-		87DF05131BCE302F0060E2C2 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Keyboard-Mappings.plist"; path = "Dreamcast/Keyboard-Mappings.plist"; sourceTree = "<group>"; };
-		87DF05141BCE302F0060E2C2 /* OEDCSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEDCSystemController.h; path = Dreamcast/OEDCSystemController.h; sourceTree = "<group>"; };
-		87DF05151BCE302F0060E2C2 /* OEDCSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEDCSystemController.m; path = Dreamcast/OEDCSystemController.m; sourceTree = "<group>"; };
-		87DF05161BCE302F0060E2C2 /* OEDCSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEDCSystemResponder.h; path = Dreamcast/OEDCSystemResponder.h; sourceTree = "<group>"; };
-		87DF05171BCE302F0060E2C2 /* OEDCSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEDCSystemResponder.m; path = Dreamcast/OEDCSystemResponder.m; sourceTree = "<group>"; };
-		87DF05181BCE302F0060E2C2 /* OEDCSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEDCSystemResponderClient.h; path = Dreamcast/OEDCSystemResponderClient.h; sourceTree = "<group>"; };
+		87DF05041BCE2DA30060E2C2 /* Dreamcast-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Dreamcast-Info.plist"; sourceTree = "<group>"; };
+		87DF05061BCE302E0060E2C2 /* controller_dc_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_dc_mask.png; sourceTree = "<group>"; };
+		87DF05071BCE302E0060E2C2 /* controller_dc_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_dc_mask@2x.png"; sourceTree = "<group>"; };
+		87DF05081BCE302E0060E2C2 /* controller_dc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_dc.png; sourceTree = "<group>"; };
+		87DF05091BCE302E0060E2C2 /* controller_dc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_dc@2x.png"; sourceTree = "<group>"; };
+		87DF050A1BCE302E0060E2C2 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		87DF050B1BCE302E0060E2C2 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		87DF050C1BCE302E0060E2C2 /* dc_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dc_library.png; sourceTree = "<group>"; };
+		87DF05131BCE302F0060E2C2 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		87DF05141BCE302F0060E2C2 /* OEDCSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDCSystemController.h; sourceTree = "<group>"; };
+		87DF05151BCE302F0060E2C2 /* OEDCSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDCSystemController.m; sourceTree = "<group>"; };
+		87DF05161BCE302F0060E2C2 /* OEDCSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDCSystemResponder.h; sourceTree = "<group>"; };
+		87DF05171BCE302F0060E2C2 /* OEDCSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDCSystemResponder.m; sourceTree = "<group>"; };
+		87DF05181BCE302F0060E2C2 /* OEDCSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDCSystemResponderClient.h; sourceTree = "<group>"; };
 		87F7BB0F1C1EB0F9005B83C4 /* atari2600_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atari2600_library@2x.png"; sourceTree = "<group>"; };
 		87F7BB111C1EB177005B83C4 /* atari5200_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atari5200_library@2x.png"; sourceTree = "<group>"; };
 		87F7BB131C1EB19B005B83C4 /* atari7800_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atari7800_library@2x.png"; sourceTree = "<group>"; };
@@ -3719,7 +3719,7 @@
 				3DB7447B1BD8B95300C23E74 /* OEPS2SystemResponderClient.h */,
 				3DB7447E1BD8B9C800C23E74 /* Supporting Files */,
 			);
-			name = "Playstation 2";
+			path = "Playstation 2";
 			sourceTree = "<group>";
 		};
 		3DB7447E1BD8B9C800C23E74 /* Supporting Files */ = {
@@ -4452,7 +4452,7 @@
 				87DF05181BCE302F0060E2C2 /* OEDCSystemResponderClient.h */,
 				87DF04C81BCE270E0060E2C2 /* Supporting Files */,
 			);
-			name = Dreamcast;
+			path = Dreamcast;
 			sourceTree = "<group>";
 		};
 		87DF04C81BCE270E0060E2C2 /* Supporting Files */ = {
