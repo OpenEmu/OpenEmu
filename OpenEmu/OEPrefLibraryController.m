@@ -310,7 +310,7 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
                     // make copied paths relative
                     NSArray        *fetchResult    = nil;
                     NSFetchRequest *fetchRequest   = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
-                    NSPredicate    *fetchPredicate = [NSPredicate predicateWithFormat:@"location BEGINSWITH '%@'", [newRomsURL absoluteString]];
+                    NSPredicate    *fetchPredicate = [NSPredicate predicateWithValue:YES];
                     
                     [fetchRequest setPredicate:fetchPredicate];
                     
@@ -321,11 +321,13 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
                         DLog(@"%@", error);
                         return;
                     }
-                    
-                    DLog(@"Found %ld roms that should have relative paths", [fetchResult count]);
-                    NSUInteger prefixLength = [[newRomsURL absoluteString] length];
+                
+                    DLog(@"Processing %ld roms", [fetchResult count]);
                     [fetchResult enumerateObjectsUsingBlock:^(OEDBRom *obj, NSUInteger idx, BOOL *stop) {
-                        [obj setLocation:[[obj location] substringFromIndex:prefixLength]];
+                        NSURL *url = obj.URL;
+                        NSString *oldLocation = obj.location;
+                        obj.location = [url URLRelativeToURL:newRomsURL].relativeString;
+                        DLog(@"relocated %@ from %@ to %@", obj, oldLocation, obj.location);
                     }];
                     
                     // note new rom folder loation in library
