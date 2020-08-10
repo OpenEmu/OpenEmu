@@ -126,11 +126,11 @@
 
 "Copying ROM Files…" = "Kopiere ROM-Dateien …";
 
+"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+
 "Core Provided By…" = "Kern basiert auf …";
 
 "Cores" = "Kerne";
-
-"Could not move complete library! %ld roms were moved" = "Mediathek konnte nicht vollständig verschoben werden! %ld ROMs wurden verschoben.";
 
 "Could not move library data!" = "Mediathek-Daten konnten nicht verschoben werden.";
 
@@ -281,6 +281,8 @@
 "Move selected games to Trash, or keep them in the Library folder?" = "Ausgewählte Spiele in den Papierkorb legen oder im Spieleordner behalten?";
 
 "Move to Trash" = "In den Papierkorb legen";
+
+"Moving Library…" = "Moving Library…";  // TODO
 
 "Mute Audio" = "Ton aus";
 

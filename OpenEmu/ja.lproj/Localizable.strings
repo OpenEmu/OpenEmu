@@ -130,11 +130,11 @@
 
 "Copying ROM Files…" = "ROMファイルをコピーしています…";
 
+"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+
 "Core Provided By…" = "コア提供元…";
 
 "Cores" = "コア";
-
-"Could not move complete library! %ld roms were moved" = "ライブラリの移動に失敗しました。%ld個のロムを移動しました。";
 
 "Could not move library data!" = "ライブラリデータを移動できません。";
 
@@ -287,6 +287,8 @@
 "Move selected games to Trash, or keep them in the Library folder?" = "選択したゲームをゴミ箱へ移動します。ライブラリフォルダに残しますか？";
 
 "Move to Trash" = "ゴミ箱へ移動";
+
+"Moving Library…" = "Moving Library…";  // TODO
 
 "Mute Audio" = "音声をミュート";
 

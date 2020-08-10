@@ -126,11 +126,11 @@
 
 "Copying ROM Files…" = "Copia file ROM…";
 
+"Copying ROM files failed!" = "Copia dei file ROM non riuscita!";
+
 "Core Provided By…" = "Core fornito da…";
 
 "Cores" = "Core";
-
-"Could not move complete library! %ld roms were moved" = "Non è stato possibile spostare completamente la Libreria! Sono state spostate solo %ld ROM";
 
 "Could not move library data!" = "Non è stato possibile spostare i dati della Libreria!";
 
@@ -281,6 +281,8 @@
 "Move selected games to Trash, or keep them in the Library folder?" = "Vuoi spostare i giochi nel Cestino, o lasciarli nella cartella della Libreria?";
 
 "Move to Trash" = "Cestina";  // "Sposta nel Cestino" does not fit
+
+"Moving Library…" = "Spostamento Libreria…";
 
 "Mute Audio" = "Disattiva audio";
 

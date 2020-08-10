@@ -126,11 +126,11 @@
 
 "Copying ROM Files…" = "正在複製 ROM 文件…";
 
+"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+
 "Core Provided By…" = "核心提供…";
 
 "Cores" = "核心";
-
-"Could not move complete library! %ld roms were moved" = "無法移動整個庫！已移動 %ld 個 rom";
 
 "Could not move library data!" = "無法移動庫數據！";
 
@@ -281,6 +281,8 @@
 "Move selected games to Trash, or keep them in the Library folder?" = "要把選擇的遊戲扔到垃圾桶還是留在資源庫檔案夾裡？";
 
 "Move to Trash" = "扔到垃圾桶";
+
+"Moving Library…" = "Moving Library…";  // TODO
 
 "Mute Audio" = "靜音";
 

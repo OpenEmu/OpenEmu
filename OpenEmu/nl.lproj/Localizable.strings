@@ -126,11 +126,11 @@
 
 "Copying ROM Files…" = "ROM-bestanden kopiëren…";
 
+"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+
 "Core Provided By…" = "Kern voorzien door…";
 
 "Cores" = "Kernen";
-
-"Could not move complete library! %ld roms were moved" = "Kon bibliotheek niet geheel verplaatsen! %ld ROM's werden verplaatst";
 
 "Could not move library data!" = "Kon bibliotheekgegevens niet verplaatsen!";
 
@@ -281,6 +281,8 @@
 "Move selected games to Trash, or keep them in the Library folder?" = "De geselecteerde spellen naar de prullenmand verplaatsen of in de bibliotheekmap behouden?";
 
 "Move to Trash" = "Verplaats naar prullenmand";
+
+"Moving Library…" = "Moving Library…";  // TODO
 
 "Mute Audio" = "Demp geluid";
 

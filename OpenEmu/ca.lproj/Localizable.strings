@@ -126,11 +126,11 @@
 
 "Copying ROM Files…" = "S'estan copiant els fitxers ROM…";
 
+"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+
 "Core Provided By…" = "Nucli proveït per…";
 
 "Cores" = "Nuclis";
-
-"Could not move complete library! %ld roms were moved" = "No s'ha pogut moure la biblioteca completa. S'ha mogut %ld fitxers ROM";
 
 "Could not move library data!" = "No s'ha pogut moure les dades de la biblioteca.";
 
@@ -281,6 +281,8 @@
 "Move selected games to Trash, or keep them in the Library folder?" = "Voleu moure els jocs seleccionats a la paperera, o conservar-los a la carpeta de la biblioteca?";
 
 "Move to Trash" = "Mou a la paperera";
+
+"Moving Library…" = "Moving Library…";  // TODO
 
 "Mute Audio" = "Silencia el so";
 

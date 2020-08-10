@@ -126,11 +126,11 @@
 
 "Copying ROM Files…" = "Копирование файлов ром…";
 
+"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+
 "Core Provided By…" = "Ядро предоставляется…";
 
 "Cores" = "Ядра";
-
-"Could not move complete library! %ld roms were moved" = "Не удалось переместить всю библиотеку! %ld ромов перемещено";
 
 "Could not move library data!" = "Не удалось переместить данные из библиотеки!";
 
@@ -281,6 +281,8 @@
 "Move selected games to Trash, or keep them in the Library folder?" = "Переместить выбранные игры в корзину, или оставить в папке библиотеки?";
 
 "Move to Trash" = "Переместить в корзину";
+
+"Moving Library…" = "Moving Library…";  // TODO
 
 "Mute Audio" = "Выключить звук";
 

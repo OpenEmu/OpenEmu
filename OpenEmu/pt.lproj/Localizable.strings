@@ -126,11 +126,11 @@
 
 "Copying ROM Files…" = "Copiando ROMs…";
 
+"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+
 "Core Provided By…" = "Núcleo por…";
 
 "Cores" = "Núcleos";
-
-"Could not move complete library! %ld roms were moved" = "Não foi possível mover toda a biblioteca! %ld roms foram movidas";
 
 "Could not move library data!" = "Não foi possível mover os dados da biblioteca!";
 
@@ -281,6 +281,8 @@
 "Move selected games to Trash, or keep them in the Library folder?" = "Mover jogos selecionados para a Lixeira ou mantê-los na pasta da Biblioteca?";
 
 "Move to Trash" = "Mover para a Lixeira";
+
+"Moving Library…" = "Moving Library…";  // TODO
 
 "Mute Audio" = "Mutar Som";
 
