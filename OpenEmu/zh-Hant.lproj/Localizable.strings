@@ -690,3 +690,9 @@
 "Threshold for analog controls bound to buttons" = "Threshold for analog controls\nbound to buttons";
 
 "Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
+
+"Shaders" = "Shaders";  // TODO
+
+"Clear shader cache" = "Clear shader cache";  // TODO
+
+"Reveal user shader folder" = "Reveal user shader folder";  // TODO

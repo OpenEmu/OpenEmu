@@ -696,3 +696,9 @@
 "Checked" = "Checked";  // Default value tooltip for checkboxes: checked default
 
 "Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default
+
+"Shaders" = "Shaders";
+
+"Clear shader cache" = "Clear shader cache";
+
+"Reveal user shader folder" = "Reveal user shader folder";

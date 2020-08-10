@@ -696,3 +696,9 @@
 "Checked" = "selezionato";  // Default value tooltip for checkboxes: checked default
 
 "Unchecked" = "deselezionato";  // Default value tooltip for checkboxes: unchecked default
+
+"Shaders" = "Shader";
+
+"Clear shader cache" = "Inizializza cache shader";
+
+"Reveal user shader folder" = "Mostra cartella shader personalizzati";
