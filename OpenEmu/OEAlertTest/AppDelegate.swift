@@ -71,6 +71,7 @@ class AlertStatus: NSObject
 class AppDelegate: NSObject, NSApplicationDelegate
 {
     @IBOutlet weak var window: NSWindow!
+    @IBOutlet weak var testBgProgressUpdateCheckbox: NSButton!
     @objc var currentStatus = AlertStatus()
     var nextStatuses = [AlertStatus]()
     
@@ -103,6 +104,21 @@ class AppDelegate: NSObject, NSApplicationDelegate
         updateAlert()
         if !nextStatuses.isEmpty {
             alert.setDefaultButtonAction(#selector(alertButtonPressed(_:)), andTarget: self)
+        }
+        if testBgProgressUpdateCheckbox.state == .on {
+            alert.performBlock {
+                DispatchQueue.global(qos:.background).async {
+                    while self.alert.result.rawValue == 0 {
+                        usleep(100000)
+                        self.alert.performBlock {
+                            self.alert.progress = self.alert.progress + 0.1
+                            if self.alert.progress >= 0.95 {
+                                self.alert.progress = 0.0
+                            }
+                        }
+                    }
+                }
+            }
         }
         alert.runModal()
     }

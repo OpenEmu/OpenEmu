@@ -157,10 +157,8 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     NSModalSession session = [NSApp beginModalSessionForWindow:_window];
     while([NSApp runModalSession:session] == NSModalResponseContinue)
     {
-        [NSRunLoop.mainRunLoop runMode:NSDefaultRunLoopMode beforeDate:NSDate.distantFuture];
         executeBlocks();
         [NSRunLoop.currentRunLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.05]];
-
     }
     executeBlocks();
    
