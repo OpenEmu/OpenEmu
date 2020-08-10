@@ -215,8 +215,14 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 - (void)setProgress:(double)progress
 {
-    self.progressbar.indeterminate = progress == -1;
-    self.progressbar.doubleValue = progress;
+    [self.progressbar stopAnimation:nil];
+    if (progress < 0.0 || progress > 1.0) {
+        self.progressbar.indeterminate = YES;
+        [self.progressbar startAnimation:nil];
+    } else {
+        self.progressbar.indeterminate = NO;
+        self.progressbar.doubleValue = progress;
+    }
 }
 
 #pragma mark - Buttons
@@ -568,6 +574,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     _progressbar.translatesAutoresizingMaskIntoConstraints = NO;
     _progressbar.minValue = 0.0;
     _progressbar.maxValue = 1.0;
+    _progressbar.usesThreadedAnimation = YES;
     
     // Setup Suppression Button
     _suppressionButton = [NSButton checkboxWithTitle:@"" target:nil action:nil];
