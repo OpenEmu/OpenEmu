@@ -568,6 +568,12 @@
 
 "Show" = "Visualizza";
 
+"Moving the Game Library is not recommended" = "Spostare la Libreria Giochi è sconsigliato";  //Message headline (attempted to change location of library)
+
+"The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "La Libreria Giochi di OpenEmu contiene un database che si corrompe facilmente se la Libreria viene spostata in una di queste posizioni:<br><br><ul><li>Cartelle gestite da applicazioni di sincronizzazione cloud (ad esempio <b>iCloud Drive</b>)</li><li>Dischi di rete</li></ul><br>Inoltre, la Libreria si può corrompere <b>se viene condivisa tra più computer o utenti</b>, e anche se la condivisione viene effettuata tramite un disco USB esterno.";  // Message text (attempted to change location of library, HTML
+
+"I understand the risks" = "Sono cosciente dei rischi";  // OK button (attempted to change location of library)
+
 
 /* Secrets */
 

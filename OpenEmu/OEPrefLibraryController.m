@@ -120,6 +120,32 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
 
 - (IBAction)changeLibraryFolder:(id)sender
 {
+    OEAlert *dropboxAlert = [[OEAlert alloc] init];
+    [dropboxAlert setMessageUsesHTML:YES];
+    [dropboxAlert setHeadlineText:NSLocalizedString(
+        @"Moving the Game Library is not recommended",
+        @"Message headline (attempted to change location of library)")];
+    [dropboxAlert setMessageText:NSLocalizedString(
+        @"The OpenEmu Game Library contains a database file which could get "
+        @"corrupted if the library is moved to the following locations:<br><br>"
+        @"<ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li>"
+        @"<li>Network drives</li></ul><br>"
+        @"Additionally, <b>sharing the same library between multiple computers or users</b> "
+        @"may also corrupt it. This also applies to moving the library "
+        @"to external USB drives.",
+        @"Message text (attempted to change location of library, HTML)")];
+    [dropboxAlert setDefaultButtonTitle:NSLocalizedString(@"Cancel", @"")];
+    [dropboxAlert setAlternateButtonTitle:NSLocalizedString(
+        @"I understand the risks",
+        @"OK button (attempted to change location of library)")];
+    [dropboxAlert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertSecondButtonReturn)
+            [self OE_moveGameLibrary];
+    }];
+}
+
+- (void)OE_moveGameLibrary
+{
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 
     [openPanel setCanChooseFiles:NO];
