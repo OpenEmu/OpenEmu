@@ -46,6 +46,8 @@ typedef void (^OEAlertCompletionHandler)(OEAlert *alert, NSModalResponse result)
 @property (readonly) NSModalResponse result;
 @property (readonly, nonatomic) NSWindow *window;
 
+- (void)beginSheetModalForWindow:(NSWindow *)sheetWindow completionHandler:(void (^ _Nullable)(NSModalResponse returnCode))handler;
+
 #pragma mark - Buttons
 
 @property (copy, null_resettable) NSString *defaultButtonTitle;

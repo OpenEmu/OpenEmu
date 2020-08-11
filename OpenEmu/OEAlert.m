@@ -59,6 +59,8 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 @property (copy, readonly) NSMutableArray <void(^)(void)> *blocks;
 
+@property (nonatomic) BOOL sheetMode;
+
 // dialog buttons
 @property (nonatomic, readonly) NSButton *defaultButton;
 @property (nonatomic, readonly) NSButton *alternateButton;
@@ -124,17 +126,16 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 - (NSModalResponse)runModal
 {
-    if(self.suppressionUDKey && [NSUserDefaults.standardUserDefaults valueForKey:self.suppressionUDKey])
-    {
-        NSInteger suppressionValue = [NSUserDefaults.standardUserDefaults integerForKey:self.suppressionUDKey];
-        _result = (suppressionValue == 1 || self.suppressOnDefaultReturnOnly ? NSAlertFirstButtonReturn : NSAlertSecondButtonReturn);
-        [self OE_performCallback];
-        return _result;
-    }
-
+    self.sheetMode = false;
+    
+    NSModalResponse suppressedResp = [self OE_checkIfSuppressed];
+    if (suppressedResp != NSModalResponseContinue)
+        return suppressedResp;
+    
     [self OE_layoutWindowIfNeeded];
     
     _window.animationBehavior = NSWindowAnimationBehaviorAlertPanel;
+    
     [_window makeKeyAndOrderFront:nil];
     
     void(^executeBlocks)(void) = ^{
@@ -171,6 +172,11 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 - (void)performBlockInModalSession:(void(^)(void))block
 {
+    if (self.sheetMode) {
+        block();
+        return;
+    }
+        
     @synchronized(_blocks)
     {
         [_blocks addObject:block];
@@ -180,12 +186,60 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 - (void)closeWithResult:(NSInteger)res
 {
     _result = res;
+    
+    if (self.sheetMode) {
+        [_window.sheetParent endSheet:_window returnCode:res];
+        return;
+    }
+    
     [NSApp stopModalWithCode:_result];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [self->_window close];
         [self OE_performCallback];
     });
+}
+
+- (void)beginSheetModalForWindow:(NSWindow *)sheetWindow completionHandler:(void (^ _Nullable)(NSModalResponse returnCode))handler
+{
+    self.sheetMode = YES;
+    
+    NSModalResponse suppressedResp = [self OE_checkIfSuppressed];
+    if (suppressedResp != NSModalResponseContinue) {
+        handler(suppressedResp);
+        return;
+    }
+    
+    [self OE_layoutWindowIfNeeded];
+    _window.animationBehavior = NSWindowAnimationBehaviorAlertPanel;
+    [sheetWindow beginSheet:_window completionHandler:^(NSModalResponse resp) {
+        self->_result = resp;
+        handler(resp);
+        [self OE_performCallback];
+    }];
+}
+
+- (NSModalResponse)OE_checkIfSuppressed
+{
+    if(self.suppressionUDKey && [NSUserDefaults.standardUserDefaults valueForKey:self.suppressionUDKey])
+    {
+        NSInteger suppressionValue = [NSUserDefaults.standardUserDefaults integerForKey:self.suppressionUDKey];
+        _result = (suppressionValue == 1 || self.suppressOnDefaultReturnOnly ? NSAlertFirstButtonReturn : NSAlertSecondButtonReturn);
+        [self OE_performCallback];
+        return _result;
+    }
+    
+    return NSModalResponseContinue;
+}
+
+- (void)OE_stopModal
+{
+    if (self.sheetMode) {
+        [_window.sheetParent endSheet:_window returnCode:_result];
+    } else {
+        [NSApp stopModalWithCode:_result];
+        [self OE_performCallback];
+    }
 }
 
 #pragma mark - Window Configuration
@@ -284,8 +338,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
         [standardUserDefaults setInteger:suppressionValue forKey:self.suppressionUDKey];
     }
 
-    [NSApp stopModalWithCode:_result];
-    [self OE_performCallback];
+    [self OE_stopModal];
 }
 
 - (void)setDefaultButtonAction:(SEL)sel andTarget:(id)aTarget
