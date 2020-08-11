@@ -372,15 +372,16 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     return self.headlineLabel.stringValue;
 }
 
-- (void)setMessageText:(nullable NSString *)messageText
+- (void)setMessageUsesHTML:(BOOL)messageUsesHTML
 {
-    self.messageLabel.stringValue = messageText ? : @"";
+    _messageUsesHTML = messageUsesHTML;
     _needsRebuild = YES;
 }
 
-- (NSString *)messageText
+- (void)setMessageText:(nullable NSString *)messageText
 {
-    return self.messageLabel.stringValue;
+    _messageText = messageText ? : @"";
+    _needsRebuild = YES;
 }
 
 #pragma mark - Callbacks
@@ -740,11 +741,31 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     NSView *contentView = self.window.contentView;
     BOOL hasHeadline = self.headlineText.length != 0;
     
-    if (self.headlineText.length == 0) {
-        self.messageLabel.font = [NSFont systemFontOfSize:NSFont.systemFontSize];
+    NSFont *messageFont;
+    if (!hasHeadline) {
+        messageFont = [NSFont systemFontOfSize:NSFont.systemFontSize];
     } else {
-        self.messageLabel.font = [NSFont systemFontOfSize:NSFont.smallSystemFontSize];
+        messageFont = [NSFont systemFontOfSize:NSFont.smallSystemFontSize];
     }
+    if (self.messageUsesHTML) {
+        NSString *adjustedHtml = [NSString stringWithFormat:
+                @"<span style=\"font-family: '-apple-system'; font-size:%fpx\">%@</span>",
+                messageFont.pointSize, self.messageText];
+        NSData *htmlData = [adjustedHtml dataUsingEncoding:NSUTF8StringEncoding];
+        NSMutableAttributedString *as = [[NSMutableAttributedString alloc]
+                initWithHTML:htmlData options:@{
+                    NSCharacterEncodingDocumentOption: @(NSUTF8StringEncoding)}
+                documentAttributes:NULL];
+        [as addAttribute:NSForegroundColorAttributeName value:[NSColor labelColor] range:NSMakeRange(0, as.length)];
+        self.messageLabel.attributedStringValue = as;
+        /* selectable labels revert to non-attributed values as soon as they are touched, losing all formatting */
+        self.messageLabel.selectable = NO;
+    } else {
+        self.messageLabel.stringValue = self.messageText;
+        self.messageLabel.font = messageFont;
+        self.messageLabel.selectable = YES;
+    }
+    
     [contentView addSubview:self.messageLabel];
     [contentView addConstraints:@[
         [self.messageLabel.topAnchor constraintEqualToAnchor:lastAnchor constant:hasHeadline ? OEAlertHeadlineToMessageSpacing : OEAlertTopInset],
