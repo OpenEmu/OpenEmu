@@ -24,14 +24,16 @@
 
 #import <AudioUnit/AudioUnit.h>
 #import <AVFoundation/AVFoundation.h>
-
+#include <algorithm>
 #import "OEAudioUnit.h"
+#import "OELogging.h"
 
 typedef struct {
     AURenderPullInputBlock  pullInput;
     AudioTimeStamp const    *timestamp;
     void                    **buffer;
-    UInt32                  *bufferSizeBytes;
+    UInt32                  *bufferSizeFrames;
+    UInt32                  *bytesPerFrame;
 } inputData;
 
 static OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter, AVAudioPacketCount * ioNumberDataPackets, AudioBufferList * ioData, AudioStreamPacketDescription * __nullable * __nullable ioDataPacketDescription, void * inUserData)
@@ -40,7 +42,12 @@ static OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConv
     
     AudioUnitRenderActionFlags pullFlags = 0;
     ioData->mBuffers[0].mData = *inp->buffer;
-    ioData->mBuffers[0].mDataByteSize = *inp->bufferSizeBytes;
+    ioData->mBuffers[0].mDataByteSize = (*inp->bufferSizeFrames) * (*inp->bytesPerFrame);
+    
+    /* cap the bytes we return to the amount of bytes available to guard
+     * against core audio requesting more bytes that they fit in the buffer
+     * EVEN THOUGH THE BUFFER IS ALREADY LARGER THAN MAXIMUMFRAMESTORENDER */
+    *ioNumberDataPackets = std::min(*inp->bufferSizeFrames, *ioNumberDataPackets);
 
     return inp->pullInput(&pullFlags, inp->timestamp, *ioNumberDataPackets, 0, ioData);
 }
@@ -51,7 +58,8 @@ static OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConv
 @interface OEAudioUnit () {
     AudioConverterRef   _conv;
     void                *_convBuffer;
-    UInt32              _convSizeBytes;
+    UInt32              _convInputFrameCount;
+    UInt32              _convInputBytePerFrame;
 }
 
 @property (nonatomic, readonly) BOOL    requiresConversion;
@@ -101,7 +109,6 @@ static OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConv
     _outputBusArray = [[AUAudioUnitBusArray alloc] initWithAudioUnit:self
                                                              busType:AUAudioUnitBusTypeOutput
                                                               busses: @[_outputBus]];
-    
         
     self.maximumFramesToRender = 512;
     
@@ -143,8 +150,14 @@ static OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConv
         NSLog(@"unable to create audio converter: %d", status);
         return nil;
     }
-    _convSizeBytes  = (UInt32)(srcDesc->mBytesPerFrame * self.maximumFramesToRender);
-    _convBuffer     = malloc(_convSizeBytes);
+    /* 64 bytes of padding above self.maximumFramesToRender because
+     * CoreAudio is stupid and likes to request more bytes than the maximum
+     * even though IT TAKES CARE TO SET THE MAXIMUM VALUE ITSELF! */
+    _convInputFrameCount = (UInt32)self.maximumFramesToRender + 64;
+    _convInputBytePerFrame = (UInt32)srcDesc->mBytesPerFrame;
+    UInt32 bufferSize = _convInputFrameCount * _convInputBytePerFrame;
+    _convBuffer     = malloc(_convInputFrameCount * _convInputBytePerFrame);
+    os_log_error(OE_LOG_AUDIO, "audio converter buffer size = %{public}u bytes", bufferSize);
     
     return YES;
 }
@@ -155,7 +168,7 @@ static OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConv
 }
 
 - (void)_freeResources {
-    _convSizeBytes = 0;
+    _convInputFrameCount = 0;
     if (_convBuffer) {
         free(_convBuffer);
         _convBuffer = nil;
@@ -177,7 +190,8 @@ static OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConv
         
         __block inputData data = {
             .buffer             = &_convBuffer,
-            .bufferSizeBytes    = &_convSizeBytes,
+            .bufferSizeFrames   = &_convInputFrameCount,
+            .bytesPerFrame      = &_convInputBytePerFrame,
             .pullInput          = _outputProvider,
         };
         
