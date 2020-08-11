@@ -128,7 +128,7 @@
 
 "Copying ROM Files…" = "Kopiere ROM-Dateien …";
 
-"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+"Copying ROM files failed!" = "Kopieren der ROM-Dateien fehlgeschlagen!";
 
 "Core Provided By…" = "Kern basiert auf …";
 
@@ -284,7 +284,7 @@
 
 "Move to Trash" = "In den Papierkorb legen";
 
-"Moving Library…" = "Moving Library…";  // TODO
+"Moving Library…" = "Mediathek verschieben …";
 
 "Mute Audio" = "Ton aus";
 
@@ -450,7 +450,7 @@
 
 "Switch To List View" = "Objekte in einer Liste zeigen";
 
-"System Default" = "System Default"; // Default audio device setting // TODO
+"System Default" = "Systemstandard";
 
 "System Files" = "BIOS-Dateien";
 
@@ -583,7 +583,7 @@
 
 "Library Window" = "Mediathek-Ansicht";
 
-"Reset main window size" = "Hauptfenster-Größe zurücksetzen";
+"Reset main window size" = "Hauptfenstergröße zurücksetzen";
 
 "Download missing artwork on the fly" = "Fehlende Cover on-the-fly herunterladen";
 
@@ -695,8 +695,8 @@
 
 "Unchecked" = "Nicht ausgewählt";  // Default value tooltip for checkboxes: unchecked default
 
-"Shaders" = "Shaders";  // TODO
+"Shaders" = "Shader";
 
-"Clear shader cache" = "Clear shader cache";  // TODO
+"Clear shader cache" = "Shader-Cache leeren";
 
-"Reveal user shader folder" = "Reveal user shader folder";  // TODO
+"Reveal user shader folder" = "Benutzershader-Ordner anzeigen";
