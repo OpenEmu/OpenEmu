@@ -116,6 +116,8 @@
 
 "Consolidate" = "Consolidar";
 
+"Consolidating files failed." = "Consolidating files failed."; // TODO
+
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Ao Consolidar você copiará todos os jogos selecionados para a Biblioteca do OpenEmu.\n\nIsso não pode ser desfeito.";
 
 "Controls" = "Controles";
@@ -574,6 +576,8 @@
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
 
+"Continue" = "Continuar";
+
 
 /* Secrets */
 
@@ -665,7 +669,7 @@
 
 "Delete artwork that can be downloaded" = "Delete artwork that can be downloaded"; //TODO
 
-"Download missing artwork" = "Baixar Artes de Capa faltantes";
+"Download missing artwork…" = "Baixar Artes de Capa faltantes…";
 
 "Remove untracked artwork files" = "Remover Artes de Capa desconhecidas";
 
@@ -678,10 +682,6 @@
 "Perform Sanity Check on Database" = "Realizar Checagem de Consistência no Banco de Dados";
 
 "While performing this operation OpenEmu will be unresponsive." = "O OpenEmu pode ficar sem responder enquanto essa operação estiver rodando";
-
-"Do it!" = "Faça!";
-
-"Cancel Operation" = "Cancelar Operação";
 
 "Delete useless image objects" = "Delete useless image objects"; // TODO
 

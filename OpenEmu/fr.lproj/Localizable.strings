@@ -116,6 +116,8 @@
 
 "Consolidate" = "Réunir";
 
+"Consolidating files failed." = "Consolidating files failed."; // TODO
+
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Réunir les fichiers copiera tous les jeux sélectionnés dans le dossier de la bibliothèque OpenEmu.\n\nCette opération est irréversible.";
 
 "Controls" = "Contrôles";
@@ -496,7 +498,7 @@
 
 "User guide on BIOS files" = "Guide de l’utilisateur de fichiers BIOS";
 
-"View Guide In Browser" = "Afficher le guide";
+"View Guide in Browser" = "Afficher le guide";
 
 "Warning" = "Avertissement";
 
@@ -573,6 +575,8 @@
 "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives.";  // Message text (attempted to change location of library, HTML  // TODO
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
+
+"Continue" = "Continuer";
 
 
 /* Secrets */
@@ -665,7 +669,7 @@
 
 "Delete artwork that can be downloaded" = "Supprimer l’illustration qui peut être téléchargée";
 
-"Download missing artwork" = "Télécharger l’illustration manquante";
+"Download missing artwork…" = "Télécharger l’illustration manquante…";
 
 "Remove untracked artwork files" = "Supprimer les fichiers d’illustration externes";
 
@@ -678,10 +682,6 @@
 "Perform Sanity Check on Database" = "Vérifier l’intégrité de la base de données";
 
 "While performing this operation OpenEmu will be unresponsive." = "OpenEmu ne répondra pas pendant l’exécution de cette opération.";
-
-"Do it!" = "Fais-le !";
-
-"Cancel Operation" = "Annuler l’opération";
 
 "Delete useless image objects" = "Supprimer les objets d’image inutiles";
 

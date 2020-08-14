@@ -203,7 +203,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Button(@"Delete useless image objects", @selector(removeUselessImages:)),
                               Button(@"Delete artwork that can be downloaded", @selector(removeArtworkWithRemoteBacking:)),
                               Button(@"Sync games without artwork", @selector(syncGamesWithoutArtwork:)),
-                              Button(@"Download missing artwork", @selector(downloadMissingArtwork:)),
+                              Button(@"Download missing artwork…", @selector(downloadMissingArtwork:)),
                               Button(@"Remove untracked artwork files", @selector(removeUntrackedImageFiles:)),
                               Button(@"Cleanup rom hashes", @selector(cleanupHashes:)),
                               Button(@"Remove duplicated roms", @selector(removeDuplicatedRoms:)),
@@ -519,8 +519,8 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 - (void)downloadMissingArtwork:(id)sender
 {
     OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"While performing this operation OpenEmu will be unresponsive.", @"")
-                                     defaultButton:NSLocalizedString(@"Do it!", @"")
-                                   alternateButton:NSLocalizedString(@"Cancel Operation", @"")];
+                                     defaultButton:NSLocalizedString(@"Continue", @"")
+                                   alternateButton:NSLocalizedString(@"Cancel", @"")];
     if([alert runModal] != NSAlertFirstButtonReturn) return;
 
     OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];

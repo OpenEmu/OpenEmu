@@ -116,6 +116,8 @@
 
 "Consolidate" = "Consolida";
 
+"Consolidating files failed." = "Consolidating files failed."; // TODO
+
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "El procés de consolidació copiarà tots els jocs seleccionats a la carpeta de la biblioteca de l'OpenEmu.\n\nAixò no es pot desfer.";
 
 "Controls" = "Controls";
@@ -382,8 +384,6 @@
 
 "Resolve Issues" = "Resol els problemes";
 
-"Restart now" = "Reinicia ara";
-
 "Restart System" = "Reinicia el sistema";
 
 "Restart" = "Reinicia";
@@ -576,6 +576,8 @@
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
 
+"Continue" = "Continuar";
+
 
 /* Secrets */
 
@@ -667,7 +669,7 @@
 
 "Delete artwork that can be downloaded" = "Esborra les imatges que es poden baixar";
 
-"Download missing artwork" = "Baixa les imatges que falten";
+"Download missing artwork…" = "Baixa les imatges que falten…";
 
 "Remove untracked artwork files" = "Esborra les imatges sense seguiment";
 
@@ -680,10 +682,6 @@
 "Perform Sanity Check on Database" = "Realitza les comprovacions de validesa a la base de dades";
 
 "While performing this operation OpenEmu will be unresponsive." = "L'OpenEmu no respondrà durant aquesta operació.";
-
-"Do it!" = "Fes-ho!";
-
-"Cancel Operation" = "Cancel·la l'operació";
 
 "Delete useless image objects" = "Esborra els objectes d'imatge inútils";
 

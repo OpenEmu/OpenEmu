@@ -240,7 +240,7 @@ extension ScreenshotViewController: NSTouchBarDelegate {
         case .showScreenshotInFinder:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
-            item.customizationLabel = NSLocalizedString("Show In Finder", comment: "")
+            item.customizationLabel = NSLocalizedString("Show in Finder", comment: "")
             
             let button = NSButton(image: NSImage(named: NSImage.revealFreestandingTemplateName)!, target: nil, action: #selector(showInFinder(_:)))
             

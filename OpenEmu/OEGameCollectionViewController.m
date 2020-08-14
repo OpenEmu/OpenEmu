@@ -581,8 +581,8 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
                     OEAlertCompletionHandler originalCompletionHandler = [alert callbackHandler];
                     [alert setCallbackHandler:^(OEAlert *alert, NSModalResponse result){
                         NSString *messageText = [error localizedDescription];
-                        OEAlert *errorAlert = [OEAlert alertWithMessageText:messageText defaultButton:@"OK" alternateButton:@""];
-                        [errorAlert setTitle:@"Consolidating files failed."];
+                        OEAlert *errorAlert = [OEAlert alertWithMessageText:messageText defaultButton:NSLocalizedString(@"OK", @"") alternateButton:@""];
+                        [errorAlert setTitle:NSLocalizedString(@"Consolidating files failed.", @"")];
                         [errorAlert runModal];
 
                         if(originalCompletionHandler) originalCompletionHandler(alert, result);
@@ -600,7 +600,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
             }];
         });
         
-        [alert setDefaultButtonTitle:@"Stop"];
+        [alert setDefaultButtonTitle:NSLocalizedString(@"Stop", @"")];
         alertResult = [alert runModal];
         
     });

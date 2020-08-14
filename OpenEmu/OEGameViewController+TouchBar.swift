@@ -156,7 +156,7 @@ extension OEGameViewController: NSTouchBarDelegate {
         case .toggleFullScreen:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
-            item.customizationLabel = NSLocalizedString("Toggle Full Screen", comment: "")
+            item.customizationLabel = NSLocalizedString("Toggle Fullscreen", comment: "")
             
             let imageName: NSImage.Name = document.gameWindowController.window!.isFullScreen ? NSImage.touchBarExitFullScreenTemplateName : NSImage.touchBarEnterFullScreenTemplateName
             let image = NSImage(named: imageName)!

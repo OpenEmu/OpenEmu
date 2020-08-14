@@ -116,6 +116,8 @@
 
 "Consolidate" = "Zusammenlegen";
 
+"Consolidating files failed." = "Zusammenlegen fehlgeschlagen.";
+
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Beim Zusammenlegen werden die ausgewählten Spiele in den OpenEmu-Spieleordner kopiert.\n\nDiese Aktion kann nicht rückgängig gemacht werden.";
 
 "Controls" = "Steuerung";
@@ -568,6 +570,8 @@
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
 
+"Continue" = "Fortfahren";
+
 
 /* Secrets */
 
@@ -591,9 +595,9 @@
 
 "Manually choose system on import" = "Konsole beim Import manuell auswählen";
 
-"Show autosave states in save state category" = "Automatische Sicherungen in Spielstände-Kategorie anzeigen";
+"Show autosave states in save state category" = "Automatische Sicherungen in Spielstände-Ansicht anzeigen";
 
-"Show quicksave states in save state category" = "Schnelle Sicherungen in Spielstände-Kategorie anzeigen";
+"Show quicksave states in save state category" = "Schnelle Sicherungen in Spielstände-Ansicht anzeigen";
 
 "Show game scanner view" = "Spiele-Scanner einblenden";
 
@@ -659,7 +663,7 @@
 
 "Delete artwork that can be downloaded" = "Herunterladbare Cover löschen";
 
-"Download missing artwork" = "Fehlende Cover herunterladen";
+"Download missing artwork…" = "Fehlende Cover herunterladen …";
 
 "Remove untracked artwork files" = "Nicht getrackte Cover entfernen";
 
@@ -672,10 +676,6 @@
 "Perform Sanity Check on Database" = "Datenbank auf Plausibilität prüfen";
 
 "While performing this operation OpenEmu will be unresponsive." = "Während dieser Aktion wird OpenEmu nicht mehr reagieren.";
-
-"Do it!" = "Los!";
-
-"Cancel Operation" = "Abbrechen";
 
 "Delete useless image objects" = "Unbenutzte Bilder löschen";
 

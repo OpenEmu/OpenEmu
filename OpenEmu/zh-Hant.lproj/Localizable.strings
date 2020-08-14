@@ -116,6 +116,8 @@
 
 "Consolidate" = "整合";
 
+"Consolidating files failed." = "Consolidating files failed."; // TODO
+
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "整合會複製所有選擇的遊戲到 OpenEmu 庫文件夾。\n\n該操作無法撤銷。";
 
 "Controls" = "控制";
@@ -574,6 +576,8 @@
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
 
+"Continue" = "繼續";
+
 
 /* Secrets */
 
@@ -665,7 +669,7 @@
 
 "Delete artwork that can be downloaded" = "Delete artwork that can be downloaded";
 
-"Download missing artwork" = "下載缺少的插圖";
+"Download missing artwork…" = "下載缺少的插圖…";
 
 "Remove untracked artwork files" = "移除未使用的插圖文件";
 
@@ -678,10 +682,6 @@
 "Perform Sanity Check on Database" = "對數據庫執行完整性檢查";
 
 "While performing this operation OpenEmu will be unresponsive." = "執行此操作時 OpenEmu 將無響應。";
-
-"Do it!" = "走你！";
-
-"Cancel Operation" = "取消操作";
 
 "Delete useless image objects" = "Delete useless image objects";
 

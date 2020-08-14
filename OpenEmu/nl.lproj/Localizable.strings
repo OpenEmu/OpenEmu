@@ -42,9 +42,9 @@
 
 "Add Cheat" = "Voeg cheat toe";
 
-"Add Cover Art From File…" = "Voeg omslagafbeelding uit bestand toe…";
+"Add Cover Art from File…" = "Voeg omslagafbeelding uit bestand toe…";
 
-"Add To Collection" = "Voeg toe aan verzameling";
+"Add to Collection" = "Voeg toe aan verzameling";
 
 "All Games" = "Alle spellen";
 
@@ -115,6 +115,8 @@
 "Consolidate Files…" = "Voeg bestanden samen…";
 
 "Consolidate" = "Voeg samen";
+
+"Consolidating files failed." = "Consolidating files failed."; // TODO
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Samenvoegen zal alle geselecteerde spellen kopiëren naar de OpenEmu-bibliotheekmap.\n\nDit kan niet ongedaan worden gemaakt.";
 
@@ -496,7 +498,7 @@
 
 "User guide on BIOS files" = "Gebruikershandleiding over BIOS-bestanden";
 
-"View Guide In Browser" = "Bekijk handleiding in browser";
+"View Guide in Browser" = "Bekijk handleiding in browser";
 
 "Warning" = "Waarschuwing";
 
@@ -573,6 +575,8 @@
 "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives.";  // Message text (attempted to change location of library, HTML  // TODO
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
+
+"Continue" = "Ga door";
 
 
 /* Secrets */
@@ -663,9 +667,9 @@
 
 "Database Actions" = "Database acties";
 
-"Delete Artwork that can be downloaded" = "Verwijder artwork dat kan gedownload worden";
+"Delete artwork that can be downloaded" = "Verwijder artwork dat kan gedownload worden";
 
-"Download missing artwork" = "Download ontbrekend artwork";
+"Download missing artwork…" = "Download ontbrekend artwork…";
 
 "Remove untracked artwork files" = "Remove untracked artwork files";
 
@@ -678,10 +682,6 @@
 "Perform Sanity Check on Database" = "Controleer database op zuiverheid";
 
 "While performing this operation OpenEmu will be unresponsive." = "Terwijl OpenEmu deze handeling verricht, reageert het niet.";
-
-"Do it!" = "Doe het!";
-
-"Cancel Operation" = "Annuleer handeling";
 
 "Delete useless image objects" = "Verwijder nutteloze afbeeldingsobjecten";
 

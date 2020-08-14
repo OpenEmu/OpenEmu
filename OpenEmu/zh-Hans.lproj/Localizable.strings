@@ -42,9 +42,9 @@
 
 "Add Cheat" = "添加金手指";
 
-"Add Cover Art From File…" = "从文件添加封面插图…";
+"Add Cover Art from File…" = "从文件添加封面插图…";
 
-"Add To Collection" = "添加到收藏";
+"Add to Collection" = "添加到收藏";
 
 "All Games" = "所有游戏";
 
@@ -86,8 +86,6 @@
 
 "Cancel Cover Art Download" = "取消封面插图下载";
 
-"Cancel Operation" = "取消操作";
-
 "Cancel" = "取消";
 
 "Change Core" = "更改核心";
@@ -119,6 +117,8 @@
 "Consolidate Files…" = "整合文件…";
 
 "Consolidate" = "整合";
+
+"Consolidating files failed." = "Consolidating files failed."; // TODO
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "整合会复制所有选择的游戏到 OpenEmu 库文件夹。\n\n该操作无法撤销。";
 
@@ -185,8 +185,6 @@
 "Disc-based games have special requirements. Please read the disc importing guide." = "磁盘游戏有特殊要求。请阅读磁盘导入指南。";
 
 "Dismiss" = "消除";
-
-"Do it!" = "走你！";
 
 "Do not ask me again" = "不再询问";
 
@@ -504,7 +502,7 @@
 
 "User guide on BIOS files" = "BIOS 文件用户指南";
 
-"View Guide In Browser" = "打开浏览器阅读指南";
+"View Guide in Browser" = "打开浏览器阅读指南";
 
 "Warning" = "警告";
 
@@ -583,6 +581,8 @@
 "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives.";  // Message text (attempted to change location of library, HTML  // TODO
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
+
+"Continue" = "继续";
 
 
 /* Secrets */
@@ -673,9 +673,9 @@
 
 "Database Actions" = "数据库操作";
 
-"Delete Artwork that can be downloaded" = "删除可下载的插图";
+"Delete artwork that can be downloaded" = "删除可下载的插图";
 
-"Download missing artwork" = "下载缺少的插图";
+"Download missing artwork…" = "下载缺少的插图…";
 
 "Remove untracked artwork files" = "移除未使用的插图文件";
 
