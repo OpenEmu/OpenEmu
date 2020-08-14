@@ -25,7 +25,6 @@
  */
 
 #import "OEDBSavedGamesMedia.h"
-#import "OETheme.h"
 #import "OEDBSaveState.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -49,7 +48,7 @@ NSString * const OEDBSavedGamesMediaShowsQuickSaves = @"OEDBSavedGamesMediaShows
 
 - (nullable NSImage *)sidebarIcon
 {
-    return [[OETheme sharedTheme] imageForKey:@"media_saved_games" forState:OEThemeStateDefault];
+    return nil;
 }
 
 - (NSString *)sidebarName

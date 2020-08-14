@@ -1682,26 +1682,6 @@
 				</dict>
 			</dict>
 		</dict>
-		<key>collections_smart</key>
-		<dict>
-			<key>Resource</key>
-			<string>collections</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{16,0},{16,16}}</string>
-			</dict>
-		</dict>
-		<key>collections_simple</key>
-		<dict>
-			<key>Resource</key>
-			<string>collections</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{0,0},{16,16}}</string>
-			</dict>
-		</dict>
 		<key>list_indicators_unplayed</key>
 		<dict>
 			<key>Resource</key>

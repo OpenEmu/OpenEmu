@@ -25,7 +25,6 @@
  */
 
 #import "OEDBCollection.h"
-#import "OETheme.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -63,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSImage *)sidebarIcon
 {
-    return [[OETheme sharedTheme] imageForKey:@"collections_simple" forState:OEThemeStateDefault];
+    return [NSImage imageNamed:@"collection_simple"];
 }
 
 - (NSString *)sidebarName

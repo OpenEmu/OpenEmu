@@ -25,7 +25,6 @@
  */
 
 #import "OEDBCollectionFolder.h"
-#import "OETheme.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,9 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SidebarItem Protocol
 
-- (NSImage * _Nullable)sidebarIcon
+- (nullable NSImage *)sidebarIcon
 {
-    return [[OETheme sharedTheme] imageForKey:@"collections_folder" forState:OEThemeStateDefault];
+    return nil;
 }
 
 - (BOOL)hasSubCollections
