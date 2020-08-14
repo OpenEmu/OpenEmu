@@ -26,10 +26,10 @@
 
 "Archived Game" = "Joc arxivat";
 
-"GameCorePlugin" = "GameCorePlugin";
+"OpenEmu Core Plugin" = "OpenEmu Core Plugin";
 
 "OpenEmu Save State" = "Partida desada de l'OpenEmu";
 
-"System Plugin" = "Connector del sistema";
+"OpenEmu System Plugin" = "Connector del sistema";
 
-"VideoFilterPlugin" = "VideoFilterPlugin";
+"OpenEmu Shader" = "OpenEmu Shader";

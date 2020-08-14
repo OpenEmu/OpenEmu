@@ -26,10 +26,10 @@
 
 "Archived Game" = "库存游戏";
 
-"GameCorePlugin" = "游戏核心插件";
+"OpenEmu Core Plugin" = "游戏核心插件";
 
 "OpenEmu Save State" = "OpenEmu保存状态";
 
-"System Plugin" = "系统插件";
+"OpenEmu System Plugin" = "系统插件";
 
-"VideoFilterPlugin" = "视频滤镜插件";
+"OpenEmu Shader" = "视频滤镜插件";
