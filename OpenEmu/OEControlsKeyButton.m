@@ -25,7 +25,6 @@
  */
 
 #import "OEControlsKeyButton.h"
-#import "OETheme.h"
 
 #import "OpenEmu-Swift.h"
 
@@ -90,11 +89,10 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Draw Backgrounds
-    const NSRect bounds = [self bounds];
-    OEThemeState themeState = self.state==NSControlStateValueOn ? OEThemeInputStateFocused : OEThemeStateDefault;
-    NSImage *image = [[OETheme sharedTheme] imageForKey:@"wood_textfield" forState:themeState];
-    [image drawInRect:bounds fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-
+    const NSRect bounds = self.bounds;
+    NSImage *image = self.state == NSControlStateValueOn ? [NSImage imageNamed:@"wood_textfield_focus"] : [NSImage imageNamed:@"wood_textfield"];
+    [image drawInRect:bounds];
+    
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     
     NSFont *font = [NSFont boldSystemFontOfSize:11];
@@ -107,18 +105,13 @@
     [attributes setObject:font forKey:NSFontAttributeName];
     [attributes setObject:shadow forKey:NSShadowAttributeName];
     
-    NSPoint p = NSMakePoint([self bounds].origin.x + 4, [self bounds].origin.y + 4);
+    NSPoint p = NSMakePoint([self bounds].origin.x + 4, [self bounds].origin.y + (self.isFlipped ? 4 : 6));
     [self.title drawAtPoint:p withAttributes:attributes];
 }
 
 - (BOOL)isOpaque
 {
     return NO;
-}
-
-- (BOOL)isFlipped
-{
-    return YES;
 }
 
 - (void)mouseDown:(NSEvent *)theEvent

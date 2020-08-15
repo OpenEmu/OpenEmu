@@ -24,36 +24,18 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
+import Cocoa
 
 @objc(OEPreferencesControlsBox)
-class PreferencesControlsBox: OEBackgroundImageView {
+class PreferencesControlsBox: NSView {
     
     lazy var lineColor = NSColor(deviceRed: 0.45, green: 0.24, blue: 0, alpha: 1)
     lazy var topHighlightColor = NSColor(deviceRed: 1, green: 0.92, blue: 0, alpha: 0.14)
     lazy var bottomHighlightColor = NSColor(deviceRed: 1, green: 0.92, blue: 0, alpha: 0.3)
     
-    override init(frame frameRect: NSRect) {
-        super.init(frame: frameRect)
-        commonInit()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        commonInit()
-    }
-    
-    private func commonInit() {
-        setThemeKey("wood_inset_box")
-    }
-    
     override func draw(_ dirtyRect: NSRect) {
         
-        super.draw(bounds)
+        NSImage(named: "wood_inset_box")?.draw(in: bounds)
         
         var lineRect = bounds
         lineRect.size.height = 1

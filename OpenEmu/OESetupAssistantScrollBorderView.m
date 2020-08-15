@@ -25,7 +25,7 @@
  */
 
 #import "OESetupAssistantScrollBorderView.h"
-#import "OETheme.h"
+
 @implementation OESetupAssistantScrollBorderView
 
 - (BOOL)isOpaque
@@ -35,12 +35,12 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    const NSRect bounds = [self bounds];
+    const NSRect bounds = self.bounds;
     if(NSMinX(dirtyRect) < 5 || NSMaxX(dirtyRect) > bounds.size.width-5
        || NSMinY(dirtyRect) < 5 || NSMaxY(dirtyRect) > bounds.size.height-5)
     {
-        NSImage *image = [[OETheme sharedTheme] imageForKey:@"installer_scroll_box" forState:OEThemeStateDefault];
-        [image drawInRect:bounds fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+        NSImage *image = [NSImage imageNamed:@"installer_scrollview_box"];
+        [image drawInRect:bounds];
     }
 }
 

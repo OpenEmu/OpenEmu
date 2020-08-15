@@ -43,8 +43,6 @@
 
 #import "OEAudioDeviceManager.h"
 
-#import "OETheme.h"
-
 @import QuartzCore;
 
 #import "OpenEmu-Swift.h"
@@ -872,8 +870,8 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 #pragma mark -
 - (void)drawRect:(NSRect)dirtyRect
 {
-    NSImage *barBackground = [[OETheme sharedTheme] imageForKey:@"hud_bar" forState:OEThemeStateDefault];
-    [barBackground drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    NSImage *barBackground = [NSImage imageNamed:@"hud_bar"];
+    [barBackground drawInRect:self.bounds];
 }
 
 - (void)setupControls

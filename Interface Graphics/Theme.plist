@@ -764,61 +764,6 @@
 				<string>{{0,0}, {1, 27}}</string>
 			</dict>
 		</dict>
-		<key>hud_bar</key>
-		<dict>
-			<key>Resource</key>
-			<string>hud_bar</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {15, 45}}</string>
-						<string>{{15, 0}, {1, 45}}</string>
-						<string>{{16, 0}, {15, 45}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
-		<key>wood_textfield</key>
-		<dict>
-			<key>Resource</key>
-			<string>wood_textfield</string>
-			<key>States</key>
-			<dict>
-				<key>Focused</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 24}, {2, 5}}</string>
-						<string>{{2, 24}, {1, 5}}</string>
-						<string>{{3, 24}, {2, 5}}</string>
-						<string>{{0, 29}, {2, 14}}</string>
-						<string>{{2, 29}, {1, 14}}</string>
-						<string>{{3, 29}, {2, 14}}</string>
-						<string>{{0, 43}, {2, 5}}</string>
-						<string>{{2, 43}, {1, 5}}</string>
-						<string>{{3, 43}, {2, 5}}</string>
-					</array>
-				</dict>
-				<key>Default</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {2, 5}}</string>
-						<string>{{2, 0}, {1, 5}}</string>
-						<string>{{3, 0}, {2, 5}}</string>
-						<string>{{0, 5}, {2, 14}}</string>
-						<string>{{2, 5}, {1, 14}}</string>
-						<string>{{3, 5}, {2, 14}}</string>
-						<string>{{0, 19}, {2, 5}}</string>
-						<string>{{2, 19}, {1, 5}}</string>
-						<string>{{3, 19}, {2, 5}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
 		<key>wood_track_vertical</key>
 		<dict>
 			<key>Resource</key>
@@ -949,40 +894,6 @@
 				<key>Toggle On</key>
 				<string>{{0,10},{10,10}}</string>
 			</dict>
-		</dict>
-		<key>dark_inset_box_background</key>
-		<dict>
-			<key>Parts</key>
-			<array>
-				<string>{{0,0},{16,16}}</string>
-				<string>{{16,0},{1,16}}</string>
-				<string>{{17,0},{16,16}}</string>
-				<string>{{0,16},{16,1}}</string>
-				<string>{{16,16},{1,1}}</string>
-				<string>{{17,16},{16,1}}</string>
-				<string>{{0,17},{16,16}}</string>
-				<string>{{16,17},{1,16}}</string>
-				<string>{{17,17},{16,16}}</string>
-			</array>
-			<key>Resource</key>
-			<string>dark_inset_box</string>
-		</dict>
-		<key>installer_scroll_box</key>
-		<dict>
-			<key>Parts</key>
-			<array>
-				<string>{{0, 0}, {5, 5}}</string>
-				<string>{{5, 0}, {1, 5}}</string>
-				<string>{{6, 0}, {5, 5}}</string>
-				<string>{{0, 5}, {5, 1}}</string>
-				<string>{{5, 5}, {1, 1}}</string>
-				<string>{{6, 5}, {5, 1}}</string>
-				<string>{{0, 6}, {5, 5}}</string>
-				<string>{{5, 6}, {1, 5}}</string>
-				<string>{{6, 6}, {5, 5}}</string>
-			</array>
-			<key>Resource</key>
-			<string>installer_scrollview_box</string>
 		</dict>
 		<key>game_scanner_fix_issues</key>
 		<dict>
@@ -1470,23 +1381,6 @@
 				</array>
 			</dict>
 		</dict>
-		<key>installer_dark_inset_box</key>
-		<dict>
-			<key>Parts</key>
-			<array>
-				<string>{{0,0},{16,16}}</string>
-				<string>{{16,0},{1,16}}</string>
-				<string>{{17,0},{16,16}}</string>
-				<string>{{0,16},{16,1}}</string>
-				<string>{{16,16},{1,1}}</string>
-				<string>{{17,16},{16,1}}</string>
-				<string>{{0,17},{16,16}}</string>
-				<string>{{16,17},{1,16}}</string>
-				<string>{{17,17},{16,16}}</string>
-			</array>
-			<key>Resource</key>
-			<string>installer_dark_inset_box</string>
-		</dict>
 		<key>open_weblink</key>
 		<dict>
 			<key>Resource</key>
@@ -1641,23 +1535,6 @@
 				<key>Window Inactive</key>
 				<string>{{55,0},{26,23}}</string>
 			</dict>
-		</dict>
-		<key>wood_inset_box_background</key>
-		<dict>
-			<key>Parts</key>
-			<array>
-				<string>{{0,0},{16,16}}</string>
-				<string>{{16,0},{1,16}}</string>
-				<string>{{17,0},{16,16}}</string>
-				<string>{{0,16},{16,1}}</string>
-				<string>{{16,16},{1,1}}</string>
-				<string>{{17,16},{16,1}}</string>
-				<string>{{0,17},{16,16}}</string>
-				<string>{{16,17},{1,16}}</string>
-				<string>{{17,17},{16,16}}</string>
-			</array>
-			<key>Resource</key>
-			<string>wood_inset_box</string>
 		</dict>
 		<key>wood_popup_button_background</key>
 		<dict>

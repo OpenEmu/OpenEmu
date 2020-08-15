@@ -1,34 +1,40 @@
 {
   "images" : [
     {
-      "filename" : "hud_bar.png",
+      "filename" : "wood_textfield_focus.png",
       "idiom" : "universal",
       "resizing" : {
         "cap-insets" : {
-          "left" : 15,
-          "right" : 15
+          "bottom" : 5,
+          "left" : 2,
+          "right" : 2,
+          "top" : 5
         },
         "center" : {
+          "height" : 14,
           "mode" : "tile",
           "width" : 1
         },
-        "mode" : "3-part-horizontal"
+        "mode" : "9-part"
       },
       "scale" : "1x"
     },
     {
-      "filename" : "hud_bar@2x.png",
+      "filename" : "wood_textfield_focus@2x.png",
       "idiom" : "universal",
       "resizing" : {
         "cap-insets" : {
-          "left" : 30,
-          "right" : 30
+          "bottom" : 10,
+          "left" : 4,
+          "right" : 4,
+          "top" : 10
         },
         "center" : {
+          "height" : 28,
           "mode" : "tile",
           "width" : 2
         },
-        "mode" : "3-part-horizontal"
+        "mode" : "9-part"
       },
       "scale" : "2x"
     },
