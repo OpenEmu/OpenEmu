@@ -121,38 +121,11 @@
 		010EDCA31CE628490020417C /* OELibraryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 010EDCA21CE628490020417C /* OELibraryController.xib */; };
 		012FE6591CE51D4100716960 /* LibraryToolbarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */; };
 		016F22DF23F19F5F00181842 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016F22DE23F19F5F00181842 /* AppDelegate.swift */; };
-		016F22E423F19F6100181842 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 016F22E223F19F6100181842 /* MainMenu.xib */; };
+		016F22E423F19F6100181842 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 016F22E323F19F6100181842 /* MainMenu.xib */; };
 		016F22EA23F1A35400181842 /* OEAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEAlert.m */; };
 		016F22EC23F1A35B00181842 /* OEAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.m */; };
 		016F22ED23F1A36E00181842 /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; };
-		016F22EF23F1A57F00181842 /* OETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 838DB01816DBE14E00B8DDC8 /* OETextField.m */; };
-		016F22F023F1A58200181842 /* OESearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7EAD9171D911400D32E26 /* OESearchField.m */; };
-		016F22F123F1A58600181842 /* OETextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 838DB01B16DBE15900B8DDC8 /* OETextFieldCell.m */; };
-		016F22F223F1A58900181842 /* OESearchFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AF313B92EA8005C0CC8 /* OESearchFieldCell.m */; };
-		016F22F323F1A59000181842 /* OEHorizontalLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE497162D6217005D8AD7 /* OEHorizontalLine.m */; };
-		016F22F423F1A59000181842 /* OEBackgroundColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE494162D61C7005D8AD7 /* OEBackgroundColorView.m */; };
-		016F22F523F1A59000181842 /* OEBackgroundImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8337F38D1726B3600068DD90 /* OEBackgroundImageView.m */; };
-		016F22F623F1A59500181842 /* OEButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AD31600971600038D0D /* OEButton.m */; };
-		016F22F723F1A59500181842 /* OEPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AD91600973B00038D0D /* OEPopUpButton.m */; };
-		016F22F823F1A59A00181842 /* OEButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AD51600971600038D0D /* OEButtonCell.m */; };
-		016F22F923F1A59A00181842 /* OEPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9ADB1600973B00038D0D /* OEPopUpButtonCell.m */; };
-		016F22FA23F1A59A00181842 /* OEOutlinedButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA6D19755FE300B86935 /* OEOutlinedButtonCell.m */; };
-		016F22FB23F1A59E00181842 /* OELabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE48C162D52DC005D8AD7 /* OELabel.m */; };
-		016F22FC23F1A5A100181842 /* OELabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE48E162D52DC005D8AD7 /* OELabelCell.m */; };
-		016F22FD23F1A5A500181842 /* OEToolTipManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 835F3F3F1683534700C74B97 /* OEToolTipManager.m */; };
-		016F22FE23F1A5AA00181842 /* OESlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AF613B92EAD005C0CC8 /* OESlider.m */; };
-		016F22FF23F1A5AA00181842 /* OEProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */; };
-		016F230023F1A5AA00181842 /* OEScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AFC13B92EB9005C0CC8 /* OEScroller.m */; };
-		016F230123F1A5AA00181842 /* OEScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AFF13B92EC1005C0CC8 /* OEScrollView.m */; };
-		016F230223F1A5AD00181842 /* OESliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8394074C1778AE4F00669B0B /* OESliderCell.m */; };
 		016F230323F1A65000181842 /* NSControl+TargetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606DF1C0B12FE0089B494 /* NSControl+TargetAction.swift */; };
-		016F230423F1A67300181842 /* Theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 838E2A221600A05C00CF7198 /* Theme.plist */; };
-		016F230523F1A67C00181842 /* OETheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AAC160095BA00038D0D /* OETheme.m */; };
-		016F230623F1A68100181842 /* OEThemeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AAF160095E500038D0D /* OEThemeObject.m */; };
-		016F230723F1A68100181842 /* OEThemeColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB2160095F800038D0D /* OEThemeColor.m */; };
-		016F230823F1A68100181842 /* OEThemeTextAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB8160095F800038D0D /* OEThemeTextAttributes.m */; };
-		016F230923F1A68100181842 /* OEThemeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB6160095F800038D0D /* OEThemeImage.m */; };
-		016F230A23F1A68100181842 /* OEThemeGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB4160095F800038D0D /* OEThemeGradient.m */; };
 		016F230B23F1A69D00181842 /* NSImage+DrawingAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E71C0BCD350089B494 /* NSImage+DrawingAdditions.swift */; };
 		016F230C23F1A6BE00181842 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E91C0BD2BD0089B494 /* DLog.swift */; };
 		016F230D23F1A6CC00181842 /* OEInputLimitFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */; };
@@ -1477,7 +1450,7 @@
 		0162C81C1AFACDE1003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/ControlLabels.strings; sourceTree = "<group>"; };
 		016F22DC23F19F5F00181842 /* OEAlertTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OEAlertTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		016F22DE23F19F5F00181842 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		016F22E323F19F6100181842 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		016F22E323F19F6100181842 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		016F22E523F19F6100181842 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		016F22EE23F1A3A800181842 /* SwiftBridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftBridging.h; sourceTree = "<group>"; };
 		01B035531C090E9900BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3161,7 +3134,7 @@
 			children = (
 				016F22DE23F19F5F00181842 /* AppDelegate.swift */,
 				016F22EE23F1A3A800181842 /* SwiftBridging.h */,
-				016F22E223F19F6100181842 /* MainMenu.xib */,
+				016F22E323F19F6100181842 /* MainMenu.xib */,
 				016F22E523F19F6100181842 /* Info.plist */,
 			);
 			path = OEAlertTest;
@@ -6749,7 +6722,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				016F230423F1A67300181842 /* Theme.plist in Resources */,
 				016F22ED23F1A36E00181842 /* Graphics.xcassets in Resources */,
 				016F22E423F19F6100181842 /* MainMenu.xib in Resources */,
 			);
@@ -7582,52 +7554,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				016F22EF23F1A57F00181842 /* OETextField.m in Sources */,
 				016F231323F1A89B00181842 /* NSDocument+OEAdditions.m in Sources */,
 				016F230D23F1A6CC00181842 /* OEInputLimitFormatter.m in Sources */,
-				016F22F623F1A59500181842 /* OEButton.m in Sources */,
 				016F22EA23F1A35400181842 /* OEAlert.m in Sources */,
-				016F230023F1A5AA00181842 /* OEScroller.m in Sources */,
 				016F231023F1A89B00181842 /* NSArray+OEAdditions.m in Sources */,
-				016F22F723F1A59500181842 /* OEPopUpButton.m in Sources */,
 				016F231B23F1A89B00181842 /* OEFileManager.m in Sources */,
-				016F22FF23F1A5AA00181842 /* OEProgressIndicator.m in Sources */,
-				016F22FE23F1A5AA00181842 /* OESlider.m in Sources */,
-				016F230723F1A68100181842 /* OEThemeColor.m in Sources */,
-				016F22F323F1A59000181842 /* OEHorizontalLine.m in Sources */,
-				016F230223F1A5AD00181842 /* OESliderCell.m in Sources */,
-				016F22FA23F1A59A00181842 /* OEOutlinedButtonCell.m in Sources */,
 				016F231C23F1A89B00181842 /* UserDefaults+OEAdditions.swift in Sources */,
 				016F22EC23F1A35B00181842 /* OEAlert+DefaultAlertsAdditions.m in Sources */,
-				016F22F823F1A59A00181842 /* OEButtonCell.m in Sources */,
-				016F22F223F1A58900181842 /* OESearchFieldCell.m in Sources */,
-				016F22FB23F1A59E00181842 /* OELabel.m in Sources */,
 				016F231123F1A89B00181842 /* NSAttributedString+Hyperlink.swift in Sources */,
-				016F22F023F1A58200181842 /* OESearchField.m in Sources */,
-				016F230923F1A68100181842 /* OEThemeImage.m in Sources */,
-				016F22F523F1A59000181842 /* OEBackgroundImageView.m in Sources */,
 				016F231A23F1A89B00181842 /* NSWindow+FullScreen.swift in Sources */,
 				016F230B23F1A69D00181842 /* NSImage+DrawingAdditions.swift in Sources */,
 				016F231423F1A89B00181842 /* NSFileManager+OEHashingAdditions.m in Sources */,
 				016F230323F1A65000181842 /* NSControl+TargetAction.swift in Sources */,
 				016F230F23F1A89B00181842 /* NS(Attributed)String+Geometrics.m in Sources */,
 				016F230C23F1A6BE00181842 /* DLog.swift in Sources */,
-				016F22F123F1A58600181842 /* OETextFieldCell.m in Sources */,
 				016F231923F1A89B00181842 /* NSWindow+Image.swift in Sources */,
-				016F22FC23F1A5A100181842 /* OELabelCell.m in Sources */,
-				016F22F923F1A59A00181842 /* OEPopUpButtonCell.m in Sources */,
 				016F231523F1A89B00181842 /* NSImageView+OEAdditions.swift in Sources */,
 				016F231223F1A89B00181842 /* NSBitmapImageRep+OEAdditions.swift in Sources */,
-				016F230123F1A5AA00181842 /* OEScrollView.m in Sources */,
 				016F230E23F1A88A00181842 /* NSColor+OEAdditions.m in Sources */,
-				016F22F423F1A59000181842 /* OEBackgroundColorView.m in Sources */,
-				016F22FD23F1A5A500181842 /* OEToolTipManager.m in Sources */,
-				016F230823F1A68100181842 /* OEThemeTextAttributes.m in Sources */,
 				016F22DF23F19F5F00181842 /* AppDelegate.swift in Sources */,
-				016F230523F1A67C00181842 /* OETheme.m in Sources */,
 				016F231823F1A89B00181842 /* NSURL+LibraryAdditions.swift in Sources */,
-				016F230A23F1A68100181842 /* OEThemeGradient.m in Sources */,
-				016F230623F1A68100181842 /* OEThemeObject.m in Sources */,
 				016F231723F1A89B00181842 /* NSMutableDictionary+Pop.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -8476,14 +8422,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		016F22E223F19F6100181842 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				016F22E323F19F6100181842 /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
 		05B753A223330EB60063BD73 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
