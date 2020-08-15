@@ -100,19 +100,13 @@
                                     </view>
                                 </subviews>
                             </clipView>
-                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="113" customClass="OEScroller">
+                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="113">
                                 <rect key="frame" x="-100" y="-100" width="506" height="15"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood"/>
-                                </userDefinedRuntimeAttributes>
                             </scroller>
-                            <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="114" customClass="OEScroller">
+                            <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="114" customClass="OEControlsScroller">
                                 <rect key="frame" x="213" y="0.0" width="16" height="269"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood"/>
-                                </userDefinedRuntimeAttributes>
                             </scroller>
                         </scrollView>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="OEControlsInputLabel">

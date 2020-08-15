@@ -1,13 +1,35 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
       "filename" : "wood_track_vertical.png",
+      "idiom" : "universal",
+      "resizing" : {
+        "cap-insets" : {
+          "bottom" : 10,
+          "top" : 10
+        },
+        "center" : {
+          "height" : 1,
+          "mode" : "tile"
+        },
+        "mode" : "3-part-vertical"
+      },
       "scale" : "1x"
     },
     {
-      "idiom" : "universal",
       "filename" : "wood_track_vertical@2x.png",
+      "idiom" : "universal",
+      "resizing" : {
+        "cap-insets" : {
+          "bottom" : 20,
+          "top" : 20
+        },
+        "center" : {
+          "height" : 2,
+          "mode" : "tile"
+        },
+        "mode" : "3-part-vertical"
+      },
       "scale" : "2x"
     },
     {
@@ -16,7 +38,7 @@
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }
