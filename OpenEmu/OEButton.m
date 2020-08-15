@@ -40,7 +40,6 @@
 @synthesize trackMouseActivity = _trackMouseActivity;
 @synthesize trackModifierActivity = _trackModifierActivity;
 @synthesize modifierEventMonitor = _modifierEventMonitor;
-@synthesize toolTipStyle = _toolTipStyle;
 
 + (Class)cellClass
 {

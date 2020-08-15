@@ -154,7 +154,6 @@ class AppDelegate: NSObject {
 
         // Trigger Objective-C +initialize methods in these classes.
         _ = OEControllerDescription.self
-        _ = OEToolTipManager.self
         
         // Reset preferences for default cores when migrating to 2.0.3. This is an attempt at cleanup after 9d5d696d07fe651f44f16f8bf8b98c87d90fe53f and d36e9ad4b7097f21ffbbe32d9cea3b72a390bc0f and for getting as many users as possible onto mGBA.
         OEVersionMigrationController.default.addMigratorTarget(self, selector: #selector(AppDelegate.migrationRemoveCoreDefaults), forVersion: "2.0.3")

@@ -3,10 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Colors</key>
-	<dict>
-		<key>hud_tooltip_background</key>
-		<string>rgba(255,255,255,0.9)</string>
-	</dict>
+	<dict/>
 	<key>Fonts</key>
 	<dict>
 		<key>about_github_link</key>
@@ -392,19 +389,6 @@
 			<integer>11</integer>
 			<key>Traits</key>
 			<string>Bold</string>
-		</dict>
-		<key>hud_tooltip</key>
-		<dict>
-			<key>Alignment</key>
-			<string>Center</string>
-			<key>Color</key>
-			<string>black</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Size</key>
-			<integer>11</integer>
-			<key>Weight</key>
-			<real>0.1</real>
 		</dict>
 		<key>open_weblink</key>
 		<dict>

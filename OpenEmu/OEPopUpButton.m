@@ -39,7 +39,6 @@
 @synthesize trackWindowActivity = _trackWindowActivity;
 @synthesize trackMouseActivity = _trackMouseActivity;
 @synthesize trackModifierActivity = _trackModifierActivity;
-@synthesize toolTipStyle = _toolTipStyle;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
