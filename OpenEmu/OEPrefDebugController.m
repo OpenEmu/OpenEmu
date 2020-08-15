@@ -41,8 +41,7 @@
 
 #import "OEGameViewController.h"
 
-#import "OEThreadGameCoreManager.h"
-#import "OEXPCGameCoreManager.h"
+@import OpenEmuKit;
 
 #import "OEGameDocument.h"
 
@@ -57,7 +56,6 @@
 #import "OECollectionViewController.h"
 #import "OEGameViewController.h"
 #import "OEGridGameCell.h"
-#import "OEGameLayerView.h"
 #import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"
 #import "OEDBDataSourceAdditions.h"

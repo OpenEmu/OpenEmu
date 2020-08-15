@@ -25,7 +25,7 @@
  */
 
 #import "OEDBSystem+CoreDataProperties.h"
-#import "OESystemPlugin.h"
+@import OpenEmuKit;
 #import "OELibraryDatabase.h"
 #import "OEAlert.h"
 

@@ -25,7 +25,7 @@
  */
 
 @import Cocoa;
-#import "OEGameCoreHelper.h"
+@import OpenEmuKit;
 
 extern NSNotificationName const OEGameViewControllerEmulationWillFinishNotification;
 extern NSNotificationName const OEGameViewControllerEmulationDidFinishNotification;

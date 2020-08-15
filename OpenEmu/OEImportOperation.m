@@ -25,8 +25,7 @@
  */
 
 #import "OEImportOperation.h"
-#import "OESystemPlugin.h"
-#import "OECorePlugin.h"
+@import OpenEmuKit;
 
 #import "OEROMImporter.h"
 #import <XADMaster/XADArchive.h>

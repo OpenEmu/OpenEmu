@@ -24,4 +24,4 @@
 
 #import <os/log.h>
 
-extern os_log_t OE_LOG_AUDIO, OE_LOG_IMPORT;
+extern os_log_t OE_LOG_IMPORT;

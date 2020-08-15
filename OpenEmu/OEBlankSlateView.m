@@ -27,8 +27,7 @@
 #import "OEBlankSlateView.h"
 
 #import "OEDBSystem.h"
-#import "OESystemPlugin.h"
-#import "OECorePlugin.h"
+@import OpenEmuKit;
 #import "OEDBSavedGamesMedia.h"
 #import "OEDBScreenshotsMedia.h"
 

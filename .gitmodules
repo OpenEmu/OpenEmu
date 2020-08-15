@@ -82,3 +82,6 @@
 [submodule "BSNES"]
 	path = BSNES
 	url = git@github.com:OpenEmu/BSNES-Core.git
+[submodule "OpenEmuKit"]
+	path = OpenEmuKit
+	url = https://github.com/OpenEmu/OpenEmuKit.git

@@ -32,7 +32,7 @@
 #import "OEDBGame.h"
 #import "OEDBCollection.h"
 #import "OEDBSystem.h"
-#import "OESystemPlugin.h"
+@import OpenEmuKit;
 
 #import "NSFileManager+OEHashingAdditions.h"
 #import "NSArray+OEAdditions.h"

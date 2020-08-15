@@ -31,13 +31,7 @@
 #import "OEDBGame.h"
 #import "OEDBScreenshot.h"
 
-#import "OEGameLayerView.h"
-#import "OEGameCoreManager.h"
-#import "OEThreadGameCoreManager.h"
-#import "OEXPCGameCoreManager.h"
-
-#import "OESystemPlugin.h"
-#import "OECorePlugin.h"
+@import OpenEmuKit;
 
 #import "OEDBSaveState.h"
 #import "OEGameControlsBar.h"

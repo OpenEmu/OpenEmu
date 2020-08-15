@@ -26,24 +26,20 @@
 
 @import OpenEmuBase;
 @import OpenEmuSystem;
+@import OpenEmuKit;
 #import "OEGameDocument.h"
 
 #import "OEAudioDeviceManager.h"
 #import "OEBackgroundColorView.h"
-#import "OECorePlugin.h"
 #import "OECoreUpdater.h"
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 #import "OEDBSaveState.h"
 #import "OEDBSystem.h"
-#import "OEGameCoreManager.h"
 #import "OEGameViewController.h"
 #import "OEAlert+DefaultAlertsAdditions.h"
 #import "OELibraryDatabase.h"
 #import "OEPopoutGameWindowController.h"
-#import "OESystemPlugin.h"
-#import "OEThreadGameCoreManager.h"
-#import "OEXPCGameCoreManager.h"
 #import "OEDownload.h"
 #import "OEROMImporter.h"
 #import "OEDBScreenshot.h"

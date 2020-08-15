@@ -24,10 +24,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "OpenEmuHelperApp.h"
-#import "OpenEmuXPCHelperApp.h"
-#import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
+@import Cocoa;
+@import OpenEmuKit;
+@import OpenEmuXPCCommunicator;
 
 int main(int argc, const char * argv[])
 {
@@ -37,7 +36,7 @@ int main(int argc, const char * argv[])
 #if 0
         // NOTE: enable this block and be given 10s to attach Xcode
         // to debug process
-        [OEXPCCDebugSupport waitForDebuggerUntil:10 * NSEC_PER_SEC];
+        [OEXPCCDebugSupport waitForDebugger];
 #endif
 
         if([OEXPCCAgent canParseProcessArgumentsForDefaultAgent])

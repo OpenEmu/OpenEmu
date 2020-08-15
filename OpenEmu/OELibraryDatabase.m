@@ -26,7 +26,7 @@
 
 #import "OELibraryDatabase.h"
 
-#import "OESystemPlugin.h"
+@import OpenEmuKit;
 
 #import "OEDBAllGamesCollection.h"
 #import "OEDBSystem+CoreDataProperties.h"

@@ -30,7 +30,7 @@
 #import "OEDBGame.h"
 #import "OEDBSystem.h"
 #import "OEDBSystem+CoreDataProperties.h"
-#import "OECorePlugin.h"
+@import OpenEmuKit;
 
 #import "OpenEmu-Swift.h"
 

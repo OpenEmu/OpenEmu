@@ -28,8 +28,7 @@
 #import "OELibraryDatabase.h"
 #import "OEDBRom.h"
 #import "OEDBSystem+CoreDataProperties.h"
-#import "OESystemPlugin.h"
-#import "OECorePlugin.h"
+@import OpenEmuKit;
 #import "OESidebarOutlineView.h"
 #import "OEROMImporter.h"
 

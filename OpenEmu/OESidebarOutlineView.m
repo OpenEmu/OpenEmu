@@ -35,7 +35,7 @@
 #import "OEDBSystem+CoreDataProperties.h" 
 #import "OELibraryDatabase.h"
 
-#import "OECorePlugin.h"
+@import OpenEmuKit;
 
 @interface OESidebarOutlineView ()
 {
