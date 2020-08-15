@@ -5,11 +5,8 @@
 /* Class = "NSButtonCell"; title = "Reset"; ObjectID = "16"; */
 "16.title" = "重設";
 
-/* Class = "NSTextFieldCell"; title = "~/Library/Application Support/OpenEmu/Game Library"; ObjectID = "17"; */
-"17.title" = "~/Library/Application Support/OpenEmu/Game Library";
-
-/* Class = "NSTextFieldCell"; title = "Organization Methods"; ObjectID = "18"; */
-"18.title" = "整理方式";
+/* Class = "NSTextFieldCell"; title = "Organization Methods:"; ObjectID = "18"; */
+"18.title" = "整理方式:";
 
 /* Class = "NSTextFieldCell"; title = "Game Library Folder Location:"; ObjectID = "19"; */
 "19.title" = "遊戲庫檔案夾路徑:";
@@ -26,5 +23,5 @@
 /* Class = "NSTextFieldCell"; title = "Reset all dialog warnings:"; ObjectID = "Ua1-J2-mdy"; */
 "Ua1-J2-mdy.title" = "重設所有對話框警告:";
 
-/* Class = "NSButtonCell"; title = "Reset warnings"; ObjectID = "all-Wd-1Dy"; */
+/* Class = "NSButtonCell"; title = "Reset Warnings"; ObjectID = "all-Wd-1Dy"; */
 "all-Wd-1Dy.title" = "重設警告";
