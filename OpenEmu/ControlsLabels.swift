@@ -70,5 +70,6 @@ final class ControlsInputLabel: Label {
         font = .boldSystemFont(ofSize: 11)
         textColor = .black
         textShadow = shadow
+        stringValue = NSLocalizedString("Input:", comment: "Controls preferences, input selection label")
     }
 }
