@@ -24,7 +24,6 @@
 #import "OECollectionViewController.h"
 #import "OELibraryController.h"
 
-#import "OEBackgroundColorView.h"
 #import "OEBackgroundImageView.h"
 
 #import "OEDatabase+CoreDataModel.h"

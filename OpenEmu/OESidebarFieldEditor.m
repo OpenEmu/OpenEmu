@@ -25,7 +25,8 @@
  */
 
 #import "OESidebarFieldEditor.h"
-#import "OEBackgroundColorView.h"
+
+#import "OpenEmu-Swift.h"
 
 @implementation OESidebarFieldEditor
 @synthesize container;
