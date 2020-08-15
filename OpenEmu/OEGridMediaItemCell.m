@@ -27,8 +27,6 @@
 #import "OEGridMediaItemCell.h"
 #import "OEGridView.h"
 
-#import "OETheme.h"
-#import "OEThemeImage.h"
 #import "OECoverGridDataSourceItem.h"
 
 #import "OpenEmu-Swift.h"

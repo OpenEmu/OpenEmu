@@ -37,7 +37,6 @@
 #import "OEDBDataSourceAdditions.h"
 
 #import "OEButton.h"
-#import "OEPopUpButtonCell.h"
 #import "OECenteredTextFieldCell.h"
 #import "OEArrowCursorTextView.h"
 

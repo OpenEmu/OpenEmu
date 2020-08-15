@@ -27,8 +27,6 @@
 #import "OEGridMediaGroupItemCell.h"
 #import "OEGridView.h"
 
-#import "OETheme.h"
-#import "OEThemeImage.h"
 #import "OECoverGridDataSourceItem.h"
 #import "IKImageBrowserCell.h"
 

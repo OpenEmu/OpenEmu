@@ -68,7 +68,7 @@
                             <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="bottom" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tme-Qp-T85">
                                 <rect key="frame" x="189" y="266" width="157" height="21"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="14" customClass="OEButton">
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="14">
                                         <rect key="frame" x="-6" y="-7" width="98" height="32"/>
                                         <buttonCell key="cell" type="push" title="Change…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>

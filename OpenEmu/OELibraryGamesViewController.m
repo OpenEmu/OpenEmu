@@ -28,8 +28,6 @@
 
 #import "OEGameCollectionViewController.h"
 #import "OESidebarController.h"
-#import "OEButton.h"
-#import "OESearchField.h"
 #import "OELibrarySplitView.h"
 #import "OELibraryController.h"
 

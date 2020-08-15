@@ -32,8 +32,6 @@
 #import "OEControlsKeyHeadlineCell.h"
 #import "OEControlsKeyLabelCell.h"
 
-#import "OEUIDrawingUtils.h"
-
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 #import "OpenEmu-Swift.h"

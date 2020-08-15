@@ -26,7 +26,6 @@
 
 #import "OETableHeaderCell.h"
 
-#import "OEUIDrawingUtils.h"
 #import "OETheme.h"
 #pragma mark - Private variables
 
