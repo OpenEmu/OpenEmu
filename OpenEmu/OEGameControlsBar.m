@@ -27,8 +27,6 @@
 #import "OEGameControlsBar.h"
 
 #import "OEButton.h"
-#import "OESlider.h"
-#import "OESliderCell.h"
 
 #import "OEDBRom.h"
 
@@ -58,7 +56,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 @interface OEHUDControlsBarView : NSView <CAAnimationDelegate>
 
-@property(strong, readonly) OESlider *slider;
+@property(strong, readonly) OEHUDSlider *slider;
 @property(strong, readonly) OEButton *fullScreenButton;
 @property(strong, readonly) OEButton *pauseButton;
 
@@ -771,7 +769,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 - (void)reflectVolume:(CGFloat)volume
 {
     OEHUDControlsBarView *view   = [[[self contentView] subviews] lastObject];
-    OESlider             *slider = [view slider];
+    OEHUDSlider          *slider = [view slider];
 
     [[slider animator] setDoubleValue:volume];
 }
@@ -943,14 +941,13 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [volumeUpButton setToolTip:NSLocalizedString(@"Unmute Audio", @"Tooltip")];
     [self addSubview:volumeUpButton];
 
-    _slider = [[OESlider alloc] initWithFrame:NSMakeRect(238 + (hideOptions ? 0 : 50), 12, 76, 23)];
+    _slider = [[OEHUDSlider alloc] initWithFrame:NSMakeRect(238 + (hideOptions ? 0 : 50), 12, 76, 23)];
 
-    OESliderCell *sliderCell = [[OESliderCell alloc] init];
+    OEHUDSliderCell *sliderCell = [[OEHUDSliderCell alloc] init];
     [_slider setCell:sliderCell];
     [_slider setContinuous:YES];
     [_slider setMaxValue:1.0];
     [_slider setMinValue:0.0];
-    [_slider setThemeKey:@"hud_slider"];
     [_slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey]];
     [_slider setToolTip:NSLocalizedString(@"Change Volume", @"Tooltip")];
     [_slider setAction:@selector(changeVolume:)];
