@@ -26,7 +26,18 @@
 
 @import Cocoa;
 @import OpenEmuKit;
-@import OpenEmuXPCCommunicator;
+
+@interface OpenEmuXPCHelperApp: OpenEmuXPCHelperAppBase
+@end
+
+@implementation OpenEmuXPCHelperApp
+
+- (NSString *)serviceName
+{
+    return @"org.openemu.broker";
+}
+
+@end
 
 int main(int argc, const char * argv[])
 {
@@ -39,11 +50,7 @@ int main(int argc, const char * argv[])
         [OEXPCCDebugSupport waitForDebugger];
 #endif
 
-        if([OEXPCCAgent canParseProcessArgumentsForDefaultAgent])
-            helperApp = [[OpenEmuXPCHelperApp alloc] init];
-
-        NSCParameterAssert(helperApp);
-
+        helperApp = [OpenEmuXPCHelperApp new];
         [helperApp launchApplication];
     }
     

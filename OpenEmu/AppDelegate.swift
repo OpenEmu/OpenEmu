@@ -120,11 +120,6 @@ class AppDelegate: NSObject {
         
         super.init()
 
-        // Load the XPC communicator framework. This used to be conditional on the existence of NSXPCConnection, but now OpenEmu's minimum supported version of macOS will always have NSXPCConnection.
-        let xpcFrameworkPath = (Bundle.main.privateFrameworksPath! as NSString).appendingPathComponent("OpenEmuXPCCommunicator.framework")
-        let xpcFrameworkBundle = Bundle(path: xpcFrameworkPath)
-        xpcFrameworkBundle!.load()
-        
         // Get the game library path.
         let supportDirectoryURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!
         let path = (supportDirectoryURL.appendingPathComponent("OpenEmu/Game Library").path as NSString).abbreviatingWithTildeInPath
@@ -890,10 +885,6 @@ extension AppDelegate: NSMenuDelegate {
     
     func openPreferencePane(_ notification: Notification) {
         preferencesWindowController.showWindow(with: notification)
-    }
-    
-    func applicationWillTerminate(_ notification: Notification) {
-        OEXPCCAgentConfiguration.default().tearDownAgent()
     }
     
     func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {

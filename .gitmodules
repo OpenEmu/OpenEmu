@@ -73,9 +73,6 @@
 [submodule "mGBA"]
 	path = mGBA
 	url = git@github.com:OpenEmu/mGBA-Core.git
-[submodule "OpenEmuXPCCommunicator"]
-	path = OpenEmuXPCCommunicator
-	url = git@github.com:OpenEmu/OpenEmuXPCCommunicator.git
 [submodule "OpenEmu-Shaders"]
 	path = OpenEmu-Shaders
 	url = https://github.com/OpenEmu/OpenEmu-Shaders.git

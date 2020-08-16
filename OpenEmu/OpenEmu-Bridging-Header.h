@@ -57,5 +57,4 @@
 #import "OEAudioDeviceManager.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
-#import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
 #import <OpenEmuKit/OpenEmuKit.h>

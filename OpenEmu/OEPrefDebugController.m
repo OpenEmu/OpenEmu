@@ -41,7 +41,7 @@
 
 #import "OEGameViewController.h"
 
-@import OpenEmuKit;
+#import "OEXPCGameCoreManager.h"
 
 #import "OEGameDocument.h"
 
