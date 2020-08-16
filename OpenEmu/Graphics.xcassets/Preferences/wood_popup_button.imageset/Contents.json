@@ -1,13 +1,41 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
       "filename" : "wood_popup_button.png",
+      "idiom" : "universal",
+      "resizing" : {
+        "cap-insets" : {
+          "bottom" : 11,
+          "left" : 8,
+          "right" : 20,
+          "top" : 11
+        },
+        "center" : {
+          "height" : 1,
+          "mode" : "tile",
+          "width" : 1
+        },
+        "mode" : "9-part"
+      },
       "scale" : "1x"
     },
     {
-      "idiom" : "universal",
       "filename" : "wood_popup_button@2x.png",
+      "idiom" : "universal",
+      "resizing" : {
+        "cap-insets" : {
+          "bottom" : 22,
+          "left" : 16,
+          "right" : 40,
+          "top" : 22
+        },
+        "center" : {
+          "height" : 2,
+          "mode" : "tile",
+          "width" : 2
+        },
+        "mode" : "9-part"
+      },
       "scale" : "2x"
     },
     {
@@ -16,7 +44,7 @@
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }

@@ -589,6 +589,8 @@
 		8F58592F24F4340D009B8502 /* HomebrewOutlinedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */; };
 		8F7BFC9623E653E100B1F6C8 /* ShaderParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F7BFC9823E653E100B1F6C8 /* ShaderParameters.xib */; };
 		8F80217A24F45E4800DC82E3 /* ControlsScroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217924F45E4800DC82E3 /* ControlsScroller.swift */; };
+		8F80217C24F45E6700DC82E3 /* ControlsPopUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217B24F45E6600DC82E3 /* ControlsPopUpButton.swift */; };
+		8F80217E24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */; };
 		8FD78305243A8AD300861B7A /* Debug.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FD78307243A8AD300861B7A /* Debug.strings */; };
 		8FD905771AA2927100FA7662 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F40EB791C1072B100683055 /* OEPrefControlsController.xib */; };
 		8FEDF0CA24F2BC38001ABF6F /* OEGBSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FEDF0C924F2BC37001ABF6F /* OEGBSystemController.m */; };
@@ -2152,6 +2154,8 @@
 		8F7BFC9723E653E100B1F6C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ShaderParameters.xib; sourceTree = "<group>"; };
 		8F7BFC9A23E653ED00B1F6C8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
 		8F80217924F45E4800DC82E3 /* ControlsScroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsScroller.swift; sourceTree = "<group>"; };
+		8F80217B24F45E6600DC82E3 /* ControlsPopUpButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsPopUpButton.swift; sourceTree = "<group>"; };
+		8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsPopUpButtonCell.swift; sourceTree = "<group>"; };
 		8FCCCE5724E7087800223181 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Debug.strings"; sourceTree = "<group>"; };
 		8FCCCE5824E7087A00223181 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Debug.strings; sourceTree = "<group>"; };
 		8FCCCE5924E7087E00223181 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Debug.strings; sourceTree = "<group>"; };
@@ -3812,6 +3816,8 @@
 				8396CC5514068DA90096F791 /* ControlsKeyButton.swift */,
 				83D9991E146F40DA004409DC /* ControlsKeySeparatorView.swift */,
 				83AB259817A6A432009C80BC /* ControlsSectionTitleView.swift */,
+				8F80217B24F45E6600DC82E3 /* ControlsPopUpButton.swift */,
+				8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */,
 				8F80217924F45E4800DC82E3 /* ControlsScroller.swift */,
 				83507245142F6029005D9033 /* OEControllerImageView.h */,
 				83507246142F6029005D9033 /* OEControllerImageView.m */,
@@ -7504,6 +7510,7 @@
 				83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */,
 				8306CD101BD3AC180025BC6C /* OELibraryGamesViewController.m in Sources */,
 				0544B6A023D16D3100F63D61 /* CollectionViewItem.swift in Sources */,
+				8F80217E24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift in Sources */,
 				5A9606DC1C0A84BC0089B494 /* LibraryToolbar.swift in Sources */,
 				53439A9B13B92C97005C0CC8 /* OEDBCollection.m in Sources */,
 				53439A9C13B92C97005C0CC8 /* OEDBCollectionFolder.m in Sources */,
@@ -7597,6 +7604,7 @@
 				831C9AB0160095E500038D0D /* OEThemeObject.m in Sources */,
 				831C9AB9160095F800038D0D /* OEThemeColor.m in Sources */,
 				831C9ABA160095F800038D0D /* OEThemeGradient.m in Sources */,
+				8F80217C24F45E6700DC82E3 /* ControlsPopUpButton.swift in Sources */,
 				5AC349311D89E4EB0089B26F /* NSDocumentController+Additions.swift in Sources */,
 				832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */,
 				831C9ABB160095F800038D0D /* OEThemeImage.m in Sources */,

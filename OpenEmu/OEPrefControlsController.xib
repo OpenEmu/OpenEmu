@@ -28,10 +28,10 @@
                     <rect key="frame" x="0.0" y="409" width="755" height="41"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </customView>
-                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7" customClass="OEPopUpButton">
+                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7" customClass="OEControlsPopUpButton">
                     <rect key="frame" x="499" y="401" width="232" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="Super Nintendo (SNES)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="38" id="30" customClass="OEPopUpButtonCell">
+                    <popUpButtonCell key="cell" type="push" title="Super Nintendo (SNES)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="38" id="30" customClass="OEControlsPopUpButtonCell">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" id="31">
@@ -49,9 +49,6 @@
                             </items>
                         </menu>
                     </popUpButtonCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood_popup_button"/>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="changeSystem:" target="-2" id="48"/>
                     </connections>
@@ -59,10 +56,10 @@
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="116" customClass="OEPreferencesControlsBox">
                     <rect key="frame" x="498" y="25" width="231" height="363"/>
                     <subviews>
-                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="OEPopUpButton">
+                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="OEControlsPopUpButton">
                             <rect key="frame" x="17" y="327" width="199" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <popUpButtonCell key="cell" type="push" title="Player 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="29" id="24" customClass="OEPopUpButtonCell">
+                            <popUpButtonCell key="cell" type="push" title="Player 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="29" id="24" customClass="OEControlsPopUpButtonCell">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
                                 <menu key="menu" id="25">
@@ -80,9 +77,6 @@
                                     </items>
                                 </menu>
                             </popUpButtonCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood_popup_button"/>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="changePlayer:" target="-2" id="47"/>
                             </connections>
@@ -117,12 +111,12 @@
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                         </textField>
-                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9" customClass="OEPopUpButton">
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9" customClass="OEControlsPopUpButton">
                             <rect key="frame" x="53" y="9" width="164" height="27"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="23" id="lww-pM-fVv"/>
                             </constraints>
-                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="12" customClass="OEPopUpButtonCell">
+                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="12" customClass="OEControlsPopUpButtonCell">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
                                 <menu key="menu" id="13">
@@ -142,9 +136,6 @@
                                     </items>
                                 </menu>
                             </popUpButtonCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood_popup_button"/>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="changeInputDevice:" target="-2" id="46"/>
                             </connections>
