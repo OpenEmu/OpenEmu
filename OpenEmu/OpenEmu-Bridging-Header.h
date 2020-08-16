@@ -24,8 +24,6 @@
 #import "OECollectionViewController.h"
 #import "OELibraryController.h"
 
-#import "OEBackgroundImageView.h"
-
 #import "OEDatabase+CoreDataModel.h"
 #import "OEDBGame.h"
 #import "OEDBDataSourceAdditions.h"

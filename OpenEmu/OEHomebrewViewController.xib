@@ -387,7 +387,7 @@
                                                             <constraint firstItem="sN5-rM-I3f" firstAttribute="top" secondItem="1yX-5M-iLY" secondAttribute="top" constant="9" id="x6s-jl-jNB"/>
                                                         </constraints>
                                                         <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
+                                                            <userDefinedRuntimeAttribute type="image" keyPath="background" value="dark_inset_box"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </customView>
                                                 </subviews>
@@ -423,4 +423,7 @@
             <point key="canvasLocation" x="139" y="155"/>
         </customView>
     </objects>
+    <resources>
+        <image name="dark_inset_box" width="33" height="33"/>
+    </resources>
 </document>

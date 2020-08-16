@@ -178,7 +178,13 @@
                 <constraint firstAttribute="bottom" secondItem="116" secondAttribute="bottom" constant="25" id="2zq-xu-yuK"/>
                 <constraint firstAttribute="trailing" secondItem="116" secondAttribute="trailing" constant="26" id="axl-wZ-16j"/>
             </constraints>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="image" keyPath="image" value="controls_background"/>
+            </userDefinedRuntimeAttributes>
             <point key="canvasLocation" x="-211" y="121"/>
         </view>
     </objects>
+    <resources>
+        <image name="controls_background" width="755" height="451"/>
+    </resources>
 </document>

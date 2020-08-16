@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17147" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17147"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -44,7 +43,7 @@
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
                             <subviews>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="315">
-                                    <rect key="frame" x="17" y="219" width="150" height="17"/>
+                                    <rect key="frame" x="17" y="220" width="150" height="16"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Welcome to OpenEmu!" id="316">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -52,7 +51,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="317">
-                                    <rect key="frame" x="17" y="113" width="388" height="98"/>
+                                    <rect key="frame" x="17" y="114" width="388" height="98"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="384" id="xAo-I1-LwT"/>
                                     </constraints>
@@ -68,7 +67,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="319">
-                                    <rect key="frame" x="17" y="60" width="216" height="17"/>
+                                    <rect key="frame" x="17" y="62" width="216" height="16"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Click on the ‘Next’ button to begin!" id="320">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -85,7 +84,7 @@
                                 <constraint firstItem="315" firstAttribute="leading" secondItem="298" secondAttribute="leading" constant="19" id="uh2-p1-uFl"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="background" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="300" customClass="OEButton">
@@ -149,7 +148,7 @@
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
                             <subviews>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="326">
-                                    <rect key="frame" x="17" y="219" width="170" height="17"/>
+                                    <rect key="frame" x="17" y="220" width="170" height="16"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="System Cores Installation" id="329">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -157,7 +156,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="327">
-                                    <rect key="frame" x="17" y="155" width="422" height="56"/>
+                                    <rect key="frame" x="17" y="156" width="422" height="56"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="418" id="QOC-Si-zyb"/>
                                     </constraints>
@@ -169,24 +168,23 @@
                                     </textFieldCell>
                                 </textField>
                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="A5g-3z-11R" customClass="OESetupAssistantScrollBorderView">
-                                    <rect key="frame" x="20" y="23" width="416" height="120"/>
+                                    <rect key="frame" x="20" y="23" width="416" height="121"/>
                                     <subviews>
                                         <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="25" horizontalPageScroll="10" verticalLineScroll="25" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="282">
-                                            <rect key="frame" x="2" y="2" width="412" height="116"/>
+                                            <rect key="frame" x="2" y="2" width="412" height="117"/>
                                             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="tgZ-8g-LXB">
-                                                <rect key="frame" x="0.0" y="0.0" width="412" height="116"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="412" height="117"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="23" id="286" customClass="OESetupAssistantTableView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="412" height="116"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="412" height="117"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                         <tableColumns>
                                                             <tableColumn identifier="enabled" width="40" minWidth="40" maxWidth="1000" id="287">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                    <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </tableHeaderCell>
@@ -201,7 +199,6 @@
                                                             </tableColumn>
                                                             <tableColumn identifier="emulatorName" width="152" minWidth="40" maxWidth="1000" id="291">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                    <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </tableHeaderCell>
@@ -214,7 +211,6 @@
                                                             </tableColumn>
                                                             <tableColumn identifier="emulatorSystem" width="211" minWidth="40" maxWidth="1000" id="288">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                    <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </tableHeaderCell>
@@ -233,11 +229,11 @@
                                                     </tableView>
                                                 </subviews>
                                             </clipView>
-                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="285">
+                                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="285">
                                                 <rect key="frame" x="0.0" y="95" width="397" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
-                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="283">
+                                            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="283">
                                                 <rect key="frame" x="397" y="0.0" width="15" height="95"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
@@ -262,7 +258,7 @@
                                 <constraint firstItem="327" firstAttribute="leading" secondItem="239" secondAttribute="leading" constant="19" id="xKa-7D-jsP"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="background" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="245" customClass="OEButton">
@@ -309,7 +305,7 @@
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
                             <subviews>
                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="277" customClass="OEButton">
-                                    <rect key="frame" x="18" y="102" width="239" height="18"/>
+                                    <rect key="frame" x="18" y="103" width="238" height="18"/>
                                     <buttonCell key="cell" type="check" title="Allow OpenEmu To Scan For Games" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="280" customClass="OEButtonCell">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
@@ -319,7 +315,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </button>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="330">
-                                    <rect key="frame" x="17" y="219" width="98" height="17"/>
+                                    <rect key="frame" x="17" y="220" width="98" height="16"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Game Scanner" id="333">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -327,7 +323,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="331">
-                                    <rect key="frame" x="17" y="126" width="401" height="85"/>
+                                    <rect key="frame" x="17" y="127" width="401" height="85"/>
                                     <constraints>
                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="85" id="lL3-ve-qFv"/>
                                     </constraints>
@@ -349,7 +345,7 @@
                                 <constraint firstItem="277" firstAttribute="leading" secondItem="269" secondAttribute="leading" constant="20" id="xnb-Nj-JAv"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="background" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="271" customClass="OEButton">
@@ -427,7 +423,7 @@
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
                             <subviews>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="346">
-                                    <rect key="frame" x="17" y="219" width="162" height="17"/>
+                                    <rect key="frame" x="17" y="220" width="162" height="16"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Scan Additional Sources" id="347">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -435,7 +431,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="344">
-                                    <rect key="frame" x="17" y="155" width="422" height="56"/>
+                                    <rect key="frame" x="17" y="156" width="422" height="56"/>
                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" state="on" id="357">
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">OpenEmu has detected you have the following mounted Hard Drives or shares available. If there are any game files residing in these locations, please tick on the associated item and OpenEmu can scan for and add these games to your Library.</string>
@@ -444,24 +440,23 @@
                                     </textFieldCell>
                                 </textField>
                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="koe-1r-ibi" customClass="OESetupAssistantScrollBorderView">
-                                    <rect key="frame" x="20" y="23" width="416" height="120"/>
+                                    <rect key="frame" x="20" y="23" width="416" height="121"/>
                                     <subviews>
                                         <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="25" horizontalPageScroll="10" verticalLineScroll="25" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="345">
-                                            <rect key="frame" x="2" y="2" width="412" height="116"/>
+                                            <rect key="frame" x="2" y="2" width="412" height="117"/>
                                             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="hjN-Vs-9o6">
-                                                <rect key="frame" x="0.0" y="0.0" width="412" height="116"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="412" height="117"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="23" id="350" customClass="OESetupAssistantTableView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="412" height="116"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="412" height="117"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                         <tableColumns>
                                                             <tableColumn identifier="enabled" width="40" minWidth="40" maxWidth="1000" id="351">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                    <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </tableHeaderCell>
@@ -476,7 +471,6 @@
                                                             </tableColumn>
                                                             <tableColumn identifier="mountName" width="366" minWidth="40" maxWidth="1000" id="352">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                    <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </tableHeaderCell>
@@ -495,11 +489,11 @@
                                                     </tableView>
                                                 </subviews>
                                             </clipView>
-                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="349">
+                                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="349">
                                                 <rect key="frame" x="0.0" y="95" width="397" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
-                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="348">
+                                            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="348">
                                                 <rect key="frame" x="397" y="0.0" width="15" height="95"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
@@ -525,7 +519,7 @@
                                 <constraint firstItem="344" firstAttribute="top" secondItem="346" secondAttribute="bottom" constant="8" id="kHc-aY-CjL"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="background" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="342" customClass="OEButton">
@@ -572,7 +566,7 @@
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
                             <subviews>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="400">
-                                    <rect key="frame" x="17" y="219" width="61" height="17"/>
+                                    <rect key="frame" x="17" y="220" width="61" height="16"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Let’s Go!" id="401">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -580,7 +574,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="399">
-                                    <rect key="frame" x="17" y="155" width="383" height="56"/>
+                                    <rect key="frame" x="17" y="156" width="383" height="56"/>
                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" state="on" id="402">
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">Great! You are all setup now and ready to get gaming!
@@ -591,7 +585,7 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="398">
-                                    <rect key="frame" x="17" y="130" width="280" height="17"/>
+                                    <rect key="frame" x="17" y="132" width="280" height="16"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Click the ‘Go’ button to begin your adventure." id="403">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -609,7 +603,7 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                 <constraint firstItem="399" firstAttribute="leading" secondItem="397" secondAttribute="leading" constant="19" id="dxJ-V6-qdA"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="background" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="396" customClass="OEButton">
@@ -663,4 +657,7 @@ Remember you can change both your keyboard and gamepad controls for yourself and
             </constraints>
         </customView>
     </objects>
+    <resources>
+        <image name="installer_dark_inset_box" width="33" height="33"/>
+    </resources>
 </document>

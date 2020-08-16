@@ -25,7 +25,6 @@
 */
 
 #import "OEControlsSectionTitleView.h"
-#import "OEBackgroundImageView.h"
 #import "OEButtonCell.h"
 
 @interface OEControlsSectionTitleView ()

@@ -25,7 +25,6 @@
  */
 
 #import "OEPrefControlsController.h"
-#import "OEBackgroundImageView.h"
 #import "OELibraryDatabase.h"
 
 @import OpenEmuKit;
@@ -98,9 +97,6 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [[self controlsSetupView] bind:@"bindingsProvider" toObject:self withKeyPath:@"currentPlayerBindings" options:nil];
 
     NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
-
-    NSImage *controlsBackgroundImage = [NSImage imageNamed:@"controls_background"];
-    [(OEBackgroundImageView *)[self view] setImage:controlsBackgroundImage];
 
     // Setup controls popup console list
     [self OE_rebuildSystemsMenu];
