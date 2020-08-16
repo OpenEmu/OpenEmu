@@ -1054,6 +1054,8 @@
 			<integer>11</integer>
 			<key>Weight</key>
 			<string>0.4</string>
+			<key>Baseline Offset</key>
+			<integer>-2</integer>
 		</dict>
 		<key>homebrew_headline</key>
 		<dict>
