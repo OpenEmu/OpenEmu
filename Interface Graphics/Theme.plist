@@ -2937,13 +2937,13 @@
 					<array>
 						<string>{{0,0},{9,10}}</string>
 						<string>{{9,0},{1,10}}</string>
-						<string>{{10,0},{21,10}}</string>
+						<string>{{10,0},{19,10}}</string>
 						<string>{{0,10},{9,2}}</string>
 						<string>{{9,10},{1,2}}</string>
-						<string>{{10,10},{21,2}}</string>
+						<string>{{10,10},{19,2}}</string>
 						<string>{{0,12},{9,11}}</string>
 						<string>{{9,12},{1,11}}</string>
-						<string>{{10,12},{21,11}}</string>
+						<string>{{10,12},{19,11}}</string>
 					</array>
 				</dict>
 			</dict>
