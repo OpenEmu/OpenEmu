@@ -24,11 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @import Foundation;
-#import "OEUIDrawingUtils.h"
 
 @interface OERatingCell : NSCell
 
-- (NSRect)imageRectForRating:(NSInteger)rating state:(OEUIState)state;
+- (NSRect)imageRectForRating:(NSInteger)rating;
 
 - (NSInteger)ratingForPoint:(NSPoint)aPoint inTableView:(NSTableView *)view;
 - (void)updateRatingWithPoint:(NSPoint)aPoint inTableView:(NSTableView *)view;

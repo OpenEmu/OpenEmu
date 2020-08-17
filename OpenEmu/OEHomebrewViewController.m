@@ -26,7 +26,6 @@
 
 #import "OEHomebrewViewController.h"
 
-#import "OETheme.h"
 #import "OEDownload.h"
 #import "OEBlankSlateBackgroundView.h"
 #import "OEHomebrewCoverView.h"
@@ -38,8 +37,6 @@
 
 #import "OEDBGame.h"
 #import "OEDBRom.h"
-
-#import "OEThemeTextAttributes.h"
 
 #import "NS(Attributed)String+Geometrics.h"
 #import "NSArray+OEAdditions.h"
@@ -266,8 +263,27 @@ const static CGFloat TableViewSpacing = 86.0;
 
 - (NSDictionary*)descriptionStringAttributes
 {
-    OEThemeTextAttributes *attribtues = [[OETheme sharedTheme] themeTextAttributesForKey:@"homebrew_description"];
-    return [attribtues textAttributesForState:OEThemeStateDefault];
+    static NSDictionary *attributes;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSFont *font = [NSFont systemFontOfSize:12 weight:0.2];
+        NSColor *color = [NSColor colorWithWhite:0.5 alpha:1];
+        
+        NSShadow *shadow = [[NSShadow alloc] init];
+        shadow.shadowColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.4];
+        shadow.shadowOffset = NSMakeSize(0, -1);
+        
+        NSMutableParagraphStyle *textAlignment = NSMutableParagraphStyle.new;
+        textAlignment.alignment = NSTextAlignmentJustified;
+        
+        attributes = @{
+            NSFontAttributeName : font,
+            NSForegroundColorAttributeName : color,
+            NSShadowAttributeName : shadow,
+            NSParagraphStyleAttributeName : textAlignment,
+        };
+    });
+    return attributes;
 }
 
 - (void)tableViewFrameDidChange:(NSNotification*)notification

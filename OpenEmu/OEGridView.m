@@ -26,10 +26,6 @@
 
 #import "OEGridView.h"
 
-#import "OETheme.h"
-#import "OEThemeImage.h"
-#import "OEThemeTextAttributes.h"
-
 #import "OEGridGameCell.h"
 #import "OEGridViewFieldEditor.h"
 #import "OECoverGridDataSourceItem.h"
@@ -71,10 +67,9 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
 @property OEGridCell *trackingCell;
 @property OEGridViewFieldEditor *fieldEditor;
 
-// Theme Objects
-@property (strong) OEThemeImage          *groupBackgroundImage;
-@property (strong) OEThemeTextAttributes *groupTitleAttributes;
-@property (strong) OEThemeTextAttributes *groupSubtitleAttributes;
+@property (readonly) NSImage      *groupBackgroundImage;
+@property (readonly) NSDictionary *groupTitleAttributes;
+@property (readonly) NSDictionary *groupSubtitleAttributes;
 @end
 
 @implementation OEGridView
@@ -120,11 +115,6 @@ static NSImage *lightingImage;
     _editingIndex = NSNotFound;
     _ratingTracking = NSNotFound;
 
-    if([self groupThemeKey] == nil)
-    {
-        [self setGroupThemeKey:@"grid_group"];
-    }
-
     [self registerForDraggedTypes:@[NSPasteboardTypeFileURL, NSPasteboardTypePNG, NSPasteboardTypeTIFF]];
     [self setAllowsReordering:NO];
     [self setAllowsDroppingOnItems:YES];
@@ -148,21 +138,66 @@ static NSImage *lightingImage;
     [self setBackgroundLayer:bglayer];
 }
 
-- (void)setGroupThemeKey:(NSString*)key
+- (NSImage*) groupBackgroundImage
 {
-    OETheme *theme = [OETheme sharedTheme];
-
-    _groupThemeKey = key;
-
-    NSString *backgroundImageKey = [key stringByAppendingString:@"_background"];
-    [self setGroupBackgroundImage:[theme themeImageForKey:backgroundImageKey]];
-
-    NSString *titleAttributesKey = [key stringByAppendingString:@"_title"];
-    [self setGroupTitleAttributes:[theme themeTextAttributesForKey:titleAttributesKey]];
-
-    NSString *subtitleAttributesKey = [key stringByAppendingString:@"_subtitle"];
-    [self setGroupSubtitleAttributes:[theme themeTextAttributesForKey:subtitleAttributesKey]];
+    return [NSImage imageNamed:@"grid_header"];
 }
+
+- (NSDictionary*)groupTitleAttributes
+{
+    static NSDictionary *attributes;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSFont *font = [NSFont systemFontOfSize:12 weight:6];
+        
+        NSShadow *shadow = [[NSShadow alloc] init];
+        shadow.shadowBlurRadius = 1;
+        shadow.shadowColor = [NSColor colorWithDeviceWhite:0 alpha:1];
+        shadow.shadowOffset = NSMakeSize(0, -1);
+        
+        NSNumber *baselineOffset = @-1;
+        
+        attributes = @{
+            NSFontAttributeName : font,
+            NSForegroundColorAttributeName : NSColor.whiteColor,
+            NSShadowAttributeName : shadow,
+            NSBaselineOffsetAttributeName: baselineOffset
+        };
+    });
+    
+    return attributes;
+}
+
+- (NSDictionary*)groupSubtitleAttributes
+{
+    static NSDictionary *attributes;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSFont *font = [NSFont systemFontOfSize:12 weight:3];
+        NSColor *color = [NSColor colorWithDeviceWhite:0.8 alpha:1];
+        
+        NSShadow *shadow = [[NSShadow alloc] init];
+        shadow.shadowBlurRadius = 1;
+        shadow.shadowColor = [NSColor colorWithDeviceWhite:0 alpha:1];
+        shadow.shadowOffset = NSMakeSize(0, -1);
+        
+        NSMutableParagraphStyle *textAlignment = NSMutableParagraphStyle.new;
+        textAlignment.alignment = NSTextAlignmentRight;
+    
+        NSNumber *baselineOffset = @-1;
+    
+        attributes = @{
+            NSFontAttributeName : font,
+            NSForegroundColorAttributeName : color,
+            NSShadowAttributeName : shadow,
+            NSParagraphStyleAttributeName : textAlignment,
+            NSBaselineOffsetAttributeName: baselineOffset
+    };
+    });
+    
+    return attributes;
+}
+
 #pragma mark - Cells
 - (IKImageBrowserCell *)newCellForRepresentedItem:(id) cell
 {
@@ -721,7 +756,7 @@ static NSImage *lightingImage;
 - (CGRect)_rectOfGroupHeader:(IKImageBrowserGridGroup *)group
 {
     CGRect rect = [super _rectOfGroupHeader:group];
-    NSImage *bgimg = [[self groupBackgroundImage] imageForState:OEThemeStateDefault];
+    NSImage *bgimg = self.groupBackgroundImage;
     rect.origin.y = rect.origin.y + rect.size.height - (bgimg.size.height - 3.0);
     rect.size.height = bgimg.size.height - 3.0;
     return rect;
@@ -769,9 +804,7 @@ static NSImage *lightingImage;
 
     id <IKRenderer> renderer = [self renderer];
 
-    OEThemeState state = OEThemeStateDefault;
-
-    NSImage *bgimg = [[self groupBackgroundImage] imageForState:state];
+    NSImage *bgimg = self.groupBackgroundImage;
     CGImageRef img = [bgimg CGImageForProposedRect:NULL context:[NSGraphicsContext currentContext] hints:nil];
     IKImageWrapper *backgroundImage = [IKImageWrapper imageWithCGImage:img];
 
@@ -784,7 +817,7 @@ static NSImage *lightingImage;
     NSString *title = [group title];
     if(title != nil)
     {
-        NSDictionary *titleAttributes = [[self groupTitleAttributes] textAttributesForState:state] ?: @{};
+        NSDictionary *titleAttributes = self.groupTitleAttributes ?: @{};
         NSRect titleRect = (NSRect){{NSMinX(headerRect)+HeaderLeftBorder, NSMinY(headerRect)},
             {NSWidth(headerRect)-HeaderLeftBorder, NSHeight(headerRect)}};
 
@@ -799,7 +832,7 @@ static NSImage *lightingImage;
     NSString *subtitle = [group objectForKey:OEImageBrowserGroupSubtitleKey];
     if(subtitle != nil)
     {
-        NSDictionary *subtitleAttributes = [[self groupSubtitleAttributes] textAttributesForState:state] ?: @{};
+        NSDictionary *subtitleAttributes = self.groupSubtitleAttributes ?: @{};
         NSRect subtitleRect = (NSRect){{NSMinX(headerRect)+HeaderLeftBorder, NSMinY(headerRect)},
             {NSWidth(headerRect)-HeaderLeftBorder-HeaderRightBorder, NSHeight(headerRect)}};
 

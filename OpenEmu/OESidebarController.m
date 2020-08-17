@@ -110,7 +110,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     [sidebarView setHeaderView:nil];
 
     OESidebarCell *cell = [[OESidebarCell alloc] init];
-    [cell setThemeKey:@"sidebar"];
     for(NSTableColumn *column in sidebarView.tableColumns)
         [column setDataCell:cell];
     cell.editable = YES;

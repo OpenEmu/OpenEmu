@@ -40,7 +40,6 @@ typedef enum
 @property (assign) IKImageBrowserDropOperation draggingOperation;
 
 @property Class cellClass;
-@property (nonatomic, strong) NSString *groupThemeKey;
 @property (nonatomic) BOOL automaticallyMinimizeRowMargin;
 
 - (void)performSetup;

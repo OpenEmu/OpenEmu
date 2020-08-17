@@ -27,29 +27,28 @@
 #import "OESidebarCell.h"
 #import "OESidebarFieldEditor.h"
 #import "OESidebarOutlineView.h"
-#import "OETheme.h"
-#import "OEThemeTextAttributes.h"
 
 const CGFloat BadgeSpacing = 2.0;
+
+typedef NS_OPTIONS(NSInteger, OESidebarCellState)
+{
+    OESidebarCellStateFocused        = 1 <<  0,
+    OESidebarCellStateUnfocused      = 1 <<  1,
+    OESidebarCellStateWindowActive   = 1 <<  2,
+    OESidebarCellStateWindowInactive = 1 <<  3,
+};
 
 @interface NSTextFieldCell (ApplePrivate)
 - (NSDictionary *)_textAttributes;
 @end
 
 @interface OESidebarCell ()
-@property (nonatomic, strong) NSString *themeKey;
-@property OEThemeTextAttributes *groupAttributes;
-@property OEThemeTextAttributes *itemAttributes;
+@property (readonly) NSDictionary *groupAttributes;
+- (NSDictionary *) itemAttributesForState:(OESidebarCellState)state;
 @end
 
 @implementation OESidebarCell
 @synthesize isGroup = _isGroup, isEditing=_isEditing, image=_image;
-@synthesize themed = _themed;
-@synthesize hovering = _hovering;
-@synthesize stateMask = _stateMask;
-@synthesize backgroundThemeImage = _backgroundThemeImage;
-@synthesize themeImage = _themeImage;
-@synthesize themeTextAttributes = _themeTextAttributes;
 
 - (id)init 
 {
@@ -67,45 +66,66 @@ const CGFloat BadgeSpacing = 2.0;
     OESidebarCell *cell = (OESidebarCell *)[super copyWithZone:zone];
 
     [cell setImage:[self image]];
-    [cell setThemeKey:[self themeKey]];
 
     return cell;
 }
 #pragma mark - Theming
-- (void)setThemeKey:(NSString *)key
+- (NSDictionary*)groupAttributes
 {
-    _themeKey = key;
-
-    NSString *itemKey  = [key stringByAppendingFormat:@"_item"];
-    NSString *groupKey = [key stringByAppendingFormat:@"_group"];
-
-    OETheme *theme = [OETheme sharedTheme];
-    [self setItemAttributes:[theme themeTextAttributesForKey:itemKey]];
-    [self setGroupAttributes:[theme themeTextAttributesForKey:groupKey]];
+    static NSDictionary *attributes;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSFont *font = [NSFont boldSystemFontOfSize:11];
+        NSColor *color = [NSColor colorWithCalibratedWhite:0.6 alpha:1];
+        
+        attributes = @{
+            NSFontAttributeName : font,
+            NSForegroundColorAttributeName : color
+        };
+    });
+    
+    return attributes;
 }
 
-- (void)setBackgroundThemeImageKey:(NSString *)key
+- (NSDictionary*)itemAttributesForState:(OESidebarCellState)state
 {
-}
-
-- (void)setThemeImageKey:(NSString *)key
-{
-}
-
-- (void)setThemeTextAttributesKey:(NSString *)key
-{
-}
-
-- (void)setBackgroundThemeImage:(OEThemeImage *)backgroundThemeImage
-{
-}
-
-- (void)setThemeImage:(OEThemeImage *)themeImage
-{
-}
-
-- (void)setThemeTextAttributes:(OEThemeTextAttributes *)themeTextAttributes
-{
+    static NSDictionary *sharedAttributes;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSFont *font = [NSFont systemFontOfSize:13];
+        
+        NSColor *color = [NSColor colorWithCalibratedWhite:0.88 alpha:1];
+        
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+        
+        sharedAttributes = @{
+            NSFontAttributeName : font,
+            NSForegroundColorAttributeName: color,
+            NSParagraphStyleAttributeName : paragraphStyle
+        };
+    });
+    
+    NSColor *color;
+    
+    if(state & OESidebarCellStateUnfocused)
+    {
+        return sharedAttributes;
+    }
+    else if(state & OESidebarCellStateWindowActive)
+    {
+        color = NSColor.whiteColor;
+    }
+    else if(state & OESidebarCellStateWindowInactive)
+    {
+        color = [NSColor colorWithCalibratedWhite:0.14 alpha:1];
+    }
+    
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+    [attributes addEntriesFromDictionary:sharedAttributes];
+    [attributes setObject:color forKey:NSForegroundColorAttributeName];
+    
+    return attributes;
 }
 
 #pragma mark - Frames
@@ -222,13 +242,13 @@ const CGFloat BadgeSpacing = 2.0;
     NSWindow *win = [controlView window];
 	BOOL isSelected = [self isHighlighted];
 	BOOL isActive = [win isMainWindow] && [win firstResponder]==controlView;
-
-    OEThemeState state = (isActive   ? OEThemeInputStateWindowActive : OEThemeInputStateWindowInactive) |
-                         (isSelected ? OEThemeInputStateFocused : OEThemeInputStateUnfocused);
+    OESidebarCellState state = (isActive   ? OESidebarCellStateWindowActive : OESidebarCellStateWindowInactive) |
+                               (isSelected ? OESidebarCellStateFocused : OESidebarCellStateUnfocused);
+    
     NSDictionary *attributes = nil;
 	if([self isGroup])
     {
-        attributes = [[self groupAttributes] textAttributesForState:state];
+        attributes = self.groupAttributes;
 		
 		titleFrame = cellFrame;
 		titleFrame.size.height -= 9;
@@ -238,7 +258,7 @@ const CGFloat BadgeSpacing = 2.0;
     }
     else
     {
-        attributes = [[self itemAttributes] textAttributesForState:state];
+        attributes = [self itemAttributesForState:state];
         
         // Adjust the title frame to fit the system typeface.
         titleFrame.size.height += 3;

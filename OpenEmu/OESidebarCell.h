@@ -24,9 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @import Foundation;
-#import "OECell.h"
 
-@interface OESidebarCell : NSTextFieldCell <OECell>
+@interface OESidebarCell : NSTextFieldCell
 
 @property (readwrite) BOOL isGroup;
 @property (readwrite) BOOL isEditing;
