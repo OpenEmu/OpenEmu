@@ -37,7 +37,6 @@
 #import "OEDBDataSourceAdditions.h"
 
 #import "OEButton.h"
-#import "OECenteredTextFieldCell.h"
 #import "OEArrowCursorTextView.h"
 
 #import "OpenEmu-Swift.h"
@@ -282,24 +281,15 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     
     [coreIconView unregisterDraggedTypes];
     
-    OECenteredTextFieldCell *cell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
-    
-    NSDictionary *dictionary = @{ NSFontAttributeName : [NSFont systemFontOfSize:12],
-                                  NSForegroundColorAttributeName : NSColor.labelColor };
-    cell.textAttributes = dictionary;
-
-    NSRect labelRect = NSMakeRect(OEBlankSlateRightColumnX,
+    NSRect labelRect = NSMakeRect(OEBlankSlateRightColumnX +1,
                                   NSHeight(containerFrame) - 16.0 - OEBlankSlateBottomTextTop + 16.0 * extraspace,
                                   NSWidth(containerFrame),
-                                  17.0);
-    NSTextField *coreSuppliedByLabel = [[NSTextField alloc] initWithFrame:labelRect];
+                                  16.0);
+    OELabel *coreSuppliedByLabel = [[OELabel alloc] initWithFrame:labelRect];
     
-    coreSuppliedByLabel.cell = cell;
-    coreSuppliedByLabel.editable = NO;
-    coreSuppliedByLabel.selectable = NO;
-    coreSuppliedByLabel.drawsBackground = NO;
-    coreSuppliedByLabel.bezeled = NO;
     coreSuppliedByLabel.stringValue = NSLocalizedString(@"Core Provided By…", @"");
+    coreSuppliedByLabel.font = [NSFont systemFontOfSize:12];
+    coreSuppliedByLabel.textColor = NSColor.labelColor;
     
     [container addSubview:coreSuppliedByLabel];
     
@@ -336,24 +326,15 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 {
     NSView *container = self.containerView;
     NSRect containerFrame = container.frame;
-
-    OECenteredTextFieldCell *cell   = [[OECenteredTextFieldCell alloc] initTextCell:@""];
     
-    NSDictionary *dictionary = @{ NSFontAttributeName : [NSFont systemFontOfSize:20 weight:NSFontWeightMedium],
-                                  NSForegroundColorAttributeName : NSColor.secondaryLabelColor };
-    cell.textAttributes = dictionary;
-    
-    NSRect headlineFrame = NSMakeRect(-2,
-                                      NSHeight(containerFrame) - 21 - OEBlankSlateHeadlineToTop,
+    NSRect headlineFrame = NSMakeRect(-1,
+                                      NSHeight(containerFrame) - 30 - OEBlankSlateHeadlineToTop,
                                       NSWidth(containerFrame),
                                       OEBlankSlateHeadlineHeight);
-    NSTextField *headlineField = [[NSTextField alloc] initWithFrame:headlineFrame];
-    headlineField.cell = cell;
+    OELabel *headlineField = [[OELabel alloc] initWithFrame:headlineFrame];
     headlineField.stringValue = text;
-    headlineField.editable = NO;
-    headlineField.selectable = NO;
-    headlineField.drawsBackground = NO;
-    headlineField.bezeled = NO;
+    headlineField.font = [NSFont systemFontOfSize:20 weight:NSFontWeightMedium];
+    headlineField.textColor = NSColor.secondaryLabelColor;
     
     [container addSubview:headlineField];
 }
@@ -390,37 +371,25 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
                                       height);
     
     [container addSubview:arrowImageView];
-
-    OECenteredTextFieldCell *defaultCell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
     
     NSColor *color = [NSColor colorNamed:@"blank_slate_box_text"];
     
     NSShadow *shadow = [[NSShadow alloc] init];
     shadow.shadowColor = [NSColor colorNamed:@"blank_slate_box_textshadow"];
     shadow.shadowOffset = NSMakeSize(0.0, -1.0);
-    shadow.shadowBlurRadius = 0.0;
-
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.alignment = NSTextAlignmentCenter;
-
-    defaultCell.textAttributes = @{ NSFontAttributeName : [NSFont systemFontOfSize:24],
-                                    NSParagraphStyleAttributeName : style,
-                                    NSShadowAttributeName : shadow,
-                                    NSForegroundColorAttributeName : color };
-
+    
     NSRect dragAndDropHereRect = NSMakeRect(0.0,
-                                            NSHeight(containerFrame) - 28.0 - OEBlankSlateBoxTextToTop,
+                                            NSHeight(containerFrame) - 30.0 - OEBlankSlateBoxTextToTop,
                                             NSWidth(containerFrame),
                                             31.0);
     
-    NSTextField *dragAndDropHereField = [[NSTextField alloc] initWithFrame:dragAndDropHereRect];
+    OELabel *dragAndDropHereField = [[OELabel alloc] initWithFrame:dragAndDropHereRect];
     
-    dragAndDropHereField.cell = defaultCell;
     dragAndDropHereField.stringValue = text;
-    dragAndDropHereField.editable = NO;
-    dragAndDropHereField.selectable = NO;
-    dragAndDropHereField.drawsBackground = NO;
-    dragAndDropHereField.bezeled = NO;
+    dragAndDropHereField.font = [NSFont systemFontOfSize:24];
+    dragAndDropHereField.textColor = color;
+    dragAndDropHereField.textShadow = shadow;
+    dragAndDropHereField.alignment = NSTextAlignmentCenter;
     
     [container addSubview:dragAndDropHereField];
 }

@@ -24,11 +24,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
+@import Cocoa;
 
-#import "OEAttributedTextFieldCell.h"
-
-@interface OECenteredTextFieldCell : OEAttributedTextFieldCell
+@interface OECenteredTextFieldCell : NSTextFieldCell
 
 @property CGFloat widthInset;
 

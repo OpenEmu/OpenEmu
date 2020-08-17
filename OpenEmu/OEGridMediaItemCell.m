@@ -189,7 +189,7 @@ static NSDictionary *disabledActions = nil;
     [_textLayer setFont:(__bridge CTFontRef)titleFont];
     [_textLayer setFontSize:12.0];
 
-    [_textLayer setShadowColor:[NSColor colorNamed:@"grid_labelShadowColor"].CGColor];
+    [_textLayer setShadowColor:[NSColor colorNamed:@"labelShadowColor"].CGColor];
     [_textLayer setShadowOffset:CGSizeMake(0.0, -1.0)];
     [_textLayer setShadowRadius:1.0];
     [_textLayer setShadowOpacity:1.0];
@@ -204,7 +204,7 @@ static NSDictionary *disabledActions = nil;
     [_subtextLayer setFont:(__bridge CTFontRef)titleFont];
     [_subtextLayer setFontSize:10.0];
 
-    [_subtextLayer setShadowColor:[NSColor colorNamed:@"grid_labelShadowColor"].CGColor];
+    [_subtextLayer setShadowColor:[NSColor colorNamed:@"labelShadowColor"].CGColor];
     [_subtextLayer setShadowOffset:CGSizeMake(0.0, -1.0)];
     [_subtextLayer setShadowRadius:1.0];
     [_subtextLayer setShadowOpacity:1.0];

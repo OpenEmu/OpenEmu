@@ -115,16 +115,13 @@
                                 </userDefinedRuntimeAttributes>
                             </scroller>
                         </scrollView>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="OELabel">
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="OEControlsInputLabel">
                             <rect key="frame" x="14" y="17" width="39" height="16"/>
-                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Input:" id="11" customClass="OELabelCell">
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Input:" id="11">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_wood_text"/>
-                            </userDefinedRuntimeAttributes>
                         </textField>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9" customClass="OEPopUpButton">
                             <rect key="frame" x="53" y="9" width="164" height="27"/>

@@ -29,8 +29,6 @@
 #import "OEControlsKeyButton.h"
 #import "OEControlsKeySeparatorView.h"
 #import "OEControlsSectionTitleView.h"
-#import "OEControlsKeyHeadlineCell.h"
-#import "OEControlsKeyLabelCell.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
@@ -173,7 +171,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
                 [self addSubview:item];
                 
                 // handle headline cell
-                if([item isKindOfClass:[NSTextField class]] && [[item cell] isKindOfClass:[OEControlsKeyHeadlineCell class]])
+                if([item isKindOfClass:[OEControlsKeyHeadline class]])
                 {
                     j--;
                     continue;
@@ -235,7 +233,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
                 id item = animated([group objectAtIndex:j]);
 
                 // handle headline cell
-                if([item isKindOfClass:[NSTextField class]] && [[item cell] isKindOfClass:[OEControlsKeyHeadlineCell class]])
+                if([item isKindOfClass:[OEControlsKeyHeadline class]])
                 {
                     j--;
 
@@ -555,7 +553,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
                     NSString *label = NSLocalizedStringFromTable([row objectForKey:OEControlListKeyLabelKey], @"ControlLabels", @"Button Label");
 
                     [self OE_addButtonWithName:[row objectForKey:OEControlListKeyNameKey]
-                                         label:[label stringByAppendingString:@":"] fontFamily:fontFamily];
+                                         label:[label stringByAppendingString:@":"]];
                 }
             }
         }
@@ -591,11 +589,6 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 
 - (void)OE_addButtonWithName:(NSString *)aName label:(NSString *)aLabel;
 {
-    [self OE_addButtonWithName:aName label:aLabel fontFamily:nil];
-}
-
-- (void)OE_addButtonWithName:(NSString *)aName label:(NSString *)aLabel fontFamily:(NSString*)fontFamily
-{
     OEControlsKeyButton *button = [[OEControlsKeyButton alloc] initWithFrame:NSZeroRect];
     
     [button setTarget:target];
@@ -606,11 +599,8 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     
     [currentGroup addObject:button];
     
-    NSTextField     *labelField     = [[NSTextField alloc] initWithFrame:NSZeroRect];
-    OEControlsKeyLabelCell *labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
-    [labelFieldCell setFontFamily:fontFamily];
+    OEControlsKeyLabel *labelField = [[OEControlsKeyLabel alloc] initWithFrame:NSZeroRect];
 
-    [labelField setCell:labelFieldCell];
     [labelField setStringValue:aLabel];
 
     [currentGroup addObject:labelField];
@@ -618,9 +608,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 
 - (void)OE_addGroupLabel:(NSString *)label;
 {
-    NSTextField *labelField = [[NSTextField alloc] initWithFrame:NSZeroRect];
-    NSTextFieldCell *labelFieldCell = [[OEControlsKeyHeadlineCell alloc] init];
-    [labelField setCell:labelFieldCell];
+    OEControlsKeyHeadline *labelField = [[OEControlsKeyHeadline alloc] initWithFrame:NSZeroRect];
     [labelField setStringValue:label];
     [currentGroup addObject:labelField];
 }
