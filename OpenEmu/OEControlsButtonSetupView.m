@@ -27,7 +27,6 @@
 #import "OEControlsButtonSetupView.h"
 
 #import "OEControlsKeyButton.h"
-#import "OEControlsKeySeparatorView.h"
 #import "OEControlsSectionTitleView.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
