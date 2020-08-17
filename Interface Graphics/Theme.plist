@@ -329,6 +329,8 @@
 			<string>Bold</string>
 			<key>Weight</key>
 			<integer>6</integer>
+			<key>Baseline Offset</key>
+			<integer>-1</integer>
 		</dict>
 		<key>grid_group_subtitle</key>
 		<dict>
@@ -353,6 +355,8 @@
 			<string>Bold</string>
 			<key>Weight</key>
 			<integer>3</integer>
+			<key>Baseline Offset</key>
+			<integer>-1</integer>
 		</dict>
 		<key>game_scanner_issues_headline</key>
 		<dict>
