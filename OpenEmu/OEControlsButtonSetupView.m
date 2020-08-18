@@ -27,7 +27,6 @@
 #import "OEControlsButtonSetupView.h"
 
 #import "OEControlsKeyButton.h"
-#import "OEControlsSectionTitleView.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
@@ -158,8 +157,6 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     for(NSDictionary *section in sections)
     {
         OEControlsSectionTitleView *heading = [section objectForKey:@"header"];
-        [heading setAction:@selector(toggleSection:)];
-        [heading setTarget:self];
         [self addSubview:heading];
 
         NSArray *groups = [section objectForKey:@"groups"];
@@ -196,7 +193,6 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 - (void)layoutSubviews:(BOOL)animated
 {
 #define animated(_X_) animated?[_X_ animator]:_X_
-#define reflectSectionState(_ITEM_, _RECT_) if(sectionCollapsed){[_ITEM_ setAlphaValue:0.0];_RECT_.origin.y = headerOrigin.y; _RECT_.size.height=sectionTitleHeight; }else{[_ITEM_ setAlphaValue:1.0];}
     if(animated) [CATransaction begin];
 
     CGFloat rightGap = 14 + (([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) ? 14.0 : 0.0);
@@ -213,9 +209,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     CGFloat y = NSHeight(frame);
     for(NSDictionary *section in sections)
     {
-        CGFloat previousY = y;
         OEControlsSectionTitleView *heading = animated([section objectForKey:@"header"]);
-        BOOL sectionCollapsed = ![heading state];
         NSArray *groups       = [section objectForKey:@"groups"];
 
         // layout section header
@@ -237,7 +231,6 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
                     j--;
 
                     NSRect headlineFrame = (NSRect){{leftGap, y - itemHeight }, { width - leftGap - rightGap, itemHeight }};
-                    reflectSectionState(item, headlineFrame);
                     [item setFrame:NSIntegralRect(headlineFrame)];
                     y -= itemHeight + verticalItemSpacing;
 
@@ -250,7 +243,6 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
                     j--;
 
                     NSRect seperatorLineRect = (NSRect){{ leftGap, y - itemHeight }, { width - leftGap - rightGap, itemHeight }};
-                    reflectSectionState(item, seperatorLineRect);
                     [item setFrame:NSIntegralRect(seperatorLineRect)];
                     y -= itemHeight + verticalItemSpacing;
 
@@ -259,7 +251,6 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 
                 // handle buttons + label
                 NSRect buttonRect = (NSRect){{ width - buttonWidth, y - itemHeight },{ buttonWidth - rightGap, itemHeight }};
-                reflectSectionState(item, buttonRect);
                 [item setFrame:NSIntegralRect(buttonRect)];
 
                 NSTextField *label = animated([group objectAtIndex:j + 1]);
@@ -277,7 +268,6 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
                 labelRect.origin.y -= labelFitSize.height / 2;
                 labelRect.size.height = labelFitSize.height;
                 
-                reflectSectionState(label, labelRect);
                 [label setFrame:labelRect];
                 
                 y -= itemHeight + verticalItemSpacing;
@@ -285,8 +275,6 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
         }
         y += verticalItemSpacing;
         y -= bottomGap;
-
-        if(sectionCollapsed) y = previousY - sectionTitleHeight;
     }
 
     [self layoutSectionHeadings:nil];
@@ -309,12 +297,9 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 {
     CGFloat height = sectionTitleHeight;
     
-    if([(OEControlsSectionTitleView*)[section objectForKey:@"header"] state]) // heading not collapsed
-    {
-        height += topGap+bottomGap;
-        NSUInteger numberOfRows = [[section objectForKey:@"numberOfRows"] unsignedIntegerValue];
-        height += (numberOfRows - 1) * verticalItemSpacing + numberOfRows * itemHeight;
-    }
+    height += topGap+bottomGap;
+    NSUInteger numberOfRows = [[section objectForKey:@"numberOfRows"] unsignedIntegerValue];
+    height += (numberOfRows - 1) * verticalItemSpacing + numberOfRows * itemHeight;
     
     return height;
 }
@@ -348,7 +333,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     for(i=[sections count]-1; i>=0; i--)
     {
         NSDictionary *section = [sections objectAtIndex:i];
-        id sectionHeader      = [section objectForKey:@"header"];
+        OEControlsSectionTitleView *sectionHeader = [section objectForKey:@"header"];
 
         CGFloat sectionStart  = [self OE_headerPositionOfSectionAtIndex:i];
         CGFloat sectionHeight = [self OE_calculateHeightOfSection:section];
@@ -399,8 +384,6 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     else
     {
         newKey = [orderedKeys objectAtIndex:i + 1];
-        if(![self OE_sectionOfKeyIsExpanded:newKey])
-            newKey = [[NSUserDefaults standardUserDefaults] boolForKey:OEControlsButtonHighlightRollsOver] ? [orderedKeys objectAtIndex:0] : nil;
     }
 
     [CATransaction begin];
@@ -426,8 +409,6 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     }
     else {
         newKey = [orderedKeys objectAtIndex:i + 1];
-        if(![self OE_sectionOfKeyIsExpanded:newKey])
-            newKey = [[NSUserDefaults standardUserDefaults] boolForKey:OEControlsButtonHighlightRollsOver] ? [orderedKeys objectAtIndex:0] : nil;
     }
 
     [CATransaction begin];
@@ -446,11 +427,6 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     return nil;
 }
 
-- (BOOL)OE_sectionOfKeyIsExpanded:(NSString*)key
-{
-    NSDictionary *section = [self OE_sectionOfKey:key];
-    return [(OEControlsSectionTitleView*)[section objectForKey:@"header"] state];
-}
 #pragma mark -
 
 - (void)scrollWheel:(NSEvent *)theEvent
@@ -494,7 +470,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 - (void)OE_addGroupLabel:(NSString*)label;
 - (void)OE_addRowSeperator;
 - (void)OE_addGroup;
-- (id)OE_createSectionHeadingWithName:(NSString*)name collapsible:(BOOL)flag;
+- (id)OE_createSectionHeadingWithName:(NSString*)name;
 @end
 
 @implementation _OEControlsSetupViewParser
@@ -562,7 +538,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
         [sections addObject:@{
          @"numberOfRows" : @(numberOfRows),
                @"groups" : elementGroups,
-              @"header" : [self OE_createSectionHeadingWithName:sectionTitle collapsible:i!=0]
+              @"header" : [self OE_createSectionHeadingWithName:sectionTitle]
          }];
         
         elementGroups = [[NSMutableArray alloc] init];
@@ -627,15 +603,10 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     currentGroup = [[NSMutableArray alloc] init];
 }
 
-- (id)OE_createSectionHeadingWithName:(NSString*)name collapsible:(BOOL)flag
+- (id)OE_createSectionHeadingWithName:(NSString*)name
 {
-    // Don't collapse groups, less noticeable
-    flag = NO;
-
     OEControlsSectionTitleView *labelField = [[OEControlsSectionTitleView alloc] initWithFrame:NSZeroRect];
     [labelField setStringValue:name];
-    [labelField setCollapsible:flag];
-    if(flag) [labelField setState:NSControlStateValueOff];
 
     return labelField;
 }
