@@ -25,10 +25,6 @@
  */
 
 #import "OESNESSystemController.h"
-#import "OESNESSystemResponder.h"
-#import "OESNESSystemResponderClient.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OESNESSystemController
 

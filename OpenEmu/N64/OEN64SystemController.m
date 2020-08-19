@@ -25,10 +25,6 @@
  */
 
 #import "OEN64SystemController.h"
-#import "OEN64SystemResponder.h"
-#import "OEN64SystemResponderClient.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OEN64SystemController
 

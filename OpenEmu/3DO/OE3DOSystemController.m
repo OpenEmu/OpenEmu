@@ -25,8 +25,6 @@
  */
 
 #import "OE3DOSystemController.h"
-#import "OE3DOSystemResponder.h"
-#import "OE3DOSystemResponderClient.h"
 
 @implementation OE3DOSystemController
 

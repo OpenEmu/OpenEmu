@@ -25,10 +25,6 @@
  */
 
 #import "OESega32XSystemController.h"
-#import "OESega32XSystemResponder.h"
-#import "OESega32XSystemResponderClient.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OESega32XSystemController
 

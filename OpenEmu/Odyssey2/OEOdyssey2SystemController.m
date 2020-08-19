@@ -25,10 +25,6 @@
  */
 
 #import "OEOdyssey2SystemController.h"
-#import "OEOdyssey2SystemResponder.h"
-#import "OEOdyssey2SystemResponderClient.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OEOdyssey2SystemController
 

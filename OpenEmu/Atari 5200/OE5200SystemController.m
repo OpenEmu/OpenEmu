@@ -25,10 +25,6 @@
  */
 
 #import "OE5200SystemController.h"
-#import "OE5200SystemResponder.h"
-#import "OE5200SystemResponderClient.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OE5200SystemController
 

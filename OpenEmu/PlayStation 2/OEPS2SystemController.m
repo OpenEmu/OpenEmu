@@ -25,8 +25,6 @@
  */
 
 #import "OEPS2SystemController.h"
-#import "OEPS2SystemResponder.h"
-#import "OEPS2SystemResponderClient.h"
 
 @implementation OEPS2SystemController
 

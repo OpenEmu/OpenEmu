@@ -25,10 +25,6 @@
  */
 
 #import "OEIntellivisionSystemController.h"
-#import "OEIntellivisionSystemResponder.h"
-#import "OEIntellivisionSystemResponderClient.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OEIntellivisionSystemController
 

@@ -25,8 +25,6 @@
  */
 
 #import "OEGCSystemController.h"
-#import "OEGCSystemResponder.h"
-#import "OEGCSystemResponderClient.h"
 
 @implementation OEGCSystemController
 

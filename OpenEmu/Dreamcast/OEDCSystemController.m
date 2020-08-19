@@ -25,8 +25,6 @@
  */
 
 #import "OEDCSystemController.h"
-#import "OEDCSystemResponder.h"
-#import "OEDCSystemResponderClient.h"
 
 @implementation OEDCSystemController
 

@@ -24,7 +24,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <OpenEmuSystem/OpenEmuSystem.h>
+@import OpenEmuSystem;
 
 OE_EXPORTED_CLASS
 @interface OESaturnSystemController : OESystemController

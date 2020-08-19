@@ -25,10 +25,6 @@
  */
 
 #import "OEVectrexSystemController.h"
-#import "OEVectrexSystemResponder.h"
-#import "OEVectrexSystemResponderClient.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OEVectrexSystemController
 

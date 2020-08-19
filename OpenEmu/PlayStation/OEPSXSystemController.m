@@ -25,8 +25,6 @@
  */
 
 #import "OEPSXSystemController.h"
-#import "OEPSXSystemResponder.h"
-#import "OEPSXSystemResponderClient.h"
 
 @implementation OEPSXSystemController
 

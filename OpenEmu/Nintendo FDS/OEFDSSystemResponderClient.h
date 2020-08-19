@@ -26,6 +26,8 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol OESystemResponderClient;
+
 typedef enum _OEFDSButton
 {
     OEFDSButtonUp,

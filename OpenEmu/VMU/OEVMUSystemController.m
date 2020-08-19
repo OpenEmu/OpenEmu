@@ -25,8 +25,6 @@
  */
 
 #import "OEVMUSystemController.h"
-#import "OEVMUSystemResponder.h"
-#import "OEVMUSystemResponderClient.h"
 
 @implementation OEVMUSystemController
 

@@ -24,12 +24,12 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <OpenEmuSystem/OpenEmuSystem.h>
+@import OpenEmuSystem;
 #import "OEMSXSystemResponderClient.h"
 
 OE_EXPORTED_CLASS
 @interface OEMSXSystemResponder : OESystemResponder
 
-@property (nonatomic, weak) id<OEMSXSystemResponderClient> client;
+@property(nonatomic, weak) id<OEMSXSystemResponderClient> client;
 
 @end
