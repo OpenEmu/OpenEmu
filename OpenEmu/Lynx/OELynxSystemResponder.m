@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushLynxButton:(OELynxButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushLynxButton:(OELynxButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseLynxButton:(OELynxButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseLynxButton:(OELynxButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

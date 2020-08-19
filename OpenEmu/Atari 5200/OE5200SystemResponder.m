@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPush5200Button:(OE5200Button)[aKey key] forPlayer:[aKey player]];
+    [self.client didPush5200Button:(OE5200Button)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didRelease5200Button:(OE5200Button)[aKey key] forPlayer:[aKey player]];
+    [self.client didRelease5200Button:(OE5200Button)aKey.key forPlayer:aKey.player];
 }
 
 @end

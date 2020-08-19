@@ -34,8 +34,8 @@
     NSData *dataBuffer = [file readDataInRange:NSMakeRange(0, 64)];
 
     unsigned char temp;
-    unsigned char *rom = (unsigned char *)[dataBuffer bytes];
-    NSUInteger romSize = [dataBuffer length];
+    unsigned char *rom = (unsigned char *)dataBuffer.bytes;
+    NSUInteger romSize = dataBuffer.length;
     
     // Read the first 4 bytes of the header to get the 'magic word' in hex
     NSMutableString *hexString = [[NSMutableString alloc] initWithCapacity:4];

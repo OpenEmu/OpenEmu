@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushGGButton:(OEGGButton)[aKey key]];
+    [self.client didPushGGButton:(OEGGButton)aKey.key];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseGGButton:(OEGGButton)[aKey key]];
+    [self.client didReleaseGGButton:(OEGGButton)aKey.key];
 }
 
 @end

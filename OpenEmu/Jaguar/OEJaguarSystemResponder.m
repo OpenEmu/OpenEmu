@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushJaguarButton:(OEJaguarButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushJaguarButton:(OEJaguarButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseJaguarButton:(OEJaguarButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseJaguarButton:(OEJaguarButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

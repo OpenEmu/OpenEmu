@@ -37,17 +37,17 @@
 
 - (void)changeAnalogEmulatorKey:(OESystemKey *)aKey value:(CGFloat)value
 {
-    [[self client] didMovePS2JoystickDirection:(OEPS2Button)[aKey key] withValue:value forPlayer:aKey.player];
+    [self.client didMovePS2JoystickDirection:(OEPS2Button)aKey.key withValue:value forPlayer:aKey.player];
 }
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushPS2Button:(OEPS2Button)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushPS2Button:(OEPS2Button)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleasePS2Button:(OEPS2Button)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleasePS2Button:(OEPS2Button)aKey.key forPlayer:aKey.player];
 }
 
 @end

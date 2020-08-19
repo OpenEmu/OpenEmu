@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushGBButton:(OEGBButton)[aKey key]];
+    [self.client didPushGBButton:(OEGBButton)aKey.key];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseGBButton:(OEGBButton)[aKey key]];
+    [self.client didReleaseGBButton:(OEGBButton)aKey.key];
 }
 
 @end

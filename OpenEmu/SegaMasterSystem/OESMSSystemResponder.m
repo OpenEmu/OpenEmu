@@ -37,50 +37,50 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    OESMSButton button = (OESMSButton)[aKey key];
+    OESMSButton button = (OESMSButton)aKey.key;
     
     switch(button)
     {
-        case OESMSButtonStart : [[self client] didPushSMSStartButton]; break;
-        case OESMSButtonReset : [[self client] didPushSMSResetButton]; break;
+        case OESMSButtonStart : [self.client didPushSMSStartButton]; break;
+        case OESMSButtonReset : [self.client didPushSMSResetButton]; break;
         default :
-            [[self client] didPushSMSButton:button forPlayer:[aKey player]];
+            [self.client didPushSMSButton:button forPlayer:aKey.player];
             break;
     }
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    OESMSButton button = (OESMSButton)[aKey key];
+    OESMSButton button = (OESMSButton)aKey.key;
     
     switch(button)
     {
-        case OESMSButtonStart : [[self client] didReleaseSMSStartButton]; break;
-        case OESMSButtonReset : [[self client] didReleaseSMSResetButton]; break;
+        case OESMSButtonStart : [self.client didReleaseSMSStartButton]; break;
+        case OESMSButtonReset : [self.client didReleaseSMSResetButton]; break;
         default :
-            [[self client] didReleaseSMSButton:button forPlayer:[aKey player]];
+            [self.client didReleaseSMSButton:button forPlayer:aKey.player];
             break;
     }
 }
 
 - (void)mouseMovedAtPoint:(OEIntPoint)aPoint
 {
-    if ([[self client] respondsToSelector:@selector(mouseMovedAtPoint:)]) {
-        [[self client] mouseMovedAtPoint:aPoint];
+    if ([self.client respondsToSelector:@selector(mouseMovedAtPoint:)]) {
+        [self.client mouseMovedAtPoint:aPoint];
     }
 }
 
 - (void)mouseDownAtPoint:(OEIntPoint)aPoint
 {
-    if ([[self client] respondsToSelector:@selector(leftMouseDownAtPoint:)]) {
-        [[self client] leftMouseDownAtPoint:aPoint];
+    if ([self.client respondsToSelector:@selector(leftMouseDownAtPoint:)]) {
+        [self.client leftMouseDownAtPoint:aPoint];
     }
 }
 
 - (void)mouseUpAtPoint
 {
-    if ([[self client] respondsToSelector:@selector(leftMouseUp)]) {
-        [[self client] leftMouseUp];
+    if ([self.client respondsToSelector:@selector(leftMouseUp)]) {
+        [self.client leftMouseUp];
     }
 }
 

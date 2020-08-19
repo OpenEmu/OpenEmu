@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushArcadeButton:(OEArcadeButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushArcadeButton:(OEArcadeButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseArcadeButton:(OEArcadeButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseArcadeButton:(OEArcadeButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

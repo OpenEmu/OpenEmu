@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushWSButton:(OEWSButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushWSButton:(OEWSButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseWSButton:(OEWSButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseWSButton:(OEWSButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

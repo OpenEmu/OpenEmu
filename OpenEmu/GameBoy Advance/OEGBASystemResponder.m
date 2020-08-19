@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushGBAButton:(OEGBAButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushGBAButton:(OEGBAButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseGBAButton:(OEGBAButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseGBAButton:(OEGBAButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushPCECDButton:(OEPCECDButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushPCECDButton:(OEPCECDButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleasePCECDButton:(OEPCECDButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleasePCECDButton:(OEPCECDButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

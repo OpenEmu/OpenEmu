@@ -37,27 +37,27 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPush2600Button:(OE2600Button)[aKey key] forPlayer:[aKey player]];
+    [self.client didPush2600Button:(OE2600Button)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didRelease2600Button:(OE2600Button)[aKey key] forPlayer:[aKey player]];
+    [self.client didRelease2600Button:(OE2600Button)aKey.key forPlayer:aKey.player];
 }
 
 - (void)mouseMovedAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] mouseMovedAtPoint:aPoint];
+    [self.client mouseMovedAtPoint:aPoint];
 }
 
 - (void)mouseDownAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] leftMouseDownAtPoint:aPoint];
+    [self.client leftMouseDownAtPoint:aPoint];
 }
 
 - (void)mouseUpAtPoint
 {
-    [[self client] leftMouseUp];
+    [self.client leftMouseUp];
 }
 
 @end

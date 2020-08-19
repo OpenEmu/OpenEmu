@@ -37,34 +37,34 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushIntellivisionButton:(OEIntellivisionButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushIntellivisionButton:(OEIntellivisionButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseIntellivisionButton:(OEIntellivisionButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseIntellivisionButton:(OEIntellivisionButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)HIDKeyDown:(OEHIDEvent *)theEvent
 {
 	[super HIDKeyDown:theEvent];
-	[[self client] keyDown:[theEvent keycode]];
+	[self.client keyDown:theEvent.keycode];
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)theEvent
 {
 	[super HIDKeyUp:theEvent];
-	[[self client] keyUp:[theEvent keycode]];
+	[self.client keyUp:theEvent.keycode];
 }
 
 - (void)keyDown:(NSEvent *)theEvent
 {
-	[[self client] keyDown:[theEvent keyCode]];
+	[self.client keyDown:theEvent.keyCode];
 }
 
 - (void)keyUp:(NSEvent *)theEvent
 {
-	[[self client] keyUp:[theEvent keyCode]];
+	[self.client keyUp:theEvent.keyCode];
 }
 
 @end

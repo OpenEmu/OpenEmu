@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushSega32XButton:(OESega32XButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushSega32XButton:(OESega32XButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseSega32XButton:(OESega32XButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseSega32XButton:(OESega32XButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

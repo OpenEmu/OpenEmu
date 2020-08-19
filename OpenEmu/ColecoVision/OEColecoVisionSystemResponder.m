@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushColecoVisionButton:(OEColecoVisionButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushColecoVisionButton:(OEColecoVisionButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseColecoVisionButton:(OEColecoVisionButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseColecoVisionButton:(OEColecoVisionButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

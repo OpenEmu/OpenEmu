@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushVBButton:(OEVBButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushVBButton:(OEVBButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseVBButton:(OEVBButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseVBButton:(OEVBButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

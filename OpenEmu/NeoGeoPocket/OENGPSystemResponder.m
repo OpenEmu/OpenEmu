@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushNGPButton:(OENGPButton)[aKey key]];
+    [self.client didPushNGPButton:(OENGPButton)aKey.key];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseNGPButton:(OENGPButton)[aKey key]];
+    [self.client didReleaseNGPButton:(OENGPButton)aKey.key];
 }
 
 @end
