@@ -87,6 +87,8 @@
 
 "Configure Shader…" = "Настроить Ше́йдер…";
 
+"Console" = "Консоль";
+
 "Consoles" = "Консоли";
 
 "Consolidate Files…" = "Консолидировать файлы…";
@@ -110,6 +112,8 @@
 "Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
 
 "Core Provided By…" = "Ядро предоставляется…";
+
+"Core" = "Ядро";
 
 "Cores" = "Ядра";
 
@@ -490,6 +494,8 @@
 "Update" = "Обновить";
 
 "User guide on BIOS files" = "Руководство пользователя по файлам BIOS";
+
+"Version" = "Версия";
 
 "View Guide in Browser" = "View Guide in Browser"; // TODO
 

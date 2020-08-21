@@ -87,6 +87,8 @@
 
 "Configure Shader…" = "Configura Shader…";
 
+"Console" = "Console";
+
 "Consoles" = "Console";
 
 "Consolidate Files…" = "Raggruppa file…";
@@ -110,6 +112,8 @@
 "Copying ROM files failed!" = "Copia dei file ROM non riuscita!";
 
 "Core Provided By…" = "Core fornito da…";
+
+"Core" = "Core";
 
 "Cores" = "Core";
 
@@ -490,6 +494,8 @@
 "Update" = "Aggiorna";   // Update Core button label
 
 "User guide on BIOS files" = "Manuale sui file BIOS";
+
+"Version" = "Versione";
 
 "View Guide in Browser" = "Apri il manuale nel browser";
 

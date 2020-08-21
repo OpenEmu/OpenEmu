@@ -56,6 +56,10 @@ class PrefCoresController: NSViewController, OEPreferencePane, NSTableViewDelega
         }
         OECoreUpdater.shared.checkForNewCores(fromModal: false)
         OECoreUpdater.shared.checkForUpdates()
+        
+        coresTableView.tableColumns[0].headerCell.title = NSLocalizedString("Core", comment: "Cores preferences, column header")
+        coresTableView.tableColumns[1].headerCell.title = NSLocalizedString("System", comment: "Cores preferences, column header")
+        coresTableView.tableColumns[2].headerCell.title = NSLocalizedString("Version", comment: "Cores preferences, column header")
     }
     
     @IBAction func updateOrInstall(_ sender: NSButton)

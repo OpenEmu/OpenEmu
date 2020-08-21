@@ -87,6 +87,8 @@
 
 "Configure Shader…" = "配置著色器…";
 
+"Console" = "主機";
+
 "Consoles" = "主機";
 
 "Consolidate Files…" = "整合文件…";
@@ -110,6 +112,8 @@
 "Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
 
 "Core Provided By…" = "核心提供…";
+
+"Core" = "核心";
 
 "Cores" = "核心";
 
@@ -490,6 +494,8 @@
 "Update" = "更新";
 
 "User guide on BIOS files" = "BIOS 文件用戶指南";
+
+"Version" = "版本";
 
 "View Guide in Browser" = "View Guide in Browser";
 

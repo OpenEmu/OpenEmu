@@ -87,6 +87,8 @@
 
 "Configure Shader…" = "Configurar el shader…";
 
+"Console" = "Consola";
+
 "Consoles" = "Consoles";
 
 "Consolidate Files…" = "Consolida els fitxers…";
@@ -110,6 +112,8 @@
 "Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
 
 "Core Provided By…" = "Nucli proveït per…";
+
+"Core" = "Nucli";
 
 "Cores" = "Nuclis";
 
@@ -490,6 +494,8 @@
 "Update" = "Actualitza";
 
 "User guide on BIOS files" = "Guia d'usuari sobre els arxius dels BIOS";
+
+"Version" = "Versió";
 
 "View Guide in Browser" = "Veure la guia en el navegador";
 

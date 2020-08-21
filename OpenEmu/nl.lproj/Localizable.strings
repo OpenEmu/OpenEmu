@@ -87,6 +87,8 @@
 
 "Configure Shader…" = "Shader configureren…";
 
+"Console" = "Console";
+
 "Consoles" = "Consoles";
 
 "Consolidate Files…" = "Voeg bestanden samen…";
@@ -110,6 +112,8 @@
 "Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
 
 "Core Provided By…" = "Kern voorzien door…";
+
+"Core" = "Kern";
 
 "Cores" = "Kernen";
 
@@ -490,6 +494,8 @@
 "Update" = "Update";
 
 "User guide on BIOS files" = "Gebruikershandleiding over BIOS-bestanden";
+
+"Version" = "Versie";
 
 "View Guide in Browser" = "Bekijk handleiding in browser";
 

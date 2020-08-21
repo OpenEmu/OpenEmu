@@ -87,6 +87,8 @@
 
 "Configure Shader…" = "Configurar Shader…";
 
+"Console" = "Consola";
+
 "Consoles" = "Consolas";
 
 "Consolidate Files…" = "Consolidar archivos…";
@@ -110,6 +112,8 @@
 "Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
 
 "Core Provided By…" = "Núcleo proporcionado por…";
+
+"Core" = "Núcleo";
 
 "Cores" = "Núcleos";
 
@@ -490,6 +494,8 @@
 "Update" = "Actualizar";
 
 "User guide on BIOS files" = "Guía de usuario sobre archivos de BIOS";
+
+"Version" = "Versión";
 
 "View Guide in Browser" = "Ver guía en navegador";
 

@@ -87,6 +87,8 @@
 
 "Configure Shader…" = "シェーダを設定する…";
 
+"Console" = "コンソール";
+
 "Consoles" = "コンソール";
 
 "Consolidate Files…" = "ファイルを統合する…";
@@ -110,6 +112,8 @@
 "Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
 
 "Core Provided By…" = "コア提供元…";
+
+"Core" = "コア";
 
 "Cores" = "コア";
 
@@ -490,6 +494,8 @@
 "Update" = "アップデート";
 
 "User guide on BIOS files" = "BIOSファイルのユーザガイド";
+
+"Version" = "バージョン";
 
 "View Guide in Browser" = "ガイドをブラウザで見る";
 
