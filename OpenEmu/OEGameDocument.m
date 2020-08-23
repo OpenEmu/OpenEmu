@@ -328,8 +328,18 @@ typedef enum : NSUInteger
      // if file is in an archive append :entryIndex to path, so the core manager can figure out which entry to load
     if([[self rom] archiveFileIndex])
         path = [path stringByAppendingFormat:@":%d",[[[self rom] archiveFileIndex] intValue]];
+    
+    OEGameStartupInfo *info = [[OEGameStartupInfo alloc] initWithROMPath:path
+                                                                romCRC32:self.rom.crc32
+                                                                  romMD5:self.rom.md5
+                                                               romHeader:self.rom.header
+                                                               romSerial:self.rom.serial
+                                                            systemRegion:OELocalizationHelper.sharedHelper.regionName
+                                                         displayModeInfo:lastDisplayModeInfo
+                                                          corePluginPath:_corePlugin.path
+                                                        systemPluginPath:_systemPlugin.path];
 
-    return [[managerClass alloc] initWithROMPath:path romCRC32:[[self rom] crc32] romMD5:[[self rom] md5] romHeader:[[self rom] header] romSerial:[[self rom] serial] systemRegion:[[OELocalizationHelper sharedHelper] regionName] displayModeInfo:lastDisplayModeInfo corePlugin:_corePlugin systemPlugin:_systemPlugin gameCoreOwner:self];
+    return [[managerClass alloc] initWithStartupInfo:info corePlugin:_corePlugin systemPlugin:_systemPlugin gameCoreOwner:self];
 }
 
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError

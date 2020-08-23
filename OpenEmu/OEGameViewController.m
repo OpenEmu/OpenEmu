@@ -333,8 +333,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     if(OEIntSizeIsEmpty(_screenSize) || OEIntSizeIsEmpty(_aspectSize))
         return NSMakeSize(400, 300);
 
-    NSSize corrected = [_gameView correctScreenSize:_screenSize forAspectSize:_aspectSize returnVertices:NO];
-    return corrected;
+    return OECorrectScreenSizeForAspectSize(_screenSize, _aspectSize);
 }
 
 #pragma mark - Private Methods

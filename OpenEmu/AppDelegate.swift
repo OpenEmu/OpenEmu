@@ -973,7 +973,7 @@ extension AppDelegate: NSMenuDelegate {
             return false
         }
 
-        if OEDeviceManager.shared.hasEventMonitor() {
+        if OEDeviceManager.shared.hasEventMonitor {
             return false
         }
 
