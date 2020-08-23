@@ -126,6 +126,8 @@
 	<integer>4</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEFDSSystemResponder</string>
+	<key>OESystemCoverAspectRatio</key>
+	<string>1.1</string>
 	<key>OESystemIcon</key>
 	<string>famicom_library</string>
 	<key>OESystemIdentifier</key>

@@ -155,6 +155,8 @@
 	<integer>5</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEPCECDSystemResponder</string>
+	<key>OESystemCoverAspectRatio</key>
+	<string>1</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.pcecd</string>
 	<key>OESystemName</key>

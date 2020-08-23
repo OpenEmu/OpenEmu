@@ -164,6 +164,8 @@
 	<integer>1</integer>
 	<key>OEResponderClassKey</key>
 	<string>OENDSSystemResponder</string>
+	<key>OESystemCoverAspectRatio</key>
+	<string>0.9</string>
 	<key>OESystemIcon</key>
 	<string>nds_library</string>
 	<key>OESystemIdentifier</key>

@@ -195,6 +195,8 @@
 	<integer>1</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEPSPSystemResponder</string>
+	<key>OESystemCoverAspectRatio</key>
+	<string>1.7</string>
 	<key>OESystemIcon</key>
 	<string>psp_library</string>
 	<key>OESystemIdentifier</key>

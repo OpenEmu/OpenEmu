@@ -278,6 +278,8 @@
 	<integer>8</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEPSXSystemResponder</string>
+	<key>OESystemCoverAspectRatio</key>
+	<string>1</string>
 	<key>OESystemIcon</key>
 	<string>psx_library</string>
 	<key>OESystemIdentifier</key>

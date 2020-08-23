@@ -94,4 +94,11 @@
     return hex;
 }
 
+- (CGFloat)coverAspectRatio
+{
+    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
+            ? 1.37
+            : 0.7);
+}
+
 @end

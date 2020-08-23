@@ -133,6 +133,8 @@
 	<integer>1</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEPMSystemResponder</string>
+	<key>OESystemCoverAspectRatio</key>
+	<string>1</string>
 	<key>OESystemIcon</key>
 	<string>pokemonmini_library</string>
 	<key>OESystemIdentifier</key>

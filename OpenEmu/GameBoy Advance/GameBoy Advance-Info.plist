@@ -19,7 +19,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSPrincipalClass</key>
-	<string>OESystemController</string>
+	<string>OEGBASystemController</string>
 	<key>OEControlListKey</key>
 	<array>
 		<array>

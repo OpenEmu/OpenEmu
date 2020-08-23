@@ -190,6 +190,8 @@
 	<integer>4</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEDCSystemResponder</string>
+	<key>OESystemCoverAspectRatio</key>
+	<string>1</string>
 	<key>OESystemIcon</key>
 	<string>dc_library</string>
 	<key>OESystemIdentifier</key>

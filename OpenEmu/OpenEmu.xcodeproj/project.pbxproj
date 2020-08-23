@@ -602,6 +602,8 @@
 		8F5074741C10BCEC00F52B83 /* OELibraryGamesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5074761C10BCEC00F52B83 /* OELibraryGamesViewController.xib */; };
 		8F7BFC9623E653E100B1F6C8 /* ShaderParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F7BFC9823E653E100B1F6C8 /* ShaderParameters.xib */; };
 		8FD905771AA2927100FA7662 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8FD905791AA2927100FA7662 /* OEPrefControlsController.xib */; };
+		8FEDF0CA24F2BC38001ABF6F /* OEGBSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FEDF0C924F2BC37001ABF6F /* OEGBSystemController.m */; };
+		8FEDF0CD24F2BC48001ABF6F /* OEGBASystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FEDF0CC24F2BC48001ABF6F /* OEGBASystemController.m */; };
 		94052EFE172DC1DD00B90DE6 /* controller_nds_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */; };
 		94052EFF172DC1DD00B90DE6 /* controller_nds@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052EFD172DC1DD00B90DE6 /* controller_nds@2x.png */; };
 		94052F04172DC21700B90DE6 /* controller_psx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052F02172DC21700B90DE6 /* controller_psx_mask@2x.png */; };
@@ -2225,6 +2227,10 @@
 		8F5074821C10BD0C00F52B83 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
 		8F7BFC9723E653E100B1F6C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ShaderParameters.xib; sourceTree = "<group>"; };
 		8F7BFC9A23E653ED00B1F6C8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
+		8FEDF0C824F2BC37001ABF6F /* OEGBSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBSystemController.h; sourceTree = "<group>"; };
+		8FEDF0C924F2BC37001ABF6F /* OEGBSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBSystemController.m; sourceTree = "<group>"; };
+		8FEDF0CB24F2BC48001ABF6F /* OEGBASystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBASystemController.h; sourceTree = "<group>"; };
+		8FEDF0CC24F2BC48001ABF6F /* OEGBASystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBASystemController.m; sourceTree = "<group>"; };
 		8FF29BE51C10A46C00E5E134 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
 		8FF29BE61C10A47200E5E134 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
 		8FF29BE71C10A47500E5E134 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
@@ -5331,6 +5337,8 @@
 		C646574A13771F12002A4F70 /* GameBoy Advance */ = {
 			isa = PBXGroup;
 			children = (
+				8FEDF0CB24F2BC48001ABF6F /* OEGBASystemController.h */,
+				8FEDF0CC24F2BC48001ABF6F /* OEGBASystemController.m */,
 				C646576513772251002A4F70 /* OEGBASystemResponder.h */,
 				C646576613772251002A4F70 /* OEGBASystemResponder.m */,
 				C6465761137720D5002A4F70 /* OEGBASystemResponderClient.h */,
@@ -5524,6 +5532,8 @@
 		C6B947B11364ECA700A425F0 /* GameBoy */ = {
 			isa = PBXGroup;
 			children = (
+				8FEDF0C824F2BC37001ABF6F /* OEGBSystemController.h */,
+				8FEDF0C924F2BC37001ABF6F /* OEGBSystemController.m */,
 				C6B947BE1364EE6C00A425F0 /* OEGBSystemResponder.h */,
 				C6B947BB1364EE6C00A425F0 /* OEGBSystemResponder.m */,
 				C6B947BC1364EE6C00A425F0 /* OEGBSystemResponderClient.h */,
@@ -8115,6 +8125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C646576713772251002A4F70 /* OEGBASystemResponder.m in Sources */,
+				8FEDF0CD24F2BC48001ABF6F /* OEGBASystemController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8149,6 +8160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6B947C01364EE6C00A425F0 /* OEGBSystemResponder.m in Sources */,
+				8FEDF0CA24F2BC38001ABF6F /* OEGBSystemController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

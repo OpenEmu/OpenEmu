@@ -165,6 +165,8 @@
 	<integer>1</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEVBSystemResponder</string>
+	<key>OESystemCoverAspectRatio</key>
+	<string>1</string>
 	<key>OESystemIcon</key>
 	<string>vb_library</string>
 	<key>OESystemIdentifier</key>

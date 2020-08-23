@@ -241,6 +241,8 @@
 	<integer>4</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEGCSystemResponder</string>
+	<key>OESystemCoverAspectRatio</key>
+	<string>1.41</string>
 	<key>OESystemIcon</key>
 	<string>gamecube_library</string>
 	<key>OESystemIdentifier</key>
