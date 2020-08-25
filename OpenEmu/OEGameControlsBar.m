@@ -910,7 +910,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [saveButton setTitle:@""];
     [saveButton setTarget:[self window]];
     [saveButton setAction:@selector(showSaveMenu:)];
-    [saveButton setFrame:NSMakeRect(162, 6, 32, 32)];
+    [saveButton setFrame:NSMakeRect(162, 7, 32, 32)];
     [saveButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [saveButton setToolTip:NSLocalizedString(@"Create or Load Save State", @"Tooltip")];
     [self addSubview:saveButton];
@@ -923,7 +923,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [optionsButton setTitle:@""];
         [optionsButton setTarget:[self window]];
         [optionsButton setAction:@selector(showOptionsMenu:)];
-        [optionsButton setFrame:NSMakeRect(212, 6, 32, 32)];
+        [optionsButton setFrame:NSMakeRect(212, 7, 32, 32)];
         [optionsButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
         [optionsButton setToolTip:NSLocalizedString(@"Options", @"Tooltip")];
         [self addSubview:optionsButton];
@@ -943,7 +943,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [volumeUpButton setToolTip:NSLocalizedString(@"Unmute Audio", @"Tooltip")];
     [self addSubview:volumeUpButton];
 
-    _slider = [[OESlider alloc] initWithFrame:NSMakeRect(238 + (hideOptions ? 0 : 50), 13, 76, 23)];
+    _slider = [[OESlider alloc] initWithFrame:NSMakeRect(238 + (hideOptions ? 0 : 50), 12, 76, 23)];
 
     OESliderCell *sliderCell = [[OESliderCell alloc] init];
     [_slider setCell:sliderCell];
