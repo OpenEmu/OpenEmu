@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -633,32 +633,6 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     return result.lastObject;
 }
 
-- (nullable OEDBRom *)romForCRC32Hash:(NSString *)crc32String
-{
-    __block NSArray *result = nil;
-    NSManagedObjectContext *context = _mainThreadMOC;
-    [context performBlockAndWait:^{
-        
-        NSFetchRequest *fetchRequest = [OEDBRom fetchRequest];
-        fetchRequest.fetchLimit = 1;
-        fetchRequest.includesPendingChanges = YES;
-
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"crc32 == %@", crc32String];
-        fetchRequest.predicate = predicate;
-
-        NSError *err = nil;
-        result = [context executeFetchRequest:fetchRequest error:&err];
-        if(result == nil)
-        {
-            NSLog(@"Error executing fetch request to get rom by crc");
-            NSLog(@"%@", err);
-            return;
-        }
-        
-    }];
-    return result.lastObject;
-}
-
 - (NSArray *)romsForPredicate:(NSPredicate *)predicate
 {
     _romsController.filterPredicate = predicate;
@@ -907,7 +881,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
 - (void)OpenVGSyncThreadMain
 {
-    NSArray *romKeys    = @[ @"md5", @"crc32", @"URL", @"header", @"serial", @"archiveFileIndex" ];
+    NSArray *romKeys    = @[ @"md5", @"URL", @"header", @"serial", @"archiveFileIndex" ];
     NSArray *gameKeys   = @[ @"permanentID", @"system" ];
     NSArray *systemKeys = @[ @"systemIdentifier" ];
 

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -56,7 +56,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 @property NSInteger archiveFileIndex;
 
 @property (nullable, copy) NSString *md5Hash;
-@property (nullable, copy) NSString *crcHash;
 
 @property (nullable) OEDBRom *rom;
 
@@ -345,7 +344,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     copy.extractedFileURL = self.extractedFileURL;
     copy.archiveFileIndex = self.archiveFileIndex;
     copy.md5Hash = self.md5Hash;
-    copy.crcHash = self.crcHash;
 
     return copy;
 }
@@ -570,15 +568,15 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
 - (void)OE_performImportStepHash
 {
-    if(self.md5Hash || self.crcHash) return;
+    if(self.md5Hash) return;
 
     IMPORTDLog();
     NSURL         *url = self.extractedFileURL ?: self.URL;
-    NSString      *md5, *crc;
+    NSString      *md5;
     NSError       *error = nil;
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
-    if(![fileManager hashFileAtURL:url md5:&md5 crc32:&crc error:&error])
+    if(![fileManager hashFileAtURL:url md5:&md5 error:&error])
     {
         IMPORTDLog(@"unable to hash file, this is probably a fatal error");
         IMPORTDLog(@"%@", error);
@@ -589,7 +587,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     else
     {
         self.md5Hash = md5.lowercaseString;
-        self.crcHash = crc.lowercaseString;
 
         OEBIOSFile *biosFile = [[OEBIOSFile alloc] init];
         if([biosFile checkIfBIOSFileAndImportAtURL:url withMD5:self.md5Hash])
@@ -717,7 +714,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             self.extractedFileURL = nil;
             self.archiveFileIndex = NSNotFound;
             self.md5Hash = nil;
-            self.crcHash = nil;
 
             // Re-hash and create the OEFile again
             [self OE_performImportStepHash];
@@ -860,11 +856,9 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     }
 
     NSString *md5 = self.md5Hash;
-    NSString *crc = self.crcHash;
 
     rom.URL = self.URL;
     if(self.fileName != nil) rom.fileName = self.fileName;
-    if(crc != nil) rom.crc32 = crc.lowercaseString;
     if(md5 != nil) rom.md5 = md5.lowercaseString;
 
     // Check if system plugin for ROM implemented headerLookupForFile: and serialLookupForFile:

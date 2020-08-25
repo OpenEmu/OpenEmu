@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -56,7 +56,7 @@ class BIOSFile: NSObject {
         
         do {
             var md5: NSString?
-            try FileManager.default.hashFile(at: destinationURL, md5: &md5, crc32: nil)
+            try FileManager.default.hashFile(at: destinationURL, md5: &md5)
             
             if isReachable {
                 
@@ -123,7 +123,7 @@ class BIOSFile: NSObject {
     func checkIfBIOSFileAndImport(at url: URL) -> Bool {
         do {
             var md5: NSString?
-            try FileManager.default.hashFile(at: url, md5: &md5, crc32: nil)
+            try FileManager.default.hashFile(at: url, md5: &md5)
             return checkIfBIOSFileAndImport(at: url, withMD5: md5! as String)
         } catch {
             return false

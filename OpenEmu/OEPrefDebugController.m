@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -385,8 +385,8 @@ NSString * const NumberFormatterKey = @"numberFormatter";
            && [[lastState coreIdentifier] isEqualToString:[saveState coreIdentifier]])
         {
             NSString *currentHash = nil, *previousHash;
-            [[NSFileManager defaultManager] hashFileAtURL:[saveState dataFileURL] headerSize:0 md5:&currentHash crc32:nil error:nil];
-            [[NSFileManager defaultManager] hashFileAtURL:[lastState dataFileURL] headerSize:0 md5:&previousHash crc32:nil error:nil];
+            [[NSFileManager defaultManager] hashFileAtURL:[saveState dataFileURL] headerSize:0 md5:&currentHash error:nil];
+            [[NSFileManager defaultManager] hashFileAtURL:[lastState dataFileURL] headerSize:0 md5:&previousHash error:nil];
 
             if([currentHash isEqualToString:previousHash])
             {
@@ -599,7 +599,6 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 
     for (OEDBRom *rom in [OEDBRom allObjectsInContext:context]) {
         rom.md5 = rom.md5.lowercaseString;
-        rom.crc32 = rom.crc32.lowercaseString;
     }
 
     [context save:nil];

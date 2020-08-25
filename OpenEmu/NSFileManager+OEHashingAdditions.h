@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,7 @@
 @import Foundation;
 
 @interface NSFileManager (OEHashingAdditions)
-- (BOOL)hashFileAtURL:(NSURL*)url md5:(NSString**)outMD5 crc32:(NSString**)outCRC32 error:(NSError**)error;
-- (BOOL)hashFileAtURL:(NSURL*)url headerSize:(int)headerSize md5:(NSString**)outMD5 crc32:(NSString**)outCRC32 error:(NSError**)error;
+- (BOOL)hashFileAtURL:(NSURL*)url md5:(NSString**)outMD5 error:(NSError**)error;
+- (BOOL)hashFileAtURL:(NSURL*)url headerSize:(int)headerSize md5:(NSString**)outMD5 error:(NSError**)error;
 
 @end

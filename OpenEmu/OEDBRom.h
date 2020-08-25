@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -39,7 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Creating and Obtaining OEDBRoms
 
 + (nullable instancetype)romWithURL:(nullable NSURL *)romURL inContext:(NSManagedObjectContext *)context error:(NSError **)outError;
-+ (nullable instancetype)romWithCRC32HashString:(nullable NSString *)romCRCHashString inContext:(NSManagedObjectContext *)context error:(NSError **)outError;
 + (nullable instancetype)romWithMD5HashString:(nullable NSString *)romMD5HashString inContext:(NSManagedObjectContext *)context error:(NSError **)outError;
 
 #pragma mark - Accessors
@@ -48,11 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly, nullable) NSString *md5Hash;
 // returns md5 hash for rom if one was calculated before
 @property(readonly, nullable) NSString *md5HashIfAvailable;
-
-// returns crc hash for rom. calculates it if necessary so the method can take a long time to return, and might return nil if hash is not in db and can not be calculated
-@property(readonly, nullable) NSString *crcHash;
-// returns crc hash for rom if one was calculated before
-@property(readonly, nullable) NSString *crcHashIfAvailable;
 
 // returns count of save states
 @property(readonly) NSInteger saveStateCount;

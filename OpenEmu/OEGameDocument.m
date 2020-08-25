@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -330,7 +330,6 @@ typedef enum : NSUInteger
         path = [path stringByAppendingFormat:@":%d",[[[self rom] archiveFileIndex] intValue]];
     
     OEGameStartupInfo *info = [[OEGameStartupInfo alloc] initWithROMPath:path
-                                                                romCRC32:self.rom.crc32
                                                                   romMD5:self.rom.md5
                                                                romHeader:self.rom.header
                                                                romSerial:self.rom.serial
