@@ -487,7 +487,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
 - (void)start
 {
-    IMPORTDLog(@"%s", BOOL_STR(self.operationQueue.operationCount != 0 && self.status != OEImporterStatusRunning));
+    DLog(@"%s", BOOL_STR(self.operationQueue.operationCount != 0 && self.status != OEImporterStatusRunning));
     if(self.operationQueue.operationCount != 0 && self.status != OEImporterStatusRunning)
     {
         self.status = OEImporterStatusRunning;
