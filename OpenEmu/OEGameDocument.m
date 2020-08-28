@@ -88,6 +88,10 @@ typedef enum : NSUInteger
     BOOL                _isMuted;
     BOOL                _pausedByGoingToBackground;
     BOOL                _isTerminatingEmulation;
+    
+    // track if ROM was decompressed
+    NSString           *_romPath;
+    BOOL                _romDecompressed;
 }
 
 @property OEGameViewController *gameViewController;
@@ -329,6 +333,13 @@ typedef enum : NSUInteger
     if([[self rom] archiveFileIndex])
         path = [path stringByAppendingFormat:@":%d",[[[self rom] archiveFileIndex] intValue]];
     
+    // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
+    NSString *extension = path.pathExtension.lowercaseString;
+    if(![_systemPlugin.systemIdentifier isEqualToString:@"openemu.system.arcade"] && ![extension isEqualToString:@"md"] && ![extension isEqualToString:@"nds"] && ![extension isEqualToString:@"iso"]) {
+        path = OEDecompressFileInArchiveAtPathWithHash(path, self.rom.md5, &_romDecompressed);
+        _romPath = path;
+    }
+    
     OEGameStartupInfo *info = [[OEGameStartupInfo alloc] initWithROMPath:path
                                                                   romMD5:self.rom.md5
                                                                romHeader:self.rom.header
@@ -338,7 +349,7 @@ typedef enum : NSUInteger
                                                           corePluginPath:_corePlugin.path
                                                         systemPluginPath:_systemPlugin.path];
 
-    return [[managerClass alloc] initWithStartupInfo:info corePlugin:_corePlugin systemPlugin:_systemPlugin gameCoreOwner:self];
+    return [[managerClass alloc] initWithStartupInfo:info corePlugin:_corePlugin systemPlugin:_systemPlugin gameCoreOwner:self queue: nil];
 }
 
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError
@@ -745,6 +756,10 @@ typedef enum : NSUInteger
             handler(YES, nil);
         }];
     } errorHandler:^(NSError *error) {
+        if (self->_romDecompressed)
+        {
+            [[NSFileManager defaultManager] removeItemAtPath:self->_romPath error:nil];
+        }
         [[[OEBindingsController defaultBindingsController] systemBindingsForSystemController:self->_systemPlugin.controller] removeBindingsObserver:self];
         self->_gameCoreManager = nil;
         [self close];

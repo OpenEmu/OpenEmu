@@ -353,7 +353,6 @@
 		5AECA1491BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AECA1481BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift */; };
 		5AFD06BD2058893B00DFE765 /* GameScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFD06BC2058893B00DFE765 /* GameScannerViewController.swift */; };
 		8227756B1489471A00B19E27 /* OEGGSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755C1489471A00B19E27 /* OEGGSystemResponder.m */; };
-		828BF57E1669F97B00759F10 /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
 		82C2909014840024007C0214 /* OENGPSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820EB7551483F9D3008EC398 /* OENGPSystemController.m */; };
 		82C2909114840024007C0214 /* OENGPSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 820EB7571483F9D3008EC398 /* OENGPSystemResponder.m */; };
 		82C290931484002F007C0214 /* controller_ngp.png in Resources */ = {isa = PBXBuildFile; fileRef = 820EB74E1483F9D3008EC398 /* controller_ngp.png */; };
@@ -2789,7 +2788,6 @@
 			files = (
 				05F5BAE9228662C5004D713C /* OpenEmuShaders.framework in Frameworks */,
 				052B92D3226EE5FA00701431 /* libc++.tbd in Frameworks */,
-				828BF57E1669F97B00759F10 /* XADMaster.framework in Frameworks */,
 				C6D120C917112E9E00E868A8 /* OpenEmuBase.framework in Frameworks */,
 				C6D120CA17112E9E00E868A8 /* OpenEmuSystem.framework in Frameworks */,
 				0547FD9A24E77695005C1FFC /* OpenEmuKit.framework in Frameworks */,
@@ -3660,8 +3658,6 @@
 				82CAFBB70FEDAA3D00CCDC7E /* config.yaml */,
 				37CC66190FF8379B00226BCB /* config_qc.yaml */,
 				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
-				C6F6480415F4BA7000BA9D9B /* OEUtilities.h */,
-				C6F738FB1617FF2B00BB2519 /* OEUtilities.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -4367,6 +4363,8 @@
 				836291FD1515F30700192116 /* OEFSWatcher.m */,
 				05B2E05923693A7500644C58 /* OELogging.h */,
 				05B2E05D23693A7500644C58 /* OELogging.m */,
+				C6F6480415F4BA7000BA9D9B /* OEUtilities.h */,
+				C6F738FB1617FF2B00BB2519 /* OEUtilities.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
