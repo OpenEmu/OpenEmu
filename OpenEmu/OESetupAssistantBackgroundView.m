@@ -58,20 +58,20 @@
 {
     OESetupAssistantQCOpenGLLayer *backgroundAnimation = [OESetupAssistantQCOpenGLLayer layer];
     
-    [backgroundAnimation setFrame:[self bounds]];
-    [backgroundAnimation setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
-    [backgroundAnimation setAsynchronous:YES];
+    backgroundAnimation.frame = self.bounds;
+    backgroundAnimation.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
+    backgroundAnimation.asynchronous = YES;
     
-    [self setLayer:backgroundAnimation];
+    self.layer = backgroundAnimation;
     
-    [self setWantsLayer:YES];
+    self.wantsLayer = YES;
 }
 
 - (void)viewDidMoveToWindow
 {
     [super viewDidMoveToWindow];
     
-    [[self layer] setContainingWindow:[self window]];
+    self.layer.containingWindow = self.window;
 }
 
 @end

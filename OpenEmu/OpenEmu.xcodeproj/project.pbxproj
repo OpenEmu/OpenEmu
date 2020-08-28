@@ -404,7 +404,7 @@
 		83977F681408FE6700175858 /* controller_gb.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F671408FE6700175858 /* controller_gb.png */; };
 		83977F6C1408FE8E00175858 /* controller_nes.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F6A1408FE8E00175858 /* controller_nes.png */; };
 		83977F6E1408FEA800175858 /* controller_sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F6D1408FEA800175858 /* controller_sms.png */; };
-		83A9758A184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A97589184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.m */; };
+		83A9758A184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A97589184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift */; };
 		83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AAC32814581699005ADD16 /* OESetupAssistantBackgroundView.m */; };
 		83AB259917A6A432009C80BC /* ControlsSectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AB259817A6A432009C80BC /* ControlsSectionTitleView.swift */; };
 		83AE9F0D14B2725300E91BD8 /* controller_genesis.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AE9F0A14B271E200E91BD8 /* controller_genesis.png */; };
@@ -1899,8 +1899,7 @@
 		839A38ED196AAFD7001A119A /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A38EE196AAFD7001A119A /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		83A8CD8D1709E1EE00F5D145 /* OEDatabase 0.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.5.xcdatamodel"; sourceTree = "<group>"; };
-		83A97588184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantScrollBorderView.h; sourceTree = "<group>"; };
-		83A97589184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantScrollBorderView.m; sourceTree = "<group>"; };
+		83A97589184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupAssistantScrollBorderView.swift; sourceTree = "<group>"; };
 		83AAC32714581699005ADD16 /* OESetupAssistantBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantBackgroundView.h; sourceTree = "<group>"; };
 		83AAC32814581699005ADD16 /* OESetupAssistantBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantBackgroundView.m; sourceTree = "<group>"; };
 		83AB259817A6A432009C80BC /* ControlsSectionTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsSectionTitleView.swift; sourceTree = "<group>"; };
@@ -4197,8 +4196,7 @@
 				83AAC32814581699005ADD16 /* OESetupAssistantBackgroundView.m */,
 				83BABBEC1458978B0097F6B2 /* OESetupAssistantTableView.h */,
 				83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */,
-				83A97588184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.h */,
-				83A97589184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.m */,
+				83A97589184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -7583,7 +7581,7 @@
 				C68A54E61516AD3C001053F2 /* OEDatabase.xcdatamodeld in Sources */,
 				837820C119081B1C0043593F /* OEMigrationWindowController.m in Sources */,
 				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,
-				83A9758A184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.m in Sources */,
+				83A9758A184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift in Sources */,
 				83DDEE87156CE2F0009EB43D /* OEFadeView.m in Sources */,
 				8356AEF215DA703100AA6B44 /* OEImportOperation.m in Sources */,
 				8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */,
