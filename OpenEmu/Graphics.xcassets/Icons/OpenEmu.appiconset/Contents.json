@@ -1,68 +1,148 @@
 {
   "images" : [
     {
-      "size" : "16x16",
+      "display-gamut" : "sRGB",
+      "filename" : "icon-16-srgb.png",
       "idiom" : "mac",
-      "filename" : "icon_16x16.png",
-      "scale" : "1x"
+      "scale" : "1x",
+      "size" : "16x16"
     },
     {
-      "size" : "16x16",
+      "display-gamut" : "display-P3",
+      "filename" : "icon-16-p3.png",
       "idiom" : "mac",
-      "filename" : "icon_16x16@2x.png",
-      "scale" : "2x"
+      "scale" : "1x",
+      "size" : "16x16"
     },
     {
-      "size" : "32x32",
+      "display-gamut" : "sRGB",
+      "filename" : "icon-32-srgb.png",
       "idiom" : "mac",
-      "filename" : "icon_32x32.png",
-      "scale" : "1x"
+      "scale" : "2x",
+      "size" : "16x16"
     },
     {
-      "size" : "32x32",
+      "display-gamut" : "display-P3",
+      "filename" : "icon-32-p3.png",
       "idiom" : "mac",
-      "filename" : "icon_32x32@2x.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "size" : "16x16"
     },
     {
-      "size" : "128x128",
+      "display-gamut" : "sRGB",
+      "filename" : "icon-32-srgb-1.png",
       "idiom" : "mac",
-      "filename" : "icon_128x128.png",
-      "scale" : "1x"
+      "scale" : "1x",
+      "size" : "32x32"
     },
     {
-      "size" : "128x128",
+      "display-gamut" : "display-P3",
+      "filename" : "icon-32-p3-1.png",
       "idiom" : "mac",
-      "filename" : "icon_128x128@2x.png",
-      "scale" : "2x"
+      "scale" : "1x",
+      "size" : "32x32"
     },
     {
-      "size" : "256x256",
+      "display-gamut" : "sRGB",
+      "filename" : "icon-64-srgb.png",
       "idiom" : "mac",
-      "filename" : "icon_256x256.png",
-      "scale" : "1x"
+      "scale" : "2x",
+      "size" : "32x32"
     },
     {
-      "size" : "256x256",
+      "display-gamut" : "display-P3",
+      "filename" : "icon-64-p3.png",
       "idiom" : "mac",
-      "filename" : "icon_256x256@2x.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "size" : "32x32"
     },
     {
-      "size" : "512x512",
+      "display-gamut" : "sRGB",
+      "filename" : "icon-128-srgb.png",
       "idiom" : "mac",
-      "filename" : "icon_512x512.png",
-      "scale" : "1x"
+      "scale" : "1x",
+      "size" : "128x128"
     },
     {
-      "size" : "512x512",
+      "display-gamut" : "display-P3",
+      "filename" : "icon-128-p3.png",
       "idiom" : "mac",
-      "filename" : "icon_512x512@2x.png",
-      "scale" : "2x"
+      "scale" : "1x",
+      "size" : "128x128"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "icon-256-srgb.png",
+      "idiom" : "mac",
+      "scale" : "2x",
+      "size" : "128x128"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "icon-256-p3.png",
+      "idiom" : "mac",
+      "scale" : "2x",
+      "size" : "128x128"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "icon-256-srgb-1.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "256x256"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "icon-256-p3-1.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "256x256"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "icon-512-srgb.png",
+      "idiom" : "mac",
+      "scale" : "2x",
+      "size" : "256x256"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "icon-512-p3.png",
+      "idiom" : "mac",
+      "scale" : "2x",
+      "size" : "256x256"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "icon-512-srgb-1.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "512x512"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "icon-512-p3-1.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "512x512"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "icon-1024-srgb.png",
+      "idiom" : "mac",
+      "scale" : "2x",
+      "size" : "512x512"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "icon-1024-p3.png",
+      "idiom" : "mac",
+      "scale" : "2x",
+      "size" : "512x512"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }
