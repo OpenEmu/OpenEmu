@@ -26,8 +26,6 @@
 
 #import "OEControlsButtonSetupView.h"
 
-#import "OEControlsKeyButton.h"
-
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 #import "OpenEmu-Swift.h"

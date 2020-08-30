@@ -944,7 +944,7 @@
 		EC73206517C669C100652C23 /* controller_genesis_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC73206317C669C100652C23 /* controller_genesis_mask@2x.png */; };
 		EC73206617C669C100652C23 /* controller_genesis@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC73206417C669C100652C23 /* controller_genesis@2x.png */; };
 		EC73206817C66EC900652C23 /* neogeopocket_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC73206717C66EC900652C23 /* neogeopocket_library@2x.png */; };
-		EF2FDBEB14CFFE06002A64F2 /* OEControlsKeyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8396CC5514068DA90096F791 /* OEControlsKeyButton.m */; };
+		EF2FDBEB14CFFE06002A64F2 /* ControlsKeyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8396CC5514068DA90096F791 /* ControlsKeyButton.swift */; };
 		EF2FDBED14CFFE1B002A64F2 /* ControlsKeySeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D9991E146F40DA004409DC /* ControlsKeySeparatorView.swift */; };
 		EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */; };
 		EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */; };
@@ -1886,8 +1886,7 @@
 		83955CB4165D939100572B34 /* OEBlankSlateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateView.m; sourceTree = "<group>"; };
 		83955CB6165DA9B100572B34 /* OEBackgroundNoisePattern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEBackgroundNoisePattern.h; sourceTree = "<group>"; };
 		83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBackgroundNoisePattern.m; sourceTree = "<group>"; };
-		8396CC5414068DA90096F791 /* OEControlsKeyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyButton.h; sourceTree = "<group>"; };
-		8396CC5514068DA90096F791 /* OEControlsKeyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyButton.m; sourceTree = "<group>"; };
+		8396CC5514068DA90096F791 /* ControlsKeyButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsKeyButton.swift; sourceTree = "<group>"; };
 		8397082C163C3FD300E04871 /* OEDatabase 0.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.3.xcdatamodel"; sourceTree = "<group>"; };
 		8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "0.2 to 0.3.xcmappingmodel"; sourceTree = "<group>"; };
 		83977F611408FE4700175858 /* controller_snes_eu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_eu.png; sourceTree = "<group>"; };
@@ -3827,8 +3826,7 @@
 				5A3DB1681D8C93C3009445EC /* PreferencesControlsBox.swift */,
 				5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */,
 				8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */,
-				8396CC5414068DA90096F791 /* OEControlsKeyButton.h */,
-				8396CC5514068DA90096F791 /* OEControlsKeyButton.m */,
+				8396CC5514068DA90096F791 /* ControlsKeyButton.swift */,
 				83D9991E146F40DA004409DC /* ControlsKeySeparatorView.swift */,
 				83AB259817A6A432009C80BC /* ControlsSectionTitleView.swift */,
 				83507245142F6029005D9033 /* OEControllerImageView.h */,
@@ -7570,7 +7568,7 @@
 				5A3DB1B11D8E6806009445EC /* AppDelegate.swift in Sources */,
 				83CA87B41961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel in Sources */,
 				83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */,
-				EF2FDBEB14CFFE06002A64F2 /* OEControlsKeyButton.m in Sources */,
+				EF2FDBEB14CFFE06002A64F2 /* ControlsKeyButton.swift in Sources */,
 				EF2FDBED14CFFE1B002A64F2 /* ControlsKeySeparatorView.swift in Sources */,
 				1B6DA4A914DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m in Sources */,
 				83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */,
