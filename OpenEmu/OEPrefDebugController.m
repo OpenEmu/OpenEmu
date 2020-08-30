@@ -765,12 +765,12 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 
 - (void)clearShaderCache:(id)sender
 {
-    [NSFileManager.defaultManager removeItemAtURL:OEShadersModel.shared.shadersCachePath error:nil];
+    [NSFileManager.defaultManager removeItemAtURL:OEShadersModel.shadersCachePath error:nil];
 }
 
 - (void)openUserShaderFolder:(id)sender
 {
-    [NSWorkspace.sharedWorkspace openURL:OEShadersModel.shared.userShadersPath];
+    [NSWorkspace.sharedWorkspace openURL:OEShadersModel.userShadersPath];
 }
 
 

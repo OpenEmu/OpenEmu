@@ -340,12 +340,15 @@ typedef enum : NSUInteger
         _romPath = path;
     }
     
+    NSURL *shader = [OEShadersModel.shared shaderForSystem:self.systemIdentifier].url;
+    
     OEGameStartupInfo *info = [[OEGameStartupInfo alloc] initWithROMPath:path
                                                                   romMD5:self.rom.md5
                                                                romHeader:self.rom.header
                                                                romSerial:self.rom.serial
                                                             systemRegion:OELocalizationHelper.sharedHelper.regionName
                                                          displayModeInfo:lastDisplayModeInfo
+                                                                  shader:shader
                                                           corePluginPath:_corePlugin.path
                                                         systemPluginPath:_systemPlugin.path];
 
