@@ -78,6 +78,7 @@ typedef enum
     OEScreenshotWindow                 *_screenshotWindow;
     OEPopoutGameWindowFullScreenStatus  _fullScreenStatus;
     BOOL                                _resumePlayingAfterFullScreenTransition;
+    BOOL                                _snapResize;
 }
 
 #pragma mark - NSWindowController overridden methods
@@ -361,8 +362,35 @@ typedef enum
     [gameViewController viewDidDisappear];
 }
 
+- (void)flagsChanged:(NSEvent *)event
+{
+    if (event.modifierFlags & NSEventModifierFlagShift)
+    {
+        _snapResize = YES;
+        [self.window setContentAspectRatio:CGSizeZero];
+    }
+    else
+    {
+        _snapResize = NO;
+        [self.window setContentAspectRatio:[self OE_gameDocument].gameViewController.defaultScreenSize];
+    }
+}
+
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
+    if (_snapResize) {
+        CGSize existing = sender.frame.size;
+        CGSize size = [self OE_gameDocument].gameViewController.defaultScreenSize;
+        NSInteger proposedScale = IntegralScaleForProposedSize(existing, frameSize, size);
+        if (proposedScale != _integralScale && proposedScale <= self.maximumIntegralScale)
+        {
+            _integralScale = (unsigned int)proposedScale;
+            CGSize newSize = [self OE_windowSizeForGameViewIntegralScale:_integralScale];
+            return newSize;
+        }
+        return existing;
+    }
+    
     _integralScale = _OEFitToWindowScale;
     return frameSize;
 }
