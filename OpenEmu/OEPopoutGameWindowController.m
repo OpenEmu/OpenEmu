@@ -79,6 +79,7 @@ typedef enum
     OEPopoutGameWindowFullScreenStatus  _fullScreenStatus;
     BOOL                                _resumePlayingAfterFullScreenTransition;
     BOOL                                _snapResize;
+    OEIntegralWindowResizingDelegate   *_snapDelegate;
 }
 
 #pragma mark - NSWindowController overridden methods
@@ -89,6 +90,8 @@ typedef enum
     if(!self)
         return nil;
 
+    _snapDelegate = [OEIntegralWindowResizingDelegate new];
+    
     [window setDelegate:self];
     [window setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
     [window setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
@@ -376,23 +379,33 @@ typedef enum
     }
 }
 
+- (void)windowWillStartLiveResize:(NSNotification *)notification
+{
+    if (_snapResize)
+    {
+        _snapDelegate.currentScale = _integralScale;
+        _snapDelegate.screenSize = [self OE_gameDocument].gameViewController.defaultScreenSize;
+        [_snapDelegate windowWillStartLiveResize:notification];
+    }
+}
+
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
     if (_snapResize) {
-        CGSize existing = sender.frame.size;
-        CGSize size = [self OE_gameDocument].gameViewController.defaultScreenSize;
-        NSInteger proposedScale = IntegralScaleForProposedSize(existing, frameSize, size);
-        if (proposedScale != _integralScale && proposedScale <= self.maximumIntegralScale)
-        {
-            _integralScale = (unsigned int)proposedScale;
-            CGSize newSize = [self OE_windowSizeForGameViewIntegralScale:_integralScale];
-            return newSize;
-        }
-        return existing;
+        return [_snapDelegate windowWillResize:sender toSize:frameSize];
     }
     
     _integralScale = _OEFitToWindowScale;
     return frameSize;
+}
+
+- (void)windowDidEndLiveResize:(NSNotification *)notification
+{
+    if (_snapResize)
+    {
+        [_snapDelegate windowDidEndLiveResize:notification];
+        _integralScale = (unsigned int)_snapDelegate.currentScale;
+    }
 }
 
 - (void)cancelOperation:(id)sender
