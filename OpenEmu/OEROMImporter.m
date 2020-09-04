@@ -32,7 +32,7 @@
 #import "OEDBGame.h"
 #import "OEDBCollection.h"
 #import "OEDBSystem.h"
-#import "OESystemPlugin.h"
+@import OpenEmuKit;
 
 #import "NSFileManager+OEHashingAdditions.h"
 #import "NSArray+OEAdditions.h"
@@ -487,7 +487,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
 - (void)start
 {
-    IMPORTDLog(@"%s", BOOL_STR(self.operationQueue.operationCount != 0 && self.status != OEImporterStatusRunning));
+    DLog(@"%s", BOOL_STR(self.operationQueue.operationCount != 0 && self.status != OEImporterStatusRunning));
     if(self.operationQueue.operationCount != 0 && self.status != OEImporterStatusRunning)
     {
         self.status = OEImporterStatusRunning;

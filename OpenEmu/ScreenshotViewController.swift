@@ -42,6 +42,7 @@ class ScreenshotViewController: ImageCollectionViewController {
                                                       entityName: OEDBScreenshot.entityName)
     
     override func viewDidLoad() {
+        self.representedObject = OEDBScreenshotsMedia.shared
         self.dataSourceDelegate = dataSource
         super.viewDidLoad()
     }

@@ -5,10 +5,10 @@
       location = "container:OpenEmu/OpenEmu.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:OpenEmu-Shaders/OpenEmuShaders.xcodeproj">
+      location = "group:OpenEmuKit/OpenEmuKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:OpenEmu/../OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.xcodeproj">
+      location = "group:OpenEmu-Shaders/OpenEmuShaders.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:OpenEmu-SDK/OpenEmu-SDK.xcodeproj">

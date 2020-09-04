@@ -376,7 +376,7 @@ const static CGFloat TableViewSpacing = 86.0;
     return row;
 }
 #pragma mark - Table View Datasource
-- (NSInteger)numberOfRowsInTableView:(IKImageBrowserView *)aBrowser
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     return [[self games] count] +0; // -3 for featured games which share a row + 2 for headers +1 for the shared row
 }

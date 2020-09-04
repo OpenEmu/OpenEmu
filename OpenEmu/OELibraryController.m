@@ -38,7 +38,7 @@
 #import "OEROMImporter.h"
 
 #import "OEDBGame.h"
-#import "OESystemPlugin.h"
+@import OpenEmuKit;
 #import "OEDBSmartCollection.h"
 
 #import "OEBackgroundNoisePattern.h"

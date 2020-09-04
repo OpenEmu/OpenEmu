@@ -28,8 +28,7 @@
 #import "OELibraryDatabase.h"
 #import "OEDBRom.h"
 #import "OEDBSystem+CoreDataProperties.h"
-#import "OESystemPlugin.h"
-#import "OECorePlugin.h"
+@import OpenEmuKit;
 #import "OESidebarOutlineView.h"
 #import "OEROMImporter.h"
 
@@ -120,6 +119,32 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
 
 - (IBAction)changeLibraryFolder:(id)sender
 {
+    OEAlert *dropboxAlert = [[OEAlert alloc] init];
+    [dropboxAlert setMessageUsesHTML:YES];
+    [dropboxAlert setHeadlineText:NSLocalizedString(
+        @"Moving the Game Library is not recommended",
+        @"Message headline (attempted to change location of library)")];
+    [dropboxAlert setMessageText:NSLocalizedString(
+        @"The OpenEmu Game Library contains a database file which could get "
+        @"corrupted if the library is moved to the following locations:<br><br>"
+        @"<ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li>"
+        @"<li>Network drives</li></ul><br>"
+        @"Additionally, <b>sharing the same library between multiple computers or users</b> "
+        @"may also corrupt it. This also applies to moving the library "
+        @"to external USB drives.",
+        @"Message text (attempted to change location of library, HTML)")];
+    [dropboxAlert setDefaultButtonTitle:NSLocalizedString(@"Cancel", @"")];
+    [dropboxAlert setAlternateButtonTitle:NSLocalizedString(
+        @"I understand the risks",
+        @"OK button (attempted to change location of library)")];
+    [dropboxAlert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertSecondButtonReturn)
+            [self OE_moveGameLibrary];
+    }];
+}
+
+- (void)OE_moveGameLibrary
+{
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 
     [openPanel setCanChooseFiles:NO];
@@ -169,7 +194,6 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
     
     NSError *error  = nil;
     OEFileManager *fm = [[OEFileManager alloc] init];
-    __block OEFileManager *blockFM = fm;
     __block BOOL success = NO;
     
     NSDictionary *currentFSAttributes = [fm attributesOfFileSystemForPath:[currentLocation path] error:nil];
@@ -267,29 +291,6 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
                     [alert setHeadlineText:NSLocalizedString(@"Copying ROM Files…", @"Alert Headline: Library migration")];
                     [alert setTitle:@""];
                 }];
-                
-                __block NSInteger copiedCount = 0;
-
-                // Setup callback to execute after each successfull copy
-                [fm setItemDoneHandler:^ BOOL (NSURL *src, NSURL *dst, NSError *error){
-                   if(error == nil)
-                   {
-                       // change db entry for roms
-                       if(![dst isDirectory])
-                       {
-                           [context performBlockAndWait:^{
-                               [[OEDBRom romWithURL:src inContext:context error:nil] setURL:dst];
-                           }];
-
-                           // keep track of successfully copied roms
-                           copiedCount++;
-                       }
-                       
-                       // remove original
-                       [blockFM removeItemAtURL:src error:nil];
-                   }
-                   return YES;
-                }];
 
                 // copy only if it exists
                 if([currentRomsURL checkResourceIsReachableAndReturnError:nil] && !(success=[fm copyItemAtURL:currentRomsURL toURL:newRomsURL error:&error]))
@@ -299,42 +300,21 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
                     // show error
                     [alert performBlockInModalSession:^{
                         [alert setShowsProgressbar:NO];
-                        [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"Could not move complete library! %ld roms were moved", @""), copiedCount]];
+                        [alert setHeadlineText:NSLocalizedString(@"Copying ROM files failed!", @"")];
                         [alert setDefaultButtonTitle:NSLocalizedString(@"OK",@"")];
                     }];
+                    
+                    // clean up
+                    [fm removeItemAtURL:newRomsURL error:nil];
                     
                     return;
                 }
                 
-                [context performBlockAndWait:^{
-                    // make copied paths relative
-                    NSArray        *fetchResult    = nil;
-                    NSFetchRequest *fetchRequest   = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
-                    NSPredicate    *fetchPredicate = [NSPredicate predicateWithFormat:@"location BEGINSWITH '%@'", [newRomsURL absoluteString]];
-                    
-                    [fetchRequest setPredicate:fetchPredicate];
-                    
-                    // Change absolute paths to relative ones
-                    fetchResult = [context executeFetchRequest:fetchRequest error:nil];
-                    if(error != nil)
-                    {
-                        DLog(@"%@", error);
-                        return;
-                    }
-                    
-                    DLog(@"Found %ld roms that should have relative paths", [fetchResult count]);
-                    NSUInteger prefixLength = [[newRomsURL absoluteString] length];
-                    [fetchResult enumerateObjectsUsingBlock:^(OEDBRom *obj, NSUInteger idx, BOOL *stop) {
-                        [obj setLocation:[[obj location] substringFromIndex:prefixLength]];
-                    }];
-                    
-                    // note new rom folder loation in library
-                    [[NSUserDefaults standardUserDefaults] setObject:[currentLocation path] forKey:OEDatabasePathKey];
-                    [library setRomsFolderURL:currentRomsURL];
-                    NSError *error = nil;
-                    [context save:&error];
+                [alert performBlockInModalSession:^{
+                    [alert setProgress:-1.0];
+                    [alert setHeadlineText:NSLocalizedString(@"Moving Library…", @"Alert Headline: Library migration")];
+                    [alert setTitle:@""];
                 }];
-
 
                 // copy core data store over
                 NSPersistentStoreCoordinator *coord = [context persistentStoreCoordinator];
@@ -350,63 +330,71 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
                         [alert setMessageText:NSLocalizedString(@"Could not move library data!", @"")];
                         [alert setDefaultButtonTitle:NSLocalizedString(@"OK",@"")];
                     }];
-
-                    [context performBlockAndWait:^{
-                        // restore previous paths
-                        [[NSUserDefaults standardUserDefaults] setObject:[currentLocation path] forKey:OEDatabasePathKey];
-                        [library setRomsFolderURL:currentRomsURL];
-                        
-                        NSArray        *fetchResult    = nil;
-                        NSFetchRequest *fetchRequest   = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
-                        NSPredicate    *fetchPredicate = [NSPredicate predicateWithFormat:@"NONE location BEGINSWITH 'file://'"];
-                        
-                        [fetchRequest setPredicate:fetchPredicate];
-                        
-                        // Change relative paths to absolute ones based on last roms folder location
-                        fetchResult = [context executeFetchRequest:fetchRequest error:nil];
-                        if(error != nil)
-                        {
-                            DLog(@"%@", error);
-                            return;
-                        }
-                        
-                        DLog(@"Found %ld roms that should have absolute paths", [fetchResult count]);
-                        NSString *absolutePrefix = [newRomsURL absoluteString];
-                        [fetchResult enumerateObjectsUsingBlock:^(OEDBRom *obj, NSUInteger idx, BOOL *stop) {
-                            [obj setLocation:[absolutePrefix stringByAppendingString:[obj location]]];
-                        }];
-                        [context save:nil];
+                    
+                    return;
+                }
+                [coord removePersistentStore:store error:nil];
+                [coord addPersistentStoreWithType:[store type] configuration:nil URL:[store URL] options:0 error:nil];
+                
+                [context performBlockAndWait:^{
+                    // ensure all copied paths are relative
+                    NSArray        *fetchResult    = nil;
+                    NSFetchRequest *fetchRequest   = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
+                    NSPredicate    *fetchPredicate = [NSPredicate predicateWithValue:YES];
+                    
+                    [fetchRequest setPredicate:fetchPredicate];
+                    
+                    // Change absolute paths to relative ones
+                    fetchResult = [context executeFetchRequest:fetchRequest error:nil];
+                    if(error != nil)
+                    {
+                        DLog(@"%@", error);
+                        return;
+                    }
+                    
+                    DLog(@"Processing %ld roms", [fetchResult count]);
+                    [fetchResult enumerateObjectsUsingBlock:^(OEDBRom *obj, NSUInteger idx, BOOL *stop) {
+                        NSURL *url = obj.URL;
+                        NSString *oldLocation = obj.location;
+                        obj.location = [url URLRelativeToURL:newRomsURL].relativeString;
+                        DLog(@"relocated %@ from %@ to %@", obj, oldLocation, obj.location);
                     }];
-                }
-                else
-                {
-                    [coord removePersistentStore:store error:nil];
-                    [coord addPersistentStoreWithType:[store type] configuration:nil URL:[store URL] options:0 error:nil];
+                    
+                    // note new rom folder loation in library
+                    [[NSUserDefaults standardUserDefaults] setObject:[newLocation path] forKey:OEDatabasePathKey];
+                    [library setRomsFolderURL:newRomsURL];
+                    NSError *error = nil;
+                    [context save:&error];
+                }];
+                
+                // remove original
+                [fm removeItemAtURL:currentStoreURL error:nil];
 
-                    // Make sure to post notification on main thread!
-                    void (^postNotification)(void) = ^(){
-                        [[OELibraryDatabase defaultDatabase] setPersistentStoreCoordinator:coord];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryLocationDidChangeNotification object:self userInfo:nil];
-                    };
-                    dispatch_async(dispatch_get_main_queue(), postNotification);
-                    [context save:nil];
+                // remove artwork directory
+                [fm removeItemAtURL:artworkURL error:nil];
+                
+                // remove roms directory
+                [fm removeItemAtURL:currentRomsURL error:nil];
 
-                    // remove original
-                    [fm removeItemAtURL:currentStoreURL error:nil];
-
-                    // remove artwork directory
-                    [fm removeItemAtURL:artworkURL error:nil];
-
-                    // remove 'other files'
-                    [fm removeItemAtURL:[currentLocation URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", OEDatabaseFileName, @"-shm"]] error:nil];
-                    [fm removeItemAtURL:[currentLocation URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", OEDatabaseFileName, @"-wal"]] error:nil];
-                }
+                // remove 'other files'
+                [fm removeItemAtURL:[currentLocation URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", OEDatabaseFileName, @"-shm"]] error:nil];
+                [fm removeItemAtURL:[currentLocation URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", OEDatabaseFileName, @"-wal"]] error:nil];
+                
+                // TODO: cleanup old location by removing empty directories
+                
+                // Make sure to post notification on main thread!
+                [context save:nil];
+                void (^postNotification)(void) = ^(){
+                    [[OELibraryDatabase defaultDatabase] setPersistentStoreCoordinator:coord];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryLocationDidChangeNotification object:self userInfo:nil];
+                };
+                dispatch_async(dispatch_get_main_queue(), postNotification);
                 
                 success = success && alertResult==-1;
 
-                // TODO: cleanup old location by removing empty directories
-
-                [alert closeWithResult:NSAlertFirstButtonReturn];
+                [alert performBlockInModalSession:^{
+                    [alert closeWithResult:NSAlertFirstButtonReturn];
+                }];
             });
             alertResult = [alert runModal];
         }

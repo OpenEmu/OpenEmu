@@ -33,7 +33,7 @@
 #import "OEButton.h"
 
 #import "OEGameDocument.h"
-#import "OEGameCoreManager.h"
+@import OpenEmuKit;
 #import "OEGameViewController.h"
 
 #import "OEAlert+DefaultAlertsAdditions.h"

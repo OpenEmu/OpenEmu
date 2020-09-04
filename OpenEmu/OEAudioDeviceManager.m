@@ -129,7 +129,15 @@ static OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNum
     NSUInteger                  numberOfDevices = 0;
     OSStatus                    err             = noErr;
     UInt32                      dataSize        = 0;
-    AudioObjectPropertyAddress  propAddr        = { kAudioHardwarePropertyDevices, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster };
+    static const AudioObjectPropertyAddress propAddr = {
+        kAudioHardwarePropertyDevices,
+        kAudioObjectPropertyScopeGlobal,
+        kAudioObjectPropertyElementMaster };
+    static const AudioObjectPropertyAddress aggDevCompositionPropAddr = {
+        kAudioAggregateDevicePropertyComposition,
+        kAudioObjectPropertyScopeGlobal,
+        kAudioObjectPropertyElementMaster,
+    };
 
     err = AudioObjectGetPropertyDataSize(kAudioObjectSystemObject, &propAddr, 0, NULL, &dataSize);
     if(err != noErr) return;
@@ -169,6 +177,17 @@ static OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNum
         for(NSUInteger i = 0; i < numberOfDevices; i++)
         {
             AudioDeviceID deviceID = deviceIDs[i];
+            
+            CFDictionaryRef composition;
+            dataSize = sizeof(CFDictionaryRef);
+            AudioObjectGetPropertyData(deviceID, &aggDevCompositionPropAddr, 0, NULL, &dataSize, &composition);
+            if (composition) {
+                NSNumber *private = [(__bridge NSDictionary*)composition objectForKey:@kAudioAggregateDeviceIsPrivateKey];
+                CFRelease(composition);
+                if ([private boolValue])
+                    continue;
+            }
+            
             NSUInteger deviceIndex = [_devices indexOfObjectPassingTest:
                                       ^ BOOL (OEAudioDevice *device, NSUInteger idx, BOOL *stop)
                                       {

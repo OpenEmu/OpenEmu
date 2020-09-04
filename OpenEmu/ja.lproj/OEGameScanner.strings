@@ -3,10 +3,10 @@
 "75.headerCell.title" = "名前";
 
 /* Class = "NSTextFieldCell"; title = "Resolve Issues:"; ObjectID = "0HB-UU-ULs"; */
-"0HB-UU-ULs.title" = "インポートに関する問題を解決する:";
+"0HB-UU-ULs.title" = "インポートの問題を解決する:";
 
 /* Class = "NSButtonCell"; title = "Apply"; ObjectID = "139"; */
 "139.title" = "適用";
 
 /* Class = "NSTextFieldCell"; title = "Import Into:"; ObjectID = "QPy-Ob-0E6"; */
-"QPy-Ob-0E6.title" = "Import Into:";   // TODO
+"QPy-Ob-0E6.title" = "インポート先:";   // TODO

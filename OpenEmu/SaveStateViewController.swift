@@ -48,7 +48,9 @@ class SaveStateViewController: ImageCollectionViewController {
     }
     
     override func viewDidLoad() {
+        self.representedObject = OEDBSavedGamesMedia.shared
         self.dataSourceDelegate = dataSource
+        
         super.viewDidLoad()
     }
 }

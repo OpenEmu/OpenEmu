@@ -22,10 +22,11 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+@import OpenEmuKit;
+
 #import "OEShaderParametersWindowController.h"
 #import "OEGameViewController.h"
 #import "OEGameDocument.h"
-#import "OEShaderParamValue.h"
 #import "OpenEmu-Swift.h"
 
 static NSUserInterfaceItemIdentifier const CheckboxType  = @"Checkbox";

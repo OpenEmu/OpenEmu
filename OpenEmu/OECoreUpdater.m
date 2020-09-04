@@ -29,7 +29,7 @@
 #import <Sparkle/Sparkle.h>
 
 #import "OECoreDownload.h"
-#import "OECorePlugin.h"
+@import OpenEmuKit;
 
 #import "OEAlert.h"
 #import "OEButton.h"

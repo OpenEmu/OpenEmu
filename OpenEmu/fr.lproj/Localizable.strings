@@ -122,11 +122,11 @@
 
 "Copying ROM Files…" = "Copie des roms…";
 
+"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+
 "Core Provided By…" = "Cœur fourni par…";
 
 "Cores" = "Cœurs";
-
-"Could not move complete library! %ld roms were moved" = "Impossible de déplacer la bibliothèque complète ! %ld roms ont été déplacées";
 
 "Could not move library data!" = "Impossible de déplacer les données de la bibliothèque !";
 
@@ -277,6 +277,8 @@
 "Move selected games to Trash, or keep them in the Library folder?" = "Placer les jeux dans la corbeille, ou les conserver dans le dossier de la bibliothèque ?";
 
 "Move to Trash" = "Dans la corbeille";
+
+"Moving Library…" = "Moving Library…";  // TODO
 
 "Mute Audio" = "Couper le son";
 
@@ -444,6 +446,8 @@
 
 "Switch To List View" = "Présentation par liste";
 
+"System Default" = "System Default"; // Default audio device setting // TODO
+
 "System Files" = "Fichiers système";
 
 "System" = "Système";
@@ -559,6 +563,12 @@
 "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues.";  // "Message for Input Monitoring permissions" // TODO
 
 "Show" = "Show";  // TODO
+
+"Moving the Game Library is not recommended" = "Moving the Game Library is not recommended";  //Message headline (attempted to change location of library)  // TODO
+
+"The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives.";  // Message text (attempted to change location of library, HTML  // TODO
+
+"I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
 
 
 /* Secrets */
@@ -694,3 +704,9 @@
 "Cheat code" = "Code de triche";
 
 "Unchecked" = "Désactivé";
+
+"Shaders" = "Shaders";  // TODO
+
+"Clear shader cache" = "Clear shader cache";  // TODO
+
+"Reveal user shader folder" = "Reveal user shader folder";  // TODO

@@ -27,8 +27,7 @@
 #import "OEBlankSlateView.h"
 
 #import "OEDBSystem.h"
-#import "OESystemPlugin.h"
-#import "OECorePlugin.h"
+@import OpenEmuKit;
 #import "OEDBSavedGamesMedia.h"
 #import "OEDBScreenshotsMedia.h"
 
@@ -410,32 +409,6 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
                                     NSShadowAttributeName : shadow,
                                     NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:0.11 alpha:1.0] };
 
-    OECenteredTextFieldCell *glowCell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
-    
-    shadow = [[NSShadow alloc] init];
-    shadow.shadowColor = [NSColor colorWithDeviceWhite:1.0 alpha:0.05];
-    shadow.shadowOffset = NSMakeSize(0.0, 0.0);
-    shadow.shadowBlurRadius = 2.0;
-
-    glowCell.textAttributes = @{ NSFontAttributeName : [NSFont boldSystemFontOfSize:18.0],
-                                 NSParagraphStyleAttributeName : style,
-                                 NSShadowAttributeName : shadow,
-                                 NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:0.11 alpha:0.0] };
-
-    NSRect dragAndDropHereOuterGlowRect = NSMakeRect(0.0,
-                                              NSHeight(containerFrame) - 25.0 - OEBlankSlateBoxTextToTop,
-                                              NSWidth(containerFrame),
-                                              25.0);
-    
-    NSTextField *dragAndDropHereOuterGlowField = [[NSTextField alloc] initWithFrame:dragAndDropHereOuterGlowRect];
-    
-    dragAndDropHereOuterGlowField.cell = glowCell;
-    dragAndDropHereOuterGlowField.stringValue = text;
-    dragAndDropHereOuterGlowField.editable = NO;
-    dragAndDropHereOuterGlowField.selectable = NO;
-    dragAndDropHereOuterGlowField.drawsBackground = NO;
-    dragAndDropHereOuterGlowField.bezeled = NO;
-
     NSRect dragAndDropHereRect = NSMakeRect(0.0,
                                             NSHeight(containerFrame) - 25.0 - OEBlankSlateBoxTextToTop,
                                             NSWidth(containerFrame),
@@ -451,7 +424,6 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     dragAndDropHereField.bezeled = NO;
     
     [container addSubview:dragAndDropHereField];
-    [container addSubview:dragAndDropHereOuterGlowField];
 }
 
 - (void)setRepresentedMediaType:(id <OESidebarItem>)item

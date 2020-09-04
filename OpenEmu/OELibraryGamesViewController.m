@@ -36,7 +36,7 @@
 #import "OEDBCollection.h"
 #import "OEDBSystem+CoreDataProperties.h"
 
-#import "OESystemPlugin.h"
+@import OpenEmuKit;
 
 #import "OpenEmu-Swift.h"
 

@@ -30,12 +30,6 @@
 @class OELibraryDatabase;
 @protocol OEROMImporterDelegate;
 
-#ifdef DEBUG_IMPORT
-#define IMPORTDLog DLog
-#else
-#define IMPORTDLog(format, ...) do {} while (0)
-#endif
-
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark User Default Keys -

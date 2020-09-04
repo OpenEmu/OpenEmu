@@ -114,7 +114,7 @@
 
 "Controls" = "Controlli";
 
-"Copying artwork failed!" = "Copia dell'illustrazione non riuscita!";
+"Copying artwork failed!" = "Copia delle illustrazioni non riuscita!";
 
 "Copying Artwork Files…" = "Copia illustrazioni…";
 
@@ -122,11 +122,11 @@
 
 "Copying ROM Files…" = "Copia file ROM…";
 
+"Copying ROM files failed!" = "Copia dei file ROM non riuscita!";
+
 "Core Provided By…" = "Core fornito da…";
 
 "Cores" = "Core";
-
-"Could not move complete library! %ld roms were moved" = "Non è stato possibile spostare completamente la Libreria! Sono state spostate solo %ld ROM";
 
 "Could not move library data!" = "Non è stato possibile spostare i dati della Libreria!";
 
@@ -277,6 +277,8 @@
 "Move selected games to Trash, or keep them in the Library folder?" = "Vuoi spostare i giochi nel Cestino, o lasciarli nella cartella della Libreria?";
 
 "Move to Trash" = "Cestina";  // "Sposta nel Cestino" does not fit
+
+"Moving Library…" = "Spostamento Libreria…";
 
 "Mute Audio" = "Disattiva audio";
 
@@ -444,6 +446,8 @@
 
 "Switch To List View" = "Visualizza come elenco";   // tooltip
 
+"System Default" = "Predefinita di sistema"; // Default audio device setting
+
 "System Files" = "File di sistema";
 
 "System" = "Sistema";
@@ -559,6 +563,12 @@
 "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "Per utilizzare la tastiera come dispositivo di input, è necessario conferire a OpenEmu il permesso \"Monitoraggio input\".\n\nSe i controlli da tastiera smettono di funzionare, disattivare e poi riattivare questo permesso.";  // "Message for Input Monitoring permissions"
 
 "Show" = "Visualizza";
+
+"Moving the Game Library is not recommended" = "Spostare la Libreria Giochi è sconsigliato";  //Message headline (attempted to change location of library)
+
+"The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "La Libreria Giochi di OpenEmu contiene un database che si corrompe facilmente se la Libreria viene spostata in una di queste posizioni:<br><br><ul><li>Cartelle gestite da applicazioni di sincronizzazione cloud (ad esempio <b>iCloud Drive</b>)</li><li>Dischi di rete</li></ul><br>Inoltre, la Libreria si può corrompere <b>se viene condivisa tra più computer o utenti</b>, e anche se la condivisione viene effettuata tramite un disco USB esterno.";  // Message text (attempted to change location of library, HTML
+
+"I understand the risks" = "Sono cosciente dei rischi";  // OK button (attempted to change location of library)
 
 
 /* Secrets */
@@ -694,3 +704,9 @@
 "Cheat Setting" = "Impostazione dei trucchi";
 
 "Cheat code" = "Trucco";
+
+"Shaders" = "Shader";
+
+"Clear shader cache" = "Inizializza cache shader";
+
+"Reveal user shader folder" = "Mostra cartella shader personalizzati";

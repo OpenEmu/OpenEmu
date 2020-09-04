@@ -31,13 +31,7 @@
 #import "OEDBGame.h"
 #import "OEDBScreenshot.h"
 
-#import "OEGameLayerView.h"
-#import "OEGameCoreManager.h"
-#import "OEThreadGameCoreManager.h"
-#import "OEXPCGameCoreManager.h"
-
-#import "OESystemPlugin.h"
-#import "OECorePlugin.h"
+@import OpenEmuKit;
 
 #import "OEDBSaveState.h"
 #import "OEDBSaveCheat.h"
@@ -268,6 +262,11 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
             {
                 [self didLoadShader:shader];
             }
+            else if (error != nil)
+            {
+                NSAlert *alert = [NSAlert alertWithError:error];
+                [alert runModal];
+            }
         }];
     }
 
@@ -335,8 +334,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     if(OEIntSizeIsEmpty(_screenSize) || OEIntSizeIsEmpty(_aspectSize))
         return NSMakeSize(400, 300);
 
-    NSSize corrected = [_gameView correctScreenSize:_screenSize forAspectSize:_aspectSize returnVertices:NO];
-    return corrected;
+    return OECorrectScreenSizeForAspectSize(_screenSize, _aspectSize);
 }
 
 #pragma mark - Private Methods

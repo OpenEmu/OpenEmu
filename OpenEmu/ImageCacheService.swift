@@ -56,6 +56,6 @@ final class ImageCacheService {
             String(kCGImageSourceThumbnailMaxPixelSize): 320
             ] as [String : Any]
         guard let thumbnailRef = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, thumbnailOptions as CFDictionary) else { return nil}
-        return NSImage(cgImage: thumbnailRef, size: NSSize.zero)
+        return NSImage(cgImage: thumbnailRef, size: .zero)
     }
 }

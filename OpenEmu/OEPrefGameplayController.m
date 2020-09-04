@@ -25,7 +25,7 @@
  */
 
 #import "OEPrefGameplayController.h"
-#import "OEPlugin.h"
+@import OpenEmuKit;
 #import "OEGameViewController.h"
 #import "OEDBSystem.h"
 #import "OELibraryDatabase.h"

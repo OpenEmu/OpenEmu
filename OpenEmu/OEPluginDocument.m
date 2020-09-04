@@ -25,7 +25,7 @@
  */
 
 #import "OEPluginDocument.h"
-#import "OEPlugin.h"
+@import OpenEmuKit;
 
 @implementation OEPluginDocument
 

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -70,20 +70,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
 
-+ (nullable instancetype)romWithCRC32HashString:(nullable NSString *)crcHash inContext:(NSManagedObjectContext *)context error:(NSError **)outError
-{
-    if(crcHash == nil) return nil;
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"crc32 == %@", crcHash];
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
-    
-    fetchRequest.fetchLimit = 1;
-    fetchRequest.includesPendingChanges = YES;
-    fetchRequest.predicate = predicate;
-    
-    return [context executeFetchRequest:fetchRequest error:outError].lastObject;
-}
-
 + (nullable instancetype)romWithMD5HashString:(nullable NSString *)md5Hash inContext:(NSManagedObjectContext *)context error:(NSError **)outError
 {
     if(md5Hash == nil) return nil;
@@ -138,22 +124,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self.md5;
 }
 
-- (nullable NSString *)crcHash
-{
-    NSString *hash = self.crc32;
-    if(hash == nil)
-    {
-        [self OE_calculateHashes];
-        hash = self.crcHashIfAvailable;
-    }
-    return hash;    
-}
-
-- (nullable NSString *)crcHashIfAvailable
-{
-    return self.crc32;
-}
-
 - (void)OE_calculateHashes
 {
     NSError *error = nil;
@@ -166,15 +136,14 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     
-    NSString *md5Hash, *crc32Hash;
-    if(![[NSFileManager defaultManager] hashFileAtURL:url md5:&md5Hash crc32:&crc32Hash error:&error])
+    NSString *md5Hash;
+    if(![[NSFileManager defaultManager] hashFileAtURL:url md5:&md5Hash error:&error])
     {
         DLog(@"%@", error);
         // TODO: mark self as file missing
         return;
     }
     
-    self.crc32 = crc32Hash.lowercaseString;
     self.md5 = md5Hash.lowercaseString;
 }
 
@@ -435,7 +404,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSLog(@"%@ ROM location is %@", prefix, self.location);
     NSLog(@"%@ favorite? %s", prefix, BOOL_STR(self.isFavorite));
-    NSLog(@"%@ CRC32 is %@", prefix, self.crc32);
     NSLog(@"%@ MD5 is %@", prefix, self.md5);
     NSLog(@"%@ last played is %@", prefix, self.lastPlayed);
     NSLog(@"%@ file size is %@", prefix, self.fileSize);

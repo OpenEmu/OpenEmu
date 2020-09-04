@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2013, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -55,12 +55,20 @@
 
 - (NSString *)serialLookupForFile:(__kindof OEFile *)file
 {
+    NSRange dataRange = NSMakeRange(0x0, 6);
+
+    // Check if it's a CISO and adjust the Game ID offset location
+    NSMutableString *magic = [NSMutableString stringWithString:[file readASCIIStringInRange:NSMakeRange(0x0, 4)]];
+    if ([magic isEqualToString:@"CISO"]) {
+        dataRange.location = 0x8000;
+    }
+
     // Read the game ID
-    NSMutableString *gameID = [NSMutableString stringWithString:[file readASCIIStringInRange:NSMakeRange(0x0, 6)]];
+    NSMutableString *gameID = [NSMutableString stringWithString:[file readASCIIStringInRange:dataRange]];
 
     // Read the disc number and version number bytes from the header.
-    int headerDiscByte    = *(int*)([file readDataInRange:NSMakeRange(0x6, 1)].bytes);
-    int headerVersionByte = *(int*)([file readDataInRange:NSMakeRange(0x7, 1)].bytes);
+    int headerDiscByte    = *(int*)([file readDataInRange:NSMakeRange(dataRange.location + 0x6, 1)].bytes);
+    int headerVersionByte = *(int*)([file readDataInRange:NSMakeRange(dataRange.location + 0x7, 1)].bytes);
 
     // Append disc and version to the game ID if found.
     if (headerDiscByte > 0) {

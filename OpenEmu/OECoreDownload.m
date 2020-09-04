@@ -25,12 +25,10 @@
  */
 
 #import "OECoreDownload.h"
-#import "OECorePlugin.h"
+@import OpenEmuKit;
 
 #import <Sparkle/Sparkle.h>
 #import <XADMaster/XADArchive.h>
-
-#import "OESystemPlugin.h"
 
 #import <OpenEmuBase/OpenEmuBase.h>
 

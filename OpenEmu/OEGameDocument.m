@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,26 +26,23 @@
 
 @import OpenEmuBase;
 @import OpenEmuSystem;
+@import OpenEmuKit;
 #import "OEGameDocument.h"
 
+#import "OEXPCGameCoreManager.h"
 #import "OEAudioDeviceManager.h"
 #import "OEBackgroundColorView.h"
-#import "OECorePlugin.h"
 #import "OECoreUpdater.h"
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 #import "OEDBSaveState.h"
 #import "OEDBSaveCheat.h"
 #import "OEDBSystem.h"
-#import "OEGameCoreManager.h"
 #import "OEGameViewController.h"
 #import "OECheatsSettingViewController.h"
 #import "OEAlert+DefaultAlertsAdditions.h"
 #import "OELibraryDatabase.h"
 #import "OEPopoutGameWindowController.h"
-#import "OESystemPlugin.h"
-#import "OEThreadGameCoreManager.h"
-#import "OEXPCGameCoreManager.h"
 #import "OEDownload.h"
 #import "OEROMImporter.h"
 #import "OEDBScreenshot.h"
@@ -93,6 +90,10 @@ typedef enum : NSUInteger
     BOOL                _isMuted;
     BOOL                _pausedByGoingToBackground;
     BOOL                _isTerminatingEmulation;
+    
+    // track if ROM was decompressed
+    NSString           *_romPath;
+    BOOL                _romDecompressed;
 }
 
 @property OEGameViewController *gameViewController;
@@ -337,8 +338,27 @@ typedef enum : NSUInteger
      // if file is in an archive append :entryIndex to path, so the core manager can figure out which entry to load
     if([[self rom] archiveFileIndex])
         path = [path stringByAppendingFormat:@":%d",[[[self rom] archiveFileIndex] intValue]];
+    
+    // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
+    NSString *extension = path.pathExtension.lowercaseString;
+    if(![_systemPlugin.systemIdentifier isEqualToString:@"openemu.system.arcade"] && ![extension isEqualToString:@"md"] && ![extension isEqualToString:@"nds"] && ![extension isEqualToString:@"iso"]) {
+        path = OEDecompressFileInArchiveAtPathWithHash(path, self.rom.md5, &_romDecompressed);
+        _romPath = path;
+    }
+    
+    NSURL *shader = [OEShadersModel.shared shaderForSystem:self.systemIdentifier].url;
+    
+    OEGameStartupInfo *info = [[OEGameStartupInfo alloc] initWithROMPath:path
+                                                                  romMD5:self.rom.md5
+                                                               romHeader:self.rom.header
+                                                               romSerial:self.rom.serial
+                                                            systemRegion:OELocalizationHelper.sharedHelper.regionName
+                                                         displayModeInfo:lastDisplayModeInfo
+                                                                  shader:shader
+                                                          corePluginPath:_corePlugin.path
+                                                        systemPluginPath:_systemPlugin.path];
 
-    return [[managerClass alloc] initWithROMPath:path romCRC32:[[self rom] crc32] romMD5:[[self rom] md5] romHeader:[[self rom] header] romSerial:[[self rom] serial] systemRegion:[[OELocalizationHelper sharedHelper] regionName] displayModeInfo:lastDisplayModeInfo corePlugin:_corePlugin systemPlugin:_systemPlugin gameCoreOwner:self];
+    return [[managerClass alloc] initWithStartupInfo:info corePlugin:_corePlugin systemPlugin:_systemPlugin gameCoreOwner:self queue: nil];
 }
 
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError
@@ -745,6 +765,10 @@ typedef enum : NSUInteger
             handler(YES, nil);
         }];
     } errorHandler:^(NSError *error) {
+        if (self->_romDecompressed)
+        {
+            [[NSFileManager defaultManager] removeItemAtPath:self->_romPath error:nil];
+        }
         [[[OEBindingsController defaultBindingsController] systemBindingsForSystemController:self->_systemPlugin.controller] removeBindingsObserver:self];
         self->_gameCoreManager = nil;
         [self close];
@@ -951,11 +975,12 @@ typedef enum : NSUInteger
     
     if(device == nil)
     {
-        DLog(@"Invalid argument: %@", sender);
-        return;
+        [_gameCoreManager setAudioOutputDeviceID:0];
     }
-    
-    [_gameCoreManager setAudioOutputDeviceID:[device deviceID]];
+    else
+    {
+        [_gameCoreManager setAudioOutputDeviceID:[device deviceID]];
+    }
 }
 
 - (float)volume

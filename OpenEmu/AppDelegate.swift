@@ -43,6 +43,7 @@ class AppDelegate: NSObject {
     static let feedbackAddress = "https://github.com/OpenEmu/OpenEmu/issues"
     
     @IBOutlet weak var fileMenu: NSMenu!
+    @IBOutlet weak var newWindowMenu: NSMenuItem!
     
     lazy var mainWindowController = OEMainWindowController(windowNibName: "MainWindow")
     lazy var mainWindowController2 = {
@@ -119,11 +120,6 @@ class AppDelegate: NSObject {
         
         super.init()
 
-        // Load the XPC communicator framework. This used to be conditional on the existence of NSXPCConnection, but now OpenEmu's minimum supported version of macOS will always have NSXPCConnection.
-        let xpcFrameworkPath = (Bundle.main.privateFrameworksPath! as NSString).appendingPathComponent("OpenEmuXPCCommunicator.framework")
-        let xpcFrameworkBundle = Bundle(path: xpcFrameworkPath)
-        xpcFrameworkBundle!.load()
-        
         // Get the game library path.
         let supportDirectoryURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!
         let path = (supportDirectoryURL.appendingPathComponent("OpenEmu/Game Library").path as NSString).abbreviatingWithTildeInPath
@@ -783,8 +779,13 @@ extension AppDelegate: NSMenuDelegate {
         
         notificationCenter.removeObserver(self, name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
     }
-    
     func applicationDidFinishLaunching(_ notification: Notification) {
+        
+        #if DEBUG
+        // TODO: Enable the in-progress UI work for debug builds only
+        newWindowMenu.isEnabled = true
+        newWindowMenu.isHidden  = false
+        #endif
         
         if #available(OSX 10.12.2, *), NSClassFromString("NSTouchBar") != nil {
             // Get the “Customize Touch Bar…” menu to display in the View menu.
@@ -886,10 +887,6 @@ extension AppDelegate: NSMenuDelegate {
         preferencesWindowController.showWindow(with: notification)
     }
     
-    func applicationWillTerminate(_ notification: Notification) {
-        OEXPCCAgentConfiguration.default().tearDownAgent()
-    }
-    
     func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
         if libraryLoaded {
             mainWindowController.showWindow(self)
@@ -976,7 +973,7 @@ extension AppDelegate: NSMenuDelegate {
             return false
         }
 
-        if OEDeviceManager.shared.hasEventMonitor() {
+        if OEDeviceManager.shared.hasEventMonitor {
             return false
         }
 

@@ -13,8 +13,9 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="OEHUDAlertTest" customModuleProvider="target">
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="OEAlertTest" customModuleProvider="target">
             <connections>
+                <outlet property="testBgProgressUpdateCheckbox" destination="bVS-Wo-IY9" id="3Kp-GI-z3r"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -685,7 +686,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="578" height="370"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="578" height="370"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -968,7 +969,7 @@
                                     </constraints>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="EQy-YO-aTp">
                                         <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="4ac-L4-xwS">
-                                            <real key="minimum" value="0.0"/>
+                                            <real key="minimum" value="-1"/>
                                             <real key="maximum" value="1"/>
                                         </numberFormatter>
                                         <font key="font" metaFont="system"/>
@@ -1044,8 +1045,16 @@
                             <action selector="nsAlert:" target="Voe-Tx-rLC" id="bqs-Eg-Ahm"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bVS-Wo-IY9">
+                        <rect key="frame" x="18" y="22" width="240" height="18"/>
+                        <buttonCell key="cell" type="check" title="Test Progress Bar Update in BG Thd" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="UVe-Ke-B2J">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="bVS-Wo-IY9" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="3ao-qK-hM7"/>
                     <constraint firstItem="fCU-4M-lcg" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="88H-ak-XOx"/>
                     <constraint firstItem="fCU-4M-lcg" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="Jz9-nE-9TF"/>
                     <constraint firstItem="blD-iP-JRy" firstAttribute="leading" secondItem="ZSN-zd-0Er" secondAttribute="trailing" constant="12" id="WpN-t2-K3z"/>
@@ -1053,6 +1062,7 @@
                     <constraint firstAttribute="bottom" secondItem="ZSN-zd-0Er" secondAttribute="bottom" constant="20" id="fYa-Ta-xgo"/>
                     <constraint firstAttribute="bottom" secondItem="cXf-ho-TbD" secondAttribute="bottom" constant="20" id="glr-Kb-tZt"/>
                     <constraint firstAttribute="trailing" secondItem="blD-iP-JRy" secondAttribute="trailing" constant="20" id="i9Y-bH-14k"/>
+                    <constraint firstItem="cXf-ho-TbD" firstAttribute="firstBaseline" secondItem="bVS-Wo-IY9" secondAttribute="firstBaseline" id="lXk-gU-Phl"/>
                     <constraint firstItem="ZSN-zd-0Er" firstAttribute="leading" secondItem="cXf-ho-TbD" secondAttribute="trailing" constant="12" id="zrL-MJ-rRy"/>
                 </constraints>
             </view>

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -115,11 +115,11 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
         game = rom.game;
     }
     
-    NSString *md5 = nil, *crc = nil;
+    NSString *md5 = nil;
     NSFileManager *defaultFileManager = [NSFileManager defaultManager];
     if(game == nil && urlReachable)
     {
-        [defaultFileManager hashFileAtURL:url md5:&md5 crc32:&crc error:outError];
+        [defaultFileManager hashFileAtURL:url md5:&md5 error:outError];
         OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inContext:context error:outError];
         if(rom) game = rom.game;
     }

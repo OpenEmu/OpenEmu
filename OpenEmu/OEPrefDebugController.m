@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -41,7 +41,6 @@
 
 #import "OEGameViewController.h"
 
-#import "OEThreadGameCoreManager.h"
 #import "OEXPCGameCoreManager.h"
 
 #import "OEGameDocument.h"
@@ -57,7 +56,6 @@
 #import "OECollectionViewController.h"
 #import "OEGameViewController.h"
 #import "OEGridGameCell.h"
-#import "OEGameLayerView.h"
 #import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"
 #import "OEDBDataSourceAdditions.h"
@@ -163,6 +161,10 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox(OEDBSavedGamesMediaShowsQuickSaves, @"Show quicksave states in save state category"),
                               Button(@"Show game scanner view", @selector(showGameScannerView:)),
                               Button(@"Hide game scanner view", @selector(hideGameScannerView:)),
+                              
+                              Group(@"Shaders"),
+                              Button(@"Clear shader cache", @selector(clearShaderCache:)),
+                              Button(@"Reveal user shader folder", @selector(openUserShaderFolder:)),
 
                               Group(@"HUD Bar / Gameplay"),
                               Checkbox(OEGameControlsBarCanDeleteSaveStatesKey, @"Can delete save states"),
@@ -383,8 +385,8 @@ NSString * const NumberFormatterKey = @"numberFormatter";
            && [[lastState coreIdentifier] isEqualToString:[saveState coreIdentifier]])
         {
             NSString *currentHash = nil, *previousHash;
-            [[NSFileManager defaultManager] hashFileAtURL:[saveState dataFileURL] headerSize:0 md5:&currentHash crc32:nil error:nil];
-            [[NSFileManager defaultManager] hashFileAtURL:[lastState dataFileURL] headerSize:0 md5:&previousHash crc32:nil error:nil];
+            [[NSFileManager defaultManager] hashFileAtURL:[saveState dataFileURL] headerSize:0 md5:&currentHash error:nil];
+            [[NSFileManager defaultManager] hashFileAtURL:[lastState dataFileURL] headerSize:0 md5:&previousHash error:nil];
 
             if([currentHash isEqualToString:previousHash])
             {
@@ -597,7 +599,6 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 
     for (OEDBRom *rom in [OEDBRom allObjectsInContext:context]) {
         rom.md5 = rom.md5.lowercaseString;
-        rom.crc32 = rom.crc32.lowercaseString;
     }
 
     [context save:nil];
@@ -758,6 +759,18 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 
         [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
     }
+}
+
+#pragma mark - Shader group actions
+
+- (void)clearShaderCache:(id)sender
+{
+    [NSFileManager.defaultManager removeItemAtURL:OEShadersModel.shadersCachePath error:nil];
+}
+
+- (void)openUserShaderFolder:(id)sender
+{
+    [NSWorkspace.sharedWorkspace openURL:OEShadersModel.userShadersPath];
 }
 
 

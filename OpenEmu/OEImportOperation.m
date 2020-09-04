@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -25,8 +25,7 @@
  */
 
 #import "OEImportOperation.h"
-#import "OESystemPlugin.h"
-#import "OECorePlugin.h"
+@import OpenEmuKit;
 
 #import "OEROMImporter.h"
 #import <XADMaster/XADArchive.h>
@@ -58,7 +57,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 @property NSInteger archiveFileIndex;
 
 @property (nullable, copy) NSString *md5Hash;
-@property (nullable, copy) NSString *crcHash;
 
 @property (nullable) OEDBRom *rom;
 
@@ -74,8 +72,8 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     NSError *error = nil;
     if(![url checkResourceIsReachableAndReturnError:&error])
     {
-        IMPORTDLog(@"Could not reach url at %@", url);
-        IMPORTDLog(@"%@", error);
+        DLog(@"Could not reach url at %@", url);
+        DLog(@"%@", error);
         return nil;
     }
 
@@ -83,7 +81,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     NSDictionary *resourceValues = [url resourceValuesForKeys:@[ NSURLIsPackageKey, NSURLIsHiddenKey ] error:nil];
     if([[resourceValues objectForKey:NSURLIsHiddenKey] boolValue] || [[resourceValues objectForKey:NSURLIsPackageKey] boolValue])
     {
-        IMPORTDLog(@"Item is hidden file or package directory at %@", url);
+        DLog(@"Item is hidden file or package directory at %@", url);
         // Check for .oesavestate files and copy them directly (not going through importer queue)
         [self OE_tryImportSaveStateAtURL:url];
 
@@ -182,7 +180,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         if(!bytesFound)
             return NO;
 
-        IMPORTDLog(@"File seems to be a SBI file at %@", url);
+        DLog(@"File seems to be a SBI file at %@", url);
 
         NSFileManager *fileManager = NSFileManager.defaultManager;
         NSError       *error       = nil;
@@ -203,15 +201,15 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
         if(![fileManager createDirectoryAtURL:sbiSubFolderURL withIntermediateDirectories:YES attributes:nil error:&error])
         {
-            IMPORTDLog(@"Could not create directory before copying SBI file at %@", url);
-            IMPORTDLog(@"%@", error);
+            DLog(@"Could not create directory before copying SBI file at %@", url);
+            DLog(@"%@", error);
             error = nil;
         }
 
         if(![fileManager copyItemAtURL:url toURL:destination error:&error])
         {
-            IMPORTDLog(@"Could not copy SBI file %@ to %@", url, destination);
-            IMPORTDLog(@"%@", error);
+            DLog(@"Could not copy SBI file %@ to %@", url, destination);
+            DLog(@"%@", error);
         }
 
         return YES;
@@ -280,15 +278,13 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     {
         if(pathExtension.length > 0 && ![validExtensions containsObject:pathExtension])
         {
-            IMPORTDLog(@"File has unsupported extension (%@) at %@", pathExtension, url);
+            DLog(@"File has unsupported extension (%@) at %@", pathExtension, url);
             return YES;
         }
     }
 
     return NO;
 }
-
-#pragma mark - NSCoding Protocol
 
 - (instancetype)init
 {
@@ -302,13 +298,15 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     return self;
 }
 
+#pragma mark - NSSecureCoding Protocol
+
 - (nullable instancetype)initWithCoder:(NSCoder *)decoder
 {
     self = [self init];
     if (self)
     {
-        self.URL = [decoder decodeObjectForKey:@"URL"];
-        self.sourceURL = [decoder decodeObjectForKey:@"sourceURL"];
+        self.URL = [decoder decodeObjectOfClass:NSURL.class forKey:@"URL"];
+        self.sourceURL = [decoder decodeObjectOfClass:NSURL.class forKey:@"sourceURL"];
         self.exitStatus = OEImportExitNone;
     }
     return self;
@@ -318,6 +316,11 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 {
     [encoder encodeObject:self.URL forKey:@"URL"];
     [encoder encodeObject:self.sourceURL forKey:@"sourceURL"];
+}
+
++ (BOOL)supportsSecureCoding
+{
+    return YES;
 }
 
 - (instancetype)copyWithZone:(nullable NSZone *)zone
@@ -342,7 +345,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     copy.extractedFileURL = self.extractedFileURL;
     copy.archiveFileIndex = self.archiveFileIndex;
     copy.md5Hash = self.md5Hash;
-    copy.crcHash = self.crcHash;
 
     return copy;
 }
@@ -478,7 +480,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 - (void)OE_performImportStepCheckArchiveFile
 {
     if(self.exploreArchives == NO) return;
-    IMPORTDLog();
+    DLog();
     NSURL *url = self.URL;
     NSString *path = url.path;
     NSString *extension = path.pathExtension.lowercaseString;
@@ -519,7 +521,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         {
             if(([archive entryHasSize:i] && [archive sizeOfEntry:i] == 0) || [archive entryIsEncrypted:i] || [archive entryIsDirectory:i] || [archive entryIsArchive:i])
             {
-                IMPORTDLog(@"Entry %d is either empty, or a directory or encrypted or iteself an archive", i);
+                DLog(@"Entry %d is either empty, or a directory or encrypted or iteself an archive", i);
                 continue;
             }
 
@@ -551,7 +553,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
                 {
                     [fm removeItemAtPath:folder error:nil];
                     tmpURL = nil;
-                    IMPORTDLog(@"unpack failed");
+                    DLog(@"unpack failed");
                 }
             }
 
@@ -567,18 +569,18 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
 - (void)OE_performImportStepHash
 {
-    if(self.md5Hash || self.crcHash) return;
+    if(self.md5Hash) return;
 
-    IMPORTDLog();
+    DLog();
     NSURL         *url = self.extractedFileURL ?: self.URL;
-    NSString      *md5, *crc;
+    NSString      *md5;
     NSError       *error = nil;
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
-    if(![fileManager hashFileAtURL:url md5:&md5 crc32:&crc error:&error])
+    if(![fileManager hashFileAtURL:url md5:&md5 error:&error])
     {
-        IMPORTDLog(@"unable to hash file, this is probably a fatal error");
-        IMPORTDLog(@"%@", error);
+        DLog(@"unable to hash file, this is probably a fatal error");
+        DLog(@"%@", error);
 
         NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoHash userInfo:nil];
         [self exitWithStatus:OEImportExitErrorFatal error:error];
@@ -586,12 +588,11 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     else
     {
         self.md5Hash = md5.lowercaseString;
-        self.crcHash = crc.lowercaseString;
 
         OEBIOSFile *biosFile = [[OEBIOSFile alloc] init];
         if([biosFile checkIfBIOSFileAndImportAtURL:url withMD5:self.md5Hash])
         {
-            IMPORTDLog(@"File seems to be a BIOS at %@", url);
+            DLog(@"File seems to be a BIOS at %@", url);
             [self exitWithStatus:OEImportExitNone error:nil];
         }
     }
@@ -600,7 +601,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
 - (void)OE_performImportStepCheckHash
 {
-    IMPORTDLog();
+    DLog();
     NSError  *error = nil;
     NSString *md5   = self.md5Hash;
     NSManagedObjectContext *context = self.importer.context;
@@ -616,8 +617,8 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         self.rom = rom;
         if(![romURL checkResourceIsReachableAndReturnError:&error])
         {
-            IMPORTDLog(@"rom file not available");
-            IMPORTDLog(@"%@", error);
+            DLog(@"rom file not available");
+            DLog(@"%@", error);
             // TODO: depending on error finish here with 'already present' success
             // if the error says something like volume could not be found we might want to skip import because the file is probably on an external HD that is currently not connected
             // but if it just says the file was deleted we should replace the rom's url with the new one and continue importing
@@ -641,13 +642,13 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         return;
     }
 
-    IMPORTDLog(@"Error while parsing file: %@", error);
+    DLog(@"Error while parsing file: %@", error);
     [self exitWithStatus:OEImportExitErrorFatal error:error];
 }
 
 - (void)OE_performImportStepDetermineSystem
 {
-    IMPORTDLog(@"URL: %@", self.sourceURL);
+    DLog(@"URL: %@", self.sourceURL);
     if(self.rom != nil) return;
 
     NSError *error = nil;
@@ -673,17 +674,17 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         validSystems = [OEDBSystem systemsForFile:self.file inContext:context error:&error];
 
     if (validSystems == nil) {
-        IMPORTDLog(@"Error while looking for a valid system: %@", error);
+        DLog(@"Error while looking for a valid system: %@", error);
         [self exitWithStatus:OEImportExitErrorFatal error:error];
         return;
     }
 
     if(validSystems.count == 0)
     {
-        IMPORTDLog(@"Could not get valid systems");
-        IMPORTDLog(@"%@", error);
+        DLog(@"Could not get valid systems");
+        DLog(@"%@", error);
         if (self.extractedFileURL) {
-            IMPORTDLog(@"Try again with zip itself");
+            DLog(@"Try again with zip itself");
             self.extractedFileURL = nil;
             self.file = nil;
             [self OE_performImportStepParseFile];
@@ -706,7 +707,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         NSString *systemIdentifier = self.systemIdentifiers.lastObject;
         if([systemIdentifier isEqualToString:@"openemu.system.arcade"])
         {
-            IMPORTDLog(@"Arcade ROM detected.");
+            DLog(@"Arcade ROM detected.");
 
             // Reset
             self.fileName = nil;
@@ -714,7 +715,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             self.extractedFileURL = nil;
             self.archiveFileIndex = NSNotFound;
             self.md5Hash = nil;
-            self.crcHash = nil;
 
             // Re-hash and create the OEFile again
             [self OE_performImportStepHash];
@@ -754,7 +754,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     if (self.extractedFileURL) {
         OEFile *originalFile = [OEFile fileWithURL:url error:&error];
         if (!originalFile) {
-            IMPORTDLog(@"Failed to create file from original archive.");
+            DLog(@"Failed to create file from original archive.");
             [self exitWithStatus:OEImportExitErrorFatal error:error];
             return;
         }
@@ -780,7 +780,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         __block OEDBSystem *system = nil;
         if(self.rom != nil)
         {
-            IMPORTDLog(@"using rom object");
+            DLog(@"using rom object");
             system = self.rom.game.system;
         }
         else
@@ -829,7 +829,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             self.URL = url;
             self.file = copiedFile;
         } else {
-            IMPORTDLog(@"Could not copy rom to library");
+            DLog(@"Could not copy rom to library");
             [self exitWithStatus:OEImportExitErrorFatal error:error];
             return;
         }
@@ -838,7 +838,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
 - (void)OE_performImportStepCreateCoreDataObjects
 {
-    IMPORTDLog();
+    DLog();
 
     NSManagedObjectContext *context = self.importer.context;
     NSError *error = nil;
@@ -857,11 +857,9 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     }
 
     NSString *md5 = self.md5Hash;
-    NSString *crc = self.crcHash;
 
     rom.URL = self.URL;
     if(self.fileName != nil) rom.fileName = self.fileName;
-    if(crc != nil) rom.crc32 = crc.lowercaseString;
     if(md5 != nil) rom.md5 = md5.lowercaseString;
 
     // Check if system plugin for ROM implemented headerLookupForFile: and serialLookupForFile:

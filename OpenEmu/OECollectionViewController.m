@@ -43,7 +43,7 @@
 #import "OEBlankSlateView.h"
 
 #import "OEDBSystem.h"
-#import "OESystemPlugin.h"
+@import OpenEmuKit;
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBCollection.h"

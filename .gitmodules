@@ -73,12 +73,12 @@
 [submodule "mGBA"]
 	path = mGBA
 	url = git@github.com:OpenEmu/mGBA-Core.git
-[submodule "OpenEmuXPCCommunicator"]
-	path = OpenEmuXPCCommunicator
-	url = git@github.com:OpenEmu/OpenEmuXPCCommunicator.git
 [submodule "OpenEmu-Shaders"]
 	path = OpenEmu-Shaders
 	url = https://github.com/OpenEmu/OpenEmu-Shaders.git
 [submodule "BSNES"]
 	path = BSNES
 	url = git@github.com:OpenEmu/BSNES-Core.git
+[submodule "OpenEmuKit"]
+	path = OpenEmuKit
+	url = https://github.com/OpenEmu/OpenEmuKit.git

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -256,7 +256,6 @@ NSNotificationName const OEGameInfoHelperDidUpdateNotification = @"OEGameInfoHel
         NSString *header = gameInfo[@"header"];
         NSString *serial = gameInfo[@"serial"];
         NSString *md5 = gameInfo[@"md5"];
-        NSString *crc = gameInfo[@"crc32"];
         NSURL *url = gameInfo[@"URL"];
         NSNumber *archiveFileIndex = gameInfo[@"archiveFileIndex"];
 
@@ -271,7 +270,6 @@ NSNotificationName const OEGameInfoHelperDidUpdateNotification = @"OEGameInfoHel
         __block int headerSize = [self sizeOfROMHeaderForSystem:systemIdentifier];
 
         NSString * const DBMD5Key = @"romHashMD5";
-        NSString * const DBCRCKey = @"romHashCRC";
         NSString * const DBROMExtensionlessFileNameKey = @"romExtensionlessFileName";
         NSString * const DBROMHeaderKey = @"romHeader";
         NSString * const DBROMSerialKey = @"romSerial";
@@ -301,8 +299,6 @@ NSNotificationName const OEGameInfoHelperDidUpdateNotification = @"OEGameInfoHel
                 // if rom has no header we can use the hash we calculated at import
                 if (headerSize == 0 && (value = md5) != nil) {
                     key = DBMD5Key;
-                } else if (headerSize == 0 && (value = crc) != nil) {
-                    key = DBCRCKey;
                 }
                 value = value.uppercaseString;
             }
@@ -330,7 +326,7 @@ NSNotificationName const OEGameInfoHelperDidUpdateNotification = @"OEGameInfoHel
 
             if (!headerFound && !serialFound) {
                 
-                [[NSFileManager defaultManager] hashFileAtURL:romURL headerSize:headerSize md5:&value crc32:nil error:nil];
+                [[NSFileManager defaultManager] hashFileAtURL:romURL headerSize:headerSize md5:&value error:nil];
                 
                 key = DBMD5Key;
                 value = value.uppercaseString;

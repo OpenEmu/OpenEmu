@@ -24,21 +24,33 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "OpenEmuHelperApp.h"
-#import "OpenEmuXPCHelperApp.h"
-#import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
+@import Cocoa;
+@import OpenEmuKit;
+
+@interface OpenEmuXPCHelperApp: OpenEmuXPCHelperAppBase
+@end
+
+@implementation OpenEmuXPCHelperApp
+
+- (NSString *)serviceName
+{
+    return @"org.openemu.broker";
+}
+
+@end
 
 int main(int argc, const char * argv[])
 {
     static OpenEmuHelperApp *helperApp;
     @autoreleasepool
     {
-        if([OEXPCCAgent canParseProcessArgumentsForDefaultAgent])
-            helperApp = [[OpenEmuXPCHelperApp alloc] init];
+#if 0
+        // NOTE: enable this block and be given 10s to attach Xcode
+        // to debug process
+        [OEXPCCDebugSupport waitForDebugger];
+#endif
 
-        NSCParameterAssert(helperApp);
-
+        helperApp = [OpenEmuXPCHelperApp new];
         [helperApp launchApplication];
     }
     

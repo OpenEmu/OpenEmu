@@ -28,9 +28,8 @@
 #import "OEBackgroundImageView.h"
 #import "OELibraryDatabase.h"
 
-#import "OEPlugin.h"
+@import OpenEmuKit;
 #import "OEDBSystem.h"
-#import "OESystemPlugin.h"
 
 #import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"

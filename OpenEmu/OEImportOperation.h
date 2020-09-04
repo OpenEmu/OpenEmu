@@ -41,7 +41,7 @@ extern NSString * const OEImportManualSystems;
 
 typedef void (^OEImportItemCompletionBlock)(NSManagedObjectID*);
 
-@interface OEImportOperation: NSOperation <NSObject, NSCoding, NSCopying>
+@interface OEImportOperation: NSOperation <NSObject, NSSecureCoding, NSCopying>
 
 + (nullable instancetype)operationWithURL:(NSURL*)operationURL inImporter:(OEROMImporter *)importer;
 
