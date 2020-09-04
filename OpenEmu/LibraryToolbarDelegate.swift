@@ -140,6 +140,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         gridButton.setThemeKey("toolbar_view_button_grid")
         gridButton.action = #selector(OECollectionViewController.switchToGridView(_:))
         gridButton.target = toolbarOwner
+        gridButton.toolTip = NSLocalizedString("Switch To Grid View", comment: "Tooltip")
         
         let listButton = OEButton(frame: NSRect(x: 27, y: 2, width: 26, height: 23))
         let listButtonCell = listButton.cell as! OEButtonCell
@@ -148,6 +149,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         listButton.setThemeKey("toolbar_view_button_list")
         listButton.action = #selector(OECollectionViewController.switchToListView(_:))
         listButton.target = toolbarOwner
+        listButton.toolTip = NSLocalizedString("Switch To List View", comment: "Tooltip")
         
         let view = NSBox(frame: NSRect(x: 6, y: 14, width: 53, height: 26))
         view.borderType = .noBorder
@@ -208,13 +210,12 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         let item = NSToolbarItem.init(itemIdentifier: OEToolbarItemIdentifierSearch)
         
         let searchField = OESearchField(frame: NSRect(x: 0, y: 8, width: 166, height: 22))
-        let searchCell = searchField.cell as! OESearchFieldCell
         searchField.wantsLayer = true
         searchField.lineBreakMode = .byClipping
-        searchCell.usesSingleLineMode = true
-        searchCell.isScrollable = true
-        searchCell.sendsWholeSearchString = false
-        searchCell.sendsSearchStringImmediately = true
+        searchField.cell?.usesSingleLineMode = true
+        searchField.cell?.isScrollable = true
+        searchField.sendsWholeSearchString = false
+        searchField.sendsSearchStringImmediately = true
         searchField.font = NSFont.systemFont(ofSize: 13.0)
         searchField.textColor = NSColor.controlBackgroundColor
         searchField.setThemeKey("search_field")

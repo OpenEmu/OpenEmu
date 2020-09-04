@@ -99,7 +99,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     [self setUpWindow];
     [self setUpCurrentContentController];
     [self setUpViewMenuItemBindings];
-    [self setUpToolbarButtonTooltips];
     
     _isLaunchingGame = NO;
 }
@@ -170,15 +169,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     [showLibraryNames bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:negateOptions];
     [showRomNames     bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:negateOptions];
     [undockGameWindow bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:@{}];
-}
-
-- (void)setUpToolbarButtonTooltips
-{
-    OELibraryToolbar *toolbar = [[self libraryController] toolbar];
-    
-    [[toolbar gridViewButton] setToolTip:NSLocalizedString(@"Switch To Grid View", @"Tooltip")];
-    
-    [[toolbar listViewButton] setToolTip:NSLocalizedString(@"Switch To List View", @"Tooltip")];
 }
 
 - (NSString *)windowNibName
