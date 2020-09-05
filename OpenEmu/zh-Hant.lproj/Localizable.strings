@@ -64,6 +64,8 @@
 
 "Are you sure you want to quit the application?" = "你確定要退出應用？";
 
+"Are you sure you want to remove the selected game from the collection?" = "你確定要從收藏移除所選遊戲？"; //TODO
+
 "Are you sure you want to remove the selected games from the collection?" = "你確定要從收藏移除所選遊戲？";
 
 "Are you sure you want to remove this collection?" = "你確定要移除這個收藏？";
@@ -113,6 +115,8 @@
 "Consolidate Files…" = "整合文件…";
 
 "Consolidate" = "整合";
+
+"Consolidating files failed." = "Consolidating files failed."; // TODO
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "整合會複製所有選擇的遊戲到 OpenEmu 庫文件夾。\n\n該操作無法撤銷。";
 
@@ -266,7 +270,7 @@
 
 "Locate '%@'" = "定位“%@”";
 
-"Locate" = "定位";
+"Locate…" = "定位…";
 
 "Low Controller Battery" = "控制器電量低";
 
@@ -379,8 +383,6 @@
 "Resolve %ld Issues" = "解決 %ld 個問題";
 
 "Resolve Issues" = "解決問題";
-
-"Restart now" = "現在重新啟動";
 
 "Restart System" = "重新啟動系統";
 
@@ -510,7 +512,7 @@
 
 "Yes" = "是";
 
-"You can't move your library here!" = "不能將庫移動到這裡！";
+"You can't move your library into one of its subfolders." = "不能將庫移動到這裡！"; // TODO
 
 "You need to restart the application to commit the change" = "你需要重啟應用程序以使更改生效。";
 
@@ -574,6 +576,8 @@
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
 
+"Continue" = "繼續";
+
 
 /* Secrets */
 
@@ -590,8 +594,6 @@
 "Library Window" = "資源庫視窗";
 
 "Reset main window size" = "重設主視窗大小";
-
-"Dark GridView context menu" = "深色網格視圖上下文菜單";
 
 "Download missing artwork on the fly" = "自動下載缺少的插圖";
 
@@ -667,7 +669,7 @@
 
 "Delete artwork that can be downloaded" = "Delete artwork that can be downloaded";
 
-"Download missing artwork" = "下載缺少的插圖";
+"Download missing artwork…" = "下載缺少的插圖…";
 
 "Remove untracked artwork files" = "移除未使用的插圖文件";
 
@@ -680,10 +682,6 @@
 "Perform Sanity Check on Database" = "對數據庫執行完整性檢查";
 
 "While performing this operation OpenEmu will be unresponsive." = "執行此操作時 OpenEmu 將無響應。";
-
-"Do it!" = "走你！";
-
-"Cancel Operation" = "取消操作";
 
 "Delete useless image objects" = "Delete useless image objects";
 

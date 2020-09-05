@@ -117,8 +117,8 @@
                         </gridCell>
                         <gridCell row="G1f-wj-10F" column="WTK-4D-5ET" id="UJ1-Sj-qXb">
                             <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q95-qb-F7X">
-                                <rect key="frame" x="183" y="213" width="133" height="32"/>
-                                <buttonCell key="cell" type="push" title="Reset warnings" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy">
+                                <rect key="frame" x="183" y="213" width="135" height="32"/>
+                                <buttonCell key="cell" type="push" title="Reset Warnings" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -135,8 +135,8 @@
                         <gridCell row="Yd5-Q8-6RB" column="WTK-4D-5ET" headOfMergedCell="egR-af-Kx8" id="ab9-5X-AKU"/>
                         <gridCell row="fjJ-Lb-pEQ" column="oTy-pp-h5N" id="nIf-O2-6A4">
                             <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10">
-                                <rect key="frame" x="47" y="179" width="138" height="16"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Organization Methods" id="18">
+                                <rect key="frame" x="43" y="179" width="142" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Organization Methods:" id="18">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -185,7 +185,7 @@
                             </textField>
                         </gridCell>
                         <gridCell row="MBs-vR-wBC" column="WTK-4D-5ET" id="acF-Sz-VAl">
-                            <box key="contentView" boxType="custom" borderType="bezel" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="Cx7-H9-Kv5">
+                            <box key="contentView" boxType="custom" borderType="bezel" translatesAutoresizingMaskIntoConstraints="NO" id="Cx7-H9-Kv5">
                                 <rect key="frame" x="189" y="0.0" width="370" height="134"/>
                                 <view key="contentView" id="hct-5d-gku">
                                     <rect key="frame" x="1" y="1" width="368" height="132"/>

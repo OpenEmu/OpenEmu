@@ -26,13 +26,11 @@
 
 import Cocoa
 
-@available(OSX 10.12.2, *)
 fileprivate extension NSTouchBar.CustomizationIdentifier {
     static let saveStatesTouchBar = "org.openemu.OEMediaViewController.saveStatesTouchBar"
     static let screenshotsTouchBar = "org.openemu.OEMediaViewController.screenshotsTouchBar"
 }
 
-@available(OSX 10.12.2, *)
 fileprivate extension NSTouchBarItem.Identifier {
     
     // Save States
@@ -45,7 +43,6 @@ fileprivate extension NSTouchBarItem.Identifier {
     static let shareScreenshot = NSTouchBarItem.Identifier("org.openemu.OEMediaViewController.screenshotsTouchBar.share")
 }
 
-@available(OSX 10.12.2, *)
 extension OEMediaViewController {
     
     open override func makeTouchBar() -> NSTouchBar? {
@@ -84,7 +81,6 @@ extension OEMediaViewController {
     }
 }
 
-@available(OSX 10.12.2, *)
 extension OEMediaViewController: NSTouchBarDelegate {
     
     public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
@@ -123,7 +119,7 @@ extension OEMediaViewController: NSTouchBarDelegate {
         case .showScreenshotInFinder:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
-            item.customizationLabel = NSLocalizedString("Show In Finder", comment: "")
+            item.customizationLabel = NSLocalizedString("Show in Finder", comment: "")
             
             let button = NSButton(image: NSImage(named: NSImage.revealFreestandingTemplateName)!, target: nil, action: #selector(showInFinder(_:)))
             
@@ -148,7 +144,6 @@ extension OEMediaViewController: NSTouchBarDelegate {
     }
 }
 
-@available(OSX 10.12.2, *)
 extension OEMediaViewController: NSSharingServicePickerTouchBarItemDelegate {
     
     public func items(for pickerTouchBarItem: NSSharingServicePickerTouchBarItem) -> [Any] {
@@ -156,7 +151,6 @@ extension OEMediaViewController: NSSharingServicePickerTouchBarItemDelegate {
     }
 }
 
-@available(OSX 10.12.2, *)
 private class MediaTouchBar: NSTouchBar {
     
     weak var mediaViewController: OEMediaViewController? {

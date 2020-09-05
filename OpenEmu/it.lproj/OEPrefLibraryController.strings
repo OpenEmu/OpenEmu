@@ -5,7 +5,7 @@
 /* Class = "NSButtonCell"; title = "Reset"; ObjectID = "16"; */
 "16.title" = "Reimposta";
 
-/* Class = "NSTextFieldCell"; title = "Organization Methods"; ObjectID = "18"; */
+/* Class = "NSTextFieldCell"; title = "Organization Methods:"; ObjectID = "18"; */
 "18.title" = "Organizzazione:";
 
 /* Class = "NSTextFieldCell"; title = "Game Library Folder Location:"; ObjectID = "19"; */
@@ -23,5 +23,5 @@
 /* Class = "NSTextFieldCell"; title = "Reset all dialog warnings:"; ObjectID = "Ua1-J2-mdy"; */
 "Ua1-J2-mdy.title" = "Reimposta visibilità degli avvisi:";
 
-/* Class = "NSButtonCell"; title = "Reset warnings"; ObjectID = "all-Wd-1Dy"; */
+/* Class = "NSButtonCell"; title = "Reset Warnings"; ObjectID = "all-Wd-1Dy"; */
 "all-Wd-1Dy.title" = "Reimposta avvisi";

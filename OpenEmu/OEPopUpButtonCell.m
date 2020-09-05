@@ -103,7 +103,6 @@
 - (NSRect)titleRectForBounds:(NSRect)cellFrame
 {
     NSRect rect = [super titleRectForBounds:cellFrame];
-    rect.origin.y += 1;
     return rect;
 }
 

@@ -42,9 +42,9 @@
 
 "Add Cheat" = "添加金手指";
 
-"Add Cover Art From File…" = "从文件添加封面插图…";
+"Add Cover Art from File…" = "从文件添加封面插图…";
 
-"Add To Collection" = "添加到收藏";
+"Add to Collection" = "添加到收藏";
 
 "All Games" = "所有游戏";
 
@@ -63,6 +63,8 @@
 "Are you sure you want to delete the selected games from your OpenEmu library?" = "你确定要从 OpenEmu 库删除所选游戏？";
 
 "Are you sure you want to quit the application?" = "你确定要退出应用？";
+
+"Are you sure you want to remove the selected game from the collection?" = "你确定要从收藏移除所选游戏？"; //TODO
 
 "Are you sure you want to remove the selected games from the collection?" = "你确定要从收藏移除所选游戏？";
 
@@ -83,8 +85,6 @@
 "Bluetooth Not Enabled" = "蓝牙未启用";
 
 "Cancel Cover Art Download" = "取消封面插图下载";
-
-"Cancel Operation" = "取消操作";
 
 "Cancel" = "取消";
 
@@ -117,6 +117,8 @@
 "Consolidate Files…" = "整合文件…";
 
 "Consolidate" = "整合";
+
+"Consolidating files failed." = "Consolidating files failed."; // TODO
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "整合会复制所有选择的游戏到 OpenEmu 库文件夹。\n\n该操作无法撤销。";
 
@@ -183,8 +185,6 @@
 "Disc-based games have special requirements. Please read the disc importing guide." = "磁盘游戏有特殊要求。请阅读磁盘导入指南。";
 
 "Dismiss" = "消除";
-
-"Do it!" = "走你！";
 
 "Do not ask me again" = "不再询问";
 
@@ -272,7 +272,7 @@
 
 "Locate '%@'" = "定位“%@”";
 
-"Locate" = "定位";
+"Locate…" = "定位…";
 
 "Low Controller Battery" = "控制器电量低";
 
@@ -388,8 +388,6 @@
 
 "Resolve Issues" = "解决问题";
 
-"Restart now" = "现在重启";
-
 "Restart System" = "重启系统";
 
 "Restart" = "重启";
@@ -504,7 +502,7 @@
 
 "User guide on BIOS files" = "BIOS 文件用户指南";
 
-"View Guide In Browser" = "打开浏览器阅读指南";
+"View Guide in Browser" = "打开浏览器阅读指南";
 
 "Warning" = "警告";
 
@@ -520,7 +518,7 @@
 
 "Yes" = "是";
 
-"You can't move your library here!" = "不能将库移动到这里！";
+"You can't move your library into one of its subfolders." = "不能将库移动到这里！"; // TODO
 
 "You need to restart the application to commit the change" = "你需要重启应用程序以使更改生效。";
 
@@ -584,6 +582,8 @@
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
 
+"Continue" = "继续";
+
 
 /* Secrets */
 
@@ -600,8 +600,6 @@
 "Library Window" = "库窗口";
 
 "Reset main window size" = "重置主窗口大小";
-
-"Dark GridView context menu" = "深色网格视图上下文菜单";
 
 "Download missing artwork on the fly" = "自动下载缺少的插图";
 
@@ -675,9 +673,9 @@
 
 "Database Actions" = "数据库操作";
 
-"Delete Artwork that can be downloaded" = "删除可下载的插图";
+"Delete artwork that can be downloaded" = "删除可下载的插图";
 
-"Download missing artwork" = "下载缺少的插图";
+"Download missing artwork…" = "下载缺少的插图…";
 
 "Remove untracked artwork files" = "移除未使用的插图文件";
 

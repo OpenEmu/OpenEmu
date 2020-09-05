@@ -64,6 +64,8 @@
 
 "Are you sure you want to quit the application?" = "Sei sicuro di voler uscire?";
 
+"Are you sure you want to remove the selected game from the collection?" = "Sei sicuro di voler rimuovere il gioco selezionato da questa raccolta?";
+
 "Are you sure you want to remove the selected games from the collection?" = "Sei sicuro di voler rimuovere i giochi selezionati da questa raccolta?";
 
 "Are you sure you want to remove this collection?" = "Sei sicuro di voler eliminare questa raccolta?";
@@ -113,6 +115,8 @@
 "Consolidate Files…" = "Raggruppa file…";
 
 "Consolidate" = "Raggruppa";
+
+"Consolidating files failed." = "Consolidating files failed."; // TODO
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "I giochi selezionati verranno copiati all'interno della cartella della Libreria di OpenEmu.\n\nQuesta operazione non può essere annullata.";
 
@@ -266,7 +270,7 @@
 
 "Locate '%@'" = "Trova \"%@\"";
 
-"Locate" = "Trova";
+"Locate…" = "Trova…";
 
 "Low Controller Battery" = "Batteria controller scarica";
 
@@ -380,8 +384,6 @@
 
 "Resolve Issues" = "Risolvi i problemi";
 
-"Restart now" = "Riavvia ora";
-
 "Restart System" = "Riavvia il sistema";
 
 "Restart" = "Riavvia";
@@ -392,7 +394,7 @@
 
 "Resume" = "Riprendi";
 
-"Save As:" = "Nome:";  // "Salva come:" does not fit
+"Save As:" = "Salva come:";
 
 "Save Current Game…" = "Salva la partita in corso…";
 
@@ -510,7 +512,7 @@
 
 "Yes" = "Sì";
 
-"You can't move your library here!" = "Non puoi spostare la Libreria qui!";
+"You can't move your library into one of its subfolders." = "Non puoi spostare la Libreria qui!"; // TODO
 
 "You need to restart the application to commit the change" = "Per applicare le modifiche è necessario riavviare l'applicazione";
 
@@ -574,6 +576,8 @@
 
 "I understand the risks" = "Sono cosciente dei rischi";  // OK button (attempted to change location of library)
 
+"Continue" = "Continua";
+
 
 /* Secrets */
 
@@ -590,8 +594,6 @@
 "Library Window" = "Finestra della libreria";
 
 "Reset main window size" = "Reimposta dimensioni finestra principale";
-
-"Dark GridView context menu" = "Menu contestuale scuro nella GridView";
 
 "Download missing artwork on the fly" = "Scarica automaticamente le illustrazioni mancanti";
 
@@ -667,7 +669,7 @@
 
 "Delete artwork that can be downloaded" = "Elimina le illustrazioni che si possono scaricare";
 
-"Download missing artwork" = "Scarica le illustrazioni mancanti";
+"Download missing artwork…" = "Scarica le illustrazioni mancanti…";
 
 "Remove untracked artwork files" = "Rimuovi i file non tracciati delle illustrazioni";
 
@@ -680,10 +682,6 @@
 "Perform Sanity Check on Database" = "Verifica ora l'integrità del database";
 
 "While performing this operation OpenEmu will be unresponsive." = "Mentre questa operazione è in corso, OpenEmu smetterà di rispondere.";
-
-"Do it!" = "Va bene!";  // download missing artwork (debug) - standard nsalert
-
-"Cancel Operation" = "Annulla operazione";  // download missing artwork dialog button (debug) - standard nsalert
 
 "Delete useless image objects" = "Elimina gli oggetti immagine inutili";
 

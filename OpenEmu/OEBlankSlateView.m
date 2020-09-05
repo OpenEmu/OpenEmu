@@ -410,9 +410,9 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
                                     NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:0.11 alpha:1.0] };
 
     NSRect dragAndDropHereRect = NSMakeRect(0.0,
-                                            NSHeight(containerFrame) - 25.0 - OEBlankSlateBoxTextToTop,
+                                            NSHeight(containerFrame) - 28.0 - OEBlankSlateBoxTextToTop,
                                             NSWidth(containerFrame),
-                                            25.0);
+                                            31.0);
     
     NSTextField *dragAndDropHereField = [[NSTextField alloc] initWithFrame:dragAndDropHereRect];
     

@@ -54,15 +54,17 @@
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Are you sure you want to delete %ld screenshots from your OpenEmu library?";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Are you sure you want to delete the save game called '%@' from your OpenEmu library?";
+"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Are you sure you want to delete the save game called “%@” from your OpenEmu library?";
 
-"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?";
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Are you sure you want to delete the screenshot called “%@” from your OpenEmu library?";
 
 "Are you sure you want to delete the selected game from your OpenEmu library?" = "Are you sure you want to delete the selected game from your OpenEmu library?";
 
 "Are you sure you want to delete the selected games from your OpenEmu library?" = "Are you sure you want to delete the selected games from your OpenEmu library?";
 
 "Are you sure you want to quit the application?" = "Are you sure you want to quit the application?";
+
+"Are you sure you want to remove the selected game from the collection?" = "Are you sure you want to remove the selected game from the collection?";
 
 "Are you sure you want to remove the selected games from the collection?" = "Are you sure you want to remove the selected games from the collection?";
 
@@ -114,6 +116,8 @@
 
 "Consolidate" = "Consolidate";
 
+"Consolidating files failed." = "Consolidating files failed.";
+
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.";
 
 "Controls" = "Controls";
@@ -134,9 +138,9 @@
 
 "Could not move library data!" = "Could not move library data!";
 
-"Couldn't load %@ plugin" = "Couldn't load %@ plugin";
+"Couldn't load %@ plugin" = "Couldn’t load %@ plugin";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar.";
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Create a personal game selection. To add to a collection, select a game from your console library and drag it to “%@” in the sidebar.";
 
 "Create Library…" = "Create Library…";
 
@@ -188,7 +192,7 @@
 
 "Do you want to continue playing where you left off?" = "Do you want to continue playing where you left off?";
 
-"Don't Import Selected" = "Don't Import Selected";
+"Don't Import Selected" = "Don’t Import Selected";
 
 "Done" = "Done";
 
@@ -234,7 +238,7 @@
 
 "Have you read the guide?" = "Have you read the guide?";
 
-"Hide \"%@\"" = "Hide \"%@\"";
+"Hide \"%@\"" = "Hide “%@”";
 
 "Homebrew Games" = "Homebrew Games";
 
@@ -252,7 +256,7 @@
 
 "Installing Core" = "Installing Core";
 
-"Join multi-line cheats with '+' e.g. 000-000+111-111" = "Join multi-line cheats with '+' e.g. 000-000+111-111";
+"Join multi-line cheats with '+' e.g. 000-000+111-111" = "Join multi-line cheats with ‘+’ e.g. 000-000+111-111";
 
 "Keep Files" = "Keep Files";
 
@@ -264,9 +268,9 @@
 
 "Load" = "Load";
 
-"Locate '%@'" = "Locate '%@'";
+"Locate '%@'" = "Locate “%@”";
 
-"Locate" = "Locate";
+"Locate…" = "Locate…";
 
 "Low Controller Battery" = "Low Controller Battery";
 
@@ -324,7 +328,7 @@
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one";
 
-"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu uses 'Cores' to emulate games. You need the %1$@ Core to play %2$@";
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu uses ‘Cores’ to emulate games. You need the %1$@ Core to play %2$@";
 
 "OpenEmu will save and quit all games that are currently running." = "OpenEmu will save and quit all games that are currently running.";
 
@@ -364,7 +368,7 @@
 
 "Remove" = "Remove";
 
-"Rename \"%@\"" = "Rename \"%@\"";
+"Rename \"%@\"" = "Rename “%@”";
 
 "Rename Game" = "Rename Game";
 
@@ -379,8 +383,6 @@
 "Resolve %ld Issues" = "Resolve %ld Issues";
 
 "Resolve Issues" = "Resolve Issues";
-
-"Restart now" = "Restart now";
 
 "Restart System" = "Restart System";
 
@@ -416,7 +418,7 @@
 
 "Select All" = "Select All";
 
-"Select Audio Output Device" = "Select Audio Output Device";
+"Select Audio Output Device" = "Audio Output Device";
 
 "Select Cheat" = "Cheats";
 
@@ -464,11 +466,11 @@
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "The core could not be downloaded. Try installing it from the Cores preferences.";
 
-"The file you selected doesn't exist" = "The file you selected doesn't exist";
+"The file you selected doesn't exist" = "The file you selected doesn’t exist";
 
-"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "The game '%@' could not be started because a rom file could not be found. Do you want to locate it?";
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "The game “%@” could not be started because a rom file could not be found. Do you want to locate it?";
 
-"The game '%@' was imported." = "The game '%@' was imported.";
+"The game '%@' was imported." = "The game “%@” was imported.";
 
 "The OpenEmu Library could not be found." = "The OpenEmu Library could not be found.";
 
@@ -482,7 +484,7 @@
 
 "Title:" = "Title:";
 
-"To launch the save state %@ you will need to install the '%@' Core" = "To launch the save state %1$@ you will need to install the '%2$@' Core";
+"To launch the save state %@ you will need to install the '%@' Core" = "To launch the save state %1$@ you will need to install the “%2$@” Core";
 
 "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.";
 
@@ -502,7 +504,7 @@
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves.";
 
-"Won't be able to recognize it as special save state…" = "Won't be able to recognize it as special save state…";
+"Won't be able to recognize it as special save state…" = "Won’t be able to recognize it as special save state…";
 
 "Would you like to continue your last game?" = "Would you like to continue your last game?";
 
@@ -510,7 +512,7 @@
 
 "Yes" = "Yes";
 
-"You can't move your library here!" = "You can't move your library here!";
+"You can't move your library into one of its subfolders." = "You can’t move your library into one of its subfolders.";
 
 "You need to restart the application to commit the change" = "You need to restart the application to commit the change";
 
@@ -574,6 +576,8 @@
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)
 
+"Continue" = "Continue";
+
 
 /* Secrets */
 
@@ -590,8 +594,6 @@
 "Library Window" = "Library Window";
 
 "Reset main window size" = "Reset main window size";
-
-"Dark GridView context menu" = "Dark GridView context menu";
 
 "Download missing artwork on the fly" = "Download missing artwork on the fly";
 
@@ -667,7 +669,7 @@
 
 "Delete artwork that can be downloaded" = "Delete artwork that can be downloaded";
 
-"Download missing artwork" = "Download missing artwork";
+"Download missing artwork…" = "Download missing artwork…";
 
 "Remove untracked artwork files" = "Remove untracked artwork files";
 
@@ -680,10 +682,6 @@
 "Perform Sanity Check on Database" = "Perform Sanity Check on Database";
 
 "While performing this operation OpenEmu will be unresponsive." = "While performing this operation OpenEmu will be unresponsive.";
-
-"Do it!" = "Do it!";
-
-"Cancel Operation" = "Cancel Operation";
 
 "Delete useless image objects" = "Delete useless image objects";
 

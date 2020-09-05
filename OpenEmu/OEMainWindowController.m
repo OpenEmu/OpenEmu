@@ -330,14 +330,14 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         self->_isLaunchingGame = NO;
         if(document == nil)
         {
-            if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEFileDoesNotExistError)
+            if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEFileDoesNotExistError && game)
             {
                 [game setStatus:@(OEDBGameStatusAlert)];
                 [game save];
                 
                 NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", @""), [game name]];
                 if([[OEAlert alertWithMessageText:messageText
-                                       defaultButton:NSLocalizedString(@"Locate", @"")
+                                       defaultButton:NSLocalizedString(@"Locate…", @"")
                                      alternateButton:NSLocalizedString(@"Cancel", @"")] runModal] == NSAlertFirstButtonReturn)
                 {
                     OEDBRom  *missingRom = [[game roms] anyObject];
@@ -346,7 +346,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                     
                     NSString *panelTitle = [NSString stringWithFormat:NSLocalizedString(@"Locate '%@'", @"Locate panel title"), [[originalURL pathComponents] lastObject]];
                     NSOpenPanel  *panel = [NSOpenPanel openPanel];
-                    [panel setTitle:panelTitle];
+                    [panel setMessage:panelTitle];
                     [panel setCanChooseDirectories:NO];
                     [panel setCanChooseFiles:YES];
                     [panel setDirectoryURL:[originalURL URLByDeletingLastPathComponent]];
@@ -360,6 +360,24 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                         [self OE_openGameDocumentWithGame:game saveState:state];
                     }
                 }
+            }
+            // FIXME: make it possible to locate missing rom files when the game is started from a savestate
+            else if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEFileDoesNotExistError && !game)
+            {
+                NSString *messageText = NSLocalizedString(@"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", @"");
+                
+                NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[\"'“„« ]+%@[\"'”“» ]+[ を]?" options:NSRegularExpressionCaseInsensitive error:NULL];
+                messageText = [regex stringByReplacingMatchesInString:messageText options:0 range:NSMakeRange(0, messageText.length) withTemplate:@""];
+                
+                NSRange range = [messageText rangeOfString:@"."];
+                if (range.location == NSNotFound)
+                    range = [messageText rangeOfString:@"。"];
+                if (range.location != NSNotFound)
+                    messageText = [messageText substringToIndex:range.location+1];
+                
+                messageText = [messageText stringByAppendingString:NSLocalizedString(@" Start the game from the library view if you want to locate it.", @"")];
+                
+                [[OEAlert alertWithMessageText:messageText defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil] runModal];
             }
             else if(error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -601,7 +619,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 @interface OEMainWindowTitlebarBackgroundView ()
 @property (nonatomic) NSGradient *backgroundGradient;
-@property (nonatomic) NSColor *topHighlightColor;
 @property (nonatomic) NSColor *bottomBorderColor;
 @end
 
@@ -612,7 +629,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     self = [super initWithFrame:frameRect];
     if (self) {
         _backgroundGradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0.15 alpha:1.0] endingColor:[NSColor colorWithDeviceWhite:0.25 alpha:1.0]];
-        _topHighlightColor = [NSColor colorWithCalibratedWhite:0.3 alpha:1.0];
         _bottomBorderColor = [NSColor colorWithCalibratedWhite:0.07 alpha:1.0];
     }
     return self;
@@ -628,19 +644,8 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     // Draw background.
     [self.backgroundGradient drawInRect:self.bounds angle:90.0];
     
-    // Draw top highlight.
-    NSRect bounds = self.bounds;
-    const CGFloat topHighlightHeight = 1.0;
-    NSRect topHighlightRect = NSMakeRect(0.0,
-                                    NSMaxY(bounds) - topHighlightHeight,
-                                    NSWidth(bounds),
-                                    topHighlightHeight);
-    if ([self needsToDrawRect:topHighlightRect]) {
-        [self.topHighlightColor set];
-        NSRectFill(topHighlightRect);
-    }
-    
     // Draw bottom border.
+    NSRect bounds = self.bounds;
     const CGFloat bottomBorderHeight = 1.0;
     NSRect bottomBorderRect = NSMakeRect(0.0,
                                          0.0,

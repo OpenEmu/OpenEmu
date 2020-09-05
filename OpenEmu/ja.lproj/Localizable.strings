@@ -42,9 +42,9 @@
 
 "Add Cheat" = "チートコードを追加";
 
-"Add Cover Art From File…" = "カバーアートをファイルから追加…";
+"Add Cover Art from File…" = "カバーアートをファイルから追加…";
 
-"Add To Collection" = "コレクションへ追加";
+"Add to Collection" = "コレクションへ追加";
 
 "All Games" = "全てのゲーム";
 
@@ -63,6 +63,8 @@
 "Are you sure you want to delete the selected games from your OpenEmu library?" = "選択したゲームをOpenEmuライブラリから削除してもよろしいですか？";
 
 "Are you sure you want to quit the application?" = "アプリケーションを終了してもよろしいですか？";
+
+"Are you sure you want to remove the selected game from the collection?" = "選択したゲームをコレクションから削除してもよろしいですか？";
 
 "Are you sure you want to remove the selected games from the collection?" = "選択したゲームをコレクションから削除してもよろしいですか？";
 
@@ -83,8 +85,6 @@
 "Bluetooth Not Enabled" = "Bluetoothが無効になっています。";
 
 "Cancel Cover Art Download" = "カバーアートのダウンロードをキャンセル";
-
-"Cancel Operation" = "キャンセルする";
 
 "Cancel" = "キャンセル";
 
@@ -117,6 +117,8 @@
 "Consolidate Files…" = "ファイルを統合する…";
 
 "Consolidate" = "統合";
+
+"Consolidating files failed." = "Consolidating files failed."; // TODO
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "統合すると、選択された全てのゲームがOpenEmuライブラリのフォルダへコピーされます。\n\nこの操作は取り消せません。";
 
@@ -183,8 +185,6 @@
 "Disc-based games have special requirements. Please read the disc importing guide." = "ディスクゲームは特別な操作が必要です。ディスクのインポートガイドを確認してください。";
 
 "Dismiss" = "無視する";
-
-"Do it!" = "やります！";
 
 "Do not ask me again" = "再表示しない";
 
@@ -272,7 +272,7 @@
 
 "Locate '%@'" = "場所'%@'";
 
-"Locate" = "場所";
+"Locate…" = "場所…";
 
 "Low Controller Battery" = "コントローラのバッテリが少なくなっています";
 
@@ -388,8 +388,6 @@
 
 "Resolve Issues" = "問題を解決する";
 
-"Restart now" = "今すぐ再起動する";
-
 "Restart System" = "システムを再起動する";
 
 "Restart" = "再起動";
@@ -504,7 +502,7 @@
 
 "User guide on BIOS files" = "BIOSファイルのユーザガイド";
 
-"View Guide In Browser" = "ガイドをブラウザで見る";
+"View Guide in Browser" = "ガイドをブラウザで見る";
 
 "Warning" = "警告";
 
@@ -520,7 +518,7 @@
 
 "Yes" = "はい";
 
-"You can't move your library here!" = "ここへはライブラリを移動できません。";
+"You can't move your library into one of its subfolders." = "ここへはライブラリを移動できません。"; // TODO
 
 "You need to restart the application to commit the change" = "変更を適用するには、OpenEmuを再起動してください。";
 
@@ -584,6 +582,8 @@
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
 
+"Continue" = "続ける";
+
 
 /* Secrets */
 
@@ -600,8 +600,6 @@
 "Library Window" = "ライブラリ ウィンドウ";
 
 "Reset main window size" = "メインウィンドウのサイズをリセット";
-
-"Dark GridView context menu" = "ダーク・グリッドビュー";
 
 "Download missing artwork on the fly" = "ダウンロードした写真が見つかりません";
 
@@ -675,9 +673,9 @@
 
 "Database Actions" = "データベース操作";
 
-"Delete Artwork that can be downloaded" = "ダウンロード可能な写真を削除";
+"Delete artwork that can be downloaded" = "ダウンロード可能な写真を削除";
 
-"Download missing artwork" = "写真をダウンロード";
+"Download missing artwork…" = "写真をダウンロード…";
 
 "Remove untracked artwork files" = "追跡不可能な写真を削除";
 

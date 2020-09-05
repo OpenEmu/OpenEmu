@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14854.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14854.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,7 +18,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES" HUD="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="339" height="380"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <value key="minSize" type="size" width="280" height="300"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="339" height="380"/>
@@ -44,7 +44,7 @@
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
-                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="Pai-Hb-6Qi">
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" id="Pai-Hb-6Qi">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -64,9 +64,12 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iR1-jd-wb2">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iR1-jd-wb2">
                         <rect key="frame" x="232" y="5" width="93" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="81" id="B7x-W0-al4"/>
+                            <constraint firstAttribute="height" constant="21" id="pb7-Fc-5b9"/>
+                        </constraints>
                         <buttonCell key="cell" type="push" title="Reset All" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dWn-LY-Hjd">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -76,6 +79,10 @@
                         </connections>
                     </button>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="iR1-jd-wb2" secondAttribute="bottom" constant="12" id="Kc4-p2-C0Z"/>
+                    <constraint firstAttribute="trailing" secondItem="iR1-jd-wb2" secondAttribute="trailing" constant="20" id="zDg-QS-wmf"/>
+                </constraints>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="yzF-aI-F4s"/>

@@ -450,7 +450,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     else if([[self representedObject] isMemberOfClass:[OEDBCollection class]])
     {
         // remove games from collection if user allows it
-        if([[OEAlert removeGamesFromCollectionAlert] runModal] == NSAlertFirstButtonReturn)
+        if([[OEAlert removeGamesFromCollectionAlert:multipleGames] runModal] == NSAlertFirstButtonReturn)
         {
             OEDBCollection* collection = (OEDBCollection*)[self representedObject];
             [[collection mutableGames] minusSet:[NSSet setWithArray:selectedGames]];
@@ -581,8 +581,8 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
                     OEAlertCompletionHandler originalCompletionHandler = [alert callbackHandler];
                     [alert setCallbackHandler:^(OEAlert *alert, NSModalResponse result){
                         NSString *messageText = [error localizedDescription];
-                        OEAlert *errorAlert = [OEAlert alertWithMessageText:messageText defaultButton:@"OK" alternateButton:@""];
-                        [errorAlert setTitle:@"Consolidating files failed."];
+                        OEAlert *errorAlert = [OEAlert alertWithMessageText:messageText defaultButton:NSLocalizedString(@"OK", @"") alternateButton:@""];
+                        [errorAlert setTitle:NSLocalizedString(@"Consolidating files failed.", @"")];
                         [errorAlert runModal];
 
                         if(originalCompletionHandler) originalCompletionHandler(alert, result);
@@ -600,7 +600,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
             }];
         });
         
-        [alert setDefaultButtonTitle:@"Stop"];
+        [alert setDefaultButtonTitle:NSLocalizedString(@"Stop", @"")];
         alertResult = [alert runModal];
         
     });

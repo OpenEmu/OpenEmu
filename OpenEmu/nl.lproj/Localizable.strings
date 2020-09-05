@@ -42,9 +42,9 @@
 
 "Add Cheat" = "Voeg cheat toe";
 
-"Add Cover Art From File…" = "Voeg omslagafbeelding uit bestand toe…";
+"Add Cover Art from File…" = "Voeg omslagafbeelding uit bestand toe…";
 
-"Add To Collection" = "Voeg toe aan verzameling";
+"Add to Collection" = "Voeg toe aan verzameling";
 
 "All Games" = "Alle spellen";
 
@@ -63,6 +63,8 @@
 "Are you sure you want to delete the selected games from your OpenEmu library?" = "Weet u zeker dat u de geselecteerde spellen wilt verwijderen uit uw OpenEmu-biblioteek?";
 
 "Are you sure you want to quit the application?" = "Weet u zeker dat u de toepassing wilt stoppen?";
+
+"Are you sure you want to remove the selected game from the collection?" = "Weet u zeker dat u het geselecteerde spel wilt verwijderen uit de verzameling?";
 
 "Are you sure you want to remove the selected games from the collection?" = "Weet u zeker dat u de geselecteerde spellen wilt verwijderen uit de verzameling?";
 
@@ -113,6 +115,8 @@
 "Consolidate Files…" = "Voeg bestanden samen…";
 
 "Consolidate" = "Voeg samen";
+
+"Consolidating files failed." = "Consolidating files failed."; // TODO
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Samenvoegen zal alle geselecteerde spellen kopiëren naar de OpenEmu-bibliotheekmap.\n\nDit kan niet ongedaan worden gemaakt.";
 
@@ -266,7 +270,7 @@
 
 "Locate '%@'" = "Vind '%@'";
 
-"Locate" = "Vind";
+"Locate…" = "Vind…";
 
 "Low Controller Battery" = "Batterij van controller bijna leeg";
 
@@ -380,8 +384,6 @@
 
 "Resolve Issues" = "Resolve Issues";
 
-"Restart now" = "Herstart nu";
-
 "Restart System" = "Herstart systeem";
 
 "Restart" = "Herstart";
@@ -416,19 +418,19 @@
 
 "Select All" = "Selecteer alles";
 
-"Select Audio Output Device" = "Selecteer audio-uitvoerapparaat";
+"Select Audio Output Device" = "Audio-uitvoerapparaat";
 
-"Select Cheat" = "Selecteer cheat";
+"Select Cheat" = "Cheats";
 
-"Select Core" = "Selecteer kern";
+"Select Core" = "Kernen";
 
-"Select Disc" = "Selecteer schijf";
+"Select Disc" = "Schijven";
 
-"Select Display Mode" = "Selecteer weergavemodus";
+"Select Display Mode" = "Weergavemodus";
 
-"Select Shader" = "Selecteer shader";
+"Select Shader" = "Shaders";
 
-"Select Scale" = "Selecteer schaal";
+"Select Scale" = "Schaal";
 
 "Share" = "Deel";
 
@@ -496,7 +498,7 @@
 
 "User guide on BIOS files" = "Gebruikershandleiding over BIOS-bestanden";
 
-"View Guide In Browser" = "Bekijk handleiding in browser";
+"View Guide in Browser" = "Bekijk handleiding in browser";
 
 "Warning" = "Waarschuwing";
 
@@ -510,7 +512,7 @@
 
 "Yes" = "Ja";
 
-"You can't move your library here!" = "U kan uw bibliotheek niet hiernaar verplaatsen!";
+"You can't move your library into one of its subfolders." = "U kan uw bibliotheek niet hiernaar verplaatsen!"; // TODO
 
 "You need to restart the application to commit the change" = "U moet de toepassing herstarten om de aanpassing door te voeren";
 
@@ -574,6 +576,8 @@
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
 
+"Continue" = "Ga door";
+
 
 /* Secrets */
 
@@ -590,8 +594,6 @@
 "Library Window" = "Bibliotheekvenster";
 
 "Reset main window size" = "Herstel grootte van hoofdvenster";
-
-"Dark GridView context menu" = "Dark GridView context menu";
 
 "Download missing artwork on the fly" = "Download ontbrekend artwork wanneer nodig";
 
@@ -665,9 +667,9 @@
 
 "Database Actions" = "Database acties";
 
-"Delete Artwork that can be downloaded" = "Verwijder artwork dat kan gedownload worden";
+"Delete artwork that can be downloaded" = "Verwijder artwork dat kan gedownload worden";
 
-"Download missing artwork" = "Download ontbrekend artwork";
+"Download missing artwork…" = "Download ontbrekend artwork…";
 
 "Remove untracked artwork files" = "Remove untracked artwork files";
 
@@ -680,10 +682,6 @@
 "Perform Sanity Check on Database" = "Controleer database op zuiverheid";
 
 "While performing this operation OpenEmu will be unresponsive." = "Terwijl OpenEmu deze handeling verricht, reageert het niet.";
-
-"Do it!" = "Doe het!";
-
-"Cancel Operation" = "Annuleer handeling";
 
 "Delete useless image objects" = "Verwijder nutteloze afbeeldingsobjecten";
 

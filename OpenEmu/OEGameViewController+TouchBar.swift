@@ -26,30 +26,25 @@
 
 import Cocoa
 
-@available(OSX 10.12.1, *)
 fileprivate enum GameplaySegments: Int {
     case pauseGameplay = 0
     case restartSystem = 1
 }
 
-@available(OSX 10.12.1, *)
 fileprivate enum SaveStatesSegments: Int {
     case quickSave = 0
     case quickLoad = 1
 }
 
-@available(OSX 10.12.1, *)
 fileprivate enum VolumeSegments: Int {
     case down = 0
     case up   = 1
 }
 
-@available(OSX 10.12.2, *)
 fileprivate extension NSTouchBar.CustomizationIdentifier {
     static let touchBar = "org.openemu.GameViewControllerTouchBar"
 }
 
-@available(OSX 10.12.2, *)
 fileprivate extension NSTouchBarItem.Identifier {
     static let stop = NSTouchBarItem.Identifier("org.openemu.GameViewControllerTouchBar.stop")
     static let gameplay = NSTouchBarItem.Identifier("org.openemu.GameViewControllerTouchBar.gameplay")
@@ -58,7 +53,6 @@ fileprivate extension NSTouchBarItem.Identifier {
     static let toggleFullScreen = NSTouchBarItem.Identifier("org.openemu.GameViewControllerTouchBar.toggleFullScreen")
 }
 
-@available(OSX 10.12.2, *)
 extension OEGameViewController {
     
     open override func makeTouchBar() -> NSTouchBar? {
@@ -83,7 +77,6 @@ extension OEGameViewController {
     }
 }
 
-@available(OSX 10.12.2, *)
 extension OEGameViewController: NSTouchBarDelegate {
     
     public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
@@ -163,7 +156,7 @@ extension OEGameViewController: NSTouchBarDelegate {
         case .toggleFullScreen:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
-            item.customizationLabel = NSLocalizedString("Toggle Full Screen", comment: "")
+            item.customizationLabel = NSLocalizedString("Toggle Fullscreen", comment: "")
             
             let imageName: NSImage.Name = document.gameWindowController.window!.isFullScreen ? NSImage.touchBarExitFullScreenTemplateName : NSImage.touchBarEnterFullScreenTemplateName
             let image = NSImage(named: imageName)!

@@ -14,18 +14,6 @@
 /* Class = "NSButtonCell"; title = "Always launch games fullscreen"; ObjectID = "26"; */
 "26.title" = "總是全螢幕啟動遊戲";
 
-/* Class = "CocoaBindingsConnection"; ibShadowedIsNilPlaceholder = "Linear Interpolation"; ObjectID = "55"; */
-"55.ibShadowedIsNilPlaceholder" = "線性內插";
-
-/* Class = "CocoaBindingsConnection"; ibShadowedMultipleValuesPlaceholder = "Linear Interpolation"; ObjectID = "55"; */
-"55.ibShadowedMultipleValuesPlaceholder" = "線性內插";
-
-/* Class = "CocoaBindingsConnection"; ibShadowedNoSelectionPlaceholder = "Linear Interpolation"; ObjectID = "55"; */
-"55.ibShadowedNoSelectionPlaceholder" = "線性內插";
-
-/* Class = "CocoaBindingsConnection"; ibShadowedNotApplicablePlaceholder = "Linear Interpolation"; ObjectID = "55"; */
-"55.ibShadowedNotApplicablePlaceholder" = "線性內插";
-
 /* Class = "NSButtonCell"; title = "Always pause gameplay when in background"; ObjectID = "57"; */
 "57.title" = "總是在後台時暫停遊戲";
 

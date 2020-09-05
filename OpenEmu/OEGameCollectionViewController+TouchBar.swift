@@ -26,18 +26,15 @@
 
 import Cocoa
 
-@available(OSX 10.12.2, *)
 fileprivate extension NSTouchBar.CustomizationIdentifier {
     static let touchBar = "org.openemu.OEGameCollectionViewController.play"
 }
 
-@available(OSX 10.12.2, *)
 fileprivate extension NSTouchBarItem.Identifier {
     static let delete = NSTouchBarItem.Identifier("org.openemu.OEGameCollectionViewController.delete")
     static let play = NSTouchBarItem.Identifier("org.openemu.OEGameCollectionViewController.play")
 }
 
-@available(OSX 10.12.2, *)
 extension OEGameCollectionViewController {
     
     open override func makeTouchBar() -> NSTouchBar? {
@@ -59,7 +56,6 @@ extension OEGameCollectionViewController {
     }
 }
 
-@available(OSX 10.12.2, *)
 extension OEGameCollectionViewController: NSTouchBarDelegate {
     
     public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
@@ -99,7 +95,6 @@ extension OEGameCollectionViewController: NSTouchBarDelegate {
     }
 }
 
-@available(OSX 10.12.2, *)
 fileprivate class GamesTouchBar: NSTouchBar {
     
     weak var gameCollectionViewController: OEGameCollectionViewController? {

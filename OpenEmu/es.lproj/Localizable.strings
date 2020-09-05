@@ -64,6 +64,8 @@
 
 "Are you sure you want to quit the application?" = "¿Está seguro que desea salir de la aplicación?";
 
+"Are you sure you want to remove the selected game from the collection?" = "¿Está seguro que desea eliminar el juego seleccionado de la colección?";
+
 "Are you sure you want to remove the selected games from the collection?" = "¿Está seguro que desea eliminar los juegos seleccionados de la colección?";
 
 "Are you sure you want to remove this collection?" = "¿Está seguro que desea eliminar esta colección?";
@@ -113,6 +115,8 @@
 "Consolidate Files…" = "Consolidar archivos…";
 
 "Consolidate" = "Consolidar";
+
+"Consolidating files failed." = "Consolidating files failed."; // TODO
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Consolidar copiará todos los juegos seleccionados en la carpeta biblioteca de OpenEmu.\n\nEsto no se puede deshacer.";
 
@@ -266,7 +270,7 @@
 
 "Locate '%@'" = "Buscar '%@'";
 
-"Locate" = "Buscar";
+"Locate…" = "Buscar…";
 
 "Low Controller Battery" = "Batería del mando baja";
 
@@ -379,8 +383,6 @@
 "Resolve %ld Issues" = "Solucionar %ld errores";
 
 "Resolve Issues" = "Solucionar errores";
-
-"Restart now" = "Reiniciar ahora";
 
 "Restart System" = "Reiniciar sistema";
 
@@ -510,7 +512,7 @@
 
 "Yes" = "Si";
 
-"You can't move your library here!" = "¡No puede mover su biblioteca aquí!";
+"You can't move your library into one of its subfolders." = "¡No puede mover su biblioteca aquí!"; // TODO
 
 "You need to restart the application to commit the change" = "Necesita reiniciar la aplicación para confirmar el cambio";
 
@@ -574,6 +576,8 @@
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
 
+"Continue" = "Continuar";
+
 
 /* Secrets */
 
@@ -590,8 +594,6 @@
 "Library Window" = "Ventana de biblioteca";
 
 "Reset main window size" = "Restablecer tamaño de ventana principal";
-
-"Dark GridView context menu" = "Menú contextual oscuro en vista cuadrícula";
 
 "Download missing artwork on the fly" = "Descargar carátula no encontrada al instante";
 
@@ -667,7 +669,7 @@
 
 "Delete artwork that can be downloaded" = "Eliminar carátula que puede ser descargada";
 
-"Download missing artwork" = "Descargar carátula no encontrada";
+"Download missing artwork…" = "Descargar carátula no encontrada…";
 
 "Remove untracked artwork files" = "Borrar archivos de carátulas no indexados";
 
@@ -680,10 +682,6 @@
 "Perform Sanity Check on Database" = "Realizar comprobación de integridad en base de datos";
 
 "While performing this operation OpenEmu will be unresponsive." = "Mientras realiza esta operación OpenEmu no responderá.";
-
-"Do it!" = "¡Hacerlo!";
-
-"Cancel Operation" = "Cancelar operación";
 
 "Delete useless image objects" = "Eliminar objetos de imagen inservibles";
 

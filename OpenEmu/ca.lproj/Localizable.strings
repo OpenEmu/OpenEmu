@@ -60,9 +60,11 @@
 
 "Are you sure you want to delete the selected game from your OpenEmu library?" = "Esteu segur que voleu esborrar el joc seleccionat de la biblioteca de l'OpenEmu?";
 
-"Are you sure you want to delete the selected games from your OpenEmu library?" = "Esteu segur que voleu esborrar el jocs seleccionats de la biblioteca de l'OpenEmu?";
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "Esteu segur que voleu esborrar els jocs seleccionats de la biblioteca de l'OpenEmu?";
 
 "Are you sure you want to quit the application?" = "Esteu segur que voleu sortir de l'aplicació?";
+
+"Are you sure you want to remove the selected game from the collection?" = "Esteu segur que voleu esborrar el joc seleccionat de la col·lecció?";
 
 "Are you sure you want to remove the selected games from the collection?" = "Esteu segur que voleu esborrar els jocs seleccionats de la col·lecció?";
 
@@ -113,6 +115,8 @@
 "Consolidate Files…" = "Consolida els fitxers…";
 
 "Consolidate" = "Consolida";
+
+"Consolidating files failed." = "Consolidating files failed."; // TODO
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "El procés de consolidació copiarà tots els jocs seleccionats a la carpeta de la biblioteca de l'OpenEmu.\n\nAixò no es pot desfer.";
 
@@ -266,7 +270,7 @@
 
 "Locate '%@'" = "Troba '%@'";
 
-"Locate" = "Troba";
+"Locate…" = "Troba…";
 
 "Low Controller Battery" = "La càrrega de la bateria del controlador és baixa";
 
@@ -379,8 +383,6 @@
 "Resolve %ld Issues" = "Resoleu %ld problemes";
 
 "Resolve Issues" = "Resol els problemes";
-
-"Restart now" = "Reinicia ara";
 
 "Restart System" = "Reinicia el sistema";
 
@@ -510,7 +512,7 @@
 
 "Yes" = "Sí";
 
-"You can't move your library here!" = "No es pot moure la biblioteca aquí.";
+"You can't move your library into one of its subfolders." = "No es pot moure la biblioteca aquí."; // TODO
 
 "You need to restart the application to commit the change" = "Heu de reiniciar l'aplicació per aplicar el canvi";
 
@@ -574,6 +576,8 @@
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
 
+"Continue" = "Continuar";
+
 
 /* Secrets */
 
@@ -590,8 +594,6 @@
 "Library Window" = "Finestra de la biblioteca";
 
 "Reset main window size" = "Restableix la mida de la finestra principal";
-
-"Dark GridView context menu" = "Menú contextual de la visualització de graella fosc";
 
 "Download missing artwork on the fly" = "Baixa les imatges que faltin sobre la marxa";
 
@@ -667,7 +669,7 @@
 
 "Delete artwork that can be downloaded" = "Esborra les imatges que es poden baixar";
 
-"Download missing artwork" = "Baixa les imatges que falten";
+"Download missing artwork…" = "Baixa les imatges que falten…";
 
 "Remove untracked artwork files" = "Esborra les imatges sense seguiment";
 
@@ -680,10 +682,6 @@
 "Perform Sanity Check on Database" = "Realitza les comprovacions de validesa a la base de dades";
 
 "While performing this operation OpenEmu will be unresponsive." = "L'OpenEmu no respondrà durant aquesta operació.";
-
-"Do it!" = "Fes-ho!";
-
-"Cancel Operation" = "Cancel·la l'operació";
 
 "Delete useless image objects" = "Esborra els objectes d'imatge inútils";
 

@@ -64,6 +64,8 @@
 
 "Are you sure you want to quit the application?" = "Voulez-vous vraiment quitter l’application ?";
 
+"Are you sure you want to remove the selected game from the collection?" = "Voulez-vous vraiment supprimer le jeu sélectionné de votre collection ?";
+
 "Are you sure you want to remove the selected games from the collection?" = "Voulez-vous vraiment supprimer les jeux sélectionnés de votre collection ?";
 
 "Are you sure you want to remove this collection?" = "Voulez-vous vraiment supprimer cette collection ?";
@@ -113,6 +115,8 @@
 "Consolidate Files…" = "Réunir les fichiers…";
 
 "Consolidate" = "Réunir";
+
+"Consolidating files failed." = "Consolidating files failed."; // TODO
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Réunir les fichiers copiera tous les jeux sélectionnés dans le dossier de la bibliothèque OpenEmu.\n\nCette opération est irréversible.";
 
@@ -266,7 +270,7 @@
 
 "Locate '%@'" = "Localiser « %@ »";
 
-"Locate" = "Localiser";
+"Locate…" = "Localiser…";
 
 "Low Controller Battery" = "Piles de la manette déchargées";
 
@@ -380,8 +384,6 @@
 
 "Resolve Issues" = "Résoudre les problèmes";
 
-"Restart now" = "Redémarrer maintenant";
-
 "Restart System" = "Redémarrer le système";
 
 "Restart" = "Redémarrer";
@@ -416,19 +418,19 @@
 
 "Select All" = "Tout sélectionner";
 
-"Select Audio Output Device" = "Sélectionner le périphérique de sortie audio";
+"Select Audio Output Device" = "Périphérique de sortie audio";
 
-"Select Cheat" = "Sélectionner un code de triche";
+"Select Cheat" = "Codes de triche";
 
-"Select Core" = "Sélectionner un cœur";
+"Select Core" = "Cœurs";
 
-"Select Disc" = "Sélectionner un disque";
+"Select Disc" = "Disque";
 
-"Select Display Mode" = "Sélectionner un mode d'affichage";
+"Select Display Mode" = "Modes d'affichage";
 
-"Select Shader" = "Sélectionner un shader";
+"Select Shader" = "Shaders";
 
-"Select Scale" = "Sélectionner une échelle";
+"Select Scale" = "Échelle";
 
 "Share" = "Partager";
 
@@ -496,7 +498,7 @@
 
 "User guide on BIOS files" = "Guide de l’utilisateur de fichiers BIOS";
 
-"View Guide In Browser" = "Afficher le guide";
+"View Guide in Browser" = "Afficher le guide";
 
 "Warning" = "Avertissement";
 
@@ -510,7 +512,7 @@
 
 "Yes" = "Oui";
 
-"You can't move your library here!" = "Vous ne pouvez pas déplacer votre bibliothèque ici !";
+"You can't move your library into one of its subfolders." = "Vous ne pouvez pas déplacer votre bibliothèque ici !"; // TODO
 
 "You need to restart the application to commit the change" = "Vous devez redémarrer l’application pour valider la modification";
 
@@ -574,6 +576,8 @@
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
 
+"Continue" = "Continuer";
+
 
 /* Secrets */
 
@@ -590,8 +594,6 @@
 "Library Window" = "Fenêtre de la bibliothèque";
 
 "Reset main window size" = "Rétablir la taille de la fenêtre principale";
-
-"Dark GridView context menu" = "Menu contextuel sombre dans la présentation par grille";
 
 "Download missing artwork on the fly" = "Télécharger l’illustration manquante à la volée";
 
@@ -667,7 +669,7 @@
 
 "Delete artwork that can be downloaded" = "Supprimer l’illustration qui peut être téléchargée";
 
-"Download missing artwork" = "Télécharger l’illustration manquante";
+"Download missing artwork…" = "Télécharger l’illustration manquante…";
 
 "Remove untracked artwork files" = "Supprimer les fichiers d’illustration externes";
 
@@ -680,10 +682,6 @@
 "Perform Sanity Check on Database" = "Vérifier l’intégrité de la base de données";
 
 "While performing this operation OpenEmu will be unresponsive." = "OpenEmu ne répondra pas pendant l’exécution de cette opération.";
-
-"Do it!" = "Fais-le !";
-
-"Cancel Operation" = "Annuler l’opération";
 
 "Delete useless image objects" = "Supprimer les objets d’image inutiles";
 

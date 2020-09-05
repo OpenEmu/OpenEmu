@@ -329,6 +329,8 @@
 			<string>Bold</string>
 			<key>Weight</key>
 			<integer>6</integer>
+			<key>Baseline Offset</key>
+			<integer>-1</integer>
 		</dict>
 		<key>grid_group_subtitle</key>
 		<dict>
@@ -353,6 +355,8 @@
 			<string>Bold</string>
 			<key>Weight</key>
 			<integer>3</integer>
+			<key>Baseline Offset</key>
+			<integer>-1</integer>
 		</dict>
 		<key>game_scanner_issues_headline</key>
 		<dict>
@@ -1054,6 +1058,8 @@
 			<integer>11</integer>
 			<key>Weight</key>
 			<string>0.4</string>
+			<key>Baseline Offset</key>
+			<integer>-2</integer>
 		</dict>
 		<key>homebrew_headline</key>
 		<dict>
@@ -2935,13 +2941,13 @@
 					<array>
 						<string>{{0,0},{9,10}}</string>
 						<string>{{9,0},{1,10}}</string>
-						<string>{{10,0},{21,10}}</string>
+						<string>{{10,0},{19,10}}</string>
 						<string>{{0,10},{9,2}}</string>
 						<string>{{9,10},{1,2}}</string>
-						<string>{{10,10},{21,2}}</string>
+						<string>{{10,10},{19,2}}</string>
 						<string>{{0,12},{9,11}}</string>
 						<string>{{9,12},{1,11}}</string>
-						<string>{{10,12},{21,11}}</string>
+						<string>{{10,12},{19,11}}</string>
 					</array>
 				</dict>
 			</dict>

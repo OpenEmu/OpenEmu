@@ -50,19 +50,21 @@
 
 "All Homebrew" = "Alle Homebrew-Spiele";
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Möchtest du wirklich %ld Spielstände aus der Mediathek entfernen?";
+"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Möchtest du die %ld ausgewählten Spielstände wirklich aus der Mediathek löschen?";
 
-"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Möchtest du wirklich %ld Bildschirmfotos aus der Mediathek entfernen?";
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Möchtest du die %ld ausgewählten Bildschirmfotos wirklich aus der Mediathek löschen?";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Möchtest du den Spielstand „%@“ wirklich aus der Mediathek entfernen?";
+"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Möchtest du den Spielstand „%@“ wirklich aus der Mediathek löschen?";
 
-"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Möchtest du das Bildschirmfoto „%@“ wirklich aus der Mediathek entfernen?";
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Möchtest du das Bildschirmfoto „%@“ wirklich aus der Mediathek löschen?";
 
-"Are you sure you want to delete the selected game from your OpenEmu library?" = "Möchtest du das ausgewählte Spiel wirklich aus der Mediathek entfernen?";
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "Möchtest du das ausgewählte Spiel wirklich aus der Mediathek löschen?";
 
-"Are you sure you want to delete the selected games from your OpenEmu library?" = "Möchtest du die ausgewählten Spiele wirklich aus der Mediathek entfernen?";
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "Möchtest du die ausgewählten Spiele wirklich aus der Mediathek löschen?";
 
 "Are you sure you want to quit the application?" = "Möchtest du OpenEmu wirklich beenden?";
+
+"Are you sure you want to remove the selected game from the collection?" = "Möchtest du das ausgewählte Spiel wirklich aus der Sammlung entfernen?";
 
 "Are you sure you want to remove the selected games from the collection?" = "Möchtest du die ausgewählten Spiele wirklich aus der Sammlung entfernen?";
 
@@ -96,7 +98,7 @@
 
 "Choose a valid file." = "Wähle eine gültige Datei aus.";
 
-"Choose Library…" = "Auswählen …";
+"Choose Library…" = "Mediathek wählen …";
 
 "Choose OpenEmu Library" = "OpenEmu-Mediathek auswählen";
 
@@ -114,6 +116,8 @@
 
 "Consolidate" = "Zusammenlegen";
 
+"Consolidating files failed." = "Zusammenlegen fehlgeschlagen.";
+
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Beim Zusammenlegen werden die ausgewählten Spiele in den OpenEmu-Spieleordner kopiert.\n\nDiese Aktion kann nicht rückgängig gemacht werden.";
 
 "Controls" = "Steuerung";
@@ -126,7 +130,7 @@
 
 "Copying ROM Files…" = "Kopiere ROM-Dateien …";
 
-"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+"Copying ROM files failed!" = "Kopieren der ROM-Dateien fehlgeschlagen!";
 
 "Core Provided By…" = "Kern basiert auf …";
 
@@ -138,7 +142,7 @@
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Erstelle eine eigene Spieleauswahl. Um ein Spiel zur Sammlung hinzuzufügen, wähle es in der Konsolenansicht aus und ziehe es auf „%@“ in der Seitenleiste.";
 
-"Create Library…" = "Neue erstellen …";
+"Create Library…" = "Neu erstellen …";
 
 "Create or Load Save State" = "Spielstand erstellen oder laden";
 
@@ -156,13 +160,13 @@
 
 "Delete Save States" = "Spielstände löschen";
 
-"Delete Save" = "Löschen"; //Spielstand löschen
+"Delete Save" = "Spielstand löschen";
 
-"Delete Saves" = "Löschen"; //Spielstände löschen
+"Delete Saves" = "Spielstände löschen";
 
-"Delete Screenshot" = "Löschen"; //Bildschirmfoto löschen
+"Delete Screenshot" = "Bildschirmfoto löschen";
 
-"Delete Screenshots" = "Löschen"; //Bildschirmfotos löschen
+"Delete Screenshots" = "Bildschirmfotos löschen";
 
 "Delete" = "Löschen";
 
@@ -246,7 +250,7 @@
 
 "In order to play the game it must be downloaded." = "Um das Spiel zu starten, muss es zunächst heruntergeladen werden.";
 
-"Insert Cart/Disk/Tape…" = "Cart/Disk/Tape einwerfen…";
+"Insert Cart/Disk/Tape…" = "Cart/Disk/Tape einlegen …";
 
 "Install" = "Installieren";
 
@@ -266,7 +270,7 @@
 
 "Locate '%@'" = "Suche „%@“";
 
-"Locate" = "Suchen";
+"Locate…" = "Suchen …";
 
 "Low Controller Battery" = "Batterieladung des Controllers ist schwach";
 
@@ -282,7 +286,7 @@
 
 "Move to Trash" = "In den Papierkorb legen";
 
-"Moving Library…" = "Moving Library…";  // TODO
+"Moving Library…" = "Mediathek verschieben …";
 
 "Mute Audio" = "Ton aus";
 
@@ -322,7 +326,7 @@
 
 "OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu besitzt eine Funktion, dank der du dort weiterspielen kannst, wo du zuletzt aufgehört hast.";
 
-"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu benötigt eine Mediathek, um fortzufahren. Du kannst eine bereits existierende OpenEmu-Mediathek auswählen oder eine neue erstellen.";
+"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu benötigt zum Fortfahren eine Mediathek. Du kannst eine vorhandene OpenEmu-Mediathek wählen oder eine neue erstellen.";
 
 "OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu nutzt sogenannte „Kerne“, um Spiele zu emulieren. Du benötigst den „%1$@“-Kern, um „%2$@“ zu spielen.";
 
@@ -380,8 +384,6 @@
 
 "Resolve Issues" = "Probleme beheben";
 
-"Restart now" = "Jetzt neu starten";
-
 "Restart System" = "Spiel neu starten";
 
 "Restart" = "Neu starten";
@@ -396,7 +398,7 @@
 
 "Save Current Game…" = "Aktuelles Spiel sichern …";
 
-"Save Game" = "Sichern"; //Spielstand sichern
+"Save Game" = "Spielstand sichern";
 
 "Save States" = "Spielstände";
 
@@ -430,7 +432,7 @@
 
 "Select Shader" = "Shader";
 
-"Share" = "Senden";
+"Share" = "Teilen";
 
 "Show in Finder" = "Im Finder anzeigen";
 
@@ -450,7 +452,7 @@
 
 "Switch To List View" = "Objekte in einer Liste zeigen";
 
-"System Default" = "System Default"; // Default audio device setting // TODO
+"System Default" = "Systemstandard";
 
 "System Files" = "BIOS-Dateien";
 
@@ -510,17 +512,13 @@
 
 "Yes" = "Ja";
 
-"You can't move your library here!" = "Die Mediathek kann nicht hierhin verschoben werden.";
+"You can't move your library into one of its subfolders." = "Die Mediathek kann nicht in einen ihrer Unterordner verschoben werden.";
 
 "You need to restart the application to commit the change" = "OpenEmu muss neu gestartet werden, um die Änderung anzuwenden";
 
 "Your game finished importing, do you want to play it now?" = "Das Spiel wurde importiert. Möchtest du es jetzt spielen?";
 
 "Your library was moved sucessfully." = "Die Mediathek wurde erfolgreich verschoben.";
-
-"Library" = "Spiele";
-
-"Save States" = "Spielstände";
 
 "Homebrew" = "Homebrew";
 
@@ -554,23 +552,25 @@
 
 "This plugin is currently unsupported" = "Dieses Plugin wird zur Zeit nicht unterstützt.";
 
-"Install %@" = "Install %@";  // TODO
+"Install %@" = "%@ installieren";
 
-"Install %@ and Set as Default" = "Install %@ and Set as Default";  // TODO
+"Install %@ and Set as Default" = "%@ installieren und als Standard festlegen";
 
-"Ignore" = "Ignore";  // TODO
+"Ignore" = "Ignorieren";
 
-"OpenEmu requires additional permissions" = "OpenEmu requires additional permissions";  // Headline for Input Monitoring permissions // TODO
+"OpenEmu requires additional permissions" = "OpenEmu benötigt zusätzliche Rechte";
 
-"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues.";  // "Message for Input Monitoring permissions" // TODO
+"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu benötigt Input-Monitoring-Rechte, damit die Tastatur als Eingabegerät verwendet werden kann.\n\nDas Aus-/Abwählen der Berechtigung kann dabei helfen, Tastatureingabeprobleme zu beheben.";
 
-"Show" = "Show";  // TODO
+"Show" = "Anzeigen";
 
 "Moving the Game Library is not recommended" = "Moving the Game Library is not recommended";  //Message headline (attempted to change location of library)  // TODO
 
 "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives.";  // Message text (attempted to change location of library, HTML  // TODO
 
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
+
+"Continue" = "Fortfahren";
 
 
 /* Secrets */
@@ -587,9 +587,7 @@
 
 "Library Window" = "Mediathek-Ansicht";
 
-"Reset main window size" = "Hauptfenster-Größe zurücksetzen";
-
-"Dark GridView context menu" = "Dunkles Kontextmenü in Spieleansicht verwenden";
+"Reset main window size" = "Hauptfenstergröße zurücksetzen";
 
 "Download missing artwork on the fly" = "Fehlende Cover on-the-fly herunterladen";
 
@@ -597,9 +595,9 @@
 
 "Manually choose system on import" = "Konsole beim Import manuell auswählen";
 
-"Show autosave states in save state category" = "Automatische Sicherungen in Spielstände-Kategorie anzeigen";
+"Show autosave states in save state category" = "Automatische Sicherungen in Spielstände-Ansicht anzeigen";
 
-"Show quicksave states in save state category" = "Schnelle Sicherungen in Spielstände-Kategorie anzeigen";
+"Show quicksave states in save state category" = "Schnelle Sicherungen in Spielstände-Ansicht anzeigen";
 
 "Show game scanner view" = "Spiele-Scanner einblenden";
 
@@ -665,7 +663,7 @@
 
 "Delete artwork that can be downloaded" = "Herunterladbare Cover löschen";
 
-"Download missing artwork" = "Fehlende Cover herunterladen";
+"Download missing artwork…" = "Fehlende Cover herunterladen …";
 
 "Remove untracked artwork files" = "Nicht getrackte Cover entfernen";
 
@@ -678,10 +676,6 @@
 "Perform Sanity Check on Database" = "Datenbank auf Plausibilität prüfen";
 
 "While performing this operation OpenEmu will be unresponsive." = "Während dieser Aktion wird OpenEmu nicht mehr reagieren.";
-
-"Do it!" = "Los!";
-
-"Cancel Operation" = "Abbrechen";
 
 "Delete useless image objects" = "Unbenutzte Bilder löschen";
 
@@ -701,16 +695,8 @@
 
 "Unchecked" = "Nicht ausgewählt";  // Default value tooltip for checkboxes: unchecked default
 
-"OpenEmu requires additional permissions" = "OpenEmu benötigt zusätzliche Rechte";
+"Shaders" = "Shader";
 
-"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu benötigt Input-Monitoring-Rechte, damit die Tastatur als Eingabegerät verwendet werden kann.\n\nDas Aus-/Abwählen der Berechtigung kann dabei helfen, Tastatureingabeprobleme zu beheben.";
+"Clear shader cache" = "Shader-Cache leeren";
 
-"Show" = "Anzeigen";
-
-"Ignore" = "Ignorieren";
-
-"Shaders" = "Shaders";  // TODO
-
-"Clear shader cache" = "Clear shader cache";  // TODO
-
-"Reveal user shader folder" = "Reveal user shader folder";  // TODO
+"Reveal user shader folder" = "Benutzershader-Ordner anzeigen";
