@@ -786,6 +786,9 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];
     result = [result URLByAppendingPathComponent:saveStateFolderName isDirectory:YES];
 
+    // In case one of the appended components is a symlink.
+    result = [result URLByResolvingSymlinksInPath];
+
     // [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
 
     return result;
