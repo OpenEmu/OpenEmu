@@ -71,7 +71,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     tableView.usesAutomaticRowHeights = YES;
     tableView.floatsGroupRows = YES;
 
-    [tableView registerForDraggedTypes:@[NSPasteboardTypeURL]];
+    [tableView registerForDraggedTypes:@[NSPasteboardTypeFileURL]];
 
     NSString *biosPath = [OEBIOSFile biosPath];
     self.fileSystemWatcher = [OEFSWatcher watcherForPath:biosPath withBlock:^(NSString *path, FSEventStreamEventFlags flags) {
