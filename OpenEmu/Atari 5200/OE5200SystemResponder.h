@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <OpenEmuSystem/OpenEmuSystem.h>
+@import OpenEmuSystem;
 #import "OE5200SystemResponderClient.h"
 
 OE_EXPORTED_CLASS

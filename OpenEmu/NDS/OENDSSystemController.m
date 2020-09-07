@@ -25,10 +25,6 @@
  */
 
 #import "OENDSSystemController.h"
-#import "OENDSSystemResponder.h"
-#import "OENDSSystemResponderClient.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OENDSSystemController
 

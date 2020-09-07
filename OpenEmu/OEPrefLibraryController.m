@@ -32,7 +32,6 @@
 #import "OESidebarOutlineView.h"
 #import "OEROMImporter.h"
 
-#import "OEButton.h"
 #import "OEAlert.h"
 
 // Required for warning dialog keys:

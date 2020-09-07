@@ -37,37 +37,37 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushSegaCDButton:(OESegaCDButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushSegaCDButton:(OESegaCDButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseSegaCDButton:(OESegaCDButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseSegaCDButton:(OESegaCDButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)mouseMovedAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] mouseMovedAtPoint:aPoint];
+    [self.client mouseMovedAtPoint:aPoint];
 }
 
 - (void)mouseDownAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] leftMouseDownAtPoint:aPoint];
+    [self.client leftMouseDownAtPoint:aPoint];
 }
 
 - (void)mouseUpAtPoint
 {
-    [[self client] leftMouseUp];
+    [self.client leftMouseUp];
 }
 
 - (void)rightMouseDownAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] rightMouseDownAtPoint:aPoint];
+    [self.client rightMouseDownAtPoint:aPoint];
 }
 
 - (void)rightMouseUpAtPoint
 {
-    [[self client] rightMouseUp];
+    [self.client rightMouseUp];
 }
 
 @end

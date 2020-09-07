@@ -24,14 +24,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <OpenEmuSystem/OpenEmuSystem.h>
+@import OpenEmuSystem;
 
 OE_EXPORTED_CLASS
 @interface OESNESSystemController : OESystemController
-{
-@private
-    
-}
 
 @end

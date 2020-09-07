@@ -37,17 +37,17 @@
 
 - (void)changeAnalogEmulatorKey:(OESystemKey *)aKey value:(CGFloat)value
 {
-    [[self client] didMoveDCJoystickDirection:(OEDCButton)[aKey key] withValue:value forPlayer:aKey.player];
+    [self.client didMoveDCJoystickDirection:(OEDCButton)aKey.key withValue:value forPlayer:aKey.player];
 }
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushDCButton:(OEDCButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushDCButton:(OEDCButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseDCButton:(OEDCButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseDCButton:(OEDCButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

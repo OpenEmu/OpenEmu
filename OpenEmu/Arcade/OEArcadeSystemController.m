@@ -25,10 +25,6 @@
  */
 
 #import "OEArcadeSystemController.h"
-#import "OEArcadeSystemResponder.h"
-#import "OEArcadeSystemResponderClient.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OEArcadeSystemController
 

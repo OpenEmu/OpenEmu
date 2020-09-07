@@ -14,7 +14,6 @@
 #import "OESearchField.h"
 #import "OESearchFieldCell.h"
 #import "OESlider.h"
-#import "OEToolTipManager.h"
 
 #import "OEPreferencePane.h"
 #import "OEPrefLibraryController.h"

@@ -26,10 +26,10 @@
 
 "Archived Game" = "Архивная игра";
 
-"GameCorePlugin" = "GameCore плагин";
+"OpenEmu Core Plugin" = "GameCore плагин";
 
 "OpenEmu Save State" = "OpenEmu сохраненное состояние";
 
-"System Plugin" = "Системный плагин";
+"OpenEmu System Plugin" = "Системный плагин";
 
-"VideoFilterPlugin" = "VideoFilter плагин";
+"OpenEmu Shader" = "Shader плагин";

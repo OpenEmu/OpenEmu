@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -20,10 +20,6 @@
 			<string></string>
 			<key>CFBundleTypeName</key>
 			<string>Archived Game</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>????</string>
-			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>NSDocumentClass</key>
@@ -56,9 +52,9 @@
 				<string>oecoreplugin</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>OECorePluginIcon.icns</string>
+			<string>OEPlugin</string>
 			<key>CFBundleTypeName</key>
-			<string>GameCorePlugin</string>
+			<string>OpenEmu Core Plugin</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
@@ -74,9 +70,9 @@
 				<string>oesystemplugin</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>OECorePluginIcon.icns</string>
+			<string>OEPlugin</string>
 			<key>CFBundleTypeName</key>
-			<string>System Plugin</string>
+			<string>OpenEmu System Plugin</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
@@ -89,12 +85,12 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>oefilterplugin</string>
+				<string>oeshaderplugin</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>OEFilterPluginIcon.icns</string>
+			<string>OEPlugin</string>
 			<key>CFBundleTypeName</key>
-			<string>VideoFilterPlugin</string>
+			<string>OpenEmu Shader</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
@@ -114,11 +110,9 @@
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>2.2.1</string>
-	<key>CFBundleSignature</key>
-	<string>OpEm</string>
 	<key>CFBundleVersion</key>
 	<string>2.2.1</string>
 	<key>LSApplicationCategoryType</key>
@@ -130,6 +124,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2009–2020 OpenEmu Team. All rights reserved.</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>

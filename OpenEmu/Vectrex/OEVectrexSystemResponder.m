@@ -39,14 +39,14 @@
 {
     OEVectrexButton button = (OEVectrexButton)aKey.key;
     if (button == OEVectrexAnalogDown || button == OEVectrexAnalogLeft || button == OEVectrexAnalogRight || button == OEVectrexAnalogUp)
-        [[self client] didMoveVectrexJoystickDirection:button withValue:value forPlayer:aKey.player];
+        [self.client didMoveVectrexJoystickDirection:button withValue:value forPlayer:aKey.player];
     else if (fabs(value) > 0.001f)
     {
-        [[self client] didPushVectrexButton:button forPlayer:aKey.player];
+        [self.client didPushVectrexButton:button forPlayer:aKey.player];
     }
     else
     {
-        [[self client] didReleaseVectrexButton:button forPlayer:aKey.player];
+        [self.client didReleaseVectrexButton:button forPlayer:aKey.player];
     }
  
 }
@@ -57,7 +57,7 @@
     //if (button == OEVectrexAnalogDown || button == OEVectrexAnalogLeft || button == OEVectrexAnalogRight || button == OEVectrexAnalogUp)
     //    [self changeAnalogEmulatorKey:aKey value:1.0f];
     //else
-        [[self client] didPushVectrexButton:button forPlayer:[aKey player]];
+        [self.client didPushVectrexButton:button forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
@@ -66,7 +66,7 @@
     //if (button == OEVectrexAnalogDown || button == OEVectrexAnalogLeft || button == OEVectrexAnalogRight || button == OEVectrexAnalogUp)
     //    [self changeAnalogEmulatorKey:aKey value:0.0f];
     //else
-        [[self client] didReleaseVectrexButton:button forPlayer:[aKey player]];
+        [self.client didReleaseVectrexButton:button forPlayer:aKey.player];
 }
 
 @end

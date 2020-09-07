@@ -26,10 +26,10 @@
 
 "Archived Game" = "Spiel-Archiv";
 
-"GameCorePlugin" = "OpenEmu-Kern";
+"OpenEmu Core Plugin" = "OpenEmu-Kern";
 
 "OpenEmu Save State" = "OpenEmu-Spielstand";
 
-"System Plugin" = "OpenEmu-System";
+"OpenEmu System Plugin" = "OpenEmu-System";
 
-"VideoFilterPlugin" = "OpenEmu-Filter";
+"OpenEmu Shader" = "OpenEmu-Shader";

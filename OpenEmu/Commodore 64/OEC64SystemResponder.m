@@ -38,56 +38,56 @@
 - (void)HIDKeyDown:(OEHIDEvent *)theEvent
 {
     [super HIDKeyDown:theEvent];
-    [[self client] keyDown:[[theEvent keyboardEvent] keyCode] characters:[theEvent characters] charactersIgnoringModifiers:[theEvent charactersIgnoringModifiers] flags:[theEvent modifierFlags]];
+    [self.client keyDown:theEvent.keyboardEvent.keyCode characters:theEvent.characters charactersIgnoringModifiers:theEvent.charactersIgnoringModifiers flags:theEvent.modifierFlags];
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)theEvent
 {
     [super HIDKeyUp:theEvent];
-    [[self client] keyUp:[[theEvent keyboardEvent] keyCode] characters:[theEvent characters] charactersIgnoringModifiers:[theEvent charactersIgnoringModifiers] flags:[theEvent modifierFlags]];
+    [self.client keyUp:theEvent.keyboardEvent.keyCode characters:theEvent.characters charactersIgnoringModifiers:theEvent.charactersIgnoringModifiers flags:theEvent.modifierFlags];
 }
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    OEC64Button button = (OEC64Button)[aKey key];
+    OEC64Button button = (OEC64Button)aKey.key;
     
     switch(button)
     {
-        case OEC64SwapJoysticks : [[self client] swapJoysticks]; break;
+        case OEC64SwapJoysticks : [self.client swapJoysticks]; break;
         default :
-            [[self client] didPushC64Button:button forPlayer:[aKey player]];
+            [self.client didPushC64Button:button forPlayer:aKey.player];
             break;
     }
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseC64Button:(OEC64Button)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseC64Button:(OEC64Button)aKey.key forPlayer:aKey.player];
 }
 
 - (void)mouseMovedAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] mouseMovedAtPoint:aPoint];
+    [self.client mouseMovedAtPoint:aPoint];
 }
 
 - (void)mouseDownAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] leftMouseDownAtPoint:aPoint];
+    [self.client leftMouseDownAtPoint:aPoint];
 }
 
 - (void)mouseUpAtPoint
 {
-    [[self client] leftMouseUp];
+    [self.client leftMouseUp];
 }
 
 - (void)rightMouseDownAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] rightMouseDownAtPoint:aPoint];
+    [self.client rightMouseDownAtPoint:aPoint];
 }
 
 - (void)rightMouseUpAtPoint
 {
-    [[self client] rightMouseUp];
+    [self.client rightMouseUp];
 }
 
 @end

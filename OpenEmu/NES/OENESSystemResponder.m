@@ -37,37 +37,37 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushNESButton:(OENESButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushNESButton:(OENESButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseNESButton:(OENESButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseNESButton:(OENESButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)mouseDownAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] didTriggerGunAtPoint:aPoint];
+    [self.client didTriggerGunAtPoint:aPoint];
 }
 
 - (void)mouseUpAtPoint
 {
-    [[self client] didReleaseTrigger];
+    [self.client didReleaseTrigger];
 }
 
 - (void)mouseMovedAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] mouseMovedAtPoint:aPoint];
+    [self.client mouseMovedAtPoint:aPoint];
 }
 
 - (void)rightMouseDownAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] rightMouseDownAtPoint:aPoint];
+    [self.client rightMouseDownAtPoint:aPoint];
 }
 
 - (void)rightMouseUpAtPoint
 {
-    [[self client] rightMouseUp];
+    [self.client rightMouseUp];
 }
 
 @end

@@ -37,17 +37,17 @@
 
 - (void)changeAnalogEmulatorKey:(OESystemKey *)aKey value:(CGFloat)value
 {
-    [[self client] didMovePSPJoystickDirection:(OEPSPButton)[aKey key] withValue:value forPlayer:aKey.player];
+    [self.client didMovePSPJoystickDirection:(OEPSPButton)aKey.key withValue:value forPlayer:aKey.player];
 }
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushPSPButton:(OEPSPButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushPSPButton:(OEPSPButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleasePSPButton:(OEPSPButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleasePSPButton:(OEPSPButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

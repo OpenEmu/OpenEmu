@@ -29,7 +29,6 @@
 #import "OESidebarOutlineView.h"
 #import "OETheme.h"
 #import "OEThemeTextAttributes.h"
-#import "OEThemeGradient.h"
 
 const CGFloat BadgeSpacing = 2.0;
 
@@ -41,8 +40,6 @@ const CGFloat BadgeSpacing = 2.0;
 @property (nonatomic, strong) NSString *themeKey;
 @property OEThemeTextAttributes *groupAttributes;
 @property OEThemeTextAttributes *itemAttributes;
-@property OEThemeTextAttributes *badgeAttributes;
-@property OEThemeGradient *highlightGradient;
 @end
 
 @implementation OESidebarCell
@@ -80,16 +77,11 @@ const CGFloat BadgeSpacing = 2.0;
     _themeKey = key;
 
     NSString *itemKey  = [key stringByAppendingFormat:@"_item"];
-    NSString *itemBadgeKey = [key stringByAppendingString:@"_item_badge"];
     NSString *groupKey = [key stringByAppendingFormat:@"_group"];
-    NSString *highlightKey = [key stringByAppendingFormat:@"_highlight"];
 
     OETheme *theme = [OETheme sharedTheme];
     [self setItemAttributes:[theme themeTextAttributesForKey:itemKey]];
-    [self setBadgeAttributes:[theme themeTextAttributesForKey:itemBadgeKey]];
     [self setGroupAttributes:[theme themeTextAttributesForKey:groupKey]];
-
-    [self setHighlightGradient:[theme themeGradientForKey:highlightKey]];
 }
 
 - (void)setBackgroundThemeImageKey:(NSString *)key

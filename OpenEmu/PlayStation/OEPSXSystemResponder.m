@@ -37,42 +37,42 @@
 
 - (void)changeAnalogEmulatorKey:(OESystemKey *)aKey value:(CGFloat)value
 {
-    [[self client] didMovePSXJoystickDirection:(OEPSXButton)[aKey key] withValue:value forPlayer:aKey.player];
+    [self.client didMovePSXJoystickDirection:(OEPSXButton)aKey.key withValue:value forPlayer:aKey.player];
 }
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushPSXButton:(OEPSXButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushPSXButton:(OEPSXButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleasePSXButton:(OEPSXButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleasePSXButton:(OEPSXButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)mouseMovedAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] mouseMovedAtPoint:aPoint];
+    [self.client mouseMovedAtPoint:aPoint];
 }
 
 - (void)mouseDownAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] leftMouseDownAtPoint:aPoint];
+    [self.client leftMouseDownAtPoint:aPoint];
 }
 
 - (void)mouseUpAtPoint
 {
-    [[self client] leftMouseUp];
+    [self.client leftMouseUp];
 }
 
 - (void)rightMouseDownAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] rightMouseDownAtPoint:aPoint];
+    [self.client rightMouseDownAtPoint:aPoint];
 }
 
 - (void)rightMouseUpAtPoint
 {
-    [[self client] rightMouseUp];
+    [self.client rightMouseUp];
 }
 
 @end

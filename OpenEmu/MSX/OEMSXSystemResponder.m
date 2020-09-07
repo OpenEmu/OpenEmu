@@ -145,32 +145,32 @@ static NSDictionary *virtualPhysicalKeyMap;
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushMSXJoystickButton:(OEMSXJoystickButton)[aKey key]
-                                 controller:[aKey player]];
+    [self.client didPushMSXJoystickButton:(OEMSXJoystickButton)aKey.key
+                                 controller:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseMSXJoystickButton:(OEMSXJoystickButton)[aKey key]
-                                    controller:[aKey player]];
+    [self.client didReleaseMSXJoystickButton:(OEMSXJoystickButton)aKey.key
+                                    controller:aKey.player];
 }
 
 - (void)HIDKeyDown:(OEHIDEvent *)anEvent
 {
     [super HIDKeyDown:anEvent];
 
-    NSNumber *virtualCode = [virtualPhysicalKeyMap objectForKey:@([anEvent keycode])];
+    NSNumber *virtualCode = [virtualPhysicalKeyMap objectForKey:@(anEvent.keycode)];
     if(virtualCode)
-        [[self client] didPressKey:[virtualCode intValue]];
+        [self.client didPressKey:virtualCode.intValue];
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)anEvent
 {
     [super HIDKeyUp:anEvent];
 
-    NSNumber *virtualCode = [virtualPhysicalKeyMap objectForKey:@([anEvent keycode])];
+    NSNumber *virtualCode = [virtualPhysicalKeyMap objectForKey:@(anEvent.keycode)];
     if(virtualCode)
-        [[self client] didReleaseKey:[virtualCode intValue]];
+        [self.client didReleaseKey:virtualCode.intValue];
 }
 
 @end

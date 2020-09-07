@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPush3DOButton:(OE3DOButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didPush3DOButton:(OE3DOButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didRelease3DOButton:(OE3DOButton)[aKey key] forPlayer:[aKey player]];
+    [self.client didRelease3DOButton:(OE3DOButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

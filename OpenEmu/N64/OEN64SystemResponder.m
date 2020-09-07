@@ -37,17 +37,17 @@
 
 - (void)changeAnalogEmulatorKey:(OESystemKey *)aKey value:(CGFloat)value
 {
-    [[self client] didMoveN64JoystickDirection:(OEN64Button)[aKey key] withValue:value forPlayer:aKey.player];
+    [self.client didMoveN64JoystickDirection:(OEN64Button)aKey.key withValue:value forPlayer:aKey.player];
 }
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushN64Button:(OEN64Button)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushN64Button:(OEN64Button)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseN64Button:(OEN64Button)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseN64Button:(OEN64Button)aKey.key forPlayer:aKey.player];
 }
 
 @end

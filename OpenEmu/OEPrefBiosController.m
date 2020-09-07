@@ -29,8 +29,6 @@
 @import OpenEmuKit;
 
 #import "OETableView.h"
-#import "OETableCellView.h"
-#import "OETheme.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
 

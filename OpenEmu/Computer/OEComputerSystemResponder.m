@@ -37,47 +37,47 @@
 
 - (void)mouseMovedAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] mouseMovedAtPoint:aPoint];
+    [self.client mouseMovedAtPoint:aPoint];
 }
 
 - (void)mouseDownAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] leftMouseDown];
+    [self.client leftMouseDown];
 }
 
 - (void)mouseUpAtPoint
 {
-    [[self client] leftMouseUp];
+    [self.client leftMouseUp];
 }
 
 - (void)rightMouseDown:(NSEvent *)theEvent
 {
-    [[self client] rightMouseDown];
+    [self.client rightMouseDown];
 }
 
 - (void)rightMouseUp:(NSEvent *)theEvent
 {
-    [[self client] rightMouseUp];
+    [self.client rightMouseUp];
 }
 
 - (void)HIDKeyDown:(OEHIDEvent *)theEvent
 {
-    [[self client] keyDown:[theEvent keycode]];
+    [self.client keyDown:theEvent.keycode];
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)theEvent
 {
-    [[self client] keyUp:[theEvent keycode]];
+    [self.client keyUp:theEvent.keycode];
 }
 
 - (void)keyDown:(NSEvent *)theEvent
 {
-    [[self client] keyDown:[theEvent keyCode]];
+    [self.client keyDown:theEvent.keyCode];
 }
 
 - (void)keyUp:(NSEvent *)theEvent
 {
-    [[self client] keyUp:[theEvent keyCode]];
+    [self.client keyUp:theEvent.keyCode];
 }
 
 @end

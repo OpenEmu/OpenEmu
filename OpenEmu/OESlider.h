@@ -24,11 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @import Foundation;
-#import "OEToolTip.h"
 #import "OEControl.h"
 #import "OEThemeObject.h"
 
-@interface OESlider : NSSlider <OEControl, OEToolTip>
+@interface OESlider : NSSlider <OEControl>
 {
     OEThemeState hintImagesState;
 }

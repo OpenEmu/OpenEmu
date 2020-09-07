@@ -25,8 +25,6 @@
  */
 
 #import "OESegaCDSystemController.h"
-#import "OESegaCDSystemResponder.h"
-#import "OESegaCDSystemResponderClient.h"
 
 @implementation OESegaCDSystemController
 

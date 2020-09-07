@@ -25,10 +25,6 @@
  */
 
 #import "OEMSXSystemController.h"
-#import "OEMSXSystemResponder.h"
-#import "OEMSXSystemResponderClient.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OEMSXSystemController
 

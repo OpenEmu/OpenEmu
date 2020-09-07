@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushSVButton:(OESVButton)[aKey key]];
+    [self.client didPushSVButton:(OESVButton)aKey.key];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseSVButton:(OESVButton)[aKey key]];
+    [self.client didReleaseSVButton:(OESVButton)aKey.key];
 }
 
 @end

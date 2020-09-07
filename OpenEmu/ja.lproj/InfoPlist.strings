@@ -26,10 +26,10 @@
 
 "Archived Game" = "アーカイブされたゲーム";
 
-"GameCorePlugin" = "ゲームコアプラグイン";
+"OpenEmu Core Plugin" = "ゲームコアプラグイン";
 
 "OpenEmu Save State" = "OpenEmuセーブステート";
 
-"System Plugin" = "システムプラグイン";
+"OpenEmu System Plugin" = "システムプラグイン";
 
-"VideoFilterPlugin" = "ビデオフィルタプラグイン";
+"OpenEmu Shader" = "ビデオフィルタプラグイン";

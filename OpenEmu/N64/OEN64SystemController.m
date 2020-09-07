@@ -25,10 +25,6 @@
  */
 
 #import "OEN64SystemController.h"
-#import "OEN64SystemResponder.h"
-#import "OEN64SystemResponderClient.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OEN64SystemController
 
@@ -38,8 +34,8 @@
     NSData *dataBuffer = [file readDataInRange:NSMakeRange(0, 64)];
 
     unsigned char temp;
-    unsigned char *rom = (unsigned char *)[dataBuffer bytes];
-    NSUInteger romSize = [dataBuffer length];
+    unsigned char *rom = (unsigned char *)dataBuffer.bytes;
+    NSUInteger romSize = dataBuffer.length;
     
     // Read the first 4 bytes of the header to get the 'magic word' in hex
     NSMutableString *hexString = [[NSMutableString alloc] initWithCapacity:4];
@@ -96,6 +92,13 @@
     NSString *hex = [romBuffer oe_hexStringRepresentation];
     
     return hex;
+}
+
+- (CGFloat)coverAspectRatio
+{
+    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
+            ? 1.37
+            : 0.7);
 }
 
 @end

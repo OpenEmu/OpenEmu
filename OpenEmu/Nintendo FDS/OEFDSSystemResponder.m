@@ -37,26 +37,26 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    OEFDSButton button = (OEFDSButton)[aKey key];
+    OEFDSButton button = (OEFDSButton)aKey.key;
 
     switch(button)
     {
-        case OEFDSButtonChangeSide : [[self client] didPushFDSChangeSideButton]; break;
+        case OEFDSButtonChangeSide : [self.client didPushFDSChangeSideButton]; break;
         default :
-            [[self client] didPushNESButton:button forPlayer:[aKey player]];
+            [self.client didPushNESButton:button forPlayer:aKey.player];
             break;
     }
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    OEFDSButton button = (OEFDSButton)[aKey key];
+    OEFDSButton button = (OEFDSButton)aKey.key;
 
     switch(button)
     {
-        case OEFDSButtonChangeSide : [[self client] didReleaseFDSChangeSideButton]; break;
+        case OEFDSButtonChangeSide : [self.client didReleaseFDSChangeSideButton]; break;
         default :
-            [[self client] didReleaseNESButton:button forPlayer:[aKey player]];
+            [self.client didReleaseNESButton:button forPlayer:aKey.player];
             break;
     }
 }

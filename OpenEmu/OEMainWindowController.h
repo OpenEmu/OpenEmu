@@ -26,8 +26,6 @@
 
 @import Cocoa;
 
-@class OEButton;
-
 extern NSString *const OEForcePopoutGameWindowKey;
 extern NSString *const OEFullScreenGameWindowKey;
 

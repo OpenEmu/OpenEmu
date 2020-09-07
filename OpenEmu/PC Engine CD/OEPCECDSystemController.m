@@ -25,8 +25,6 @@
  */
 
 #import "OEPCECDSystemController.h"
-#import "OEPCECDSystemResponder.h"
-#import "OEPCECDSystemResponderClient.h"
 
 @implementation OEPCECDSystemController
 

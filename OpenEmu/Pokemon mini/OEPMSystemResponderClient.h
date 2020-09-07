@@ -24,7 +24,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 @protocol OESystemResponderClient;
 
@@ -42,7 +42,6 @@ typedef enum _OEPMButton
     OEPMButtonShake,
     OEPMButtonCount
 } OEPMButton;
-
 
 @protocol OEPMSystemResponderClient <OESystemResponderClient, NSObject>
 

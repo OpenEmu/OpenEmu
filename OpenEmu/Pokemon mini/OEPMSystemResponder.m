@@ -37,14 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    OEPMButton button = (OEPMButton)aKey.key;
-    [[self client] didPushPMButton:button forPlayer:[aKey player]];
+    [self.client didPushPMButton:(OEPMButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    OEPMButton button = (OEPMButton)aKey.key;
-    [[self client] didReleasePMButton:button forPlayer:[aKey player]];
+    [self.client didReleasePMButton:(OEPMButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

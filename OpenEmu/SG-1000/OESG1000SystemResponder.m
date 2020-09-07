@@ -37,12 +37,12 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushSG1000Button:(OESG1000Button)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushSG1000Button:(OESG1000Button)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseSG1000Button:(OESG1000Button)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseSG1000Button:(OESG1000Button)aKey.key forPlayer:aKey.player];
 }
 
 @end

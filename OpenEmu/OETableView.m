@@ -26,7 +26,6 @@
 
 #import "OETableView.h"
 
-#import "OETableCornerView.h"
 #import "OETableHeaderCell.h"
 
 static NSColor *cellEditingFillColor, *textColor, *cellSelectedTextColor, *strokeColor;

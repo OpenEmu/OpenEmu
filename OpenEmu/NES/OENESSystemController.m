@@ -25,10 +25,6 @@
  */
 
 #import "OENESSystemController.h"
-#import "OENESSystemResponder.h"
-#import "OENESSystemResponderClient.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OENESSystemController
 
@@ -53,6 +49,13 @@
         [image setName:imageName];
     }
     return image;
+}
+
+- (CGFloat)coverAspectRatio
+{
+    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
+            ? 0.7
+            : 1.43);
 }
 
 @end

@@ -41,7 +41,6 @@
 
 #import "OELibraryController.h"
 
-#import "OEButton.h"
 #import "OESearchField.h"
 
 #import "OEGridView.h"

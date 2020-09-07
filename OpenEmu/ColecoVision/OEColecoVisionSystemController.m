@@ -25,10 +25,6 @@
  */
 
 #import "OEColecoVisionSystemController.h"
-#import "OEColecoVisionSystemResponder.h"
-#import "OEColecoVisionSystemResponderClient.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OEColecoVisionSystemController
 

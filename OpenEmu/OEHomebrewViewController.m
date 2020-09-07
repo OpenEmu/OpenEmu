@@ -39,9 +39,6 @@
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 
-#import "OEButton.h"
-#import "OESearchField.h"
-
 #import "OEThemeTextAttributes.h"
 
 #import "NS(Attributed)String+Geometrics.h"
@@ -434,22 +431,22 @@ const static CGFloat TableViewSpacing = 86.0;
             [label setStringValue:[game name]];
 
             // setup '<developer>'
-            NSButton *developer = [[container subviews] objectAtIndex:4];
-            [developer setTitle:[game developer]];
-            [developer setTarget:self];
-            [developer setAction:@selector(gotoDeveloperWebsite:)];
-            [developer setObjectValue:[game website]];
-            [developer sizeToFit];
-            // size to fit ignores shadow… so we manually adjust height
-            NSSize size = [developer frame].size;
-            size.height += 2.0;
-            [developer setFrameSize:size];
+//            NSButton *developer = [[container subviews] objectAtIndex:4];
+//            [developer setTitle:[game developer]];
+//            [developer setTarget:self];
+//            [developer setAction:@selector(gotoDeveloperWebsite:)];
+//            [developer setObjectValue:[game website]];
+//            [developer sizeToFit];
+//            // size to fit ignores shadow… so we manually adjust height
+//            NSSize size = [developer frame].size;
+//            size.height += 2.0;
+//            [developer setFrameSize:size];
 
             // center in view
-            CGFloat width = NSWidth([developer frame]) + 0.0;
-            CGFloat y = NSMinY([developer frame]);
-            CGFloat x = NSMidX([container bounds]) - width/2.0;
-            [developer setFrameOrigin:(NSPoint){x, y}];
+//            CGFloat width = NSWidth([developer frame]) + 0.0;
+//            CGFloat y = NSMinY([developer frame]);
+//            CGFloat x = NSMidX([container bounds]) - width/2.0;
+//            [developer setFrameOrigin:(NSPoint){x, y}];
 
             // system / year tags
 //            NSButton *system = [[container subviews] objectAtIndex:2];

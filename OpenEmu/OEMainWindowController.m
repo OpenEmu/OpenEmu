@@ -30,7 +30,6 @@
 #import "OECoreUpdater.h"
 #import "OELibraryController.h"
 #import "OELibraryDatabase.h"
-#import "OEButton.h"
 
 #import "OEGameDocument.h"
 @import OpenEmuKit;
@@ -178,10 +177,8 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     OELibraryToolbar *toolbar = [[self libraryController] toolbar];
     
     [[toolbar gridViewButton] setToolTip:NSLocalizedString(@"Switch To Grid View", @"Tooltip")];
-    [[toolbar gridViewButton] setToolTipStyle:OEToolTipStyleDefault];
     
     [[toolbar listViewButton] setToolTip:NSLocalizedString(@"Switch To List View", @"Tooltip")];
-    [[toolbar listViewButton] setToolTipStyle:OEToolTipStyleDefault];
 }
 
 - (NSString *)windowNibName

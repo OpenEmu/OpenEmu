@@ -38,48 +38,48 @@
 - (void)HIDKeyDown:(OEHIDEvent *)theEvent
 {
     [super HIDKeyDown:theEvent];
-    [[self client] keyDown:[theEvent keycode] characters:[theEvent characters] charactersIgnoringModifiers:[theEvent charactersIgnoringModifiers] flags:[theEvent modifierFlags]];
+    [self.client keyDown:theEvent.keycode characters:theEvent.characters charactersIgnoringModifiers:theEvent.charactersIgnoringModifiers flags:theEvent.modifierFlags];
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)theEvent
 {
     [super HIDKeyUp:theEvent];
-    [[self client] keyUp:[theEvent keycode] characters:[theEvent characters] charactersIgnoringModifiers:[theEvent charactersIgnoringModifiers] flags:[theEvent modifierFlags]];
+    [self.client keyUp:theEvent.keycode characters:theEvent.characters charactersIgnoringModifiers:theEvent.charactersIgnoringModifiers flags:theEvent.modifierFlags];
 }
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushA8Button:(OEA8Button)[aKey key] forPlayer:[aKey player]];
+    [self.client didPushA8Button:(OEA8Button)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseA8Button:(OEA8Button)[aKey key] forPlayer:[aKey player]];
+    [self.client didReleaseA8Button:(OEA8Button)aKey.key forPlayer:aKey.player];
 }
 
 - (void)mouseMovedAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] mouseMovedAtPoint:aPoint];
+    [self.client mouseMovedAtPoint:aPoint];
 }
 
 - (void)mouseDownAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] leftMouseDownAtPoint:aPoint];
+    [self.client leftMouseDownAtPoint:aPoint];
 }
 
 - (void)mouseUpAtPoint
 {
-    [[self client] leftMouseUp];
+    [self.client leftMouseUp];
 }
 
 - (void)rightMouseDownAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] rightMouseDownAtPoint:aPoint];
+    [self.client rightMouseDownAtPoint:aPoint];
 }
 
 - (void)rightMouseUpAtPoint
 {
-    [[self client] rightMouseUp];
+    [self.client rightMouseUp];
 }
 
 @end

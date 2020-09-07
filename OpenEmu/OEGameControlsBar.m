@@ -876,7 +876,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [stopButton setFrame:NSMakeRect(10, 13, 51, 23)];
     [stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [stopButton setToolTip:NSLocalizedString(@"Stop Emulation", @"Tooltip")];
-    [stopButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:stopButton];
 
     _pauseButton = [[OEButton alloc] init];
@@ -887,7 +886,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [_pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];
     [_pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [_pauseButton setToolTip:NSLocalizedString(@"Pause Gameplay", @"Tooltip")];
-    [_pauseButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:_pauseButton];
 
     OEButton *restartButton = [[OEButton alloc] init];
@@ -897,7 +895,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [restartButton setFrame:NSMakeRect(111, 9, 32, 32)];
     [restartButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [restartButton setToolTip:NSLocalizedString(@"Restart System", @"Tooltip")];
-    [restartButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:restartButton];
 
     OEButton *saveButton = [[OEButton alloc] init];
@@ -908,7 +905,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [saveButton setFrame:NSMakeRect(162, 6, 32, 32)];
     [saveButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [saveButton setToolTip:NSLocalizedString(@"Create or Load Save State", @"Tooltip")];
-    [saveButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:saveButton];
 
     BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarHidesOptionButtonKey];
@@ -922,7 +918,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [optionsButton setFrame:NSMakeRect(212, 6, 32, 32)];
         [optionsButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
         [optionsButton setToolTip:NSLocalizedString(@"Options", @"Tooltip")];
-        [optionsButton setToolTipStyle:OEToolTipStyleHUD];
         [self addSubview:optionsButton];
     }
 
@@ -931,7 +926,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [volumeDownButton setThemeKey:@"hud_button_volume_down"];
     [volumeDownButton setAction:@selector(mute:)];
     [volumeDownButton setToolTip:NSLocalizedString(@"Mute Audio", @"Tooltip")];
-    [volumeDownButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:volumeDownButton];
 
     OEButton *volumeUpButton = [[OEButton alloc] initWithFrame:NSMakeRect(320 + (hideOptions? 0 : 50), 17, 15, 14)];
@@ -939,7 +933,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [volumeUpButton setThemeKey:@"hud_button_volume_up"];
     [volumeUpButton setAction:@selector(unmute:)];
     [volumeUpButton setToolTip:NSLocalizedString(@"Unmute Audio", @"Tooltip")];
-    [volumeUpButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:volumeUpButton];
 
     _slider = [[OESlider alloc] initWithFrame:NSMakeRect(238 + (hideOptions ? 0 : 50), 13, 76, 23)];
@@ -952,7 +945,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [_slider setThemeKey:@"hud_slider"];
     [_slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey]];
     [_slider setToolTip:NSLocalizedString(@"Change Volume", @"Tooltip")];
-    [_slider setToolTipStyle:OEToolTipStyleHUD];
     [_slider setAction:@selector(changeVolume:)];
 
     CABasicAnimation *animation = [CABasicAnimation animation];
@@ -970,7 +962,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [_fullScreenButton setFrame:NSMakeRect(370 + (hideOptions ? 0 : 50), 13, 51, 23)];
     [_fullScreenButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [_fullScreenButton setToolTip:NSLocalizedString(@"Toggle Fullscreen", @"Tooltip")];
-    [_fullScreenButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:_fullScreenButton];
 }
 
