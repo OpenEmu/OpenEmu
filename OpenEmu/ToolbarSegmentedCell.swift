@@ -79,22 +79,14 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         for i in 0..<segmentCount {
             res.width += width(forSegment: i)
         }
-        if let cv = controlView {
-            return cv.backingAlignedRect(
-                NSRect(origin: NSZeroPoint, size: res),
-                options: [.alignMinXNearest, .alignMaxXNearest,
-                          .alignMinYNearest, .alignMaxYNearest]
-                ).size
-        } else {
-            return res
-        }
+        return res
     }
     
     @objc(sizeSegmentsToFitWithMinimumWidth:)
     func sizeSegmentsToFit(minimumWidth minw: CGFloat) {
         for i in 0..<segmentCount {
             let fitw = bestWidth(forSegment: i)
-            setWidth(max(fitw, minw), forSegment:i)
+            setWidth(round(max(fitw, minw)), forSegment:i)
         }
     }
     
