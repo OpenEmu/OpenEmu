@@ -50,6 +50,8 @@
 
 "All Homebrew" = "Alle Homebrew-Spiele";
 
+"Already in library:" = "Already in library:";
+
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Möchtest du die %ld ausgewählten Spielstände wirklich aus der Mediathek löschen?";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Möchtest du die %ld ausgewählten Bildschirmfotos wirklich aus der Mediathek löschen?";
@@ -256,6 +258,10 @@
 
 "Installing Core" = "Kern installieren";
 
+"Invalid cue sheet format:" = "Invalid cue sheet format:";
+
+"Invalid gdi format:" = "Invalid gdi format:";
+
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Verbinde mehrzeilige Cheats mit „+“, z. B. 0000+1111";
 
 "Keep Files" = "Dateien behalten";
@@ -279,6 +285,8 @@
 "Make your Wiimote discoverable" = "Mache die Wiimote entdeckbar";
 
 "Missing Core" = "Kern fehlt";
+
+"Missing referenced file:" = "Missing referenced file:";
 
 "Move selected game to Trash, or keep it in the Library folder?" = "Ausgewähltes Spiel in den Papierkorb legen oder im Spieleordner behalten?";
 
@@ -306,13 +314,19 @@
 
 "No Internet Connection" = "Keine Internetverbindung";
 
+"No permission to open:" = "No permission to open:";
+
 "No Save States available" = "Keine Spielstände verfügbar";
 
 "No Screenshots Found" = "Keine Bildschirmfotos gefunden";
 
+"No valid system detected:" = "No valid system detected:";
+
 "No" = "Nein";
 
 "None" = "Ohne";
+
+"Not plain text:" = "Not plain text:";
 
 "OK" = "OK";
 
@@ -491,6 +505,8 @@
 "Toggle Fullscreen" = "Vollbild ein/aus";
 
 "Trash downloaded Files" = "Heruntergeladene Dateien löschen";
+
+"Unexpected error:" = "Unexpected error:";
 
 "Unmute Audio" = "Ton ein";
 

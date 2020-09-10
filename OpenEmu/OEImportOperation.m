@@ -344,6 +344,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     copy.extractedFileURL = self.extractedFileURL;
     copy.archiveFileIndex = self.archiveFileIndex;
     copy.md5Hash = self.md5Hash;
+    copy.romLocation = self.romLocation;
 
     return copy;
 }
@@ -624,6 +625,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         }
         else
         {
+            self.romLocation = rom.game.system.lastLocalizedName;
             error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeAlreadyInDatabase userInfo:nil];
             [self exitWithStatus:OEImportExitErrorFatal error:error];
         }
@@ -632,6 +634,16 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
 - (void)OE_performImportStepParseFile
 {
+    /* Parsing M3U+CUE/BIN code walk
+
+    1. +[OEFile fileWithURL:error:]
+    2. -[OEDiscDescriptor initWithFileURL:error:]
+    3. -[OEFile initWithFileURL:error:]
+    4. -[OEM3UFile _setUpFileReferencesWithError:]
+    5. -[OEDiscDescriptor _fileContentWithError:]
+    5a. After -[OEDiscDescriptor _fileContentWithError:] returns, -[OEM3UFile _setUpFileReferencesWithError:] loops through the fileContent string and calls +[OEFile fileWithURL:error:] for each line, thus repeating steps 1-5 but for class OECUESheet. -[OEDiscDescriptor _validateFileURLs:withError:] will be called for the referenced BIN file during *each* CUE iteration
+    6. Finally, -[OEDiscDescriptor _validateFileURLs:withError:] called to check the referenced CUE's array
+     */
     NSURL *url = self.extractedFileURL ?: self.URL;
 
     NSError *error;

@@ -50,6 +50,8 @@
 
 "All Homebrew" = "Tutti gli homebrew";
 
+"Already in library:" = "Already in library:";
+
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Sei sicuro di voler cancellare %ld salvataggi dalla Libreria di OpenEmu?";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Sei sicuro di voler cancellare %ld istantanee dalla Libreria di OpenEmu?";
@@ -256,6 +258,10 @@
 
 "Installing Core" = "Installazione core";
 
+"Invalid cue sheet format:" = "Invalid cue sheet format:";
+
+"Invalid gdi format:" = "Invalid gdi format:";
+
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Separa righe multiple con \"+\": 000-000+111-111";
 
 "Keep Files" = "Mantieni i file";
@@ -279,6 +285,8 @@
 "Make your Wiimote discoverable" = "Rendi il Wiimote visibile";
 
 "Missing Core" = "Core mancante";
+
+"Missing referenced file:" = "Missing referenced file:";
 
 "Move selected game to Trash, or keep it in the Library folder?" = "Vuoi spostare il gioco nel Cestino, o lasciarlo nella cartella della Libreria?";
 
@@ -306,13 +314,19 @@
 
 "No Internet Connection" = "Non sei connesso a Internet";  // Featured Games Blank Slate View Error Info
 
+"No permission to open:" = "No permission to open:";
+
 "No Save States available" = "Nessun salvataggio emulazione disponibile";
 
 "No Screenshots Found" = "Nessuna istantanea trovata";
 
+"No valid system detected:" = "No valid system detected:";
+
 "No" = "No";
 
 "None" = "Nessuna";  // rating
+
+"Not plain text:" = "Not plain text:";
 
 "OK" = "OK";
 
@@ -491,6 +505,8 @@
 "Toggle Fullscreen" = "Modalità a tutto schermo";
 
 "Trash downloaded Files" = "Sposta file scaricati nel cestino";
+
+"Unexpected error:" = "Unexpected error:";
 
 "Unmute Audio" = "Attiva audio";
 

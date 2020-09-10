@@ -1,4 +1,4 @@
-// Copyright (c) 2018, OpenEmu Team
+// Copyright (c) 2020, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -26,7 +26,9 @@ import Foundation
 
 @objc(OEGameScannerViewController)
 class GameScannerViewController: NSViewController {
-    
+
+    private static let importGuideURL = URL(string: "https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-Importing")!
+
     @IBOutlet weak var libraryController: OELibraryController!
     
     @IBOutlet weak var scannerView: NSView!
@@ -46,6 +48,7 @@ class GameScannerViewController: NSViewController {
     @IBOutlet private weak var libraryGamesViewController: OELibraryGamesViewController!
     
     private var itemsRequiringAttention = [OEImportOperation]()
+    private var itemsFailedImport = [OEImportOperation]()
     private var isScanningDirectory = false
     private var isGameScannerVisible = true // The game scanner view is already visible in OELibraryGamesViewController.xib.
     
@@ -588,6 +591,12 @@ extension GameScannerViewController: OEROMImporterDelegate {
                 self.hideGameScannerView(animated: true)
             }
         }
+
+        // Show items that failed during import operation
+        if !itemsFailedImport.isEmpty {
+            showFailedImportItems()
+            itemsFailedImport.removeAll()
+        }
     }
     
     func romImporterChangedItemCount(_ importer: OEROMImporter) {
@@ -597,7 +606,7 @@ extension GameScannerViewController: OEROMImporterDelegate {
     }
     
     func romImporter(_ importer: OEROMImporter, stoppedProcessingItem item: OEImportOperation) {
-        
+
         if let error = item.error {
             
             if (error as NSError).domain == OEImportErrorDomainResolvable && (error as NSError).code == OEImportErrorCode.multipleSystems.rawValue {
@@ -609,9 +618,106 @@ extension GameScannerViewController: OEROMImporterDelegate {
                 
             } else {
                 NSLog("\(error)")
+
+                // Track item that failed import
+                //if item.exitStatus == OEImportExitStatus.errorFatal {
+                if (error as NSError).domain == OEImportErrorDomainFatal || (error as NSError).domain == OEDiscDescriptorErrorDomain || (error as NSError).domain == OECUESheetErrorDomain || (error as NSError).domain == OEDreamcastGDIErrorDomain {
+
+                    itemsFailedImport.append(item)
+                }
             }
         }
         
         updateProgress()
+    }
+
+    private func showFailedImportItems() {
+        var itemsAlreadyInDatabase: String?
+        var itemsNoSystem: String?
+        var itemsDiscDescriptorUnreadableFile: String?
+        var itemsDiscDescriptorMissingFiles: String?
+        var itemsDiscDescriptorNotPlainTextFile: String?
+        var itemsDiscDescriptorNoPermissionReadFile: String?
+        var itemsCueSheetInvalidFileFormat: String?
+        var itemsDreamcastGDIInvalidFileFormat: String?
+
+        // Build messages for failed items
+        for failedItem in itemsFailedImport {
+            let error = (failedItem.error! as NSError)
+            let failedFilename = failedItem.url.lastPathComponent
+
+            if error.domain == OEImportErrorDomainFatal && error.code == OEImportErrorCode.alreadyInDatabase.rawValue {
+                if itemsAlreadyInDatabase == nil {
+                    itemsAlreadyInDatabase = NSLocalizedString("Already in library:", comment:"")
+                }
+                itemsAlreadyInDatabase! += "\n• \"\(failedFilename)\" in \(failedItem.romLocation!)"
+
+            } else if error.domain == OEImportErrorDomainFatal && error.code == OEImportErrorCode.noSystem.rawValue {
+                if itemsNoSystem == nil {
+                    itemsNoSystem = NSLocalizedString("No valid system detected:", comment:"")
+                }
+                itemsNoSystem! += "\n• \"\(failedFilename)\""
+
+            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorUnreadableFileError {
+                if itemsDiscDescriptorUnreadableFile == nil {
+                    itemsDiscDescriptorUnreadableFile = NSLocalizedString("Unexpected error:", comment:"")
+                }
+                let underlyingError = error.userInfo[NSUnderlyingErrorKey] as! NSError
+                itemsDiscDescriptorUnreadableFile! += "\n• \"\(failedFilename)\""
+                itemsDiscDescriptorUnreadableFile! += "\n\n\(underlyingError)"
+
+            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorMissingFilesError {
+                let underlyingError = error.userInfo[NSUnderlyingErrorKey] as! NSError
+                if underlyingError.code == CocoaError.fileReadNoSuchFile.rawValue {
+                    if itemsDiscDescriptorMissingFiles == nil {
+                        itemsDiscDescriptorMissingFiles = NSLocalizedString("Missing referenced file:", comment:"")
+                    }
+                    let missingFilename = (underlyingError.userInfo[NSFilePathErrorKey] as! NSString).lastPathComponent
+                    itemsDiscDescriptorMissingFiles! += "\n• \"\(failedFilename)\"\n   - NOT FOUND: \"\(missingFilename)\""
+                }
+
+            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorNotPlainTextFileError {
+                if itemsDiscDescriptorNotPlainTextFile == nil {
+                    itemsDiscDescriptorNotPlainTextFile = NSLocalizedString("Not plain text:", comment:"")
+                }
+                itemsDiscDescriptorNotPlainTextFile! += "\n• \"\(failedFilename)\""
+
+            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorNoPermissionReadFileError {
+                if itemsDiscDescriptorNoPermissionReadFile == nil {
+                    itemsDiscDescriptorNoPermissionReadFile = NSLocalizedString("No permission to open:", comment:"")
+                }
+                itemsDiscDescriptorNoPermissionReadFile! += "\n• \"\(failedFilename)\"\n\nChoose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access."
+
+            } else if error.domain == OECUESheetErrorDomain {
+                if itemsCueSheetInvalidFileFormat == nil {
+                    itemsCueSheetInvalidFileFormat = NSLocalizedString("Invalid cue sheet format:", comment:"")
+                }
+                itemsCueSheetInvalidFileFormat! += "\n• \"\(failedFilename)\""
+
+            } else if error.domain == OEDreamcastGDIErrorDomain {
+                if itemsDreamcastGDIInvalidFileFormat == nil {
+                    itemsDreamcastGDIInvalidFileFormat = NSLocalizedString("Invalid gdi format:", comment:"")
+                }
+                itemsDreamcastGDIInvalidFileFormat! += "\n• \"\(failedFilename)\""
+
+            }
+        }
+
+        // Concatenate messages
+        let failedMessage = [itemsAlreadyInDatabase, itemsNoSystem, itemsDiscDescriptorUnreadableFile, itemsDiscDescriptorMissingFiles, itemsDiscDescriptorNotPlainTextFile, itemsDiscDescriptorNoPermissionReadFile, itemsCueSheetInvalidFileFormat, itemsDreamcastGDIInvalidFileFormat].compactMap{$0}.joined(separator:"\n\n")
+
+        let alert = OEAlert()
+        alert.headlineText = NSLocalizedString("Files failed to import.", comment: "")
+        alert.messageText = failedMessage
+        alert.defaultButtonTitle = NSLocalizedString("View Guide in Browser", comment:"")
+        alert.alternateButtonTitle = "Dismiss"
+
+        guard let win = libraryController.view.window else { return }
+
+        alert.beginSheetModal(for: win) { result in
+            if result == .alertFirstButtonReturn {
+                NSWorkspace.shared.open(GameScannerViewController.importGuideURL)
+            }
+        }
     }
 }

@@ -50,6 +50,8 @@
 
 "All Homebrew" = "Alle homebrew";
 
+"Already in library:" = "Already in library:";
+
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Weet u zeker dat u %ld opgeslagen spellen wilt verwijderen uit uw OpenEmu-bibliotheek?";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Weet u zeker dat u %ld schermafbeeldingen wilt verwijderen uit uw OpenEmu-bibliotheek?";
@@ -256,6 +258,10 @@
 
 "Installing Core" = "Kern installeren";
 
+"Invalid cue sheet format:" = "Invalid cue sheet format:";
+
+"Invalid gdi format:" = "Invalid gdi format:";
+
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Voeg multi-line cheats samen met '+', bijvoorbeeld 000-000+111-111";
 
 "Keep Files" = "Bestanden behouden";
@@ -279,6 +285,8 @@
 "Make your Wiimote discoverable" = "Maak uw Wiimote detecteerbaar";
 
 "Missing Core" = "Kern ontbreekt";
+
+"Missing referenced file:" = "Missing referenced file:";
 
 "Move selected game to Trash, or keep it in the Library folder?" = "Het geselecteerde spel naar de prullenmand verplaatsen of in de bibliotheekmap behouden?";
 
@@ -306,13 +314,19 @@
 
 "No Internet Connection" = "Geen internetverbinding";
 
+"No permission to open:" = "No permission to open:";
+
 "No Save States available" = "Geen momentopnames beschikbaar";
 
 "No Screenshots Found" = "Geen schermafbeeldingen gevonden";
 
+"No valid system detected:" = "No valid system detected:";
+
 "No" = "Nee";
 
 "None" = "Geen";
+
+"Not plain text:" = "Not plain text:";
 
 "OK" = "OK";
 
@@ -491,6 +505,8 @@
 "Toggle Fullscreen" = "Schakel schermvullende weergave in/uit";
 
 "Trash downloaded Files" = "Gooi gedownloade bestanden in de prullenmand";
+
+"Unexpected error:" = "Unexpected error:";
 
 "Unmute Audio" = "Ontdemp geluid";
 

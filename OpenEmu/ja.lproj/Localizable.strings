@@ -50,6 +50,8 @@
 
 "All Homebrew" = "全てのHomebrew";
 
+"Already in library:" = "Already in library:";
+
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "&ld のセーブデータをOpenEmuライブラリから削除してもよろしいですか？";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "%ld のスクリーンショットデータをOpenEmuライブラリから削除してもよろしいですか？";
@@ -258,6 +260,10 @@
 
 "Installing Core" = "コアをインストール";
 
+"Invalid cue sheet format:" = "Invalid cue sheet format:";
+
+"Invalid gdi format:" = "Invalid gdi format:";
+
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "チートコードを複数追加する場合は'+'で追加します。例 000-000+111-111";
 
 "Keep Files" = "ファイルを保持";
@@ -281,6 +287,8 @@
 "Make your Wiimote discoverable" = "Wiimoteを発見可能な状態にしてください。";
 
 "Missing Core" = "コアがありません";
+
+"Missing referenced file:" = "Missing referenced file:";
 
 "Move selected game to Trash, or keep it in the Library folder?" = "選択したゲームをゴミ箱へ移動します。ライブラリフォルダに残しますか？";
 
@@ -308,13 +316,19 @@
 
 "No Internet Connection" = "インターネットに接続されていません";
 
+"No permission to open:" = "No permission to open:";
+
 "No Save States available" = "利用可能なセーブステートがありません";
 
 "No Screenshots Found" = "スクリーンショットがありません";
 
+"No valid system detected:" = "No valid system detected:";
+
 "No" = "いいえ";
 
 "None" = "なし";
+
+"Not plain text:" = "Not plain text:";
 
 "Not implemented right now" = "今は実行しない";
 
@@ -495,6 +509,8 @@
 "Toggle Sidebar" = "サイドバーを表示";
 
 "Trash downloaded Files" = "ダウンロードされたファイルを捨てる";
+
+"Unexpected error:" = "Unexpected error:";
 
 "Unmute Audio" = "音声のミュートを解除";
 

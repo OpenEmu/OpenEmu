@@ -54,6 +54,7 @@ typedef void (^OEImportItemCompletionBlock)(NSManagedObjectID*);
 @property (nullable) NSURL *extractedFileURL;
 
 @property NSArray <NSString *> *systemIdentifiers;
+@property (nullable) NSString *romLocation;
 
 @property (copy, nullable) NSError *error;
 @property OEImportExitStatus exitStatus;

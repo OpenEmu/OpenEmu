@@ -48,7 +48,9 @@
 
 "All Games" = "Todos os jogos";
 
-"All Homebrew" = "Todos os Homebrews"; 
+"All Homebrew" = "Todos os Homebrews";
+
+"Already in library:" = "Already in library:";
 
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Tem certeza que deseja remover %ld jogos salvos de sua biblioteca OpenEmu?";
 
@@ -256,6 +258,10 @@
 
 "Installing Core" = "Instalando Núcleo";
 
+"Invalid cue sheet format:" = "Invalid cue sheet format:";
+
+"Invalid gdi format:" = "Invalid gdi format:";
+
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Join multi-line cheats with '+' e.g. 000-000+111-111";
 
 "Keep Files" = "Manter Arquivos";
@@ -279,6 +285,8 @@
 "Make your Wiimote discoverable" = "Tornar seu Wiimote visível";
 
 "Missing Core" = "Núcleo Não Encontrado";
+
+"Missing referenced file:" = "Missing referenced file:";
 
 "Move selected game to Trash, or keep it in the Library folder?" = "Move selected game to Trash, or keep it in the Library folder?";
 
@@ -306,13 +314,19 @@
 
 "No Internet Connection" = "Sem Conexão com a Internet";
 
+"No permission to open:" = "No permission to open:";
+
 "No Save States available" = "Nenhum Salvamento disponível";
 
 "No Screenshots Found" = "Nenhuma Captura Encontrada";
 
+"No valid system detected:" = "No valid system detected:";
+
 "No" = "Não";
 
 "None" = "Nenhum";
+
+"Not plain text:" = "Not plain text:";
 
 "OK" = "OK";
 
@@ -491,6 +505,8 @@
 "Toggle Fullscreen" = "Alterna para Tela Cheia";
 
 "Trash downloaded Files" = "Trash downloaded Files";
+
+"Unexpected error:" = "Unexpected error:";
 
 "Unmute Audio" = "Desmutar Áudio";
 

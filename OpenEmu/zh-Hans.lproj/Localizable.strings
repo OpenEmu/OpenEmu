@@ -50,6 +50,8 @@
 
 "All Homebrew" = "所有自制作品";
 
+"Already in library:" = "Already in library:";
+
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "你确定要从 OpenEmu 库删除 %ld 个已保存游戏？";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "你确定要从 OpenEmu 库删除 %ld 个截屏？";
@@ -258,6 +260,10 @@
 
 "Installing Core" = "正在安装核心";
 
+"Invalid cue sheet format:" = "Invalid cue sheet format:";
+
+"Invalid gdi format:" = "Invalid gdi format:";
+
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "使用“+”连接多条金手指，如 000-000+111-111";
 
 "Keep Files" = "保留文件";
@@ -281,6 +287,8 @@
 "Make your Wiimote discoverable" = "使你的 Wiimote 处于可发现状态";
 
 "Missing Core" = "缺少核心";
+
+"Missing referenced file:" = "Missing referenced file:";
 
 "Move selected game to Trash, or keep it in the Library folder?" = "要把选择的游戏扔到废纸篓还是留在库文件夹里？";
 
@@ -308,13 +316,19 @@
 
 "No Internet Connection" = "无互联网连接";
 
+"No permission to open:" = "No permission to open:";
+
 "No Save States available" = "没有可用的保存状态";
 
 "No Screenshots Found" = "没找到截屏";
 
+"No valid system detected:" = "No valid system detected:";
+
 "No" = "否";
 
 "None" = "无";
+
+"Not plain text:" = "Not plain text:";
 
 "Not implemented right now" = "当前未执行";
 
@@ -495,6 +509,8 @@
 "Toggle Sidebar" = "切换边栏";
 
 "Trash downloaded Files" = "将已下载的文件扔进废纸篓";
+
+"Unexpected error:" = "Unexpected error:";
 
 "Unmute Audio" = "恢复声音";
 
