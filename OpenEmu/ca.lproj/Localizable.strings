@@ -627,8 +627,6 @@
 
 "HUD Bar / Gameplay" = "Barra HUD / Joc";
 
-"Use game name as window title" = "Utilitza el nom del joc pel nom de la finestra";
-
 "Can delete save states" = "Això pot esborrar les partides desades";
 
 "Show options button" = "Mostra el botó d'opcions";

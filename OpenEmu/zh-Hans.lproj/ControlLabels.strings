@@ -31,6 +31,7 @@
 /* Group Labels */
   "Analog" = "摇杆";
   "C-Pad" = "C-方向";
+  "C-Stick" = "C-Stick";
   "D-Pad" = "D-向键";
   "Keypad" = "键盘";
   "Left Analog" = "左摇杆";
@@ -54,8 +55,11 @@
   "8" = "8";
   "9" = "9";
   "A" = "A";
+  "Action" = "Action";
   "Analog Mode" = "模拟模式";
   "B" = "B";
+  "Bottom Left Action" = "Bottom Left Action";
+  "Bottom Right Action" = "Bottom Right Action";
   "Button 1" = "按钮1";
   "Button 1/Start" = "按钮1/开始";
   "Button 2" = "按钮2";
@@ -65,8 +69,11 @@
   "Button 6" = "按钮6";
   "C" = "C";
   "Change Disk Side" = "磁盘换面";
+  "Clear" = "Clear";
   "Console Pause" = "控制台暂停";
+  "Console Reset" = "Console Reset";
   "Down" = "下";
+  "Enter" = "Enter";
   "Fire 1" = "开火1";
   "Fire 2" = "开火2";
   "Fire" = "开火";
@@ -82,6 +89,7 @@
   "Left Trigger" = "左扳机";
   "Left" = "左";
   "Lid" = "盖子";
+  "Menu" = "Menu";
   "Mic" = "麦克风";
   "Mode" = "模式";
   "Option 1" = "选项1";
@@ -89,6 +97,7 @@
   "Option" = "选项";
   "P" = "P";
   "Player Start" = "玩家开始";
+  "Power" = "Power";
   "R Diff A" = "R Diff A";
   "R Diff B" = "R Diff B";
   "R Diff" = "R Diff";
@@ -102,10 +111,13 @@
   "Run" = "运行";
   "Select" = "选择";
   "Service" = "服务";
+  "Shake" = "Shake";
+  "Sleep" = "Sleep";
   "Sound" = "声音";
   "Start" = "开始";
   "TV Black & White" = "TV黑白";
   "TV Color" = "TV彩色";
+  "Top Action" = "Top Action";
   "Up" = "上";
   "X" = "X";
   "X1 Up" = "X1上";

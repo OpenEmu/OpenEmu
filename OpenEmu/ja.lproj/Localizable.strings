@@ -108,8 +108,6 @@
 
 "Code:" = "コード:";
 
-"Collapse" = "Collapse";
-
 "Collections" = "コレクション";
 
 "Configure Shader…" = "シェーダを設定する…";
@@ -330,8 +328,6 @@
 
 "Not plain text:" = "Not plain text:";
 
-"Not implemented right now" = "今は実行しない";
-
 "OK" = "はい";
 
 "Only files in the OpenEmu Library folder will be moved to the Trash." = "OpenEmuライブラリにあるファイルのみ、ゴミ箱に移動します。";
@@ -458,6 +454,8 @@
 
 "Some migrations failed to complete properly" = "マイグレーションが正常に完了しませんでした。";
 
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "OpenEmuの発展に寄与した全ての方へ感謝申し上げます。\n全てのコントリビュータ、エミュレータコア作者、\nドキュメント、ライセンス、イシュー、\nバグレポートなどの確認は、GitHubにてご確認ください。";
+
 "Start Scanning" = "スキャンを開始";
 
 "Stop Emulation" = "エミュレーションを停止";
@@ -506,8 +504,6 @@
 
 "Toggle Fullscreen" = "フルスクリーンモード";
 
-"Toggle Sidebar" = "サイドバーを表示";
-
 "Trash downloaded Files" = "ダウンロードされたファイルを捨てる";
 
 "Unexpected error:" = "Unexpected error:";
@@ -521,8 +517,6 @@
 "View Guide in Browser" = "ガイドをブラウザで見る";
 
 "Warning" = "警告";
-
-"While performing this operation OpenEmu will be unresponsive." = "これをしている間、OpenEmu は責任を負いかねます。";
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "OpenEmuでは、セーブステートを利用することで、いつでもゲームの状態を保存できます。また、ゲーム終了時は進行状況をオートセーブします。ここでは、全てのセーブデータの概要を確認出来ます。";
 
@@ -633,8 +627,6 @@
 
 "HUD Bar / Gameplay" = "HUDバー / ゲームプレイ";
 
-"Use game name as window title" = "ウィンドウタイトルにゲーム名を表示";
-
 "Can delete save states" = "セーブステートを削除可能にする";
 
 "Show options button" = "オプションボタンを表示";
@@ -703,7 +695,11 @@
 
 "Perform Sanity Check on Database" = "データベース上のSanity Checkを開始";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "OpenEmuの発展に寄与した全ての方へ感謝申し上げます。\n全てのコントリビュータ、エミュレータコア作者、\nドキュメント、ライセンス、イシュー、\nバグレポートなどの確認は、GitHubにてご確認ください。";
+"While performing this operation OpenEmu will be unresponsive." = "これをしている間、OpenEmu は責任を負いかねます。";
+
+"Delete useless image objects" = "Delete useless image objects";
+
+"Sync games without artwork" = "Sync games without artwork";
 
 "ECM compressed binary detected." = "ECM圧縮バイナリを検知しました";
 

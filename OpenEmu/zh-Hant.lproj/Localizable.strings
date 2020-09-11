@@ -627,8 +627,6 @@
 
 "HUD Bar / Gameplay" = "HUD 條 / 遊戲";
 
-"Use game name as window title" = "將遊戲名稱用作視窗標題";
-
 "Can delete save states" = "可以刪除保存狀態";
 
 "Show options button" = "顯示選項按鈕";
@@ -710,6 +708,12 @@
 "Threshold for analog controls bound to buttons" = "Threshold for analog controls\nbound to buttons";
 
 "Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
+
+"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences
+
+"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default
+
+"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default
 
 "Shaders" = "Shaders";  // TODO
 

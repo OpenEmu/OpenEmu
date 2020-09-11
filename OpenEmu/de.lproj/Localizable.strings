@@ -621,8 +621,6 @@
 
 "HUD Bar / Gameplay" = "HUD-Bar/Gameplay";
 
-"Use game name as window title" = "Spieltitel als Fenstertitel verwenden";
-
 "Can delete save states" = "Spielstände sind löschbar";
 
 "Show options button" = "Optionen-Schaltfläche anzeigen";

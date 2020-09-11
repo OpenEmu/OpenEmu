@@ -108,8 +108,6 @@
 
 "Code:" = "密码:";
 
-"Collapse" = "折叠";
-
 "Collections" = "收藏";
 
 "Configure Shader…" = "配置着色器…";
@@ -330,8 +328,6 @@
 
 "Not plain text:" = "Not plain text:";
 
-"Not implemented right now" = "当前未执行";
-
 "OK" = "好";
 
 "Only files in the OpenEmu Library folder will be moved to the Trash." = "只有 OpenEmu 库文件夹里的文件会被扔到废纸篓里。";
@@ -458,6 +454,8 @@
 
 "Some migrations failed to complete properly" = "部分转移未能正确完成";
 
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "特别感谢每个让 OpenEmu 成为可能的\n人。要了解更多有关我们的贡献者、\n模拟核心、文档、许可的信息以及报告\n漏洞，请访问我们的 GitHub。";
+
 "Start Scanning" = "开始扫描";
 
 "Stop Emulation" = "停止模拟";
@@ -506,8 +504,6 @@
 
 "Toggle Fullscreen" = "切换全屏幕";
 
-"Toggle Sidebar" = "切换边栏";
-
 "Trash downloaded Files" = "将已下载的文件扔进废纸篓";
 
 "Unexpected error:" = "Unexpected error:";
@@ -521,8 +517,6 @@
 "View Guide in Browser" = "打开浏览器阅读指南";
 
 "Warning" = "警告";
-
-"While performing this operation OpenEmu will be unresponsive." = "执行此操作时 OpenEmu 将无响应。";
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "使用 OpenEmu 你可以使用保存状态来随时保存你的进度。在你离开游戏时，我们甚至会帮你自动保存。回到这里来看你所有存档的概览。";
 
@@ -633,8 +627,6 @@
 
 "HUD Bar / Gameplay" = "HUD 条 / 游戏";
 
-"Use game name as window title" = "将游戏名称用作窗口标题";
-
 "Can delete save states" = "可以删除保存状态";
 
 "Show options button" = "显示选项按钮";
@@ -703,7 +695,11 @@
 
 "Perform Sanity Check on Database" = "对数据库执行完整性检查";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "特别感谢每个让 OpenEmu 成为可能的\n人。要了解更多有关我们的贡献者、\n模拟核心、文档、许可的信息以及报告\n漏洞，请访问我们的 GitHub。";
+"While performing this operation OpenEmu will be unresponsive." = "执行此操作时 OpenEmu 将无响应。";
+
+"Delete useless image objects" = "Delete useless image objects";
+
+"Sync games without artwork" = "Sync games without artwork";
 
 "ECM compressed binary detected." = "检测到ECM压缩二进制。";  // TODO
 
