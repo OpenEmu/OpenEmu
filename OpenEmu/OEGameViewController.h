@@ -49,7 +49,6 @@ extern NSString *const OEScreenshotPropertiesKey;
 @class OEDBGame;
 @class OEDBSaveState;
 
-@class OEGameView;
 @class OEGameLayerView;
 
 @class OEGameControlsBar;
@@ -91,23 +90,29 @@ extern NSString *const OEScreenshotPropertiesKey;
 @property(readonly) NSString *coreIdentifier;
 @property(readonly) NSString *systemIdentifier;
 
+#pragma mark - Game View control
+
+@property (nonatomic, readonly) OEGameLayerView *gameView;
+- (void)gameViewSetIntegralSize:(NSSize)size animated:(BOOL)animated;
+- (void)gameViewFillSuperView;
+
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize;
 
 - (void)reflectVolume:(float)volume;
 - (void)reflectEmulationPaused:(BOOL)paused;
+
 #pragma mark - HUD Bar Actions
 // switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation
 - (void)selectShader:(id)sender;
 - (void)configureShader:(id)sender;
 - (void)toggleControlsVisibility:(id)sender;
 
-#pragma mark - Taking Screenshots
+#pragma mark - Screenshots support
 - (NSImage *)screenshot;
 - (IBAction)takeScreenshot:(id)sender;
 
 #pragma mark - Info
-@property(readonly) NSSize defaultScreenSize;
-
+@property (readonly) NSSize defaultScreenSize;
 @property (readonly) OEIntSize aspectSize;
 @property (readonly) OEIntSize screenSize;
 @property (nonatomic) NSUInteger discCount;

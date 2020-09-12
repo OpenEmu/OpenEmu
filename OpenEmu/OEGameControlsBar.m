@@ -595,6 +595,16 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             [scaleItem setState:(scale == currentScale ? NSControlStateValueOn : NSControlStateValueOff)];
             [scaleMenu addItem:scaleItem];
         }
+        
+        if (self.gameWindow.isFullScreen)
+        {
+            NSMenuItem *scaleItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Fill Screen", @"Integral scale menu item title")
+                                                               action:@selector(changeIntegralScale:)
+                                                        keyEquivalent:@""];
+            [scaleItem setRepresentedObject:@0];
+            [scaleItem setState:(currentScale == 0 ? NSControlStateValueOn : NSControlStateValueOff)];
+            [scaleMenu addItem:scaleItem];
+        }
     }
     else
         [item setEnabled:NO];

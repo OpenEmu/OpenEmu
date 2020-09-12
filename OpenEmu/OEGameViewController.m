@@ -26,26 +26,12 @@
 
 #import "OEGameViewController.h"
 
-#import "OEDBRom.h"
-#import "OEDBSystem.h"
-#import "OEDBGame.h"
-#import "OEDBScreenshot.h"
-
 @import OpenEmuKit;
+@import OpenEmuSystem;
 
-#import "OEDBSaveState.h"
 #import "OEGameControlsBar.h"
 
-#import "OECoreUpdater.h"
-
 #import "OEGameDocument.h"
-#import "OEAudioDeviceManager.h"
-
-#import "OEAlert+DefaultAlertsAdditions.h"
-
-#import "OELibraryDatabase.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 #import "OpenEmu-Swift.h"
 
@@ -85,12 +71,12 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 {
     // Standard game document stuff
     OEGameLayerView *_gameView;
+    NSArray<NSLayoutConstraint *> *_gameViewContraints;
+    
     OEGameLayerNotificationView   *_notificationView;
     BOOL        _pausedByGoingToBackground;
     OEShaderParametersWindowController *_controller;
 }
-
-@property(readonly) OEGameLayerView *gameView;
 
 @end
 
@@ -115,14 +101,18 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         
         _controller = [[OEShaderParametersWindowController alloc] initWithGameViewController:self];
         
+        // arbitrary default screen size with 4:3 ratio
+        CGFloat const DEFAULT_WIDTH = 400.0;
+        CGFloat const DEFAULT_HEIGHT = 300.0;
+        _defaultScreenSize = NSMakeSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        
         NSView *view = [[NSView alloc] initWithFrame:(NSRect){ .size = { 1.0, 1.0 }}];
         [self setView:view];
         
         _gameView = [[OEGameLayerView alloc] initWithFrame:[[self view] bounds]];
-        [_gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [_gameView setDelegate:self];
-        
         [[self view] addSubview:_gameView];
+        [self gameViewFillSuperView];
         
         _notificationView = [[OEGameLayerNotificationView alloc] initWithFrame:NSMakeRect(0, 0, 28, 28)];
         _notificationView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -135,8 +125,6 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         [NSLayoutConstraint activateConstraints:all];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:_gameView];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidChangeScreen:) name:NSWindowDidMoveNotification object:self];
     }
     return self;
 }
@@ -177,10 +165,59 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     [_controlsWindow setGameWindow:nil];
     [[self OE_rootWindow] removeChildWindow:_controlsWindow];
 }
+#pragma mark - Game View control
+
+- (void)gameViewSetIntegralSize:(NSSize)size animated:(BOOL)animated
+{
+    if (CGSizeEqualToSize(size, CGSizeZero))
+    {
+        size = self.view.bounds.size;
+    }
+    
+    if (_gameViewContraints.count == 0)
+    {
+        _gameView.translatesAutoresizingMaskIntoConstraints = NO;
+        NSSize frameSize = _gameView.frame.size;
+        _gameViewContraints = @[
+            [_gameView.widthAnchor constraintEqualToConstant:frameSize.width],
+            [_gameView.heightAnchor constraintEqualToConstant:frameSize.height],
+            [_gameView.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor],
+            [_gameView.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
+        ];
+        [NSLayoutConstraint activateConstraints:_gameViewContraints];
+    }
+    
+    if (animated)
+    {
+        [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+            context.duration = 0.250;
+            context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+
+            _gameViewContraints[0].animator.constant = size.width;
+            _gameViewContraints[1].animator.constant = size.height;
+        }];
+    }
+    else
+    {
+        _gameViewContraints[0].constant = size.width;
+        _gameViewContraints[1].constant = size.height;
+    }
+}
+
+- (void)gameViewFillSuperView
+{
+    [NSLayoutConstraint deactivateConstraints:_gameViewContraints];
+    _gameViewContraints = nil;
+
+    [_gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    _gameView.translatesAutoresizingMaskIntoConstraints = YES;
+    
+    _gameView.frame = (NSRect){ .origin = NSZeroPoint, .size = self.view.frame.size };
+}
 
 - (void)viewDidLayout
 {
-    [[self document] setOutputBounds:self.view.bounds];
+    [[self document] setOutputBounds:_gameView.bounds];
 }
 
 #pragma mark - Controlling Emulation
@@ -319,21 +356,11 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize
 {
-    _screenSize = newScreenSize;
-    _aspectSize = newAspectSize;
+    _screenSize        = newScreenSize;
+    _aspectSize        = newAspectSize;
+    OEIntSize correct  = OECorrectScreenSizeForAspectSize(_screenSize, _aspectSize);
+    _defaultScreenSize = NSMakeSize(correct.width, correct.height);
     [_gameView setScreenSize:_screenSize aspectSize:_aspectSize];
-}
-
-#pragma mark - Info
-
-- (NSSize)defaultScreenSize
-{
-    // Slow to boot systems are triggering this line right now.
-    // Sync issue between the remote layer and helper?
-    if(OEIntSizeIsEmpty(_screenSize) || OEIntSizeIsEmpty(_aspectSize))
-        return NSMakeSize(400, 300);
-
-    return OECorrectScreenSizeForAspectSize(_screenSize, _aspectSize);
 }
 
 #pragma mark - Private Methods
