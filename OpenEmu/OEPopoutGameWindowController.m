@@ -73,12 +73,14 @@ typedef enum
     unsigned int                        _integralScale;
 
     // Full screen
-    NSRect                              _frameForNonFullScreenMode;
     OEScreenshotWindow                 *_screenshotWindow;
     OEPopoutGameWindowFullScreenStatus  _fullScreenStatus;
     BOOL                                _resumePlayingAfterFullScreenTransition;
     BOOL                                _snapResize;
     OEIntegralWindowResizingDelegate   *_snapDelegate;
+    // State prior to entering full screen
+    NSRect                              _windowedFrame;
+    unsigned int                        _windowedIntegralScale;
 }
 
 #pragma mark - NSWindowController overridden methods
@@ -366,7 +368,7 @@ typedef enum
 {
     OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
 
-    const NSSize windowSize         = ([[self window] isFullScreen] ? _frameForNonFullScreenMode.size : [[self window] frame].size);
+    const NSSize windowSize         = ([[self window] isFullScreen] ? _windowedFrame.size : [[self window] frame].size);
     NSString *systemIdentifier      = [[[[[gameViewController document] rom] game] system] systemIdentifier];
     NSUserDefaults *userDefaults    = [NSUserDefaults standardUserDefaults];
     NSString *systemKey             = [NSString stringWithFormat:_OESystemIntegralScaleKeyFormat, systemIdentifier];
@@ -455,8 +457,9 @@ typedef enum
 {
     OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
 
-    _fullScreenStatus                       = _OEPopoutGameWindowFullScreenStatusEntering;
-    _frameForNonFullScreenMode              = [[self window] frame];
+    _fullScreenStatus       = _OEPopoutGameWindowFullScreenStatusEntering;
+    _windowedFrame          = self.window.frame;
+    _windowedIntegralScale  = _integralScale;
 
     _resumePlayingAfterFullScreenTransition = ![[self document] isEmulationPaused];
     [[self document] setEmulationPaused:YES];
@@ -566,13 +569,18 @@ typedef enum
     const NSRect screenFrame                 = [mainScreen frame];
     const NSTimeInterval showBorderDuration  = duration / 4;
     const NSTimeInterval resizeDuration      = duration - showBorderDuration;
+    
     /* a window in full-screen mode does not have a title bar, and thus we have
      * to explicitly specify the style mask to compute the correct content
      * frame */
-    const NSRect contentFrame = [NSWindow contentRectForFrameRect:_frameForNonFullScreenMode styleMask:window.styleMask & ~NSWindowStyleMaskFullScreen];
+    const NSRect contentFrame = [NSWindow contentRectForFrameRect:_windowedFrame styleMask:window.styleMask & ~NSWindowStyleMaskFullScreen];
+    
+    NSSize fullScreenContentSize    = gameViewController.gameView.frame.size;
+    NSRect screenshotWindowedFrame  = contentFrame;
+
     NSRect targetWindowFrame;
     if (@available(macOS 11, *)) {
-        targetWindowFrame = _frameForNonFullScreenMode;
+        targetWindowFrame = _windowedFrame;
     } else {
         targetWindowFrame = [window frameRectForContentRect:contentFrame];
     }
@@ -580,9 +588,9 @@ typedef enum
     NSRect screenshotFrame = screenFrame;
     if (_integralScale != _OEFitToWindowScale)
     {
-        NSPoint origin = NSMakePoint((screenFrame.size.width  - contentFrame.size.width)  / 2.0,
-                                     (screenFrame.size.height - contentFrame.size.height) / 2.0);
-        screenshotFrame = (NSRect){ .origin = origin, .size = contentFrame.size };
+        NSPoint origin = NSMakePoint((screenFrame.size.width  - fullScreenContentSize.width)  / 2.0,
+                                     (screenFrame.size.height - fullScreenContentSize.height) / 2.0);
+        screenshotFrame = (NSRect){ .origin = origin, .size = fullScreenContentSize };
         screenshotFrame = NSIntegralRect(screenshotFrame);
     }
 
@@ -612,7 +620,7 @@ typedef enum
         [CATransaction commit];
     }];
     
-    [self->_screenshotWindow.animator setFrame:contentFrame display:YES];
+    [_screenshotWindow.animator setFrame:screenshotWindowedFrame display:YES];
     [CATransaction commit];
 }
 
@@ -621,6 +629,7 @@ typedef enum
     OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
 
     _fullScreenStatus = _OEPopoutGameWindowFullScreenStatusNonFullScreen;
+    _integralScale    = _windowedIntegralScale;
 
     if(_resumePlayingAfterFullScreenTransition)
         [[self document] setEmulationPaused:NO];

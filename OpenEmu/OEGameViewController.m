@@ -57,6 +57,10 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 
+// arbitrary default screen size with 4:3 ratio
+CGFloat const DEFAULT_WIDTH = 400.0;
+CGFloat const DEFAULT_HEIGHT = 300.0;
+
 /*
  TODO Messages to remote layer:
  - Change bounds
@@ -101,9 +105,6 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         
         _controller = [[OEShaderParametersWindowController alloc] initWithGameViewController:self];
         
-        // arbitrary default screen size with 4:3 ratio
-        CGFloat const DEFAULT_WIDTH = 400.0;
-        CGFloat const DEFAULT_HEIGHT = 300.0;
         _defaultScreenSize = NSMakeSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         
         NSView *view = [[NSView alloc] initWithFrame:(NSRect){ .size = { 1.0, 1.0 }}];
@@ -356,10 +357,18 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize
 {
-    _screenSize        = newScreenSize;
-    _aspectSize        = newAspectSize;
-    OEIntSize correct  = OECorrectScreenSizeForAspectSize(_screenSize, _aspectSize);
-    _defaultScreenSize = NSMakeSize(correct.width, correct.height);
+    _screenSize = newScreenSize;
+    _aspectSize = newAspectSize;
+    if (OEIntSizeIsEmpty(newScreenSize) || OEIntSizeIsEmpty(newAspectSize))
+    {
+        _defaultScreenSize = NSMakeSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
+    else
+    {
+        OEIntSize correct  = OECorrectScreenSizeForAspectSize(_screenSize, _aspectSize);
+        _defaultScreenSize = NSMakeSize(correct.width, correct.height);
+    }
+    
     [_gameView setScreenSize:_screenSize aspectSize:_aspectSize];
 }
 
