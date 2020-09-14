@@ -48,9 +48,6 @@
 
 #import "OEGameDocument.h"
 
-#import "OEThemeObject.h"
-#import "OEThemeImage.h"
-
 #import "OESearchField.h"
 #import "OETableView.h"
 
@@ -911,12 +908,15 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     NSString *columnId                       = [tableColumn identifier];
     id result                                = nil;
 
-    if(columnId == nil)                                               result = item;
+    if(columnId == nil) result = item;
     else if([columnId isEqualToString:@"listViewStatus"])
     {
-        OEThemeImage *image = [item listViewStatus];
-        OEThemeState state  = [[[self listView] selectedRowIndexes] containsIndex:rowIndex] ? OEThemeInputStateFocused : OEThemeStateDefault;
-        result = [image imageForState:state];
+        NSString *imageName = [item listViewStatus];
+        BOOL isSelected = [self.listView.selectedRowIndexes containsIndex:rowIndex];
+        BOOL isListIndicatorMissing = [imageName isEqualToString:@"list_indicator_missing"];
+        NSImage *image = [NSImage imageNamed:imageName];
+        NSColor *tintColor = isListIndicatorMissing ? NSColor.systemOrangeColor : NSColor.controlAccentColor;
+        result = isSelected ? image : [image imageWithTintColor:tintColor];
     }
     else if([item respondsToSelector:NSSelectorFromString(columnId)]) result = [item valueForKey:columnId];
 

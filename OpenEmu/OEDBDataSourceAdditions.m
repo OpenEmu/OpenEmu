@@ -29,7 +29,6 @@
 #import "OEDBRom.h"
 #import "OEGameDocument.h"
 #import "OEGameViewController.h"
-#import "OETheme.h"
 #import "NSArray+OEAdditions.h"
 @import Quartz;
 
@@ -176,17 +175,11 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
 
 #pragma mark - ListView DataSource Item
 
-- (OEThemeImage *)listViewStatus
+- (NSString *)listViewStatus
 {
-    NSString *imageKey = [self OE_listViewStatusImageKey];
-    return [[OETheme sharedTheme] themeImageForKey:imageKey];
-}
-
-- (NSString *)OE_listViewStatusImageKey
-{
-    return ([self OE_hasOpenDocument] ? @"list_indicators_playing"  :
-            ([[self status] intValue] == OEDBGameStatusAlert) ? @"list_indicators_missing"  :
-            ![self lastPlayed]        ? @"list_indicators_unplayed" : nil);
+    return ([self OE_hasOpenDocument] ? @"list_indicator_playing" :
+            ([[self status] intValue] == OEDBGameStatusAlert) ? @"list_indicator_missing" :
+            ![self lastPlayed]        ? @"list_indicator_unplayed" : nil);
 }
 
 - (BOOL)OE_hasOpenDocument

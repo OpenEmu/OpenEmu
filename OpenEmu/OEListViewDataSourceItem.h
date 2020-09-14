@@ -25,11 +25,10 @@
  */
 
 @import Foundation;
-@class OEThemeImage;
 
 @protocol OEListViewDataSourceItem <NSObject>
 
-- (OEThemeImage *)listViewStatus;
+- (NSString *)listViewStatus;
 - (NSNumber *)listViewRating;
 - (NSString *)listViewTitle;
 - (NSString *)listViewLastPlayed;

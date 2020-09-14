@@ -1682,42 +1682,6 @@
 				</dict>
 			</dict>
 		</dict>
-		<key>list_indicators_unplayed</key>
-		<dict>
-			<key>Resource</key>
-			<string>list_indicators</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{0, 24}, {12, 12}}</string>
-				<key>Focused</key>
-				<string>{{12, 24}, {12, 12}}</string>
-			</dict>
-		</dict>
-		<key>list_indicators_playing</key>
-		<dict>
-			<key>Resource</key>
-			<string>list_indicators</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{0, 0}, {12, 12}}</string>
-				<key>Focused</key>
-				<string>{{12, 0}, {12, 12}}</string>
-			</dict>
-		</dict>
-		<key>list_indicators_missing</key>
-		<dict>
-			<key>Resource</key>
-			<string>list_indicators</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{0, 12}, {12, 12}}</string>
-				<key>Focused</key>
-				<string>{{12, 12}, {12, 12}}</string>
-			</dict>
-		</dict>
 		<key>grid_download</key>
 		<dict>
 			<key>Resource</key>
