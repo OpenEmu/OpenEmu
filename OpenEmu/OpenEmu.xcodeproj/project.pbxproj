@@ -1773,7 +1773,6 @@
 		82BBE7BD21D961A2006CD402 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/ControlLabels.strings"; sourceTree = "<group>"; };
 		82CAFBB70FEDAA3D00CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KeyboardUsages.plist; sourceTree = "<group>"; };
-		82DE446510252F2F007184EB /* IKImageFlowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IKImageFlowView.h; sourceTree = "<group>"; };
 		82DE4AEE1026533E007184EB /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UniversalDetector.framework; sourceTree = "<group>"; };
 		82DE4AEF1026533E007184EB /* XADMaster.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XADMaster.framework; sourceTree = "<group>"; };
 		830155791456BF7A0093D681 /* OEGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameViewController.h; sourceTree = "<group>"; };
@@ -4197,7 +4196,6 @@
 			isa = PBXGroup;
 			children = (
 				8397BF41190949BD00A708D1 /* IKImageBrowserLayoutManager.h */,
-				82DE446510252F2F007184EB /* IKImageFlowView.h */,
 				837820B81907FB2D0043593F /* IKImageWrapper.h */,
 				837820B71907FADB0043593F /* IKRenderer.h */,
 				837820BA1907FB6E0043593F /* IKImageBrowserView.h */,

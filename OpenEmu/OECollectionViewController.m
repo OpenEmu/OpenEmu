@@ -63,8 +63,6 @@
 
 #import "OEGridGameCell.h"
 
-#import "IKImageFlowView.h"
-
 #import "OEPrefLibraryController.h"
 
 #import "OpenEmu-Swift.h"
@@ -536,16 +534,6 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     return 0;
-}
-
-- (NSUInteger)numberOfItemsInImageFlow:(IKImageFlowView *)aBrowser
-{
-    return 0;
-}
-
-- (id)imageFlow:(id)aFlowLayer itemAtIndex:(int)index
-{
-    return nil;
 }
 
 #pragma mark - Delegates

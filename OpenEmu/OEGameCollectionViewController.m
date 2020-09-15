@@ -51,8 +51,6 @@
 #import "OESearchField.h"
 #import "OETableView.h"
 
-#import "IKImageFlowView.h"
-
 #import "OEDBDataSourceAdditions.h"
 
 #import "OpenEmu-Swift.h"
@@ -1086,34 +1084,6 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     if(!game) return;
 
     [[self libraryController] startGame:game];
-}
-
-#pragma mark - ImageFlow Data Source
-- (NSUInteger)numberOfItemsInImageFlow:(IKImageFlowView *)aBrowser
-{
-    return [[gamesController arrangedObjects] count];
-}
-
-- (id)imageFlow:(id)aFlowLayer itemAtIndex:(int)index
-{
-    return [[gamesController arrangedObjects] objectAtIndex:index];
-}
-
-#pragma mark - ImageFlow Delegates
-- (NSUInteger)imageFlow:(IKImageFlowView *)browser writeItemsAtIndexes:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pasteboard{ return 0; }
-
-- (void)imageFlow:(IKImageFlowView *)sender removeItemsAtIndexes:(NSIndexSet *)indexes
-{}
-
-- (void)imageFlow:(IKImageFlowView *)sender cellWasDoubleClickedAtIndex:(NSInteger)index
-{
-    [[self libraryController] startSelectedGame:self];
-}
-
-- (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index
-{
-    [[self listView] selectRowIndexes:[NSIndexSet indexSetWithIndex:[sender selectedIndex]] byExtendingSelection:NO];
-    [[self listView] scrollRowToVisible:index];
 }
 
 @end
