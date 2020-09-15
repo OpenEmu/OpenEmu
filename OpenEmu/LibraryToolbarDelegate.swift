@@ -115,7 +115,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         view.titlePosition = .noTitle
         view.contentView!.frame = NSRect(x: 0, y: 0, width: 106, height: 32)
         view.contentView!.subviews = [minHint, slider, maxHint]
-
+        
         item.view = view
         item.label = NSLocalizedString("Grid Size", comment:"Grid size toolbar button label, main window")
         item.minSize = view.frame.size
@@ -132,36 +132,27 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
         let item = NSToolbarItem.init(itemIdentifier: OEToolbarItemIdentifierViewMode)
         
-        let gridButton = OEButton(frame: NSRect(x: 0, y: 2, width: 27, height: 23))
-        let gridButtonCell = gridButton.cell as! OEButtonCell
-        gridButtonCell.setButtonType(.onOff)
-        gridButtonCell.imagePosition = .imageOnly
-        gridButton.setThemeKey("toolbar_view_button_grid")
-        gridButton.action = #selector(OECollectionViewController.switchToGridView(_:))
-        gridButton.target = toolbarOwner
-        gridButton.toolTip = NSLocalizedString("Switch To Grid View", comment: "Tooltip")
+        let segmControl = NSSegmentedControl()
+        segmControl.segmentCount = 2
+        segmControl.setImage(NSImage(named: "NSIconViewTemplate"), forSegment: 0)
+        segmControl.setImage(NSImage(named: "NSListViewTemplate"), forSegment: 1)
+        segmControl.setToolTip(NSLocalizedString("Switch To Grid View", comment: "Tooltip"), forSegment: 0)
+        segmControl.setToolTip(NSLocalizedString("Switch To List View", comment: "Tooltip"), forSegment: 1)
+        segmControl.sizeToFit()
+        segmControl.action = #selector(OELibraryController.switchToView(_:))
+        segmControl.target = toolbarOwner
         
-        let listButton = OEButton(frame: NSRect(x: 27, y: 2, width: 26, height: 23))
-        let listButtonCell = listButton.cell as! OEButtonCell
-        listButtonCell.setButtonType(.onOff)
-        listButtonCell.imagePosition = .imageOnly
-        listButton.setThemeKey("toolbar_view_button_list")
-        listButton.action = #selector(OECollectionViewController.switchToListView(_:))
-        listButton.target = toolbarOwner
-        listButton.toolTip = NSLocalizedString("Switch To List View", comment: "Tooltip")
-        
-        let view = NSBox(frame: NSRect(x: 6, y: 14, width: 53, height: 26))
+        let view = NSBox(frame: NSRect(x: 0, y: 7, width: segmControl.bounds.size.width, height: 25))
         view.borderType = .noBorder
         view.titlePosition = .noTitle
-        view.contentView!.frame = NSRect(x: 0, y: 0, width: 53, height: 26)
-        view.contentView!.subviews = [gridButton, listButton]
+        view.contentView!.frame = NSRect(x: 0, y: 0, width: segmControl.bounds.size.width, height: 25)
+        view.contentView!.subviews = [segmControl]
         
         item.view = view
         item.label = NSLocalizedString("View Mode", comment:"View mode toolbar button label, main window")
         item.minSize = view.frame.size
         item.maxSize = item.minSize
-        toolbar.gridViewButton = gridButton
-        toolbar.listViewButton = listButton
+        toolbar.viewModeSelector = segmControl
         itemCache[item.itemIdentifier.rawValue] = item
         return item;
     }
@@ -173,23 +164,20 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
         let item = NSToolbarItem.init(itemIdentifier: OEToolbarItemIdentifierCategory)
         
-        let segmControl = NSSegmentedControl(frame: NSRect(x: 0, y: 8, width: 50, height: 24))
-        let segmCell = ToolbarSegmentedCell()
-        segmControl.cell = segmCell
+        let segmControl = NSSegmentedControl()
         segmControl.segmentCount = 4
         segmControl.setLabel(NSLocalizedString("Library", comment: "Main window, Library category button"), forSegment: 0)
         segmControl.setLabel(NSLocalizedString("Save States", comment: "Main window, Save States category button"), forSegment: 1)
         segmControl.setLabel(NSLocalizedString("Screenshots", comment: "Main window, Screenshots category button"), forSegment: 2)
         segmControl.setLabel(NSLocalizedString("Homebrew", comment: "Main window, Homebrew category button"), forSegment: 3)
-        segmCell.sizeSegmentsToFit(minimumWidth: 87.75)
         segmControl.sizeToFit()
         segmControl.action = #selector(OELibraryController.switchCategory(_:))
         segmControl.target = toolbarOwner
         
-        let view = NSBox(frame: NSRect(x: 0, y: 14, width: segmControl.bounds.size.width, height: 38))
+        let view = NSBox(frame: NSRect(x: 0, y: 7, width: segmControl.bounds.size.width, height: 25))
         view.borderType = .noBorder
         view.titlePosition = .noTitle
-        view.contentView!.frame = NSRect(x: 0, y: 0, width: segmControl.bounds.size.width, height: 38)
+        view.contentView!.frame = NSRect(x: 0, y: 0, width: segmControl.bounds.size.width, height: 25)
         view.contentView!.subviews = [segmControl]
         
         item.view = view
@@ -245,25 +233,22 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
         let item = NSToolbarItem.init(itemIdentifier: OEToolbarItemIdentifierSearch)
         
-        let searchField = OESearchField(frame: NSRect(x: 0, y: 8, width: 166, height: 22))
-        searchField.wantsLayer = true
+        let searchField = NSSearchField(frame: NSRect(x: 0, y: 0, width: 166, height: 25))
         searchField.lineBreakMode = .byClipping
-        searchField.cell?.usesSingleLineMode = true
+        searchField.usesSingleLineMode = true
         searchField.cell?.isScrollable = true
         searchField.sendsWholeSearchString = false
         searchField.sendsSearchStringImmediately = true
         searchField.font = NSFont.systemFont(ofSize: 13.0)
-        searchField.textColor = NSColor.controlBackgroundColor
-        searchField.setThemeKey("search_field")
         searchField.action = #selector(OELibraryController.search(_:))
         searchField.target = toolbarOwner
         
-        let view = NSBox(frame: NSRect(x: 0, y: 14, width: 166, height: 38))
+        let view = NSBox(frame: NSRect(x: 0, y: 7, width: 166, height: 25))
         view.borderType = .noBorder
         view.titlePosition = .noTitle
-        view.contentView!.frame = NSRect(x: 0, y: 0, width: 166, height: 38)
+        view.contentView!.frame = NSRect(x: 0, y: 0, width: 166, height: 25)
         view.contentView!.subviews = [searchField]
-
+        
         item.view = view;
         item.label = NSLocalizedString("Search", comment:"Search field toolbar label, main window")
         item.minSize = view.frame.size

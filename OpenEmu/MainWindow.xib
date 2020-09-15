@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17154" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -10,14 +10,13 @@
             <connections>
                 <outlet property="libraryController" destination="49" id="50"/>
                 <outlet property="placeholderView" destination="Brq-1C-d34" id="9dg-dY-wuu"/>
-                <outlet property="titlebarBackgroundView" destination="WDC-2Z-Rqg" id="S6U-Ub-q1k"/>
                 <outlet property="window" destination="3" id="42"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window identifier="LibraryWindow" title="OpenEmu" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" frameAutosaveName="LibraryWindow" animationBehavior="default" id="3" userLabel="Library Window - Library">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" fullSizeContentView="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="196" y="114" width="830" height="555"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
@@ -26,12 +25,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="830" height="555"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                 <subviews>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WDC-2Z-Rqg" customClass="OEMainWindowTitlebarBackgroundView">
-                        <rect key="frame" x="0.0" y="517" width="830" height="38"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Brq-1C-d34">
-                        <rect key="frame" x="0.0" y="0.0" width="830" height="517"/>
+                        <rect key="frame" x="0.0" y="0.0" width="830" height="555"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </customView>
                 </subviews>

@@ -144,10 +144,8 @@ const static CGFloat TableViewSpacing = 86.0;
     OELibraryController *libraryController = self.libraryController;
     OELibraryToolbar *toolbar = libraryController.toolbar;
     
-    toolbar.gridViewButton.enabled = NO;
-    toolbar.listViewButton.enabled = NO;
-    toolbar.gridViewButton.state = NSControlStateValueOff;
-    toolbar.listViewButton.state = NSControlStateValueOff;
+    toolbar.viewModeSelector.enabled = NO;
+    toolbar.viewModeSelector.selectedSegment = -1;
     
     toolbar.gridSizeSlider.enabled = NO;
 
@@ -578,8 +576,7 @@ const static CGFloat TableViewSpacing = 86.0;
 {
     _libraryController = libraryController;
 
-    [[[libraryController toolbar] gridViewButton] setEnabled:NO];
-    [[[libraryController toolbar] listViewButton] setEnabled:NO];
+    [[[libraryController toolbar] viewModeSelector] setEnabled:NO];
     [[[libraryController toolbar] searchField] setEnabled:NO];
     [[[libraryController toolbar] gridSizeSlider] setEnabled:NO];
 }

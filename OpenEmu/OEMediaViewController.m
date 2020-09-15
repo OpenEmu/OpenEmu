@@ -41,8 +41,6 @@
 
 #import "OELibraryController.h"
 
-#import "OESearchField.h"
-
 #import "OEGridView.h"
 
 #import "OEAlert+DefaultAlertsAdditions.h"
@@ -106,7 +104,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     
     [self _setupToolbar];
     
-    OESearchField *searchField = self.libraryController.toolbar.searchField;
+    NSSearchField *searchField = self.libraryController.toolbar.searchField;
     searchField.enabled = YES;
     searchField.stringValue = self.currentSearchTerm ?: @"";
     
@@ -177,10 +175,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     OELibraryController *libraryController = self.libraryController;
     OELibraryToolbar *toolbar = libraryController.toolbar;
     
-    toolbar.gridViewButton.enabled = NO;
-    toolbar.listViewButton.enabled = NO;
-    toolbar.gridViewButton.state = NSControlStateValueOff;
-    toolbar.listViewButton.state = NSControlStateValueOff;
+    toolbar.viewModeSelector.enabled = NO;
+    toolbar.viewModeSelector.selectedSegment = -1;
     
     toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
     
@@ -204,10 +200,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         toolbar.searchField.enabled = !_shouldShowBlankSlate;
         toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
         
-        toolbar.gridViewButton.enabled = NO;
-        toolbar.listViewButton.enabled = NO;
-        toolbar.gridViewButton.state = NSControlStateValueOff;
-        toolbar.listViewButton.state = NSControlStateValueOff;
+        toolbar.viewModeSelector.enabled = NO;
+        toolbar.viewModeSelector.selectedSegment = -1;
     }
 }
 

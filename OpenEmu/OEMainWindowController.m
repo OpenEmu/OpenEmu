@@ -64,8 +64,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     BOOL _isLaunchingGame;
 }
 
-@property (weak) IBOutlet OEMainWindowTitlebarBackgroundView *titlebarBackgroundView;
-
 @end
 
 @implementation OEMainWindowController
@@ -123,8 +121,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     
     window.excludedFromWindowsMenu = YES;
     window.titleVisibility = NSWindowTitleHidden;
-    window.titlebarAppearsTransparent = YES;
-    window.backgroundColor = [NSColor colorWithCalibratedWhite:0.11 alpha:1.0];
     
     window.restorationClass = [self class];
     NSAssert([window.identifier isEqualToString:OEMainWindowIdentifier], @"Main library window identifier does not match between nib and code");
@@ -147,8 +143,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         
         // Adjust visual properties of the window.
         window.toolbar.visible = NO;
-        self.titlebarBackgroundView.hidden = YES;
-        self.placeholderView.frame = self.window.contentView.frame;
         
         [window center];
         
@@ -237,9 +231,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
             // Adjust visual properties of the window.
             window.toolbar.visible = NO;
             window.titleVisibility = NSWindowTitleVisible;
-            self.titlebarBackgroundView.hidden = YES;
-            self.placeholderView.frame = self.window.contentView.frame;
-            window.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
             
             // Disable the full size content view window style mask attribute.
             NSRect windowFrame = window.frame;
@@ -261,11 +252,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                 
                 // Adjust visual properties of the window.
                 window.toolbar.visible = YES;
-                self.titlebarBackgroundView.hidden = NO;
-                NSRect placeholderViewFrame = self.window.contentView.frame;
-                placeholderViewFrame.size.height -= NSHeight(self.titlebarBackgroundView.frame);
-                self.placeholderView.frame = placeholderViewFrame;
-                window.appearance = nil;
             }
         }
     };
@@ -602,55 +588,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     OEDBGame *game = [[sender representedObject] game];
     
     [self libraryController:nil didSelectGame:game];
-}
-
-@end
-
-@interface OEMainWindowTitlebarBackgroundView ()
-@property (nonatomic) NSGradient *backgroundGradient;
-@property (nonatomic) NSColor *bottomBorderColor;
-@end
-
-@implementation OEMainWindowTitlebarBackgroundView
-
-- (instancetype)initWithFrame:(NSRect)frameRect
-{
-    self = [super initWithFrame:frameRect];
-    if (self) {
-        _backgroundGradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0.15 alpha:1.0] endingColor:[NSColor colorWithDeviceWhite:0.25 alpha:1.0]];
-        _bottomBorderColor = [NSColor colorWithCalibratedWhite:0.07 alpha:1.0];
-    }
-    return self;
-}
-
-- (BOOL)isOpaque
-{
-    return YES;
-}
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-    // Draw background.
-    [self.backgroundGradient drawInRect:self.bounds angle:90.0];
-    
-    // Draw bottom border.
-    NSRect bounds = self.bounds;
-    const CGFloat bottomBorderHeight = 1.0;
-    NSRect bottomBorderRect = NSMakeRect(0.0,
-                                         0.0,
-                                         NSWidth(bounds),
-                                         bottomBorderHeight);
-    if ([self needsToDrawRect:bottomBorderRect]) {
-        [self.bottomBorderColor set];
-        NSRectFill(bottomBorderRect);
-    }
-}
-
-- (void)mouseUp:(NSEvent *)event
-{
-    if (event.clickCount == 2) {
-        [self.window performZoom:nil];
-    }
 }
 
 @end

@@ -50,6 +50,3 @@ extern NSString *const OEFullScreenGameWindowKey;
 // ugly hack, remove
 - (void)startGame:(OEDBGame*)game;
 @end
-
-@interface OEMainWindowTitlebarBackgroundView : NSView
-@end

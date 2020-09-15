@@ -47,6 +47,7 @@ extern NSString * const OELibraryLastCategoryKey;
 #pragma mark - Toolbar Actions
 - (IBAction)switchToGridView:(id)sender;
 - (IBAction)switchToListView:(id)sender;
+- (IBAction)switchToView:(id)sender;
 - (IBAction)search:(id)sender;
 - (IBAction)changeGridSize:(id)sender;
 - (IBAction)addCollectionAction:(id)sender;

@@ -150,6 +150,14 @@ extern NSString * const OESidebarSelectionDidChangeNotification;
         [[self currentSubviewController] performSelector:@selector(addCollectionAction:) withObject:sender];
 }
 
+- (IBAction)switchToView:(id)sender
+{
+    if(self.toolbar.viewModeSelector.selectedSegment == 0)
+       [self switchToGridView:sender];
+    if(self.toolbar.viewModeSelector.selectedSegment == 1)
+       [self switchToListView:sender];
+}
+
 - (IBAction)switchToGridView:(id)sender
 {
     if([[self currentSubviewController] respondsToSelector:@selector(switchToGridView:)])
@@ -332,15 +340,17 @@ extern NSString * const OESidebarSelectionDidChangeNotification;
         return YES;
     }
     
-    NSButton *button = nil;
-    if(action == @selector(switchToGridView:))
-        button = [[self toolbar] gridViewButton];
-    else if(action == @selector(switchToListView:))
-        button = [[self toolbar] listViewButton];
-    else return YES;
+    NSSegmentedControl *viewModeSelector = self.toolbar.viewModeSelector;
+    if(action == @selector(switchToGridView:)) {
+        menuItem.state = viewModeSelector.selectedSegment == 0 ? NSControlStateValueOn : NSControlStateValueOff;
+        return viewModeSelector.isEnabled;
+    }
+    if(action == @selector(switchToListView:)) {
+        menuItem.state = viewModeSelector.selectedSegment == 1 ? NSControlStateValueOn : NSControlStateValueOff;
+        return viewModeSelector.isEnabled;
+    }
     
-    [menuItem setState:[button state]];
-    return [button isEnabled];
+    return YES;
 }
 
 #pragma mark - Import
