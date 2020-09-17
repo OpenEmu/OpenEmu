@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17154" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16096"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17154"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -462,6 +462,27 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" tag="1" id="1039"/>
+                                        <menuItem title="Library" tag="100" enabled="NO" keyEquivalent="3" id="fMr-Lk-DLT">
+                                            <connections>
+                                                <action selector="switchCategoryFromMenu:" target="-1" id="l5J-nH-89k"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Save States" tag="101" enabled="NO" keyEquivalent="4" id="6bJ-k4-8Yi">
+                                            <connections>
+                                                <action selector="switchCategoryFromMenu:" target="-1" id="9Lc-Mi-JGP"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Screenshots" tag="102" enabled="NO" keyEquivalent="5" id="bg2-pm-5Hj">
+                                            <connections>
+                                                <action selector="switchCategoryFromMenu:" target="-1" id="AYz-Na-vbL"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Homebrew" tag="103" enabled="NO" keyEquivalent="6" id="yyQ-AF-6uo">
+                                            <connections>
+                                                <action selector="switchCategoryFromMenu:" target="-1" id="p65-fo-Zel"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" tag="1" id="eG3-hO-28O"/>
                                         <menuItem title="Show Library" tag="10" hidden="YES" id="1306">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>

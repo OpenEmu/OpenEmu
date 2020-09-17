@@ -235,3 +235,15 @@
 
 /* Class = "NSMenuItem"; title = "Last Display Mode"; ObjectID = "HzI-NP-sNP"; */
 "HzI-NP-sNP.title" = "Last Display Mode"; // TODO
+
+/* Class = "NSMenuItem"; title = "Library"; ObjectID = "fMr-Lk-DLT"; */
+"fMr-Lk-DLT.title" = "Библиотека";
+
+/* Class = "NSMenuItem"; title = "Save States"; ObjectID = "6bJ-k4-8Yi"; */
+"6bJ-k4-8Yi.title" = "Сохранения";
+
+/* Class = "NSMenuItem"; title = "Screenshots"; ObjectID = "bg2-pm-5Hj"; */
+"bg2-pm-5Hj.title" = "Скриншоты";
+
+/* Class = "NSMenuItem"; title = "Homebrew"; ObjectID = "yyQ-AF-6uo"; */
+"yyQ-AF-6uo.title" = "Homebrew";

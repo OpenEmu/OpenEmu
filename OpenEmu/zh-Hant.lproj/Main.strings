@@ -271,3 +271,15 @@
 
 /* Class = "NSMenuItem"; title = "User Guide"; ObjectID = "q7W-GV-n3p"; */
 "q7W-GV-n3p.title" = "用戶指南";
+
+/* Class = "NSMenuItem"; title = "Library"; ObjectID = "fMr-Lk-DLT"; */
+"fMr-Lk-DLT.title" = "資源庫";
+
+/* Class = "NSMenuItem"; title = "Save States"; ObjectID = "6bJ-k4-8Yi"; */
+"6bJ-k4-8Yi.title" = "儲存狀態";
+
+/* Class = "NSMenuItem"; title = "Screenshots"; ObjectID = "bg2-pm-5Hj"; */
+"bg2-pm-5Hj.title" = "螢幕快照";
+
+/* Class = "NSMenuItem"; title = "Homebrew"; ObjectID = "yyQ-AF-6uo"; */
+"yyQ-AF-6uo.title" = "Homebrew";
