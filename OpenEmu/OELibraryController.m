@@ -237,6 +237,12 @@ extern NSString * const OESidebarSelectionDidChangeNotification;
     [[NSUserDefaults standardUserDefaults] setInteger:_selectedCategory forKey:OELibraryLastCategoryKey];
 }
 
+- (IBAction)switchCategoryFromMenu:(id)sender
+{
+    self.toolbar.categorySelector.selectedSegment = [sender tag] - 100;
+    [self switchCategory:nil];
+}
+
 - (NSViewController<OELibrarySubviewController> *)_subviewControllerForCategory:(OELibraryCategory)category
 {
     NSViewController<OELibrarySubviewController> *viewController = nil;
@@ -317,6 +323,15 @@ extern NSString * const OESidebarSelectionDidChangeNotification;
         return [[[self toolbar] searchField] isEnabled];
     }
 
+    if(action == @selector(switchCategoryFromMenu:))
+    {
+        if(self.toolbar.categorySelector.selectedSegment == menuItem.tag - 100)
+            menuItem.state = NSControlStateValueOn;
+        else
+            menuItem.state = NSControlStateValueOff;
+        return YES;
+    }
+    
     NSButton *button = nil;
     if(action == @selector(switchToGridView:))
         button = [[self toolbar] gridViewButton];

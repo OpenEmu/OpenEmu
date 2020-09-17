@@ -65,6 +65,7 @@ extern NSString * const OELibraryLastCategoryKey;
 
 #pragma mark - Custom Views
 - (IBAction)switchCategory:(id)sender;
+- (IBAction)switchCategoryFromMenu:(id)sender;
 
 #pragma mark - Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;

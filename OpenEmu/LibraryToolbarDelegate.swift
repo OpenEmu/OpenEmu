@@ -198,6 +198,43 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         item.minSize = view.frame.size
         item.maxSize = item.minSize
         toolbar.categorySelector = segmControl
+        
+        let libraryMenuItem = NSMenuItem()
+        libraryMenuItem.title = NSLocalizedString("Library", comment: "")
+        libraryMenuItem.target = toolbarOwner
+        libraryMenuItem.tag = 100
+        libraryMenuItem.action = #selector(OELibraryController.switchCategoryFromMenu(_:))
+        
+        let savesStatesMenuItem = NSMenuItem()
+        savesStatesMenuItem.title = NSLocalizedString("Save States", comment: "")
+        savesStatesMenuItem.target = toolbarOwner
+        savesStatesMenuItem.tag = 101
+        savesStatesMenuItem.action = #selector(OELibraryController.switchCategoryFromMenu(_:))
+        
+        let screenshotsMenuItem = NSMenuItem()
+        screenshotsMenuItem.title = NSLocalizedString("Screenshots", comment: "")
+        screenshotsMenuItem.target = toolbarOwner
+        screenshotsMenuItem.tag = 102
+        screenshotsMenuItem.action = #selector(OELibraryController.switchCategoryFromMenu(_:))
+        
+        let homebrewMenuItem = NSMenuItem()
+        homebrewMenuItem.title = NSLocalizedString("Homebrew", comment: "")
+        homebrewMenuItem.target = toolbarOwner
+        homebrewMenuItem.tag = 103
+        homebrewMenuItem.action = #selector(OELibraryController.switchCategoryFromMenu(_:))
+        
+        let menu = NSMenu()
+        menu.addItem(libraryMenuItem)
+        menu.addItem(savesStatesMenuItem)
+        menu.addItem(screenshotsMenuItem)
+        menu.addItem(homebrewMenuItem)
+        
+        let menuFormRepresentation = NSMenuItem()
+        menuFormRepresentation.title = NSLocalizedString("Category", comment:"")
+        menuFormRepresentation.submenu = menu
+        
+        item.menuFormRepresentation = menuFormRepresentation
+        
         itemCache[item.itemIdentifier.rawValue] = item
         return item;
     }
