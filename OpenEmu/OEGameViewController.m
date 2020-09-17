@@ -119,11 +119,12 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
         _notificationView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.view addSubview:_notificationView];
         
-        NSDictionary<NSString *, id> *views = @{@"notification": _notificationView};
-        NSMutableArray<NSLayoutConstraint *> *all = [NSMutableArray new];
-        [all addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-60-[notification(28)]" options:0 metrics:nil views:views]];
-        [all addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[notification(28)]" options:0 metrics:nil views:views]];
-        [NSLayoutConstraint activateConstraints:all];
+        [NSLayoutConstraint activateConstraints:@[
+            [_notificationView.widthAnchor constraintEqualToConstant:28],
+            [_notificationView.heightAnchor constraintEqualToConstant:28],
+            [_notificationView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:60],
+            [_notificationView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:10],
+        ]];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:_gameView];
     }
