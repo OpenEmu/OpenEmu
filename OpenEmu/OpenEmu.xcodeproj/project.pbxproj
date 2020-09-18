@@ -800,13 +800,6 @@
 		94A225FB1707614500098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F41707614500098DA0 /* Controller-Preferences.plist */; };
 		94A225FC1707614500098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F51707614500098DA0 /* Keyboard-Mappings.plist */; };
 		94A225FE1707614500098DA0 /* saturn_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F71707614500098DA0 /* saturn_library.png */; };
-		94A226021707616F00098DA0 /* OEComputerSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A226001707616F00098DA0 /* OEComputerSystemResponder.m */; };
-		94A22609170761D200098DA0 /* computer_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A22603170761D200098DA0 /* computer_library.png */; };
-		94A2260A170761D200098DA0 /* controller_computer_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A22604170761D200098DA0 /* controller_computer_mask.png */; };
-		94A2260B170761D200098DA0 /* controller_computer.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A22605170761D200098DA0 /* controller_computer.png */; };
-		94A2260C170761D200098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22606170761D200098DA0 /* Controller-Mappings.plist */; };
-		94A2260D170761D200098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22607170761D200098DA0 /* Controller-Preferences.plist */; };
-		94A2260E170761D200098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22608170761D200098DA0 /* Keyboard-Mappings.plist */; };
 		94A4E98D179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E98C179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m */; };
 		94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.m */; };
 		94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */; };
@@ -909,7 +902,6 @@
 		C6D120DF17112EE300E868A8 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		C6D120E017112EE600E868A8 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		C6D120E117112EE900E868A8 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
-		C6D120E217112EED00E868A8 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		C6D120E317112EF100E868A8 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		C6D120E417112EF400E868A8 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		C6D120E517112EF800E868A8 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
@@ -2397,8 +2389,6 @@
 		94A224C71707544C00098DA0 /* Nintendo FDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Nintendo FDS-Info.plist"; sourceTree = "<group>"; };
 		94A224D31707556D00098DA0 /* Saturn.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Saturn.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A224D71707556D00098DA0 /* Saturn-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Saturn-Info.plist"; sourceTree = "<group>"; };
-		94A224E31707559100098DA0 /* Computer.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Computer.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		94A224E71707559100098DA0 /* Computer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Computer-Info.plist"; sourceTree = "<group>"; };
 		94A224F61707596100098DA0 /* PlayStation.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayStation.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A224FA1707596200098DA0 /* PlayStation-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PlayStation-Info.plist"; sourceTree = "<group>"; };
 		94A2252C17075C6C00098DA0 /* OEPSXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSXSystemController.h; sourceTree = "<group>"; };
@@ -2518,15 +2508,6 @@
 		94A225F41707614500098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94A225F51707614500098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		94A225F71707614500098DA0 /* saturn_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saturn_library.png; sourceTree = "<group>"; };
-		94A225FF1707616F00098DA0 /* OEComputerSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEComputerSystemResponder.h; sourceTree = "<group>"; };
-		94A226001707616F00098DA0 /* OEComputerSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEComputerSystemResponder.m; sourceTree = "<group>"; };
-		94A226011707616F00098DA0 /* OEComputerSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEComputerSystemResponderClient.h; sourceTree = "<group>"; };
-		94A22603170761D200098DA0 /* computer_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = computer_library.png; sourceTree = "<group>"; };
-		94A22604170761D200098DA0 /* controller_computer_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_computer_mask.png; sourceTree = "<group>"; };
-		94A22605170761D200098DA0 /* controller_computer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_computer.png; sourceTree = "<group>"; };
-		94A22606170761D200098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
-		94A22607170761D200098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
-		94A22608170761D200098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		94A4E98B179F9A4D00AD8C7D /* OEDBSavedGamesMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSavedGamesMedia.h; sourceTree = "<group>"; };
 		94A4E98C179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSavedGamesMedia.m; sourceTree = "<group>"; };
 		94A4E98E179F9D0400AD8C7D /* OEDBScreenshotsMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBScreenshotsMedia.h; sourceTree = "<group>"; };
@@ -3019,14 +3000,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		94A224E01707559100098DA0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C6D120E217112EED00E868A8 /* OpenEmuSystem.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		94A224F31707596100098DA0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -3406,7 +3379,6 @@
 				94A224B31707544100098DA0 /* Atari 5200.oesystemplugin */,
 				94A224C31707544B00098DA0 /* Nintendo FDS.oesystemplugin */,
 				94A224D31707556D00098DA0 /* Saturn.oesystemplugin */,
-				94A224E31707559100098DA0 /* Computer.oesystemplugin */,
 				94A224F61707596100098DA0 /* PlayStation.oesystemplugin */,
 				943F998B1707D51100270E89 /* Vectrex.oesystemplugin */,
 				943F99B31707DF3700270E89 /* 3DO.oesystemplugin */,
@@ -5104,31 +5076,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		94A224E51707559100098DA0 /* Computer */ = {
-			isa = PBXGroup;
-			children = (
-				94A225FF1707616F00098DA0 /* OEComputerSystemResponder.h */,
-				94A226001707616F00098DA0 /* OEComputerSystemResponder.m */,
-				94A226011707616F00098DA0 /* OEComputerSystemResponderClient.h */,
-				94A224E61707559100098DA0 /* Supporting Files */,
-			);
-			path = Computer;
-			sourceTree = "<group>";
-		};
-		94A224E61707559100098DA0 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				94A22603170761D200098DA0 /* computer_library.png */,
-				94A22605170761D200098DA0 /* controller_computer.png */,
-				94A22604170761D200098DA0 /* controller_computer_mask.png */,
-				94A224E71707559100098DA0 /* Computer-Info.plist */,
-				94A22608170761D200098DA0 /* Keyboard-Mappings.plist */,
-				94A22606170761D200098DA0 /* Controller-Mappings.plist */,
-				94A22607170761D200098DA0 /* Controller-Preferences.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		94A224F81707596200098DA0 /* PlayStation */ = {
 			isa = PBXGroup;
 			children = (
@@ -5435,7 +5382,6 @@
 				87FBC08F1C0790B500AECF5A /* Atari 8-bit */,
 				94BE9E52171683E000AB08E6 /* ColecoVision */,
 				87FBC06E1BFC70FE00AECF5A /* Commodore 64 */,
-				94A224E51707559100098DA0 /* Computer */,
 				87DF04C71BCE26FB0060E2C2 /* Dreamcast */,
 				C6B947B11364ECA700A425F0 /* GameBoy */,
 				C646574A13771F12002A4F70 /* GameBoy Advance */,
@@ -6222,23 +6168,6 @@
 			productReference = 94A224D31707556D00098DA0 /* Saturn.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
-		94A224E21707559100098DA0 /* Computer */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 94A224EC1707559100098DA0 /* Build configuration list for PBXNativeTarget "Computer" */;
-			buildPhases = (
-				94A224DF1707559100098DA0 /* Sources */,
-				94A224E01707559100098DA0 /* Frameworks */,
-				94A224E11707559100098DA0 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Computer;
-			productName = Computer;
-			productReference = 94A224E31707559100098DA0 /* Computer.oesystemplugin */;
-			productType = "com.apple.product-type.bundle";
-		};
 		94A224F51707596100098DA0 /* PlayStation */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 94A224FF1707596200098DA0 /* Build configuration list for PBXNativeTarget "PlayStation" */;
@@ -6564,9 +6493,6 @@
 					94A224D21707556D00098DA0 = {
 						ProvisioningStyle = Manual;
 					};
-					94A224E21707559100098DA0 = {
-						ProvisioningStyle = Manual;
-					};
 					94A224F51707596100098DA0 = {
 						ProvisioningStyle = Manual;
 					};
@@ -6644,7 +6570,6 @@
 				87FBC08D1C0790B400AECF5A /* Atari 8bit */,
 				94BE9E4F171683E000AB08E6 /* ColecoVision */,
 				87FBC06C1BFC70FE00AECF5A /* Commodore 64 */,
-				94A224E21707559100098DA0 /* Computer */,
 				87DF04FD1BCE2D100060E2C2 /* Dreamcast */,
 				C6B947AE1364ECA600A425F0 /* GameBoy */,
 				C646574713771F12002A4F70 /* GameBoy Advance */,
@@ -7272,19 +7197,6 @@
 				870320AE1F6267BF00470B55 /* saturn_library_jp@2x.png in Resources */,
 				870320A91F5CCB3200470B55 /* Controller-Preferences-JAP.plist in Resources */,
 				94A225FE1707614500098DA0 /* saturn_library.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		94A224E11707559100098DA0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				94A22609170761D200098DA0 /* computer_library.png in Resources */,
-				94A2260A170761D200098DA0 /* controller_computer_mask.png in Resources */,
-				94A2260B170761D200098DA0 /* controller_computer.png in Resources */,
-				94A2260C170761D200098DA0 /* Controller-Mappings.plist in Resources */,
-				94A2260D170761D200098DA0 /* Controller-Preferences.plist in Resources */,
-				94A2260E170761D200098DA0 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8037,14 +7949,6 @@
 			files = (
 				94A225EF1707613400098DA0 /* OESaturnSystemController.m in Sources */,
 				94A225F01707613400098DA0 /* OESaturnSystemResponder.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		94A224DF1707559100098DA0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				94A226021707616F00098DA0 /* OEComputerSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9568,26 +9472,6 @@
 			};
 			name = Release;
 		};
-		94A224ED1707559100098DA0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "Computer/Computer-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = oesystemplugin;
-			};
-			name = Debug;
-		};
-		94A224EE1707559100098DA0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "Computer/Computer-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = oesystemplugin;
-			};
-			name = Release;
-		};
 		94A225001707596200098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -10362,15 +10246,6 @@
 			buildConfigurations = (
 				94A224DD1707556D00098DA0 /* Debug */,
 				94A224DE1707556D00098DA0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		94A224EC1707559100098DA0 /* Build configuration list for PBXNativeTarget "Computer" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				94A224ED1707559100098DA0 /* Debug */,
-				94A224EE1707559100098DA0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
