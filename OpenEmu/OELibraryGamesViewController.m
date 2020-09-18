@@ -172,7 +172,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     
     // For empty collections of disc-based games, display an alert to compel the user to read the disc-importing guide.
     if ([selectedItem isKindOfClass:[OEDBSystem class]] &&
-        ((OEDBSystem *)selectedItem).plugin.supportsDiscs &&
+        ((OEDBSystem *)selectedItem).plugin.supportsDiscsWithDescriptorFile &&
         ((OEDBSystem *)selectedItem).games.count == 0 &&
         ![[NSUserDefaults standardUserDefaults] boolForKey:OESkipDiscGuideMessageKey])
     {

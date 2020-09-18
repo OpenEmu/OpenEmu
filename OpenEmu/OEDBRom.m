@@ -266,8 +266,8 @@ NS_ASSUME_NONNULL_BEGIN
         OEDBSystem *system = self.game.system;
 
         NSURL *unsortedFolder = [library romsFolderURLForSystem:system];
-        // Copy game to subfolder in system's folder if system supports discs
-        if (system.plugin.supportsDiscs) {
+        // Copy game to subfolder in system's folder if system supports discs with descriptor file
+        if (system.plugin.supportsDiscsWithDescriptorFile) {
             unsortedFolder = [unsortedFolder URLByAppendingPathComponent:baseName isDirectory:YES];
 
             unsortedFolder = [unsortedFolder uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
@@ -334,9 +334,9 @@ NS_ASSUME_NONNULL_BEGIN
         {
             OEFile *file = [OEFile fileWithURL:url error:nil];
             if (file) {
-                // Delete game in subfolder in system's folder if system supports discs
+                // Delete game in subfolder in system's folder if system supports discs with descriptor file
                 OEDBSystem *system = self.game.system;
-                if (system.plugin.supportsDiscs) {
+                if (system.plugin.supportsDiscsWithDescriptorFile) {
                     NSString *truncatedFolderPath = file.fileURL.URLByDeletingLastPathComponent.URLByDeletingLastPathComponent.absoluteString;
                     BOOL isFileInSubFolder = ![truncatedFolderPath isEqualToString:self.libraryDatabase.romsFolderURL.absoluteString];
 

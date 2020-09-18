@@ -222,7 +222,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 
     NSString *textFormat = nil;
 
-    if(plugin.supportsDiscs) {
+    if(plugin.supportsDiscsWithDescriptorFile) {
         textFormat = NSLocalizedString(@"%@ games will appear here. Check out %@ on how to add disc-based games.", @"");
     } else {
         textFormat = NSLocalizedString(@"%@ games you add to OpenEmu will appear in this Console Library", @"");
@@ -251,7 +251,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     textView.markedTextAttributes = attributes;
     textView.selectedTextAttributes = attributes;
 
-    if(plugin.supportsDiscs)
+    if(plugin.supportsDiscsWithDescriptorFile)
     {
         NSRange guideLinkRange = [textView.string rangeOfString:NSLocalizedString(@"this guide", @"this guide")];
         NSDictionary *guideLinkAttributes = @{ NSLinkAttributeName : [NSURL URLWithString:OECDBasedGamesUserGuideURLString] };
