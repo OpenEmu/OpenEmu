@@ -117,6 +117,7 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
         
         _notificationView = [[OEGameLayerNotificationView alloc] initWithFrame:NSMakeRect(0, 0, 28, 28)];
         _notificationView.translatesAutoresizingMaskIntoConstraints = NO;
+        _notificationView.cell.accessibilityElement = NO;
         [self.view addSubview:_notificationView];
         
         [NSLayoutConstraint activateConstraints:@[

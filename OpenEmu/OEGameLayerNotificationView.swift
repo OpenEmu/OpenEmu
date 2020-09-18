@@ -75,26 +75,36 @@ class OEGameLayerNotificationView: NSImageView {
     
     @objc public func showFastForward(enabled: Bool) {
         performNotification(img: fastForwardImage, enabled: enabled, state: &isFastForwarding)
+        if enabled {
+            postAccessibilityNotification(announcement: NSLocalizedString("Fast Forward", tableName: "ControlLabels", comment: ""))
+        }
     }
     
     @objc public func showRewind(enabled: Bool) {
         performNotification(img: rewindImage, enabled: enabled, state: &isRewinding)
+        if enabled {
+            postAccessibilityNotification(announcement: NSLocalizedString("Rewind", tableName: "ControlLabels", comment: ""))
+        }
     }
     
     @objc public func showQuickSave() {
         performShowHideNotification(img: quicksaveImage)
+        postAccessibilityNotification(announcement: NSLocalizedString("Quick Save Button", tableName: "ControlLabels", comment: ""))
     }
     
     @objc public func showScreenShot() {
         performShowHideNotification(img: screenshotImage)
+        postAccessibilityNotification(announcement: NSLocalizedString("Screenshot", tableName: "ControlLabels", comment: ""))
     }
     
     @objc public func showStepForward() {
         performShowHideNotification(img: stepForwardImage)
+        postAccessibilityNotification(announcement: NSLocalizedString("Step Forward", tableName: "ControlLabels", comment: ""))
     }
     
     @objc public func showStepBackward() {
         performShowHideNotification(img: stepBackwardImage)
+        postAccessibilityNotification(announcement: NSLocalizedString("Step Backward", tableName: "ControlLabels", comment: ""))
     }
     
     // MARK: - Animation
@@ -171,5 +181,13 @@ class OEGameLayerNotificationView: NSImageView {
         opacityAnimation.fillMode = .forwards
         opacityAnimation.fromValue = from
         return opacityAnimation
+    }
+    
+    // MARK: - Accessibility
+    func postAccessibilityNotification(announcement: String) {
+        NSAccessibility.post(element: NSApp.mainWindow as Any,
+                        notification: .announcementRequested,
+                            userInfo: [.announcement: announcement,
+                                           .priority: NSAccessibilityPriorityLevel.high.rawValue])
     }
 }
