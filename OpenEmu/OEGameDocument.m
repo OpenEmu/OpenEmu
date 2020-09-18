@@ -1391,7 +1391,19 @@ typedef enum : NSUInteger
 
 - (IBAction)insertFile:(id)sender;
 {
-    NSArray *archivedExtensions = @[@"tar.gz", @"tar", @"gz", @"zip", @"7z", @"rar"];
+    NSMutableArray *archivedExtensions = [NSMutableArray array];
+    // The Archived Game document type lists all supported archive extensions, e.g. zip
+    NSDictionary *bundleInfo = NSBundle.mainBundle.infoDictionary;
+    NSArray *docTypes = bundleInfo[@"CFBundleDocumentTypes"];
+    for(NSDictionary *docType in docTypes)
+    {
+        if([docType[@"CFBundleTypeName"] isEqualToString:@"Archived Game"])
+        {
+            [archivedExtensions addObjectsFromArray:docType[@"CFBundleTypeExtensions"]];
+            break;
+        }
+    }
+
     NSArray *validExtensions = [archivedExtensions arrayByAddingObjectsFromArray:[_systemPlugin supportedTypeExtensions]];
 
     OEDBSystem *system = self.rom.game.system;
