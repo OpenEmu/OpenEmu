@@ -12,7 +12,7 @@
 "316.title" = "欢迎使用 OpenEmu!";
 
 /* Class = "NSTextFieldCell"; title = "An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Adding games (ROMs) you may already legally own.\n\n• Ensure you are running the correct system plugins (cores)."; ObjectID = "318"; */
-"318.title" = "激动人心的电视游戏世界尽在你手。为帮助你入门，我们想问你以下几个问题以为引导…\n\n• 添加你已经合法拥有的游戏 (ROMs)。\n\n• 确保你已运行正确的系统插件 (核心)。";
+"318.title" = "激动人心的电视游戏世界尽在你手。为帮助你入门，我们想问你以下几个问题以为引导…\n\n• 确保你已运行正确的系统插件 (核心)。";
 
 /* Class = "NSTextFieldCell"; title = "Click on the ‘Next’ button to begin!"; ObjectID = "320"; */
 "320.title" = "点击“下一步”按钮开始！";

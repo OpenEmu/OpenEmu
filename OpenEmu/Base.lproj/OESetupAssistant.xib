@@ -84,7 +84,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="317">
-                                    <rect key="frame" x="17" y="114" width="388" height="98"/>
+                                    <rect key="frame" x="17" y="142" width="388" height="70"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="384" id="xAo-I1-LwT"/>
                                     </constraints>
@@ -92,15 +92,13 @@
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…
 
-• Adding games (ROMs) you may already legally own.
-
 • Ensure you are running the correct system plugins (cores).</string>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="319">
-                                    <rect key="frame" x="17" y="62" width="216" height="16"/>
+                                    <rect key="frame" x="17" y="90" width="216" height="16"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Click on the ‘Next’ button to begin!" id="320">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
