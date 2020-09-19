@@ -367,6 +367,12 @@ class AppDelegate: NSObject {
         }
         
         let library = OELibraryDatabase.default!
+        
+        let context = library.mainThreadContext
+        for plugin in OESystemPlugin.allPlugins as! [OESystemPlugin] {
+            _ = OEDBSystem.init(for: plugin, in: context)
+        }
+        
         library.disableSystemsWithoutPlugin()
         try? library.mainThreadContext.save()
         
@@ -576,6 +582,15 @@ class AppDelegate: NSObject {
         alert.messageText = NSLocalizedString("The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.", comment:"Message for bindings repaired alert")
         alert.defaultButtonTitle = NSLocalizedString("OK", comment:"")
         alert.runModal()
+    }
+    
+    func didRegisterSystemPlugin(_ n: NSNotification!) {
+        guard
+            let plugin = n.object as? OESystemPlugin,
+            let library = OELibraryDatabase.default
+        else { return }
+        
+        _ = OEDBSystem.init(for: plugin, in: library.mainThreadContext)
     }
     
     // MARK: - Debug
@@ -797,6 +812,8 @@ extension AppDelegate: NSMenuDelegate {
         notificationCenter.addObserver(self, selector: #selector(AppDelegate.openPreferencePane), name: PreferencesWindowController.openPaneNotificationName, object: nil)
         
         notificationCenter.addObserver(self, selector: #selector(AppDelegate.didRepairBindings), name: NSNotification.Name.OEBindingsRepaired, object: nil)
+        
+        notificationCenter.addObserver(self, selector: #selector(AppDelegate.didRegisterSystemPlugin), name: NSNotification.Name.OESystemPluginDidRegister, object: nil)
         
         NSDocumentController.shared.clearRecentDocuments(nil)
         
