@@ -205,5 +205,9 @@
 	<string>Sony PSP</string>
 	<key>OESystemType</key>
 	<string>OESystemTypeHandheld</string>
+	<key>OESystemMedia</key>
+	<array>
+		<string>OESystemMediaOpticalDisc</string>
+	</array>
 </dict>
 </plist>

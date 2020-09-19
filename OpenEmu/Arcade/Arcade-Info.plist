@@ -175,5 +175,9 @@
 	<string>Arcade</string>
 	<key>OESystemType</key>
 	<string>OESystemTypeArcade</string>
+	<key>OESystemMedia</key>
+	<array>
+		<string>OESystemMediaArcadeROM</string>
+	</array>
 </dict>
 </plist>

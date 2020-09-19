@@ -136,5 +136,9 @@
 	<string>Famicom Disk System</string>
 	<key>OESystemType</key>
 	<string>OESystemTypeConsole</string>
+	<key>OESystemMedia</key>
+	<array>
+		<string>OESystemMediaFloppyDisk</string>
+	</array>
 </dict>
 </plist>

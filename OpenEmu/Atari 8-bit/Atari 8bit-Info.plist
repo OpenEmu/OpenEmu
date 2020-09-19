@@ -109,5 +109,11 @@
 	<string>Atari 8-bit</string>
 	<key>OESystemType</key>
 	<string>OESystemTypeComputer</string>
+	<key>OESystemMedia</key>
+	<array>
+		<string>OESystemMediaCartridge</string>
+		<string>OESystemMediaCassetteTape</string>
+		<string>OESystemMediaFloppyDisk</string>
+	</array>
 </dict>
 </plist>

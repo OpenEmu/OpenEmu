@@ -129,5 +129,9 @@
 	<string>Game Boy</string>
 	<key>OESystemType</key>
 	<string>OESystemTypeHandheld</string>
+	<key>OESystemMedia</key>
+	<array>
+		<string>OESystemMediaCartridge</string>
+	</array>
 </dict>
 </plist>

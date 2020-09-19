@@ -286,5 +286,9 @@
 	<string>Sony PlayStation 2</string>
 	<key>OESystemType</key>
 	<string>OESystemTypeConsole</string>
+	<key>OESystemMedia</key>
+	<array>
+		<string>OESystemMediaOpticalDisc</string>
+	</array>
 </dict>
 </plist>

@@ -160,5 +160,9 @@
 	<string>Sega Genesis</string>
 	<key>OESystemType</key>
 	<string>OESystemTypeConsole</string>
+	<key>OESystemMedia</key>
+	<array>
+		<string>OESystemMediaCartridge</string>
+	</array>
 </dict>
 </plist>

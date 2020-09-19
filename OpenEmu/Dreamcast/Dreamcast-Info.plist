@@ -200,5 +200,9 @@
 	<string>Dreamcast</string>
 	<key>OESystemType</key>
 	<string>OESystemTypeConsole</string>
+	<key>OESystemMedia</key>
+	<array>
+		<string>OESystemMediaOpticalDisc</string>
+	</array>
 </dict>
 </plist>
