@@ -74,7 +74,8 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
 @interface OEGameViewController () <OEGameViewDelegate>
 {
     // Standard game document stuff
-    OEGameLayerView *_gameView;
+    OEScaledGameLayerView   *_scaledView;
+    OEGameLayerView         *_gameView;
     NSArray<NSLayoutConstraint *> *_gameViewContraints;
     
     OEGameLayerNotificationView   *_notificationView;
@@ -107,13 +108,13 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
         
         _defaultScreenSize = NSMakeSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         
-        NSView *view = [[NSView alloc] initWithFrame:(NSRect){ .size = { 1.0, 1.0 }}];
-        [self setView:view];
+        _scaledView = [[OEScaledGameLayerView alloc] initWithFrame:(NSRect){ .size = { 1.0, 1.0 }}];
+        [self setView:_scaledView];
         
         _gameView = [[OEGameLayerView alloc] initWithFrame:[[self view] bounds]];
         [_gameView setDelegate:self];
-        [[self view] addSubview:_gameView];
-        [self gameViewFillSuperView];
+        _scaledView.contentView = _gameView;
+        [_scaledView setContentViewSizeFillWithAnimated:NO];
         
         _notificationView = [[OEGameLayerNotificationView alloc] initWithFrame:NSMakeRect(0, 0, 28, 28)];
         _notificationView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -172,50 +173,12 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
 
 - (void)gameViewSetIntegralSize:(NSSize)size animated:(BOOL)animated
 {
-    if (CGSizeEqualToSize(size, CGSizeZero))
-    {
-        size = self.view.bounds.size;
-    }
-    
-    if (_gameViewContraints.count == 0)
-    {
-        _gameView.translatesAutoresizingMaskIntoConstraints = NO;
-        NSSize frameSize = _gameView.frame.size;
-        _gameViewContraints = @[
-            [_gameView.widthAnchor constraintEqualToConstant:frameSize.width],
-            [_gameView.heightAnchor constraintEqualToConstant:frameSize.height],
-            [_gameView.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor],
-            [_gameView.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
-        ];
-        [NSLayoutConstraint activateConstraints:_gameViewContraints];
-    }
-    
-    if (animated)
-    {
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-            context.duration = 0.250;
-            context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-
-            _gameViewContraints[0].animator.constant = size.width;
-            _gameViewContraints[1].animator.constant = size.height;
-        }];
-    }
-    else
-    {
-        _gameViewContraints[0].constant = size.width;
-        _gameViewContraints[1].constant = size.height;
-    }
+    [_scaledView setContentViewSize:size animated:animated];
 }
 
 - (void)gameViewFillSuperView
 {
-    [NSLayoutConstraint deactivateConstraints:_gameViewContraints];
-    _gameViewContraints = nil;
-
-    [_gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-    _gameView.translatesAutoresizingMaskIntoConstraints = YES;
-    
-    _gameView.frame = (NSRect){ .origin = NSZeroPoint, .size = self.view.frame.size };
+    [_scaledView setContentViewSizeFillWithAnimated:NO];
 }
 
 - (void)viewDidLayout

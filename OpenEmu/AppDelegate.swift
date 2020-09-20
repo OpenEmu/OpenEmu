@@ -141,6 +141,8 @@ class AppDelegate: NSObject {
             "logsHIDEventsNoKeyboard": false,
             OEDBSavedGamesMediaShowsAutoSaves: true,
             OEDBSavedGamesMediaShowsQuickSaves: true,
+            OEForcePopoutGameWindowKey: true,
+            OEPopoutGameWindowIntegerScalingOnlyKey: true,
             ])
         
         #if !DEBUG_PRINT

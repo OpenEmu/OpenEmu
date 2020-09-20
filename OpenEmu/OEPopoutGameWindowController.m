@@ -26,6 +26,7 @@
 
 #import "OEPopoutGameWindowController.h"
 
+#import "OEMainWindowController.h"
 #import "OEGameDocument.h"
 #import "OEGameViewController.h"
 #import "OEGameControlsBar.h"
@@ -171,8 +172,6 @@ typedef enum
 
     if(![window isVisible])
     {
-        OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
-
         // We disable window animation if we need to toggle full screen because two parallel animations
         // (window being ordered front and toggling full-screen) looks painfully ugly. The animation
         // behaviour is restored in -windowDidExitFullScreen:.
@@ -180,9 +179,6 @@ typedef enum
             [window setAnimationBehavior:NSWindowAnimationBehaviorNone];
         
         [window makeKeyAndOrderFront:sender];
-
-        [gameViewController viewWillAppear];
-        [gameViewController viewDidAppear];
     }
 
     if(needsToggleFullScreen)
@@ -377,9 +373,6 @@ typedef enum
         _OELastWindowSizeKey : NSStringFromSize(windowSize),
     };
     [userDefaults setObject:integralScaleInfo forKey:systemKey];
-
-    [gameViewController viewWillDisappear];
-    [gameViewController viewDidDisappear];
 }
 
 - (void)flagsChanged:(NSEvent *)event
@@ -402,6 +395,11 @@ typedef enum
 
 - (void)windowWillStartLiveResize:(NSNotification *)notification
 {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:OEPopoutGameWindowIntegerScalingOnlyKey])
+    {
+        _snapResize = YES;
+    }
+    
     if (_snapResize)
     {
         _snapDelegate.currentScale = _integralScale;
@@ -431,6 +429,11 @@ typedef enum
     {
         [_snapDelegate windowDidEndLiveResize:notification];
         _integralScale = (unsigned int)_snapDelegate.currentScale;
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:OEPopoutGameWindowIntegerScalingOnlyKey])
+        {
+            _snapResize = NO;
+        }
     }
 }
 

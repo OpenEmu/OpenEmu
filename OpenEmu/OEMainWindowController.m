@@ -46,6 +46,7 @@
 #import "OpenEmu-Swift.h"
 
 NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
+NSString *const OEPopoutGameWindowIntegerScalingOnlyKey = @"popoutGameWindowIntegerScalingOnly";
 NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 
 NSString *const OEMainWindowIdentifier     = @"LibraryWindow";

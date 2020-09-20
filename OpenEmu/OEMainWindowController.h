@@ -27,6 +27,7 @@
 @import Cocoa;
 
 extern NSString *const OEForcePopoutGameWindowKey;
+extern NSString *const OEPopoutGameWindowIntegerScalingOnlyKey;
 extern NSString *const OEFullScreenGameWindowKey;
 
 @class OEDBGame;
