@@ -52,7 +52,6 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         cacheItems(toolbar: toolbar as! LibraryToolbar)
         return [OEToolbarItemIdentifierViewMode,
                 OEToolbarItemIdentifierGridSize,
-                .flexibleSpace,
                 OEToolbarItemIdentifierCategory,
                 .flexibleSpace,
                 OEToolbarItemIdentifierSearch]
