@@ -610,8 +610,12 @@ typedef enum
     [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     [CATransaction setCompletionBlock:^{
         // Restore the window to its original frame.
+        //   We do it using -setContentSize: instead of -setFrame:display:
+        // because -setFrame:display: does not obey the new style mask correctly
+        // for some reason
         window.styleMask = window.styleMask & ~NSWindowStyleMaskFullScreen;
-        [window setFrame:targetWindowFrame display:NO];
+        [window setContentSize:contentFrame.size];
+        [window setFrameOrigin:targetWindowFrame.origin];
         
         // Fade the real window back in after the scaling is done
         [CATransaction begin];
