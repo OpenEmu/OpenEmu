@@ -78,6 +78,7 @@ typedef enum
     OEPopoutGameWindowFullScreenStatus  _fullScreenStatus;
     BOOL                                _resumePlayingAfterFullScreenTransition;
     BOOL                                _snapResize;
+    BOOL                                _shouldSnapResize;
     OEIntegralWindowResizingDelegate   *_snapDelegate;
     // State prior to entering full screen
     NSRect                              _windowedFrame;
@@ -381,27 +382,31 @@ typedef enum
         return;
     }
     
-    if (event.modifierFlags & NSEventModifierFlagShift)
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:OEPopoutGameWindowIntegerScalingOnlyKey])
     {
-        _snapResize = YES;
-        [self.window setContentAspectRatio:CGSizeZero];
-    }
-    else
-    {
-        _snapResize = NO;
-        [self.window setContentAspectRatio:[self OE_gameDocument].gameViewController.defaultScreenSize];
+        if (self.window.inLiveResize) return;
+        
+        if (event.modifierFlags & NSEventModifierFlagShift)
+        {
+            _shouldSnapResize = YES;
+        }
+        else
+        {
+            _shouldSnapResize = NO;
+        }
     }
 }
 
 - (void)windowWillStartLiveResize:(NSNotification *)notification
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:OEPopoutGameWindowIntegerScalingOnlyKey])
+    if (_shouldSnapResize || [[NSUserDefaults standardUserDefaults] boolForKey:OEPopoutGameWindowIntegerScalingOnlyKey])
     {
         _snapResize = YES;
     }
     
     if (_snapResize)
     {
+        [self.window setContentAspectRatio:CGSizeZero];
         _snapDelegate.currentScale = _integralScale;
         _snapDelegate.screenSize = [self OE_gameDocument].gameViewController.defaultScreenSize;
         [_snapDelegate windowWillStartLiveResize:notification];
@@ -427,13 +432,10 @@ typedef enum
 {
     if (_snapResize)
     {
+        [self.window setContentAspectRatio:[self OE_gameDocument].gameViewController.defaultScreenSize];
         [_snapDelegate windowDidEndLiveResize:notification];
         _integralScale = (unsigned int)_snapDelegate.currentScale;
-        
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:OEPopoutGameWindowIntegerScalingOnlyKey])
-        {
-            _snapResize = NO;
-        }
+        _snapResize = NO;
     }
 }
 
