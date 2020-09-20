@@ -507,6 +507,8 @@ typedef enum
     {
         NSPoint origin = NSMakePoint((screenFrame.size.width  - contentFrame.size.width)  / 2.0,
                                      (screenFrame.size.height - contentFrame.size.height) / 2.0);
+        origin.x += screenFrame.origin.x;
+        origin.y += screenFrame.origin.y;
         screenshotFrame = (NSRect){ .origin = origin, .size = contentFrame.size };
         screenshotFrame = NSIntegralRect(screenshotFrame);
     }
@@ -595,6 +597,8 @@ typedef enum
     {
         NSPoint origin = NSMakePoint((screenFrame.size.width  - fullScreenContentSize.width)  / 2.0,
                                      (screenFrame.size.height - fullScreenContentSize.height) / 2.0);
+        origin.x += screenFrame.origin.x;
+        origin.y += screenFrame.origin.y;
         screenshotFrame = (NSRect){ .origin = origin, .size = fullScreenContentSize };
         screenshotFrame = NSIntegralRect(screenshotFrame);
     }
