@@ -33,7 +33,6 @@
 #import "OELibraryController.h"
 #import "OEROMImporter.h"
 
-#import "OETableHeaderCell.h"
 #import "OECenteredTextFieldCell.h"
 #import "OEListViewDataSourceItem.h"
 
@@ -171,20 +170,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [listView setRowHeight:20.0];
     [listView setSortDescriptors:[self defaultSortDescriptors]];
     [listView setAllowsMultipleSelection:YES];
-
-    // There's no natural order for status indicators, so we don't allow that column to be sorted
-    OETableHeaderCell *romStatusHeaderCell = [[listView tableColumnWithIdentifier:@"listViewStatus"] headerCell];
-    [romStatusHeaderCell setClickable:NO];
-
     [listView registerForDraggedTypes:@[NSPasteboardTypeFileURL]];
-
-    for(NSTableColumn *aColumn in [listView tableColumns])
-    {
-        if([[aColumn dataCell] isKindOfClass:[OECenteredTextFieldCell class]])
-            [[aColumn dataCell] setWidthInset:9];
-
-        [[aColumn headerCell] setAlignment:[[aColumn dataCell] alignment]];
-    }
 
     // Setup BlankSlate View
     [blankSlateView setDelegate:self];

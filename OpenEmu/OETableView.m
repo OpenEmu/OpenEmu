@@ -26,13 +26,7 @@
 
 #import "OETableView.h"
 
-#import "OETableHeaderCell.h"
-
-static NSColor *cellEditingFillColor, *textColor, *cellSelectedTextColor, *strokeColor;
-static NSGradient *highlightGradient, *normalGradient;
-
 @interface OETableView ()
-@property(strong, readwrite) NSColor *selectionColor;
 - (BOOL)OE_isActive;
 @end
 
@@ -41,125 +35,6 @@ static NSGradient *highlightGradient, *normalGradient;
 @end
 
 @implementation OETableView
-
-- (instancetype)initWithFrame:(NSRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self _performCommonInit];
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self) 
-    {
-        [self _performCommonInit];
-	}
-    return self;
-}
-
-- (void)_performCommonInit
-{
-
-    if(!cellEditingFillColor)
-    {
-        cellEditingFillColor = [NSColor greenColor];
-    }
-
-    if(!textColor)
-    {
-        textColor = [NSColor whiteColor];
-    }
-
-    if(!cellSelectedTextColor)
-    {
-        cellSelectedTextColor = [NSColor whiteColor];
-    }
-
-    if(!highlightGradient)
-    {
-        highlightGradient = [[NSGradient alloc] initWithStartingColor:[NSColor greenColor] endingColor:[NSColor magentaColor]];
-    }
-
-    if(!strokeColor)
-    {
-        strokeColor = [NSColor blackColor];
-    }
-
-    if(!normalGradient)
-    {
-        NSColor *c1 = [NSColor colorWithDeviceWhite:0.29 alpha:1.0];
-        NSColor *c2 = [NSColor colorWithDeviceWhite:0.18 alpha:1.0];
-        normalGradient = [[NSGradient alloc] initWithStartingColor:c1 endingColor:c2];
-    }
-
-    self.selectionColor = [NSColor selectedContentBackgroundColor];
-    [self setIntercellSpacing:NSMakeSize(1, 0)];
-
-    [self setBackgroundColor:[NSColor blackColor]];
-    [self setFocusRingType:NSFocusRingTypeNone];
-
-    for (NSTableColumn *aColumn in [self tableColumns])
-    {
-        OETableHeaderCell *newHeader = [[OETableHeaderCell alloc] initTextCell:[[aColumn headerCell] stringValue]];
-        [newHeader setFont:[NSFont boldSystemFontOfSize:11]];
-        [aColumn setHeaderCell: newHeader];
-    }
-
-    [self setHeaderClickable:YES];
-
-    NSSize frameSize = [[self headerView] frame].size;
-    frameSize.height = 17.0;
-    [[self headerView] setFrameSize:frameSize];
-}
-
-- (void)drawBackgroundInClipRect:(NSRect)clipRect
-{
-    if([self isViewBased])
-        return;
-
-    NSColor *rowBackground = [NSColor colorWithDeviceWhite:0.059 alpha:1.0];
-    NSColor *alternateRowBackground = [NSColor colorWithDeviceWhite:0.114 alpha:1.0];
-	
-	[rowBackground setFill];
-	NSRectFill(clipRect);
-	
-	[alternateRowBackground setFill];
-
-    if([[self delegate] respondsToSelector:@selector(tableView:heightOfRow:)])
-    {
-        NSRange range = [self rowsInRect:clipRect];
-        if(range.location % 2 != 0)
-        {
-            range.location -= 1;
-            range.length += 1;
-        }
-
-        NSUInteger end = range.location+range.length;
-        for(NSInteger i=range.location; i < end; i+=2)
-        {
-            if([[self delegate] respondsToSelector:@selector(tableView:heightOfRow:)] && [[self delegate] tableView:self isGroupRow:i])
-                i --;
-            else
-            {
-                NSRect rowRect = [self rectOfRow:i];
-                NSRectFill(rowRect);
-            }
-        }
-    }
-    else
-    {
-        // Optimize drawing for 'simple' table views
-        for(float i=[self rowHeight]+[self intercellSpacing].height; i<clipRect.origin.y+clipRect.size.height; i+=2*([self rowHeight]+[self intercellSpacing].height))
-        {
-            NSRect rowRect = NSMakeRect(clipRect.origin.x, i, clipRect.size.width, [self rowHeight]+[self intercellSpacing].height);
-            NSRectFill(rowRect);
-        }
-    }
-}
 
 - (BOOL)OE_isActive
 {
@@ -178,7 +53,7 @@ static NSGradient *highlightGradient, *normalGradient;
 	NSColor *lineColor;
 	if([self OE_isActive])
 	{
-		fillColor = self.selectionColor;
+		fillColor = [NSColor selectedContentBackgroundColor];
 		lineColor = [NSColor clearColor];
 	} 
 	else 
@@ -212,72 +87,6 @@ static NSGradient *highlightGradient, *normalGradient;
 		
 		currentIndex = nextIndex;
 	}
-}
-
-- (void)drawGridInClipRect:(NSRect)aRect
-{
-	NSSize gridSize = NSMakeSize(1, [self bounds].size.height);
-	
-	[[NSColor colorWithDeviceRed:0.255 green:0.251 blue:0.255 alpha:1.0] setFill];
-	
-	NSRect fillRect;
-	fillRect.size = gridSize;
-	fillRect.origin = aRect.origin;
-    
-	for(NSUInteger i=0; i < [[self tableColumns] count]; i++)
-	{
-        if([[[self tableColumns] objectAtIndex:i] isHidden])
-            continue;
-        
-		NSRect colRect = [self rectOfColumn:i];
-		fillRect.origin.x = colRect.origin.x + colRect.size.width-1;
-		NSRectFill(fillRect);
-	}
-	
-	NSColor *fillColor;
-	if([self OE_isActive])
-	{
-		fillColor = [NSColor colorWithDeviceRed:0.235 green:0.455 blue:0.769 alpha:1.0];
-	}
-	else 
-	{
-		fillColor = [NSColor colorWithDeviceWhite:0.33 alpha:1.0];
-	}
-	
-	[fillColor setFill];
-	
-	NSIndexSet *selectedRows = [self selectedRowIndexes];
-	
-	NSUInteger nextIndex;
-	NSUInteger currentIndex = [selectedRows firstIndex];
-	while(currentIndex!=NSNotFound)
-	{
-		NSRect rowfillRect = [self rectOfRow:currentIndex];
-		rowfillRect.size.width = 1;
-		
-		nextIndex = [selectedRows indexGreaterThanIndex:currentIndex];
-		
-		if(nextIndex == currentIndex+1)
-			rowfillRect.size.height -= 1;
-		
-		for(NSUInteger i=0; i < [[self tableColumns] count]; i++)
-		{
-			NSRect colRect = [self rectOfColumn:i];
-			
-			rowfillRect.origin.x = colRect.origin.x + colRect.size.width-1;
-			NSRectFill(rowfillRect);
-		}
-		
-		currentIndex = nextIndex;
-	}
-}
-
-- (void)setHeaderClickable:(BOOL)flag {
-    for(NSTableColumn *aColumn in [self tableColumns])
-    {
-        OETableHeaderCell *cell = [aColumn headerCell];
-        [cell setClickable:flag];
-    }
 }
 
 - (void)setHeaderState:(NSDictionary *)newHeaderState
@@ -378,5 +187,4 @@ static NSGradient *highlightGradient, *normalGradient;
     [self editColumn:titleColumnIndex row:selectedRow withEvent:nil select:YES];
 }
 
-@synthesize selectionColor;
 @end

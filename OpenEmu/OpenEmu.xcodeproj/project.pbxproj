@@ -272,7 +272,6 @@
 		53439AA613B92CC7005C0CC8 /* OELibraryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AA513B92CC7005C0CC8 /* OELibraryController.m */; };
 		53439AAB13B92CE6005C0CC8 /* OECollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */; };
 		53439AE313B92E59005C0CC8 /* OERatingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439ADA13B92E59005C0CC8 /* OERatingCell.m */; };
-		53439AE513B92E59005C0CC8 /* OETableHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439ADE13B92E59005C0CC8 /* OETableHeaderCell.m */; };
 		53439AE613B92E59005C0CC8 /* OETableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AE013B92E59005C0CC8 /* OETableHeaderView.m */; };
 		53439AE713B92E59005C0CC8 /* OETableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AE213B92E59005C0CC8 /* OETableView.m */; };
 		53439AEB13B92E91005C0CC8 /* OELibrarySplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AEA13B92E91005C0CC8 /* OELibrarySplitView.m */; };
@@ -1651,8 +1650,6 @@
 		53439AD813B92E59005C0CC8 /* OEListViewDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEListViewDataSourceItem.h; sourceTree = "<group>"; };
 		53439AD913B92E59005C0CC8 /* OERatingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERatingCell.h; sourceTree = "<group>"; };
 		53439ADA13B92E59005C0CC8 /* OERatingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERatingCell.m; sourceTree = "<group>"; };
-		53439ADD13B92E59005C0CC8 /* OETableHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableHeaderCell.h; sourceTree = "<group>"; };
-		53439ADE13B92E59005C0CC8 /* OETableHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableHeaderCell.m; sourceTree = "<group>"; };
 		53439ADF13B92E59005C0CC8 /* OETableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableHeaderView.h; sourceTree = "<group>"; };
 		53439AE013B92E59005C0CC8 /* OETableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableHeaderView.m; sourceTree = "<group>"; };
 		53439AE113B92E59005C0CC8 /* OETableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableView.h; sourceTree = "<group>"; };
@@ -3802,8 +3799,6 @@
 				53439AD813B92E59005C0CC8 /* OEListViewDataSourceItem.h */,
 				53439AD913B92E59005C0CC8 /* OERatingCell.h */,
 				53439ADA13B92E59005C0CC8 /* OERatingCell.m */,
-				53439ADD13B92E59005C0CC8 /* OETableHeaderCell.h */,
-				53439ADE13B92E59005C0CC8 /* OETableHeaderCell.m */,
 				53439ADF13B92E59005C0CC8 /* OETableHeaderView.h */,
 				53439AE013B92E59005C0CC8 /* OETableHeaderView.m */,
 				53439AE113B92E59005C0CC8 /* OETableView.h */,
@@ -7615,7 +7610,6 @@
 				8306CD3E1BD3DB180025BC6C /* OEGameCollectionViewController.m in Sources */,
 				53439AAB13B92CE6005C0CC8 /* OECollectionViewController.m in Sources */,
 				53439AE313B92E59005C0CC8 /* OERatingCell.m in Sources */,
-				53439AE513B92E59005C0CC8 /* OETableHeaderCell.m in Sources */,
 				05A002D623DE5389007F0DB7 /* SidebarHeaderView.swift in Sources */,
 				53439AE613B92E59005C0CC8 /* OETableHeaderView.m in Sources */,
 				53439AE713B92E59005C0CC8 /* OETableView.m in Sources */,
