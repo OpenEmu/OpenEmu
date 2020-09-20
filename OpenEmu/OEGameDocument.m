@@ -951,8 +951,7 @@ typedef enum : NSUInteger
         dispatch_semaphore_signal(sem);
     }];
     
-    dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_TIME_NOW, 100 * NSEC_PER_MSEC));
-    
+    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
     return screenshot;
 }
 
