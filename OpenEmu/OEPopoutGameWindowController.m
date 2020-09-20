@@ -577,21 +577,15 @@ typedef enum
     const NSTimeInterval showBorderDuration  = duration / 4;
     const NSTimeInterval resizeDuration      = duration - showBorderDuration;
     
-    /* a window in full-screen mode does not have a title bar, and thus we have
+    /* a window in full-screen mode does not have a title bar, thus we have
      * to explicitly specify the style mask to compute the correct content
      * frame */
     const NSRect contentFrame = [NSWindow contentRectForFrameRect:_windowedFrame styleMask:window.styleMask & ~NSWindowStyleMaskFullScreen];
     
     NSSize fullScreenContentSize    = gameViewController.gameView.frame.size;
     NSRect screenshotWindowedFrame  = contentFrame;
+    NSPoint targetWindowOrigin      = _windowedFrame.origin;
 
-    NSRect targetWindowFrame;
-    if (@available(macOS 11, *)) {
-        targetWindowFrame = _windowedFrame;
-    } else {
-        targetWindowFrame = [window frameRectForContentRect:contentFrame];
-    }
-    
     NSRect screenshotFrame = screenFrame;
     if (_integralScale != _OEFitToWindowScale)
     {
@@ -619,7 +613,7 @@ typedef enum
         // for some reason
         window.styleMask = window.styleMask & ~NSWindowStyleMaskFullScreen;
         [window setContentSize:contentFrame.size];
-        [window setFrameOrigin:targetWindowFrame.origin];
+        [window setFrameOrigin:targetWindowOrigin];
         
         // Fade the real window back in after the scaling is done
         [CATransaction begin];
