@@ -199,7 +199,7 @@ class PreferencesTabViewController: NSTabViewController {
             self.updateWindowTitle()
             self.updateWindowFrame(animated: true)
             
-            super.transition(from: fromViewController, to: toViewController, options: [.crossfade, .allowUserInteraction], completionHandler: completion)
+            super.transition(from: fromViewController, to: toViewController, options: [], completionHandler: completion)
             
         }
     }

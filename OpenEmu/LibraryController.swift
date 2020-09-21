@@ -42,7 +42,6 @@ class LibraryController: NSTabViewController {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        transitionOptions = [.crossfade, .allowUserInteraction]
     }
     
     // @objc weak var delegate: LibraryControllerDelegate?
@@ -225,17 +224,13 @@ class LibraryController: NSTabViewController {
 //    }
     
     func showSubviewController(category: Category) {
-//        let crossfadeDuration = TimeInterval(0.35)
 //        let newViewController = subviewController(category: category)
 //
 //        newViewController.view.frame = view.bounds
 //        newViewController.view.autoresizingMask = [.width, .height]
 //
 //        if let current = currentSubviewController {
-//            NSAnimationContext.beginGrouping()
-//            NSAnimationContext.current.duration = crossfadeDuration
-//            transition(from: current, to: newViewController, options: .crossfade, completionHandler: nil)
-//            NSAnimationContext.endGrouping()
+//            transition(from: current, to: newViewController, options: [], completionHandler: nil)
 //        } else {
 //            view.addSubview(newViewController.view)
 //        }
