@@ -217,7 +217,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
         let item = ValidatingToolbarItem(itemIdentifier: OEToolbarItemIdentifierSearch)
         
-        let searchField = NSSearchField(frame: NSRect(x: 0, y: 0, width: 166, height: 25))
+        let searchField = OESearchField(frame: NSRect(x: 0, y: 0, width: 166, height: 25))
         searchField.lineBreakMode = .byClipping
         searchField.usesSingleLineMode = true
         searchField.cell?.isScrollable = true
