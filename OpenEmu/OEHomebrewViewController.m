@@ -155,6 +155,26 @@ const static CGFloat TableViewSpacing = 86.0;
     field.stringValue = @"";
 }
 
+- (BOOL)validateToolbarItem:(id)item
+{
+    OELibraryToolbar *toolbar = self.libraryController.toolbar;
+    
+    if ([item action] == @selector(switchToView:))
+    {
+        toolbar.viewModeSelector.selectedSegment = -1;
+        return NO;
+    }
+    else if ([item action] == @selector(changeGridSize:))
+    {
+        return NO;
+    }
+    else if ([item action] == @selector(search:))
+    {
+        return NO;
+    }
+    return YES;
+}
+
 #pragma mark - Data Handling
 - (void)updateGames
 {

@@ -101,6 +101,35 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     field.stringValue = @"";
 }
 
+- (BOOL)validateToolbarItem:(id)item
+{
+    OELibraryToolbar *toolbar = self.libraryController.toolbar;
+    OECollectionViewControllerViewTag selectedViewTag = self.collectionController.selectedViewTag;
+    
+    if ([item action] == @selector(switchToView:))
+    {
+        if (selectedViewTag != OEBlankSlateTag)
+        {
+            BOOL setGridView = selectedViewTag == OEGridViewTag;
+            toolbar.viewModeSelector.selectedSegment = setGridView ? 0 : 1;
+            return YES;
+        }
+        else
+        {
+            return NO;
+        }
+    }
+    else if ([item action] == @selector(changeGridSize:))
+    {
+        return selectedViewTag == OEGridViewTag;
+    }
+    else if ([item action] == @selector(search:))
+    {
+        return YES;
+    }
+    return YES;
+}
+
 #pragma mark - OELibrarySubviewController
 
 - (NSArray<OEDBGame *> *)selectedGames

@@ -345,6 +345,11 @@ extern NSString * const OESidebarSelectionDidChangeNotification;
     return YES;
 }
 
+- (BOOL)validateToolbarItem:(id)item
+{
+    return [[self currentSubviewController] validateToolbarItem:item];
+}
+
 #pragma mark - Import
 
 - (IBAction)addToLibrary:(id)sender

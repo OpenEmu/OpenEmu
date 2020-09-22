@@ -189,6 +189,26 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     [self _setupSearchMenuTemplate];
 }
 
+- (BOOL)validateToolbarItem:(id)item
+{
+    OELibraryToolbar *toolbar = self.libraryController.toolbar;
+    
+    if([item action] == @selector(switchToView:))
+    {
+        toolbar.viewModeSelector.selectedSegment = -1;
+        return NO;
+    }
+    else if ([item action] == @selector(changeGridSize:))
+    {
+        return !self.shouldShowBlankSlate;
+    }
+    else if([item action] == @selector(search:))
+    {
+        return !self.shouldShowBlankSlate;
+    }
+    return YES;
+}
+
 - (void)updateBlankSlate
 {
     [super updateBlankSlate];
