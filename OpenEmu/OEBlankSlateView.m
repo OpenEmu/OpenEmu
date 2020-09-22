@@ -40,8 +40,6 @@
 #import "OECenteredTextFieldCell.h"
 #import "OEArrowCursorTextView.h"
 
-#import "NSColor+OEAdditions.h"
-
 #import "OpenEmu-Swift.h"
 
 @interface OEBlankSlateView () <NSTextViewDelegate>
@@ -235,7 +233,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     textView.selectionGranularity = NSSelectByCharacter;
     textView.delegate = self;
     textView.font = [NSFont systemFontOfSize:12];
-    textView.textColor = [NSColor colorWithDeviceWhite:0.86 alpha:1.0];
+    textView.textColor = NSColor.labelColor;
     textView.textContainerInset = NSMakeSize(0, 0);
 
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
@@ -287,7 +285,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     OECenteredTextFieldCell *cell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
     
     NSDictionary *dictionary = @{ NSFontAttributeName : [NSFont systemFontOfSize:12],
-                                  NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:0.80 alpha:1.0] };
+                                  NSForegroundColorAttributeName : NSColor.labelColor };
     cell.textAttributes = dictionary;
 
     NSRect labelRect = NSMakeRect(OEBlankSlateRightColumnX,
@@ -342,7 +340,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     OECenteredTextFieldCell *cell   = [[OECenteredTextFieldCell alloc] initTextCell:@""];
     
     NSDictionary *dictionary = @{ NSFontAttributeName : [NSFont systemFontOfSize:20 weight:NSFontWeightMedium],
-                                  NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:0.65 alpha:1.0] };
+                                  NSForegroundColorAttributeName : NSColor.secondaryLabelColor };
     cell.textAttributes = dictionary;
     
     NSRect headlineFrame = NSMakeRect(-2,
@@ -395,8 +393,10 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 
     OECenteredTextFieldCell *defaultCell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
     
+    NSColor *color = [NSColor colorNamed:@"blank_slate_box_text"];
+    
     NSShadow *shadow = [[NSShadow alloc] init];
-    shadow.shadowColor = [NSColor colorWithDeviceWhite:1.0 alpha:0.1];
+    shadow.shadowColor = [NSColor colorNamed:@"blank_slate_box_textshadow"];
     shadow.shadowOffset = NSMakeSize(0.0, -1.0);
     shadow.shadowBlurRadius = 0.0;
 
@@ -406,7 +406,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     defaultCell.textAttributes = @{ NSFontAttributeName : [NSFont systemFontOfSize:24],
                                     NSParagraphStyleAttributeName : style,
                                     NSShadowAttributeName : shadow,
-                                    NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:0.11 alpha:1.0] };
+                                    NSForegroundColorAttributeName : color };
 
     NSRect dragAndDropHereRect = NSMakeRect(0.0,
                                             NSHeight(containerFrame) - 28.0 - OEBlankSlateBoxTextToTop,
@@ -535,7 +535,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     textView.editable = NO;
     textView.selectable = NO;
     textView.font = [NSFont systemFontOfSize:12];
-    textView.textColor = [NSColor colorWithDeviceWhite:0.86 alpha:1.0];
+    textView.textColor = NSColor.labelColor;
     textView.textContainerInset = NSMakeSize(0, 0);
 
     [container addSubview:textView];

@@ -76,7 +76,7 @@ typedef NS_OPTIONS(NSInteger, OESidebarCellState)
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSFont *font = [NSFont boldSystemFontOfSize:11];
-        NSColor *color = NSColor.controlTextColor;
+        NSColor *color = NSColor.labelColor;
         
         attributes = @{
             NSFontAttributeName : font,
@@ -94,7 +94,7 @@ typedef NS_OPTIONS(NSInteger, OESidebarCellState)
     dispatch_once(&onceToken, ^{
         NSFont *font = [NSFont systemFontOfSize:13];
         
-        NSColor *color = NSColor.controlTextColor;
+        NSColor *color = NSColor.labelColor;
         
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;

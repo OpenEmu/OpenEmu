@@ -28,7 +28,6 @@
 
 #import "OEDBSavedGamesMedia.h"
 #import "OEGridMediaItemCell.h"
-#import "OEGridMediaGroupItemCell.h"
 
 #import "OELibraryDatabase.h"
 #import "OEDBSaveState.h"

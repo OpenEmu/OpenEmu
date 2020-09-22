@@ -188,7 +188,7 @@ static NSDictionary *disabledActions = nil;
 
     [_textLayer setAlignmentMode:kCAAlignmentCenter];
     [_textLayer setTruncationMode:kCATruncationEnd];
-    [_textLayer setForegroundColor:[[NSColor whiteColor] CGColor]];
+    [_textLayer setForegroundColor:NSColor.labelColor.CGColor];
     [_textLayer setFont:(__bridge CTFontRef)titleFont];
     [_textLayer setFontSize:titleFontSize];
 
@@ -502,7 +502,11 @@ static NSDictionary *disabledActions = nil;
 - (NSImage*)OE_newRatingImageForRating:(NSInteger)rating
 {
     const NSUInteger OECoverGridViewCellRatingViewNumberOfRatings = 6;
-    const NSImage *ratingImage    = [NSImage imageNamed:@"grid_rating"];
+    const NSImage *ratingImage;
+    if (self.imageBrowserView.effectiveAppearance.name == NSAppearanceNameDarkAqua)
+        ratingImage = [NSImage imageNamed:@"grid_rating"];
+    else
+        ratingImage = [NSImage imageNamed:@"grid_rating_light"];
     const NSSize  ratingImageSize = [ratingImage size];
     const CGFloat ratingStarHeight      = ratingImageSize.height / OECoverGridViewCellRatingViewNumberOfRatings;
     const NSRect  ratingImageSourceRect = NSMakeRect(0.0, ratingImageSize.height - ratingStarHeight * (rating + 1.0), ratingImageSize.width, ratingStarHeight);

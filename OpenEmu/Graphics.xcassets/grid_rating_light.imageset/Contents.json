@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "sidebar_add.png",
+      "filename" : "grid_rating_light.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "sidebar_add@2x.png",
+      "filename" : "grid_rating_light@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -18,8 +18,5 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "template-rendering-intent" : "template"
   }
 }

@@ -374,7 +374,6 @@
 		836291FE1515F30700192116 /* OEFSWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 836291FD1515F30700192116 /* OEFSWatcher.m */; };
 		83633447195D798600470AB8 /* OEDBScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 83633446195D798600470AB8 /* OEDBScreenshot.m */; };
 		8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363A439193CBAFA00F18425 /* OEGridMediaItemCell.m */; };
-		8363A43F193CD12C00F18425 /* OEGridMediaGroupItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363A43E193CD12C00F18425 /* OEGridMediaGroupItemCell.m */; };
 		836AEA6E19755FE300B86935 /* OEOutlinedButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA6D19755FE300B86935 /* OEOutlinedButtonCell.m */; };
 		836AEA711975BFE100B86935 /* OEGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA701975BFE100B86935 /* OEGridCell.m */; };
 		836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */; };
@@ -1847,8 +1846,6 @@
 		8363A439193CBAFA00F18425 /* OEGridMediaItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridMediaItemCell.m; sourceTree = "<group>"; };
 		8363A43B193CBB7700F18425 /* IKImageBrowserCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserCell.h; sourceTree = "<group>"; };
 		8363A43C193CC1BF00F18425 /* OECollectionViewItemProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OECollectionViewItemProtocol.h; sourceTree = "<group>"; };
-		8363A43D193CD12C00F18425 /* OEGridMediaGroupItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridMediaGroupItemCell.h; sourceTree = "<group>"; };
-		8363A43E193CD12C00F18425 /* OEGridMediaGroupItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridMediaGroupItemCell.m; sourceTree = "<group>"; };
 		8363A440193CF41200F18425 /* IKOpenGLRoundedRectRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKOpenGLRoundedRectRenderer.h; sourceTree = "<group>"; };
 		836AEA6C19755FE300B86935 /* OEOutlinedButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOutlinedButtonCell.h; sourceTree = "<group>"; };
 		836AEA6D19755FE300B86935 /* OEOutlinedButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOutlinedButtonCell.m; sourceTree = "<group>"; };
@@ -3769,8 +3766,6 @@
 				94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */,
 				5A6C157B1DC96C3700839986 /* OEMediaViewController+TouchBar.swift */,
 				8363A43C193CC1BF00F18425 /* OECollectionViewItemProtocol.h */,
-				8363A43D193CD12C00F18425 /* OEGridMediaGroupItemCell.h */,
-				8363A43E193CD12C00F18425 /* OEGridMediaGroupItemCell.m */,
 				53439AAE13B92CFE005C0CC8 /* Grid View */,
 				53439AAD13B92CFC005C0CC8 /* List View */,
 				83955CB9165DAE7900572B34 /* Blank Slate View */,
@@ -7588,7 +7583,6 @@
 				83E8927D197490B3004D4489 /* OEDisabledScrollView.m in Sources */,
 				83F444FD196CA24B007E8C63 /* OEHomebrewViewController.m in Sources */,
 				830CB918186878D6006EAE5A /* OEArrayController.m in Sources */,
-				8363A43F193CD12C00F18425 /* OEGridMediaGroupItemCell.m in Sources */,
 				53439B6E13B932DB005C0CC8 /* OEPrefLibraryController.m in Sources */,
 				0557CB1B22A781B60037175F /* OEShadersModel+OpenEmu.swift in Sources */,
 				53439B7113B932ED005C0CC8 /* OEPrefGameplayController.m in Sources */,
