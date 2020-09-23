@@ -29,7 +29,9 @@ import Cocoa
 @objc(OELibraryToolbarDelegate)
 class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     
-    final let OEToolbarItemIdentifierGridSize = NSToolbarItem.Identifier(rawValue: "OEToolbarItemIdentifierGridSize")
+    final let OEToolbarItemIdentifierGridSize = NSToolbarItem.Identifier("OEToolbarItemIdentifierGridSize")
+    final let OEToolbarItemIdentifierDecreaseGridSize = NSToolbarItem.Identifier("OEToolbarItemIdentifierDecreaseGridSize")
+    final let OEToolbarItemIdentifierIncreaseGridSize = NSToolbarItem.Identifier("OEToolbarItemIdentifierIncreaseGridSize")
     final let OEToolbarItemIdentifierViewMode = NSToolbarItem.Identifier("OEToolbarItemIdentifierViewMode")
     final let OEToolbarItemIdentifierSearch = NSToolbarItem.Identifier("OEToolbarItemIdentifierSearch")
     final let OEToolbarItemIdentifierCategory = NSToolbarItem.Identifier("OEToolbarItemIdentifierCategory")
@@ -42,6 +44,8 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         return [.flexibleSpace,
                 OEToolbarItemIdentifierGridSize,
+                OEToolbarItemIdentifierDecreaseGridSize,
+                OEToolbarItemIdentifierIncreaseGridSize,
                 OEToolbarItemIdentifierViewMode,
                 OEToolbarItemIdentifierSearch,
                 OEToolbarItemIdentifierCategory]
@@ -51,7 +55,9 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         cacheItems(toolbar: toolbar as! LibraryToolbar)
         return [OEToolbarItemIdentifierViewMode,
+                OEToolbarItemIdentifierDecreaseGridSize,
                 OEToolbarItemIdentifierGridSize,
+                OEToolbarItemIdentifierIncreaseGridSize,
                 OEToolbarItemIdentifierCategory,
                 .flexibleSpace,
                 OEToolbarItemIdentifierSearch]
@@ -65,6 +71,8 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     
     func cacheItems(toolbar: LibraryToolbar) {
         let _ = gridSizeToolbarItem(toolbar: toolbar)
+        let _ = decreaseGridSizeToolbarItem(toolbar: toolbar)
+        let _ = increaseGridSizeToolbarItem(toolbar: toolbar)
         let _ = viewModeToolbarItem(toolbar: toolbar)
         let _ = categoryToolbarItem(toolbar: toolbar)
         let _ = searchToolbarItem(toolbar: toolbar)
@@ -75,6 +83,10 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         switch itemIdentifier {
         case OEToolbarItemIdentifierGridSize:
             return gridSizeToolbarItem(toolbar: toolbar as! LibraryToolbar)
+        case OEToolbarItemIdentifierDecreaseGridSize:
+            return decreaseGridSizeToolbarItem(toolbar: toolbar as! LibraryToolbar)
+        case OEToolbarItemIdentifierIncreaseGridSize:
+            return increaseGridSizeToolbarItem(toolbar: toolbar as! LibraryToolbar)
         case OEToolbarItemIdentifierViewMode:
             return viewModeToolbarItem(toolbar: toolbar as! LibraryToolbar)
         case OEToolbarItemIdentifierCategory:
@@ -93,34 +105,49 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
         let item = ValidatingToolbarItem(itemIdentifier: OEToolbarItemIdentifierGridSize)
         
-        let minHint = NSImageView(frame: NSRect(x: 12, y: 14, width: 7, height: 7))
-        let maxHint = NSImageView(frame: NSRect(x: 84, y: 12, width: 10, height: 10))
-        
-        let slider = OESlider(frame: NSRect(x: 20, y: 9, width: 64, height: 15))
-        slider.minHint = minHint
-        slider.maxHint = maxHint
-        slider.controlSize = .small
-        slider.isContinuous = true
-        slider.minValue = 0.5
-        slider.maxValue = 2.5
-        slider.doubleValue = 1.0
-        slider.sliderType = .linear
-        slider.setThemeKey("grid_slider")
-        slider.action = #selector(OECollectionViewController.changeGridSize(_:))
-        slider.target = toolbarOwner
-        slider.awakeFromNib()
-        
-        let view = NSBox(frame: NSRect(x: 0, y: 14, width: 106, height: 32))
-        view.borderType = .noBorder
-        view.titlePosition = .noTitle
-        view.contentView!.frame = NSRect(x: 0, y: 0, width: 106, height: 32)
-        view.contentView!.subviews = [minHint, slider, maxHint]
+        let slider = NSSlider(value: 1.0, minValue: 0.5, maxValue: 2.5, target: toolbarOwner, action: #selector(OECollectionViewController.changeGridSize(_:)))
+        if #available(macOS 11.0, *) {
+            slider.controlSize = .mini
+        } else {
+            slider.controlSize = .small
+        }
         
         item.view = slider
         item.label = NSLocalizedString("Grid Size", comment:"Grid size toolbar button label, main window")
-        item.minSize = view.frame.size
-        item.maxSize = view.frame.size
+        item.maxSize.width = 64
         toolbar.gridSizeSlider = slider
+        itemCache[item.itemIdentifier.rawValue] = item
+        return item;
+    }
+    
+    
+    func decreaseGridSizeToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
+        if let item = itemCache[OEToolbarItemIdentifierDecreaseGridSize.rawValue] {
+            return item
+        }
+        let item = ValidatingToolbarItem(itemIdentifier: OEToolbarItemIdentifierDecreaseGridSize)
+        
+        let minHint = NSButton(image: NSImage(named: "grid_slider_min")!, target: toolbarOwner, action: #selector(OECollectionViewController.decreaseGridSize(_:)))
+        minHint.isBordered = false
+        
+        item.view = minHint
+        item.label = NSLocalizedString("Decrease Grid Size", comment:"Grid size toolbar button label, main window")
+        itemCache[item.itemIdentifier.rawValue] = item
+        return item;
+    }
+    
+    
+    func increaseGridSizeToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
+        if let item = itemCache[OEToolbarItemIdentifierIncreaseGridSize.rawValue] {
+            return item
+        }
+        let item = ValidatingToolbarItem(itemIdentifier: OEToolbarItemIdentifierIncreaseGridSize)
+        
+        let maxHint = NSButton(image: NSImage(named: "grid_slider_max")!, target: toolbarOwner, action: #selector(OECollectionViewController.increaseGridSize(_:)))
+        maxHint.isBordered = false
+        
+        item.view = maxHint
+        item.label = NSLocalizedString("Increase Grid Size", comment:"Grid size toolbar button label, main window")
         itemCache[item.itemIdentifier.rawValue] = item
         return item;
     }
@@ -217,7 +244,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
         let item = ValidatingToolbarItem(itemIdentifier: OEToolbarItemIdentifierSearch)
         
-        let searchField = OESearchField(frame: NSRect(x: 0, y: 0, width: 166, height: 25))
+        let searchField = OESearchField()
         searchField.lineBreakMode = .byClipping
         searchField.usesSingleLineMode = true
         searchField.cell?.isScrollable = true
@@ -229,7 +256,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         
         item.view = searchField;
         item.label = NSLocalizedString("Search", comment:"Search field toolbar label, main window")
-        item.maxSize = searchField.frame.size
+        item.maxSize.width = 166
         toolbar.searchField = searchField
         itemCache[item.itemIdentifier.rawValue] = item
         return item;

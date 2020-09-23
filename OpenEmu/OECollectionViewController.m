@@ -459,6 +459,20 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [self zoomGridViewWithValue:[sender floatValue]];
 }
 
+- (IBAction)decreaseGridSize:(id)sender
+{
+    NSSlider *slider = self.libraryController.toolbar.gridSizeSlider;
+    slider.doubleValue -= 0.5;
+    [self zoomGridViewWithValue:[slider floatValue]];
+}
+
+- (IBAction)increaseGridSize:(id)sender
+{
+    NSSlider *slider = self.libraryController.toolbar.gridSizeSlider;
+    slider.doubleValue += 0.5;
+    [self zoomGridViewWithValue:[slider floatValue]];
+}
+
 #pragma mark - Context Menu
 - (NSMenu*)menuForItemsAtIndexes:(NSIndexSet *)indexes
 {

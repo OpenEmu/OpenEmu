@@ -164,7 +164,9 @@ const static CGFloat TableViewSpacing = 86.0;
         toolbar.viewModeSelector.selectedSegment = -1;
         return NO;
     }
-    else if ([item action] == @selector(changeGridSize:))
+    else if ([item action] == @selector(changeGridSize:) ||
+             [item action] == @selector(decreaseGridSize:) ||
+             [item action] == @selector(increaseGridSize:))
     {
         return NO;
     }

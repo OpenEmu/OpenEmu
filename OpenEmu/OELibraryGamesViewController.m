@@ -119,7 +119,9 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
             return NO;
         }
     }
-    else if ([item action] == @selector(changeGridSize:))
+    else if ([item action] == @selector(changeGridSize:) ||
+             [item action] == @selector(decreaseGridSize:) ||
+             [item action] == @selector(increaseGridSize:))
     {
         return selectedViewTag == OEGridViewTag;
     }
@@ -196,6 +198,20 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 - (IBAction)changeGridSize:(id)sender
 {
     [[self collectionController] changeGridSize:sender];
+}
+
+- (IBAction)decreaseGridSize:(id)sender
+{
+    NSSlider *slider = self.libraryController.toolbar.gridSizeSlider;
+    slider.doubleValue -= 0.5;
+    [self.collectionController changeGridSize:slider];
+}
+
+- (IBAction)increaseGridSize:(id)sender
+{
+    NSSlider *slider = self.libraryController.toolbar.gridSizeSlider;
+    slider.doubleValue += 0.5;
+    [self.collectionController changeGridSize:slider];
 }
 
 #pragma mark - Sidebar handling

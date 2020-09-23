@@ -70,6 +70,8 @@ extern NSString * const OELastCollectionViewKey;
 - (IBAction)switchToListView:(id)sender;
 - (IBAction)search:(id)sender;
 - (IBAction)changeGridSize:(id)sender;
+- (IBAction)decreaseGridSize:(id)sender;
+- (IBAction)increaseGridSize:(id)sender;
 
 - (IBAction)deleteSelectedItems:(id)sender;
 

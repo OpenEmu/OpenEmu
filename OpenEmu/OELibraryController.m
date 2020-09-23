@@ -182,6 +182,18 @@ extern NSString * const OESidebarSelectionDidChangeNotification;
         [[self currentSubviewController] performSelector:@selector(changeGridSize:) withObject:sender];
 }
 
+- (IBAction)decreaseGridSize:(id)sender
+{
+    if([self.currentSubviewController respondsToSelector:@selector(decreaseGridSize:)])
+        [self.currentSubviewController performSelector:@selector(decreaseGridSize:) withObject:sender];
+}
+
+- (IBAction)increaseGridSize:(id)sender
+{
+    if([self.currentSubviewController respondsToSelector:@selector(increaseGridSize:)])
+        [self.currentSubviewController performSelector:@selector(increaseGridSize:) withObject:sender];
+}
+
 - (void)magnifyWithEvent:(NSEvent*)event {
 
     if(![[[self toolbar] gridSizeSlider] isEnabled])

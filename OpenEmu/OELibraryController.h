@@ -50,6 +50,8 @@ extern NSString * const OELibraryLastCategoryKey;
 - (IBAction)switchToView:(id)sender;
 - (IBAction)search:(id)sender;
 - (IBAction)changeGridSize:(id)sender;
+- (IBAction)decreaseGridSize:(id)sender;
+- (IBAction)increaseGridSize:(id)sender;
 - (IBAction)addCollectionAction:(id)sender;
 
 #pragma mark - Menu Item Actions
