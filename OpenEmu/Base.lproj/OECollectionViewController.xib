@@ -39,11 +39,12 @@
                             </customView>
                         </subviews>
                     </clipView>
+                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
                     <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="94">
                         <rect key="frame" x="0.0" y="494" width="643" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
-                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="93">
+                    <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="93">
                         <rect key="frame" x="627" y="37" width="16" height="473"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
@@ -64,7 +65,7 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" headerView="H7O-is-mGk" id="7W7-OC-R11" customClass="OETableView">
-                        <rect key="frame" x="0.0" y="0.0" width="922" height="267"/>
+                        <rect key="frame" x="0.0" y="0.0" width="922" height="230"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <size key="intercellSpacing" width="3" height="2"/>
                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -172,6 +173,7 @@
                     </tableView>
                 </subviews>
             </clipView>
+            <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
             <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="6nI-Fu-se9">
                 <rect key="frame" x="0.0" y="274" width="735" height="16"/>
                 <autoresizingMask key="autoresizingMask"/>

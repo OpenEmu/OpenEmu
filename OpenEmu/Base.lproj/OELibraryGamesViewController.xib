@@ -44,7 +44,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" indentationPerLevel="16" outlineTableColumn="TQT-sV-f9j" id="Evu-SM-BeR" customClass="OESidebarOutlineView">
-                                                <rect key="frame" x="0.0" y="0.0" width="186" height="497"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="186" height="460"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -66,6 +66,7 @@
                                             </outlineView>
                                         </subviews>
                                     </clipView>
+                                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
                                     <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="AhO-Jy-5F7">
                                         <rect key="frame" x="-100" y="-100" width="171" height="15"/>
                                         <autoresizingMask key="autoresizingMask"/>

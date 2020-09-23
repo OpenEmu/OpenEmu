@@ -403,6 +403,7 @@
                             </tableView>
                         </subviews>
                     </clipView>
+                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
                     <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="wx5-R2-aHS">
                         <rect key="frame" x="0.0" y="371" width="480" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
