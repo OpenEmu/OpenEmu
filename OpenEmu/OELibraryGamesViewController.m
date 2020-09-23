@@ -125,7 +125,14 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     }
     else if ([item action] == @selector(search:))
     {
-        return YES;
+        if (selectedViewTag != OEBlankSlateTag)
+        {
+            return YES;
+        }
+        else
+        {
+            return NO;
+        }
     }
     return YES;
 }
