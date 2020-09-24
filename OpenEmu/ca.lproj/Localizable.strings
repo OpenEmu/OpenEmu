@@ -536,13 +536,13 @@
 
 "Your library was moved sucessfully." = "S'ha mogut la biblioteca correctament.";
 
-"Library" = "Biblioteca";
+"Toolbar: Library" = "Biblioteca";
 
-"Save States" = "Partides";
+"Toolbar: Save States" = "Partides";
 
-"Screenshots" = "Captures";
+"Toolbar: Screenshots" = "Captures";
 
-"Homebrew" = "Homebrew";
+"Toolbar: Homebrew" = "Homebrew";
 
 "Grid Size" = "Mida de la graella";   // shown when the corresponding item does not fit in the main window's toolbar
 

@@ -536,7 +536,13 @@
 
 "Your library was moved sucessfully." = "Die Mediathek wurde erfolgreich verschoben.";
 
-"Homebrew" = "Homebrew";
+"Toolbar: Library" = "Mediathek";
+
+"Toolbar: Save States" = "Spielstände";
+
+"Toolbar: Screenshots" = "Bildschirmfotos";
+
+"Toolbar: Homebrew" = "Homebrew";
 
 "Grid Size" = "Gittergröße";
 

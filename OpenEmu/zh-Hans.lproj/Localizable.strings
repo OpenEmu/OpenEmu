@@ -536,13 +536,13 @@
 
 "Your library was moved sucessfully." = "成功移动库。";
 
-"Library" = "库";
+"Toolbar: Library" = "库";
 
-"Save States" = "保存状态";
+"Toolbar: Save States" = "保存状态";
 
-"Screenshots" = "截屏";
+"Toolbar: Screenshots" = "截屏";
 
-"Homebrew" = "自制";
+"Toolbar: Homebrew" = "自制";
 
 "Grid Size" = "网格大小";   // shown when the corresponding item does not fit in the main window's toolbar
 

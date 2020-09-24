@@ -536,13 +536,13 @@
 
 "Your library was moved sucessfully." = "Ваша библиотека успешно перемещена.";
 
-"Library" = "Библиотека";
+"Toolbar: Library" = "Библиотека";
 
-"Save States" = "Сохранения";
+"Toolbar: Save States" = "Сохранения";
 
-"Screenshots" = "Скриншоты";
+"Toolbar: Screenshots" = "Скриншоты";
 
-"Homebrew" = "Homebrew";
+"Toolbar: Homebrew" = "Homebrew";
 
 "Grid Size" = "Grid Size";   // TODO shown when the corresponding item does not fit in the main window's toolbar
 

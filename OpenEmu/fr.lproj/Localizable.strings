@@ -536,13 +536,13 @@
 
 "Your library was moved sucessfully." = "Votre bibliothèque a été déplacée avec succès.";
 
-"Library" = "Bibliothèque";
+"Toolbar: Library" = "Bibliothèque";
 
-"Save States" = "Sauvegardes";
+"Toolbar: Save States" = "Sauvegardes";
 
-"Screenshots" = "Captures";
+"Toolbar: Screenshots" = "Captures";
 
-"Homebrew" = "Homebrew";
+"Toolbar: Homebrew" = "Homebrew";
 
 "Grid Size" = "Taille de la grille";
 

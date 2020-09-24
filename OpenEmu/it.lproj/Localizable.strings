@@ -536,13 +536,13 @@
 
 "Your library was moved sucessfully." = "La tua Libreria è stata spostata con successo.";
 
-"Library" = "Libreria";
+"Toolbar: Library" = "Libreria";
 
-"Save States" = "Salvataggi";
+"Toolbar: Save States" = "Salvataggi";
 
-"Screenshots" = "Istantanee";
+"Toolbar: Screenshots" = "Istantanee";
 
-"Homebrew" = "Homebrew";
+"Toolbar: Homebrew" = "Homebrew";
 
 "Grid Size" = "Dimensione griglia";   // shown when the corresponding item does not fit in the main window's toolbar
 

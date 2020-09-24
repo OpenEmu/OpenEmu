@@ -536,13 +536,13 @@
 
 "Your library was moved sucessfully." = "ライブラリの移動が正常に完了しました。";
 
-"Library" = "ライブラリ";
+"Toolbar: Library" = "ライブラリ";
 
-"Save States" = "セーブステート";
+"Toolbar: Save States" = "セーブステート";
 
-"Screenshots" = "スクリーンショット";
+"Toolbar: Screenshots" = "スクリーンショット";
 
-"Homebrew" = "Homebrew";
+"Toolbar: Homebrew" = "Homebrew";
 
 "Grid Size" = "グリッドサイズ";   // TODO shown when the corresponding item does not fit in the main window's toolbar
 

@@ -112,9 +112,10 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
             slider.controlSize = .small
         }
         
+        NSLayoutConstraint(item: slider, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 64).isActive = true
+        
         item.view = slider
         item.label = NSLocalizedString("Grid Size", comment:"Grid size toolbar button label, main window")
-        item.maxSize.width = 64
         toolbar.gridSizeSlider = slider
         itemCache[item.itemIdentifier.rawValue] = item
         return item;
@@ -159,17 +160,17 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
         let item = ValidatingToolbarItem(itemIdentifier: OEToolbarItemIdentifierViewMode)
         
-        let segmControl = NSSegmentedControl()
-        segmControl.segmentCount = 2
-        segmControl.setImage(NSImage(named: "NSIconViewTemplate"), forSegment: 0)
-        segmControl.setImage(NSImage(named: "NSListViewTemplate"), forSegment: 1)
+        let images = [NSImage(named: NSImage.iconViewTemplateName)!,
+                      NSImage(named: NSImage.listViewTemplateName)!]
+        
+        let segmControl = NSSegmentedControl(images: images, trackingMode: .selectOne, target: toolbarOwner, action: #selector(OELibraryController.switchToView(_:)))
         segmControl.setToolTip(NSLocalizedString("Switch To Grid View", comment: "Tooltip"), forSegment: 0)
         segmControl.setToolTip(NSLocalizedString("Switch To List View", comment: "Tooltip"), forSegment: 1)
-        segmControl.sizeToFit()
-        segmControl.action = #selector(OELibraryController.switchToView(_:))
-        segmControl.target = toolbarOwner
+        segmControl.setWidth(26, forSegment: 0)
+        segmControl.setWidth(26, forSegment: 1)
         
         item.view = segmControl
+        item.visibilityPriority = .low
         item.label = NSLocalizedString("View Mode", comment:"View mode toolbar button label, main window")
         toolbar.viewModeSelector = segmControl
         itemCache[item.itemIdentifier.rawValue] = item
@@ -183,40 +184,37 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
         let item = ValidatingToolbarItem(itemIdentifier: OEToolbarItemIdentifierCategory)
         
-        let segmControl = NSSegmentedControl()
-        segmControl.segmentCount = 4
-        segmControl.setLabel(NSLocalizedString("Library", comment: "Main window, Library category button"), forSegment: 0)
-        segmControl.setLabel(NSLocalizedString("Save States", comment: "Main window, Save States category button"), forSegment: 1)
-        segmControl.setLabel(NSLocalizedString("Screenshots", comment: "Main window, Screenshots category button"), forSegment: 2)
-        segmControl.setLabel(NSLocalizedString("Homebrew", comment: "Main window, Homebrew category button"), forSegment: 3)
-        segmControl.sizeToFit()
-        segmControl.action = #selector(OELibraryController.switchCategory(_:))
-        segmControl.target = toolbarOwner
+        let titles = [NSLocalizedString("Toolbar: Library", value: "Library", comment: "toolbar, category label"),
+                      NSLocalizedString("Toolbar: Save States", value: "Save States", comment: "toolbar, category label"),
+                      NSLocalizedString("Toolbar: Screenshots", value: "Screenshots", comment: "toolbar, category label"),
+                      NSLocalizedString("Toolbar: Homebrew", value: "Homebrew", comment: "toolbar, category label")]
+        
+        let segmControl = NSSegmentedControl(labels: titles, trackingMode: .selectOne, target: toolbarOwner, action: #selector(OELibraryController.switchCategory(_:)))
         
         item.view = segmControl
         item.label = NSLocalizedString("Category", comment:"Category selector toolbar label, main window")
         toolbar.categorySelector = segmControl
         
         let libraryMenuItem = NSMenuItem()
-        libraryMenuItem.title = NSLocalizedString("Library", comment: "")
+        libraryMenuItem.title = NSLocalizedString("Toolbar: Library", value: "Library", comment: "")
         libraryMenuItem.target = toolbarOwner
         libraryMenuItem.tag = 100
         libraryMenuItem.action = #selector(OELibraryController.switchCategoryFromMenu(_:))
         
         let savesStatesMenuItem = NSMenuItem()
-        savesStatesMenuItem.title = NSLocalizedString("Save States", comment: "")
+        savesStatesMenuItem.title = NSLocalizedString("Toolbar: Save States", value: "Save States", comment: "")
         savesStatesMenuItem.target = toolbarOwner
         savesStatesMenuItem.tag = 101
         savesStatesMenuItem.action = #selector(OELibraryController.switchCategoryFromMenu(_:))
         
         let screenshotsMenuItem = NSMenuItem()
-        screenshotsMenuItem.title = NSLocalizedString("Screenshots", comment: "")
+        screenshotsMenuItem.title = NSLocalizedString("Toolbar: Screenshots", value: "Screenshots", comment: "")
         screenshotsMenuItem.target = toolbarOwner
         screenshotsMenuItem.tag = 102
         screenshotsMenuItem.action = #selector(OELibraryController.switchCategoryFromMenu(_:))
         
         let homebrewMenuItem = NSMenuItem()
-        homebrewMenuItem.title = NSLocalizedString("Homebrew", comment: "")
+        homebrewMenuItem.title = NSLocalizedString("Toolbar: Homebrew", value: "Homebrew", comment: "")
         homebrewMenuItem.target = toolbarOwner
         homebrewMenuItem.tag = 103
         homebrewMenuItem.action = #selector(OELibraryController.switchCategoryFromMenu(_:))
@@ -254,9 +252,10 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         searchField.action = #selector(OELibraryController.search(_:))
         searchField.target = toolbarOwner
         
+        NSLayoutConstraint(item: searchField, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 166).isActive = true
+        
         item.view = searchField;
         item.label = NSLocalizedString("Search", comment:"Search field toolbar label, main window")
-        item.maxSize.width = 166
         toolbar.searchField = searchField
         itemCache[item.itemIdentifier.rawValue] = item
         return item;

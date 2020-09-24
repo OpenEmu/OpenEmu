@@ -536,13 +536,13 @@
 
 "Your library was moved sucessfully." = "Su biblioteca fue movida correctamente.";
 
-"Library" = "Biblioteca";
+"Toolbar: Library" = "Biblioteca";
 
-"Save States" = "Estados guardados";
+"Toolbar: Save States" = "Estados guardados";
 
-"Screenshots" = "Capturas de pantalla";
+"Toolbar: Screenshots" = "Capturas de pantalla";
 
-"Homebrew" = "Caseros";
+"Toolbar: Homebrew" = "Caseros";
 
 "Grid Size" = "Tamaño de cuadrícula";
 

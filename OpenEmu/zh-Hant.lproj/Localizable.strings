@@ -536,13 +536,13 @@
 
 "Your library was moved sucessfully." = "成功移動資源庫。";
 
-"Library" = "資源庫";
+"Toolbar: Library" = "資源庫";
 
-"Save States" = "儲存狀態";
+"Toolbar: Save States" = "儲存狀態";
 
-"Screenshots" = "螢幕快照";
+"Toolbar: Screenshots" = "螢幕快照";
 
-"Homebrew" = "Homebrew";
+"Toolbar: Homebrew" = "Homebrew";
 
 "Grid Size" = "網格大小";   // shown when the corresponding item does not fit in the main window's toolbar
 

@@ -536,13 +536,13 @@
 
 "Your library was moved sucessfully." = "Your library was moved sucessfully.";
 
-"Library" = "Library";
+"Toolbar: Library" = "Library";
 
-"Save States" = "Save States";
+"Toolbar: Save States" = "Save States";
 
-"Screenshots" = "Screenshots";
+"Toolbar: Screenshots" = "Screenshots";
 
-"Homebrew" = "Homebrew";
+"Toolbar: Homebrew" = "Homebrew";
 
 "Grid Size" = "Grid Size";   // shown when the corresponding item does not fit in the main window's toolbar
 
