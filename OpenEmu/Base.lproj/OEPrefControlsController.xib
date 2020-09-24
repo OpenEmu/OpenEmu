@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -56,12 +56,11 @@
                         <action selector="changeSystem:" target="-2" id="48"/>
                     </connections>
                 </popUpButton>
-                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="116" customClass="OEPreferencesControlsBox">
-                    <rect key="frame" x="498" y="25" width="232" height="363"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="116" customClass="OEPreferencesControlsBox">
+                    <rect key="frame" x="498" y="25" width="231" height="363"/>
                     <subviews>
                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="OEPopUpButton">
-                            <rect key="frame" x="17" y="327" width="200" height="26"/>
+                            <rect key="frame" x="17" y="327" width="199" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="push" title="Player 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="29" id="24" customClass="OEPopUpButtonCell">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -89,14 +88,14 @@
                             </connections>
                         </popUpButton>
                         <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="111">
-                            <rect key="frame" x="1" y="47" width="230" height="269"/>
+                            <rect key="frame" x="1" y="47" width="229" height="269"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <clipView key="contentView" drawsBackground="NO" id="P60-Lp-yJ1">
-                                <rect key="frame" x="0.0" y="0.0" width="230" height="269"/>
+                                <rect key="frame" x="0.0" y="0.0" width="229" height="269"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="112" customClass="OEControlsButtonSetupView">
-                                        <rect key="frame" x="0.0" y="0.0" width="321" height="270"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="270"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                     </view>
                                 </subviews>
@@ -109,16 +108,15 @@
                                 </userDefinedRuntimeAttributes>
                             </scroller>
                             <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="114" customClass="OEScroller">
-                                <rect key="frame" x="214" y="0.0" width="16" height="269"/>
+                                <rect key="frame" x="213" y="0.0" width="16" height="269"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood"/>
                                 </userDefinedRuntimeAttributes>
                             </scroller>
                         </scrollView>
-                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="OELabel">
-                            <rect key="frame" x="14" y="14" width="42" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="OELabel">
+                            <rect key="frame" x="14" y="17" width="39" height="16"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Input:" id="11" customClass="OELabelCell">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -128,9 +126,11 @@
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_wood_text"/>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9" customClass="OEPopUpButton">
-                            <rect key="frame" x="56" y="12" width="161" height="26"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9" customClass="OEPopUpButton">
+                            <rect key="frame" x="53" y="9" width="164" height="27"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="23" id="lww-pM-fVv"/>
+                            </constraints>
                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="12" customClass="OEPopUpButtonCell">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
@@ -159,12 +159,26 @@
                             </connections>
                         </popUpButton>
                     </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="363" id="9qc-Go-0bA"/>
+                        <constraint firstAttribute="bottom" secondItem="10" secondAttribute="bottom" constant="17" id="EM4-9a-lMZ"/>
+                        <constraint firstAttribute="width" constant="231" id="bfL-Bu-ul2"/>
+                        <constraint firstItem="9" firstAttribute="leading" secondItem="10" secondAttribute="trailing" constant="4" id="d9B-BZ-2rc"/>
+                        <constraint firstAttribute="bottom" secondItem="9" secondAttribute="bottom" constant="12" id="vxF-le-4kx"/>
+                        <constraint firstItem="10" firstAttribute="leading" secondItem="116" secondAttribute="leading" constant="16" id="wnN-kC-1Mc"/>
+                        <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="17" id="xEF-f6-hej"/>
+                    </constraints>
                 </customView>
                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="103">
                     <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES" heightSizable="YES"/>
                 </customView>
             </subviews>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="116" secondAttribute="bottom" constant="25" id="2zq-xu-yuK"/>
+                <constraint firstAttribute="trailing" secondItem="116" secondAttribute="trailing" constant="26" id="axl-wZ-16j"/>
+            </constraints>
+            <point key="canvasLocation" x="-211" y="121"/>
         </view>
     </objects>
 </document>
