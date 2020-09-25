@@ -200,7 +200,7 @@ static NSString * const _OESidebarWidthKey = @"lastSidebarWidth";
 
 - (NSColor *)dividerColor
 {
-    return [NSColor colorWithDeviceWhite:0 alpha:0.2];
+    return [NSColor colorNamed:@"sidebar_divider"];
 }
 
 - (BOOL)isFlipped
