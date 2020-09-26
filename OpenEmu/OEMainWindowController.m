@@ -133,13 +133,9 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         NSWindow *window = self.window;
         
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
-        [setupAssistant setCompletionBlock:
-         ^(BOOL discoverRoms, NSArray *volumes)
-         {
-             if(discoverRoms)
-                 [[[OELibraryDatabase defaultDatabase] importer] discoverRoms:volumes];
-             [self setCurrentContentController:self.libraryController];
-         }];
+        [setupAssistant setCompletionBlock:^{
+            [self setCurrentContentController:self.libraryController];
+        }];
         
         // Adjust visual properties of the window.
         window.toolbar.visible = NO;

@@ -97,13 +97,6 @@ typedef NS_ENUM(NSInteger, OEImporterStatus) {
 - (void)addOperation:(OEImportOperation *)operation;
 - (void)rescheduleOperation:(OEImportOperation *)operation;
 
-#pragma mark - Spotlight importing -
-
-- (void)discoverRoms:(NSArray *)volumes;
-- (void)updateSearchResults:(NSNotification *)notification;
-- (void)finalizeSearchResults:(NSNotification *)notification;
-- (void)importSpotlightResultsInBackground;
-
 @end
 
 #pragma mark - Controlling Import

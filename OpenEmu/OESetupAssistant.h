@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009-2012, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@
 
 @interface OESetupAssistant : NSViewController <NSTableViewDelegate, NSTableViewDataSource>
 
-@property(copy) void (^completionBlock)(BOOL discoverROM, NSArray* volumes);
+@property(copy) void (^completionBlock)(void);
 
 @end
 

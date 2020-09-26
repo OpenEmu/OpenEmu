@@ -5,15 +5,6 @@
 /* Class = "NSButtonCell"; title = "Back"; ObjectID = "250"; */
 "250.title" = "Enrere";
 
-/* Class = "NSButtonCell"; title = "Next"; ObjectID = "274"; */
-"274.title" = "Següent";
-
-/* Class = "NSButtonCell"; title = "Back"; ObjectID = "275"; */
-"275.title" = "Enrere";
-
-/* Class = "NSButtonCell"; title = "Allow OpenEmu To Scan For Games"; ObjectID = "280"; */
-"280.title" = "Permet que l'OpenEmu pugui buscar els jocs";
-
 /* Class = "NSButtonCell"; title = "Next"; ObjectID = "301"; */
 "301.title" = "Següent";
 
@@ -31,24 +22,6 @@
 
 /* Class = "NSTextFieldCell"; title = "System Cores Installation"; ObjectID = "329"; */
 "329.title" = "Instal·lació dels nuclis dels sistemes";
-
-/* Class = "NSTextFieldCell"; title = "You may already have game (ROM) files located on your computer. OpenEmu can search your computer for games you may already legally own and automatically add them to your OpenEmu library. OpenEmu will also seek to add box art and other information for your games where available."; ObjectID = "332"; */
-"332.title" = "Potser ja teniu jocs (fitxers ROM) a l'ordinador. L'OpenEmu pot escanejar el vostre ordinador per trobar jocs que ja teniu legalment i afegir-los automàticament a la biblioteca. També s'intentarà afegir les caràtules i qualsevol altra informació disponible per als vostres jocs.";
-
-/* Class = "NSTextFieldCell"; title = "Game Scanner"; ObjectID = "333"; */
-"333.title" = "Escàner de jocs";
-
-/* Class = "NSButtonCell"; title = "Next"; ObjectID = "343"; */
-"343.title" = "Següent";
-
-/* Class = "NSTextFieldCell"; title = "Scan Additional Sources"; ObjectID = "347"; */
-"347.title" = "Escaneja fonts addicionals";
-
-/* Class = "NSTextFieldCell"; title = "OpenEmu has detected you have the following mounted Hard Drives or shares available. If there are any game files residing in these locations, please tick on the associated item and OpenEmu can scan for and add these games to your Library."; ObjectID = "357"; */
-"357.title" = "S'ha detectat que teniu els següents discs durs muntats o recursos compartits disponibles. Si hi ha algun joc en aquestes ubicacions, marqueu els elements associats i es podran afegir aquests jocs a la biblioteca.";
-
-/* Class = "NSButtonCell"; title = "Back"; ObjectID = "358"; */
-"358.title" = "Enrere";
 
 /* Class = "NSTextFieldCell"; title = "Let’s Go!"; ObjectID = "401"; */
 "401.title" = "Som-hi!";

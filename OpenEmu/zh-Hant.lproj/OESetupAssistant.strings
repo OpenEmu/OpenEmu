@@ -5,15 +5,6 @@
 /* Class = "NSButtonCell"; title = "Back"; ObjectID = "250"; */
 "250.title" = "後退";
 
-/* Class = "NSButtonCell"; title = "Next"; ObjectID = "274"; */
-"274.title" = "下一個";
-
-/* Class = "NSButtonCell"; title = "Back"; ObjectID = "275"; */
-"275.title" = "後退";
-
-/* Class = "NSButtonCell"; title = "Allow OpenEmu To Scan For Games"; ObjectID = "280"; */
-"280.title" = "允許 OpenEmu 掃描遊戲";
-
 /* Class = "NSButtonCell"; title = "Next"; ObjectID = "301"; */
 "301.title" = "下一個";
 
@@ -31,24 +22,6 @@
 
 /* Class = "NSTextFieldCell"; title = "System Cores Installation"; ObjectID = "329"; */
 "329.title" = "系統核心安裝";
-
-/* Class = "NSTextFieldCell"; title = "You may already have game (ROM) files located on your computer. OpenEmu can search your computer for games you may already legally own and automatically add them to your OpenEmu library. OpenEmu will also seek to add box art and other information for your games where available."; ObjectID = "332"; */
-"332.title" = "你的電腦可能已經存有遊戲 (ROM) 文件。 OpenEmu 可以搜索你的電腦內你已合法擁有的遊戲並自動加入到你的 OpenEmu 庫。同時 OpenEmu 也會為你的遊戲查找並加入可用的遊戲盒封面和其他信息。";
-
-/* Class = "NSTextFieldCell"; title = "Game Scanner"; ObjectID = "333"; */
-"333.title" = "遊戲掃描器";
-
-/* Class = "NSButtonCell"; title = "Next"; ObjectID = "343"; */
-"343.title" = "下一步";
-
-/* Class = "NSTextFieldCell"; title = "Scan Additional Sources"; ObjectID = "347"; */
-"347.title" = "掃描附加源";
-
-/* Class = "NSTextFieldCell"; title = "OpenEmu has detected you have the following mounted Hard Drives or shares available. If there are any game files residing in these locations, please tick on the associated item and OpenEmu can scan for and add these games to your Library."; ObjectID = "357"; */
-"357.title" = "OpenEmu 檢測到你有以下可用的已掛載硬碟或共享。如果這些位置有遊戲文件，請勾選相關項目，OpenEmu 可以掃描並加入這些遊戲到你的庫裡。";
-
-/* Class = "NSButtonCell"; title = "Back"; ObjectID = "358"; */
-"358.title" = "後退";
 
 /* Class = "NSTextFieldCell"; title = "Let’s Go!"; ObjectID = "401"; */
 "401.title" = "執行！";

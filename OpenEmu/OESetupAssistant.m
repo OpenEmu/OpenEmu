@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009-2012, OpenEmu Team
+ Copyright (c) 2020, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -49,8 +49,6 @@ enum : OEFSMStateLabel
     _OEFSMVideoIntroState,
     _OEFSMWelcomeState,
     _OEFSMCoreSelectionState,
-    _OEFSMGameScannerSelectionState,
-    _OEFSMGameScannerVolumeSelectionState,
     _OEFSMLastScreenState,
     _OEFSMEndState,
 };
@@ -61,8 +59,6 @@ enum : OEFSMEventLabel
 {
     _OEFSMBackEvent                 = 1,
     _OEFSMNextEvent                 = 2,
-    _OEFSMNextWithCheckmarkEvent    = 3,
-    _OEFSMNextWithoutCheckmarkEvent = 4,
 };
 
 // The enum above makes Xcode think it needs to indent all lines past this point. The following NOP code
@@ -81,16 +77,6 @@ enum : OEFSMEventLabel
 + (instancetype)setupCoreInfoWithCore:(OECoreDownload *)core;
 @end
 
-#pragma mark - OESetupVolumeInfo
-
-@interface OESetupVolumeInfo : NSObject
-@property(nonatomic, strong) NSURL                     *URL;
-@property(nonatomic, copy) NSString                    *name;
-@property(nonatomic, assign, getter = isSelected) BOOL  selected;
-+ (instancetype)setupVolumeInfoWithURL:(NSURL *)URL name:(NSString *)name;
-@end
-
-
 #pragma mark - OEButton (OESetupAssistantAdditions)
 
 @interface OEButton (OESetupAssistantAdditions)
@@ -102,7 +88,6 @@ enum : OEFSMEventLabel
 @interface OESetupAssistant ()
 {
     NSMutableArray       *_coresToDownload; // contains OESetupCoreInfo objects; it's a table view data source
-    NSMutableArray       *_volumesToScan;   // contains OESetupVolumeInfo objects; it's a table view data source
     CATransition         *_viewTransition;
     OEFiniteStateMachine *_fsm;
 }
@@ -111,20 +96,14 @@ enum : OEFSMEventLabel
 @property(nonatomic, weak) IBOutlet NSView *replaceView;
 @property(nonatomic, weak) IBOutlet NSView *welcomeView;
 @property(nonatomic, weak) IBOutlet NSView *coreSelectionView;
-@property(nonatomic, weak) IBOutlet NSView *gameScannerAllowView;
-@property(nonatomic, weak) IBOutlet NSView *gameScannerVolumeSelectionView;
 @property(nonatomic, weak) IBOutlet NSView *lastStepView;
-@property(nonatomic, weak) IBOutlet NSButton *allowScanForGames;
 @property(nonatomic, weak) IBOutlet OESetupAssistantTableView *installCoreTableView;
-@property(nonatomic, weak) IBOutlet OESetupAssistantTableView *mountedVolumesTableView;
 
 - (IBAction)processFSMButtonAction:(id)sender;
-- (IBAction)processAllowGameScannerNextButtonAction:(id)sender;
 
 - (void)OE_goForwardToView:(NSView *)view;
 - (void)OE_goBackToView:(NSView *)view;
 - (void)OE_dissolveToView:(NSView *)view;
-- (void)OE_processVolumeNotification:(NSNotification *)notification;
 
 @end
 
@@ -150,21 +129,7 @@ enum : OEFSMEventLabel
     [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForNewCores:) withObject:@(NO)];
     [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForUpdates) withObject:nil];
 
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(OE_processVolumeNotification:) name:NSWorkspaceDidMountNotification object:nil];
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(OE_processVolumeNotification:) name:NSWorkspaceDidUnmountNotification object:nil];
-
     _coresToDownload = [NSMutableArray array];
-
-    _volumesToScan   = [NSMutableArray array];
-    NSArray *volumes = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:@[NSURLLocalizedNameKey] options:NSVolumeEnumerationSkipHiddenVolumes];
-    for(NSURL *volumeURL in volumes)
-    {
-        NSString *volumeName = nil;
-        if(![volumeURL getResourceValue:&volumeName forKey:NSURLVolumeLocalizedNameKey error:NULL]) volumeName = @"Unnamed Volume";
-
-        [_volumesToScan addObject:[OESetupVolumeInfo setupVolumeInfoWithURL:volumeURL name:volumeName]];
-    }
-
 
     [[self replaceView] setWantsLayer:YES];
 
@@ -202,41 +167,6 @@ enum : OEFSMEventLabel
     [_fsm processEvent:event];
 }
 
-- (IBAction)processAllowGameScannerNextButtonAction:(id)sender
-{
-    OEFSMEventLabel event = ([[self allowScanForGames] state] == NSControlStateValueOn ? _OEFSMNextWithCheckmarkEvent : _OEFSMNextWithoutCheckmarkEvent);
-    [_fsm processEvent:event];
-}
-
-- (void)OE_processVolumeNotification:(NSNotification *)notification
-{
-    if([[notification name] isEqualToString:NSWorkspaceDidMountNotification])
-    {
-        // NSWorkspaceVolumeLocalizedNameKey, NSWorkspaceVolumeURLKey
-        NSURL *volumeURL     = [[notification userInfo] objectForKey:NSWorkspaceVolumeURLKey];
-        NSString *volumeName = [[notification userInfo] objectForKey:NSWorkspaceVolumeLocalizedNameKey];
-
-        [_volumesToScan addObject:[OESetupVolumeInfo setupVolumeInfoWithURL:volumeURL name:volumeName]];
-    }
-    else if([[notification name] isEqualToString:NSWorkspaceDidUnmountNotification])
-    {
-        // @"NSDevicePath"
-        NSString *volumePath = [[notification userInfo] objectForKey:@"NSDevicePath"];
-        NSUInteger indexForRemoval = [_volumesToScan indexOfObjectPassingTest:^BOOL(OESetupVolumeInfo *volumeInfo, NSUInteger idx, BOOL *stop) {
-            if([[[volumeInfo URL] path] isEqualToString:volumePath])
-            {
-                *stop = YES;
-                return YES;
-            }
-            return NO;
-        }];
-
-        if(indexForRemoval != NSNotFound) [_volumesToScan removeObjectAtIndex:indexForRemoval];
-    }
-
-    [_mountedVolumesTableView reloadData];
-}
-
 #pragma mark - Finite state machine setup
 
 - (void)OE_setupFiniteStateMachine
@@ -245,16 +175,12 @@ enum : OEFSMEventLabel
                                        @(_OEFSMVideoIntroState)                 : @"Video introduction",
                                        @(_OEFSMWelcomeState)                    : @"Welcome screen",
                                        @(_OEFSMCoreSelectionState)              : @"Core selection",
-                                       @(_OEFSMGameScannerSelectionState)       : @"Game scanner allow checkbox",
-                                       @(_OEFSMGameScannerVolumeSelectionState) : @"Game scanner volume selection",
                                        @(_OEFSMLastScreenState)                 : @"Last screen",
                                        @(_OEFSMEndState)                        : @"This is the end, beautiful friend",
                                        });
     NSDictionary *eventDescriptions = (@{
                                        @(_OEFSMBackEvent)                 : @"Back",
                                        @(_OEFSMNextEvent)                 : @"Next",
-                                       @(_OEFSMNextWithCheckmarkEvent)    : @"Next with checkmark",
-                                       @(_OEFSMNextWithoutCheckmarkEvent) : @"Next without checkmark",
                                        });
 
     _fsm = [OEFiniteStateMachine new];
@@ -325,33 +251,6 @@ enum : OEFSMEventLabel
         [blockSelf OE_goForwardToView:[blockSelf lastStepView]];
     }];
 
-    // Game scanner allow checkbox screen
-/*
-    [_fsm addState:_OEFSMGameScannerSelectionState];
-    [[self allowScanForGames] setState:NSOffState];
-    [_fsm addTransitionFrom:_OEFSMGameScannerSelectionState to:_OEFSMCoreSelectionState event:_OEFSMBackEvent action:^{
-        [blockSelf OE_goBackToView:[blockSelf coreSelectionView]];
-    }];
-    [_fsm addTransitionFrom:_OEFSMGameScannerSelectionState to:_OEFSMGameScannerVolumeSelectionState event:_OEFSMNextWithCheckmarkEvent action:^{
-        [blockSelf OE_goForwardToView:[blockSelf gameScannerVolumeSelectionView]];
-        // On Mavericks, if the user has scroll bars set to be alaways visible our scroll views do not update the scrollers correctly
-        // so we have to force them
-        [[blockSelf mountedVolumesTableView] noteNumberOfRowsChanged];
-    }];
-    [_fsm addTransitionFrom:_OEFSMGameScannerSelectionState to:_OEFSMLastScreenState event:_OEFSMNextWithoutCheckmarkEvent action:^{
-        [blockSelf OE_goForwardToView:[blockSelf lastStepView]];
-    }];
-
-    // Game scanner volume selection screen
-
-    [_fsm addState:_OEFSMGameScannerVolumeSelectionState];
-    [_fsm addTransitionFrom:_OEFSMGameScannerVolumeSelectionState to:_OEFSMGameScannerSelectionState event:_OEFSMBackEvent action:^{
-        [blockSelf OE_goBackToView:[blockSelf gameScannerAllowView]];
-    }];
-    [_fsm addTransitionFrom:_OEFSMGameScannerVolumeSelectionState to:_OEFSMLastScreenState event:_OEFSMNextEvent action:^{
-        [blockSelf OE_goForwardToView:[blockSelf lastStepView]];
-    }];
-*/
     // Last screen
 
     [_fsm addState:_OEFSMLastScreenState];
@@ -366,20 +265,7 @@ enum : OEFSMEventLabel
         // Mark setup done
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OESetupAssistantHasFinishedKey];
 
-        NSMutableArray *selectedVolumes = nil;
-        BOOL shouldScan = NO;
-/*
-        BOOL shouldScan = ([[blockSelf allowScanForGames] state] == NSOnState);
-        if(shouldScan)
-        {
-            selectedVolumes = [NSMutableArray new];
-            for(OESetupVolumeInfo *volumeInfo in blockSelf->_volumesToScan)
-            {
-                if([volumeInfo isSelected]) [selectedVolumes addObject:[volumeInfo URL]];
-            }
-        }
-*/
-        if([blockSelf completionBlock] != nil) [blockSelf completionBlock](shouldScan, selectedVolumes);
+        if([blockSelf completionBlock] != nil) [blockSelf completionBlock]();
     }];
 }
 
@@ -422,8 +308,8 @@ enum : OEFSMEventLabel
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    if(tableView == [self installCoreTableView])         return [_coresToDownload count];
-    else if(tableView == [self mountedVolumesTableView]) return [_volumesToScan count];
+    if(tableView == [self installCoreTableView])
+        return [_coresToDownload count];
 
     return 0;
 }
@@ -459,13 +345,6 @@ enum : OEFSMEventLabel
             return systemNamesString;
         }
     }
-    else if(tableView == [self mountedVolumesTableView])
-    {
-        OESetupVolumeInfo *volumeInfo = [_volumesToScan objectAtIndex:rowIndex];
-
-        if([identifier isEqualToString:@"enabled"])        return @([volumeInfo isSelected]);
-        else if([identifier isEqualToString:@"mountName"]) return ([volumeInfo name]);
-    }
 
     return nil;
 }
@@ -478,11 +357,6 @@ enum : OEFSMEventLabel
     {
         OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:rowIndex];
         if([identifier isEqualToString:@"enabled"]) [coreInfo setSelected:[(NSNumber *)object boolValue]];
-    }
-    else if(tableView == [self mountedVolumesTableView])
-    {
-        OESetupVolumeInfo *volumeInfo = [_volumesToScan objectAtIndex:rowIndex];
-        if([identifier isEqualToString:@"enabled"]) [volumeInfo setSelected:[(NSNumber *)object boolValue]];
     }
 
 }
@@ -543,19 +417,6 @@ enum : OEFSMEventLabel
     [newCore setCore:core];
     [newCore setSelected:YES];
     return newCore;
-}
-@end
-
-#pragma mark - OESetupVolumeInfo
-
-@implementation OESetupVolumeInfo
-+ (instancetype)setupVolumeInfoWithURL:(NSURL *)URL name:(NSString *)name
-{
-    OESetupVolumeInfo *newVolume = [self new];
-    [newVolume setURL:URL];
-    [newVolume setName:name];
-    [newVolume setSelected:YES];
-    return newVolume;
 }
 @end
 

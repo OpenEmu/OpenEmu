@@ -5,15 +5,6 @@
 /* Class = "NSButtonCell"; title = "Back"; ObjectID = "250"; */
 "250.title" = "Voltar";
 
-/* Class = "NSButtonCell"; title = "Next"; ObjectID = "274"; */
-"274.title" = "Avançar";
-
-/* Class = "NSButtonCell"; title = "Back"; ObjectID = "275"; */
-"275.title" = "Voltar";
-
-/* Class = "NSButtonCell"; title = "Allow OpenEmu To Scan For Games"; ObjectID = "280"; */
-"280.title" = "Permitir que o OpenEmu pesquise por jogos.";
-
 /* Class = "NSButtonCell"; title = "Next"; ObjectID = "301"; */
 "301.title" = "Avançar";
 
@@ -31,24 +22,6 @@
 
 /* Class = "NSTextFieldCell"; title = "System Cores Installation"; ObjectID = "329"; */
 "329.title" = "Instalação dos Núcleos";
-
-/* Class = "NSTextFieldCell"; title = "You may already have game (ROM) files located on your computer. OpenEmu can search your computer for games you may already legally own and automatically add them to your OpenEmu library. OpenEmu will also seek to add box art and other information for your games where available."; ObjectID = "332"; */
-"332.title" = "Você provavelmente já deve ter arquivos de jogos (ROM) em seu computador. OpenEmu pode pesquisar por jogos que você possua legalmente em seu computador e adicioná-los à sua Biblioteca. OpenEmu também irá procurar pelas capinhas e preencher informações extras do seu jogo quando disponível.";
-
-/* Class = "NSTextFieldCell"; title = "Game Scanner"; ObjectID = "333"; */
-"333.title" = "Scanner de Jogos";
-
-/* Class = "NSButtonCell"; title = "Next"; ObjectID = "343"; */
-"343.title" = "Avançar";
-
-/* Class = "NSTextFieldCell"; title = "Scan Additional Sources"; ObjectID = "347"; */
-"347.title" = "Pesquisar em Locais adicionais";
-
-/* Class = "NSTextFieldCell"; title = "OpenEmu has detected you have the following mounted Hard Drives or shares available. If there are any game files residing in these locations, please tick on the associated item and OpenEmu can scan for and add these games to your Library."; ObjectID = "357"; */
-"357.title" = "O OpenEmu detectou que você possui os seguintes Discos Rígidos ou compartilhamentos disponíveis. Se houver algum jogo armazenado nestes locais, por favor selecione o campo referente e o OpenEmu também poderá escanear e adicionar esses jogos à sua Biblioteca.";
-
-/* Class = "NSButtonCell"; title = "Back"; ObjectID = "358"; */
-"358.title" = "Voltar";
 
 /* Class = "NSTextFieldCell"; title = "Let’s Go!"; ObjectID = "401"; */
 "401.title" = "Vamos nessa!";

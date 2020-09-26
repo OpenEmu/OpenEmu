@@ -5,15 +5,6 @@
 /* Class = "NSButtonCell"; title = "Back"; ObjectID = "250"; */
 "250.title" = "Précédent";
 
-/* Class = "NSButtonCell"; title = "Next"; ObjectID = "274"; */
-"274.title" = "Suivant";
-
-/* Class = "NSButtonCell"; title = "Back"; ObjectID = "275"; */
-"275.title" = "Précédent";
-
-/* Class = "NSButtonCell"; title = "Allow OpenEmu To Scan For Games"; ObjectID = "280"; */
-"280.title" = "Autoriser OpenEmu à rechercher les jeux";
-
 /* Class = "NSButtonCell"; title = "Next"; ObjectID = "301"; */
 "301.title" = "Suivant";
 
@@ -31,24 +22,6 @@
 
 /* Class = "NSTextFieldCell"; title = "System Cores Installation"; ObjectID = "329"; */
 "329.title" = "Installation des cœurs système";
-
-/* Class = "NSTextFieldCell"; title = "You may already have game (ROM) files located on your computer. OpenEmu can search your computer for games you may already legally own and automatically add them to your OpenEmu library. OpenEmu will also seek to add box art and other information for your games where available."; ObjectID = "332"; */
-"332.title" = "Vous avez peut-être des fichiers (roms) de jeux déjà présents sur votre ordinateur. OpenEmu peut rechercher ces jeux que devez posséder légalement et les ajouter automatiquement à votre bibliothèque OpenEmu. OpenEmu tentera également d’ajouter les jaquettes et autres informations de vos jeux si disponible.";
-
-/* Class = "NSTextFieldCell"; title = "Game Scanner"; ObjectID = "333"; */
-"333.title" = "Analyse des jeux";
-
-/* Class = "NSButtonCell"; title = "Next"; ObjectID = "343"; */
-"343.title" = "Suivant";
-
-/* Class = "NSTextFieldCell"; title = "Scan Additional Sources"; ObjectID = "347"; */
-"347.title" = "Analyser des sources additionnelles";
-
-/* Class = "NSTextFieldCell"; title = "OpenEmu has detected you have the following mounted Hard Drives or shares available. If there are any game files residing in these locations, please tick on the associated item and OpenEmu can scan for and add these games to your Library."; ObjectID = "357"; */
-"357.title" = "OpenEmu a détecté la présence de disques durs montés ou de partages. Si des fichiers de jeux sont présents dans ces emplacements, cochez les éléments associés et OpenEmu les analysera et ajoutera les jeux trouvés à votre bibliothèque.";
-
-/* Class = "NSButtonCell"; title = "Back"; ObjectID = "358"; */
-"358.title" = "Précédent";
 
 /* Class = "NSTextFieldCell"; title = "Let’s Go!"; ObjectID = "401"; */
 "401.title" = "C’est parti !";
