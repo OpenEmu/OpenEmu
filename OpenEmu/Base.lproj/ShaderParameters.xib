@@ -18,24 +18,23 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES" HUD="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="339" height="380"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <value key="minSize" type="size" width="280" height="300"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="339" height="380"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ljG-FS-7rg">
-                        <rect key="frame" x="-1" y="64" width="341" height="317"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <clipView key="contentView" ambiguous="YES" id="uxG-mp-r9Z">
-                            <rect key="frame" x="1" y="1" width="339" height="315"/>
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ljG-FS-7rg">
+                        <rect key="frame" x="0.0" y="39" width="339" height="341"/>
+                        <clipView key="contentView" drawsBackground="NO" id="uxG-mp-r9Z">
+                            <rect key="frame" x="0.0" y="0.0" width="339" height="341"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <outlineView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" usesAutomaticRowHeights="YES" viewBased="YES" indentationPerLevel="5" autoresizesOutlineColumn="YES" outlineTableColumn="Eud-41-Gzw" id="i8R-qO-c0d">
-                                    <rect key="frame" x="0.0" y="0.0" width="339" height="315"/>
+                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" usesAutomaticRowHeights="YES" viewBased="YES" indentationPerLevel="16" outlineTableColumn="Eud-41-Gzw" id="i8R-qO-c0d">
+                                    <rect key="frame" x="0.0" y="0.0" width="339" height="341"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <size key="intercellSpacing" width="3" height="2"/>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <size key="intercellSpacing" width="2" height="3"/>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
                                         <tableColumn identifier="main" width="336" minWidth="40" maxWidth="1000" id="Eud-41-Gzw">
@@ -54,9 +53,10 @@
                                     </tableColumns>
                                 </outlineView>
                             </subviews>
+                            <nil key="backgroundColor"/>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="iiQ-9F-IRG">
-                            <rect key="frame" x="1" y="300" width="339" height="16"/>
+                            <rect key="frame" x="0.0" y="325" width="339" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="17A-IW-awx">
@@ -80,7 +80,12 @@
                     </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="ljG-FS-7rg" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="6Zw-cf-QCv"/>
                     <constraint firstAttribute="bottom" secondItem="iR1-jd-wb2" secondAttribute="bottom" constant="12" id="Kc4-p2-C0Z"/>
+                    <constraint firstItem="iR1-jd-wb2" firstAttribute="top" secondItem="ljG-FS-7rg" secondAttribute="bottom" constant="6" id="NJ5-H9-5qq"/>
+                    <constraint firstAttribute="trailing" secondItem="ljG-FS-7rg" secondAttribute="trailing" id="R70-OY-v3t"/>
+                    <constraint firstItem="ljG-FS-7rg" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="Vg3-uK-oSo"/>
+                    <constraint firstItem="iR1-jd-wb2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="lWq-XE-ubX"/>
                     <constraint firstAttribute="trailing" secondItem="iR1-jd-wb2" secondAttribute="trailing" constant="20" id="zDg-QS-wmf"/>
                 </constraints>
             </view>
