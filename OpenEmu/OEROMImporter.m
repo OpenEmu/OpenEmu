@@ -99,6 +99,8 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
         NSOperation *initializeMOCOp = [NSBlockOperation blockOperationWithBlock:^{
             NSManagedObjectContext *context = [aDatabase makeChildContext];
             context.name = @"OEROMImporter";
+            // An OEDBSystem object's `enabled` property could become out of sync (always enabled=YES) in OEROMImporter child context without this.
+            context.automaticallyMergesChangesFromParent = YES;
             self.context = context;
         }];
         [queue addOperations:@[initializeMOCOp] waitUntilFinished:YES];
