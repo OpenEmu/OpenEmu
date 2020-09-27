@@ -74,16 +74,6 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
 
 @implementation OEGridView
 
-static NSImage *lightingImage;
-
-+ (void)initialize
-{
-    if([self class] != [OEGridView class])
-        return;
-
-    lightingImage = [NSImage imageNamed:@"background_lighting"];
-}
-
 - (instancetype)init
 {
     self = [super init];
@@ -135,8 +125,17 @@ static NSImage *lightingImage;
     _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
     [self addSubview:_fieldEditor];
     
+    [self OE_setupBackgroundLayer];
+}
+
+- (void)OE_setupBackgroundLayer
+{
+    NSAppearance.currentAppearance = self.effectiveAppearance;
+    
+    NSImage *lightingImage = [NSImage imageNamed:@"background_lighting"];
     CALayer *bglayer = [[CALayer alloc] init];
-    [bglayer setContents:lightingImage];
+    CGImageRef resolvedImage = [lightingImage CGImageForProposedRect:NULL context:nil hints:nil];
+    [bglayer setContents:(__bridge id)resolvedImage];
     [self setBackgroundLayer:bglayer];
 }
 
@@ -851,7 +850,7 @@ static NSImage *lightingImage;
     }
 }
 
-#pragma mark -
+#pragma mark - Data Reloading
 
 - (void)reloadCellDataAtIndex:(unsigned long long)arg1
 {
@@ -871,6 +870,14 @@ static NSImage *lightingImage;
         return idx < indexCount;
     }];
     [self setSelectionIndexes:newSelectionIndexes byExtendingSelection:NO];
+}
+
+#pragma mark - Handling appearance changes
+
+- (void)viewDidChangeEffectiveAppearance
+{
+    [self OE_setupBackgroundLayer];
+    [self reloadData];
 }
 
 @end
