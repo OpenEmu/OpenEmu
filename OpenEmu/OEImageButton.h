@@ -25,7 +25,6 @@
  */
 
 @import Foundation;
-#import "OEUIDrawingUtils.h"
 
 @class OECenteredTextFieldCell;
 
@@ -36,7 +35,6 @@
 @interface OEImageButtonCell : NSButtonCell
 
 - (BOOL)displaysHover;
-- (NSRect)imageRectForButtonState:(OEButtonState)state;
 @property(retain, readwrite) NSImage *image;
 @end
 

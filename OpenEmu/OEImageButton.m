@@ -26,6 +26,23 @@
 
 #import "OEImageButton.h"
 
+typedef enum {
+    OEButtonStateSelectedDisabled,
+    OEButtonStateUnselectedDisabled,
+    
+    OEButtonStateSelectedHover,
+    OEButtonStateUnselectedHover,
+    
+    OEButtonStateSelectedPressed,
+    OEButtonStateUnselectedPressed,
+    
+    OEButtonStateSelectedInactive,
+    OEButtonStateUnselectedInactive,
+    
+    OEButtonStateSelectedNormal,
+    OEButtonStateUnselectedNormal
+} OEButtonState;
+
 @implementation OEImageButton
 @synthesize isInHover;
 

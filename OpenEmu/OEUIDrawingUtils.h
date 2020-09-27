@@ -39,19 +39,3 @@ typedef enum {
 	OEUIStateFocusedSelected,
 } OEUIState;
 
-typedef enum {
-	OEButtonStateSelectedDisabled,
-	OEButtonStateUnselectedDisabled,
-	
-	OEButtonStateSelectedHover,
-	OEButtonStateUnselectedHover,
-	
-	OEButtonStateSelectedPressed,
-	OEButtonStateUnselectedPressed,
-	
-	OEButtonStateSelectedInactive,
-	OEButtonStateUnselectedInactive,
-	
-	OEButtonStateSelectedNormal,
-	OEButtonStateUnselectedNormal
-} OEButtonState;
