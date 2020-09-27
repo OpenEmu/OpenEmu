@@ -95,7 +95,7 @@
 
 "Consolidate" = "Raggruppa";
 
-"Consolidating files failed." = "Consolidating files failed."; // TODO
+"Consolidating files failed." = "Raggruppamento file fallito.";
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "I giochi selezionati verranno copiati all'interno della cartella della Libreria di OpenEmu.\n\nQuesta operazione non può essere annullata.";
 
@@ -121,7 +121,7 @@
 
 "Couldn't load %@ plugin" = "Non è stato possibile caricare il plugin %@";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Crea una raccolta di giochi personalizzata. Per aggiungere un gioco alla raccolta, selezionalo nella sua libreria console e trascinalo su \"%@\", nella barra laterale."; // TODO
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Crea una raccolta di giochi personalizzata. Per aggiungere un gioco alla raccolta, selezionalo nella sua libreria console e trascinalo su \"%@\", nella barra laterale.";
 
 "Create Library…" = "Crea una Libreria…";
 
@@ -169,7 +169,7 @@
 
 "Do not show me again" = "Non avvisarmi più";
 
-"Do you really want to cancel importation?" = "Vuoi davvero annullare il processo di importazione?"; // TODO
+"Do you really want to cancel importation?" = "Vuoi davvero annullare il processo di importazione?";
 
 "Do you want to continue playing where you left off?" = "Vuoi riprendere a giocare da dove avevi interrotto?";
 
@@ -511,7 +511,7 @@
 
 "Yes" = "Sì";
 
-"You can't move your library into one of its subfolders." = "Non puoi spostare la Libreria qui!"; // TODO
+"You can't move your library into one of its subfolders." = "Non puoi spostare la Libreria all'interno di sé stessa!";
 
 "You need to restart the application to commit the change" = "Per applicare le modifiche è necessario riavviare l'applicazione";
 

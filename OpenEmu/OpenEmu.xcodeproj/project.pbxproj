@@ -1426,6 +1426,7 @@
 /* Begin PBXFileReference section */
 		010EDCA21CE628490020417C /* OELibraryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OELibraryController.xib; sourceTree = "<group>"; };
 		012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryToolbarDelegate.swift; sourceTree = "<group>"; };
+		015C889125212DC900F4630A /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
 		0162C81A1AFACDE0003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0162C81B1AFACDE1003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0162C81C1AFACDE1003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/ControlLabels.strings; sourceTree = "<group>"; };
@@ -8405,6 +8406,7 @@
 			children = (
 				8F7BFC9723E653E100B1F6C8 /* Base */,
 				8F7BFC9A23E653ED00B1F6C8 /* de */,
+				015C889125212DC900F4630A /* it */,
 			);
 			name = ShaderParameters.xib;
 			sourceTree = "<group>";
