@@ -27,6 +27,13 @@
 @import Foundation;
 #import "OEPreferencePane.h"
 
+extern NSString * const OEAppearancePreferenceKey;
+typedef NS_ENUM(NSInteger, OEAppearancePreferenceValue) {
+    OEAppearancePreferenceValueSystem,
+    OEAppearancePreferenceValueDark,
+    OEAppearancePreferenceValueLight,
+};
+
 @interface OEPrefDebugController : NSViewController <OEPreferencePane>
 @property (weak, nonatomic) IBOutlet NSGridView *contentView;
 @end

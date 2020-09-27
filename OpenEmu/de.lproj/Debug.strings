@@ -118,3 +118,5 @@
 "Clear shader cache" = "Shader-Cache leeren";
 
 "Reveal user shader folder" = "Benutzershader-Ordner anzeigen";
+
+"Appearance" = "Appearance";  // TODO

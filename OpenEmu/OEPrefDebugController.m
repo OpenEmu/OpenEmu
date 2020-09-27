@@ -67,6 +67,8 @@
 
 #import "OpenEmu-Swift.h"
 
+NSString * const OEAppearancePreferenceKey = @"OEAppearance";
+
 @interface OELibraryDatabase (Private)
 - (void)OE_createInitialItems;
 @end
@@ -150,6 +152,11 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Popover(@"Run games using", @selector(changeGameMode:),
                                       Option(@"XPC", NSStringFromClass([OEXPCGameCoreManager class])),
                                       Option(@"Background Thread", NSStringFromClass([OEThreadGameCoreManager class])),
+                                      ),
+                              Popover(@"Appearance", @selector(changeAppAppearance:),
+                                      Option(@"System", @(OEAppearancePreferenceValueSystem)),
+                                      Option(@"Dark (default)", @(OEAppearancePreferenceValueDark)),
+                                      Option(@"Light", @(OEAppearancePreferenceValueLight))
                                       ),
 
                               Group(@"Library Window"),
@@ -252,6 +259,13 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     NSMenuItem *selectedItem = [sender selectedItem];
     [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEGameCoreManagerModePreferenceKey];
 }
+
+- (void)changeAppAppearance:(NSPopUpButton *)sender
+{
+    NSMenuItem *selectedItem = [sender selectedItem];
+    [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEAppearancePreferenceKey];
+}
+
 #pragma mark -
 - (void)resetMainWindow:(id)sender
 {
@@ -980,6 +994,13 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     else if([action isEqualToString:@"changeRegion:"])
     {
         userDefaultsKey = OERegionKey;
+        test = ^BOOL(id obj, id currentValue) {
+            return [[obj representedObject] intValue] == [currentValue intValue];
+        };
+    }
+    else if ([action isEqual:NSStringFromSelector(@selector(changeAppAppearance:))])
+    {
+        userDefaultsKey = OEAppearancePreferenceKey;
         test = ^BOOL(id obj, id currentValue) {
             return [[obj representedObject] intValue] == [currentValue intValue];
         };

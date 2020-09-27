@@ -27,6 +27,7 @@
 import Cocoa
 
 private var allPluginsKVOContext = 0
+private var appearancePrefChangedKVOContext = 0
 
 protocol CachedLastPlayedInfoItem {}
 extension String: CachedLastPlayedInfoItem {}
@@ -143,6 +144,7 @@ class AppDelegate: NSObject {
             OEDBSavedGamesMediaShowsQuickSaves: true,
             OEForcePopoutGameWindowKey: true,
             OEPopoutGameWindowIntegerScalingOnlyKey: true,
+            OEAppearancePreferenceKey: OEAppearancePreferenceValue.dark.rawValue
             ])
         
         #if !DEBUG_PRINT
@@ -555,6 +557,16 @@ class AppDelegate: NSObject {
         
         if context == &allPluginsKVOContext {
             updateInfoPlist()
+        } else if context == &appearancePrefChangedKVOContext {
+            let pref = OEAppearancePreferenceValue(rawValue: UserDefaults.standard.integer(forKey: OEAppearancePreferenceKey))
+            switch pref {
+                case .dark:
+                    NSApp.appearance = NSAppearance(named: .darkAqua)
+                case .light:
+                    NSApp.appearance = NSAppearance(named: .aqua)
+                default:
+                    NSApp.appearance = nil
+            }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
@@ -770,6 +782,8 @@ extension AppDelegate: NSMenuDelegate {
 @objc extension AppDelegate: OpenEmuApplicationDelegateProtocol {
     
     func applicationWillFinishLaunching(_ notification: Notification) {
+        
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.".appending(OEAppearancePreferenceKey), options: [.initial], context: &appearancePrefChangedKVOContext)
         
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter), name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
     }
