@@ -120,3 +120,23 @@
 "Reveal user shader folder" = "Benutzershader-Ordner anzeigen";
 
 "Appearance" = "Appearance";  // TODO
+
+"Auto (region)" = "Auto";  // TODO
+
+"North America" = "North America";  // TODO
+
+"Japan" = "Japan";  // TODO
+
+"Europe" = "Europe";  // TODO
+
+"Other" = "Other";  // TODO
+
+"XPC" = "XPC";  // TODO
+
+"Background Thread" = "Background Thread";  // TODO
+
+"System" = "System";  // TODO
+
+"Dark (default)" = "Dark (default)";  // TODO
+
+"Light" = "Light";  // TODO

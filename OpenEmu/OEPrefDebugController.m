@@ -113,7 +113,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 #define Popover(_LABEL_, _ACTION_, ...)  \
 @{ LabelKey:NSLocalizedStringFromTable(_LABEL_, @"Debug", @"Debug Popover Label"), TypeKey:PopoverType, ActionKey:NSStringFromSelector(_ACTION_), OptionsKey:@[__VA_ARGS__] }
 #define Option(_OLABEL_, _OVAL_) \
-@{ LabelKey:_OLABEL_, ValueKey:_OVAL_ }
+@{ LabelKey:NSLocalizedStringFromTable(_OLABEL_, @"Debug", @"Debug Popover Menu Item Label"), ValueKey:_OVAL_ }
 #define ColorWell(_KEY_, _LABEL_) \
 @{ KeyKey:_KEY_, LabelKey:NSLocalizedStringFromTable(_LABEL_, @"Debug", @"DebugModeLabel"), TypeKey:ColorType }
 #define NumberTextBox(_KEY_, _LABEL_, _FORMATTER_) \
@@ -143,7 +143,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox([OEPreferencesWindowController debugModeKey], @"Debug Mode"),
                               Checkbox(OESetupAssistantHasFinishedKey, @"Setup Assistant has finished"),
                               Popover(@"Region", @selector(changeRegion:),
-                                      Option(@"Auto", @(-1)),
+                                      Option(@"Auto (region)", @(-1)),
                                       Option(@"North America", @0),
                                       Option(@"Japan", @1),
                                       Option(@"Europe", @2),
