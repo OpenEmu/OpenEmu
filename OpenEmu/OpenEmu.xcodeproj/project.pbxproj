@@ -1654,7 +1654,6 @@
 		53439AFC13B92EB9005C0CC8 /* OEScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEScroller.m; sourceTree = "<group>"; };
 		53439B0513B92EEC005C0CC8 /* OEGridViewFieldEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewFieldEditor.h; sourceTree = "<group>"; };
 		53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewFieldEditor.m; sourceTree = "<group>"; };
-		53439B0813B92EF2005C0CC8 /* OEUIDrawingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEUIDrawingUtils.h; sourceTree = "<group>"; };
 		53439B6813B932C5005C0CC8 /* OEPreferencePane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferencePane.h; sourceTree = "<group>"; };
 		53439B6C13B932DB005C0CC8 /* OEPrefLibraryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefLibraryController.h; sourceTree = "<group>"; };
 		53439B6D13B932DB005C0CC8 /* OEPrefLibraryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefLibraryController.m; sourceTree = "<group>"; };
@@ -3801,14 +3800,6 @@
 			name = Controls;
 			sourceTree = "<group>";
 		};
-		53439B0413B92EDC005C0CC8 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				53439B0813B92EF2005C0CC8 /* OEUIDrawingUtils.h */,
-			);
-			name = Utilities;
-			sourceTree = "<group>";
-		};
 		53439B3313B930A9005C0CC8 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
@@ -4046,7 +4037,6 @@
 				012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */,
 				5A9606DB1C0A84BC0089B494 /* LibraryToolbar.swift */,
 				8F3062A3251A894300BDFF1F /* ValidatingToolbarItem.swift */,
-				53439B0413B92EDC005C0CC8 /* Utilities */,
 			);
 			name = Library;
 			sourceTree = "<group>";

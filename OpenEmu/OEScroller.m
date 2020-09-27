@@ -27,7 +27,6 @@
 #define minKnobHeight 20
 
 #import "OEScroller.h"
-#import "OEUIDrawingUtils.h"
 
 #import "OETheme.h"
 #import "OEThemeImage.h"
