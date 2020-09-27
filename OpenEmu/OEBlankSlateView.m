@@ -97,6 +97,8 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 
 - (void)commonBlankSlateInit
 {
+    NSAppearance.currentAppearance = self.effectiveAppearance;
+    
     CALayer *layer = [self layer];
 
     // Setup foreground

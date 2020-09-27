@@ -112,6 +112,8 @@ static NSImage *lightingImage;
 
 - (void)performSetup
 {
+    NSAppearance.currentAppearance = self.effectiveAppearance;
+    
     _editingIndex = NSNotFound;
     _ratingTracking = NSNotFound;
 
@@ -732,6 +734,7 @@ static NSImage *lightingImage;
 
 - (void)drawDragOverlays
 {
+    NSAppearance.currentAppearance = self.effectiveAppearance;
     id <IKRenderer> renderer = [self renderer];
 
     if([self dropOperation] != IKImageBrowserDropBefore) return;
@@ -778,6 +781,7 @@ static NSImage *lightingImage;
 
 - (void)drawGroupsOverlays
 {
+    NSAppearance.currentAppearance = self.effectiveAppearance;
     [super drawGroupsOverlays];
 
     const id <IKRenderer> renderer = [self renderer];
@@ -799,6 +803,8 @@ static NSImage *lightingImage;
 
 - (void)drawGroup:(IKImageBrowserGridGroup*)group withRect:(NSRect)headerRect
 {
+    NSAppearance.currentAppearance = self.effectiveAppearance;
+    
     const CGFloat HeaderLeftBorder  = 14.0;
     const CGFloat HeaderRightBorder = 14.0;
 

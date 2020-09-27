@@ -175,6 +175,8 @@ static NSDictionary *disabledActions = nil;
 #pragma mark - Layers & Images
 - (void)OE_setupLayers
 {
+    NSAppearance.currentAppearance = self.imageBrowserView.effectiveAppearance;
+    
     _foregroundLayer = [CALayer layer];
     [_foregroundLayer setActions:disabledActions];
 
@@ -221,6 +223,8 @@ static NSDictionary *disabledActions = nil;
 
 - (CALayer *)layerForType:(NSString *)type
 {
+    NSAppearance.currentAppearance = self.imageBrowserView.effectiveAppearance;
+    
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
 

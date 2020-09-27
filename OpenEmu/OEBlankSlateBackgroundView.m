@@ -55,6 +55,8 @@
 
 - (void)OE_commonInit
 {
+    NSAppearance.currentAppearance = self.effectiveAppearance;
+    
     const NSRect bounds = [self bounds];
 
     [self setWantsLayer:YES];
