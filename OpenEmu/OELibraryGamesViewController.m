@@ -64,8 +64,6 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
     [self addChildViewController:[self sidebarController]];
     [self addChildViewController:[self collectionController]];
-    
-    [self _updateCollectionContentsFromSidebar:nil];
 }
 
 - (void)viewWillAppear
@@ -73,6 +71,8 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     [super viewWillAppear];
     
     [self _setupToolbar];
+    
+    [self _updateCollectionContentsFromSidebar:nil];
 
     self.view.needsDisplay = YES;
 }

@@ -176,7 +176,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [blankSlateView setDelegate:self];
     [blankSlateView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [blankSlateView registerForDraggedTypes:@[NSPasteboardTypeFileURL]];
-    [blankSlateView setFrame:[[self view] bounds]];
+    [blankSlateView setFrame:[self OE_staticContentRect]];
 
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
     // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
@@ -379,11 +379,32 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
     // Add new subview
     [[self view] addSubview:view];
-    [view setFrame:[[self view] bounds]];
+    if (tag == OEBlankSlateTag) {
+        [view setFrame:[self OE_staticContentRect]];
+    } else {
+        [view setFrame:[self OE_scrollingContentRect]];
+    }
 
     // restore first responder if necessary
     if(makeFirstResponder)
         [[[self view] window] makeFirstResponder:view];
+}
+
+- (NSRect)OE_staticContentRect
+{
+    NSRect frame = self.view.bounds;
+    /* offset down to avoid the title bar */
+    NSRect contentWithoutTitle = self.view.window.contentLayoutRect;
+    NSRect contentWithTitle = self.view.window.contentView.frame;
+    CGFloat titleBarHeight = contentWithTitle.size.height - contentWithoutTitle.size.height;
+    frame.size.height -= titleBarHeight;
+    return frame;
+}
+
+- (NSRect)OE_scrollingContentRect
+{
+    /* scroll views can stay under the title bar for eye candy */
+    return self.view.bounds;
 }
 
 - (void)OE_setupToolbarStatesForViewTag:(OECollectionViewControllerViewTag)tag
