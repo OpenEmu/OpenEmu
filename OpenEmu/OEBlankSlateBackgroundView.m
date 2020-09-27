@@ -29,6 +29,9 @@
 @import QuartzCore;
 
 @interface OEBlankSlateBackgroundView () <CALayoutManager, CALayerDelegate>
+
+@property (nonatomic) CALayer *lightingLayer;
+
 @end
 
 @implementation OEBlankSlateBackgroundView
@@ -71,17 +74,33 @@
     [layer setContentsGravity:kCAGravityResize];
 
     // Setup background lighting
-    CALayer *lightingLayer = [CALayer layer];
-    [lightingLayer setFrame:bounds];
-    [lightingLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
-    [lightingLayer setContents:[NSImage imageNamed:@"background_lighting"]];
-    [layer addSublayer:lightingLayer];
+    [self OE_setupBackgroundLighting];
 
     // Setup noise
     CALayer *noiseLayer = [CALayer layer];
     [noiseLayer setBackgroundColor:OEBackgroundNoiseColorRef];
     [noiseLayer setDelegate:self];
     [layer addSublayer:noiseLayer];
+}
+
+- (void)OE_setupBackgroundLighting
+{
+    NSAppearance.currentAppearance = self.effectiveAppearance;
+    
+    CALayer *lightingLayer = [CALayer layer];
+    [lightingLayer setFrame:self.bounds];
+    [lightingLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+    
+    NSImage *image = [NSImage imageNamed:@"background_lighting"];
+    CGImageRef resolvedImage = [image CGImageForProposedRect:NULL context:nil hints:nil];
+    [lightingLayer setContents:(__bridge id)resolvedImage];
+    
+    if (self.lightingLayer) {
+        [self.layer replaceSublayer:self.lightingLayer with:lightingLayer];
+    } else {
+        [self.layer addSublayer:lightingLayer];
+    }
+    self.lightingLayer = lightingLayer;
 }
 
 - (void)layoutSublayersOfLayer:(CALayer *)theLayer
@@ -123,5 +142,11 @@
     return YES;
 }
 
+#pragma mark - Handling appearance changes
+
+- (void)viewDidChangeEffectiveAppearance
+{
+    [self OE_setupBackgroundLighting];
+}
 
 @end
