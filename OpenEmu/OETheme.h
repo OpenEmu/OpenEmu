@@ -27,10 +27,8 @@
 @import Foundation;
 #import "OEThemeObject.h"
 
-@class OEThemeColor;
 @class OEThemeTextAttributes;
 @class OEThemeImage;
-@class OEThemeGradient;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -44,17 +42,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (class, readonly) OETheme *sharedTheme;
 
-- (OEThemeColor *)themeColorForKey:(NSString *)key;
-- (NSColor *)colorForKey:(NSString *)key forState:(OEThemeState)state;
-
 - (OEThemeTextAttributes *)themeTextAttributesForKey:(NSString *)key;
 - (NSDictionary *)textAttributesForKey:(NSString *)key forState:(OEThemeState)state;
 
 - (OEThemeImage *)themeImageForKey:(NSString *)key;
 - (NSImage *)imageForKey:(NSString *)key forState:(OEThemeState)state;
-
-- (OEThemeGradient *)themeGradientForKey:(NSString *)key;
-- (NSGradient *)gradientForKey:(NSString *)key forState:(OEThemeState)state;
 
 @end
 

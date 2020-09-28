@@ -275,9 +275,7 @@
 		53439AE613B92E59005C0CC8 /* OETableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AE013B92E59005C0CC8 /* OETableHeaderView.m */; };
 		53439AE713B92E59005C0CC8 /* OETableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AE213B92E59005C0CC8 /* OETableView.m */; };
 		53439AEB13B92E91005C0CC8 /* OELibrarySplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AEA13B92E91005C0CC8 /* OELibrarySplitView.m */; };
-		53439AF713B92EAD005C0CC8 /* OESlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AF613B92EAD005C0CC8 /* OESlider.m */; };
 		53439AFA13B92EB3005C0CC8 /* OEImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AF913B92EB3005C0CC8 /* OEImageButton.m */; };
-		53439AFD13B92EB9005C0CC8 /* OEScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AFC13B92EB9005C0CC8 /* OEScroller.m */; };
 		53439B0713B92EEC005C0CC8 /* OEGridViewFieldEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */; };
 		53439B6E13B932DB005C0CC8 /* OEPrefLibraryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B6D13B932DB005C0CC8 /* OEPrefLibraryController.m */; };
 		53439B7113B932ED005C0CC8 /* OEPrefGameplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7013B932ED005C0CC8 /* OEPrefGameplayController.m */; };
@@ -345,14 +343,10 @@
 		83199722142741790068C865 /* OEROMImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* OEROMImporter.m */; };
 		831C9AAD160095BA00038D0D /* OETheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AAC160095BA00038D0D /* OETheme.m */; };
 		831C9AB0160095E500038D0D /* OEThemeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AAF160095E500038D0D /* OEThemeObject.m */; };
-		831C9AB9160095F800038D0D /* OEThemeColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB2160095F800038D0D /* OEThemeColor.m */; };
-		831C9ABA160095F800038D0D /* OEThemeGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB4160095F800038D0D /* OEThemeGradient.m */; };
 		831C9ABB160095F800038D0D /* OEThemeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB6160095F800038D0D /* OEThemeImage.m */; };
 		831C9ABC160095F800038D0D /* OEThemeTextAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB8160095F800038D0D /* OEThemeTextAttributes.m */; };
 		831C9AD61600971600038D0D /* OEButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AD31600971600038D0D /* OEButton.m */; };
 		831C9AD71600971600038D0D /* OEButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AD51600971600038D0D /* OEButtonCell.m */; };
-		831C9ADC1600973B00038D0D /* OEPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AD91600973B00038D0D /* OEPopUpButton.m */; };
-		831C9ADD1600973B00038D0D /* OEPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9ADB1600973B00038D0D /* OEPopUpButtonCell.m */; };
 		8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8328D9E413C75CAE0026D2A7 /* OEDBImage.m */; };
 		832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */; };
 		832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D293F1451A68700BDF950 /* OEMainWindowController.m */; };
@@ -371,7 +365,6 @@
 		836291FE1515F30700192116 /* OEFSWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 836291FD1515F30700192116 /* OEFSWatcher.m */; };
 		83633447195D798600470AB8 /* OEDBScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 83633446195D798600470AB8 /* OEDBScreenshot.m */; };
 		8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363A439193CBAFA00F18425 /* OEGridMediaItemCell.m */; };
-		836AEA6E19755FE300B86935 /* OEOutlinedButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA6D19755FE300B86935 /* OEOutlinedButtonCell.m */; };
 		836AEA711975BFE100B86935 /* OEGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA701975BFE100B86935 /* OEGridCell.m */; };
 		836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */; };
 		836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9591853817500B6AF26 /* OEGameInfoHelper.m */; };
@@ -394,7 +387,6 @@
 		837964FA1A614C6A00A8DE5C /* Supervision.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 837964E11A6149C000A8DE5C /* Supervision.oesystemplugin */; };
 		838E2A231600A05C00CF7198 /* Theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 838E2A221600A05C00CF7198 /* Theme.plist */; };
 		839310BC147802380020058E /* OECoreDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 839310BB147802380020058E /* OECoreDownload.m */; };
-		8394074D1778AE4F00669B0B /* OESliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8394074C1778AE4F00669B0B /* OESliderCell.m */; };
 		83955CB5165D939100572B34 /* OEBlankSlateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB4165D939100572B34 /* OEBlankSlateView.m */; };
 		83955CB8165DA9BC00572B34 /* OEBackgroundNoisePattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */; };
 		8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */; };
@@ -425,7 +417,6 @@
 		83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */; };
 		83DC1FCD147085C800F3D77A /* controller_gba.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DC1FCA1470857900F3D77A /* controller_gba.png */; };
 		83DDEE87156CE2F0009EB43D /* OEFadeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE86156CE2F0009EB43D /* OEFadeView.m */; };
-		83DEE4A4162D62E4005D8AD7 /* OEProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */; };
 		83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83DEF7C3196C403400C7DF57 /* ControlLabels.strings */; };
 		83E89274197471F8004D4489 /* OEHomebrewCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E89273197471F8004D4489 /* OEHomebrewCoverView.m */; };
 		83E8927A19748C20004D4489 /* NS(Attributed)String+Geometrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */; };
@@ -1655,12 +1646,8 @@
 		53439AE213B92E59005C0CC8 /* OETableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableView.m; sourceTree = "<group>"; };
 		53439AE913B92E91005C0CC8 /* OELibrarySplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibrarySplitView.h; sourceTree = "<group>"; };
 		53439AEA13B92E91005C0CC8 /* OELibrarySplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibrarySplitView.m; sourceTree = "<group>"; };
-		53439AF513B92EAD005C0CC8 /* OESlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESlider.h; sourceTree = "<group>"; };
-		53439AF613B92EAD005C0CC8 /* OESlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESlider.m; sourceTree = "<group>"; };
 		53439AF813B92EB3005C0CC8 /* OEImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEImageButton.h; sourceTree = "<group>"; };
 		53439AF913B92EB3005C0CC8 /* OEImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEImageButton.m; sourceTree = "<group>"; };
-		53439AFB13B92EB9005C0CC8 /* OEScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEScroller.h; sourceTree = "<group>"; };
-		53439AFC13B92EB9005C0CC8 /* OEScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEScroller.m; sourceTree = "<group>"; };
 		53439B0513B92EEC005C0CC8 /* OEGridViewFieldEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewFieldEditor.h; sourceTree = "<group>"; };
 		53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewFieldEditor.m; sourceTree = "<group>"; };
 		53439B6813B932C5005C0CC8 /* OEPreferencePane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferencePane.h; sourceTree = "<group>"; };
@@ -1781,10 +1768,6 @@
 		831C9AAC160095BA00038D0D /* OETheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETheme.m; sourceTree = "<group>"; };
 		831C9AAE160095E500038D0D /* OEThemeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThemeObject.h; sourceTree = "<group>"; };
 		831C9AAF160095E500038D0D /* OEThemeObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThemeObject.m; sourceTree = "<group>"; };
-		831C9AB1160095F800038D0D /* OEThemeColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThemeColor.h; sourceTree = "<group>"; };
-		831C9AB2160095F800038D0D /* OEThemeColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThemeColor.m; sourceTree = "<group>"; };
-		831C9AB3160095F800038D0D /* OEThemeGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThemeGradient.h; sourceTree = "<group>"; };
-		831C9AB4160095F800038D0D /* OEThemeGradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThemeGradient.m; sourceTree = "<group>"; };
 		831C9AB5160095F800038D0D /* OEThemeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThemeImage.h; sourceTree = "<group>"; };
 		831C9AB6160095F800038D0D /* OEThemeImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThemeImage.m; sourceTree = "<group>"; };
 		831C9AB7160095F800038D0D /* OEThemeTextAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThemeTextAttributes.h; sourceTree = "<group>"; };
@@ -1795,10 +1778,6 @@
 		831C9AD31600971600038D0D /* OEButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEButton.m; sourceTree = "<group>"; };
 		831C9AD41600971600038D0D /* OEButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEButtonCell.h; sourceTree = "<group>"; };
 		831C9AD51600971600038D0D /* OEButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEButtonCell.m; sourceTree = "<group>"; };
-		831C9AD81600973B00038D0D /* OEPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPopUpButton.h; sourceTree = "<group>"; };
-		831C9AD91600973B00038D0D /* OEPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPopUpButton.m; sourceTree = "<group>"; };
-		831C9ADA1600973B00038D0D /* OEPopUpButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPopUpButtonCell.h; sourceTree = "<group>"; };
-		831C9ADB1600973B00038D0D /* OEPopUpButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPopUpButtonCell.m; sourceTree = "<group>"; };
 		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OEDBImage.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OEDBImage.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.0.xcdatamodel"; sourceTree = "<group>"; };
@@ -1839,8 +1818,6 @@
 		8363A43B193CBB7700F18425 /* IKImageBrowserCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserCell.h; sourceTree = "<group>"; };
 		8363A43C193CC1BF00F18425 /* OECollectionViewItemProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OECollectionViewItemProtocol.h; sourceTree = "<group>"; };
 		8363A440193CF41200F18425 /* IKOpenGLRoundedRectRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKOpenGLRoundedRectRenderer.h; sourceTree = "<group>"; };
-		836AEA6C19755FE300B86935 /* OEOutlinedButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOutlinedButtonCell.h; sourceTree = "<group>"; };
-		836AEA6D19755FE300B86935 /* OEOutlinedButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOutlinedButtonCell.m; sourceTree = "<group>"; };
 		836AEA6F1975BFE100B86935 /* OEGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridCell.h; sourceTree = "<group>"; };
 		836AEA701975BFE100B86935 /* OEGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridCell.m; sourceTree = "<group>"; };
 		836BC9551853815A00B6AF26 /* OESQLiteDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESQLiteDatabase.h; sourceTree = "<group>"; };
@@ -1881,8 +1858,6 @@
 		839310BA147802380020058E /* OECoreDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreDownload.h; sourceTree = "<group>"; };
 		839310BB147802380020058E /* OECoreDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreDownload.m; sourceTree = "<group>"; };
 		8393FD33195D71B50021D3D9 /* OEDatabase 1.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.3.xcdatamodel"; sourceTree = "<group>"; };
-		8394074B1778AE4F00669B0B /* OESliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESliderCell.h; sourceTree = "<group>"; };
-		8394074C1778AE4F00669B0B /* OESliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESliderCell.m; sourceTree = "<group>"; };
 		83955CB3165D939100572B34 /* OEBlankSlateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBlankSlateView.h; sourceTree = "<group>"; };
 		83955CB4165D939100572B34 /* OEBlankSlateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateView.m; sourceTree = "<group>"; };
 		83955CB6165DA9B100572B34 /* OEBackgroundNoisePattern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEBackgroundNoisePattern.h; sourceTree = "<group>"; };
@@ -1934,8 +1909,6 @@
 		83DC1FCA1470857900F3D77A /* controller_gba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gba.png; sourceTree = "<group>"; };
 		83DDEE85156CE2F0009EB43D /* OEFadeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFadeView.h; sourceTree = "<group>"; };
 		83DDEE86156CE2F0009EB43D /* OEFadeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFadeView.m; sourceTree = "<group>"; };
-		83DEE4A2162D62E4005D8AD7 /* OEProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEProgressIndicator.h; sourceTree = "<group>"; };
-		83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEProgressIndicator.m; sourceTree = "<group>"; };
 		83DEF7C2196C403400C7DF57 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ControlLabels.strings; sourceTree = "<group>"; };
 		83DEF7C4196C403700C7DF57 /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ControlLabels.strings; sourceTree = "<group>"; };
 		83E89272197471F8004D4489 /* OEHomebrewCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHomebrewCoverView.h; sourceTree = "<group>"; };
@@ -3074,16 +3047,17 @@
 			path = OEAlertTest;
 			sourceTree = "<group>";
 		};
-		01E2A2F123E6027900194150 /* Other Custom Controls */ = {
+		01E2A2F123E6027900194150 /* Custom Controls */ = {
 			isa = PBXGroup;
 			children = (
+				8337F38D1726B3600068DD90 /* BackgroundImageView.swift */,
 				8F2F92A92519A9E700699691 /* GameScannerButton.swift */,
 				8FAF069A251FB02700EDB247 /* HoverButton.swift */,
 				8F0D804824ED7F14001BD8E2 /* Label.swift */,
 				5A3BB0371D964A4500E10F27 /* OECenteredTextFieldCell.h */,
 				5A3BB0381D964A4500E10F27 /* OECenteredTextFieldCell.m */,
 			);
-			name = "Other Custom Controls";
+			name = "Custom Controls";
 			sourceTree = "<group>";
 		};
 		051A6F3923CFEFDD007B7C4F /* Main Window V2 */ = {
@@ -3914,7 +3888,7 @@
 				829165DA0E85F9A400493FD8 /* Graphics */,
 				831C9AAA1600957100038D0D /* Theme Engine */,
 				831C9ABD1600962100038D0D /* Theme Controls */,
-				01E2A2F123E6027900194150 /* Other Custom Controls */,
+				01E2A2F123E6027900194150 /* Custom Controls */,
 				1EA44138119762EA001D71CA /* QuickLook */,
 				83B6E444143E1BBD00BCDB7A /* Utilities */,
 				14F6A92A168184550071386D /* Game Document */,
@@ -3989,14 +3963,10 @@
 				831C9AAC160095BA00038D0D /* OETheme.m */,
 				831C9AAE160095E500038D0D /* OEThemeObject.h */,
 				831C9AAF160095E500038D0D /* OEThemeObject.m */,
-				831C9AB1160095F800038D0D /* OEThemeColor.h */,
-				831C9AB2160095F800038D0D /* OEThemeColor.m */,
 				831C9AB7160095F800038D0D /* OEThemeTextAttributes.h */,
 				831C9AB8160095F800038D0D /* OEThemeTextAttributes.m */,
 				831C9AB5160095F800038D0D /* OEThemeImage.h */,
 				831C9AB6160095F800038D0D /* OEThemeImage.m */,
-				831C9AB3160095F800038D0D /* OEThemeGradient.h */,
-				831C9AB4160095F800038D0D /* OEThemeGradient.m */,
 			);
 			name = "Theme Engine";
 			sourceTree = "<group>";
@@ -4006,19 +3976,9 @@
 			children = (
 				831C9ABE1600965100038D0D /* OECell.h */,
 				831C9ABF1600965100038D0D /* OEControl.h */,
-				831C9ACD160096D400038D0D /* Containers */,
 				831C9AD1160096EF00038D0D /* Buttons */,
-				83DEE4A1162D62C2005D8AD7 /* Other Controls */,
 			);
 			name = "Theme Controls";
-			sourceTree = "<group>";
-		};
-		831C9ACD160096D400038D0D /* Containers */ = {
-			isa = PBXGroup;
-			children = (
-				8337F38D1726B3600068DD90 /* BackgroundImageView.swift */,
-			);
-			name = Containers;
 			sourceTree = "<group>";
 		};
 		831C9AD1160096EF00038D0D /* Buttons */ = {
@@ -4026,8 +3986,6 @@
 			children = (
 				831C9AD21600971600038D0D /* OEButton.h */,
 				831C9AD31600971600038D0D /* OEButton.m */,
-				831C9AD81600973B00038D0D /* OEPopUpButton.h */,
-				831C9AD91600973B00038D0D /* OEPopUpButton.m */,
 				831C9ADE1600973F00038D0D /* Button Cells */,
 			);
 			name = Buttons;
@@ -4038,10 +3996,6 @@
 			children = (
 				831C9AD41600971600038D0D /* OEButtonCell.h */,
 				831C9AD51600971600038D0D /* OEButtonCell.m */,
-				831C9ADA1600973B00038D0D /* OEPopUpButtonCell.h */,
-				831C9ADB1600973B00038D0D /* OEPopUpButtonCell.m */,
-				836AEA6C19755FE300B86935 /* OEOutlinedButtonCell.h */,
-				836AEA6D19755FE300B86935 /* OEOutlinedButtonCell.m */,
 			);
 			name = "Button Cells";
 			sourceTree = "<group>";
@@ -4166,15 +4120,6 @@
 			name = Preferences;
 			sourceTree = "<group>";
 		};
-		8394074A1778AE3A00669B0B /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				8394074B1778AE4F00669B0B /* OESliderCell.h */,
-				8394074C1778AE4F00669B0B /* OESliderCell.m */,
-			);
-			name = Cells;
-			sourceTree = "<group>";
-		};
 		83955CB9165DAE7900572B34 /* Blank Slate View */ = {
 			isa = PBXGroup;
 			children = (
@@ -4225,20 +4170,6 @@
 				5A575DFC1E92D23600491B0D /* Cheats.swift */,
 			);
 			name = Utilities;
-			sourceTree = "<group>";
-		};
-		83DEE4A1162D62C2005D8AD7 /* Other Controls */ = {
-			isa = PBXGroup;
-			children = (
-				53439AF513B92EAD005C0CC8 /* OESlider.h */,
-				53439AF613B92EAD005C0CC8 /* OESlider.m */,
-				8394074A1778AE3A00669B0B /* Cells */,
-				83DEE4A2162D62E4005D8AD7 /* OEProgressIndicator.h */,
-				83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */,
-				53439AFB13B92EB9005C0CC8 /* OEScroller.h */,
-				53439AFC13B92EB9005C0CC8 /* OEScroller.m */,
-			);
-			name = "Other Controls";
 			sourceTree = "<group>";
 		};
 		83F444FA196CA207007E8C63 /* Homebrew */ = {
@@ -7546,13 +7477,11 @@
 				53439AE713B92E59005C0CC8 /* OETableView.m in Sources */,
 				53439AEB13B92E91005C0CC8 /* OELibrarySplitView.m in Sources */,
 				8F58592F24F4340D009B8502 /* HomebrewOutlinedButton.swift in Sources */,
-				53439AF713B92EAD005C0CC8 /* OESlider.m in Sources */,
 				5A9606D21C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift in Sources */,
 				5AFD06BD2058893B00DFE765 /* GameScannerViewController.swift in Sources */,
 				8F1482FB24EABEAB006E79DB /* HomebrewLabels.swift in Sources */,
 				53439AFA13B92EB3005C0CC8 /* OEImageButton.m in Sources */,
 				8370D3E11A8D2A7600313F87 /* OEArrowCursorTextView.m in Sources */,
-				53439AFD13B92EB9005C0CC8 /* OEScroller.m in Sources */,
 				53439B0713B92EEC005C0CC8 /* OEGridViewFieldEditor.m in Sources */,
 				05410EE722F690E200303424 /* OEShaderParametersWindowController.m in Sources */,
 				83E8927D197490B3004D4489 /* OEDisabledScrollView.m in Sources */,
@@ -7619,8 +7548,6 @@
 				5A438A1B1D89AEB60061A47C /* OpenEmuApplication.swift in Sources */,
 				5A44301C1D93380600E54F1D /* OEBuildInfo.m in Sources */,
 				831C9AB0160095E500038D0D /* OEThemeObject.m in Sources */,
-				831C9AB9160095F800038D0D /* OEThemeColor.m in Sources */,
-				831C9ABA160095F800038D0D /* OEThemeGradient.m in Sources */,
 				8F2F92AA2519A9E700699691 /* GameScannerButton.swift in Sources */,
 				8F80217C24F45E6700DC82E3 /* ControlsPopUpButton.swift in Sources */,
 				5AC349311D89E4EB0089B26F /* NSDocumentController+Additions.swift in Sources */,
@@ -7635,9 +7562,7 @@
 				0544B68923D14E6300F63D61 /* SidebarController.swift in Sources */,
 				83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */,
 				5A79F7951C15F542003124D5 /* PreferencesWindowController.swift in Sources */,
-				831C9ADC1600973B00038D0D /* OEPopUpButton.m in Sources */,
 				83E8927A19748C20004D4489 /* NS(Attributed)String+Geometrics.m in Sources */,
-				831C9ADD1600973B00038D0D /* OEPopUpButtonCell.m in Sources */,
 				C6F738FC1617FF2B00BB2519 /* OEUtilities.m in Sources */,
 				05E789A723D01B16000E14EE /* GameDocumentController.swift in Sources */,
 				5A886E581BF43AC900775123 /* NSWindow+Image.swift in Sources */,
@@ -7646,7 +7571,6 @@
 				8F3062A4251A894300BDFF1F /* ValidatingToolbarItem.swift in Sources */,
 				836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */,
 				0544B6A923D16DDC00F63D61 /* ScreenshotViewController.swift in Sources */,
-				83DEE4A4162D62E4005D8AD7 /* OEProgressIndicator.m in Sources */,
 				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,
 				14F8750D1649377E002AE3B8 /* OEFiniteStateMachine.m in Sources */,
 				5A575DFB1E92B6CE00491B0D /* BIOSFile.swift in Sources */,
@@ -7672,11 +7596,9 @@
 				14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */,
 				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,
 				0544B69723D16D0C00F63D61 /* ImageCacheService.swift in Sources */,
-				836AEA6E19755FE300B86935 /* OEOutlinedButtonCell.m in Sources */,
 				83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */,
 				837820BD19081A090043593F /* OELibraryMigrator.m in Sources */,
 				8337F38E1726B3600068DD90 /* BackgroundImageView.swift in Sources */,
-				8394074D1778AE4F00669B0B /* OESliderCell.m in Sources */,
 				94A4E98D179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m in Sources */,
 				5A3DB1731D8CA752009445EC /* BackgroundGradientView.swift in Sources */,
 				94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.m in Sources */,

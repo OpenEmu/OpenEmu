@@ -11,7 +11,6 @@
 
 #import "OEButton.h"
 #import "OEButtonCell.h"
-#import "OESlider.h"
 #import "OESearchField.h"
 
 #import "OEPreferencePane.h"

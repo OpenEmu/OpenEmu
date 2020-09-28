@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Colors</key>
-	<dict/>
 	<key>Fonts</key>
 	<dict>
 		<key>about_github_link</key>
@@ -278,26 +276,6 @@
 			<key>Weight</key>
 			<real>3</real>
 		</dict>
-		<key>gloss_checkbox</key>
-		<dict>
-			<key>Color</key>
-			<string>rgb(227,227,227)</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>1</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,0.4)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>11</integer>
-			<key>Traits</key>
-			<string>Bold</string>
-		</dict>
 		<key>open_weblink</key>
 		<dict>
 			<key>Family</key>
@@ -322,108 +300,6 @@
 					<string>white</string>
 				</dict>
 			</dict>
-		</dict>
-		<key>preferences_wood_text</key>
-		<dict>
-			<key>Color</key>
-			<string>black</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>1</integer>
-				<key>Color</key>
-				<string>rgba(255,255,255,0.25)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>11</integer>
-			<key>Weight</key>
-			<real>0.2</real>
-		</dict>
-		<key>wood_popup_button</key>
-		<dict>
-			<key>Color</key>
-			<string>black</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>1</integer>
-				<key>Color</key>
-				<string>rgba(255,255,255,0.25)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>11</integer>
-			<key>Weight</key>
-			<string>0.4</string>
-			<key>Baseline Offset</key>
-			<integer>-2</integer>
-		</dict>
-		<key>homebrew_headline</key>
-		<dict>
-			<key>Color</key>
-			<string>#eff3fd</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>0</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,1)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>18</integer>
-			<key>Weight</key>
-			<real>0.2</real>
-		</dict>
-		<key>homebrew_gamename</key>
-		<dict>
-			<key>Color</key>
-			<string>#eff3fd</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>0</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,1)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>16</integer>
-			<key>Weight</key>
-			<real>0.2</real>
-		</dict>
-		<key>feature_gamename</key>
-		<dict>
-			<key>Color</key>
-			<string>#eff3fd</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>0</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,1)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>14</integer>
-			<key>Weight</key>
-			<real>0.1</real>
 		</dict>
 		<key>homebrew_developer</key>
 		<dict>
@@ -461,122 +337,9 @@
 				</dict>
 			</dict>
 		</dict>
-		<key>homebrew_button</key>
-		<dict>
-			<key>Color</key>
-			<string>rgba(127,127,127,1.0)</string>
-			<key>Family</key>
-			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>0</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,1)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
-			<key>Size</key>
-			<integer>12</integer>
-			<key>Weight</key>
-			<real>0.2</real>
-		</dict>
 	</dict>
-	<key>Gradients</key>
-	<dict/>
 	<key>Images</key>
 	<dict>
-		<key>wood_track_vertical</key>
-		<dict>
-			<key>Resource</key>
-			<string>wood_track_vertical</string>
-			<key>States</key>
-			<dict>
-				<key>Window Inactive</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {15, 10}}</string>
-						<string>{{0, 10}, {15, 1}}</string>
-						<string>{{0, 11}, {15, 10}}</string>
-					</array>
-					<key>Vertical</key>
-					<true/>
-				</dict>
-				<key>Window Active</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{15, 0}, {15, 10}}</string>
-						<string>{{15, 10}, {15, 1}}</string>
-						<string>{{15, 11}, {15, 10}}</string>
-					</array>
-					<key>Vertical</key>
-					<true/>
-				</dict>
-			</dict>
-		</dict>
-		<key>wood_knob_vertical</key>
-		<dict>
-			<key>Resource</key>
-			<string>wood_knob_vertical</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<dict>
-					<key>Vertical</key>
-					<true/>
-					<key>Parts</key>
-					<array>
-						<string>{{0, 0}, {13, 17}}</string>
-						<string>{{0, 17}, {13, 1}}</string>
-						<string>{{0, 18}, {13, 17}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
-		<key>grid_slider_large</key>
-		<dict>
-			<key>Resource</key>
-			<string>grid_slider_large</string>
-			<key>States</key>
-			<dict>
-				<key>Window Active, Enabled</key>
-				<string>{{0, 0}, {10, 10}}</string>
-				<key>Window Inactive</key>
-				<string>{{10, 0}, {10, 10}}</string>
-				<key>Disabled</key>
-				<string>{{10, 0}, {10, 10}}</string>
-			</dict>
-		</dict>
-		<key>grid_slider_small</key>
-		<dict>
-			<key>Resource</key>
-			<string>grid_slider_small</string>
-			<key>States</key>
-			<dict>
-				<key>Window Active, Enabled</key>
-				<string>{{0, 0}, {7, 7}}</string>
-				<key>Window Inactive</key>
-				<string>{{7, 0}, {7, 7}}</string>
-				<key>Disabled</key>
-				<string>{{7, 0}, {7, 7}}</string>
-			</dict>
-		</dict>
-		<key>controls_triangle</key>
-		<dict>
-			<key>Resource</key>
-			<string>controls_triangle</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{0,0},{10,10}}</string>
-				<key>Toggle Off</key>
-				<string>{{0,0},{10,10}}</string>
-				<key>Toggle On</key>
-				<string>{{0,10},{10,10}}</string>
-			</dict>
-		</dict>
 		<key>game_scanner_fix_issues</key>
 		<dict>
 			<key>Resource</key>
@@ -589,87 +352,6 @@
 				<string>{{0,20},{20,20}}</string>
 				<key>Mouse Over, Pressed</key>
 				<string>{{0,40},{20,20}}</string>
-			</dict>
-		</dict>
-		<key>game_scanner_progress_bar</key>
-		<dict>
-			<key>Resource</key>
-			<string>game_scanner_progress_bar</string>
-			<key>States</key>
-			<dict>
-				<key>Toggle Off</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0,12},{2,12}}</string>
-						<string>{{2,12},{1,12}}</string>
-						<string>{{3,12},{2,12}}</string>
-					</array>
-				</dict>
-				<key>Toggle On</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0,0},{2,12}}</string>
-						<string>{{2,0},{1,12}}</string>
-						<string>{{3,0},{2,12}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
-		<key>game_scanner_progress_candy</key>
-		<dict>
-			<key>Resource</key>
-			<string>game_scanner_progress_candy</string>
-			<key>States</key>
-			<dict>
-				<key>Toggle Off</key>
-				<string>{{0,10},{10,10}}</string>
-				<key>Toggle On</key>
-				<string>{{0,0},{10,10}}</string>
-			</dict>
-		</dict>
-		<key>game_scanner_progress_track_background</key>
-		<dict>
-			<key>Resource</key>
-			<string>game_scanner_progress_track</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0,0},{5,13}}</string>
-						<string>{{5,0},{1,13}}</string>
-						<string>{{6,0},{5,13}}</string>
-					</array>
-				</dict>
-			</dict>
-		</dict>
-		<key>game_scanner_toggle_pause_cancel</key>
-		<dict>
-			<key>Resource</key>
-			<string>game_scanner_buttons</string>
-			<key>States</key>
-			<dict>
-				<key>Alternate</key>
-				<string>{{0,50},{25,25}}</string>
-				<key>Alternate, Mouse Over</key>
-				<string>{{25,50},{25,25}}</string>
-				<key>Alternate, Mouse Over, Pressed</key>
-				<string>{{50,50},{25,25}}</string>
-				<key>Toggle Off</key>
-				<string>{{0,0},{25,25}}</string>
-				<key>Toggle Off, Mouse Over</key>
-				<string>{{25,0},{25,25}}</string>
-				<key>Toggle Off, Mouse Over, Pressed</key>
-				<string>{{50,0},{25,25}}</string>
-				<key>Toggle On</key>
-				<string>{{0,25},{25,25}}</string>
-				<key>Toggle On, Mouse Over</key>
-				<string>{{25,25},{25,25}}</string>
-				<key>Toggle On, Mouse Over, Pressed</key>
-				<string>{{50,25},{25,25}}</string>
 			</dict>
 		</dict>
 		<key>gloss_button_background</key>
@@ -793,74 +475,6 @@
 						<string>{{46,138},{5,23}}</string>
 					</array>
 				</dict>
-			</dict>
-		</dict>
-		<key>gloss_checkbox</key>
-		<dict>
-			<key>Resource</key>
-			<string>gloss_checkbox</string>
-			<key>States</key>
-			<dict>
-				<key>Toggle Off</key>
-				<string>{{0,0},{16,16}}</string>
-				<key>Toggle Off, Pressed</key>
-				<string>{{16,0},{16,16}}</string>
-				<key>Toggle Off, Window Inactive</key>
-				<string>{{0,32},{16,16}}</string>
-				<key>Toggle On</key>
-				<string>{{0,16},{16,16}}</string>
-				<key>Toggle On, Pressed</key>
-				<string>{{16,16},{16,16}}</string>
-				<key>Toggle On, Window Inactive</key>
-				<string>{{16,32},{16,16}}</string>
-			</dict>
-		</dict>
-		<key>grid_slider</key>
-		<dict>
-			<key>Resource</key>
-			<string>grid_slider_thumb</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{0,0}, {13, 14}}</string>
-				<key>Window Active, Disabled</key>
-				<string>{{13,0}, {13, 14}}</string>
-				<key>Window Active, Enabled</key>
-				<string>{{0,0}, {13, 14}}</string>
-				<key>Window Inactive</key>
-				<string>{{13,0}, {13, 14}}</string>
-			</dict>
-		</dict>
-		<key>grid_slider_background</key>
-		<dict>
-			<key>Resource</key>
-			<string>grid_slider_track</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<array>
-					<string>{{0,0}, {4, 6}}</string>
-					<string>{{4,0}, {1, 6}}</string>
-					<string>{{5,0}, {4, 6}}</string>
-				</array>
-				<key>Window Active, Disabled</key>
-				<array>
-					<string>{{0,6}, {4, 6}}</string>
-					<string>{{4,6}, {1, 6}}</string>
-					<string>{{5,6}, {4, 6}}</string>
-				</array>
-				<key>Window Active, Enabled</key>
-				<array>
-					<string>{{0,0}, {4, 6}}</string>
-					<string>{{4,0}, {1, 6}}</string>
-					<string>{{5,0}, {4, 6}}</string>
-				</array>
-				<key>Window Inactive</key>
-				<array>
-					<string>{{0,6}, {4, 6}}</string>
-					<string>{{4,6}, {1, 6}}</string>
-					<string>{{5,6}, {4, 6}}</string>
-				</array>
 			</dict>
 		</dict>
 		<key>hud_button_fullscreen</key>
@@ -1025,44 +639,6 @@
 				<string>{{13,0},{16, 18}}</string>
 			</dict>
 		</dict>
-		<key>hud_slider</key>
-		<dict>
-			<key>Resource</key>
-			<string>hud_slider_thumb</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<string>{{0,0}, {16, 16}}</string>
-			</dict>
-		</dict>
-		<key>hud_slider_background</key>
-		<dict>
-			<key>Resource</key>
-			<string>hud_slider_track</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<array>
-					<string>{{0,0}, {4, 6}}</string>
-					<string>{{4,0}, {1, 6}}</string>
-					<string>{{5,0}, {4, 6}}</string>
-				</array>
-			</dict>
-		</dict>
-		<key>hud_slider_level</key>
-		<dict>
-			<key>Resource</key>
-			<string>hud_slider_level</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<array>
-					<string>{{0,0}, {4, 6}}</string>
-					<string>{{4,0}, {1, 6}}</string>
-					<string>{{5,0}, {2, 6}}</string>
-				</array>
-			</dict>
-		</dict>
 		<key>open_weblink</key>
 		<dict>
 			<key>Resource</key>
@@ -1075,29 +651,6 @@
 				<string>{{0,20},{20,20}}</string>
 				<key>Mouse Over, Pressed</key>
 				<string>{{0,40},{20,20}}</string>
-			</dict>
-		</dict>
-		<key>wood_popup_button_background</key>
-		<dict>
-			<key>Resource</key>
-			<string>wood_popup_button</string>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<dict>
-					<key>Parts</key>
-					<array>
-						<string>{{0,0},{9,10}}</string>
-						<string>{{9,0},{1,10}}</string>
-						<string>{{10,0},{19,10}}</string>
-						<string>{{0,10},{9,2}}</string>
-						<string>{{9,10},{1,2}}</string>
-						<string>{{10,10},{19,2}}</string>
-						<string>{{0,12},{9,11}}</string>
-						<string>{{9,12},{1,11}}</string>
-						<string>{{10,12},{19,11}}</string>
-					</array>
-				</dict>
 			</dict>
 		</dict>
 	</dict>

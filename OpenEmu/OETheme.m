@@ -25,17 +25,13 @@
  */
 
 #import "OETheme.h"
-#import "OEThemeColor.h"
 #import "OEThemeTextAttributes.h"
 #import "OEThemeImage.h"
-#import "OEThemeGradient.h"
 
 #pragma mark - Theme.plist keys
 
-static NSString * const OEThemeColorKey    = @"Colors";
 static NSString * const OEThemeFontKey     = @"Fonts";
 static NSString * const OEThemeImageKey    = @"Images";
-static NSString * const OEThemeGradientKey = @"Gradients";
 
 #pragma mark - Implementation
 
@@ -69,10 +65,8 @@ static NSString * const OEThemeGradientKey = @"Gradients";
 
         // Parse through all the types of UI elements: Colors, Fonts, Images, and Gradients.
         NSDictionary <NSString *, Class> *classesBySection = @{
-            OEThemeColorKey    : [OEThemeColor class],
             OEThemeFontKey     : [OEThemeTextAttributes class],
             OEThemeImageKey    : [OEThemeImage class],
-            OEThemeGradientKey : [OEThemeGradient class]
         };
 
         __block NSMutableDictionary <NSString *, id> *itemsByType = [NSMutableDictionary dictionary];
@@ -116,14 +110,6 @@ static NSString * const OEThemeGradientKey = @"Gradients";
     return self.objectsByType[type][key];
 }
 
-- (OEThemeColor *)themeColorForKey:(NSString *)key {
-    return (OEThemeColor *)[self OE_itemForType:OEThemeColorKey forKey:key];
-}
-
-- (NSColor *)colorForKey:(NSString *)key forState:(OEThemeState)state {
-    return [[self themeColorForKey:key] colorForState:state];
-}
-
 - (OEThemeTextAttributes *)themeTextAttributesForKey:(NSString *)key {
     return (OEThemeTextAttributes *)[self OE_itemForType:OEThemeFontKey forKey:key];
 }
@@ -138,14 +124,6 @@ static NSString * const OEThemeGradientKey = @"Gradients";
 
 - (NSImage *)imageForKey:(NSString *)key forState:(OEThemeState)state {
     return [[self themeImageForKey:key] imageForState:state];
-}
-
-- (OEThemeGradient *)themeGradientForKey:(NSString *)key {
-    return (OEThemeGradient *)[self OE_itemForType:OEThemeGradientKey forKey:key];
-}
-
-- (NSGradient *)gradientForKey:(NSString *)key forState:(OEThemeState)state {
-    return [[self themeGradientForKey:key] gradientForState:state];
 }
 
 @end
