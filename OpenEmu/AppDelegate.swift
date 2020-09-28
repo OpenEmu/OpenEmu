@@ -169,6 +169,7 @@ class AppDelegate: NSObject {
     
     deinit {
         OECorePlugin.self.removeObserver(self, forKeyPath: #keyPath(OECorePlugin.allPlugins), context: &allPluginsKVOContext)
+        OECorePlugin.self.removeObserver(self, forKeyPath: "values.".appending(OEAppearancePreferenceKey), context: &appearancePrefChangedKVOContext)
     }
     
     // MARK: - Library Database
