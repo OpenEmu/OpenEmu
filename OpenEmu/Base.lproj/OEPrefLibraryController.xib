@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,13 +20,14 @@
             <rect key="frame" x="0.0" y="0.0" width="620" height="354"/>
             <subviews>
                 <gridView horizontalHuggingPriority="249" verticalHuggingPriority="600" xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" translatesAutoresizingMaskIntoConstraints="NO" id="T5w-dz-S0s">
-                    <rect key="frame" x="30" y="19" width="559" height="315"/>
+                    <rect key="frame" x="30" y="21" width="559" height="313"/>
                     <constraints>
                         <constraint firstItem="D1O-dF-TRh" firstAttribute="leading" secondItem="T5w-dz-S0s" secondAttribute="leading" id="Deh-u2-4IZ"/>
                         <constraint firstItem="3Ox-G1-m3j" firstAttribute="leading" secondItem="T5w-dz-S0s" secondAttribute="leading" id="Oth-70-wjf"/>
                         <constraint firstItem="etg-C7-Lej" firstAttribute="baseline" secondItem="Q95-qb-F7X" secondAttribute="firstBaseline" id="TBh-Tr-Kyn"/>
                         <constraint firstItem="CJp-OR-KY8" firstAttribute="leading" secondItem="T5w-dz-S0s" secondAttribute="leading" id="bB7-eJ-Jch"/>
                         <constraint firstItem="7" firstAttribute="top" secondItem="CJp-OR-KY8" secondAttribute="bottom" constant="23" id="oEp-0l-V7j"/>
+                        <constraint firstItem="j1X-tf-vv5" firstAttribute="centerY" secondItem="9" secondAttribute="centerY" id="yEz-r4-LAD"/>
                     </constraints>
                     <rows>
                         <gridRow id="uy1-hz-6Cy"/>
@@ -46,7 +47,7 @@
                     <gridCells>
                         <gridCell row="uy1-hz-6Cy" column="oTy-pp-h5N" yPlacement="bottom" id="f2J-dK-eE0">
                             <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Library Location:">
-                                <rect key="frame" x="-2" y="297" width="187" height="16"/>
+                                <rect key="frame" x="-2" y="295" width="187" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Game Library Folder Location:" id="19">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -56,7 +57,7 @@
                         </gridCell>
                         <gridCell row="uy1-hz-6Cy" column="WTK-4D-5ET" yPlacement="bottom" id="uhe-y2-BoJ">
                             <pathControl key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="200" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-tf-vv5">
-                                <rect key="frame" x="189" y="293" width="226" height="22"/>
+                                <rect key="frame" x="189" y="293" width="226" height="20"/>
                                 <pathCell key="cell" selectable="YES" alignment="left" id="El6-wi-KVm">
                                     <font key="font" metaFont="system"/>
                                     <url key="url" string="file://localhost/Applications/"/>
