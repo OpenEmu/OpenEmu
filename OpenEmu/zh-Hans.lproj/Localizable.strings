@@ -25,7 +25,7 @@
 
 "All Homebrew" = "所有自制作品";
 
-"Already in library:" = "Already in library:";
+"Already in library:" = "Already in library:";  // TODO
 
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "你确定要从 OpenEmu 库删除 %ld 个已保存游戏？";
 
@@ -239,9 +239,9 @@
 
 "Installing Core" = "正在安装核心";
 
-"Invalid cue sheet format:" = "Invalid cue sheet format:";
+"Invalid cue sheet format:" = "Invalid cue sheet format:";  // TODO
 
-"Invalid gdi format:" = "Invalid gdi format:";
+"Invalid gdi format:" = "Invalid gdi format:";  // TODO
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "使用“+”连接多条金手指，如 000-000+111-111";
 
@@ -267,7 +267,7 @@
 
 "Missing Core" = "缺少核心";
 
-"Missing referenced file:" = "Missing referenced file:";
+"Missing referenced file:" = "Missing referenced file:";  // TODO
 
 "Move selected game to Trash, or keep it in the Library folder?" = "要把选择的游戏扔到废纸篓还是留在库文件夹里？";
 
@@ -295,19 +295,19 @@
 
 "No Internet Connection" = "无互联网连接";
 
-"No permission to open:" = "No permission to open:";
+"No permission to open:" = "No permission to open:";  // TODO
 
 "No Save States available" = "没有可用的保存状态";
 
 "No Screenshots Found" = "没找到截屏";
 
-"No valid system detected:" = "No valid system detected:";
+"No valid system detected:" = "No valid system detected:";  // TODO
 
 "No" = "否";
 
 "None" = "无";
 
-"Not plain text:" = "Not plain text:";
+"Not plain text:" = "Not plain text:";  // TODO
 
 "OK" = "好";
 
@@ -487,7 +487,7 @@
 
 "Trash downloaded Files" = "将已下载的文件扔进废纸篓";
 
-"Unexpected error:" = "Unexpected error:";
+"Unexpected error:" = "Unexpected error:";  // TODO
 
 "Unmute Audio" = "恢复声音";
 
@@ -582,3 +582,13 @@
 "ECM compressed binary detected." = "检测到ECM压缩二进制。";  // TODO
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM压缩二进制文件无法导入。请阅读磁盘导入指南。";  // TODO
+
+"Files failed to import." = "Files failed to import.";  // TODO
+
+"Dismiss" = "Dismiss";  // TODO
+
+"\"%@\" in %@" = "\"%1$@\" in %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)  // TODO
+
+"NOT FOUND: \"%@\"" = "NOT FOUND: \"%@\"";  // Import error description: referenced file not found  // TODO
+
+"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access.";  // TODO

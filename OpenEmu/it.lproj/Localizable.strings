@@ -25,7 +25,7 @@
 
 "All Homebrew" = "Tutti gli homebrew";
 
-"Already in library:" = "Already in library:";
+"Already in library:" = "Già presenti nella Libreria:";
 
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Sei sicuro di voler cancellare %ld salvataggi dalla Libreria di OpenEmu?";
 
@@ -239,9 +239,9 @@
 
 "Installing Core" = "Installazione core";
 
-"Invalid cue sheet format:" = "Invalid cue sheet format:";
+"Invalid cue sheet format:" = "File \"cue sheet\" non valido:";
 
-"Invalid gdi format:" = "Invalid gdi format:";
+"Invalid gdi format:" = "File gdi non valido:";
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Separa righe multiple con \"+\": 000-000+111-111";
 
@@ -267,7 +267,7 @@
 
 "Missing Core" = "Core mancante";
 
-"Missing referenced file:" = "Missing referenced file:";
+"Missing referenced file:" = "Riferimento a file inesistente:";
 
 "Move selected game to Trash, or keep it in the Library folder?" = "Vuoi spostare il gioco nel Cestino, o lasciarlo nella cartella della Libreria?";
 
@@ -295,19 +295,19 @@
 
 "No Internet Connection" = "Non sei connesso a Internet";  // Featured Games Blank Slate View Error Info
 
-"No permission to open:" = "No permission to open:";
+"No permission to open:" = "Accesso negato al file:";
 
 "No Save States available" = "Nessun salvataggio emulazione disponibile";
 
 "No Screenshots Found" = "Nessuna istantanea trovata";
 
-"No valid system detected:" = "No valid system detected:";
+"No valid system detected:" = "Nessun sistema valido trovato:";
 
 "No" = "No";
 
 "None" = "Nessuna";  // rating
 
-"Not plain text:" = "Not plain text:";
+"Not plain text:" = "File non di testo semplice:";
 
 "OK" = "OK";
 
@@ -487,7 +487,7 @@
 
 "Trash downloaded Files" = "Sposta file scaricati nel cestino";
 
-"Unexpected error:" = "Unexpected error:";
+"Unexpected error:" = "Errore inatteso:";
 
 "Unmute Audio" = "Attiva audio";
 
@@ -582,3 +582,13 @@
 "ECM compressed binary detected." = "È stato individuato un file binario in formato ECM.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "I file binari compressi in formato ECM non possono essere importati. Leggi la guida all'importazione dei dischi di gioco.";
+
+"Files failed to import." = "Non è stato possibile importare i file.";
+
+"Dismiss" = "Chiudi";
+
+"\"%@\" in %@" = "\"%1$@\" in %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)
+
+"NOT FOUND: \"%@\"" = "NON TROVATO: \"%@\"";  // Import error description: referenced file not found
+
+"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Seleziona \"Menu Apple ()\" > \"Preferenze di Sistema...\", clicca su \"Sicurezza e Privacy\", e poi seleziona il pannello \"Privacy\". Rimuovi l'eventuale permesso \"File e cartelle\" per OpenEmu, e invece aggiungi il permesso \"Accesso completo al disco\".";
