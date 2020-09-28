@@ -114,18 +114,15 @@
                                                             <constraint firstAttribute="width" constant="240" id="y03-XI-7JS"/>
                                                         </constraints>
                                                     </customView>
-                                                    <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="5kk-p4-hJg" customClass="OEButton">
+                                                    <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="5kk-p4-hJg" customClass="OEHomebrewDeveloperLink">
                                                         <rect key="frame" x="282" y="119" width="117" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="rPC-sg-MLL"/>
                                                         </constraints>
-                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="D7D-mh-2qM" customClass="OEButtonCell">
+                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="D7D-mh-2qM">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_developer"/>
-                                                        </userDefinedRuntimeAttributes>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -216,16 +213,13 @@
                                                                             <font key="font" metaFont="system"/>
                                                                         </buttonCell>
                                                                     </button>
-                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rUH-WG-nRq" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rUH-WG-nRq" customClass="OEHomebrewDeveloperLink">
                                                                         <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="8Rt-p4-N0C" customClass="OEButtonCell">
+                                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="8Rt-p4-N0C">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
                                                                         </buttonCell>
-                                                                        <userDefinedRuntimeAttributes>
-                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_developer"/>
-                                                                        </userDefinedRuntimeAttributes>
                                                                     </button>
                                                                 </subviews>
                                                                 <constraints>
@@ -268,16 +262,13 @@
                                                                             <font key="font" metaFont="system"/>
                                                                         </buttonCell>
                                                                     </button>
-                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JRg-J5-JNV" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JRg-J5-JNV" customClass="OEHomebrewDeveloperLink">
                                                                         <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="c8b-na-xYA" customClass="OEButtonCell">
+                                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="c8b-na-xYA">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
                                                                         </buttonCell>
-                                                                        <userDefinedRuntimeAttributes>
-                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_developer"/>
-                                                                        </userDefinedRuntimeAttributes>
                                                                     </button>
                                                                 </subviews>
                                                                 <constraints>
@@ -320,16 +311,13 @@
                                                                             <font key="font" metaFont="system"/>
                                                                         </buttonCell>
                                                                     </button>
-                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4MS-I3-jM5" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4MS-I3-jM5" customClass="OEHomebrewDeveloperLink">
                                                                         <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="PzT-my-Dzg" customClass="OEButtonCell">
+                                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="PzT-my-Dzg">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
                                                                         </buttonCell>
-                                                                        <userDefinedRuntimeAttributes>
-                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_developer"/>
-                                                                        </userDefinedRuntimeAttributes>
                                                                     </button>
                                                                 </subviews>
                                                                 <constraints>

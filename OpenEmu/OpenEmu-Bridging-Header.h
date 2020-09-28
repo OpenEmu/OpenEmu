@@ -9,9 +9,6 @@
 #import "OELibraryDatabase.h"
 #import "OELibraryMigrator.h"
 
-#import "OEButton.h"
-#import "OEButtonCell.h"
-
 #import "OEPreferencePane.h"
 #import "OEPrefLibraryController.h"
 #import "OEPrefGameplayController.h"
@@ -48,6 +45,7 @@
 #import "NSDocument+OEAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 #import "OEAudioDeviceManager.h"
+#import "NSColor+OEAdditions.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <OpenEmuKit/OpenEmuKit.h>

@@ -584,6 +584,7 @@
 		8FD78305243A8AD300861B7A /* Debug.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FD78307243A8AD300861B7A /* Debug.strings */; };
 		8FD905771AA2927100FA7662 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F40EB791C1072B100683055 /* OEPrefControlsController.xib */; };
 		8FDCE3972520022700277BFA /* GlossCheckboxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDCE3962520022700277BFA /* GlossCheckboxCell.swift */; };
+		8FEC1BA024F7D37700DBBF72 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEC1B9F24F7D37700DBBF72 /* TextButton.swift */; };
 		8FEDF0CA24F2BC38001ABF6F /* OEGBSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FEDF0C924F2BC37001ABF6F /* OEGBSystemController.m */; };
 		8FEDF0CD24F2BC48001ABF6F /* OEGBASystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FEDF0CC24F2BC48001ABF6F /* OEGBASystemController.m */; };
 		94052EFE172DC1DD00B90DE6 /* controller_nds_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */; };
@@ -2120,6 +2121,7 @@
 		8FD78306243A8AD300861B7A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Debug.strings; sourceTree = "<group>"; };
 		8FD78308243A8ADC00861B7A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Debug.strings; sourceTree = "<group>"; };
 		8FDCE3962520022700277BFA /* GlossCheckboxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossCheckboxCell.swift; sourceTree = "<group>"; };
+		8FEC1B9F24F7D37700DBBF72 /* TextButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
 		8FEDF0C824F2BC37001ABF6F /* OEGBSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBSystemController.h; sourceTree = "<group>"; };
 		8FEDF0C924F2BC37001ABF6F /* OEGBSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBSystemController.m; sourceTree = "<group>"; };
 		8FEDF0CB24F2BC48001ABF6F /* OEGBASystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBASystemController.h; sourceTree = "<group>"; };
@@ -3023,6 +3025,7 @@
 				8F2F92A92519A9E700699691 /* GameScannerButton.swift */,
 				8FAF069A251FB02700EDB247 /* HoverButton.swift */,
 				8F0D804824ED7F14001BD8E2 /* Label.swift */,
+				8FEC1B9F24F7D37700DBBF72 /* TextButton.swift */,
 			);
 			name = "Custom Controls";
 			sourceTree = "<group>";
@@ -7510,6 +7513,7 @@
 				5AC349331D89EB7B0089B26F /* GameIntegralScalingDelegate.swift in Sources */,
 				8F80218124F45E9800DC82E3 /* HUDSliderCell.swift in Sources */,
 				0544B6AA23D16DDC00F63D61 /* SaveStateViewController.swift in Sources */,
+				8FEC1BA024F7D37700DBBF72 /* TextButton.swift in Sources */,
 				83CB0C7A1A3F000700409FB2 /* OEBlankSlateSpinnerView.m in Sources */,
 				5A6E80A71DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift in Sources */,
 				5A9606E01C0B12FE0089B494 /* NSControl+TargetAction.swift in Sources */,

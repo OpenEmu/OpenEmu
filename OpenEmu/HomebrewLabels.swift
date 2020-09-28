@@ -68,3 +68,19 @@ final class HomebrewFeatureLabel: Label {
         textShadow = shadow
     }
 }
+
+@objc(OEHomebrewDeveloperLink)
+final class HomebrewDeveloperLink: TextButton {
+    
+    override func setupAttributes() {
+        
+        let shadow = NSShadow()
+        shadow.shadowColor = NSColor(named: "labelShadowColor")
+        shadow.shadowOffset = NSMakeSize(0, -1)
+        
+        font = .systemFont(ofSize: 14)
+        textColor = NSColor(from: "#929DA5")
+        textColorHover = NSColor(from: "#9c2a32")
+        textShadow = shadow
+    }
+}

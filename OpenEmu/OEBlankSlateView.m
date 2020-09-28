@@ -36,7 +36,6 @@
 #import "OEGameCollectionViewItemProtocol.h"
 #import "OEDBDataSourceAdditions.h"
 
-#import "OEButton.h"
 #import "OEArrowCursorTextView.h"
 
 #import "OpenEmu-Swift.h"
@@ -71,7 +70,7 @@ const CGFloat OEBlankSlateBottomTextTop    = 357.0;
 
 const CGFloat OEBlankSlateCoreToTop        = 357.0; // space between core icon and view top
 const CGFloat OEBlankSlateCoreX            = 263.0; // x coordinate of core icon
-const CGFloat OEBlankSlateRightColumnX     = 309.0;
+const CGFloat OEBlankSlateRightColumnX     = 310.0;
 
 NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-CD-based-games";
 
@@ -283,7 +282,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     
     [coreIconView unregisterDraggedTypes];
     
-    NSRect labelRect = NSMakeRect(OEBlankSlateRightColumnX +1,
+    NSRect labelRect = NSMakeRect(OEBlankSlateRightColumnX,
                                   NSHeight(containerFrame) - 16.0 - OEBlankSlateBottomTextTop + 16.0 * extraspace,
                                   NSWidth(containerFrame),
                                   16.0);
@@ -302,21 +301,23 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 
         // Create weblink button for current core
         NSRect frame = NSMakeRect(OEBlankSlateRightColumnX,
-                                  NSHeight(containerFrame) - 2.0 * 16.0 -OEBlankSlateBottomTextTop - 16.0 * idx - 2.0 + 16.0 * extraspace,
+                                  NSHeight(containerFrame) - 2.0 * 16.0 - OEBlankSlateBottomTextTop - 16.0 * idx - 2.0 + 16.0 * extraspace + 4.0,
                                   NSWidth(containerFrame) - OEBlankSlateRightColumnX,
                                   20.0);
         
-        OEButton *gotoButton = [[OEButton alloc] initWithFrame:frame];
+        OETextButton *gotoButton = [[OETextButton alloc] initWithFrame:frame];
         
         gotoButton.autoresizingMask = NSViewWidthSizable;
         gotoButton.alignment = NSTextAlignmentLeft;
-        gotoButton.imagePosition = NSImageRight;
-        [gotoButton setThemeKey:@"open_weblink"];
         gotoButton.target = self;
         gotoButton.action = @selector(gotoProjectURL:);
         gotoButton.title = name;
         gotoButton.toolTip = [NSString stringWithFormat:NSLocalizedString(@"Takes you to the %@ project website", @"Weblink tooltip"), name];
         gotoButton.cell.representedObject = projectURL;
+        gotoButton.font = [NSFont boldSystemFontOfSize:12];
+        gotoButton.textColor = NSColor.labelColor;
+        gotoButton.textColorHover = [NSColor.labelColor colorWithSystemEffect:NSColorSystemEffectRollover];
+        gotoButton.showArrow = YES;
         
         [gotoButton sizeToFit];
         

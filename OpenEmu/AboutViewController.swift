@@ -26,7 +26,32 @@ import Cocoa
 
 @objcMembers
 class AboutViewController: NSViewController {
-
+    
+    @IBOutlet weak var websiteLink: TextButton!
+    @IBOutlet weak var gitHubLink: TextButton!
+    
+    override func viewDidLoad() {
+        
+        let color = NSColor(from: "#526ba0")
+        let hoverColor = NSColor(from: "#9c2a32")
+        
+        let shadow = NSShadow()
+        shadow.shadowColor = .black
+        shadow.shadowOffset = NSMakeSize(0, -1)
+        
+        websiteLink.font = .boldSystemFont(ofSize: 12)
+        websiteLink.textShadow = shadow
+        websiteLink.textColor = color
+        websiteLink.textColorHover = hoverColor
+        
+        shadow.shadowColor = NSColor.black.withAlphaComponent(0.4)
+        
+        gitHubLink.font = .boldSystemFont(ofSize: 11)
+        gitHubLink.textShadow = shadow
+        gitHubLink.textColor = color
+        gitHubLink.textColorHover = hoverColor
+    }
+    
     dynamic var appVersion: String {
         return Bundle.main.infoDictionary!["CFBundleVersion"] as! String
     }

@@ -123,42 +123,40 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <button focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cm1-gR-GtS" customClass="OEButton">
+                            <button focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cm1-gR-GtS" customClass="OETextButton">
                                 <rect key="frame" x="127" y="138" width="147" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="bevel" title="openemu.org" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="50H-ys-sAp" customClass="OEButtonCell">
+                                <buttonCell key="cell" type="bevel" title="openemu.org" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="50H-ys-sAp">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                     <attributedString key="userComments">
                                         <fragment content="DNT"/>
                                     </attributedString>
                                 </buttonCell>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="about_website_link"/>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="openWeblink:" target="Slx-nK-pNK" id="kMH-s6-Aa0"/>
                                 </connections>
                             </button>
-                            <button focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9lc-1E-ygn" customClass="OEButton">
+                            <button focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9lc-1E-ygn" customClass="OETextButton">
                                 <rect key="frame" x="113" y="17" width="176" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="bevel" title="github.com/openemu" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="y9C-BZ-tbY" customClass="OEButtonCell">
+                                <buttonCell key="cell" type="bevel" title="github.com/openemu" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="y9C-BZ-tbY">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                     <attributedString key="userComments">
                                         <fragment content="DNT"/>
                                     </attributedString>
                                 </buttonCell>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="about_github_link"/>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="openWeblink:" target="Slx-nK-pNK" id="egj-4N-GOQ"/>
                                 </connections>
                             </button>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="gitHubLink" destination="9lc-1E-ygn" id="QHM-AD-NcR"/>
+                        <outlet property="websiteLink" destination="cm1-gR-GtS" id="Cq6-BF-Ss1"/>
+                    </connections>
                 </viewController>
                 <customObject id="KRL-Cf-ahw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <customObject id="6BQ-MV-n0F"/>
