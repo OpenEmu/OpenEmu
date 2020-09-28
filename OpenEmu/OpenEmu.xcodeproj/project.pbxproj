@@ -338,12 +338,6 @@
 		8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A98B155410EF00DF13B5 /* OEDBItem.m */; };
 		8316F6F61A697986003ADDB3 /* supervision_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CDAE9B1A61892900DF964A /* supervision_library.png */; };
 		83199722142741790068C865 /* OEROMImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* OEROMImporter.m */; };
-		831C9AAD160095BA00038D0D /* OETheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AAC160095BA00038D0D /* OETheme.m */; };
-		831C9AB0160095E500038D0D /* OEThemeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AAF160095E500038D0D /* OEThemeObject.m */; };
-		831C9ABB160095F800038D0D /* OEThemeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB6160095F800038D0D /* OEThemeImage.m */; };
-		831C9ABC160095F800038D0D /* OEThemeTextAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB8160095F800038D0D /* OEThemeTextAttributes.m */; };
-		831C9AD61600971600038D0D /* OEButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AD31600971600038D0D /* OEButton.m */; };
-		831C9AD71600971600038D0D /* OEButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AD51600971600038D0D /* OEButtonCell.m */; };
 		8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8328D9E413C75CAE0026D2A7 /* OEDBImage.m */; };
 		832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */; };
 		832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D293F1451A68700BDF950 /* OEMainWindowController.m */; };
@@ -382,7 +376,6 @@
 		837964F41A614ACD00A8DE5C /* OESVSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 837964EE1A614ACD00A8DE5C /* OESVSystemResponder.m */; };
 		837964F91A614C0A00A8DE5C /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		837964FA1A614C6A00A8DE5C /* Supervision.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 837964E11A6149C000A8DE5C /* Supervision.oesystemplugin */; };
-		838E2A231600A05C00CF7198 /* Theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 838E2A221600A05C00CF7198 /* Theme.plist */; };
 		839310BC147802380020058E /* OECoreDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 839310BB147802380020058E /* OECoreDownload.m */; };
 		83955CB5165D939100572B34 /* OEBlankSlateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB4165D939100572B34 /* OEBlankSlateView.m */; };
 		8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */; };
@@ -1752,20 +1745,6 @@
 		8314A98B155410EF00DF13B5 /* OEDBItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBItem.m; sourceTree = "<group>"; };
 		83199720142741790068C865 /* OEROMImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEROMImporter.h; sourceTree = "<group>"; };
 		83199721142741790068C865 /* OEROMImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEROMImporter.m; sourceTree = "<group>"; };
-		831C9AAB160095BA00038D0D /* OETheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETheme.h; sourceTree = "<group>"; };
-		831C9AAC160095BA00038D0D /* OETheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETheme.m; sourceTree = "<group>"; };
-		831C9AAE160095E500038D0D /* OEThemeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThemeObject.h; sourceTree = "<group>"; };
-		831C9AAF160095E500038D0D /* OEThemeObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThemeObject.m; sourceTree = "<group>"; };
-		831C9AB5160095F800038D0D /* OEThemeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThemeImage.h; sourceTree = "<group>"; };
-		831C9AB6160095F800038D0D /* OEThemeImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThemeImage.m; sourceTree = "<group>"; };
-		831C9AB7160095F800038D0D /* OEThemeTextAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThemeTextAttributes.h; sourceTree = "<group>"; };
-		831C9AB8160095F800038D0D /* OEThemeTextAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThemeTextAttributes.m; sourceTree = "<group>"; };
-		831C9ABE1600965100038D0D /* OECell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECell.h; sourceTree = "<group>"; };
-		831C9ABF1600965100038D0D /* OEControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControl.h; sourceTree = "<group>"; };
-		831C9AD21600971600038D0D /* OEButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEButton.h; sourceTree = "<group>"; };
-		831C9AD31600971600038D0D /* OEButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEButton.m; sourceTree = "<group>"; };
-		831C9AD41600971600038D0D /* OEButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEButtonCell.h; sourceTree = "<group>"; };
-		831C9AD51600971600038D0D /* OEButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEButtonCell.m; sourceTree = "<group>"; };
 		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OEDBImage.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OEDBImage.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.0.xcdatamodel"; sourceTree = "<group>"; };
@@ -1842,7 +1821,6 @@
 		837964F01A614ACD00A8DE5C /* Supervision-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Supervision-Info.plist"; sourceTree = "<group>"; };
 		838AC27E14434EED00AC74C3 /* OEDBRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBRom.h; sourceTree = "<group>"; };
 		838AC27F14434EED00AC74C3 /* OEDBRom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBRom.m; sourceTree = "<group>"; };
-		838E2A221600A05C00CF7198 /* Theme.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Theme.plist; sourceTree = "<group>"; };
 		839310BA147802380020058E /* OECoreDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreDownload.h; sourceTree = "<group>"; };
 		839310BB147802380020058E /* OECoreDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreDownload.m; sourceTree = "<group>"; };
 		8393FD33195D71B50021D3D9 /* OEDatabase 1.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.3.xcdatamodel"; sourceTree = "<group>"; };
@@ -3030,6 +3008,8 @@
 				8F957B4125227175008A9BC9 /* GlossButton.swift */,
 				8FAF069A251FB02700EDB247 /* HoverButton.swift */,
 				8F714FD724F85CEA006AF031 /* HUDButton.swift */,
+				8F80218024F45E9800DC82E3 /* HUDSlider.swift */,
+				8F80217F24F45E9800DC82E3 /* HUDSliderCell.swift */,
 				8F0D804824ED7F14001BD8E2 /* Label.swift */,
 				8FEC1B9F24F7D37700DBBF72 /* TextButton.swift */,
 			);
@@ -3274,8 +3254,6 @@
 				830155791456BF7A0093D681 /* OEGameViewController.h */,
 				8301557A1456BF7A0093D681 /* OEGameViewController.m */,
 				5A46AC401DC66D8300771B3B /* OEGameViewController+TouchBar.swift */,
-				8F80218024F45E9800DC82E3 /* HUDSlider.swift */,
-				8F80217F24F45E9800DC82E3 /* HUDSliderCell.swift */,
 				14F6A924168180CF0071386D /* OEPopoutGameWindowController.h */,
 				14F6A925168180CF0071386D /* OEPopoutGameWindowController.m */,
 				5AC349321D89EB7B0089B26F /* GameIntegralScalingDelegate.swift */,
@@ -3832,8 +3810,6 @@
 				82DE498810263A09007184EB /* Downloader */,
 				0557CB1322A750260037175F /* Shaders */,
 				829165DA0E85F9A400493FD8 /* Graphics */,
-				831C9AAA1600957100038D0D /* Theme Engine */,
-				831C9ABD1600962100038D0D /* Theme Controls */,
 				01E2A2F123E6027900194150 /* Custom Controls */,
 				83B6E444143E1BBD00BCDB7A /* Utilities */,
 				14F6A92A168184550071386D /* Game Document */,
@@ -3897,50 +3873,6 @@
 				8306CD211BD3AC3D0025BC6C /* OESidebarOutlineView.m */,
 			);
 			name = Sidebar;
-			sourceTree = "<group>";
-		};
-		831C9AAA1600957100038D0D /* Theme Engine */ = {
-			isa = PBXGroup;
-			children = (
-				831C9AAB160095BA00038D0D /* OETheme.h */,
-				831C9AAC160095BA00038D0D /* OETheme.m */,
-				831C9AAE160095E500038D0D /* OEThemeObject.h */,
-				831C9AAF160095E500038D0D /* OEThemeObject.m */,
-				831C9AB7160095F800038D0D /* OEThemeTextAttributes.h */,
-				831C9AB8160095F800038D0D /* OEThemeTextAttributes.m */,
-				831C9AB5160095F800038D0D /* OEThemeImage.h */,
-				831C9AB6160095F800038D0D /* OEThemeImage.m */,
-			);
-			name = "Theme Engine";
-			sourceTree = "<group>";
-		};
-		831C9ABD1600962100038D0D /* Theme Controls */ = {
-			isa = PBXGroup;
-			children = (
-				831C9ABE1600965100038D0D /* OECell.h */,
-				831C9ABF1600965100038D0D /* OEControl.h */,
-				831C9AD1160096EF00038D0D /* Buttons */,
-			);
-			name = "Theme Controls";
-			sourceTree = "<group>";
-		};
-		831C9AD1160096EF00038D0D /* Buttons */ = {
-			isa = PBXGroup;
-			children = (
-				831C9AD21600971600038D0D /* OEButton.h */,
-				831C9AD31600971600038D0D /* OEButton.m */,
-				831C9ADE1600973F00038D0D /* Button Cells */,
-			);
-			name = Buttons;
-			sourceTree = "<group>";
-		};
-		831C9ADE1600973F00038D0D /* Button Cells */ = {
-			isa = PBXGroup;
-			children = (
-				831C9AD41600971600038D0D /* OEButtonCell.h */,
-				831C9AD51600971600038D0D /* OEButtonCell.m */,
-			);
-			name = "Button Cells";
 			sourceTree = "<group>";
 		};
 		832D29441451B0CA00BDF950 /* Library */ = {
@@ -6620,7 +6552,6 @@
 				832D29431451ACF200BDF950 /* MainWindow.xib in Resources */,
 				8F7BFC9623E653E100B1F6C8 /* ShaderParameters.xib in Resources */,
 				83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */,
-				838E2A231600A05C00CF7198 /* Theme.plist in Resources */,
 				051A6F3C23CFF75F007B7C4F /* MainWindow.storyboard in Resources */,
 				0544B6B023D1780C00F63D61 /* GameTableView.xib in Resources */,
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
@@ -7480,23 +7411,17 @@
 				0544B68323D1355500F63D61 /* LibraryController.swift in Sources */,
 				8353EB7D15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel in Sources */,
 				051A6F3B23CFF30C007B7C4F /* MainWindowController.swift in Sources */,
-				831C9AAD160095BA00038D0D /* OETheme.m in Sources */,
 				8F0D804724ED76C4001BD8E2 /* ControlsLabels.swift in Sources */,
 				8F714FD824F85CEA006AF031 /* HUDButton.swift in Sources */,
 				01E2A2F323E60F7E00194150 /* PrefCoresController.swift in Sources */,
 				5A438A1B1D89AEB60061A47C /* OpenEmuApplication.swift in Sources */,
 				5A44301C1D93380600E54F1D /* OEBuildInfo.m in Sources */,
-				831C9AB0160095E500038D0D /* OEThemeObject.m in Sources */,
 				8F2F92AA2519A9E700699691 /* GameScannerButton.swift in Sources */,
 				8F80217C24F45E6700DC82E3 /* ControlsPopUpButton.swift in Sources */,
 				5AC349311D89E4EB0089B26F /* NSDocumentController+Additions.swift in Sources */,
 				832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */,
-				831C9ABB160095F800038D0D /* OEThemeImage.m in Sources */,
-				831C9ABC160095F800038D0D /* OEThemeTextAttributes.m in Sources */,
 				0578B85023D6553E00C86848 /* LibraryGamesViewController.swift in Sources */,
 				836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */,
-				831C9AD61600971600038D0D /* OEButton.m in Sources */,
-				831C9AD71600971600038D0D /* OEButtonCell.m in Sources */,
 				8F0D804924ED7F14001BD8E2 /* Label.swift in Sources */,
 				0544B68923D14E6300F63D61 /* SidebarController.swift in Sources */,
 				83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */,
