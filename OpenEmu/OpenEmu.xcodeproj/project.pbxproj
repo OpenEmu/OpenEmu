@@ -287,7 +287,7 @@
 		5A221B101BFE9671002FDD10 /* 3do_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221B0F1BFE9671002FDD10 /* 3do_library.png */; };
 		5A221B121BFE96A1002FDD10 /* 3do_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221B111BFE96A1002FDD10 /* 3do_library@2x.png */; };
 		5A2CE89A206EA61B00790F89 /* NSArray+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.m */; };
-		5A3BB0391D964A4500E10F27 /* OECenteredTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3BB0381D964A4500E10F27 /* OECenteredTextFieldCell.m */; };
+		5A3BB0391D964A4500E10F27 /* CenteredTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */; };
 		5A3DB1691D8C93C3009445EC /* PreferencesControlsBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1681D8C93C3009445EC /* PreferencesControlsBox.swift */; };
 		5A3DB1731D8CA752009445EC /* BackgroundGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */; };
 		5A3DB1B11D8E6806009445EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1B01D8E6806009445EC /* AppDelegate.swift */; };
@@ -1660,8 +1660,7 @@
 		5A221B111BFE96A1002FDD10 /* 3do_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3do_library@2x.png"; sourceTree = "<group>"; };
 		5A2CE895206EA5E900790F89 /* NSArray+OEAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEAdditions.h"; sourceTree = "<group>"; };
 		5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+OEAdditions.m"; sourceTree = "<group>"; };
-		5A3BB0371D964A4500E10F27 /* OECenteredTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECenteredTextFieldCell.h; sourceTree = "<group>"; };
-		5A3BB0381D964A4500E10F27 /* OECenteredTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECenteredTextFieldCell.m; sourceTree = "<group>"; };
+		5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenteredTextFieldCell.swift; sourceTree = "<group>"; };
 		5A3DB1681D8C93C3009445EC /* PreferencesControlsBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesControlsBox.swift; sourceTree = "<group>"; };
 		5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundGradientView.swift; sourceTree = "<group>"; };
 		5A3DB1B01D8E6806009445EC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -3038,11 +3037,10 @@
 			isa = PBXGroup;
 			children = (
 				8337F38D1726B3600068DD90 /* BackgroundImageView.swift */,
+				5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */,
 				8F2F92A92519A9E700699691 /* GameScannerButton.swift */,
 				8FAF069A251FB02700EDB247 /* HoverButton.swift */,
 				8F0D804824ED7F14001BD8E2 /* Label.swift */,
-				5A3BB0371D964A4500E10F27 /* OECenteredTextFieldCell.h */,
-				5A3BB0381D964A4500E10F27 /* OECenteredTextFieldCell.m */,
 			);
 			name = "Custom Controls";
 			sourceTree = "<group>";
@@ -7557,7 +7555,7 @@
 				8FAF08D8251FB65D00EDB247 /* HoverButton.swift in Sources */,
 				834B6F2E1A3B453000CA6A26 /* OEHomebrewBlankSlateView.m in Sources */,
 				5A9606E41C0BA85F0089B494 /* NSURL+LibraryAdditions.swift in Sources */,
-				5A3BB0391D964A4500E10F27 /* OECenteredTextFieldCell.m in Sources */,
+				5A3BB0391D964A4500E10F27 /* CenteredTextFieldCell.swift in Sources */,
 				0544B6A323D16D6300F63D61 /* NSImageView+OEAdditions.swift in Sources */,
 				14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */,
 				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,
