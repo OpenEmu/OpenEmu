@@ -38,8 +38,6 @@
 @import OpenEmuKit;
 #import "OEDBSmartCollection.h"
 
-#import "OEBackgroundNoisePattern.h"
-
 #import "OEGameCollectionViewController.h"
 #import "OEMediaViewController.h"
 #import "OEDBSavedGamesMedia.h"

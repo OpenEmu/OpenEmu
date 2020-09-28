@@ -25,7 +25,6 @@
  */
 
 #import "OEGridViewFieldEditor.h"
-#import "NSColor+OEAdditions.h"
 
 #pragma mark -
 

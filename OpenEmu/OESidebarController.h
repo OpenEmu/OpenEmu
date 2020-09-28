@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
+@import Cocoa;
 #import "OESidebarOutlineView.h"
 
 NS_ASSUME_NONNULL_BEGIN

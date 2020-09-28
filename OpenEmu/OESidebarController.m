@@ -171,16 +171,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     }
 }
 
-- (void)deviceDidAppear:(id)notification
-{
-    [self reloadDataAndPreserveSelection];
-}
-
-- (void)deviceDidDisappear:(id)notification
-{
-    [self reloadDataAndPreserveSelection];
-}
-
 - (void)setDatabase:(OELibraryDatabase *)database
 {
     // get last selected collection item

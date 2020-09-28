@@ -33,7 +33,6 @@
 #import "OELibraryController.h"
 #import "OEROMImporter.h"
 
-#import "OECenteredTextFieldCell.h"
 #import "OEListViewDataSourceItem.h"
 
 #import "OECoverGridDataSourceItem.h"
@@ -57,8 +56,6 @@
 #import "OETableView.h"
 
 #import "OEArrayController.h"
-
-#import "OEBackgroundNoisePattern.h"
 
 #import "OEGridGameCell.h"
 

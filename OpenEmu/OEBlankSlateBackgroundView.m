@@ -25,7 +25,6 @@
  */
 
 #import "OEBlankSlateBackgroundView.h"
-#import "OEBackgroundNoisePattern.h"
 @import QuartzCore;
 
 @interface OEBlankSlateBackgroundView () <CALayoutManager, CALayerDelegate>
@@ -75,12 +74,6 @@
 
     // Setup background lighting
     [self OE_setupBackgroundLighting];
-
-    // Setup noise
-    CALayer *noiseLayer = [CALayer layer];
-    [noiseLayer setBackgroundColor:OEBackgroundNoiseColorRef];
-    [noiseLayer setDelegate:self];
-    [layer addSublayer:noiseLayer];
 }
 
 - (void)OE_setupBackgroundLighting
@@ -114,32 +107,6 @@
     }];
 
     [CATransaction commit];
-}
-
-#pragma mark - CALayer Delegate
-- (BOOL)layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
-{
-    if([layer backgroundColor] == NULL) return YES;
-
-    CGColorRef      bgColor = OEBackgroundNoiseColorRef;
-    NSRect          frame   = [self bounds];
-    CATransform3D transform = CATransform3DIdentity;
-
-    if(newScale != 1.0)
-    {
-        OEBackgroundHighResolutionNoisePatternCreate();
-        bgColor = OEBackgroundHighResolutionNoiseColorRef;
-        frame.size.width *= 2.0;
-        frame.size.height *= 2.0;
-
-        transform = CATransform3DMakeScale(0.5, 0.5, 1.0);
-    }
-
-    [layer setBackgroundColor:bgColor];
-    [layer setTransform:transform];
-    [layer setFrame:frame];
-
-    return YES;
 }
 
 #pragma mark - Handling appearance changes

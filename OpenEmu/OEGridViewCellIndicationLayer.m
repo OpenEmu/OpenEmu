@@ -25,7 +25,6 @@
  */
 
 #import "OEGridViewCellIndicationLayer.h"
-#import "NSColor+OEAdditions.h"
 
 #define M_TAU (M_PI * 2.0)
 

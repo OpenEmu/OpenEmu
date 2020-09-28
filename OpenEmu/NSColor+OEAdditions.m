@@ -33,42 +33,8 @@
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        // Mac OS X defined colors
-        NSMutableDictionary *mNamedColors =
-                    [@{
-                         [NSColor clearColor]:                        @"clear",
-                         [NSColor alternateSelectedControlColor]:     @"alternateselectedcontrol",
-                         [NSColor alternateSelectedControlTextColor]: @"alternateselectedcontroltext",
-                         [NSColor controlBackgroundColor]:            @"controlbackground",
-                         [NSColor controlColor]:                      @"control",
-                         [NSColor controlHighlightColor]:             @"controlhighlight",
-                         [NSColor controlLightHighlightColor]:        @"controllighthighlight",
-                         [NSColor controlShadowColor]:                @"controlshadow",
-                         [NSColor controlDarkShadowColor]:            @"controldarkshadow",
-                         [NSColor controlTextColor]:                  @"controltext",
-                         [NSColor disabledControlTextColor]:          @"disabledcontroltext",
-                         [NSColor gridColor]:                         @"grid",
-                         [NSColor headerColor]:                       @"header",
-                         [NSColor headerTextColor]:                   @"headertext",
-                         [NSColor highlightColor]:                    @"highlight",
-                         [NSColor keyboardFocusIndicatorColor]:       @"keyboardfocusindicator",
-                         [NSColor knobColor]:                         @"knob",
-                         [NSColor scrollBarColor]:                    @"scrollbar",
-                         [NSColor secondarySelectedControlColor]:     @"secondaryselectedcontrol",
-                         [NSColor selectedControlColor]:              @"selectedcontrol",
-                         [NSColor selectedControlTextColor]:          @"selectedcontroltext",
-                         [NSColor selectedMenuItemColor]:             @"selectedmenuitem",
-                         [NSColor selectedMenuItemTextColor]:         @"selectedmenuitemtext",
-                         [NSColor selectedTextBackgroundColor]:       @"selectedtextbackground",
-                         [NSColor selectedTextColor]:                 @"selectedtext",
-                         [NSColor selectedKnobColor]:                 @"selectedknob",
-                         [NSColor shadowColor]:                       @"shadow",
-                         [NSColor textBackgroundColor]:               @"textbackground",
-                         [NSColor textColor]:                         @"text",
-                         [NSColor windowBackgroundColor]:             @"windowbackground",
-                         [NSColor windowFrameColor]:                  @"windowframe",
-                         [NSColor windowFrameTextColor]:              @"windowframetext",
-                         } mutableCopy];
+
+        NSMutableDictionary *mNamedColors;
 
         // CSS3 named colors
         NSString *colorNameDB =
