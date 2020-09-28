@@ -84,10 +84,10 @@
                                 <userDefinedRuntimeAttribute type="image" keyPath="background" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="300" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="300" customClass="OEGlossButton">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="301" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="301">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -125,10 +125,10 @@
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="294">
                     <rect key="frame" x="164" y="102" width="504" height="335"/>
                     <subviews>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="249" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="249" customClass="OEGlossButton">
                             <rect key="frame" x="21" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="250" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="250">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -257,10 +257,10 @@
                                 <userDefinedRuntimeAttribute type="image" keyPath="background" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="245" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="245" customClass="OEGlossButton">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="246" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="246">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -342,10 +342,10 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                 <userDefinedRuntimeAttribute type="image" keyPath="background" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="396" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="396" customClass="OEGlossButton">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Go" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="404" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Go" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="404">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
@@ -359,10 +359,10 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                 <action selector="processFSMButtonAction:" target="-2" id="587"/>
                             </connections>
                         </button>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="412" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="412" customClass="OEGlossButton">
                             <rect key="frame" x="20" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="413" customClass="OEButtonCell">
+                            <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="413">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
