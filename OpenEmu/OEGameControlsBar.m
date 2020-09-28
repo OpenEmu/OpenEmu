@@ -26,8 +26,6 @@
 
 #import "OEGameControlsBar.h"
 
-#import "OEButton.h"
-
 #import "OEDBRom.h"
 
 @import OpenEmuKit;
@@ -57,8 +55,8 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 @interface OEHUDControlsBarView : NSView <CAAnimationDelegate>
 
 @property(strong, readonly) OEHUDSlider *slider;
-@property(strong, readonly) OEButton *fullScreenButton;
-@property(strong, readonly) OEButton *pauseButton;
+@property(strong, readonly) OEHUDButton *fullScreenButton;
+@property(strong, readonly) OEHUDButton *pauseButton;
 
 - (void)setupControls;
 @end
@@ -874,9 +872,9 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)setupControls
 {
-    OEButton *stopButton = [[OEButton alloc] init];
-    [stopButton setThemeKey:@"hud_button_power"];
-    [stopButton setTitle:@""];
+    OEHUDButton *stopButton = [[OEHUDButton alloc] init];
+    stopButton.imageName = @"hud_power";
+    stopButton.backgroundColor = NSColor.redColor;
     [stopButton setTarget:self];
     [stopButton setAction:@selector(stopEmulation:)];
     [stopButton setFrame:NSMakeRect(10, 13, 51, 23)];
@@ -884,28 +882,26 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [stopButton setToolTip:NSLocalizedString(@"Stop Emulation", @"Tooltip")];
     [self addSubview:stopButton];
 
-    _pauseButton = [[OEButton alloc] init];
+    _pauseButton = [[OEHUDButton alloc] init];
     [_pauseButton setButtonType:NSButtonTypeToggle];
-    [_pauseButton setThemeKey:@"hud_button_toggle_pause"];
-    [_pauseButton setTitle:@""];
+    _pauseButton.imageName = @"hud_pause";
+    _pauseButton.alternateImageName = @"hud_play";
     [_pauseButton setAction:@selector(toggleEmulationPaused:)];
     [_pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];
     [_pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [_pauseButton setToolTip:NSLocalizedString(@"Pause Gameplay", @"Tooltip")];
     [self addSubview:_pauseButton];
 
-    OEButton *restartButton = [[OEButton alloc] init];
-    [restartButton setThemeKey:@"hud_button_restart"];
-    [restartButton setTitle:@""];
+    OEHUDButton *restartButton = [[OEHUDButton alloc] init];
+    restartButton.imageName = @"hud_restart";
     [restartButton setAction:@selector(resetEmulation:)];
     [restartButton setFrame:NSMakeRect(111, 9, 32, 32)];
     [restartButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [restartButton setToolTip:NSLocalizedString(@"Restart System", @"Tooltip")];
     [self addSubview:restartButton];
 
-    OEButton *saveButton = [[OEButton alloc] init];
-    [saveButton setThemeKey:@"hud_button_save"];
-    [saveButton setTitle:@""];
+    OEHUDButton *saveButton = [[OEHUDButton alloc] init];
+    saveButton.imageName = @"hud_save";
     [saveButton setTarget:[self window]];
     [saveButton setAction:@selector(showSaveMenu:)];
     [saveButton setFrame:NSMakeRect(162, 7, 32, 32)];
@@ -916,9 +912,8 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarHidesOptionButtonKey];
     if(!hideOptions)
     {
-        OEButton *optionsButton = [[OEButton alloc] init];
-        [optionsButton setThemeKey:@"hud_button_options"];
-        [optionsButton setTitle:@""];
+        OEHUDButton *optionsButton = [[OEHUDButton alloc] init];
+        optionsButton.imageName = @"hud_options";
         [optionsButton setTarget:[self window]];
         [optionsButton setAction:@selector(showOptionsMenu:)];
         [optionsButton setFrame:NSMakeRect(212, 7, 32, 32)];
@@ -927,21 +922,19 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [self addSubview:optionsButton];
     }
 
-    OEButton *volumeDownButton = [[OEButton alloc] initWithFrame:NSMakeRect(223 + (hideOptions ? 0 : 50), 17, 13, 14)];
-    [volumeDownButton setTitle:@""];
-    [volumeDownButton setThemeKey:@"hud_button_volume_down"];
+    OEHUDButton *volumeDownButton = [[OEHUDButton alloc] initWithFrame:NSMakeRect(224 + (hideOptions ? 0 : 50), 15, 12, 18)];
+    volumeDownButton.imageName = @"hud_volume_down";
     [volumeDownButton setAction:@selector(mute:)];
     [volumeDownButton setToolTip:NSLocalizedString(@"Mute Audio", @"Tooltip")];
     [self addSubview:volumeDownButton];
 
-    OEButton *volumeUpButton = [[OEButton alloc] initWithFrame:NSMakeRect(320 + (hideOptions? 0 : 50), 17, 15, 14)];
-    [volumeUpButton setTitle:@""];
-    [volumeUpButton setThemeKey:@"hud_button_volume_up"];
+    OEHUDButton *volumeUpButton = [[OEHUDButton alloc] initWithFrame:NSMakeRect(320 + (hideOptions? 0 : 50), 15, 17, 18)];
+    volumeUpButton.imageName = @"hud_volume_up";
     [volumeUpButton setAction:@selector(unmute:)];
     [volumeUpButton setToolTip:NSLocalizedString(@"Unmute Audio", @"Tooltip")];
     [self addSubview:volumeUpButton];
 
-    _slider = [[OEHUDSlider alloc] initWithFrame:NSMakeRect(238 + (hideOptions ? 0 : 50), 12, 76, 23)];
+    _slider = [[OEHUDSlider alloc] initWithFrame:NSMakeRect(238 + (hideOptions ? 0 : 50), 12, 78, 23)];
 
     OEHUDSliderCell *sliderCell = [[OEHUDSliderCell alloc] init];
     [_slider setCell:sliderCell];
@@ -959,9 +952,10 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [_slider setAnimations:[NSDictionary dictionaryWithObject:animation forKey:@"floatValue"]];
     [self addSubview:_slider];
 
-    _fullScreenButton = [[OEButton alloc] init];
-    [_fullScreenButton setTitle:@""];
-    [_fullScreenButton setThemeKey:@"hud_button_fullscreen"];
+    _fullScreenButton = [[OEHUDButton alloc] init];
+    _fullScreenButton.imageName = @"hud_fullscreen_enter";
+    _fullScreenButton.alternateImageName = @"hud_fullscreen_exit";
+    _fullScreenButton.backgroundColor = NSColor.blackColor;
     [_fullScreenButton setButtonType:NSButtonTypePushOnPushOff];
     [_fullScreenButton setAction:@selector(toggleFullScreen:)];
     [_fullScreenButton setFrame:NSMakeRect(370 + (hideOptions ? 0 : 50), 13, 51, 23)];

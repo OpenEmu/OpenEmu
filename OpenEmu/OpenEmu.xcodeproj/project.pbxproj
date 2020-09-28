@@ -574,6 +574,7 @@
 		8F4BDF801CE4ACC6007DCB86 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */; };
 		8F5074741C10BCEC00F52B83 /* OELibraryGamesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5074761C10BCEC00F52B83 /* OELibraryGamesViewController.xib */; };
 		8F58592F24F4340D009B8502 /* HomebrewOutlinedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */; };
+		8F714FD824F85CEA006AF031 /* HUDButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F714FD724F85CEA006AF031 /* HUDButton.swift */; };
 		8F7BFC9623E653E100B1F6C8 /* ShaderParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F7BFC9823E653E100B1F6C8 /* ShaderParameters.xib */; };
 		8F80217A24F45E4800DC82E3 /* ControlsScroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217924F45E4800DC82E3 /* ControlsScroller.swift */; };
 		8F80217C24F45E6700DC82E3 /* ControlsPopUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217B24F45E6600DC82E3 /* ControlsPopUpButton.swift */; };
@@ -2099,6 +2100,7 @@
 		8F5074801C10BD0900F52B83 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
 		8F5074821C10BD0C00F52B83 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
 		8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewOutlinedButton.swift; sourceTree = "<group>"; };
+		8F714FD724F85CEA006AF031 /* HUDButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDButton.swift; sourceTree = "<group>"; };
 		8F7BFC9723E653E100B1F6C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ShaderParameters.xib; sourceTree = "<group>"; };
 		8F7BFC9A23E653ED00B1F6C8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
 		8F80217924F45E4800DC82E3 /* ControlsScroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsScroller.swift; sourceTree = "<group>"; };
@@ -3024,6 +3026,7 @@
 				5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */,
 				8F2F92A92519A9E700699691 /* GameScannerButton.swift */,
 				8FAF069A251FB02700EDB247 /* HoverButton.swift */,
+				8F714FD724F85CEA006AF031 /* HUDButton.swift */,
 				8F0D804824ED7F14001BD8E2 /* Label.swift */,
 				8FEC1B9F24F7D37700DBBF72 /* TextButton.swift */,
 			);
@@ -7476,6 +7479,7 @@
 				051A6F3B23CFF30C007B7C4F /* MainWindowController.swift in Sources */,
 				831C9AAD160095BA00038D0D /* OETheme.m in Sources */,
 				8F0D804724ED76C4001BD8E2 /* ControlsLabels.swift in Sources */,
+				8F714FD824F85CEA006AF031 /* HUDButton.swift in Sources */,
 				01E2A2F323E60F7E00194150 /* PrefCoresController.swift in Sources */,
 				5A438A1B1D89AEB60061A47C /* OpenEmuApplication.swift in Sources */,
 				5A44301C1D93380600E54F1D /* OEBuildInfo.m in Sources */,
