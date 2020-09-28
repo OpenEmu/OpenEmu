@@ -27,8 +27,7 @@
 @import Foundation;
 
 @class OESidebarFieldEditorContainer;
-@class OEBackgroundColorView;
 @interface OESidebarFieldEditor : NSTextView
 + (id)fieldEditor;
-@property (strong) OEBackgroundColorView *container;
+@property (strong) NSBox *container;
 @end

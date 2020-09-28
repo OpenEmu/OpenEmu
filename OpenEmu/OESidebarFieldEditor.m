@@ -96,9 +96,11 @@ static void *const _OESidebarFieldEditorContext = (void *)&_OESidebarFieldEditor
        [self superview] != nil &&
        [NSStringFromClass([[self superview] class]) isEqualToString:@"_NSKeyboardFocusClipView"])
     {
-        OEBackgroundColorView *cont = [[OEBackgroundColorView alloc] initWithFrame:NSInsetRect([self superFrame], -1, -1)];
-        cont.backgroundColor = NSColor.textBackgroundColor;
-        [self setContainer:cont];
+        NSBox *cont = [[NSBox alloc] initWithFrame:NSInsetRect([self superFrame], -1, -1)];
+        cont.boxType = NSBoxCustom;
+        cont.borderWidth = 0.0;
+        cont.fillColor = NSColor.textBackgroundColor;
+        self.container = cont;
         
         [self updateContainerFrame];
         
