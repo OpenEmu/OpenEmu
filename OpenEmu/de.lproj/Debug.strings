@@ -3,11 +3,11 @@
 
 "Debug Mode" = "Debug-Modus";
 
-"Setup Assistant has finished" = "Setup-Assistent wurde durchlaufen";
+"Setup Assistant has finished" = "Setup-Assistent wurde abgeschlossen";
 
 "Region" = "Region";
 
-"Run games using" = "Starte Spiele als";
+"Run games using" = "Starte Spiele per";
 
 "Library Window" = "Mediathek-Ansicht";
 
@@ -19,9 +19,9 @@
 
 "Manually choose system on import" = "Konsole beim Import manuell auswählen";
 
-"Show autosave states in save state category" = "Automatische Sicherungen in Spielstände-Kategorie anzeigen";
+"Show autosave states in save state category" = "Automatische Sicherungen in Spielstände-Ansicht anzeigen";
 
-"Show quicksave states in save state category" = "Schnelle Sicherungen in Spielstände-Kategorie anzeigen";
+"Show quicksave states in save state category" = "Schnelle Sicherungen in Spielstände-Ansicht anzeigen";
 
 "Show game scanner view" = "Spiele-Scanner einblenden";
 
@@ -33,13 +33,13 @@
 
 "Show options button" = "Optionen-Schaltfläche anzeigen";
 
-"Show notifications during gameplay" = "Mitteilungen während des Spielens anzeigen";
+"Show notifications during gameplay" = "Mitteilungsicons während des Spielens anzeigen";
 
-"Use quicksave slots" = "Slots für schnelle Sicherung verwenden";
+"Use quicksave slots" = "Slots für schnelle Sicherungen verwenden";
 
-"Show quicksave in menu" = "Schnelle Sicherung in Menü anzeigen";
+"Show quicksave in menu" = "Schnelle Sicherungen in Menü anzeigen";
 
-"Show autosave in menu" = "Automatische Sicherung in Menü anzeigen";
+"Show autosave in menu" = "Automatische Sicherungen in Menü anzeigen";
 
 "Show audio output device in menu" = "Audio-Ausgabegerät in Menü anzeigen";
 
@@ -47,7 +47,7 @@
 
 "Disable aspect ratio correction in screenshots" = "Seitenverhältnis-Korrektur von Bildschirmfotos deaktivieren";
 
-"Game View Background color" = "Hintergrund der Spieleansicht";
+"Game View Background color" = "Spielefenster-Hintergrund";
 
 "Controls Setup" = "Steuerung";
 
@@ -65,7 +65,7 @@
 
 "Log Keyboard Events" = "Tastatur-Events loggen";
 
-"Show all global keys" = "Alle Global-Keys anzeigen";
+"Show all global keys" = "Alle Spezialtasten anzeigen";
 
 "Set default save states directory" = "Standard-Spielstandordner festlegen";
 
@@ -87,7 +87,7 @@
 
 "Download missing artwork…" = "Fehlende Cover herunterladen …";
 
-"Remove untracked artwork files" = "Nicht getrackte Cover entfernen";
+"Remove untracked artwork files" = "Nicht benutzte Cover löschen";
 
 "Cleanup rom hashes" = "ROM-Prüfsummen aufräumen";
 
@@ -99,7 +99,7 @@
 
 "While performing this operation OpenEmu will be unresponsive." = "Während dieser Aktion wird OpenEmu nicht mehr reagieren.";
 
-"Delete useless image objects" = "Unbenutzte Bilder löschen";
+"Delete useless image objects" = "Ungültige Bildverweise entfernen";
 
 "Sync games without artwork" = "Spiele ohne Cover synchronisieren";
 
@@ -119,24 +119,24 @@
 
 "Reveal user shader folder" = "Benutzershader-Ordner anzeigen";
 
-"Appearance" = "Appearance";  // TODO
+"Appearance" = "Erscheinungsbild";
 
-"Auto (region)" = "Auto";  // TODO
+"Auto (region)" = "Automatisch";
 
-"North America" = "North America";  // TODO
+"North America" = "Nordamerika";
 
-"Japan" = "Japan";  // TODO
+"Japan" = "Japan";
 
-"Europe" = "Europe";  // TODO
+"Europe" = "Europa";
 
-"Other" = "Other";  // TODO
+"Other" = "Andere";
 
-"XPC" = "XPC";  // TODO
+"XPC" = "XPC";
 
-"Background Thread" = "Background Thread";  // TODO
+"Background Thread" = "Hintergrundthread";
 
-"System" = "System";  // TODO
+"System" = "Systemeinstellung";
 
-"Dark (default)" = "Dark (default)";  // TODO
+"Dark (default)" = "Dunkel (Standard)";
 
-"Light" = "Light";  // TODO
+"Light" = "Hell";

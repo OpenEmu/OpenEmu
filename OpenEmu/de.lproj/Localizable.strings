@@ -25,7 +25,7 @@
 
 "All Homebrew" = "Alle Homebrew-Spiele";
 
-"Already in library:" = "Already in library:";  // TODO
+"Already in library:" = "Bereits in Mediathek:";
 
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Möchtest du die %ld ausgewählten Spielstände wirklich aus der Mediathek löschen?";
 
@@ -239,9 +239,9 @@
 
 "Installing Core" = "Kern installieren";
 
-"Invalid cue sheet format:" = "Invalid cue sheet format:";  // TODO
+"Invalid cue sheet format:" = "Ungültiges Cuesheet-Format:";
 
-"Invalid gdi format:" = "Invalid gdi format:";  // TODO
+"Invalid gdi format:" = "Ungültiges gdi-Format:";
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Verbinde mehrzeilige Cheats mit „+“, z. B. 0000+1111";
 
@@ -267,7 +267,7 @@
 
 "Missing Core" = "Kern fehlt";
 
-"Missing referenced file:" = "Missing referenced file:";  // TODO
+"Missing referenced file:" = "Referenzierte Datei fehlt:";
 
 "Move selected game to Trash, or keep it in the Library folder?" = "Ausgewähltes Spiel in den Papierkorb legen oder im Spieleordner behalten?";
 
@@ -281,7 +281,7 @@
 
 "Name" = "Name";
 
-"New Collection from Selection" = "Neue Sammlung aus Auswahl";
+"New Collection from Selection" = "Neue Sammlung mit Auswahl";
 
 "New Collection" = "Neue Sammlung";
 
@@ -295,19 +295,19 @@
 
 "No Internet Connection" = "Keine Internetverbindung";
 
-"No permission to open:" = "No permission to open:";  // TODO
+"No permission to open:" = "Keine Zugriffsberechtigung:";
 
 "No Save States available" = "Keine Spielstände verfügbar";
 
 "No Screenshots Found" = "Keine Bildschirmfotos gefunden";
 
-"No valid system detected:" = "No valid system detected:";  // TODO
+"No valid system detected:" = "Kein gültiges System erkannt:";
 
 "No" = "Nein";
 
 "None" = "Ohne";
 
-"Not plain text:" = "Not plain text:";  // TODO
+"Not plain text:" = "Kein unformatierter Text:";
 
 "OK" = "OK";
 
@@ -367,11 +367,11 @@
 
 "Rename Game" = "Spiel umbenennen";
 
-"Rename Special Save State or something?" = "Spezial-Spielstand umbenennen?";
+"Rename Special Save State or something?" = "Besonderen Spielstand umbenennen?";
 
 "Rename" = "Umbenennen";
 
-"Required files are missing." = "Erforderliche Dateien fehlen.";
+"Required files are missing." = "Benötigte Dateien fehlen.";
 
 "Resolve %ld Issue" = "%ld Problem beheben";
 
@@ -455,11 +455,11 @@
 
 "Takes you to the %@ project website" = "Besuche die „%@“-Projektseite";
 
-"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "Der „%1$@“-Kern hat Kompatibilitätsprobleme, daher können einige Spiele nicht fehlerfrei oder gar nicht gespielt werden.\n\nBitte melde keine Fehler, da wir für die Entwicklung von „%2$@“ nicht verantwortlich sind.";
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "Der „%1$@“-Kern hat Kompatibilitätsprobleme, daher können einige Spiele nicht fehlerfrei oder auch gar nicht gespielt werden.\n\nBitte melde keine Fehler, da wir für die Entwicklung von „%2$@“ nicht verantwortlich sind.";
 
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "Die Batterieladung in Gerät %1$lu (%2$@) ist gering. Bitte lade das Gerät oder ersetze die Batterie.";
 
-"The core could not be downloaded. Try installing it from the Cores preferences." = "Der Kern konnte nicht heruntergeladen werden. Versuche ihn in den Kern-Einstellungen zu installieren.";
+"The core could not be downloaded. Try installing it from the Cores preferences." = "Der Kern konnte nicht heruntergeladen werden. Versuche, ihn in den Kerne-Einstellungen zu installieren.";
 
 "The file you selected doesn't exist" = "Die ausgewählte Datei existiert nicht";
 
@@ -479,7 +479,7 @@
 
 "Title:" = "Titel:";
 
-"To launch the save state %@ you will need to install the '%@' Core" = "Um den Spielstand „%1$@“ zu laden, muss der Kern „%2$@“ installiert werden";
+"To launch the save state %@ you will need to install the '%@' Core" = "Um den Spielstand „%1$@“ zu starten, muss der Kern „%2$@“ installiert werden";
 
 "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "Um dieses Spiel zu starten, werden folgende Dateien benötigt:\n\n%@Ziehe die erforderlichen Dateien in die Mediatheksansicht und starte das Spiel erneut.";
 
@@ -487,7 +487,7 @@
 
 "Trash downloaded Files" = "Heruntergeladene Dateien löschen";
 
-"Unexpected error:" = "Unexpected error:";  // TODO
+"Unexpected error:" = "Unerwarteter Fehler:";
 
 "Unmute Audio" = "Ton ein";
 
@@ -533,15 +533,15 @@
 
 "Category" = "Kategorie";
 
-"An issue was detected with one of your controllers." = "An issue was detected with one of your controllers.";  //TODO // Headline for bindings repaired alert
+"An issue was detected with one of your controllers." = "Bei einem deiner Controller wurde ein Problem festgestellt.";  // Headline for bindings repaired alert
 
-"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.";  // TODO // Message for bindings repaired alert
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "Das Tastenprofil eines deiner Controller hat sich seit dem letzten Verbinden mit OpenEmu verändert. Einige der benutzerdefinierten Tastenzuordnungen des betroffenen Controllers wurden zurückgesetzt.\n\nDu kannst deine Tastenbelegung in den Steuerung-Einstellungen überprüfen.";  // Message for bindings repaired alert
 
-"Keycode 0x%lX" = "Keycode 0x%lX";  // TODO  // Fallback for unknown keys
+"Keycode 0x%lX" = "Tastencode 0x%lX";  // Fallback for unknown keys
 
 "Your Mac is too old for this version of OpenEmu" = "Dein Mac ist zu alt für diese OpenEmu-Version";  // Message for the alert which appears when no Metal-enabled GPUs are detected
 
-"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "OpenEmu benötigt seit Version 2.1 eine GPU, die Metal unterstützt. Metal ist für alle Macs verfügbar, die macOS 10.14 oder neuer unterstützen.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected
+"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "OpenEmu benötigt seit Version 2.1 eine GPU, die Metal unterstützt. Metal ist auf allen Macs verfügbar, die macOS 10.14 oder neuer unterstützen.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected
 
 "Quit OpenEmu" = "OpenEmu beenden";  // Button title for the alert which appears when no Metal-enabled GPUs are detected
 
@@ -569,26 +569,26 @@
 
 "Show" = "Anzeigen";
 
-"Moving the Game Library is not recommended" = "Moving the Game Library is not recommended";  //Message headline (attempted to change location of library)  // TODO
+"Moving the Game Library is not recommended" = "Das Bewegen der Mediathek wird nicht empfohlen";  //Message headline (attempted to change location of library)
 
-"The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives.";  // Message text (attempted to change location of library, HTML  // TODO
+"The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "Die OpenEmu-Mediathek enthät eine Datenbankdatei, die beschädigt werden kann, wenn sie an einen der folgenden Orte bewegt wird:<br><br><ul><li>Ordner, die von einem Synchronisierungsdienst (wie <b>iCloud Drive</b>) verwaltet werden</li><li>Netzwerklaufwerke</li></ul><br>Auch das <b>Teilen der Mediathek zwischen mehreren Computern oder Benutzern</b> kann zur Beschädigung führen. Dies gilt auch dann, wenn sie auf ein externes Speichermedium verschoben wird.";  // Message text (attempted to change location of library, HTML
 
-"I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
+"I understand the risks" = "Ich bin mir der Risiken bewusst";  // OK button (attempted to change location of library)
 
 "Continue" = "Fortfahren";
 
-"Fill Screen" = "Fill Screen";  // Integral scale menu item title  // TODO
+"Fill Screen" = "Bildschirmfüllend";  // Integral scale menu item title
 
 "ECM compressed binary detected." = "ECM-komprimierte Binärdatei erkannt.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM-komprimierte Binärdateien können nicht importiert werden. Bitte lies die Hilfe zum Thema „Importieren von CDs“.";
 
-"Files failed to import." = "Files failed to import.";  // TODO
+"Files failed to import." = "Dateien konnten nicht importiert werden.";
 
-"Dismiss" = "Dismiss";  // TODO
+"Dismiss" = "Ausblenden";
 
-"\"%@\" in %@" = "\"%1$@\" in %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)  // TODO
+"\"%@\" in %@" = "\"%1$@\" in %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)
 
-"NOT FOUND: \"%@\"" = "NOT FOUND: \"%@\"";  // Import error description: referenced file not found  // TODO
+"NOT FOUND: \"%@\"" = "NICHT GEFUNDEN: \"%@\"";  // Import error description: referenced file not found
 
-"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access.";  // TODO
+"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Wähle Apple-Menü  > Systemeinstellungen, klicke auf Sicherheit und wähle dann den Datenschutz-Tab aus. Entferne die eventuell bestehende „Dateien und Ordner“-Berechtigung für OpenEmu und gestatte stattdessen den Festplattenvollzugriff.";

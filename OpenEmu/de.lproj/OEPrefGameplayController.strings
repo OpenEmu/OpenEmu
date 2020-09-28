@@ -9,7 +9,7 @@
 "23.title" = "Anzeige";
 
 /* Class = "NSButtonCell"; title = "Always use popout gameplay window"; ObjectID = "25"; */
-"25.title" = "Spiele in eigenem Fenster starten";
+"25.title" = "Spiele in Popout-Fenster starten";
 
 /* Class = "NSButtonCell"; title = "Always launch games fullscreen"; ObjectID = "26"; */
 "26.title" = "Spiele im Vollbildmodus starten";
@@ -18,7 +18,7 @@
 "57.title" = "Spiele im Hintergrund pausieren";
 
 /* Class = "NSButtonCell"; title = "Always snap popout gameplay window to integer scale"; ObjectID = "lgO-eK-Z0g"; */
-"lgO-eK-Z0g.title" = "Always snap popout gameplay window to integer scale";  // TODO
+"lgO-eK-Z0g.title" = "Skalierung des Popout-Fensters auf Integer beschränken";
 
 /* Class = "NSButtonCell"; title = "Allow playing with controllers when in background"; ObjectID = "zUK-Vv-IqE"; */
 "zUK-Vv-IqE.title" = "Controllereingaben im Hintergrund erlauben";
