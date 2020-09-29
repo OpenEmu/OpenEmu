@@ -65,7 +65,7 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="17" id="gvH-Zu-Hp0"/>
                                                         </constraints>
-                                                        <buttonCell key="cell" type="smallSquare" title="SYSTEM" bezelStyle="smallSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="SIc-aZ-puf">
+                                                        <buttonCell key="cell" type="smallSquare" title="SYSTEM" bezelStyle="smallSquare" alignment="center" enabled="NO" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="SIc-aZ-puf">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
@@ -75,7 +75,7 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="17" id="rk8-vn-0aF"/>
                                                         </constraints>
-                                                        <buttonCell key="cell" type="smallSquare" title="YEAR" bezelStyle="smallSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="Se1-Vc-J4Y">
+                                                        <buttonCell key="cell" type="smallSquare" title="YEAR" bezelStyle="smallSquare" alignment="center" enabled="NO" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="Se1-Vc-J4Y">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
@@ -197,30 +197,6 @@
                                                                             <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="hAP-Wg-Xa5"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UwV-Md-06C" customClass="OEHomebrewOutlinedButton">
-                                                                        <rect key="frame" x="18" y="11" width="59" height="18"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="65X-Ve-LCa">
-                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                        </buttonCell>
-                                                                    </button>
-                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E7y-Tz-1qf" customClass="OEHomebrewOutlinedButton">
-                                                                        <rect key="frame" x="85" y="11" width="61" height="18"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="xYS-gb-JIA">
-                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                        </buttonCell>
-                                                                    </button>
-                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rUH-WG-nRq" customClass="OEHomebrewDeveloperLink">
-                                                                        <rect key="frame" x="38" y="35" width="204" height="18"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="8Rt-p4-N0C">
-                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                        </buttonCell>
-                                                                    </button>
                                                                 </subviews>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="242" id="8CF-I5-Ihx"/>
@@ -246,30 +222,6 @@
                                                                             <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="Uwc-vB-7eq"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="882-T1-u9B" customClass="OEHomebrewOutlinedButton">
-                                                                        <rect key="frame" x="18" y="11" width="59" height="18"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="Ufp-J5-Fdn">
-                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                        </buttonCell>
-                                                                    </button>
-                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4IR-R8-vWe" customClass="OEHomebrewOutlinedButton">
-                                                                        <rect key="frame" x="85" y="11" width="61" height="18"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="A9j-pe-YlF">
-                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                        </buttonCell>
-                                                                    </button>
-                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JRg-J5-JNV" customClass="OEHomebrewDeveloperLink">
-                                                                        <rect key="frame" x="38" y="35" width="204" height="18"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="c8b-na-xYA">
-                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                        </buttonCell>
-                                                                    </button>
                                                                 </subviews>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="220" id="HSy-xI-b1l"/>
@@ -295,30 +247,6 @@
                                                                             <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="5Cw-mm-wZg"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GZt-UQ-5kg" customClass="OEHomebrewOutlinedButton">
-                                                                        <rect key="frame" x="18" y="11" width="59" height="18"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="G3t-rb-H79">
-                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                        </buttonCell>
-                                                                    </button>
-                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BqM-X5-bQy" customClass="OEHomebrewOutlinedButton">
-                                                                        <rect key="frame" x="85" y="11" width="61" height="18"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="9bU-JH-JqS">
-                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                        </buttonCell>
-                                                                    </button>
-                                                                    <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4MS-I3-jM5" customClass="OEHomebrewDeveloperLink">
-                                                                        <rect key="frame" x="38" y="35" width="204" height="18"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="PzT-my-Dzg">
-                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                        </buttonCell>
-                                                                    </button>
                                                                 </subviews>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="220" id="BWD-C4-mNL"/>

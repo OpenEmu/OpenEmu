@@ -465,49 +465,6 @@ const static CGFloat TableViewSpacing = 86.0;
 
             NSTextField *label = [[container subviews] objectAtIndex:1];
             [label setStringValue:[game name]];
-
-            // setup '<developer>'
-//            NSButton *developer = [[container subviews] objectAtIndex:4];
-//            [developer setTitle:[game developer]];
-//            [developer setTarget:self];
-//            [developer setAction:@selector(gotoDeveloperWebsite:)];
-//            [developer setObjectValue:[game website]];
-//            [developer sizeToFit];
-//            // size to fit ignores shadow… so we manually adjust height
-//            NSSize size = [developer frame].size;
-//            size.height += 2.0;
-//            [developer setFrameSize:size];
-
-            // center in view
-//            CGFloat width = NSWidth([developer frame]) + 0.0;
-//            CGFloat y = NSMinY([developer frame]);
-//            CGFloat x = NSMidX([container bounds]) - width/2.0;
-//            [developer setFrameOrigin:(NSPoint){x, y}];
-
-            // system / year tags
-//            NSButton *system = [[container subviews] objectAtIndex:2];
-//            [system setEnabled:NO];
-//            [system setTitle:[game systemShortName]];
-//            [system sizeToFit];
-//
-//            NSButton *year = [[container subviews] objectAtIndex:3];
-//            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//            [formatter setDateFormat:@"Y"];
-//            [year setEnabled:NO];
-//            [year setHidden:[[game released] timeIntervalSince1970] == 0];
-//            [year setTitle:[formatter stringFromDate:[game released]]];
-//            [year sizeToFit];
-
-            // center in view
-//            if([[game released] timeIntervalSince1970] != 0)
-//                width = NSWidth([system frame])+NSWidth([year frame]) + 5.0;
-//            else width = NSWidth([system frame]);
-//            y = NSMinY([system frame]);
-//
-//            x = NSMidX([container bounds]) - width/2.0;
-//            [system setFrameOrigin:(NSPoint){x, y}];
-//            x += NSWidth([system frame]) + 5.0;
-//            [year setFrameOrigin:(NSPoint){x, y}];
         }];
     }
     else
@@ -522,7 +479,6 @@ const static CGFloat TableViewSpacing = 86.0;
 
         // system / year flags
         NSButton    *system  = [subviews objectAtIndex:1];
-        [system setEnabled:NO];
         [system setTitle:[game systemShortName]];
 
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -530,7 +486,6 @@ const static CGFloat TableViewSpacing = 86.0;
         NSButton    *year  = [subviews objectAtIndex:2];
         [year setHidden:[[game released] timeIntervalSince1970] == 0];
         [year setTitle:[formatter stringFromDate:[game released]]];
-        [year setEnabled:NO];
 
         // description
         NSScrollView *descriptionScroll = [subviews objectAtIndex:3];
