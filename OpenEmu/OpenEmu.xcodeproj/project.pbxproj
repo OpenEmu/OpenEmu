@@ -1500,17 +1500,17 @@
 		05E789AA23D0256D000E14EE /* NSBindingName+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBindingName+Additions.swift"; sourceTree = "<group>"; };
 		05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OpenEmuShaders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		081A46261B95744A00565444 /* Pokemon mini.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pokemon mini.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
-		086769581B96E8A2006545DA /* OEPMSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPMSystemResponder.h; path = "Pokemon mini/OEPMSystemResponder.h"; sourceTree = SOURCE_ROOT; };
-		086769591B96E8B2006545DA /* OEPMSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEPMSystemResponder.m; path = "Pokemon mini/OEPMSystemResponder.m"; sourceTree = SOURCE_ROOT; };
-		0867695B1B96E8C2006545DA /* OEPMSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPMSystemResponderClient.h; path = "Pokemon mini/OEPMSystemResponderClient.h"; sourceTree = SOURCE_ROOT; };
-		0867695C1B96E8D4006545DA /* pokemonmini_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pokemonmini_library.png; path = "Pokemon mini/pokemonmini_library.png"; sourceTree = SOURCE_ROOT; };
-		0867695E1B96E8DB006545DA /* pokemonmini_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pokemonmini_library@2x.png"; path = "Pokemon mini/pokemonmini_library@2x.png"; sourceTree = SOURCE_ROOT; };
-		086769601B96E8E6006545DA /* controller_pokemonmini_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controller_pokemonmini_mask.png; path = "Pokemon mini/controller_pokemonmini_mask.png"; sourceTree = SOURCE_ROOT; };
-		086769621B96E902006545DA /* controller_pokemonmini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controller_pokemonmini.png; path = "Pokemon mini/controller_pokemonmini.png"; sourceTree = SOURCE_ROOT; };
-		086769641B96E922006545DA /* Pokemon mini-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pokemon mini-Info.plist"; path = "Pokemon mini/Pokemon mini-Info.plist"; sourceTree = SOURCE_ROOT; };
-		086769661B96E92C006545DA /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Keyboard-Mappings.plist"; path = "Pokemon mini/Keyboard-Mappings.plist"; sourceTree = SOURCE_ROOT; };
-		086769681B96E936006545DA /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Controller-Preferences.plist"; path = "Pokemon mini/Controller-Preferences.plist"; sourceTree = SOURCE_ROOT; };
-		0867696A1B96E93F006545DA /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Controller-Mappings.plist"; path = "Pokemon mini/Controller-Mappings.plist"; sourceTree = SOURCE_ROOT; };
+		086769581B96E8A2006545DA /* OEPMSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPMSystemResponder.h; sourceTree = "<group>"; };
+		086769591B96E8B2006545DA /* OEPMSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPMSystemResponder.m; sourceTree = "<group>"; };
+		0867695B1B96E8C2006545DA /* OEPMSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPMSystemResponderClient.h; sourceTree = "<group>"; };
+		0867695C1B96E8D4006545DA /* pokemonmini_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pokemonmini_library.png; sourceTree = "<group>"; };
+		0867695E1B96E8DB006545DA /* pokemonmini_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pokemonmini_library@2x.png"; sourceTree = "<group>"; };
+		086769601B96E8E6006545DA /* controller_pokemonmini_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pokemonmini_mask.png; sourceTree = "<group>"; };
+		086769621B96E902006545DA /* controller_pokemonmini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pokemonmini.png; sourceTree = "<group>"; };
+		086769641B96E922006545DA /* Pokemon mini-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Pokemon mini-Info.plist"; sourceTree = "<group>"; };
+		086769661B96E92C006545DA /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		086769681B96E936006545DA /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		0867696A1B96E93F006545DA /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		11BD776A196A46AD00BFB3FE /* controller_n64_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_n64_mask.png; sourceTree = "<group>"; };
 		11BD776B196A46AD00BFB3FE /* controller_n64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_n64.png; sourceTree = "<group>"; };
 		11BD776C196A46AD00BFB3FE /* controller_n64_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_n64_mask@2x.png"; sourceTree = "<group>"; };
@@ -3190,8 +3190,7 @@
 				0867695B1B96E8C2006545DA /* OEPMSystemResponderClient.h */,
 				081A46361B95752200565444 /* Supporting Files */,
 			);
-			name = "Pokemon mini";
-			path = Vectrex;
+			path = "Pokemon mini";
 			sourceTree = "<group>";
 		};
 		081A46361B95752200565444 /* Supporting Files */ = {
@@ -5207,6 +5206,7 @@
 				94A224451707539D00098DA0 /* WonderSwan */,
 			);
 			name = "System Plugins";
+			path = SystemPlugins;
 			sourceTree = "<group>";
 		};
 		C6711821136368A30034379A /* Sega Master System */ = {
@@ -8471,7 +8471,7 @@
 		081A462B1B95744A00565444 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Pokemon mini/Pokemon mini-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Pokemon mini/Pokemon mini-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8481,7 +8481,7 @@
 		081A462C1B95744A00565444 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Pokemon mini/Pokemon mini-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Pokemon mini/Pokemon mini-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8491,7 +8491,7 @@
 		141554181442B3B300A01683 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "N64/N64-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/N64/N64-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8501,7 +8501,7 @@
 		141554191442B3B300A01683 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "N64/N64-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/N64/N64-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8574,7 +8574,7 @@
 		277CBA4319DE54200059A2C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Intellivision/Intellivision-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Intellivision/Intellivision-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8584,7 +8584,7 @@
 		277CBA4419DE54200059A2C1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Intellivision/Intellivision-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Intellivision/Intellivision-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8628,7 +8628,7 @@
 		3DB744B81BD8BA9E00C23E74 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "PlayStation 2/PlayStation2-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/PlayStation 2/PlayStation2-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8638,7 +8638,7 @@
 		3DB744B91BD8BA9E00C23E74 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "PlayStation 2/PlayStation2-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/PlayStation 2/PlayStation2-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8648,7 +8648,7 @@
 		820EB7481483F9A2008EC398 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "NeoGeoPocket/NeoGeoPocket-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/NeoGeoPocket/NeoGeoPocket-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "NeoGeo Pocket";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8658,7 +8658,7 @@
 		820EB7491483F9A2008EC398 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "NeoGeoPocket/NeoGeoPocket-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/NeoGeoPocket/NeoGeoPocket-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "NeoGeo Pocket";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8668,7 +8668,7 @@
 		8227754D148946DF00B19E27 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "GameGear/GameGear-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/GameGear/GameGear-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8678,7 +8678,7 @@
 		8227754E148946DF00B19E27 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "GameGear/GameGear-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/GameGear/GameGear-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8706,7 +8706,7 @@
 		837964E51A6149C000A8DE5C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Supervision/Supervision-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Supervision/Supervision-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8716,7 +8716,7 @@
 		837964E61A6149C000A8DE5C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Supervision/Supervision-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Supervision/Supervision-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8740,7 +8740,7 @@
 		87DF05021BCE2D100060E2C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Dreamcast/Dreamcast-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Dreamcast/Dreamcast-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8750,7 +8750,7 @@
 		87DF05031BCE2D100060E2C2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Dreamcast/Dreamcast-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Dreamcast/Dreamcast-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8760,7 +8760,7 @@
 		87FBC0711BFC70FE00AECF5A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Commodore 64/Commodore 64-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Commodore 64/Commodore 64-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8770,7 +8770,7 @@
 		87FBC0721BFC70FE00AECF5A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Commodore 64/Commodore 64-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Commodore 64/Commodore 64-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8780,7 +8780,7 @@
 		87FBC0911C0790B500AECF5A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Atari 8-bit/Atari 8bit-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Atari 8-bit/Atari 8bit-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8790,7 +8790,7 @@
 		87FBC0921C0790B500AECF5A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Atari 8-bit/Atari 8bit-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Atari 8-bit/Atari 8bit-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8800,7 +8800,7 @@
 		9405538D17A34C6B009B505D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "PC Engine CD/PC Engine CD-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/PC Engine CD/PC Engine CD-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8810,7 +8810,7 @@
 		9405538E17A34C6B009B505D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "PC Engine CD/PC Engine CD-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/PC Engine CD/PC Engine CD-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8820,7 +8820,7 @@
 		941F5A0A17A785AE0005D7EA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Atari 7800/Atari 7800-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Atari 7800/Atari 7800-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8830,7 +8830,7 @@
 		941F5A0B17A785AE0005D7EA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Atari 7800/Atari 7800-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Atari 7800/Atari 7800-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8840,7 +8840,7 @@
 		943C801C1708A62F00D8D93E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Jaguar/Jaguar-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Jaguar/Jaguar-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8850,7 +8850,7 @@
 		943C801D1708A62F00D8D93E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Jaguar/Jaguar-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Jaguar/Jaguar-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8860,7 +8860,7 @@
 		943C803F1708F23900D8D93E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "VMU/VMU-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/VMU/VMU-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8870,7 +8870,7 @@
 		943C80401708F23900D8D93E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "VMU/VMU-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/VMU/VMU-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8880,7 +8880,7 @@
 		943F99941707D51100270E89 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Vectrex/Vectrex-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Vectrex/Vectrex-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8890,7 +8890,7 @@
 		943F99951707D51100270E89 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Vectrex/Vectrex-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Vectrex/Vectrex-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8900,7 +8900,7 @@
 		943F99BD1707DF3700270E89 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "3DO/3DO-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/3DO/3DO-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8910,7 +8910,7 @@
 		943F99BE1707DF3700270E89 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "3DO/3DO-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/3DO/3DO-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8920,7 +8920,7 @@
 		9440475E199D4DF1002D805E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Odyssey2/Odyssey2-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Odyssey2/Odyssey2-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8930,7 +8930,7 @@
 		9440475F199D4DF1002D805E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Odyssey2/Odyssey2-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Odyssey2/Odyssey2-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8940,7 +8940,7 @@
 		94454EBD17860E1E006C057B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "PSP/PSP-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/PSP/PSP-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8950,7 +8950,7 @@
 		94454EBE17860E1E006C057B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "PSP/PSP-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/PSP/PSP-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8960,7 +8960,7 @@
 		945E43041517F2B500057D08 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Arcade/Arcade-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Arcade/Arcade-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8970,7 +8970,7 @@
 		945E43051517F2B500057D08 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Arcade/Arcade-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Arcade/Arcade-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8980,7 +8980,7 @@
 		946B946B178289BB00A212AC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Sega 32X/Sega 32X-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Sega 32X/Sega 32X-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -8990,7 +8990,7 @@
 		946B946C178289BB00A212AC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Sega 32X/Sega 32X-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Sega 32X/Sega 32X-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9014,7 +9014,7 @@
 		94A2243D1707537F00098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "PC Engine/PC Engine-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/PC Engine/PC Engine-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9024,7 +9024,7 @@
 		94A2243E1707537F00098DA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "PC Engine/PC Engine-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/PC Engine/PC Engine-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9034,7 +9034,7 @@
 		94A2244D1707539D00098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "WonderSwan/WonderSwan-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/WonderSwan/WonderSwan-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9044,7 +9044,7 @@
 		94A2244E1707539D00098DA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "WonderSwan/WonderSwan-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/WonderSwan/WonderSwan-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9054,7 +9054,7 @@
 		94A2245D170753C800098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Lynx/Lynx-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Lynx/Lynx-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9064,7 +9064,7 @@
 		94A2245E170753C800098DA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Lynx/Lynx-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Lynx/Lynx-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9074,7 +9074,7 @@
 		94A2246D170753D500098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "PC-FX/PC-FX-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/PC-FX/PC-FX-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9084,7 +9084,7 @@
 		94A2246E170753D500098DA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "PC-FX/PC-FX-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/PC-FX/PC-FX-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9094,7 +9094,7 @@
 		94A2247D170753E100098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "SG-1000/SG-1000-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/SG-1000/SG-1000-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9104,7 +9104,7 @@
 		94A2247E170753E100098DA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "SG-1000/SG-1000-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/SG-1000/SG-1000-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9114,7 +9114,7 @@
 		94A2248D1707541F00098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Virtual Boy/Virtual Boy-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Virtual Boy/Virtual Boy-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9124,7 +9124,7 @@
 		94A2248E1707541F00098DA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Virtual Boy/Virtual Boy-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Virtual Boy/Virtual Boy-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9134,7 +9134,7 @@
 		94A2249D1707542B00098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Sega CD/Sega CD-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Sega CD/Sega CD-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9144,7 +9144,7 @@
 		94A2249E1707542B00098DA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Sega CD/Sega CD-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Sega CD/Sega CD-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9154,7 +9154,7 @@
 		94A224AD1707543600098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Atari 2600/Atari 2600-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Atari 2600/Atari 2600-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9164,7 +9164,7 @@
 		94A224AE1707543600098DA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Atari 2600/Atari 2600-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Atari 2600/Atari 2600-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9174,7 +9174,7 @@
 		94A224BD1707544100098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Atari 5200/Atari 5200-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Atari 5200/Atari 5200-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9184,7 +9184,7 @@
 		94A224BE1707544100098DA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Atari 5200/Atari 5200-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Atari 5200/Atari 5200-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9194,7 +9194,7 @@
 		94A224CD1707544C00098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Nintendo FDS/Nintendo FDS-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Nintendo FDS/Nintendo FDS-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9204,7 +9204,7 @@
 		94A224CE1707544C00098DA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Nintendo FDS/Nintendo FDS-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Nintendo FDS/Nintendo FDS-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9214,7 +9214,7 @@
 		94A224DD1707556D00098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Saturn/Saturn-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Saturn/Saturn-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9224,7 +9224,7 @@
 		94A224DE1707556D00098DA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Saturn/Saturn-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Saturn/Saturn-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9234,7 +9234,7 @@
 		94A225001707596200098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "PlayStation/PlayStation-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/PlayStation/PlayStation-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9244,7 +9244,7 @@
 		94A225011707596200098DA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "PlayStation/PlayStation-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/PlayStation/PlayStation-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9254,7 +9254,7 @@
 		94BE9E59171683E000AB08E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "ColecoVision/ColecoVision-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/ColecoVision/ColecoVision-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9264,7 +9264,7 @@
 		94BE9E5A171683E000AB08E6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "ColecoVision/ColecoVision-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/ColecoVision/ColecoVision-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9288,7 +9288,7 @@
 		94CEB27617A84809005A2107 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "GameCube/GameCube-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/GameCube/GameCube-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9298,7 +9298,7 @@
 		94CEB27717A84809005A2107 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "GameCube/GameCube-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/GameCube/GameCube-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9308,7 +9308,7 @@
 		94D7E8D215073BA000FBDD85 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "NDS/NDS-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/NDS/NDS-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9318,7 +9318,7 @@
 		94D7E8D315073BA000FBDD85 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "NDS/NDS-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/NDS/NDS-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9520,7 +9520,7 @@
 		C646575213771F12002A4F70 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "GameBoy Advance/GameBoy Advance-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/GameBoy Advance/GameBoy Advance-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9530,7 +9530,7 @@
 		C646575313771F12002A4F70 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "GameBoy Advance/GameBoy Advance-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/GameBoy Advance/GameBoy Advance-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9540,7 +9540,7 @@
 		C6480FCB13648F670094FA33 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "SuperNES/SuperNES-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/SuperNES/SuperNES-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9550,7 +9550,7 @@
 		C6480FCC13648F670094FA33 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "SuperNES/SuperNES-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/SuperNES/SuperNES-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9560,7 +9560,7 @@
 		C64BB097136478E600C1AB23 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "NES/NES-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/NES/NES-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9570,7 +9570,7 @@
 		C64BB098136478E600C1AB23 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "NES/NES-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/NES/NES-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9580,7 +9580,7 @@
 		C671181E136368330034379A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "SegaMasterSystem/SegaMasterSystem-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/SegaMasterSystem/SegaMasterSystem-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9590,7 +9590,7 @@
 		C671181F136368330034379A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "SegaMasterSystem/SegaMasterSystem-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/SegaMasterSystem/SegaMasterSystem-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9600,7 +9600,7 @@
 		C6B947B81364ECA700A425F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "GameBoy/GameBoy-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/GameBoy/GameBoy-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9610,7 +9610,7 @@
 		C6B947B91364ECA700A425F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "GameBoy/GameBoy-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/GameBoy/GameBoy-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9620,7 +9620,7 @@
 		C6B947F01365080B00A425F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Genesis/Genesis-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Genesis/Genesis-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9630,7 +9630,7 @@
 		C6B947F11365080B00A425F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "Genesis/Genesis-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/Genesis/Genesis-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9640,7 +9640,7 @@
 		FEB66266187B791800D14713 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "MSX/MSX-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/MSX/MSX-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -9650,7 +9650,7 @@
 		FEB66267187B791800D14713 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "MSX/MSX-Info.plist";
+				INFOPLIST_FILE = "SystemPlugins/MSX/MSX-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
