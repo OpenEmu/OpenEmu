@@ -252,7 +252,8 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 {
     [super OE_switchToView:tag];
     
-    [[NSUserDefaults standardUserDefaults] setInteger:self.selectedViewTag forKey:OELastCollectionViewKey];
+    if (tag != OEBlankSlateTag)
+        [[NSUserDefaults standardUserDefaults] setInteger:self.selectedViewTag forKey:OELastCollectionViewKey];
 }
 
 #pragma mark -
