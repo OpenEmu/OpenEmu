@@ -1526,7 +1526,6 @@
 		141554201442B7B100A01683 /* OEN64SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEN64SystemResponder.m; sourceTree = "<group>"; };
 		141554221442B85000A01683 /* OEN64SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemResponderClient.h; sourceTree = "<group>"; };
 		142689BD16585F0E00AD0B63 /* OEDatabase 0.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.4.xcdatamodel"; sourceTree = "<group>"; };
-		14A9073916FAA0AE005E2635 /* FeedbackReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FeedbackReporter.framework; sourceTree = "<group>"; };
 		14B3038916F31B3A00865A5E /* OpenEmuHelperApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuHelperApp-Info.plist"; sourceTree = "<group>"; };
 		14CB5DA816FE1F8300342817 /* OEAudioDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAudioDeviceManager.h; sourceTree = "<group>"; };
 		14CB5DA916FE1F8300342817 /* OEAudioDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAudioDeviceManager.m; sourceTree = "<group>"; };
@@ -1539,10 +1538,8 @@
 		1B32151314DDD06500C5B50A /* OpenEmuText.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OpenEmuText.dae; path = "Setup Assistant Resources/OpenEmuText.dae"; sourceTree = "<group>"; };
 		1B47F103142F01E700EBC55B /* OESetupAssistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistant.h; sourceTree = "<group>"; };
 		1B47F104142F01E700EBC55B /* OESetupAssistant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistant.m; sourceTree = "<group>"; };
-		1B48F21716671473004E8ABA /* FeedbackReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FeedbackReporter.framework; sourceTree = "<group>"; };
 		1B6DA4A714DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantQCOpenGLLayer.h; sourceTree = "<group>"; };
 		1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantQCOpenGLLayer.m; sourceTree = "<group>"; };
-		1B96BA55166BDD52005064C8 /* FRFeedbackReporter.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = FRFeedbackReporter.sh; sourceTree = "<group>"; };
 		1BEF2A9411682A530090F72B /* OpenEmuHelperApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenEmuHelperApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E2F3DB910DEAB4C0019AA84 /* OEVersionMigrationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVersionMigrationController.h; sourceTree = "<group>"; };
 		1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVersionMigrationController.m; sourceTree = "<group>"; };
@@ -3215,7 +3212,6 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				14A9073916FAA0AE005E2635 /* FeedbackReporter.framework */,
 				8F4BDF7C1CE4AB34007DCB86 /* libsqlite3.tbd */,
 				8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */,
 				82DE4AEE1026533E007184EB /* UniversalDetector.framework */,
@@ -3536,7 +3532,6 @@
 				1BEF34721168F8210090F72B /* XIBs */,
 				94AE2C0F17B07D450018DFBB /* cheats-database.xml */,
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
-				1B96BA55166BDD52005064C8 /* FRFeedbackReporter.sh */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -4134,7 +4129,6 @@
 		83FA054F13B9DFC20055A520 /* Copied Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1B48F21716671473004E8ABA /* FeedbackReporter.framework */,
 				83FA054D13B9DF940055A520 /* Sparkle.framework */,
 			);
 			name = "Copied Frameworks";
