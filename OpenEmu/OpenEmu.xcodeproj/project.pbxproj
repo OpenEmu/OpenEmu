@@ -3356,8 +3356,10 @@
 			isa = PBXGroup;
 			children = (
 				C6AC9D371190C5E60083DDFD /* OpenEmuHelperAppMain.m */,
+				14B3038916F31B3A00865A5E /* OpenEmuHelperApp-Info.plist */,
 			);
 			name = "Helper App (Remote Layer)";
+			path = OpenEmuHelperApp;
 			sourceTree = "<group>";
 		};
 		1BEF34721168F8210090F72B /* XIBs */ = {
@@ -3381,8 +3383,6 @@
 			children = (
 				82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */,
 				82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */,
-				14B3038916F31B3A00865A5E /* OpenEmuHelperApp-Info.plist */,
-				3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */,
 				825CC280148C13750063A9B5 /* OpenEmu-Info.plist */,
 				C6F696BF1648F64B00B243DB /* Controller-Database.plist */,
 			);
@@ -3478,7 +3478,9 @@
 				5AECA14A1BE1D26700C3B4E2 /* Swift Bridging Header */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				C67118201363687A0034379A /* System Plugins */,
+				1BEF2A621168265D0090F72B /* Helper App (Remote Layer) */,
 				0547FE1524E86D9F005C1FFC /* broker */,
+				3887A8011024D29D000FC4CF /* OpenEmuQLGenerator */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				C60CDDD511780DD100EB472F /* Documentation */,
@@ -3494,8 +3496,6 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				1BEF2A621168265D0090F72B /* Helper App (Remote Layer) */,
-				3887A8011024D29D000FC4CF /* OpenEmuQLGenerator */,
 				828E64D00E84656900B1860B /* OpenEmuCore */,
 				1BEF34751168F88A0090F72B /* Additions */,
 			);
@@ -3552,8 +3552,9 @@
 				3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */,
 				3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */,
 				3887A8041024D2BC000FC4CF /* main.c */,
+				3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */,
 			);
-			name = OpenEmuQLGenerator;
+			path = OpenEmuQLGenerator;
 			sourceTree = "<group>";
 		};
 		3DB744761BD8B92A00C23E74 /* Playstation 2 */ = {
@@ -8524,7 +8525,7 @@
 					"SUPPORTS_LIBRARY_REGISTRATION=0",
 				);
 				GENERATE_PKGINFO_FILE = NO;
-				INFOPLIST_FILE = "OpenEmuHelperApp-Info.plist";
+				INFOPLIST_FILE = "OpenEmuHelperApp/OpenEmuHelperApp-Info.plist";
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
@@ -8556,7 +8557,7 @@
 					"SUPPORTS_LIBRARY_REGISTRATION=0",
 				);
 				GENERATE_PKGINFO_FILE = NO;
-				INFOPLIST_FILE = "OpenEmuHelperApp-Info.plist";
+				INFOPLIST_FILE = "OpenEmuHelperApp/OpenEmuHelperApp-Info.plist";
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
@@ -8608,7 +8609,7 @@
 		3887A7F81024D1FA000FC4CF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "OESaveStateQLPlugin-Info.plist";
+				INFOPLIST_FILE = "OpenEmuQLGenerator/OESaveStateQLPlugin-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.savestategenerator;
 				PRODUCT_NAME = OESaveStateQLPlugin;
 				WRAPPER_EXTENSION = qlgenerator;
@@ -8618,7 +8619,7 @@
 		3887A7F91024D1FA000FC4CF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "OESaveStateQLPlugin-Info.plist";
+				INFOPLIST_FILE = "OpenEmuQLGenerator/OESaveStateQLPlugin-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.savestategenerator;
 				PRODUCT_NAME = OESaveStateQLPlugin;
 				WRAPPER_EXTENSION = qlgenerator;
