@@ -106,7 +106,7 @@
                                                 <constraint firstAttribute="height" constant="26" id="CFR-jn-zSg"/>
                                                 <constraint firstAttribute="width" constant="26" id="ddZ-Gv-tdq"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" inset="2" id="J1i-Ms-dUn">
+                                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" enabled="NO" inset="2" id="J1i-Ms-dUn">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system" size="10"/>
                                             </buttonCell>

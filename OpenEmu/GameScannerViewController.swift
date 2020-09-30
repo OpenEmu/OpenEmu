@@ -198,6 +198,9 @@ class GameScannerViewController: NSViewController {
             fixButton.isHidden = true
             statusLabel.stringValue = NSLocalizedString("Downloading Game DB", comment: "")
             
+            togglePauseButton.isEnabled = false
+            togglePauseButton.state = .off
+            
         } else {
             
             let maxItems = importer.totalNumberOfItems
@@ -223,6 +226,9 @@ class GameScannerViewController: NSViewController {
                     status = String(format: NSLocalizedString("Game %ld of %ld", comment: ""), count, maxItems)
                 }
                 
+                togglePauseButton.isEnabled = true
+                togglePauseButton.state = .off
+                
             case .stopped:
                 
                 progressIndicator.stopAnimation(self)
@@ -230,12 +236,18 @@ class GameScannerViewController: NSViewController {
                 
                 status = NSLocalizedString("Done", comment: "")
                 
+                togglePauseButton.isEnabled = false
+                togglePauseButton.state = .off
+                
             default:
                 
                 progressIndicator.stopAnimation(self)
                 progressIndicator.isIndeterminate = true
                 
                 status = NSLocalizedString("Scanner Paused", comment: "")
+                
+                togglePauseButton.isEnabled = true
+                togglePauseButton.state = .on
             }
             
             let shouldHideFixButton: Bool
