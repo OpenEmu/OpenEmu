@@ -3019,7 +3019,6 @@
 		01E7214A2523E798002CA16F /* Other Assets */ = {
 			isa = PBXGroup;
 			children = (
-				838E2A221600A05C00CF7198 /* Theme.plist */,
 				83338C2117A281C7007E32E9 /* secret.mp3 */,
 			);
 			path = "Other Assets";
@@ -3491,7 +3490,6 @@
 			children = (
 				016F22DD23F19F5F00181842 /* OEAlertTest */,
 				837820B91907FB3A0043593F /* Image Kit Headers (Private) */,
-				14CB5DA516FE1F6600342817 /* Audio Devices */,
 				82CAFBB70FEDAA3D00CCDC7E /* config.yaml */,
 				37CC66190FF8379B00226BCB /* config_qc.yaml */,
 				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
@@ -3812,6 +3810,7 @@
 				829165DA0E85F9A400493FD8 /* Graphics */,
 				01E2A2F123E6027900194150 /* Custom Controls */,
 				83B6E444143E1BBD00BCDB7A /* Utilities */,
+				14CB5DA516FE1F6600342817 /* Audio Devices */,
 				14F6A92A168184550071386D /* Game Document */,
 				C69DCCFF0FE994A5009AE5A6 /* OEPluginDocument.h */,
 				C69DCD000FE994A5009AE5A6 /* OEPluginDocument.m */,
