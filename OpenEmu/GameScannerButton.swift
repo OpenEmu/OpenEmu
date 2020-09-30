@@ -27,34 +27,37 @@ import Cocoa
 @objc(OEGameScannerButton)
 final class GameScannerButton: HoverButton {
     
+    let pauseIcon = NSImage(named: "game_scanner_pause")
+    lazy var continueIcon = NSImage(named: "game_scanner_continue")
+    
     private var iconImage: NSImage? {
         
         if state == .off {
             if isHighlighted == true {
-                return NSImage(named: NSImage.stopProgressFreestandingTemplateName)?.image(with: NSColor.labelColor.withSystemEffect(.pressed))
+                return pauseIcon?.image(with: NSColor.labelColor.withSystemEffect(.pressed))
             }
             else if isHovering == true && isEnabled == true {
-                return NSImage(named: NSImage.stopProgressFreestandingTemplateName)?.image(with: NSColor.labelColor.withSystemEffect(.rollover))
+                return pauseIcon?.image(with: NSColor.labelColor.withSystemEffect(.rollover))
             }
             else if window?.isMainWindow == false {
-                return NSImage(named: NSImage.stopProgressFreestandingTemplateName)?.image(with: NSColor.labelColor.withSystemEffect(.disabled))
+                return pauseIcon?.image(with: NSColor.labelColor.withSystemEffect(.disabled))
             }
             else {
-                return NSImage(named: NSImage.stopProgressFreestandingTemplateName)?.image(with: NSColor.labelColor)
+                return pauseIcon?.image(with: NSColor.labelColor)
             }
         }
         else if state == .on {
             if isHighlighted == true {
-                return NSImage(named: NSImage.refreshFreestandingTemplateName)?.image(with: NSColor.labelColor.withSystemEffect(.pressed))
+                return continueIcon?.image(with: NSColor.labelColor.withSystemEffect(.pressed))
             }
             else if isHovering == true && isEnabled == true {
-                return NSImage(named: NSImage.refreshFreestandingTemplateName)?.image(with: NSColor.labelColor.withSystemEffect(.rollover))
+                return continueIcon?.image(with: NSColor.labelColor.withSystemEffect(.rollover))
             }
             else if window?.isMainWindow == false {
-                return NSImage(named: NSImage.refreshFreestandingTemplateName)?.image(with: NSColor.labelColor.withSystemEffect(.disabled))
+                return continueIcon?.image(with: NSColor.labelColor.withSystemEffect(.disabled))
             }
             else {
-                return NSImage(named: NSImage.refreshFreestandingTemplateName)?.image(with: NSColor.labelColor)
+                return continueIcon?.image(with: NSColor.labelColor)
             }
         }
         else {
