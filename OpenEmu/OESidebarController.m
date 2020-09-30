@@ -606,8 +606,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
         if (self.editingItem == nil)
             sidebarCell.isEditing = NO;
-        if (self.view.isDrawingAboveDropHighlight)
-            cell.highlighted = NO;
     }
 }
 

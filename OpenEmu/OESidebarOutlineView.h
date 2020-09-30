@@ -27,11 +27,10 @@
 @import Cocoa;
 
 @interface OESidebarOutlineView : NSOutlineView <NSDraggingDestination>
-@property BOOL isDrawingAboveDropHighlight;
 
 @property (strong) NSColor *dropBorderColor;
-@property (strong) NSColor *dropBackgroundColor;
 @property CGFloat dropBorderWidth;
 @property CGFloat dropCornerRadius;
+
 @end
 

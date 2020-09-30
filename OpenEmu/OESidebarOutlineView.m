@@ -86,7 +86,6 @@
 - (void)OE_setupDefaultColors
 {
     [self setDropBorderColor:[NSColor controlAccentColor]];
-    [self setDropBackgroundColor:[NSColor selectedContentBackgroundColor]];
     [self setDropBorderWidth:2.0];
     [self setDropCornerRadius:8.0];
     self.selectionHighlightStyle = NSTableViewSelectionHighlightStyleSourceList;
@@ -323,19 +322,8 @@
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:rect xRadius:[self dropCornerRadius] yRadius:[self dropCornerRadius]];
     [path setLineWidth:[self dropBorderWidth]];
     
-    [[self dropBackgroundColor] setFill];
-    [path fill];
-    
     [[self dropBorderColor] setStroke];
     [path stroke];
-    
-    
-    self.isDrawingAboveDropHighlight = YES;
-    NSRange rowsInRect = [self rowsInRect:rect];
-    for(NSInteger row=rowsInRect.location; row<NSMaxRange(rowsInRect); row++) {
-        [self drawRow:row clipRect:[self rectOfRow:row]];
-    }
-    self.isDrawingAboveDropHighlight = NO;
 }
 
 - (id)_dropHighlightColor
