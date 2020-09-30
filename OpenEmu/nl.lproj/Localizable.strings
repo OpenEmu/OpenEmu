@@ -363,6 +363,10 @@
 
 "Remove" = "Verwijder";
 
+"Remove Game" = "Remove Game";  // TODO
+
+"Remove Games" = "Remove Games";  // TODO
+
 "Rename \"%@\"" = "Hernoem \"%@\"";
 
 "Rename Game" = "Hernoem spel";

@@ -361,7 +361,11 @@
 
 "Recovered Auto Save" = "Salvataggio automatico recuperato";
 
-"Remove" = "Elimina";   // remove collection or game
+"Remove" = "Rimuovi";   // remove collection or game
+
+"Remove Game" = "Rimuovi gioco";
+
+"Remove Games" = "Rimuovi giochi";
 
 "Rename \"%@\"" = "Rinomina \"%@\"";
 

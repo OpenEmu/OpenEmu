@@ -363,6 +363,10 @@
 
 "Remove" = "削除";
 
+"Remove Game" = "Remove Game";  // TODO
+
+"Remove Games" = "Remove Games";  // TODO
+
 "Rename \"%@\"" = "\"%@\"の名称を変更";
 
 "Rename Game" = "ゲームの名称を変更";

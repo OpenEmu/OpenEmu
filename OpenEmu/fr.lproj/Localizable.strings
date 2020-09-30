@@ -363,6 +363,10 @@
 
 "Remove" = "Supprimer";
 
+"Remove Game" = "Remove Game";  // TODO
+
+"Remove Games" = "Remove Games";  // TODO
+
 "Rename \"%@\"" = "Renommer « %@ »";
 
 "Rename Game" = "Renommer le jeu";
