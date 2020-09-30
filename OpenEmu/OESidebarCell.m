@@ -25,7 +25,6 @@
  */
 
 #import "OESidebarCell.h"
-#import "OESidebarFieldEditor.h"
 #import "OESidebarOutlineView.h"
 
 const CGFloat BadgeSpacing = 2.0;
@@ -37,10 +36,6 @@ typedef NS_OPTIONS(NSInteger, OESidebarCellState)
     OESidebarCellStateWindowActive   = 1 <<  2,
     OESidebarCellStateWindowInactive = 1 <<  3,
 };
-
-@interface NSTextFieldCell (ApplePrivate)
-- (NSDictionary *)_textAttributes;
-@end
 
 @interface OESidebarCell ()
 @property (readonly) NSDictionary *groupAttributes;
@@ -163,67 +158,33 @@ typedef NS_OPTIONS(NSInteger, OESidebarCellState)
 #pragma mark - Drawing
 - (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent 
 {
-	NSRect textFrame = [self titleRectForBounds:NSInsetRect(aRect, 0, 1)];
+	NSRect textFrame = [self titleRectForBounds:aRect];
 	textFrame.size.width -= 6.0;
-	
-	OESidebarFieldEditor *fieldEditor = [OESidebarFieldEditor fieldEditor];
-	[fieldEditor setFrame:[textObj frame]];
+    textFrame.size.height += 2;
+    textFrame.origin.y -= 2;
     
-    [super editWithFrame:textFrame inView:controlView editor:fieldEditor delegate:anObject event: theEvent];
+    [super editWithFrame:textFrame inView:controlView editor:textObj delegate:anObject event: theEvent];
+    [self OE_setupFieldEditor:(NSTextView *)textObj];
 }
 
 - (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength 
 {
 	NSRect textFrame = [self titleRectForBounds:aRect];
 	textFrame.size.width -= 6.0;
-	
 	textFrame.size.height += 2;
-	textFrame.origin.y -= 1;
+    textFrame.origin.y -= 2;
 	
-	OESidebarFieldEditor *fieldEditor = [OESidebarFieldEditor fieldEditor];
-	[fieldEditor setFrame:[textObj frame]];
-	
-    [super selectWithFrame:textFrame inView:controlView editor:fieldEditor delegate:anObject start:selStart length:selLength];
+    [super selectWithFrame:textFrame inView:controlView editor:textObj delegate:anObject start:selStart length:selLength];
+    [self OE_setupFieldEditor:(NSTextView *)textObj];
 }
 
-- (NSText *)setUpFieldEditorAttributes:(NSText *)textObj
-{	
-	textObj = [super setUpFieldEditorAttributes:textObj];
-	
-    NSFont *font = [NSFont boldSystemFontOfSize:11];
-	NSColor *textColor = [NSColor blackColor];
-	
-	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-    NSDictionary *typeAttributes = @{
-                                     NSForegroundColorAttributeName : textColor,
-                                     NSParagraphStyleAttributeName : paragraphStyle,
-                                     NSFontAttributeName : font
-                                     };
-
-	NSColor *backgroundColor = [NSColor colorWithDeviceRed:0.788 green:0.871 blue:0.992 alpha:1.0];
-    NSDictionary *selectAttributes = @{
-                                       NSForegroundColorAttributeName : textColor,
-                                       NSParagraphStyleAttributeName : paragraphStyle,
-                                       NSFontAttributeName : font,
-                                       NSBackgroundColorAttributeName : backgroundColor
-                                       };
-
-	if([textObj isKindOfClass:[NSTextView class]])
-    {
-		[(NSTextView*)textObj setFocusRingType:NSFocusRingTypeNone];
-		[(NSTextView*)textObj setInsertionPointColor:textColor];
-        
-		[(NSTextView*)textObj setTypingAttributes:typeAttributes];
-		[(NSTextView*)textObj setSelectedTextAttributes:selectAttributes];
-	}
-	
-	NSColor *color = [NSColor colorWithDeviceWhite:0.72 alpha:1.0];
-	[(NSTextView *)textObj setInsertionPointColor:color];
+- (void)OE_setupFieldEditor:(NSTextView *)fieldEditor
+{
+    NSMutableDictionary *typingAttrib = [fieldEditor.typingAttributes mutableCopy];
+    [typingAttrib addEntriesFromDictionary:[self itemAttributesForState:OESidebarCellStateFocused]];
     
-	self.isEditing = YES;
-	
-	return textObj;
+    [fieldEditor.textStorage setAttributes:typingAttrib range:NSMakeRange(0, fieldEditor.string.length)];
+    fieldEditor.typingAttributes = typingAttrib;
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView 
@@ -290,27 +251,6 @@ typedef NS_OPTIONS(NSInteger, OESidebarCellState)
 	
     // At this point, the cellFrame has been modified to exclude the portion for the image. Let the superclass handle the hit testing at this point.
     return [super hitTestForEvent:event inRect:cellFrame ofView:controlView];    
-}
-
-#pragma mark - Apple Private Overrides
-- (NSDictionary *)_textAttributes
-{
-	NSDictionary *typeAttributes = [super _textAttributes];
-
-	if([self isEditing])
-    {
-        NSFont *font = [NSFont boldSystemFontOfSize:11];
-        NSColor *textColor = [NSColor blackColor];
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-        typeAttributes = @{
-                           NSForegroundColorAttributeName : textColor,
-                           NSParagraphStyleAttributeName : paragraphStyle,
-                           NSFontAttributeName : font
-                           };
-	}
-
-	return typeAttributes;
 }
 
 @end

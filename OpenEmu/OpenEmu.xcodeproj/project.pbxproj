@@ -327,7 +327,6 @@
 		8306CD261BD3AC3D0025BC6C /* OESidebarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8306CD1A1BD3AC3D0025BC6C /* OESidebarController.xib */; };
 		8306CD2B1BD3AD480025BC6C /* OESidebarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD161BD3AC3D0025BC6C /* OESidebarCell.m */; };
 		8306CD2C1BD3AD480025BC6C /* OESidebarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD181BD3AC3D0025BC6C /* OESidebarController.m */; };
-		8306CD2D1BD3AD480025BC6C /* OESidebarFieldEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD1C1BD3AC3D0025BC6C /* OESidebarFieldEditor.m */; };
 		8306CD2E1BD3AD480025BC6C /* OESidebarGroupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD1E1BD3AC3D0025BC6C /* OESidebarGroupItem.m */; };
 		8306CD2F1BD3AD480025BC6C /* OESidebarOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD211BD3AC3D0025BC6C /* OESidebarOutlineView.m */; };
 		8306CD3E1BD3DB180025BC6C /* OEGameCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */; };
@@ -1732,8 +1731,6 @@
 		8306CD171BD3AC3D0025BC6C /* OESidebarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarController.h; sourceTree = "<group>"; };
 		8306CD181BD3AC3D0025BC6C /* OESidebarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarController.m; sourceTree = "<group>"; };
 		8306CD1A1BD3AC3D0025BC6C /* OESidebarController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESidebarController.xib; sourceTree = "<group>"; };
-		8306CD1B1BD3AC3D0025BC6C /* OESidebarFieldEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarFieldEditor.h; sourceTree = "<group>"; };
-		8306CD1C1BD3AC3D0025BC6C /* OESidebarFieldEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarFieldEditor.m; sourceTree = "<group>"; };
 		8306CD1D1BD3AC3D0025BC6C /* OESidebarGroupItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarGroupItem.h; sourceTree = "<group>"; };
 		8306CD1E1BD3AC3D0025BC6C /* OESidebarGroupItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarGroupItem.m; sourceTree = "<group>"; };
 		8306CD1F1BD3AC3D0025BC6C /* OESidebarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarItem.h; sourceTree = "<group>"; };
@@ -3884,8 +3881,6 @@
 				8306CD171BD3AC3D0025BC6C /* OESidebarController.h */,
 				8306CD181BD3AC3D0025BC6C /* OESidebarController.m */,
 				8306CD1A1BD3AC3D0025BC6C /* OESidebarController.xib */,
-				8306CD1B1BD3AC3D0025BC6C /* OESidebarFieldEditor.h */,
-				8306CD1C1BD3AC3D0025BC6C /* OESidebarFieldEditor.m */,
 				8306CD1D1BD3AC3D0025BC6C /* OESidebarGroupItem.h */,
 				8306CD1E1BD3AC3D0025BC6C /* OESidebarGroupItem.m */,
 				8306CD1F1BD3AC3D0025BC6C /* OESidebarItem.h */,
@@ -7373,7 +7368,6 @@
 				0586AB22231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift in Sources */,
 				8306CD2B1BD3AD480025BC6C /* OESidebarCell.m in Sources */,
 				8306CD2C1BD3AD480025BC6C /* OESidebarController.m in Sources */,
-				8306CD2D1BD3AD480025BC6C /* OESidebarFieldEditor.m in Sources */,
 				8306CD2E1BD3AD480025BC6C /* OESidebarGroupItem.m in Sources */,
 				8306CD2F1BD3AD480025BC6C /* OESidebarOutlineView.m in Sources */,
 				8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */,

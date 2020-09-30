@@ -26,7 +26,6 @@
 
 #import "OESidebarOutlineView.h"
 
-#import "OESidebarFieldEditor.h"
 #import "OESidebarController.h"
 
 #import <objc/runtime.h>
@@ -90,6 +89,7 @@
     [self setDropBackgroundColor:[NSColor selectedContentBackgroundColor]];
     [self setDropBorderWidth:2.0];
     [self setDropCornerRadius:8.0];
+    self.selectionHighlightStyle = NSTableViewSelectionHighlightStyleSourceList;
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -290,44 +290,6 @@
     NSRect lastItem  = [self rectOfRow:[self rowForItem:item] + children];
     
     return NSMakeRect(NSMinX(firstItem), NSMinY(firstItem), NSMaxX(lastItem)-NSMinX(firstItem), NSMaxY(lastItem)-NSMinY(firstItem));
-}
-
-#pragma mark - Selection Highlight
-- (id)_highlightColorForCell:(NSCell *)cell
-{
-    // disable default selection
-    return nil;
-}
-
-- (void)highlightSelectionInClipRect:(NSRect)theClipRect
-{
-    NSWindow *win = [self window];
-    BOOL isActive = ([win isMainWindow] && [win firstResponder]==self) || [win firstResponder]==[OESidebarFieldEditor fieldEditor];
-    
-    NSColor *fillColor;
-    if(isActive)
-    {
-        // Active
-        fillColor = [NSColor controlAccentColor];
-    }
-    else 
-    {
-        // Inactive
-        fillColor = [NSColor colorWithDeviceRed:0.612 green:0.612 blue:0.612 alpha:1];
-    }
-    
-    // draw highlight for visible & selected rows
-    NSRange visibleRows = [self rowsInRect:theClipRect];
-    NSIndexSet *aSelectedRowIndexes = [self selectedRowIndexes];
-    for(NSUInteger aRow=visibleRows.location ; aRow < NSMaxRange(visibleRows); aRow++)
-    {
-        if([aSelectedRowIndexes containsIndex:aRow])
-        {
-            NSRect rowFrame = [self rectOfRow:aRow];
-            [fillColor set];
-            [NSBezierPath fillRect:rowFrame];
-        }
-    }
 }
 
 #pragma mark - Drop Highlight
