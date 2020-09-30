@@ -52,10 +52,10 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 @property (readonly, nonatomic) BOOL shouldExit;
 @property (nullable) OEFile *file;
 
-@property (nullable) NSString *fileName;
+@property NSString *fileName;
 @property NSInteger archiveFileIndex;
 
-@property (nullable, copy) NSString *md5Hash;
+@property (copy) NSString *md5Hash;
 
 @property (nullable) OEDBRom *rom;
 
@@ -712,26 +712,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     else if(validSystems.count == 1)
     {
         self.systemIdentifiers = @[validSystems.lastObject.systemIdentifier];
-
-        // Arcade ROMs must be handled differently in order to avoid hash collision.
-        // We want to hash the archived file itself and not its contents.
-        NSString *systemIdentifier = self.systemIdentifiers.lastObject;
-        if([systemIdentifier isEqualToString:@"openemu.system.arcade"])
-        {
-            DLog(@"Arcade ROM detected.");
-
-            // Reset
-            self.fileName = nil;
-            self.file = nil;
-            self.extractedFileURL = nil;
-            self.archiveFileIndex = NSNotFound;
-            self.md5Hash = nil;
-
-            // Re-hash and create the OEFile again
-            [self OE_performImportStepHash];
-            [self OE_performImportStepCheckHash];
-            [self OE_performImportStepParseFile];
-        }
     }
     else // Found multiple valid systems after checking extension and system specific canHandleFile:
     {
