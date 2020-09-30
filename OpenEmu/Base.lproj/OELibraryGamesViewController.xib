@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -65,6 +65,7 @@
                                                 </tableColumns>
                                             </outlineView>
                                         </subviews>
+                                        <nil key="backgroundColor"/>
                                     </clipView>
                                     <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
                                     <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="AhO-Jy-5F7">
@@ -126,12 +127,12 @@
                                         <popUpButton id="GFy-U9-H7A">
                                             <rect key="frame" x="0.0" y="7" width="29" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <popUpButtonCell key="cell" type="smallSquare" bezelStyle="smallSquare" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" pullsDown="YES" arrowPosition="noArrow" selectedItem="1U8-Yu-nH3" id="npV-Do-MPo">
+                                            <popUpButtonCell key="cell" type="smallSquare" bezelStyle="smallSquare" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" inset="2" pullsDown="YES" arrowPosition="noArrow" selectedItem="1U8-Yu-nH3" id="npV-Do-MPo">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" id="F3c-W5-k5f">
                                                     <items>
-                                                        <menuItem state="on" image="sidebar_add" hidden="YES" id="ngO-qO-EH7"/>
+                                                        <menuItem state="on" image="NSAddTemplate" hidden="YES" id="ngO-qO-EH7"/>
                                                         <menuItem title="New Collection" id="Lkc-nZ-qig">
                                                             <connections>
                                                                 <action selector="newCollection:" target="-1" id="Hy2-81-FWK"/>
@@ -178,6 +179,6 @@
         </viewController>
     </objects>
     <resources>
-        <image name="sidebar_add" width="15" height="15"/>
+        <image name="NSAddTemplate" width="11" height="11"/>
     </resources>
 </document>
