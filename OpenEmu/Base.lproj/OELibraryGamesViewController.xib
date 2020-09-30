@@ -82,35 +82,31 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ABQ-4h-z9d">
-                                            <rect key="frame" x="0.0" y="72" width="185" height="4"/>
+                                            <rect key="frame" x="0.0" y="72" width="186" height="4"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         </box>
-                                        <progressIndicator wantsLayer="YES" maxValue="100" style="bar" id="ecg-qx-RWc">
-                                            <rect key="frame" x="17" y="23" width="134" height="20"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        </progressIndicator>
                                         <textField verticalHuggingPriority="750" id="YLv-AD-2L2">
-                                            <rect key="frame" x="17" y="43" width="151" height="17"/>
+                                            <rect key="frame" x="12" y="50" width="164" height="14"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Game Scanner" id="R5g-ov-B26">
+                                            <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Game Scanner" id="R5g-ov-B26">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" id="KwU-gZ-ksn">
-                                            <rect key="frame" x="17" y="7" width="151" height="14"/>
+                                            <rect key="frame" x="12" y="11" width="164" height="14"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Scanner Paused" id="gJT-pJ-BJg">
+                                            <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Scanner Paused" id="gJT-pJ-BJg">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <button id="Nvs-ey-EH6" customClass="OEGameScannerButton">
-                                            <rect key="frame" x="151" y="21" width="25" height="25"/>
+                                            <rect key="frame" x="152" y="25" width="26" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" imagePosition="only" alignment="center" inset="2" id="J1i-Ms-dUn">
+                                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" inset="2" id="J1i-Ms-dUn">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system" size="10"/>
                                             </buttonCell>
@@ -118,6 +114,10 @@
                                                 <action selector="buttonAction:" target="juh-5x-f5U" id="o8W-6K-ddm"/>
                                             </connections>
                                         </button>
+                                        <progressIndicator wantsLayer="YES" maxValue="100" controlSize="small" style="bar" id="ecg-qx-RWc">
+                                            <rect key="frame" x="14" y="31" width="137" height="12"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        </progressIndicator>
                                     </subviews>
                                 </customView>
                                 <customView id="aoh-d8-ctm" userLabel="Bottom Bar">
@@ -180,5 +180,6 @@
     </objects>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
     </resources>
 </document>
