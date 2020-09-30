@@ -1,9 +1,0 @@
-build_now:              'YES'
-download_base_url:      http://github.com/downloads/openemu/openemu/
-release_notes_base_url: http://openemu.org/category/releasenotes/coreapp/
-appcast_basefolder:     '/Users/jweinberg/Desktop/Appcast'
-appcast_xml_name:       'appcast.xml'
-keychain_privkey_name:  'Sparkle Private Key'
-css_file_name:          'rnotes.css'
-product_name:           'OpenEmu'
-bundle_extension:       'app'

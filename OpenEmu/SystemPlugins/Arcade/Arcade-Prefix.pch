@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'Arcade' target in the 'Arcade' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif
