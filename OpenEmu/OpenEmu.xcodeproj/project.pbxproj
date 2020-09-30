@@ -3013,6 +3013,10 @@
 		01E7214A2523E798002CA16F /* Other Assets */ = {
 			isa = PBXGroup;
 			children = (
+				94AE2C0F17B07D450018DFBB /* cheats-database.xml */,
+				8F071F3A1C255362007B76DA /* Credits.rtf */,
+				87191CC51F6F5524006D2EE3 /* dsa_pub.pem */,
+				C60CDDD611780DF100EB472F /* OpenGL Format Table.txt */,
 				83338C2117A281C7007E32E9 /* secret.mp3 */,
 			);
 			path = "Other Assets";
@@ -3459,7 +3463,6 @@
 				3887A8011024D29D000FC4CF /* OpenEmuQLGenerator */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
-				C60CDDD511780DD100EB472F /* Documentation */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 			);
@@ -3492,8 +3495,6 @@
 			isa = PBXGroup;
 			children = (
 				05E4400A22991527009E6D27 /* Shaders */,
-				87191CC51F6F5524006D2EE3 /* dsa_pub.pem */,
-				8F071F3A1C255362007B76DA /* Credits.rtf */,
 				1B32150F14DDD03200C5B50A /* Setup Assistant Animation Resources */,
 				C68A54E41516AD3C001053F2 /* OEDatabase.xcdatamodeld */,
 				1BEF34741168F8640090F72B /* PLists */,
@@ -3502,7 +3503,6 @@
 				05D50C3023CEA34000733BA2 /* Modern UI */,
 				8F7F17BC24EE0A7A00D23C2D /* Localization */,
 				1BEF34721168F8210090F72B /* XIBs */,
-				94AE2C0F17B07D450018DFBB /* cheats-database.xml */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -4919,14 +4919,6 @@
 				94D7E8D815073DB000FBDD85 /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		C60CDDD511780DD100EB472F /* Documentation */ = {
-			isa = PBXGroup;
-			children = (
-				C60CDDD611780DF100EB472F /* OpenGL Format Table.txt */,
-			);
-			name = Documentation;
 			sourceTree = "<group>";
 		};
 		C6252DAF14E7562700350A13 /* Supporting Files */ = {
