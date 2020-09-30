@@ -26,68 +26,7 @@
 
 #import "OETableView.h"
 
-@interface OETableView ()
-- (BOOL)OE_isActive;
-@end
-
-@interface NSTableView (ApplePrivate)
-- (BOOL)isViewBased;
-@end
-
 @implementation OETableView
-
-- (BOOL)OE_isActive
-{
-    return [[self window] isMainWindow] && ([[self window] firstResponder] == self || [[self window] firstResponder] == [self currentEditor]);
-}
-
-- (void)highlightSelectionInClipRect:(NSRect)theClipRect
-{
-    if([self isViewBased])
-    {
-        [super highlightSelectionInClipRect:theClipRect];
-        return;
-    }
-
-    NSColor *fillColor;
-	NSColor *lineColor;
-	if([self OE_isActive])
-	{
-		fillColor = [NSColor selectedContentBackgroundColor];
-		lineColor = [NSColor clearColor];
-	} 
-	else 
-	{
-		fillColor = [NSColor unemphasizedSelectedContentBackgroundColor];
-		lineColor = [NSColor clearColor];
-	}
-	
-	[fillColor setFill];
-
-	NSIndexSet *selectedRows = [self selectedRowIndexes];
-	
-	NSUInteger nextIndex = [selectedRows firstIndex];
-	NSUInteger currentIndex = [selectedRows firstIndex];
-	while(currentIndex!=NSNotFound)
-	{
-		NSRect frame = [self rectOfRow:nextIndex];
-		NSRectFill(frame);
-		
-		nextIndex = [selectedRows indexGreaterThanIndex:currentIndex];
-		
-		if(nextIndex == currentIndex+1)
-		{
-			[lineColor setFill];
-			frame.origin.y += frame.size.height-1;
-			frame.size.height = 1;
-			
-			NSRectFill(frame);
-			[fillColor setFill];
-		}
-		
-		currentIndex = nextIndex;
-	}
-}
 
 - (void)setHeaderState:(NSDictionary *)newHeaderState
 {
@@ -148,7 +87,7 @@
     if([theEvent keyCode]==51 || [theEvent keyCode]==117)
         [NSApp sendAction:@selector(delete:) to:nil from:self];
     else
-        [super keyDown:theEvent];        
+        [super keyDown:theEvent];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
