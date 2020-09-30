@@ -74,7 +74,7 @@ class GameScannerViewController: NSViewController {
         
         _ = view // load other xib as well
         
-        guard let scannerView = scannerView, let issuesView = issuesView else { return }
+        guard let issuesView = issuesView else { return }
         
         setUpActionsMenu()
         
@@ -96,10 +96,6 @@ class GameScannerViewController: NSViewController {
         itemsRequiringAttention = []
         
         importer.delegate = self
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(gameScannerViewFrameChanged(_:)), name: NSView.frameDidChangeNotification, object: scannerView)
-        
-        createFixButton()
         
         // Show game scanner if importer is running already or game info is downloading.
         if importer.status == .running || OEGameInfoHelper.shared.isUpdating {
@@ -183,29 +179,6 @@ class GameScannerViewController: NSViewController {
         isGameScannerVisible = visibleGameScanner
     }
     
-    private func createFixButton() {
-        
-        fixButton = TextButton(frame: NSRect(x: 14,
-                                             y: 9,
-                                         width: scannerView.frame.width - 20,
-                                        height: 20))
-        
-        fixButton.autoresizingMask = .width
-        fixButton.alignment = .left
-        fixButton.target = libraryGamesViewController
-        fixButton.action = #selector(OELibraryGamesViewController.showIssuesView(_:))
-        fixButton.title = NSLocalizedString("Resolve Issues", comment: "")
-        fixButton.isHidden = true
-        fixButton.font = .boldSystemFont(ofSize: 11)
-        fixButton.textColor = .labelColor
-        fixButton.textColorHover = NSColor.labelColor.withSystemEffect(.rollover)
-        fixButton.showArrow = true
-        
-        fixButton.sizeToFit()
-        
-        scannerView.addSubview(fixButton)
-    }
-    
     @objc private func updateProgress() {
         
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(updateProgress), object: nil)
@@ -272,8 +245,6 @@ class GameScannerViewController: NSViewController {
                 fixButton.title = itemsRequiringAttention.count > 1 ?
                     String(format: NSLocalizedString("Resolve %ld Issues", comment: ""), itemsRequiringAttention.count) :
                     String(format: NSLocalizedString("Resolve %ld Issue", comment: ""), itemsRequiringAttention.count)
-                
-                fixButton.sizeToFit()
                 
                 shouldHideFixButton = false
                 
@@ -426,32 +397,6 @@ extension GameScannerViewController {
                 self.hideGameScannerView(animated: true)
             }
         }
-    }
-    
-    @objc func gameScannerViewFrameChanged(_ notification: Notification) {
-        
-        let bounds = scannerView.bounds
-        let width = bounds.width
-        
-        var frame = progressIndicator.frame
-        frame.origin.x = 16
-        frame.size.width = width - 16 - 38
-        progressIndicator.frame = frame
-        
-        frame = headlineLabel.frame
-        frame.origin.x = 17
-        frame.size.width = width - 17 - 12
-        headlineLabel.frame = frame
-        
-        frame = statusLabel.frame
-        frame.origin.x = 17
-        frame.size.width = width - 17 - 12
-        statusLabel.frame = frame
-        
-        frame = fixButton.frame
-        frame.origin.x = 14
-        fixButton.frame = frame
-        fixButton.sizeToFit()
     }
 }
 

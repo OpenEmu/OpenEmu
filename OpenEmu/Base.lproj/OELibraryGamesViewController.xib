@@ -81,31 +81,31 @@
                                     <rect key="frame" x="0.0" y="0.0" width="186" height="75"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ABQ-4h-z9d">
-                                            <rect key="frame" x="0.0" y="72" width="186" height="4"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ABQ-4h-z9d">
+                                            <rect key="frame" x="0.0" y="71" width="186" height="5"/>
                                         </box>
-                                        <textField verticalHuggingPriority="750" id="YLv-AD-2L2">
-                                            <rect key="frame" x="12" y="50" width="164" height="14"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YLv-AD-2L2">
+                                            <rect key="frame" x="13" y="49" width="85" height="14"/>
                                             <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Game Scanner" id="R5g-ov-B26">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <textField verticalHuggingPriority="750" id="KwU-gZ-ksn">
-                                            <rect key="frame" x="12" y="11" width="164" height="14"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KwU-gZ-ksn">
+                                            <rect key="frame" x="13" y="11" width="89" height="14"/>
                                             <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Scanner Paused" id="gJT-pJ-BJg">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <button id="Nvs-ey-EH6" customClass="OEGameScannerButton">
-                                            <rect key="frame" x="152" y="25" width="26" height="26"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <button translatesAutoresizingMaskIntoConstraints="NO" id="Nvs-ey-EH6" customClass="OEGameScannerButton">
+                                            <rect key="frame" x="152" y="24" width="26" height="26"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="26" id="CFR-jn-zSg"/>
+                                                <constraint firstAttribute="width" constant="26" id="ddZ-Gv-tdq"/>
+                                            </constraints>
                                             <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" inset="2" id="J1i-Ms-dUn">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system" size="10"/>
@@ -114,11 +114,40 @@
                                                 <action selector="buttonAction:" target="juh-5x-f5U" id="o8W-6K-ddm"/>
                                             </connections>
                                         </button>
-                                        <progressIndicator wantsLayer="YES" maxValue="100" controlSize="small" style="bar" id="ecg-qx-RWc">
-                                            <rect key="frame" x="14" y="31" width="137" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <progressIndicator wantsLayer="YES" maxValue="100" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="ecg-qx-RWc">
+                                            <rect key="frame" x="15" y="31" width="136" height="12"/>
                                         </progressIndicator>
+                                        <button hidden="YES" verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vaP-Xa-Oni">
+                                            <rect key="frame" x="15" y="8" width="115" height="20"/>
+                                            <buttonCell key="cell" type="inline" title="Resolve Issues" bezelStyle="inline" image="arrow_right" imagePosition="trailing" controlSize="small" lineBreakMode="truncatingTail" inset="2" id="dGi-Zi-KFE">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="smallSystemBold"/>
+                                            </buttonCell>
+                                            <color key="contentTintColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <connections>
+                                                <action selector="showIssuesView:" target="-2" id="H8k-SO-c9D"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="KwU-gZ-ksn" firstAttribute="centerY" secondItem="vaP-Xa-Oni" secondAttribute="centerY" id="49t-48-jZh"/>
+                                        <constraint firstItem="ABQ-4h-z9d" firstAttribute="top" secondItem="GEj-BL-eLK" secondAttribute="top" constant="1" id="4cA-AW-ELA"/>
+                                        <constraint firstItem="ecg-qx-RWc" firstAttribute="top" secondItem="YLv-AD-2L2" secondAttribute="bottom" constant="6" id="BOb-YJ-gug"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="YLv-AD-2L2" secondAttribute="trailing" constant="15" id="Eg5-eI-MOy"/>
+                                        <constraint firstItem="ABQ-4h-z9d" firstAttribute="leading" secondItem="GEj-BL-eLK" secondAttribute="leading" id="Fx6-eM-s8C"/>
+                                        <constraint firstItem="KwU-gZ-ksn" firstAttribute="top" secondItem="ecg-qx-RWc" secondAttribute="bottom" constant="6" id="KKN-gz-YRR"/>
+                                        <constraint firstAttribute="trailing" secondItem="ABQ-4h-z9d" secondAttribute="trailing" id="Ks1-M3-bft"/>
+                                        <constraint firstItem="YLv-AD-2L2" firstAttribute="top" secondItem="ABQ-4h-z9d" secondAttribute="bottom" constant="10" id="Lhk-KP-KSB"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="vaP-Xa-Oni" secondAttribute="trailing" constant="15" id="Ok0-lP-BLp"/>
+                                        <constraint firstItem="ecg-qx-RWc" firstAttribute="leading" secondItem="YLv-AD-2L2" secondAttribute="leading" id="POE-Em-cEg"/>
+                                        <constraint firstItem="vaP-Xa-Oni" firstAttribute="leading" secondItem="YLv-AD-2L2" secondAttribute="leading" id="PvE-Az-4Ie"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KwU-gZ-ksn" secondAttribute="trailing" constant="15" id="TAQ-av-hGc"/>
+                                        <constraint firstItem="Nvs-ey-EH6" firstAttribute="centerY" secondItem="ecg-qx-RWc" secondAttribute="centerY" id="U6Q-wt-kA9"/>
+                                        <constraint firstItem="KwU-gZ-ksn" firstAttribute="leading" secondItem="YLv-AD-2L2" secondAttribute="leading" id="WQM-AP-yyL"/>
+                                        <constraint firstItem="Nvs-ey-EH6" firstAttribute="leading" secondItem="ecg-qx-RWc" secondAttribute="trailing" constant="1" id="eN6-OL-Vbk"/>
+                                        <constraint firstItem="YLv-AD-2L2" firstAttribute="leading" secondItem="GEj-BL-eLK" secondAttribute="leading" constant="15" id="oQ5-q7-WOz"/>
+                                        <constraint firstAttribute="trailing" secondItem="Nvs-ey-EH6" secondAttribute="trailing" constant="8" id="v8j-Wh-38p"/>
+                                    </constraints>
                                 </customView>
                                 <customView id="aoh-d8-ctm" userLabel="Bottom Bar">
                                     <rect key="frame" x="0.0" y="75" width="186" height="28"/>
@@ -168,6 +197,7 @@
         <viewController id="juh-5x-f5U" customClass="OEGameScannerViewController">
             <connections>
                 <outlet property="bottomBar" destination="aoh-d8-ctm" id="MAg-kQ-hP4"/>
+                <outlet property="fixButton" destination="vaP-Xa-Oni" id="Ro8-XB-pIU"/>
                 <outlet property="headlineLabel" destination="YLv-AD-2L2" id="Jvd-JE-D46"/>
                 <outlet property="libraryGamesViewController" destination="-2" id="yHD-tH-Wi3"/>
                 <outlet property="progressIndicator" destination="ecg-qx-RWc" id="s7a-30-SCw"/>
@@ -181,5 +211,6 @@
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
+        <image name="arrow_right" width="20" height="20"/>
     </resources>
 </document>

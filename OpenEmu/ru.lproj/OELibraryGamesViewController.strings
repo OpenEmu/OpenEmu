@@ -8,5 +8,8 @@
 /* Class = "NSTextFieldCell"; title = "Game Scanner"; ObjectID = "R5g-ov-B26"; */
 "R5g-ov-B26.title" = "Сканер игр";
 
+/* Class = "NSButtonCell"; title = "Resolve Issues"; ObjectID = "dGi-Zi-KFE"; */
+"dGi-Zi-KFE.title" = "Решить проблемы";
+
 /* Class = "NSTextFieldCell"; title = "Scanner Paused"; ObjectID = "gJT-pJ-BJg"; */
 "gJT-pJ-BJg.title" = "Сканируется директория";
