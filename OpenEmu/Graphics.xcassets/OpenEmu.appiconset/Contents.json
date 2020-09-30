@@ -30,14 +30,14 @@
     },
     {
       "display-gamut" : "sRGB",
-      "filename" : "icon-32-srgb-1.png",
+      "filename" : "icon-32-srgb.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
       "display-gamut" : "display-P3",
-      "filename" : "icon-32-p3-1.png",
+      "filename" : "icon-32-p3.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
@@ -86,14 +86,14 @@
     },
     {
       "display-gamut" : "sRGB",
-      "filename" : "icon-256-srgb-1.png",
+      "filename" : "icon-256-srgb.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
       "display-gamut" : "display-P3",
-      "filename" : "icon-256-p3-1.png",
+      "filename" : "icon-256-p3.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
@@ -114,14 +114,14 @@
     },
     {
       "display-gamut" : "sRGB",
-      "filename" : "icon-512-srgb-1.png",
+      "filename" : "icon-512-srgb.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
       "display-gamut" : "display-P3",
-      "filename" : "icon-512-p3-1.png",
+      "filename" : "icon-512-p3.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
