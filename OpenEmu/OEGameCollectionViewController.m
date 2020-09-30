@@ -441,7 +441,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
             [[self gridView] scrollRectToVisible:visibleRect];
         }
     }
-    // deletign from normal collections removes games from that collection
+    // deleting from normal collections removes games from that collection
     else if([[self representedObject] isMemberOfClass:[OEDBCollection class]])
     {
         // remove games from collection if user allows it
@@ -660,7 +660,13 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         [menu addItem:collectionMenuItem];
         [menu addItem:[NSMenuItem separatorItem]];
         [menu addItemWithTitle:NSLocalizedString(@"Rename Game", @"") action:@selector(beginEditingWithSelectedItem:) keyEquivalent:@""];
-        [menu addItemWithTitle:NSLocalizedString(@"Delete Game", @"") action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+        NSString *deleteGameMenuTitle;
+        if ([[self representedObject] isMemberOfClass:[OEDBCollection class]]) {
+            deleteGameMenuTitle = NSLocalizedString(@"Remove Game", @"");
+        } else {
+            deleteGameMenuTitle = NSLocalizedString(@"Delete Game", @"");
+        }
+        [menu addItemWithTitle:deleteGameMenuTitle action:@selector(deleteSelectedItems:) keyEquivalent:@""];
     }
     else
     {
@@ -694,7 +700,13 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         [menu addItem:collectionMenuItem];
 
         [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItemWithTitle:NSLocalizedString(@"Delete Games", @"") action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+        NSString *deleteGameMenuTitle;
+        if ([[self representedObject] isMemberOfClass:[OEDBCollection class]]) {
+            deleteGameMenuTitle = NSLocalizedString(@"Remove Games", @"");
+        } else {
+            deleteGameMenuTitle = NSLocalizedString(@"Delete Games", @"");
+        }
+        [menu addItemWithTitle:deleteGameMenuTitle action:@selector(deleteSelectedItems:) keyEquivalent:@""];
     }
     
     [menu setAutoenablesItems:YES];
