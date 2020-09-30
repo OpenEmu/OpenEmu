@@ -33,7 +33,7 @@ final class GameScannerButton: HoverButton {
             if isHighlighted == true {
                 return NSImage(named: NSImage.stopProgressFreestandingTemplateName)?.image(with: NSColor.labelColor.withSystemEffect(.pressed))
             }
-            else if isHovering == true {
+            else if isHovering == true && isEnabled == true {
                 return NSImage(named: NSImage.stopProgressFreestandingTemplateName)?.image(with: NSColor.labelColor.withSystemEffect(.rollover))
             }
             else if window?.isMainWindow == false {
@@ -47,7 +47,7 @@ final class GameScannerButton: HoverButton {
             if isHighlighted == true {
                 return NSImage(named: NSImage.refreshFreestandingTemplateName)?.image(with: NSColor.labelColor.withSystemEffect(.pressed))
             }
-            else if isHovering == true {
+            else if isHovering == true && isEnabled == true {
                 return NSImage(named: NSImage.refreshFreestandingTemplateName)?.image(with: NSColor.labelColor.withSystemEffect(.rollover))
             }
             else if window?.isMainWindow == false {
