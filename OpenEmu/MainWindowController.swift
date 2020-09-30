@@ -53,6 +53,10 @@ class MainWindowController: NSWindowController {
         
         self.window?.restorationClass = MainWindowController.self
     }
+    
+    func setupWindow() {
+        
+    }
 
     override func windowDidLoad() {
         super.windowDidLoad()

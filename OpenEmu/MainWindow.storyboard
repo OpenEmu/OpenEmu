@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16095" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Lb9-LN-3oE">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17503.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Lb9-LN-3oE">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16095"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17503.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -10,7 +10,7 @@
         <scene sceneID="46p-NO-Kac">
             <objects>
                 <windowController showSeguePresentationStyle="single" id="Lb9-LN-3oE" customClass="MainWindowController" customModule="OpenEmu" sceneMemberID="viewController">
-                    <window key="window" identifier="LibraryWindowV2" title="OpenEmu" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" appearanceType="darkAqua" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="wJp-Kd-sNu">
+                    <window key="window" identifier="LibraryWindowV2" title="OpenEmu" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="wJp-Kd-sNu">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
                         <rect key="contentRect" x="294" y="313" width="830" height="555"/>
@@ -22,7 +22,7 @@
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="QOV-EL-QwU">
                                         <rect key="frame" x="2" y="14" width="61" height="23"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedRounded" trackingMode="selectOne" id="zC8-kf-vBL">
                                             <font key="font" metaFont="system"/>
                                             <segments>
@@ -50,7 +50,7 @@
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="Dr0-HL-fE9">
                                         <rect key="frame" x="0.0" y="14" width="389" height="24"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="texturedSquare" trackingMode="selectOne" id="nXm-nv-KOP">
                                             <font key="font" metaFont="system"/>
                                             <segments>
@@ -148,7 +148,7 @@
             <objects>
                 <splitViewController title="Library" id="6bb-20-t1d" customClass="LibraryGamesViewController" customModule="OpenEmu" customModuleProvider="target" sceneMemberID="viewController">
                     <splitViewItems>
-                        <splitViewItem holdingPriority="260" id="U8c-8q-VGY"/>
+                        <splitViewItem canCollapse="YES" holdingPriority="260" behavior="sidebar" id="U8c-8q-VGY"/>
                         <splitViewItem holdingPriority="255" behavior="contentList" id="FGS-E1-EVQ"/>
                     </splitViewItems>
                     <splitView key="splitView" autosaveName="" dividerStyle="thin" vertical="YES" id="hcB-gm-IbT">
@@ -191,7 +191,7 @@
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn width="183" minWidth="16" maxWidth="1000" id="EDV-bS-O7V">
+                                                <tableColumn width="154" minWidth="16" maxWidth="1000" id="EDV-bS-O7V">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -278,7 +278,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="NSIconViewTemplate" width="14" height="10"/>
-        <image name="NSListViewTemplate" width="14" height="10"/>
+        <image name="NSIconViewTemplate" width="15" height="14"/>
+        <image name="NSListViewTemplate" width="16" height="12"/>
     </resources>
 </document>
