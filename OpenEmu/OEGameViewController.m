@@ -35,8 +35,6 @@
 
 #import "OpenEmu-Swift.h"
 
-#import "OEShaderParametersWindowController.h"
-
 NSNotificationName const OEGameViewControllerEmulationWillFinishNotification = @"OEGameViewControllerEmulationWillFinishNotification";
 NSNotificationName const OEGameViewControllerEmulationDidFinishNotification = @"OEGameViewControllerEmulationDidFinishNotification";
 NSString *const OEGameVolumeKey = @"volume";

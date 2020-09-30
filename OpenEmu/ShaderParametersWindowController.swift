@@ -25,12 +25,13 @@
 import Cocoa
 import OpenEmuKit
 
-@objc class ShaderParametersWindowController: NSWindowController {
+@objc(OEShaderParametersWindowController)
+final class ShaderParametersWindowController: NSWindowController {
     @objc weak var controller: OEGameViewController?
     @objc var shader: OEShadersModel.OEShaderModel?
     @IBOutlet var outlineView: NSOutlineView?
     
-    init(gameViewController: OEGameViewController) {
+    @objc public init(gameViewController: OEGameViewController) {
         controller = gameViewController
         super.init(window: nil)
     }
@@ -46,7 +47,7 @@ import OpenEmuKit
     override func windowDidLoad() {
         super.windowDidLoad()
         
-        guard let outlineView = outlineView else { return }
+        guard let outlineView = outlineView else { preconditionFailure("outlineView is required") }
         
         outlineView.delegate = self
         outlineView.dataSource = self
@@ -120,15 +121,97 @@ extension ShaderParametersWindowController: NSOutlineViewDelegate {
             switch param.cellType {
             case .checkBoxType:
                 let checkbox = cellView.subviews.first! as! NSButton
+                checkbox.title = param.desc
+                checkbox.bind(.value, to: param, withKeyPath: "value", options: [NSBindingOption.continuouslyUpdatesValue: NSNumber(booleanLiteral: true)])
                 
             case .sliderType:
+                let lbl = cellView.subviews.first! as! NSTextField
+                lbl.stringValue = param.desc
+                
+                let slid = cellView.viewWithTag(100) as! NSSlider
+                slid.isContinuous = true
+                slid.minValue = param.minimum.doubleValue
+                slid.maxValue = param.maximum.doubleValue
+                let ticks = Int(slid.maxValue - slid.minValue) + 1
+                if param.step.doubleValue == 1.0 && ticks <= 11 {
+                    slid.numberOfTickMarks = ticks
+                    slid.allowsTickMarkValuesOnly = true
+                } else {
+                    slid.numberOfTickMarks = 0
+                    slid.allowsTickMarkValuesOnly = false
+                }
+                
+                let num = cellView.viewWithTag(101) as! NSTextField
+                
+                let step = cellView.viewWithTag(102) as! NSStepper
+                step.minValue = slid.minValue
+                step.maxValue = slid.maxValue
+                step.increment = param.step.doubleValue
+                
+                let options = [NSBindingOption.continuouslyUpdatesValue: NSNumber(booleanLiteral: true)]
+                
+                slid.bind(.value, to: param, withKeyPath: "value", options: options)
+                num.bind(.value, to: param, withKeyPath: "value", options: options)
+                step.bind(.value, to: param, withKeyPath: "value", options: options)
+                
+            default:
+                break
             }
+            
+            return cellView
         }
+        
+        if let group = item as? OEShaderParamGroupValue {
+            guard let cellView = outlineView.makeView(withIdentifier: .groupType, owner: self) as? NSTableCellView else { return nil }
+            cellView.textField?.stringValue = group.desc
+            return cellView
+        }
+        
+        return nil
     }
 }
 
 extension ShaderParametersWindowController: NSOutlineViewDataSource {
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
+        guard let groups = _groups else { return 0 }
+
+        if groups.count == 1 {
+            return params?.count ?? 0
+        }
+
+        if let group = item as? OEShaderParamGroupValue {
+            return group.parameters.count
+        }
+
+        return groups.count
+    }
     
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
+        guard
+            let groups = _groups,
+            let params = params
+        else { preconditionFailure("expected groups and parameters") }
+
+        if groups.count == 1 {
+            return params[index]
+        }
+
+        if let group = item as? OEShaderParamGroupValue {
+            return group.parameters[index]
+        }
+        
+        return groups[index]
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
+        guard let groups = _groups else { preconditionFailure("expected groups") }
+
+        if groups.count == 1 {
+            return false
+        }
+        
+        return item is OEShaderParamGroupValue
+    }
 }
 
 extension NSUserInterfaceItemIdentifier {

@@ -153,7 +153,6 @@
 		052B92D3226EE5FA00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
 		052B92D4226EE66C00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
 		052EA5BC2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */; };
-		05410EE722F690E200303424 /* OEShaderParametersWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05410EE622F690E200303424 /* OEShaderParametersWindowController.m */; };
 		05410EF122F7538B00303424 /* SliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF022F7538B00303424 /* SliderCell.xib */; };
 		05410EF322F756BD00303424 /* GroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF222F756BD00303424 /* GroupCell.xib */; };
 		05410EF522F7573D00303424 /* CheckboxCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF422F7573D00303424 /* CheckboxCell.xib */; };
@@ -185,6 +184,7 @@
 		05644A4823331EA90033576F /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05644A4723331EA90033576F /* AboutViewController.swift */; };
 		0578B85023D6553E00C86848 /* LibraryGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0578B84F23D6553E00C86848 /* LibraryGamesViewController.swift */; };
 		0586AB22231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */; };
+		059ECCC22524030D00DCA0F6 /* ShaderParametersWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */; };
 		05A002D423DE1006007F0DB7 /* UserDefaults+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */; };
 		05A002D623DE5389007F0DB7 /* SidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */; };
 		05A002D823DE539F007F0DB7 /* SidebarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D723DE539F007F0DB7 /* SidebarItemView.swift */; };
@@ -1434,8 +1434,6 @@
 		052B92D2226EE5FA00701431 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBitmapImageRep+OEAdditions.swift"; sourceTree = "<group>"; };
 		0533EA5C24CDF9070095146E /* OpenEmuKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OpenEmuKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		05410EE522F690DB00303424 /* OEShaderParametersWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEShaderParametersWindowController.h; sourceTree = "<group>"; };
-		05410EE622F690E200303424 /* OEShaderParametersWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEShaderParametersWindowController.m; sourceTree = "<group>"; };
 		05410EF022F7538B00303424 /* SliderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SliderCell.xib; sourceTree = "<group>"; };
 		05410EF222F756BD00303424 /* GroupCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupCell.xib; sourceTree = "<group>"; };
 		05410EF422F7573D00303424 /* CheckboxCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CheckboxCell.xib; sourceTree = "<group>"; };
@@ -1480,6 +1478,7 @@
 		05A002D723DE539F007F0DB7 /* SidebarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItemView.swift; sourceTree = "<group>"; };
 		05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SidebarHeaderView.xib; sourceTree = "<group>"; };
 		05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SidebarItemView.xib; sourceTree = "<group>"; };
+		05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderParametersWindowController.swift; sourceTree = "<group>"; };
 		05B2E05923693A7500644C58 /* OELogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELogging.h; sourceTree = "<group>"; };
 		05B2E05D23693A7500644C58 /* OELogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELogging.m; sourceTree = "<group>"; };
 		05B753A123330EB60063BD73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -3135,8 +3134,7 @@
 			isa = PBXGroup;
 			children = (
 				0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */,
-				05410EE522F690DB00303424 /* OEShaderParametersWindowController.h */,
-				05410EE622F690E200303424 /* OEShaderParametersWindowController.m */,
+				05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */,
 			);
 			name = Shaders;
 			sourceTree = "<group>";
@@ -7334,7 +7332,6 @@
 				8F1482FB24EABEAB006E79DB /* HomebrewLabels.swift in Sources */,
 				8370D3E11A8D2A7600313F87 /* OEArrowCursorTextView.m in Sources */,
 				53439B0713B92EEC005C0CC8 /* OEGridViewFieldEditor.m in Sources */,
-				05410EE722F690E200303424 /* OEShaderParametersWindowController.m in Sources */,
 				83E8927D197490B3004D4489 /* OEDisabledScrollView.m in Sources */,
 				83F444FD196CA24B007E8C63 /* OEHomebrewViewController.m in Sources */,
 				830CB918186878D6006EAE5A /* OEArrayController.m in Sources */,
@@ -7408,6 +7405,7 @@
 				83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */,
 				5A79F7951C15F542003124D5 /* PreferencesWindowController.swift in Sources */,
 				83E8927A19748C20004D4489 /* NS(Attributed)String+Geometrics.m in Sources */,
+				059ECCC22524030D00DCA0F6 /* ShaderParametersWindowController.swift in Sources */,
 				C6F738FC1617FF2B00BB2519 /* OEUtilities.m in Sources */,
 				05E789A723D01B16000E14EE /* GameDocumentController.swift in Sources */,
 				5A886E581BF43AC900775123 /* NSWindow+Image.swift in Sources */,
