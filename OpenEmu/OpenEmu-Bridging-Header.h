@@ -46,6 +46,7 @@
 #import "NSFileManager+OEHashingAdditions.h"
 #import "OEAudioDeviceManager.h"
 #import "NSColor+OEAdditions.h"
+#import "NSImageRep+ApplePrivate.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <OpenEmuKit/OpenEmuKit.h>

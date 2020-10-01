@@ -194,6 +194,7 @@ extension NSImage {
             let yscale = CGFloat(representation.pixelsWide) / representation.size.width;
             if let croppedrep = cgrep?.cropping(to: CGRect(x:flippedRect.origin.x * xscale, y:flippedRect.origin.y * yscale, width:flippedRect.size.width * xscale, height:flippedRect.size.height * yscale)) {
                 let newrep = NSBitmapImageRep(cgImage: croppedrep)
+                newrep._appearanceName = representation._appearanceName
                 newrep.size = rect.size
                 newImage.addRepresentation(newrep)
             }

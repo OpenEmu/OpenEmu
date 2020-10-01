@@ -1470,6 +1470,7 @@
 		01B035531C090E9900BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		01B035541C090E9900BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		01B035551C090E9A00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ControlLabels.strings; sourceTree = "<group>"; };
+		01D6F3D125269F1400E8404B /* NSImageRep+ApplePrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSImageRep+ApplePrivate.h"; sourceTree = "<group>"; };
 		01E2A2F223E60F7D00194150 /* PrefCoresController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefCoresController.swift; sourceTree = "<group>"; };
 		051A6F3A23CFF30C007B7C4F /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		051DDCB423E5D74400325147 /* AvailableLibrariesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableLibrariesViewController.swift; sourceTree = "<group>"; };
@@ -3444,6 +3445,7 @@
 				83F7DBAD18C0E2470029199C /* OEFileManager.h */,
 				83F7DBAE18C0E2470029199C /* OEFileManager.m */,
 				05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */,
+				01D6F3D125269F1400E8404B /* NSImageRep+ApplePrivate.h */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
