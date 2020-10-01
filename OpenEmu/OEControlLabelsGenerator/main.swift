@@ -87,19 +87,39 @@ func systems(forLabel l: NSString) -> String {
 }
 
 
-guard CommandLine.arguments.count > 1 else {
+var args = CommandLine.arguments.dropFirst()
+if let outputCommentsIdx = args.firstIndex(of: "--output-comments") {
+    outputComments = true
+    args.remove(at: outputCommentsIdx)
+}
+
+let currentDirectory = URL.init(fileURLWithPath: FileManager.default.currentDirectoryPath)
+let allPlugins: [URL]
+do {
+    allPlugins = try FileManager.default.contentsOfDirectory(
+            at: currentDirectory,
+            includingPropertiesForKeys: nil,
+            options: [.skipsSubdirectoryDescendants])
+        .filter{(url: URL) -> Bool in url.pathExtension == "oesystemplugin"}
+} catch {
+    allPlugins = []
+}
+for plugin in allPlugins {
+    let pluginBundle = Bundle.init(url: plugin)
+    addLabels(fromPlist: pluginBundle!.infoDictionary! as NSDictionary)
+}
+
+guard allPlugins.count > 0 || args.count > 1 else {
     print("Usage: \(CommandLine.arguments[0]) [--output-comments] system1-info.plist ")
     print("       system2-info.plist... > labels.strings")
+    print("Manually specifying the info plists is not required if there is any")
+    print("system plugin bundle in the current directory")
     exit(0)
 }
 
-for file in CommandLine.arguments.dropFirst() {
-    if file == "--output-comments" {
-        outputComments = true
-    } else {
-        let tmp = NSDictionary(contentsOfFile: file)!
-        addLabels(fromPlist: tmp)
-    }
+for file in args {
+    let tmp = NSDictionary(contentsOfFile: file)!
+    addLabels(fromPlist: tmp)
 }
 
 print("/* Group Labels */");

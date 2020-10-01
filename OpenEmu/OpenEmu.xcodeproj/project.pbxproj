@@ -963,6 +963,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		011FD35F2526785D006D7C05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 83F37141140BB166005A7353;
+			remoteInfo = "Build SystemPlugins";
+		};
 		011FD36525267927006D7C05 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1034,6 +1041,13 @@
 			remoteInfo = MSX;
 		};
 		011FD379252679CB006D7C05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 011FD36125267910006D7C05;
+			remoteInfo = "Build Experimental SystemPlugins";
+		};
+		011FD37B252679E9006D7C05 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
@@ -5297,6 +5311,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				011FD3602526785D006D7C05 /* PBXTargetDependency */,
+				011FD37C252679E9006D7C05 /* PBXTargetDependency */,
 			);
 			name = OEControlLabelsGenerator;
 			productName = ControlLabelsStringsExtractor;
@@ -6122,6 +6138,10 @@
 				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1200;
 				TargetAttributes = {
+					011FD36125267910006D7C05 = {
+						CreatedOnToolsVersion = 11.3.1;
+						ProvisioningStyle = Manual;
+					};
 					015BFEB325266DFC0025139F = {
 						CreatedOnToolsVersion = 11.3.1;
 						ProvisioningStyle = Automatic;
@@ -7807,6 +7827,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		011FD3602526785D006D7C05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 83F37141140BB166005A7353 /* Build SystemPlugins */;
+			targetProxy = 011FD35F2526785D006D7C05 /* PBXContainerItemProxy */;
+		};
 		011FD36625267927006D7C05 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 87FBC08D1C0790B400AECF5A /* Atari 8bit */;
@@ -7861,6 +7886,11 @@
 			isa = PBXTargetDependency;
 			target = 011FD36125267910006D7C05 /* Build Experimental SystemPlugins */;
 			targetProxy = 011FD379252679CB006D7C05 /* PBXContainerItemProxy */;
+		};
+		011FD37C252679E9006D7C05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 011FD36125267910006D7C05 /* Build Experimental SystemPlugins */;
+			targetProxy = 011FD37B252679E9006D7C05 /* PBXContainerItemProxy */;
 		};
 		01853AC523C0FB5F00619549 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
