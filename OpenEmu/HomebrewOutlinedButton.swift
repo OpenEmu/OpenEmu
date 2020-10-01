@@ -28,12 +28,6 @@ import Cocoa
 final class HomebrewOutlinedButton: NSButton {
     
     private let color = NSColor(white: 0.5, alpha: 1)
-    private let buttonShadow: NSShadow = {
-        let shadow = NSShadow()
-        shadow.shadowColor = NSColor(named: "labelShadowColor")
-        shadow.shadowOffset = NSMakeSize(0, -1)
-        return shadow
-    }()
     
     override func draw(_ dirtyRect: NSRect) {
         
@@ -42,7 +36,6 @@ final class HomebrewOutlinedButton: NSButton {
         NSGraphicsContext.current?.saveGraphicsState()
         
         color.setStroke()
-        buttonShadow.set()
         
         let bezierPath = NSBezierPath(roundedRect: frame, xRadius: 3, yRadius: 3)
         bezierPath.lineWidth = 1
@@ -58,17 +51,12 @@ final class HomebrewOutlinedButton: NSButton {
         let font = NSFont.systemFont(ofSize: 12)
         let color = NSColor(white: 0.5, alpha: 1)
         
-        let shadow = NSShadow()
-        shadow.shadowColor = NSColor(named: "labelShadowColor")
-        shadow.shadowOffset = NSMakeSize(0, -1)
-        
         let style = NSMutableParagraphStyle()
         style.alignment = .center
         
         let attributes: [NSAttributedString.Key : Any] =
                                           [.font: font,
                                 .foregroundColor: color,
-                                         .shadow: shadow,
                                  .paragraphStyle: style]
         
         return attributes

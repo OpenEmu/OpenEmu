@@ -24,63 +24,12 @@
 
 import Cocoa
 
-@objc(OEHomebrewHeadlineLabel)
-final class HomebrewHeadlineLabel: Label {
-    
-    override func setupAttributes() {
-        
-        let shadow = NSShadow()
-        shadow.shadowColor = NSColor(named: "labelShadowColor")
-        shadow.shadowOffset = NSMakeSize(0, -1)
-        
-        font = .systemFont(ofSize: 18)
-        textColor = .labelColor
-        textShadow = shadow
-    }
-}
-
-@objc(OEHomebrewGamenameLabel)
-final class HomebrewGamenameLabel: Label {
-    
-    override func setupAttributes() {
-        
-        let shadow = NSShadow()
-        shadow.shadowColor = NSColor(named: "labelShadowColor")
-        shadow.shadowOffset = NSMakeSize(0, -1)
-        
-        font = .systemFont(ofSize: 16)
-        textColor = .labelColor
-        textShadow = shadow
-    }
-}
-
-@objc(OEHomebrewFeatureLabel)
-final class HomebrewFeatureLabel: Label {
-    
-    override func setupAttributes() {
-        
-        let shadow = NSShadow()
-        shadow.shadowColor = NSColor(named: "labelShadowColor")
-        shadow.shadowOffset = NSMakeSize(0, -1)
-        
-        font = .systemFont(ofSize: 14)
-        textColor = .labelColor
-        textShadow = shadow
-    }
-}
-
 @objc(OEHomebrewDeveloperLink)
 final class HomebrewDeveloperLink: TextButton {
     
     override func setupAttributes() {
         
-        let shadow = NSShadow()
-        shadow.shadowColor = NSColor(named: "labelShadowColor")
-        shadow.shadowOffset = NSMakeSize(0, -1)
-        
-        font = .systemFont(ofSize: 14)
         textColor = NSColor(from: "#929DA5")
         textColorHover = NSColor(from: "#9c2a32")
-        textShadow = shadow
     }
 }

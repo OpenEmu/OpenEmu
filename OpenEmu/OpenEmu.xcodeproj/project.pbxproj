@@ -556,7 +556,7 @@
 		8F071F3B1C255362007B76DA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F3A1C255362007B76DA /* Credits.rtf */; };
 		8F0D804724ED76C4001BD8E2 /* ControlsLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */; };
 		8F0D804924ED7F14001BD8E2 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D804824ED7F14001BD8E2 /* Label.swift */; };
-		8F1482FB24EABEAB006E79DB /* HomebrewLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1482FA24EABEAB006E79DB /* HomebrewLabels.swift */; };
+		8F1482FB24EABEAB006E79DB /* HomebrewDeveloperLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */; };
 		8F2F92AA2519A9E700699691 /* GameScannerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2F92A92519A9E700699691 /* GameScannerButton.swift */; };
 		8F3062A4251A894300BDFF1F /* ValidatingToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3062A3251A894300BDFF1F /* ValidatingToolbarItem.swift */; };
 		8F3062DB251A897F00BDFF1F /* OESearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3062DA251A897E00BDFF1F /* OESearchField.swift */; };
@@ -2018,7 +2018,7 @@
 		8F071F3A1C255362007B76DA /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsLabels.swift; sourceTree = "<group>"; };
 		8F0D804824ED7F14001BD8E2 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
-		8F1482FA24EABEAB006E79DB /* HomebrewLabels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewLabels.swift; sourceTree = "<group>"; };
+		8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewDeveloperLink.swift; sourceTree = "<group>"; };
 		8F2F92A92519A9E700699691 /* GameScannerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScannerButton.swift; sourceTree = "<group>"; };
 		8F3062A3251A894300BDFF1F /* ValidatingToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatingToolbarItem.swift; sourceTree = "<group>"; };
 		8F3062DA251A897E00BDFF1F /* OESearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OESearchField.swift; sourceTree = "<group>"; };
@@ -4032,7 +4032,7 @@
 				83E89273197471F8004D4489 /* OEHomebrewCoverView.m */,
 				834B6F2C1A3B453000CA6A26 /* OEHomebrewBlankSlateView.h */,
 				834B6F2D1A3B453000CA6A26 /* OEHomebrewBlankSlateView.m */,
-				8F1482FA24EABEAB006E79DB /* HomebrewLabels.swift */,
+				8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */,
 				8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */,
 			);
 			name = Homebrew;
@@ -7317,7 +7317,7 @@
 				8F58592F24F4340D009B8502 /* HomebrewOutlinedButton.swift in Sources */,
 				5A9606D21C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift in Sources */,
 				5AFD06BD2058893B00DFE765 /* GameScannerViewController.swift in Sources */,
-				8F1482FB24EABEAB006E79DB /* HomebrewLabels.swift in Sources */,
+				8F1482FB24EABEAB006E79DB /* HomebrewDeveloperLink.swift in Sources */,
 				8370D3E11A8D2A7600313F87 /* OEArrowCursorTextView.m in Sources */,
 				53439B0713B92EEC005C0CC8 /* OEGridViewFieldEditor.m in Sources */,
 				83E8927D197490B3004D4489 /* OEDisabledScrollView.m in Sources */,

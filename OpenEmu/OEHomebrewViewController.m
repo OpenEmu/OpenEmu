@@ -289,17 +289,12 @@ const static CGFloat TableViewSpacing = 86.0;
         NSFont *font = [NSFont systemFontOfSize:12 weight:0.2];
         NSColor *color = [NSColor colorWithWhite:0.5 alpha:1];
         
-        NSShadow *shadow = [[NSShadow alloc] init];
-        shadow.shadowColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.4];
-        shadow.shadowOffset = NSMakeSize(0, -1);
-        
         NSMutableParagraphStyle *textAlignment = NSMutableParagraphStyle.new;
         textAlignment.alignment = NSTextAlignmentJustified;
         
         attributes = @{
             NSFontAttributeName : font,
             NSForegroundColorAttributeName : color,
-            NSShadowAttributeName : shadow,
             NSParagraphStyleAttributeName : textAlignment,
         };
     });
