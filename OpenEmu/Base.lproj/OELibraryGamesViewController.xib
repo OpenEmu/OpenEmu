@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -159,7 +159,7 @@
                                             <popUpButtonCell key="cell" type="smallSquare" bezelStyle="smallSquare" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" inset="2" pullsDown="YES" arrowPosition="noArrow" selectedItem="1U8-Yu-nH3" id="npV-Do-MPo">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
-                                                <menu key="menu" id="F3c-W5-k5f">
+                                                <menu key="menu" id="F3c-W5-k5f" customClass="OESidebarAddMenu">
                                                     <items>
                                                         <menuItem state="on" image="NSAddTemplate" hidden="YES" id="ngO-qO-EH7"/>
                                                         <menuItem title="New Collection" id="Lkc-nZ-qig">

@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "sidebar_add_11.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "template-rendering-intent" : "template"
+  }
+}

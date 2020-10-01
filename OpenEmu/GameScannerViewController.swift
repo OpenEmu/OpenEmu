@@ -42,7 +42,7 @@ class GameScannerViewController: NSViewController {
     @IBOutlet var issuesView: NSTableView!
     @IBOutlet var actionPopUpButton: NSPopUpButton!
     @IBOutlet var applyButton: NSButton!
-   
+    
     @IBOutlet private weak var bottomBar: NSView!
     @IBOutlet private weak var sourceListScrollView: NSScrollView!
     @IBOutlet private weak var libraryGamesViewController: OELibraryGamesViewController!
@@ -185,6 +185,8 @@ class GameScannerViewController: NSViewController {
         
         CATransaction.begin()
         defer { CATransaction.commit() }
+        
+        headlineLabel.stringValue = NSLocalizedString("Game Scanner", comment: "")
         
         let infoHelper = OEGameInfoHelper.shared
         if infoHelper.isUpdating {

@@ -564,7 +564,7 @@
 		8F4BDF7B1CE4AB25007DCB86 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */; };
 		8F4BDF7D1CE4AB34007DCB86 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7C1CE4AB34007DCB86 /* libsqlite3.tbd */; };
 		8F4BDF801CE4ACC6007DCB86 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */; };
-		8F5074741C10BCEC00F52B83 /* OELibraryGamesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5074761C10BCEC00F52B83 /* OELibraryGamesViewController.xib */; };
+		8F5074741C10BCEC00F52B83 /* OELibraryGamesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5074751C10BCEC00F52B83 /* OELibraryGamesViewController.xib */; };
 		8F58592F24F4340D009B8502 /* HomebrewOutlinedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */; };
 		8F714FD824F85CEA006AF031 /* HUDButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F714FD724F85CEA006AF031 /* HUDButton.swift */; };
 		8F7BFC9623E653E100B1F6C8 /* ShaderParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F7BFC9823E653E100B1F6C8 /* ShaderParameters.xib */; };
@@ -575,6 +575,7 @@
 		8F80218224F45E9800DC82E3 /* HUDSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80218024F45E9800DC82E3 /* HUDSlider.swift */; };
 		8F957B4225227175008A9BC9 /* GlossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F957B4125227175008A9BC9 /* GlossButton.swift */; };
 		8FAF08D8251FB65D00EDB247 /* HoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF069A251FB02700EDB247 /* HoverButton.swift */; };
+		8FD7104D252556BF0093149B /* SidebarAddMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD7104C252556BF0093149B /* SidebarAddMenu.swift */; };
 		8FD78305243A8AD300861B7A /* Debug.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FD78307243A8AD300861B7A /* Debug.strings */; };
 		8FD905771AA2927100FA7662 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F40EB791C1072B100683055 /* OEPrefControlsController.xib */; };
 		8FDCE3972520022700277BFA /* GlossCheckboxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDCE3962520022700277BFA /* GlossCheckboxCell.swift */; };
@@ -1560,7 +1561,6 @@
 		3887A8041024D2BC000FC4CF /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OESaveStateQLPlugin-Info.plist"; sourceTree = "<group>"; };
 		3C335C8C1C70E49200E33B79 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/OEMigrationWindowController.strings"; sourceTree = "<group>"; };
-		3C335C8D1C70E49300E33B79 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/OELibraryGamesViewController.strings"; sourceTree = "<group>"; };
 		3C335C901C70E49300E33B79 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/OEPrefGameplayController.strings"; sourceTree = "<group>"; };
 		3C335C911C70E49300E33B79 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/OEPrefLibraryController.strings"; sourceTree = "<group>"; };
 		3C335C921C70E49400E33B79 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/OECollectionViewController.strings"; sourceTree = "<group>"; };
@@ -1586,7 +1586,6 @@
 		3DB744881BD8B9DE00C23E74 /* psx_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "psx_library@2x.png"; sourceTree = "<group>"; };
 		3DB744BA1BD8BA9E00C23E74 /* PlayStation 2.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlayStation 2.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E35119B1C35DA8E0063E8CA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
-		3E35119C1C35DA8E0063E8CA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
 		3E35119F1C35DA8E0063E8CA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
 		3E3511A01C35DA8F0063E8CA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/OEPrefLibraryController.strings; sourceTree = "<group>"; };
 		3E3511A11C35DA8F0063E8CA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/OECollectionViewController.strings; sourceTree = "<group>"; };
@@ -1675,7 +1674,6 @@
 		5AECA1471BE1D25600C3B4E2 /* OpenEmu-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenEmu-Bridging-Header.h"; sourceTree = "<group>"; };
 		5AFD06BC2058893B00DFE765 /* GameScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScannerViewController.swift; sourceTree = "<group>"; };
 		7699EC871D6303E5005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
-		7699EC881D6303E6005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
 		7699EC8B1D6303E7005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
 		7699EC8C1D6303E8005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OEPrefLibraryController.strings; sourceTree = "<group>"; };
 		7699EC8D1D6303E8005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OECollectionViewController.strings; sourceTree = "<group>"; };
@@ -1697,7 +1695,6 @@
 		8227755E1489471A00B19E27 /* GameGear-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GameGear-Info.plist"; sourceTree = "<group>"; };
 		825CC280148C13750063A9B5 /* OpenEmu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmu-Info.plist"; sourceTree = "<group>"; };
 		82BBE7B121D961A0006CD402 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OEMigrationWindowController.strings"; sourceTree = "<group>"; };
-		82BBE7B221D961A1006CD402 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OELibraryGamesViewController.strings"; sourceTree = "<group>"; };
 		82BBE7B521D961A1006CD402 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OEPrefGameplayController.strings"; sourceTree = "<group>"; };
 		82BBE7B621D961A1006CD402 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OEPrefLibraryController.strings"; sourceTree = "<group>"; };
 		82BBE7B721D961A1006CD402 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OECollectionViewController.strings"; sourceTree = "<group>"; };
@@ -1946,7 +1943,6 @@
 		879243B21C0DA5910064C515 /* controller_5200_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_5200_mask@2x.png"; sourceTree = "<group>"; };
 		879243B31C0DA5910064C515 /* controller_5200@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_5200@2x.png"; sourceTree = "<group>"; };
 		87ACB6BD1D2509B300138B7E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
-		87ACB6BE1D2509B500138B7E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
 		87ACB6C11D2509B800138B7E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
 		87ACB6C21D2509B900138B7E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/OEPrefLibraryController.strings; sourceTree = "<group>"; };
 		87ACB6C31D2509BA00138B7E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/OECollectionViewController.strings; sourceTree = "<group>"; };
@@ -2064,13 +2060,7 @@
 		8F40EBE61C1092D000683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OEPrefLibraryController.strings; sourceTree = "<group>"; };
 		8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		8F4BDF7C1CE4AB34007DCB86 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		8F5074751C10BCEC00F52B83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OELibraryGamesViewController.xib; sourceTree = "<group>"; };
-		8F5074781C10BCF900F52B83 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
-		8F50747A1C10BCFD00F52B83 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
-		8F50747C1C10BD0100F52B83 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
-		8F50747E1C10BD0500F52B83 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
-		8F5074801C10BD0900F52B83 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
-		8F5074821C10BD0C00F52B83 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
+		8F5074751C10BCEC00F52B83 /* OELibraryGamesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OELibraryGamesViewController.xib; path = Base.lproj/OELibraryGamesViewController.xib; sourceTree = "<group>"; };
 		8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewOutlinedButton.swift; sourceTree = "<group>"; };
 		8F714FD724F85CEA006AF031 /* HUDButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDButton.swift; sourceTree = "<group>"; };
 		8F7BFC9723E653E100B1F6C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ShaderParameters.xib; sourceTree = "<group>"; };
@@ -2093,6 +2083,7 @@
 		8FCCCE5F24E7088E00223181 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Debug.strings; sourceTree = "<group>"; };
 		8FCCCE6024E7089100223181 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Debug.strings"; sourceTree = "<group>"; };
 		8FCCCE6124E7089300223181 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Debug.strings"; sourceTree = "<group>"; };
+		8FD7104C252556BF0093149B /* SidebarAddMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarAddMenu.swift; sourceTree = "<group>"; };
 		8FD78306243A8AD300861B7A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Debug.strings; sourceTree = "<group>"; };
 		8FD78308243A8ADC00861B7A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Debug.strings; sourceTree = "<group>"; };
 		8FDCE3962520022700277BFA /* GlossCheckboxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossCheckboxCell.swift; sourceTree = "<group>"; };
@@ -3345,10 +3336,11 @@
 			isa = PBXGroup;
 			children = (
 				8382D22C13C5C55200906221 /* Preferences */,
-				833ADC4F196B078E00217D9A /* OECollectionViewController.xib */,
-				010EDCA21CE628490020417C /* OELibraryController.xib */,
-				8F071F381C25534E007B76DA /* Preferences.xib */,
 				832D29421451ACF200BDF950 /* MainWindow.xib */,
+				010EDCA21CE628490020417C /* OELibraryController.xib */,
+				833ADC4F196B078E00217D9A /* OECollectionViewController.xib */,
+				8F5074751C10BCEC00F52B83 /* OELibraryGamesViewController.xib */,
+				8F071F381C25534E007B76DA /* Preferences.xib */,
 				83FE965B19685F6700DD8DB9 /* OEGameScanner.xib */,
 				83FE966619685F8F00DD8DB9 /* OESetupAssistant.xib */,
 				8F7BFC9823E653E100B1F6C8 /* ShaderParameters.xib */,
@@ -3840,7 +3832,6 @@
 				8306CD121BD3AC1B0025BC6C /* Sidebar */,
 				8306CD0D1BD3AC180025BC6C /* OELibraryGamesViewController.h */,
 				8306CD0E1BD3AC180025BC6C /* OELibraryGamesViewController.m */,
-				8F5074761C10BCEC00F52B83 /* OELibraryGamesViewController.xib */,
 			);
 			name = "Games Library";
 			sourceTree = "<group>";
@@ -3858,6 +3849,7 @@
 				8306CD1F1BD3AC3D0025BC6C /* OESidebarItem.h */,
 				8306CD201BD3AC3D0025BC6C /* OESidebarOutlineView.h */,
 				8306CD211BD3AC3D0025BC6C /* OESidebarOutlineView.m */,
+				8FD7104C252556BF0093149B /* SidebarAddMenu.swift */,
 			);
 			name = Sidebar;
 			sourceTree = "<group>";
@@ -7361,6 +7353,7 @@
 				8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */,
 				839310BC147802380020058E /* OECoreDownload.m in Sources */,
 				5A3DB1B11D8E6806009445EC /* AppDelegate.swift in Sources */,
+				8FD7104D252556BF0093149B /* SidebarAddMenu.swift in Sources */,
 				83CA87B41961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel in Sources */,
 				83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */,
 				EF2FDBEB14CFFE06002A64F2 /* ControlsKeyButton.swift in Sources */,
@@ -8178,25 +8171,6 @@
 				82BBE7BA21D961A1006CD402 /* zh-Hant */,
 			);
 			name = OESetupAssistant.xib;
-			sourceTree = "<group>";
-		};
-		8F5074761C10BCEC00F52B83 /* OELibraryGamesViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8F5074751C10BCEC00F52B83 /* Base */,
-				7699EC881D6303E6005BC437 /* ca */,
-				8F5074781C10BCF900F52B83 /* de */,
-				8F50747C1C10BD0100F52B83 /* es */,
-				8F50747E1C10BD0500F52B83 /* fr */,
-				8F5074801C10BD0900F52B83 /* it */,
-				87ACB6BE1D2509B500138B7E /* ja */,
-				3E35119C1C35DA8E0063E8CA /* nl */,
-				8F50747A1C10BCFD00F52B83 /* pt */,
-				8F5074821C10BD0C00F52B83 /* ru */,
-				3C335C8D1C70E49300E33B79 /* zh-Hans */,
-				82BBE7B221D961A1006CD402 /* zh-Hant */,
-			);
-			name = OELibraryGamesViewController.xib;
 			sourceTree = "<group>";
 		};
 		8F7BFC9823E653E100B1F6C8 /* ShaderParameters.xib */ = {

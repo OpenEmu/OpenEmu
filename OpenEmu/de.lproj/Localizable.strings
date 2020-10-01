@@ -21,6 +21,8 @@
 
 "Add to Collection" = "Zur Sammlung hinzufügen";
 
+"Add to Library…" = "Hinzufügen …";
+
 "All Games" = "Alle Spiele";
 
 "All Homebrew" = "Alle Homebrew-Spiele";
@@ -403,9 +405,9 @@
 
 "Saved Games" = "Spielstände";
 
-"Scanner Paused" = "Durchsuchen pausiert";
+"Scanner Paused" = "Scanner pausiert";
 
-"Scanning Directory" = "Ordner durchsuchen";
+"Scanning Directory" = "Ordner scannen";
 
 "Screenshots" = "Bildschirmfotos";
 
