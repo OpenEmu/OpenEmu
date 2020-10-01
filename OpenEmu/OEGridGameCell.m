@@ -220,6 +220,8 @@ static NSDictionary *disabledActions = nil;
 
 - (CALayer *)layerForType:(NSString *)type
 {
+    NSAppearance.currentAppearance = self.imageBrowserView.effectiveAppearance;
+    
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
 
@@ -281,11 +283,12 @@ static NSDictionary *disabledActions = nil;
         // Setup rating layer
         NSUInteger    rating = [representedItem gridRating];
         NSImage *ratingImage = [self OE_ratingImageForRating:rating];
+        CGImageRef resolvedRating = [ratingImage CGImageForProposedRect:NULL context:nil hints:nil];
 
         [_ratingLayer setContentsGravity:kCAGravityResizeAspect];
         [_ratingLayer setContentsScale:scaleFactor];
         [_ratingLayer setFrame:relativeRatingFrame];
-        [_ratingLayer setContents:ratingImage];
+        [_ratingLayer setContents:(__bridge id)resolvedRating];
 
         if(state == IKImageStateReady)
         {
