@@ -79,7 +79,7 @@ final class ShaderParametersWindowController: NSWindowController {
             
             didChangeValue(for: \.groups)
             
-            params = _groups?.flatMap(\.parameters)
+            params = _groups?.flatMap { $0.parameters }
             
             outlineView?.reloadData()
         }
