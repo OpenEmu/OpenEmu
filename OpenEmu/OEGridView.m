@@ -125,18 +125,7 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
     _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
     [self addSubview:_fieldEditor];
     
-    [self OE_setupBackgroundLayer];
-}
-
-- (void)OE_setupBackgroundLayer
-{
-    NSAppearance.currentAppearance = self.effectiveAppearance;
-    
-    NSImage *lightingImage = [NSImage imageNamed:@"background_lighting"];
-    CALayer *bglayer = [[CALayer alloc] init];
-    CGImageRef resolvedImage = [lightingImage CGImageForProposedRect:NULL context:nil hints:nil];
-    [bglayer setContents:(__bridge id)resolvedImage];
-    [self setBackgroundLayer:bglayer];
+    [self setValue:NSColor.clearColor forKey:IKImageBrowserBackgroundColorKey];
 }
 
 - (NSImage*) groupBackgroundImage
@@ -876,7 +865,6 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
 
 - (void)viewDidChangeEffectiveAppearance
 {
-    [self OE_setupBackgroundLayer];
     [self reloadData];
 }
 
