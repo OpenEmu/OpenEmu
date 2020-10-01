@@ -7,6 +7,26 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		011FD36125267910006D7C05 /* Build Experimental SystemPlugins */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 011FD36225267910006D7C05 /* Build configuration list for PBXAggregateTarget "Build Experimental SystemPlugins" */;
+			buildPhases = (
+			);
+			dependencies = (
+				011FD36625267927006D7C05 /* PBXTargetDependency */,
+				011FD36825267927006D7C05 /* PBXTargetDependency */,
+				011FD36A25267932006D7C05 /* PBXTargetDependency */,
+				011FD36C25267956006D7C05 /* PBXTargetDependency */,
+				011FD37025267986006D7C05 /* PBXTargetDependency */,
+				011FD3722526798B006D7C05 /* PBXTargetDependency */,
+				011FD3742526799C006D7C05 /* PBXTargetDependency */,
+				011FD376252679A1006D7C05 /* PBXTargetDependency */,
+				011FD378252679AD006D7C05 /* PBXTargetDependency */,
+				011FD36E25267973006D7C05 /* PBXTargetDependency */,
+			);
+			name = "Build Experimental SystemPlugins";
+			productName = "Build Experimental SystemPlugins";
+		};
 		37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 37C80315101564C000356EF3 /* Build configuration list for PBXAggregateTarget "Build & Copy OpenEmuBase" */;
@@ -101,16 +121,7 @@
 			);
 			dependencies = (
 				01853AC523C0FB5F00619549 /* PBXTargetDependency */,
-				87FBC0AA1C07A23400AECF5A /* PBXTargetDependency */,
-				87FBC0881BFC77E300AECF5A /* PBXTargetDependency */,
-				3DB744CD1BD8BB0300C23E74 /* PBXTargetDependency */,
-				87DF05401BCE3CDC0060E2C2 /* PBXTargetDependency */,
-				081A462E1B9574B800565444 /* PBXTargetDependency */,
-				837964F71A614B3600A8DE5C /* PBXTargetDependency */,
-				94A5321618DF8A2B00AE11B3 /* PBXTargetDependency */,
-				94CE3FB618DE92A20079CC16 /* PBXTargetDependency */,
-				FE6DEA65187E88DD00EFA21E /* PBXTargetDependency */,
-				94EBBD30183F4DA400743756 /* PBXTargetDependency */,
+				011FD37A252679CB006D7C05 /* PBXTargetDependency */,
 			);
 			name = "Build & Copy Experimental SystemPlugins";
 			productName = "Build SystemPlugins";
@@ -952,6 +963,83 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		011FD36525267927006D7C05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87FBC08D1C0790B400AECF5A;
+			remoteInfo = "Atari 8bit";
+		};
+		011FD36725267927006D7C05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87FBC06C1BFC70FE00AECF5A;
+			remoteInfo = "Commodore 64";
+		};
+		011FD36925267932006D7C05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3DB744A51BD8BA9E00C23E74;
+			remoteInfo = "PlayStation 2";
+		};
+		011FD36B25267956006D7C05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87DF04FD1BCE2D100060E2C2;
+			remoteInfo = Dreamcast;
+		};
+		011FD36D25267973006D7C05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 945E42FA1517F2B500057D08;
+			remoteInfo = Arcade;
+		};
+		011FD36F25267986006D7C05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 081A46251B95744A00565444;
+			remoteInfo = "Pokemon mini";
+		};
+		011FD3712526798B006D7C05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 837964E01A6149C000A8DE5C;
+			remoteInfo = Supervision;
+		};
+		011FD3732526799C006D7C05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 943C80111708A62E00D8D93E;
+			remoteInfo = Jaguar;
+		};
+		011FD375252679A1006D7C05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 943F99B21707DF3700270E89;
+			remoteInfo = 3DO;
+		};
+		011FD377252679AD006D7C05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FEB6625A187B791800D14713;
+			remoteInfo = MSX;
+		};
+		011FD379252679CB006D7C05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 011FD36125267910006D7C05;
+			remoteInfo = "Build Experimental SystemPlugins";
+		};
 		01853AC423C0FB5F00619549 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -966,13 +1054,6 @@
 			remoteGlobalIDString = 0547FE1324E86D9F005C1FFC;
 			remoteInfo = broker;
 		};
-		081A462D1B9574B800565444 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 081A46251B95744A00565444;
-			remoteInfo = Pokemonmini;
-		};
 		1B6A25011430F8FB009F1CE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -986,13 +1067,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1BEF2A9311682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
-		};
-		3DB744CC1BD8BB0300C23E74 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3DB744A51BD8BA9E00C23E74;
-			remoteInfo = "PlayStation 2";
 		};
 		820EB7621483FBEF008EC398 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1028,13 +1102,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 3887A7F51024D1F9000FC4CF;
 			remoteInfo = OESaveStateQLPlugin;
-		};
-		837964F61A614B3600A8DE5C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 837964E01A6149C000A8DE5C;
-			remoteInfo = Supervision;
 		};
 		83F37148140BB177005A7353 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1190,33 +1257,12 @@
 			remoteGlobalIDString = 94A224421707539D00098DA0;
 			remoteInfo = WonderSwan;
 		};
-		87DF053F1BCE3CDC0060E2C2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 87DF04FD1BCE2D100060E2C2;
-			remoteInfo = Dreamcast;
-		};
 		87F077AF23B68C64001FFC9B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 94CEB26C17A84809005A2107;
 			remoteInfo = GameCube;
-		};
-		87FBC0871BFC77E300AECF5A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 87FBC06C1BFC70FE00AECF5A;
-			remoteInfo = "Commodore 64";
-		};
-		87FBC0A91C07A23400AECF5A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 87FBC08D1C0790B400AECF5A;
-			remoteInfo = "Atari 8bit";
 		};
 		940553B117A35DE0009B505D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1246,20 +1292,6 @@
 			remoteGlobalIDString = 9479664E15EDE645004316AB;
 			remoteInfo = "Update Build Version";
 		};
-		94A5321518DF8A2B00AE11B3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 943C80111708A62E00D8D93E;
-			remoteInfo = Jaguar;
-		};
-		94CE3FB518DE92A20079CC16 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 943F99B21707DF3700270E89;
-			remoteInfo = 3DO;
-		};
 		94CEB29817A8D4F0005A2107 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1273,20 +1305,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 94D7E8C815073BA000FBDD85;
 			remoteInfo = NDS;
-		};
-		94EBBD2F183F4DA400743756 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 945E42FA1517F2B500057D08;
-			remoteInfo = Arcade;
-		};
-		FE6DEA64187E88DD00EFA21E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FEB6625A187B791800D14713;
-			remoteInfo = MSX;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -6351,8 +6369,9 @@
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
-				9479664E15EDE645004316AB /* Update Build Version */,
+				011FD36125267910006D7C05 /* Build Experimental SystemPlugins */,
 				94EBBCD7183F422500743756 /* Build & Copy Experimental SystemPlugins */,
+				9479664E15EDE645004316AB /* Update Build Version */,
 				94C51FBC1847077700206E6F /* Set Experimental Appcast URLs */,
 				016F22DB23F19F5F00181842 /* OEAlertTest */,
 				015BFEB325266DFC0025139F /* OEControlLabelsGenerator */,
@@ -7788,6 +7807,61 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		011FD36625267927006D7C05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 87FBC08D1C0790B400AECF5A /* Atari 8bit */;
+			targetProxy = 011FD36525267927006D7C05 /* PBXContainerItemProxy */;
+		};
+		011FD36825267927006D7C05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 87FBC06C1BFC70FE00AECF5A /* Commodore 64 */;
+			targetProxy = 011FD36725267927006D7C05 /* PBXContainerItemProxy */;
+		};
+		011FD36A25267932006D7C05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3DB744A51BD8BA9E00C23E74 /* PlayStation 2 */;
+			targetProxy = 011FD36925267932006D7C05 /* PBXContainerItemProxy */;
+		};
+		011FD36C25267956006D7C05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 87DF04FD1BCE2D100060E2C2 /* Dreamcast */;
+			targetProxy = 011FD36B25267956006D7C05 /* PBXContainerItemProxy */;
+		};
+		011FD36E25267973006D7C05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 945E42FA1517F2B500057D08 /* Arcade */;
+			targetProxy = 011FD36D25267973006D7C05 /* PBXContainerItemProxy */;
+		};
+		011FD37025267986006D7C05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 081A46251B95744A00565444 /* Pokemon mini */;
+			targetProxy = 011FD36F25267986006D7C05 /* PBXContainerItemProxy */;
+		};
+		011FD3722526798B006D7C05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 837964E01A6149C000A8DE5C /* Supervision */;
+			targetProxy = 011FD3712526798B006D7C05 /* PBXContainerItemProxy */;
+		};
+		011FD3742526799C006D7C05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 943C80111708A62E00D8D93E /* Jaguar */;
+			targetProxy = 011FD3732526799C006D7C05 /* PBXContainerItemProxy */;
+		};
+		011FD376252679A1006D7C05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 943F99B21707DF3700270E89 /* 3DO */;
+			targetProxy = 011FD375252679A1006D7C05 /* PBXContainerItemProxy */;
+		};
+		011FD378252679AD006D7C05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FEB6625A187B791800D14713 /* MSX */;
+			targetProxy = 011FD377252679AD006D7C05 /* PBXContainerItemProxy */;
+		};
+		011FD37A252679CB006D7C05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 011FD36125267910006D7C05 /* Build Experimental SystemPlugins */;
+			targetProxy = 011FD379252679CB006D7C05 /* PBXContainerItemProxy */;
+		};
 		01853AC523C0FB5F00619549 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* OpenEmu */;
@@ -7798,11 +7872,6 @@
 			target = 0547FE1324E86D9F005C1FFC /* broker */;
 			targetProxy = 0547FE1D24E86D9F005C1FFC /* PBXContainerItemProxy */;
 		};
-		081A462E1B9574B800565444 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 081A46251B95744A00565444 /* Pokemon mini */;
-			targetProxy = 081A462D1B9574B800565444 /* PBXContainerItemProxy */;
-		};
 		1B6A25021430F8FB009F1CE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 83F37141140BB166005A7353 /* Build SystemPlugins */;
@@ -7812,11 +7881,6 @@
 			isa = PBXTargetDependency;
 			target = 1BEF2A9311682A530090F72B /* OpenEmuHelperApp */;
 			targetProxy = 3DAA589914464890001C09A8 /* PBXContainerItemProxy */;
-		};
-		3DB744CD1BD8BB0300C23E74 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3DB744A51BD8BA9E00C23E74 /* PlayStation 2 */;
-			targetProxy = 3DB744CC1BD8BB0300C23E74 /* PBXContainerItemProxy */;
 		};
 		820EB7631483FBEF008EC398 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7842,11 +7906,6 @@
 			isa = PBXTargetDependency;
 			target = 3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */;
 			targetProxy = 8309A780166CE6360013AD4A /* PBXContainerItemProxy */;
-		};
-		837964F71A614B3600A8DE5C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 837964E01A6149C000A8DE5C /* Supervision */;
-			targetProxy = 837964F61A614B3600A8DE5C /* PBXContainerItemProxy */;
 		};
 		83F37149140BB177005A7353 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7958,25 +8017,10 @@
 			target = 94A224421707539D00098DA0 /* WonderSwan */;
 			targetProxy = 87BD9E221C2A6652006722DF /* PBXContainerItemProxy */;
 		};
-		87DF05401BCE3CDC0060E2C2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 87DF04FD1BCE2D100060E2C2 /* Dreamcast */;
-			targetProxy = 87DF053F1BCE3CDC0060E2C2 /* PBXContainerItemProxy */;
-		};
 		87F077B023B68C64001FFC9B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 94CEB26C17A84809005A2107 /* GameCube */;
 			targetProxy = 87F077AF23B68C64001FFC9B /* PBXContainerItemProxy */;
-		};
-		87FBC0881BFC77E300AECF5A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 87FBC06C1BFC70FE00AECF5A /* Commodore 64 */;
-			targetProxy = 87FBC0871BFC77E300AECF5A /* PBXContainerItemProxy */;
-		};
-		87FBC0AA1C07A23400AECF5A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 87FBC08D1C0790B400AECF5A /* Atari 8bit */;
-			targetProxy = 87FBC0A91C07A23400AECF5A /* PBXContainerItemProxy */;
 		};
 		940553B217A35DE0009B505D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7998,16 +8042,6 @@
 			target = 9479664E15EDE645004316AB /* Update Build Version */;
 			targetProxy = 9479665415EDE6B3004316AB /* PBXContainerItemProxy */;
 		};
-		94A5321618DF8A2B00AE11B3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 943C80111708A62E00D8D93E /* Jaguar */;
-			targetProxy = 94A5321518DF8A2B00AE11B3 /* PBXContainerItemProxy */;
-		};
-		94CE3FB618DE92A20079CC16 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 943F99B21707DF3700270E89 /* 3DO */;
-			targetProxy = 94CE3FB518DE92A20079CC16 /* PBXContainerItemProxy */;
-		};
 		94CEB29917A8D4F0005A2107 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 946B9461178289BA00A212AC /* Sega 32X */;
@@ -8017,16 +8051,6 @@
 			isa = PBXTargetDependency;
 			target = 94D7E8C815073BA000FBDD85 /* NDS */;
 			targetProxy = 94D7E8E8150741B500FBDD85 /* PBXContainerItemProxy */;
-		};
-		94EBBD30183F4DA400743756 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 945E42FA1517F2B500057D08 /* Arcade */;
-			targetProxy = 94EBBD2F183F4DA400743756 /* PBXContainerItemProxy */;
-		};
-		FE6DEA65187E88DD00EFA21E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FEB6625A187B791800D14713 /* MSX */;
-			targetProxy = FE6DEA64187E88DD00EFA21E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -8261,6 +8285,20 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		011FD36325267910006D7C05 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		011FD36425267910006D7C05 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		015BFEB825266DFC0025139F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -9658,6 +9696,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		011FD36225267910006D7C05 /* Build configuration list for PBXAggregateTarget "Build Experimental SystemPlugins" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				011FD36325267910006D7C05 /* Debug */,
+				011FD36425267910006D7C05 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		015BFEBA25266DFC0025139F /* Build configuration list for PBXNativeTarget "OEControlLabelsGenerator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
