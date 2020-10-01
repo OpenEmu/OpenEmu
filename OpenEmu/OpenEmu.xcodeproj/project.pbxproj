@@ -323,7 +323,6 @@
 		8301557B1456BF7A0093D681 /* OEGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8301557A1456BF7A0093D681 /* OEGameViewController.m */; };
 		8305A48018FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */; };
 		8306CD101BD3AC180025BC6C /* OELibraryGamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD0E1BD3AC180025BC6C /* OELibraryGamesViewController.m */; };
-		8306CD261BD3AC3D0025BC6C /* OESidebarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8306CD1A1BD3AC3D0025BC6C /* OESidebarController.xib */; };
 		8306CD2B1BD3AD480025BC6C /* OESidebarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD161BD3AC3D0025BC6C /* OESidebarCell.m */; };
 		8306CD2C1BD3AD480025BC6C /* OESidebarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD181BD3AC3D0025BC6C /* OESidebarController.m */; };
 		8306CD2E1BD3AD480025BC6C /* OESidebarGroupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD1E1BD3AC3D0025BC6C /* OESidebarGroupItem.m */; };
@@ -1716,7 +1715,6 @@
 		8306CD161BD3AC3D0025BC6C /* OESidebarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarCell.m; sourceTree = "<group>"; };
 		8306CD171BD3AC3D0025BC6C /* OESidebarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarController.h; sourceTree = "<group>"; };
 		8306CD181BD3AC3D0025BC6C /* OESidebarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarController.m; sourceTree = "<group>"; };
-		8306CD1A1BD3AC3D0025BC6C /* OESidebarController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESidebarController.xib; sourceTree = "<group>"; };
 		8306CD1D1BD3AC3D0025BC6C /* OESidebarGroupItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarGroupItem.h; sourceTree = "<group>"; };
 		8306CD1E1BD3AC3D0025BC6C /* OESidebarGroupItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarGroupItem.m; sourceTree = "<group>"; };
 		8306CD1F1BD3AC3D0025BC6C /* OESidebarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarItem.h; sourceTree = "<group>"; };
@@ -3843,7 +3841,6 @@
 				8306CD161BD3AC3D0025BC6C /* OESidebarCell.m */,
 				8306CD171BD3AC3D0025BC6C /* OESidebarController.h */,
 				8306CD181BD3AC3D0025BC6C /* OESidebarController.m */,
-				8306CD1A1BD3AC3D0025BC6C /* OESidebarController.xib */,
 				8306CD1D1BD3AC3D0025BC6C /* OESidebarGroupItem.h */,
 				8306CD1E1BD3AC3D0025BC6C /* OESidebarGroupItem.m */,
 				8306CD1F1BD3AC3D0025BC6C /* OESidebarItem.h */,
@@ -6489,7 +6486,6 @@
 			files = (
 				05E4400B22991527009E6D27 /* Shaders in Resources */,
 				C6C3734316BE7BAF003E57AE /* OE Startup.qtz in Resources */,
-				8306CD261BD3AC3D0025BC6C /* OESidebarController.xib in Resources */,
 				1B32151514DDD49E00C5B50A /* OpenEmu.dae in Resources */,
 				1B32151614DDD49E00C5B50A /* OpenEmuText.dae in Resources */,
 				1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */,

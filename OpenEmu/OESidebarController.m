@@ -92,10 +92,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     }];
 }
 
-- (NSString*)nibName {
-    return @"OESidebarController";
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
