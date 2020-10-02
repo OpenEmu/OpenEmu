@@ -139,18 +139,13 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSFont *font = [NSFont systemFontOfSize:12 weight:6];
-        
-        NSShadow *shadow = [[NSShadow alloc] init];
-        shadow.shadowBlurRadius = 1;
-        shadow.shadowColor = [NSColor colorWithDeviceWhite:0 alpha:1];
-        shadow.shadowOffset = NSMakeSize(0, -1);
+        NSColor *color = NSColor.labelColor;
         
         NSNumber *baselineOffset = @-1;
         
         attributes = @{
             NSFontAttributeName : font,
-            NSForegroundColorAttributeName : NSColor.whiteColor,
-            NSShadowAttributeName : shadow,
+            NSForegroundColorAttributeName : color,
             NSBaselineOffsetAttributeName: baselineOffset
         };
     });
@@ -164,12 +159,7 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSFont *font = [NSFont systemFontOfSize:12 weight:3];
-        NSColor *color = [NSColor colorWithDeviceWhite:0.8 alpha:1];
-        
-        NSShadow *shadow = [[NSShadow alloc] init];
-        shadow.shadowBlurRadius = 1;
-        shadow.shadowColor = [NSColor colorWithDeviceWhite:0 alpha:1];
-        shadow.shadowOffset = NSMakeSize(0, -1);
+        NSColor *color = NSColor.secondaryLabelColor;
         
         NSMutableParagraphStyle *textAlignment = NSMutableParagraphStyle.new;
         textAlignment.alignment = NSTextAlignmentRight;
@@ -179,7 +169,6 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
         attributes = @{
             NSFontAttributeName : font,
             NSForegroundColorAttributeName : color,
-            NSShadowAttributeName : shadow,
             NSParagraphStyleAttributeName : textAlignment,
             NSBaselineOffsetAttributeName: baselineOffset
     };

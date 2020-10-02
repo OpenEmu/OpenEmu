@@ -377,10 +377,6 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     
     NSColor *color = [NSColor colorNamed:@"blank_slate_box_text"];
     
-    NSShadow *shadow = [[NSShadow alloc] init];
-    shadow.shadowColor = [NSColor colorNamed:@"blank_slate_box_textshadow"];
-    shadow.shadowOffset = NSMakeSize(0.0, -1.0);
-    
     NSRect dragAndDropHereRect = NSMakeRect(0.0,
                                             NSHeight(containerFrame) - 30.0 - OEBlankSlateBoxTextToTop,
                                             NSWidth(containerFrame),
@@ -391,7 +387,6 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     dragAndDropHereField.stringValue = text;
     dragAndDropHereField.font = [NSFont systemFontOfSize:24];
     dragAndDropHereField.textColor = color;
-    dragAndDropHereField.textShadow = shadow;
     dragAndDropHereField.alignment = NSTextAlignmentCenter;
     
     [container addSubview:dragAndDropHereField];
