@@ -1,18 +1,18 @@
 {
   "images" : [
     {
-      "filename" : "blank_slate_warning.png",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename" : "blank_slate_warning.pdf",
+      "idiom" : "universal"
     },
     {
-      "filename" : "blank_slate_warning@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "blank_slate_warning_dark.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {
