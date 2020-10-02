@@ -4,8 +4,8 @@
       "color" : {
         "color-space" : "gray-gamma-22",
         "components" : {
-          "alpha" : "1.000",
-          "white" : "0.890"
+          "alpha" : "0.300",
+          "white" : "0.000"
         }
       },
       "idiom" : "universal"
@@ -20,8 +20,8 @@
       "color" : {
         "color-space" : "gray-gamma-22",
         "components" : {
-          "alpha" : "1.000",
-          "white" : "0.110"
+          "alpha" : "0.300",
+          "white" : "0.000"
         }
       },
       "idiom" : "universal"
