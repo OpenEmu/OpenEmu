@@ -92,7 +92,7 @@
 	NSColor *fillColor;
 	if(isActive)
 	{
-		fillColor = [NSColor colorWithDeviceRed:27/255 green:49/255 blue:139/255 alpha:0.5];
+		fillColor = [NSColor colorWithDeviceRed:27/255.0 green:49/255.0 blue:139/255.0 alpha:0.5];
 	}
 	else
 	{
