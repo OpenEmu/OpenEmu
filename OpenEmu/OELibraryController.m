@@ -67,8 +67,6 @@ extern NSString * const OESidebarSelectionDidChangeNotification;
 
 @interface OELibraryController ()
 
-- (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
-
 @property OELibraryCategory selectedCategory;
 @property (nonatomic, readwrite) NSViewController <OELibrarySubviewController> *currentSubviewController;
 
@@ -435,13 +433,6 @@ extern NSString * const OESidebarSelectionDidChangeNotification;
 
     if([[self delegate] respondsToSelector:@selector(libraryController:didSelectSaveState:)])
         [[self delegate] libraryController:self didSelectSaveState:saveState];
-}
-
-#pragma mark - Private
-
-- (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag
-{
-    [NSApp setPresentationOptions:(fsFlag ? NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar : NSApplicationPresentationDefault)];
 }
 
 @end

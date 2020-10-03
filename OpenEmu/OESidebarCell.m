@@ -27,8 +27,6 @@
 #import "OESidebarCell.h"
 #import "OESidebarOutlineView.h"
 
-const CGFloat BadgeSpacing = 2.0;
-
 typedef NS_OPTIONS(NSInteger, OESidebarCellState)
 {
     OESidebarCellStateFocused        = 1 <<  0,

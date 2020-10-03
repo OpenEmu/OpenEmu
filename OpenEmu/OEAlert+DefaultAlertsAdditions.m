@@ -29,8 +29,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSString *const OEMaxSaveGameNameLengthKey = @"MaxSaveGameNameLength";
-
 NSString *const OERemoveGameFromCollectionAlertSuppressionKey = @"removeGamesFromCollectionWithoutConfirmation";
 NSString *const OERemoveGameFromLibraryAlertSuppressionKey = @"removeGamesFromLibraryWithoutConfirmation";
 NSString *const OELoadAutoSaveAlertSuppressionKey = @"loadAutosaveDialogChoice";
@@ -78,22 +76,20 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
 + (OEAlert *)saveGameAlertWithProposedName:(NSString*)name
 {
     OEAlert *alert = [[OEAlert alloc] init];
-
-    [NSUserDefaults.standardUserDefaults registerDefaults:@{OEMaxSaveGameNameLengthKey:@40}];
     
     alert.inputLabelText = NSLocalizedString(@"Save As:", @"");
     alert.defaultButtonTitle = NSLocalizedString(@"Save Game", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
     alert.showsInputField = YES;
-    alert.inputPlaceholderText = name;
     
-    NSInteger maxiumumSaveGameLength = [NSUserDefaults.standardUserDefaults integerForKey:OEMaxSaveGameNameLengthKey];
-    if(name.length > maxiumumSaveGameLength)
+    NSInteger maximumSaveGameLength = 40;
+    if(name.length > maximumSaveGameLength)
     {
-        name = [name substringToIndex:maxiumumSaveGameLength];
+        name = [name substringToIndex:maximumSaveGameLength];
     }
     alert.stringValue = name;
-    alert.inputLimit = 40;
+    alert.inputPlaceholderText = name;
+    alert.inputLimit = maximumSaveGameLength;
     
     [alert showSuppressionButtonForUDKey:OESaveGameAlertSuppressionKey];
 
