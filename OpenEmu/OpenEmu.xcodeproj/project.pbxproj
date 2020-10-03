@@ -2103,7 +2103,7 @@
 		8F40EBE61C1092D000683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OEPrefLibraryController.strings; sourceTree = "<group>"; };
 		8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		8F4BDF7C1CE4AB34007DCB86 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		8F5074751C10BCEC00F52B83 /* OELibraryGamesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OELibraryGamesViewController.xib; path = Base.lproj/OELibraryGamesViewController.xib; sourceTree = "<group>"; };
+		8F5074751C10BCEC00F52B83 /* OELibraryGamesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = OELibraryGamesViewController.xib; path = OELibraryGamesViewController.xib; sourceTree = "<group>"; };
 		8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewOutlinedButton.swift; sourceTree = "<group>"; };
 		8F714FD724F85CEA006AF031 /* HUDButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDButton.swift; sourceTree = "<group>"; };
 		8F7BFC9723E653E100B1F6C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ShaderParameters.xib; sourceTree = "<group>"; };

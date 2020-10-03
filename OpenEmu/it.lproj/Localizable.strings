@@ -596,3 +596,9 @@
 "NOT FOUND: \"%@\"" = "NON TROVATO: \"%@\"";  // Import error description: referenced file not found
 
 "Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Seleziona \"Menu Apple ()\" > \"Preferenze di Sistema...\", clicca su \"Sicurezza e Privacy\", e poi seleziona il pannello \"Privacy\". Rimuovi l'eventuale permesso \"File e cartelle\" per OpenEmu, e invece aggiungi il permesso \"Accesso completo al disco\".";
+
+"Decrease Grid Size" = "Decrease Grid Size"; // TODO
+
+"Increase Grid Size" = "Increase Grid Size"; // TODO
+
+"The emulator could not load ROM." = "The emulator could not load the ROM."; // TODO

@@ -365,9 +365,9 @@
 
 "Remove" = "Entfernen";
 
-"Remove Game" = "Remove Game";  // TODO
+"Remove Game" = "Spiel entfernen";
 
-"Remove Games" = "Remove Games";  // TODO
+"Remove Games" = "Spiele entfernen";
 
 "Rename \"%@\"" = "„%@“ umbenennen";
 
@@ -596,3 +596,9 @@
 "NOT FOUND: \"%@\"" = "NICHT GEFUNDEN: \"%@\"";  // Import error description: referenced file not found
 
 "Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Wähle Apple-Menü  > Systemeinstellungen, klicke auf Sicherheit und wähle dann den Datenschutz-Tab aus. Entferne die eventuell bestehende „Dateien und Ordner“-Berechtigung für OpenEmu und gestatte stattdessen den Festplattenvollzugriff.";
+
+"Decrease Grid Size" = "Gitter verkleinern";
+
+"Increase Grid Size" = "Gitter vergrößern";
+
+"The emulator could not load ROM." = "Der Emulator konnte die Spieledatei nicht laden.";
