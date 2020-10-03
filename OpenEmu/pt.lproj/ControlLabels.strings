@@ -1,134 +1,263 @@
 
 /* Section Title */
-  "Gameplay Buttons" = "Botões";
-  "Special Keys" = "Teclas Especiais";
+
+"Gameplay Buttons" = "Botões";
+
+"Special Keys" = "Teclas Especiais";
+
 
 /* Group Labels */
-  "Analog" = "Analógico";
-  "C-Pad" = "C-Pad";
-  "C-Stick" = "C-Stick";  // TODO
-  "D-Pad" = "D-Pad";
-  "Keypad" = "Keypad";
-  "Left Analog" = "Analógico Esquerdo";
-  "Left D-Pad" = "D-Pad Esquerdo";
-  "Right Analog" = "Analog Direito";
-  "Right D-Pad" = "D-Pad Direito";
-  "Switches" = "Interruptores";
+
+"Analog" = "Analógico";
+
+"C-Pad" = "C-Pad";
+
+"C-Stick" = "C-Stick";  // TODO
+
+"D-Pad" = "D-Pad";
+
+"Keypad" = "Keypad";
+
+"Left Analog" = "Analógico Esquerdo";
+
+"Left D-Pad" = "D-Pad Esquerdo";
+
+"Right Analog" = "Analog Direito";
+
+"Right D-Pad" = "D-Pad Direito";
+
+"Switches" = "Interruptores";
+
 
 /* Button Labels */
-  "#" = "#";
-  "*" = "*";
-  "0" = "0";
-  "1" = "1";
-  "2" = "2";
-  "2/6 Mode" = "2/6 Mode";
-  "3" = "3";
-  "4" = "4";
-  "5" = "5";
-  "6" = "6";
-  "7" = "7";
-  "8" = "8";
-  "9" = "9";
-  "A" = "A";
-  "Action" = "Action";
-  "Analog Mode" = "Modo analógico";
-  "B" = "B";
-  "Bottom Left Action" = "Bottom Left Action";  // TODO
-  "Bottom Right Action" = "Bottom Right Action";  // TODO
-  "Button 1" = "Botão 1";
-  "Button 1/Start" = "Botão 1/Start";
-  "Button 2" = "Botão 2";
-  "Button 3" = "Botão 3";
-  "Button 4" = "Botão 4";
-  "Button 5" = "Botão 5";
-  "Button 6" = "Botão 6";
-  "C" = "C";
-  "Change Disk Side" = "Inverter Disco";
-  "Clear" = "Clear";
-  "Console Pause" = "Pausar Console";
-  "Console Reset" = "Console Reset";  // TODO
-  "Down" = "Baixo";
-  "Enter" = "Enter";
-  "Fire" = "Atirar";
-  "Fire 1" = "Atirar 1";
-  "Fire 2" = "Atirar 2";
-  "Insert Coin" = "Inserir Ficha";
-  "L" = "L";
-  "L Diff" = "L Diff";
-  "L Diff A" = "L Diff A";
-  "L Diff B" = "L Diff B";
-  "L1" = "L1";
-  "L2" = "L2";
-  "L3" = "L3";
-  "Left" = "Esquerdo";
-  "Left Action" = "Ação Esquerdo";
-  "Left Trigger" = "Gatilho Esquerdo";
-  "Lid" = "Tampa";
-  "Menu" = "Menu";  // TODO
-  "Mic" = "Mic";
-  "Mode" = "Mode";
-  "Option" = "Opção";
-  "Option 1" = "Opção 1";
-  "Option 2" = "Opção 2";
-  "P" = "P";
-  "Player Start" = "Iniciar Jogador";
-  "Power" = "Power";
-  "R" = "R";
-  "R Diff" = "R Diff";
-  "R Diff A" = "R Diff A";
-  "R Diff B" = "R Diff B";
-  "R1" = "R1";
-  "R2" = "R2";
-  "R3" = "R3";
-  "Right" = "Right";
-  "Right Action" = "Ação Direito";
-  "Right Trigger" = "Gatilho Direito";
-  "Run" = "Executar";
-  "Select" = "Select";
-  "Service" = "Serviço";
-  "Shake" = "Shake";  // TODO
-  "Sleep" = "Sleep";
-  "Sound" = "Som";
-  "Start" = "Start";
-  "TV Black & White" = "TV Preto e Branco";
-  "TV Color" = "TV Cores";
-  "Top Action" = "Top Action";  // TODO
-  "Up" = "Cima";
-  "X" = "X";
-  "X1 Up" = "X1 Cima";
-  "X2 Right" = "X2 Direito";
-  "X3 Down" = "X3 Baixo";
-  "X4 Left" = "X4 Esquerdo";
-  "Y" = "Y";
-  "Y1 Up" = "Y1 Cima";
-  "Y2 Right" = "Y2 Direito";
-  "Y3 Down" = "Y3 Baixo";
-  "Y4 Left" = "Y4 Esquedo";
-  "Z" = "Z";
-  "▢" = "▢";
-  "△" = "△";
-  "◯" = "◯";
-  "✕" = "✕";
+
+"#" = "#";
+
+"*" = "*";
+
+"0" = "0";
+
+"1" = "1";
+
+"2" = "2";
+
+"2/6 Mode" = "2/6 Mode";
+
+"3" = "3";
+
+"4" = "4";
+
+"5" = "5";
+
+"6" = "6";
+
+"7" = "7";
+
+"8" = "8";
+
+"9" = "9";
+
+"A" = "A";
+
+"Action" = "Action";
+
+"Analog Mode" = "Modo analógico";
+
+"B" = "B";
+
+"Bottom Left Action" = "Bottom Left Action";  // TODO
+
+"Bottom Right Action" = "Bottom Right Action";  // TODO
+
+"Button 1" = "Botão 1";
+
+"Button 1/Start" = "Botão 1/Start";
+
+"Button 2" = "Botão 2";
+
+"Button 3" = "Botão 3";
+
+"Button 4" = "Botão 4";
+
+"Button 5" = "Botão 5";
+
+"Button 6" = "Botão 6";
+
+"C" = "C";
+
+"Change Disk Side" = "Inverter Disco";
+
+"Clear" = "Clear";
+
+"Console Pause" = "Pausar Console";
+
+"Console Reset" = "Console Reset";  // TODO
+
+"Down" = "Baixo";
+
+"Enter" = "Enter";
+
+"Fire" = "Atirar";
+
+"Fire 1" = "Atirar 1";
+
+"Fire 2" = "Atirar 2";
+
+"Insert Coin" = "Inserir Ficha";
+
+"L" = "L";
+
+"L Diff" = "L Diff";
+
+"L Diff A" = "L Diff A";
+
+"L Diff B" = "L Diff B";
+
+"L1" = "L1";
+
+"L2" = "L2";
+
+"L3" = "L3";
+
+"Left" = "Esquerdo";
+
+"Left Action" = "Ação Esquerdo";
+
+"Left Trigger" = "Gatilho Esquerdo";
+
+"Lid" = "Tampa";
+
+"Menu" = "Menu";  // TODO
+
+"Mic" = "Mic";
+
+"Mode" = "Mode";
+
+"Option" = "Opção";
+
+"Option 1" = "Opção 1";
+
+"Option 2" = "Opção 2";
+
+"P" = "P";
+
+"Player Start" = "Iniciar Jogador";
+
+"Power" = "Power";
+
+"R" = "R";
+
+"R Diff" = "R Diff";
+
+"R Diff A" = "R Diff A";
+
+"R Diff B" = "R Diff B";
+
+"R1" = "R1";
+
+"R2" = "R2";
+
+"R3" = "R3";
+
+"Right" = "Right";
+
+"Right Action" = "Ação Direito";
+
+"Right Trigger" = "Gatilho Direito";
+
+"Run" = "Executar";
+
+"Select" = "Select";
+
+"Service" = "Serviço";
+
+"Shake" = "Shake";  // TODO
+
+"Sleep" = "Sleep";
+
+"Sound" = "Som";
+
+"Start" = "Start";
+
+"TV Black & White" = "TV Preto e Branco";
+
+"TV Color" = "TV Cores";
+
+"Top Action" = "Top Action";  // TODO
+
+"Up" = "Cima";
+
+"X" = "X";
+
+"X1 Up" = "X1 Cima";
+
+"X2 Right" = "X2 Direito";
+
+"X3 Down" = "X3 Baixo";
+
+"X4 Left" = "X4 Esquerdo";
+
+"Y" = "Y";
+
+"Y1 Up" = "Y1 Cima";
+
+"Y2 Right" = "Y2 Direito";
+
+"Y3 Down" = "Y3 Baixo";
+
+"Y4 Left" = "Y4 Esquedo";
+
+"Z" = "Z";
+
+"▢" = "▢";
+
+"△" = "△";
+
+"◯" = "◯";
+
+"✕" = "✕";
+
 
 /* Special Keys */
-  "Display Mode" = "Modo de Visualização";
-  "Fast Forward" = "Acelerar";
-  "Fullscreen" = "Tela Cheia";
-  "Last Display Mode" = "Last Display Mode";
-  "Load" = "Carregar";
-  "Mute" = "Mutar";
-  "Next Display Mode" = "Next Display Mode";
-  "Pause" = "Pause";
-  "Quick Load Button" = "Carregamento Rápido";
-  "Quick Save Button" = "Salvamento Rápido";
-  "Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
-  "Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
-  "Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
-  "Reset" = "Reset";
-  "Rewind" = "Rewind";
-  "Save" = "Save";
-  "Screenshot" = "Captura de Tela";
-  "Step Backward" = "Step Backward";    // TODO
-  "Step Forward" = "Step Forward";    // TODO
-  "Volume Down" = "Abaixar Volume";
-  "Volume Up" = "Aumentar Volume";
+
+"Display Mode" = "Modo de Visualização";
+
+"Fast Forward" = "Acelerar";
+
+"Fullscreen" = "Tela Cheia";
+
+"Last Display Mode" = "Last Display Mode";
+
+"Load" = "Carregar";
+
+"Mute" = "Mutar";
+
+"Next Display Mode" = "Next Display Mode";
+
+"Pause" = "Pause";
+
+"Quick Load Button" = "Carregamento Rápido";
+
+"Quick Save Button" = "Salvamento Rápido";
+
+"Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
+
+"Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
+
+"Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
+
+"Reset" = "Reset";
+
+"Rewind" = "Rewind";
+
+"Save" = "Save";
+
+"Screenshot" = "Captura de Tela";
+
+"Step Backward" = "Step Backward";    // TODO
+
+"Step Forward" = "Step Forward";    // TODO
+
+"Volume Down" = "Abaixar Volume";
+
+"Volume Up" = "Aumentar Volume";

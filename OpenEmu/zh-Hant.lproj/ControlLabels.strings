@@ -1,135 +1,264 @@
 
 /* Section Title */
-  "Gameplay Buttons" = "遊戲按鈕";
-  "Special Keys" = "特殊鍵";
+
+"Gameplay Buttons" = "遊戲按鈕";
+
+"Special Keys" = "特殊鍵";
+
 
 /* Group Labels */
-  "Analog" = "類比";
-  "C-Pad" = "C-Pad";
-  "C-Stick" = "C-Stick";
-  "D-Pad" = "方向鍵";
-  "Keypad" = "鍵台";
-  "Left Analog" = "左類比";
-  "Left D-Pad" = "左方向鍵";
-  "Right Analog" = "右類比";
-  "Right D-Pad" = "右方向鍵";
-  "Switches" = "開關";
+
+"Analog" = "類比";
+
+"C-Pad" = "C-Pad";
+
+"C-Stick" = "C-Stick";
+
+"D-Pad" = "方向鍵";
+
+"Keypad" = "鍵台";
+
+"Left Analog" = "左類比";
+
+"Left D-Pad" = "左方向鍵";
+
+"Right Analog" = "右類比";
+
+"Right D-Pad" = "右方向鍵";
+
+"Switches" = "開關";
+
 
 /* Button Labels */
-  "#" = "#";
-  "*" = "*";
-  "0" = "0";
-  "1" = "1";
-  "2" = "2";
-  "2/6 Mode" = "2/6 模式";
-  "3" = "3";
-  "4" = "4";
-  "5" = "5";
-  "6" = "6";
-  "7" = "7";
-  "8" = "8";
-  "9" = "9";
-  "A" = "A";
-  "Action" = "Action";
-  "Analog Mode" = "類比模式";
-  "B" = "B";
-  "Bottom Left Action" = "Bottom Left Action";
-  "Bottom Right Action" = "Bottom Right Action";
-  "Button 1" = "按鈕 1";
-  "Button 1/Start" = "按鈕 1/開始";
-  "Button 2" = "按鈕 2";
-  "Button 3" = "按鈕 3";
-  "Button 4" = "按鈕 4";
-  "Button 5" = "按鈕 5";
-  "Button 6" = "按鈕 6";
-  "C" = "C";
-  "Change Disk Side" = "磁碟換面";
-  "Clear" = "Clear";
-  "Console Pause" = "主機暫停";
-  "Console Reset" = "主機重設";
-  "Down" = "下";
-  "Enter" = "Enter";
-  "Fire" = "開火";
-  "Fire 1" = "開火 1";
-  "Fire 2" = "開火 2";
-  "Insert Coin" = "投幣";
-  "L" = "L";
-  "L Diff" = "L Diff";
-  "L Diff A" = "L Diff A";
-  "L Diff B" = "L Diff B";
-  "L1" = "L1";
-  "L2" = "L2";
-  "L3" = "L3";
-  "Left" = "左";
-  "Left Action" = "左動作鍵";
-  "Left Trigger" = "左發射鍵";
-  "Lid" = "蓋子";
-  "Menu" = "功能表";
-  "Mic" = "麥克風";
-  "Mode" = "模式";
-  "Option" = "選項";
-  "Option 1" = "選項 1";
-  "Option 2" = "選項 2";
-  "P" = "P";
-  "Player Start" = "玩家開始";
-  "Power" = "Power";
-  "R" = "R";
-  "R Diff" = "R Diff";
-  "R Diff A" = "R Diff A";
-  "R Diff B" = "R Diff B";
-  "R1" = "R1";
-  "R2" = "R2";
-  "R3" = "R3";
-  "Right" = "右";
-  "Right Action" = "右動作鍵";
-  "Right Trigger" = "右發射鍵";
-  "Run" = "執行";
-  "Select" = "選擇";
-  "Service" = "服務";
-  "Shake" = "Shake";
-  "Sleep" = "Sleep";
-  "Sound" = "聲音";
-  "Start" = "開始";
-  "TV Black & White" = "黑白電視";
-  "TV Color" = "彩色電視";
-  "Top Action" = "Top Action";
-  "Up" = "上";
-  "X" = "X";
-  "X1 Up" = "X1 上";
-  "X2 Right" = "X2 右";
-  "X3 Down" = "X3 下";
-  "X4 Left" = "X4 左";
-  "Y" = "Y";
-  "Y1 Up" = "Y1 上";
-  "Y2 Right" = "Y2 右";
-  "Y3 Down" = "Y3 下";
-  "Y4 Left" = "Y4 左";
-  "Z" = "Z";
-  "▢" = "▢";
-  "△" = "△";
-  "◯" = "◯";
-  "✕" = "✕";
+
+"#" = "#";
+
+"*" = "*";
+
+"0" = "0";
+
+"1" = "1";
+
+"2" = "2";
+
+"2/6 Mode" = "2/6 模式";
+
+"3" = "3";
+
+"4" = "4";
+
+"5" = "5";
+
+"6" = "6";
+
+"7" = "7";
+
+"8" = "8";
+
+"9" = "9";
+
+"A" = "A";
+
+"Action" = "Action";
+
+"Analog Mode" = "類比模式";
+
+"B" = "B";
+
+"Bottom Left Action" = "Bottom Left Action";
+
+"Bottom Right Action" = "Bottom Right Action";
+
+"Button 1" = "按鈕 1";
+
+"Button 1/Start" = "按鈕 1/開始";
+
+"Button 2" = "按鈕 2";
+
+"Button 3" = "按鈕 3";
+
+"Button 4" = "按鈕 4";
+
+"Button 5" = "按鈕 5";
+
+"Button 6" = "按鈕 6";
+
+"C" = "C";
+
+"Change Disk Side" = "磁碟換面";
+
+"Clear" = "Clear";
+
+"Console Pause" = "主機暫停";
+
+"Console Reset" = "主機重設";
+
+"Down" = "下";
+
+"Enter" = "Enter";
+
+"Fire" = "開火";
+
+"Fire 1" = "開火 1";
+
+"Fire 2" = "開火 2";
+
+"Insert Coin" = "投幣";
+
+"L" = "L";
+
+"L Diff" = "L Diff";
+
+"L Diff A" = "L Diff A";
+
+"L Diff B" = "L Diff B";
+
+"L1" = "L1";
+
+"L2" = "L2";
+
+"L3" = "L3";
+
+"Left" = "左";
+
+"Left Action" = "左動作鍵";
+
+"Left Trigger" = "左發射鍵";
+
+"Lid" = "蓋子";
+
+"Menu" = "功能表";
+
+"Mic" = "麥克風";
+
+"Mode" = "模式";
+
+"Option" = "選項";
+
+"Option 1" = "選項 1";
+
+"Option 2" = "選項 2";
+
+"P" = "P";
+
+"Player Start" = "玩家開始";
+
+"Power" = "Power";
+
+"R" = "R";
+
+"R Diff" = "R Diff";
+
+"R Diff A" = "R Diff A";
+
+"R Diff B" = "R Diff B";
+
+"R1" = "R1";
+
+"R2" = "R2";
+
+"R3" = "R3";
+
+"Right" = "右";
+
+"Right Action" = "右動作鍵";
+
+"Right Trigger" = "右發射鍵";
+
+"Run" = "執行";
+
+"Select" = "選擇";
+
+"Service" = "服務";
+
+"Shake" = "Shake";
+
+"Sleep" = "Sleep";
+
+"Sound" = "聲音";
+
+"Start" = "開始";
+
+"TV Black & White" = "黑白電視";
+
+"TV Color" = "彩色電視";
+
+"Top Action" = "Top Action";
+
+"Up" = "上";
+
+"X" = "X";
+
+"X1 Up" = "X1 上";
+
+"X2 Right" = "X2 右";
+
+"X3 Down" = "X3 下";
+
+"X4 Left" = "X4 左";
+
+"Y" = "Y";
+
+"Y1 Up" = "Y1 上";
+
+"Y2 Right" = "Y2 右";
+
+"Y3 Down" = "Y3 下";
+
+"Y4 Left" = "Y4 左";
+
+"Z" = "Z";
+
+"▢" = "▢";
+
+"△" = "△";
+
+"◯" = "◯";
+
+"✕" = "✕";
+
 
 /* Special Keys */
-  "Display Mode" = "顯示模式";
-  "Fast Forward" = "快轉";
-  "Fullscreen" = "全螢幕";
-  "Last Display Mode" = "上一個顯示模式";
-  "Load" = "載入";
-  "Mute" = "靜音";
-  "Next Display Mode" = "下一個顯示模式";
-  "Pause" = "暫停";
-  "Quick Load Button" = "快速載入按鈕";
-  "Quick Save Button" = "快速儲存按鈕";
-  "Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
-  "Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
-  "Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
-  "Reset" = "重設";
-  "Rewind" = "倒轉";
-  "Save" = "儲存";
-  "Screenshot" = "螢幕快照";
-  "Step Backward" = "Step Backward";
-  "Step Forward" = "Step Forward";
-  "Volume Down" = "音量降低";
-  "Volume Up" = "音量升高";
+
+"Display Mode" = "顯示模式";
+
+"Fast Forward" = "快轉";
+
+"Fullscreen" = "全螢幕";
+
+"Last Display Mode" = "上一個顯示模式";
+
+"Load" = "載入";
+
+"Mute" = "靜音";
+
+"Next Display Mode" = "下一個顯示模式";
+
+"Pause" = "暫停";
+
+"Quick Load Button" = "快速載入按鈕";
+
+"Quick Save Button" = "快速儲存按鈕";
+
+"Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
+
+"Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
+
+"Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
+
+"Reset" = "重設";
+
+"Rewind" = "倒轉";
+
+"Save" = "儲存";
+
+"Screenshot" = "螢幕快照";
+
+"Step Backward" = "Step Backward";
+
+"Step Forward" = "Step Forward";
+
+"Volume Down" = "音量降低";
+
+"Volume Up" = "音量升高";
 

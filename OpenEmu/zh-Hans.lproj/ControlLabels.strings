@@ -1,134 +1,263 @@
 
 /* Section Title */
-  "Gameplay Buttons" = "游戏按键";
-  "Special Keys" = "特殊按键";
+
+"Gameplay Buttons" = "游戏按键";
+
+"Special Keys" = "特殊按键";
+
 
 /* Group Labels */
-  "Analog" = "摇杆";
-  "C-Pad" = "C-方向";
-  "C-Stick" = "C-Stick";
-  "D-Pad" = "D-向键";
-  "Keypad" = "键盘";
-  "Left Analog" = "左摇杆";
-  "Left D-Pad" = "左方向键";
-  "Right Analog" = "右摇杆";
-  "Right D-Pad" = "右方向键";
-  "Switches" = "开关";
+
+"Analog" = "摇杆";
+
+"C-Pad" = "C-方向";
+
+"C-Stick" = "C-Stick";
+
+"D-Pad" = "D-向键";
+
+"Keypad" = "键盘";
+
+"Left Analog" = "左摇杆";
+
+"Left D-Pad" = "左方向键";
+
+"Right Analog" = "右摇杆";
+
+"Right D-Pad" = "右方向键";
+
+"Switches" = "开关";
+
 
 /* Button Labels */
-  "#" = "#";
-  "*" = "*";
-  "0" = "0";
-  "1" = "1";
-  "2" = "2";
-  "2/6 Mode" = "2/6模式";
-  "3" = "3";
-  "4" = "4";
-  "5" = "5";
-  "6" = "6";
-  "7" = "7";
-  "8" = "8";
-  "9" = "9";
-  "A" = "A";
-  "Action" = "Action";
-  "Analog Mode" = "模拟模式";
-  "B" = "B";
-  "Bottom Left Action" = "Bottom Left Action";
-  "Bottom Right Action" = "Bottom Right Action";
-  "Button 1" = "按钮1";
-  "Button 1/Start" = "按钮1/开始";
-  "Button 2" = "按钮2";
-  "Button 3" = "按钮3";
-  "Button 4" = "按钮4";
-  "Button 5" = "按钮5";
-  "Button 6" = "按钮6";
-  "C" = "C";
-  "Change Disk Side" = "磁盘换面";
-  "Clear" = "Clear";
-  "Console Pause" = "控制台暂停";
-  "Console Reset" = "Console Reset";
-  "Down" = "下";
-  "Enter" = "Enter";
-  "Fire" = "开火";
-  "Fire 1" = "开火1";
-  "Fire 2" = "开火2";
-  "Insert Coin" = "投币";
-  "L" = "L";
-  "L Diff" = "L Diff";
-  "L Diff A" = "L Diff A";
-  "L Diff B" = "L Diff B";
-  "L1" = "L1";
-  "L2" = "L2";
-  "L3" = "L3";
-  "Left" = "左";
-  "Left Action" = "左边按键";
-  "Left Trigger" = "左扳机";
-  "Lid" = "盖子";
-  "Menu" = "Menu";
-  "Mic" = "麦克风";
-  "Mode" = "模式";
-  "Option" = "选项";
-  "Option 1" = "选项1";
-  "Option 2" = "选项2";
-  "P" = "P";
-  "Player Start" = "玩家开始";
-  "Power" = "Power";
-  "R" = "R";
-  "R Diff" = "R Diff";
-  "R Diff A" = "R Diff A";
-  "R Diff B" = "R Diff B";
-  "R1" = "R1";
-  "R2" = "R2";
-  "R3" = "R3";
-  "Right" = "右";
-  "Right Action" = "右边按键";
-  "Right Trigger" = "右扳机";
-  "Run" = "运行";
-  "Select" = "选择";
-  "Service" = "服务";
-  "Shake" = "Shake";
-  "Sleep" = "Sleep";
-  "Sound" = "声音";
-  "Start" = "开始";
-  "TV Black & White" = "TV黑白";
-  "TV Color" = "TV彩色";
-  "Top Action" = "Top Action";
-  "Up" = "上";
-  "X" = "X";
-  "X1 Up" = "X1上";
-  "X2 Right" = "X2右";
-  "X3 Down" = "X3下";
-  "X4 Left" = "X4左";
-  "Y" = "Y";
-  "Y1 Up" = "Y1上";
-  "Y2 Right" = "Y2右";
-  "Y3 Down" = "Y3下";
-  "Y4 Left" = "Y4左";
-  "Z" = "Z";
-  "▢" = "▢";
-  "△" = "△";
-  "◯" = "◯";
-  "✕" = "✕";
+
+"#" = "#";
+
+"*" = "*";
+
+"0" = "0";
+
+"1" = "1";
+
+"2" = "2";
+
+"2/6 Mode" = "2/6模式";
+
+"3" = "3";
+
+"4" = "4";
+
+"5" = "5";
+
+"6" = "6";
+
+"7" = "7";
+
+"8" = "8";
+
+"9" = "9";
+
+"A" = "A";
+
+"Action" = "Action";
+
+"Analog Mode" = "模拟模式";
+
+"B" = "B";
+
+"Bottom Left Action" = "Bottom Left Action";
+
+"Bottom Right Action" = "Bottom Right Action";
+
+"Button 1" = "按钮1";
+
+"Button 1/Start" = "按钮1/开始";
+
+"Button 2" = "按钮2";
+
+"Button 3" = "按钮3";
+
+"Button 4" = "按钮4";
+
+"Button 5" = "按钮5";
+
+"Button 6" = "按钮6";
+
+"C" = "C";
+
+"Change Disk Side" = "磁盘换面";
+
+"Clear" = "Clear";
+
+"Console Pause" = "控制台暂停";
+
+"Console Reset" = "Console Reset";
+
+"Down" = "下";
+
+"Enter" = "Enter";
+
+"Fire" = "开火";
+
+"Fire 1" = "开火1";
+
+"Fire 2" = "开火2";
+
+"Insert Coin" = "投币";
+
+"L" = "L";
+
+"L Diff" = "L Diff";
+
+"L Diff A" = "L Diff A";
+
+"L Diff B" = "L Diff B";
+
+"L1" = "L1";
+
+"L2" = "L2";
+
+"L3" = "L3";
+
+"Left" = "左";
+
+"Left Action" = "左边按键";
+
+"Left Trigger" = "左扳机";
+
+"Lid" = "盖子";
+
+"Menu" = "Menu";
+
+"Mic" = "麦克风";
+
+"Mode" = "模式";
+
+"Option" = "选项";
+
+"Option 1" = "选项1";
+
+"Option 2" = "选项2";
+
+"P" = "P";
+
+"Player Start" = "玩家开始";
+
+"Power" = "Power";
+
+"R" = "R";
+
+"R Diff" = "R Diff";
+
+"R Diff A" = "R Diff A";
+
+"R Diff B" = "R Diff B";
+
+"R1" = "R1";
+
+"R2" = "R2";
+
+"R3" = "R3";
+
+"Right" = "右";
+
+"Right Action" = "右边按键";
+
+"Right Trigger" = "右扳机";
+
+"Run" = "运行";
+
+"Select" = "选择";
+
+"Service" = "服务";
+
+"Shake" = "Shake";
+
+"Sleep" = "Sleep";
+
+"Sound" = "声音";
+
+"Start" = "开始";
+
+"TV Black & White" = "TV黑白";
+
+"TV Color" = "TV彩色";
+
+"Top Action" = "Top Action";
+
+"Up" = "上";
+
+"X" = "X";
+
+"X1 Up" = "X1上";
+
+"X2 Right" = "X2右";
+
+"X3 Down" = "X3下";
+
+"X4 Left" = "X4左";
+
+"Y" = "Y";
+
+"Y1 Up" = "Y1上";
+
+"Y2 Right" = "Y2右";
+
+"Y3 Down" = "Y3下";
+
+"Y4 Left" = "Y4左";
+
+"Z" = "Z";
+
+"▢" = "▢";
+
+"△" = "△";
+
+"◯" = "◯";
+
+"✕" = "✕";
+
 
 /* Special Keys */
-  "Display Mode" = "显示模式";
-  "Fast Forward" = "快进";
-  "Fullscreen" = "全屏";
-  "Last Display Mode" = "上一个显示模式";
-  "Load" = "读取";
-  "Mute" = "静音";
-  "Next Display Mode" = "下一个显示模式";
-  "Pause" = "暂停";
-  "Quick Load Button" = "快速读取";
-  "Quick Save Button" = "快速保存";
-  "Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
-  "Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
-  "Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
-  "Reset" = "重置";
-  "Rewind" = "回退";
-  "Save" = "保存";
-  "Screenshot" = "截屏";
-  "Step Backward" = "后退一步";    // TODO
-  "Step Forward" = "前进一步";    // TODO
-  "Volume Down" = "音量减";
-  "Volume Up" = "音量加";
+
+"Display Mode" = "显示模式";
+
+"Fast Forward" = "快进";
+
+"Fullscreen" = "全屏";
+
+"Last Display Mode" = "上一个显示模式";
+
+"Load" = "读取";
+
+"Mute" = "静音";
+
+"Next Display Mode" = "下一个显示模式";
+
+"Pause" = "暂停";
+
+"Quick Load Button" = "快速读取";
+
+"Quick Save Button" = "快速保存";
+
+"Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
+
+"Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
+
+"Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
+
+"Reset" = "重置";
+
+"Rewind" = "回退";
+
+"Save" = "保存";
+
+"Screenshot" = "截屏";
+
+"Step Backward" = "后退一步";    // TODO
+
+"Step Forward" = "前进一步";    // TODO
+
+"Volume Down" = "音量减";
+
+"Volume Up" = "音量加";

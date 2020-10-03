@@ -122,24 +122,26 @@ for file in args {
     addLabels(fromPlist: tmp)
 }
 
-print("/* Group Labels */");
+print("/* Group Labels */\n")
 for label in groupLabels.sortedArray(using: [NSSortDescriptor(key: nil, ascending: true)]) {
-    let line = "  \"\(label)\" = \"\(label)\";"
+    let line = "\"\(label)\" = \"\(label)\";"
     if !outputComments {
         print(line)
     } else {
         print("\(line)  // \(systems(forLabel: label as! NSString))")
     }
+    print()
 }
 
-print("\n/* Button Labels */");
+print("\n/* Button Labels */\n")
 for label in buttonLabels.sortedArray(using: [NSSortDescriptor(key: nil, ascending: true)]) {
-    let line = "  \"\(label)\" = \"\(label)\";"
+    let line = "\"\(label)\" = \"\(label)\";"
     if !outputComments {
         print(line)
     } else {
         print("\(line)  // \(systems(forLabel: label as! NSString))")
     }
+    print()
 }
 
 

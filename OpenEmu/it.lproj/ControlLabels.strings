@@ -1,134 +1,263 @@
 
 /* Section Title */
-  "Gameplay Buttons" = "Pulsanti di gioco";
-  "Special Keys" = "Tasti speciali";
+
+"Gameplay Buttons" = "Pulsanti di gioco";
+
+"Special Keys" = "Tasti speciali";
+
 
 /* Group Labels */
-  "Analog" = "Analogico";
-  "C-Pad" = "C-Pad";
-  "C-Stick" = "C-Stick";
-  "D-Pad" = "D-Pad";
-  "Keypad" = "Tastierino";
-  "Left Analog" = "Analogico sinistro";
-  "Left D-Pad" = "D-Pad sinistro";
-  "Right Analog" = "Analogico destro";
-  "Right D-Pad" = "D-Pad destro";
-  "Switches" = "Interruttori";
+
+"Analog" = "Analogico";
+
+"C-Pad" = "C-Pad";
+
+"C-Stick" = "C-Stick";
+
+"D-Pad" = "D-Pad";
+
+"Keypad" = "Tastierino";
+
+"Left Analog" = "Analogico sinistro";
+
+"Left D-Pad" = "D-Pad sinistro";
+
+"Right Analog" = "Analogico destro";
+
+"Right D-Pad" = "D-Pad destro";
+
+"Switches" = "Interruttori";
+
 
 /* Button Labels */
-  "#" = "#";
-  "*" = "*";
-  "0" = "0";
-  "1" = "1";
-  "2" = "2";
-  "2/6 Mode" = "Modalità 2/6";
-  "3" = "3";
-  "4" = "4";
-  "5" = "5";
-  "6" = "6";
-  "7" = "7";
-  "8" = "8";
-  "9" = "9";
-  "A" = "A";
-  "Action" = "Action";
-  "Analog Mode" = "Modalità analogico";
-  "B" = "B";
-  "Bottom Left Action" = "Azione inferiore sx";
-  "Bottom Right Action" = "Azione inferiore dx";
-  "Button 1" = "Pulsante 1";
-  "Button 1/Start" = "Pulsante 1/Start";
-  "Button 2" = "Pulsante 2";
-  "Button 3" = "Pulsante 3";
-  "Button 4" = "Pulsante 4";
-  "Button 5" = "Pulsante 5";
-  "Button 6" = "Pulsante 6";
-  "C" = "C";
-  "Change Disk Side" = "Cambia lato disco";
-  "Clear" = "Clear";
-  "Console Pause" = "Pausa console";
-  "Console Reset" = "Reset console";
-  "Down" = "Giù";
-  "Enter" = "Enter";
-  "Fire" = "Fuoco";
-  "Fire 1" = "Fuoco 1";
-  "Fire 2" = "Fuoco 2";
-  "Insert Coin" = "Inserisci moneta";
-  "L" = "L";
-  "L Diff" = "L Diff";
-  "L Diff A" = "L Diff A";
-  "L Diff B" = "L Diff B";
-  "L1" = "L1";
-  "L2" = "L2";
-  "L3" = "L3";
-  "Left" = "Sinistra";
-  "Left Action" = "Azione sinistro";
-  "Left Trigger" = "Grilletto sinistro";
-  "Lid" = "Coperchio";
-  "Menu" = "Menu";
-  "Mic" = "Microfono";
-  "Mode" = "Modalità";
-  "Option" = "Option";  // Jaguar, Lynx
-  "Option 1" = "Option 1";
-  "Option 2" = "Option 2";
-  "P" = "P";
-  "Player Start" = "Inizia gioco";
-  "Power" = "Power";
-  "R" = "R";
-  "R Diff" = "R Diff";
-  "R Diff A" = "R Diff A";
-  "R Diff B" = "R Diff B";
-  "R1" = "R1";
-  "R2" = "R2";
-  "R3" = "R3";
-  "Right" = "Destra";
-  "Right Action" = "Azione destro";
-  "Right Trigger" = "Grilletto destro";
-  "Run" = "Run";
-  "Select" = "Select";
-  "Service" = "Pulsante di servizio";
-  "Shake" = "Scuoti";
-  "Sleep" = "Sleep";
-  "Sound" = "Sound";
-  "Start" = "Start";
-  "TV Black & White" = "TV bianco e nero";
-  "TV Color" = "TV a colori";
-  "Top Action" = "Azione superiore";
-  "Up" = "Su";
-  "X" = "X";
-  "X1 Up" = "X1 Su";
-  "X2 Right" = "X2 Destra";
-  "X3 Down" = "X3 Giù";
-  "X4 Left" = "X4 Sinistra";
-  "Y" = "Y";
-  "Y1 Up" = "Y1 Su";
-  "Y2 Right" = "Y2 Destra";
-  "Y3 Down" = "Y3 Giù";
-  "Y4 Left" = "Y4 Sinistra";
-  "Z" = "Z";
-  "▢" = "▢";
-  "△" = "△";
-  "◯" = "◯";
-  "✕" = "✕";
+
+"#" = "#";
+
+"*" = "*";
+
+"0" = "0";
+
+"1" = "1";
+
+"2" = "2";
+
+"2/6 Mode" = "Modalità 2/6";
+
+"3" = "3";
+
+"4" = "4";
+
+"5" = "5";
+
+"6" = "6";
+
+"7" = "7";
+
+"8" = "8";
+
+"9" = "9";
+
+"A" = "A";
+
+"Action" = "Action";
+
+"Analog Mode" = "Modalità analogico";
+
+"B" = "B";
+
+"Bottom Left Action" = "Azione inferiore sx";
+
+"Bottom Right Action" = "Azione inferiore dx";
+
+"Button 1" = "Pulsante 1";
+
+"Button 1/Start" = "Pulsante 1/Start";
+
+"Button 2" = "Pulsante 2";
+
+"Button 3" = "Pulsante 3";
+
+"Button 4" = "Pulsante 4";
+
+"Button 5" = "Pulsante 5";
+
+"Button 6" = "Pulsante 6";
+
+"C" = "C";
+
+"Change Disk Side" = "Cambia lato disco";
+
+"Clear" = "Clear";
+
+"Console Pause" = "Pausa console";
+
+"Console Reset" = "Reset console";
+
+"Down" = "Giù";
+
+"Enter" = "Enter";
+
+"Fire" = "Fuoco";
+
+"Fire 1" = "Fuoco 1";
+
+"Fire 2" = "Fuoco 2";
+
+"Insert Coin" = "Inserisci moneta";
+
+"L" = "L";
+
+"L Diff" = "L Diff";
+
+"L Diff A" = "L Diff A";
+
+"L Diff B" = "L Diff B";
+
+"L1" = "L1";
+
+"L2" = "L2";
+
+"L3" = "L3";
+
+"Left" = "Sinistra";
+
+"Left Action" = "Azione sinistro";
+
+"Left Trigger" = "Grilletto sinistro";
+
+"Lid" = "Coperchio";
+
+"Menu" = "Menu";
+
+"Mic" = "Microfono";
+
+"Mode" = "Modalità";
+
+"Option" = "Option";  // Jaguar, Lynx
+
+"Option 1" = "Option 1";
+
+"Option 2" = "Option 2";
+
+"P" = "P";
+
+"Player Start" = "Inizia gioco";
+
+"Power" = "Power";
+
+"R" = "R";
+
+"R Diff" = "R Diff";
+
+"R Diff A" = "R Diff A";
+
+"R Diff B" = "R Diff B";
+
+"R1" = "R1";
+
+"R2" = "R2";
+
+"R3" = "R3";
+
+"Right" = "Destra";
+
+"Right Action" = "Azione destro";
+
+"Right Trigger" = "Grilletto destro";
+
+"Run" = "Run";
+
+"Select" = "Select";
+
+"Service" = "Pulsante di servizio";
+
+"Shake" = "Scuoti";
+
+"Sleep" = "Sleep";
+
+"Sound" = "Sound";
+
+"Start" = "Start";
+
+"TV Black & White" = "TV bianco e nero";
+
+"TV Color" = "TV a colori";
+
+"Top Action" = "Azione superiore";
+
+"Up" = "Su";
+
+"X" = "X";
+
+"X1 Up" = "X1 Su";
+
+"X2 Right" = "X2 Destra";
+
+"X3 Down" = "X3 Giù";
+
+"X4 Left" = "X4 Sinistra";
+
+"Y" = "Y";
+
+"Y1 Up" = "Y1 Su";
+
+"Y2 Right" = "Y2 Destra";
+
+"Y3 Down" = "Y3 Giù";
+
+"Y4 Left" = "Y4 Sinistra";
+
+"Z" = "Z";
+
+"▢" = "▢";
+
+"△" = "△";
+
+"◯" = "◯";
+
+"✕" = "✕";
+
 
 /* Special Keys */
-  "Display Mode" = "Vista";
-  "Fast Forward" = "Avanti veloce"; // "Avanzamento rapido" wraps like "Avanzament\no rapido"
-  "Fullscreen" = "Schermo intero";
-  "Last Display Mode" = "Vista precedente";
-  "Load" = "Carica";
-  "Mute" = "Muto";
-  "Next Display Mode" = "Vista successiva";
-  "Pause" = "Sospendi";
-  "Quick Load Button" = "Carica veloce";
-  "Quick Save Button" = "Salva veloce";
-  "Rapid Fire Clear" = "Disattiva Turbo";
-  "Rapid Fire Reset" = "Resetta Turbo";
-  "Rapid Fire Toggle" = "Attiva Turbo";
-  "Reset" = "Resetta";
-  "Rewind" = "Riavvolgi";
-  "Save" = "Salva";
-  "Screenshot" = "Istantanea";
-  "Step Backward" = "Fotogramma precedente";
-  "Step Forward" = "Fotogramma successivo";
-  "Volume Down" = "Abbassa volume";
-  "Volume Up" = "Alza volume";
+
+"Display Mode" = "Vista";
+
+"Fast Forward" = "Avanti veloce"; // "Avanzamento rapido" wraps like "Avanzament\no rapido"
+
+"Fullscreen" = "Schermo intero";
+
+"Last Display Mode" = "Vista precedente";
+
+"Load" = "Carica";
+
+"Mute" = "Muto";
+
+"Next Display Mode" = "Vista successiva";
+
+"Pause" = "Sospendi";
+
+"Quick Load Button" = "Carica veloce";
+
+"Quick Save Button" = "Salva veloce";
+
+"Rapid Fire Clear" = "Disattiva Turbo";
+
+"Rapid Fire Reset" = "Resetta Turbo";
+
+"Rapid Fire Toggle" = "Attiva Turbo";
+
+"Reset" = "Resetta";
+
+"Rewind" = "Riavvolgi";
+
+"Save" = "Salva";
+
+"Screenshot" = "Istantanea";
+
+"Step Backward" = "Fotogramma precedente";
+
+"Step Forward" = "Fotogramma successivo";
+
+"Volume Down" = "Abbassa volume";
+
+"Volume Up" = "Alza volume";

@@ -1,134 +1,263 @@
 
 /* Section Title */
-  "Gameplay Buttons" = "Boutons de jeu";
-  "Special Keys" = "Touches spéciales";
+
+"Gameplay Buttons" = "Boutons de jeu";
+
+"Special Keys" = "Touches spéciales";
+
 
 /* Group Labels */
-  "Analog" = "Stick analogique";
-  "C-Pad" = "Boutons C";
-  "C-Stick" = "Stick C";
-  "D-Pad" = "Croix directionnelle";
-  "Keypad" = "Clavier";
-  "Left Analog" = "Stick analogique gauche";
-  "Left D-Pad" = "Croix directionnelle gauche";
-  "Right Analog" = "Stick analogique droit";
-  "Right D-Pad" = "Croix directionnelle droite";
-  "Switches" = "Interrupteurs";
+
+"Analog" = "Stick analogique";
+
+"C-Pad" = "Boutons C";
+
+"C-Stick" = "Stick C";
+
+"D-Pad" = "Croix directionnelle";
+
+"Keypad" = "Clavier";
+
+"Left Analog" = "Stick analogique gauche";
+
+"Left D-Pad" = "Croix directionnelle gauche";
+
+"Right Analog" = "Stick analogique droit";
+
+"Right D-Pad" = "Croix directionnelle droite";
+
+"Switches" = "Interrupteurs";
+
 
 /* Button Labels */
-  "#" = "#";
-  "*" = "*";
-  "0" = "0";
-  "1" = "1";
-  "2" = "2";
-  "2/6 Mode" = "Mode 2/6";
-  "3" = "3";
-  "4" = "4";
-  "5" = "5";
-  "6" = "6";
-  "7" = "7";
-  "8" = "8";
-  "9" = "9";
-  "A" = "A";
-  "Action" = "Action";
-  "Analog Mode" = "Mode analogique";
-  "B" = "B";
-  "Bottom Left Action" = "Action inf. gauche";
-  "Bottom Right Action" = "Action inf. droite";
-  "Button 1" = "Bouton 1";
-  "Button 1/Start" = "Bouton 1/Start";
-  "Button 2" = "Bouton 2";
-  "Button 3" = "Bouton 3";
-  "Button 4" = "Bouton 4";
-  "Button 5" = "Bouton 5";
-  "Button 6" = "Bouton 6";
-  "C" = "C";
-  "Change Disk Side" = "Changer face disque";
-  "Clear" = "Clear";
-  "Console Pause" = "Pause console";
-  "Console Reset" = "Réinit. console";
-  "Down" = "Bas";
-  "Enter" = "Enter";
-  "Fire" = "Feu";
-  "Fire 1" = "Feu 1";
-  "Fire 2" = "Feu 2";
-  "Insert Coin" = "Insérer pièce";
-  "L" = "L";
-  "L Diff" = "Difficulté gauche";
-  "L Diff A" = "Diff. A gauche";
-  "L Diff B" = "Diff. B gauche";
-  "L1" = "L1";
-  "L2" = "L2";
-  "L3" = "L3";
-  "Left" = "Gauche";
-  "Left Action" = "Action gauche";
-  "Left Trigger" = "Gâchette gauche";
-  "Lid" = "Ouvrir/fermer";
-  "Menu" = "Menu";
-  "Mic" = "Micro";
-  "Mode" = "Mode";
-  "Option" = "Option";
-  "Option 1" = "Option 1";
-  "Option 2" = "Option 2";
-  "P" = "P";
-  "Player Start" = "Player Start";
-  "Power" = "Power";
-  "R" = "R";
-  "R Diff" = "Difficulté droite";
-  "R Diff A" = "Diff. A droite";
-  "R Diff B" = "Diff. B droite";
-  "R1" = "R1";
-  "R2" = "R2";
-  "R3" = "R3";
-  "Right" = "Droite";
-  "Right Action" = "Action droite";
-  "Right Trigger" = "Gâchette droite";
-  "Run" = "Run";
-  "Select" = "Select";
-  "Service" = "Service";
-  "Shake" = "Secouer";
-  "Sleep" = "Sleep";
-  "Sound" = "Son";
-  "Start" = "Start";
-  "TV Black & White" = "TV noir et blanc";
-  "TV Color" = "TV en couleurs";
-  "Top Action" = "Action sup.";
-  "Up" = "Haut";
-  "X" = "X";
-  "X1 Up" = "X1 haut";
-  "X2 Right" = "X2 droite";
-  "X3 Down" = "X3 bas";
-  "X4 Left" = "X4 gauche";
-  "Y" = "Y";
-  "Y1 Up" = "Y1 haut";
-  "Y2 Right" = "Y2 droite";
-  "Y3 Down" = "Y3 bas";
-  "Y4 Left" = "Y4 gauche";
-  "Z" = "Z";
-  "▢" = "▢";
-  "△" = "△";
-  "◯" = "◯";
-  "✕" = "✕";
+
+"#" = "#";
+
+"*" = "*";
+
+"0" = "0";
+
+"1" = "1";
+
+"2" = "2";
+
+"2/6 Mode" = "Mode 2/6";
+
+"3" = "3";
+
+"4" = "4";
+
+"5" = "5";
+
+"6" = "6";
+
+"7" = "7";
+
+"8" = "8";
+
+"9" = "9";
+
+"A" = "A";
+
+"Action" = "Action";
+
+"Analog Mode" = "Mode analogique";
+
+"B" = "B";
+
+"Bottom Left Action" = "Action inf. gauche";
+
+"Bottom Right Action" = "Action inf. droite";
+
+"Button 1" = "Bouton 1";
+
+"Button 1/Start" = "Bouton 1/Start";
+
+"Button 2" = "Bouton 2";
+
+"Button 3" = "Bouton 3";
+
+"Button 4" = "Bouton 4";
+
+"Button 5" = "Bouton 5";
+
+"Button 6" = "Bouton 6";
+
+"C" = "C";
+
+"Change Disk Side" = "Changer face disque";
+
+"Clear" = "Clear";
+
+"Console Pause" = "Pause console";
+
+"Console Reset" = "Réinit. console";
+
+"Down" = "Bas";
+
+"Enter" = "Enter";
+
+"Fire" = "Feu";
+
+"Fire 1" = "Feu 1";
+
+"Fire 2" = "Feu 2";
+
+"Insert Coin" = "Insérer pièce";
+
+"L" = "L";
+
+"L Diff" = "Difficulté gauche";
+
+"L Diff A" = "Diff. A gauche";
+
+"L Diff B" = "Diff. B gauche";
+
+"L1" = "L1";
+
+"L2" = "L2";
+
+"L3" = "L3";
+
+"Left" = "Gauche";
+
+"Left Action" = "Action gauche";
+
+"Left Trigger" = "Gâchette gauche";
+
+"Lid" = "Ouvrir/fermer";
+
+"Menu" = "Menu";
+
+"Mic" = "Micro";
+
+"Mode" = "Mode";
+
+"Option" = "Option";
+
+"Option 1" = "Option 1";
+
+"Option 2" = "Option 2";
+
+"P" = "P";
+
+"Player Start" = "Player Start";
+
+"Power" = "Power";
+
+"R" = "R";
+
+"R Diff" = "Difficulté droite";
+
+"R Diff A" = "Diff. A droite";
+
+"R Diff B" = "Diff. B droite";
+
+"R1" = "R1";
+
+"R2" = "R2";
+
+"R3" = "R3";
+
+"Right" = "Droite";
+
+"Right Action" = "Action droite";
+
+"Right Trigger" = "Gâchette droite";
+
+"Run" = "Run";
+
+"Select" = "Select";
+
+"Service" = "Service";
+
+"Shake" = "Secouer";
+
+"Sleep" = "Sleep";
+
+"Sound" = "Son";
+
+"Start" = "Start";
+
+"TV Black & White" = "TV noir et blanc";
+
+"TV Color" = "TV en couleurs";
+
+"Top Action" = "Action sup.";
+
+"Up" = "Haut";
+
+"X" = "X";
+
+"X1 Up" = "X1 haut";
+
+"X2 Right" = "X2 droite";
+
+"X3 Down" = "X3 bas";
+
+"X4 Left" = "X4 gauche";
+
+"Y" = "Y";
+
+"Y1 Up" = "Y1 haut";
+
+"Y2 Right" = "Y2 droite";
+
+"Y3 Down" = "Y3 bas";
+
+"Y4 Left" = "Y4 gauche";
+
+"Z" = "Z";
+
+"▢" = "▢";
+
+"△" = "△";
+
+"◯" = "◯";
+
+"✕" = "✕";
+
 
 /* Special Keys */
-  "Display Mode" = "Mode affichage";
-  "Fast Forward" = "Avance rapide";
-  "Fullscreen" = "Plein écran";
-  "Last Display Mode" = "Mode affichage préc.";
-  "Load" = "Charger";
-  "Mute" = "Muet";
-  "Next Display Mode" = "Mode affichage suiv.";
-  "Pause" = "Pause";
-  "Quick Load Button" = "Chargement rapide";
-  "Quick Save Button" = "Sauvegarde rapide";
-  "Rapid Fire Clear" = "Supprimer tir rapide";
-  "Rapid Fire Reset" = "Réinit. tir rapide";
-  "Rapid Fire Toggle" = "Activer tir rapide";
-  "Reset" = "Reset";
-  "Rewind" = "Retour rapide";
-  "Save" = "Sauvegarder";
-  "Screenshot" = "Capture d'écran";
-  "Step Backward" = "Retour par image";
-  "Step Forward" = "Avance par image";
-  "Volume Down" = "Volume bas";
-  "Volume Up" = "Volume haut";
+
+"Display Mode" = "Mode affichage";
+
+"Fast Forward" = "Avance rapide";
+
+"Fullscreen" = "Plein écran";
+
+"Last Display Mode" = "Mode affichage préc.";
+
+"Load" = "Charger";
+
+"Mute" = "Muet";
+
+"Next Display Mode" = "Mode affichage suiv.";
+
+"Pause" = "Pause";
+
+"Quick Load Button" = "Chargement rapide";
+
+"Quick Save Button" = "Sauvegarde rapide";
+
+"Rapid Fire Clear" = "Supprimer tir rapide";
+
+"Rapid Fire Reset" = "Réinit. tir rapide";
+
+"Rapid Fire Toggle" = "Activer tir rapide";
+
+"Reset" = "Reset";
+
+"Rewind" = "Retour rapide";
+
+"Save" = "Sauvegarder";
+
+"Screenshot" = "Capture d'écran";
+
+"Step Backward" = "Retour par image";
+
+"Step Forward" = "Avance par image";
+
+"Volume Down" = "Volume bas";
+
+"Volume Up" = "Volume haut";

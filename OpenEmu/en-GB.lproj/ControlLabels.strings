@@ -1,9 +1,15 @@
 
 /* Group Labels */
-  "Analog" = "Analogue";
-  "Left Analog" = "Left Analogue";
-  "Right Analog" = "Right Analogue";
+
+"Analog" = "Analogue";
+
+"Left Analog" = "Left Analogue";
+
+"Right Analog" = "Right Analogue";
+
 
 /* Button Labels */
-  "Analog Mode" = "Analogue Mode";
-  "TV Color" = "TV Colour";
+
+"Analog Mode" = "Analogue Mode";
+
+"TV Color" = "TV Colour";
