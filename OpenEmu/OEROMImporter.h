@@ -52,6 +52,7 @@ typedef NS_ENUM(NSInteger, OEImportErrorCode) {
     OEImportErrorCodeNoHash                = 6,
     OEImportErrorCodeNoGame                = 7,
     OEImportErrorCodeDisallowArchivedFile  = 8,
+    OEImportErrorCodeEmptyFile             = 9,
 };
 
 #pragma mark - Importer Status

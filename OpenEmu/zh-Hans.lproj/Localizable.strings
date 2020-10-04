@@ -101,6 +101,8 @@
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "整合会复制所有选择的游戏到 OpenEmu 库文件夹。\n\n该操作无法撤销。";
 
+"Contains no data:" = "Contains no data:"; // TODO
+
 "Controls" = "控制";
 
 "Copying artwork failed!" = "复制插图失败！";

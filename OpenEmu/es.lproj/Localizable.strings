@@ -101,6 +101,8 @@
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Consolidar copiará todos los juegos seleccionados en la carpeta biblioteca de OpenEmu.\n\nEsto no se puede deshacer.";
 
+"Contains no data:" = "Contains no data:"; // TODO
+
 "Controls" = "Mandos";
 
 "Copying artwork failed!" = "¡Falló al copiar carátula!";

@@ -101,6 +101,8 @@
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Réunir les fichiers copiera tous les jeux sélectionnés dans le dossier de la bibliothèque OpenEmu.\n\nCette opération est irréversible.";
 
+"Contains no data:" = "Contains no data:"; // TODO
+
 "Controls" = "Contrôles";
 
 "Copying artwork failed!" = "Échec de la copie des illustrations !";

@@ -596,6 +596,7 @@ extension GameScannerViewController: OEROMImporterDelegate {
         var itemsAlreadyInDatabase: String?
         var itemsNoSystem: String?
         var itemsDisallowArchivedFile: String?
+        var itemsEmptyFile: String?
         var itemsDiscDescriptorUnreadableFile: String?
         var itemsDiscDescriptorMissingFiles: String?
         var itemsDiscDescriptorNotPlainTextFile: String?
@@ -625,6 +626,12 @@ extension GameScannerViewController: OEROMImporterDelegate {
                     itemsDisallowArchivedFile = NSLocalizedString("Must not be compressed:", comment:"")
                 }
                 itemsDisallowArchivedFile! += "\n• \"\(failedFilename)\""
+
+            } else if error.domain == OEImportErrorDomainFatal && error.code == OEImportErrorCode.emptyFile.rawValue {
+                if itemsEmptyFile == nil {
+                    itemsEmptyFile = NSLocalizedString("Contains no data:", comment:"")
+                }
+                itemsEmptyFile! += "\n• \"\(failedFilename)\""
 
             } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorUnreadableFileError {
                 if itemsDiscDescriptorUnreadableFile == nil {
@@ -678,7 +685,7 @@ extension GameScannerViewController: OEROMImporterDelegate {
         }
 
         // Concatenate messages
-        let failedMessage = [itemsAlreadyInDatabase, itemsNoSystem, itemsDisallowArchivedFile, itemsDiscDescriptorUnreadableFile, itemsDiscDescriptorMissingFiles, itemsDiscDescriptorNotPlainTextFile, itemsDiscDescriptorNoPermissionReadFile, itemsCueSheetInvalidFileFormat, itemsDreamcastGDIInvalidFileFormat].compactMap{$0}.joined(separator:"\n\n")
+        let failedMessage = [itemsAlreadyInDatabase, itemsNoSystem, itemsDisallowArchivedFile, itemsEmptyFile, itemsDiscDescriptorUnreadableFile, itemsDiscDescriptorMissingFiles, itemsDiscDescriptorNotPlainTextFile, itemsDiscDescriptorNoPermissionReadFile, itemsCueSheetInvalidFileFormat, itemsDreamcastGDIInvalidFileFormat].compactMap{$0}.joined(separator:"\n\n")
 
         let alert = OEAlert()
         alert.headlineText = NSLocalizedString("Files failed to import.", comment: "")

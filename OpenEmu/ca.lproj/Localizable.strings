@@ -101,6 +101,8 @@
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "El procés de consolidació copiarà tots els jocs seleccionats a la carpeta de la biblioteca de l'OpenEmu.\n\nAixò no es pot desfer.";
 
+"Contains no data:" = "Contains no data:"; // TODO
+
 "Controls" = "Controls";
 
 "Copying artwork failed!" = "La còpia de les imatges ha fallat.";

@@ -99,6 +99,8 @@
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.";
 
+"Contains no data:" = "Contains no data:";
+
 "Controls" = "Controls";
 
 "Copying artwork failed!" = "Copying artwork failed!";

@@ -101,6 +101,8 @@
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Samenvoegen zal alle geselecteerde spellen kopiëren naar de OpenEmu-bibliotheekmap.\n\nDit kan niet ongedaan worden gemaakt.";
 
+"Contains no data:" = "Contains no data:"; // TODO
+
 "Controls" = "Bediening";
 
 "Copying artwork failed!" = "Omslagafbeelding kopiëren mislukt!";

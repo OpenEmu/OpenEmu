@@ -695,6 +695,10 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     NSError *error;
     OEFile *file = [OEFile fileWithURL:url error:&error];
     if (file != nil) {
+        if (file.fileSize == 0) {
+            error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeEmptyFile userInfo:nil];
+            [self exitWithStatus:OEImportExitErrorFatal error:error];
+        }
         self.file = file;
         return;
     }
