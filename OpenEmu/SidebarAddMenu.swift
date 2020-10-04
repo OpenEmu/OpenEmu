@@ -28,7 +28,7 @@ import Cocoa
 final class SidebarAddMenu: NSMenu {
     
     private let plusIcon: NSImage? = {
-        if #available(macOS 11.0, *) {
+        if #available(macOS 10.16, *) {
             return NSImage(named: "sidebar_add_11")
         } else {
             return NSImage(named: NSImage.addTemplateName)

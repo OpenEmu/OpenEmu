@@ -38,7 +38,7 @@ final class ControlsPopUpButtonCell: NSPopUpButtonCell {
     override func titleRect(forBounds cellFrame: NSRect) -> NSRect {
         var rect = super.titleRect(forBounds: cellFrame)
         rect.origin.y += 1
-        if #available(macOS 11.0, *) {
+        if #available(macOS 10.16, *) {
             rect.origin.y += 9
         }
         return rect
