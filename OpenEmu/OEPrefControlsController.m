@@ -611,6 +611,13 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
     id assignedKey = [[self currentPlayerBindings] assignEvent:anEvent toKeyWithName:[self selectedKey]];
 
+    // automatically selecting the next button confuses VoiceOver
+    if (NSWorkspace.sharedWorkspace.isVoiceOverEnabled)
+    {
+        [self changeInputControl:self.controlsSetupView];
+        return;
+    }
+
     if([assignedKey isKindOfClass:[OEKeyBindingGroupDescription class]])
         [[self controlsSetupView] selectNextKeyAfterKeys:[assignedKey keyNames]];
     else

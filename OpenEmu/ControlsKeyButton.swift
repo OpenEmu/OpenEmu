@@ -54,4 +54,30 @@ class ControlsKeyButton: NSButton {
         
         return attributes
     }()
+    
+    // MARK: - Accessibility
+    @objc var label: String = ""
+    
+    override var title: String {
+        didSet {
+            let announcement = NSLocalizedString("Changed button for %1$@ to %2$@.", comment: "Controls preferences, accessibility notification (“Changed button for Up to W.”)")
+            NSAccessibility.post(element: NSApp.mainWindow as Any,
+                            notification: .announcementRequested,
+                                userInfo: [.announcement: String(format: announcement, label, title),
+                                               .priority: NSAccessibilityPriorityLevel.high.rawValue])
+        }
+    }
+    
+    override func accessibilityTitle() -> String? {
+        guard title == "" else {
+            return super.accessibilityTitle()
+        }
+        let announcement = NSLocalizedString("Not assigned", comment: "Controls preferences, accessibility title (key is not mapped, “empty”)")
+        return announcement
+    }
+    
+    override func accessibilityHelp() -> String? {
+        let announcement = NSLocalizedString("To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad.", comment: "Controls preferences, accessibility help")
+        return String(format: announcement, label)
+    }
 }

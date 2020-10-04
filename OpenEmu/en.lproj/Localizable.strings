@@ -600,3 +600,9 @@
 "Increase Grid Size" = "Increase Grid Size";
 
 "The emulator could not load ROM." = "The emulator could not load the ROM.";
+
+"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad."; // Controls preferences, accessibility help
+
+"Changed button for %1$@ to %2$@." = "Changed button for %1$@ to %2$@."; // Controls preferences, accessibility notification (“Changed button for Up to W.”)
+
+"Not assigned" = "Not assigned"; // Controls preferences, accessibility title (key is not mapped, “empty”)

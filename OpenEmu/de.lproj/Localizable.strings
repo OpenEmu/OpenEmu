@@ -604,3 +604,9 @@
 "Increase Grid Size" = "Gitter vergrößern";
 
 "The emulator could not load ROM." = "Der Emulator konnte die Spieledatei nicht laden.";
+
+"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "Um die Belegung für %@ zu ändern, klicke diese Taste und anschließend die gewünschte Taste auf deiner Tastatur oder deinem Controller."; // TODO, Controls preferences, accessibility help
+
+"Changed button for %1$@ to %2$@." = "Taste für %1$@ zu %2$@ geändert."; // TODO, Controls preferences, accessibility notification (“Changed button for Up to W.”)
+
+"Not assigned" = "Nicht zugewiesen"; // TODO, Controls preferences, accessibility title (key is not mapped, “empty”)

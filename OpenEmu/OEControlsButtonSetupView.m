@@ -110,7 +110,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
         [previous setState:NSControlStateValueOff];
         [button   setState:NSControlStateValueOn];
 
-        if(value)
+        if(value && !NSWorkspace.sharedWorkspace.isVoiceOverEnabled)
         {
             // Scroll field into view
             NSClipView *clipView             = [[self enclosingScrollView] contentView];
@@ -566,6 +566,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     
     [button setTarget:target];
     [button setAction:@selector(OE_selectInputControl:)];
+    button.label = aLabel;
     
     [orderedKeys    addObject:aName];
     [keyToButtonMap setObject:button forKey:aName];
