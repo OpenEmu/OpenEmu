@@ -46,6 +46,7 @@ typedef void (^OEImportItemCompletionBlock)(NSManagedObjectID*);
 + (nullable instancetype)operationWithURL:(NSURL*)operationURL inImporter:(OEROMImporter *)importer;
 
 @property BOOL exploreArchives;
+@property BOOL isDisallowedArchiveWithMultipleFiles;
 
 @property (copy) NSURL *URL;
 @property (copy) NSURL *sourceURL;

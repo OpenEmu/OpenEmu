@@ -275,6 +275,8 @@
 
 "Moving Library…" = "Moving Library…";
 
+"Must not be compressed:" = "Must not be compressed:";
+
 "Mute Audio" = "Mute Audio";
 
 "Name" = "Name"; // Search field menu, only search names

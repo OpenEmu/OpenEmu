@@ -279,6 +279,8 @@
 
 "Moving Library…" = "Spostamento Libreria…";
 
+"Must not be compressed:" = "Must not be compressed:"; // TODO
+
 "Mute Audio" = "Disattiva audio";
 
 "Name" = "Nome";  // Search field menu, only search names

@@ -293,6 +293,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         _shouldExit = NO;
         _archiveFileIndex = NSNotFound;
         _exploreArchives  = YES;
+        _isDisallowedArchiveWithMultipleFiles = NO;
     }
     return self;
 }
@@ -345,6 +346,8 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     copy.archiveFileIndex = self.archiveFileIndex;
     copy.md5Hash = self.md5Hash;
     copy.romLocation = self.romLocation;
+
+    copy.isDisallowedArchiveWithMultipleFiles = self.isDisallowedArchiveWithMultipleFiles;
 
     return copy;
 }
@@ -409,6 +412,45 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 - (NSManagedObjectID*)romObjectID
 {
     return self.rom.permanentID;
+}
+
+- (BOOL)shouldDisallowArchive:(XADArchive *)archive
+{
+    NSManagedObjectContext *context = self.importer.context;
+    NSArray <OEDBSystem *> *enabledSystems = [OEDBSystem enabledSystemsinContext:context];
+    NSMutableSet <NSString *> *enabledExtensions = [NSMutableSet set];
+    OEDBSystem *arcadeSystem = [OEDBSystem systemForPluginIdentifier:@"openemu.system.arcade" inContext:context];
+    BOOL isArcadeEnabled = arcadeSystem.enabled.boolValue;
+
+    // Get extensions from all enabled systems.
+    for (OEDBSystem *system in enabledSystems) {
+        // Ignore Arcade file extensions (zip, 7z, chd).
+        if ([system.systemIdentifier isEqualToString:@"openemu.system.arcade"])
+            continue;
+
+        [enabledExtensions addObjectsFromArray:system.plugin.supportedTypeExtensions];
+    }
+
+    // When Arcade is enabled, remove conflicting extensions found in Arcade ROMs.
+    if (isArcadeEnabled)
+        [enabledExtensions minusSet:[NSSet setWithArray:@[@"bin", @"rom", @"a26", @"a52", @"cas", @"col", @"com", @"int", @"p00", @"prg"]]];
+
+    // Get extensions from files in archive.
+    NSMutableSet <NSString *> *archiveExtensions = [NSMutableSet set];
+    for (int i = 0; i < archive.numberOfEntries; i++) {
+        NSString *name = [archive nameOfEntry:i];
+        NSString *extension = name.pathExtension.lowercaseString;
+        [archiveExtensions addObject:extension];
+    }
+
+    // Check if extensions in archive are found.
+    [enabledExtensions intersectSet:archiveExtensions];
+    NSArray *result = [enabledExtensions allObjects];
+    if (result.count) {
+        return YES;
+    }
+
+    return NO;
 }
 
 #pragma mark - NSOperation Overrides
@@ -514,9 +556,13 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             return;
         
         // disable multi-rom archives
-        if(archive.numberOfEntries > 1)
+        if (archive.numberOfEntries > 1) {
+            // Check if archive contains known extensions, otherwise is assumed Arcade.
+            self.isDisallowedArchiveWithMultipleFiles = [self shouldDisallowArchive:archive];
+
             return;
-        
+        }
+
         for(int i = 0; i < archive.numberOfEntries; i++)
         {
             if(([archive entryHasSize:i] && [archive sizeOfEntry:i] == 0) || [archive entryIsEncrypted:i] || [archive entryIsDirectory:i] || [archive entryIsArchive:i])
@@ -704,7 +750,12 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             [self OE_performImportStepDetermineSystem];
         }
         else {
-            error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
+            // Unless for Arcade, compressed archives must not contain multiple files.
+            if (self.isDisallowedArchiveWithMultipleFiles) {
+                error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeDisallowArchivedFile userInfo:nil];
+            } else {
+                error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
+            }
             [self exitWithStatus:OEImportExitErrorFatal error:error];
         }
         return;
@@ -712,6 +763,15 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     else if(validSystems.count == 1)
     {
         self.systemIdentifiers = @[validSystems.lastObject.systemIdentifier];
+
+        // Optical disc media or non-Arcade archives with multiple files must not import compressed.
+        // Stops false positives importing into Arcade.
+        OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:self.systemIdentifiers.lastObject inContext:context];
+        if ((self.extractedFileURL && [system.plugin.systemMedia containsObject:@"OESystemMediaOpticalDisc"]) || self.isDisallowedArchiveWithMultipleFiles)
+        {
+            error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeDisallowArchivedFile userInfo:nil];
+            [self exitWithStatus:OEImportExitErrorFatal error:error];
+        }
     }
     else // Found multiple valid systems after checking extension and system specific canHandleFile:
     {
