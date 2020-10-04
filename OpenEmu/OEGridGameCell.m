@@ -508,7 +508,7 @@ static NSDictionary *disabledActions = nil;
 {
     NSAppearance.currentAppearance = self.imageBrowserView.effectiveAppearance;
     const NSUInteger OECoverGridViewCellRatingViewNumberOfRatings = 6;
-    const NSImage *ratingImage = [NSImage imageNamed:@"grid_rating"];
+    const NSImage *ratingImage = [[NSImage imageNamed:@"grid_rating"] imageWithTintColor:NSColor.controlAccentColor];
     const NSSize  ratingImageSize = [ratingImage size];
     const CGFloat ratingStarHeight      = ratingImageSize.height / OECoverGridViewCellRatingViewNumberOfRatings;
     const NSRect  ratingImageSourceRect = NSMakeRect(0.0, ratingImageSize.height - ratingStarHeight * (rating + 1.0), ratingImageSize.width, ratingStarHeight);
