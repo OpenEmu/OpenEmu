@@ -60,12 +60,6 @@ enum : OEFSMEventLabel
     _OEFSMNextEvent                 = 2,
 };
 
-// The enum above makes Xcode think it needs to indent all lines past this point. The following NOP code
-// convinces Xcode that it does not need to indent.
-#if 0
-}
-#endif
-
 #pragma mark - OESetupCoreInfo
 
 @interface OESetupCoreInfo : NSObject
