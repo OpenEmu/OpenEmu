@@ -125,9 +125,10 @@ enum : OEFSMEventLabel
     [super loadView];
     
     // TODO: need to fail gracefully if we have no internet connection.
-    [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForNewCores:) withObject:@(NO)];
-    [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForUpdates) withObject:nil];
-
+    [[OECoreUpdater sharedUpdater] checkForNewCoresWithCompletionHandler:^(NSError *err) {
+        [[OECoreUpdater sharedUpdater] checkForUpdates];
+    }];
+    
     _coresToDownload = [NSMutableArray array];
 
     [[self replaceView] setWantsLayer:YES];

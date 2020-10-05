@@ -892,7 +892,7 @@ extension AppDelegate: NSMenuDelegate {
             // mainWindowController2.showWindow(nil)
         }
         
-        OECoreUpdater.shared.checkForNewCores(fromModal: false)
+        OECoreUpdater.shared.checkForNewCores(completionHandler: nil)   // TODO: check error from completion handler
         
         let userDefaultsController = NSUserDefaultsController.shared
         bind(.logHIDEvents, to: userDefaultsController, withKeyPath: "values.logsHIDEvents", options: nil)

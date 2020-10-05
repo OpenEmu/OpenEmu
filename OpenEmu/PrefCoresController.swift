@@ -54,7 +54,7 @@ class PrefCoresController: NSViewController, OEPreferencePane, NSTableViewDelega
             object, _ in
             self.coresTableView.reloadData()
         }
-        OECoreUpdater.shared.checkForNewCores(fromModal: false)
+        OECoreUpdater.shared.checkForNewCores(completionHandler: nil)   // TODO: check error from completion handler
         OECoreUpdater.shared.checkForUpdates()
         
         coresTableView.tableColumns[0].headerCell.title = NSLocalizedString("Core", comment: "Cores preferences, column header")

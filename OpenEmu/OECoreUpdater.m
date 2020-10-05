@@ -148,13 +148,21 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     [self checkForUpdates];
 }
 
-- (void)checkForNewCores:(NSNumber *)fromModal
+- (void)checkForNewCoresWithCompletionHandler:(nullable void(^)(NSError *error))handler
 {
     NSURL *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSXMLDocument *coreListDoc = [[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:NULL];
+    
+    NSURLSessionDataTask *session = [[NSURLSession sharedSession]
+            dataTaskWithURL:coreListURL
+            completionHandler:^(NSData * _Nullable download, NSURLResponse * _Nullable response, NSError * _Nullable dlError) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            if (!download) {
+                if (handler)
+                    handler(dlError);
+                return;
+            }
+            
+            NSXMLDocument *coreListDoc = [[NSXMLDocument alloc] initWithData:download options:0 error:NULL];
             NSArray       *coreNodes   = nil;
             
             if(coreListDoc != nil) coreNodes = [coreListDoc nodesForXPath:@"/cores/core" error:NULL];
@@ -205,8 +213,12 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
             }
 
             [self OE_updateCoreList];
+            
+            if (handler)
+                handler(nil);
         });
-    });
+    }];
+    [session resume];
 }
 
 #pragma mark -
@@ -368,7 +380,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
     if(pluginDL == nil)
     {
-        [self checkForNewCores:@YES];
+        [self checkForNewCoresWithCompletionHandler:nil];
         pluginDL = [_coresDict objectForKey:[self coreIdentifier]];
     }
 
