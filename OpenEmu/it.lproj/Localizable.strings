@@ -612,3 +612,9 @@
 "Changed button for %1$@ to %2$@." = "Assegnato il pulsante %1$@ a %2$@."; // Controls preferences, accessibility notification (“Changed button for Up to W.”)
 
 "Not assigned" = "Non assegnato"; // Controls preferences, accessibility title (key is not mapped, “empty”)
+
+"OpenEmu could not download required data from the internet" = "OpenEmu non ha potuto scaricare i dati necessari da Internet";  // Setup Assistant
+
+"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "Si è verificato un errore durante la preparazione dell'assistente di installazione. (%@) Assicurati di essere connesso a Internet e riprova.";  // Setup Assistant
+
+"Retry" = "Riprova";

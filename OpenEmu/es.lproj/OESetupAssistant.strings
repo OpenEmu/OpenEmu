@@ -37,3 +37,6 @@
 
 /* Class = "NSButtonCell"; title = "Back"; ObjectID = "413"; */
 "413.title" = "Atrás";
+
+/* Class = "NSTextFieldCell"; title = "Downloading Data..."; ObjectID = "efA-lF-zmj"; */
+"efA-lF-zmj.title" = "Downloading Data...";  // TODO

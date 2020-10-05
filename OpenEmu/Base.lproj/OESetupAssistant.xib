@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17147" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17147"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OESetupAssistant">
             <connections>
+                <outlet property="coreListDownloadProgress" destination="PNc-hQ-xPv" id="geG-0t-iZl"/>
+                <outlet property="coreListDownloadView" destination="7Ca-z2-XWe" id="Bcb-GD-7mW"/>
                 <outlet property="coreSelectionView" destination="263" id="591"/>
                 <outlet property="installCoreTableView" destination="286" id="561"/>
                 <outlet property="lastStepView" destination="394" id="594"/>
@@ -22,9 +24,43 @@
             <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="265">
-                    <rect key="frame" x="0.0" y="0.0" width="829" height="510"/>
+                <customView id="265">
+                    <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="7Ca-z2-XWe">
+                            <rect key="frame" x="664" y="0.0" width="166" height="56"/>
+                            <subviews>
+                                <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="PNc-hQ-xPv">
+                                    <rect key="frame" x="130" y="20" width="16" height="16"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="16" id="92S-Ue-9HN"/>
+                                        <constraint firstAttribute="width" constant="16" id="TUA-4v-ZAI"/>
+                                    </constraints>
+                                </progressIndicator>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="100" translatesAutoresizingMaskIntoConstraints="NO" id="LLm-5n-F1L">
+                                    <rect key="frame" x="-2" y="20" width="126" height="16"/>
+                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Downloading Data..." id="efA-lF-zmj">
+                                        <font key="font" usesAppearanceFont="YES"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="PNc-hQ-xPv" firstAttribute="leading" secondItem="LLm-5n-F1L" secondAttribute="trailing" constant="8" id="2lS-d9-Tkt"/>
+                                <constraint firstItem="PNc-hQ-xPv" firstAttribute="centerY" secondItem="LLm-5n-F1L" secondAttribute="centerY" id="47w-gu-uDU"/>
+                                <constraint firstAttribute="trailing" secondItem="PNc-hQ-xPv" secondAttribute="trailing" constant="20" id="KlW-gK-bOD"/>
+                                <constraint firstAttribute="height" constant="56" id="PGW-Dx-EfH"/>
+                                <constraint firstItem="LLm-5n-F1L" firstAttribute="leading" secondItem="7Ca-z2-XWe" secondAttribute="leading" id="Tf1-1d-xzh"/>
+                                <constraint firstAttribute="bottom" secondItem="PNc-hQ-xPv" secondAttribute="bottom" constant="20" id="ozh-Rd-b1S"/>
+                            </constraints>
+                        </customView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="7Ca-z2-XWe" secondAttribute="bottom" id="BCH-Ac-hpU"/>
+                        <constraint firstAttribute="trailing" secondItem="7Ca-z2-XWe" secondAttribute="trailing" id="t0d-SH-P3a"/>
+                    </constraints>
                 </customView>
             </subviews>
             <point key="canvasLocation" x="139" y="-421"/>

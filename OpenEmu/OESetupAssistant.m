@@ -31,6 +31,7 @@
 
 #import "OECoreUpdater.h"
 #import "OECoreDownload.h"
+#import "OEAlert.h"
 
 @import QuartzCore;
 
@@ -83,10 +84,13 @@ enum : OEFSMEventLabel
     NSMutableArray       *_coresToDownload; // contains OESetupCoreInfo objects; it's a table view data source
     CATransition         *_viewTransition;
     OEFiniteStateMachine *_fsm;
+    NSDate               *_startTimeOfSetupAssistant;
 }
 
 // IB outlets
 @property(nonatomic, weak) IBOutlet NSView *replaceView;
+@property(nonatomic, weak) IBOutlet NSView *coreListDownloadView;
+@property(nonatomic, weak) IBOutlet NSProgressIndicator *coreListDownloadProgress;
 @property(nonatomic, weak) IBOutlet NSView *welcomeView;
 @property(nonatomic, weak) IBOutlet NSView *coreSelectionView;
 @property(nonatomic, weak) IBOutlet NSView *lastStepView;
@@ -118,10 +122,8 @@ enum : OEFSMEventLabel
 {
     [super loadView];
     
-    // TODO: need to fail gracefully if we have no internet connection.
-    [[OECoreUpdater sharedUpdater] checkForNewCoresWithCompletionHandler:^(NSError *err) {
-        [[OECoreUpdater sharedUpdater] checkForUpdates];
-    }];
+    _startTimeOfSetupAssistant = [NSDate date];
+    [self attemptInitialCoreListUpdate];
     
     _coresToDownload = [NSMutableArray array];
 
@@ -187,7 +189,7 @@ enum : OEFSMEventLabel
     // Video introduction
 
     [_fsm addState:_OEFSMVideoIntroState];
-    [_fsm setTimerTransitionFrom:_OEFSMVideoIntroState to:_OEFSMWelcomeState delay:_OEVideoIntroductionDuration action:^{
+    [_fsm addTransitionFrom:_OEFSMVideoIntroState to:_OEFSMWelcomeState event:_OEFSMNextEvent action:^{
         [blockSelf OE_dissolveToView:[blockSelf welcomeView]];
     }];
 
@@ -260,6 +262,41 @@ enum : OEFSMEventLabel
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OESetupAssistantHasFinishedKey];
 
         if([blockSelf completionBlock] != nil) [blockSelf completionBlock]();
+    }];
+}
+
+- (void)attemptInitialCoreListUpdate
+{
+    [self.coreListDownloadProgress startAnimation:nil];
+    [[OECoreUpdater sharedUpdater] checkForNewCoresWithCompletionHandler:^(NSError *err) {
+        [self initialCoreListUpdateDidCompleteWithError:err];
+    }];
+}
+
+- (void)initialCoreListUpdateDidCompleteWithError:(NSError *)err
+{
+    [self.coreListDownloadProgress stopAnimation:nil];
+    
+    if (!err) {
+        self.coreListDownloadView.hidden = YES;
+        
+        NSTimeInterval deltaT = [[NSDate date] timeIntervalSinceDate:_startTimeOfSetupAssistant];
+        NSTimeInterval timeLeft = MAX(0, _OEVideoIntroductionDuration - deltaT);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, timeLeft * (NSTimeInterval)NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [self->_fsm processEvent:_OEFSMNextEvent];
+        });
+        return;
+    }
+    
+    OEAlert *alert = [[OEAlert alloc] init];
+    alert.headlineText = NSLocalizedString(@"OpenEmu could not download required data from the internet", @"Setup Assistant");
+    alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again.", @"Setup Assistant"), err.localizedDescription];
+    alert.defaultButtonTitle = NSLocalizedString(@"Retry", @"");
+    alert.alternateButtonTitle = NSLocalizedString(@"Quit OpenEmu", @"");
+    [alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertSecondButtonReturn)
+            [NSApp terminate:nil];
+        [self attemptInitialCoreListUpdate];
     }];
 }
 
@@ -400,6 +437,7 @@ enum : OEFSMEventLabel
         return [cell stringValue];
     return @"";
 }
+
 @end
 
 #pragma mark - OESetupCoreInfo
