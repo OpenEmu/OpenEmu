@@ -72,7 +72,8 @@ func addSystem(name s: NSString, label: NSString)
 }
 
 
-func systems(forLabel l: NSString) -> String {
+func systems(forLabel l: NSString) -> String
+{
     let systems = labelToSystems[l] as! NSArray
     
     if systems.count == 0 {
@@ -87,10 +88,82 @@ func systems(forLabel l: NSString) -> String {
 }
 
 
-var args = CommandLine.arguments.dropFirst()
-if let outputCommentsIdx = args.firstIndex(of: "--output-comments") {
-    outputComments = true
-    args.remove(at: outputCommentsIdx)
+func printStrings(baseStringsFile base: URL?)
+{
+    let addTodos: Bool
+    var baseStrings: [String: String] = [:]
+    if let base = base {
+        baseStrings = NSDictionary.init(contentsOf: base) as! [String : String]
+        print()
+        print("------- \(base) -------")
+        print()
+        addTodos = true
+    } else {
+        addTodos = false
+    }
+    
+    print("/* Group Labels */\n")
+    printStrings(inSet: groupLabels as! Set<String>, baseStrings: baseStrings, addTodos: addTodos)
+
+    print("\n/* Button Labels */\n")
+    printStrings(inSet: buttonLabels as! Set<String>, baseStrings: baseStrings, addTodos: addTodos)
+}
+
+
+func printStrings(inSet set: Set<String>, baseStrings base: [String: String], addTodos: Bool)
+{
+    for label in set.sorted() {
+        let line: String
+        let isTodo: Bool
+        if let rhs = base[label] {
+            line = "\"\(escape(string: label))\" = \"\(escape(string: rhs))\";"
+            isTodo = false
+        } else {
+            line = "\"\(escape(string: label))\" = \"\(escape(string: label))\";"
+            isTodo = addTodos
+        }
+        print(line + (isTodo ? "  // TODO" : "") + (outputComments ? "  // \(systems(forLabel: label as NSString))" : ""))
+        print()
+    }
+}
+
+
+func escape(string: String) -> String
+{
+    return String.init(string.flatMap { (c) -> [Character] in
+        switch c {
+            case "\n":
+                return ["\\", "n"]
+            case "\r":
+                return ["\\", "r"]
+            case "\t":
+                return ["\\", "t"]
+            case "\\":
+                return ["\\", "\\"]
+            case "\"":
+                return ["\\", "\""]
+            default:
+                return [c]
+        }
+    })
+}
+
+
+var files: Array<URL> = []
+var stringsFiles: Array<URL> = []
+let args = CommandLine.arguments.dropFirst()
+var i = args.startIndex
+while i < args.endIndex {
+    let arg = args[i]
+    if arg == "--output-comments" {
+        outputComments = true
+    } else if arg == "--strings" {
+        i += 1
+        stringsFiles.append(URL.init(fileURLWithPath: args[i]))
+    } else {
+        files.append(URL.init(fileURLWithPath: arg))
+    }
+    i += 1
 }
 
 let currentDirectory = URL.init(fileURLWithPath: FileManager.default.currentDirectoryPath)
@@ -109,7 +182,7 @@ for plugin in allPlugins {
     addLabels(fromPlist: pluginBundle!.infoDictionary! as NSDictionary)
 }
 
-guard allPlugins.count > 0 || args.count > 1 else {
+guard allPlugins.count > 0 || files.count > 1 else {
     print("Usage: \(CommandLine.arguments[0]) [--output-comments] system1-info.plist ")
     print("       system2-info.plist... > labels.strings")
     print("Manually specifying the info plists is not required if there is any")
@@ -117,31 +190,15 @@ guard allPlugins.count > 0 || args.count > 1 else {
     exit(0)
 }
 
-for file in args {
-    let tmp = NSDictionary(contentsOfFile: file)!
+for file in files {
+    let tmp = NSDictionary(contentsOf: file)!
     addLabels(fromPlist: tmp)
 }
 
-print("/* Group Labels */\n")
-for label in groupLabels.sortedArray(using: [NSSortDescriptor(key: nil, ascending: true)]) {
-    let line = "\"\(label)\" = \"\(label)\";"
-    if !outputComments {
-        print(line)
-    } else {
-        print("\(line)  // \(systems(forLabel: label as! NSString))")
+printStrings(baseStringsFile: nil)
+if stringsFiles.count > 0 {
+    for stringsFile in stringsFiles {
+        printStrings(baseStringsFile: stringsFile)
     }
-    print()
 }
-
-print("\n/* Button Labels */\n")
-for label in buttonLabels.sortedArray(using: [NSSortDescriptor(key: nil, ascending: true)]) {
-    let line = "\"\(label)\" = \"\(label)\";"
-    if !outputComments {
-        print(line)
-    } else {
-        print("\(line)  // \(systems(forLabel: label as! NSString))")
-    }
-    print()
-}
-
 
