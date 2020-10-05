@@ -101,7 +101,7 @@
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "I giochi selezionati verranno copiati all'interno della cartella della Libreria di OpenEmu.\n\nQuesta operazione non può essere annullata.";
 
-"Contains no data:" = "Contains no data:"; // TODO
+"Contains no data:" = "File vuoti:";
 
 "Controls" = "Controlli";
 
@@ -281,7 +281,7 @@
 
 "Moving Library…" = "Spostamento Libreria…";
 
-"Must not be compressed:" = "Must not be compressed:"; // TODO
+"Must not be compressed:" = "Non possono essere archivi compressi:";
 
 "Mute Audio" = "Disattiva audio";
 
@@ -601,14 +601,14 @@
 
 "Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Seleziona \"Menu Apple ()\" > \"Preferenze di Sistema...\", clicca su \"Sicurezza e Privacy\", e poi seleziona il pannello \"Privacy\". Rimuovi l'eventuale permesso \"File e cartelle\" per OpenEmu, e invece aggiungi il permesso \"Accesso completo al disco\".";
 
-"Decrease Grid Size" = "Decrease Grid Size"; // TODO
+"Decrease Grid Size" = "Diminuisci dimensione griglia";
 
-"Increase Grid Size" = "Increase Grid Size"; // TODO
+"Increase Grid Size" = "Aumenta dimensione griglia";
 
-"The emulator could not load ROM." = "The emulator could not load the ROM."; // TODO
+"The emulator could not load ROM." = "L'emulatore non ha potuto caricare il file ROM.";
 
-"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad."; // TODO, Controls preferences, accessibility help
+"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "Per assegnare %@ a un altro tasto o pulsante, clicca qui, e poi premi il tasto o pulsante a cui assegnarlo sulla tastiera o sul controller."; // Controls preferences, accessibility help
 
-"Changed button for %1$@ to %2$@." = "Changed button for %1$@ to %2$@."; // TODO, Controls preferences, accessibility notification (“Changed button for Up to W.”)
+"Changed button for %1$@ to %2$@." = "Assegnato il pulsante %1$@ a %2$@."; // Controls preferences, accessibility notification (“Changed button for Up to W.”)
 
-"Not assigned" = "Not assigned"; // TODO, Controls preferences, accessibility title (key is not mapped, “empty”)
+"Not assigned" = "Non assegnato"; // Controls preferences, accessibility title (key is not mapped, “empty”)
