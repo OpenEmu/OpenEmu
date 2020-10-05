@@ -8,6 +8,10 @@
 
 /* Group Labels */
 
+"-" = "-";   // TODO
+
+"3D Control Pad" = "3D Control Pad";   // TODO
+
 "Analog" = "Analoog";
 
 "C-Pad" = "C-knoppen";
@@ -89,6 +93,8 @@
 
 "Clear" = "Clear";
 
+"Configure" = "Configure";   // TODO
+
 "Console Pause" = "Console pauze";
 
 "Console Reset" = "Console opnieuw instellen";
@@ -104,6 +110,8 @@
 "Fire 2" = "Vuur 2";
 
 "Insert Coin" = "Muntstuk inwerpen";
+
+"Jump" = "Jump";   // TODO
 
 "L" = "L";
 
@@ -132,6 +140,8 @@
 "Mic" = "Mic";
 
 "Mode" = "Modus";
+
+"Mode Switch" = "Mode Switch";   // TODO
 
 "Option" = "Optie";
 
@@ -173,17 +183,21 @@
 
 "Shake" = "Schud";
 
-"Sleep" = "Sleep";
-
 "Sound" = "Geluid";
 
 "Start" = "Start";
+
+"Swap Joysticks" = "Swap Joysticks";   // TODO
 
 "TV Black & White" = "Zwart-wittelevisie";
 
 "TV Color" = "Kleurentelevisie";
 
 "Top Action" = "Bovenste actie";
+
+"Trigger L" = "Trigger L";   // TODO
+
+"Trigger R" = "Trigger R";   // TODO
 
 "Up" = "Omhoog";
 

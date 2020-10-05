@@ -8,6 +8,10 @@
 
 /* Group Labels */
 
+"-" = "-";   // TODO
+
+"3D Control Pad" = "3D Control Pad";   // TODO
+
 "Analog" = "類比";
 
 "C-Pad" = "C-Pad";
@@ -89,6 +93,8 @@
 
 "Clear" = "Clear";
 
+"Configure" = "Configure";   // TODO
+
 "Console Pause" = "主機暫停";
 
 "Console Reset" = "主機重設";
@@ -104,6 +110,8 @@
 "Fire 2" = "開火 2";
 
 "Insert Coin" = "投幣";
+
+"Jump" = "Jump";   // TODO
 
 "L" = "L";
 
@@ -132,6 +140,8 @@
 "Mic" = "麥克風";
 
 "Mode" = "模式";
+
+"Mode Switch" = "Mode Switch";   // TODO
 
 "Option" = "選項";
 
@@ -173,17 +183,21 @@
 
 "Shake" = "Shake";
 
-"Sleep" = "Sleep";
-
 "Sound" = "聲音";
 
 "Start" = "開始";
+
+"Swap Joysticks" = "Swap Joysticks";   // TODO
 
 "TV Black & White" = "黑白電視";
 
 "TV Color" = "彩色電視";
 
 "Top Action" = "Top Action";
+
+"Trigger L" = "Trigger L";   // TODO
+
+"Trigger R" = "Trigger R";   // TODO
 
 "Up" = "上";
 

@@ -8,6 +8,10 @@
 
 /* Group Labels */
 
+"-" = "-";   // TODO
+
+"3D Control Pad" = "3D Control Pad";   // TODO
+
 "Analog" = "Analògic";
 
 "C-Pad" = "C-Pad";
@@ -89,6 +93,8 @@
 
 "Clear" = "Neteja";
 
+"Configure" = "Configure";   // TODO
+
 "Console Pause" = "Pausa la consola";
 
 "Console Reset" = "Reinicia la consola";
@@ -104,6 +110,8 @@
 "Fire 2" = "Foc 2";
 
 "Insert Coin" = "Inserir una moneda";
+
+"Jump" = "Jump";   // TODO
 
 "L" = "L";
 
@@ -132,6 +140,8 @@
 "Mic" = "Micròfon";
 
 "Mode" = "Mode";
+
+"Mode Switch" = "Mode Switch";   // TODO
 
 "Option" = "Opció";
 
@@ -173,17 +183,21 @@
 
 "Shake" = "Sacseja";
 
-"Sleep" = "Adorm";
-
 "Sound" = "So";
 
 "Start" = "Inici";
+
+"Swap Joysticks" = "Swap Joysticks";   // TODO
 
 "TV Black & White" = "Televisió en blanc i negre";
 
 "TV Color" = "Televisió en color";
 
 "Top Action" = "Acció Superior";
+
+"Trigger L" = "Trigger L";   // TODO
+
+"Trigger R" = "Trigger R";   // TODO
 
 "Up" = "Amunt";
 

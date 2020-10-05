@@ -8,6 +8,10 @@
 
 /* Group Labels */
 
+"-" = "-";   // TODO
+
+"3D Control Pad" = "3D Control Pad";   // TODO
+
 "Analog" = "摇杆";
 
 "C-Pad" = "C-方向";
@@ -89,6 +93,8 @@
 
 "Clear" = "Clear";
 
+"Configure" = "Configure";   // TODO
+
 "Console Pause" = "控制台暂停";
 
 "Console Reset" = "Console Reset";
@@ -104,6 +110,8 @@
 "Fire 2" = "开火2";
 
 "Insert Coin" = "投币";
+
+"Jump" = "Jump";   // TODO
 
 "L" = "L";
 
@@ -132,6 +140,8 @@
 "Mic" = "麦克风";
 
 "Mode" = "模式";
+
+"Mode Switch" = "Mode Switch";   // TODO
 
 "Option" = "选项";
 
@@ -173,17 +183,21 @@
 
 "Shake" = "Shake";
 
-"Sleep" = "Sleep";
-
 "Sound" = "声音";
 
 "Start" = "开始";
+
+"Swap Joysticks" = "Swap Joysticks";   // TODO
 
 "TV Black & White" = "TV黑白";
 
 "TV Color" = "TV彩色";
 
 "Top Action" = "Top Action";
+
+"Trigger L" = "Trigger L";   // TODO
+
+"Trigger R" = "Trigger R";   // TODO
 
 "Up" = "上";
 

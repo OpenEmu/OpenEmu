@@ -8,6 +8,10 @@
 
 /* Group Labels */
 
+"-" = "-";
+
+"3D Control Pad" = "3D Control Pad";
+
 "Analog" = "Analogico";
 
 "C-Pad" = "C-Pad";
@@ -89,6 +93,8 @@
 
 "Clear" = "Clear";
 
+"Configure" = "Configurazione";
+
 "Console Pause" = "Pausa console";
 
 "Console Reset" = "Reset console";
@@ -104,6 +110,8 @@
 "Fire 2" = "Fuoco 2";
 
 "Insert Coin" = "Inserisci moneta";
+
+"Jump" = "Salto";
 
 "L" = "L";
 
@@ -133,7 +141,9 @@
 
 "Mode" = "Modalità";
 
-"Option" = "Option";  // Jaguar, Lynx
+"Mode Switch" = "Interruttore Modalità";
+
+"Option" = "Option";
 
 "Option 1" = "Option 1";
 
@@ -173,17 +183,21 @@
 
 "Shake" = "Scuoti";
 
-"Sleep" = "Sleep";
-
 "Sound" = "Sound";
 
 "Start" = "Start";
+
+"Swap Joysticks" = "Scambia Joystick";
 
 "TV Black & White" = "TV bianco e nero";
 
 "TV Color" = "TV a colori";
 
 "Top Action" = "Azione superiore";
+
+"Trigger L" = "Grilletto L";
+
+"Trigger R" = "Grilletto R";
 
 "Up" = "Su";
 

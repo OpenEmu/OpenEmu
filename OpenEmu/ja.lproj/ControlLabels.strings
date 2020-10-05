@@ -8,6 +8,10 @@
 
 /* Group Labels */
 
+"-" = "-";   // TODO
+
+"3D Control Pad" = "3D Control Pad";   // TODO
+
 "Analog" = "アナログ";
 
 "C-Pad" = "Cボタンユニット";
@@ -89,6 +93,8 @@
 
 "Clear" = "Clear";
 
+"Configure" = "Configure";   // TODO
+
 "Console Pause" = "コンソールを一時停止";
 
 "Console Reset" = "コンソールをリセット";
@@ -104,6 +110,8 @@
 "Fire 2" = "ファイア 2";
 
 "Insert Coin" = "コイン投入";
+
+"Jump" = "Jump";   // TODO
 
 "L" = "L";
 
@@ -132,6 +140,8 @@
 "Mic" = "マイク";
 
 "Mode" = "モード";
+
+"Mode Switch" = "Mode Switch";   // TODO
 
 "Option" = "オプション";
 
@@ -173,17 +183,21 @@
 
 "Shake" = "Shake";
 
-"Sleep" = "Sleep";
-
 "Sound" = "サウンド";
 
 "Start" = "スタート";
+
+"Swap Joysticks" = "Swap Joysticks";   // TODO
 
 "TV Black & White" = "テレビタイプ 白黒";
 
 "TV Color" = "テレビタイプ カラー";
 
 "Top Action" = "Top Action";
+
+"Trigger L" = "Trigger L";   // TODO
+
+"Trigger R" = "Trigger R";   // TODO
 
 "Up" = "上";
 

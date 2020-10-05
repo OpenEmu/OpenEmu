@@ -8,6 +8,10 @@
 
 /* Group Labels */
 
+"-" = "-";   // TODO
+
+"3D Control Pad" = "3D Control Pad";   // TODO
+
 "Analog" = "Analog";
 
 "C-Pad" = "C-Pad";
@@ -89,6 +93,8 @@
 
 "Clear" = "Clear";
 
+"Configure" = "Configure";   // TODO
+
 "Console Pause" = "Console Pause";
 
 "Console Reset" = "Console Reset";
@@ -104,6 +110,8 @@
 "Fire 2" = "Fire 2";
 
 "Insert Coin" = "Insert Coin";
+
+"Jump" = "Jump";   // TODO
 
 "L" = "L";
 
@@ -132,6 +140,8 @@
 "Mic" = "Mic";
 
 "Mode" = "Mode";
+
+"Mode Switch" = "Mode Switch";   // TODO
 
 "Option" = "Option";
 
@@ -173,17 +183,21 @@
 
 "Shake" = "Shake";
 
-"Sleep" = "Sleep";
-
 "Sound" = "Sound";
 
 "Start" = "Start";
+
+"Swap Joysticks" = "Swap Joysticks";   // TODO
 
 "TV Black & White" = "TV Black & White";
 
 "TV Color" = "TV Color";
 
 "Top Action" = "Top Action";
+
+"Trigger L" = "Trigger L";   // TODO
+
+"Trigger R" = "Trigger R";   // TODO
 
 "Up" = "Up";
 
