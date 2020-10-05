@@ -60,6 +60,8 @@ NSString * const OESidebarMinWidth = @"sidebarMinWidth";
 NSString * const OESidebarMaxWidth = @"sidebarMaxWidth";
 NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
+NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
+
 @interface OESidebarController ()
 {
     id editingItem;
@@ -160,10 +162,12 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     [super viewDidAppear];
     
-    // Make sure the user knows there are more systems to scroll to--but only do it once.
-    if (!self.scrollersFlashed) {
+    // Make sure the user knows there are more systems to scroll to--but only do it once in each of the first three sessions.
+    NSInteger scrollerFlashed = [NSUserDefaults.standardUserDefaults integerForKey:OESidebarScrollerFlashed];
+    if (scrollerFlashed < 3 && !self.scrollersFlashed) {
         [self.view.enclosingScrollView flashScrollers];
         self.scrollersFlashed = YES;
+        [NSUserDefaults.standardUserDefaults setInteger:scrollerFlashed + 1 forKey:OESidebarScrollerFlashed];
     }
 }
 
