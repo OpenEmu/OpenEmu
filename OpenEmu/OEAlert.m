@@ -341,22 +341,34 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     [self OE_stopModal];
 }
 
-- (void)setDefaultButtonAction:(SEL)sel andTarget:(id)aTarget
+- (void)setDefaultButtonAction:(nullable SEL)sel andTarget:(nullable id)aTarget
 {
     self.defaultButton.target = aTarget;
     self.defaultButton.action = sel;
+    self.defaultButton.enabled = sel != NULL;
+    self.defaultTBButton.target = aTarget;
+    self.defaultTBButton.action = sel;
+    self.defaultTBButton.enabled = sel != NULL;
 }
 
-- (void)setAlternateButtonAction:(SEL)sel andTarget:(id)aTarget
+- (void)setAlternateButtonAction:(nullable SEL)sel andTarget:(nullable id)aTarget
 {
     self.alternateButton.target = aTarget;
     self.alternateButton.action = sel;
+    self.alternateButton.enabled = sel != NULL;
+    self.alternateTBButton.target = aTarget;
+    self.alternateTBButton.action = sel;
+    self.alternateTBButton.enabled = sel != NULL;
 }
 
-- (void)setOtherButtonAction:(SEL)sel andTarget:(id)aTarget
+- (void)setOtherButtonAction:(nullable SEL)sel andTarget:(nullable id)aTarget
 {
-    self.alternateButton.target = aTarget;
-    self.alternateButton.action = sel;
+    self.otherButton.target = aTarget;
+    self.otherButton.action = sel;
+    self.otherButton.enabled = sel != NULL;
+    self.otherTBButton.target = aTarget;
+    self.otherTBButton.action = sel;
+    self.otherButton.enabled = sel != NULL;
 }
 
 #pragma mark - Message Text
@@ -390,12 +402,9 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 {
     _callbackHandler = [handler copy];
     
-    self.alternateButton.target = self;
-    self.alternateButton.action = @selector(buttonAction:);
-    self.defaultButton.target = self;
-    self.defaultButton.action = @selector(buttonAction:);
-    self.otherButton.target = self;
-    self.otherButton.action = @selector(buttonAction:);
+    [self setAlternateButtonAction:@selector(buttonAction:) andTarget:self];
+    [self setDefaultButtonAction:@selector(buttonAction:) andTarget:self];
+    [self setOtherButtonAction:@selector(buttonAction:) andTarget:self];
 }
 
 - (OEAlertCompletionHandler)callbackHandler
@@ -851,15 +860,12 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 - (void)OE_createTouchBarControls
 {
-    _defaultTBButton = [NSButton buttonWithTitle:@"" target:nil action:nil];
-    [self.defaultTBButton setTarget:self andAction:@selector(buttonAction:)];
+    _defaultTBButton = [NSButton buttonWithTitle:@"" target:self action:@selector(buttonAction:)];
     self.defaultTBButton.keyEquivalent = @"\r";
     
-    _alternateTBButton = [NSButton buttonWithTitle:@"" target:nil action:nil];
-    [self.alternateTBButton setTarget:self andAction:@selector(buttonAction:)];
+    _alternateTBButton = [NSButton buttonWithTitle:@"" target:self action:@selector(buttonAction:)];
     
-    _otherTBButton = [NSButton buttonWithTitle:@"" target:nil action:nil];
-    [self.otherTBButton setTarget:self andAction:@selector(buttonAction:)];
+    _otherTBButton = [NSButton buttonWithTitle:@"" target:self action:@selector(buttonAction:)];
 }
 
 - (void)OE_createTouchBar

@@ -85,9 +85,9 @@ typedef void (^OEAlertCompletionHandler)(OEAlert *alert, NSModalResponse result)
 
 #pragma mark - Button Actions
 
-- (void)setDefaultButtonAction:(SEL)sel andTarget:(id)target;
-- (void)setAlternateButtonAction:(SEL)sel andTarget:(id)target;
-- (void)setOtherButtonAction:(SEL)sel andTarget:(id)target;
+- (void)setDefaultButtonAction:(nullable SEL)sel andTarget:(nullable id)target;
+- (void)setAlternateButtonAction:(nullable SEL)sel andTarget:(nullable id)target;
+- (void)setOtherButtonAction:(nullable SEL)sel andTarget:(nullable id)target;
 - (void)buttonAction:(id)sender;
 
 #pragma mark - Callbacks
