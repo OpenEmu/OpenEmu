@@ -42,7 +42,7 @@ typedef void (^OEAlertCompletionHandler)(OEAlert *alert, NSModalResponse result)
 
 - (NSModalResponse)runModal;
 - (void)performBlockInModalSession:(void(^)(void))block;
-- (void)closeWithResult:(NSInteger)result;
+- (void)closeWithResult:(NSModalResponse)result;
 @property (readonly) NSModalResponse result;
 @property (readonly, nonatomic) NSWindow *window;
 
