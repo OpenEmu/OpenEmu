@@ -461,6 +461,7 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
 
 - (void)coreDownloadDidFail:(OECoreDownload*)download withError:(NSError*)error
 {
+    [self OE_updateCoreList];
     if(download == [self coreDownload])
         [self failInstallWithError:error];
 }
