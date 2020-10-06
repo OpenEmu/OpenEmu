@@ -155,7 +155,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 {
     if (_lastCoreListURLTask) {
         if (handler)
-            handler([NSError errorWithDomain:OECoreUpdaterErrorDomain code:OENewCoreCheckAlreadyPending userInfo:nil]);
+            handler([NSError errorWithDomain:OECoreUpdaterErrorDomain code:OENewCoreCheckAlreadyPendingError userInfo:nil]);
         return;
     }
 
@@ -298,7 +298,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     }
     else
     {
-        NSError *error = [NSError errorWithDomain:OECoreUpdaterErrorDomain code:OENoDownloadableCoreForIdentifier userInfo:nil];
+        NSError *error = [NSError errorWithDomain:OECoreUpdaterErrorDomain code:OENoDownloadableCoreForIdentifierError userInfo:nil];
         handler(nil, error);
     }
 }
@@ -316,7 +316,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     else
     {
         // TODO: create proper error saying that no core is available for the state
-        NSError *error = [NSError errorWithDomain:OECoreUpdaterErrorDomain code:OENoDownloadableCoreForIdentifier userInfo:nil];
+        NSError *error = [NSError errorWithDomain:OECoreUpdaterErrorDomain code:OENoDownloadableCoreForIdentifierError userInfo:nil];
         handler(nil, error);
     }
 }
