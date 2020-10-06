@@ -286,6 +286,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 - (void)OE_openGameDocumentWithGame:(OEDBGame *)game saveState:(OEDBSaveState *)state
 {
+    [self OE_openGameDocumentWithGame:game saveState:state secondAttempt:NO];
+}
+
+- (void)OE_openGameDocumentWithGame:(OEDBGame *)game saveState:(OEDBSaveState *)state secondAttempt:(BOOL)retry
+{
     // make sure we don't launch a game multiple times :/
     if(_isLaunchingGame) return;
     _isLaunchingGame = YES;
@@ -349,6 +354,28 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                 messageText = [messageText stringByAppendingString:NSLocalizedString(@" Start the game from the library view if you want to locate it.", @"")];
                 
                 [[OEAlert alertWithMessageText:messageText defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil] runModal];
+            }
+            else if ([error.domain isEqual:OEGameDocumentErrorDomain] && error.code == OENoCoreError && !retry) {
+                // Try downloading the core list before bailing out definitively
+                OEAlert *modalAlert = [[OEAlert alloc] init];
+                modalAlert.messageText = NSLocalizedString(@"Downloading core list...", @"");
+                modalAlert.defaultButtonTitle = NSLocalizedString(@"Cancel", @"");
+                [modalAlert performBlockInModalSession:^{
+                    [OECoreUpdater.sharedUpdater checkForNewCoresWithCompletionHandler:^(NSError * _Nonnull error) {
+                        [modalAlert closeWithResult:NSAlertSecondButtonReturn];
+                    }];
+                }];
+                NSModalResponse alertCode = [modalAlert runModal];
+                if (alertCode == NSAlertFirstButtonReturn) {
+                    // user says no
+                    [OECoreUpdater.sharedUpdater cancelCheckForNewCores];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self presentError:error];
+                    });
+                } else {
+                    // let's give it another try
+                    [self OE_openGameDocumentWithGame:game saveState:state secondAttempt:YES];
+                }
             }
             else if(error) {
                 dispatch_async(dispatch_get_main_queue(), ^{

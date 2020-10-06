@@ -618,3 +618,5 @@
 "An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "Si è verificato un errore durante la preparazione dell'assistente di installazione. (%@) Assicurati di essere connesso a Internet e riprova.";  // Setup Assistant
 
 "Retry" = "Riprova";
+
+"Downloading core list..." = "Download lista core...";

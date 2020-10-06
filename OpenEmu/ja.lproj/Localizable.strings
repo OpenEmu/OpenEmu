@@ -618,3 +618,5 @@
 "An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again.";  // TODO // Setup Assistant
 
 "Retry" = "Retry";  // TODO
+
+"Downloading core list..." = "Downloading core list...";  // TODO
