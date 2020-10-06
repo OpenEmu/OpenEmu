@@ -44,6 +44,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     NSMutableDictionary<NSString *, OECoreDownload *> *_coresDict;
     BOOL autoInstall;
     NSURLSessionDataTask *_lastCoreListURLTask;
+    NSMutableSet<OECoreDownload *> *_pendingUserInitiatedDownloads;
 }
 
 - (void)OE_updateCoreList;
@@ -77,6 +78,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     if((self = [super init]))
     {
         _coresDict = [[NSMutableDictionary alloc] init];
+        _pendingUserInitiatedDownloads = [[NSMutableSet alloc] init];
 
         autoInstall = NO;
 
@@ -440,6 +442,19 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     [self setCoreIdentifier:nil];
     [self setCompletionHandler:nil];
 }
+
+#pragma mark - Other user-initiated (= with error reporting) downloads
+
+- (void)installCoreInBackgroundUserInitiated:(OECoreDownload *)download
+{
+    if (download.delegate != self) {
+        NSLog(@"download %@'s delegate is not the singleton OECoreUpdater!?", download);
+    } else {
+        [_pendingUserInitiatedDownloads addObject:download];
+    }
+    [download startDownload:self];
+}
+
 #pragma mark -
 #pragma mark OEDownload delegate
 
@@ -457,6 +472,7 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
     [self OE_updateCoreList];
     if(download == [self coreDownload])
         [self finishInstall];
+    [_pendingUserInitiatedDownloads removeObject:download];
 }
 
 - (void)coreDownloadDidFail:(OECoreDownload*)download withError:(NSError*)error
@@ -464,6 +480,10 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
     [self OE_updateCoreList];
     if(download == [self coreDownload])
         [self failInstallWithError:error];
+    if ([_pendingUserInitiatedDownloads containsObject:download] && error) {
+        [NSApp presentError:error];
+    }
+    [_pendingUserInitiatedDownloads removeObject:download];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

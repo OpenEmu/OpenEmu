@@ -71,7 +71,7 @@ class PrefCoresController: NSViewController, OEPreferencePane, NSTableViewDelega
     
     private func updateOrInstallItem(_ row: Int)
     {
-        coreDownload(row).start(self)
+        OECoreUpdater.shared.installCoreInBackgroundUserInitiated(coreDownload(row))
     }
     
     private func coreDownload(_ row: Int) -> OECoreDownload
