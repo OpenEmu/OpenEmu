@@ -33,6 +33,7 @@ extern NSString *const OECoreUpdaterErrorDomain;
 enum _OECoreUpdaterErrorCode
 {
     OENoDownloadableCoreForIdentifier = -1,
+    OENewCoreCheckAlreadyPending = -2
 };
 
 @class OEAlert;
@@ -44,7 +45,9 @@ enum _OECoreUpdaterErrorCode
 
 - (void)checkForUpdates;
 - (void)checkForUpdatesAndInstall;
+
 - (void)checkForNewCoresWithCompletionHandler:(nullable void(^)(NSError *error))handler NS_SWIFT_NAME(checkForNewCores(completionHandler:));
+- (void)cancelCheckForNewCores;
 
 - (void)installCoreForGame:(OEDBGame *)game withCompletionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;
 - (void)installCoreForSaveState:(OEDBSaveState *)state withCompletionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;

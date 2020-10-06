@@ -43,6 +43,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 {
     NSMutableDictionary<NSString *, OECoreDownload *> *_coresDict;
     BOOL autoInstall;
+    NSURLSessionDataTask *_lastCoreListURLTask;
 }
 
 - (void)OE_updateCoreList;
@@ -150,15 +151,22 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
 - (void)checkForNewCoresWithCompletionHandler:(nullable void(^)(NSError *error))handler
 {
+    if (_lastCoreListURLTask) {
+        if (handler)
+            handler([NSError errorWithDomain:OECoreUpdaterErrorDomain code:OENewCoreCheckAlreadyPending userInfo:nil]);
+        return;
+    }
+
     NSURL *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
     
-    NSURLSessionDataTask *session = [[NSURLSession sharedSession]
+    _lastCoreListURLTask = [[NSURLSession sharedSession]
             dataTaskWithURL:coreListURL
             completionHandler:^(NSData * _Nullable download, NSURLResponse * _Nullable response, NSError * _Nullable dlError) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (!download) {
                 if (handler)
                     handler(dlError);
+                self->_lastCoreListURLTask = nil;
                 return;
             }
             
@@ -216,9 +224,18 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
             
             if (handler)
                 handler(nil);
+            self->_lastCoreListURLTask = nil;
         });
     }];
-    [session resume];
+    [_lastCoreListURLTask resume];
+}
+
+- (void)cancelCheckForNewCores
+{
+    if (_lastCoreListURLTask) {
+        [_lastCoreListURLTask cancel];
+    }
+    _lastCoreListURLTask = nil;
 }
 
 #pragma mark -
