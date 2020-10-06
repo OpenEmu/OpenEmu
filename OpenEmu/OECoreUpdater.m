@@ -341,7 +341,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     NSUInteger result = [[self alert] runModal];
     if(result == NSAlertSecondButtonReturn)
     {
-        handler(nil, nil);
+        handler(nil, [NSError errorWithDomain:NSCocoaErrorDomain code:NSUserCancelledError userInfo:nil]);
     }
 
     [self setCompletionHandler:nil];

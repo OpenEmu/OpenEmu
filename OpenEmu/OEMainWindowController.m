@@ -377,7 +377,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                     [self OE_openGameDocumentWithGame:game saveState:state secondAttempt:YES];
                 }
             }
-            else if(error) {
+            else if(error && !([error.domain isEqual:NSCocoaErrorDomain] && error.code == NSUserCancelledError)) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self presentError:error];
                 });

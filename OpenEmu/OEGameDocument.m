@@ -279,9 +279,9 @@ typedef enum : NSUInteger
             {
                 self->_corePlugin = plugin;
             }
-            else if(error == nil)
+            else if([error.domain isEqual:NSCocoaErrorDomain] && error.code == NSUserCancelledError)
             {
-                blockError = nil;
+                blockError = error;
             }
         }];
         *outError = blockError;
