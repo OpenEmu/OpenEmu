@@ -397,12 +397,6 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
     if(pluginDL == nil)
     {
-        [self checkForNewCoresWithCompletionHandler:nil];
-        pluginDL = [_coresDict objectForKey:[self coreIdentifier]];
-    }
-
-    if(pluginDL == nil)
-    {
         [[self alert] setShowsProgressbar:NO];
         [[self alert] setHeadlineText:nil];
         [[self alert] setTitle:NSLocalizedString(@"Error!", @"")];
