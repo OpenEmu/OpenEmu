@@ -138,15 +138,12 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
     static NSDictionary *attributes;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSFont *font = [NSFont systemFontOfSize:12 weight:6];
+        NSFont *font = [NSFont boldSystemFontOfSize:12];
         NSColor *color = NSColor.labelColor;
-        
-        NSNumber *baselineOffset = @-1;
         
         attributes = @{
             NSFontAttributeName : font,
-            NSForegroundColorAttributeName : color,
-            NSBaselineOffsetAttributeName: baselineOffset
+            NSForegroundColorAttributeName : color
         };
     });
     
@@ -158,19 +155,16 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
     static NSDictionary *attributes;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSFont *font = [NSFont systemFontOfSize:12 weight:3];
+        NSFont *font = [NSFont systemFontOfSize:12];
         NSColor *color = NSColor.secondaryLabelColor;
         
-        NSMutableParagraphStyle *textAlignment = NSMutableParagraphStyle.new;
-        textAlignment.alignment = NSTextAlignmentRight;
-    
-        NSNumber *baselineOffset = @-1;
-    
+        NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+        paragraphStyle.alignment = NSTextAlignmentRight;
+        
         attributes = @{
             NSFontAttributeName : font,
             NSForegroundColorAttributeName : color,
-            NSParagraphStyleAttributeName : textAlignment,
-            NSBaselineOffsetAttributeName: baselineOffset
+            NSParagraphStyleAttributeName : paragraphStyle
     };
     });
     
@@ -800,14 +794,15 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
     NSString *title = [group title];
     if(title != nil)
     {
-        NSDictionary *titleAttributes = self.groupTitleAttributes ?: @{};
+        NSDictionary *titleAttributes = self.groupTitleAttributes;
         NSRect titleRect = (NSRect){{NSMinX(headerRect)+HeaderLeftBorder, NSMinY(headerRect)},
             {NSWidth(headerRect)-HeaderLeftBorder, NSHeight(headerRect)}};
 
         // center text
         NSAttributedString *string = [[NSAttributedString alloc] initWithString:title attributes:titleAttributes];
-        CGFloat stringHeight = [string size].height;
-        titleRect = NSInsetRect(titleRect, 0, (NSHeight(titleRect)-stringHeight)/4.0);
+        CGFloat stringHeight = string.size.height;
+        titleRect = NSInsetRect(titleRect, 0, (headerRect.size.height-stringHeight)/2.0);
+        titleRect.origin.y += 1;
 
         [renderer drawText:title inRect:titleRect withAttributes:titleAttributes withAlpha:1.0];
     }
@@ -815,14 +810,15 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
     NSString *subtitle = [group objectForKey:OEImageBrowserGroupSubtitleKey];
     if(subtitle != nil)
     {
-        NSDictionary *subtitleAttributes = self.groupSubtitleAttributes ?: @{};
+        NSDictionary *subtitleAttributes = self.groupSubtitleAttributes;
         NSRect subtitleRect = (NSRect){{NSMinX(headerRect)+HeaderLeftBorder, NSMinY(headerRect)},
             {NSWidth(headerRect)-HeaderLeftBorder-HeaderRightBorder, NSHeight(headerRect)}};
 
         // center text
         NSAttributedString *string = [[NSAttributedString alloc] initWithString:subtitle attributes:subtitleAttributes];
-        CGFloat stringHeight = [string size].height;
-        subtitleRect = NSInsetRect(subtitleRect, 0, (NSHeight(subtitleRect)-stringHeight)/4.0);
+        CGFloat stringHeight = string.size.height;
+        subtitleRect = NSInsetRect(subtitleRect, 0, (headerRect.size.height-stringHeight)/2.0);
+        subtitleRect.origin.y += 1;
 
         [renderer drawText:subtitle inRect:subtitleRect withAttributes:subtitleAttributes withAlpha:1.0];
     }
