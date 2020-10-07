@@ -360,6 +360,9 @@ class AppDelegate: NSObject {
            defaults.string(forKey: "defaultCore.openemu.system.sms") == "org.openemu.TwoMbit" {
             defaults.removeObject(forKey: "defaultCore.openemu.system.sms")
         }
+        if defaults.string(forKey: "defaultCore.openemu.system.gc") == "org.openemu.Dolphin_Core" {
+            defaults.removeObject(forKey: "defaultCore.openemu.system.gc")
+        }
     }
     
     fileprivate func loadPlugins() {
@@ -420,7 +423,8 @@ class AppDelegate: NSObject {
                  $0.coreVersion == "2.0")) ||
             $0.coreIdentifier == "org.openemu.NeoPop" ||
             $0.coreIdentifier == "org.openemu.TwoMbit" ||
-            $0.coreIdentifier == "org.openemu.VisualBoyAdvance"
+            $0.coreIdentifier == "org.openemu.VisualBoyAdvance" ||
+            $0.coreIdentifier == "org.openemu.Dolphin_Core"
         }
         
         if !incompatibleSaveStates.isEmpty {
