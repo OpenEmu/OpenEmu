@@ -334,6 +334,8 @@ NS_ASSUME_NONNULL_BEGIN
         {
             OEFile *file = [OEFile fileWithURL:url error:nil];
             if (file) {
+                BOOL willDeleteSubFolder = NO;
+
                 // Delete game in subfolder in system's folder if system supports discs with descriptor file
                 OEDBSystem *system = self.game.system;
                 if (system.plugin.supportsDiscsWithDescriptorFile) {
@@ -342,12 +344,14 @@ NS_ASSUME_NONNULL_BEGIN
 
                     // Games of systems that support discs are now copied to subfolders with their referenced files, so delete the whole subfolder. Else, handle legacy case.
                     if (isFileInSubFolder)
-                        [NSWorkspace.sharedWorkspace recycleURLs:@[file.fileURL.URLByDeletingLastPathComponent] completionHandler:nil];
-                    else
-                        [NSWorkspace.sharedWorkspace recycleURLs:file.allFileURLs completionHandler:nil];
+                        willDeleteSubFolder = YES;
                 }
-                else
-                    [[NSWorkspace sharedWorkspace] recycleURLs:file.allFileURLs completionHandler:nil];
+
+                if (willDeleteSubFolder) {
+                    [NSWorkspace.sharedWorkspace recycleURLs:@[file.fileURL.URLByDeletingLastPathComponent] completionHandler:nil];
+                } else {
+                    [NSWorkspace.sharedWorkspace recycleURLs:file.allFileURLs completionHandler:nil];
+                }
             }
         } else DLog(@"Keeping file, other roms depent on it!");
     }
