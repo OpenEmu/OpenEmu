@@ -134,11 +134,13 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
         [setupAssistant setCompletionBlock:^{
+            window.titlebarAppearsTransparent = NO;
             [self setCurrentContentController:self.libraryController];
         }];
         
         // Adjust visual properties of the window.
-        window.toolbar.visible = NO;
+        window.titlebarAppearsTransparent = YES;
+        window.styleMask |= NSWindowStyleMaskFullSizeContentView;
         
         [window center];
         
