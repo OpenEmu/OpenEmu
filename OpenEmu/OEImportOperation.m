@@ -951,6 +951,11 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inContext:context];
         if(system != nil)
         {
+            // Ensure single-file Arcade archives containing a known file suffix (bin, rom) retain their archived name.
+            if ([systemIdentifier isEqualToString:@"openemu.system.arcade"]) {
+                self.extractedFileURL = nil;
+            }
+
             NSURL *url = self.extractedFileURL ?: rom.URL;
             NSString *gameTitleWithSuffix = url.lastPathComponent;
             NSString *gameTitleWithoutSuffix = gameTitleWithSuffix.stringByDeletingPathExtension;
