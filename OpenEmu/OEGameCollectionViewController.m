@@ -226,7 +226,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     NSMutableArray <NSData *> *archivableRepresentations = [NSMutableArray array];
     for (OEDBGame *selectedGame in self.selectedGames) {
         NSManagedObjectID *objectID = selectedGame.permanentID;
-        NSData *representation = [NSKeyedArchiver archivedDataWithRootObject:objectID.URIRepresentation];
+        NSData *representation = [NSKeyedArchiver archivedDataWithRootObject:objectID.URIRepresentation requiringSecureCoding:YES error:nil];
         [archivableRepresentations addObject:representation];
     }
     
@@ -287,7 +287,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     NSMutableIndexSet *gameIndexesToSelect = [NSMutableIndexSet indexSet];
     for (NSData *data in [[NSUserDefaults standardUserDefaults] objectForKey:OESelectedGamesKey]) {
         
-        NSURL *representation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        NSURL *representation = [NSKeyedUnarchiver unarchivedObjectOfClass:NSURL.class fromData:data error:nil];
         
         if (!representation) {
             continue;

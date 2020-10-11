@@ -137,7 +137,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     
     for (NSData *data in [[NSUserDefaults standardUserDefaults] objectForKey:defaultsKey]) {
         
-        NSURL *representation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        NSURL *representation = [NSKeyedUnarchiver unarchivedObjectOfClass:NSURL.class fromData:data error:nil];
         
         if (!representation) {
             continue;
@@ -357,7 +357,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     for (__kindof OEDBItem *item in [self.items objectsAtIndexes:self.selectionIndexes]) {
         
         NSManagedObjectID *objectID = item.permanentID;
-        NSData *representation = [NSKeyedArchiver archivedDataWithRootObject:objectID.URIRepresentation];
+        NSData *representation = [NSKeyedArchiver archivedDataWithRootObject:objectID.URIRepresentation requiringSecureCoding:YES error:nil];
         
         [archivableRepresentations addObject:representation];
     }

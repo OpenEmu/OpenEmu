@@ -24,7 +24,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEROMImporter.h"
+#import "OEROMImporter+Private.h"
 #import "OEImportOperation.h"
 
 #import "OELibraryDatabase.h"
@@ -120,22 +120,35 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
     // remove last saved queue if any
     [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+    
+    NSData *queueData = [self dataForOperationQueue:queue.operations];
+    if(queueData)
+    {
+        return [queueData writeToURL:url atomically:YES];
+    }
+    return YES;
+}
 
+- (NSData *)dataForOperationQueue:(NSArray<__kindof NSOperation *> *)queue
+{
     // only pick OEImportOperations
     NSPredicate *filterPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         return [evaluatedObject isKindOfClass:[OEImportOperation class]]
                     && ![evaluatedObject isFinished] && ![evaluatedObject isCancelled];
     }];
-    NSArray *operations = [queue.operations filteredArrayUsingPredicate:filterPredicate];
-
-    // only save queue if it's not empty
-    if(operations.count != 0)
+    
+    NSArray<OEImportOperation *> *operations = [queue filteredArrayUsingPredicate:filterPredicate];
+    if (operations.count > 0)
     {
-        // write new queue data
-        NSData *queueData = [NSKeyedArchiver archivedDataWithRootObject:operations];
-        return [queueData writeToURL:url atomically:YES];
+        return [NSKeyedArchiver archivedDataWithRootObject:operations requiringSecureCoding:YES error:nil];
     }
-    return YES;
+    return nil;
+}
+
+- (NSArray<OEImportOperation *> *)operationQueueFromData:(NSData *)data
+{
+    NSSet<Class> *classes = [NSSet setWithObjects:NSArray.class, OEImportOperation.class, nil];
+    return [NSKeyedUnarchiver unarchivedObjectOfClasses:classes fromData:data error:nil];
 }
 
 - (BOOL)loadQueue
@@ -150,8 +163,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     // remove file if reading was successfull
     [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
     
-    // Restore queue
-    NSMutableArray *operations = [NSKeyedUnarchiver unarchiveObjectWithData:queueData];
+    NSArray<OEImportOperation *> *operations = [self operationQueueFromData:queueData];
     if (operations.count > 0)
     {
         self.numberOfProcessedItems = 0;

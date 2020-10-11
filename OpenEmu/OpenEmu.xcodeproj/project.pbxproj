@@ -206,6 +206,7 @@
 		05D828CD24E8DB8E00BB975E /* OEXPCGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D828CC24E8DB8E00BB975E /* OEXPCGameCoreManager.m */; };
 		05D828D324E9849200BB975E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D828D224E9849200BB975E /* main.swift */; };
 		05D828D724E989B600BB975E /* OpenEmuKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0533EA5C24CDF9070095146E /* OpenEmuKit.framework */; };
+		05DB72A42532681B0098459D /* OEROMImporterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 05DB72A32532681B0098459D /* OEROMImporterTests.m */; };
 		05E4400B22991527009E6D27 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = 05E4400A22991527009E6D27 /* Shaders */; };
 		05E789A723D01B16000E14EE /* GameDocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E789A623D01B16000E14EE /* GameDocumentController.swift */; };
 		05E789A923D021B8000E14EE /* ControlToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E789A823D021B8000E14EE /* ControlToolbarItem.swift */; };
@@ -1068,6 +1069,13 @@
 			remoteGlobalIDString = 0547FE1324E86D9F005C1FFC;
 			remoteInfo = broker;
 		};
+		05DB72A62532681B0098459D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
+			remoteInfo = OpenEmu;
+		};
 		1B6A25011430F8FB009F1CE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1531,6 +1539,10 @@
 		05D828CB24E8DB8E00BB975E /* OEXPCGameCoreManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXPCGameCoreManager.h; sourceTree = "<group>"; };
 		05D828CC24E8DB8E00BB975E /* OEXPCGameCoreManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEXPCGameCoreManager.m; sourceTree = "<group>"; };
 		05D828D224E9849200BB975E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		05DB72A12532681B0098459D /* OpenEmuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenEmuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		05DB72A32532681B0098459D /* OEROMImporterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEROMImporterTests.m; sourceTree = "<group>"; };
+		05DB72A52532681B0098459D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		05DB735325326AED0098459D /* OEROMImporter+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OEROMImporter+Private.h"; sourceTree = "<group>"; };
 		05E4400A22991527009E6D27 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		05E789A623D01B16000E14EE /* GameDocumentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDocumentController.swift; sourceTree = "<group>"; };
 		05E789A823D021B8000E14EE /* ControlToolbarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlToolbarItem.swift; sourceTree = "<group>"; };
@@ -2646,6 +2658,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		05DB729E2532681B0098459D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		081A46231B95744A00565444 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -3199,13 +3218,20 @@
 			name = "Modern UI";
 			sourceTree = "<group>";
 		};
+		05DB72A22532681B0098459D /* OpenEmuTests */ = {
+			isa = PBXGroup;
+			children = (
+				05DB72A32532681B0098459D /* OEROMImporterTests.m */,
+				05DB72A52532681B0098459D /* Info.plist */,
+			);
+			path = OpenEmuTests;
+			sourceTree = "<group>";
+		};
 		05E789A223D0085F000E14EE /* Library */ = {
 			isa = PBXGroup;
 			children = (
 				0544B68423D1415900F63D61 /* Collection View */,
-				0544B68623D141AF00F63D61 /* Homebrew */,
 				0544B68523D1416300F63D61 /* Games Library */,
-				0544B6A123D16D4900F63D61 /* Utilities */,
 				0544B68223D1355400F63D61 /* LibraryController.swift */,
 				05E789A823D021B8000E14EE /* ControlToolbarItem.swift */,
 			);
@@ -3356,6 +3382,7 @@
 				016F22DC23F19F5F00181842 /* OEAlertTest.app */,
 				0547FE1424E86D9F005C1FFC /* broker.xpc */,
 				015BFEB425266DFC0025139F /* OEControlLabelsGenerator */,
+				05DB72A12532681B0098459D /* OpenEmuTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3513,6 +3540,7 @@
 				3887A8011024D29D000FC4CF /* OpenEmuQLGenerator */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
+				05DB72A22532681B0098459D /* OpenEmuTests */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 			);
@@ -3666,6 +3694,7 @@
 				53439A8A13B92C4A005C0CC8 /* OELibraryDatabase.h */,
 				53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */,
 				83199720142741790068C865 /* OEROMImporter.h */,
+				05DB735325326AED0098459D /* OEROMImporter+Private.h */,
 				83199721142741790068C865 /* OEROMImporter.m */,
 				8356AEF015DA703100AA6B44 /* OEImportOperation.h */,
 				8356AEF115DA703100AA6B44 /* OEImportOperation.m */,
@@ -5355,6 +5384,24 @@
 			productReference = 0547FE1424E86D9F005C1FFC /* broker.xpc */;
 			productType = "com.apple.product-type.xpc-service";
 		};
+		05DB72A02532681B0098459D /* OpenEmuTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 05DB72A82532681B0098459D /* Build configuration list for PBXNativeTarget "OpenEmuTests" */;
+			buildPhases = (
+				05DB729D2532681B0098459D /* Sources */,
+				05DB729E2532681B0098459D /* Frameworks */,
+				05DB729F2532681B0098459D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				05DB72A72532681B0098459D /* PBXTargetDependency */,
+			);
+			name = OpenEmuTests;
+			productName = OpenEmuTests;
+			productReference = 05DB72A12532681B0098459D /* OpenEmuTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		081A46251B95744A00565444 /* Pokemon mini */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 081A462A1B95744A00565444 /* Build configuration list for PBXNativeTarget "Pokemon mini" */;
@@ -6137,7 +6184,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
+				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1200;
 				TargetAttributes = {
 					011FD36125267910006D7C05 = {
@@ -6156,6 +6203,11 @@
 						CreatedOnToolsVersion = 12.0;
 						LastSwiftMigration = 1200;
 						ProvisioningStyle = Automatic;
+					};
+					05DB72A02532681B0098459D = {
+						CreatedOnToolsVersion = 12.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 8D15AC270486D014006FF6A4;
 					};
 					081A46251B95744A00565444 = {
 						CreatedOnToolsVersion = 6.4;
@@ -6397,6 +6449,7 @@
 				94C51FBC1847077700206E6F /* Set Experimental Appcast URLs */,
 				016F22DB23F19F5F00181842 /* OEAlertTest */,
 				015BFEB325266DFC0025139F /* OEControlLabelsGenerator */,
+				05DB72A02532681B0098459D /* OpenEmuTests */,
 			);
 		};
 /* End PBXProject section */
@@ -6412,6 +6465,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		0547FE1224E86D9F005C1FFC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		05DB729F2532681B0098459D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -7264,6 +7324,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		05DB729D2532681B0098459D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05DB72A42532681B0098459D /* OEROMImporterTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		081A46221B95744A00565444 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -7904,6 +7972,11 @@
 			target = 0547FE1324E86D9F005C1FFC /* broker */;
 			targetProxy = 0547FE1D24E86D9F005C1FFC /* PBXContainerItemProxy */;
 		};
+		05DB72A72532681B0098459D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D15AC270486D014006FF6A4 /* OpenEmu */;
+			targetProxy = 05DB72A62532681B0098459D /* PBXContainerItemProxy */;
+		};
 		1B6A25021430F8FB009F1CE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 83F37141140BB166005A7353 /* Build SystemPlugins */;
@@ -8533,6 +8606,74 @@
 				SKIP_INSTALL = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		05DB72A92532681B0098459D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = OpenEmuTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.OpenEmuTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenEmu.app/Contents/MacOS/OpenEmu";
+			};
+			name = Debug;
+		};
+		05DB72AA2532681B0098459D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = OpenEmuTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.OpenEmuTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenEmu.app/Contents/MacOS/OpenEmu";
 			};
 			name = Release;
 		};
@@ -9412,6 +9553,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = OpenEmu;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -9442,6 +9584,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = OpenEmu;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -9760,6 +9903,15 @@
 			buildConfigurations = (
 				0547FE2224E86D9F005C1FFC /* Debug */,
 				0547FE2324E86D9F005C1FFC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		05DB72A82532681B0098459D /* Build configuration list for PBXNativeTarget "OpenEmuTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05DB72A92532681B0098459D /* Debug */,
+				05DB72AA2532681B0098459D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -351,7 +351,7 @@ class LibraryController: NSTabViewController {
 
     @objc(startSelectedGameWithSaveState:)
     @IBAction func startSelectedGame(saveState sender: NSMenuItem) {
-        guard let saveState = sender.representedObject as? OEDBSaveState else {
+        guard let _ = sender.representedObject as? OEDBSaveState else {
             fatalError("Attempt to start a save state without valid item")
         }
         
