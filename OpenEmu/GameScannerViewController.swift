@@ -594,6 +594,7 @@ extension GameScannerViewController: OEROMImporterDelegate {
 
     private func showFailedImportItems() {
         var itemsAlreadyInDatabase: String?
+        var itemsAlreadyInDatabaseFileUnreachable: String?
         var itemsNoSystem: String?
         var itemsDisallowArchivedFile: String?
         var itemsEmptyFile: String?
@@ -614,6 +615,12 @@ extension GameScannerViewController: OEROMImporterDelegate {
                     itemsAlreadyInDatabase = NSLocalizedString("Already in library:", comment:"")
                 }
                 itemsAlreadyInDatabase! += "\n• " + String.init(format: NSLocalizedString("\"%@\" in %@", comment:"Import error description: file already imported (first item: filename, second item: system library name)"), failedFilename, failedItem.romLocation!)
+
+            } else if error.domain == OEImportErrorDomainFatal && error.code == OEImportErrorCode.alreadyInDatabaseFileUnreachable.rawValue {
+                if itemsAlreadyInDatabaseFileUnreachable == nil {
+                    itemsAlreadyInDatabaseFileUnreachable = NSLocalizedString("Already in library, but manually deleted or unreachable:", comment:"")
+                }
+                itemsAlreadyInDatabaseFileUnreachable! += "\n• " + String.init(format: NSLocalizedString("\"%@\" in %@", comment:"Import error description: file already imported (first item: filename, second item: system library name)"), failedFilename, failedItem.romLocation!)
 
             } else if error.domain == OEImportErrorDomainFatal && error.code == OEImportErrorCode.noSystem.rawValue {
                 if itemsNoSystem == nil {
@@ -685,7 +692,7 @@ extension GameScannerViewController: OEROMImporterDelegate {
         }
 
         // Concatenate messages
-        let failedMessage = [itemsAlreadyInDatabase, itemsNoSystem, itemsDisallowArchivedFile, itemsEmptyFile, itemsDiscDescriptorUnreadableFile, itemsDiscDescriptorMissingFiles, itemsDiscDescriptorNotPlainTextFile, itemsDiscDescriptorNoPermissionReadFile, itemsCueSheetInvalidFileFormat, itemsDreamcastGDIInvalidFileFormat].compactMap{$0}.joined(separator:"\n\n")
+        let failedMessage = [itemsAlreadyInDatabase, itemsAlreadyInDatabaseFileUnreachable, itemsNoSystem, itemsDisallowArchivedFile, itemsEmptyFile, itemsDiscDescriptorUnreadableFile, itemsDiscDescriptorMissingFiles, itemsDiscDescriptorNotPlainTextFile, itemsDiscDescriptorNoPermissionReadFile, itemsCueSheetInvalidFileFormat, itemsDreamcastGDIInvalidFileFormat].compactMap{$0}.joined(separator:"\n\n")
 
         let alert = OEAlert()
         alert.headlineText = NSLocalizedString("Files failed to import.", comment: "")

@@ -29,6 +29,8 @@
 
 "Already in library:" = "Already in library:";  // TODO
 
+"Already in library, but manually deleted or unreachable:" = "Already in library, but manually deleted or unreachable:"; // TODO
+
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "你確定要從 OpenEmu 資源庫刪除 %ld 個已保存遊戲？";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "你確定要從 OpenEmu 資源庫刪除 %ld 個螢幕快照？";

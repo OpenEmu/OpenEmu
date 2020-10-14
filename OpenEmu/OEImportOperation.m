@@ -661,20 +661,19 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     {
         NSURL *romURL = rom.URL;
         self.rom = rom;
-        if(![romURL checkResourceIsReachableAndReturnError:&error])
+        self.romLocation = rom.game.system.lastLocalizedName;
+
+        if(![romURL checkResourceIsReachableAndReturnError:nil])
         {
             DLog(@"rom file not available");
-            DLog(@"%@", error);
-            // TODO: depending on error finish here with 'already present' success
-            // if the error says something like volume could not be found we might want to skip import because the file is probably on an external HD that is currently not connected
-            // but if it just says the file was deleted we should replace the rom's url with the new one and continue importing
+            error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeAlreadyInDatabaseFileUnreachable userInfo:nil];
         }
         else
         {
-            self.romLocation = rom.game.system.lastLocalizedName;
             error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeAlreadyInDatabase userInfo:nil];
-            [self exitWithStatus:OEImportExitErrorFatal error:error];
         }
+
+        [self exitWithStatus:OEImportExitErrorFatal error:error];
     }
 }
 
