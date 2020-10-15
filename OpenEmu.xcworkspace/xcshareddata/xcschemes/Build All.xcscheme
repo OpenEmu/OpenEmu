@@ -289,6 +289,16 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "05DB72A02532681B0098459D"
+               BuildableName = "OpenEmuTests.xctest"
+               BlueprintName = "OpenEmuTests"
+               ReferencedContainer = "container:OpenEmu/OpenEmu.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

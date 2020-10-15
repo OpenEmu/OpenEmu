@@ -70,6 +70,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "05DB72A02532681B0098459D"
+               BuildableName = "OpenEmuTests.xctest"
+               BlueprintName = "OpenEmuTests"
+               ReferencedContainer = "container:OpenEmu.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
