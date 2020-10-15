@@ -3135,13 +3135,6 @@
 			name = "Games Library";
 			sourceTree = "<group>";
 		};
-		0544B68623D141AF00F63D61 /* Homebrew */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Homebrew;
-			sourceTree = "<group>";
-		};
 		0544B68723D14E4200F63D61 /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
@@ -3162,13 +3155,6 @@
 				0544B69C23D16D3100F63D61 /* CollectionViewItem.xib */,
 			);
 			name = "Grid View";
-			sourceTree = "<group>";
-		};
-		0544B6A123D16D4900F63D61 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Utilities;
 			sourceTree = "<group>";
 		};
 		0544B6A423D16DC400F63D61 /* Media View */ = {
