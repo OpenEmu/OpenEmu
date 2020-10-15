@@ -75,8 +75,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "94EBBCD7183F422500743756"
-               BuildableName = "Build &amp; Copy Experimental SystemPlugins"
-               BlueprintName = "Build &amp; Copy Experimental SystemPlugins"
+               BuildableName = "Build &amp; Copy Experimental &amp; Alpha SystemPlugins"
+               BlueprintName = "Build &amp; Copy Experimental &amp; Alpha SystemPlugins"
                ReferencedContainer = "container:OpenEmu/OpenEmu.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
