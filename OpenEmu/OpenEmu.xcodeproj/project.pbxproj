@@ -130,6 +130,7 @@
 
 /* Begin PBXBuildFile section */
 		010EDCA31CE628490020417C /* OELibraryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 010EDCA21CE628490020417C /* OELibraryController.xib */; };
+		012148082537C6D6007F3C84 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012148072537C6D6007F3C84 /* main.swift */; };
 		012FE6591CE51D4100716960 /* LibraryToolbarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */; };
 		015BFEB725266DFC0025139F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015BFEB625266DFC0025139F /* main.swift */; };
 		016F22DF23F19F5F00181842 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016F22DE23F19F5F00181842 /* AppDelegate.swift */; };
@@ -1463,6 +1464,8 @@
 
 /* Begin PBXFileReference section */
 		010EDCA21CE628490020417C /* OELibraryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OELibraryController.xib; sourceTree = "<group>"; };
+		012148052537C6D6007F3C84 /* OESystemPluginPostInstall */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OESystemPluginPostInstall; sourceTree = BUILT_PRODUCTS_DIR; };
+		012148072537C6D6007F3C84 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryToolbarDelegate.swift; sourceTree = "<group>"; };
 		015BFEB425266DFC0025139F /* OEControlLabelsGenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OEControlLabelsGenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		015BFEB625266DFC0025139F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -2636,6 +2639,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		012148022537C6D6007F3C84 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		015BFEB125266DFC0025139F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -3041,6 +3051,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		012148062537C6D6007F3C84 /* OESystemPluginPostInstall */ = {
+			isa = PBXGroup;
+			children = (
+				012148072537C6D6007F3C84 /* main.swift */,
+			);
+			path = OESystemPluginPostInstall;
+			sourceTree = "<group>";
+		};
 		015BFEB525266DFC0025139F /* OEControlLabelsGenerator */ = {
 			isa = PBXGroup;
 			children = (
@@ -3369,6 +3387,7 @@
 				0547FE1424E86D9F005C1FFC /* broker.xpc */,
 				015BFEB425266DFC0025139F /* OEControlLabelsGenerator */,
 				05DB72A12532681B0098459D /* OpenEmuTests.xctest */,
+				012148052537C6D6007F3C84 /* OESystemPluginPostInstall */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3550,6 +3569,7 @@
 			children = (
 				016F22DD23F19F5F00181842 /* OEAlertTest */,
 				015BFEB525266DFC0025139F /* OEControlLabelsGenerator */,
+				012148062537C6D6007F3C84 /* OESystemPluginPostInstall */,
 				837820B91907FB3A0043593F /* Image Kit Headers (Private) */,
 				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
 			);
@@ -5317,6 +5337,22 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		012148042537C6D6007F3C84 /* OESystemPluginPostInstall */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0121480B2537C6D6007F3C84 /* Build configuration list for PBXNativeTarget "OESystemPluginPostInstall" */;
+			buildPhases = (
+				012148012537C6D6007F3C84 /* Sources */,
+				012148022537C6D6007F3C84 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OESystemPluginPostInstall;
+			productName = OESystemPluginPostInstall;
+			productReference = 012148052537C6D6007F3C84 /* OESystemPluginPostInstall */;
+			productType = "com.apple.product-type.tool";
+		};
 		015BFEB325266DFC0025139F /* OEControlLabelsGenerator */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 015BFEBA25266DFC0025139F /* Build configuration list for PBXNativeTarget "OEControlLabelsGenerator" */;
@@ -6170,12 +6206,16 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1220;
+				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1200;
 				TargetAttributes = {
 					011FD36125267910006D7C05 = {
 						CreatedOnToolsVersion = 11.3.1;
 						ProvisioningStyle = Manual;
+					};
+					012148042537C6D6007F3C84 = {
+						CreatedOnToolsVersion = 11.3.1;
+						ProvisioningStyle = Automatic;
 					};
 					015BFEB325266DFC0025139F = {
 						CreatedOnToolsVersion = 11.3.1;
@@ -6436,6 +6476,7 @@
 				016F22DB23F19F5F00181842 /* OEAlertTest */,
 				015BFEB325266DFC0025139F /* OEControlLabelsGenerator */,
 				05DB72A02532681B0098459D /* OpenEmuTests */,
+				012148042537C6D6007F3C84 /* OESystemPluginPostInstall */,
 			);
 		};
 /* End PBXProject section */
@@ -7266,6 +7307,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		012148012537C6D6007F3C84 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				012148082537C6D6007F3C84 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		015BFEB025266DFC0025139F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -8390,6 +8439,64 @@
 			};
 			name = Release;
 		};
+		012148092537C6D6007F3C84 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		0121480A2537C6D6007F3C84 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		015BFEB825266DFC0025139F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -8411,7 +8518,6 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -8440,7 +8546,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -8474,7 +8579,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = OEAlertTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.openemu.OEAlertTest;
@@ -8511,7 +8615,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = OEAlertTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.openemu.OEAlertTest;
@@ -9858,6 +9961,15 @@
 			buildConfigurations = (
 				011FD36325267910006D7C05 /* Debug */,
 				011FD36425267910006D7C05 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0121480B2537C6D6007F3C84 /* Build configuration list for PBXNativeTarget "OESystemPluginPostInstall" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				012148092537C6D6007F3C84 /* Debug */,
+				0121480A2537C6D6007F3C84 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
