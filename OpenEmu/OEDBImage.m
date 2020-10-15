@@ -90,9 +90,9 @@
     if(imageRep == nil)
     {
         DLog(@"No NSBitmapImageRep found, creating one...");
-        [image lockFocus];
-        imageRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect(0, 0, imageSize.width, imageSize.height)];
-        [image unlockFocus];
+        NSRect proposedRect = {NSZeroPoint, imageSize};
+        CGImageRef cgImage = [image CGImageForProposedRect:&proposedRect context:nil hints:nil];
+        imageRep = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];
     }
 
     if(imageRep == nil)
@@ -186,9 +186,9 @@
     if(imageRep == nil)
     {
         DLog(@"No NSBitmapImageRep found, creating one...");
-        [image lockFocus];
-        imageRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect(0, 0, imageSize.width, imageSize.height)];
-        [image unlockFocus];
+        NSRect proposedRect = {NSZeroPoint, imageSize};
+        CGImageRef cgImage = [image CGImageForProposedRect:&proposedRect context:nil hints:nil];
+        imageRep = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];
     }
 
     if(imageRep == nil)
