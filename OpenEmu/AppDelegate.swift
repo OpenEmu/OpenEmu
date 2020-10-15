@@ -26,7 +26,6 @@
 
 import Cocoa
 
-private var allPluginsKVOContext = 0
 private var appearancePrefChangedKVOContext = 0
 
 protocol CachedLastPlayedInfoItem {}
@@ -168,7 +167,6 @@ class AppDelegate: NSObject {
     }
     
     deinit {
-        OECorePlugin.self.removeObserver(self, forKeyPath: #keyPath(OECorePlugin.allPlugins), context: &allPluginsKVOContext)
         OECorePlugin.self.removeObserver(self, forKeyPath: "values.".appending(OEAppearancePreferenceKey), context: &appearancePrefChangedKVOContext)
     }
     
@@ -383,8 +381,6 @@ class AppDelegate: NSObject {
         
         library.disableSystemsWithoutPlugin()
         try? library.mainThreadContext.save()
-        
-        OECorePlugin.self.addObserver(self, forKeyPath: #keyPath(OECorePlugin.allPlugins), options: [.new, .old, .initial, .prior], context: &allPluginsKVOContext)
     }
     
     fileprivate func removeIncompatibleSaveStates() {
@@ -510,59 +506,11 @@ class AppDelegate: NSObject {
         NSWorkspace.shared.open(URL(string: "http://openemu.org/donate/")!)
     }
     
-    // MARK: - Application Info
-    
-    func updateInfoPlist() {
-        
-        // TODO: Think of a way to register for document types without manipulating the plist
-        // as it's generally bad to modify the bundle's contents and we may not have write access
-        
-        let systemPlugins = OESystemPlugin.allPlugins as! [OESystemPlugin]
-        var allTypes = [String : Any](minimumCapacity: systemPlugins.count)
-        
-        for plugin in systemPlugins {
-            
-            var systemDocument = [String : Any]()
-            let typeName = plugin.systemName + " Game"
-            
-            systemDocument["NSDocumentClass"] = "OEGameDocument"
-            systemDocument["CFBundleTypeRole"] = "Viewer"
-            systemDocument["LSHandlerRank"] = "Owner"
-            systemDocument["CFBundleTypeOSTypes"] = ["????"]
-            systemDocument["CFBundleTypeExtensions"] = plugin.supportedTypeExtensions()
-            systemDocument["CFBundleTypeName"] = typeName
-            
-            allTypes[typeName] = systemDocument
-        }
-        
-        let infoPlistPath = (Bundle.main.bundlePath as NSString).appendingPathComponent("Contents/Info.plist")
-        let infoPlistXml = FileManager.default.contents(atPath: infoPlistPath)!
-        
-        do {
-            var infoPlist = try PropertyListSerialization.propertyList(from: infoPlistXml, options: .mutableContainers, format: nil) as! [String : Any]
-            
-            let existingTypes = infoPlist["CFBundleDocumentTypes"] as! [[String : Any]]
-            for type in existingTypes {
-                allTypes[type["CFBundleTypeName"] as! String] = type
-            }
-            infoPlist["CFBundleDocumentTypes"] = Array(allTypes.values)
-            
-            let updatedInfoPlist = try PropertyListSerialization.data(fromPropertyList: infoPlist, format: .xml, options: 0)
-            
-            try updatedInfoPlist.write(to: URL(fileURLWithPath: infoPlistPath), options: .atomic)
-            
-        } catch {
-            NSLog("Error updating Info.plist: \(error)")
-        }
-    }
-    
     // MARK: - KVO
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
-        if context == &allPluginsKVOContext {
-            updateInfoPlist()
-        } else if context == &appearancePrefChangedKVOContext {
+        if context == &appearancePrefChangedKVOContext {
             let pref = OEAppearancePreferenceValue(rawValue: UserDefaults.standard.integer(forKey: OEAppearancePreferenceKey))
             switch pref {
                 case .dark:
@@ -878,9 +826,6 @@ extension AppDelegate: NSMenuDelegate {
         
         // Run Migration Manager.
         OEVersionMigrationController.default.runMigrationIfNeeded()
-        
-        // Update extensions.
-        updateInfoPlist()
         
         // Set up HID support.
         setUpHIDSupport()

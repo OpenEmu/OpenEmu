@@ -118,8 +118,10 @@
 			buildConfigurationList = 94EBBCF4183F422500743756 /* Build configuration list for PBXAggregateTarget "Build & Copy Experimental SystemPlugins" */;
 			buildPhases = (
 				94EBBCFB183F42CE00743756 /* CopyFiles */,
+				0121480E2537D541007F3C84 /* Update Info.plist File Types */,
 			);
 			dependencies = (
+				012148262537D7FD007F3C84 /* PBXTargetDependency */,
 				01853AC523C0FB5F00619549 /* PBXTargetDependency */,
 				011FD37A252679CB006D7C05 /* PBXTargetDependency */,
 			);
@@ -1055,6 +1057,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 011FD36125267910006D7C05;
 			remoteInfo = "Build Experimental SystemPlugins";
+		};
+		012148232537D7F2007F3C84 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 012148042537C6D6007F3C84;
+			remoteInfo = OESystemPluginPostInstall;
+		};
+		012148252537D7FD007F3C84 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 012148042537C6D6007F3C84;
+			remoteInfo = OESystemPluginPostInstall;
 		};
 		01853AC423C0FB5F00619549 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -5640,10 +5656,12 @@
 				8309A77E166CE51E0013AD4A /* Copy SaveState QL Generator */,
 				0547FDDB24E8614C005C1FFC /* Copy Auxilliary Executables */,
 				0547FE1F24E86D9F005C1FFC /* Embed XPC Services */,
+				0121480D2537D48C007F3C84 /* Update Info.plist File Types */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				012148242537D7F2007F3C84 /* PBXTargetDependency */,
 				8309A781166CE6360013AD4A /* PBXTargetDependency */,
 				9479665515EDE6B3004316AB /* PBXTargetDependency */,
 				3DAA589A14464890001C09A8 /* PBXTargetDependency */,
@@ -7265,6 +7283,46 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0121480D2537D48C007F3C84 /* Update Info.plist File Types */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/OESystemPluginPostInstall",
+				"$(BUILT_PRODUCTS_DIR)/OpenEmu.app/Contents/Info.plist",
+			);
+			name = "Update Info.plist File Types";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILT_PRODUCTS_DIR}/OESystemPluginPostInstall\" \"${BUILT_PRODUCTS_DIR}/OpenEmu.app\"\n";
+		};
+		0121480E2537D541007F3C84 /* Update Info.plist File Types */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/OESystemPluginPostInstall",
+				"$(BUILT_PRODUCTS_DIR)/OpenEmu.app/Contents/Info.plist",
+			);
+			name = "Update Info.plist File Types";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILT_PRODUCTS_DIR}/OESystemPluginPostInstall\" \"${BUILT_PRODUCTS_DIR}/OpenEmu.app\"\n";
+		};
 		37C80308101564B000356EF3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -7996,6 +8054,16 @@
 			isa = PBXTargetDependency;
 			target = 011FD36125267910006D7C05 /* Build Experimental SystemPlugins */;
 			targetProxy = 011FD37B252679E9006D7C05 /* PBXContainerItemProxy */;
+		};
+		012148242537D7F2007F3C84 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 012148042537C6D6007F3C84 /* OESystemPluginPostInstall */;
+			targetProxy = 012148232537D7F2007F3C84 /* PBXContainerItemProxy */;
+		};
+		012148262537D7FD007F3C84 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 012148042537C6D6007F3C84 /* OESystemPluginPostInstall */;
+			targetProxy = 012148252537D7FD007F3C84 /* PBXContainerItemProxy */;
 		};
 		01853AC523C0FB5F00619549 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
