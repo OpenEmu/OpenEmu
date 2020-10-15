@@ -33,6 +33,7 @@
 			buildPhases = (
 				01607FCC25388361006FCBC8 /* CopyFiles */,
 				01607FD725388361006FCBC8 /* Update Info.plist File Types */,
+				01E85CBE25389A8000980F83 /* Set Experimental Appcast URLs */,
 			);
 			dependencies = (
 				01607FC625388361006FCBC8 /* PBXTargetDependency */,
@@ -117,23 +118,13 @@
 			name = "Update Build Version";
 			productName = "Update Build Version";
 		};
-		94C51FBC1847077700206E6F /* Set Experimental Appcast URLs */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 94C51FBE1847077700206E6F /* Build configuration list for PBXAggregateTarget "Set Experimental Appcast URLs" */;
-			buildPhases = (
-				94C51FBD1847077700206E6F /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = "Set Experimental Appcast URLs";
-			productName = "Update Build Version";
-		};
 		94EBBCD7183F422500743756 /* Build & Copy Experimental & Alpha SystemPlugins */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 94EBBCF4183F422500743756 /* Build configuration list for PBXAggregateTarget "Build & Copy Experimental & Alpha SystemPlugins" */;
 			buildPhases = (
 				94EBBCFB183F42CE00743756 /* CopyFiles */,
 				0121480E2537D541007F3C84 /* Update Info.plist File Types */,
+				01E85CBD25389A3700980F83 /* Set Experimental Appcast URLs */,
 			);
 			dependencies = (
 				012148262537D7FD007F3C84 /* PBXTargetDependency */,
@@ -6429,9 +6420,6 @@
 					94BE9E4F171683E000AB08E6 = {
 						ProvisioningStyle = Manual;
 					};
-					94C51FBC1847077700206E6F = {
-						ProvisioningStyle = Manual;
-					};
 					94CEB26C17A84809005A2107 = {
 						ProvisioningStyle = Manual;
 					};
@@ -6541,7 +6529,6 @@
 				94EBBCD7183F422500743756 /* Build & Copy Experimental & Alpha SystemPlugins */,
 				01607FC525388361006FCBC8 /* Build & Copy Experimental SystemPlugins */,
 				9479664E15EDE645004316AB /* Update Build Version */,
-				94C51FBC1847077700206E6F /* Set Experimental Appcast URLs */,
 				016F22DB23F19F5F00181842 /* OEAlertTest */,
 				015BFEB325266DFC0025139F /* OEControlLabelsGenerator */,
 				05DB72A02532681B0098459D /* OpenEmuTests */,
@@ -7394,6 +7381,44 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${BUILT_PRODUCTS_DIR}/OESystemPluginPostInstall\" \"${BUILT_PRODUCTS_DIR}/OpenEmu.app\"\n";
 		};
+		01E85CBD25389A3700980F83 /* Set Experimental Appcast URLs */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/OpenEmu.app/Contents/Info.plist",
+			);
+			name = "Set Experimental Appcast URLs";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# For Build All + Experimental scheme, tell Sparkle where to find experimental app and cores\n/usr/libexec/PlistBuddy -c \"Set :OECoreListURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores-experimental.xml\" \"${BUILT_PRODUCTS_DIR}/OpenEmu.app/Contents/Info.plist\"\n\n/usr/libexec/PlistBuddy -c \"Set :SUFeedURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast-experimental.xml\" \"${BUILT_PRODUCTS_DIR}/OpenEmu.app/Contents/Info.plist\"\n";
+		};
+		01E85CBE25389A8000980F83 /* Set Experimental Appcast URLs */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/OpenEmu.app/Contents/Info.plist",
+			);
+			name = "Set Experimental Appcast URLs";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# For Build All + Experimental scheme, tell Sparkle where to find experimental app and cores\n/usr/libexec/PlistBuddy -c \"Set :OECoreListURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores-experimental.xml\" \"${BUILT_PRODUCTS_DIR}/OpenEmu.app/Contents/Info.plist\"\n\n/usr/libexec/PlistBuddy -c \"Set :SUFeedURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast-experimental.xml\" \"${BUILT_PRODUCTS_DIR}/OpenEmu.app/Contents/Info.plist\"\n";
+		};
 		37C80308101564B000356EF3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -7419,19 +7444,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Define BUILD_VERSION with git revision and build configuration\ngitBundle=`which git`\ngitLastTag=`${gitBundle} describe --abbrev=0 --tags`\ngitNumCommitsToLastTag=`${gitBundle} rev-list --count ${gitLastTag}`\ngitNumCommitsSinceLastTag=`${gitBundle} rev-list --count ${gitLastTag}..`\ngitCommitSha=`${gitBundle} rev-parse --short HEAD`\nbundleConfiguration=\"$CONFIGURATION\"\nbuildRef=\"${gitNumCommitsToLastTag}.${gitNumCommitsSinceLastTag}-g${gitCommitSha}-${bundleConfiguration}\"\n\nlongBuildRef=`${gitBundle} rev-parse --verify HEAD`\n\necho \"#define BUILD_VERSION @\\\"$buildRef\\\"\" > OEBuildVersion.h\necho \"#define LONG_BUILD_VERSION @\\\"$longBuildRef\\\"\" >> OEBuildVersion.h\n";
-		};
-		94C51FBD1847077700206E6F /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# For Build All + Experimental scheme, tell Sparkle where to find experimental app and cores\n/usr/libexec/PlistBuddy -c \"Set :OECoreListURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores-experimental.xml\" OpenEmu-Info.plist\n\n/usr/libexec/PlistBuddy -c \"Set :SUFeedURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast-experimental.xml\" OpenEmu-Info.plist\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -9735,20 +9747,6 @@
 			};
 			name = Release;
 		};
-		94C51FBF1847077700206E6F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "Set Experimental Appcast URLs";
-			};
-			name = Debug;
-		};
-		94C51FC01847077700206E6F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "Set Experimental Appcast URLs";
-			};
-			name = Release;
-		};
 		94CEB27617A84809005A2107 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -10534,15 +10532,6 @@
 			buildConfigurations = (
 				94BE9E59171683E000AB08E6 /* Debug */,
 				94BE9E5A171683E000AB08E6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		94C51FBE1847077700206E6F /* Build configuration list for PBXAggregateTarget "Set Experimental Appcast URLs" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				94C51FBF1847077700206E6F /* Debug */,
-				94C51FC01847077700206E6F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
