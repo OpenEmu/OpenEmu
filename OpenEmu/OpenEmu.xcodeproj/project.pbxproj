@@ -2171,6 +2171,15 @@
 		8F80217F24F45E9800DC82E3 /* HUDSliderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDSliderCell.swift; sourceTree = "<group>"; };
 		8F80218024F45E9800DC82E3 /* HUDSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDSlider.swift; sourceTree = "<group>"; };
 		8F957B4125227175008A9BC9 /* GlossButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlossButton.swift; sourceTree = "<group>"; };
+		8FA2B5022537E1A800B40142 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
+		8FA2B5082537E1BF00B40142 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
+		8FA2B50A2537E1C400B40142 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
+		8FA2B50C2537E1C800B40142 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
+		8FA2B50E2537E1CA00B40142 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
+		8FA2B5102537E1CD00B40142 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
+		8FA2B5122537E1CF00B40142 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
+		8FA2B5142537E1D200B40142 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ShaderParameters.strings"; sourceTree = "<group>"; };
+		8FA2B5162537E1D400B40142 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/ShaderParameters.strings"; sourceTree = "<group>"; };
 		8FAF069A251FB02700EDB247 /* HoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverButton.swift; sourceTree = "<group>"; };
 		8FCCCE5724E7087800223181 /* en-GB */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Debug.strings"; sourceTree = "<group>"; };
 		8FCCCE5824E7087A00223181 /* ca */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Debug.strings; sourceTree = "<group>"; };
@@ -8532,8 +8541,17 @@
 			isa = PBXVariantGroup;
 			children = (
 				8F7BFC9723E653E100B1F6C8 /* Base */,
+				8FA2B5022537E1A800B40142 /* ca */,
 				8F7BFC9A23E653ED00B1F6C8 /* de */,
+				8FA2B5082537E1BF00B40142 /* es */,
+				8FA2B50A2537E1C400B40142 /* fr */,
 				015C889125212DC900F4630A /* it */,
+				8FA2B50C2537E1C800B40142 /* ja */,
+				8FA2B50E2537E1CA00B40142 /* nl */,
+				8FA2B5102537E1CD00B40142 /* pt */,
+				8FA2B5122537E1CF00B40142 /* ru */,
+				8FA2B5142537E1D200B40142 /* zh-Hans */,
+				8FA2B5162537E1D400B40142 /* zh-Hant */,
 			);
 			name = ShaderParameters.xib;
 			sourceTree = "<group>";
