@@ -28,13 +28,6 @@
 
 @implementation OEPCESystemController
 
-- (NSString *)systemName
-{
-    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
-            ? @"PC Engine"
-            : @"TurboGrafx-16");
-}
-
 - (NSImage *)systemIcon
 {
     NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionJAP]

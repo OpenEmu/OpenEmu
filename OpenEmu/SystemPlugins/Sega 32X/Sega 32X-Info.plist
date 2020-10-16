@@ -156,6 +156,13 @@
 	<string>openemu.system.32x</string>
 	<key>OESystemName</key>
 	<string>Sega 32X</string>
+	<key>OERegionalizedSystemNames</key>
+	<dict>
+		<key>jp</key>
+		<string>Sega Super 32X</string>
+		<key>eu</key>
+		<string>Sega Mega Drive 32X</string>
+	</dict>
 	<key>OESystemType</key>
 	<string>OESystemTypeConsole</string>
 	<key>OESystemMedia</key>

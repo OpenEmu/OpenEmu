@@ -154,7 +154,12 @@
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.scd</string>
 	<key>OESystemName</key>
-	<string>Sega CD</string>
+	<string>Sega Mega-CD</string>
+	<key>OERegionalizedSystemNames</key>
+	<dict>
+		<key>na</key>
+		<string>Sega CD</string>
+	</dict>
 	<key>OESystemType</key>
 	<string>OESystemTypeConsole</string>
 	<key>OESystemMedia</key>

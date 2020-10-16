@@ -28,13 +28,6 @@
 
 @implementation OE2600SystemController
 
-- (NSString *)systemName
-{
-    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
-            ? @"Atari 2800"
-            : @"Atari 2600");
-}
-
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
     if(![file.fileExtension isEqualToString:@"bin"])

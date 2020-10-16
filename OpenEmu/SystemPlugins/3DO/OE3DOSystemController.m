@@ -28,11 +28,6 @@
 
 @implementation OE3DOSystemController
 
-- (NSString *)systemName
-{
-    return @"3DO";
-}
-
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
     if (![file isKindOfClass:[OECUESheet class]])

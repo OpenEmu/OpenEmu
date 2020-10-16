@@ -28,13 +28,6 @@
 
 @implementation OEOdyssey2SystemController
 
-- (NSString *)systemName
-{
-    return ([[OELocalizationHelper sharedHelper] isRegionEU]
-            ? @"Videopac+"
-            : @"Odyssey²");
-}
-
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
     return file.fileSize < 2097152 ? OEFileSupportUncertain : OEFileSupportNo;

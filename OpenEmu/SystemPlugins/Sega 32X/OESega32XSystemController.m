@@ -28,22 +28,6 @@
 
 @implementation OESega32XSystemController
 
-- (NSString *)systemName
-{
-    if([[OELocalizationHelper sharedHelper] isRegionJAP])
-    {
-        return @"Sega Super 32X";
-    }
-    else if([[OELocalizationHelper sharedHelper] isRegionEU])
-    {
-        return @"Sega Mega Drive 32X";
-    }
-    else
-    {
-        return @"Sega 32X";
-    }
-}
-
 - (NSImage *)systemIcon
 {
     NSString *imageName;

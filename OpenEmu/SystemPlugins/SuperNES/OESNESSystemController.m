@@ -28,13 +28,6 @@
 
 @implementation OESNESSystemController
 
-- (NSString *)systemName
-{
-    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
-            ? @"Super Famicom"
-            : @"Super Nintendo (SNES)");
-}
-
 - (NSImage *)systemIcon
 {
     NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionNA]

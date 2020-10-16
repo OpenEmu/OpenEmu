@@ -28,13 +28,6 @@
 
 @implementation OEPCECDSystemController
 
-- (NSString *)systemName
-{
-    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
-            ? @"PC Engine CD"
-            : @"TurboGrafx-CD");
-}
-
 - (NSImage *)systemIcon
 {
     NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionJAP]

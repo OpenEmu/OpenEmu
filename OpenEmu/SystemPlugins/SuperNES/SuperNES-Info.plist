@@ -158,6 +158,11 @@
 	<string>openemu.system.snes</string>
 	<key>OESystemName</key>
 	<string>Super Nintendo (SNES)</string>
+	<key>OERegionalizedSystemNames</key>
+	<dict>
+		<key>jp</key>
+		<string>Super Famicom</string>
+	</dict>
 	<key>OESystemType</key>
 	<string>OESystemTypeConsole</string>
 	<key>OESystemMedia</key>

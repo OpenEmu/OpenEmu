@@ -19,7 +19,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSPrincipalClass</key>
-	<string>OEVMUSystemController</string>
+	<string>OESystemController</string>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
@@ -125,6 +125,11 @@
 	<string>openemu.system.vmu</string>
 	<key>OESystemName</key>
 	<string>VMU</string>
+	<key>OERegionalizedSystemNames</key>
+	<dict>
+		<key>jp</key>
+		<string>VMS</string>
+	</dict>
 	<key>OESystemType</key>
 	<string>OESystemTypeHandheld</string>
 	<key>OESystemMedia</key>

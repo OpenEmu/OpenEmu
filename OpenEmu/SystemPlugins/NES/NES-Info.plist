@@ -123,6 +123,11 @@
 	<string>openemu.system.nes</string>
 	<key>OESystemName</key>
 	<string>Nintendo (NES)</string>
+	<key>OERegionalizedSystemNames</key>
+	<dict>
+		<key>jp</key>
+		<string>Famicom</string>
+	</dict>
 	<key>OESystemType</key>
 	<string>OESystemTypeConsole</string>
 	<key>OESystemMedia</key>

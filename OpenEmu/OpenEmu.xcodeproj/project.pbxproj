@@ -645,7 +645,6 @@
 		943C804E1708F7FC00D8D93E /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80481708F7FC00D8D93E /* Controller-Preferences.plist */; };
 		943C804F1708F7FC00D8D93E /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80491708F7FC00D8D93E /* Keyboard-Mappings.plist */; };
 		943C80501708F7FC00D8D93E /* vmu_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 943C804A1708F7FC00D8D93E /* vmu_library.png */; };
-		943C80561708FB5F00D8D93E /* OEVMUSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943C80551708FB5F00D8D93E /* OEVMUSystemController.m */; };
 		943F999F1707D97600270E89 /* OEVectrexSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 943F999D1707D97600270E89 /* OEVectrexSystemResponder.m */; };
 		943F99A61707D9D500270E89 /* controller_vectrex_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 943F99A01707D9D500270E89 /* controller_vectrex_mask.png */; };
 		943F99A81707D9D500270E89 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943F99A21707D9D500270E89 /* Controller-Mappings.plist */; };
@@ -2274,8 +2273,6 @@
 		943C80481708F7FC00D8D93E /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		943C80491708F7FC00D8D93E /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		943C804A1708F7FC00D8D93E /* vmu_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vmu_library.png; sourceTree = "<group>"; };
-		943C80541708FB5F00D8D93E /* OEVMUSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVMUSystemController.h; sourceTree = "<group>"; };
-		943C80551708FB5F00D8D93E /* OEVMUSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVMUSystemController.m; sourceTree = "<group>"; };
 		943F998B1707D51100270E89 /* Vectrex.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Vectrex.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		943F998F1707D51100270E89 /* Vectrex-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Vectrex-Info.plist"; sourceTree = "<group>"; };
 		943F999C1707D97600270E89 /* OEVectrexSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVectrexSystemResponder.h; sourceTree = "<group>"; };
@@ -4382,8 +4379,6 @@
 		943C80371708F23900D8D93E /* VMU */ = {
 			isa = PBXGroup;
 			children = (
-				943C80541708FB5F00D8D93E /* OEVMUSystemController.h */,
-				943C80551708FB5F00D8D93E /* OEVMUSystemController.m */,
 				943C80411708F52B00D8D93E /* OEVMUSystemResponder.h */,
 				943C80421708F52B00D8D93E /* OEVMUSystemResponder.m */,
 				943C80431708F52B00D8D93E /* OEVMUSystemResponderClient.h */,
@@ -7820,7 +7815,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				943C80441708F52B00D8D93E /* OEVMUSystemResponder.m in Sources */,
-				943C80561708FB5F00D8D93E /* OEVMUSystemController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

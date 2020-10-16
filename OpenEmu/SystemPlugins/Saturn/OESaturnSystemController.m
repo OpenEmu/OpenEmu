@@ -28,11 +28,6 @@
 
 @implementation OESaturnSystemController
 
-- (NSString *)systemName
-{
-    return @"Sega Saturn";
-}
-
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
     if (![file isKindOfClass:[OEDiscDescriptor class]])

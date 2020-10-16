@@ -162,6 +162,11 @@
 	<string>openemu.system.2600</string>
 	<key>OESystemName</key>
 	<string>Atari 2600</string>
+	<key>OERegionalizedSystemNames</key>
+	<dict>
+		<key>jp</key>
+		<string>Atari 2800</string>
+	</dict>
 	<key>OESystemType</key>
 	<string>OESystemTypeConsole</string>
 	<key>OESystemMedia</key>

@@ -158,6 +158,11 @@
 	<string>openemu.system.pce</string>
 	<key>OESystemName</key>
 	<string>TurboGrafx-16</string>
+	<key>OERegionalizedSystemNames</key>
+	<dict>
+		<key>jp</key>
+		<string>PC Engine</string>
+	</dict>
 	<key>OESystemType</key>
 	<string>OESystemTypeConsole</string>
 	<key>OESystemMedia</key>

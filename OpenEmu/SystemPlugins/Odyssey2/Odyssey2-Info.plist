@@ -101,7 +101,12 @@
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.odyssey2</string>
 	<key>OESystemName</key>
-	<string>Odyssey2</string>
+	<string>Odyssey²</string>
+	<key>OERegionalizedSystemNames</key>
+	<dict>
+		<key>eu</key>
+		<string>Videopac+</string>
+	</dict>
 	<key>OESystemType</key>
 	<string>OESystemTypeConsole</string>
 	<key>OESystemMedia</key>

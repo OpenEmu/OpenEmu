@@ -28,13 +28,6 @@
 
 @implementation OEGenesisSystemController
 
-- (NSString *)systemName
-{
-    return ([[OELocalizationHelper sharedHelper] isRegionNA]
-            ? @"Sega Genesis"
-            : @"Sega Mega Drive");
-}
-
 - (NSImage *)systemIcon
 {
     NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionNA]

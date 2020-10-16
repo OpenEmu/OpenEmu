@@ -28,13 +28,6 @@
 
 @implementation OESegaCDSystemController
 
-- (NSString *)systemName
-{
-    return ([[OELocalizationHelper sharedHelper] isRegionNA]
-            ? @"Sega CD"
-            : @"Sega Mega-CD");
-}
-
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
     if (![file isKindOfClass:[OECUESheet class]])

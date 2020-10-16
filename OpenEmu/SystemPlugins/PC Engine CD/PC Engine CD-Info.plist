@@ -161,6 +161,11 @@
 	<string>openemu.system.pcecd</string>
 	<key>OESystemName</key>
 	<string>TurboGrafx-CD</string>
+	<key>OERegionalizedSystemNames</key>
+	<dict>
+		<key>jp</key>
+		<string>PC Engine CD</string>
+	</dict>
 	<key>OESystemType</key>
 	<string>OESystemTypeConsole</string>
 	<key>OESystemMedia</key>
