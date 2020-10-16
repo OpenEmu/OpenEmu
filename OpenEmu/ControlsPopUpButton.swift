@@ -38,11 +38,7 @@ final class ControlsPopUpButton: NSPopUpButton {
     
     override var alignmentRectInsets: NSEdgeInsets {
         
-        guard cell is ControlsPopUpButtonCell else {
-            return super.alignmentRectInsets
-        }
-        
-        return NSEdgeInsetsMake(0, 0, 0, 0)
+        return NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     override var menu: NSMenu? {
@@ -53,10 +49,6 @@ final class ControlsPopUpButton: NSPopUpButton {
     
     override var intrinsicContentSize: NSSize {
         
-        guard cell is ControlsPopUpButtonCell else {
-            return super.intrinsicContentSize
-        }
-        
         if cachedIntrinsicWidth < 0 {
             if menu != nil {
                 cachedIntrinsicWidth = menu!.minimumWidth
@@ -65,7 +57,7 @@ final class ControlsPopUpButton: NSPopUpButton {
             }
         }
         
-        return NSMakeSize(cachedIntrinsicWidth, 23)
+        return NSSize(width: cachedIntrinsicWidth, height: frame.size.height)
     }
     
     override var isFlipped: Bool {

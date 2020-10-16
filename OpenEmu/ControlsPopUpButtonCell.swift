@@ -36,23 +36,23 @@ final class ControlsPopUpButtonCell: NSPopUpButtonCell {
     }
     
     override func titleRect(forBounds cellFrame: NSRect) -> NSRect {
-        var rect = super.titleRect(forBounds: cellFrame)
-        rect.origin.y += 1
+        var titleRect = super.titleRect(forBounds: cellFrame)
+        titleRect.origin.y += 1
         if #available(macOS 10.16, *) {
-            rect.origin.y += 9
+            titleRect.origin.y += 9
         }
-        return rect
+        return titleRect
     }
     
     override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
-        let textRect = titleRect(forBounds: cellFrame)
+        let titleRect = self.titleRect(forBounds: cellFrame)
         let imageRect = self.imageRect(forBounds: cellFrame)
-
-        if !NSIsEmptyRect(textRect) {
+        
+        if !titleRect.isEmpty {
             let attributedTitle = NSAttributedString(string: title, attributes: ControlsPopUpButtonCell.attributes)
-            drawTitle(attributedTitle, withFrame: textRect, in: controlView)
+            drawTitle(attributedTitle, withFrame: titleRect, in: controlView)
         }
-        if !NSIsEmptyRect(imageRect),
+        if !imageRect.isEmpty,
            let image = image {
             drawImage(image, withFrame: imageRect, in: controlView)
         }
