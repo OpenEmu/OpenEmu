@@ -1,12 +1,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Window Management"; ObjectID = "14"; */
-"14.title" = "Управление окном";
+"14.title" = "Управление окном:";
 
 /* Class = "NSTextFieldCell"; title = "Shader:"; ObjectID = "21"; */
 "21.title" = "Ше́йдер:";
-
-/* Class = "NSTextFieldCell"; title = "Display Mode"; ObjectID = "23"; */
-"23.title" = "Режим отображения";
 
 /* Class = "NSButtonCell"; title = "Always use popout gameplay window"; ObjectID = "25"; */
 "25.title" = "Использовать всплывающее окно для игр";

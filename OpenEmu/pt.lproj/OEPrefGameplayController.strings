@@ -1,12 +1,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Window Management"; ObjectID = "14"; */
-"14.title" = "Gerenciar Janelas";
+"14.title" = "Gerenciar Janelas:";
 
 /* Class = "NSTextFieldCell"; title = "Shader:"; ObjectID = "21"; */
 "21.title" = "Shader:";
-
-/* Class = "NSTextFieldCell"; title = "Display Mode"; ObjectID = "23"; */
-"23.title" = "Modo de Visualização";
 
 /* Class = "NSButtonCell"; title = "Always use popout gameplay window"; ObjectID = "25"; */
 "25.title" = "Sempre abrir jogo em uma nova tela";
