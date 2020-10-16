@@ -28,21 +28,124 @@
 import Foundation
 
 
+// IMPORTANT: to be updated when adding a language to OpenEmu
+let regionsToLanguages = [
+    "eu": ["ca", "de", "en-GB", "es", "fr", "it", "nl", "pt", "ru"],
+    "na": ["en"],
+    "jp": ["ja", "zh-Hans", "zh-Hant"]
+]
+
+
+func regionalizedSystemName(plugin: Bundle, languageCode lcode: String) -> String?
+{
+    for (region, languages) in regionsToLanguages {
+        if languages.contains(lcode) {
+            if let regionalNames = plugin.object(forInfoDictionaryKey: "OERegionalizedSystemNames") as! [String: String]? {
+                return regionalNames[region]
+            } else {
+                return nil
+            }
+        }
+    }
+    fatalError("cannot get region corresponding to language \(lcode); update regionsToLanguages in OESystemPluginPostInstall/main.swift")
+}
+
+
+func toGameFileName(systemName name: String) -> String
+{
+    return name + " Game"
+}
+
+
+func readLocalizedInfoPlistStrings(appBundle: Bundle) -> [String: [String: String]]
+{
+    let localizations = appBundle.localizations
+    var res: [String: [String: String]] = [:]
+    for localization in localizations {
+        if localization == "Base" {
+            continue
+        }
+        let plist = appBundle.resourceURL!.appendingPathComponent(localization + ".lproj/InfoPlist.strings")
+        do {
+            let data = try Data.init(contentsOf: plist)
+            let strings = try PropertyListSerialization.propertyList(from: data, options: .mutableContainers, format: nil) as! [String: String]
+            res[localization] = strings
+        } catch {
+            res[localization] = [:]
+        }
+    }
+    return res
+}
+
+
+func escape(string: String) -> String
+{
+    return String.init(string.flatMap { (c) -> [Character] in
+        switch c {
+            case "\n":
+                return ["\\", "n"]
+            case "\r":
+                return ["\\", "r"]
+            case "\t":
+                return ["\\", "t"]
+            case "\\":
+                return ["\\", "\\"]
+            case "\"":
+                return ["\\", "\""]
+            default:
+                return [c]
+        }
+    })
+}
+
+
+func serializeStrings(_ strings: [String: String]) -> Data
+{
+    var buffer = ""
+    for (key, value) in strings.sorted(by: {$0.0 < $1.0}) {
+        buffer += "\n\"\(escape(string: key))\" = \"\(escape(string: value))\";\n"
+    }
+    return buffer.data(using: .utf8)!
+}
+
+
+func writeLocalizedInfoPlistStrings(appBundle: Bundle, strings dict: [String: [String: String]])
+{
+    let localizations = appBundle.localizations
+    for localization in localizations {
+        if localization == "Base" {
+            continue
+        }
+        let plist = appBundle.resourceURL!.appendingPathComponent(localization + ".lproj/InfoPlist.strings")
+        let data = serializeStrings(dict[localization]!)
+        try! data.write(to: plist)
+    }
+}
+
+
 func updateInfoPlist(appBundle: Bundle, systemPlugins: [Bundle])
 {
     var allTypes = [String : Any](minimumCapacity: systemPlugins.count)
+    var localizations = readLocalizedInfoPlistStrings(appBundle: appBundle)
     
     for plugin in systemPlugins {
         
         var systemDocument = [String : Any]()
-        let typeName = plugin.object(forInfoDictionaryKey: "OESystemName") as! String + " Game"
         
         systemDocument["NSDocumentClass"] = "OEGameDocument"
         systemDocument["CFBundleTypeRole"] = "Viewer"
         systemDocument["LSHandlerRank"] = "Owner"
         systemDocument["CFBundleTypeOSTypes"] = ["????"]
         systemDocument["CFBundleTypeExtensions"] = plugin.object(forInfoDictionaryKey: "OEFileSuffixes") as! [String]
+        
+        let typeName = toGameFileName(systemName: plugin.object(forInfoDictionaryKey: "OESystemName") as! String)
         systemDocument["CFBundleTypeName"] = typeName
+        for (localization, var strings) in localizations {
+            if let localizedName = regionalizedSystemName(plugin: plugin, languageCode: localization) {
+                strings[typeName] = toGameFileName(systemName: localizedName)
+                localizations[localization] = strings
+            }
+        }
         
         allTypes[typeName] = systemDocument
     }
@@ -63,8 +166,10 @@ func updateInfoPlist(appBundle: Bundle, systemPlugins: [Bundle])
         
         try updatedInfoPlist.write(to: URL(fileURLWithPath: infoPlistPath), options: .atomic)
         
+        writeLocalizedInfoPlistStrings(appBundle: appBundle, strings: localizations)
+        
     } catch {
-        NSLog("Error updating Info.plist: \(error)")
+        fatalError("Error updating Info.plist: \(error)")
     }
 }
 
