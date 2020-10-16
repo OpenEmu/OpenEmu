@@ -32,7 +32,7 @@ extern NSString * const OEScreenshotAspectRatioCorrectionDisabled;
 extern NSString *const OEGameCoreManagerModePreferenceKey;
 extern NSString *const OEGameDocumentErrorDomain;
 
-enum _OEGameDocumentErrorCodes
+typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 {
     OENoError                      =  0,
     OEFileDoesNotExistError        = -1,

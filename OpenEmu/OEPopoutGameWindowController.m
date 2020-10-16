@@ -51,13 +51,13 @@ static NSString *const _OESystemIntegralScaleKeyFormat = @"OEIntegralScale.%@";
 static NSString *const _OEIntegralScaleKey             = @"integralScale";
 static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize";
 
-typedef enum
+typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 {
     _OEPopoutGameWindowFullScreenStatusNonFullScreen = 0,
     _OEPopoutGameWindowFullScreenStatusFullScreen,
     _OEPopoutGameWindowFullScreenStatusEntering,
     _OEPopoutGameWindowFullScreenStatusExiting,
-} OEPopoutGameWindowFullScreenStatus;
+};
 
 
 

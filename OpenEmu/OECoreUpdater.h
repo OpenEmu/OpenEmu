@@ -30,7 +30,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const OECoreUpdaterErrorDomain;
-enum : NSInteger
+typedef NS_ERROR_ENUM(OECoreUpdaterErrorDomain, OECoreUpdaterErrorCode)
 {
     OENoDownloadableCoreForIdentifierError = -1,
     OENewCoreCheckAlreadyPendingError = -2
