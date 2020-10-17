@@ -51,9 +51,11 @@ func regionalizedSystemName(plugin: Bundle, languageCode lcode: String) -> Strin
 }
 
 
-func toGameFileName(systemName name: String) -> String
+func toGameFileName(systemName name: String, appBundle app: Bundle, localization loc: String) -> String
 {
-    return name + " Game"
+    let locBundle = Bundle.init(url: app.url(forResource: loc, withExtension: "lproj")!)!
+    let format = locBundle.localizedString(forKey: "%@ Game", value: "%@ Game", table: nil)
+    return String.init(format: format, name)
 }
 
 
@@ -138,13 +140,13 @@ func updateInfoPlist(appBundle: Bundle, systemPlugins: [Bundle])
         systemDocument["CFBundleTypeOSTypes"] = ["????"]
         systemDocument["CFBundleTypeExtensions"] = plugin.object(forInfoDictionaryKey: "OEFileSuffixes") as! [String]
         
-        let typeName = toGameFileName(systemName: plugin.object(forInfoDictionaryKey: "OESystemName") as! String)
+        let baseSystemName = plugin.object(forInfoDictionaryKey: "OESystemName") as! String
+        let typeName = toGameFileName(systemName: baseSystemName, appBundle: appBundle, localization: "en")
         systemDocument["CFBundleTypeName"] = typeName
         for (localization, var strings) in localizations {
-            if let localizedName = regionalizedSystemName(plugin: plugin, languageCode: localization) {
-                strings[typeName] = toGameFileName(systemName: localizedName)
-                localizations[localization] = strings
-            }
+            let localizedName = regionalizedSystemName(plugin: plugin, languageCode: localization) ?? baseSystemName
+            strings[typeName] = toGameFileName(systemName: localizedName, appBundle: appBundle, localization: localization)
+            localizations[localization] = strings
         }
         
         allTypes[typeName] = systemDocument

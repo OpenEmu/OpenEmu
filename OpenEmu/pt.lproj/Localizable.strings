@@ -622,3 +622,5 @@
 "Retry" = "Retry";  // TODO
 
 "Downloading core list..." = "Downloading core list...";  // TODO
+
+"%@ Game" = "%@ Game";  // TODO // Used in OESystemPluginPostInstall to dynamically generate localized file type names

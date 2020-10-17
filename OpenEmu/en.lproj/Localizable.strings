@@ -618,3 +618,5 @@
 "Retry" = "Retry";
 
 "Downloading core list..." = "Downloading core list...";
+
+"%@ Game" = "%@ Game";  // Used in OESystemPluginPostInstall to dynamically generate localized file type names
