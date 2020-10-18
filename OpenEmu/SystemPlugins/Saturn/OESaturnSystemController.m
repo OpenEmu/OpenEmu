@@ -71,7 +71,7 @@
     NSString *dataTrackString = [file readASCIIStringInRange:NSMakeRange(0, 16)];
     NSString *otherDataTrackString = [file readASCIIStringInRange:NSMakeRange(0x10, 16)];
 
-    unsigned long long offsetFound;
+    unsigned long long offsetFound = 0;
     
     // Find which offset contains the 256-byte header
     if([dataTrackString isEqualToString:@"SEGA SEGASATURN "]) offsetFound = 0x0;
