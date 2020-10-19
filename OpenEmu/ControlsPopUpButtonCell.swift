@@ -45,10 +45,11 @@ final class ControlsPopUpButtonCell: NSPopUpButtonCell {
     }
     
     override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
-        let titleRect = self.titleRect(forBounds: cellFrame)
+        var titleRect = self.titleRect(forBounds: cellFrame)
         let imageRect = self.imageRect(forBounds: cellFrame)
         
         if !titleRect.isEmpty {
+            titleRect.origin.y -= 3
             let attributedTitle = NSAttributedString(string: title, attributes: ControlsPopUpButtonCell.attributes)
             drawTitle(attributedTitle, withFrame: titleRect, in: controlView)
         }
@@ -75,8 +76,7 @@ final class ControlsPopUpButtonCell: NSPopUpButtonCell {
                                           [.font: font,
                                 .foregroundColor: color,
                                          .shadow: shadow,
-                                 .paragraphStyle: style,
-                                 .baselineOffset: -3]
+                                 .paragraphStyle: style]
         
         return attributes
     }()
