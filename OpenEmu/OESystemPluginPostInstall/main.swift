@@ -35,6 +35,12 @@ let regionsToLanguages = [
     "jp": ["ja", "zh-Hans", "zh-Hant"]
 ]
 
+// Extensions we don't want to include in the Info.plist because they are
+// extremely common in other applications
+let extensionBlacklist = [
+    "tar.gz", "tar", "gz", "zip", "7z", "rar", "cue", "m3u", "iso"
+]
+
 
 func regionalizedSystemName(plugin: Bundle, languageCode lcode: String) -> String?
 {
@@ -131,14 +137,19 @@ func updateInfoPlist(appBundle: Bundle, systemPlugins: [Bundle])
     var localizations = readLocalizedInfoPlistStrings(appBundle: appBundle)
     
     for plugin in systemPlugins {
-        
         var systemDocument = [String : Any]()
         
         systemDocument["NSDocumentClass"] = "OEGameDocument"
         systemDocument["CFBundleTypeRole"] = "Viewer"
         systemDocument["LSHandlerRank"] = "Owner"
         systemDocument["CFBundleTypeOSTypes"] = ["????"]
-        systemDocument["CFBundleTypeExtensions"] = plugin.object(forInfoDictionaryKey: "OEFileSuffixes") as! [String]
+        
+        let allExts = plugin.object(forInfoDictionaryKey: "OEFileSuffixes") as! [String]
+        let sanifiedExts = allExts.filter { (ext: String) -> Bool in !extensionBlacklist.contains(ext) }
+        if sanifiedExts.count == 0 {
+            continue
+        }
+        systemDocument["CFBundleTypeExtensions"] = sanifiedExts
         
         let baseSystemName = plugin.object(forInfoDictionaryKey: "OESystemName") as! String
         let typeName = toGameFileName(systemName: baseSystemName, appBundle: appBundle, localization: "en")
