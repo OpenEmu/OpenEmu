@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2012, 2020 OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,24 +26,41 @@
 
 @import Foundation;
 
-@class OELibraryController;
 @class OEDBGame;
+@class OEDBSaveState;
 
-/* NOTE:
- * If the sidebar changes selection and the selected item is suitable for a Library Subview Controller it will be set as representedObject 
- * and the view controllers view will be presented
- */
+@protocol OELibrarySubviewControllerGameSelection
 
-/* NOTE: Toolbar Items
- *   Library Subview Controllers are responsible for managing the toolbar item states, this can be done by implementing setLibraryController,
- * and using the toolbar button properties of OELibraryController in the subviews controller didAppear, or whenever necessary.
- * OELibraryController will setup the view menu based on the toolbar button states.
- */
-
-@protocol OELibrarySubviewController <NSObject>
-
-@optional
-@property (nonatomic, weak) OELibraryController *libraryController;
+@required
 @property (readonly) NSArray <OEDBGame *> *selectedGames;
+
+@end
+
+@protocol OELibrarySubviewControlleSaveStateSelection
+
+@required
+@property (readonly) NSArray <OEDBSaveState *> *selectedSaveStates;
+
+@end
+
+typedef NS_CLOSED_ENUM(NSInteger, OELibrarySubviewControllerViewMode) {
+    OELibrarySubviewControllerViewModeGrid,
+    OELibrarySubviewControllerViewModeList,
+};
+
+@protocol OELibrarySubviewControllerMultiView
+
+@required
+@property (nonatomic) OELibrarySubviewControllerViewMode viewMode;
+- (void)zoomGridViewWithValue:(CGFloat)zoomValue;
+
+@end
+
+@protocol OELibrarySubviewControllerSearchable
+
+@required
+@property (nonatomic, readonly) BOOL isSearchable;
+@property (nonatomic) NSString *currentSearchTerm;
+- (void)performSearch:(NSString *)text;
 
 @end

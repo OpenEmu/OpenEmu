@@ -47,7 +47,7 @@
 
 #import "OpenEmu-Swift.h"
 
-extern NSString *const OELastSidebarSelectionKey;
+NSString *const OELastSidebarSelectionKey = @"lastSidebarSelection";
 NSString *const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWithoutConfirmation";
 extern NSNotificationName const OEDBSystemAvailabilityDidChangeNotification;
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17503.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Lb9-LN-3oE">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Lb9-LN-3oE">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17503.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,7 +21,7 @@
                                 <toolbarItem implicitItemIdentifier="8AC0808B-CA57-431D-82B4-A894190C274D" explicitItemIdentifier="OEToolbarItemIdentifierViewMode" label="" paletteLabel="View Mode" sizingBehavior="auto" id="EOf-K8-FKT" customClass="ControlToolbarItem" customModule="OpenEmu" customModuleProvider="target">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="QOV-EL-QwU">
-                                        <rect key="frame" x="2" y="14" width="61" height="23"/>
+                                        <rect key="frame" x="1" y="14" width="63" height="24"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedRounded" trackingMode="selectOne" id="zC8-kf-vBL">
                                             <font key="font" metaFont="system"/>
@@ -49,7 +49,7 @@
                                 <toolbarItem implicitItemIdentifier="8AFEF8B7-AE34-4A1C-B99A-6BD928B807DE" explicitItemIdentifier="OEToolbarItemIdentifierCategory" label="" paletteLabel="Category" sizingBehavior="auto" id="fX7-6m-0ZB">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="Dr0-HL-fE9">
-                                        <rect key="frame" x="0.0" y="14" width="389" height="24"/>
+                                        <rect key="frame" x="0.0" y="14" width="348" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="texturedSquare" trackingMode="selectOne" id="nXm-nv-KOP">
                                             <font key="font" metaFont="system"/>

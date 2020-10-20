@@ -30,7 +30,6 @@
 #import "OEBlankSlateBackgroundView.h"
 #import "OEHomebrewCoverView.h"
 #import "OEDBSystem+CoreDataProperties.h"
-#import "OELibraryController.h"
 #import "OELibraryDatabase.h"
 
 #import "OEHomebrewBlankSlateView.h"
@@ -72,6 +71,7 @@ const static CGFloat TableViewSpacing = 86.0;
 @property (readonly, copy) NSString *systemIdentifier;
 @end
 @interface OEHomebrewViewController () <NSTableViewDataSource, NSTableViewDelegate>
+@property (readonly, nullable, nonatomic) OELibraryToolbar *toolbar;
 @property (strong) NSArray *games;
 @property (strong) NSArray *headerIndices;
 @property (strong) OEDownload *currentDownload;
@@ -79,7 +79,7 @@ const static CGFloat TableViewSpacing = 86.0;
 @end
 
 @implementation OEHomebrewViewController
-@synthesize blankSlate = _blankSlate, libraryController = _libraryController;
+@synthesize blankSlate = _blankSlate;
 
 + (void)initialize
 {
@@ -121,15 +121,10 @@ const static CGFloat TableViewSpacing = 86.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:tableView];
 }
 
-- (void)viewWillAppear
-{
-    [super viewWillAppear];
-    
-    [self _setupToolbar];
-}
-
 - (void)viewDidAppear
 {
+    [self _setupToolbar];
+    
     [super viewDidAppear];
 
     // Fetch games if we haven't already, this allows reloading if an error occured, by switching to a different collection or media view and then back to homebrew
@@ -139,10 +134,15 @@ const static CGFloat TableViewSpacing = 86.0;
     }
 }
 
+- (OELibraryToolbar * _Nullable)toolbar
+{
+    NSToolbar *tb = self.view.window.toolbar;
+    return [tb isKindOfClass:OELibraryToolbar.class] ? (OELibraryToolbar *)tb : nil;
+}
+
 - (void)_setupToolbar
 {
-    OELibraryController *libraryController = self.libraryController;
-    OELibraryToolbar *toolbar = libraryController.toolbar;
+    OELibraryToolbar *toolbar = self.toolbar;
     
     toolbar.viewModeSelector.enabled = NO;
     toolbar.viewModeSelector.selectedSegment = -1;
@@ -157,7 +157,7 @@ const static CGFloat TableViewSpacing = 86.0;
 
 - (BOOL)validateToolbarItem:(id)item
 {
-    OELibraryToolbar *toolbar = self.libraryController.toolbar;
+    OELibraryToolbar *toolbar = self.toolbar;
     
     if ([item action] == @selector(switchToView:))
     {
@@ -361,7 +361,7 @@ const static CGFloat TableViewSpacing = 86.0;
     NSString *md5  = [homebrewGame md5];
     NSString *name = [homebrewGame name];
 
-    OELibraryDatabase      *db = [[self libraryController] database];
+    OELibraryDatabase      *db = self.database;
     NSManagedObjectContext *context = [db mainThreadContext];
     OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inContext:context error:nil];
     if(rom == nil)
@@ -385,7 +385,8 @@ const static CGFloat TableViewSpacing = 86.0;
 
     OEDBGame *game = [rom game];
     [game save];
-    [self.libraryController startGame:game];
+    id target = [NSApp targetForAction:@selector(startGame:)];
+    [target startGame:game];
 }
 
 - (NSInteger)rowOfView:(NSView*)view
@@ -537,21 +538,6 @@ const static CGFloat TableViewSpacing = 86.0;
     return NO;
 }
 
-#pragma mark - State Handling
-
-- (OELibraryController *)libraryController
-{
-    return _libraryController;
-}
-
-- (void)setLibraryController:(OELibraryController *)libraryController
-{
-    _libraryController = libraryController;
-
-    [[[libraryController toolbar] viewModeSelector] setEnabled:NO];
-    [[[libraryController toolbar] searchField] setEnabled:NO];
-    [[[libraryController toolbar] gridSizeSlider] setEnabled:NO];
-}
 @end
 
 @implementation OEHomebrewGame

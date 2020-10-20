@@ -29,7 +29,6 @@
 #import "OEGameCollectionViewController.h"
 #import "OESidebarController.h"
 #import "OELibrarySplitView.h"
-#import "OELibraryController.h"
 
 #import "OEDBCollection.h"
 #import "OEDBSystem+CoreDataProperties.h"
@@ -43,14 +42,29 @@
 
 NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
+@interface OELibraryGamesViewController()<OELibrarySubviewControllerGameSelection>
+@property (nonatomic, readonly, nullable) OELibraryToolbar *toolbar;
+@end
+
 @implementation OELibraryGamesViewController
-@synthesize libraryController = _libraryController;
+@synthesize database = _database;
+
+- (OELibraryToolbar * _Nullable)toolbar
+{
+    NSToolbar *toolbar = self.view.window.toolbar;
+    if ([toolbar isKindOfClass:OELibraryToolbar.class])
+    {
+        return (OELibraryToolbar *)toolbar;
+    }
+    
+    return nil;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
         
-    [self _assignLibraryController];
+    [self _assignDatabase];
 
     NSNotificationCenter *noc = [NSNotificationCenter defaultCenter];
     [noc addObserver:self selector:@selector(_updateCollectionContentsFromSidebar:) name:OESidebarSelectionDidChangeNotification object:[self sidebarController]];
@@ -62,15 +76,14 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     [collectionView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [collectionViewContainer addSubview:collectionView];
 
-    [self addChildViewController:[self sidebarController]];
-    [self addChildViewController:[self collectionController]];
+    [self addChildViewController:self.sidebarController];
+    [self addChildViewController:self.collectionController];
+    [self addChildViewController:self.gameScannerController];
 }
 
 - (void)viewWillAppear
 {
     [super viewWillAppear];
-    
-    [self _setupToolbar];
     
     [self _updateCollectionContentsFromSidebar:nil];
 
@@ -80,13 +93,13 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 - (void)viewDidAppear
 {
     [super viewDidAppear];
+    [self _setupToolbar];
     [self.collectionController updateBlankSlate];
 }
 
 - (void)_setupToolbar
 {
-    OELibraryController *libraryController = self.libraryController;
-    OELibraryToolbar *toolbar = libraryController.toolbar;
+    OELibraryToolbar *toolbar = self.toolbar;
 
     toolbar.gridSizeSlider.enabled = YES;
     toolbar.viewModeSelector.enabled = YES;
@@ -101,17 +114,19 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     field.stringValue = @"";
 }
 
-- (BOOL)validateToolbarItem:(id)item
+#pragma mark - Validation
+
+- (BOOL)validateToolbarItem:(NSToolbarItem *)item
 {
-    OELibraryToolbar *toolbar = self.libraryController.toolbar;
     OECollectionViewControllerViewTag selectedViewTag = self.collectionController.selectedViewTag;
     
     if ([item action] == @selector(switchToView:))
     {
-        if (selectedViewTag != OEBlankSlateTag)
+        if ([item.view isKindOfClass:NSSegmentedControl.class] && selectedViewTag != OEBlankSlateTag)
         {
+            __auto_type *ctl = (NSSegmentedControl *)item.view;
             BOOL setGridView = selectedViewTag == OEGridViewTag;
-            toolbar.viewModeSelector.selectedSegment = setGridView ? 0 : 1;
+            ctl.selectedSegment = setGridView ? 0 : 1;
             return YES;
         }
         else
@@ -146,22 +161,21 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     return [[self collectionController] selectedGames];
 }
 
-- (OELibraryController *)libraryController
+- (OELibraryDatabase *)database
 {
-    return _libraryController;
+    return _database;
 }
 
-- (void)setLibraryController:(OELibraryController *)libraryController
+- (void)setDatabase:(OELibraryDatabase *)database
 {
-    _libraryController = libraryController;
-    [self _assignLibraryController];
+    _database = database;
+    [self _assignDatabase];
 }
 
-- (void)_assignLibraryController
+- (void)_assignDatabase
 {
-    [[self sidebarController] setDatabase:[_libraryController database]];
-    [[self collectionController] setLibraryController:_libraryController];
-    [[self gameScannerController] setLibraryController:_libraryController];
+    [[self sidebarController] setDatabase:_database];
+    [[self collectionController] setDatabase:_database];
 }
 
 #pragma mark - Toolbar
@@ -172,7 +186,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
 - (IBAction)switchToGridView:(id)sender
 {
-    [[self collectionController] switchToGridView:sender];
+    [self.collectionController showGridView];
     
     // Update state of respective view menu items.
     NSMenu *viewMenu = [[[NSApp mainMenu] itemAtIndex:3] submenu];
@@ -182,7 +196,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
 - (IBAction)switchToListView:(id)sender
 {
-    [[self collectionController] switchToListView:sender];
+    [self.collectionController showListView];
     
     // Update state of respective view menu items.
     NSMenu *viewMenu = [[[NSApp mainMenu] itemAtIndex:3] submenu];
@@ -192,26 +206,27 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
 - (IBAction)search:(id)sender
 {
-    [[self collectionController] search:sender];
+    [self.collectionController performSearch:[sender stringValue]];
 }
 
 - (IBAction)changeGridSize:(id)sender
 {
-    [[self collectionController] changeGridSize:sender];
+    NSSlider *slider = self.toolbar.gridSizeSlider;
+    [self.collectionController zoomGridViewWithValue:slider.doubleValue];
 }
 
 - (IBAction)decreaseGridSize:(id)sender
 {
-    NSSlider *slider = self.libraryController.toolbar.gridSizeSlider;
+    NSSlider *slider = self.toolbar.gridSizeSlider;
     slider.doubleValue -= 0.5;
-    [self.collectionController changeGridSize:slider];
+    [self.collectionController zoomGridViewWithValue:slider.doubleValue];
 }
 
 - (IBAction)increaseGridSize:(id)sender
 {
-    NSSlider *slider = self.libraryController.toolbar.gridSizeSlider;
+    NSSlider *slider = self.toolbar.gridSizeSlider;
     slider.doubleValue += 0.5;
-    [self.collectionController changeGridSize:slider];
+    [self.collectionController zoomGridViewWithValue:slider.doubleValue];
 }
 
 #pragma mark - Sidebar handling

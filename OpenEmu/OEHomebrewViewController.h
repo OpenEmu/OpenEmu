@@ -26,9 +26,9 @@
 
 @import Cocoa;
 
-#import "OELibrarySubviewController.h"
+@class OELibraryDatabase;
 
-@interface OEHomebrewViewController : NSViewController <OELibrarySubviewController>
-@property (nonatomic, weak) OELibraryController *libraryController;
+@interface OEHomebrewViewController : NSViewController
+@property (nonatomic) OELibraryDatabase *database;
 @property (weak) IBOutlet NSTableView *tableView;
 @end

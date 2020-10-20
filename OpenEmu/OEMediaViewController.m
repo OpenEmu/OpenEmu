@@ -38,8 +38,6 @@
 
 #import "OEROMImporter.h"
 
-#import "OELibraryController.h"
-
 #import "OEGridView.h"
 
 #import "OEAlert+DefaultAlertsAdditions.h"
@@ -62,7 +60,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
 @end
 
-@interface OEMediaViewController ()
+@interface OEMediaViewController () <OELibrarySubviewControlleSaveStateSelection>
 
 @property (strong) NSArray *groupRanges;
 @property (strong) NSArray *items;
@@ -97,13 +95,13 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     self.gridView.cellClass = [OEGridMediaItemCell class];
 }
 
-- (void)viewWillAppear
+- (void)viewDidAppear
 {
-    [super viewWillAppear];
+    [super viewDidAppear];
     
     [self _setupToolbar];
     
-    NSSearchField *searchField = self.libraryController.toolbar.searchField;
+    NSSearchField *searchField = self.toolbar.searchField;
     searchField.enabled = YES;
     searchField.stringValue = self.currentSearchTerm ?: @"";
     
@@ -130,7 +128,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 - (void)restoreSelectionFromDefaults
 {
     // Restore media selection.
-    NSManagedObjectContext *context = self.libraryController.database.mainThreadContext;
+    NSManagedObjectContext *context = self.database.mainThreadContext;
     NSPersistentStoreCoordinator *persistentStoreCoordinator = context.persistentStoreCoordinator;
     NSMutableIndexSet *mediaItemsToSelect = [NSMutableIndexSet indexSet];
     NSString *defaultsKey = [self.OE_entityName stringByAppendingString:OESelectedMediaKey];
@@ -171,8 +169,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
 - (void)_setupToolbar
 {
-    OELibraryController *libraryController = self.libraryController;
-    OELibraryToolbar *toolbar = libraryController.toolbar;
+    OELibraryToolbar *toolbar = self.toolbar;
     
     toolbar.viewModeSelector.enabled = NO;
     toolbar.viewModeSelector.selectedSegment = -1;
@@ -188,13 +185,15 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     [self _setupSearchMenuTemplate];
 }
 
-- (BOOL)validateToolbarItem:(id)item
+- (BOOL)validateToolbarItem:(NSToolbarItem *)item
 {
-    OELibraryToolbar *toolbar = self.libraryController.toolbar;
-    
     if ([item action] == @selector(switchToView:))
     {
-        toolbar.viewModeSelector.selectedSegment = -1;
+        if ([item.view isKindOfClass:NSSegmentedControl.class])
+        {
+            __auto_type ctl = (NSSegmentedControl *)item.view;
+            ctl.selectedSegment = -1;
+        }
         return NO;
     }
     else if ([item action] == @selector(changeGridSize:) ||
@@ -214,10 +213,14 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     [super updateBlankSlate];
 
-    if (self.isSelected) {
-        
-        OELibraryController *libraryController = self.libraryController;
-        OELibraryToolbar *toolbar = libraryController.toolbar;
+    if (self.view.superview == nil) {
+        // not visible
+        return;
+    }
+    
+    if ([self.view.window.toolbar isKindOfClass:OELibraryToolbar.class])
+    {
+        __auto_type toolbar = (OELibraryToolbar *)self.view.window.toolbar;
         toolbar.searchField.enabled = !_shouldShowBlankSlate;
         toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
         
@@ -265,7 +268,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Filter by:", @"Search field menu, first item, instructional") action:NULL keyEquivalent:@""];
     [menu insertItem:item atIndex:0];
 
-    [[[[self libraryController] toolbar] searchField] setSearchMenuTemplate:menu];
+    [self.toolbar.searchField setSearchMenuTemplate:menu];
 }
 
 - (void)searchScopeDidChange:(NSMenuItem*)sender
@@ -277,8 +280,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
     [sender setState:NSControlStateValueOn];
     [self setSearchKeys:[sender representedObject]];
-    NSSearchField *field = [[[self libraryController] toolbar] searchField];
-    [self search:field];
+    [self search:self.toolbar.searchField];
 }
 
 - (void)setRepresentedObject:(id)representedObject
@@ -290,21 +292,12 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         [self reloadData];
     }
     
-    // Restore search field text.
-    NSString *newSearchFieldStringValue = self.currentSearchTerm ?: @"";
-    self.libraryController.toolbar.searchField.stringValue = newSearchFieldStringValue;
-
     [self _setupSearchMenuTemplate];
 }
 
 - (OECollectionViewControllerViewTag)OE_currentViewTagByToolbarState
 {
     return OEGridViewTag;
-}
-
-- (BOOL)isSelected
-{
-    return self.libraryController.currentSubviewController == self;
 }
 
 #pragma mark - OELibrarySubviewController Implementation
@@ -368,11 +361,11 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     [self refreshPreviewPanelIfNeeded];
 }
 
-#pragma mark -
+#pragma mark - Commands
 
-- (void)search:(id)sender
+- (void)performSearch:(NSString *)text
 {
-    self.currentSearchTerm = self.libraryController.toolbar.searchField.stringValue;
+    self.currentSearchTerm = text;
     
     NSArray *tokens = [self.currentSearchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
@@ -399,6 +392,32 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         _searchPredicate = [NSPredicate predicateWithValue:YES];
 
     [self reloadData];
+}
+
+#pragma mark - Actions
+
+- (IBAction)search:(id)sender
+{
+    [self performSearch:self.toolbar.searchField.stringValue];
+}
+
+- (IBAction)changeGridSize:(id)sender
+{
+    [self zoomGridViewWithValue:[sender floatValue]];
+}
+
+- (IBAction)decreaseGridSize:(id)sender
+{
+    NSSlider *slider = self.toolbar.gridSizeSlider;
+    slider.doubleValue -= 0.5;
+    [self zoomGridViewWithValue:[slider floatValue]];
+}
+
+- (IBAction)increaseGridSize:(id)sender
+{
+    NSSlider *slider = self.toolbar.gridSizeSlider;
+    slider.doubleValue += 0.5;
+    [self zoomGridViewWithValue:[slider floatValue]];
 }
 
 - (void)fetchItems
@@ -505,7 +524,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     SEL action = [item action];
     if (action == @selector(showInFinder:))
         return [[self selectionIndexes] count] > 0;
-    return [super validateMenuItem:item];
+    return YES;
 }
 
 - (NSMenu*)menuForItemsAtIndexes:(NSIndexSet *)indexes
@@ -637,7 +656,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         if([alert runModal] == NSAlertFirstButtonReturn)
         {
             [items makeObjectsPerformSelector:@selector(deleteAndRemoveFiles)];
-            [[[[self libraryController] database] mainThreadContext] save:nil];
+            [self.database.mainThreadContext save:nil];
             [self reloadData];
         }
     }
@@ -662,7 +681,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         if([alert runModal] == NSAlertFirstButtonReturn)
         {
             [items makeObjectsPerformSelector:@selector(delete)];
-            [[[[self libraryController] database] mainThreadContext] save:nil];
+            [self.database.mainThreadContext save:nil];
             [self reloadData];
         }
     }
@@ -775,7 +794,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     if (draggingOperation == IKImageBrowserDropBefore || draggingOperation == IKImageBrowserDropOn)
     {
         NSArray *files = [draggingPasteboard readObjectsForClasses:@[[NSURL class]] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
-        OEROMImporter *romImporter = [[[self libraryController] database] importer];
+        OEROMImporter *romImporter = self.database.importer;
         [romImporter importItemsAtURLs:files intoCollectionWithID:nil];
     }
     else if (draggingOperation == IKImageBrowserDropNone)

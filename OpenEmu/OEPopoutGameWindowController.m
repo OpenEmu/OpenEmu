@@ -406,6 +406,8 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     
     if (_snapResize)
     {
+        // necessary to prevent erratic resize behavior when window is
+        // resized via top or bottom only (Y-axis)
         [self.window setContentAspectRatio:CGSizeZero];
         _snapDelegate.currentScale = _integralScale;
         _snapDelegate.screenSize = [self OE_gameDocument].gameViewController.defaultScreenSize;

@@ -34,11 +34,12 @@
 @class OELibraryToolbar;
 @class OEDBGame;
 
+extern NSString * const OELastGridSizeKey;
 extern NSString * const OELibraryStatesKey;
 extern NSString * const OELibraryLastCategoryKey;
 
-@protocol OELibraryControllerDelegate, OELibrarySubviewController;
-@interface OELibraryController : NSViewController
+@protocol OELibraryControllerDelegate;
+@interface OELibraryController : NSViewController<NSToolbarItemValidation, NSMenuItemValidation>
 
 @property(unsafe_unretained) id<OELibraryControllerDelegate> delegate;
 
@@ -75,7 +76,7 @@ extern NSString * const OELibraryLastCategoryKey;
 
 #pragma mark - Properties
 @property (strong) OELibraryDatabase *database;
-@property (nonatomic, readonly) NSViewController <OELibrarySubviewController> *currentSubviewController;
+@property (nonatomic, readonly) NSViewController *currentSubviewController;
 @property (strong) IBOutlet OELibraryToolbar *toolbar;
 @end
 

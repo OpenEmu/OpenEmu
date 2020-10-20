@@ -35,10 +35,11 @@ class ValidatingToolbarItem: NSToolbarItem {
             switch validator {
             case let validator as NSUserInterfaceValidations:
                 control.isEnabled = validator.validateUserInterfaceItem(self)
-            default:
+            case let validator as NSToolbarItemValidation:
                 control.isEnabled = validator.validateToolbarItem(self)
+            default:
+                super.validate()
             }
-
         } else {
             super.validate()
         }

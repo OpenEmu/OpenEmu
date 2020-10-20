@@ -30,7 +30,6 @@
 #import "OEGameCollectionViewController.h"
 #import "OEMediaViewController.h"
 #import "OEHomebrewViewController.h"
-#import "OELibraryController.h"
 #import "OELibraryGamesViewController.h"
 #import "OESidebarController.h"
 #import "OEGameViewController.h"

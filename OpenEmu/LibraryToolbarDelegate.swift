@@ -109,6 +109,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         let item = ValidatingToolbarItem(itemIdentifier: .oeGridSize)
         
         let slider = NSSlider(value: 1.0, minValue: 0.5, maxValue: 2.5, target: toolbarOwner, action: #selector(OELibraryController.changeGridSize(_:)))
+        slider.isContinuous = true
         if #available(macOS 11.0, *) {
             slider.controlSize = .mini
         } else {

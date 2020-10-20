@@ -27,9 +27,10 @@
 @import Cocoa;
 #import "OELibrarySubviewController.h"
 
-@class OESidebarController, OEGameCollectionViewController, OEGameScannerViewController;
-@interface OELibraryGamesViewController : NSViewController <OELibrarySubviewController>
-@property (nonatomic, weak) OELibraryController* libraryController;
+@class OESidebarController, OEGameCollectionViewController, OEGameScannerViewController, OELibraryDatabase;
+
+@interface OELibraryGamesViewController : NSViewController <NSToolbarItemValidation>
+@property (nonatomic) OELibraryDatabase *database;
 @property (weak) IBOutlet OESidebarController *sidebarController;
 @property (weak) IBOutlet OEGameCollectionViewController *collectionController;
 @property (weak) IBOutlet OEGameScannerViewController *gameScannerController;

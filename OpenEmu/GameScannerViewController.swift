@@ -29,8 +29,6 @@ class GameScannerViewController: NSViewController {
 
     private static let importGuideURL = URL(string: "https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-Importing")!
 
-    @IBOutlet weak var libraryController: OELibraryController!
-    
     @IBOutlet weak var scannerView: NSView!
     
     @IBOutlet var headlineLabel: NSTextField!
@@ -45,7 +43,6 @@ class GameScannerViewController: NSViewController {
     
     @IBOutlet private weak var bottomBar: NSView!
     @IBOutlet private weak var sourceListScrollView: NSScrollView!
-    @IBOutlet private weak var libraryGamesViewController: OELibraryGamesViewController!
     
     private var itemsRequiringAttention = [OEImportOperation]()
     private var itemsFailedImport = [OEImportOperation]()
@@ -700,7 +697,7 @@ extension GameScannerViewController: OEROMImporterDelegate {
         alert.defaultButtonTitle = NSLocalizedString("View Guide in Browser", comment:"")
         alert.alternateButtonTitle = NSLocalizedString("Dismiss", comment:"")
 
-        guard let win = libraryController.view.window else { return }
+        guard let win = self.parent?.view.window else { return }
 
         alert.beginSheetModal(for: win) { result in
             if result == .alertFirstButtonReturn {

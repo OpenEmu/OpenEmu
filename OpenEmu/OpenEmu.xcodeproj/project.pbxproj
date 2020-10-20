@@ -3900,12 +3900,12 @@
 		8306CD0C1BD3ABFD0025BC6C /* Games Library */ = {
 			isa = PBXGroup;
 			children = (
+				8306CD121BD3AC1B0025BC6C /* Sidebar */,
 				8306CD3B1BD3DB180025BC6C /* OEGameCollectionViewController.h */,
 				8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */,
 				5A6E80A61DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift */,
 				8306CD3D1BD3DB180025BC6C /* OEGameCollectionViewItemProtocol.h */,
 				5AFD06BC2058893B00DFE765 /* GameScannerViewController.swift */,
-				8306CD121BD3AC1B0025BC6C /* Sidebar */,
 				8306CD0D1BD3AC180025BC6C /* OELibraryGamesViewController.h */,
 				8306CD0E1BD3AC180025BC6C /* OELibraryGamesViewController.m */,
 			);

@@ -28,7 +28,6 @@
 #import "OEPrefDebugController.h"
 #import "OELibraryDatabase.h"
 #import "OESidebarController.h"
-#import "OELibraryController.h"
 
 #import "OEDBGame.h"
 #import "OEDBImage.h"
@@ -289,7 +288,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 - (void)showGameScannerView:(id)sender {
     
     OEMainWindowController *mainWindowController = self.mainWindow.windowController;
-    id <OELibrarySubviewController> currentViewController = mainWindowController.libraryController.currentSubviewController;
+    NSViewController *currentViewController = mainWindowController.libraryController.currentSubviewController;
     
     if([currentViewController isKindOfClass:[OELibraryGamesViewController class]])
     {
@@ -300,7 +299,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 - (void)hideGameScannerView:(id)sender {
     
     OEMainWindowController *mainWindowController = self.mainWindow.windowController;
-    id <OELibrarySubviewController> currentViewController = mainWindowController.libraryController.currentSubviewController;
+    NSViewController *currentViewController = mainWindowController.libraryController.currentSubviewController;
     
     if([currentViewController isKindOfClass:[OELibraryGamesViewController class]])
     {

@@ -32,6 +32,8 @@ extern NSNotificationName const OEGameCollectionViewControllerDidSetSelectionInd
 @interface OEGameCollectionViewController : OECollectionViewController <OEGameGridViewDelegate>
 - (IBAction)showInFinder:(id)sender;
 
+- (void)performSearch:(NSString *)text;
+
 - (void)deleteSaveState:(id)stateItem;
 - (void)deleteSelectedItems:(id)sender;
 - (void)addSelectedGamesToCollection:(id)sender;

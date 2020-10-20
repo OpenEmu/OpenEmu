@@ -30,7 +30,6 @@
 #import "OEGameViewController.h"
 #import "OEGameDocument.h"
 
-#import "OELibraryController.h"
 #import "OEROMImporter.h"
 
 #import "OEListViewDataSourceItem.h"
@@ -65,7 +64,6 @@
 
 #pragma mark - Public variables
 
-NSString * const OELastGridSizeKey       = @"lastGridSize";
 NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGameTitleKVOContext;
@@ -108,15 +106,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 @end
 
 @implementation OECollectionViewController
-@synthesize libraryController, listView=listView;
-
-+ (void)initialize
-{
-    // Make sure not to reinitialize for subclassed objects
-    if(self != [OECollectionViewController class]) return;
-
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OELastGridSizeKey : @1.0f }];
-}
+@synthesize listView=listView;
 
 - (instancetype)init
 {
@@ -135,6 +125,17 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
                      context:OEUserDefaultsDisplayGameTitleKVOContext];
 }
 
+- (OELibraryToolbar * _Nullable)toolbar
+{
+    NSToolbar *toolbar = self.view.window.toolbar;
+    if ([toolbar isKindOfClass:OELibraryToolbar.class])
+    {
+        return (OELibraryToolbar *)toolbar;
+    }
+    
+    return nil;
+}
+
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad
@@ -150,13 +151,6 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [_gridView setDataSource:self];
     [_gridView setDraggingDestinationDelegate:self];
     [_gridView setCellSize:defaultGridSize];
-
-    //set initial zoom value
-    NSSlider *sizeSlider = [[[self libraryController] toolbar] gridSizeSlider];
-    [sizeSlider setContinuous:YES];
-    CGFloat defaultZoomValue = [[NSUserDefaults standardUserDefaults] floatForKey:OELastGridSizeKey];
-    [sizeSlider setFloatValue:defaultZoomValue];
-    [self zoomGridViewWithValue:defaultZoomValue];
 
     // Set up list view
     [listView setTarget:self];
@@ -196,12 +190,12 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [notificationCenter addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotification object:nil];
 }
 
-- (void)viewWillAppear
+- (void)viewDidAppear
 {
-    [super viewWillAppear];
+    [super viewDidAppear];
     
     // Update grid view with current size slider zoom value.
-    NSSlider *sizeSlider = [[[self libraryController] toolbar] gridSizeSlider];
+    NSSlider *sizeSlider = self.toolbar.gridSizeSlider;
     [self zoomGridViewWithValue:[sizeSlider floatValue]];
 }
 
@@ -273,10 +267,6 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 }
 
 #pragma mark - Deleting Items
-- (void)delete
-{
-    [self deleteSelectedItems:self];
-}
 
 - (void)delete:(id)sender
 {
@@ -300,12 +290,13 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 #pragma mark -
 #pragma mark View Selection
-- (IBAction)switchToGridView:(id)sender
+
+- (void)showGridView
 {
     [self OE_switchToView:OEGridViewTag];
 }
 
-- (IBAction)switchToListView:(id)sender
+- (void)showListView
 {
     [self OE_switchToView:OEListViewTag];
 }
@@ -317,7 +308,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     BOOL reloadListView = NO;
     switch (tag) {
         case OEGridViewTag:
-                sortDescriptors = [self defaultSortDescriptors];
+            sortDescriptors = [self defaultSortDescriptors];
             break;
         default:
             sortDescriptors = [listView sortDescriptors];
@@ -332,7 +323,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     else
         [_gridView reloadData];
 
-    if (self.isSelected) {
+    if (self.view.superview != nil) {
         [self OE_setupToolbarStatesForViewTag:tag];
     }
     
@@ -406,7 +397,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 - (void)OE_setupToolbarStatesForViewTag:(OECollectionViewControllerViewTag)tag
 {
-    OELibraryToolbar *toolbar = self.libraryController.toolbar;
+    OELibraryToolbar *toolbar = self.toolbar;
     switch (tag) {
         case OEGridViewTag:
             toolbar.viewModeSelector.selectedSegment = 0;
@@ -429,8 +420,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
         
         [self OE_switchToView:self.OE_currentViewTagByToolbarState];
 
-        if (self.isSelected) {
-            OELibraryToolbar *toolbar = self.libraryController.toolbar;
+        if (self.view.superview != nil) {
+            OELibraryToolbar *toolbar = self.toolbar;
             toolbar.viewModeSelector.enabled = YES;
             toolbar.gridSizeSlider.enabled = self.selectedViewTag == OEGridViewTag;
             toolbar.searchField.enabled = YES;
@@ -441,8 +432,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     {
         [self OE_switchToView:OEBlankSlateTag];
 
-        if (self.isSelected) {
-            OELibraryToolbar *toolbar = self.libraryController.toolbar;
+        if (self.view.superview != nil) {
+            OELibraryToolbar *toolbar = self.toolbar;
             toolbar.viewModeSelector.enabled = NO;
             toolbar.gridSizeSlider.enabled = NO;
             toolbar.searchField.enabled = NO;
@@ -460,46 +451,16 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 - (OECollectionViewControllerViewTag)OE_currentViewTagByToolbarState
 {
-    if (self.libraryController.toolbar.viewModeSelector.selectedSegment == 0)
+    if (self.toolbar.viewModeSelector.selectedSegment == 0)
         return OEGridViewTag;
     else
         return OEListViewTag;
-}
-
-#pragma mark - Toolbar Actions
-- (IBAction)search:(id)sender
-{
-    [self doesNotImplementSelector:_cmd];
-}
-
-- (IBAction)changeGridSize:(id)sender
-{
-    [self zoomGridViewWithValue:[sender floatValue]];
-}
-
-- (IBAction)decreaseGridSize:(id)sender
-{
-    NSSlider *slider = self.libraryController.toolbar.gridSizeSlider;
-    slider.doubleValue -= 0.5;
-    [self zoomGridViewWithValue:[slider floatValue]];
-}
-
-- (IBAction)increaseGridSize:(id)sender
-{
-    NSSlider *slider = self.libraryController.toolbar.gridSizeSlider;
-    slider.doubleValue += 0.5;
-    [self zoomGridViewWithValue:[slider floatValue]];
 }
 
 #pragma mark - Context Menu
 - (NSMenu*)menuForItemsAtIndexes:(NSIndexSet *)indexes
 {
     return nil;
-}
-
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
-{
-    return [[self libraryController] validateMenuItem:menuItem];
 }
 
 - (NSMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet *)indexes
@@ -527,7 +488,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
         return NO;
 
     NSArray<NSURL*> *files = [pboard readObjectsForClasses:@[[NSURL class]] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
-    OEROMImporter *romImporter = [[[self libraryController] database] importer];
+    OEROMImporter *romImporter = self.database.importer;
     OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? (OEDBCollection *)[self representedObject] : nil;
     [romImporter importItemsAtURLs:files intoCollectionWithID:[collection permanentID]];
 
@@ -715,7 +676,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
         - This collection view controller is selected.
         - The blank slate view is the current view tag. This allows switching to a different view tag if an item has been added.
      */
-    if (self.selectedViewTag == OEBlankSlateTag || self.isSelected) {
+    if (self.selectedViewTag == OEBlankSlateTag || self.view.superview != nil) {
         [self updateBlankSlate];
     }
 }

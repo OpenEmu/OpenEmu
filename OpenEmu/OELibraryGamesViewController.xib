@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -46,7 +46,7 @@
                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                         <tableColumns>
-                                            <tableColumn width="183" minWidth="16" maxWidth="1000" id="TQT-sV-f9j">
+                                            <tableColumn width="154" minWidth="16" maxWidth="1000" id="TQT-sV-f9j">
                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -80,7 +80,7 @@
                                 <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ABQ-4h-z9d">
                                     <rect key="frame" x="0.0" y="71" width="186" height="5"/>
                                 </box>
-                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YLv-AD-2L2">
+                                <textField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YLv-AD-2L2">
                                     <rect key="frame" x="13" y="49" width="85" height="14"/>
                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Game Scanner" id="R5g-ov-B26">
                                         <font key="font" metaFont="smallSystemBold"/>
@@ -88,7 +88,7 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KwU-gZ-ksn">
+                                <textField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KwU-gZ-ksn">
                                     <rect key="frame" x="13" y="11" width="89" height="14"/>
                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Scanner Paused" id="gJT-pJ-BJg">
                                         <font key="font" metaFont="smallSystem"/>
@@ -97,7 +97,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="Nvs-ey-EH6" customClass="OEGameScannerButton">
-                                    <rect key="frame" x="152" y="24" width="26" height="26"/>
+                                    <rect key="frame" x="152" y="22" width="26" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="26" id="CFR-jn-zSg"/>
                                         <constraint firstAttribute="width" constant="26" id="ddZ-Gv-tdq"/>
@@ -114,7 +114,7 @@
                                     <rect key="frame" x="15" y="31" width="136" height="12"/>
                                 </progressIndicator>
                                 <button hidden="YES" verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vaP-Xa-Oni">
-                                    <rect key="frame" x="15" y="8" width="115" height="20"/>
+                                    <rect key="frame" x="15" y="8" width="107" height="20"/>
                                     <buttonCell key="cell" type="inline" title="Resolve Issues" bezelStyle="inline" image="arrow_right" imagePosition="trailing" controlSize="small" lineBreakMode="truncatingTail" inset="2" id="dGi-Zi-KFE">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="smallSystemBold"/>
@@ -182,7 +182,6 @@
                 <outlet property="bottomBar" destination="aoh-d8-ctm" id="MAg-kQ-hP4"/>
                 <outlet property="fixButton" destination="vaP-Xa-Oni" id="Ro8-XB-pIU"/>
                 <outlet property="headlineLabel" destination="YLv-AD-2L2" id="Jvd-JE-D46"/>
-                <outlet property="libraryGamesViewController" destination="-2" id="yHD-tH-Wi3"/>
                 <outlet property="progressIndicator" destination="ecg-qx-RWc" id="s7a-30-SCw"/>
                 <outlet property="scannerView" destination="GEj-BL-eLK" id="eJ4-ey-JOd"/>
                 <outlet property="sourceListScrollView" destination="JYU-Tk-u7m" id="2Ur-DI-1oj"/>
@@ -192,8 +191,8 @@
         </viewController>
     </objects>
     <resources>
-        <image name="NSAddTemplate" width="11" height="11"/>
-        <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
+        <image name="NSAddTemplate" width="14" height="13"/>
+        <image name="NSStopProgressFreestandingTemplate" width="15" height="15"/>
         <image name="arrow_right" width="20" height="20"/>
     </resources>
 </document>

@@ -33,14 +33,24 @@
 
 extern NSNotificationName const OEMediaViewControllerDidSetSelectionIndexesNotification;
 
-@interface OEMediaViewController : OECollectionViewController <OELibrarySubviewController, OEBlankSlateViewDelegate>
+@interface OEMediaViewController : OECollectionViewController <OEBlankSlateViewDelegate, NSToolbarItemValidation, NSMenuItemValidation>
 
 @property (readonly) BOOL saveStateMode;
 
 @property (readonly) NSArray <OEDBSaveState *> *selectedSaveStates;
 @property (readonly) NSArray <OEDBScreenshot *> *selectedScreenshots;
 
+#pragma mark - Commands
+
+- (void)performSearch:(NSString *)text;
+
+#pragma mark - Actions
+
 - (IBAction)showInFinder:(id)sender;
-- (void)deleteSelectedItems:(id)sender;
+- (IBAction)search:(id)sender;
+- (IBAction)changeGridSize:(id)sender;
+- (IBAction)decreaseGridSize:(id)sender;
+- (IBAction)increaseGridSize:(id)sender;
+- (IBAction)deleteSelectedItems:(id)sender;
 
 @end
