@@ -131,36 +131,76 @@ func writeLocalizedInfoPlistStrings(appBundle: Bundle, strings dict: [String: [S
 }
 
 
+func computeCommonExtensions(appBundle: Bundle, systemPlugins: [Bundle]) -> Set<String>
+{
+    var allSeenExts = Set<String>.init()
+    var multiSystemExts = Set<String>.init()
+    
+    for plugin in systemPlugins {
+        let allExts = plugin.object(forInfoDictionaryKey: "OEFileSuffixes") as! [String]
+        
+        let sanifiedExts = allExts.filter { (ext: String) -> Bool in !extensionBlacklist.contains(ext) }
+        if sanifiedExts.count == 0 {
+            continue
+        }
+        
+        let extsAlreadySeen = allSeenExts.intersection(sanifiedExts)
+        allSeenExts.formUnion(sanifiedExts)
+        multiSystemExts.formUnion(extsAlreadySeen)
+    }
+    
+    return multiSystemExts
+}
+
+
+func systemDocument(typeName: String, extensions: [String]) -> [String : Any]
+{
+    var systemDocument = [String : Any]()
+    
+    systemDocument["NSDocumentClass"] = "OEGameDocument"
+    systemDocument["CFBundleTypeRole"] = "Viewer"
+    systemDocument["LSHandlerRank"] = "Owner"
+    systemDocument["CFBundleTypeOSTypes"] = ["????"]
+    systemDocument["CFBundleTypeExtensions"] = extensions
+    systemDocument["CFBundleTypeName"] = typeName
+    
+    return systemDocument
+}
+
+
 func updateInfoPlist(appBundle: Bundle, systemPlugins: [Bundle])
 {
     var allTypes = [String : Any](minimumCapacity: systemPlugins.count)
     var localizations = readLocalizedInfoPlistStrings(appBundle: appBundle)
     
+    let multiSystemExts = computeCommonExtensions(appBundle: appBundle, systemPlugins: systemPlugins)
+    
     for plugin in systemPlugins {
-        var systemDocument = [String : Any]()
-        
-        systemDocument["NSDocumentClass"] = "OEGameDocument"
-        systemDocument["CFBundleTypeRole"] = "Viewer"
-        systemDocument["LSHandlerRank"] = "Owner"
-        systemDocument["CFBundleTypeOSTypes"] = ["????"]
-        
         let allExts = plugin.object(forInfoDictionaryKey: "OEFileSuffixes") as! [String]
-        let sanifiedExts = allExts.filter { (ext: String) -> Bool in !extensionBlacklist.contains(ext) }
+        let sanifiedExts = allExts.filter { (ext: String) -> Bool in
+            !extensionBlacklist.contains(ext) && !multiSystemExts.contains(ext)
+        }
         if sanifiedExts.count == 0 {
             continue
         }
-        systemDocument["CFBundleTypeExtensions"] = sanifiedExts
         
         let baseSystemName = plugin.object(forInfoDictionaryKey: "OESystemName") as! String
         let typeName = toGameFileName(systemName: baseSystemName, appBundle: appBundle, localization: "en")
-        systemDocument["CFBundleTypeName"] = typeName
+        
+        allTypes[typeName] = systemDocument(typeName: typeName, extensions: sanifiedExts)
         for (localization, var strings) in localizations {
             let localizedName = regionalizedSystemName(plugin: plugin, languageCode: localization) ?? baseSystemName
             strings[typeName] = toGameFileName(systemName: localizedName, appBundle: appBundle, localization: localization)
             localizations[localization] = strings
         }
-        
-        allTypes[typeName] = systemDocument
+    }
+    
+    // generate one type for all extensions that are used by multiple systems
+    let multiSysTypeName = toGameFileName(systemName: "OpenEmu", appBundle: appBundle, localization: "en")
+    allTypes[multiSysTypeName] = systemDocument(typeName: multiSysTypeName, extensions: Array<String>.init(multiSystemExts))
+    for (localization, var strings) in localizations {
+        strings[multiSysTypeName] = toGameFileName(systemName: "OpenEmu", appBundle: appBundle, localization: localization)
+        localizations[localization] = strings
     }
     
     let infoPlistPath = (appBundle.bundlePath as NSString).appendingPathComponent("Contents/Info.plist")
