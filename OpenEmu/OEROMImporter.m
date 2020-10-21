@@ -46,12 +46,23 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark User Default Keys -
+#pragma mark - Notifications
+
+NSNotificationName const OEROMImporterDidStartNotification          = @"OEROMImporterDidStart";
+NSNotificationName const OEROMImporterDidCancelNotification         = @"OEROMImporterDidCancel";
+NSNotificationName const OEROMImporterDidPauseNotification          = @"OEROMImporterDidPause";
+NSNotificationName const OEROMImporterDidFinishNotification         = @"OEROMImporterDidFinish";
+NSNotificationName const OEROMImporterChangedItemCountNotification  = @"OEROMImporterChangedItemCount";
+NSNotificationName const OEROMImporterStoppedProcessingItemNotification = @"OEROMImporterStoppedProcessingItem";
+
+OEROMImporterUserInfoKey const OEROMImporterItemKey = @"OEROMImporterItemKey";
+
+#pragma mark - User Default Keys
 
 NSString *const OECopyToLibraryKey         = @"copyToLibrary";
 NSString *const OEAutomaticallyGetInfoKey  = @"automaticallyGetInfo";
 
-#pragma mark Error Codes -
+#pragma mark - Error Codes
 NSString *const OEImportErrorDomainFatal      = @"OEImportFatalDomain";
 NSString *const OEImportErrorDomainResolvable = @"OEImportResolvableDomain";
 NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
@@ -304,6 +315,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     self.totalNumberOfItems++;
     [self start];
 
+    [self postNotificationName:OEROMImporterChangedItemCountNotification userInfo:nil];
     [self OE_delegateRespondsToSelector:@selector(romImporterChangedItemCount:) block: ^{
         [self.delegate romImporterChangedItemCount:self];
     }];
@@ -348,6 +360,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
             });
         }
         
+        [self postNotificationName:OEROMImporterStoppedProcessingItemNotification userInfo:@{ OEROMImporterItemKey: op }];
         [self OE_delegateRespondsToSelector:@selector(romImporter:stoppedProcessingItem:) block:^{
             [self.delegate romImporter:self stoppedProcessingItem:op];
         }];
@@ -370,6 +383,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     {
         self.status = OEImporterStatusRunning;
         self.operationQueue.suspended = NO;
+        [self postNotificationName:OEROMImporterDidStartNotification userInfo:nil];
         [self OE_delegateRespondsToSelector:@selector(romImporterDidStart:) block:^{
             [self.delegate romImporterDidStart:self];
         }];
@@ -383,6 +397,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     {
         self.status = OEImporterStatusPaused;
         self.operationQueue.suspended = YES;
+        [self postNotificationName:OEROMImporterDidPauseNotification userInfo:nil];
         [self OE_delegateRespondsToSelector:@selector(romImporterDidPause:) block:^{
             [self.delegate romImporterDidPause:self];
         }];
@@ -410,6 +425,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     self.totalNumberOfItems = 0;
     self.operationQueue.suspended = YES;
 
+    [self postNotificationName:OEROMImporterDidCancelNotification userInfo:nil];
     [self OE_delegateRespondsToSelector:@selector(romImporterDidCancel:) block:^{
         [self.delegate romImporterDidCancel:self];
     }];
@@ -426,6 +442,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     self.totalNumberOfItems = 0;
     self.operationQueue.suspended = YES;
 
+    [self postNotificationName:OEROMImporterDidFinishNotification userInfo:nil];
     [self OE_delegateRespondsToSelector:@selector(romImporterDidFinish:) block:^{
         [self.delegate romImporterDidFinish:self];
     }];
@@ -436,6 +453,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 - (void)setTotalNumberOfItems:(NSInteger)totalNumberOfItems
 {
     _totalNumberOfItems = totalNumberOfItems;
+    [self postNotificationName:OEROMImporterChangedItemCountNotification userInfo:nil];
     [self OE_delegateRespondsToSelector:@selector(romImporterChangedItemCount:) block:^{
         [self.delegate romImporterChangedItemCount:self];
     }];
@@ -454,7 +472,22 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
             dispatch_sync(dispatch_get_main_queue(), block);
         }
     }
+}
 
+- (void)postNotificationName:(NSNotificationName)name userInfo:(NSDictionary * _Nullable)userInfo
+{
+    __auto_type block = ^{
+        [NSNotificationCenter.defaultCenter postNotificationName:name object:self userInfo:userInfo];
+    };
+    
+    if (NSThread.isMainThread)
+    {
+        block();
+    }
+    else
+    {
+        dispatch_sync(dispatch_get_main_queue(), block);
+    }
 }
 
 @end

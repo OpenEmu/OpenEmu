@@ -32,12 +32,25 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark User Default Keys -
+#pragma mark - Notifications
+
+extern NSNotificationName const OEROMImporterDidStartNotification  NS_SWIFT_NAME(oeROMImporterDidStart);
+extern NSNotificationName const OEROMImporterDidCancelNotification NS_SWIFT_NAME(oeROMImporterDidCancel);
+extern NSNotificationName const OEROMImporterDidPauseNotification  NS_SWIFT_NAME(oeROMImporterDidPause);
+extern NSNotificationName const OEROMImporterDidFinishNotification NS_SWIFT_NAME(oeROMImporterDidFinish);
+extern NSNotificationName const OEROMImporterChangedItemCountNotification NS_SWIFT_NAME(oeROMImporterChangedItemCount);
+extern NSNotificationName const OEROMImporterStoppedProcessingItemNotification NS_SWIFT_NAME(oeROMImporterStoppedProcessingItem);
+
+typedef NSString * OEROMImporterUserInfoKey NS_TYPED_ENUM;
+
+extern OEROMImporterUserInfoKey const OEROMImporterItemKey;
+
+#pragma mark - User Default Keys
 
 extern NSString *const OECopyToLibraryKey;
 extern NSString *const OEAutomaticallyGetInfoKey;
 
-#pragma mark Error Codes -
+#pragma mark - Error Codes
 
 extern NSString *const OEImportErrorDomainFatal;
 extern NSString *const OEImportErrorDomainResolvable;
