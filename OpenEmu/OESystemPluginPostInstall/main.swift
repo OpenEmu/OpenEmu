@@ -36,9 +36,14 @@ let regionsToLanguages = [
 ]
 
 // Extensions we don't want to include in the Info.plist because they are
-// extremely common in other applications
+// already included in it
 let extensionBlacklist = [
-    "tar.gz", "tar", "gz", "zip", "7z", "rar", "cue", "m3u", "iso"
+    "tar.gz", "tar", "gz", "zip", "7z", "rar"
+]
+
+// Extensions we want to include with LSHandlerRank set to None
+let extensionGrayList = [
+    "cue", "m3u", "iso"
 ]
 
 
@@ -153,24 +158,40 @@ func computeCommonExtensions(appBundle: Bundle, systemPlugins: [Bundle]) -> Set<
 }
 
 
-func systemDocument(typeName: String, extensions: [String]) -> [String : Any]
+func systemDocuments(typeName: String, extensions: [String]) -> [[String : Any]]
 {
-    var systemDocument = [String : Any]()
+    let template: [String : Any] = [
+        "NSDocumentClass": "OEGameDocument",
+        "CFBundleTypeRole": "Viewer",
+        "CFBundleTypeOSTypes": ["????"],
+        "CFBundleTypeName": typeName
+    ]
     
-    systemDocument["NSDocumentClass"] = "OEGameDocument"
-    systemDocument["CFBundleTypeRole"] = "Viewer"
-    systemDocument["LSHandlerRank"] = "Owner"
-    systemDocument["CFBundleTypeOSTypes"] = ["????"]
-    systemDocument["CFBundleTypeExtensions"] = extensions
-    systemDocument["CFBundleTypeName"] = typeName
+    let ownedExtensions = extensions.filter({ !extensionGrayList.contains($0) })
+    let unownedExtensions = extensions.filter({ extensionGrayList.contains($0) })
     
-    return systemDocument
+    var res: [[String : Any]] = []
+    
+    if ownedExtensions.count > 0 {
+        res += [template.merging([
+            "LSHandlerRank": "Owner",
+            "CFBundleTypeExtensions": ownedExtensions
+        ]) { (a, _) in a }]
+    }
+    if unownedExtensions.count > 0 {
+        res += [template.merging([
+            "LSHandlerRank": "None",
+            "CFBundleTypeExtensions": unownedExtensions
+        ]) { (a, _) in a }]
+    }
+    
+    return res
 }
 
 
 func updateInfoPlist(appBundle: Bundle, systemPlugins: [Bundle])
 {
-    var allTypes = [String : Any](minimumCapacity: systemPlugins.count)
+    var newTypes: [[String : Any]] = []
     var localizations = readLocalizedInfoPlistStrings(appBundle: appBundle)
     
     let multiSystemExts = computeCommonExtensions(appBundle: appBundle, systemPlugins: systemPlugins)
@@ -187,7 +208,7 @@ func updateInfoPlist(appBundle: Bundle, systemPlugins: [Bundle])
         let baseSystemName = plugin.object(forInfoDictionaryKey: "OESystemName") as! String
         let typeName = toGameFileName(systemName: baseSystemName, appBundle: appBundle, localization: "en")
         
-        allTypes[typeName] = systemDocument(typeName: typeName, extensions: sanifiedExts)
+        newTypes += systemDocuments(typeName: typeName, extensions: sanifiedExts)
         for (localization, var strings) in localizations {
             let localizedName = regionalizedSystemName(plugin: plugin, languageCode: localization) ?? baseSystemName
             strings[typeName] = toGameFileName(systemName: localizedName, appBundle: appBundle, localization: localization)
@@ -195,9 +216,9 @@ func updateInfoPlist(appBundle: Bundle, systemPlugins: [Bundle])
         }
     }
     
-    // generate one type for all extensions that are used by multiple systems
+    // Generate one type for all extensions that are used by multiple systems
     let multiSysTypeName = toGameFileName(systemName: "OpenEmu", appBundle: appBundle, localization: "en")
-    allTypes[multiSysTypeName] = systemDocument(typeName: multiSysTypeName, extensions: Array<String>.init(multiSystemExts))
+    newTypes += systemDocuments(typeName: multiSysTypeName, extensions: Array<String>.init(multiSystemExts))
     for (localization, var strings) in localizations {
         strings[multiSysTypeName] = toGameFileName(systemName: "OpenEmu", appBundle: appBundle, localization: localization)
         localizations[localization] = strings
@@ -210,10 +231,9 @@ func updateInfoPlist(appBundle: Bundle, systemPlugins: [Bundle])
         var infoPlist = try PropertyListSerialization.propertyList(from: infoPlistXml, options: .mutableContainers, format: nil) as! [String : Any]
         
         let existingTypes = infoPlist["CFBundleDocumentTypes"] as! [[String : Any]]
-        for type in existingTypes {
-            allTypes[type["CFBundleTypeName"] as! String] = type
-        }
-        infoPlist["CFBundleDocumentTypes"] = Array(allTypes.values)
+        let generatedTypeNames = Set<String>(newTypes.map({ $0["CFBundleTypeName"] as! String }))
+        let existingTypesToKeep = existingTypes.filter({ !generatedTypeNames.contains($0["CFBundleTypeName"] as! String) })
+        infoPlist["CFBundleDocumentTypes"] = existingTypesToKeep + newTypes
         
         let updatedInfoPlist = try PropertyListSerialization.data(fromPropertyList: infoPlist, format: .xml, options: 0)
         
