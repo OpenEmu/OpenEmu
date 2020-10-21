@@ -46,7 +46,7 @@
                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                         <tableColumns>
-                                            <tableColumn width="154" minWidth="16" maxWidth="1000" id="TQT-sV-f9j">
+                                            <tableColumn width="183" minWidth="16" maxWidth="1000" id="TQT-sV-f9j">
                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -97,7 +97,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="Nvs-ey-EH6" customClass="OEGameScannerButton">
-                                    <rect key="frame" x="152" y="22" width="26" height="30"/>
+                                    <rect key="frame" x="152" y="24" width="26" height="26"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="26" id="CFR-jn-zSg"/>
                                         <constraint firstAttribute="width" constant="26" id="ddZ-Gv-tdq"/>
@@ -114,7 +114,7 @@
                                     <rect key="frame" x="15" y="31" width="136" height="12"/>
                                 </progressIndicator>
                                 <button hidden="YES" verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vaP-Xa-Oni">
-                                    <rect key="frame" x="15" y="8" width="107" height="20"/>
+                                    <rect key="frame" x="15" y="8" width="115" height="20"/>
                                     <buttonCell key="cell" type="inline" title="Resolve Issues" bezelStyle="inline" image="arrow_right" imagePosition="trailing" controlSize="small" lineBreakMode="truncatingTail" inset="2" id="dGi-Zi-KFE">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="smallSystemBold"/>
