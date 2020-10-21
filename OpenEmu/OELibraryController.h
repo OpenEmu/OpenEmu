@@ -26,8 +26,6 @@
 
 @import Cocoa;
 
-#import "OELibrarySplitView.h"
-
 @class OELibraryDatabase;
 @class OESidebarController;
 @class OELibrarySplitView;

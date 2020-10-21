@@ -24,9 +24,9 @@
             </connections>
         </viewController>
         <viewController nibName="" id="ZI1-g0-Ovb" customClass="OEGameCollectionViewController"/>
-        <splitView autosaveName="mainSplitView" dividerStyle="thin" vertical="YES" id="swh-F8-vNy" userLabel="Library Split View" customClass="OELibrarySplitView">
+        <splitView autosaveName="mainSplitView" dividerStyle="thin" vertical="YES" id="swh-F8-vNy" userLabel="Library Split View">
             <rect key="frame" x="0.0" y="0.0" width="830" height="600"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <visualEffectView fixedFrame="YES" blendingMode="behindWindow" material="sidebar" state="followsWindowActiveState" id="jVR-Tc-HAY">
                     <rect key="frame" x="0.0" y="0.0" width="186" height="600"/>
@@ -172,7 +172,7 @@
                 </customView>
             </subviews>
             <holdingPriorities>
-                <real value="250"/>
+                <real value="251"/>
                 <real value="250"/>
             </holdingPriorities>
             <point key="canvasLocation" x="91" y="106"/>

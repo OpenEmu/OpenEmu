@@ -28,7 +28,6 @@
 
 #import "OEGameCollectionViewController.h"
 #import "OESidebarController.h"
-#import "OELibrarySplitView.h"
 
 #import "OEDBCollection.h"
 #import "OEDBSystem+CoreDataProperties.h"
@@ -37,14 +36,27 @@
 
 #import "OpenEmu-Swift.h"
 
+#pragma mark - Public constants
+
+NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
+NSNotificationName const OELibrarySplitViewResetSidebarNotification = @"OELibrarySplitViewResetSidebarNotification";
+
+#pragma mark - Private constants
+
 #define MainMenu_View_GridTag      301
 #define MainMenu_View_ListTag      303
 
-NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
+static const CGFloat _OESidebarMinWidth  = 105;
+static const CGFloat _OESidebarMaxWidth  = 450;
+static const CGFloat _OEMainViewMinWidth = 495;
+
+#pragma mark - Private class members
 
 @interface OELibraryGamesViewController()<OELibrarySubviewControllerGameSelection>
 @property (nonatomic, readonly, nullable) OELibraryToolbar *toolbar;
 @end
+
+#pragma mark - Implementation
 
 @implementation OELibraryGamesViewController
 @synthesize database = _database;
@@ -79,6 +91,8 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     [self addChildViewController:self.sidebarController];
     [self addChildViewController:self.collectionController];
     [self addChildViewController:self.gameScannerController];
+    
+    [self _setupSplitView];
 }
 
 - (void)viewWillAppear
@@ -112,6 +126,41 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     field.searchMenuTemplate = nil;
     field.enabled = NO;
     field.stringValue = @"";
+}
+
+#pragma mark - Split View
+
+- (void)_setupSplitView
+{
+    [NSUserDefaults.standardUserDefaults registerDefaults:@{
+        @"lastSidebarWidth": @186.0f,
+    }];
+    
+    NSSplitView *librarySplitView = (NSSplitView *)self.view;
+    NSView *sidebar = librarySplitView.arrangedSubviews[0];
+    NSView *gridView = librarySplitView.arrangedSubviews[1];
+    
+    [librarySplitView addConstraints:@[
+        [sidebar.widthAnchor constraintGreaterThanOrEqualToConstant:_OESidebarMinWidth],
+        [sidebar.widthAnchor constraintLessThanOrEqualToConstant:_OESidebarMaxWidth],
+        [gridView.widthAnchor constraintGreaterThanOrEqualToConstant:_OEMainViewMinWidth]
+    ]];
+    
+    if (![NSUserDefaults.standardUserDefaults objectForKey:@"NSSplitView Subview Frames gamesLibrarySplitView"]) {
+        /* read the old property key (OE 2.2.1 and prior) */
+        CGFloat dividerPosition = [NSUserDefaults.standardUserDefaults doubleForKey:@"lastSidebarWidth"];
+        [librarySplitView setPosition:dividerPosition ofDividerAtIndex:0];
+    }
+    librarySplitView.autosaveName = @"libraryGamesSplitView";
+    
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(resetSidebar) name:OELibrarySplitViewResetSidebarNotification object:nil];
+    
+}
+
+- (void)resetSidebar
+{
+    NSSplitView *librarySplitView = (NSSplitView *)self.view;
+    [librarySplitView setPosition:186.0 ofDividerAtIndex:0];
 }
 
 #pragma mark - Validation
@@ -230,6 +279,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 }
 
 #pragma mark - Sidebar handling
+
 - (void)_updateCollectionContentsFromSidebar:(id)sender
 {
     id selectedItem = self.sidebarController.selectedSidebarItem;
