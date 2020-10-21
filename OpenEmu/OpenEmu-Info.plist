@@ -7,6 +7,8 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
+			<key>LSHandlerRank</key>
+			<string>None</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>tar.gz</string>
