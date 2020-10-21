@@ -118,6 +118,8 @@ typedef NS_ENUM(NSUInteger, OELibraryCategory) {
     _libraryGamesViewController = [[OELibraryGamesViewController alloc] init];
     [self addChildViewController:_libraryGamesViewController];
     _libraryGamesViewController.database = self.database;
+    // HACK: force NIB to load, so GameScannerViewController is initialized
+    (void)_libraryGamesViewController.view;
     
     _saveStatesViewController = [[OEMediaViewController alloc] init];
     [self addChildViewController:_saveStatesViewController];

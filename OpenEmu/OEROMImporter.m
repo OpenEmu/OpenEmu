@@ -304,7 +304,9 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     self.totalNumberOfItems++;
     [self start];
 
-    [self OE_performSelectorOnDelegate:@selector(romImporterChangedItemCount:) withObject:self];
+    [self OE_delegateRespondsToSelector:@selector(romImporterChangedItemCount:) block: ^{
+        [self.delegate romImporterChangedItemCount:self];
+    }];
 }
 
 - (void)rescheduleOperation:(OEImportOperation* )operation
@@ -345,8 +347,10 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
                 block(op.romObjectID);
             });
         }
-
-        [self OE_performSelectorOnDelegate:@selector(romImporter:stoppedProcessingItem:) withObject:op];
+        
+        [self OE_delegateRespondsToSelector:@selector(romImporter:stoppedProcessingItem:) block:^{
+            [self.delegate romImporter:self stoppedProcessingItem:op];
+        }];
 
         if(importer.operationQueue.operationCount == 0)
         {
@@ -366,7 +370,9 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     {
         self.status = OEImporterStatusRunning;
         self.operationQueue.suspended = NO;
-        [self OE_performSelectorOnDelegate:@selector(romImporterDidStart:) withObject:self];
+        [self OE_delegateRespondsToSelector:@selector(romImporterDidStart:) block:^{
+            [self.delegate romImporterDidStart:self];
+        }];
     }
 }
 
@@ -377,7 +383,9 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     {
         self.status = OEImporterStatusPaused;
         self.operationQueue.suspended = YES;
-        [self OE_performSelectorOnDelegate:@selector(romImporterDidPause:) withObject:self];
+        [self OE_delegateRespondsToSelector:@selector(romImporterDidPause:) block:^{
+            [self.delegate romImporterDidPause:self];
+        }];
     }
 }
 
@@ -402,7 +410,9 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     self.totalNumberOfItems = 0;
     self.operationQueue.suspended = YES;
 
-    [self OE_performSelectorOnDelegate:@selector(romImporterDidCancel:) withObject:self];
+    [self OE_delegateRespondsToSelector:@selector(romImporterDidCancel:) block:^{
+        [self.delegate romImporterDidCancel:self];
+    }];
 }
 
 - (void)finish
@@ -416,7 +426,9 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     self.totalNumberOfItems = 0;
     self.operationQueue.suspended = YES;
 
-    [self OE_performSelectorOnDelegate:@selector(romImporterDidFinish:) withObject:self];
+    [self OE_delegateRespondsToSelector:@selector(romImporterDidFinish:) block:^{
+        [self.delegate romImporterDidFinish:self];
+    }];
 }
 
 #pragma mark - Private Methods -
@@ -424,19 +436,25 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 - (void)setTotalNumberOfItems:(NSInteger)totalNumberOfItems
 {
     _totalNumberOfItems = totalNumberOfItems;
-    [self OE_performSelectorOnDelegate:@selector(romImporterChangedItemCount:) withObject:nil];
+    [self OE_delegateRespondsToSelector:@selector(romImporterChangedItemCount:) block:^{
+        [self.delegate romImporterChangedItemCount:self];
+    }];
 }
 
-- (void)OE_performSelectorOnDelegate:(SEL)selector withObject:(nullable id)object
+- (void)OE_delegateRespondsToSelector:(SEL)selector block:(void (^)(void))block
 {
-    if(![self.delegate respondsToSelector:selector] ||
-       ![self.delegate respondsToSelector:@selector(performSelectorOnMainThread:withObject:waitUntilDone:)])
-        return;
-    
-    NSAssert(protocol_getMethodDescription(@protocol(OEROMImporterDelegate), selector, NO, YES).name == selector,
-             @"Unknown delegate method %@", NSStringFromSelector(selector));
+    if ([self.delegate respondsToSelector:selector])
+    {
+        if (NSThread.isMainThread)
+        {
+            block();
+        }
+        else
+        {
+            dispatch_sync(dispatch_get_main_queue(), block);
+        }
+    }
 
-    [(NSObject *)self.delegate performSelectorOnMainThread:selector withObject:object waitUntilDone:YES];
 }
 
 @end
