@@ -46,9 +46,10 @@ NSNotificationName const OELibrarySplitViewResetSidebarNotification = @"OELibrar
 #define MainMenu_View_GridTag      301
 #define MainMenu_View_ListTag      303
 
-static const CGFloat _OESidebarMinWidth  = 105;
-static const CGFloat _OESidebarMaxWidth  = 450;
-static const CGFloat _OEMainViewMinWidth = 495;
+static const CGFloat _OESidebarMinWidth     = 105;
+static const CGFloat _OESidebarDefaultWidth = 185;
+static const CGFloat _OESidebarMaxWidth     = 450;
+static const CGFloat _OEMainViewMinWidth    = 495;
 
 #pragma mark - Private class members
 
@@ -133,7 +134,7 @@ static const CGFloat _OEMainViewMinWidth = 495;
 - (void)_setupSplitView
 {
     [NSUserDefaults.standardUserDefaults registerDefaults:@{
-        @"lastSidebarWidth": @186.0f,
+        @"lastSidebarWidth": @(_OESidebarDefaultWidth),
     }];
     
     NSSplitView *librarySplitView = (NSSplitView *)self.view;
@@ -160,7 +161,7 @@ static const CGFloat _OEMainViewMinWidth = 495;
 - (void)resetSidebar
 {
     NSSplitView *librarySplitView = (NSSplitView *)self.view;
-    [librarySplitView setPosition:186.0 ofDividerAtIndex:0];
+    [librarySplitView setPosition:_OESidebarDefaultWidth ofDividerAtIndex:0];
 }
 
 #pragma mark - Validation
