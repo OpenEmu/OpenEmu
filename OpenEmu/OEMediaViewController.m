@@ -87,6 +87,11 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     return self;
 }
 
+- (OECollectionViewControllerViewTag)selectedViewTag
+{
+    return OEGridViewTag;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

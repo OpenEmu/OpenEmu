@@ -327,12 +327,11 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
         [self OE_setupToolbarStatesForViewTag:tag];
     }
     
-    if(_selectedViewTag == tag && tag != OEBlankSlateTag)
-        return;
-
     [self OE_showView:tag];
 
-    _selectedViewTag = tag;
+    if (tag != OEBlankSlateTag) {
+        _selectedViewTag = tag;
+    }
 }
 
 - (void)OE_showView:(OECollectionViewControllerViewTag)tag
@@ -417,8 +416,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 - (void)updateBlankSlate
 {
     if (!self.shouldShowBlankSlate) {
-        
-        [self OE_switchToView:self.OE_currentViewTagByToolbarState];
+        [self OE_switchToView:self.selectedViewTag];
 
         if (self.view.superview != nil) {
             OELibraryToolbar *toolbar = self.toolbar;
@@ -447,14 +445,6 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 - (BOOL)shouldShowBlankSlate
 {
     return NO;
-}
-
-- (OECollectionViewControllerViewTag)OE_currentViewTagByToolbarState
-{
-    if (self.toolbar.viewModeSelector.selectedSegment == 0)
-        return OEGridViewTag;
-    else
-        return OEListViewTag;
 }
 
 #pragma mark - Context Menu
