@@ -247,15 +247,9 @@
 		3DB744AB1BD8BA9E00C23E74 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		3DB744BD1BD8BAB200C23E74 /* OEPS2SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB744781BD8B95300C23E74 /* OEPS2SystemController.m */; };
 		3DB744BF1BD8BAB200C23E74 /* OEPS2SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7447A1BD8B95300C23E74 /* OEPS2SystemResponder.m */; };
-		3DB744C11BD8BACD00C23E74 /* controller_psx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB7447F1BD8B9DE00C23E74 /* controller_psx_mask.png */; };
-		3DB744C21BD8BACD00C23E74 /* controller_psx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744801BD8B9DE00C23E74 /* controller_psx_mask@2x.png */; };
-		3DB744C31BD8BACD00C23E74 /* controller_psx.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744811BD8B9DE00C23E74 /* controller_psx.png */; };
-		3DB744C41BD8BACD00C23E74 /* controller_psx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744821BD8B9DE00C23E74 /* controller_psx@2x.png */; };
 		3DB744C51BD8BACD00C23E74 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744831BD8B9DE00C23E74 /* Controller-Mappings.plist */; };
 		3DB744C61BD8BACD00C23E74 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744841BD8B9DE00C23E74 /* Controller-Preferences.plist */; };
 		3DB744C71BD8BACD00C23E74 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744851BD8B9DE00C23E74 /* Keyboard-Mappings.plist */; };
-		3DB744C91BD8BACD00C23E74 /* psx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744871BD8B9DE00C23E74 /* psx_library.png */; };
-		3DB744CA1BD8BACD00C23E74 /* psx_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744881BD8B9DE00C23E74 /* psx_library@2x.png */; };
 		3DB744CE1BD8BB0B00C23E74 /* PlayStation 2.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3DB744BA1BD8BA9E00C23E74 /* PlayStation 2.oesystemplugin */; };
 		53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */; };
 		53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8F13B92C68005C0CC8 /* OEDBDataSourceAdditions.m */; };
@@ -318,6 +312,7 @@
 		55BE9912254333A700E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE9911254333A700E3841E /* Images.xcassets */; };
 		55BE99BC254333FC00E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE99BB254333FC00E3841E /* Images.xcassets */; };
 		55BE9A2E2543344300E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE9A2D2543344300E3841E /* Images.xcassets */; };
+		55BE9B1025439A1E00E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE9B0F25439A1E00E3841E /* Images.xcassets */; };
 		5A2CE89A206EA61B00790F89 /* NSArray+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.m */; };
 		5A3BB0391D964A4500E10F27 /* CenteredTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */; };
 		5A3DB1691D8C93C3009445EC /* PreferencesControlsBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1681D8C93C3009445EC /* PreferencesControlsBox.swift */; };
@@ -1435,16 +1430,10 @@
 		3DB744791BD8B95300C23E74 /* OEPS2SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPS2SystemResponder.h; sourceTree = "<group>"; };
 		3DB7447A1BD8B95300C23E74 /* OEPS2SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPS2SystemResponder.m; sourceTree = "<group>"; };
 		3DB7447B1BD8B95300C23E74 /* OEPS2SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPS2SystemResponderClient.h; sourceTree = "<group>"; };
-		3DB7447F1BD8B9DE00C23E74 /* controller_psx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_psx_mask.png; sourceTree = "<group>"; };
-		3DB744801BD8B9DE00C23E74 /* controller_psx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psx_mask@2x.png"; sourceTree = "<group>"; };
-		3DB744811BD8B9DE00C23E74 /* controller_psx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_psx.png; sourceTree = "<group>"; };
-		3DB744821BD8B9DE00C23E74 /* controller_psx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psx@2x.png"; sourceTree = "<group>"; };
 		3DB744831BD8B9DE00C23E74 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		3DB744841BD8B9DE00C23E74 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		3DB744851BD8B9DE00C23E74 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		3DB744861BD8B9DE00C23E74 /* PlayStation2-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PlayStation2-Info.plist"; sourceTree = "<group>"; };
-		3DB744871BD8B9DE00C23E74 /* psx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = psx_library.png; sourceTree = "<group>"; };
-		3DB744881BD8B9DE00C23E74 /* psx_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "psx_library@2x.png"; sourceTree = "<group>"; };
 		3DB744BA1BD8BA9E00C23E74 /* PlayStation 2.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlayStation 2.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E35119B1C35DA8E0063E8CA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
 		3E35119F1C35DA8E0063E8CA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
@@ -1536,6 +1525,7 @@
 		55BE9911254333A700E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		55BE99BB254333FC00E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		55BE9A2D2543344300E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		55BE9B0F25439A1E00E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "SystemPlugins/PlayStation 2/Images.xcassets"; sourceTree = SOURCE_ROOT; };
 		5A2CE895206EA5E900790F89 /* NSArray+OEAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEAdditions.h"; sourceTree = "<group>"; };
 		5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+OEAdditions.m"; sourceTree = "<group>"; };
 		5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenteredTextFieldCell.swift; sourceTree = "<group>"; };
@@ -3217,12 +3207,7 @@
 		3DB7447E1BD8B9C800C23E74 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3DB744871BD8B9DE00C23E74 /* psx_library.png */,
-				3DB744881BD8B9DE00C23E74 /* psx_library@2x.png */,
-				3DB744811BD8B9DE00C23E74 /* controller_psx.png */,
-				3DB744821BD8B9DE00C23E74 /* controller_psx@2x.png */,
-				3DB7447F1BD8B9DE00C23E74 /* controller_psx_mask.png */,
-				3DB744801BD8B9DE00C23E74 /* controller_psx_mask@2x.png */,
+				55BE9B0F25439A1E00E3841E /* Images.xcassets */,
 				3DB744861BD8B9DE00C23E74 /* PlayStation2-Info.plist */,
 				3DB744851BD8B9DE00C23E74 /* Keyboard-Mappings.plist */,
 				3DB744831BD8B9DE00C23E74 /* Controller-Mappings.plist */,
@@ -5924,15 +5909,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3DB744C11BD8BACD00C23E74 /* controller_psx_mask.png in Resources */,
-				3DB744C21BD8BACD00C23E74 /* controller_psx_mask@2x.png in Resources */,
-				3DB744C31BD8BACD00C23E74 /* controller_psx.png in Resources */,
-				3DB744C41BD8BACD00C23E74 /* controller_psx@2x.png in Resources */,
+				55BE9B1025439A1E00E3841E /* Images.xcassets in Resources */,
 				3DB744C51BD8BACD00C23E74 /* Controller-Mappings.plist in Resources */,
 				3DB744C61BD8BACD00C23E74 /* Controller-Preferences.plist in Resources */,
 				3DB744C71BD8BACD00C23E74 /* Keyboard-Mappings.plist in Resources */,
-				3DB744C91BD8BACD00C23E74 /* psx_library.png in Resources */,
-				3DB744CA1BD8BACD00C23E74 /* psx_library@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

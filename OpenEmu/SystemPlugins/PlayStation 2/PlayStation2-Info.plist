@@ -279,7 +279,7 @@
 	<key>OESystemCoverAspectRatio</key>
 	<string>1.41</string>
 	<key>OESystemIcon</key>
-	<string>psx_library</string>
+	<string>ps2_library</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.ps2</string>
 	<key>OESystemName</key>

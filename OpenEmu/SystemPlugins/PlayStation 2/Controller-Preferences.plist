@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_psx</string>
+	<string>controller_ps2</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_psx_mask</string>
+	<string>controller_ps2_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEPSXButtonUp</key>
