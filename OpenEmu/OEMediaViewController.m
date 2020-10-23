@@ -414,14 +414,14 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 - (IBAction)decreaseGridSize:(id)sender
 {
     NSSlider *slider = self.toolbar.gridSizeSlider;
-    slider.doubleValue -= 0.5;
+    slider.doubleValue -= [sender tag] == 199 ? 0.25 : 0.5;
     [self zoomGridViewWithValue:[slider floatValue]];
 }
 
 - (IBAction)increaseGridSize:(id)sender
 {
     NSSlider *slider = self.toolbar.gridSizeSlider;
-    slider.doubleValue += 0.5;
+    slider.doubleValue += [sender tag] == 199 ? 0.25 : 0.5;
     [self zoomGridViewWithValue:[slider floatValue]];
 }
 

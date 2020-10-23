@@ -481,6 +481,29 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" tag="1" id="eG3-hO-28O"/>
+                                        <menuItem title="Decrease Grid Size" hidden="YES" keyEquivalent="-" allowsKeyEquivalentWhenHidden="YES" id="flF-hP-opV">
+                                            <connections>
+                                                <action selector="decreaseGridSize:" target="-1" id="In2-nG-cCJ"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Decrease Grid Size" tag="199" hidden="YES" keyEquivalent="-" allowsKeyEquivalentWhenHidden="YES" id="q3j-HG-4xT">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="decreaseGridSize:" target="-1" id="5nJ-ar-dBu"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Increase Grid Size" hidden="YES" keyEquivalent="+" allowsKeyEquivalentWhenHidden="YES" id="qRo-yt-KpX">
+                                            <connections>
+                                                <action selector="increaseGridSize:" target="-1" id="nxN-oE-c2j"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Increase Grid Size" tag="199" hidden="YES" keyEquivalent="+" allowsKeyEquivalentWhenHidden="YES" id="J1F-Yd-6Rv">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="increaseGridSize:" target="-1" id="s49-Yg-PDA"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" hidden="YES" allowsKeyEquivalentWhenHidden="YES" id="d4l-6Q-ejX"/>
                                         <menuItem title="Show Library" tag="10" hidden="YES" id="1306">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>

@@ -268,14 +268,14 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 - (IBAction)decreaseGridSize:(id)sender
 {
     NSSlider *slider = self.toolbar.gridSizeSlider;
-    slider.doubleValue -= 0.5;
+    slider.doubleValue -= [sender tag] == 199 ? 0.25 : 0.5;
     [self.collectionController zoomGridViewWithValue:slider.doubleValue];
 }
 
 - (IBAction)increaseGridSize:(id)sender
 {
     NSSlider *slider = self.toolbar.gridSizeSlider;
-    slider.doubleValue += 0.5;
+    slider.doubleValue += [sender tag] == 199 ? 0.25 : 0.5;
     [self.collectionController zoomGridViewWithValue:slider.doubleValue];
 }
 

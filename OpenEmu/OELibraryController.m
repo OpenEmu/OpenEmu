@@ -352,6 +352,11 @@ typedef NS_ENUM(NSUInteger, OELibraryCategory) {
         return YES;
     }
     
+    if(action == @selector(decreaseGridSize:) || action == @selector(increaseGridSize:))
+    {
+        return self.toolbar.gridSizeSlider.isEnabled;
+    }
+    
     NSSegmentedControl *viewModeSelector = self.toolbar.viewModeSelector;
     if(action == @selector(switchToGridView:)) {
         menuItem.state = viewModeSelector.selectedSegment == 0 ? NSControlStateValueOn : NSControlStateValueOff;
