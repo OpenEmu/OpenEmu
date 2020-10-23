@@ -576,7 +576,6 @@
 		8F0D804924ED7F14001BD8E2 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D804824ED7F14001BD8E2 /* Label.swift */; };
 		8F1482FB24EABEAB006E79DB /* HomebrewDeveloperLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */; };
 		8F2F92AA2519A9E700699691 /* GameScannerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2F92A92519A9E700699691 /* GameScannerButton.swift */; };
-		8F3062A4251A894300BDFF1F /* ValidatingToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3062A3251A894300BDFF1F /* ValidatingToolbarItem.swift */; };
 		8F3062DB251A897F00BDFF1F /* OESearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3062DA251A897E00BDFF1F /* OESearchField.swift */; };
 		8F4BDF7B1CE4AB25007DCB86 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */; };
 		8F4BDF7D1CE4AB34007DCB86 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7C1CE4AB34007DCB86 /* libsqlite3.tbd */; };
@@ -2122,7 +2121,6 @@
 		8F0D804824ED7F14001BD8E2 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewDeveloperLink.swift; sourceTree = "<group>"; };
 		8F2F92A92519A9E700699691 /* GameScannerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScannerButton.swift; sourceTree = "<group>"; };
-		8F3062A3251A894300BDFF1F /* ValidatingToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatingToolbarItem.swift; sourceTree = "<group>"; };
 		8F3062DA251A897E00BDFF1F /* OESearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OESearchField.swift; sourceTree = "<group>"; };
 		8F40EB781C1072B000683055 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OEMigrationWindowController.xib; sourceTree = "<group>"; };
 		8F40EB791C1072B100683055 /* OEPrefControlsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OEPrefControlsController.xib; sourceTree = "<group>"; };
@@ -4004,7 +4002,6 @@
 				8F3062DA251A897E00BDFF1F /* OESearchField.swift */,
 				012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */,
 				5A9606DB1C0A84BC0089B494 /* LibraryToolbar.swift */,
-				8F3062A3251A894300BDFF1F /* ValidatingToolbarItem.swift */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -7726,7 +7723,6 @@
 				5A886E581BF43AC900775123 /* NSWindow+Image.swift in Sources */,
 				05E789AB23D0256D000E14EE /* NSBindingName+Additions.swift in Sources */,
 				0544B69223D16D0C00F63D61 /* ImageCollectionViewController.swift in Sources */,
-				8F3062A4251A894300BDFF1F /* ValidatingToolbarItem.swift in Sources */,
 				836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */,
 				0544B6A923D16DDC00F63D61 /* ScreenshotViewController.swift in Sources */,
 				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,

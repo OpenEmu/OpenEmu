@@ -322,10 +322,6 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
         [listView reloadData];
     else
         [_gridView reloadData];
-
-    if (self.view.superview != nil) {
-        [self OE_setupToolbarStatesForViewTag:tag];
-    }
     
     [self OE_showView:tag];
 
@@ -394,50 +390,14 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     return self.view.bounds;
 }
 
-- (void)OE_setupToolbarStatesForViewTag:(OECollectionViewControllerViewTag)tag
-{
-    OELibraryToolbar *toolbar = self.toolbar;
-    switch (tag) {
-        case OEGridViewTag:
-            toolbar.viewModeSelector.selectedSegment = 0;
-            toolbar.gridSizeSlider.enabled = YES;
-            break;
-        case OEListViewTag:
-            toolbar.viewModeSelector.selectedSegment = 1;
-            toolbar.gridSizeSlider.enabled = NO;
-            break;
-        case OEBlankSlateTag:
-            toolbar.gridSizeSlider.enabled = NO;
-            toolbar.viewModeSelector.enabled = NO;
-            break;
-    }
-}
-
 - (void)updateBlankSlate
 {
     if (!self.shouldShowBlankSlate) {
         [self OE_switchToView:self.selectedViewTag];
-
-        if (self.view.superview != nil) {
-            OELibraryToolbar *toolbar = self.toolbar;
-            toolbar.viewModeSelector.enabled = YES;
-            toolbar.gridSizeSlider.enabled = self.selectedViewTag == OEGridViewTag;
-            toolbar.searchField.enabled = YES;
-            toolbar.searchField.menu = nil;
-        }
     }
     else
     {
         [self OE_switchToView:OEBlankSlateTag];
-
-        if (self.view.superview != nil) {
-            OELibraryToolbar *toolbar = self.toolbar;
-            toolbar.viewModeSelector.enabled = NO;
-            toolbar.gridSizeSlider.enabled = NO;
-            toolbar.searchField.enabled = NO;
-            toolbar.searchField.menu = nil;
-        }
-
         blankSlateView.representedObject = self.representedObject;
     }
 }

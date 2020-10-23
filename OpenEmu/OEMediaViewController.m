@@ -104,11 +104,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     [super viewDidAppear];
     
-    [self _setupToolbar];
-    
-    NSSearchField *searchField = self.toolbar.searchField;
-    searchField.enabled = YES;
-    searchField.stringValue = self.currentSearchTerm ?: @"";
+    [self _validateToolbarItems];
     
     [self restoreSelectionFromDefaults];
 }
@@ -172,7 +168,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     }
 }
 
-- (void)_setupToolbar
+- (void)_validateToolbarItems
 {
     OELibraryToolbar *toolbar = self.toolbar;
     
@@ -180,38 +176,13 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     toolbar.viewModeSelector.selectedSegment = -1;
     
     toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
+    toolbar.decreaseGridSizeButton.enabled = !_shouldShowBlankSlate;
+    toolbar.increaseGridSizeButton.enabled = !_shouldShowBlankSlate;
     
-    NSSearchField *field = toolbar.searchField;
-    field.searchMenuTemplate = nil;
-    field.enabled = YES;
-    field.stringValue = @"";
-    field.enabled = !_shouldShowBlankSlate;
-    
-    [self _setupSearchMenuTemplate];
-}
-
-- (BOOL)validateToolbarItem:(NSToolbarItem *)item
-{
-    if ([item action] == @selector(switchToView:))
-    {
-        if ([item.view isKindOfClass:NSSegmentedControl.class])
-        {
-            __auto_type ctl = (NSSegmentedControl *)item.view;
-            ctl.selectedSegment = -1;
-        }
-        return NO;
-    }
-    else if ([item action] == @selector(changeGridSize:) ||
-             [item action] == @selector(decreaseGridSize:) ||
-             [item action] == @selector(increaseGridSize:))
-    {
-        return !self.shouldShowBlankSlate;
-    }
-    else if ([item action] == @selector(search:))
-    {
-        return !self.shouldShowBlankSlate;
-    }
-    return YES;
+    toolbar.searchField.enabled = !_shouldShowBlankSlate;
+    if(!toolbar.searchField.searchMenuTemplate)
+        toolbar.searchField.searchMenuTemplate = [self searchMenuTemplate];
+    toolbar.searchField.stringValue = self.currentSearchTerm ?: @"";
 }
 
 - (void)updateBlankSlate
@@ -223,18 +194,10 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         return;
     }
     
-    if ([self.view.window.toolbar isKindOfClass:OELibraryToolbar.class])
-    {
-        __auto_type toolbar = (OELibraryToolbar *)self.view.window.toolbar;
-        toolbar.searchField.enabled = !_shouldShowBlankSlate;
-        toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
-        
-        toolbar.viewModeSelector.enabled = NO;
-        toolbar.viewModeSelector.selectedSegment = -1;
-    }
+    [self _validateToolbarItems];
 }
 
-- (void)_setupSearchMenuTemplate
+- (NSMenu *)searchMenuTemplate
 {
     NSMenuItem *item = nil;
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
@@ -273,7 +236,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Filter by:", @"Search field menu, first item, instructional") action:NULL keyEquivalent:@""];
     [menu insertItem:item atIndex:0];
 
-    [self.toolbar.searchField setSearchMenuTemplate:menu];
+    return menu;
 }
 
 - (void)searchScopeDidChange:(NSMenuItem*)sender
@@ -296,8 +259,6 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         self.saveStateMode = [representedObject isKindOfClass:[OEDBSavedGamesMedia class]];
         [self reloadData];
     }
-    
-    [self _setupSearchMenuTemplate];
 }
 
 - (OECollectionViewControllerViewTag)OE_currentViewTagByToolbarState

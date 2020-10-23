@@ -42,4 +42,8 @@ extern NSNotificationName const OEGameCollectionViewControllerDidSetSelectionInd
 - (void)addCoverArtFromFile:(id)sender;
 - (void)addSaveStateFromFile:(id)sender;
 - (void)consolidateFiles:(id)sender;
+
+/// The search term of the currently applied filter.
+@property (copy, nullable) NSString *currentSearchTerm;
+
 @end

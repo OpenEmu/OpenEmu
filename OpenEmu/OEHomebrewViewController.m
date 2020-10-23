@@ -123,7 +123,7 @@ const static CGFloat TableViewSpacing = 86.0;
 
 - (void)viewDidAppear
 {
-    [self _setupToolbar];
+    [self _validateToolbarItems];
     
     [super viewDidAppear];
 
@@ -140,7 +140,7 @@ const static CGFloat TableViewSpacing = 86.0;
     return [tb isKindOfClass:OELibraryToolbar.class] ? (OELibraryToolbar *)tb : nil;
 }
 
-- (void)_setupToolbar
+- (void)_validateToolbarItems
 {
     OELibraryToolbar *toolbar = self.toolbar;
     
@@ -148,33 +148,12 @@ const static CGFloat TableViewSpacing = 86.0;
     toolbar.viewModeSelector.selectedSegment = -1;
     
     toolbar.gridSizeSlider.enabled = NO;
-
-    NSSearchField *field = toolbar.searchField;
-    field.searchMenuTemplate = nil;
-    field.enabled = NO;
-    field.stringValue = @"";
-}
-
-- (BOOL)validateToolbarItem:(id)item
-{
-    OELibraryToolbar *toolbar = self.toolbar;
+    toolbar.decreaseGridSizeButton.enabled = NO;
+    toolbar.increaseGridSizeButton.enabled = NO;
     
-    if ([item action] == @selector(switchToView:))
-    {
-        toolbar.viewModeSelector.selectedSegment = -1;
-        return NO;
-    }
-    else if ([item action] == @selector(changeGridSize:) ||
-             [item action] == @selector(decreaseGridSize:) ||
-             [item action] == @selector(increaseGridSize:))
-    {
-        return NO;
-    }
-    else if ([item action] == @selector(search:))
-    {
-        return NO;
-    }
-    return YES;
+    toolbar.searchField.enabled = NO;
+    toolbar.searchField.searchMenuTemplate = nil;
+    toolbar.searchField.stringValue = @"";
 }
 
 #pragma mark - Data Handling
