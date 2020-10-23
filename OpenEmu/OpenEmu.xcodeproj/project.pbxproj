@@ -222,10 +222,6 @@
 		05F5BAEE22866317004D713C /* OpenEmuShaders.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		081A462F1B9574CE00565444 /* Pokemon mini.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 081A46261B95744A00565444 /* Pokemon mini.oesystemplugin */; };
 		0867695A1B96E8B2006545DA /* OEPMSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 086769591B96E8B2006545DA /* OEPMSystemResponder.m */; };
-		0867695D1B96E8D4006545DA /* pokemonmini_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 0867695C1B96E8D4006545DA /* pokemonmini_library.png */; };
-		0867695F1B96E8DB006545DA /* pokemonmini_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0867695E1B96E8DB006545DA /* pokemonmini_library@2x.png */; };
-		086769611B96E8E6006545DA /* controller_pokemonmini_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 086769601B96E8E6006545DA /* controller_pokemonmini_mask.png */; };
-		086769631B96E902006545DA /* controller_pokemonmini.png in Resources */ = {isa = PBXBuildFile; fileRef = 086769621B96E902006545DA /* controller_pokemonmini.png */; };
 		086769671B96E92C006545DA /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 086769661B96E92C006545DA /* Keyboard-Mappings.plist */; };
 		086769691B96E936006545DA /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 086769681B96E936006545DA /* Controller-Preferences.plist */; };
 		0867696B1B96E93F006545DA /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0867696A1B96E93F006545DA /* Controller-Mappings.plist */; };
@@ -314,8 +310,14 @@
 		55BE93892542AE3900E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE93882542AE3900E3841E /* Images.xcassets */; };
 		55BE94332542AE6200E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE94322542AE6200E3841E /* Images.xcassets */; };
 		55BE94DD2542AE9B00E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE94DC2542AE9B00E3841E /* Images.xcassets */; };
-		5A221A7B1BFD87AF002FDD10 /* c64_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221A791BFD87AF002FDD10 /* c64_library.png */; };
-		5A221A801BFD8A35002FDD10 /* c64_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221A7F1BFD8A35002FDD10 /* c64_library@2x.png */; };
+		55BE95F8254331C900E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE95F7254331C900E3841E /* Images.xcassets */; };
+		55BE96A22543328600E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE96A12543328600E3841E /* Images.xcassets */; };
+		55BE974C254332C800E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE974B254332C800E3841E /* Images.xcassets */; };
+		55BE97F62543333400E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE97F52543333400E3841E /* Images.xcassets */; };
+		55BE98A02543337600E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE989F2543337600E3841E /* Images.xcassets */; };
+		55BE9912254333A700E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE9911254333A700E3841E /* Images.xcassets */; };
+		55BE99BC254333FC00E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE99BB254333FC00E3841E /* Images.xcassets */; };
+		55BE9A2E2543344300E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE9A2D2543344300E3841E /* Images.xcassets */; };
 		5A2CE89A206EA61B00790F89 /* NSArray+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.m */; };
 		5A3BB0391D964A4500E10F27 /* CenteredTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */; };
 		5A3DB1691D8C93C3009445EC /* PreferencesControlsBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1681D8C93C3009445EC /* PreferencesControlsBox.swift */; };
@@ -361,7 +363,6 @@
 		8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy SaveState QL Generator */ = {isa = PBXBuildFile; fileRef = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		830CB918186878D6006EAE5A /* OEArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 830CB917186878D6006EAE5A /* OEArrayController.m */; };
 		8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A98B155410EF00DF13B5 /* OEDBItem.m */; };
-		8316F6F61A697986003ADDB3 /* supervision_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CDAE9B1A61892900DF964A /* supervision_library.png */; };
 		83199722142741790068C865 /* OEROMImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* OEROMImporter.m */; };
 		8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8328D9E413C75CAE0026D2A7 /* OEDBImage.m */; };
 		832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */; };
@@ -467,8 +468,6 @@
 		87FB253B1BBC572E00E739CE /* Controller-Preferences-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25391BBC572E00E739CE /* Controller-Preferences-JAP.plist */; };
 		87FB253C1BBC572E00E739CE /* Controller-Preferences-NA.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FB253A1BBC572E00E739CE /* Controller-Preferences-NA.plist */; };
 		87FBC0771BFC764F00AECF5A /* OEC64SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FBC0751BFC764F00AECF5A /* OEC64SystemResponder.m */; };
-		87FBC07F1BFC76A000AECF5A /* controller_c64_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0791BFC76A000AECF5A /* controller_c64_mask.png */; };
-		87FBC0801BFC76A000AECF5A /* controller_c64.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC07A1BFC76A000AECF5A /* controller_c64.png */; };
 		87FBC0811BFC76A000AECF5A /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC07B1BFC76A000AECF5A /* Controller-Mappings.plist */; };
 		87FBC0821BFC76A000AECF5A /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC07C1BFC76A000AECF5A /* Controller-Preferences.plist */; };
 		87FBC0831BFC76A000AECF5A /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC07D1BFC76A000AECF5A /* Keyboard-Mappings.plist */; };
@@ -476,9 +475,6 @@
 		87FBC0861BFC77AF00AECF5A /* Commodore 64.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87FBC06D1BFC70FE00AECF5A /* Commodore 64.oesystemplugin */; };
 		87FBC0951C07929D00AECF5A /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		87FBC09A1C0796B800AECF5A /* OEA8SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FBC0981C0796B800AECF5A /* OEA8SystemResponder.m */; };
-		87FBC09E1C0796DC00AECF5A /* atari8bit_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC09B1C0796DC00AECF5A /* atari8bit_library.png */; };
-		87FBC09F1C0796DC00AECF5A /* controller_atari8bit_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC09C1C0796DC00AECF5A /* controller_atari8bit_mask.png */; };
-		87FBC0A01C0796DC00AECF5A /* controller_atari8bit.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC09D1C0796DC00AECF5A /* controller_atari8bit.png */; };
 		87FBC0A21C07985900AECF5A /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0A11C07985900AECF5A /* Keyboard-Mappings.plist */; };
 		87FBC0A41C0798C000AECF5A /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0A31C0798C000AECF5A /* Controller-Preferences.plist */; };
 		87FBC0A61C07996B00AECF5A /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0A51C07996B00AECF5A /* Controller-Mappings.plist */; };
@@ -531,19 +527,13 @@
 		943815B8165771EB00D55731 /* OEGenesisSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943815B7165771EB00D55731 /* OEGenesisSystemController.m */; };
 		943819C41658DAE800D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943819C31658DAE800D55731 /* Controller-Mappings.plist */; };
 		943C80211708A7E400D8D93E /* OEJaguarSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 943C801F1708A7E400D8D93E /* OEJaguarSystemResponder.m */; };
-		943C80281708BF8B00D8D93E /* controller_jaguar_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 943C80221708BF8B00D8D93E /* controller_jaguar_mask.png */; };
-		943C80291708BF8B00D8D93E /* controller_jaguar.png in Resources */ = {isa = PBXBuildFile; fileRef = 943C80231708BF8B00D8D93E /* controller_jaguar.png */; };
 		943C802A1708BF8B00D8D93E /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80241708BF8B00D8D93E /* Controller-Mappings.plist */; };
 		943C802B1708BF8B00D8D93E /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80251708BF8B00D8D93E /* Controller-Preferences.plist */; };
-		943C802C1708BF8B00D8D93E /* jaguar_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 943C80261708BF8B00D8D93E /* jaguar_library.png */; };
 		943C802D1708BF8B00D8D93E /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80271708BF8B00D8D93E /* Keyboard-Mappings.plist */; };
 		943C80441708F52B00D8D93E /* OEVMUSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 943C80421708F52B00D8D93E /* OEVMUSystemResponder.m */; };
-		943C804B1708F7FC00D8D93E /* controller_vmu_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 943C80451708F7FC00D8D93E /* controller_vmu_mask.png */; };
-		943C804C1708F7FC00D8D93E /* controller_vmu.png in Resources */ = {isa = PBXBuildFile; fileRef = 943C80461708F7FC00D8D93E /* controller_vmu.png */; };
 		943C804D1708F7FC00D8D93E /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80471708F7FC00D8D93E /* Controller-Mappings.plist */; };
 		943C804E1708F7FC00D8D93E /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80481708F7FC00D8D93E /* Controller-Preferences.plist */; };
 		943C804F1708F7FC00D8D93E /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80491708F7FC00D8D93E /* Keyboard-Mappings.plist */; };
-		943C80501708F7FC00D8D93E /* vmu_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 943C804A1708F7FC00D8D93E /* vmu_library.png */; };
 		943F999F1707D97600270E89 /* OEVectrexSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 943F999D1707D97600270E89 /* OEVectrexSystemResponder.m */; };
 		943F99A81707D9D500270E89 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943F99A21707D9D500270E89 /* Controller-Mappings.plist */; };
 		943F99A91707D9D500270E89 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943F99A31707D9D500270E89 /* Controller-Preferences.plist */; };
@@ -569,9 +559,6 @@
 		94454F31178B4ABA006C057B /* Virtual Boy.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224831707541E00098DA0 /* Virtual Boy.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		94525EE217A9A778003CB1A2 /* OESega32XSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94525EE117A9A778003CB1A2 /* OESega32XSystemController.m */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
-		945E43141517F5BC00057D08 /* arcade_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E430F1517F5BC00057D08 /* arcade_library.png */; };
-		945E43161517F5BC00057D08 /* controller_arcade_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E43111517F5BC00057D08 /* controller_arcade_mask.png */; };
-		945E43171517F5BC00057D08 /* controller_arcade.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E43121517F5BC00057D08 /* controller_arcade.png */; };
 		945E43181517F5BC00057D08 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 945E43131517F5BC00057D08 /* Controller-Preferences.plist */; };
 		946B947317828A1E00A212AC /* OESega32XSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 946B947117828A1E00A212AC /* OESega32XSystemResponder.m */; };
 		946B947D17828A4000A212AC /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 946B947717828A4000A212AC /* Controller-Mappings.plist */; };
@@ -754,12 +741,9 @@
 		FEB66268187B792700D14713 /* OEMSXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB66251187B62CA00D14713 /* OEMSXSystemController.m */; };
 		FEB66269187B792700D14713 /* OEMSXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB66254187B751700D14713 /* OEMSXSystemResponder.m */; };
 		FEB6626B187B797600D14713 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
-		FEB66271187B7F5D00D14713 /* msx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB6626D187B7F5600D14713 /* msx_library.png */; };
-		FEB66275187B80BF00D14713 /* controller_msx.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB66273187B80BF00D14713 /* controller_msx.png */; };
 		FEB6627A187B812800D14713 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEB66277187B812800D14713 /* Controller-Mappings.plist */; };
 		FEB6627B187B812800D14713 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEB66278187B812800D14713 /* Controller-Preferences.plist */; };
 		FEB6627C187B812800D14713 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEB66279187B812800D14713 /* Keyboard-Mappings.plist */; };
-		FEB6627F187B81BA00D14713 /* controller_msx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB6627D187B81BA00D14713 /* controller_msx_mask.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1394,10 +1378,6 @@
 		086769581B96E8A2006545DA /* OEPMSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPMSystemResponder.h; sourceTree = "<group>"; };
 		086769591B96E8B2006545DA /* OEPMSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPMSystemResponder.m; sourceTree = "<group>"; };
 		0867695B1B96E8C2006545DA /* OEPMSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPMSystemResponderClient.h; sourceTree = "<group>"; };
-		0867695C1B96E8D4006545DA /* pokemonmini_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pokemonmini_library.png; sourceTree = "<group>"; };
-		0867695E1B96E8DB006545DA /* pokemonmini_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pokemonmini_library@2x.png"; sourceTree = "<group>"; };
-		086769601B96E8E6006545DA /* controller_pokemonmini_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pokemonmini_mask.png; sourceTree = "<group>"; };
-		086769621B96E902006545DA /* controller_pokemonmini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pokemonmini.png; sourceTree = "<group>"; };
 		086769641B96E922006545DA /* Pokemon mini-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Pokemon mini-Info.plist"; sourceTree = "<group>"; };
 		086769661B96E92C006545DA /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		086769681B96E936006545DA /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
@@ -1549,8 +1529,14 @@
 		55BE93882542AE3900E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		55BE94322542AE6200E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		55BE94DC2542AE9B00E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		5A221A791BFD87AF002FDD10 /* c64_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c64_library.png; sourceTree = "<group>"; };
-		5A221A7F1BFD8A35002FDD10 /* c64_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "c64_library@2x.png"; sourceTree = "<group>"; };
+		55BE95F7254331C900E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		55BE96A12543328600E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		55BE974B254332C800E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		55BE97F52543333400E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		55BE989F2543337600E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		55BE9911254333A700E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		55BE99BB254333FC00E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		55BE9A2D2543344300E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5A2CE895206EA5E900790F89 /* NSArray+OEAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEAdditions.h"; sourceTree = "<group>"; };
 		5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+OEAdditions.m"; sourceTree = "<group>"; };
 		5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenteredTextFieldCell.swift; sourceTree = "<group>"; };
@@ -1744,7 +1730,6 @@
 		83CB0C791A3F000700409FB2 /* OEBlankSlateSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateSpinnerView.m; sourceTree = "<group>"; };
 		83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveState.h; sourceTree = "<group>"; };
 		83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveState.m; sourceTree = "<group>"; };
-		83CDAE9B1A61892900DF964A /* supervision_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = supervision_library.png; sourceTree = "<group>"; };
 		83D175B118FF155700E5ED34 /* OEBlankSlateBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBlankSlateBackgroundView.h; sourceTree = "<group>"; };
 		83D175B218FF155700E5ED34 /* OEBlankSlateBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateBackgroundView.m; sourceTree = "<group>"; };
 		83D175B918FF218200E5ED34 /* OEDatabase 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.2.xcdatamodel"; sourceTree = "<group>"; };
@@ -1806,8 +1791,6 @@
 		87FBC0741BFC764F00AECF5A /* OEC64SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEC64SystemResponder.h; sourceTree = "<group>"; };
 		87FBC0751BFC764F00AECF5A /* OEC64SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEC64SystemResponder.m; sourceTree = "<group>"; };
 		87FBC0761BFC764F00AECF5A /* OEC64SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEC64SystemResponderClient.h; sourceTree = "<group>"; };
-		87FBC0791BFC76A000AECF5A /* controller_c64_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_c64_mask.png; sourceTree = "<group>"; };
-		87FBC07A1BFC76A000AECF5A /* controller_c64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_c64.png; sourceTree = "<group>"; };
 		87FBC07B1BFC76A000AECF5A /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		87FBC07C1BFC76A000AECF5A /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		87FBC07D1BFC76A000AECF5A /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
@@ -1816,9 +1799,6 @@
 		87FBC0971C0796B700AECF5A /* OEA8SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEA8SystemResponder.h; sourceTree = "<group>"; };
 		87FBC0981C0796B800AECF5A /* OEA8SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEA8SystemResponder.m; sourceTree = "<group>"; };
 		87FBC0991C0796B800AECF5A /* OEA8SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEA8SystemResponderClient.h; sourceTree = "<group>"; };
-		87FBC09B1C0796DC00AECF5A /* atari8bit_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atari8bit_library.png; sourceTree = "<group>"; };
-		87FBC09C1C0796DC00AECF5A /* controller_atari8bit_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_atari8bit_mask.png; sourceTree = "<group>"; };
-		87FBC09D1C0796DC00AECF5A /* controller_atari8bit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_atari8bit.png; sourceTree = "<group>"; };
 		87FBC0A11C07985900AECF5A /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		87FBC0A31C0798C000AECF5A /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		87FBC0A51C07996B00AECF5A /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
@@ -1943,23 +1923,17 @@
 		943C801E1708A7E400D8D93E /* OEJaguarSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEJaguarSystemResponder.h; sourceTree = "<group>"; };
 		943C801F1708A7E400D8D93E /* OEJaguarSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEJaguarSystemResponder.m; sourceTree = "<group>"; };
 		943C80201708A7E400D8D93E /* OEJaguarSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEJaguarSystemResponderClient.h; sourceTree = "<group>"; };
-		943C80221708BF8B00D8D93E /* controller_jaguar_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_jaguar_mask.png; sourceTree = "<group>"; };
-		943C80231708BF8B00D8D93E /* controller_jaguar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_jaguar.png; sourceTree = "<group>"; };
 		943C80241708BF8B00D8D93E /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		943C80251708BF8B00D8D93E /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
-		943C80261708BF8B00D8D93E /* jaguar_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaguar_library.png; sourceTree = "<group>"; };
 		943C80271708BF8B00D8D93E /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		943C80351708F23900D8D93E /* VMU.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VMU.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		943C80391708F23900D8D93E /* VMU-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VMU-Info.plist"; sourceTree = "<group>"; };
 		943C80411708F52B00D8D93E /* OEVMUSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVMUSystemResponder.h; sourceTree = "<group>"; };
 		943C80421708F52B00D8D93E /* OEVMUSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVMUSystemResponder.m; sourceTree = "<group>"; };
 		943C80431708F52B00D8D93E /* OEVMUSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVMUSystemResponderClient.h; sourceTree = "<group>"; };
-		943C80451708F7FC00D8D93E /* controller_vmu_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_vmu_mask.png; sourceTree = "<group>"; };
-		943C80461708F7FC00D8D93E /* controller_vmu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_vmu.png; sourceTree = "<group>"; };
 		943C80471708F7FC00D8D93E /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		943C80481708F7FC00D8D93E /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		943C80491708F7FC00D8D93E /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
-		943C804A1708F7FC00D8D93E /* vmu_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vmu_library.png; sourceTree = "<group>"; };
 		943F998B1707D51100270E89 /* Vectrex.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Vectrex.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		943F998F1707D51100270E89 /* Vectrex-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Vectrex-Info.plist"; sourceTree = "<group>"; };
 		943F999C1707D97600270E89 /* OEVectrexSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVectrexSystemResponder.h; sourceTree = "<group>"; };
@@ -2007,9 +1981,6 @@
 		945E430A1517F59900057D08 /* OEArcadeSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArcadeSystemResponder.h; sourceTree = "<group>"; };
 		945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEArcadeSystemResponder.m; sourceTree = "<group>"; };
 		945E430C1517F59900057D08 /* OEArcadeSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArcadeSystemResponderClient.h; sourceTree = "<group>"; };
-		945E430F1517F5BC00057D08 /* arcade_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arcade_library.png; sourceTree = "<group>"; };
-		945E43111517F5BC00057D08 /* controller_arcade_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade_mask.png; sourceTree = "<group>"; };
-		945E43121517F5BC00057D08 /* controller_arcade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade.png; sourceTree = "<group>"; };
 		945E43131517F5BC00057D08 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		946B9462178289BA00A212AC /* Sega 32X.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sega 32X.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		946B9466178289BB00A212AC /* Sega 32X-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sega 32X-Info.plist"; sourceTree = "<group>"; };
@@ -2259,12 +2230,9 @@
 		FEB66256187B76CF00D14713 /* OEMSXSystemResponderClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemResponderClient.h; sourceTree = "<group>"; };
 		FEB6625B187B791800D14713 /* MSX.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MSX.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEB66260187B791800D14713 /* MSX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MSX-Info.plist"; sourceTree = "<group>"; };
-		FEB6626D187B7F5600D14713 /* msx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = msx_library.png; sourceTree = "<group>"; };
-		FEB66273187B80BF00D14713 /* controller_msx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_msx.png; sourceTree = "<group>"; };
 		FEB66277187B812800D14713 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		FEB66278187B812800D14713 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		FEB66279187B812800D14713 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
-		FEB6627D187B81BA00D14713 /* controller_msx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_msx_mask.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2881,10 +2849,7 @@
 		081A46361B95752200565444 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0867695C1B96E8D4006545DA /* pokemonmini_library.png */,
-				0867695E1B96E8DB006545DA /* pokemonmini_library@2x.png */,
-				086769621B96E902006545DA /* controller_pokemonmini.png */,
-				086769601B96E8E6006545DA /* controller_pokemonmini_mask.png */,
+				55BE95F7254331C900E3841E /* Images.xcassets */,
 				086769641B96E922006545DA /* Pokemon mini-Info.plist */,
 				086769661B96E92C006545DA /* Keyboard-Mappings.plist */,
 				0867696A1B96E93F006545DA /* Controller-Mappings.plist */,
@@ -3659,7 +3624,7 @@
 		837964E31A6149C000A8DE5C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				83CDAE9B1A61892900DF964A /* supervision_library.png */,
+				55BE96A12543328600E3841E /* Images.xcassets */,
 				837964F01A614ACD00A8DE5C /* Supervision-Info.plist */,
 				837964EC1A614ACD00A8DE5C /* Keyboard-Mappings.plist */,
 				837964EA1A614ACD00A8DE5C /* Controller-Mappings.plist */,
@@ -3796,10 +3761,7 @@
 		87FBC0731BFC762200AECF5A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				5A221A791BFD87AF002FDD10 /* c64_library.png */,
-				5A221A7F1BFD8A35002FDD10 /* c64_library@2x.png */,
-				87FBC07A1BFC76A000AECF5A /* controller_c64.png */,
-				87FBC0791BFC76A000AECF5A /* controller_c64_mask.png */,
+				55BE9911254333A700E3841E /* Images.xcassets */,
 				87FBC06F1BFC70FE00AECF5A /* Commodore 64-Info.plist */,
 				87FBC07D1BFC76A000AECF5A /* Keyboard-Mappings.plist */,
 				87FBC07B1BFC76A000AECF5A /* Controller-Mappings.plist */,
@@ -3822,9 +3784,7 @@
 		87FBC0961C0792C400AECF5A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				87FBC09B1C0796DC00AECF5A /* atari8bit_library.png */,
-				87FBC09D1C0796DC00AECF5A /* controller_atari8bit.png */,
-				87FBC09C1C0796DC00AECF5A /* controller_atari8bit_mask.png */,
+				55BE989F2543337600E3841E /* Images.xcassets */,
 				87FBC0901C0790B500AECF5A /* Atari 8bit-Info.plist */,
 				87FBC0A31C0798C000AECF5A /* Controller-Preferences.plist */,
 				87FBC0A51C07996B00AECF5A /* Controller-Mappings.plist */,
@@ -3907,9 +3867,7 @@
 		943C80151708A62F00D8D93E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				943C80261708BF8B00D8D93E /* jaguar_library.png */,
-				943C80231708BF8B00D8D93E /* controller_jaguar.png */,
-				943C80221708BF8B00D8D93E /* controller_jaguar_mask.png */,
+				55BE99BB254333FC00E3841E /* Images.xcassets */,
 				943C80161708A62F00D8D93E /* Jaguar-Info.plist */,
 				943C80271708BF8B00D8D93E /* Keyboard-Mappings.plist */,
 				943C80241708BF8B00D8D93E /* Controller-Mappings.plist */,
@@ -3932,9 +3890,7 @@
 		943C80381708F23900D8D93E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				943C804A1708F7FC00D8D93E /* vmu_library.png */,
-				943C80461708F7FC00D8D93E /* controller_vmu.png */,
-				943C80451708F7FC00D8D93E /* controller_vmu_mask.png */,
+				55BE974B254332C800E3841E /* Images.xcassets */,
 				943C80391708F23900D8D93E /* VMU-Info.plist */,
 				943C80491708F7FC00D8D93E /* Keyboard-Mappings.plist */,
 				943C80471708F7FC00D8D93E /* Controller-Mappings.plist */,
@@ -4061,9 +4017,7 @@
 		945E42FE1517F2B500057D08 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				945E430F1517F5BC00057D08 /* arcade_library.png */,
-				945E43121517F5BC00057D08 /* controller_arcade.png */,
-				945E43111517F5BC00057D08 /* controller_arcade_mask.png */,
+				55BE97F52543333400E3841E /* Images.xcassets */,
 				945E42FF1517F2B500057D08 /* Arcade-Info.plist */,
 				C6527BC0164E22AA0030FB25 /* Keyboard-Mappings.plist */,
 				943819C31658DAE800D55731 /* Controller-Mappings.plist */,
@@ -4728,9 +4682,7 @@
 		FEB6626C187B7E9F00D14713 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				FEB6626D187B7F5600D14713 /* msx_library.png */,
-				FEB66273187B80BF00D14713 /* controller_msx.png */,
-				FEB6627D187B81BA00D14713 /* controller_msx_mask.png */,
+				55BE9A2D2543344300E3841E /* Images.xcassets */,
 				FEB66260187B791800D14713 /* MSX-Info.plist */,
 				FEB66279187B812800D14713 /* Keyboard-Mappings.plist */,
 				FEB66277187B812800D14713 /* Controller-Mappings.plist */,
@@ -5927,12 +5879,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				086769671B96E92C006545DA /* Keyboard-Mappings.plist in Resources */,
+				55BE95F8254331C900E3841E /* Images.xcassets in Resources */,
 				0867696B1B96E93F006545DA /* Controller-Mappings.plist in Resources */,
 				086769691B96E936006545DA /* Controller-Preferences.plist in Resources */,
-				0867695D1B96E8D4006545DA /* pokemonmini_library.png in Resources */,
-				0867695F1B96E8DB006545DA /* pokemonmini_library@2x.png in Resources */,
-				086769611B96E8E6006545DA /* controller_pokemonmini_mask.png in Resources */,
-				086769631B96E902006545DA /* controller_pokemonmini.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6007,7 +5956,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8316F6F61A697986003ADDB3 /* supervision_library.png in Resources */,
+				55BE96A22543328600E3841E /* Images.xcassets in Resources */,
 				837964F11A614ACD00A8DE5C /* Controller-Mappings.plist in Resources */,
 				837964F31A614ACD00A8DE5C /* Keyboard-Mappings.plist in Resources */,
 				837964F21A614ACD00A8DE5C /* Controller-Preferences.plist in Resources */,
@@ -6029,11 +5978,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87FBC07F1BFC76A000AECF5A /* controller_c64_mask.png in Resources */,
+				55BE9912254333A700E3841E /* Images.xcassets in Resources */,
 				87FBC0821BFC76A000AECF5A /* Controller-Preferences.plist in Resources */,
-				5A221A801BFD8A35002FDD10 /* c64_library@2x.png in Resources */,
-				87FBC0801BFC76A000AECF5A /* controller_c64.png in Resources */,
-				5A221A7B1BFD87AF002FDD10 /* c64_library.png in Resources */,
 				87FBC0831BFC76A000AECF5A /* Keyboard-Mappings.plist in Resources */,
 				87FBC0811BFC76A000AECF5A /* Controller-Mappings.plist in Resources */,
 			);
@@ -6043,11 +5989,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87FBC0A01C0796DC00AECF5A /* controller_atari8bit.png in Resources */,
-				87FBC09F1C0796DC00AECF5A /* controller_atari8bit_mask.png in Resources */,
+				55BE98A02543337600E3841E /* Images.xcassets in Resources */,
 				87FBC0A41C0798C000AECF5A /* Controller-Preferences.plist in Resources */,
 				87FBC0A21C07985900AECF5A /* Keyboard-Mappings.plist in Resources */,
-				87FBC09E1C0796DC00AECF5A /* atari8bit_library.png in Resources */,
 				87FBC0A61C07996B00AECF5A /* Controller-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6131,11 +6075,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				943C80281708BF8B00D8D93E /* controller_jaguar_mask.png in Resources */,
-				943C80291708BF8B00D8D93E /* controller_jaguar.png in Resources */,
+				55BE99BC254333FC00E3841E /* Images.xcassets in Resources */,
 				943C802A1708BF8B00D8D93E /* Controller-Mappings.plist in Resources */,
 				943C802B1708BF8B00D8D93E /* Controller-Preferences.plist in Resources */,
-				943C802C1708BF8B00D8D93E /* jaguar_library.png in Resources */,
 				943C802D1708BF8B00D8D93E /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6144,12 +6086,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				943C804B1708F7FC00D8D93E /* controller_vmu_mask.png in Resources */,
-				943C804C1708F7FC00D8D93E /* controller_vmu.png in Resources */,
+				55BE974C254332C800E3841E /* Images.xcassets in Resources */,
 				943C804D1708F7FC00D8D93E /* Controller-Mappings.plist in Resources */,
 				943C804E1708F7FC00D8D93E /* Controller-Preferences.plist in Resources */,
 				943C804F1708F7FC00D8D93E /* Keyboard-Mappings.plist in Resources */,
-				943C80501708F7FC00D8D93E /* vmu_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6203,9 +6143,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				945E43141517F5BC00057D08 /* arcade_library.png in Resources */,
-				945E43161517F5BC00057D08 /* controller_arcade_mask.png in Resources */,
-				945E43171517F5BC00057D08 /* controller_arcade.png in Resources */,
+				55BE97F62543333400E3841E /* Images.xcassets in Resources */,
 				945E43181517F5BC00057D08 /* Controller-Preferences.plist in Resources */,
 				C6527BC1164E22AA0030FB25 /* Keyboard-Mappings.plist in Resources */,
 				943819C41658DAE800D55731 /* Controller-Mappings.plist in Resources */,
@@ -6464,9 +6402,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FEB66275187B80BF00D14713 /* controller_msx.png in Resources */,
-				FEB6627F187B81BA00D14713 /* controller_msx_mask.png in Resources */,
-				FEB66271187B7F5D00D14713 /* msx_library.png in Resources */,
+				55BE9A2E2543344300E3841E /* Images.xcassets in Resources */,
 				FEB6627B187B812800D14713 /* Controller-Preferences.plist in Resources */,
 				FEB6627C187B812800D14713 /* Keyboard-Mappings.plist in Resources */,
 				FEB6627A187B812800D14713 /* Controller-Mappings.plist in Resources */,
