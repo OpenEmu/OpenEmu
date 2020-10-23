@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -664,15 +664,6 @@ DQ
                                                 <action selector="showOpenEmuWindow:" target="-1" id="1158"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="OpenEmu 2" tag="502" hidden="YES" enabled="NO" keyEquivalent="2" id="Dye-Hd-BVp" userLabel="OpenEmu 2">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <attributedString key="userComments">
-                                                <fragment content="DNT"/>
-                                            </attributedString>
-                                            <connections>
-                                                <action selector="showOpenEmuWindow2:" target="-1" id="xUJ-uy-6qX"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="1031">
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </menuItem>
@@ -750,7 +741,6 @@ DQ
                 <customObject id="805" userLabel="OEApplicationDelegate" customClass="OEApplicationDelegate">
                     <connections>
                         <outlet property="fileMenu" destination="980" id="1224"/>
-                        <outlet property="newWindowMenu" destination="Dye-Hd-BVp" id="Ccr-IB-JH8"/>
                     </connections>
                 </customObject>
                 <userDefaultsController id="1212"/>

@@ -43,12 +43,8 @@ class AppDelegate: NSObject {
     static let feedbackAddress = "https://github.com/OpenEmu/OpenEmu/issues"
     
     @IBOutlet weak var fileMenu: NSMenu!
-    @IBOutlet weak var newWindowMenu: NSMenuItem!
     
     lazy var mainWindowController = OEMainWindowController(windowNibName: "MainWindow")
-    lazy var mainWindowController2 = {
-        NSStoryboard(name: NSStoryboard.Name("MainWindow"), bundle: Bundle.main).instantiateInitialController() as! MainWindowController
-    }()
     
     lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: "Preferences")
     
@@ -490,10 +486,6 @@ class AppDelegate: NSObject {
         mainWindowController.showWindow(sender)
     }
     
-    @IBAction func showOpenEmuWindow2(_ sender: AnyObject?) {
-        mainWindowController2.showWindow(sender)
-    }
-    
     // MARK: - Preferences Window
     
     @IBAction func showPreferencesWindow(_ sender: AnyObject?) {
@@ -759,12 +751,6 @@ extension AppDelegate: NSMenuDelegate {
     }
     func applicationDidFinishLaunching(_ notification: Notification) {
         
-        #if DEBUG
-        // TODO: Enable the in-progress UI work for debug builds only
-        newWindowMenu.isEnabled = true
-        newWindowMenu.isHidden  = false
-        #endif
-        
         if #available(OSX 10.12.2, *), NSClassFromString("NSTouchBar") != nil {
             // Get the “Customize Touch Bar…” menu to display in the View menu.
             NSApp.isAutomaticCustomizeTouchBarMenuItemEnabled = true
@@ -814,7 +800,6 @@ extension AppDelegate: NSMenuDelegate {
         
         if !restoreWindow {
             _ = mainWindowController.window
-            // _ = mainWindowController2.window
         }
         
         // Remove the Open Recent menu item.
@@ -838,7 +823,6 @@ extension AppDelegate: NSMenuDelegate {
         
         if !restoreWindow {
             mainWindowController.showWindow(nil)
-            // mainWindowController2.showWindow(nil)
         }
         
         OECoreUpdater.shared.checkForNewCores(completionHandler: nil)   // TODO: check error from completion handler
