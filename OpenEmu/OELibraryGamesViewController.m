@@ -152,7 +152,7 @@ static const CGFloat _OEMainViewMinWidth    = 495;
         [gridView.widthAnchor constraintGreaterThanOrEqualToConstant:_OEMainViewMinWidth]
     ]];
     
-    if (![NSUserDefaults.standardUserDefaults objectForKey:@"NSSplitView Subview Frames gamesLibrarySplitView"]) {
+    if (![NSUserDefaults.standardUserDefaults objectForKey:@"NSSplitView Subview Frames libraryGamesSplitView"]) {
         /* read the old property key (OE 2.2.1 and prior) */
         CGFloat dividerPosition = [NSUserDefaults.standardUserDefaults doubleForKey:@"lastSidebarWidth"];
         [librarySplitView setPosition:dividerPosition ofDividerAtIndex:0];
