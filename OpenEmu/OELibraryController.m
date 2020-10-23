@@ -370,13 +370,6 @@ typedef NS_ENUM(NSUInteger, OELibraryCategory) {
     return YES;
 }
 
-- (BOOL)validateToolbarItem:(NSToolbarItem *)item
-{
-    if ([self.currentSubviewController respondsToSelector:@selector(validateToolbarItem:)])
-        return [[self currentSubviewController] validateToolbarItem:item];
-    return NO;
-}
-
 #pragma mark - Import
 
 - (IBAction)addToLibrary:(id)sender

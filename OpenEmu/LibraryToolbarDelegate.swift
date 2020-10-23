@@ -106,7 +106,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         if let item = itemCache[.oeGridSize] {
             return item
         }
-        let item = ValidatingToolbarItem(itemIdentifier: .oeGridSize)
+        let item = NSToolbarItem(itemIdentifier: .oeGridSize)
         
         let slider = NSSlider(value: 1.0, minValue: 0.5, maxValue: 2.5, target: toolbarOwner, action: #selector(OELibraryController.changeGridSize(_:)))
         slider.isContinuous = true
@@ -131,13 +131,14 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         if let item = itemCache[.oeDecreaseGridSize] {
             return item
         }
-        let item = ValidatingToolbarItem(itemIdentifier: .oeDecreaseGridSize)
+        let item = NSToolbarItem(itemIdentifier: .oeDecreaseGridSize)
         
         let minHint = NSButton(image: NSImage(named: "grid_slider_min")!, target: toolbarOwner, action: #selector(OELibraryController.decreaseGridSize(_:)))
         minHint.isBordered = false
         
         item.view = minHint
         item.label = NSLocalizedString("Decrease Grid Size", comment:"Grid size toolbar button label, main window")
+        toolbar.decreaseGridSizeButton = minHint
         itemCache[item.itemIdentifier] = item
         return item;
     }
@@ -148,13 +149,14 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         if let item = itemCache[.oeIncreaseGridSize] {
             return item
         }
-        let item = ValidatingToolbarItem(itemIdentifier: .oeIncreaseGridSize)
+        let item = NSToolbarItem(itemIdentifier: .oeIncreaseGridSize)
         
         let maxHint = NSButton(image: NSImage(named: "grid_slider_max")!, target: toolbarOwner, action: #selector(OELibraryController.increaseGridSize(_:)))
         maxHint.isBordered = false
         
         item.view = maxHint
         item.label = NSLocalizedString("Increase Grid Size", comment:"Grid size toolbar button label, main window")
+        toolbar.increaseGridSizeButton = maxHint
         itemCache[item.itemIdentifier] = item
         return item;
     }
@@ -165,7 +167,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         if let item = itemCache[.oeViewMode] {
             return item
         }
-        let item = ValidatingToolbarItem(itemIdentifier: .oeViewMode)
+        let item = NSToolbarItem(itemIdentifier: .oeViewMode)
         
         let images = [NSImage(named: NSImage.iconViewTemplateName)!,
                       NSImage(named: NSImage.listViewTemplateName)!]
@@ -190,7 +192,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         if let item = itemCache[.oeCategory] {
             return item
         }
-        let item = ValidatingToolbarItem(itemIdentifier: .oeCategory)
+        let item = NSToolbarItem(itemIdentifier: .oeCategory)
         
         let titles = [NSLocalizedString("Toolbar: Library", value: "Library", comment: "toolbar, category label"),
                       NSLocalizedString("Toolbar: Save States", value: "Save States", comment: "toolbar, category label"),
@@ -249,7 +251,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         if let item = itemCache[.oeSearch] {
             return item
         }
-        let item = ValidatingToolbarItem(itemIdentifier: .oeSearch)
+        let item = NSToolbarItem(itemIdentifier: .oeSearch)
         
         let searchField = OESearchField()
         searchField.lineBreakMode = .byClipping

@@ -75,9 +75,6 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 @property (strong) NSDate *listViewSelectionChangeDate;
 @property (readonly) OEArrayController *gamesController;
 
-/// The search term of the currently applied filter.
-@property (copy, nullable) NSString *currentSearchTerm;
-
 @end
 
 @implementation OEGameCollectionViewController
@@ -94,7 +91,6 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     
     // Restore grid/list view mode.
     OECollectionViewControllerViewTag tag = [[NSUserDefaults standardUserDefaults] integerForKey:OELastCollectionViewKey];
-    [self OE_setupToolbarStatesForViewTag:tag];
     self.selectedViewTag = tag;
 
     [[self listView] setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
@@ -103,12 +99,6 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 - (void)viewWillAppear
 {
     [super viewWillAppear];
-    
-    [self OE_setupToolbarStatesForViewTag:self.selectedViewTag];
-    
-    NSSearchField *searchField = self.toolbar.searchField;
-    searchField.enabled = YES;
-    searchField.stringValue = self.currentSearchTerm ?: @"";
     
     [self scrollToSelection];
 }
@@ -264,12 +254,6 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 - (void)setRepresentedObject:(id)representedObject
 {
     [super setRepresentedObject:representedObject];
-    
-    self.toolbar.searchField.searchMenuTemplate = nil;
-    
-    // Restore search field text.
-    NSString *newSearchFieldStringValue = self.currentSearchTerm ?: @"";
-    self.toolbar.searchField.stringValue = newSearchFieldStringValue;
     
     NSAssert([representedObject conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)], @"");
 

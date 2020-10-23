@@ -108,25 +108,30 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-    [self _setupToolbar];
+    
+    [self _validateToolbarItems];
+    
     [self.collectionController updateBlankSlate];
 }
 
-- (void)_setupToolbar
+#pragma mark - Validation
+
+- (void)_validateToolbarItems
 {
     OELibraryToolbar *toolbar = self.toolbar;
-
-    toolbar.gridSizeSlider.enabled = YES;
-    toolbar.viewModeSelector.enabled = YES;
+    BOOL isGridView = self.collectionController.selectedViewTag == OEGridViewTag;
+    BOOL isBlankSlate = self.collectionController.shouldShowBlankSlate;
     
-    OECollectionViewControllerViewTag selectedViewTag = self.collectionController.selectedViewTag;
-    BOOL setGridView = selectedViewTag == OEGridViewTag || selectedViewTag == OEBlankSlateTag;
-    toolbar.viewModeSelector.selectedSegment = setGridView ? 0 : 1;
-
-    NSSearchField *field = toolbar.searchField;
-    field.searchMenuTemplate = nil;
-    field.enabled = NO;
-    field.stringValue = @"";
+    toolbar.viewModeSelector.enabled = !isBlankSlate;
+    toolbar.viewModeSelector.selectedSegment = isGridView ? 0 : 1;
+    
+    toolbar.gridSizeSlider.enabled = isGridView && !isBlankSlate;
+    toolbar.decreaseGridSizeButton.enabled = isGridView && !isBlankSlate;
+    toolbar.increaseGridSizeButton.enabled = isGridView && !isBlankSlate;
+    
+    toolbar.searchField.enabled = !isBlankSlate;
+    toolbar.searchField.searchMenuTemplate = nil;
+    toolbar.searchField.stringValue = self.collectionController.currentSearchTerm ?: @"";
 }
 
 #pragma mark - Split View
@@ -164,46 +169,6 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     [librarySplitView setPosition:_OESidebarDefaultWidth ofDividerAtIndex:0];
 }
 
-#pragma mark - Validation
-
-- (BOOL)validateToolbarItem:(NSToolbarItem *)item
-{
-    OECollectionViewControllerViewTag selectedViewTag = self.collectionController.selectedViewTag;
-    
-    if ([item action] == @selector(switchToView:))
-    {
-        if ([item.view isKindOfClass:NSSegmentedControl.class] && selectedViewTag != OEBlankSlateTag)
-        {
-            __auto_type *ctl = (NSSegmentedControl *)item.view;
-            BOOL setGridView = selectedViewTag == OEGridViewTag;
-            ctl.selectedSegment = setGridView ? 0 : 1;
-            return YES;
-        }
-        else
-        {
-            return NO;
-        }
-    }
-    else if ([item action] == @selector(changeGridSize:) ||
-             [item action] == @selector(decreaseGridSize:) ||
-             [item action] == @selector(increaseGridSize:))
-    {
-        return selectedViewTag == OEGridViewTag;
-    }
-    else if ([item action] == @selector(search:))
-    {
-        if (selectedViewTag != OEBlankSlateTag)
-        {
-            return YES;
-        }
-        else
-        {
-            return NO;
-        }
-    }
-    return YES;
-}
-
 #pragma mark - OELibrarySubviewController
 
 - (NSArray<OEDBGame *> *)selectedGames
@@ -237,6 +202,7 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 - (IBAction)switchToGridView:(id)sender
 {
     [self.collectionController showGridView];
+    [self _validateToolbarItems];
     
     // Update state of respective view menu items.
     NSMenu *viewMenu = [[[NSApp mainMenu] itemAtIndex:3] submenu];
@@ -247,6 +213,7 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 - (IBAction)switchToListView:(id)sender
 {
     [self.collectionController showListView];
+    [self _validateToolbarItems];
     
     // Update state of respective view menu items.
     NSMenu *viewMenu = [[[NSApp mainMenu] itemAtIndex:3] submenu];
@@ -285,6 +252,7 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 {
     id selectedItem = self.sidebarController.selectedSidebarItem;
     self.collectionController.representedObject = selectedItem;
+    [self _validateToolbarItems];
     
     // For empty collections of disc-based games, display an alert to compel the user to read the disc-importing guide.
     if ([selectedItem isKindOfClass:[OEDBSystem class]] &&
@@ -319,6 +287,7 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     [collection save];
 
     [[self collectionController] setNeedsReload];
+    [self _validateToolbarItems];
 }
 
 #pragma mark - Issue Resolving
