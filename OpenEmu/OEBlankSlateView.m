@@ -286,9 +286,9 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
                                   NSHeight(containerFrame) - 16.0 - OEBlankSlateBottomTextTop + 16.0 * extraspace,
                                   NSWidth(containerFrame),
                                   16.0);
-    OELabel *coreSuppliedByLabel = [[OELabel alloc] initWithFrame:labelRect];
+    NSTextField *coreSuppliedByLabel = [NSTextField labelWithString:NSLocalizedString(@"Core Provided By…", @"")];
     
-    coreSuppliedByLabel.stringValue = NSLocalizedString(@"Core Provided By…", @"");
+    coreSuppliedByLabel.frame = labelRect;
     coreSuppliedByLabel.font = [NSFont systemFontOfSize:12];
     coreSuppliedByLabel.textColor = NSColor.labelColor;
     
@@ -334,8 +334,8 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
                                       NSHeight(containerFrame) - 30 - OEBlankSlateHeadlineToTop,
                                       NSWidth(containerFrame),
                                       OEBlankSlateHeadlineHeight);
-    OELabel *headlineField = [[OELabel alloc] initWithFrame:headlineFrame];
-    headlineField.stringValue = text;
+    NSTextField *headlineField = [NSTextField labelWithString:text];
+    headlineField.frame = headlineFrame;
     headlineField.font = [NSFont systemFontOfSize:20 weight:NSFontWeightMedium];
     headlineField.textColor = NSColor.secondaryLabelColor;
     
@@ -382,9 +382,9 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
                                             NSWidth(containerFrame),
                                             31.0);
     
-    OELabel *dragAndDropHereField = [[OELabel alloc] initWithFrame:dragAndDropHereRect];
+    NSTextField *dragAndDropHereField = [NSTextField labelWithString:text];
     
-    dragAndDropHereField.stringValue = text;
+    dragAndDropHereField.frame = dragAndDropHereRect;
     dragAndDropHereField.font = [NSFont systemFontOfSize:24];
     dragAndDropHereField.textColor = color;
     dragAndDropHereField.alignment = NSTextAlignmentCenter;
