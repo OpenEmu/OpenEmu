@@ -47,7 +47,7 @@ NSNotificationName const OELibrarySplitViewResetSidebarNotification = @"OELibrar
 #define MainMenu_View_ListTag      303
 
 static const CGFloat _OESidebarMinWidth     = 105;
-static const CGFloat _OESidebarDefaultWidth = 185;
+static const CGFloat _OESidebarDefaultWidth = 200;
 static const CGFloat _OESidebarMaxWidth     = 450;
 static const CGFloat _OEMainViewMinWidth    = 495;
 
