@@ -758,13 +758,14 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
             handler(YES, nil);
         }];
     } errorHandler:^(NSError *error) {
+        self->_emulationStatus = OEEmulationStatusNotSetup;
         if (self->_romDecompressed)
         {
             [[NSFileManager defaultManager] removeItemAtPath:self->_romPath error:nil];
         }
         [[[OEBindingsController defaultBindingsController] systemBindingsForSystemController:self->_systemPlugin.controller] removeBindingsObserver:self];
         self->_gameCoreManager = nil;
-        [self close];
+        [self stopEmulation:self];
         
         handler(NO, error);
     }];
