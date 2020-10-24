@@ -27,6 +27,8 @@ import Foundation
 @objc(OEGameScannerViewController)
 class GameScannerViewController: NSViewController {
 
+    @objc public static let OESidebarHideBottomBarKey = "OESidebarHideBottomBar"
+    public static let OESidebarBottomBarDidChange = Notification.Name("OESidebarBottomBarDidChangeNotification")
     private static let importGuideURL = URL(string: "https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-Importing")!
 
     @IBOutlet weak var scannerView: NSView!
@@ -59,6 +61,7 @@ class GameScannerViewController: NSViewController {
         notificationCenter.addObserver(self, selector: #selector(gameInfoHelperWillUpdate(_:)), name: .OEGameInfoHelperWillUpdate, object: nil)
         notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidChangeUpdateProgress(_:)), name: .OEGameInfoHelperDidChangeUpdateProgress, object: nil)
         notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidUpdate(_:)), name: .OEGameInfoHelperDidUpdate, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(bottomBarDidChange), name: GameScannerViewController.OESidebarBottomBarDidChange, object: nil)
     }
     
     override var nibName: NSNib.Name? {
@@ -142,7 +145,18 @@ class GameScannerViewController: NSViewController {
         actionPopUpButton.menu = menu
     }
     
+    @objc func bottomBarDidChange() {
+        layOutSidebarViews(withVisibleGameScanner: isGameScannerVisible, animated: false)
+    }
+    
     private func layOutSidebarViews(withVisibleGameScanner visibleGameScanner: Bool, animated: Bool) {
+        
+        if UserDefaults.standard.bool(forKey: GameScannerViewController.OESidebarHideBottomBarKey) {
+            bottomBar.isHidden = true
+        }
+        else {
+            bottomBar.isHidden = false
+        }
         
         var gameScannerFrame = scannerView.frame
         gameScannerFrame.origin.y = visibleGameScanner ? 0 : -gameScannerFrame.height
@@ -151,7 +165,7 @@ class GameScannerViewController: NSViewController {
         bottomBarFrame.origin.y = gameScannerFrame.maxY
         
         var sourceListFrame = sourceListScrollView.frame
-        sourceListFrame.origin.y = bottomBarFrame.maxY
+        sourceListFrame.origin.y = bottomBar.isHidden ? gameScannerFrame.maxY : bottomBarFrame.maxY
         sourceListFrame.size.height = sourceListScrollView.superview!.frame.height - sourceListFrame.minY
         
         if animated {

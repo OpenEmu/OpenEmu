@@ -27,11 +27,11 @@
 import Cocoa
 
 extension NSToolbarItem.Identifier {
-    public static let oeGridSize = Self("OEToolbarItemIdentifierGridSize")
-    public static let oeViewMode = Self("OEToolbarItemIdentifierViewMode")
-    public static let oeSearch   = Self("OEToolbarItemIdentifierSearch")
-    public static let oeCategory = Self("OEToolbarItemIdentifierCategory")
-    public static let oeAdd      = Self("OEToolbarItemIdentifierAdd")
+    public static let oeGridSize = Self("OEToolbarGridSizeItem")
+    public static let oeViewMode = Self("OEToolbarViewModeItem")
+    public static let oeSearch   = Self("OEToolbarSearchItem")
+    public static let oeCategory = Self("OEToolbarCategoryItem")
+    public static let oeAdd      = Self("OEToolbarAddItem")
 }
 
 @objc(OELibraryToolbarDelegate)
@@ -90,6 +90,22 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
             return addToolbarItem(toolbar: toolbar as! LibraryToolbar)
         default:
             return NSToolbarItem(itemIdentifier: itemIdentifier)
+        }
+    }
+    
+    
+    func toolbarWillAddItem(_ notification: Notification) {
+        if (notification.userInfo?["item"] as? NSToolbarItem)?.itemIdentifier == .oeAdd {
+            UserDefaults.standard.set(true, forKey: GameScannerViewController.OESidebarHideBottomBarKey)
+            NotificationCenter.default.post(name: GameScannerViewController.OESidebarBottomBarDidChange, object: nil)
+        }
+    }
+    
+    
+    func toolbarDidRemoveItem(_ notification: Notification) {
+        if (notification.userInfo?["item"] as? NSToolbarItem)?.itemIdentifier == .oeAdd {
+            UserDefaults.standard.set(false, forKey: GameScannerViewController.OESidebarHideBottomBarKey)
+            NotificationCenter.default.post(name: GameScannerViewController.OESidebarBottomBarDidChange, object: nil)
         }
     }
     
