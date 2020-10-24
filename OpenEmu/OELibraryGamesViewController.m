@@ -132,6 +132,8 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     toolbar.searchField.enabled = !isBlankSlate;
     toolbar.searchField.searchMenuTemplate = nil;
     toolbar.searchField.stringValue = self.collectionController.currentSearchTerm ?: @"";
+    
+    toolbar.addButton.enabled = YES;
 }
 
 #pragma mark - Split View

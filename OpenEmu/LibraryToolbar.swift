@@ -30,6 +30,7 @@ import Cocoa
 class LibraryToolbar: NSToolbar {
     @IBOutlet weak var categorySelector: NSSegmentedControl!
     @IBOutlet weak var viewModeSelector: NSSegmentedControl!
+    @IBOutlet weak var addButton: NSSegmentedControl!
     @IBOutlet weak var gridSizeSlider: NSSlider!
     @IBOutlet weak var decreaseGridSizeButton: NSButton!
     @IBOutlet weak var increaseGridSizeButton: NSButton!

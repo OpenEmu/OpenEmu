@@ -11,6 +11,8 @@
 
 "A version of this plugin is already loaded" = "このプラグインは既にロードされています。";
 
+"Add Cheat…" = "Add"; // TODO
+
 "Add a Wiimote…" = "Wiimoteを追加…";
 
 "Add Cheat…" = "チートコードを追加…";

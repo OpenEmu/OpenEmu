@@ -11,6 +11,8 @@
 
 "A version of this plugin is already loaded" = "Версия этого плагина уже загружена";
 
+"Add" = "Add"; // TODO
+
 "Add a Wiimote…" = "Добавить Wiimote…";
 
 "Add Cheat…" = "Добавить Чит-код…";

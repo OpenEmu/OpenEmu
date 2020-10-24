@@ -11,6 +11,8 @@
 
 "A version of this plugin is already loaded" = "Una versione di questo plugin è già stata caricata"; // user opened a plugin and loading has failed; nsalert description
 
+"Add" = "Aggiungi";
+
 "Add a Wiimote…" = "Collega Wiimote…";
 
 "Add Cheat…" = "Aggiungi trucco…";

@@ -31,6 +31,7 @@ extension NSToolbarItem.Identifier {
     public static let oeViewMode = Self("OEToolbarItemIdentifierViewMode")
     public static let oeSearch   = Self("OEToolbarItemIdentifierSearch")
     public static let oeCategory = Self("OEToolbarItemIdentifierCategory")
+    public static let oeAdd      = Self("OEToolbarItemIdentifierAdd")
 }
 
 @objc(OELibraryToolbarDelegate)
@@ -42,8 +43,9 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         return [.flexibleSpace,
-                .oeGridSize,
+                .oeAdd,
                 .oeViewMode,
+                .oeGridSize,
                 .oeSearch,
                 .oeCategory]
     }
@@ -69,6 +71,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         viewModeToolbarItem(toolbar: toolbar)
         categoryToolbarItem(toolbar: toolbar)
         searchToolbarItem(toolbar: toolbar)
+        addToolbarItem(toolbar: toolbar)
     }
     
     
@@ -83,6 +86,8 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
             return categoryToolbarItem(toolbar: toolbar as! LibraryToolbar)
         case .oeSearch:
             return searchToolbarItem(toolbar: toolbar as! LibraryToolbar)
+        case .oeAdd:
+            return addToolbarItem(toolbar: toolbar as! LibraryToolbar)
         default:
             return NSToolbarItem(itemIdentifier: itemIdentifier)
         }
@@ -240,4 +245,45 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         itemCache[item.itemIdentifier] = item
         return item;
     }
+    
+    
+    @discardableResult
+    func addToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
+        if let item = itemCache[.oeAdd] {
+            return item
+        }
+        
+        let images = [NSImage(named: NSImage.addTemplateName)!]
+        
+        let segmControl = NSSegmentedControl(images: images, trackingMode: .momentary, target: toolbar, action: nil)
+        segmControl.setWidth(28, forSegment: 0)
+        segmControl.setMenu(addMenu, forSegment: 0)
+        
+        toolbar.addButton = segmControl
+        
+        let item = NSToolbarItem(itemIdentifier: .oeAdd)
+        item.view = segmControl
+        item.label = NSLocalizedString("Add", comment:"Toolbar, add button label")
+        
+        itemCache[item.itemIdentifier] = item
+        return item;
+    }
+    
+    let addMenu: NSMenu = {
+        
+        let addToLibrary = NSMenuItem()
+        addToLibrary.title = NSLocalizedString("Add to Library…", comment: "")
+        addToLibrary.action = #selector(LibraryController.addToLibrary(_:))
+        
+        let newCollection = NSMenuItem()
+        newCollection.title = NSLocalizedString("New Collection", comment: "")
+        newCollection.action = #selector(LibraryController.newCollection(_:))
+        
+        let menu = NSMenu()
+        menu.items = [addToLibrary,
+                      NSMenuItem.separator(),
+                      newCollection]
+        
+        return menu
+    }()
 }

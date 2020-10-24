@@ -154,6 +154,8 @@ const static CGFloat TableViewSpacing = 86.0;
     toolbar.searchField.enabled = NO;
     toolbar.searchField.searchMenuTemplate = nil;
     toolbar.searchField.stringValue = @"";
+    
+    toolbar.addButton.enabled = NO;
 }
 
 #pragma mark - Data Handling

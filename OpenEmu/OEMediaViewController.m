@@ -183,6 +183,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     if(!toolbar.searchField.searchMenuTemplate)
         toolbar.searchField.searchMenuTemplate = [self searchMenuTemplate];
     toolbar.searchField.stringValue = self.currentSearchTerm ?: @"";
+    
+    toolbar.addButton.enabled = NO;
 }
 
 - (void)updateBlankSlate
