@@ -109,6 +109,13 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 @implementation OECollectionViewController
 @synthesize listView=listView;
 
++ (void)initialize {
+    // Make sure not to reinitialize for subclassed objects
+    if(self != OECollectionViewController.class) return;
+
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OELastGridSizeKey : @1.0f }];
+}
+
 - (instancetype)init
 {
     self = [super init];
