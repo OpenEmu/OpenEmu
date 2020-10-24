@@ -27,10 +27,7 @@ import Cocoa
 @objc
 class ImageCollectionViewController: NSViewController {
     
-    @objc
-    weak public var libraryController: LibraryController! {
-        return parent as? LibraryController
-    }
+    @objc var database: OELibraryDatabase!
     
     @IBOutlet weak var collectionView: CollectionView!
     @IBOutlet weak var flowLayout: NSCollectionViewFlowLayout!
@@ -42,11 +39,7 @@ class ImageCollectionViewController: NSViewController {
     var itemSize = CGSize(width: 168, height: 143)
     
     private var isSelected: Bool {
-        guard
-            let me = libraryController.tabViewItem(for: self),
-            let mei = libraryController.tabViewItems.firstIndex(of: me)
-            else { return false }
-        return mei == libraryController.selectedTabViewItemIndex;
+        return view.superview != nil
     }
     
     var dataSourceDelegate: ImageDataSourceDelegate!
@@ -416,7 +409,7 @@ extension ImageCollectionViewController: NSCollectionViewDelegate {
     }
     
     private func restoreSelectionFromDefaults() {
-        let context = libraryController.database.mainThreadContext
+        let context = database.mainThreadContext
         guard let coordinator = context.persistentStoreCoordinator else { return }
         
         var set = Set<IndexPath>()
@@ -455,7 +448,7 @@ extension ImageCollectionViewController: NSCollectionViewDelegate {
         let pboard = draggingInfo.draggingPasteboard
         if pboard.canReadObject(forClasses: [NSURL.self], options: nil) {
             guard let files = pboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] else { return false }
-            let romImporter = libraryController.database.importer
+            let romImporter = database.importer
             romImporter.importItems(at: files, intoCollectionWith: nil)
             return true
         }
@@ -488,7 +481,7 @@ extension ImageCollectionViewController: OEBlankSlateViewDelegate {
         let pboard = sender.draggingPasteboard
         if pboard.canReadObject(forClasses: [NSURL.self], options: nil) {
             guard let files = pboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] else { return false }
-            let romImporter = libraryController.database.importer
+            let romImporter = database.importer
             romImporter.importItems(at: files, intoCollectionWith: nil)
             return true
         }

@@ -17,7 +17,6 @@
 #import "OEPrefBiosController.h"
 
 #import "OECollectionViewController.h"
-#import "OELibraryController.h"
 
 #import "OEDatabase+CoreDataModel.h"
 #import "OEDBGame.h"

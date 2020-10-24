@@ -81,7 +81,7 @@ extension OEGameCollectionViewController: NSTouchBarDelegate {
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Play", comment: "")
             
-            let button = NSButton(image: NSImage(named: NSImage.touchBarPlayTemplateName)!, target: nil, action: #selector(OELibraryController.startSelectedGame(_:)))
+            let button = NSButton(image: NSImage(named: NSImage.touchBarPlayTemplateName)!, target: nil, action: #selector(LibraryController.startSelectedGame(_:)))
             
             button.isEnabled = selectionIndexes.count == 1
             

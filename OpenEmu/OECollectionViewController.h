@@ -29,9 +29,9 @@
 #import "OEGridView.h"
 #import "OEBlankSlateView.h"
 
-#import "OELibrarySubviewController.h"
 #import "OECollectionViewItemProtocol.h"
 
+@class OEDBGame;
 @class OETableView;
 @class OELibraryToolbar;
 @class OELibraryDatabase;
@@ -45,6 +45,7 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 
 NS_ASSUME_NONNULL_BEGIN;
 
+extern NSString * const OELastGridSizeKey;
 extern NSString * const OELastCollectionViewKey;
 
 @interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OEGridViewDelegate, OEGridViewMenuSource, QLPreviewPanelDelegate, QLPreviewPanelDataSource>

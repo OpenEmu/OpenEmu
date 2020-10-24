@@ -25,13 +25,12 @@
  */
 
 @import Cocoa;
-#import "OELibrarySubviewController.h"
 
 extern NSNotificationName const OELibrarySplitViewResetSidebarNotification;
 
 @class OESidebarController, OEGameCollectionViewController, OEGameScannerViewController, OELibraryDatabase;
 
-@interface OELibraryGamesViewController : NSViewController <NSToolbarItemValidation>
+@interface OELibraryGamesViewController : NSViewController
 @property (nonatomic) OELibraryDatabase *database;
 @property (weak) IBOutlet OESidebarController *sidebarController;
 @property (weak) IBOutlet OEGameCollectionViewController *collectionController;

@@ -28,7 +28,6 @@
 
 #import "OESetupAssistant.h"
 #import "OECoreUpdater.h"
-#import "OELibraryController.h"
 #import "OELibraryDatabase.h"
 
 #import "OEGameDocument.h"
@@ -600,7 +599,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 {
     OEDBGame *game = [[sender representedObject] game];
     
-    [self libraryController:nil didSelectGame:game];
+    [self OE_openGameDocumentWithGame:game saveState:nil];
 }
 
 @end

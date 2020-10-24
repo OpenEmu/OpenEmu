@@ -27,6 +27,8 @@
 #import "OECollectionViewController.h"
 #import "OEGameGridViewDelegate.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSNotificationName const OEGameCollectionViewControllerDidSetSelectionIndexesNotification;
 
 @interface OEGameCollectionViewController : OECollectionViewController <OEGameGridViewDelegate>
@@ -47,3 +49,5 @@ extern NSNotificationName const OEGameCollectionViewControllerDidSetSelectionInd
 @property (copy, nullable) NSString *currentSearchTerm;
 
 @end
+
+NS_ASSUME_NONNULL_END

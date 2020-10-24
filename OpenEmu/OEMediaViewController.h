@@ -26,14 +26,13 @@
 
 @import Cocoa;
 @import Quartz;
-#import "OELibrarySubviewController.h"
 #import "OECollectionViewController.h"
 
 @class OEDBSaveState, OEDBScreenshot;
 
 extern NSNotificationName const OEMediaViewControllerDidSetSelectionIndexesNotification;
 
-@interface OEMediaViewController : OECollectionViewController <OEBlankSlateViewDelegate, NSToolbarItemValidation, NSMenuItemValidation>
+@interface OEMediaViewController : OECollectionViewController <OEBlankSlateViewDelegate, NSMenuItemValidation>
 
 @property (readonly) BOOL saveStateMode;
 

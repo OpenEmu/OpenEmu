@@ -91,7 +91,7 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
         
         if indexPaths.count == 1 {
             menu.addItem(withTitle: NSLocalizedString("Play Save State", comment: "SaveState View Context menu"),
-                         action: #selector(OELibraryController.startSaveState(_:)),
+                         action: #selector(LibraryController.startSaveState(_:)),
                          keyEquivalent: "")
 
             menu.addItem(withTitle: NSLocalizedString("Rename", comment: "SaveState View Context menu"),
@@ -142,7 +142,7 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
     
     func collectionView(_ collectionView: CollectionView, doubleClickForItemAt indexPath: IndexPath) {
         guard let item = dataSource.item(at: indexPath) else { return }
-        libraryController.start(saveState: item)
+        NSApp.sendAction(#selector(LibraryController.startSaveState(_:)), to: nil, from: item)
     }
 }
 
@@ -218,7 +218,7 @@ extension SaveStateViewController: NSTouchBarDelegate {
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Resume Game", comment: "")
             
-            let button = NSButton(image: NSImage(named: NSImage.touchBarPlayTemplateName)!, target: nil, action: #selector(OELibraryController.startSaveState(_:)))
+            let button = NSButton(image: NSImage(named: NSImage.touchBarPlayTemplateName)!, target: nil, action: #selector(LibraryController.startSaveState(_:)))
             
             button.isEnabled = collectionView.selectionIndexPaths.count == 1
             

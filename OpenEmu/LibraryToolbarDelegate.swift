@@ -108,7 +108,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
         let item = NSToolbarItem(itemIdentifier: .oeGridSize)
         
-        let slider = NSSlider(value: 1.0, minValue: 0.5, maxValue: 2.5, target: toolbarOwner, action: #selector(OELibraryController.changeGridSize(_:)))
+        let slider = NSSlider(value: 1.0, minValue: 0.5, maxValue: 2.5, target: toolbarOwner, action: #selector(LibraryController.changeGridSize(_:)))
         slider.isContinuous = true
         if #available(macOS 11.0, *) {
             slider.controlSize = .mini
@@ -133,7 +133,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
         let item = NSToolbarItem(itemIdentifier: .oeDecreaseGridSize)
         
-        let minHint = NSButton(image: NSImage(named: "grid_slider_min")!, target: toolbarOwner, action: #selector(OELibraryController.decreaseGridSize(_:)))
+        let minHint = NSButton(image: NSImage(named: "grid_slider_min")!, target: toolbarOwner, action: #selector(LibraryController.decreaseGridSize(_:)))
         minHint.isBordered = false
         
         item.view = minHint
@@ -151,7 +151,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
         let item = NSToolbarItem(itemIdentifier: .oeIncreaseGridSize)
         
-        let maxHint = NSButton(image: NSImage(named: "grid_slider_max")!, target: toolbarOwner, action: #selector(OELibraryController.increaseGridSize(_:)))
+        let maxHint = NSButton(image: NSImage(named: "grid_slider_max")!, target: toolbarOwner, action: #selector(LibraryController.increaseGridSize(_:)))
         maxHint.isBordered = false
         
         item.view = maxHint
@@ -172,7 +172,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         let images = [NSImage(named: NSImage.iconViewTemplateName)!,
                       NSImage(named: NSImage.listViewTemplateName)!]
         
-        let segmControl = NSSegmentedControl(images: images, trackingMode: .selectOne, target: toolbarOwner, action: #selector(OELibraryController.switchToView(_:)))
+        let segmControl = NSSegmentedControl(images: images, trackingMode: .selectOne, target: toolbarOwner, action: #selector(LibraryController.switchToView(_:)))
         segmControl.setToolTip(NSLocalizedString("Switch To Grid View", comment: "Tooltip"), forSegment: 0)
         segmControl.setToolTip(NSLocalizedString("Switch To List View", comment: "Tooltip"), forSegment: 1)
         segmControl.setWidth(26, forSegment: 0)
@@ -199,7 +199,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
                       NSLocalizedString("Toolbar: Screenshots", value: "Screenshots", comment: "toolbar, category label"),
                       NSLocalizedString("Toolbar: Homebrew", value: "Homebrew", comment: "toolbar, category label")]
         
-        let segmControl = NSSegmentedControl(labels: titles, trackingMode: .selectOne, target: toolbarOwner, action: #selector(OELibraryController.switchCategory(_:)))
+        let segmControl = NSSegmentedControl(labels: titles, trackingMode: .selectOne, target: toolbarOwner, action: #selector(LibraryController.switchCategory(_:)))
         
         item.view = segmControl
         item.label = NSLocalizedString("Category", comment:"Category selector toolbar label, main window")
@@ -209,25 +209,25 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         libraryMenuItem.title = NSLocalizedString("Toolbar: Library", value: "Library", comment: "")
         libraryMenuItem.target = toolbarOwner
         libraryMenuItem.tag = 100
-        libraryMenuItem.action = #selector(OELibraryController.switchCategoryFromMenu(_:))
+        libraryMenuItem.action = #selector(LibraryController.switchCategoryFromMenu(_:))
         
         let savesStatesMenuItem = NSMenuItem()
         savesStatesMenuItem.title = NSLocalizedString("Toolbar: Save States", value: "Save States", comment: "")
         savesStatesMenuItem.target = toolbarOwner
         savesStatesMenuItem.tag = 101
-        savesStatesMenuItem.action = #selector(OELibraryController.switchCategoryFromMenu(_:))
+        savesStatesMenuItem.action = #selector(LibraryController.switchCategoryFromMenu(_:))
         
         let screenshotsMenuItem = NSMenuItem()
         screenshotsMenuItem.title = NSLocalizedString("Toolbar: Screenshots", value: "Screenshots", comment: "")
         screenshotsMenuItem.target = toolbarOwner
         screenshotsMenuItem.tag = 102
-        screenshotsMenuItem.action = #selector(OELibraryController.switchCategoryFromMenu(_:))
+        screenshotsMenuItem.action = #selector(LibraryController.switchCategoryFromMenu(_:))
         
         let homebrewMenuItem = NSMenuItem()
         homebrewMenuItem.title = NSLocalizedString("Toolbar: Homebrew", value: "Homebrew", comment: "")
         homebrewMenuItem.target = toolbarOwner
         homebrewMenuItem.tag = 103
-        homebrewMenuItem.action = #selector(OELibraryController.switchCategoryFromMenu(_:))
+        homebrewMenuItem.action = #selector(LibraryController.switchCategoryFromMenu(_:))
         
         let menu = NSMenu()
         menu.addItem(libraryMenuItem)
@@ -260,7 +260,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         searchField.sendsWholeSearchString = false
         searchField.sendsSearchStringImmediately = true
         searchField.font = NSFont.systemFont(ofSize: 13.0)
-        searchField.action = #selector(OELibraryController.search(_:))
+        searchField.action = #selector(LibraryController.search(_:))
         searchField.target = toolbarOwner
         
         NSLayoutConstraint(item: searchField, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 166).isActive = true

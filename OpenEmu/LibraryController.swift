@@ -1,4 +1,4 @@
-// Copyright (c) 2019, OpenEmu Team
+// Copyright (c) 2020, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -24,11 +24,10 @@
 
 import Foundation
 
-@objc
+@objc(OELibraryController)
 class LibraryController: NSTabViewController {
     
     enum DefaultKeys: String {
-        case libraryStates = "Library States"
         case lastCategory = "OELibraryLastCategoryKey"
     }
     
@@ -40,248 +39,272 @@ class LibraryController: NSTabViewController {
         case grid, list
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    // @objc weak var delegate: LibraryControllerDelegate?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setUpCategoryViewControllers()
-        //showSubviewController(category: selectedCatagory)
-    }
-    
     var selectedCatagory: Category {
         get {
             Category(rawValue: selectedTabViewItemIndex) ?? .games
         }
+        
+        set {
+            selectedTabViewItemIndex = newValue.rawValue
+            if let toolbar = toolbar {
+                toolbar.categorySelector.selectedSegment = newValue.rawValue
+            }
+            
+            UserDefaults.standard.set(newValue.rawValue, forKey: DefaultKeys.lastCategory.rawValue)
+        }
     }
     
-    func setUpCategoryViewControllers()
-    {
-//        libraryGamesViewController = OELibraryGamesViewController()
-//        libraryGamesViewController.libraryController = self
-//
-//        #if !USE_NEW
-//        saveStatesViewController = OEMediaViewController()
-//        saveStatesViewController.libraryController = self
-//        saveStatesViewController.representedObject = OEDBSavedGamesMedia.shared
-//
-//        screenshotsViewController = OEMediaViewController()
-//        screenshotsViewController.libraryController = self
-//        screenshotsViewController.representedObject = OEDBScreenshotsMedia.shared
-//        #else
-//        saveStatesViewController2 = SaveStateViewController()
-//        saveStatesViewController2.libraryController = self;
-//        saveStatesViewController2.representedObject = OEDBSavedGamesMedia.shared;
-//
-//        screenshotsViewController2 = ScreenshotViewController()
-//        screenshotsViewController2.libraryController = self;
-//        screenshotsViewController2.representedObject = OEDBScreenshotsMedia.shared;
-//        #endif
-//
-//        homebrewViewController = OEHomebrewViewController();
-//        homebrewViewController.libraryController = self;
-//
-//        addChild(libraryGamesViewController)
-//        #if !USE_NEW
-//        addChild(saveStatesViewController)
-//        addChild(screenshotsViewController)
-//        #else
-//        addChild(saveStatesViewController2)
-//        addChild(screenshotsViewController2)
-//        #endif
-//        addChild(homebrewViewController)
+    override var nibName: NSNib.Name? { NSNib.Name("OELibraryController") }
+    
+    @objc weak var delegate: LibraryControllerDelegate?
+    @IBOutlet var toolbar: LibraryToolbar?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        //set initial zoom value
+        if let toolbar = toolbar {
+            let zoomValue = UserDefaults.standard.float(forKey: OELastGridSizeKey)
+            toolbar.gridSizeSlider.floatValue = zoomValue
+        }
+        
+        tabView.autoresizingMask = [.width, .height]
+        tabView.tabViewType = .noTabsNoBorder
+        tabStyle = .unspecified
+        transitionOptions = []
+        setupTabViews()
+        // HACK: force NIB to load, so GameScannerViewController is initialized
+        _ = tabViewItems[0].view
+        
+        if let category = Category(rawValue: UserDefaults.standard.integer(forKey: DefaultKeys.lastCategory.rawValue)) {
+            selectedCatagory = category
+        }
+    }
+    
+    override func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
+        super.tabView(tabView, didSelect: tabViewItem)
+        if let toolbar = toolbar {
+            toolbar.categorySelector.selectedSegment = selectedTabViewItemIndex
+        }
+        view.window?.makeFirstResponder(tabViewItem?.view)
+    }
+    
+    private func setupTabViews() {
+        do {
+            let ctrl = OELibraryGamesViewController()
+            ctrl.database = database
+            let item = NSTabViewItem(identifier: "org.openemu.category.library")
+            item.viewController = ctrl
+            addTabViewItem(item)
+        }
+        
+        do {
+            let ctrl = OEMediaViewController()
+            ctrl.database = database
+            ctrl.representedObject = OEDBSavedGamesMedia.shared
+            let item = NSTabViewItem(identifier: "org.openemu.category.media")
+            item.viewController = ctrl
+            addTabViewItem(item)
+        }
+        
+        do {
+            let ctrl = OEMediaViewController()
+            ctrl.database = database
+            ctrl.representedObject = OEDBScreenshotsMedia.shared
+            let item = NSTabViewItem(identifier: "org.openemu.category.screenshots")
+            item.viewController = ctrl
+            addTabViewItem(item)
+        }
+
+        do {
+            let ctrl = OEHomebrewViewController()
+            ctrl.database = database
+            let item = NSTabViewItem(identifier: "org.openemu.category.homebrew")
+            item.viewController = ctrl
+            addTabViewItem(item)
+        }
     }
     
     override func viewDidAppear() {
         super.viewDidAppear()
         
-//        toolbar?.categorySelector.selectedSegment = selectedCatagory.rawValue
+        if let toolbar = toolbar {
+            toolbar.categorySelector.selectedSegment = selectedCatagory.rawValue
+        }
     }
     
     override func viewWillDisappear() {
-        super.viewWillDisappear()
-//
-//        if let container = toolbar?.searchField.superview {
-//            container.autoresizingMask = .width
-//        }
+        super.viewWillAppear()
+        
+        if let container = toolbar?.searchField.superview {
+            container.autoresizingMask = .width
+        }
     }
     
     // MARK: - Toolbar Actions
+    
+    private func tryForwardAction(sel: Selector, with sender: Any?) {
+        if let ctl = tabView.selectedTabViewItem?.viewController, ctl.responds(to: sel) {
+            ctl.perform(sel, with: sender)
+        }
+    }
+    
     @IBAction func addCollectionAction(_ sender: Any?) {
-//        if let ctl = currentSubviewController, ctl.responds(to: #selector(addCollectionAction(_:))) {
-//            ctl.perform(#selector(addCollectionAction(_:)), with: sender)
-//        }
+        tryForwardAction(sel: #selector(addCollectionAction(_:)), with: sender)
     }
     
-    @IBAction func switchViewMode(_ sender: Any?) {
-//        switch ViewMode(rawValue: toolbar!.viewSelector.selectedSegment) {
-//        case .grid:
-//            if let ctl = currentSubviewController, ctl.responds(to: #selector(OECollectionViewController.switchToGridView(_:))) {
-//                ctl.perform(#selector(OECollectionViewController.switchToGridView(_:)), with: sender)
-//            }
-//        case .list:
-//            if let ctl = currentSubviewController, ctl.responds(to: #selector(OECollectionViewController.switchToListView(_:))) {
-//                ctl.perform(#selector(OECollectionViewController.switchToListView(_:)), with: sender)
-//            }
-//        default:
-//            return
-//        }
+    @IBAction func switchToView(_ sender: Any?) {
+        switch toolbar?.viewModeSelector.selectedSegment {
+        case 0:
+            switchToGridView(sender)
+        case 1:
+            switchToListView(sender)
+        default:
+            break
+        }
     }
     
+    @IBAction func switchToGridView(_ sender: Any?) {
+        tryForwardAction(sel: #selector(switchToGridView(_:)), with: sender)
+    }
+
+    @IBAction func switchToListView(_ sender: Any?) {
+        tryForwardAction(sel: #selector(switchToListView(_:)), with: sender)
+    }
+
     @IBAction func search(_ sender: Any?) {
-//        if let ctl = currentSubviewController, ctl.responds(to: #selector(search(_:))) {
-//            ctl.perform(#selector(search(_:)), with: sender)
-//        }
+        tryForwardAction(sel: #selector(search(_:)), with: sender)
     }
     
     @IBAction func changeGridSize(_ sender: Any?) {
-//        if let ctl = currentSubviewController, ctl.responds(to: #selector(changeGridSize(_:))) {
-//            ctl.perform(#selector(changeGridSize(_:)), with: sender)
-//        }
+        tryForwardAction(sel: #selector(changeGridSize(_:)), with: sender)
     }
     
+    @IBAction func decreaseGridSize(_ sender: Any?) {
+        NSSelectorFromString(#function)
+        tryForwardAction(sel: #selector(decreaseGridSize(_:)), with: sender)
+    }
+
+    @IBAction func increaseGridSize(_ sender: Any?) {
+        tryForwardAction(sel: #selector(increaseGridSize(_:)), with: sender)
+    }
+
     override func magnify(with event: NSEvent) {
-//        if !toolbar!.gridSizeSlider.isEnabled {
-//            return
-//        }
-//
-//        guard let ctl = currentSubviewController, ctl.responds(to: #selector(changeGridSize(_:))) else {
-//            return
-//        }
-//
-//        let zoomChange = Float(event.magnification)
-//        let zoomValue = toolbar!.gridSizeSlider.floatValue
-//
-//        toolbar!.gridSizeSlider.floatValue = zoomValue + zoomChange
-//        changeGridSize(toolbar!.gridSizeSlider)
+        guard let toolbar = toolbar else { return }
+        
+        if !toolbar.gridSizeSlider.isEnabled {
+            return
+        }
+        
+        if let ctl = tabView.selectedTabViewItem?.viewController, !ctl.responds(to: #selector(changeGridSize(_:))) {
+            return
+        }
+
+        let zoomChange = Float(event.magnification)
+        let zoomValue = toolbar.gridSizeSlider.floatValue
+
+        toolbar.gridSizeSlider.floatValue = zoomValue + zoomChange
+        changeGridSize(toolbar.gridSizeSlider)
     }
     
     // MARK: - File Menu Item Actions
+    
     @IBAction func newCollection(_ sender: Any?) {
-//        if let ctl = currentSubviewController, ctl.responds(to: #selector(addCollectionAction(_:))) {
-//            ctl.perform(#selector(addCollectionAction(_:)), with: sender)
-//        }
+        tryForwardAction(sel: #selector(addCollectionAction(_:)), with: sender)
     }
     
     @IBAction func newSmartCollection(_ sender: Any?) {
+        // TODO: implement
     }
     
     @IBAction func newCollectionFolder(_ sender: Any?) {
+        // TODO: implement
     }
     
     @IBAction func editSmartCollection(_ sender: Any?) {
+        // TODO: implement
     }
     
     // MARK: - Edit Menu
     
     @IBAction func find(_ sender: Any?) {
-//        view.window?.makeFirstResponder(toolbar?.searchField)
+        view.window?.makeFirstResponder(toolbar?.searchField)
     }
     
     // MARK: - Categories
     
+    @objc var currentSubviewController: NSViewController? {
+        get {
+            return self.tabView.selectedTabViewItem?.viewController
+        }
+    }
+    
+    private func switchCategoryFromToolbar() {
+        guard
+            let category = Category(rawValue: toolbar!.categorySelector.selectedSegment)
+        else { return }
+        
+        if category == selectedCatagory {
+            return
+        }
+        
+        selectedCatagory = category
+    }
+
     @IBAction func switchCategory(_ sender: Any?) {
-//        guard let category = Category(rawValue: toolbar!.categorySelector.selectedSegment) else {
-//            return
-//        }
-//
-//        if category == selectedCatagory {
-//            return
-//        }
-//
-//        showSubviewController(category: category)
-//
-//        selectedCatagory = category
-//
-//        UserDefaults.standard.set(category.rawValue, forKey: DefaultKeys.lastCategory.rawValue)
+        switchCategoryFromToolbar()
     }
     
-//    func subviewController(category: Category) -> (NSViewController & OELibrarySubviewController) {
-//        switch category {
-//        case .games:
-//            return libraryGamesViewController
-//
-//        #if !USE_NEW
-//        case .saveStates:
-//            return saveStatesViewController
-//
-//        case .screenshots:
-//            return screenshotsViewController
-//        #else
-//        case .saveStates:
-//            return saveStatesViewController2
-//
-//        case .screenshots:
-//            return screenshotsViewController2
-//        #endif
-//
-//        case .homebrew:
-//            return homebrewViewController
-//        }
-//    }
-    
-    func showSubviewController(category: Category) {
-//        let newViewController = subviewController(category: category)
-//
-//        newViewController.view.frame = view.bounds
-//        newViewController.view.autoresizingMask = [.width, .height]
-//
-//        if let current = currentSubviewController {
-//            transition(from: current, to: newViewController, options: [], completionHandler: nil)
-//        } else {
-//            view.addSubview(newViewController.view)
-//        }
-//
-//        currentSubviewController = newViewController
-//        view.window?.makeFirstResponder(newViewController.view)
+    @IBAction func switchCategoryFromMenu(_ sender: NSMenuItem) {
+        guard let category = Category(rawValue: sender.tag - 100) else { return }
+        selectedCatagory = category
     }
     
-    // MARK: -
+    // MARK: - Validation
     
     @objc(validateMenuItem:)
     func validate(menuItem: NSMenuItem) -> Bool {
-        return false
-//        guard let sel = menuItem.action else { return false }
-//
-//        switch sel {
-//        case #selector(startSelectedGame(_:)):
-//            if let ctl = currentSubviewController as? OELibraryGamesViewController, ctl.selectedGames.count > 0 {
-//                return true
-//            }
-//
-//            if let ctl = currentSubviewController as? OEMediaViewController, ctl.representedObject() as? OEDBSavedGamesMedia != nil && ctl.selectedSaveStates.count > 0 {
-//                return true
-//            }
-//
-//            return false
-//
-//        case #selector(find(_:)):
-//            return toolbar?.searchField.isEnabled ?? false
-//
-//        default:
-//            break
-//        }
-//
-//        if let mode = ViewMode(rawValue: toolbar!.viewSelector.selectedSegment) {
-//            var state: NSControl.StateValue
-//            switch sel {
-//            case #selector(OECollectionViewController.switchToGridView(_:)):
-//                state = mode == .grid ? NSControl.StateValue.on : NSControl.StateValue.off
-//            case #selector(OECollectionViewController.switchToListView(_:)):
-//                state = mode == .list ? NSControl.StateValue.on : NSControl.StateValue.off
-//            default:
-//                return true
-//            }
-//
-//            menuItem.state = state
-//        }
-//
-//        return toolbar!.viewSelector.isEnabled
+        guard let sel = menuItem.action else { return false }
+        
+        if sel == #selector(newCollectionFolder(_:)) { return false }
+        
+        guard let currentSubviewController = tabView.selectedTabViewItem?.viewController else { return false }
+        
+        if sel == #selector(startSelectedGame(_:)) {
+            if let ctl = currentSubviewController as? LibrarySubviewControllerGameSelection {
+                return !ctl.selectedGames.isEmpty
+            }
+            return false
+        }
+        
+        if sel == #selector(find(_:)) {
+            return toolbar?.searchField.isEnabled ?? false
+        }
+        
+        if sel == #selector(switchCategoryFromMenu(_:)) {
+            menuItem.state = (toolbar!.categorySelector.selectedSegment == menuItem.tag - 100) ? .on : .off
+        }
+        
+        if sel == #selector(decreaseGridSize(_:)) || sel == #selector(increaseGridSize(_:)) {
+            return self.toolbar?.gridSizeSlider.isEnabled ?? false
+        }
+        
+        if let viewModeSelector = toolbar?.viewModeSelector {
+            if sel == #selector(switchToGridView(_:)) {
+                menuItem.state = viewModeSelector.selectedSegment == 0 ? .on : .off
+                return viewModeSelector.isEnabled
+            }
+            
+            if sel == #selector(switchToListView(_:)) {
+                menuItem.state = viewModeSelector.selectedSegment == 1 ? .on : .off
+                return viewModeSelector.isEnabled
+            }
+        }
+        
+        return true
     }
     
+    // MARK: - Import
     
     @IBAction func addToLibrary(_ sender: Any?) {
         guard let win = view.window else { return }
@@ -298,64 +321,56 @@ class LibraryController: NSTabViewController {
             }
         }
     }
-
+    
+    // MARK: -
+    
     @IBAction func startSelectedGame(_ sender: Any?) {
-//        var gamesToStart = [OEDBGame]()
-//
-//        if let game = sender as? OEDBGame {
-//            gamesToStart.append(game)
-//        } else {
-//            guard
-//                let ctl = currentSubviewController,
-//                let games = ctl.selectedGames!
-//                else { return }
-//
-//            gamesToStart.append(contentsOf: games)
-//        }
-//
-//        precondition(gamesToStart.count > 0, "Attempt to start a game while the selection is empty")
-//
-//        guard let delegate = delegate else { return }
-//
-//        for game in gamesToStart {
-//            delegate.libraryController?(self, didSelectGame: game)
-//        }
+        var gamesToStart = [OEDBGame]()
+        
+        if let game = sender as? OEDBGame {
+            gamesToStart.append(game)
+        } else {
+            guard
+                let ctl = tabView.selectedTabViewItem?.viewController as? LibrarySubviewControllerGameSelection
+            else { return }
+            
+            gamesToStart.append(contentsOf: ctl.selectedGames)
+        }
+        
+        precondition(gamesToStart.count > 0, "Attempt to start a game while the selection is empty")
+        
+        guard let delegate = delegate else { return }
+        
+        for game in gamesToStart {
+            delegate.libraryController?(self, didSelectGame: game)
+        }
     }
-
+    
     @objc(startGame:)
     func start(game: OEDBGame) {
-//        delegate?.libraryController?(self, didSelectGame: game)
+        delegate?.libraryController?(self, didSelectGame: game)
     }
     
     @IBAction func startSaveState(_ sender: Any?) {
-//        #if !USE_NEW
-//        guard
-//            let media = currentSubviewController as? OEMediaViewController,
-//            let games = media.selectedSaveStates,
-//            games.count == 1
-//            else { return }
-//        #else
-//        guard
-//            let ss = currentSubviewController as? SaveStateViewController
-//            else { return }
-//        let games = ss.selectedSaveStates
-//        if games.count != 1 { return }
-//        #endif
-//
-//        start(saveState: games.first!)
+        guard
+            let ctl = tabView.selectedTabViewItem?.viewController as? LibrarySubviewControlleSaveStateSelection,
+            let game = ctl.selectedSaveStates.first
+        else { return }
+        
+        start(saveState: game)
     }
     
     func start(saveState: OEDBSaveState) {
-//        delegate?.libraryController?(self, didSelectSaveState: saveState)
+        delegate?.libraryController?(self, didSelectSaveState: saveState)
     }
-
+    
     @objc(startSelectedGameWithSaveState:)
     @IBAction func startSelectedGame(saveState sender: NSMenuItem) {
-        guard let _ = sender.representedObject as? OEDBSaveState else {
+        guard let saveState = sender.representedObject as? OEDBSaveState else {
             fatalError("Attempt to start a save state without valid item")
         }
         
-//        delegate?.libraryController?(self, didSelectSaveState: saveState)
+        delegate?.libraryController?(self, didSelectSaveState: saveState)
     }
     
     // MARK: Properties
@@ -364,9 +379,21 @@ class LibraryController: NSTabViewController {
     }()
 }
 
-//@objc(OELibraryControllerDelegate)
-//protocol LibraryControllerDelegate {
-//    @objc optional func libraryController(_ controller: OELibraryController, didSelectGame: OEDBGame)
-//    @objc optional func libraryController(_ controller: OELibraryController, didSelectRom: OEDBRom)
-//    @objc optional func libraryController(_ controller: OELibraryController, didSelectSaveState: OEDBSaveState)
-//}
+// MARK: - Protocols
+
+@objc(OELibraryControllerDelegate)
+protocol LibraryControllerDelegate {
+    @objc optional func libraryController(_ controller: LibraryController, didSelectGame: OEDBGame)
+    @objc optional func libraryController(_ controller: LibraryController, didSelectRom: OEDBRom)
+    @objc optional func libraryController(_ controller: LibraryController, didSelectSaveState: OEDBSaveState)
+}
+
+@objc(OELibrarySubviewControllerGameSelection)
+protocol LibrarySubviewControllerGameSelection {
+    var selectedGames: [OEDBGame] { get }
+}
+
+@objc(OELibrarySubviewControlleSaveStateSelection)
+protocol LibrarySubviewControlleSaveStateSelection {
+    var selectedSaveStates: [OEDBSaveState] { get }
+}

@@ -44,11 +44,11 @@ final class SidebarAddMenu: NSMenu {
         
         let addToLibraryMenuItem = NSMenuItem()
         addToLibraryMenuItem.title = NSLocalizedString("Add to Library…", comment: "")
-        addToLibraryMenuItem.action = #selector(OELibraryController.addToLibrary(_:))
+        addToLibraryMenuItem.action = #selector(LibraryController.addToLibrary(_:))
         
         let newCollectionMenuItem = NSMenuItem()
         newCollectionMenuItem.title = NSLocalizedString("New Collection", comment: "")
-        newCollectionMenuItem.action = #selector(OELibraryController.newCollection(_:))
+        newCollectionMenuItem.action = #selector(LibraryController.newCollection(_:))
         
         items = [plusIconMenuItem,
                  addToLibraryMenuItem,
