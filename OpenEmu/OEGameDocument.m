@@ -66,11 +66,17 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 {
+    /// The current OEGameCoreManager has not been instantiated yet,
+    /// or it has been deallocated because emulation has terminated
     OEEmulationStatusNotSetup,
+    /// The OEGameCoreManager is ready, but the emulation was not started for
+    /// the first time yet
     OEEmulationStatusSetup,
+    /// The emulation has been requested to start
     OEEmulationStatusStarting,
     OEEmulationStatusPlaying,
     OEEmulationStatusPaused,
+    /// After emulation stops, but before OEGameCoreManager is deallocated
     OEEmulationStatusTerminating,
 };
 
@@ -87,6 +93,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     BOOL                _isMuted;
     BOOL                _pausedByGoingToBackground;
     BOOL                _isTerminatingEmulation;
+    BOOL                _coreDidTerminateSuddenly;
     
     // track if ROM was decompressed
     NSString           *_romPath;
@@ -1068,6 +1075,9 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 
 - (BOOL)shouldTerminateEmulation
 {
+    if (_coreDidTerminateSuddenly)
+        return YES;
+        
     [self enableOSSleep];
     [self setEmulationPaused:YES];
     
@@ -2066,6 +2076,14 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 - (void)setRemoteContextID:(NSUInteger)contextID
 {
     [_gameViewController setRemoteContextID:contextID];
+}
+
+- (void)gameCoreDidTerminate
+{
+    if (!(_emulationStatus == OEEmulationStatusStarting || _emulationStatus == OEEmulationStatusPaused))
+        return;
+    _coreDidTerminateSuddenly = YES;
+    [self stopEmulation:self];
 }
 
 @end
