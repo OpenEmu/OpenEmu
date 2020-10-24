@@ -24,52 +24,73 @@
 
 import Cocoa
 
-@objc(OEControlsKeyHeadline)
-final class ControlsKeyHeadline: Label {
+class ControlsLabel: NSTextField {
     
-    override func setupAttributes() {
-        
+    let textShadow: NSShadow = {
         let shadow = NSShadow()
         shadow.shadowBlurRadius = 1
         shadow.shadowColor = NSColor(white: 1, alpha: 0.25)
-        shadow.shadowOffset = NSMakeSize(0, -1)
+        shadow.shadowOffset = NSSize(width: 0, height: -1)
+        return shadow
+    }()
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        commonInit()
+    }
+    
+    private func commonInit() {
         
-        font = .boldSystemFont(ofSize: 11.5)
+        isBezeled = false
+        isEditable = false
+        isSelectable = false
+        drawsBackground = false
         textColor = .black
-        textShadow = shadow
+        
+        setupAttributes()
+    }
+    
+    func setupAttributes() {
+    }
+    
+    override func draw(_ dirtyRect: NSRect) {
+        
+        let attributedString = attributedStringValue.mutableCopy() as! NSMutableAttributedString
+        attributedString.addAttributes([.shadow : textShadow], range: NSRange(location: 0, length: attributedString.length))
+        attributedStringValue = attributedString
+        
+        return super.draw(dirtyRect)
+    }
+}
+
+
+@objc(OEControlsKeyHeadline)
+final class ControlsKeyHeadline: ControlsLabel {
+    
+    override func setupAttributes() {
+        font = .boldSystemFont(ofSize: 11.5)
     }
 }
 
 @objc(OEControlsKeyLabel)
-final class ControlsKeyLabel: Label {
+final class ControlsKeyLabel: ControlsLabel {
     
     override func setupAttributes() {
-        
-        let shadow = NSShadow()
-        shadow.shadowBlurRadius = 1
-        shadow.shadowColor = NSColor(white: 1, alpha: 0.25)
-        shadow.shadowOffset = NSMakeSize(0, -1)
-        
         font = .boldSystemFont(ofSize: 11)
-        textColor = .black
-        textShadow = shadow
         alignment = .right
     }
 }
 
 @objc(OEControlsInputLabel)
-final class ControlsInputLabel: Label {
+final class ControlsInputLabel: ControlsLabel {
     
     override func setupAttributes() {
-        
-        let shadow = NSShadow()
-        shadow.shadowBlurRadius = 1
-        shadow.shadowColor = NSColor(white: 1, alpha: 0.25)
-        shadow.shadowOffset = NSMakeSize(0, -1)
-        
         font = .boldSystemFont(ofSize: 11)
-        textColor = .black
-        textShadow = shadow
         stringValue = NSLocalizedString("Input:", comment: "Controls preferences, input selection label")
     }
 }

@@ -478,7 +478,6 @@
 		8F071F391C25534E007B76DA /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F381C25534E007B76DA /* Preferences.xib */; };
 		8F071F3B1C255362007B76DA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F3A1C255362007B76DA /* Credits.rtf */; };
 		8F0D804724ED76C4001BD8E2 /* ControlsLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */; };
-		8F0D804924ED7F14001BD8E2 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D804824ED7F14001BD8E2 /* Label.swift */; };
 		8F1482FB24EABEAB006E79DB /* HomebrewDeveloperLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */; };
 		8F2F92AA2519A9E700699691 /* GameScannerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2F92A92519A9E700699691 /* GameScannerButton.swift */; };
 		8F3062DB251A897F00BDFF1F /* OESearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3062DA251A897E00BDFF1F /* OESearchField.swift */; };
@@ -1793,7 +1792,6 @@
 		8F071F381C25534E007B76DA /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		8F071F3A1C255362007B76DA /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsLabels.swift; sourceTree = "<group>"; };
-		8F0D804824ED7F14001BD8E2 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewDeveloperLink.swift; sourceTree = "<group>"; };
 		8F2F92A92519A9E700699691 /* GameScannerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScannerButton.swift; sourceTree = "<group>"; };
 		8F3062DA251A897E00BDFF1F /* OESearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OESearchField.swift; sourceTree = "<group>"; };
@@ -2680,7 +2678,6 @@
 				8F714FD724F85CEA006AF031 /* HUDButton.swift */,
 				8F80218024F45E9800DC82E3 /* HUDSlider.swift */,
 				8F80217F24F45E9800DC82E3 /* HUDSliderCell.swift */,
-				8F0D804824ED7F14001BD8E2 /* Label.swift */,
 				8FEC1B9F24F7D37700DBBF72 /* TextButton.swift */,
 			);
 			name = "Custom Controls";
@@ -6801,7 +6798,6 @@
 				5AC349311D89E4EB0089B26F /* NSDocumentController+Additions.swift in Sources */,
 				832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */,
 				836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */,
-				8F0D804924ED7F14001BD8E2 /* Label.swift in Sources */,
 				0544B68923D14E6300F63D61 /* SidebarController.swift in Sources */,
 				83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */,
 				5A79F7951C15F542003124D5 /* PreferencesWindowController.swift in Sources */,
