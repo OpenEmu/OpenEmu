@@ -19,7 +19,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <point key="canvasLocation" x="-156" y="492"/>
         </customView>
-        <toolbar implicitIdentifier="647CF7A7-A628-4038-A1D8-26746C7CC43D" autosavesConfiguration="NO" allowsUserCustomization="NO" prefersToBeShown="NO" displayMode="iconOnly" sizeMode="regular" id="386-1H-9HX" customClass="OELibraryToolbar">
+        <toolbar implicitIdentifier="647CF7A7-A628-4038-A1D8-26746C7CC43D" prefersToBeShown="NO" displayMode="iconOnly" sizeMode="regular" id="386-1H-9HX" customClass="OELibraryToolbar">
             <allowedToolbarItems/>
             <defaultToolbarItems/>
             <connections>

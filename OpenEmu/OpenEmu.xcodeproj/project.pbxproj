@@ -1844,6 +1844,7 @@
 		8F80217F24F45E9800DC82E3 /* HUDSliderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDSliderCell.swift; sourceTree = "<group>"; };
 		8F80218024F45E9800DC82E3 /* HUDSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDSlider.swift; sourceTree = "<group>"; };
 		8F957B4125227175008A9BC9 /* GlossButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlossButton.swift; sourceTree = "<group>"; };
+		8F9943C12544A020005ADAAF /* NSToolbar+ApplePrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSToolbar+ApplePrivate.h"; sourceTree = "<group>"; };
 		8FA2B5022537E1A800B40142 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
 		8FA2B5082537E1BF00B40142 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
 		8FA2B50A2537E1C400B40142 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/ShaderParameters.strings; sourceTree = "<group>"; };
@@ -3055,6 +3056,7 @@
 				83F7DBAE18C0E2470029199C /* OEFileManager.m */,
 				05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */,
 				01D6F3D125269F1400E8404B /* NSImageRep+ApplePrivate.h */,
+				8F9943C12544A020005ADAAF /* NSToolbar+ApplePrivate.h */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
