@@ -416,7 +416,7 @@
 		83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83DEF7C3196C403400C7DF57 /* ControlLabels.strings */; };
 		83E89274197471F8004D4489 /* OEHomebrewCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E89273197471F8004D4489 /* OEHomebrewCoverView.m */; };
 		83E8927A19748C20004D4489 /* NS(Attributed)String+Geometrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */; };
-		83E8927D197490B3004D4489 /* OEDisabledScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8927C197490B3004D4489 /* OEDisabledScrollView.m */; };
+		83E8927D197490B3004D4489 /* DisabledScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E8927C197490B3004D4489 /* DisabledScrollView.swift */; };
 		83F444FD196CA24B007E8C63 /* OEHomebrewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F444FC196CA24B007E8C63 /* OEHomebrewViewController.m */; };
 		83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */; };
 		83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DBAE18C0E2470029199C /* OEFileManager.m */; };
@@ -1727,8 +1727,7 @@
 		83E89273197471F8004D4489 /* OEHomebrewCoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHomebrewCoverView.m; sourceTree = "<group>"; };
 		83E8927819748C20004D4489 /* NS(Attributed)String+Geometrics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NS(Attributed)String+Geometrics.h"; sourceTree = "<group>"; };
 		83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NS(Attributed)String+Geometrics.m"; sourceTree = "<group>"; };
-		83E8927B197490B3004D4489 /* OEDisabledScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDisabledScrollView.h; sourceTree = "<group>"; };
-		83E8927C197490B3004D4489 /* OEDisabledScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDisabledScrollView.m; sourceTree = "<group>"; };
+		83E8927C197490B3004D4489 /* DisabledScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisabledScrollView.swift; sourceTree = "<group>"; };
 		83F3E31E19B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83F3E31F19B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83F3E32019B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ControlLabels.strings; sourceTree = "<group>"; };
@@ -2672,6 +2671,7 @@
 			children = (
 				8337F38D1726B3600068DD90 /* BackgroundImageView.swift */,
 				5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */,
+				83E8927C197490B3004D4489 /* DisabledScrollView.swift */,
 				8F2F92A92519A9E700699691 /* GameScannerButton.swift */,
 				8F957B4125227175008A9BC9 /* GlossButton.swift */,
 				8FAF069A251FB02700EDB247 /* HoverButton.swift */,
@@ -3254,7 +3254,6 @@
 				832D293F1451A68700BDF950 /* OEMainWindowController.m */,
 				832D29441451B0CA00BDF950 /* Library */,
 				832D29461451B0F200BDF950 /* Setup Assistant */,
-				53439AE813B92E72005C0CC8 /* Controls */,
 			);
 			name = "Main Window";
 			sourceTree = "<group>";
@@ -3367,15 +3366,6 @@
 				833A1E4C197EAE2D004EC052 /* OEGameGridViewDelegate.h */,
 			);
 			name = "Grid View";
-			sourceTree = "<group>";
-		};
-		53439AE813B92E72005C0CC8 /* Controls */ = {
-			isa = PBXGroup;
-			children = (
-				83E8927B197490B3004D4489 /* OEDisabledScrollView.h */,
-				83E8927C197490B3004D4489 /* OEDisabledScrollView.m */,
-			);
-			name = Controls;
 			sourceTree = "<group>";
 		};
 		53439B3313B930A9005C0CC8 /* Controls */ = {
@@ -6730,7 +6720,7 @@
 				8F1482FB24EABEAB006E79DB /* HomebrewDeveloperLink.swift in Sources */,
 				8370D3E11A8D2A7600313F87 /* OEArrowCursorTextView.m in Sources */,
 				53439B0713B92EEC005C0CC8 /* OEGridViewFieldEditor.m in Sources */,
-				83E8927D197490B3004D4489 /* OEDisabledScrollView.m in Sources */,
+				83E8927D197490B3004D4489 /* DisabledScrollView.swift in Sources */,
 				83F444FD196CA24B007E8C63 /* OEHomebrewViewController.m in Sources */,
 				830CB918186878D6006EAE5A /* OEArrayController.m in Sources */,
 				53439B6E13B932DB005C0CC8 /* OEPrefLibraryController.m in Sources */,
