@@ -34,8 +34,6 @@
 #import "OEDBRom.h"
 #import "OEDBSaveState.h"
 
-#import "NSColor+OEAdditions.h"
-
 #import "OEGameControlsBar.h"
 
 #import "OEGameViewController.h"
@@ -893,7 +891,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
         NSColor     *color     = [NSColor blackColor];
         if([userDefaults stringForKey:key])
         {
-            color = [NSColor colorFromString:[userDefaults stringForKey:key]];
+            color = [[NSColor alloc] colorFromHexString:[userDefaults stringForKey:key]];
         }
         [colorWell setColor:color];
         [colorWell setAction:@selector(changeUDColor:)];

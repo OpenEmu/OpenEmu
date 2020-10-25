@@ -43,7 +43,6 @@
 #import "NSDocument+OEAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 #import "OEAudioDeviceManager.h"
-#import "NSColor+OEAdditions.h"
 #import "NSImageRep+ApplePrivate.h"
 #import "NSToolbar+ApplePrivate.h"
 
