@@ -36,6 +36,6 @@
             </connections>
             <point key="canvasLocation" x="303" y="173.5"/>
         </window>
-        <viewController id="49" customClass="LibraryController" customModule="OpenEmu"/>
+        <viewController id="49" customClass="OELibraryController"/>
     </objects>
 </document>
