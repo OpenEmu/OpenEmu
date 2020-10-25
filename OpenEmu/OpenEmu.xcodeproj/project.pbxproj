@@ -400,7 +400,7 @@
 		83AB259917A6A432009C80BC /* ControlsSectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AB259817A6A432009C80BC /* ControlsSectionTitleView.swift */; };
 		83B04E411968610F00CB985E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3D1968610F00CB985E /* InfoPlist.strings */; };
 		83B04E421968610F00CB985E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3F1968610F00CB985E /* Localizable.strings */; };
-		83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */; };
+		83BABBEE1458978B0097F6B2 /* SetupAssistantTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BABBED1458978B0097F6B2 /* SetupAssistantTableView.swift */; };
 		83BC345E1516456000F05A2B /* OEAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.m */; };
 		83C68ED114483579000F720A /* OEAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEAlert.m */; };
 		83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */; };
@@ -1698,8 +1698,7 @@
 		83AB259817A6A432009C80BC /* ControlsSectionTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsSectionTitleView.swift; sourceTree = "<group>"; };
 		83B04E3E1968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83B04E401968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
-		83BABBEC1458978B0097F6B2 /* OESetupAssistantTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantTableView.h; sourceTree = "<group>"; };
-		83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantTableView.m; sourceTree = "<group>"; };
+		83BABBED1458978B0097F6B2 /* SetupAssistantTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupAssistantTableView.swift; sourceTree = "<group>"; };
 		83BC345C1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEAlert+DefaultAlertsAdditions.h"; sourceTree = "<group>"; };
 		83BC345D1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEAlert+DefaultAlertsAdditions.m"; sourceTree = "<group>"; };
 		83C68ECF14483579000F720A /* OEAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAlert.h; sourceTree = "<group>"; };
@@ -3640,8 +3639,7 @@
 				8FDCE3962520022700277BFA /* GlossCheckboxCell.swift */,
 				83AAC32714581699005ADD16 /* OESetupAssistantBackgroundView.h */,
 				83AAC32814581699005ADD16 /* OESetupAssistantBackgroundView.m */,
-				83BABBEC1458978B0097F6B2 /* OESetupAssistantTableView.h */,
-				83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */,
+				83BABBED1458978B0097F6B2 /* SetupAssistantTableView.swift */,
 				8F3A885925456D5E0054B42B /* SetupAssistantTextCells.swift */,
 				83A97589184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift */,
 			);
@@ -6743,7 +6741,7 @@
 				832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */,
 				8301557B1456BF7A0093D681 /* OEGameViewController.m in Sources */,
 				83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */,
-				83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */,
+				83BABBEE1458978B0097F6B2 /* SetupAssistantTableView.swift in Sources */,
 				8F3062DB251A897F00BDFF1F /* OESearchField.swift in Sources */,
 				8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */,
 				839310BC147802380020058E /* OECoreDownload.m in Sources */,

@@ -25,13 +25,14 @@
  */
 
 #import "OESetupAssistant.h"
-#import "OESetupAssistantTableView.h"
 #import "OEFiniteStateMachine.h"
 #import <objc/runtime.h>
 
 #import "OECoreUpdater.h"
 #import "OECoreDownload.h"
 #import "OEAlert.h"
+
+#import "OpenEmu-Swift.h"
 
 @import QuartzCore;
 
