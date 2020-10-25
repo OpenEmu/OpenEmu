@@ -36,8 +36,6 @@
 #import "OEGameCollectionViewItemProtocol.h"
 #import "OEDBDataSourceAdditions.h"
 
-#import "OEArrowCursorTextView.h"
-
 #import "OpenEmu-Swift.h"
 
 @interface OEBlankSlateView () <NSTextViewDelegate>

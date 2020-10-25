@@ -379,7 +379,7 @@
 		836AEA711975BFE100B86935 /* OEGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA701975BFE100B86935 /* OEGridCell.m */; };
 		836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */; };
 		836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9591853817500B6AF26 /* OEGameInfoHelper.m */; };
-		8370D3E11A8D2A7600313F87 /* OEArrowCursorTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8370D3E01A8D2A7600313F87 /* OEArrowCursorTextView.m */; };
+		8370D3E11A8D2A7600313F87 /* ArrowCursorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */; };
 		83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83753F1614F537C400D708A7 /* OEPrefDebugController.m */; };
 		83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */; };
 		8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */; };
@@ -1654,8 +1654,7 @@
 		836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESQLiteDatabase.m; sourceTree = "<group>"; };
 		836BC9581853817500B6AF26 /* OEGameInfoHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameInfoHelper.h; sourceTree = "<group>"; };
 		836BC9591853817500B6AF26 /* OEGameInfoHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameInfoHelper.m; sourceTree = "<group>"; };
-		8370D3DF1A8D2A7600313F87 /* OEArrowCursorTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArrowCursorTextView.h; sourceTree = "<group>"; };
-		8370D3E01A8D2A7600313F87 /* OEArrowCursorTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEArrowCursorTextView.m; sourceTree = "<group>"; };
+		8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowCursorTextView.swift; sourceTree = "<group>"; };
 		83753F1514F537C400D708A7 /* OEPrefDebugController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefDebugController.h; sourceTree = "<group>"; };
 		83753F1614F537C400D708A7 /* OEPrefDebugController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefDebugController.m; sourceTree = "<group>"; };
 		83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefDebugController.xib; sourceTree = "<group>"; };
@@ -2668,6 +2667,7 @@
 		01E2A2F123E6027900194150 /* Custom Controls */ = {
 			isa = PBXGroup;
 			children = (
+				8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */,
 				8337F38D1726B3600068DD90 /* BackgroundImageView.swift */,
 				5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */,
 				83E8927C197490B3004D4489 /* DisabledScrollView.swift */,
@@ -3628,8 +3628,6 @@
 				83CB0C791A3F000700409FB2 /* OEBlankSlateSpinnerView.m */,
 				83955CB3165D939100572B34 /* OEBlankSlateView.h */,
 				83955CB4165D939100572B34 /* OEBlankSlateView.m */,
-				8370D3DF1A8D2A7600313F87 /* OEArrowCursorTextView.h */,
-				8370D3E01A8D2A7600313F87 /* OEArrowCursorTextView.m */,
 			);
 			name = "Blank Slate View";
 			sourceTree = "<group>";
@@ -6716,7 +6714,7 @@
 				5A9606D21C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift in Sources */,
 				5AFD06BD2058893B00DFE765 /* GameScannerViewController.swift in Sources */,
 				8F1482FB24EABEAB006E79DB /* HomebrewDeveloperLink.swift in Sources */,
-				8370D3E11A8D2A7600313F87 /* OEArrowCursorTextView.m in Sources */,
+				8370D3E11A8D2A7600313F87 /* ArrowCursorTextView.swift in Sources */,
 				53439B0713B92EEC005C0CC8 /* OEGridViewFieldEditor.m in Sources */,
 				83E8927D197490B3004D4489 /* DisabledScrollView.swift in Sources */,
 				83F444FD196CA24B007E8C63 /* OEHomebrewViewController.m in Sources */,
