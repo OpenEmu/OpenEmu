@@ -378,6 +378,34 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                     [self OE_openGameDocumentWithGame:game saveState:state secondAttempt:YES];
                 }
             }
+            else if ([error.domain isEqual:OEGameDocumentErrorDomain] && error.code == OEGameCoreCrashedError) {
+                // TODO: the setup completion handler shouldn't be the place where non-setup-related errors are handled!
+                OECorePlugin *core = error.userInfo[@"corePlugin"];
+                NSString *coreName = core.displayName;
+                BOOL glitchy = [core.controller hasGlitchesForSystemIdentifier:error.userInfo[@"systemIdentifier"]];
+                
+                OEAlert *alert = [[OEAlert alloc] init];
+                alert.headlineText = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has quit unexpectedly", @""), coreName];
+                if (glitchy) {
+                    alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", @""), coreName, coreName];
+                } else {
+                    alert.messageText = NSLocalizedString(
+                        @"<b>If and only if this issue persists</b>, please submit feedback including:<br><br>"
+                        @"<ul>"
+                        @"<li>The model of Mac you are using <b>and</b> the version of macOS you have installed"
+                            @"<ul><li>This information is found in  > About this Mac</li></ul></li>"
+                        @"<li>The <b>exact name</b> of the game you were playing</li>"
+                        @"<li>The crash report of OpenEmuHelperApp"
+                            @"<ul><li>Open Console.app, click on \"User Reports\" in the sidebar, "
+                            @"then look for the latest document with OpenEmuHelperApp in the name</ul></li></li>"
+                        @"</ul><br>"
+                        @"<b>Always search for similar feedback previously reported by other users!</b><br>"
+                        @"If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed.", @"Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English");
+                    alert.messageUsesHTML = YES;
+                }
+                alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
+                [alert runModal];
+            }
             else if(error && !([error.domain isEqual:NSCocoaErrorDomain] && error.code == NSUserCancelledError)) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self presentError:error];

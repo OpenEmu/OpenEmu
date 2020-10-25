@@ -41,6 +41,7 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
     OENoCoreForSaveStateError      = -8,
     OEImportRequiredError          = -9,
     OECouldNotLoadROMError         = -10,
+    OEGameCoreCrashedError         = -11
 };
 
 @class OECorePlugin;

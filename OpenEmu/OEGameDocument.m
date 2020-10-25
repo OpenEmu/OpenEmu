@@ -774,6 +774,17 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
         self->_gameCoreManager = nil;
         [self stopEmulation:self];
         
+        if ([error.domain isEqual:NSCocoaErrorDomain] &&
+                NSXPCConnectionErrorMinimum <= error.code && error.code <= NSXPCConnectionErrorMaximum) {
+            NSError *rootError = error;
+            error = [NSError errorWithDomain:OEGameDocumentErrorDomain code:OEGameCoreCrashedError userInfo:@{
+                @"corePlugin": self.corePlugin,
+                @"systemIdentifier": self.systemIdentifier,
+                NSUnderlyingErrorKey: rootError
+            }];
+        }
+        
+        // TODO: the setup completion handler shouldn't be the place where non-setup-related errors are handled!
         handler(NO, error);
     }];
 }
