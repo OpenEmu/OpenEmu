@@ -339,103 +339,81 @@ enum : OEFSMEventLabel
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    if(tableView == [self installCoreTableView])
-        return [_coresToDownload count];
-
+    if(tableView == self.installCoreTableView)
+        return _coresToDownload.count;
+    
     return 0;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
-{    
-    NSString *identifier = [tableColumn identifier];
-
-    if(tableView == [self installCoreTableView])
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    NSString *identifier = tableColumn.identifier;
+    
+    if(tableView == self.installCoreTableView)
     {
-        OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:rowIndex];
+        OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:row];
         
-        if([identifier isEqualToString:@"enabled"])             return @([coreInfo isSelected]);
-        else if([identifier isEqualToString:@"emulatorName"])   return [[coreInfo core] name];
+        if([identifier isEqualToString:@"enabled"])
+            return @(coreInfo.isSelected);
+        else if([identifier isEqualToString:@"emulatorName"])
+            return coreInfo.core.name;
         else if([identifier isEqualToString:@"emulatorSystem"])
         {
-            NSUInteger columnIndex = [tableView columnWithIdentifier:[tableColumn identifier]];
-            OESetupAssistantMinorTextCell *cell = (OESetupAssistantMinorTextCell *)[self tableView:tableView dataCellForTableColumn:tableColumn row:rowIndex];
-            NSMutableArray *systemNames = [[[coreInfo core] systemNames] mutableCopy];
-            NSString *systemNamesString = nil;
-            CGFloat columnWidth = NSWidth([tableView rectOfColumn:columnIndex]);
-            CGFloat stringWidth = 0.0;
-            do
-            {
-                systemNamesString = [systemNames componentsJoinedByString:@", "];
-                stringWidth = [systemNamesString sizeWithAttributes:[cell attributes]].width;
-                if([systemNames count] == 0)
-                    return [[[coreInfo core] systemNames] componentsJoinedByString:@", "];
-                
-                [systemNames removeObjectAtIndex:[systemNames count]-1];
-            } while(stringWidth > columnWidth);
+            NSArray *systemNames = coreInfo.core.systemNames;
+            NSString *systemNamesString = [systemNames componentsJoinedByString:@", "];
             
             return systemNamesString;
         }
     }
-
+    
     return nil;
 }
 
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    NSString *identifier = [tableColumn identifier];
-
-    if(tableView == [self installCoreTableView])
+    NSString *identifier = tableColumn.identifier;
+    
+    if(tableView == self.installCoreTableView)
     {
-        OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:rowIndex];
-        if([identifier isEqualToString:@"enabled"]) [coreInfo setSelected:[(NSNumber *)object boolValue]];
+        OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:row];
+        if([identifier isEqualToString:@"enabled"])
+            coreInfo.selected = [(NSNumber *)object boolValue];
     }
 
 }
 
 #pragma mark - NSTableViewDelegate
 
-- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
+- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     if(tableView == _installCoreTableView)
     {
-        if([[tableColumn identifier] isEqualToString:@"enabled"])
+        if([tableColumn.identifier isEqualToString:@"enabled"])
         {
-            OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:rowIndex];
-            return ![coreInfo isDownloadRequested];
+            OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:row];
+            return !coreInfo.isDownloadRequested;
         }
-
+        
         return NO;
     }
-    return [[tableColumn identifier] isEqualToString:@"enabled"];
+    return [tableColumn.identifier isEqualToString:@"enabled"];
 }
 
 - (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSCell *cell = [tableColumn dataCellForRow:row];
 
-    if(tableView == _installCoreTableView && [[tableColumn identifier] isEqualToString:@"enabled"])
+    if(tableView == _installCoreTableView && [tableColumn.identifier isEqualToString:@"enabled"])
     {
         OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:row];
         NSButtonCell *buttonCell = (NSButtonCell *)cell;
-        [buttonCell setEnabled:(![coreInfo isDownloadRequested])];
+        buttonCell.enabled = !coreInfo.isDownloadRequested;
         
-        if([coreInfo isDefaultCore]) [buttonCell setEnabled:NO];
+        if(coreInfo.isDefaultCore)
+            buttonCell.enabled = NO;
     }
 
     return cell;
-}
-
-- (NSString*)tableView:(NSTableView *)tableView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation
-{
-    if(tableView == _installCoreTableView && [[tableColumn identifier] isEqualToString:@"emulatorSystem"])
-    {
-        OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:row];
-        return [[[coreInfo core] systemNames] componentsJoinedByString:@", "];
-    }
-    
-    if([cell isKindOfClass:[NSTextFieldCell class]])
-        return [cell stringValue];
-    return @"";
 }
 
 @end
