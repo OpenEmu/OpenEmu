@@ -204,6 +204,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     
     // Update grid view with current size slider zoom value.
     NSSlider *sizeSlider = self.toolbar.gridSizeSlider;
+    sizeSlider.floatValue = [NSUserDefaults.standardUserDefaults floatForKey:OELastGridSizeKey];
     [self zoomGridViewWithValue:[sizeSlider floatValue]];
 }
 
