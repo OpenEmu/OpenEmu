@@ -461,7 +461,6 @@
 		8F1482FB24EABEAB006E79DB /* HomebrewDeveloperLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */; };
 		8F2F92AA2519A9E700699691 /* GameScannerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2F92A92519A9E700699691 /* GameScannerButton.swift */; };
 		8F3062DB251A897F00BDFF1F /* OESearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3062DA251A897E00BDFF1F /* OESearchField.swift */; };
-		8F3A885A25456D5E0054B42B /* SetupAssistantTextCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3A885925456D5E0054B42B /* SetupAssistantTextCells.swift */; };
 		8F4BDF7B1CE4AB25007DCB86 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */; };
 		8F4BDF7D1CE4AB34007DCB86 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7C1CE4AB34007DCB86 /* libsqlite3.tbd */; };
 		8F4BDF801CE4ACC6007DCB86 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */; };
@@ -1736,7 +1735,6 @@
 		8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewDeveloperLink.swift; sourceTree = "<group>"; };
 		8F2F92A92519A9E700699691 /* GameScannerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScannerButton.swift; sourceTree = "<group>"; };
 		8F3062DA251A897E00BDFF1F /* OESearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OESearchField.swift; sourceTree = "<group>"; };
-		8F3A885925456D5E0054B42B /* SetupAssistantTextCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAssistantTextCells.swift; sourceTree = "<group>"; };
 		8F40EB781C1072B000683055 /* OEMigrationWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OEMigrationWindowController.xib; sourceTree = "<group>"; };
 		8F40EB791C1072B100683055 /* OEPrefControlsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OEPrefControlsController.xib; sourceTree = "<group>"; };
 		8F40EB7A1C1072B100683055 /* OEPrefCoresController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OEPrefCoresController.xib; sourceTree = "<group>"; };
@@ -3537,7 +3535,6 @@
 				83AAC32714581699005ADD16 /* OESetupAssistantBackgroundView.h */,
 				83AAC32814581699005ADD16 /* OESetupAssistantBackgroundView.m */,
 				83BABBED1458978B0097F6B2 /* SetupAssistantTableView.swift */,
-				8F3A885925456D5E0054B42B /* SetupAssistantTextCells.swift */,
 				83A97589184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift */,
 			);
 			name = Controls;
@@ -6638,7 +6635,6 @@
 				83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */,
 				8FBAE9EB254BD7FA00446C3B /* NSControl+i18n.swift in Sources */,
 				0547FD9924E773F0005C1FFC /* OELogging.m in Sources */,
-				8F3A885A25456D5E0054B42B /* SetupAssistantTextCells.swift in Sources */,
 				8F80217A24F45E4800DC82E3 /* ControlsScroller.swift in Sources */,
 				EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.swift in Sources */,
 				EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */,
