@@ -277,7 +277,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     NSWindow *mainWindow = self.mainWindow;
     
     // Matches the content size specified in MainWindow.xib.
-    [mainWindow setFrame:NSMakeRect(0, 0, 830, 555 + 22) display:NO];
+    [mainWindow setFrame:NSMakeRect(0, 0, 845, 555 + 22) display:NO];
     
     [mainWindow center];
 
