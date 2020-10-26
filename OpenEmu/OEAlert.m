@@ -111,6 +111,17 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
         _window = [[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0) styleMask:NSWindowStyleMaskTitled backing:NSBackingStoreBuffered defer:YES];
         _window.releasedWhenClosed = NO;
         
+        if (@available(macOS 11.0, *)) {
+            _window.titlebarAppearsTransparent = YES;
+            _window.titleVisibility = NSWindowTitleHidden;
+            _window.styleMask |= NSWindowStyleMaskFullSizeContentView;
+            _window.movableByWindowBackground = YES;
+            
+            NSVisualEffectView *veView = [NSVisualEffectView new];
+            veView.material = NSVisualEffectMaterialPopover;
+            _window.contentView = veView;
+        }
+        
         self.suppressOnDefaultReturnOnly = YES;
         [self OE_createControls];
         [self OE_createTouchBarControls];
