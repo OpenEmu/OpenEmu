@@ -31,7 +31,7 @@
 
 "Already in library:" = "Già presenti nella Libreria:";
 
-"Already in library, but manually deleted or unreachable:" = "Already in library, but manually deleted or unreachable:"; // TODO
+"Already in library, but manually deleted or unreachable:" = "Già in libreria, ma eliminato manualmente o irraggiungibile:";
 
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Sei sicuro di voler cancellare %ld salvataggi dalla Libreria di OpenEmu?";
 
