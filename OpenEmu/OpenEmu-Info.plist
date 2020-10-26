@@ -7,8 +7,6 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
-			<key>LSHandlerRank</key>
-			<string>None</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>tar.gz</string>
@@ -24,6 +22,8 @@
 			<string>Archived Game</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>None</string>
 			<key>NSDocumentClass</key>
 			<string>OEGameDocument</string>
 		</dict>
