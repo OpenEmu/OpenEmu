@@ -110,6 +110,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     [libraryController view];
     [[self window] setToolbar:[libraryController toolbar]];
     self.window.toolbar.centeredItemIdentifier = @"OEToolbarCategoryItem";
+    
+    if (@available(macOS 11.0, *)) {
+        self.window.toolbarStyle = NSWindowToolbarStyleUnified;
+        self.window.titlebarSeparatorStyle = NSTitlebarSeparatorStyleLine;
+    }
 }
 
 - (void)setUpWindow

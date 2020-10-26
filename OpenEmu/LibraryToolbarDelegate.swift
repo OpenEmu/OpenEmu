@@ -252,6 +252,10 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         
         NSLayoutConstraint(item: searchField, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 166).isActive = true
         
+        if #available(macOS 11.0, *) {
+            NSLayoutConstraint(item: searchField, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 28).isActive = true
+        }
+        
         toolbar.searchField = searchField
         
         let item = NSToolbarItem(itemIdentifier: .oeSearch)

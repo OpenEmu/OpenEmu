@@ -58,9 +58,14 @@ class PreferencesWindowController: NSWindowController {
     override func windowDidLoad() {
         
         super.windowDidLoad()
-    
+        
         preferencesTabViewController = PreferencesTabViewController()
         self.window?.contentView = preferencesTabViewController.view
+        
+        if #available(macOS 11.0, *) {
+            window?.toolbarStyle = .preference
+            window?.titlebarSeparatorStyle = .line
+        }
         
         window!.center()
     }
