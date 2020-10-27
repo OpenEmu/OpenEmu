@@ -84,7 +84,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         return;
 
     // Time until hud controls bar fades out
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
+    [NSUserDefaults.standardUserDefaults registerDefaults:@{
         OEGameControlsBarFadeOutDelayKey : @1.5,
         OEGameControlsBarShowsAutoSaveStateKey : @NO,
         OEGameControlsBarShowsQuickSaveStateKey : @NO,
@@ -94,7 +94,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (id)initWithGameViewController:(OEGameViewController *)controller
 {
-    BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarHidesOptionButtonKey];
+    BOOL hideOptions = [NSUserDefaults.standardUserDefaults boolForKey:OEGameControlsBarHidesOptionButtonKey];
 
     self = [super initWithContentRect:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
     if(self != nil)
@@ -113,7 +113,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         
         _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskMouseMoved handler:^NSEvent*(NSEvent* e)
                          {
-                             if([NSApp isActive] && [[self gameWindow] isMainWindow])
+                             if(NSApp.isActive && self.gameWindow.isMainWindow)
                                  [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:e waitUntilDone:NO];
                              return e;
                          }];
@@ -122,7 +122,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
         [NSCursor setHiddenUntilMouseMoves:YES];
 
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
         // Show HUD when switching back from other applications
         [nc addObserver:self selector:@selector(mouseMoved:) name:NSApplicationDidBecomeActiveNotification object:nil];
         [nc addObserver:self selector:@selector(willMove:) name:NSWindowWillMoveNotification object:self];
@@ -147,7 +147,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (NSRect)bounds
 {
-    NSRect bounds = [self frame];
+    NSRect bounds = self.frame;
     bounds.origin = NSMakePoint(0, 0);
     return bounds;
 }
@@ -158,13 +158,13 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     // In order to load cheats, we need the game core to be running and, consequently, the ROM to be set.
     // We use -reflectEmulationRunning:, which we receive from OEGameViewController when the emulation
     // starts or resumes
-    if([[self gameViewController] supportsCheats])
+    if(self.gameViewController.supportsCheats)
     {
-        NSString *md5Hash = [[[[self gameViewController] document] rom] md5Hash];
+        NSString *md5Hash = self.gameViewController.document.rom.md5Hash;
         if(md5Hash)
         {
             OECheats *cheatsXML = [[OECheats alloc] initWithMd5Hash:md5Hash];
-            _cheats             = [[cheatsXML allCheats] mutableCopy];
+            _cheats             = [cheatsXML.allCheats mutableCopy];
             _cheatsLoaded       = YES;
         }
     }
@@ -173,8 +173,8 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 #pragma mark - Manage Visibility
 - (void)show
 {
-    if([self canShow])
-        [[self animator] setAlphaValue:1.0];
+    if(self.canShow)
+        [self animator].alphaValue = 1;
 }
 
 - (void)hideAnimated:(BOOL)animated
@@ -182,12 +182,12 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [NSCursor setHiddenUntilMouseMoves:YES];
 
     // only hide if 'docked' to game window (aka on the same screen)
-    if([self parentWindow])
+    if(self.parentWindow)
     {
         if(animated)
-            [[self animator] setAlphaValue:0.0];
+            [self animator].alphaValue = 0;
         else
-            [self setAlphaValue:0];
+            self.alphaValue = 0;
     }
 
     [_fadeTimer invalidate];
@@ -201,17 +201,17 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)_performMouseMoved:(NSEvent *)theEvent
 {
-    NSWindow *gameWindow = [self gameWindow];
+    NSWindow *gameWindow = self.gameWindow;
     if(gameWindow == nil) return;
 
-    NSView *gameView = [[self gameViewController] view];
-    NSRect viewFrame = [gameView frame];
-    NSPoint mouseLoc = [NSEvent mouseLocation];
+    NSView *gameView = self.gameViewController.view;
+    NSRect viewFrame = gameView.frame;
+    NSPoint mouseLoc = NSEvent.mouseLocation;
 
     NSRect viewFrameOnScreen = [gameWindow convertRectToScreen:viewFrame];
     if(!NSPointInRect(mouseLoc, viewFrameOnScreen)) return;
 
-    if([self alphaValue] == 0.0)
+    if(self.alphaValue == 0.0)
     {
         _lastMouseMovement = [NSDate date];
         [self show];
@@ -224,7 +224,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 {
     if(!_fadeTimer)
     {
-        NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
+        NSTimeInterval interval = [NSUserDefaults.standardUserDefaults doubleForKey:OEGameControlsBarFadeOutDelayKey];
         _fadeTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
     }
 
@@ -233,7 +233,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)timerDidFire:(NSTimer *)timer
 {
-    NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
+    NSTimeInterval interval = [NSUserDefaults.standardUserDefaults doubleForKey:OEGameControlsBarFadeOutDelayKey];
     NSDate *hideDate = [_lastMouseMovement dateByAddingTimeInterval:interval];
 
     if([hideDate timeIntervalSinceNow] <= 0.0)
@@ -247,44 +247,44 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         }
         else
         {
-            NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
+            NSTimeInterval interval = [NSUserDefaults.standardUserDefaults doubleForKey:OEGameControlsBarFadeOutDelayKey];
             NSDate *nextTime = [NSDate dateWithTimeIntervalSinceNow:interval];
 
-            [_fadeTimer setFireDate:nextTime];
+            _fadeTimer.fireDate = nextTime;
         }
     }
-    else [_fadeTimer setFireDate:hideDate];
+    else _fadeTimer.fireDate = hideDate;
 }
 
 - (BOOL)canFadeOut
 {
-    return [_openMenus count]==0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
+    return _openMenus.count==0 && !NSPointInRect(self.mouseLocationOutsideOfEventStream, [self bounds]);
 }
 
 - (void)repositionOnGameWindow
 {
-    if(!_gameWindow || ![self parentWindow]) return;
+    if(!_gameWindow || !self.parentWindow) return;
 
     static const CGFloat _OEControlsMargin = 19;
 
-    NSView *gameView = [[self gameViewController] view];
-    NSRect gameViewFrame = [gameView frame];
+    NSView *gameView = self.gameViewController.view;
+    NSRect gameViewFrame = gameView.frame;
     NSRect gameViewFrameInWindow = [gameView convertRect:gameViewFrame toView:nil];
     NSPoint origin = [_gameWindow convertRectToScreen:gameViewFrameInWindow].origin;
 
-    origin.x += (NSWidth(gameViewFrame) - NSWidth([self frame])) / 2;
+    origin.x += (NSWidth(gameViewFrame) - NSWidth(self.frame)) / 2;
 
     // If the controls bar fits, it sits over the window
-    if(NSWidth(gameViewFrame) >= NSWidth([self frame]))
+    if(NSWidth(gameViewFrame) >= NSWidth(self.frame))
         origin.y += _OEControlsMargin;
     else
     {
         // Otherwise, it sits below the window
-        origin.y -= (NSHeight([self frame]) + _OEControlsMargin);
+        origin.y -= (NSHeight(self.frame) + _OEControlsMargin);
 
         // Unless below the window means it being off-screen, in which case it sits above the window
-        if(origin.y < NSMinY([[_gameWindow screen] visibleFrame]))
-            origin.y = NSMaxY([_gameWindow frame]) + _OEControlsMargin;
+        if(origin.y < NSMinY(_gameWindow.screen.visibleFrame))
+            origin.y = NSMaxY(_gameWindow.frame) + _OEControlsMargin;
     }
 
     [self setFrameOrigin:origin];
@@ -309,24 +309,24 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)adjustWindowAttachment:(BOOL)userMovesGameWindow
 {
-    NSWindow *gameWindow = [self gameWindow];
-    NSScreen *barScreen  = [self screen];
-    NSScreen *gameScreen = [gameWindow screen];
+    NSWindow *gameWindow = self.gameWindow;
+    NSScreen *barScreen  = self.screen;
+    NSScreen *gameScreen = gameWindow.screen;
 
     BOOL screensDiffer = barScreen != gameScreen;
 
-    if(userMovesGameWindow && screensDiffer && [self parentWindow] != nil && barScreen != nil)
+    if(userMovesGameWindow && screensDiffer && self.parentWindow != nil && barScreen != nil)
     {
-        NSRect f = [self frame];
+        NSRect f = self.frame;
         [self orderOut:nil];
         [self setFrame:NSZeroRect display:NO];
         [self setFrame:f display:NO];
         [self orderFront:self];
     }
-    else if(!screensDiffer && [self parentWindow] == nil)
+    else if(!screensDiffer && self.parentWindow == nil)
     {
         // attach to window and center the controls bar
-        [[self gameWindow] addChildWindow:self ordered:NSWindowAbove];
+        [self.gameWindow addChildWindow:self ordered:NSWindowAbove];
         [self repositionOnGameWindow];
     }
 }
@@ -340,36 +340,36 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 #pragma mark - Menus
 - (void)showOptionsMenu:(id)sender
 {
-    NSMenu *menu = [[NSMenu alloc] init];
+    NSMenu *menu = [NSMenu new];
 
     NSMenuItem *item;
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Game Controls…", @"") action:@selector(editControls:) keyEquivalent:@""];
     [menu addItem:item];
 
     // Insert Cart/Disk/Tape Menu
-    if([[self gameViewController] supportsFileInsertion])
+    if(self.gameViewController.supportsFileInsertion)
     {
         item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Insert Cart/Disk/Tape…", @"") action:@selector(insertFile:) keyEquivalent:@""];
         [menu addItem:item];
     }
 
     // Setup Cheats Menu
-    if([[self gameViewController] supportsCheats])
+    if(self.gameViewController.supportsCheats)
     {
-        NSMenu *cheatsMenu = [[NSMenu alloc] init];
-        [cheatsMenu setTitle:NSLocalizedString(@"Select Cheat", @"")];
-        item = [[NSMenuItem alloc] init];
-        [item setTitle:NSLocalizedString(@"Select Cheat", @"")];
+        NSMenu *cheatsMenu = [NSMenu new];
+        cheatsMenu.title = NSLocalizedString(@"Select Cheat", @"");
+        item = [NSMenuItem new];
+        item.title = NSLocalizedString(@"Select Cheat", @"");
         [menu addItem:item];
-        [item setSubmenu:cheatsMenu];
+        item.submenu = cheatsMenu;
 
         NSMenuItem *addCheatMenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Add Cheat…", @"")
                                                                   action:@selector(addCheat:)
                                                            keyEquivalent:@""];
-        [addCheatMenuItem setRepresentedObject:_cheats];
+        addCheatMenuItem.representedObject = _cheats;
         [cheatsMenu addItem:addCheatMenuItem];
 
-        if([_cheats count] != 0)
+        if(_cheats.count != 0)
             [cheatsMenu addItem:[NSMenuItem separatorItem]];
 
         for(NSDictionary *cheatObject in _cheats)
@@ -378,20 +378,20 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             BOOL enabled          = [[cheatObject objectForKey:@"enabled"] boolValue];
 
             NSMenuItem *cheatsMenuItem = [[NSMenuItem alloc] initWithTitle:description action:@selector(setCheat:) keyEquivalent:@""];
-            [cheatsMenuItem setRepresentedObject:cheatObject];
-            [cheatsMenuItem setState:enabled ? NSControlStateValueOn : NSControlStateValueOff];
+            cheatsMenuItem.representedObject = cheatObject;
+            cheatsMenuItem.state = enabled ? NSControlStateValueOn : NSControlStateValueOff;
 
             [cheatsMenu addItem:cheatsMenuItem];
         }
     }
 
     // Setup Core selection menu
-    NSMenu *coresMenu = [[NSMenu alloc] init];
-    [coresMenu setTitle:NSLocalizedString(@"Select Core", @"")];
+    NSMenu *coresMenu = [NSMenu new];
+    coresMenu.title = NSLocalizedString(@"Select Core", @"");
 
-    NSString *systemIdentifier = [[self gameViewController] systemIdentifier];
+    NSString *systemIdentifier = self.gameViewController.systemIdentifier;
     NSArray *corePlugins = [OECorePlugin corePluginsForSystemIdentifier:systemIdentifier];
-    if([corePlugins count] > 1)
+    if(corePlugins.count > 1)
     {
         corePlugins = [corePlugins sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
             return [[obj1 displayName] localizedCaseInsensitiveCompare:[obj2 displayName]];
@@ -399,33 +399,34 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
         for(OECorePlugin *aPlugin in corePlugins)
         {
-            NSMenuItem *coreItem = [[NSMenuItem alloc] initWithTitle:[aPlugin displayName] action:@selector(switchCore:) keyEquivalent:@""];
-            [coreItem setRepresentedObject:aPlugin];
+            NSMenuItem *coreItem = [[NSMenuItem alloc] initWithTitle:aPlugin.displayName action:@selector(switchCore:) keyEquivalent:@""];
+            coreItem.representedObject = aPlugin;
 
-            if([[aPlugin bundleIdentifier] isEqual:[[self gameViewController] coreIdentifier]]) [coreItem setState:NSControlStateValueOn];
+            if([aPlugin.bundleIdentifier isEqual:self.gameViewController.coreIdentifier])
+                coreItem.state = NSControlStateValueOn;
 
             [coresMenu addItem:coreItem];
         }
 
-        item = [[NSMenuItem alloc] init];
+        item = [NSMenuItem new];
         item.title = NSLocalizedString(@"Select Core", @"");
-        [item setSubmenu:coresMenu];
-        if([[coresMenu itemArray] count] > 1)
+        item.submenu = coresMenu;
+        if(coresMenu.itemArray.count > 1)
             [menu addItem:item];
     }
 
     // Setup Disc selection Menu
-    if([[self gameViewController] supportsMultipleDiscs])
+    if(self.gameViewController.supportsMultipleDiscs)
     {
-        NSUInteger maxDiscs = [[self gameViewController] discCount];
+        NSUInteger maxDiscs = self.gameViewController.discCount;
 
-        NSMenu *discsMenu = [[NSMenu alloc] init];
-        [discsMenu setTitle:NSLocalizedString(@"Select Disc", @"")];
-        item = [[NSMenuItem alloc] init];
-        [item setTitle:NSLocalizedString(@"Select Disc", @"")];
+        NSMenu *discsMenu = [NSMenu new];
+        discsMenu.title = NSLocalizedString(@"Select Disc", @"");
+        item = [NSMenuItem new];
+        item.title = NSLocalizedString(@"Select Disc", @"");
         [menu addItem:item];
-        [item setSubmenu:discsMenu];
-        [item setEnabled:maxDiscs > 1 ? YES : NO];
+        item.submenu = discsMenu;
+        item.enabled = maxDiscs > 1 ? YES : NO;
 
         for(unsigned int disc = 1; disc <= maxDiscs; disc++)
         {
@@ -564,27 +565,27 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     item.submenu = shaderMenu;
 
     // Setup integral scaling
-    id<OEGameIntegralScalingDelegate> integralScalingDelegate = [[self gameViewController] integralScalingDelegate];
-    const BOOL hasSubmenu = [integralScalingDelegate shouldAllowIntegralScaling] && [integralScalingDelegate respondsToSelector:@selector(maximumIntegralScale)];
+    id<OEGameIntegralScalingDelegate> integralScalingDelegate = self.gameViewController.integralScalingDelegate;
+    const BOOL hasSubmenu = integralScalingDelegate.shouldAllowIntegralScaling && [integralScalingDelegate respondsToSelector:@selector(maximumIntegralScale)];
 
     NSMenu *scaleMenu = [NSMenu new];
-    [scaleMenu setTitle:NSLocalizedString(@"Select Scale", @"")];
+    scaleMenu.title = NSLocalizedString(@"Select Scale", @"");
     item = [NSMenuItem new];
-    [item setTitle:[scaleMenu title]];
+    item.title = scaleMenu.title;
     [menu addItem:item];
-    [item setSubmenu:scaleMenu];
+    item.submenu = scaleMenu;
 
     if(hasSubmenu)
     {
-        unsigned int maxScale = [integralScalingDelegate maximumIntegralScale];
-        unsigned int currentScale = [integralScalingDelegate currentIntegralScale];
+        unsigned int maxScale = integralScalingDelegate.maximumIntegralScale;
+        unsigned int currentScale = integralScalingDelegate.currentIntegralScale;
 
         for(unsigned int scale = 1; scale <= maxScale; scale++)
         {
             NSString *scaleTitle  = [NSString stringWithFormat:NSLocalizedString(@"%ux", @"Integral scale menu item title"), scale];
             NSMenuItem *scaleItem = [[NSMenuItem alloc] initWithTitle:scaleTitle action:@selector(changeIntegralScale:) keyEquivalent:@""];
-            [scaleItem setRepresentedObject:@(scale)];
-            [scaleItem setState:(scale == currentScale ? NSControlStateValueOn : NSControlStateValueOff)];
+            scaleItem.representedObject = @(scale);
+            scaleItem.state = (scale == currentScale ? NSControlStateValueOn : NSControlStateValueOff);
             [scaleMenu addItem:scaleItem];
         }
         
@@ -593,47 +594,47 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             NSMenuItem *scaleItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Fill Screen", @"Integral scale menu item title")
                                                                action:@selector(changeIntegralScale:)
                                                         keyEquivalent:@""];
-            [scaleItem setRepresentedObject:@0];
-            [scaleItem setState:(currentScale == 0 ? NSControlStateValueOn : NSControlStateValueOff)];
+            scaleItem.representedObject = @0;
+            scaleItem.state = (currentScale == 0 ? NSControlStateValueOn : NSControlStateValueOff);
             [scaleMenu addItem:scaleItem];
         }
     }
     else
-        [item setEnabled:NO];
+        item.enabled = NO;
 
-    if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarShowsAudioOutput])
+    if([NSUserDefaults.standardUserDefaults boolForKey:OEGameControlsBarShowsAudioOutput])
     {
         // Setup audio output
         NSMenu *audioOutputMenu = [NSMenu new];
-        [audioOutputMenu setTitle:NSLocalizedString(@"Select Audio Output Device", @"")];
+        audioOutputMenu.title = NSLocalizedString(@"Select Audio Output Device", @"");
         item = [NSMenuItem new];
-        [item setTitle:[audioOutputMenu title]];
+        item.title = audioOutputMenu.title;
         [menu addItem:item];
-        [item setSubmenu:audioOutputMenu];
+        item.submenu = audioOutputMenu;
 
         NSPredicate *outputPredicate = [NSPredicate predicateWithBlock:^BOOL(OEAudioDevice *device, NSDictionary *bindings) {
-            return [device numberOfOutputChannels] > 0;
+            return device.numberOfOutputChannels > 0;
         }];
-        NSArray *audioOutputDevices = [[[OEAudioDeviceManager sharedAudioDeviceManager] audioDevices] filteredArrayUsingPredicate:outputPredicate];
-        if([audioOutputDevices count] == 0) {
-            [item setEnabled:NO];
+        NSArray *audioOutputDevices = [OEAudioDeviceManager.sharedAudioDeviceManager.audioDevices filteredArrayUsingPredicate:outputPredicate];
+        if(audioOutputDevices.count == 0) {
+            item.enabled = NO;
         } else {
             NSMenuItem *deviceItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"System Default", @"Default audio device setting") action:@selector(changeAudioOutputDevice:) keyEquivalent:@""];
-            [deviceItem setRepresentedObject:nil];
+            deviceItem.representedObject = nil;
             [audioOutputMenu addItem:deviceItem];
             
             [audioOutputMenu addItem:[NSMenuItem separatorItem]];
             
             for(OEAudioDevice *device in audioOutputDevices)
             {
-                deviceItem = [[NSMenuItem alloc] initWithTitle:[device deviceName] action:@selector(changeAudioOutputDevice:) keyEquivalent:@""];
-                [deviceItem setRepresentedObject:device];
+                deviceItem = [[NSMenuItem alloc] initWithTitle:device.deviceName action:@selector(changeAudioOutputDevice:) keyEquivalent:@""];
+                deviceItem.representedObject = device;
                 [audioOutputMenu addItem:deviceItem];
             }
         }
     }
 
-    [menu setDelegate:self];
+    menu.delegate = self;
 
     // Display menu.
     NSRect targetRect = NSInsetRect([sender bounds], -2.0, 1.0);
@@ -643,24 +644,24 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)showSaveMenu:(id)sender
 {
-    NSMenu *menu = [[NSMenu alloc] init];
+    NSMenu *menu = [NSMenu new];
     menu.autoenablesItems = NO;
 
     NSMenuItem *newSaveItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game…", @"") action:@selector(saveState:) keyEquivalent:@""];
-    [newSaveItem setEnabled:[[self gameViewController] supportsSaveStates]];
-    [menu setDelegate:self];
+    newSaveItem.enabled = self.gameViewController.supportsSaveStates;
+    menu.delegate = self;
     [menu addItem:newSaveItem];
 
-    OEDBRom *rom = [[[self gameViewController] document] rom];
+    OEDBRom *rom = self.gameViewController.document.rom;
     [rom removeMissingStates];
 
     if(rom != nil)
     {
-        BOOL includeAutoSaveState = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarShowsAutoSaveStateKey];
-        BOOL includeQuickSaveState = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarShowsQuickSaveStateKey];
-        BOOL useQuickSaveSlots = [[NSUserDefaults standardUserDefaults] boolForKey:OESaveStateUseQuickSaveSlotsKey];
+        BOOL includeAutoSaveState = [NSUserDefaults.standardUserDefaults boolForKey:OEGameControlsBarShowsAutoSaveStateKey];
+        BOOL includeQuickSaveState = [NSUserDefaults.standardUserDefaults boolForKey:OEGameControlsBarShowsQuickSaveStateKey];
+        BOOL useQuickSaveSlots = [NSUserDefaults.standardUserDefaults boolForKey:OESaveStateUseQuickSaveSlotsKey];
         NSArray *saveStates = [rom normalSaveStatesByTimestampAscending:YES];
-        BOOL canDeleteSaveStates = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarCanDeleteSaveStatesKey];
+        BOOL canDeleteSaveStates = [NSUserDefaults.standardUserDefaults boolForKey:OEGameControlsBarCanDeleteSaveStatesKey];
 
         if(includeQuickSaveState && !useQuickSaveSlots && [rom quickSaveStateInSlot:0] != nil)
             saveStates = [@[[rom quickSaveStateInSlot:0]] arrayByAddingObjectsFromArray:saveStates];
@@ -668,20 +669,20 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         if(includeAutoSaveState && [rom autosaveState] != nil)
             saveStates = [@[[rom autosaveState]] arrayByAddingObjectsFromArray:saveStates];
 
-        if([saveStates count] != 0 || (includeQuickSaveState && useQuickSaveSlots))
+        if(saveStates.count != 0 || (includeQuickSaveState && useQuickSaveSlots))
         {
             [menu addItem:[NSMenuItem separatorItem]];
             
             NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Load", @"") action:NULL keyEquivalent:@""];
-            [item setEnabled:NO];
+            item.enabled = NO;
             [menu addItem:item];
 
             if(canDeleteSaveStates)
             {
                 item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete", @"") action:NULL keyEquivalent:@""];
-                [item setAlternate:YES];
-                [item setEnabled:NO];
-                [item setKeyEquivalentModifierMask:NSEventModifierFlagOption];
+                item.alternate = YES;
+                item.enabled = NO;
+                item.keyEquivalentModifierMask = NSEventModifierFlagOption;
                 [menu addItem:item];
             }
 
@@ -692,7 +693,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                 NSMenuItem *loadItem  = [[NSMenuItem alloc] initWithTitle:loadTitle action:NULL keyEquivalent:@""];
 
                 NSMenu *loadSubmenu = [[NSMenu alloc] initWithTitle:loadTitle];
-                [loadItem setIndentationLevel:1];
+                loadItem.indentationLevel = 1;
 
                 for(NSInteger i = 1; i <= 9; i++)
                 {
@@ -700,36 +701,36 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
                     loadTitle = [NSString stringWithFormat:NSLocalizedString(@"Slot %ld", @"Quick load menu item title"), (long)i];
                     NSMenuItem *loadItem = [[NSMenuItem alloc] initWithTitle:loadTitle action:@selector(quickLoad:) keyEquivalent:@""];
-                    [loadItem setEnabled:state != nil];
-                    [loadItem setRepresentedObject:@(i)];
+                    loadItem.enabled = state != nil;
+                    loadItem.representedObject = @(i);
                     [loadSubmenu addItem:loadItem];
                 }
 
-                [loadItem setSubmenu:loadSubmenu];
+                loadItem.submenu = loadSubmenu;
                 [menu addItem:loadItem];
             }
 
             // Add 'normal' save states
             for(OEDBSaveState *saveState in saveStates)
             {
-                NSString *itemTitle = [saveState displayName];
+                NSString *itemTitle = saveState.displayName;
 
                 if(!itemTitle || [itemTitle isEqualToString:@""])
-                    itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
+                    itemTitle = [NSString stringWithFormat:@"%@", saveState.timestamp];
 
                 NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(loadState:) keyEquivalent:@""];
-                [item setIndentationLevel:1];
+                item.indentationLevel = 1;
 
-                [item setRepresentedObject:saveState];
+                item.representedObject = saveState;
                 [menu addItem:item];
 
                 if(canDeleteSaveStates)
                 {
                     NSMenuItem *deleteStateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
-                    [deleteStateItem setAlternate:YES];
-                    [deleteStateItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
-                    [deleteStateItem setRepresentedObject:saveState];
-                    [deleteStateItem setIndentationLevel:1];
+                    deleteStateItem.alternate = YES;
+                    deleteStateItem.keyEquivalentModifierMask = NSEventModifierFlagOption;
+                    deleteStateItem.representedObject = saveState;
+                    deleteStateItem.indentationLevel = 1;
 
                     [menu addItem:deleteStateItem];
                 }
@@ -764,22 +765,22 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)reflectVolume:(CGFloat)volume
 {
-    OEHUDControlsBarView *view   = [[[self contentView] subviews] lastObject];
-    OEHUDSlider          *slider = [view slider];
+    OEHUDControlsBarView *view   = self.contentView.subviews.lastObject;
+    NSSlider             *slider = view.slider;
 
-    [[slider animator] setDoubleValue:volume];
+    [slider animator].doubleValue = volume;
 }
 
 - (void)reflectEmulationRunning:(BOOL)isEmulationRunning
 {
-    OEHUDControlsBarView *view        = [[[self contentView] subviews] lastObject];
-    NSButton             *pauseButton = [view pauseButton];
-    [pauseButton setState:!isEmulationRunning];
+    OEHUDControlsBarView *view        = self.contentView.subviews.lastObject;
+    NSButton             *pauseButton = view.pauseButton;
+    pauseButton.state = !isEmulationRunning;
 
     if(isEmulationRunning)
-        [pauseButton setToolTip:NSLocalizedString(@"Pause Game", @"Tooltip")];
+        pauseButton.toolTip = NSLocalizedString(@"Pause Game", @"HUD bar tooltip");
     else
-        [pauseButton setToolTip:NSLocalizedString(@"Resume Game", @"Tooltip")];
+        pauseButton.toolTip = NSLocalizedString(@"Resume Game", @"HUD bar tooltip");
 
     if(isEmulationRunning && !_cheatsLoaded)
         [self OE_loadCheats];
@@ -787,23 +788,23 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)gameWindowDidEnterFullScreen:(NSNotification *)notification;
 {
-    OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
-    [[view fullScreenButton] setState:NSControlStateValueOn];
+    OEHUDControlsBarView *view = self.contentView.subviews.lastObject;
+    view.fullScreenButton.state = NSControlStateValueOn;
     [self _performMouseMoved:nil];  // Show HUD because fullscreen animation makes the cursor appear
 }
 
 - (void)gameWindowWillExitFullScreen:(NSNotification *)notification;
 {
-    OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
-    [[view fullScreenButton] setState:NSControlStateValueOff];
+    OEHUDControlsBarView *view = self.contentView.subviews.lastObject;
+    view.fullScreenButton.state = NSControlStateValueOff;
 }
 
 - (void)setGameWindow:(NSWindow *)gameWindow
 {
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
 
     // un-register notifications for parent window
-    if([self parentWindow] != nil)
+    if(self.parentWindow != nil)
     {
         [nc removeObserver:self name:NSWindowDidEnterFullScreenNotification object:_gameWindow];
         [nc removeObserver:self name:NSWindowWillExitFullScreenNotification object:_gameWindow];
@@ -811,9 +812,9 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     }
 
     // remove from parent window if there was one, and attach to to the new game window
-    if((!_gameWindow || [self parentWindow]) && gameWindow != [self parentWindow])
+    if((!_gameWindow || self.parentWindow) && gameWindow != self.parentWindow)
     {
-        [[self parentWindow] removeChildWindow:self];
+        [self.parentWindow removeChildWindow:self];
         [gameWindow addChildWindow:self ordered:NSWindowAbove];
     }
 
@@ -832,8 +833,8 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [nc addObserver:self selector:@selector(gameWindowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:gameWindow];
         [nc addObserver:self selector:@selector(gameWindowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:gameWindow];
 
-        OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
-        [[view fullScreenButton] setState:[gameWindow isFullScreen] ? NSControlStateValueOn : NSControlStateValueOff];
+        OEHUDControlsBarView *view = self.contentView.subviews.lastObject;
+        view.fullScreenButton.state = gameWindow.isFullScreen ? NSControlStateValueOn : NSControlStateValueOff;
     }
 }
 
