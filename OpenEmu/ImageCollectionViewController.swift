@@ -42,6 +42,10 @@ class ImageCollectionViewController: NSViewController {
         return view.superview != nil
     }
     
+    private var toolbar: LibraryToolbar? {
+        view.window?.toolbar as? LibraryToolbar
+    }
+    
     var dataSourceDelegate: ImageDataSourceDelegate!
     
     override var representedObject: Any? {
@@ -58,12 +62,6 @@ class ImageCollectionViewController: NSViewController {
         super.viewDidLoad()
         
         itemSize = flowLayout.itemSize
-        
-//        if let slider = libraryController.toolbar?.gridSizeSlider {
-//            slider.isContinuous = true
-//            slider.floatValue = Self.lastGridSize
-//            zoomGridView(zoomValue: CGFloat(slider.floatValue))
-//        }
         
         collectionView.registerForDraggedTypes([.fileURL])
         collectionView.setDraggingSourceOperationMask([], forLocal: true)
@@ -89,6 +87,25 @@ class ImageCollectionViewController: NSViewController {
         reloadData()
     }
     
+    private func validateToolbarItems() {
+        guard let toolbar = toolbar else { return }
+        
+        toolbar.viewModeSelector.isEnabled = false
+        toolbar.viewModeSelector.selectedSegment = -1
+        
+        toolbar.gridSizeSlider.isEnabled = !shouldShowBlankSlate
+        toolbar.decreaseGridSizeButton.isEnabled = !shouldShowBlankSlate
+        toolbar.increaseGridSizeButton.isEnabled = !shouldShowBlankSlate
+
+        toolbar.searchField.isEnabled = !shouldShowBlankSlate
+        if toolbar.searchField.searchMenuTemplate == nil {
+             toolbar.searchField.searchMenuTemplate = searchMenuTemplate()
+        }
+        toolbar.searchField.stringValue = currentSearchTerm
+         
+        toolbar.addButton.isEnabled = false
+    }
+    
     @objc func libraryLocationDidChange(_ notification: Notification) {
         
     }
@@ -109,30 +126,20 @@ class ImageCollectionViewController: NSViewController {
         reloadData()
     }
     
-    override func viewWillAppear() {
-        super.viewWillAppear()
+    override func viewDidAppear() {
+        super.viewDidAppear()
         
-//        setupToolbar()
+        if let slider = toolbar?.gridSizeSlider {
+            slider.isContinuous = true
+            slider.floatValue = Self.lastGridSize
+            zoomGridView(zoomValue: CGFloat(slider.floatValue))
+        }
+        
+        validateToolbarItems();
         restoreSelectionFromDefaults()
     }
     
     // MARK: - Toolbar
-    
-//    func setupToolbar() {
-//        guard let toolbar = libraryController.toolbar else { return }
-//
-//        toolbar.viewSelector.isEnabled = false
-//        toolbar.gridSizeSlider.isEnabled = !shouldShowBlankSlate
-//        zoomGridView(zoomValue: CGFloat(toolbar.gridSizeSlider.floatValue))
-//
-//        if let field = toolbar.searchField {
-//            field.searchMenuTemplate = nil
-//            field.stringValue = currentSearchTerm
-//            field.isEnabled = !shouldShowBlankSlate
-//        }
-//
-//        setupSearchMenuTemplate()
-//    }
     
     @IBAction func changeGridSize(_ sender: NSSlider?) {
         if let slider = sender {
@@ -230,7 +237,7 @@ class ImageCollectionViewController: NSViewController {
         Self.lastGridSize = Float(zoomValue)
     }
     
-    private func setupSearchMenuTemplate() {
+    private func searchMenuTemplate() -> NSMenu {
         let menu = NSMenu()
         
         let descriptors = [
@@ -280,7 +287,7 @@ class ImageCollectionViewController: NSViewController {
             menu.insertItem(item, at: 0)
         }
         
-//        libraryController.toolbar?.searchField.searchMenuTemplate = menu
+        return menu
     }
     
     @objc func searchScopeDidChange(_ sender: NSMenuItem) {
@@ -504,6 +511,8 @@ class CustomFlowLayout: NSCollectionViewFlowLayout {
          
         return a
     }
+    
+    
     
     override func prepare() {
         super.prepare()

@@ -154,7 +154,7 @@ class CollectionView: NSCollectionView {
     }
 }
 
-// MARK: Quick Look support
+// MARK: - Quick Look support
 
 extension CollectionView: QLPreviewPanelDataSource, QLPreviewPanelDelegate {
     func toggleQuickLook() {

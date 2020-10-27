@@ -79,7 +79,36 @@ class LibraryController: NSTabViewController {
         if let category = Category(rawValue: UserDefaults.standard.integer(forKey: DefaultKeys.lastCategory.rawValue)) {
             selectedCatagory = category
         }
+        
+        screenshotsObserver =  Self.$useNewScreenshotsViewController.observe { [weak self] _, newValue in
+            guard
+                let self = self,
+                let useNew = newValue
+            else { return }
+            
+            let idx = self.tabView.indexOfTabViewItem(withIdentifier: NSUserInterfaceItemIdentifier.screenshotsViewController)
+            let item = self.tabView.tabViewItem(at: idx)
+            self.removeTabViewItem(item)
+            if useNew {
+                let ctrl = ScreenshotViewController()
+                ctrl.database = self.database
+                ctrl.representedObject = OEDBScreenshotsMedia.shared
+                let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.screenshotsViewController)
+                item.viewController = ctrl
+                self.insertTabViewItem(item, at: idx)
+            } else {
+                let ctrl = OEMediaViewController()
+                ctrl.database = self.database
+                ctrl.representedObject = OEDBScreenshotsMedia.shared
+                let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.screenshotsViewController)
+                item.viewController = ctrl
+                self.insertTabViewItem(item, at: idx)
+            }
+            self.selectedTabViewItemIndex = idx
+        }
     }
+    
+    var screenshotsObserver: Any?
     
     override func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
         super.tabView(tabView, didSelect: tabViewItem)
@@ -107,15 +136,25 @@ class LibraryController: NSTabViewController {
             addTabViewItem(item)
         }
         
-        do {
-            let ctrl = OEMediaViewController()
-            ctrl.database = database
-            ctrl.representedObject = OEDBScreenshotsMedia.shared
-            let item = NSTabViewItem(identifier: "org.openemu.category.screenshots")
-            item.viewController = ctrl
-            addTabViewItem(item)
+        if Self.useNewScreenshotsViewController {
+            do {
+                let ctrl = ScreenshotViewController()
+                ctrl.database = database
+                ctrl.representedObject = OEDBScreenshotsMedia.shared
+                let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.screenshotsViewController)
+                item.viewController = ctrl
+                addTabViewItem(item)
+            }
+        } else {
+            do {
+                let ctrl = OEMediaViewController()
+                ctrl.database = database
+                ctrl.representedObject = OEDBScreenshotsMedia.shared
+                let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.screenshotsViewController)
+                item.viewController = ctrl
+                addTabViewItem(item)
+            }
         }
-
         do {
             let ctrl = OEHomebrewViewController()
             ctrl.database = database
@@ -167,11 +206,11 @@ class LibraryController: NSTabViewController {
     @IBAction func switchToGridView(_ sender: Any?) {
         tryForwardAction(sel: #selector(switchToGridView(_:)), with: sender)
     }
-
+    
     @IBAction func switchToListView(_ sender: Any?) {
         tryForwardAction(sel: #selector(switchToListView(_:)), with: sender)
     }
-
+    
     @IBAction func search(_ sender: Any?) {
         tryForwardAction(sel: #selector(search(_:)), with: sender)
     }
@@ -184,11 +223,11 @@ class LibraryController: NSTabViewController {
         NSSelectorFromString(#function)
         tryForwardAction(sel: #selector(decreaseGridSize(_:)), with: sender)
     }
-
+    
     @IBAction func increaseGridSize(_ sender: Any?) {
         tryForwardAction(sel: #selector(increaseGridSize(_:)), with: sender)
     }
-
+    
     override func magnify(with event: NSEvent) {
         guard let toolbar = toolbar else { return }
         
@@ -199,10 +238,10 @@ class LibraryController: NSTabViewController {
         if let ctl = tabView.selectedTabViewItem?.viewController, !ctl.responds(to: #selector(changeGridSize(_:))) {
             return
         }
-
+        
         let zoomChange = Float(event.magnification)
         let zoomValue = toolbar.gridSizeSlider.floatValue
-
+        
         toolbar.gridSizeSlider.floatValue = zoomValue + zoomChange
         changeGridSize(toolbar.gridSizeSlider)
     }
@@ -250,7 +289,7 @@ class LibraryController: NSTabViewController {
         
         selectedCatagory = category
     }
-
+    
     @IBAction func switchCategory(_ sender: Any?) {
         switchCategoryFromToolbar()
     }
@@ -378,6 +417,20 @@ class LibraryController: NSTabViewController {
         return OELibraryDatabase.default!
     }()
 }
+
+extension NSUserInterfaceItemIdentifier {
+    static let screenshotsViewController = Self("org.openemu.category.screenshots")
+}
+
+extension Key {
+    static let useNewScreenshotsViewController: Key = "useNewScreenshotsViewController"
+}
+
+extension LibraryController {
+    @UserDefault(.useNewScreenshotsViewController, defaultValue: false)
+    static var useNewScreenshotsViewController: Bool
+}
+
 
 // MARK: - Protocols
 

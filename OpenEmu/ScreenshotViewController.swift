@@ -158,7 +158,7 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
         guard
             let item = dataSource.item(at: indexPath),
             let url  = item.url.absoluteURL as URL?
-            else { return }
+        else { return }
         NSWorkspace.shared.activateFileViewerSelecting([url])
     }
 }
@@ -210,7 +210,7 @@ extension ScreenshotViewController {
             let button = showInFinderItem.view as! NSButton
             button.isEnabled = !selected.isEmpty
         }
-     
+        
         if let shareItem = touchBar.item(forIdentifier: .shareScreenshot) as? NSSharingServicePickerTouchBarItem {
             shareItem.isEnabled = !selected.isEmpty
         }
@@ -222,7 +222,7 @@ extension ScreenshotViewController: NSTouchBarDelegate {
     public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
         
         switch identifier {
-            
+        
         case .deleteScreenshot:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
@@ -267,6 +267,6 @@ extension ScreenshotViewController: NSTouchBarDelegate {
 
 extension ScreenshotViewController: NSSharingServicePickerTouchBarItemDelegate {
     public func items(for pickerTouchBarItem: NSSharingServicePickerTouchBarItem) -> [Any] {
-        return dataSource.imageURLs(forItemsAt: collectionView.selectionIndexPaths).compactMap { NSImage(contentsOf: $0 as URL) }
+        return dataSource.imageURLs(forItemsAt: collectionView.selectionIndexPaths).compactMap { NSImage(contentsOf: $0) }
     }
 }

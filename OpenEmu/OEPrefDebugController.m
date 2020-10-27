@@ -164,6 +164,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox(OEDBSavedGamesMediaShowsAutoSaves, @"Show autosave states in save state category"),
                               Checkbox(OEDBSavedGamesMediaShowsQuickSaves, @"Show quicksave states in save state category"),
                               Checkbox(OEGameScannerViewController.OESidebarHideBottomBarKey, @"Hide bottom bar in sidebar"),
+                              Checkbox(@"useNewScreenshotsViewController", @"Use new screenshots view"),
                               Button(@"Show game scanner view", @selector(showGameScannerView:)),
                               Button(@"Hide game scanner view", @selector(hideGameScannerView:)),
                               

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17503.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17503.1"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -25,7 +24,7 @@
         <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="d28-O9-LD1">
             <rect key="frame" x="0.0" y="0.0" width="400" height="357"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <clipView key="contentView" drawsBackground="NO" id="btG-C4-DRG">
+            <clipView key="contentView" id="btG-C4-DRG">
                 <rect key="frame" x="1" y="1" width="398" height="355"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
@@ -37,7 +36,7 @@
                             <size key="headerReferenceSize" width="1000" height="27"/>
                             <edgeInsets key="sectionInset" left="45" right="45" top="40" bottom="40"/>
                         </collectionViewFlowLayout>
-                        <color key="primaryBackgroundColor" name="Media Background"/>
+                        <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         <connections>
                             <outlet property="dataSource" destination="-2" id="7gH-3u-4lC"/>
                             <outlet property="delegate" destination="-2" id="mTN-Zo-ceQ"/>
@@ -61,9 +60,4 @@
             <point key="canvasLocation" x="65" y="833"/>
         </customView>
     </objects>
-    <resources>
-        <namedColor name="Media Background">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-    </resources>
 </document>
