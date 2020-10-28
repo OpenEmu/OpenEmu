@@ -45,6 +45,7 @@
 #import "OEAudioDeviceManager.h"
 #import "NSImageRep+ApplePrivate.h"
 #import "NSToolbar+ApplePrivate.h"
+#import "OEBlankSlateSpinnerView.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <OpenEmuKit/OpenEmuKit.h>

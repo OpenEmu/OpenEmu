@@ -367,7 +367,7 @@
 		833ADC4D196B078E00217D9A /* OECollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 833ADC4F196B078E00217D9A /* OECollectionViewController.xib */; };
 		83495DD419A38F31009DB6E5 /* OEPrefBiosController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83495DD319A38F31009DB6E5 /* OEPrefBiosController.m */; };
 		83495DD819A38F3D009DB6E5 /* OEPrefBiosController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83495DD719A38F3D009DB6E5 /* OEPrefBiosController.xib */; };
-		834B6F2E1A3B453000CA6A26 /* OEHomebrewBlankSlateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 834B6F2D1A3B453000CA6A26 /* OEHomebrewBlankSlateView.m */; };
+		834B6F2E1A3B453000CA6A26 /* HomebrewBlankSlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834B6F2D1A3B453000CA6A26 /* HomebrewBlankSlateView.swift */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
 		8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB1F15FF5CB10026E326 /* OEDBRomMigrationPolicy.m */; };
 		8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB2215FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m */; };
@@ -1625,8 +1625,7 @@
 		83495DD219A38F31009DB6E5 /* OEPrefBiosController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefBiosController.h; sourceTree = "<group>"; };
 		83495DD319A38F31009DB6E5 /* OEPrefBiosController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefBiosController.m; sourceTree = "<group>"; };
 		83495DD719A38F3D009DB6E5 /* OEPrefBiosController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefBiosController.xib; sourceTree = "<group>"; };
-		834B6F2C1A3B453000CA6A26 /* OEHomebrewBlankSlateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHomebrewBlankSlateView.h; sourceTree = "<group>"; };
-		834B6F2D1A3B453000CA6A26 /* OEHomebrewBlankSlateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHomebrewBlankSlateView.m; sourceTree = "<group>"; };
+		834B6F2D1A3B453000CA6A26 /* HomebrewBlankSlateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewBlankSlateView.swift; sourceTree = "<group>"; };
 		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
 		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
 		8352C0F0197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3679,8 +3678,7 @@
 				83C748CB196DF34D0090BC91 /* OEHomebrewViewController.xib */,
 				83E89272197471F8004D4489 /* OEHomebrewCoverView.h */,
 				83E89273197471F8004D4489 /* OEHomebrewCoverView.m */,
-				834B6F2C1A3B453000CA6A26 /* OEHomebrewBlankSlateView.h */,
-				834B6F2D1A3B453000CA6A26 /* OEHomebrewBlankSlateView.m */,
+				834B6F2D1A3B453000CA6A26 /* HomebrewBlankSlateView.swift */,
 				8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */,
 				8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */,
 			);
@@ -6820,7 +6818,7 @@
 				8F957B4225227175008A9BC9 /* GlossButton.swift in Sources */,
 				0544B6AF23D1780C00F63D61 /* GameTableView.swift in Sources */,
 				8FAF08D8251FB65D00EDB247 /* HoverButton.swift in Sources */,
-				834B6F2E1A3B453000CA6A26 /* OEHomebrewBlankSlateView.m in Sources */,
+				834B6F2E1A3B453000CA6A26 /* HomebrewBlankSlateView.swift in Sources */,
 				5A9606E41C0BA85F0089B494 /* NSURL+LibraryAdditions.swift in Sources */,
 				5A3BB0391D964A4500E10F27 /* CenteredTextFieldCell.swift in Sources */,
 				0544B6A323D16D6300F63D61 /* NSImageView+OEAdditions.swift in Sources */,
