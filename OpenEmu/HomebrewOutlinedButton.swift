@@ -27,15 +27,13 @@ import Cocoa
 @objc(OEHomebrewOutlinedButton)
 final class HomebrewOutlinedButton: NSButton {
     
-    private let color = NSColor(white: 0.5, alpha: 1)
-    
     override func draw(_ dirtyRect: NSRect) {
         
         let frame = dirtyRect.insetBy(dx: 1, dy: 2)
         
         NSGraphicsContext.current?.saveGraphicsState()
         
-        color.setStroke()
+        NSColor.secondaryLabelColor.setStroke()
         
         let bezierPath = NSBezierPath(roundedRect: frame, xRadius: 3, yRadius: 3)
         bezierPath.lineWidth = 1
@@ -49,7 +47,7 @@ final class HomebrewOutlinedButton: NSButton {
     private static let attributes: [NSAttributedString.Key : Any] = {
         
         let font = NSFont.systemFont(ofSize: 12)
-        let color = NSColor(white: 0.5, alpha: 1)
+        let color = NSColor.secondaryLabelColor
         
         let style = NSMutableParagraphStyle()
         style.alignment = .center

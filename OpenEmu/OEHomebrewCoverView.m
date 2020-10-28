@@ -242,13 +242,13 @@ const static NSLock *lock;
         const NSBezierPath *path = [NSBezierPath bezierPathWithOvalInRect:rect];
         if(i == _currentImageIndex)
         {
-            [[NSColor clearColor] setFill];
-            [[NSColor colorWithRed:0 green:136.0/255.0 blue:204.0/255.0 alpha:1.0] setStroke];
+            [NSColor.clearColor setFill];
+            [NSColor.controlAccentColor setStroke];
         }
         else
         {
-            [[NSColor grayColor] setFill];
-            [[NSColor clearColor] setStroke];
+            [NSColor.disabledControlTextColor setFill];
+            [NSColor.clearColor setStroke];
         }
 
         [path fill];

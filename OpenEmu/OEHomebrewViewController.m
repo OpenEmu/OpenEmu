@@ -265,7 +265,7 @@ const static CGFloat TableViewSpacing = 86.0;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSFont *font = [NSFont systemFontOfSize:12 weight:0.2];
-        NSColor *color = [NSColor colorWithWhite:0.5 alpha:1];
+        NSColor *color = NSColor.secondaryLabelColor;
         
         NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
         paragraphStyle.alignment = NSTextAlignmentJustified;
