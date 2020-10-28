@@ -47,8 +47,6 @@
 
 #import "OEGameDocument.h"
 
-#import "OETableView.h"
-
 #import "OEDBDataSourceAdditions.h"
 
 #import "OpenEmu-Swift.h"

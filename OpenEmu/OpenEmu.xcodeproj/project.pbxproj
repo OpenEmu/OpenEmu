@@ -261,8 +261,6 @@
 		53439AA313B92C9D005C0CC8 /* OEDBSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AA113B92C9D005C0CC8 /* OEDBSystem.m */; };
 		53439AAB13B92CE6005C0CC8 /* OECollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */; };
 		53439AE313B92E59005C0CC8 /* OERatingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439ADA13B92E59005C0CC8 /* OERatingCell.m */; };
-		53439AE613B92E59005C0CC8 /* OETableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AE013B92E59005C0CC8 /* OETableHeaderView.m */; };
-		53439AE713B92E59005C0CC8 /* OETableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AE213B92E59005C0CC8 /* OETableView.m */; };
 		53439B0713B92EEC005C0CC8 /* OEGridViewFieldEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */; };
 		53439B6E13B932DB005C0CC8 /* OEPrefLibraryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B6D13B932DB005C0CC8 /* OEPrefLibraryController.m */; };
 		53439B7113B932ED005C0CC8 /* OEPrefGameplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7013B932ED005C0CC8 /* OEPrefGameplayController.m */; };
@@ -1464,10 +1462,6 @@
 		53439AD813B92E59005C0CC8 /* OEListViewDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEListViewDataSourceItem.h; sourceTree = "<group>"; };
 		53439AD913B92E59005C0CC8 /* OERatingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERatingCell.h; sourceTree = "<group>"; };
 		53439ADA13B92E59005C0CC8 /* OERatingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERatingCell.m; sourceTree = "<group>"; };
-		53439ADF13B92E59005C0CC8 /* OETableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableHeaderView.h; sourceTree = "<group>"; };
-		53439AE013B92E59005C0CC8 /* OETableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableHeaderView.m; sourceTree = "<group>"; };
-		53439AE113B92E59005C0CC8 /* OETableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableView.h; sourceTree = "<group>"; };
-		53439AE213B92E59005C0CC8 /* OETableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableView.m; sourceTree = "<group>"; };
 		53439B0513B92EEC005C0CC8 /* OEGridViewFieldEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewFieldEditor.h; sourceTree = "<group>"; };
 		53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewFieldEditor.m; sourceTree = "<group>"; };
 		53439B6813B932C5005C0CC8 /* OEPreferencePane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferencePane.h; sourceTree = "<group>"; };
@@ -2714,7 +2708,6 @@
 			children = (
 				0544B6A423D16DC400F63D61 /* Media View */,
 				0544B69A23D16D2500F63D61 /* Grid View */,
-				0544B6AC23D177F400F63D61 /* List View */,
 				0544B68F23D16D0C00F63D61 /* ImageCacheService.swift */,
 				0544B69023D16D0C00F63D61 /* ImageCollectionDataSource.swift */,
 				0544B69123D16D0C00F63D61 /* ImageCollectionHeaderView.swift */,
@@ -2764,15 +2757,6 @@
 				0544B6A623D16DDB00F63D61 /* ScreenshotViewController.swift */,
 			);
 			name = "Media View";
-			sourceTree = "<group>";
-		};
-		0544B6AC23D177F400F63D61 /* List View */ = {
-			isa = PBXGroup;
-			children = (
-				0544B6AD23D1780C00F63D61 /* GameTableView.swift */,
-				0544B6AE23D1780C00F63D61 /* GameTableView.xib */,
-			);
-			name = "List View";
 			sourceTree = "<group>";
 		};
 		0547FE1524E86D9F005C1FFC /* broker */ = {
@@ -3331,13 +3315,11 @@
 		53439AAD13B92CFC005C0CC8 /* List View */ = {
 			isa = PBXGroup;
 			children = (
+				0544B6AD23D1780C00F63D61 /* GameTableView.swift */,
+				0544B6AE23D1780C00F63D61 /* GameTableView.xib */,
 				53439AD813B92E59005C0CC8 /* OEListViewDataSourceItem.h */,
 				53439AD913B92E59005C0CC8 /* OERatingCell.h */,
 				53439ADA13B92E59005C0CC8 /* OERatingCell.m */,
-				53439ADF13B92E59005C0CC8 /* OETableHeaderView.h */,
-				53439AE013B92E59005C0CC8 /* OETableHeaderView.m */,
-				53439AE113B92E59005C0CC8 /* OETableView.h */,
-				53439AE213B92E59005C0CC8 /* OETableView.m */,
 			);
 			name = "List View";
 			sourceTree = "<group>";
@@ -6700,8 +6682,6 @@
 				8F7AE88A2546802A00B837A8 /* InsetScrollView.swift in Sources */,
 				53439AE313B92E59005C0CC8 /* OERatingCell.m in Sources */,
 				05A002D623DE5389007F0DB7 /* SidebarHeaderView.swift in Sources */,
-				53439AE613B92E59005C0CC8 /* OETableHeaderView.m in Sources */,
-				53439AE713B92E59005C0CC8 /* OETableView.m in Sources */,
 				8F58592F24F4340D009B8502 /* HomebrewOutlinedButton.swift in Sources */,
 				5A9606D21C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift in Sources */,
 				5AFD06BD2058893B00DFE765 /* GameScannerViewController.swift in Sources */,

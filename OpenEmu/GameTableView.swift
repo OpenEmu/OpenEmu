@@ -32,12 +32,12 @@ extension NSUserInterfaceItemIdentifier {
     static let gameTableViewTitleColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewTitle")
 }
 
-@objc
+@objc(OEGameTableView)
 class GameTableView: NSTableView {
     var headerState: [String: Bool] = [:] {
         didSet {
-            for col in tableColumns {
-                col.isHidden = self.headerState[col.identifier.rawValue] ?? false
+            for column in tableColumns {
+                column.isHidden = headerState[column.identifier.rawValue] ?? false
             }
         }
     }
@@ -70,16 +70,6 @@ class GameTableView: NSTableView {
         return nil
     }
     
-    override func keyDown(with event: NSEvent) {
-        switch event.keyCode {
-        case 51, 117:
-            NSApp.sendAction(#selector(delete(_:)), to: nil, from: self)
-            
-        default:
-            super.keyDown(with: event)
-        }
-    }
-    
     override func mouseDown(with event: NSEvent) {
         // AppKit posts a control-mouse-down event when the user control-clicks the view and -menuForEvent: returns nil
         // since a nil return normally means there is no contextual menu.
@@ -107,7 +97,7 @@ class GameTableView: NSTableView {
     }
 }
 
-@objc
+@objc(OEGameTableHeaderView)
 class GameTableHeaderView: NSTableHeaderView {
     override func menu(for event: NSEvent) -> NSMenu? {
         window?.makeFirstResponder(self)
@@ -116,13 +106,13 @@ class GameTableHeaderView: NSTableHeaderView {
         let headerState = tableView.headerState
         
         let menu = NSMenu()
-        for col in tableView.tableColumns {
-            let cell = col.headerCell
+        for column in tableView.tableColumns {
+            let cell = column.headerCell
             guard !cell.stringValue.isEmpty else { continue }
             
             let menuItem = NSMenuItem(title: cell.stringValue, action: #selector(updateHeaderState(_:)), keyEquivalent: "")
-            menuItem.representedObject = col
-            if let v = headerState[col.identifier.rawValue], v == true {
+            menuItem.representedObject = column
+            if let v = headerState[column.identifier.rawValue], v == true {
                 menuItem.state = .off
             } else {
                 menuItem.state = .on
@@ -139,13 +129,13 @@ class GameTableHeaderView: NSTableHeaderView {
     @objc private func updateHeaderState(_ sender: NSMenuItem) {
         guard
             let tableView = tableView as? GameTableView,
-            let col = sender.representedObject as? NSTableColumn
+            let column = sender.representedObject as? NSTableColumn
             else { return }
         
         var newHeaderState = tableView.headerState
-        var newState       = newHeaderState[col.identifier.rawValue] ?? false
+        var newState       = newHeaderState[column.identifier.rawValue] ?? false
         newState.toggle()
-        newHeaderState[col.identifier.rawValue] = newState
+        newHeaderState[column.identifier.rawValue] = newState
         tableView.headerState = newHeaderState
     }
 }

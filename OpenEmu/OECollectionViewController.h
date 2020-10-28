@@ -32,7 +32,7 @@
 #import "OECollectionViewItemProtocol.h"
 
 @class OEDBGame;
-@class OETableView;
+@class OEGameTableView;
 @class OELibraryToolbar;
 @class OELibraryDatabase;
 @class OEArrayController;
@@ -90,7 +90,7 @@ extern NSString * const OELastCollectionViewKey;
 @end
 
 @interface OECollectionViewController ()
-@property (assign, nullable) IBOutlet OETableView     *listView;
+@property (assign, nullable) IBOutlet OEGameTableView *listView;
 @property (assign, nullable) IBOutlet OEGridView      *gridView;
 - (void)OE_switchToView:(OECollectionViewControllerViewTag)tag;
 - (void)OE_showView:(OECollectionViewControllerViewTag)tag;

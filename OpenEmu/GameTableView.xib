@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -25,32 +25,28 @@
                         <tableColumns>
                             <tableColumn identifier="listViewStatus" editable="NO" width="17" minWidth="17" maxWidth="17" id="Lbh-GX-Wkv">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                    <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
                                 <imageCell key="dataCell" refusesFirstResponder="YES" alignment="left" id="ErN-t9-Ih8">
                                     <font key="font" metaFont="label" size="11"/>
                                 </imageCell>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                             </tableColumn>
                             <tableColumn identifier="listViewTitle" width="334" minWidth="100" maxWidth="1000" id="Sjb-if-rcP">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Name">
-                                    <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
                                 <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="NQc-Rt-oNu" customClass="OECenteredTextFieldCell">
                                     <font key="font" metaFont="label" size="11"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="localizedCaseInsensitiveCompare:" sortKey="listViewTitle"/>
                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                             </tableColumn>
                             <tableColumn identifier="listViewRating" width="70" minWidth="55" maxWidth="80" id="LrP-ep-rKN">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Rating">
-                                    <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
@@ -58,77 +54,72 @@
                                     <font key="font" metaFont="label" size="11"/>
                                 </customCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="listViewRating"/>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                             </tableColumn>
                             <tableColumn identifier="listViewLastPlayed" editable="NO" width="103" minWidth="100" maxWidth="1000" id="1cC-hY-mPb">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Last Played">
-                                    <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
                                 <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" placeholderString="" id="pJ2-yL-bFr" customClass="OECenteredTextFieldCell">
                                     <font key="font" metaFont="label" size="11"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="OE_compareDMYTranslatingNilToDistantPast:" sortKey="lastPlayed"/>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                             </tableColumn>
                             <tableColumn identifier="listViewConsoleName" editable="NO" width="104" minWidth="100" maxWidth="1000" id="8Sv-fb-Lem">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="System">
-                                    <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
                                 <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="0oL-L9-04C" customClass="OECenteredTextFieldCell">
                                     <font key="font" metaFont="label" size="11"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="listViewConsoleName"/>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                             </tableColumn>
-                            <tableColumn identifier="listViewSaveStateCount" editable="NO" width="90" minWidth="90" maxWidth="3.4028234663852886e+38" id="Moq-R4-4dI">
+                            <tableColumn identifier="listViewSaveStateCount" editable="NO" width="90" minWidth="90" maxWidth="1000" id="Moq-R4-4dI">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Save Games">
-                                    <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
                                 <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="KTb-MF-sTX" customClass="OECenteredTextFieldCell">
                                     <font key="font" metaFont="label" size="11"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="saveStateCount"/>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                             </tableColumn>
-                            <tableColumn identifier="listViewPlayCount" editable="NO" width="90" minWidth="90" maxWidth="3.4028234663852886e+38" id="gdg-Fj-Pix">
+                            <tableColumn identifier="listViewPlayCount" editable="NO" width="90" minWidth="90" maxWidth="1000" id="gdg-Fj-Pix">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Play Count">
-                                    <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
                                 <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="fnu-Ho-CBO" customClass="OECenteredTextFieldCell">
                                     <font key="font" metaFont="label" size="11"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="playCount"/>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                             </tableColumn>
-                            <tableColumn identifier="listViewPlayTime" editable="NO" width="90" minWidth="90" maxWidth="3.4028234663852886e+38" id="mu5-0a-6i0">
+                            <tableColumn identifier="listViewPlayTime" editable="NO" width="90" minWidth="90" maxWidth="1000" id="mu5-0a-6i0">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Play Time">
-                                    <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
                                 <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="BWl-ex-U8L" customClass="OECenteredTextFieldCell">
                                     <font key="font" metaFont="label" size="11"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="playTime"/>
-                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                             </tableColumn>
                         </tableColumns>
                     </tableView>

@@ -52,7 +52,6 @@
 #import "OEAlert+DefaultAlertsAdditions.h"
 
 #import "OESidebarController.h"
-#import "OETableView.h"
 
 #import "OEArrayController.h"
 
@@ -427,7 +426,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     return [self menuForItemsAtIndexes:indexes];
 }
 
-- (NSMenu *)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes
+- (NSMenu *)tableView:(OEGameTableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     return [self menuForItemsAtIndexes:indexes];
 }

@@ -28,8 +28,6 @@
 #import "OELibraryDatabase.h"
 @import OpenEmuKit;
 
-#import "OETableView.h"
-
 #import "NSFileManager+OEHashingAdditions.h"
 
 #import "OpenEmu-Swift.h"
