@@ -31,7 +31,6 @@
 #import "OEDBSavedGamesMedia.h"
 #import "OEDBScreenshotsMedia.h"
 
-#import "OEBlankSlateForegroundLayer.h"
 #import "OECollectionViewItemProtocol.h"
 #import "OEGameCollectionViewItemProtocol.h"
 #import "OEDBDataSourceAdditions.h"
@@ -97,11 +96,6 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     NSAppearance.currentAppearance = self.effectiveAppearance;
     
     CALayer *layer = [self layer];
-
-    // Setup foreground
-    // TODO: cleanup
-    // OEBlankSlateForegroundLayer *foregroundLayer = [[OEBlankSlateForegroundLayer alloc] init];
-    // [layer addSublayer:foregroundLayer];
 
     // Setup drag indication layer
     _dragIndicationLayer = [[CALayer alloc] init];

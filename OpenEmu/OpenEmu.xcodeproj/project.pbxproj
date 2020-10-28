@@ -383,7 +383,6 @@
 		83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83753F1614F537C400D708A7 /* OEPrefDebugController.m */; };
 		83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */; };
 		8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */; };
-		837820B61907E8520043593F /* OEBlankSlateForegroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820B51907E8520043593F /* OEBlankSlateForegroundLayer.m */; };
 		837820BD19081A090043593F /* OELibraryMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820BC19081A090043593F /* OELibraryMigrator.m */; };
 		837820C119081B1C0043593F /* OEMigrationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820BF19081B1C0043593F /* OEMigrationWindowController.m */; };
 		837964F11A614ACD00A8DE5C /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 837964EA1A614ACD00A8DE5C /* Controller-Mappings.plist */; };
@@ -409,7 +408,6 @@
 		83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CACEC7196D6D1300999E70 /* OEDownload.m */; };
 		83CB0C7A1A3F000700409FB2 /* OEBlankSlateSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CB0C791A3F000700409FB2 /* OEBlankSlateSpinnerView.m */; };
 		83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */; };
-		83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D175B218FF155700E5ED34 /* OEBlankSlateBackgroundView.m */; };
 		83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */; };
 		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
 		83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */; };
@@ -1661,8 +1659,6 @@
 		83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefDebugController.xib; sourceTree = "<group>"; };
 		8375E14D1477FC0D0018DA1F /* OECoreUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreUpdater.h; sourceTree = "<group>"; };
 		8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreUpdater.m; sourceTree = "<group>"; };
-		837820B41907E8520043593F /* OEBlankSlateForegroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBlankSlateForegroundLayer.h; sourceTree = "<group>"; };
-		837820B51907E8520043593F /* OEBlankSlateForegroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateForegroundLayer.m; sourceTree = "<group>"; };
 		837820B71907FADB0043593F /* IKRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKRenderer.h; sourceTree = "<group>"; };
 		837820B81907FB2D0043593F /* IKImageWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageWrapper.h; sourceTree = "<group>"; };
 		837820BA1907FB6E0043593F /* IKImageBrowserView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserView.h; sourceTree = "<group>"; };
@@ -1713,8 +1709,6 @@
 		83CB0C791A3F000700409FB2 /* OEBlankSlateSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateSpinnerView.m; sourceTree = "<group>"; };
 		83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveState.h; sourceTree = "<group>"; };
 		83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveState.m; sourceTree = "<group>"; };
-		83D175B118FF155700E5ED34 /* OEBlankSlateBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBlankSlateBackgroundView.h; sourceTree = "<group>"; };
-		83D175B218FF155700E5ED34 /* OEBlankSlateBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateBackgroundView.m; sourceTree = "<group>"; };
 		83D175B918FF218200E5ED34 /* OEDatabase 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.2.xcdatamodel"; sourceTree = "<group>"; };
 		83D33BD41AEB9ABE0085753B /* ALIterativeMigrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALIterativeMigrator.h; sourceTree = "<group>"; };
 		83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALIterativeMigrator.m; sourceTree = "<group>"; };
@@ -3623,10 +3617,6 @@
 		83955CB9165DAE7900572B34 /* Blank Slate View */ = {
 			isa = PBXGroup;
 			children = (
-				83D175B118FF155700E5ED34 /* OEBlankSlateBackgroundView.h */,
-				83D175B218FF155700E5ED34 /* OEBlankSlateBackgroundView.m */,
-				837820B41907E8520043593F /* OEBlankSlateForegroundLayer.h */,
-				837820B51907E8520043593F /* OEBlankSlateForegroundLayer.m */,
 				83CB0C781A3F000700409FB2 /* OEBlankSlateSpinnerView.h */,
 				83CB0C791A3F000700409FB2 /* OEBlankSlateSpinnerView.m */,
 				83955CB3165D939100572B34 /* OEBlankSlateView.h */,
@@ -6679,7 +6669,6 @@
 				8306CD2E1BD3AD480025BC6C /* OESidebarGroupItem.m in Sources */,
 				8306CD2F1BD3AD480025BC6C /* OESidebarOutlineView.m in Sources */,
 				8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */,
-				837820B61907E8520043593F /* OEBlankSlateForegroundLayer.m in Sources */,
 				0544B69923D16D0C00F63D61 /* ImageCollectionHeaderView.swift in Sources */,
 				05D828CD24E8DB8E00BB975E /* OEXPCGameCoreManager.m in Sources */,
 				83495DD419A38F31009DB6E5 /* OEPrefBiosController.m in Sources */,
@@ -6825,7 +6814,6 @@
 				14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */,
 				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,
 				0544B69723D16D0C00F63D61 /* ImageCacheService.swift in Sources */,
-				83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */,
 				837820BD19081A090043593F /* OELibraryMigrator.m in Sources */,
 				8337F38E1726B3600068DD90 /* BackgroundImageView.swift in Sources */,
 				94A4E98D179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m in Sources */,

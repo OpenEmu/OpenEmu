@@ -27,7 +27,6 @@
 #import "OEHomebrewViewController.h"
 
 #import "OEDownload.h"
-#import "OEBlankSlateBackgroundView.h"
 #import "OEHomebrewCoverView.h"
 #import "OEDBSystem+CoreDataProperties.h"
 #import "OELibraryDatabase.h"

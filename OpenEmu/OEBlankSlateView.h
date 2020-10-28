@@ -25,7 +25,6 @@
 */
 
 @import Cocoa;
-#import "OEBlankSlateBackgroundView.h"
 @class OEBlankSlateView;
 
 extern NSString * const OECDBasedGamesUserGuideURLString;
@@ -37,7 +36,7 @@ extern NSString * const OECDBasedGamesUserGuideURLString;
 - (BOOL)blankSlateView:(OEBlankSlateView *)gridView acceptDrop:(id<NSDraggingInfo>)sender;
 @end
 
-@interface OEBlankSlateView : OEBlankSlateBackgroundView
+@interface OEBlankSlateView : NSView
 @property (nonatomic) id representedObject;
 @property (assign) id <OEBlankSlateViewDelegate> delegate;
 @property (readonly, strong) NSView *containerView;
