@@ -16,7 +16,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="735" height="290"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="22" rowSizeStyle="small" headerView="AIG-pa-jeH" id="BcP-iB-yXR" customClass="GameTableView" customModule="OpenEmu" customModuleProvider="target">
+                    <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="libraryGamesTable" rowHeight="22" rowSizeStyle="small" headerView="AIG-pa-jeH" id="BcP-iB-yXR" customClass="GameTableView" customModule="OpenEmu" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="906" height="265"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <size key="intercellSpacing" width="1" height="0.0"/>
