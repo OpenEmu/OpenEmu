@@ -118,8 +118,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         
         let slider = NSSlider(value: 1.0, minValue: 0.5, maxValue: 2.5, target: toolbarOwner, action: #selector(LibraryController.changeGridSize(_:)))
         slider.controlSize = .small
-        
-        NSLayoutConstraint(item: slider, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 64).isActive = true
+        slider.widthAnchor.constraint(equalToConstant: 64).isActive = true
         
         let decreaseButton = NSButton(image: NSImage(named: "grid_slider_min")!, target: toolbarOwner, action: #selector(LibraryController.decreaseGridSize(_:)))
         decreaseButton.isBordered = false
@@ -246,14 +245,12 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         searchField.cell?.isScrollable = true
         searchField.sendsWholeSearchString = false
         searchField.sendsSearchStringImmediately = true
-        searchField.font = NSFont.systemFont(ofSize: 13.0)
+        searchField.font = .systemFont(ofSize: 13.0)
         searchField.action = #selector(LibraryController.search(_:))
         searchField.target = toolbarOwner
-        
-        NSLayoutConstraint(item: searchField, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 166).isActive = true
-        
+        searchField.widthAnchor.constraint(lessThanOrEqualToConstant: 166).isActive = true
         if #available(macOS 11.0, *) {
-            NSLayoutConstraint(item: searchField, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 28).isActive = true
+            searchField.heightAnchor.constraint(equalToConstant: 28).isActive = true
         }
         
         toolbar.searchField = searchField
