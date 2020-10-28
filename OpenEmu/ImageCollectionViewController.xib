@@ -21,15 +21,15 @@
             <point key="canvasLocation" x="65" y="246"/>
         </customView>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="d28-O9-LD1">
+        <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="d28-O9-LD1">
             <rect key="frame" x="0.0" y="0.0" width="400" height="357"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <clipView key="contentView" id="btG-C4-DRG">
-                <rect key="frame" x="1" y="1" width="398" height="355"/>
+                <rect key="frame" x="0.0" y="0.0" width="400" height="357"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <collectionView selectable="YES" allowsMultipleSelection="YES" id="z2P-1K-PXA" customClass="CollectionView" customModule="OpenEmu" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="398" height="355"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="357"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="40" sectionHeadersPinToVisibleBounds="YES" id="Z0G-bd-ZRg">
                             <size key="itemSize" width="168" height="143"/>
