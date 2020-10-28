@@ -28,4 +28,8 @@ class ImageCollectionHeaderView: NSVisualEffectView, NSCollectionViewElement {
     
     @IBOutlet weak var sectionTitle: NSTextField!
     @IBOutlet weak var imageCount: NSTextField!
+    
+    func preferredLayoutAttributesFitting(_ layoutAttributes: NSCollectionViewLayoutAttributes) -> NSCollectionViewLayoutAttributes {
+        layoutAttributes
+    }
 }
