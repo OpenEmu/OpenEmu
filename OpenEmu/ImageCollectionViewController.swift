@@ -147,6 +147,20 @@ class ImageCollectionViewController: NSViewController {
         }
     }
     
+    @IBAction func decreaseGridSize(_ sender: AnyObject?) {
+        if let slider = toolbar?.gridSizeSlider {
+            slider.floatValue -= sender?.tag == 199 ? 0.25 : 0.5
+            zoomGridView(zoomValue: CGFloat(slider.floatValue))
+        }
+    }
+    
+    @IBAction func increaseGridSize(_ sender: AnyObject?) {
+        if let slider = toolbar?.gridSizeSlider {
+            slider.floatValue += sender?.tag == 199 ? 0.25 : 0.5
+            zoomGridView(zoomValue: CGFloat(slider.floatValue))
+        }
+    }
+    
     @IBAction func showInFinder(_ sender: Any?) {
         let urls = dataSourceDelegate.imageURLs(forItemsAt: collectionView.selectionIndexPaths)
         NSWorkspace.shared.activateFileViewerSelecting(urls)
