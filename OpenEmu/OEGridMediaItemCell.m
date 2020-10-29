@@ -295,9 +295,8 @@ static NSDictionary *disabledActions = nil;
             selectionLayer.actions = disabledActions;
             selectionLayer.frame = selectionFrame;
             
-            NSColor *selectionColor = NSColor.controlAccentColor;
-            NSColor *inactiveSelectionColor = [NSColor colorWithCalibratedWhite:0.651
-                                                                          alpha:1.0];
+            NSColor *selectionColor = NSColor.selectedContentBackgroundColor;
+            NSColor *inactiveSelectionColor = NSColor.unemphasizedSelectedContentBackgroundColor;
             
             selectionLayer.borderWidth = 4.0;
             selectionLayer.borderColor = _lastWindowActive ? selectionColor.CGColor : inactiveSelectionColor.CGColor;

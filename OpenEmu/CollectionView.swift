@@ -64,7 +64,7 @@ class CollectionView: NSCollectionView {
     private var isKey: Bool = false
     private var selectionColor: NSColor {
         if isKey {
-            return .controlAccentColor
+            return .selectedContentBackgroundColor
         }
         return .unemphasizedSelectedContentBackgroundColor
     }

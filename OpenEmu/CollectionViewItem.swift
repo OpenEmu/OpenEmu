@@ -77,7 +77,7 @@ class CollectionViewItem: NSCollectionViewItem {
             guard let layer = view.layer else { return }
             
             let sel = CALayer()
-            sel.borderColor = NSColor.controlAccentColor.cgColor
+            sel.borderColor = NSColor.selectedContentBackgroundColor.cgColor
             sel.borderWidth = 4.0
             sel.cornerRadius = 3.0
             
