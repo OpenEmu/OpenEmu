@@ -589,6 +589,14 @@
 
 "Continue" = "Ga door";
 
+"Last Played" = "Laatst gespeeld";
+
+"Save Games" = "Opgeslagen spellen";
+
+"Play Count" = "Aantal keer gespeeld";
+
+"Play Time" = "Speeltijd";
+
 "Fill Screen" = "Fill Screen";  // Integral scale menu item title  // TODO
 
 "ECM compressed binary detected." = "Met ECM gecomprimeerd binair bestand gedetecteerd.";

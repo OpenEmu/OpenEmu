@@ -589,6 +589,14 @@
 
 "Continue" = "Продолжить";
 
+"Last Played" = "Последний запуск";
+
+"Save Games" = "Сохранения";
+
+"Play Count" = "Play Count";
+
+"Play Time" = "Play Time";
+
 "Fill Screen" = "Fill Screen";  // Integral scale menu item title  // TODO
 
 "ECM compressed binary detected." = "ECM compressed binary detected.";  // TODO

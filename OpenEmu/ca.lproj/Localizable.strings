@@ -589,6 +589,14 @@
 
 "Continue" = "Continuar";
 
+"Last Played" = "Jugat per última vegada";
+
+"Save Games" = "Partides desades";
+
+"Play Count" = "Vegades jugat";
+
+"Play Time" = "Estona jugat";
+
 "Fill Screen" = "Fill Screen";  // Integral scale menu item title  // TODO
 
 "ECM compressed binary detected." = "S'ha detectat un binari comprimit amb ECM.";

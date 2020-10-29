@@ -365,7 +365,7 @@
 
 "Quit" = "終了";
 
-"Rating" = "レーティング";
+"Rating" = "評価";
 
 "Recently Added" = "最近追加されたもの";
 
@@ -588,6 +588,14 @@
 "I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
 
 "Continue" = "続ける";
+
+"Last Played" = "最終起動日";
+
+"Save Games" = "セーブ数";
+
+"Play Count" = "起動回数";
+
+"Play Time" = "プレイ時間";
 
 "Fill Screen" = "Fill Screen";  // Integral scale menu item title  // TODO
 

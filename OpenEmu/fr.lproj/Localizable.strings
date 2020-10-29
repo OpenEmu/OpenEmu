@@ -589,6 +589,14 @@
 
 "Continue" = "Continuer";
 
+"Last Played" = "Dernière partie";
+
+"Save Games" = "Parties sauvées";
+
+"Play Count" = "Parties jouées";
+
+"Play Time" = "Temps de jeu";
+
 "Fill Screen" = "Fill Screen";  // Integral scale menu item title  // TODO
 
 "ECM compressed binary detected." = "Fichier binaire ECM compressé détecté.";

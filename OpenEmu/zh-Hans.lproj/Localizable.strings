@@ -589,6 +589,14 @@
 
 "Continue" = "继续";
 
+"Last Played" = "最近运行";
+
+"Save Games" = "保存游戏";
+
+"Play Count" = "运行次数";
+
+"Play Time" = "运行时间";
+
 "Fill Screen" = "Fill Screen";  // Integral scale menu item title  // TODO
 
 "ECM compressed binary detected." = "检测到ECM压缩二进制。";  // TODO

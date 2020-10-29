@@ -46,6 +46,29 @@ class GameTableView: NSTableView {
         super.awakeFromNib()
         
         headerState = [String: Bool](uniqueKeysWithValues: tableColumns.map({ ($0.identifier.rawValue, false) }))
+        
+        for column in tableColumns {
+            switch column.identifier {
+            case "listViewStatus":
+                column.headerCell.title = ""
+            case "listViewTitle":
+                column.headerCell.title = NSLocalizedString("Name", comment: "Game table, column header")
+            case "listViewRating":
+                column.headerCell.title = NSLocalizedString("Rating", comment: "Game table, column header")
+            case "listViewLastPlayed":
+                column.headerCell.title = NSLocalizedString("Last Played", comment: "Game table, column header")
+            case "listViewConsoleName":
+                column.headerCell.title = NSLocalizedString("System", comment: "Game table, column header")
+            case "listViewSaveStateCount":
+                column.headerCell.title = NSLocalizedString("Save Games", comment: "Game table, column header")
+            case "listViewPlayCount":
+                column.headerCell.title = NSLocalizedString("Play Count", comment: "Game table, column header")
+            case "listViewPlayTime":
+                column.headerCell.title = NSLocalizedString("Play Time", comment: "Game table, column header")
+            default:
+                break
+            }
+        }
     }
     
     override func menu(for event: NSEvent) -> NSMenu? {
