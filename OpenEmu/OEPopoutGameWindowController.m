@@ -49,6 +49,7 @@ static const unsigned int _OEFitToWindowScale        = 0;
 static NSString *const _OESystemIntegralScaleKeyFormat = @"OEIntegralScale.%@";
 static NSString *const _OEIntegralScaleKey             = @"integralScale";
 static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize";
+static NSString *const OEPopoutGameWindowAlwaysOnTop   = @"popoutGameWindowAlwaysOnTop";
 
 typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 {
@@ -103,6 +104,11 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     NSString *bgColorStr = [ud objectForKey:OEGameViewBackgroundColorKey];
     NSColor *bgColor = bgColorStr ? [[NSColor alloc] colorFromHexString:bgColorStr] : [NSColor blackColor];
     window.backgroundColor = bgColor;
+    
+    if([ud boolForKey:OEPopoutGameWindowAlwaysOnTop] == YES)
+    {
+        window.level = NSFloatingWindowLevel;
+    }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_constrainIntegralScaleIfNeeded) name:NSApplicationDidChangeScreenParametersNotification object:nil];
 
