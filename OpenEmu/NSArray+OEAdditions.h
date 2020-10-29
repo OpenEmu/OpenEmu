@@ -26,8 +26,8 @@
 
 @import Foundation;
 
-@interface NSArray (OEAdditions)
-- (id)firstObjectMatchingBlock:(BOOL(^)(id))block;
+@interface NSArray<ObjectType> (OEAdditions)
+- (ObjectType)firstObjectMatchingBlock:(BOOL(^)(ObjectType))block;
 - (NSArray*)arrayByMakingObjectsPerformSelector:(SEL)selector;
-- (NSArray*)arrayByEvaluatingBlock:(id (^)(id obj, NSUInteger idx, BOOL *stop))block;
+- (NSArray*)arrayByEvaluatingBlock:(id (^)(ObjectType obj, NSUInteger idx, BOOL *stop))block;
 @end
