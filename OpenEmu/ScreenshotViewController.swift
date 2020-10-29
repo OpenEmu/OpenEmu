@@ -52,10 +52,6 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
     func collectionView(_ collectionView: CollectionView, setTitle title: String, forItemAt indexPath: IndexPath) {
         guard let item = dataSource.item(at: indexPath), !title.isEmpty else { return }
         
-        if title.hasPrefix("OESpecialState_") {
-            return
-        }
-        
         item.name = title
         item.updateFile()
         item.save()
@@ -66,7 +62,7 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
     }
     
     @objc func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        if let sel = menuItem.action, sel == #selector(showInFinder(_:)) {
+        if let sel = menuItem.action, sel == #selector(showInFinder(_:)) || sel == #selector(delete(_:)) {
             return collectionView.selectionIndexPaths.count > 0
         }
         
@@ -130,6 +126,10 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
         if let service = menuItem.representedObject as? NSSharingService {
             service.perform(withItems: urls)
         }
+    }
+    
+    @IBAction override func delete(_ sender: Any?) {
+        deleteSelectedItems(sender)
     }
     
     @IBAction func deleteSelectedItems(_ sender: Any?) {
