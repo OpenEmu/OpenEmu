@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -53,6 +53,9 @@
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </textField>
                         </gridCell>
                         <gridCell row="uy1-hz-6Cy" column="WTK-4D-5ET" yPlacement="bottom" id="uhe-y2-BoJ">
@@ -75,6 +78,9 @@
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="changeLibraryFolder:" target="-2" id="44"/>
                                         </connections>
@@ -85,6 +91,9 @@
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="resetLibraryFolder:" target="-2" id="45"/>
                                         </connections>
@@ -114,6 +123,9 @@
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </textField>
                         </gridCell>
                         <gridCell row="G1f-wj-10F" column="WTK-4D-5ET" id="UJ1-Sj-qXb">
@@ -123,6 +135,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="resetWarningDialogs:" target="-2" id="Ohg-fM-nsc"/>
                                 </connections>
@@ -142,6 +157,9 @@
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </textField>
                         </gridCell>
                         <gridCell row="fjJ-Lb-pEQ" column="WTK-4D-5ET" id="vYn-VI-b4U">
@@ -154,6 +172,9 @@
                                         <binding destination="36" name="value" keyPath="values.copyToLibrary" id="DR7-wE-4OX"/>
                                     </connections>
                                 </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </button>
                         </gridCell>
                         <gridCell row="p2b-aW-Bk6" column="oTy-pp-h5N" id="91u-Bo-SiS"/>
@@ -167,6 +188,9 @@
                                         <binding destination="36" name="value" keyPath="values.automaticallyGetInfo" id="9FG-M3-Ivc"/>
                                     </connections>
                                 </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </button>
                         </gridCell>
                         <gridCell row="VHu-NG-zcQ" column="oTy-pp-h5N" headOfMergedCell="jV8-cD-Kuu" id="jV8-cD-Kuu">
@@ -183,6 +207,9 @@
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </textField>
                         </gridCell>
                         <gridCell row="MBs-vR-wBC" column="WTK-4D-5ET" id="acF-Sz-VAl">

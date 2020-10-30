@@ -32,7 +32,7 @@
 
 "Always pause gameplay when in background" = "Spiele im Hintergrund pausieren";
 
-"Skalierung des Popout-Fensters auf Integer beschränken" = "Skalierung des Popout-Fensters auf Integer beschränken";
+"Always snap popout gameplay window to integer scale" = "Skalierung des Popout-Fensters auf Integer beschränken";
 
 "Allow playing with controllers when in background" = "Controllereingaben im Hintergrund erlauben";
 

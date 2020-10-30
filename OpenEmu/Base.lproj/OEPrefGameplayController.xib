@@ -44,6 +44,9 @@
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </textField>
                         </gridCell>
                         <gridCell row="E8f-q6-hH2" column="TUh-4W-YMM" id="PAz-I3-Led">
@@ -76,6 +79,9 @@
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </textField>
                         </gridCell>
                         <gridCell row="NYF-Xp-end" column="TUh-4W-YMM" id="9GN-RA-hIB">
@@ -85,6 +91,9 @@
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <binding destination="28" name="value" keyPath="values.fullScreen" id="32"/>
                                 </connections>
@@ -98,6 +107,9 @@
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <binding destination="28" name="value" keyPath="values.forcePopout" id="65"/>
                                 </connections>
@@ -111,6 +123,9 @@
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <binding destination="28" name="value" keyPath="values.popoutGameWindowIntegerScalingOnly" id="41m-2Y-G68"/>
                                 </connections>
@@ -124,6 +139,9 @@
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <binding destination="28" name="value" keyPath="values.backgroundPause" id="58"/>
                                 </connections>
@@ -137,6 +155,9 @@
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <binding destination="28" name="value" keyPath="values.backgroundControllerPlay" id="2Zc-Kh-gZj"/>
                                 </connections>
