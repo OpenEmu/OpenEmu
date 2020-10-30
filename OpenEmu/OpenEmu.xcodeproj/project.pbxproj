@@ -493,6 +493,8 @@
 		8F80218224F45E9800DC82E3 /* HUDSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80218024F45E9800DC82E3 /* HUDSlider.swift */; };
 		8F957B4225227175008A9BC9 /* GlossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F957B4125227175008A9BC9 /* GlossButton.swift */; };
 		8FAF08D8251FB65D00EDB247 /* HoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF069A251FB02700EDB247 /* HoverButton.swift */; };
+		8FBAE60C254BA0D300446C3B /* OEControls.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FBAE60E254BA0D300446C3B /* OEControls.strings */; };
+		8FBAE799254BA99B00446C3B /* NSObject+OEi18n.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBAE798254BA99B00446C3B /* NSObject+OEi18n.m */; };
 		8FD7104D252556BF0093149B /* SidebarAddMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD7104C252556BF0093149B /* SidebarAddMenu.swift */; };
 		8FD78305243A8AD300861B7A /* Debug.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FD78307243A8AD300861B7A /* Debug.strings */; };
 		8FD905771AA2927100FA7662 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F40EB791C1072B100683055 /* OEPrefControlsController.xib */; };
@@ -1785,12 +1787,10 @@
 		8F40EB7D1C1072B100683055 /* OECollectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OECollectionViewController.xib; sourceTree = "<group>"; };
 		8F40EB811C1072B200683055 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OEGameScanner.xib; sourceTree = "<group>"; };
 		8F40EB841C1072B300683055 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OESetupAssistant.xib; sourceTree = "<group>"; };
-		8F40EB8E1C1074F900683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
 		8F40EB9F1C10790F00683055 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
 		8F40EBA01C10791800683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
 		8F40EBA11C10792500683055 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
 		8F40EBA21C10792E00683055 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
-		8F40EBAB1C107B0200683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OEGameScanner.strings; sourceTree = "<group>"; };
 		8F40EBAC1C107B5500683055 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OEGameScanner.strings; sourceTree = "<group>"; };
 		8F40EBAD1C107B6000683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OEGameScanner.strings; sourceTree = "<group>"; };
 		8F40EBAE1C107B6400683055 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OEGameScanner.strings; sourceTree = "<group>"; };
@@ -1830,6 +1830,8 @@
 		8FA2B5142537E1D200B40142 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ShaderParameters.strings"; sourceTree = "<group>"; };
 		8FA2B5162537E1D400B40142 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/ShaderParameters.strings"; sourceTree = "<group>"; };
 		8FAF069A251FB02700EDB247 /* HoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverButton.swift; sourceTree = "<group>"; };
+		8FBAE647254BA0DF00446C3B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OEControls.strings; sourceTree = "<group>"; };
+		8FBAE798254BA99B00446C3B /* NSObject+OEi18n.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+OEi18n.m"; sourceTree = "<group>"; };
 		8FCCCE5724E7087800223181 /* en-GB */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Debug.strings"; sourceTree = "<group>"; };
 		8FCCCE5824E7087A00223181 /* ca */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Debug.strings; sourceTree = "<group>"; };
 		8FCCCE5924E7087E00223181 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Debug.strings; sourceTree = "<group>"; };
@@ -2151,7 +2153,6 @@
 		C67DBF4217DBE859006AF087 /* NSDocument+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDocument+OEAdditions.m"; sourceTree = "<group>"; };
 		C68A54E51516AD3C001053F2 /* OEDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OEDatabase.xcdatamodel; sourceTree = "<group>"; };
 		C68B9F361C2ADD430049CF77 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
-		C68B9F371C2ADD970049CF77 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OEPrefLibraryController.strings; sourceTree = "<group>"; };
 		C68B9F381C2ADDA20049CF77 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OEPrefLibraryController.strings; sourceTree = "<group>"; };
 		C68B9F391C2ADDA60049CF77 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OEPrefLibraryController.strings; sourceTree = "<group>"; };
 		C69DCCFF0FE994A5009AE5A6 /* OEPluginDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPluginDocument.h; sourceTree = "<group>"; };
@@ -3022,6 +3023,7 @@
 				05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */,
 				01D6F3D125269F1400E8404B /* NSImageRep+ApplePrivate.h */,
 				8F9943C12544A020005ADAAF /* NSToolbar+ApplePrivate.h */,
+				8FBAE798254BA99B00446C3B /* NSObject+OEi18n.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -3730,6 +3732,7 @@
 			children = (
 				83B04E3D1968610F00CB985E /* InfoPlist.strings */,
 				83B04E3F1968610F00CB985E /* Localizable.strings */,
+				8FBAE60E254BA0D300446C3B /* OEControls.strings */,
 				83DEF7C3196C403400C7DF57 /* ControlLabels.strings */,
 				8FD78307243A8AD300861B7A /* Debug.strings */,
 			);
@@ -5929,6 +5932,7 @@
 			files = (
 				05E4400B22991527009E6D27 /* Shaders in Resources */,
 				C6C3734316BE7BAF003E57AE /* OE Startup.qtz in Resources */,
+				8FBAE60C254BA0D300446C3B /* OEControls.strings in Resources */,
 				1B32151514DDD49E00C5B50A /* OpenEmu.dae in Resources */,
 				1B32151614DDD49E00C5B50A /* OpenEmuText.dae in Resources */,
 				1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */,
@@ -6651,6 +6655,7 @@
 				53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */,
 				5A575DFD1E92D23600491B0D /* Cheats.swift in Sources */,
 				53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */,
+				8FBAE799254BA99B00446C3B /* NSObject+OEi18n.m in Sources */,
 				53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */,
 				83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */,
 				8306CD101BD3AC180025BC6C /* OELibraryGamesViewController.m in Sources */,
@@ -7472,7 +7477,6 @@
 			children = (
 				8F40EB7B1C1072B100683055 /* Base */,
 				7699EC8B1D6303E7005BC437 /* ca */,
-				8F40EB8E1C1074F900683055 /* de */,
 				8F40EBA01C10791800683055 /* es */,
 				8F40EBA11C10792500683055 /* fr */,
 				8F40EBA21C10792E00683055 /* it */,
@@ -7492,7 +7496,6 @@
 				8F40EB7C1C1072B100683055 /* Base */,
 				8FFB424D242459BB006CB9C4 /* en-GB */,
 				7699EC8C1D6303E8005BC437 /* ca */,
-				C68B9F371C2ADD970049CF77 /* de */,
 				8F40EBE61C1092D000683055 /* es */,
 				C68B9F381C2ADDA20049CF77 /* fr */,
 				8F40EBE41C10921500683055 /* it */,
@@ -7511,7 +7514,6 @@
 			children = (
 				8F40EB811C1072B200683055 /* Base */,
 				7699EC901D6303EA005BC437 /* ca */,
-				8F40EBAB1C107B0200683055 /* de */,
 				8F40EBAD1C107B6000683055 /* es */,
 				8F40EBAE1C107B6400683055 /* fr */,
 				8F40EBAF1C107B6800683055 /* it */,
@@ -7562,6 +7564,14 @@
 				8FA2B5162537E1D400B40142 /* zh-Hant */,
 			);
 			name = ShaderParameters.xib;
+			sourceTree = "<group>";
+		};
+		8FBAE60E254BA0D300446C3B /* OEControls.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8FBAE647254BA0DF00446C3B /* de */,
+			);
+			name = OEControls.strings;
 			sourceTree = "<group>";
 		};
 		8FD78307243A8AD300861B7A /* Debug.strings */ = {
