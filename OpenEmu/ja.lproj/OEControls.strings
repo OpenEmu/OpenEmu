@@ -1,0 +1,51 @@
+
+/* Preferences: Library (OEPrefLibraryController.xib) */
+
+"Change…" = "変更…";
+
+"Reset" = "リセット";
+
+"Organization Methods:" = "整理順序:";
+
+"Game Library Folder Location:" = "ゲームライブラリフォルダの場所:";
+
+"Copy files to Game Library folder when adding to library" = "ライブラリへ追加されたファイルをゲームライブラリフォルダへコピーする";
+
+"Automatically lookup game information & artwork" = "ゲーム情報とカバー写真を自動的に検索する";
+
+"Available Libraries:" = "利用可能なライブラリ:";
+
+"Reset all dialog warnings:" = "全てのダイアログ警告をリセットする:";
+
+"Reset Warnings" = "警告をリセット";
+
+
+/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+
+"Window Management:" = "ウィンドウ管理:";
+
+"Shader:" = "シェーダー:";
+
+"Executa els jocs en pantalla completa" = "常にゲーム画面をポップアップする";
+
+"Executa els jocs en pantalla completa" = "常にゲーム画面をフルスクリーンで起動する";
+
+"Always pause gameplay when in background" = "ゲーム画面がバックグラウンドにある時は一時停止する";
+
+"Always snap popout gameplay window to integer scale" = "Always snap popout gameplay window to integer scale";  // TODO
+
+"Allow playing with controllers when in background" = "ゲーム画面がバックグラウンドにあってもコントローラを有効にする";
+
+
+/* Preferences: Controls (OEPrefControlsController.xib) */
+
+"Input:" = "入力:";
+
+
+/* Issue Resolver (OEGameScanner.xib) */
+
+"Resolve Issues:" = "インポートの問題を解決する:";
+
+"Apply" = "適用";
+
+"Import Into:" = "インポート先:";   // TODO

@@ -1,0 +1,51 @@
+
+/* Preferences: Library (OEPrefLibraryController.xib) */
+
+"Change…" = "Wijzig…";
+
+"Reset" = "Stel opnieuw in";
+
+"Organization Methods:" = "Organisatiemethodes:";
+
+"Game Library Folder Location:" = "Locatie van spellenbibliotheekmap:";
+
+"Copy files to Game Library folder when adding to library" = "Kopiëer bestanden naar spellenbibliotheekmap bij toevoegen\naan bibliotheek";
+
+"Automatically lookup game information & artwork" = "Zoek automatisch spelinformatie en omslagafbeeldingen op";
+
+"Available Libraries:" = "Beschikbare bibliotheken:";
+
+"Reset all dialog warnings:" = "Stel alle dialoogvensterwaarschuwingen opnieuw in:";
+
+"Reset Warnings" = "Stel waarschuwingen opnieuw in";
+
+
+/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+
+"Window Management:" = "Vensterbeheer:";
+
+"Shader:" = "Shader:";
+
+"Executa els jocs en pantalla completa" = "Gebruik altijd pop-out gameplay-venster";
+
+"Executa els jocs en pantalla completa" = "Start spellen altijd in schermvullende weergave";
+
+"Always pause gameplay when in background" = "Pauzeer altijd gameplay wanneer op de achtergrond";
+
+"Always snap popout gameplay window to integer scale" = "Always snap popout gameplay window to integer scale";  // TODO
+
+"Allow playing with controllers when in background" = "Allow playing with controllers when in background"; // TODO
+
+
+/* Preferences: Controls (OEPrefControlsController.xib) */
+
+"Input:" = "Invoer:";
+
+
+/* Issue Resolver (OEGameScanner.xib) */
+
+"Resolve Issues:" = "Herstel problemen met import:";
+
+"Apply" = "Pas toe";
+
+"Import Into:" = "Import Into:";   // TODO

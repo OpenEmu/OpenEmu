@@ -1,0 +1,51 @@
+
+/* Preferences: Library (OEPrefLibraryController.xib) */
+
+"Change…" = "更改…";
+
+"Reset" = "重置";
+
+"Organization Methods:" = "整理方式:";
+
+"Game Library Folder Location:" = "游戏库文件夹路径:";
+
+"Copy files to Game Library folder when adding to library" = "添加到库时将文件复制到游戏库文件夹";
+
+"Automatically lookup game information & artwork" = "自动查找游戏信息和插图";
+
+"Available Libraries:" = "可用库:";
+
+"Reset all dialog warnings:" = "重置所有对话框警告:";
+
+"Reset Warnings" = "重置警告";
+
+
+/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+
+"Window Management:" = "窗口管理:";
+
+"Shader:" = "着色器:";
+
+"Executa els jocs en pantalla completa" = "总是使用弹出式游戏窗口";
+
+"Executa els jocs en pantalla completa" = "总是全屏启动游戏";
+
+"Always pause gameplay when in background" = "总是在后台时暂停游戏";
+
+"Always snap popout gameplay window to integer scale" = "Always snap popout gameplay window to integer scale";  // TODO
+
+"Allow playing with controllers when in background" = "在后台时允许使用控制器游玩"; // TODO
+
+
+/* Preferences: Controls (OEPrefControlsController.xib) */
+
+"Input:" = "输入:";
+
+
+/* Issue Resolver (OEGameScanner.xib) */
+
+"Resolve Issues:" = "修复导入问题:";
+
+"Apply" = "应用";
+
+"Import Into:" = "Import Into:";   // TODO

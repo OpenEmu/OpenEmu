@@ -1,0 +1,51 @@
+
+/* Preferences: Library (OEPrefLibraryController.xib) */
+
+"Change…" = "Cambiar…";
+
+"Reset" = "Restaurar";
+
+"Organization Methods:" = "Métodos de organización:";
+
+"Game Library Folder Location:" = "Ubicación de la biblioteca de juegos:";
+
+"Copy files to Game Library folder when adding to library" = "Copiar en biblioteca de juegos los archivos añadidos a la biblioteca";
+
+"Automatically lookup game information & artwork" = "Buscar información y carátulas de juegos automáticamente";
+
+"Available Libraries:" = "Bibliotecas disponibles:";
+
+"Reset all dialog warnings:" = "Restaurar todos los diálogos de advertencia:";
+
+"Reset Warnings" = "Restaurar";
+
+
+/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+
+"Window Management:" = "Gestión de ventanas:";
+
+"Shader:" = "Shader:";
+
+"Executa els jocs en pantalla completa" = "Usar siempre ventana emergente";
+
+"Executa els jocs en pantalla completa" = "Iniciar siempre juegos a pantalla completa";
+
+"Always pause gameplay when in background" = "Pausar siempre en segundo plano";
+
+"Always snap popout gameplay window to integer scale" = "Always snap popout gameplay window to integer scale";  // TODO
+
+"Allow playing with controllers when in background" = "Permitir jugar con mandos en segundo plano";
+
+
+/* Preferences: Controls (OEPrefControlsController.xib) */
+
+"Input:" = "Entrada:";
+
+
+/* Issue Resolver (OEGameScanner.xib) */
+
+"Resolve Issues:" = "Corregir errores de importación:";
+
+"Apply" = "Aplicar";
+
+"Import Into:" = "Importar en:";

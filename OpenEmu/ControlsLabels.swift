@@ -91,6 +91,5 @@ final class ControlsInputLabel: ControlsLabel {
     
     override func setupAttributes() {
         font = .boldSystemFont(ofSize: 11)
-        stringValue = NSLocalizedString("Input:", comment: "Controls preferences, input selection label")
     }
 }

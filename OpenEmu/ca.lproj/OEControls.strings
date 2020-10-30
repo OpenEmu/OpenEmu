@@ -1,0 +1,51 @@
+
+/* Preferences: Library (OEPrefLibraryController.xib) */
+
+"Change…" = "Canvia…";
+
+"Reset" = "Restableix";
+
+"Organization Methods:" = "Mètodes d'organització:";
+
+"Game Library Folder Location:" = "Ubicació de la carpeta de la biblioteca dels jocs:";
+
+"Copy files to Game Library folder when adding to library" = "En afegir els jocs, copia els fitxers a la carpeta de la biblioteca";
+
+"Automatically lookup game information & artwork" = "Cerca informació i imatges dels jocs automàticament";
+
+"Available Libraries:" = "Biblioteques disponibles:";
+
+"Reset all dialog warnings:" = "Restableix tots els diàlegs d'avís:";
+
+"Reset Warnings" = "Restableix els avisos";
+
+
+/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+
+"Window Management:" = "Gestió de les finestres:";
+
+"Shader:" = "Shader:";
+
+"Executa els jocs en pantalla completa" = "Fes servir una finestra per el joc";
+
+"Executa els jocs en pantalla completa" = "Executa els jocs en pantalla completa";
+
+"Always pause gameplay when in background" = "Pausa la partida quan la finestra estigui en segon pla";
+
+"Always snap popout gameplay window to integer scale" = "Always snap popout gameplay window to integer scale";  // TODO
+
+"Allow playing with controllers when in background" = "No deshabilitis els controladors quan la finestra estigui en segon pla";
+
+
+/* Preferences: Controls (OEPrefControlsController.xib) */
+
+"Input:" = "Disp.:"; // TODO (Resolve abbreviation)
+
+
+/* Issue Resolver (OEGameScanner.xib) */
+
+"Resolve Issues:" = "Corregeix les incidències d'importació:";
+
+"Apply" = "Aplica";
+
+"Import Into:" = "Importa a:";

@@ -1,0 +1,51 @@
+
+/* Preferences: Library (OEPrefLibraryController.xib) */
+
+"Change…" = "Изменить…";
+
+"Reset" = "Сбросить";
+
+"Organization Methods:" = "Способы организации:";
+
+"Game Library Folder Location:" = "Расположение папки библиотеки игр:";
+
+"Copy files to Game Library folder when adding to library" = "Копировать файлы в библиотеку при добавлении";
+
+"Automatically lookup game information & artwork" = "Автоматически подгружать информацию и обложки";
+
+"Available Libraries:" = "Доступные библиотеки:";
+
+"Reset all dialog warnings:" = "Сбросить все окна предупреждений:";
+
+"Reset Warnings" = "Сбросить предупреждения";
+
+
+/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+
+"Window Management:" = "Управление окном:";
+
+"Shader:" = "Ше́йдер:";
+
+"Executa els jocs en pantalla completa" = "Использовать всплывающее окно для игр";
+
+"Executa els jocs en pantalla completa" = "Запускать игры в полноэкранном режиме";
+
+"Always pause gameplay when in background" = "Приостанавливать игры при переключении окна";
+
+"Always snap popout gameplay window to integer scale" = "Always snap popout gameplay window to integer scale";  // TODO
+
+"Allow playing with controllers when in background" = "Allow playing with controllers when in background"; // TODO
+
+
+/* Preferences: Controls (OEPrefControlsController.xib) */
+
+"Input:" = "Ввод:";
+
+
+/* Issue Resolver (OEGameScanner.xib) */
+
+"Resolve Issues:" = "Исправить проблемы импорта:";
+
+"Apply" = "Применить";
+
+"Import Into:" = "Import Into:";   // TODO

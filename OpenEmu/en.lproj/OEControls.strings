@@ -1,0 +1,51 @@
+
+/* Preferences: Library (OEPrefLibraryController.xib) */
+
+"Change…" = "Change…";
+
+"Reset" = "Reset";
+
+"Organization Methods:" = "Organization Methods:";
+
+"Game Library Folder Location:" = "Game Library Folder Location:";
+
+"Copy files to Game Library folder when adding to library" = "Copy files to Game Library folder when adding to library";
+
+"Automatically lookup game information & artwork" = "Automatically lookup game information & artwork";
+
+"Available Libraries:" = "Available Libraries:";
+
+"Reset all dialog warnings:" = "Reset all dialog warnings:";
+
+"Reset Warnings" = "Reset Warnings";
+
+
+/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+
+"Window Management:" = "Window Management:";
+
+"Shader:" = "Shader:";
+
+"Always use popout gameplay window" = "Always use popout gameplay window";
+
+"Always launch games fullscreen" = "Always launch games fullscreen";
+
+"Always pause gameplay when in background" = "Always pause gameplay when in background";
+
+"Always snap popout gameplay window to integer scale" = "Always snap popout gameplay window to integer scale";
+
+"Allow playing with controllers when in background" = "Allow playing with controllers when in background";
+
+
+/* Preferences: Controls (OEPrefControlsController.xib) */
+
+"Input:" = "Input:";
+
+
+/* Issue Resolver (OEGameScanner.xib) */
+
+"Resolve Issues:" = "Resolve Issues:";
+
+"Apply" = "Apply";
+
+"Import Into:" = "Import Into:";
