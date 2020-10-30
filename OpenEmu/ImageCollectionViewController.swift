@@ -316,25 +316,29 @@ class ImageCollectionViewController: NSViewController {
     }
     
     @IBAction func search(_ sender: Any?) {
-//        guard let field = libraryController.toolbar?.searchField else { return }
-//        currentSearchTerm = field.stringValue
-//        let tokens = currentSearchTerm.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
-//
-//        var searchKeyPredicates = [NSPredicate]()
-//        for key in searchKeys {
-//            let predicates = tokens.map {
-//                NSPredicate(format: "%K contains[cd] %@", key, $0)
-//            }
-//            searchKeyPredicates.append(NSCompoundPredicate(andPredicateWithSubpredicates: predicates))
-//        }
-//
-//        if searchKeyPredicates.count > 0 {
-//            dataSourceDelegate.searchPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: searchKeyPredicates)
-//        } else {
-//            dataSourceDelegate.searchPredicate = NSPredicate(value: true)
-//        }
-//
-//        reloadData()
+        guard let text = toolbar?.searchField.stringValue else { return }
+        performSearch(text)
+    }
+    
+    public func performSearch(_ text: String) {
+        currentSearchTerm = text
+        let tokens = currentSearchTerm.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
+
+        var searchKeyPredicates = [NSPredicate]()
+        for key in searchKeys {
+            let predicates = tokens.map {
+                NSPredicate(format: "%K contains[cd] %@", key, $0)
+            }
+            searchKeyPredicates.append(NSCompoundPredicate(andPredicateWithSubpredicates: predicates))
+        }
+
+        if searchKeyPredicates.count > 0 {
+            dataSourceDelegate.searchPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: searchKeyPredicates)
+        } else {
+            dataSourceDelegate.searchPredicate = NSPredicate(value: true)
+        }
+
+        reloadData()
     }
 }
 
@@ -517,19 +521,5 @@ extension Key {
 extension ImageCollectionViewController {
     @UserDefault(.lastGridSize, defaultValue: 1.0)
     static var lastGridSize: Float
-}
-
-class CustomFlowLayout: NSCollectionViewFlowLayout {
-    override func layoutAttributesForElements(in rect: NSRect) -> [NSCollectionViewLayoutAttributes] {
-        let a = super.layoutAttributesForElements(in: rect)
-         
-        return a
-    }
-    
-    
-    
-    override func prepare() {
-        super.prepare()
-    }
 }
 
