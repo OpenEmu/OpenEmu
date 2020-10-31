@@ -49,3 +49,40 @@
 "Apply" = "Применить";
 
 "Import Into:" = "Import Into:";   // TODO
+
+
+/* Setup Assistant (OESetupAssistant.xib) */
+
+"Next" = "Далее";
+
+"Back" = "Назад";
+
+"Welcome to OpenEmu!" = "Добро пожаловать в OpenEmu!";
+
+"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "Захватывающий мир видеоигр находится у вас под рукой. Чтобы помочь вам начать работу, мы хотели бы задать несколько быстрых вопросов касаемо…\n\n• Убедиться что у вас актуальные системные плагины (ядра).";
+
+"Click on the ‘Next’ button to begin!" = "Нажмите на кнопку ‘Далее’ чтобы начать!";
+
+"OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "OpenEmu является модульным, и благодаря работе других крупных проектов с открытым исходным кодом, он может эмулировать широкий спектр игровых систем (ядер). Выберите некоторые из них галочками и подтвердите, что вы хотите установить и использовать их. Ваши любимые игровые системы и игры не могут работать без этих ядер.";
+
+"System Cores Installation" = "Установка системных ядер";
+
+"Let’s Go!" = "В добрый путь!";
+
+"Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time." = "Отлично! Все настройки на данный момент завершены и готовы к началу игры!\nПомните, что вы можете изменить элементы управления клавиатуры и геймпада для себя и других игроков в любое время.";
+
+"Click the ‘Go’ button to begin your adventure." = "Нажмите на кнопку ‘Поехали!’ чтобы отправиться в приключение!";
+
+"Go" = "Поехали!";
+
+"Downloading Data…" = "Downloading Data…";  // TODO
+
+
+/* Shader Parameters (ShaderParameters.xib) */
+
+"Reset All" = "Reset All";
+
+
+/* Library Database Migration (OEMigrationWindowController.xib) */
+
+"Cancel and Quit" = "Отменить и выйти";

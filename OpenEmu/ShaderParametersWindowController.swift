@@ -47,6 +47,8 @@ final class ShaderParametersWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         
+        window?.title = NSLocalizedString("Shader Parameters", comment: "Shader parameters window title")
+        
         guard let outlineView = outlineView else { preconditionFailure("outlineView is required") }
         
         outlineView.delegate = self

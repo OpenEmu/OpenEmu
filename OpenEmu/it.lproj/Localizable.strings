@@ -437,6 +437,8 @@
 
 "Select Scale" = "Scala";
 
+"Shader Parameters" = "Configurazione Shader";
+
 "Share" = "Condividi";
 
 "Show in Finder" = "Mostra nel Finder";
@@ -502,6 +504,8 @@
 "Unmute Audio" = "Attiva audio";
 
 "Update" = "Aggiorna";   // Update Core button label
+
+"Updating Library" = "Sto aggiornando la Libreria";
 
 "User guide on BIOS files" = "Manuale sui file BIOS";
 

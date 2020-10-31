@@ -49,3 +49,40 @@
 "Apply" = "Aplicar";
 
 "Import Into:" = "Importar en:";
+
+
+/* Setup Assistant (OESetupAssistant.xib) */
+
+"Next" = "Siguiente";
+
+"Back" = "Atrás";
+
+"Welcome to OpenEmu!" = "¡Bienvenido a OpenEmu!";
+
+"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "El emocionante mundo de los videojuegos está a su alcance. Para ayudarle a empezar, nos gustaría hacerle unas rápidas preguntas que le guiarán a continuación…\n\n• Asegúrese que está ejecutando los plugins de los sistemas adecuados (núcleos).";
+
+"Click on the ‘Next’ button to begin!" = "¡Haga clic en el botón ‘Siguiente’ para comenzar!";
+
+"OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "OpenEmu es modular, y gracias al trabajo de otros grandes proyectos de código abierto, puede emular una amplia variedad de sistemas de videojuegos (‘núcleos’). Algunos requieren que los marque y confirme que desea instalarlos y usarlos. Sus juegos y sistemas de juego favoritos no pueden funcionar sin estos núcleos.";
+
+"System Cores Installation" = "Instalación de núcleos de sistemas";
+
+"Let’s Go!" = "¡Vamos!";
+
+"Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time." = "¡Excelente! ¡Ahora está todo configurado y listo para los juegos!\n\nRecuerde que puede modificar tanto su teclado y los controles del gamepad como los de otros jugadores a través de las preferencias en cualquier momento.";
+
+"Click the ‘Go’ button to begin your adventure." = "Haga clic en el botón ‘Continuar’ para comenzar su aventura.";
+
+"Go" = "Continuar";
+
+"Downloading Data…" = "Downloading Data…";  // TODO
+
+
+/* Shader Parameters (ShaderParameters.xib) */
+
+"Reset All" = "Reset All";
+
+
+/* Library Database Migration (OEMigrationWindowController.xib) */
+
+"Cancel and Quit" = "Cancelar y salir";

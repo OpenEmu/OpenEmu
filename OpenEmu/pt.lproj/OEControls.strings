@@ -49,3 +49,40 @@
 "Apply" = "Aplicar";
 
 "Import Into:" = "Import Into:";   // TODO
+
+
+/* Setup Assistant (OESetupAssistant.xib) */
+
+"Next" = "Avançar";
+
+"Back" = "Voltar";
+
+"Welcome to OpenEmu!" = "Bem vindo ao OpenEmu!";
+
+"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "Um excitante mundo de jogos agora está ao seu alcance. Para a começar, gostaríamos de fazer algumas perguntas que irão guiá-lo para que você consiga…\n\n• Assegurar que você esteja rodando os plugins corretos (núcleos).";
+
+"Click on the ‘Next’ button to begin!" = "Clique no botão \"Avançar\" para continuar!";
+
+"OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "O OpenEmu é modular e graças ao trabalho de outros grandes projetos de código aberto, ele pode emular uma grande variedade de vídeo games (núcleos). Selecione abaixo e confirme aqueles que você deseja instalar e utilizar. Seus jogos e consoles favoritos não podem rodar sem estes núcleos.";
+
+"System Cores Installation" = "Instalação dos Núcleos";
+
+"Let’s Go!" = "Vamos nessa!";
+
+"Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time." = "Boa! Você configurou tudo e está pronto pra mandar ver nos jogos!\n\nLembre-se que você pode configurar seu teclado e seus controles (ou de outros jogadores) nas Preferências quando quiser.";
+
+"Click the ‘Go’ button to begin your adventure." = "Clique no botão 'Pronto!' e comece a sua aventura.";
+
+"Go" = "Pronto!";
+
+"Downloading Data…" = "Downloading Data…";  // TODO
+
+
+/* Shader Parameters (ShaderParameters.xib) */
+
+"Reset All" = "Reset All";
+
+
+/* Library Database Migration (OEMigrationWindowController.xib) */
+
+"Cancel and Quit" = "Cancelar e Sair";

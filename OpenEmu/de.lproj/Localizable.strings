@@ -437,6 +437,8 @@
 
 "Select Shader" = "Shader";
 
+"Shader Parameters" = "Shader-Parameter";
+
 "Share" = "Teilen";
 
 "Show in Finder" = "Im Finder anzeigen";
@@ -502,6 +504,8 @@
 "Unmute Audio" = "Ton ein";
 
 "Update" = "Aktualisieren";
+
+"Updating Library" = "Mediathek wird aktualisiert";
 
 "User guide on BIOS files" = "Benutzerhandbuch über BIOS-Dateien";
 

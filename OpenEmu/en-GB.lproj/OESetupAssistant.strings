@@ -1,6 +1,0 @@
-
-/* Class = "NSTextFieldCell"; title = "Click on the ‘Next’ button to begin!"; ObjectID = "320"; */
-"320.title" = "Click the ‘Next’ button to begin!";
-
-/* Class = "NSTextFieldCell"; title = "OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores."; ObjectID = "328"; */
-"328.title" = "OpenEmu is modular and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you to tick and confirm that you want to install and use them. Your favourite game systems and games may not run without these cores.";

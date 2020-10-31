@@ -437,6 +437,8 @@
 
 "Select Scale" = "スケールを選択";
 
+"Shader Parameters" = "Shader Parameters"; // TODO
+
 "Share" = "共有";
 
 "Show in Finder" = "Finderで表示";
@@ -502,6 +504,8 @@
 "Unmute Audio" = "音声のミュートを解除";
 
 "Update" = "アップデート";
+
+"Updating Library" = "ライブラリをアップデートしています";
 
 "User guide on BIOS files" = "BIOSファイルのユーザガイド";
 

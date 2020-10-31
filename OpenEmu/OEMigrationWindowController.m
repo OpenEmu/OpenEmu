@@ -56,6 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)windowDidLoad
 {
     [super windowDidLoad];
+    
+    self.window.title = NSLocalizedString(@"Updating Library", @"Library database migration window title");
     [self.indicator startAnimation:self];
 }
 

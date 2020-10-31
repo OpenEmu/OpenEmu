@@ -437,6 +437,8 @@
 
 "Select Scale" = "选择缩放";
 
+"Shader Parameters" = "Shader Parameters"; // TODO
+
 "Share" = "共享";
 
 "Show in Finder" = "在 Finder 中显示";
@@ -502,6 +504,8 @@
 "Unmute Audio" = "恢复声音";
 
 "Update" = "更新";
+
+"Updating Library" = "正在更新库";
 
 "User guide on BIOS files" = "BIOS 文件用户指南";
 

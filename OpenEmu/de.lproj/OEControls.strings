@@ -49,3 +49,40 @@
 "Apply" = "Importieren";
 
 "Import Into:" = "Importiere in:";
+
+
+/* Setup Assistant (OESetupAssistant.xib) */
+
+"Next" = "Weiter";
+
+"Back" = "Zurück";
+
+"Welcome to OpenEmu!" = "Willkommen bei OpenEmu!";
+
+"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "Eine unglaubliche Reise in die Welt der Videospiele erwartet dich!\nBevor es losgeht, musst du allerdings noch die Spielekonsolen auswählen, die du emulieren willst.";
+
+"Click on the ‘Next’ button to begin!" = "Klicke auf „Weiter“, um zu beginnen.";
+
+"OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "OpenEmu ist modular aufgebaut, und dank der Arbeit anderer großartiger Open-Source-Projekte können mit Hilfe sogenannter „Kerne“ eine Vielzahl an Spielekonsolen emuliert werden. Wähle die entsprechenden Kerne für deine Konsolen aus, ohne sie kannst du deine Lieblingspiele nicht spielen.";
+
+"System Cores Installation" = "Systemkern-Installation";
+
+"Let’s Go!" = "Los geht’s!";
+
+"Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time." = "Prima, du kannst nun anfangen zu spielen!\n\nDenk daran, dass du die Tastenbelegung deiner Tastatur oder deines Controllers jederzeit in den Einstellungen individuell anpassen kannst.";
+
+"Click the ‘Go’ button to begin your adventure." = "Klicke auf „Los“, um das Abenteuer zu beginnen.";
+
+"Go" = "Los";
+
+"Downloading Data…" = "Downloading Data…";  // TODO
+
+
+/* Shader Parameters (ShaderParameters.xib) */
+
+"Reset All" = "Alle zurücksetzen";
+
+
+/* Library Database Migration (OEMigrationWindowController.xib) */
+
+"Cancel and Quit" = "Abbrechen und beenden";

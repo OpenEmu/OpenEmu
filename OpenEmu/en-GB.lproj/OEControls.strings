@@ -14,3 +14,16 @@
 
 /* Issue Resolver (OEGameScanner.xib) */
 
+
+/* Setup Assistant (OESetupAssistant.xib) */
+
+"Click on the ‘Next’ button to begin!" = "Click the ‘Next’ button to begin!";
+
+"OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "OpenEmu is modular and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you to tick and confirm that you want to install and use them. Your favourite game systems and games may not run without these cores.";
+
+
+/* Shader Parameters (ShaderParameters.xib) */
+
+
+/* Library Database Migration (OEMigrationWindowController.xib) */
+

@@ -437,6 +437,8 @@
 
 "Select Scale" = "Schaal";
 
+"Shader Parameters" = "Shader Parameters"; // TODO
+
 "Share" = "Deel";
 
 "Show in Finder" = "Toon in Finder";
@@ -502,6 +504,8 @@
 "Unmute Audio" = "Ontdemp geluid";
 
 "Update" = "Update";
+
+"Updating Library" = "Bibliotheek bijwerken";
 
 "User guide on BIOS files" = "Gebruikershandleiding over BIOS-bestanden";
 

@@ -49,3 +49,40 @@
 "Apply" = "適用";
 
 "Import Into:" = "インポート先:";   // TODO
+
+
+/* Setup Assistant (OESetupAssistant.xib) */
+
+"Next" = "次へ";
+
+"Back" = "前へ";
+
+"Welcome to OpenEmu!" = "OpenEmuへようこそ！";
+
+"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "ビデオゲームの興奮をもう一度。OpenEmuを始めるにあたって、いくつかの簡単な質問にお答えください。\n\n• システムに合ったプラグイン(コア)をご利用ください。";
+
+"Click on the ‘Next’ button to begin!" = "「次へ」ボタンを押して先に進みます。";
+
+"OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "OpenEmuオープンソースプロジェクトの貢献に寄与する全ての方々へ感謝します。OpenEmuは様々な種類のビデオゲームを起動することが出来ます。いくつかのシステムではコアを別途必要とする場合があります。 ";
+
+"System Cores Installation" = "システムコアをインストール";
+
+"Let’s Go!" = "次へ";
+
+"Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time." = "セットアップが完了しました！\n\nキーボードやゲームパッドの設定は、環境設定からいつでも変更可能です。お好みに合わせてご変更ください。";
+
+"Click the ‘Go’ button to begin your adventure." = "「次へ」を押してゲームを始める";
+
+"Go" = "次へ";
+
+"Downloading Data…" = "Downloading Data…";  // TODO
+
+
+/* Shader Parameters (ShaderParameters.xib) */
+
+"Reset All" = "Reset All";
+
+
+/* Library Database Migration (OEMigrationWindowController.xib) */
+
+"Cancel and Quit" = "キャンセルして停止";

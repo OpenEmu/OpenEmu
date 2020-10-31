@@ -49,3 +49,40 @@
 "Apply" = "Apply";
 
 "Import Into:" = "Import Into:";
+
+
+/* Setup Assistant (OESetupAssistant.xib) */
+
+"Next" = "Next";
+
+"Back" = "Back";
+
+"Welcome to OpenEmu!" = "Welcome to OpenEmu!";
+
+"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores).";
+
+"Click on the ‘Next’ button to begin!" = "Click on the ‘Next’ button to begin!";
+
+"OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores.";
+
+"System Cores Installation" = "System Cores Installation";
+
+"Let’s Go!" = "Let’s Go!";
+
+"Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time." = "Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time.";
+
+"Click the ‘Go’ button to begin your adventure." = "Click the ‘Go’ button to begin your adventure.";
+
+"Go" = "Go";
+
+"Downloading Data…" = "Downloading Data…";  // TODO
+
+
+/* Shader Parameters (ShaderParameters.xib) */
+
+"Reset All" = "Reset All";
+
+
+/* Library Database Migration (OEMigrationWindowController.xib) */
+
+"Cancel and Quit" = "Cancel and Quit";
