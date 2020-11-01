@@ -209,7 +209,7 @@
 		05A002D823DE539F007F0DB7 /* SidebarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D723DE539F007F0DB7 /* SidebarItemView.swift */; };
 		05A002DA23DE583E007F0DB7 /* SidebarHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */; };
 		05A002DC23DE5E1B007F0DB7 /* SidebarItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */; };
-		05B753A023330EB60063BD73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B753A223330EB60063BD73 /* Main.storyboard */; };
+		05B753A023330EB60063BD73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B753A123330EB60063BD73 /* Main.storyboard */; };
 		05D828CD24E8DB8E00BB975E /* OEXPCGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D828CC24E8DB8E00BB975E /* OEXPCGameCoreManager.m */; };
 		05D828D324E9849200BB975E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D828D224E9849200BB975E /* main.swift */; };
 		05D828D724E989B600BB975E /* OpenEmuKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0533EA5C24CDF9070095146E /* OpenEmuKit.framework */; };
@@ -471,6 +471,7 @@
 		87FBC0A81C07A22700AECF5A /* Atari 8bit.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87FBC08E1C0790B400AECF5A /* Atari 8bit.oesystemplugin */; };
 		8CBD3AA217D23AA80022399B /* OEGridGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CBD3AA117D23AA80022399B /* OEGridGameCell.m */; };
 		8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */; settings = {ATTRIBUTES = (); }; };
+		8F057160254E7EA5003B36FD /* MainMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F057162254E7EA5003B36FD /* MainMenu.strings */; };
 		8F071F391C25534E007B76DA /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F381C25534E007B76DA /* Preferences.xib */; };
 		8F071F3B1C255362007B76DA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F3A1C255362007B76DA /* Credits.rtf */; };
 		8F0D804724ED76C4001BD8E2 /* ControlsLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */; };
@@ -1332,17 +1333,17 @@
 		0547FE1424E86D9F005C1FFC /* broker.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = broker.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
 		0547FE1C24E86D9F005C1FFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEShadersModel+OpenEmu.swift"; sourceTree = "<group>"; };
-		05644A06233312C60033576F /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Main.strings; sourceTree = "<group>"; };
-		05644A08233312E20033576F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
-		05644A0A233312E70033576F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
-		05644A0C233312ED0033576F /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
-		05644A0E233312F10033576F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
-		05644A10233312F50033576F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
-		05644A12233312F90033576F /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Main.strings; sourceTree = "<group>"; };
-		05644A14233312FE0033576F /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
-		05644A16233313030033576F /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Main.strings; sourceTree = "<group>"; };
-		05644A18233313070033576F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
-		05644A1A2333130B0033576F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		05644A06233312C60033576F /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		05644A08233312E20033576F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		05644A0A233312E70033576F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		05644A0C233312ED0033576F /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		05644A0E233312F10033576F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		05644A10233312F50033576F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		05644A12233312F90033576F /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		05644A14233312FE0033576F /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		05644A16233313030033576F /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		05644A18233313070033576F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		05644A1A2333130B0033576F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		05644A4723331EA90033576F /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEGameLayerNotificationView.swift; sourceTree = "<group>"; };
 		05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+OEAdditions.swift"; sourceTree = "<group>"; };
@@ -1353,7 +1354,7 @@
 		05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderParametersWindowController.swift; sourceTree = "<group>"; };
 		05B2E05923693A7500644C58 /* OELogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELogging.h; sourceTree = "<group>"; };
 		05B2E05D23693A7500644C58 /* OELogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELogging.m; sourceTree = "<group>"; };
-		05B753A123330EB60063BD73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		05B753A123330EB60063BD73 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		05D828CB24E8DB8E00BB975E /* OEXPCGameCoreManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXPCGameCoreManager.h; sourceTree = "<group>"; };
 		05D828CC24E8DB8E00BB975E /* OEXPCGameCoreManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEXPCGameCoreManager.m; sourceTree = "<group>"; };
 		05D828D224E9849200BB975E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -1746,6 +1747,7 @@
 		8CBD3AA017D23AA80022399B /* OEGridGameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridGameCell.h; sourceTree = "<group>"; };
 		8CBD3AA117D23AA80022399B /* OEGridGameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridGameCell.m; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F057161254E7EA5003B36FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F071F381C25534E007B76DA /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		8F071F3A1C255362007B76DA /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsLabels.swift; sourceTree = "<group>"; };
@@ -1813,7 +1815,7 @@
 		8FEDF0CC24F2BC48001ABF6F /* OEGBASystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBASystemController.m; sourceTree = "<group>"; };
 		8FFB4248242459A0006CB9C4 /* en-GB */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8FFB4249242459A1006CB9C4 /* en-GB */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/ControlLabels.strings"; sourceTree = "<group>"; };
-		8FFB4251242459E5006CB9C4 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Main.strings"; sourceTree = "<group>"; };
+		8FFB4251242459E5006CB9C4 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		9405538417A34C6B009B505D /* PC Engine CD.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PC Engine CD.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9405538817A34C6B009B505D /* PC Engine CD-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PC Engine CD-Info.plist"; sourceTree = "<group>"; };
 		9405539217A34D7D009B505D /* OEPCECDSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCECDSystemController.h; sourceTree = "<group>"; };
@@ -2718,7 +2720,7 @@
 		05D50C3023CEA34000733BA2 /* Modern UI */ = {
 			isa = PBXGroup;
 			children = (
-				05B753A223330EB60063BD73 /* Main.storyboard */,
+				05B753A123330EB60063BD73 /* Main.storyboard */,
 				051DDCB623E5D9E400325147 /* AvailableLibrariesViewController.xib */,
 				051DDCB823E5E50100325147 /* AvailableLibrariesCollectionViewItem.xib */,
 			);
@@ -3684,6 +3686,7 @@
 				8FBAE60E254BA0D300446C3B /* OEControls.strings */,
 				83DEF7C3196C403400C7DF57 /* ControlLabels.strings */,
 				8FD78307243A8AD300861B7A /* Debug.strings */,
+				8F057162254E7EA5003B36FD /* MainMenu.strings */,
 			);
 			name = Localization;
 			sourceTree = "<group>";
@@ -5888,6 +5891,7 @@
 				8F5074741C10BCEC00F52B83 /* OELibraryGamesViewController.xib in Resources */,
 				82DD29DB12369F1100B58A8F /* KeyboardUsages.plist in Resources */,
 				833ADC4D196B078E00217D9A /* OECollectionViewController.xib in Resources */,
+				8F057160254E7EA5003B36FD /* MainMenu.strings in Resources */,
 				8F071F3B1C255362007B76DA /* Credits.rtf in Resources */,
 				0544B69623D16D0C00F63D61 /* ImageCollectionViewItem.xib in Resources */,
 				05410EF522F7573D00303424 /* CheckboxCell.xib in Resources */,
@@ -7323,26 +7327,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		05B753A223330EB60063BD73 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				05B753A123330EB60063BD73 /* Base */,
-				8FFB4251242459E5006CB9C4 /* en-GB */,
-				05644A06233312C60033576F /* ca */,
-				05644A10233312F50033576F /* de */,
-				05644A1A2333130B0033576F /* es */,
-				05644A0E233312F10033576F /* fr */,
-				05644A12233312F90033576F /* it */,
-				05644A14233312FE0033576F /* ja */,
-				05644A0C233312ED0033576F /* nl */,
-				05644A16233313030033576F /* pt */,
-				05644A18233313070033576F /* ru */,
-				05644A08233312E20033576F /* zh-Hans */,
-				05644A0A233312E70033576F /* zh-Hant */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		83B04E3D1968610F00CB985E /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -7400,6 +7384,26 @@
 				82BBE7BD21D961A2006CD402 /* zh-Hant */,
 			);
 			name = ControlLabels.strings;
+			sourceTree = "<group>";
+		};
+		8F057162254E7EA5003B36FD /* MainMenu.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8F057161254E7EA5003B36FD /* en */,
+				8FFB4251242459E5006CB9C4 /* en-GB */,
+				05644A06233312C60033576F /* ca */,
+				05644A10233312F50033576F /* de */,
+				05644A1A2333130B0033576F /* es */,
+				05644A0E233312F10033576F /* fr */,
+				05644A12233312F90033576F /* it */,
+				05644A14233312FE0033576F /* ja */,
+				05644A0C233312ED0033576F /* nl */,
+				05644A16233313030033576F /* pt */,
+				05644A18233313070033576F /* ru */,
+				05644A08233312E20033576F /* zh-Hans */,
+				05644A0A233312E70033576F /* zh-Hant */,
+			);
+			name = MainMenu.strings;
 			sourceTree = "<group>";
 		};
 		8FBAE60E254BA0D300446C3B /* OEControls.strings */ = {

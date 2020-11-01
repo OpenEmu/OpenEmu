@@ -1,0 +1,164 @@
+
+"File" = "ファイル";
+
+"Launch Game…" = "ゲームを起動…";
+
+"Edit Smart Collection" = "スマートコレクションを編集";
+
+"New Smart Collection…" = "新規スマートコレクション…";
+
+"New Collection Folder" = "新規コレクションフォルダ";
+
+"New Collection" = "新規コレクション";
+
+"Library" = "ライブラリ";
+
+"Add to Library…" = "ライブラリへ追加…";
+
+"Display Exact Duplicates" = "全く同じファイルを表示";
+
+"Display Duplicates" = "重複項目を表示";
+
+"Show in Finder" = "Finderで表示";
+
+"Rating" = "レート";
+
+"Get Info" = "情報を見る";
+
+"Close Window" = "ウィンドウを閉じる";
+
+"Print…" = "印刷…";
+
+"Page Setup…" = "ページ設定…";
+
+"None" = "なし";
+
+"Back Up…" = "バックアップ…";
+
+"Organize Library…" = "ライブラリを整理する…";
+
+"Export Library…" = "ライブラリをエクスポート…";
+
+"Import Collection" = "コレクションをインポート";
+
+"Export Collection" = "コレクションをエクスポート";
+
+"Preferences…" = "環境設定…";
+
+"Check for Updates…" = "アップデートを確認する…";
+
+"About OpenEmu" = "OpenEmuについて";
+
+"Hide OpenEmu" = "OpenEmuを隠す";
+
+"Show All" = "全て表示";
+
+"Quit OpenEmu" = "OpenEmuを終了する";
+
+"Services" = "サービス";
+
+"Hide Others" = "そのほかの項目を隠す";
+
+"Window" = "ウィンドウ";
+
+"Bring All to Front" = "全て手前に移動";
+
+"Zoom" = "拡大";
+
+"Minimize" = "しまう";
+
+"View" = "表示";
+
+"as List" = "リスト表示";
+
+"Fullscreen" = "フルスクリーン";
+
+"as Grid" = "グリッド表示";
+
+"Undock Game Window" = "ゲームウインドウを切り離す";
+
+"Controls" = "制御";
+
+"Pause Gameplay" = "ゲームを一時停止";
+
+"Volume Down" = "音量を下げる";
+
+"Start Game" = "ゲームを開始する";
+
+"Volume Up" = "音量を上げる";
+
+"Last Played" = "最後に起動したゲーム";
+
+"Save State" = "セーブステート";
+
+"Load State" = "ロードステート";
+
+"Edit" = "編集";
+
+"Find" = "検索";
+
+"Select All" = "すべてを選択";
+
+"Delete" = "削除";
+
+"Paste" = "ペースト";
+
+"Copy" = "コピー";
+
+"Cut" = "カット";
+
+"Redo" = "繰り返す";
+
+"Undo" = "取り消す";
+
+"Jump to Selection" = "選択した項目へ移動";
+
+"Use Selection for Find" = "Use Selection for Find";
+
+"Find Previous" = "前を検索";
+
+"Find Next" = "次を選択";
+
+"Find…" = "検索…";
+
+"Stop Emulation" = "エミュレーションを停止する";
+
+"Debug" = "デバッグ";
+
+"Log Responder Chain" = "Log Responder Chain";
+
+"Log Grid Info" = "Log Grid Info";
+
+"Show ROM Names" = "ROM名を表示";
+
+"Show Library" = "ライブラリを表示";
+
+"Take Screenshot" = "スクリーンショットを撮る";
+
+"Help" = "ヘルプ";
+
+"Restart System" = "システムを再起動";
+
+"Release Notes" = "リリースノート";
+
+"OpenEmu Web Site" = "OpenEmuウェブサイト";
+
+"Always Hide HUD" = "HUDを常に隠す";
+
+"Submit Feedback…" = "フィードバックを送信…";
+
+"Send a Donation…" = "寄付…";
+
+"User Guide" = "ユーザーガイド";
+
+"Next Display Mode" = "次のディスプレイモード";
+
+"Last Display Mode" = "前のディスプレイモード";
+
+"Library" = "ライブラリ";
+
+"Save States" = "セーブステート";
+
+"Screenshots" = "スクリーンショット";
+
+"Homebrew" = "Homebrew";

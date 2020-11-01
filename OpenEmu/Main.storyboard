@@ -174,18 +174,27 @@
                                     <items>
                                         <menuItem title="About OpenEmu" id="1017">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <segue destination="R7u-I8-rVq" kind="show" id="dML-OJ-e3W"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Check for Updates…" id="1016">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="checkForUpdates:" target="1179" id="1180"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Send a Donation…" id="oKt-cF-ZgP">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="showDonationPage:" target="-1" id="F5A-7O-Vfa"/>
                                             </connections>
@@ -194,6 +203,9 @@
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </menuItem>
                                         <menuItem title="Preferences…" keyEquivalent="," id="1014">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="showPreferencesWindow:" target="805" id="W30-W0-iRc"/>
                                             </connections>
@@ -207,22 +219,34 @@
                                                     <fragment content="DNT"/>
                                                 </attributedString>
                                             </menu>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="1021">
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </menuItem>
                                         <menuItem title="Hide OpenEmu" keyEquivalent="h" id="1018">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="hide:" target="-1" id="1113"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Hide Others" keyEquivalent="h" id="1026">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="hideOtherApplications:" target="-1" id="1112"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Show All" id="1019">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="unhideAllApplications:" target="-1" id="1111"/>
                                             </connections>
@@ -231,6 +255,9 @@
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </menuItem>
                                         <menuItem title="Quit OpenEmu" keyEquivalent="q" id="1020">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="terminate:" target="-1" id="1110"/>
                                             </connections>
@@ -248,34 +275,52 @@
                                 <menu key="submenu" title="File" id="980">
                                     <items>
                                         <menuItem title="Launch Game…" tag="101" keyEquivalent="o" id="981">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="openDocument:" target="-1" id="1135"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="New Collection" tag="102" keyEquivalent="n" id="985">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="newCollection:" target="-1" id="1154"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="New Collection Folder" tag="103" hidden="YES" id="984">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="newCollectionFolder:" target="-1" id="1155"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="New Smart Collection…" tag="104" hidden="YES" keyEquivalent="n" id="983">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="newSmartCollection:" target="-1" id="1156"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Edit Smart Collection" tag="105" hidden="YES" id="982">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="editSmartCollection:" target="-1" id="1157"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Close Window" keyEquivalent="w" id="995">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="performClose:" target="-1" id="1292"/>
                                             </connections>
@@ -283,6 +328,9 @@
                                         <menuItem isSeparatorItem="YES" id="988"/>
                                         <menuItem title="Add to Library…" tag="106" id="987">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="addToLibrary:" target="-1" id="1150"/>
                                             </connections>
@@ -293,35 +341,62 @@
                                                 <items>
                                                     <menuItem title="Back Up…" id="1007">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
                                                     </menuItem>
                                                     <menuItem title="Organize Library…" id="1008">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
                                                     </menuItem>
                                                     <menuItem title="Export Library…" id="1009">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="1010"/>
                                                     <menuItem title="Import Collection" id="1011">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
                                                     </menuItem>
                                                     <menuItem title="Export Collection" id="1012">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
                                                     </menuItem>
                                                     <menuItem title="Display Duplicates" tag="110" id="991">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
                                                     </menuItem>
                                                     <menuItem title="Display Exact Duplicates" tag="110" id="990">
                                                         <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
                                                     </menuItem>
                                                 </items>
                                                 <attributedString key="userComments">
                                                     <fragment content="DNT"/>
                                                 </attributedString>
                                             </menu>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="989"/>
                                         <menuItem title="Get Info" tag="107" hidden="YES" enabled="NO" id="994">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="showGamesAtArchive:" target="-1" id="1228"/>
                                             </connections>
@@ -332,6 +407,9 @@
                                                 <items>
                                                     <menuItem title="None" state="on" enabled="NO" id="1000">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
                                                     </menuItem>
                                                     <menuItem title="★" enabled="NO" id="1004">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
@@ -368,8 +446,14 @@
                                                     <fragment content="DNT"/>
                                                 </attributedString>
                                             </menu>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                         </menuItem>
                                         <menuItem title="Show in Finder" tag="109" keyEquivalent="R" id="992">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="showInFinder:" target="-1" id="Zyl-Jt-bkp"/>
                                             </connections>
@@ -377,11 +461,20 @@
                                         <menuItem isSeparatorItem="YES" id="998"/>
                                         <menuItem title="Page Setup…" hidden="YES" id="997">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                         </menuItem>
                                         <menuItem title="Print…" hidden="YES" id="996">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                         </menuItem>
                                     </items>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
                                 </menu>
                             </menuItem>
                             <menuItem title="Edit" id="971">
@@ -393,19 +486,32 @@
                                                 <action selector="undo:" target="-1" id="1114"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Redo" keyEquivalent="Z" id="1075"/>
+                                        <menuItem title="Redo" keyEquivalent="Z" id="1075">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="1074"/>
                                         <menuItem title="Cut" keyEquivalent="x" id="1073">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="cut:" target="-1" id="1116"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Copy" keyEquivalent="c" id="1072">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="copy:" target="-1" id="1117"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Paste" keyEquivalent="v" id="1071">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="paste:" target="-1" id="1118"/>
                                             </connections>
@@ -414,11 +520,17 @@
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="delete:" target="-1" id="1119"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Select All" keyEquivalent="a" id="1068">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="selectAll:" target="-1" id="1120"/>
                                             </connections>
@@ -429,53 +541,96 @@ CA
                                             <menu key="submenu" title="Find" id="1077">
                                                 <items>
                                                     <menuItem title="Find…" tag="1" keyEquivalent="f" id="1082">
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="find:" target="-1" id="1178"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Find Next" tag="2" keyEquivalent="g" id="1081"/>
-                                                    <menuItem title="Find Previous" tag="3" keyEquivalent="G" id="1080"/>
-                                                    <menuItem title="Use Selection for Find" tag="7" keyEquivalent="e" id="1079"/>
-                                                    <menuItem title="Jump to Selection" keyEquivalent="j" id="1078"/>
+                                                    <menuItem title="Find Next" tag="2" keyEquivalent="g" id="1081">
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </menuItem>
+                                                    <menuItem title="Find Previous" tag="3" keyEquivalent="G" id="1080">
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </menuItem>
+                                                    <menuItem title="Use Selection for Find" tag="7" keyEquivalent="e" id="1079">
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </menuItem>
+                                                    <menuItem title="Jump to Selection" keyEquivalent="j" id="1078">
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </menuItem>
                                                 </items>
                                                 <attributedString key="userComments">
                                                     <fragment content="DNT"/>
                                                 </attributedString>
                                             </menu>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                         </menuItem>
                                     </items>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
                                 </menu>
                             </menuItem>
                             <menuItem title="View" id="973">
                                 <menu key="submenu" title="View" id="1035">
                                     <items>
                                         <menuItem title="as Grid" state="on" tag="301" enabled="NO" keyEquivalent="1" id="1040">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="switchToGridView:" target="-1" id="1151"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="as List" tag="303" enabled="NO" keyEquivalent="2" id="1036">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="switchToListView:" target="-1" id="1153"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" tag="1" id="1039"/>
                                         <menuItem title="Library" tag="100" enabled="NO" keyEquivalent="3" id="fMr-Lk-DLT">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="switchCategoryFromMenu:" target="-1" id="l5J-nH-89k"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Save States" tag="101" enabled="NO" keyEquivalent="4" id="6bJ-k4-8Yi">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="switchCategoryFromMenu:" target="-1" id="9Lc-Mi-JGP"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Screenshots" tag="102" enabled="NO" keyEquivalent="5" id="bg2-pm-5Hj">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="switchCategoryFromMenu:" target="-1" id="AYz-Na-vbL"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Homebrew" tag="103" enabled="NO" keyEquivalent="6" id="yyQ-AF-6uo">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="switchCategoryFromMenu:" target="-1" id="p65-fo-Zel"/>
                                             </connections>
@@ -506,12 +661,18 @@ CA
                                         <menuItem isSeparatorItem="YES" hidden="YES" allowsKeyEquivalentWhenHidden="YES" id="d4l-6Q-ejX"/>
                                         <menuItem title="Show Library" tag="10" hidden="YES" id="1306">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="showOpenEmuWindow:" target="-1" id="1307"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Show ROM Names" tag="11" id="1293">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <binding destination="1212" name="value" keyPath="values.displayGameTitle" id="1320">
                                                     <dictionary key="options">
@@ -529,11 +690,17 @@ CA
                                         </menuItem>
                                         <menuItem title="Undock Game Window" tag="3" enabled="NO" id="1041">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="undockGameWindow:" target="-1" id="1298"/>
                                             </connections>
                                         </menuItem>
                                     </items>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
                                 </menu>
                             </menuItem>
                             <menuItem title="Controls" id="972">
@@ -544,6 +711,9 @@ CA
                                             <string key="keyEquivalent" base64-UTF8="YES">
 DQ
 </string>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="startSelectedGame:" target="-1" id="wHQ-rg-hVM"/>
                                             </connections>
@@ -596,14 +766,23 @@ DQ
                                                     <outlet property="delegate" destination="805" id="1196"/>
                                                 </connections>
                                             </menu>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="1048"/>
                                         <menuItem title="Volume Up" enabled="NO" keyEquivalent="+" id="1047">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="volumeUp:" target="-1" id="1162"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Volume Down" enabled="NO" keyEquivalent="-" id="1045">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="volumeDown:" target="-1" id="1163"/>
                                             </connections>
@@ -620,57 +799,87 @@ DQ
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Take Screenshot" keyEquivalent="t" id="1322">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="takeScreenshot:" target="-1" id="1323"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="1051"/>
                                         <menuItem title="Next Display Mode" enabled="NO" keyEquivalent="]" id="VVR-iO-axh">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="nextDisplayMode:" target="-1" id="KfD-uC-XzW"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Last Display Mode" enabled="NO" keyEquivalent="[" id="HzI-NP-sNP">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="lastDisplayMode:" target="-1" id="P2t-WU-4xH"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="aVH-zV-87c"/>
                                         <menuItem title="Always Hide HUD" enabled="NO" keyEquivalent="H" id="ayc-Ld-Nyd">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="toggleControlsVisibility:" target="-1" id="aEF-Tc-Nhr"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="qCp-x6-z0X"/>
                                         <menuItem title="Pause Gameplay" enabled="NO" alternate="YES" keyEquivalent="p" id="1044">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="toggleEmulationPaused:" target="-1" id="WvQ-Ap-gYX"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Restart System" enabled="NO" id="2rj-Sq-LdF">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="resetEmulation:" target="-1" id="DS8-0w-SBs"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Stop Emulation" enabled="NO" id="1167">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="stopEmulation:" target="-1" id="fb5-He-ZSf"/>
                                             </connections>
                                         </menuItem>
                                     </items>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
                                 </menu>
                             </menuItem>
                             <menuItem title="Window" id="974">
                                 <menu key="submenu" title="Window" systemMenu="window" id="1028">
                                     <items>
                                         <menuItem title="Minimize" keyEquivalent="m" id="1034">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="performMiniaturize:" target="-1" id="1122"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Zoom" id="1033">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="performZoom:" target="-1" id="1123"/>
                                             </connections>
@@ -691,11 +900,17 @@ DQ
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </menuItem>
                                         <menuItem title="Bring All to Front" id="1032">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="arrangeInFront:" target="-1" id="1124"/>
                                             </connections>
                                         </menuItem>
                                     </items>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
                                 </menu>
                             </menuItem>
                             <menuItem title="Debug" id="1208">
@@ -703,16 +918,25 @@ DQ
                                 <menu key="submenu" title="Debug" id="1209">
                                     <items>
                                         <menuItem title="Log Responder Chain" keyEquivalent="0" id="1210">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="OEDebug_logResponderChain:" target="805" id="1211"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Log Grid Info" keyEquivalent="5" id="1217">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="OEDebug_logGridViewFrames:" target="-1" id="1219"/>
                                             </connections>
                                         </menuItem>
                                     </items>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
                                 </menu>
                                 <connections>
                                     <binding destination="1212" name="hidden" keyPath="values.debug" id="1216">
@@ -728,18 +952,27 @@ DQ
                                 <menu key="submenu" title="Help" id="0ql-Da-Qro">
                                     <items>
                                         <menuItem title="User Guide" keyEquivalent="?" id="q7W-GV-n3p">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="showOEHelp:" target="-1" id="22h-bg-AzL"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Release Notes" id="5YI-Il-P9H">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="showOEReleaseNotes:" target="-1" id="ZcG-EE-YQ0"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="OpenEmu Web Site" id="ahk-gp-EN3">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="showOEWebSite:" target="-1" id="O8U-HO-a1Q"/>
                                             </connections>
@@ -747,11 +980,17 @@ DQ
                                         <menuItem isSeparatorItem="YES" id="1g0-za-3ea"/>
                                         <menuItem title="Submit Feedback…" id="ftM-3D-CSh">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="showOEIssues:" target="-1" id="qPI-Hb-6UM"/>
                                             </connections>
                                         </menuItem>
                                     </items>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
                                 </menu>
                             </menuItem>
                         </items>

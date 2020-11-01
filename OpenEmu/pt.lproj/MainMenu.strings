@@ -1,0 +1,164 @@
+
+"File" = "Arquivo";
+
+"Launch Game…" = "Iniciar Jogo…";
+
+"Edit Smart Collection" = "Editar Coleção Inteligente";
+
+"New Smart Collection…" = "Nova Coleção Inteligente";
+
+"New Collection Folder" = "Nova Pasta de Coleção";
+
+"New Collection" = "Nova Coleção";
+
+"Library" = "Biblioteca";
+
+"Add to Library…" = "Adicionar à Biblioteca…";
+
+"Display Exact Duplicates" = "Mostrar Duplicados Idênticos";
+
+"Display Duplicates" = "Mostrar Duplicados";
+
+"Show in Finder" = "Mostrar no Finder";
+
+"Rating" = "Classificação";
+
+"Get Info" = "Informações";
+
+"Close Window" = "Fechar Janela";
+
+"Print…" = "Imprimir…";
+
+"Page Setup…" = "Configuração da Página";
+
+"None" = "Nenhum";
+
+"Back Up…" = "Back Up…";
+
+"Organize Library…" = "Organizar Biblioteca…";
+
+"Export Library…" = "Exportar Biblioteca…";
+
+"Import Collection" = "Import Collection";
+
+"Export Collection" = "Export Collection";
+
+"Preferences…" = "Preferências..";
+
+"Check for Updates…" = "Verificar Atualizações…";
+
+"About OpenEmu" = "Sobre OpenEmu";
+
+"Hide OpenEmu" = "Ocultar OpenEmu";
+
+"Show All" = "Mostrar Tudo";
+
+"Quit OpenEmu" = "Quit OpenEmu";
+
+"Services" = "Serviços";
+
+"Hide Others" = "Ocultar Outros";
+
+"Window" = "Janelas";
+
+"Bring All to Front" = "Trazer para Frente";
+
+"Zoom" = "Zoom";
+
+"Minimize" = "Minimizar";
+
+"View" = "Visualizar";
+
+"as List" = "Lista";
+
+"Fullscreen" = "Tela Cheia";
+
+"as Grid" = "Grid";
+
+"Undock Game Window" = "Desafixar Janela do Jogo";
+
+"Controls" = "Controles";
+
+"Pause Gameplay" = "Pausar Jogo";
+
+"Volume Down" = "Abaixar Volume";
+
+"Start Game" = "Iniciar Jogo";
+
+"Volume Up" = "Aumentar Volume";
+
+"Last Played" = "Últimos Jogados";
+
+"Save State" = "Salvar Estado";
+
+"Load State" = "Carregar Estado";
+
+"Edit" = "Editar";
+
+"Find" = "Buscar";
+
+"Select All" = "Selecionar Tudo";
+
+"Delete" = "Deletar";
+
+"Paste" = "Colar";
+
+"Copy" = "Copiar";
+
+"Cut" = "Cortar";
+
+"Redo" = "Refazer";
+
+"Undo" = "Desfazer";
+
+"Jump to Selection" = "Pular para Seleção";
+
+"Use Selection for Find" = "Usar Seleção para Busca";
+
+"Find Previous" = "Buscar Anterior";
+
+"Find Next" = "Buscar Próximo";
+
+"Find…" = "Buscar…";
+
+"Stop Emulation" = "Parar Emulação";
+
+"Debug" = "Debug";
+
+"Log Responder Chain" = "Log Responder Chain";
+
+"Log Grid Info" = "Log Grid Info";
+
+"Show ROM Names" = "Mostrar nomes das ROMs";
+
+"Show Library" = "Exibir Biblioteca";
+
+"Take Screenshot" = "Capturar Tela";
+
+"Help" = "Ajuda";
+
+"Restart System" = "Reiniciar Sistema";
+
+"Release Notes" = "Notas da Versão";
+
+"OpenEmu Web Site" = "Web Site OpenEmu";
+
+"Always Hide HUD" = "Sempre Esconder Controles";
+
+"Submit Feedback…" = "Enviar Feedback…";
+
+"User Guide" = "Guia de Uso";
+
+"Send a Donation…" = "Send a Donation…";  // TODO
+
+"Next Display Mode" = "Next Display Mode"; // TODO
+
+"Last Display Mode" = "Last Display Mode"; // TODO
+
+"Library" = "Biblioteca";
+
+"Save States" = "Save States";
+
+"Screenshots" = "Screenshots";
+
+"Homebrew" = "Homebrew";

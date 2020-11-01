@@ -1,0 +1,164 @@
+
+"File" = "檔案";
+
+"Launch Game…" = "啟動遊戲…";
+
+"Edit Smart Collection" = "編輯智慧型收藏";
+
+"New Smart Collection…" = "新增智慧型收藏…";
+
+"New Collection Folder" = "新增收藏檔案夾";
+
+"New Collection" = "新增收藏";
+
+"Library" = "媒體櫃";
+
+"Add to Library…" = "加入至媒體櫃…";
+
+"Display Exact Duplicates" = "顯示精確副本";
+
+"Display Duplicates" = "顯示副本";
+
+"Show in Finder" = "在 Finder 中顯示";
+
+"Rating" = "評分";
+
+"Get Info" = "取得資訊";
+
+"Close Window" = "關閉視窗";
+
+"Print…" = "列印…";
+
+"Page Setup…" = "頁面設置…";
+
+"None" = "無";
+
+"Back Up…" = "備份…";
+
+"Organize Library…" = "整理媒體櫃…";
+
+"Export Library…" = "匯出媒體櫃…";
+
+"Import Collection" = "匯入收藏";
+
+"Export Collection" = "匯出收藏";
+
+"Preferences…" = "偏好設定…";
+
+"Check for Updates…" = "檢查更新…";
+
+"About OpenEmu" = "關於 OpenEmu";
+
+"Hide OpenEmu" = "隱藏 OpenEmu";
+
+"Show All" = "全部顯示";
+
+"Quit OpenEmu" = "退出 OpenEmu";
+
+"Services" = "服務";
+
+"Hide Others" = "隱藏其他";
+
+"Window" = "視窗";
+
+"Bring All to Front" = "前置全部窗口";
+
+"Zoom" = "縮放";
+
+"Minimize" = "最小化";
+
+"View" = "檢視";
+
+"as List" = "清單檢視";
+
+"Fullscreen" = "進入全螢幕";
+
+"as Grid" = "格狀檢視";
+
+"Undock Game Window" = "取消固定視窗";
+
+"Controls" = "控制";
+
+"Pause Gameplay" = "暫停遊戲";
+
+"Volume Down" = "音量降低";
+
+"Start Game" = "開始遊戲";
+
+"Volume Up" = "音量升高";
+
+"Last Played" = "最近遊玩";
+
+"Save State" = "儲存狀態";
+
+"Load State" = "讀取狀態";
+
+"Edit" = "編輯";
+
+"Find" = "尋找";
+
+"Select All" = "全選";
+
+"Delete" = "刪除";
+
+"Paste" = "貼上";
+
+"Copy" = "複製";
+
+"Cut" = "剪下";
+
+"Redo" = "重做";
+
+"Undo" = "復原";
+
+"Jump to Selection" = "跳轉到選擇";
+
+"Use Selection for Find" = "使用選擇來尋找";
+
+"Find Previous" = "尋找上一個";
+
+"Find Next" = "尋找下一個";
+
+"Find…" = "尋找…";
+
+"Stop Emulation" = "停止模擬";
+
+"Debug" = "偵錯";
+
+"Log Responder Chain" = "記錄響應鏈";
+
+"Log Grid Info" = "記錄網格信息";
+
+"Show ROM Names" = "顯示 ROM 名稱";
+
+"Show Library" = "顯示媒體櫃";
+
+"Take Screenshot" = "螢幕快照";
+
+"Help" = "說明";
+
+"Restart System" = "重啟系統";
+
+"Release Notes" = "版本說明";
+
+"Last Display Mode" = "上一個顯示模式";
+
+"Next Display Mode" = "下一個顯示模式";
+
+"OpenEmu Web Site" = "OpenEmu 網站";
+
+"Always Hide HUD" = "總是隱藏 HUD";
+
+"Submit Feedback…" = "提交反饋…";
+
+"Send a Donation…" = "Send a Donation…";
+
+"User Guide" = "用戶指南";
+
+"Library" = "資源庫";
+
+"Save States" = "儲存狀態";
+
+"Screenshots" = "螢幕快照";
+
+"Homebrew" = "Homebrew";

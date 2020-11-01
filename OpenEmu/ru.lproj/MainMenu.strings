@@ -1,0 +1,164 @@
+
+"File" = "Файл";
+
+"Launch Game…" = "Запустить игру…";
+
+"Edit Smart Collection" = "Редактировать смарт-коллекцию";
+
+"New Smart Collection…" = "Новая смарт-коллекция…";
+
+"New Collection Folder" = "Новая папка коллекции";
+
+"New Collection" = "Новая коллекция";
+
+"Library" = "Библиотека";
+
+"Add to Library…" = "Добавить в библиотеку…";
+
+"Display Exact Duplicates" = "Показать существующие дубликаты";
+
+"Display Duplicates" = "Показать дубликаты";
+
+"Show in Finder" = "Показать в Finder";
+
+"Rating" = "Рейтинг";
+
+"Get Info" = "Получить информацию";
+
+"Close Window" = "Закрыть окно";
+
+"Print…" = "Печать…";
+
+"Page Setup…" = "Настройка страницы…";
+
+"None" = "Отсутствует";
+
+"Back Up…" = "Резервная копия…";
+
+"Organize Library…" = "Организовать библиотеку…";
+
+"Export Library…" = "Экспортировать библиотеку…";
+
+"Import Collection" = "Импорт коллекции";
+
+"Export Collection" = "Экспорт коллекции";
+
+"Preferences…" = "Настройки…";
+
+"Check for Updates…" = "Проверить обновления…";
+
+"About OpenEmu" = "О программе OpenEmu";
+
+"Hide OpenEmu" = "Скрыть OpenEmu";
+
+"Show All" = "Показать все";
+
+"Quit OpenEmu" = "Завершить OpenEmu";
+
+"Services" = "Службы";
+
+"Hide Others" = "Скрыть остальные";
+
+"Window" = "Окно";
+
+"Bring All to Front" = "Все окна на передний план";
+
+"Zoom" = "Увеличить";
+
+"Minimize" = "Скрыть";
+
+"View" = "Вид";
+
+"as List" = "В виде списка";
+
+"Fullscreen" = "Полный экран";
+
+"as Grid" = "В виде сетки";
+
+"Undock Game Window" = "Открепить игровое окно";
+
+"Controls" = "Управление";
+
+"Pause Gameplay" = "Приостановить геймплей";
+
+"Volume Down" = "Тише";
+
+"Start Game" = "Начать игру";
+
+"Volume Up" = "Громче";
+
+"Last Played" = "Недавние игры";
+
+"Save State" = "Сохранить состояние";
+
+"Load State" = "Загрузить состояние";
+
+"Edit" = "Правка";
+
+"Find" = "Найти";
+
+"Select All" = "Выделить все";
+
+"Delete" = "Удалить";
+
+"Paste" = "Вставить";
+
+"Copy" = "Копировать";
+
+"Cut" = "Вырезать";
+
+"Redo" = "Вернуть";
+
+"Undo" = "Отменить";
+
+"Jump to Selection" = "Перейти к выбранному";
+
+"Use Selection for Find" = "Использовать выбранное для поиска";
+
+"Find Previous" = "Найти ранее";
+
+"Find Next" = "Найти далее";
+
+"Find…" = "Найти…";
+
+"Stop Emulation" = "Прекратить эмуляцию";
+
+"Debug" = "Отладка";
+
+"Log Responder Chain" = "Log Responder Chain";
+
+"Log Grid Info" = "Log Grid Info";
+
+"Show ROM Names" = "Показать имена ромов";
+
+"Show Library" = "Показать библиотеку";
+
+"Take Screenshot" = "Сделать снимок экрана";
+
+"Help" = "Справка";
+
+"Restart System" = "Перезапустить систему";
+
+"Release Notes" = "Примечания к выпуску";
+
+"OpenEmu Web Site" = "Сайт OpenEmu";
+
+"Always Hide HUD" = "Прятать управление";
+
+"Submit Feedback…" = "Submit Feedback…";
+
+"User Guide" = "Руководство пользователя";
+
+"Send a Donation…" = "Send a Donation…";  // TODO
+
+"Next Display Mode" = "Next Display Mode"; // TODO
+
+"Last Display Mode" = "Last Display Mode"; // TODO
+
+"Library" = "Библиотека";
+
+"Save States" = "Сохранения";
+
+"Screenshots" = "Скриншоты";
+
+"Homebrew" = "Homebrew";

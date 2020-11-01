@@ -1,0 +1,164 @@
+
+"File" = "文件";
+
+"Launch Game…" = "运行游戏…";
+
+"Edit Smart Collection" = "编辑智能集合";
+
+"New Smart Collection…" = "新建智能集合…";
+
+"New Collection Folder" = "新建集合文件夹";
+
+"New Collection" = "新建集合";
+
+"Library" = "库";
+
+"Add to Library…" = "添加到库…";
+
+"Display Exact Duplicates" = "显示精确副本";
+
+"Display Duplicates" = "显示副本";
+
+"Show in Finder" = "在 Finder 中显示";
+
+"Rating" = "评分";
+
+"Get Info" = "获取信息";
+
+"Close Window" = "关闭窗口";
+
+"Print…" = "打印…";
+
+"Page Setup…" = "页面设置…";
+
+"None" = "无";
+
+"Back Up…" = "备份…";
+
+"Organize Library…" = "整理库…";
+
+"Export Library…" = "导出库…";
+
+"Import Collection" = "导入集合";
+
+"Export Collection" = "导出集合";
+
+"Preferences…" = "偏好设置…";
+
+"Check for Updates…" = "检查更新…";
+
+"About OpenEmu" = "关于 OpenEmu";
+
+"Hide OpenEmu" = "隐藏 OpenEmu";
+
+"Show All" = "全部显示";
+
+"Quit OpenEmu" = "退出 OpenEmu";
+
+"Services" = "服务";
+
+"Hide Others" = "隐藏其他";
+
+"Window" = "窗口";
+
+"Bring All to Front" = "前置全部窗口";
+
+"Zoom" = "缩放";
+
+"Minimize" = "最小化";
+
+"View" = "视图";
+
+"as List" = "以列表显示";
+
+"Fullscreen" = "全屏幕";
+
+"as Grid" = "以网格显示";
+
+"Undock Game Window" = "取消固定窗口";
+
+"Controls" = "控制";
+
+"Pause Gameplay" = "暂停游戏";
+
+"Volume Down" = "音量低";
+
+"Start Game" = "开始游戏";
+
+"Volume Up" = "音量高";
+
+"Last Played" = "最近运行";
+
+"Save State" = "保存状态";
+
+"Load State" = "读取状态";
+
+"Edit" = "编辑";
+
+"Find" = "查找";
+
+"Select All" = "全选";
+
+"Delete" = "删除";
+
+"Paste" = "粘贴";
+
+"Copy" = "复制";
+
+"Cut" = "剪切";
+
+"Redo" = "重做";
+
+"Undo" = "撤销";
+
+"Jump to Selection" = "跳转到选择";
+
+"Use Selection for Find" = "使用选择来查找";
+
+"Find Previous" = "查找上一个";
+
+"Find Next" = "查找下一个";
+
+"Find…" = "查找…";
+
+"Stop Emulation" = "停止模拟";
+
+"Debug" = "调试";
+
+"Log Responder Chain" = "记录响应链";
+
+"Log Grid Info" = "记录网格信息";
+
+"Show ROM Names" = "显示 ROM 名称";
+
+"Show Library" = "显示库";
+
+"Take Screenshot" = "截屏";
+
+"Help" = "帮助";
+
+"Restart System" = "重启系统";
+
+"Release Notes" = "版本说明";
+
+"OpenEmu Web Site" = "OpenEmu 网站";
+
+"Always Hide HUD" = "总是隐藏 HUD";
+
+"Submit Feedback…" = "提交反馈…";
+
+"User Guide" = "用户指南";
+
+"Send a Donation…" = "发送捐款…";  // TODO
+
+"Next Display Mode" = "下一个显示模式"; // TODO
+
+"Last Display Mode" = "上一个显示模式"; // TODO
+
+"Library" = "库";
+
+"Save States" = "保存状态";
+
+"Screenshots" = "截屏";
+
+"Homebrew" = "自制";

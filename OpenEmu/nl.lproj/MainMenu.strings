@@ -1,0 +1,164 @@
+
+"File" = "Archief";
+
+"Launch Game…" = "Start spel…";
+
+"Edit Smart Collection" = "Wijzig slimme verzameling";
+
+"New Smart Collection…" = "Nieuwe slimme verzameling…";
+
+"New Collection Folder" = "Nieuwe verzamelingenmap";
+
+"New Collection" = "Nieuwe verzameling";
+
+"Library" = "Bibliotheek";
+
+"Add to Library…" = "Voeg toe aan bibliotheek…";
+
+"Display Exact Duplicates" = "Toon exacte dubbels";
+
+"Display Duplicates" = "Toon dubbels";
+
+"Show in Finder" = "Toon in Finder";
+
+"Rating" = "Beoordeling";
+
+"Get Info" = "Verkrijg info";
+
+"Close Window" = "Sluit venster";
+
+"Print…" = "Druk af…";
+
+"Page Setup…" = "Pagina-instelling…";
+
+"None" = "Geen";
+
+"Back Up…" = "Maak reservekopie…";
+
+"Organize Library…" = "Organiseer bibliotheek…";
+
+"Export Library…" = "Exporteer bibliotheek…";
+
+"Import Collection" = "Importeer verzameling";
+
+"Export Collection" = "Exporteer verzameling";
+
+"Preferences…" = "Voorkeuren…";
+
+"Check for Updates…" = "Zoek naar nieuwe versie…";
+
+"About OpenEmu" = "Over OpenEmu";
+
+"Hide OpenEmu" = "Verberg OpenEmu";
+
+"Show All" = "Toon alles";
+
+"Quit OpenEmu" = "Stop OpenEmu";
+
+"Services" = "Voorzieningen";
+
+"Hide Others" = "Verberg andere";
+
+"Window" = "Venster";
+
+"Bring All to Front" = "Alles op voorgrond";
+
+"Zoom" = "Vergroot";
+
+"Minimize" = "Minimaliseer";
+
+"View" = "Weergave";
+
+"as List" = "Als lijst";
+
+"Fullscreen" = "Schermvullende weergave";
+
+"as Grid" = "Als raster";
+
+"Undock Game Window" = "Koppel spelvenster los";
+
+"Controls" = "Bediening";
+
+"Pause Gameplay" = "Pauzeer gameplay";
+
+"Volume Down" = "Verlaag volume";
+
+"Start Game" = "Start spel";
+
+"Volume Up" = "Verhoog volume";
+
+"Last Played" = "Laatst gespeeld";
+
+"Save State" = "Momentopname";
+
+"Load State" = "Laad momentopname";
+
+"Edit" = "Wijzig";
+
+"Find" = "Zoek";
+
+"Select All" = "Selecteer alles";
+
+"Delete" = "Verwijder";
+
+"Paste" = "Plak";
+
+"Copy" = "Kopieer";
+
+"Cut" = "Knip";
+
+"Redo" = "Opnieuw";
+
+"Undo" = "Herstel";
+
+"Jump to Selection" = "Spring naar selectie";
+
+"Use Selection for Find" = "Gebruik selectie voor zoekactie";
+
+"Find Previous" = "Zoek vorige";
+
+"Find Next" = "Zoek volgende";
+
+"Find…" = "Zoek…";
+
+"Stop Emulation" = "Stop emulatie";
+
+"Debug" = "Debug";
+
+"Log Responder Chain" = "Log Responder Chain";
+
+"Log Grid Info" = "Log Grid Info";
+
+"Show ROM Names" = "Toon namen van ROM's";
+
+"Show Library" = "Toon bibliotheek";
+
+"Take Screenshot" = "Neem schermafbeelding";
+
+"Help" = "Help";
+
+"Restart System" = "Herstart systeem";
+
+"Release Notes" = "Releaseopmerkingen";
+
+"OpenEmu Web Site" = "OpenEmu-website";
+
+"Always Hide HUD" = "Verberg HUD altijd";
+
+"Submit Feedback…" = "Feedback indienen…";
+
+"User Guide" = "Gebruikershandleiding";
+
+"Send a Donation…" = "Stuur een donatie…";
+
+"Next Display Mode" = "Next Display Mode"; // TODO
+
+"Last Display Mode" = "Last Display Mode"; // TODO
+
+"Library" = "Bibliotheek";
+
+"Save States" = "Momentopnames";
+
+"Screenshots" = "Schermafbeeldingen";
+
+"Homebrew" = "Homebrew";

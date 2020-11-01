@@ -45,3 +45,25 @@ extension NSTextField {
         }
     }
 }
+
+extension NSMenu {
+    @IBInspectable var localizeTitle: Bool {
+        get { return false }
+        set {
+            if newValue == true {
+                title = Bundle.main.localizedString(forKey: title, value: "No translation", table: "MainMenu")
+            }
+        }
+    }
+}
+
+extension NSMenuItem {
+    @IBInspectable var localizeTitle: Bool {
+        get { return false }
+        set {
+            if newValue == true {
+                title = Bundle.main.localizedString(forKey: title, value: "No translation", table: "MainMenu")
+            }
+        }
+    }
+}
