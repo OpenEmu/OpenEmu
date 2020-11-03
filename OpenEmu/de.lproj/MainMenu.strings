@@ -9,19 +9,9 @@
 
 "New Collection Folder" = "Neuer Sammlungs-Ordner";
 
-"New Collection" = "Neue Sammlung";
-
-"Library" = "Mediathek";
-
-"Add to Library…" = "Zur Mediathek hinzufügen …";
-
 "Display Exact Duplicates" = "Identische Objekte anzeigen";
 
 "Display Duplicates" = "Doppelte Objekte anzeigen";
-
-"Show in Finder" = "Im Finder anzeigen";
-
-"Rating" = "Bewertung";
 
 "Get Info" = "Informationen";
 
@@ -30,8 +20,6 @@
 "Print…" = "Drucken …";
 
 "Page Setup…" = "Papierformat …";
-
-"None" = "Ohne";
 
 "Back Up…" = "Backup …";
 
@@ -121,8 +109,6 @@
 
 "Find…" = "Suchen …";
 
-"Stop Emulation" = "Spiel beenden";
-
 "Debug" = "Debug";
 
 "Log Responder Chain" = "Responder-Chain loggen";
@@ -154,11 +140,3 @@
 "Next Display Mode" = "Nächster Anzeigemodus";
 
 "Last Display Mode" = "Vorheriger Anzeigemodus";
-
-"Library" = "Mediathek";
-
-"Save States" = "Spielstände";
-
-"Screenshots" = "Bildschirmfotos";
-
-"Homebrew" = "Homebrew";

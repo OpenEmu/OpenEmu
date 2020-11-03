@@ -26,9 +26,9 @@
 
 "Shader:" = "シェーダー:";
 
-"Executa els jocs en pantalla completa" = "常にゲーム画面をポップアップする";
+"Always use popout gameplay window" = "常にゲーム画面をポップアップする";
 
-"Executa els jocs en pantalla completa" = "常にゲーム画面をフルスクリーンで起動する";
+"Always launch games fullscreen" = "常にゲーム画面をフルスクリーンで起動する";
 
 "Always pause gameplay when in background" = "ゲーム画面がバックグラウンドにある時は一時停止する";
 

@@ -51,7 +51,13 @@ extension NSMenu {
         get { return false }
         set {
             if newValue == true {
-                title = Bundle.main.preferredLocalizedString(forKey: title, value: "No translation", table: "MainMenu")
+                let localizedTitle = Bundle.main.preferredLocalizedString(forKey: title, value: "No translation", table: "MainMenu")
+                if localizedTitle == "No translation" {
+                    title = Bundle.main.preferredLocalizedString(forKey: title, value: "No translation", table: nil)
+                }
+                else {
+                    title = localizedTitle
+                }
             }
         }
     }
@@ -62,7 +68,13 @@ extension NSMenuItem {
         get { return false }
         set {
             if newValue == true {
-                title = Bundle.main.preferredLocalizedString(forKey: title, value: "No translation", table: "MainMenu")
+                let localizedTitle = Bundle.main.preferredLocalizedString(forKey: title, value: "No translation", table: "MainMenu")
+                if localizedTitle == "No translation" {
+                    title = Bundle.main.preferredLocalizedString(forKey: title, value: "No translation", table: nil)
+                }
+                else {
+                    title = localizedTitle
+                }
             }
         }
     }

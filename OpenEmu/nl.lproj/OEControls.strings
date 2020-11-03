@@ -26,9 +26,9 @@
 
 "Shader:" = "Shader:";
 
-"Executa els jocs en pantalla completa" = "Gebruik altijd pop-out gameplay-venster";
+"Always use popout gameplay window" = "Gebruik altijd pop-out gameplay-venster";
 
-"Executa els jocs en pantalla completa" = "Start spellen altijd in schermvullende weergave";
+"Always launch games fullscreen" = "Start spellen altijd in schermvullende weergave";
 
 "Always pause gameplay when in background" = "Pauzeer altijd gameplay wanneer op de achtergrond";
 

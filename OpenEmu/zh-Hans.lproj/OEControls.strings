@@ -26,9 +26,9 @@
 
 "Shader:" = "着色器:";
 
-"Executa els jocs en pantalla completa" = "总是使用弹出式游戏窗口";
+"Always use popout gameplay window" = "总是使用弹出式游戏窗口";
 
-"Executa els jocs en pantalla completa" = "总是全屏启动游戏";
+"Always launch games fullscreen" = "总是全屏启动游戏";
 
 "Always pause gameplay when in background" = "总是在后台时暂停游戏";
 

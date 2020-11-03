@@ -9,19 +9,9 @@
 
 "New Collection Folder" = "Nou directori de col·lecció";
 
-"New Collection" = "Crea una nova col·lecció";
-
-"Library" = "Biblioteca";
-
-"Add to Library…" = "Afegeix a la biblioteca…";
-
 "Display Exact Duplicates" = "Mostra els duplicats exactes";
 
 "Display Duplicates" = "Mostra els duplicats";
-
-"Show in Finder" = "Obre la carpeta on es troba";
-
-"Rating" = "Valoració";
 
 "Get Info" = "Obteniu informació";
 
@@ -30,8 +20,6 @@
 "Print…" = "Imprimeix…";
 
 "Page Setup…" = "Configuració de la pàgina…";
-
-"None" = "Cap";
 
 "Back Up…" = "Còpia de seguretat…";
 
@@ -121,8 +109,6 @@
 
 "Find…" = "Cerca…";
 
-"Stop Emulation" = "Atura l'emulació";
-
 "Debug" = "Debug";
 
 "Log Responder Chain" = "Registre de la cadena de resposta";
@@ -154,11 +140,3 @@
 "Next Display Mode" = "Mode de visualització següent";
 
 "Last Display Mode" = "Mode de visualització anterior";
-
-"Library" = "Biblioteca";
-
-"Save States" = "Partides";
-
-"Screenshots" = "Captures";
-
-"Homebrew" = "Homebrew";

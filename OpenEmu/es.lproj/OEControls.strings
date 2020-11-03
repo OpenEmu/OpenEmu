@@ -26,9 +26,9 @@
 
 "Shader:" = "Shader:";
 
-"Executa els jocs en pantalla completa" = "Usar siempre ventana emergente";
+"Always use popout gameplay window" = "Usar siempre ventana emergente";
 
-"Executa els jocs en pantalla completa" = "Iniciar siempre juegos a pantalla completa";
+"Always launch games fullscreen" = "Iniciar siempre juegos a pantalla completa";
 
 "Always pause gameplay when in background" = "Pausar siempre en segundo plano";
 

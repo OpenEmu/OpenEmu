@@ -9,19 +9,9 @@
 
 "New Collection Folder" = "Новая папка коллекции";
 
-"New Collection" = "Новая коллекция";
-
-"Library" = "Библиотека";
-
-"Add to Library…" = "Добавить в библиотеку…";
-
 "Display Exact Duplicates" = "Показать существующие дубликаты";
 
 "Display Duplicates" = "Показать дубликаты";
-
-"Show in Finder" = "Показать в Finder";
-
-"Rating" = "Рейтинг";
 
 "Get Info" = "Получить информацию";
 
@@ -30,8 +20,6 @@
 "Print…" = "Печать…";
 
 "Page Setup…" = "Настройка страницы…";
-
-"None" = "Отсутствует";
 
 "Back Up…" = "Резервная копия…";
 
@@ -121,8 +109,6 @@
 
 "Find…" = "Найти…";
 
-"Stop Emulation" = "Прекратить эмуляцию";
-
 "Debug" = "Отладка";
 
 "Log Responder Chain" = "Log Responder Chain";
@@ -154,11 +140,3 @@
 "Next Display Mode" = "Next Display Mode"; // TODO
 
 "Last Display Mode" = "Last Display Mode"; // TODO
-
-"Library" = "Библиотека";
-
-"Save States" = "Сохранения";
-
-"Screenshots" = "Скриншоты";
-
-"Homebrew" = "Homebrew";

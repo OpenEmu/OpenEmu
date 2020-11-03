@@ -9,19 +9,9 @@
 
 "New Collection Folder" = "New Collection Folder";
 
-"New Collection" = "New Collection";
-
-"Library" = "Library";
-
-"Add to Library…" = "Add to Library…";
-
 "Display Exact Duplicates" = "Display Exact Duplicates";
 
 "Display Duplicates" = "Display Duplicates";
-
-"Show in Finder" = "Show in Finder";
-
-"Rating" = "Rating";
 
 "Get Info" = "Get Info";
 
@@ -30,8 +20,6 @@
 "Print…" = "Print…";
 
 "Page Setup…" = "Page Setup…";
-
-"None" = "None";
 
 "Back Up…" = "Back Up…";
 
@@ -121,8 +109,6 @@
 
 "Find…" = "Find…";
 
-"Stop Emulation" = "Stop Emulation";
-
 "Debug" = "Debug";
 
 "Log Responder Chain" = "Log Responder Chain";
@@ -141,8 +127,6 @@
 
 "Release Notes" = "Release Notes";
 
-"Save States" = "Save States";
-
 "Last Display Mode" = "Last Display Mode";
 
 "Next Display Mode" = "Next Display Mode";
@@ -151,14 +135,8 @@
 
 "Always Hide HUD" = "Always Hide HUD";
 
-"Screenshots" = "Screenshots";
-
-"Library" = "Library";
-
 "Submit Feedback…" = "Submit Feedback…";
 
 "Send a Donation…" = "Send a Donation…";
 
 "User Guide" = "User Guide";
-
-"Homebrew" = "Homebrew";

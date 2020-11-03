@@ -26,9 +26,9 @@
 
 "Shader:" = "Ше́йдер:";
 
-"Executa els jocs en pantalla completa" = "Использовать всплывающее окно для игр";
+"Always use popout gameplay window" = "Использовать всплывающее окно для игр";
 
-"Executa els jocs en pantalla completa" = "Запускать игры в полноэкранном режиме";
+"Always launch games fullscreen" = "Запускать игры в полноэкранном режиме";
 
 "Always pause gameplay when in background" = "Приостанавливать игры при переключении окна";
 

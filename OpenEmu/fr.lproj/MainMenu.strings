@@ -9,19 +9,9 @@
 
 "New Collection Folder" = "Nouveau dossier de collections";
 
-"New Collection" = "Nouvelle collection";
-
-"Library" = "Bibliothèque";
-
-"Add to Library…" = "Ajouter à la bibliothèque…";
-
 "Display Exact Duplicates" = "Afficher les doublons exacts";
 
 "Display Duplicates" = "Afficher les doublons";
-
-"Show in Finder" = "Afficher dans le Finder";
-
-"Rating" = "Note";
 
 "Get Info" = "Lire les informations";
 
@@ -30,8 +20,6 @@
 "Print…" = "Imprimer…";
 
 "Page Setup…" = "Format d’impression…";
-
-"None" = "Aucune";
 
 "Back Up…" = "Sauvegarder…";
 
@@ -121,8 +109,6 @@
 
 "Find…" = "Rechercher…";
 
-"Stop Emulation" = "Arrêter l’émulation";
-
 "Debug" = "Débogage";
 
 "Log Responder Chain" = "Journaliser la chaîne de répondeurs";
@@ -154,11 +140,3 @@
 "Next Display Mode" = "Mode d'affichage suivant";
 
 "Last Display Mode" = "Mode d'affichage précédent";
-
-"Library" = "Bibliothèque";
-
-"Save States" = "Sauvegardes";
-
-"Screenshots" = "Captures";
-
-"Homebrew" = "Homebrew";

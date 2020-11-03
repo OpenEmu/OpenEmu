@@ -26,9 +26,9 @@
 
 "Shader:" = "Shader:";
 
-"Executa els jocs en pantalla completa" = "Sempre abrir jogo em uma nova tela";
+"Always use popout gameplay window" = "Sempre abrir jogo em uma nova tela";
 
-"Executa els jocs en pantalla completa" = "Sempre abrir jogos em Tela Cheia";
+"Always launch games fullscreen" = "Sempre abrir jogos em Tela Cheia";
 
 "Always pause gameplay when in background" = "Sempre pausar quando estiver em background";
 

@@ -9,19 +9,9 @@
 
 "New Collection Folder" = "新規コレクションフォルダ";
 
-"New Collection" = "新規コレクション";
-
-"Library" = "ライブラリ";
-
-"Add to Library…" = "ライブラリへ追加…";
-
 "Display Exact Duplicates" = "全く同じファイルを表示";
 
 "Display Duplicates" = "重複項目を表示";
-
-"Show in Finder" = "Finderで表示";
-
-"Rating" = "レート";
 
 "Get Info" = "情報を見る";
 
@@ -30,8 +20,6 @@
 "Print…" = "印刷…";
 
 "Page Setup…" = "ページ設定…";
-
-"None" = "なし";
 
 "Back Up…" = "バックアップ…";
 
@@ -121,8 +109,6 @@
 
 "Find…" = "検索…";
 
-"Stop Emulation" = "エミュレーションを停止する";
-
 "Debug" = "デバッグ";
 
 "Log Responder Chain" = "Log Responder Chain";
@@ -154,11 +140,3 @@
 "Next Display Mode" = "次のディスプレイモード";
 
 "Last Display Mode" = "前のディスプレイモード";
-
-"Library" = "ライブラリ";
-
-"Save States" = "セーブステート";
-
-"Screenshots" = "スクリーンショット";
-
-"Homebrew" = "Homebrew";

@@ -9,19 +9,9 @@
 
 "New Collection Folder" = "Nieuwe verzamelingenmap";
 
-"New Collection" = "Nieuwe verzameling";
-
-"Library" = "Bibliotheek";
-
-"Add to Library…" = "Voeg toe aan bibliotheek…";
-
 "Display Exact Duplicates" = "Toon exacte dubbels";
 
 "Display Duplicates" = "Toon dubbels";
-
-"Show in Finder" = "Toon in Finder";
-
-"Rating" = "Beoordeling";
 
 "Get Info" = "Verkrijg info";
 
@@ -30,8 +20,6 @@
 "Print…" = "Druk af…";
 
 "Page Setup…" = "Pagina-instelling…";
-
-"None" = "Geen";
 
 "Back Up…" = "Maak reservekopie…";
 
@@ -121,8 +109,6 @@
 
 "Find…" = "Zoek…";
 
-"Stop Emulation" = "Stop emulatie";
-
 "Debug" = "Debug";
 
 "Log Responder Chain" = "Log Responder Chain";
@@ -154,11 +140,3 @@
 "Next Display Mode" = "Next Display Mode"; // TODO
 
 "Last Display Mode" = "Last Display Mode"; // TODO
-
-"Library" = "Bibliotheek";
-
-"Save States" = "Momentopnames";
-
-"Screenshots" = "Schermafbeeldingen";
-
-"Homebrew" = "Homebrew";

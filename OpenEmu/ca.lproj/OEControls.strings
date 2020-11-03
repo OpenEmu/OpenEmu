@@ -26,9 +26,9 @@
 
 "Shader:" = "Shader:";
 
-"Executa els jocs en pantalla completa" = "Fes servir una finestra per el joc";
+"Always use popout gameplay window" = "Fes servir una finestra per el joc";
 
-"Executa els jocs en pantalla completa" = "Executa els jocs en pantalla completa";
+"Always launch games fullscreen" = "Executa els jocs en pantalla completa";
 
 "Always pause gameplay when in background" = "Pausa la partida quan la finestra estigui en segon pla";
 

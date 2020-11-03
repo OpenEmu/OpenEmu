@@ -9,19 +9,9 @@
 
 "New Collection Folder" = "新建集合文件夹";
 
-"New Collection" = "新建集合";
-
-"Library" = "库";
-
-"Add to Library…" = "添加到库…";
-
 "Display Exact Duplicates" = "显示精确副本";
 
 "Display Duplicates" = "显示副本";
-
-"Show in Finder" = "在 Finder 中显示";
-
-"Rating" = "评分";
 
 "Get Info" = "获取信息";
 
@@ -30,8 +20,6 @@
 "Print…" = "打印…";
 
 "Page Setup…" = "页面设置…";
-
-"None" = "无";
 
 "Back Up…" = "备份…";
 
@@ -121,8 +109,6 @@
 
 "Find…" = "查找…";
 
-"Stop Emulation" = "停止模拟";
-
 "Debug" = "调试";
 
 "Log Responder Chain" = "记录响应链";
@@ -154,11 +140,3 @@
 "Next Display Mode" = "下一个显示模式"; // TODO
 
 "Last Display Mode" = "上一个显示模式"; // TODO
-
-"Library" = "库";
-
-"Save States" = "保存状态";
-
-"Screenshots" = "截屏";
-
-"Homebrew" = "自制";

@@ -50,9 +50,6 @@
                                     <font key="font" metaFont="systemBold" size="14"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    <attributedString key="userComments">
-                                        <fragment content="DNT"/>
-                                    </attributedString>
                                 </textFieldCell>
                                 <connections>
                                     <binding destination="Slx-nK-pNK" name="displayPatternValue1" keyPath="appVersion" id="NHd-G1-uJw">
@@ -73,9 +70,6 @@
                                     <font key="font" metaFont="system" size="10"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    <attributedString key="userComments">
-                                        <fragment content="DNT"/>
-                                    </attributedString>
                                 </textFieldCell>
                                 <connections>
                                     <binding destination="Slx-nK-pNK" name="displayPatternValue1" keyPath="buildVersion" id="WDG-qk-FwY">
@@ -129,9 +123,6 @@
                                 <buttonCell key="cell" type="bevel" title="openemu.org" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="50H-ys-sAp">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
-                                    <attributedString key="userComments">
-                                        <fragment content="DNT"/>
-                                    </attributedString>
                                 </buttonCell>
                                 <connections>
                                     <action selector="openWeblink:" target="Slx-nK-pNK" id="kMH-s6-Aa0"/>
@@ -143,9 +134,6 @@
                                 <buttonCell key="cell" type="bevel" title="github.com/openemu" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="y9C-BZ-tbY">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
-                                    <attributedString key="userComments">
-                                        <fragment content="DNT"/>
-                                    </attributedString>
                                 </buttonCell>
                                 <connections>
                                     <action selector="openWeblink:" target="Slx-nK-pNK" id="egj-4N-GOQ"/>
@@ -214,11 +202,7 @@
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </menuItem>
                                         <menuItem title="Services" id="1024">
-                                            <menu key="submenu" title="Services" systemMenu="services" id="1027">
-                                                <attributedString key="userComments">
-                                                    <fragment content="DNT"/>
-                                                </attributedString>
-                                            </menu>
+                                            <menu key="submenu" title="Services" systemMenu="services" id="1027"/>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                                             </userDefinedRuntimeAttributes>
@@ -263,13 +247,7 @@
                                             </connections>
                                         </menuItem>
                                     </items>
-                                    <attributedString key="userComments">
-                                        <fragment content="DNT"/>
-                                    </attributedString>
                                 </menu>
-                                <attributedString key="userComments">
-                                    <fragment content="DNT"/>
-                                </attributedString>
                             </menuItem>
                             <menuItem title="File" id="976">
                                 <menu key="submenu" title="File" id="980">
@@ -383,9 +361,6 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </menuItem>
                                                 </items>
-                                                <attributedString key="userComments">
-                                                    <fragment content="DNT"/>
-                                                </attributedString>
                                             </menu>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
@@ -413,38 +388,20 @@
                                                     </menuItem>
                                                     <menuItem title="★" enabled="NO" id="1004">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="DNT"/>
-                                                        </attributedString>
                                                     </menuItem>
                                                     <menuItem title="★★" enabled="NO" id="1001">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="DNT"/>
-                                                        </attributedString>
                                                     </menuItem>
                                                     <menuItem title="★★★" enabled="NO" id="1002">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="DNT"/>
-                                                        </attributedString>
                                                     </menuItem>
                                                     <menuItem title="★★★★" enabled="NO" id="1003">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="DNT"/>
-                                                        </attributedString>
                                                     </menuItem>
                                                     <menuItem title="★★★★★" enabled="NO" id="1005">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="DNT"/>
-                                                        </attributedString>
                                                     </menuItem>
                                                 </items>
-                                                <attributedString key="userComments">
-                                                    <fragment content="DNT"/>
-                                                </attributedString>
                                             </menu>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
@@ -569,9 +526,6 @@ CA
                                                         </userDefinedRuntimeAttributes>
                                                     </menuItem>
                                                 </items>
-                                                <attributedString key="userComments">
-                                                    <fragment content="DNT"/>
-                                                </attributedString>
                                             </menu>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
@@ -603,7 +557,7 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" tag="1" id="1039"/>
-                                        <menuItem title="Library" tag="100" enabled="NO" keyEquivalent="3" id="fMr-Lk-DLT">
+                                        <menuItem title="Toolbar: Library" tag="100" enabled="NO" keyEquivalent="3" id="fMr-Lk-DLT">
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                                             </userDefinedRuntimeAttributes>
@@ -611,7 +565,7 @@ CA
                                                 <action selector="switchCategoryFromMenu:" target="-1" id="l5J-nH-89k"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Save States" tag="101" enabled="NO" keyEquivalent="4" id="6bJ-k4-8Yi">
+                                        <menuItem title="Toolbar: Save States" tag="101" enabled="NO" keyEquivalent="4" id="6bJ-k4-8Yi">
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                                             </userDefinedRuntimeAttributes>
@@ -619,7 +573,7 @@ CA
                                                 <action selector="switchCategoryFromMenu:" target="-1" id="9Lc-Mi-JGP"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Screenshots" tag="102" enabled="NO" keyEquivalent="5" id="bg2-pm-5Hj">
+                                        <menuItem title="Toolbar: Screenshots" tag="102" enabled="NO" keyEquivalent="5" id="bg2-pm-5Hj">
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                                             </userDefinedRuntimeAttributes>
@@ -627,7 +581,7 @@ CA
                                                 <action selector="switchCategoryFromMenu:" target="-1" id="AYz-Na-vbL"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Homebrew" tag="103" enabled="NO" keyEquivalent="6" id="yyQ-AF-6uo">
+                                        <menuItem title="Toolbar: Homebrew" tag="103" enabled="NO" keyEquivalent="6" id="yyQ-AF-6uo">
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                                             </userDefinedRuntimeAttributes>
@@ -637,23 +591,35 @@ CA
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" tag="1" id="eG3-hO-28O"/>
                                         <menuItem title="Decrease Grid Size" hidden="YES" keyEquivalent="-" allowsKeyEquivalentWhenHidden="YES" id="flF-hP-opV">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="decreaseGridSize:" target="-1" id="In2-nG-cCJ"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Decrease Grid Size" tag="199" hidden="YES" keyEquivalent="-" allowsKeyEquivalentWhenHidden="YES" id="q3j-HG-4xT">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="decreaseGridSize:" target="-1" id="5nJ-ar-dBu"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Increase Grid Size" hidden="YES" keyEquivalent="+" allowsKeyEquivalentWhenHidden="YES" id="qRo-yt-KpX">
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="increaseGridSize:" target="-1" id="nxN-oE-c2j"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Increase Grid Size" tag="199" hidden="YES" keyEquivalent="+" allowsKeyEquivalentWhenHidden="YES" id="J1F-Yd-6Rv">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="increaseGridSize:" target="-1" id="s49-Yg-PDA"/>
                                             </connections>
@@ -724,44 +690,23 @@ DQ
                                                 <items>
                                                     <menuItem title="SNES" state="on" enabled="NO" id="1055">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="DNT"/>
-                                                        </attributedString>
                                                     </menuItem>
                                                     <menuItem title="Super Mario World" state="on" id="1056">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="DNT"/>
-                                                        </attributedString>
                                                     </menuItem>
                                                     <menuItem title="Mario Kart" indentationLevel="1" id="1057">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="DNT"/>
-                                                        </attributedString>
                                                     </menuItem>
                                                     <menuItem title="Secret Of Mana" indentationLevel="1" id="1058">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="DNT"/>
-                                                        </attributedString>
                                                     </menuItem>
                                                     <menuItem title="3DO" enabled="NO" id="1059">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="DNT"/>
-                                                        </attributedString>
                                                     </menuItem>
                                                     <menuItem title="Demolition Man" indentationLevel="1" id="1060">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="DNT"/>
-                                                        </attributedString>
                                                     </menuItem>
                                                 </items>
-                                                <attributedString key="userComments">
-                                                    <fragment content="DNT"/>
-                                                </attributedString>
                                                 <connections>
                                                     <outlet property="delegate" destination="805" id="1196"/>
                                                 </connections>
@@ -889,9 +834,6 @@ DQ
                                         </menuItem>
                                         <menuItem title="OpenEmu" tag="501" keyEquivalent="1" id="1029">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <attributedString key="userComments">
-                                                <fragment content="DNT"/>
-                                            </attributedString>
                                             <connections>
                                                 <action selector="showOpenEmuWindow:" target="-1" id="1158"/>
                                             </connections>

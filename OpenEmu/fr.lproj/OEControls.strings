@@ -26,9 +26,9 @@
 
 "Shader:" = "Shader :";
 
-"Executa els jocs en pantalla completa" = "Détacher la fenêtre de jeu";
+"Always use popout gameplay window" = "Détacher la fenêtre de jeu";
 
-"Executa els jocs en pantalla completa" = "Lancer les jeux en mode plein écran";
+"Always launch games fullscreen" = "Lancer les jeux en mode plein écran";
 
 "Always pause gameplay when in background" = "Mettre en pause le jeu quand il est en arrière-plan";
 
