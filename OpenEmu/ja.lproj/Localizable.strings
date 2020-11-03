@@ -53,9 +53,9 @@
 
 "Are you sure you want to remove this collection?" = "このコレクションを本当に削除してもよろしいですか？";
 
-"Are you sure you want to reset the console?" = "コンソールをリセットしますか？";
+"Are you sure you want to restart the game?" = "コンソールをリセットしますか？"; // TODO
 
-"Are you sure you want to stop emulation?" = "エミュレータを停止しますか？";
+"Are you sure you want to quit the game?" = "エミュレータを停止しますか？"; // TODO
 
 "At least one System must be enabled" = "最低一つ以上のシステムを有効にしてください。";
 
@@ -337,9 +337,7 @@
 
 "Options" = "オプション";
 
-"Pause Emulation" = "エミュレーションを一時停止";
-
-"Pause Gameplay" = "ゲームを一時停止";
+"Pause Game" = "ゲームを一時停止"; // TODO
 
 "Play Game" = "ゲームをする";
 
@@ -389,13 +387,11 @@
 
 "Resolve %ld Issues" = "%ld 個の問題を解決する";
 
-"Restart System" = "システムを再起動する";
+"Restart Game" = "システムを再起動する"; // TODO
 
 "Restart" = "再起動";
 
-"Resume Emulation" = "エミュレーションを復帰";
-
-"Resume Gameplay" = "ゲームプレイを復帰";
+"Resume Game" = "ゲームプレイを復帰"; // TODO
 
 "Resume" = "レジューム";
 
@@ -451,7 +447,7 @@
 
 "Start Scanning" = "スキャンを開始";
 
-"Stop Emulation" = "エミュレーションを停止";
+"Quit Game" = "エミュレーションを停止"; // TODO
 
 "Stop" = "停止";
 

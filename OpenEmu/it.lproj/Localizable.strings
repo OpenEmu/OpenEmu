@@ -53,9 +53,9 @@
 
 "Are you sure you want to remove this collection?" = "Sei sicuro di voler eliminare questa raccolta?";
 
-"Are you sure you want to reset the console?" = "Sei sicuro di voler resettare la console?";
+"Are you sure you want to restart the game?" = "Sei sicuro di voler riavviare il gioco?";
 
-"Are you sure you want to stop emulation?" = "Sei sicuro di voler arrestare l'emulazione?";
+"Are you sure you want to quit the game?" = "Sei sicuro di voler arrestare il gioco?";
 
 "At least one System must be enabled" = "Deve essere attivo almeno un sistema";
 
@@ -337,9 +337,7 @@
 
 "Options" = "Opzioni";
 
-"Pause Emulation" = "Sospendi emulazione";  // Main Menu (only displayed when the game is running)
-
-"Pause Gameplay" = "Sospendi il gioco";  // tooltip
+"Pause Game" = "Sospendi il gioco";  // tooltip; Main Menu (only displayed when the game is running)
 
 "Play Game" = "Avvia gioco";
 
@@ -389,13 +387,11 @@
 
 "Resolve %ld Issues" = "Risolvi %ld problemi";
 
-"Restart System" = "Riavvia il sistema";
+"Restart Game" = "Riavvia il gioco";
 
 "Restart" = "Riavvia";
 
-"Resume Emulation" = "Riprendi l'emulazione";  // Main Menu
-
-"Resume Gameplay" = "Riprendi il gioco";
+"Resume Game" = "Riprendi il gioco";  // Main Menu
 
 "Resume" = "Riprendi";
 
@@ -451,7 +447,7 @@
 
 "Start Scanning" = "Avvia scansione";
 
-"Stop Emulation" = "Arresta emulazione";
+"Quit Game" = "Arresta il gioco";
 
 "Stop" = "Arresta";
 

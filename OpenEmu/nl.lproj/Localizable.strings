@@ -53,9 +53,9 @@
 
 "Are you sure you want to remove this collection?" = "Weet u zeker dat u deze verzameling wilt verwijderen?";
 
-"Are you sure you want to reset the console?" = "Weet u zeker dat u de console opnieuw wilt instellen?";
+"Are you sure you want to restart the game?" = "Weet u zeker dat u de spel wilt herstarten?";
 
-"Are you sure you want to stop emulation?" = "Weet u zeker dat u emulatie wilt stoppen?";
+"Are you sure you want to quit the game?" = "Weet u zeker dat u de spel wilt stoppen?";
 
 "At least one System must be enabled" = "Ten minste één systeem moet ingeschakeld zijn";
 
@@ -337,9 +337,7 @@
 
 "Options" = "Opties";
 
-"Pause Emulation" = "Emulatie pauzeren";
-
-"Pause Gameplay" = "Spelen pauzeren";
+"Pause Game" = "Pauze spel";
 
 "Play Game" = "Speel spel";
 
@@ -389,13 +387,11 @@
 
 "Resolve %ld Issues" = "Verhelp %ld problemen";
 
-"Restart System" = "Herstart systeem";
+"Restart Game" = "Herstart spel";
 
 "Restart" = "Herstart";
 
-"Resume Emulation" = "Hervat emulatie";
-
-"Resume Gameplay" = "Hervat gameplay";  // TODO
+"Resume Game" = "Hervat spel";
 
 "Resume" = "Hervat";
 
@@ -451,7 +447,7 @@
 
 "Start Scanning" = "Start scannen";
 
-"Stop Emulation" = "Stop emulatie";
+"Quit Game" = "Stop spel";
 
 "Stop" = "Stop";
 

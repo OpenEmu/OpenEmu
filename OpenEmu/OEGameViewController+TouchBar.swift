@@ -86,7 +86,7 @@ extension OEGameViewController: NSTouchBarDelegate {
         case .stop:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
-            item.customizationLabel = NSLocalizedString("Stop Emulation", comment: "")
+            item.customizationLabel = NSLocalizedString("Quit Game", comment: "")
             
             let button = NSButton(image: NSImage(named: NSImage.touchBarRecordStopTemplateName)!, target: nil, action: #selector(OEGameDocument.stopEmulation(_:)))
             
@@ -99,7 +99,7 @@ extension OEGameViewController: NSTouchBarDelegate {
         case .gameplay:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
-            item.customizationLabel = NSLocalizedString("Pause & Reset", comment: "")
+            item.customizationLabel = NSLocalizedString("Pause/Restart", comment: "")
             
             let segmentImages = [NSImage(named: NSImage.touchBarPauseTemplateName)!,
                                  NSImage(named: NSImage.touchBarRefreshTemplateName)!]

@@ -100,7 +100,7 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
 {
     OEAlert *alert = [[OEAlert alloc] init];
     
-    alert.headlineText = NSLocalizedString(@"Are you sure you want to reset the console?", @"");
+    alert.headlineText = NSLocalizedString(@"Are you sure you want to restart the game?", @"");
     alert.defaultButtonTitle = NSLocalizedString(@"Restart", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
     
@@ -114,8 +114,8 @@ NSString *const OEDownloadRomWarningSupperssionKey = @"OEDownloadRomWarningSuppe
 {
     OEAlert *alert = [[OEAlert alloc] init];
 
-    alert.headlineText = NSLocalizedString(@"Are you sure you want to stop emulation?", @"");
-    alert.defaultButtonTitle = NSLocalizedString(@"Stop", @"");
+    alert.headlineText = NSLocalizedString(@"Are you sure you want to quit the game?", @"");
+    alert.defaultButtonTitle = NSLocalizedString(@"Quit", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
     
     alert.suppressOnDefaultReturnOnly = YES;

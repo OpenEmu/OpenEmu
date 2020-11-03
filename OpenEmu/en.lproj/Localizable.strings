@@ -53,9 +53,9 @@
 
 "Are you sure you want to remove this collection?" = "Are you sure you want to remove this collection?";
 
-"Are you sure you want to reset the console?" = "Are you sure you want to reset the console?";
+"Are you sure you want to restart the game?" = "Are you sure you want to restart the game?";
 
-"Are you sure you want to stop emulation?" = "Are you sure you want to stop emulation?";
+"Are you sure you want to quit the game?" = "Are you sure you want to quit the game?";
 
 "At least one System must be enabled" = "At least one System must be enabled";
 
@@ -337,9 +337,7 @@
 
 "Options" = "Options";
 
-"Pause Emulation" = "Pause Emulation";
-
-"Pause Gameplay" = "Pause Gameplay";
+"Pause Game" = "Pause Game";
 
 "Play Game" = "Play Game";
 
@@ -389,13 +387,11 @@
 
 "Resolve %ld Issues" = "Resolve %ld Issues";
 
-"Restart System" = "Restart System";
+"Restart Game" = "Restart Game";
 
 "Restart" = "Restart";
 
-"Resume Emulation" = "Resume Emulation";
-
-"Resume Gameplay" = "Resume Gameplay";
+"Resume Game" = "Resume Game";
 
 "Resume" = "Resume";
 
@@ -451,7 +447,7 @@
 
 "Start Scanning" = "Start Scanning";
 
-"Stop Emulation" = "Stop Emulation";
+"Quit Game" = "Quit Game";
 
 "Stop" = "Stop";
 

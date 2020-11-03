@@ -53,9 +53,9 @@
 
 "Are you sure you want to remove this collection?" = "Esteu segur que voleu esborrar aquesta col·lecció?";
 
-"Are you sure you want to reset the console?" = "Esteu segur que voleu reiniciar la consola?";
+"Are you sure you want to restart the game?" = "Esteu segur que voleu reiniciar la partida?";
 
-"Are you sure you want to stop emulation?" = "Esteu segur que voleu aturar l'emulació?";
+"Are you sure you want to quit the game?" = "Esteu segur que voleu aturar la partida?";
 
 "At least one System must be enabled" = "Com a mínim un sistema ha d'estar habilitat";
 
@@ -337,9 +337,7 @@
 
 "Options" = "Opcions";
 
-"Pause Emulation" = "Pausa l'emulació";
-
-"Pause Gameplay" = "Pausa la partida";
+"Pause Game" = "Pausa la partida";
 
 "Play Game" = "Inicia el joc";
 
@@ -389,13 +387,11 @@
 
 "Resolve %ld Issues" = "Resoleu %ld problemes";
 
-"Restart System" = "Reinicia el sistema";
+"Restart Game" = "Reinicia la partida";
 
 "Restart" = "Reinicia";
 
-"Resume Emulation" = "Continua l'emulació";
-
-"Resume Gameplay" = "Continua la partida";
+"Resume Game" = "Continua la partida";
 
 "Resume" = "Continua";
 
@@ -451,7 +447,7 @@
 
 "Start Scanning" = "Escaneja";
 
-"Stop Emulation" = "Atura l'emulació";
+"Quit Game" = "Atura la partida";
 
 "Stop" = "Atura";
 

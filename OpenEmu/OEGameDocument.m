@@ -692,11 +692,11 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     {
         if(_emulationStatus == OEEmulationStatusPaused)
         {
-            [menuItem setTitle:NSLocalizedString(@"Resume Emulation", @"")];
+            [menuItem setTitle:NSLocalizedString(@"Resume Game", @"")];
             return YES;
         }
         
-        [menuItem setTitle:NSLocalizedString(@"Pause Emulation", @"")];
+        [menuItem setTitle:NSLocalizedString(@"Pause Game", @"")];
         return _emulationStatus == OEEmulationStatusPlaying;
     }
     else if(action == @selector(nextDisplayMode:))

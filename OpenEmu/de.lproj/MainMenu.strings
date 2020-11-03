@@ -67,8 +67,6 @@
 
 "Controls" = "Steuerung";
 
-"Pause Gameplay" = "Spiel pausieren";
-
 "Volume Down" = "Lautstärke verringern";
 
 "Start Game" = "Spiel starten";
@@ -122,8 +120,6 @@
 "Take Screenshot" = "Bildschirmfoto aufnehmen";
 
 "Help" = "Hilfe";
-
-"Restart System" = "Spiel neu starten";
 
 "Release Notes" = "Versionshinweise";
 

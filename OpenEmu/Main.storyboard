@@ -778,7 +778,7 @@ DQ
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="qCp-x6-z0X"/>
-                                        <menuItem title="Pause Gameplay" enabled="NO" alternate="YES" keyEquivalent="p" id="1044">
+                                        <menuItem title="Pause Game" enabled="NO" alternate="YES" keyEquivalent="p" id="1044">
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                                             </userDefinedRuntimeAttributes>
@@ -786,7 +786,7 @@ DQ
                                                 <action selector="toggleEmulationPaused:" target="-1" id="WvQ-Ap-gYX"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Restart System" enabled="NO" id="2rj-Sq-LdF">
+                                        <menuItem title="Restart Game" enabled="NO" id="2rj-Sq-LdF">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
@@ -795,7 +795,7 @@ DQ
                                                 <action selector="resetEmulation:" target="-1" id="DS8-0w-SBs"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Stop Emulation" enabled="NO" id="1167">
+                                        <menuItem title="Quit Game" enabled="NO" id="1167">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>

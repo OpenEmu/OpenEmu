@@ -53,9 +53,9 @@
 
 "Are you sure you want to remove this collection?" = "Möchtest du diese Sammlung wirklich entfernen?";
 
-"Are you sure you want to reset the console?" = "Möchtest du das Spiel wirklich neu starten?";
+"Are you sure you want to restart the game?" = "Möchtest du das Spiel wirklich neu starten?";
 
-"Are you sure you want to stop emulation?" = "Möchtest du das Spiel wirklich beenden?";
+"Are you sure you want to quit the game?" = "Möchtest du das Spiel wirklich beenden?";
 
 "At least one System must be enabled" = "Es muss mindestens eine Konsole aktiviert sein";
 
@@ -337,9 +337,7 @@
 
 "Options" = "Optionen";
 
-"Pause Emulation" = "Spiel pausieren";
-
-"Pause Gameplay" = "Spiel pausieren";
+"Pause Game" = "Spiel pausieren";
 
 "Play Game" = "Spiel starten";
 
@@ -389,13 +387,11 @@
 
 "Resolve %ld Issues" = "%ld Probleme beheben";
 
-"Restart System" = "Spiel neu starten";
+"Restart Game" = "Spiel neu starten";
 
 "Restart" = "Neu starten";
 
-"Resume Emulation" = "Spiel fortsetzen";
-
-"Resume Gameplay" = "Spiel fortsetzen";
+"Resume Game" = "Spiel fortsetzen";
 
 "Resume" = "Fortsetzen";
 
@@ -451,7 +447,7 @@
 
 "Start Scanning" = "Wiimote suchen";
 
-"Stop Emulation" = "Spiel beenden";
+"Quit Game" = "Spiel beenden";
 
 "Stop" = "Beenden";
 

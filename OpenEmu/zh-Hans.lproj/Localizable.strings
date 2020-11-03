@@ -53,9 +53,9 @@
 
 "Are you sure you want to remove this collection?" = "你确定要移除这个收藏？";
 
-"Are you sure you want to reset the console?" = "你确定要重置该平台？";
+"Are you sure you want to restart the game?" = "你确定要重置该平台？"; // TODO
 
-"Are you sure you want to stop emulation?" = "你确定要停止模拟？";
+"Are you sure you want to quit the game?" = "你确定要停止模拟？"; // TODO
 
 "At least one System must be enabled" = "至少要启用一个系统";
 
@@ -337,9 +337,7 @@
 
 "Options" = "选项";
 
-"Pause Emulation" = "暂停模拟";
-
-"Pause Gameplay" = "暂停游戏";
+"Pause Game" = "暂停游戏"; // TODO
 
 "Play Game" = "开始游戏";
 
@@ -389,13 +387,11 @@
 
 "Resolve %ld Issues" = "解决 %ld 个问题";
 
-"Restart System" = "重启系统";
+"Restart Game" = "重启系统"; // TODO
 
 "Restart" = "重启";
 
-"Resume Emulation" = "恢复模拟";
-
-"Resume Gameplay" = "暂停游戏";  // TODO
+"Resume Game" = "暂停游戏";  // TODO
 
 "Resume" = "恢复";
 
@@ -451,7 +447,7 @@
 
 "Start Scanning" = "开始扫描";
 
-"Stop Emulation" = "停止模拟";
+"Quit Game" = "停止模拟"; // TODO
 
 "Stop" = "停止";
 

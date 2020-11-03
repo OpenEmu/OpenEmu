@@ -53,9 +53,9 @@
 
 "Are you sure you want to remove this collection?" = "Вы уверены, что хотите удалить коллекцию?";
 
-"Are you sure you want to reset the console?" = "Вы уверены, что хотите перезагрузить консоль?";
+"Are you sure you want to restart the game?" = "Вы уверены, что хотите перезагрузить консоль?"; // TODO
 
-"Are you sure you want to stop emulation?" = "Вы уверены, что хотите остановить эмуляцию?";
+"Are you sure you want to quit the game?" = "Вы уверены, что хотите остановить эмуляцию?"; // TODO
 
 "At least one System must be enabled" = "По крайней мере, одна система должна быть включена";
 
@@ -337,9 +337,7 @@
 
 "Options" = "Опции";
 
-"Pause Emulation" = "Приостановить эмуляцию";
-
-"Pause Gameplay" = "Приостановить геймплей";
+"Pause Game" = "Приостановить геймплей"; // TODO
 
 "Play Game" = "Запустить игру";
 
@@ -389,13 +387,11 @@
 
 "Resolve %ld Issues" = "Решить %ld проблем";
 
-"Restart System" = "Перезапустить систему";
+"Restart Game" = "Перезапустить систему"; // TODO
 
 "Restart" = "Перезапустить";
 
-"Resume Emulation" = "Продолжить эмуляцию Emulation";
-
-"Resume Gameplay" = "Приостановить геймплей";  // TODO
+"Resume Game" = "Приостановить геймплей";  // TODO
 
 "Resume" = "Продолжить";
 
@@ -451,7 +447,7 @@
 
 "Start Scanning" = "Начать сканирование";
 
-"Stop Emulation" = "Остановить эмуляцию";
+"Quit Game" = "Остановить эмуляцию"; // TODO
 
 "Stop" = "Остановить";
 

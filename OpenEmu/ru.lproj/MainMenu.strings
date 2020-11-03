@@ -67,8 +67,6 @@
 
 "Controls" = "Управление";
 
-"Pause Gameplay" = "Приостановить геймплей";
-
 "Volume Down" = "Тише";
 
 "Start Game" = "Начать игру";
@@ -122,8 +120,6 @@
 "Take Screenshot" = "Сделать снимок экрана";
 
 "Help" = "Справка";
-
-"Restart System" = "Перезапустить систему";
 
 "Release Notes" = "Примечания к выпуску";
 

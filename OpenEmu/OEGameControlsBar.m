@@ -779,9 +779,9 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [pauseButton setState:!isEmulationRunning];
 
     if(isEmulationRunning)
-        [pauseButton setToolTip:NSLocalizedString(@"Pause Gameplay", @"Tooltip")];
+        [pauseButton setToolTip:NSLocalizedString(@"Pause Game", @"Tooltip")];
     else
-        [pauseButton setToolTip:NSLocalizedString(@"Resume Gameplay", @"Tooltip")];
+        [pauseButton setToolTip:NSLocalizedString(@"Resume Game", @"Tooltip")];
 
     if(isEmulationRunning && !_cheatsLoaded)
         [self OE_loadCheats];
@@ -879,7 +879,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [stopButton setAction:@selector(stopEmulation:)];
     [stopButton setFrame:NSMakeRect(10, 13, 51, 23)];
     [stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-    [stopButton setToolTip:NSLocalizedString(@"Stop Emulation", @"Tooltip")];
+    [stopButton setToolTip:NSLocalizedString(@"Quit Game", @"Tooltip")];
     [self addSubview:stopButton];
 
     _pauseButton = [[OEHUDButton alloc] init];
@@ -889,7 +889,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [_pauseButton setAction:@selector(toggleEmulationPaused:)];
     [_pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];
     [_pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-    [_pauseButton setToolTip:NSLocalizedString(@"Pause Gameplay", @"Tooltip")];
+    [_pauseButton setToolTip:NSLocalizedString(@"Pause Game", @"Tooltip")];
     [self addSubview:_pauseButton];
 
     OEHUDButton *restartButton = [[OEHUDButton alloc] init];
@@ -897,7 +897,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [restartButton setAction:@selector(resetEmulation:)];
     [restartButton setFrame:NSMakeRect(111, 9, 32, 32)];
     [restartButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-    [restartButton setToolTip:NSLocalizedString(@"Restart System", @"Tooltip")];
+    [restartButton setToolTip:NSLocalizedString(@"Restart Game", @"Tooltip")];
     [self addSubview:restartButton];
 
     OEHUDButton *saveButton = [[OEHUDButton alloc] init];

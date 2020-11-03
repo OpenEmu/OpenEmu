@@ -53,9 +53,9 @@
 
 "Are you sure you want to remove this collection?" = "¿Está seguro que desea eliminar esta colección?";
 
-"Are you sure you want to reset the console?" = "¿Está seguro que desea reiniciar la consola?";
+"Are you sure you want to restart the game?" = "¿Está seguro que desea reiniciar la partida?";
 
-"Are you sure you want to stop emulation?" = "¿Está seguro que desea detener la emulación?";
+"Are you sure you want to quit the game?" = "¿Está seguro que desea detener la partida?";
 
 "At least one System must be enabled" = "Al menos un sistema debe estar activado";
 
@@ -337,9 +337,7 @@
 
 "Options" = "Opciones";
 
-"Pause Emulation" = "Pausar emulación";
-
-"Pause Gameplay" = "Pausar modo de juego";
+"Pause Game" = "Pausar partida";
 
 "Play Game" = "Jugar partida";
 
@@ -389,13 +387,11 @@
 
 "Resolve %ld Issues" = "Solucionar %ld errores";
 
-"Restart System" = "Reiniciar sistema";
+"Restart Game" = "Reiniciar partida";
 
 "Restart" = "Reiniciar";
 
-"Resume Emulation" = "Reanudar emulación";
-
-"Resume Gameplay" = "Reanudar modo de juego";
+"Resume Game" = "Reanudar partida";
 
 "Resume" = "Reanudar";
 
@@ -451,7 +447,7 @@
 
 "Start Scanning" = "Comenzar búsqueda";
 
-"Stop Emulation" = "Detener emulación";
+"Quit Game" = "Detener partida";
 
 "Stop" = "Detener";
 

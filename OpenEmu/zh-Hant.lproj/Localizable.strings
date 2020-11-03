@@ -53,9 +53,9 @@
 
 "Are you sure you want to remove this collection?" = "你確定要移除這個收藏？";
 
-"Are you sure you want to reset the console?" = "你確定要重設主機？";
+"Are you sure you want to restart the game?" = "你確定要重設主機？"; // TODO
 
-"Are you sure you want to stop emulation?" = "你確定要停止模擬？";
+"Are you sure you want to quit the game?" = "你確定要停止模擬？"; // TODO
 
 "At least one System must be enabled" = "至少要啟用一個系統";
 
@@ -337,9 +337,7 @@
 
 "Options" = "選項";
 
-"Pause Emulation" = "暫停模擬";
-
-"Pause Gameplay" = "暫停遊戲";
+"Pause Game" = "暫停遊戲"; // TODO
 
 "Play Game" = "開始遊戲";
 
@@ -389,13 +387,11 @@
 
 "Resolve %ld Issues" = "解決 %ld 個問題";
 
-"Restart System" = "重新啟動系統";
+"Restart Game" = "重新啟動系統"; // TODO
 
 "Restart" = "重新啟動";
 
-"Resume Emulation" = "恢復模擬";
-
-"Resume Gameplay" = "繼續遊戲";
+"Resume Game" = "繼續遊戲"; // TODO
 
 "Resume" = "恢復";
 
@@ -451,7 +447,7 @@
 
 "Start Scanning" = "開始掃描";
 
-"Stop Emulation" = "停止模擬";
+"Quit Game" = "停止模擬"; // TODO
 
 "Stop" = "停止";
 
