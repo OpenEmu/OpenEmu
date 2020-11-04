@@ -71,7 +71,7 @@ class AppDelegate: NSObject {
             
             if logHIDEvents {
                 hidEventsMonitor = OEDeviceManager.shared.addGlobalEventMonitorHandler { handler, event in
-                    if event.type != OEHIDEventTypeKeyboard {
+                    if event.type != .keyboard {
                         NSLog("\(event)")
                     }
                     return true
@@ -91,7 +91,7 @@ class AppDelegate: NSObject {
             
             if logKeyboardEvents {
                 keyboardEventsMonitor = OEDeviceManager.shared.addGlobalEventMonitorHandler { handler, event in
-                    if event.type == OEHIDEventTypeKeyboard {
+                    if event.type == .keyboard {
                         NSLog("\(event)")
                     }
                     return true
