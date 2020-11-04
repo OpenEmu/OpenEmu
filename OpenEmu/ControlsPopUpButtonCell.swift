@@ -36,12 +36,21 @@ final class ControlsPopUpButtonCell: NSPopUpButtonCell {
     }
     
     override func titleRect(forBounds cellFrame: NSRect) -> NSRect {
+        if #available(macOS 10.16, *) {
+            return super.titleRect(forBounds: cellFrame)
+        }
         var titleRect = super.titleRect(forBounds: cellFrame)
         titleRect.origin.y += 1
-        if #available(macOS 10.16, *) {
-            titleRect.origin.y += 9
-        }
         return titleRect
+    }
+    
+    override func imageRect(forBounds rect: NSRect) -> NSRect {
+        if #available(macOS 10.16, *) {
+            var imageRect = super.imageRect(forBounds: rect)
+            imageRect.origin.y -= 1
+            return imageRect
+        }
+        return super.imageRect(forBounds: rect)
     }
     
     override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
