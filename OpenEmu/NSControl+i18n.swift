@@ -29,7 +29,7 @@ extension NSButton {
         get { return false }
         set {
             if newValue == true {
-                title = Bundle.main.localizedString(forKey: title, value: "No translation", table: "OEControls")
+                title = Bundle.main.preferredLocalizedString(forKey: title, value: "No translation", table: "OEControls")
             }
         }
    }
@@ -40,7 +40,7 @@ extension NSTextField {
         get { return false }
         set {
             if newValue == true {
-                stringValue = Bundle.main.localizedString(forKey: stringValue, value: "No translation", table: "OEControls")
+                stringValue = Bundle.main.preferredLocalizedString(forKey: stringValue, value: "No translation", table: "OEControls")
             }
         }
     }
@@ -51,7 +51,7 @@ extension NSMenu {
         get { return false }
         set {
             if newValue == true {
-                title = Bundle.main.localizedString(forKey: title, value: "No translation", table: "MainMenu")
+                title = Bundle.main.preferredLocalizedString(forKey: title, value: "No translation", table: "MainMenu")
             }
         }
     }
@@ -62,8 +62,33 @@ extension NSMenuItem {
         get { return false }
         set {
             if newValue == true {
-                title = Bundle.main.localizedString(forKey: title, value: "No translation", table: "MainMenu")
+                title = Bundle.main.preferredLocalizedString(forKey: title, value: "No translation", table: "MainMenu")
             }
         }
+    }
+}
+
+extension Bundle {
+    static let noTransKey = "no-trans"
+    
+    func preferredLocalizedString(forKey key: String, value: String?, table: String?) -> String {
+        let new = localizedString(forKey: key, value: Self.noTransKey, table: table)
+        if new != Self.noTransKey {
+            return new
+        }
+        
+        for lang in preferredLocalizations {
+            guard
+                let path = self.path(forResource: lang, ofType: "lproj"),
+                let bundle = Bundle(path: path)
+                else { continue }
+            
+            let new = bundle.localizedString(forKey: key, value: Self.noTransKey, table: table)
+            if new != Self.noTransKey {
+                return new
+            }
+        }
+        
+        return value ?? key
     }
 }
