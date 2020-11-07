@@ -503,7 +503,8 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         if([games count] == 0) return;
 
         OEAlert *alert = [[OEAlert alloc] init];
-        alert.messageText = NSLocalizedString(@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.", @"");
+        alert.messageText = NSLocalizedString(@"Consolidating will copy all of the selected games into the OpenEmu Library folder.", @"");
+        alert.informativeText = NSLocalizedString(@"This cannot be undone.", @"");
         alert.defaultButtonTitle = NSLocalizedString(@"Consolidate", @"");
         alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
         if([alert runModal] != NSAlertFirstButtonReturn) return;

@@ -173,11 +173,11 @@ extension OEAlert {
         return alert
     }
     
-    @objc(removeCollectionAlert)
-    final class func removeCollection() -> OEAlert {
+    @objc(removeCollectionAlertWithName:)
+    final class func removeCollection(name: String) -> OEAlert {
         
         let alert = OEAlert()
-        alert.messageText = NSLocalizedString("Are you sure you want to remove this collection?", comment: "")
+        alert.messageText = .localizedStringWithFormat(NSLocalizedString("Are you sure you want to remove the collection '%@'?", comment: ""), name)
         alert.defaultButtonTitle = NSLocalizedString("Remove Collection", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
         alert.showSuppressionButton(forUDKey: OERemoveCollectionAlertSuppressionKey)

@@ -51,7 +51,7 @@
 
 "Are you sure you want to remove the selected games from the collection?" = "選択したゲームをコレクションから削除してもよろしいですか？";
 
-"Are you sure you want to remove this collection?" = "このコレクションを本当に削除してもよろしいですか？";
+"Are you sure you want to remove the collection '%@'?" = "このコレクションを本当に削除してもよろしいですか？"; // TODO
 
 "Are you sure you want to restart the game?" = "コンソールをリセットしますか？"; // TODO
 
@@ -103,7 +103,9 @@
 
 "Consolidating files failed." = "Consolidating files failed."; // TODO
 
-"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "統合すると、選択された全てのゲームがOpenEmuライブラリのフォルダへコピーされます。\n\nこの操作は取り消せません。";
+"Consolidating will copy all of the selected games into the OpenEmu Library folder." = "統合すると、選択された全てのゲームがOpenEmuライブラリのフォルダへコピーされます。";
+
+"This cannot be undone." = "この操作は取り消せません。";
 
 "Contains no data:" = "Contains no data:"; // TODO
 

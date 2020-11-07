@@ -619,7 +619,7 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 
     if ([item isEditableInSidebar]) {
         
-        if ([[OEAlert removeCollectionAlert] runModal] == NSAlertFirstButtonReturn) {
+        if ([[OEAlert removeCollectionAlertWithName:[item sidebarName]] runModal] == NSAlertFirstButtonReturn) {
             
             [(OEDBCollection *)item delete];
             [(OEDBCollection *)item save];

@@ -51,7 +51,7 @@
 
 "Are you sure you want to remove the selected games from the collection?" = "Weet u zeker dat u de geselecteerde spellen wilt verwijderen uit de verzameling?";
 
-"Are you sure you want to remove this collection?" = "Weet u zeker dat u deze verzameling wilt verwijderen?";
+"Are you sure you want to remove the collection '%@'?" = "Weet u zeker dat u deze verzameling wilt verwijderen?"; // TODO
 
 "Are you sure you want to restart the game?" = "Weet u zeker dat u de spel wilt herstarten?";
 
@@ -103,7 +103,9 @@
 
 "Consolidating files failed." = "Consolidating files failed."; // TODO
 
-"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Samenvoegen zal alle geselecteerde spellen kopiëren naar de OpenEmu-bibliotheekmap.\n\nDit kan niet ongedaan worden gemaakt.";
+"Consolidating will copy all of the selected games into the OpenEmu Library folder." = "Samenvoegen zal alle geselecteerde spellen kopiëren naar de OpenEmu-bibliotheekmap.";
+
+"This cannot be undone." = "Dit kan niet ongedaan worden gemaakt.";
 
 "Contains no data:" = "Contains no data:"; // TODO
 

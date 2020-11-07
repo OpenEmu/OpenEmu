@@ -51,7 +51,7 @@
 
 "Are you sure you want to remove the selected games from the collection?" = "你确定要从收藏移除所选游戏？";
 
-"Are you sure you want to remove this collection?" = "你确定要移除这个收藏？";
+"Are you sure you want to remove the collection '%@'?" = "你确定要移除这个收藏？"; // TODO
 
 "Are you sure you want to restart the game?" = "你确定要重置该平台？"; // TODO
 
@@ -103,7 +103,9 @@
 
 "Consolidating files failed." = "Consolidating files failed."; // TODO
 
-"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "整合会复制所有选择的游戏到 OpenEmu 库文件夹。\n\n该操作无法撤销。";
+"Consolidating will copy all of the selected games into the OpenEmu Library folder." = "整合会复制所有选择的游戏到 OpenEmu 库文件夹。";
+
+"This cannot be undone." = "该操作无法撤销。";
 
 "Contains no data:" = "Contains no data:"; // TODO
 

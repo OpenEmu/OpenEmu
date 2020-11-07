@@ -51,7 +51,7 @@
 
 "Are you sure you want to remove the selected games from the collection?" = "¿Está seguro que desea eliminar los juegos seleccionados de la colección?";
 
-"Are you sure you want to remove this collection?" = "¿Está seguro que desea eliminar esta colección?";
+"Are you sure you want to remove the collection '%@'?" = "¿Está seguro que desea eliminar esta colección?"; // TODO
 
 "Are you sure you want to restart the game?" = "¿Está seguro que desea reiniciar la partida?";
 
@@ -103,7 +103,9 @@
 
 "Consolidating files failed." = "Consolidating files failed."; // TODO
 
-"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Consolidar copiará todos los juegos seleccionados en la carpeta biblioteca de OpenEmu.\n\nEsto no se puede deshacer.";
+"Consolidating will copy all of the selected games into the OpenEmu Library folder." = "Consolidar copiará todos los juegos seleccionados en la carpeta biblioteca de OpenEmu.";
+
+"This cannot be undone." = "Esto no se puede deshacer.";
 
 "Contains no data:" = "Contains no data:"; // TODO
 
