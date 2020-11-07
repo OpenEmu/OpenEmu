@@ -34,7 +34,7 @@ class GameScannerViewController: NSViewController {
     @IBOutlet weak var scannerView: NSView!
     
     @IBOutlet var headlineLabel: NSTextField!
-    @IBOutlet var togglePauseButton: NSButton!
+    @IBOutlet var togglePauseButton: GameScannerButton!
     @IBOutlet var progressIndicator: NSProgressIndicator!
     @IBOutlet var statusLabel: NSTextField!
     @IBOutlet var fixButton: TextButton!
@@ -209,10 +209,8 @@ class GameScannerViewController: NSViewController {
             progressIndicator.startAnimation(self)
             
             fixButton.isHidden = true
+            togglePauseButton.isHidden = true
             statusLabel.stringValue = NSLocalizedString("Downloading Game DB", comment: "")
-            
-            togglePauseButton.isEnabled = false
-            togglePauseButton.state = .off
             
         } else {
             
@@ -221,6 +219,8 @@ class GameScannerViewController: NSViewController {
             progressIndicator.minValue = 0
             progressIndicator.doubleValue = Double(importer.numberOfProcessedItems)
             progressIndicator.maxValue = Double(maxItems)
+            
+            togglePauseButton.isHidden = false
             
             var status: String
             
@@ -240,7 +240,7 @@ class GameScannerViewController: NSViewController {
                 }
                 
                 togglePauseButton.isEnabled = true
-                togglePauseButton.state = .off
+                togglePauseButton.icon = "game_scanner_pause"
                 
             case .stopped:
                 
@@ -249,8 +249,8 @@ class GameScannerViewController: NSViewController {
                 
                 status = NSLocalizedString("Done", comment: "")
                 
-                togglePauseButton.isEnabled = false
-                togglePauseButton.state = .off
+                togglePauseButton.isEnabled = !itemsRequiringAttention.isEmpty
+                togglePauseButton.icon = itemsRequiringAttention.isEmpty ? "game_scanner_pause" : "game_scanner_cancel"
                 
             default:
                 
@@ -260,7 +260,7 @@ class GameScannerViewController: NSViewController {
                 status = NSLocalizedString("Scanner Paused", comment: "")
                 
                 togglePauseButton.isEnabled = true
-                togglePauseButton.state = .on
+                togglePauseButton.icon = "game_scanner_continue"
             }
             
             let shouldHideFixButton: Bool
@@ -363,7 +363,7 @@ class GameScannerViewController: NSViewController {
     
     @IBAction func buttonAction(_ sender: Any?) {
         
-        if NSEvent.modifierFlags.contains(.option) {
+        if !itemsRequiringAttention.isEmpty {
             
             importer.pause()
             

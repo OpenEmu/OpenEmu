@@ -27,41 +27,21 @@ import Cocoa
 @objc(OEGameScannerButton)
 final class GameScannerButton: HoverButton {
     
-    let pauseIcon = NSImage(named: "game_scanner_pause")
-    lazy var continueIcon = NSImage(named: "game_scanner_continue")
+    @objc var icon: String = ""
     
     private var iconImage: NSImage? {
         
-        if state == .off {
-            if isHighlighted {
-                return pauseIcon?.image(with: NSColor.labelColor.withSystemEffect(.pressed))
-            }
-            else if isHovering && isEnabled {
-                return pauseIcon?.image(with: NSColor.labelColor.withSystemEffect(.rollover))
-            }
-            else if window?.isMainWindow == false {
-                return pauseIcon?.image(with: NSColor.labelColor.withSystemEffect(.disabled))
-            }
-            else {
-                return pauseIcon?.image(with: NSColor.labelColor)
-            }
+        if isHighlighted {
+            return NSImage(named: icon)?.image(with: NSColor.labelColor.withSystemEffect(.pressed))
         }
-        else if state == .on {
-            if isHighlighted {
-                return continueIcon?.image(with: NSColor.labelColor.withSystemEffect(.pressed))
-            }
-            else if isHovering && isEnabled {
-                return continueIcon?.image(with: NSColor.labelColor.withSystemEffect(.rollover))
-            }
-            else if window?.isMainWindow == false {
-                return continueIcon?.image(with: NSColor.labelColor.withSystemEffect(.disabled))
-            }
-            else {
-                return continueIcon?.image(with: NSColor.labelColor)
-            }
+        else if isHovering && isEnabled {
+            return NSImage(named: icon)?.image(with: NSColor.labelColor.withSystemEffect(.rollover))
+        }
+        else if window?.isMainWindow == false {
+            return NSImage(named: icon)?.image(with: NSColor.labelColor.withSystemEffect(.disabled))
         }
         else {
-            return NSImage(named: NSImage.cautionName)
+            return NSImage(named: icon)?.image(with: NSColor.labelColor)
         }
     }
     
