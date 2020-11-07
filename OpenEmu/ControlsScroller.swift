@@ -27,7 +27,6 @@ import Cocoa
 @objc(OEControlsScroller)
 final class ControlsScroller: NSScroller {
     
-    lazy var trackImage = NSImage(named: "wood_track_vertical")
     lazy var knobImage  = NSImage(named: "wood_knob_vertical")
     
     override class var isCompatibleWithOverlayScrollers: Bool {
@@ -43,11 +42,18 @@ final class ControlsScroller: NSScroller {
     }
     
     override func drawKnobSlot(in slotRect: NSRect, highlight flag: Bool) {
-        guard scrollerStyle == .legacy else {
-            return super.drawKnobSlot(in: slotRect, highlight: flag)
-        }
         
-        trackImage?.draw(in: slotRect)
+        let slotColor = NSColor(deviceRed: 0.45, green: 0.24, blue: 0, alpha: 0.3)
+        slotColor.setFill()
+        
+        var slotRect = bounds
+        slotRect.fill()
+        
+        let lineColor = NSColor(deviceRed: 0.45, green: 0.24, blue: 0, alpha: 1)
+        lineColor.setFill()
+        
+        slotRect.size.width = 1
+        slotRect.fill()
     }
     
     override func drawKnob() {
@@ -66,7 +72,7 @@ final class ControlsScroller: NSScroller {
         }
         
         var knobRect = rect(for: .knobSlot)
-        knobRect = knobRect.insetBy(dx: 0, dy: 1)
+        knobRect = knobRect.insetBy(dx: 0, dy: 2)
         
         guard let size = knobImage?.size else { return .zero }
         
