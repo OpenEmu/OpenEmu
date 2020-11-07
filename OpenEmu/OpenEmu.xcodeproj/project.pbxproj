@@ -145,7 +145,7 @@
 		016F22DF23F19F5F00181842 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016F22DE23F19F5F00181842 /* AppDelegate.swift */; };
 		016F22E423F19F6100181842 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 016F22E323F19F6100181842 /* MainMenu.xib */; };
 		016F22EA23F1A35400181842 /* OEAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEAlert.m */; };
-		016F22EC23F1A35B00181842 /* OEAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.m */; };
+		016F22EC23F1A35B00181842 /* OEAlert+DefaultAlertsAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.swift */; };
 		016F22ED23F1A36E00181842 /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; };
 		016F230323F1A65000181842 /* NSControl+TargetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606DF1C0B12FE0089B494 /* NSControl+TargetAction.swift */; };
 		016F230B23F1A69D00181842 /* NSImage+DrawingAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E71C0BCD350089B494 /* NSImage+DrawingAdditions.swift */; };
@@ -398,7 +398,7 @@
 		83B04E411968610F00CB985E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3D1968610F00CB985E /* InfoPlist.strings */; };
 		83B04E421968610F00CB985E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3F1968610F00CB985E /* Localizable.strings */; };
 		83BABBEE1458978B0097F6B2 /* SetupAssistantTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BABBED1458978B0097F6B2 /* SetupAssistantTableView.swift */; };
-		83BC345E1516456000F05A2B /* OEAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.m */; };
+		83BC345E1516456000F05A2B /* OEAlert+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEAlert+Additions.swift */; };
 		83C68ED114483579000F720A /* OEAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEAlert.m */; };
 		83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */; };
 		83C748CC196DF34D0090BC91 /* OEHomebrewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83C748CB196DF34D0090BC91 /* OEHomebrewViewController.xib */; };
@@ -1667,8 +1667,7 @@
 		83B04E3E1968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83B04E401968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		83BABBED1458978B0097F6B2 /* SetupAssistantTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupAssistantTableView.swift; sourceTree = "<group>"; };
-		83BC345C1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEAlert+DefaultAlertsAdditions.h"; sourceTree = "<group>"; };
-		83BC345D1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEAlert+DefaultAlertsAdditions.m"; sourceTree = "<group>"; };
+		83BC345D1516455F00F05A2B /* OEAlert+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEAlert+Additions.swift"; sourceTree = "<group>"; };
 		83C68ECF14483579000F720A /* OEAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAlert.h; sourceTree = "<group>"; };
 		83C68ED014483579000F720A /* OEAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAlert.m; sourceTree = "<group>"; };
 		83C6C1DA190536CC00DD7B13 /* OEDBImageMigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBImageMigrationPolicy.h; sourceTree = "<group>"; };
@@ -3134,10 +3133,9 @@
 		53439A8613B92BEB005C0CC8 /* Alert */ = {
 			isa = PBXGroup;
 			children = (
-				83BC345C1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.h */,
-				83BC345D1516455F00F05A2B /* OEAlert+DefaultAlertsAdditions.m */,
 				83C68ECF14483579000F720A /* OEAlert.h */,
 				83C68ED014483579000F720A /* OEAlert.m */,
+				83BC345D1516455F00F05A2B /* OEAlert+Additions.swift */,
 				83F4DE1114DFF9C200A82E36 /* OEInputLimitFormatter.h */,
 				83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */,
 			);
@@ -6449,7 +6447,7 @@
 				016F231023F1A89B00181842 /* NSArray+OEAdditions.m in Sources */,
 				016F231B23F1A89B00181842 /* OEFileManager.m in Sources */,
 				016F231C23F1A89B00181842 /* UserDefaults+OEAdditions.swift in Sources */,
-				016F22EC23F1A35B00181842 /* OEAlert+DefaultAlertsAdditions.m in Sources */,
+				016F22EC23F1A35B00181842 /* OEAlert+DefaultAlertsAdditions.swift in Sources */,
 				016F231123F1A89B00181842 /* NSAttributedString+Hyperlink.swift in Sources */,
 				016F231A23F1A89B00181842 /* NSWindow+FullScreen.swift in Sources */,
 				016F230B23F1A69D00181842 /* NSImage+DrawingAdditions.swift in Sources */,
@@ -6681,7 +6679,7 @@
 				83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */,
 				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,
 				8F80218224F45E9800DC82E3 /* HUDSlider.swift in Sources */,
-				83BC345E1516456000F05A2B /* OEAlert+DefaultAlertsAdditions.m in Sources */,
+				83BC345E1516456000F05A2B /* OEAlert+Additions.swift in Sources */,
 				C68A54E61516AD3C001053F2 /* OEDatabase.xcdatamodeld in Sources */,
 				837820C119081B1C0043593F /* OEMigrationWindowController.m in Sources */,
 				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,

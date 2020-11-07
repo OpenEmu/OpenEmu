@@ -106,7 +106,7 @@ class BIOSFile: NSObject {
         guard !missingFileStatus else {
             
             // Alert the user of missing BIOS/system files that are required for the core.
-            if OEAlert.missingBIOSFilesAlert(missingFilesList).runModal() == .alertSecondButtonReturn {
+            if OEAlert.missingBIOSFiles(missingFilesList).runModal() == .alertSecondButtonReturn {
                 NSWorkspace.shared.open(BIOSFile.fileGuideURL)
             }
             

@@ -37,7 +37,6 @@
 #import "OEDBSaveState.h"
 #import "OEDBSystem.h"
 #import "OEGameViewController.h"
-#import "OEAlert+DefaultAlertsAdditions.h"
 #import "OELibraryDatabase.h"
 #import "OEPopoutGameWindowController.h"
 #import "OEDownload.h"
@@ -184,9 +183,8 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
         if(sourceURL)
         {
             NSString *name   = [rom fileName] ?: [[sourceURL lastPathComponent] stringByDeletingPathExtension];
-            NSString *server = [sourceURL host];
             
-            if([[OEAlert romDownloadRequiredAlert:name server:server] runModal] == NSAlertFirstButtonReturn)
+            if([[OEAlert romDownloadRequiredAlert:name] runModal] == NSAlertFirstButtonReturn)
             {
                 __block NSURL   *destination;
                 __block NSError *error;
@@ -1167,7 +1165,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 
 - (BOOL)OE_checkGlitches
 {
-    NSString *OEGameCoreGlitchesKey       = OEGameCoreGlitchesSuppressionKey;
+    NSString *OEGameCoreGlitchesKey       = OEAlert.OEGameCoreGlitchesSuppressionKey;
     NSString *OEGameCoreGlitchesKeyFormat = @"%@.%@";
     NSString *coreName                    = [[[_gameCoreManager plugin] controller] pluginName];
     NSString *systemIdentifier            = [_systemPlugin systemIdentifier];

@@ -49,8 +49,6 @@
 
 #import "OELibraryDatabase.h"
 
-#import "OEAlert+DefaultAlertsAdditions.h"
-
 #import "OESidebarController.h"
 
 #import "OEArrayController.h"

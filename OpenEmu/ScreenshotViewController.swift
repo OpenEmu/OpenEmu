@@ -140,9 +140,9 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
         
         var alert: OEAlert
         if items.count == 1 {
-            alert = OEAlert.deleteScreenshotAlert(withScreenshotName: items.first!.name!)
+            alert = .deleteScreenshot(name: items.first!.name!)
         } else {
-            alert = OEAlert.deleteScreenshotAlert(withScreenshotCount: UInt(items.count))
+            alert = .deleteScreenshots(count: items.count)
         }
         
         if alert.runModal() == .alertFirstButtonReturn {

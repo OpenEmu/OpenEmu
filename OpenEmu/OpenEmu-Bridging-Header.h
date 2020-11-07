@@ -39,7 +39,6 @@
 #import "OECoreUpdater.h"
 #import "OESetupAssistant.h"
 #import "OEAlert.h"
-#import "OEAlert+DefaultAlertsAdditions.h"
 #import "NSDocument+OEAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 #import "OEAudioDeviceManager.h"

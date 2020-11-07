@@ -33,8 +33,6 @@
 #import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"
 
-#import "OEAlert+DefaultAlertsAdditions.h"
-
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 @import Quartz;

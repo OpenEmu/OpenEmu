@@ -37,7 +37,6 @@
 // Required for warning dialog keys:
 #import "OEGameViewController.h"
 #import "OESidebarController.h"
-#import "OEAlert+DefaultAlertsAdditions.h"
 
 #import "OEFileManager.h"
 
@@ -434,20 +433,20 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
 
     NSArray *keysToRemove = @[OESuppressRemoveCollectionConfirmationKey,
                               OEAutoSwitchCoreAlertSuppressionKey,
-                              OERemoveGameFromCollectionAlertSuppressionKey,
-                              OERemoveGameFromLibraryAlertSuppressionKey,
-                              OELoadAutoSaveAlertSuppressionKey,
-                              OEDeleteGameAlertSuppressionKey,
-                              OESaveGameAlertSuppressionKey,
-                              OEChangeCoreAlertSuppressionKey,
-                              OEResetSystemAlertSuppressionKey,
-                              OEStopEmulationAlertSuppressionKey,
-                              OEDeleteSaveStateAlertSuppressionKey,
-                              OEDeleteScreenshotAlertSuppressionKey,
-                              OERemoveGameFilesFromLibraryAlertSuppressionKey,
-                              OERenameSpecialSaveStateAlertSuppressionKey,
-                              OEGameCoreGlitchesSuppressionKey,
-                              OEDownloadRomWarningSupperssionKey];
+                              OEAlert.OERemoveGameFromCollectionAlertSuppressionKey,
+                              OEAlert.OERemoveGameFromLibraryAlertSuppressionKey,
+                              OEAlert.OELoadAutoSaveAlertSuppressionKey,
+                              OEAlert.OEDeleteGameAlertSuppressionKey,
+                              OEAlert.OESaveGameAlertSuppressionKey,
+                              OEAlert.OEChangeCoreAlertSuppressionKey,
+                              OEAlert.OEResetSystemAlertSuppressionKey,
+                              OEAlert.OEStopEmulationAlertSuppressionKey,
+                              OEAlert.OEDeleteSaveStateAlertSuppressionKey,
+                              OEAlert.OEDeleteScreenshotAlertSuppressionKey,
+                              OEAlert.OERemoveGameFilesFromLibraryAlertSuppressionKey,
+                              OEAlert.OERenameSpecialSaveStateAlertSuppressionKey,
+                              OEAlert.OEGameCoreGlitchesSuppressionKey,
+                              OEAlert.OEDownloadRomWarningSuppressionKey];
     
     [keysToRemove enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
         [standardUserDefaults removeObjectForKey:key];
