@@ -35,6 +35,7 @@
 #import "OELibraryDatabase.h"
 
 @import OpenEmuKit;
+#import "OpenEmu-Swift.h"
 
 @interface OESidebarOutlineView ()
 {
@@ -172,7 +173,7 @@
             [menu addItem:coreItem];
         }
 
-        NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Hide \"%@\"", @""), [item name]];
+        NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Hide \"%@\"", @""), [(OEDBSystem*)item name]];
         menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(OE_toggleSystemForMenuItem:) keyEquivalent:@""];
         [menuItem setRepresentedObject:item];
         [menu addItem:menuItem];
