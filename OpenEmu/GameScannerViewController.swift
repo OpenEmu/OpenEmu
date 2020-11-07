@@ -304,6 +304,7 @@ class GameScannerViewController: NSViewController {
             item.isChecked = true
         }
         issuesView.reloadData()
+        enableOrDisableApplyButton()
     }
     
     @objc func deselectAll(_ sender: Any?) {
@@ -311,6 +312,7 @@ class GameScannerViewController: NSViewController {
             item.isChecked = false
         }
         issuesView.reloadData()
+        enableOrDisableApplyButton()
     }
     
     @IBAction func resolveIssues(_ sender: Any?) {
