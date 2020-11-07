@@ -48,7 +48,6 @@
 #import "OpenEmu-Swift.h"
 
 NSString *const OELastSidebarSelectionKey = @"lastSidebarSelection";
-NSString *const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWithoutConfirmation";
 extern NSNotificationName const OEDBSystemAvailabilityDidChangeNotification;
 
 NSNotificationName const OESidebarSelectionDidChangeNotification = @"OESidebarSelectionDidChange";
@@ -620,14 +619,7 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 
     if ([item isEditableInSidebar]) {
         
-        NSString *msg = NSLocalizedString(@"Are you sure you want to remove this collection?", @"");
-        NSString *confirm = NSLocalizedString(@"Remove", @"");
-        NSString *cancel = NSLocalizedString(@"Cancel", @"");
-
-        OEAlert *alert = [OEAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel];
-        [alert showSuppressionButtonForUDKey:OESuppressRemoveCollectionConfirmationKey];
-
-        if ([alert runModal] == NSAlertFirstButtonReturn) {
+        if ([[OEAlert removeCollectionAlert] runModal] == NSAlertFirstButtonReturn) {
             
             [(OEDBCollection *)item delete];
             [(OEDBCollection *)item save];

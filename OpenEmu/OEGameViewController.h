@@ -34,7 +34,6 @@ extern NSString *const OEGameDefaultVideoShaderKey;
 extern NSString *const OEGameSystemVideoShaderKeyFormat;
 extern NSString *const OEGameCoreDisplayModeKeyFormat;
 extern NSString *const OEGameCoresInBackgroundKey;
-extern NSString *const OEAutoSwitchCoreAlertSuppressionKey;
 extern NSString *const OEGameViewControllerROMKey;
 extern NSString *const OEBackgroundPauseKey;
 extern NSString *const OEBackgroundControllerPlayKey;

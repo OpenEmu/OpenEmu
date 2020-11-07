@@ -33,11 +33,6 @@
 #import "OEROMImporter.h"
 
 #import "OEAlert.h"
-
-// Required for warning dialog keys:
-#import "OEGameViewController.h"
-#import "OESidebarController.h"
-
 #import "OEFileManager.h"
 
 #import "OpenEmu-Swift.h"
@@ -431,8 +426,8 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 
-    NSArray *keysToRemove = @[OESuppressRemoveCollectionConfirmationKey,
-                              OEAutoSwitchCoreAlertSuppressionKey,
+    NSArray *keysToRemove = @[OEAlert.OERemoveCollectionAlertSuppressionKey,
+                              OEAlert.OEAutoSwitchCoreAlertSuppressionKey,
                               OEAlert.OERemoveGameFromCollectionAlertSuppressionKey,
                               OEAlert.OERemoveGameFromLibraryAlertSuppressionKey,
                               OEAlert.OELoadAutoSaveAlertSuppressionKey,

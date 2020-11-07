@@ -42,7 +42,6 @@ NSString *const OEGameDefaultVideoShaderKey = @"videoShader";
 NSString *const OEGameSystemVideoShaderKeyFormat = @"videoShader.%@";
 NSString *const OEGameCoreDisplayModeKeyFormat = @"displayMode.%@";
 NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
-NSString *const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
 NSString *const OEBackgroundPauseKey = @"backgroundPause";
 NSString *const OEBackgroundControllerPlayKey = @"backgroundControllerPlay";
 NSString *const OETakeNativeScreenshots = @"takeNativeScreenshots";

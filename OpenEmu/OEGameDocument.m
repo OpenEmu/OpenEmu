@@ -872,7 +872,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"If you change the core you current progress will be lost and save states will not work anymore.", @"")
                                            defaultButton:NSLocalizedString(@"Change Core", @"")
                                          alternateButton:NSLocalizedString(@"Cancel", @"")];
-    [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
+    [alert showSuppressionButtonForUDKey:OEAlert.OEAutoSwitchCoreAlertSuppressionKey];
     
     [alert setCallbackHandler:
      ^(OEAlert *alert, NSModalResponse result)
@@ -1909,7 +1909,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"This save state was created with a different core. Do you want to switch to that core now?", @"")
                                            defaultButton:NSLocalizedString(@"OK", @"")
                                          alternateButton:NSLocalizedString(@"Cancel", @"")];
-    [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
+    [alert showSuppressionButtonForUDKey:OEAlert.OEAutoSwitchCoreAlertSuppressionKey];
     
     if([alert runModal] == NSAlertFirstButtonReturn)
     {

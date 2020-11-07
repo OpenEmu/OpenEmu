@@ -28,6 +28,7 @@ extension OEAlert {
     
     @objc static let OERemoveGameFromCollectionAlertSuppressionKey = "removeGamesFromCollectionWithoutConfirmation"
     @objc static let OERemoveGameFromLibraryAlertSuppressionKey = "removeGamesFromLibraryWithoutConfirmation"
+    @objc static let OERemoveCollectionAlertSuppressionKey = "removeCollectionWithoutConfirmation";
     @objc static let OELoadAutoSaveAlertSuppressionKey = "loadAutosaveDialogChoice"
     @objc static let OEDeleteGameAlertSuppressionKey = "removeStatesWithoutConfirmation"
     @objc static let OESaveGameAlertSuppressionKey = "saveGameWithoutConfirmation"
@@ -35,6 +36,7 @@ extension OEAlert {
     @objc static let OEResetSystemAlertSuppressionKey = "resetSystemWithoutConfirmation"
     @objc static let OEStopEmulationAlertSuppressionKey = "stopEmulationWithoutConfirmation"
     @objc static let OERemoveGameFilesFromLibraryAlertSuppressionKey = "trashFilesDialogChoice"
+    @objc static let OEAutoSwitchCoreAlertSuppressionKey = "changeCoreWhenLoadingStateWitoutConfirmation";
     @objc static let OEGameCoreGlitchesSuppressionKey = "OEGameCoreGlitches"
     @objc static let OERenameSpecialSaveStateAlertSuppressionKey = "OERenameSpecialSaveStateAlertSuppressionKey"
     @objc static let OEDeleteScreenshotAlertSuppressionKey = "OEDeleteScreenshotAlertSuppressionKey"
@@ -167,6 +169,18 @@ extension OEAlert {
         alert.alternateButtonTitle = NSLocalizedString("Keep Files", comment: "")
         alert.showSuppressionButton(forUDKey: OERemoveGameFilesFromLibraryAlertSuppressionKey)
         alert.suppressOnDefaultReturnOnly = false
+        
+        return alert
+    }
+    
+    @objc(removeCollectionAlert)
+    final class func removeCollection() -> OEAlert {
+        
+        let alert = OEAlert()
+        alert.messageText = NSLocalizedString("Are you sure you want to remove this collection?", comment: "")
+        alert.defaultButtonTitle = NSLocalizedString("Remove", comment: "")
+        alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
+        alert.showSuppressionButton(forUDKey: OERemoveCollectionAlertSuppressionKey)
         
         return alert
     }
