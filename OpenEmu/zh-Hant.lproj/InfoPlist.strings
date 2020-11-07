@@ -8,3 +8,5 @@
 "OpenEmu System Plugin" = "系統外掛";
 
 "OpenEmu Shader" = "視訊濾鏡外掛";
+
+"%@ Game" = "%@ Game";  // TODO // Used in OESystemPluginPostInstall to dynamically generate localized file type names

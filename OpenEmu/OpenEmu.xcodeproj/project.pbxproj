@@ -1736,6 +1736,7 @@
 		8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewDeveloperLink.swift; sourceTree = "<group>"; };
 		8F2F92A92519A9E700699691 /* GameScannerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScannerButton.swift; sourceTree = "<group>"; };
 		8F3062DA251A897E00BDFF1F /* OESearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OESearchField.swift; sourceTree = "<group>"; };
+		8F3693FC2557339300E044DA /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		8F40EB781C1072B000683055 /* OEMigrationWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OEMigrationWindowController.xib; sourceTree = "<group>"; };
 		8F40EB791C1072B100683055 /* OEPrefControlsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OEPrefControlsController.xib; sourceTree = "<group>"; };
 		8F40EB7A1C1072B100683055 /* OEPrefCoresController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OEPrefCoresController.xib; sourceTree = "<group>"; };
@@ -5652,6 +5653,7 @@
 				ca,
 				"zh-Hant",
 				"en-GB",
+				"fr-CA",
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			projectDirPath = "";
@@ -7306,6 +7308,7 @@
 				01B035531C090E9900BA80E2 /* ru */,
 				3C335CBF1C70E49F00E33B79 /* zh-Hans */,
 				82BBE7BB21D961A1006CD402 /* zh-Hant */,
+				8F3693FC2557339300E044DA /* fr-CA */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

@@ -9,4 +9,4 @@
 
 "OpenEmu Shader" = "OpenEmu Shader";
 
-"%@ Game" = "%@ Game";  // Used in OESystemPluginPostInstall to dynamically generate localized file type names
+"%@ Game" = "Jeu %@";  // Used in OESystemPluginPostInstall to dynamically generate localized file type names

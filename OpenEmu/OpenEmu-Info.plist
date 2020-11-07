@@ -9,7 +9,7 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>tar.gz</string>
+				<string>tgz</string>
 				<string>tar</string>
 				<string>gz</string>
 				<string>zip</string>
@@ -23,7 +23,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
-			<string>None</string>
+			<string>Alternate</string>
 			<key>NSDocumentClass</key>
 			<string>OEGameDocument</string>
 		</dict>

@@ -31,21 +31,25 @@ import Foundation
 // IMPORTANT: to be updated when adding a language to OpenEmu
 let regionsToLanguages = [
     "eu": ["ca", "de", "en-GB", "es", "fr", "it", "nl", "pt", "ru"],
-    "na": ["en"],
+    "na": ["en", "fr-CA"],
     "jp": ["ja", "zh-Hans", "zh-Hant"]
 ]
 
 // Extensions we don't want to include in the Info.plist because they are
 // already included in it
 let extensionBlacklist = [
-    "tar.gz", "tar", "gz", "zip", "7z", "rar"
+    "tgz", "tar", "gz", "zip", "7z", "rar"
 ]
 
 // Extensions we want to include with LSHandlerRank set to None
-let extensionGrayList = [
-    "cue", "m3u", "iso"
+let extensionGrayListNone = [
+    "cue", "m3u"
 ]
 
+// Extensions we want to include with LSHandlerRank set to Alternate
+let extensionGrayListAlternate = [
+    "iso"
+]
 
 func regionalizedSystemName(plugin: Bundle, languageCode lcode: String) -> String?
 {
@@ -65,7 +69,7 @@ func regionalizedSystemName(plugin: Bundle, languageCode lcode: String) -> Strin
 func toGameFileName(systemName name: String, appBundle app: Bundle, localization loc: String) -> String
 {
     let locBundle = Bundle.init(url: app.url(forResource: loc, withExtension: "lproj")!)!
-    let format = locBundle.localizedString(forKey: "%@ Game", value: "%@ Game", table: nil)
+    let format = locBundle.localizedString(forKey: "%@ Game", value: "%@ Game", table: "InfoPlist")
     return String.init(format: format, name)
 }
 
@@ -81,7 +85,8 @@ func readLocalizedInfoPlistStrings(appBundle: Bundle) -> [String: [String: Strin
         let plist = appBundle.resourceURL!.appendingPathComponent(localization + ".lproj/InfoPlist.strings")
         do {
             let data = try Data.init(contentsOf: plist)
-            let strings = try PropertyListSerialization.propertyList(from: data, options: .mutableContainers, format: nil) as! [String: String]
+            var strings = try PropertyListSerialization.propertyList(from: data, options: .mutableContainers, format: nil) as! [String: String]
+            strings.removeValue(forKey: "%@ Game")
             res[localization] = strings
         } catch {
             res[localization] = [:]
@@ -163,25 +168,31 @@ func systemDocuments(typeName: String, extensions: [String]) -> [[String : Any]]
     let template: [String : Any] = [
         "NSDocumentClass": "OEGameDocument",
         "CFBundleTypeRole": "Viewer",
-        "CFBundleTypeOSTypes": ["????"],
         "CFBundleTypeName": typeName
     ]
     
-    let ownedExtensions = extensions.filter({ !extensionGrayList.contains($0) })
-    let unownedExtensions = extensions.filter({ extensionGrayList.contains($0) })
+    let extensionsDefault = extensions.filter({ !(extensionGrayListAlternate+extensionGrayListNone).contains($0) }).sorted()
+    let extensionsAlternate = extensions.filter({ extensionGrayListAlternate.contains($0) }).sorted()
+    let extensionsNone = extensions.filter({ extensionGrayListNone.contains($0) }).sorted()
     
     var res: [[String : Any]] = []
     
-    if ownedExtensions.count > 0 {
+    if extensionsDefault.count > 0 {
         res += [template.merging([
-            "LSHandlerRank": "Owner",
-            "CFBundleTypeExtensions": ownedExtensions
+            "LSHandlerRank": "Default",
+            "CFBundleTypeExtensions": extensionsDefault
         ]) { (a, _) in a }]
     }
-    if unownedExtensions.count > 0 {
+    if extensionsAlternate.count > 0 {
+        res += [template.merging([
+            "LSHandlerRank": "Alternate",
+            "CFBundleTypeExtensions": extensionsAlternate
+        ]) { (a, _) in a }]
+    }
+    if extensionsNone.count > 0 {
         res += [template.merging([
             "LSHandlerRank": "None",
-            "CFBundleTypeExtensions": unownedExtensions
+            "CFBundleTypeExtensions": extensionsNone
         ]) { (a, _) in a }]
     }
     
