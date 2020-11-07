@@ -106,18 +106,11 @@ class ControlsSectionTitleView: NSView {
     }
     
     private static let attributes: [NSAttributedString.Key : Any]? = {
-        let font = NSFont.boldSystemFont(ofSize: 11)
-        let color = NSColor.black
-        
-        let shadow = NSShadow()
-        shadow.shadowBlurRadius = 1
-        shadow.shadowColor = NSColor(white: 1, alpha: 0.25)
-        shadow.shadowOffset = NSMakeSize(0, -1)
         
         let attributes: [NSAttributedString.Key : Any] =
-                                          [.font: font,
-                                .foregroundColor: color,
-                                         .shadow: shadow]
+                                          [.font: NSFont.boldSystemFont(ofSize: 11),
+                                .foregroundColor: NSColor.black,
+                                         .shadow: NSShadow.oeControls]
         
         return attributes
     }()
