@@ -337,7 +337,11 @@
 
 "Options" = "Options";
 
+"Pause/Restart" = "Mettre en pause/Redémarrer";
+
 "Pause Game" = "Mettre en pause le jeu";
+
+"Play" = "Jouer";
 
 "Play Game" = "Jouer";
 
@@ -508,6 +512,8 @@
 "Version" = "Version";
 
 "View Guide in Browser" = "Afficher le guide";
+
+"Volume" = "Volume";
 
 "Warning" = "Avertissement";
 

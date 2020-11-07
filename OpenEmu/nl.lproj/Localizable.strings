@@ -337,7 +337,11 @@
 
 "Options" = "Opties";
 
+"Pause/Restart" = "Pauze/Herstart";
+
 "Pause Game" = "Pauze spel";
+
+"Play" = "Speel";
 
 "Play Game" = "Speel spel";
 
@@ -508,6 +512,8 @@
 "Version" = "Versie";
 
 "View Guide in Browser" = "Bekijk handleiding in browser";
+
+"Volume" = "Volume";
 
 "Warning" = "Waarschuwing";
 

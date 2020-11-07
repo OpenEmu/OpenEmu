@@ -337,7 +337,11 @@
 
 "Options" = "オプション";
 
+"Pause/Restart" = "Pause/Restart"; // TODO
+
 "Pause Game" = "ゲームを一時停止"; // TODO
+
+"Play" = "Play"; // TODO
 
 "Play Game" = "ゲームをする";
 
@@ -508,6 +512,8 @@
 "Version" = "バージョン";
 
 "View Guide in Browser" = "ガイドをブラウザで見る";
+
+"Volume" = "Volume"; // TODO
 
 "Warning" = "警告";
 

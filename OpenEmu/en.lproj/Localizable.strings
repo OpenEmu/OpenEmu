@@ -337,7 +337,11 @@
 
 "Options" = "Options";
 
+"Pause/Restart" = "Pause/Restart";
+
 "Pause Game" = "Pause Game";
+
+"Play" = "Play";
 
 "Play Game" = "Play Game";
 
@@ -508,6 +512,8 @@
 "Version" = "Version";
 
 "View Guide in Browser" = "View Guide in Browser";
+
+"Volume" = "Volume";
 
 "Warning" = "Warning";
 

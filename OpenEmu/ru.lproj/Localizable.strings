@@ -337,7 +337,11 @@
 
 "Options" = "Опции";
 
+"Pause/Restart" = "Pause/Restart"; // TODO
+
 "Pause Game" = "Приостановить геймплей"; // TODO
+
+"Play" = "Play"; // TODO
 
 "Play Game" = "Запустить игру";
 
@@ -508,6 +512,8 @@
 "Version" = "Версия";
 
 "View Guide in Browser" = "View Guide in Browser"; // TODO
+
+"Volume" = "Volume"; // TODO
 
 "Warning" = "Внимание";
 

@@ -337,7 +337,11 @@
 
 "Options" = "Opzioni";
 
+"Pause/Restart" = "Sospendi/Riavvia";
+
 "Pause Game" = "Sospendi il gioco";  // tooltip; Main Menu (only displayed when the game is running)
+
+"Play" = "Avvia";
 
 "Play Game" = "Avvia gioco";
 
@@ -508,6 +512,8 @@
 "Version" = "Versione";
 
 "View Guide in Browser" = "Apri il manuale nel browser";
+
+"Volume" = "Volume";
 
 "Warning" = "Attenzione";
 

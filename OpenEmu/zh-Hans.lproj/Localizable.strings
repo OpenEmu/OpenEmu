@@ -337,7 +337,11 @@
 
 "Options" = "选项";
 
+"Pause/Restart" = "Pause/Restart"; // TODO
+
 "Pause Game" = "暂停游戏"; // TODO
+
+"Play" = "Play"; // TODO
 
 "Play Game" = "开始游戏";
 
@@ -508,6 +512,8 @@
 "Version" = "版本";
 
 "View Guide in Browser" = "打开浏览器阅读指南";
+
+"Volume" = "Volume"; // TODO
 
 "Warning" = "警告";
 
