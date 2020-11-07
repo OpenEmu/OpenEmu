@@ -144,12 +144,6 @@
     }
     else if([item isKindOfClass:[OEDBSystem class]])
     {
-        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open Library", @"")
-                                              action:@selector(OE_selectRowForMenuItem:)
-                                       keyEquivalent:@""];
-        [menuItem setTag:index];
-        [menu addItem:menuItem];
-
         NSArray *cores = [OECorePlugin corePluginsForSystemIdentifier:[item systemIdentifier]];
         if([cores count] > 1)
         {
@@ -178,8 +172,6 @@
             [menu addItem:coreItem];
         }
 
-        [menu addItem:[NSMenuItem separatorItem]];
-
         NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Hide \"%@\"", @""), [item name]];
         menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(OE_toggleSystemForMenuItem:) keyEquivalent:@""];
         [menuItem setRepresentedObject:item];
@@ -187,16 +179,8 @@
     }
     else
     {
-        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open Collection", @"")
-                                              action:@selector(OE_selectRowForMenuItem:)
-                                       keyEquivalent:@""];
-        [menuItem setTag:index];
-        [menu addItem:menuItem];
-
         if([item isEditableInSidebar])
         {
-            [menu addItem:[NSMenuItem separatorItem]];
-
             title = [NSString stringWithFormat:NSLocalizedString(@"Rename \"%@\"", @"Rename collection sidebar context menu item"), [item sidebarName]];
             menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(OE_renameRowForMenuItem:) keyEquivalent:@""];
             [menuItem setTag:index];
@@ -213,7 +197,14 @@
                                            keyEquivalent:@""];
             [menuItem setTag:index];
             [menu addItem:menuItem];
+            
+            [menu addItem:[NSMenuItem separatorItem]];
         }
+        
+        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"New Collection", @"")
+                                              action:@selector(newCollection:)
+                                       keyEquivalent:@""];
+        [menu addItem:menuItem];
     }
 
 
