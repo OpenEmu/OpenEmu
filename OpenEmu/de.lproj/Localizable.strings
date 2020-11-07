@@ -85,7 +85,7 @@
 
 "Choose OpenEmu Library" = "OpenEmu-Mediathek auswählen";
 
-"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Möchtest du wirklich alle Objekte aus der Warteschlange entfernen? Spiele, die bereits importiert wurden, bleiben in der Mediathek.";
+"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "Möchtest du wirklich alle Objekte aus der Warteschlange entfernen? Spiele, die bereits importiert wurden, bleiben in der Mediathek.";
 
 "Code:" = "Code:";
 
@@ -371,7 +371,7 @@
 
 "Recovered Auto Save" = "Wiederhergestellte automatische Sicherung";
 
-"Remove" = "Entfernen";
+"Remove Collection" = "Sammlung entfernen";
 
 "Remove Game" = "Spiel entfernen";
 
@@ -582,6 +582,8 @@
 "OpenEmu requires additional permissions" = "OpenEmu benötigt zusätzliche Rechte";
 
 "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu benötigt Input-Monitoring-Rechte, damit die Tastatur als Eingabegerät verwendet werden kann.\n\nDas Aus-/Abwählen der Berechtigung kann dabei helfen, Tastatureingabeprobleme zu beheben.";
+
+"Open System Preferences" = "Systemeinstellungen öffnen";
 
 "Show" = "Anzeigen";
 

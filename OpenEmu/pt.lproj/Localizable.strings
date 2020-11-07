@@ -85,7 +85,7 @@
 
 "Choose OpenEmu Library" = "Escolher Biblioteca OpenEmu";
 
-"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Escolha Sim para remover todos os itens da fila. Itens que já foram importados serão mantidos em sua biblioteca.";
+"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "Escolha Sim para remover todos os itens da fila. Itens que já foram importados serão mantidos em sua biblioteca."; // TODO
 
 "Code:" = "Código:";
 
@@ -371,7 +371,7 @@
 
 "Recovered Auto Save" = "Salvamento Automático Recuperado";
 
-"Remove" = "Remover";
+"Remove Collection" = "Remover Coleção";
 
 "Remove Game" = "Remove Game";  // TODO
 
@@ -583,7 +583,7 @@
 
 "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues.";  // "Message for Input Monitoring permissions" // TODO
 
-"Show" = "Show";  // TODO
+"Open System Preferences" = "Open System Preferences";  // TODO
 
 "Moving the Game Library is not recommended" = "Moving the Game Library is not recommended";  //Message headline (attempted to change location of library)  // TODO
 

@@ -85,7 +85,7 @@
 
 "Choose OpenEmu Library" = "Elegir biblioteca de OpenEmu";
 
-"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Elija Si para eliminar todos los ítems de la cola. Los ítems que finalicen la importación se mantendrán en su biblioteca.";
+"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "Elija Si para eliminar todos los ítems de la cola. Los ítems que finalicen la importación se mantendrán en su biblioteca."; // TODO
 
 "Code:" = "Código:";
 
@@ -371,7 +371,7 @@
 
 "Recovered Auto Save" = "Guardado autómatico recuperado";
 
-"Remove" = "Eliminar";
+"Remove Collection" = "Eliminar colección";
 
 "Remove Game" = "Remove Game";  // TODO
 
@@ -582,6 +582,8 @@
 "OpenEmu requires additional permissions" = "OpenEmu necesita permisos adicionales";
 
 "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "Debe ser concedido a OpenEmu el permiso de monitorización de entrada para usar el teclado como un dispositivo de entrada.\n\nCambiar el permiso también puede resolver problemas de entrada de teclado.";
+
+"Open System Preferences" = "Open System Preferences";  // TODO
 
 "Show" = "Mostrar";
 

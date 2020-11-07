@@ -79,8 +79,8 @@ extension OEAlert {
         let alert = OEAlert()
         alert.messageText = NSLocalizedString("Would you like to continue your last game?", comment: "")
         alert.informativeText = NSLocalizedString("Do you want to continue playing where you left off?", comment: "")
-        alert.defaultButtonTitle = NSLocalizedString("Yes", comment: "")
-        alert.alternateButtonTitle = NSLocalizedString("No", comment: "")
+        alert.defaultButtonTitle = NSLocalizedString("Resume", comment: "")
+        alert.alternateButtonTitle = NSLocalizedString("Restart", comment: "")
         alert.showSuppressionButton(forUDKey: OELoadAutoSaveAlertSuppressionKey)
         alert.suppressOnDefaultReturnOnly = false
         
@@ -178,7 +178,7 @@ extension OEAlert {
         
         let alert = OEAlert()
         alert.messageText = NSLocalizedString("Are you sure you want to remove this collection?", comment: "")
-        alert.defaultButtonTitle = NSLocalizedString("Remove", comment: "")
+        alert.defaultButtonTitle = NSLocalizedString("Remove Collection", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
         alert.showSuppressionButton(forUDKey: OERemoveCollectionAlertSuppressionKey)
         

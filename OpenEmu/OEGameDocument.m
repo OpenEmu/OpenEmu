@@ -632,8 +632,8 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
             
             alert.messageText = NSLocalizedString(@"Your game finished importing, do you want to play it now?", @"");
             alert.informativeText = messageText;
-            alert.defaultButtonTitle = NSLocalizedString(@"Yes", @"");
-            alert.alternateButtonTitle = NSLocalizedString(@"No", @"");
+            alert.defaultButtonTitle = NSLocalizedString(@"Play Game", @"");
+            alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
             
             if([alert runModal] == NSAlertFirstButtonReturn)
             {
@@ -1910,7 +1910,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     
     OEAlert *alert = [[OEAlert alloc] init];
     alert.messageText = NSLocalizedString(@"This save state was created with a different core. Do you want to switch to that core now?", @"");
-    alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
+    alert.defaultButtonTitle = NSLocalizedString(@"Change Core", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
     [alert showSuppressionButtonForUDKey:OEAlert.OEAutoSwitchCoreAlertSuppressionKey];
     

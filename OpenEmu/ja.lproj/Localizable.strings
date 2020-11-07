@@ -85,7 +85,7 @@
 
 "Choose OpenEmu Library" = "OpenEmuライブラリを選択";
 
-"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "「はい」を選択すると、全てのアイテムをキューから削除します。インポートが完了したアイテムはライブラリに表示されます。";
+"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "「はい」を選択すると、全てのアイテムをキューから削除します。インポートが完了したアイテムはライブラリに表示されます。"; // TODO
 
 "Code:" = "コード:";
 
@@ -371,7 +371,7 @@
 
 "Recovered Auto Save" = "復旧されたオートセーブ";
 
-"Remove" = "削除";
+"Remove Collection" = "削除"; // TODO
 
 "Remove Game" = "Remove Game";  // TODO
 
@@ -582,6 +582,8 @@
 "OpenEmu requires additional permissions" = "OpenEmu requires additional permissions";  // Headline for Input Monitoring permissions // TODO
 
 "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "キーボードを入力デバイスとして使用するには、OpenEmu に入力監視の権限を許可する必要があります。";  // "Message for Input Monitoring permissions" // TODO
+
+"Open System Preferences" = "Open System Preferences";  // TODO
 
 "Show" = "見る";
 

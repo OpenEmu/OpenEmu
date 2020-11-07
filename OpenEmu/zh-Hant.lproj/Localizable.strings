@@ -85,7 +85,7 @@
 
 "Choose OpenEmu Library" = "選擇 OpenEmu 庫";
 
-"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "選擇“是”從隊列移除所有項目。已導入的項目會保留在你的庫裡。";
+"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "選擇“是”從隊列移除所有項目。已導入的項目會保留在你的庫裡。"; // TODO
 
 "Code:" = "密碼:";
 
@@ -371,7 +371,7 @@
 
 "Recovered Auto Save" = "恢復的自動存檔";
 
-"Remove" = "移除";
+"Remove Collection" = "移除"; // TODO
 
 "Remove Game" = "Remove Game";  // TODO
 
@@ -583,7 +583,7 @@
 
 "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues.";  // "Message for Input Monitoring permissions" // TODO
 
-"Show" = "Show";  // TODO
+"Open System Preferences" = "Open System Preferences";  // TODO
 
 "Moving the Game Library is not recommended" = "Moving the Game Library is not recommended";  //Message headline (attempted to change location of library)  // TODO
 

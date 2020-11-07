@@ -369,9 +369,9 @@ class GameScannerViewController: NSViewController {
             
             let cancelAlert = OEAlert()
             cancelAlert.messageText = NSLocalizedString("Do you really want to cancel importation?", comment: "")
-            cancelAlert.informativeText = NSLocalizedString("Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.", comment: "")
-            cancelAlert.defaultButtonTitle = NSLocalizedString("Yes", comment: "")
-            cancelAlert.alternateButtonTitle = NSLocalizedString("No", comment: "")
+            cancelAlert.informativeText = NSLocalizedString("This will remove all items from the queue. Items that finished importing will be preserved in your library.", comment: "")
+            cancelAlert.defaultButtonTitle = NSLocalizedString("Stop", comment: "")
+            cancelAlert.alternateButtonTitle = NSLocalizedString("Resume", comment: "")
             
             let button = sender as! NSButton
             button.state = button.state == .on ? .off : .on
