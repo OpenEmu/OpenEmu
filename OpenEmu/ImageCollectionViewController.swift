@@ -409,6 +409,7 @@ extension ImageCollectionViewController: NSCollectionViewDelegate {
     func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
         saveSelectionToDefaults()
         selectionDidChange()
+        self.collectionView.refreshPreviewPanelIfNeeded()
     }
     
     func collectionView(_ collectionView: NSCollectionView, didDeselectItemsAt indexPaths: Set<IndexPath>) {

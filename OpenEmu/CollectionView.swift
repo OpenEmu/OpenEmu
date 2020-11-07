@@ -174,6 +174,7 @@ extension CollectionView: QLPreviewPanelDataSource, QLPreviewPanelDelegate {
         if QLPreviewPanel.sharedPreviewPanelExists() {
             let panel = QLPreviewPanel.shared()!
             if panel.isVisible && panel.delegate === self {
+                loadPanelItems()
                 panel.reloadData()
             }
         }
@@ -186,7 +187,16 @@ extension CollectionView: QLPreviewPanelDataSource, QLPreviewPanelDelegate {
     override func beginPreviewPanelControl(_ panel: QLPreviewPanel!) {
         panel.dataSource = self
         panel.delegate   = self
-        
+        loadPanelItems()
+    }
+    
+    override func endPreviewPanelControl(_ panel: QLPreviewPanel!) {
+        panel.dataSource = nil
+        panel.delegate   = nil
+        panelItems       = nil
+    }
+    
+    private func loadPanelItems() {
         var items = [QLPreviewItem]()
         for ip in selectionIndexPaths {
             if let item = item(at: ip) as? QLPreviewItem {
@@ -194,12 +204,6 @@ extension CollectionView: QLPreviewPanelDataSource, QLPreviewPanelDelegate {
             }
         }
         panelItems = items
-    }
-    
-    override func endPreviewPanelControl(_ panel: QLPreviewPanel!) {
-        panel.dataSource = nil
-        panel.delegate   = nil
-        panelItems       = nil
     }
     
     func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
@@ -220,6 +224,16 @@ extension CollectionView: QLPreviewPanelDataSource, QLPreviewPanelDelegate {
         rect = item.view.convert(rect, from: view)
         let windowRect = item.view.convert(rect, to: nil)
         return win.convertToScreen(windowRect)
+    }
+    
+    func previewPanel(_ panel: QLPreviewPanel!, handle event: NSEvent!) -> Bool {
+        if event.type == .keyDown || event.type == .keyUp {
+            if let window = self.window {
+                window.sendEvent(event)
+                return true
+            }
+        }
+        return false
     }
 }
 
