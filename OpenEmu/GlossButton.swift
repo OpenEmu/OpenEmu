@@ -102,7 +102,7 @@ final class GlossButton: NSButton {
         
         var bgSubImageRect = NSRect.zero
         
-        if isHighlighted == true {
+        if isHighlighted {
             bgSubImageRect = subImageRectPressed
         }
         else if window?.isMainWindow == false {

@@ -34,10 +34,10 @@ class TextButton: HoverButton {
     @objc var showArrow: Bool = false
     
     private var arrowImage: NSImage? {
-        if isHighlighted == true {
+        if isHighlighted {
             return NSImage(named: "arrow_right")?.image(with: NSColor.tertiaryLabelColor)
         }
-        else if isHovering == true {
+        else if isHovering {
             return NSImage(named: "arrow_right")?.image(with: NSColor.labelColor)
         }
         else {

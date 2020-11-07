@@ -33,10 +33,10 @@ final class GameScannerButton: HoverButton {
     private var iconImage: NSImage? {
         
         if state == .off {
-            if isHighlighted == true {
+            if isHighlighted {
                 return pauseIcon?.image(with: NSColor.labelColor.withSystemEffect(.pressed))
             }
-            else if isHovering == true && isEnabled == true {
+            else if isHovering && isEnabled {
                 return pauseIcon?.image(with: NSColor.labelColor.withSystemEffect(.rollover))
             }
             else if window?.isMainWindow == false {
@@ -47,10 +47,10 @@ final class GameScannerButton: HoverButton {
             }
         }
         else if state == .on {
-            if isHighlighted == true {
+            if isHighlighted {
                 return continueIcon?.image(with: NSColor.labelColor.withSystemEffect(.pressed))
             }
-            else if isHovering == true && isEnabled == true {
+            else if isHovering && isEnabled {
                 return continueIcon?.image(with: NSColor.labelColor.withSystemEffect(.rollover))
             }
             else if window?.isMainWindow == false {

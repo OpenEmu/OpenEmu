@@ -30,10 +30,10 @@ final class GlossCheckboxCell: NSButtonCell {
     private func subImageRect() -> NSRect {
         
         if state == .on {
-            if isHighlighted == true {
+            if isHighlighted {
                 return NSRect(x: 16, y: 16, width: 16, height: 16)
             }
-            else if isEnabled == false {
+            else if !isEnabled {
                 return NSRect(x: 16, y: 0, width: 16, height: 16)
             }
             else {
@@ -41,10 +41,10 @@ final class GlossCheckboxCell: NSButtonCell {
             }
         }
         else if state == .off {
-            if isHighlighted == true {
+            if isHighlighted {
                 return NSRect(x: 16, y: 32, width: 16, height: 16)
             }
-            else if isEnabled == false {
+            else if !isEnabled {
                 return NSRect(x: 0, y: 0, width: 16, height: 16)
             }
             else {

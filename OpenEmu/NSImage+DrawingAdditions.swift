@@ -306,7 +306,7 @@ extension NSImage {
     // https://gist.github.com/usagimaru/c0a03ef86b5829fb9976b650ec2f1bf4
     @objc(imageWithTintColor:)
     func image(with tintColor: NSColor) -> NSImage {
-        if self.isTemplate == false {
+        if !isTemplate {
             return self
         }
         
