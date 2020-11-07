@@ -609,8 +609,6 @@
 
 "Files failed to import." = "Dateien konnten nicht importiert werden.";
 
-"Dismiss" = "Ausblenden";
-
 "\"%@\" in %@" = "\"%1$@\" in %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)
 
 "NOT FOUND: \"%@\"" = "NICHT GEFUNDEN: \"%@\"";  // Import error description: referenced file not found

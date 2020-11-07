@@ -609,8 +609,6 @@
 
 "Files failed to import." = "Files failed to import.";  // TODO
 
-"Dismiss" = "Dismiss";  // TODO
-
 "\"%@\" in %@" = "\"%1$@\" in %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)  // TODO
 
 "NOT FOUND: \"%@\"" = "NOT FOUND: \"%@\"";  // Import error description: referenced file not found  // TODO

@@ -171,7 +171,8 @@
 
 "Disc-based games have special requirements. Please read the disc importing guide." = "Per importare un disco di gioco è necessario seguire una procedura speciale. Leggi la guida all'importazione dei dischi di gioco.";
 
-"Dismiss" = "Ignora";
+"Dismiss" = "Ignora"; // TODO
+"Dismiss" = "Chiudi"; // TODO
 
 "Do not ask me again" = "Non chiedermelo più";
 
@@ -608,8 +609,6 @@
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "I file binari compressi in formato ECM non possono essere importati. Leggi la guida all'importazione dei dischi di gioco.";
 
 "Files failed to import." = "Non è stato possibile importare i file.";
-
-"Dismiss" = "Chiudi";
 
 "\"%@\" in %@" = "\"%1$@\" in %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)
 
