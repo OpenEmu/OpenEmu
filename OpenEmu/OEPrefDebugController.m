@@ -531,9 +531,10 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 
 - (void)downloadMissingArtwork:(id)sender
 {
-    OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedStringFromTable(@"While performing this operation OpenEmu will be unresponsive.", @"Debug", @"")
-                                     defaultButton:NSLocalizedString(@"Continue", @"")
-                                   alternateButton:NSLocalizedString(@"Cancel", @"")];
+    OEAlert *alert = [[OEAlert alloc] init];
+    alert.messageText = NSLocalizedStringFromTable(@"While performing this operation OpenEmu will be unresponsive.", @"Debug", @"");
+    alert.defaultButtonTitle = NSLocalizedString(@"Continue", @"");
+    alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
     if([alert runModal] != NSAlertFirstButtonReturn) return;
 
     OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];

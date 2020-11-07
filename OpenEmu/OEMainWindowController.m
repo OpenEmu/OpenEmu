@@ -319,9 +319,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                 [game save];
                 
                 NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", @""), [game name]];
-                if([[OEAlert alertWithMessageText:messageText
-                                       defaultButton:NSLocalizedString(@"Locate…", @"")
-                                     alternateButton:NSLocalizedString(@"Cancel", @"")] runModal] == NSAlertFirstButtonReturn)
+                OEAlert *alert = [[OEAlert alloc] init];
+                alert.messageText = messageText;
+                alert.defaultButtonTitle = NSLocalizedString(@"Locate…", @"");
+                alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
+                if([alert runModal] == NSAlertFirstButtonReturn)
                 {
                     OEDBRom  *missingRom = [[game roms] anyObject];
                     NSURL   *originalURL = [missingRom URL];
@@ -359,8 +361,10 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                     messageText = [messageText substringToIndex:range.location+1];
                 
                 messageText = [messageText stringByAppendingString:NSLocalizedString(@" Start the game from the library view if you want to locate it.", @"")];
-                
-                [[OEAlert alertWithMessageText:messageText defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil] runModal];
+                OEAlert *alert = [[OEAlert alloc] init];
+                alert.messageText = messageText;
+                alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
+                [alert runModal];
             }
             else if ([error.domain isEqual:OEGameDocumentErrorDomain] && error.code == OENoCoreError && !retry) {
                 // Try downloading the core list before bailing out definitively
@@ -391,11 +395,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                 BOOL glitchy = [core.controller hasGlitchesForSystemIdentifier:error.userInfo[@"systemIdentifier"]];
                 
                 OEAlert *alert = [[OEAlert alloc] init];
-                alert.headlineText = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has quit unexpectedly", @""), coreName];
+                alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has quit unexpectedly", @""), coreName];
                 if (glitchy) {
-                    alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", @""), coreName, coreName];
+                    alert.informativeText = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", @""), coreName, coreName];
                 } else {
-                    alert.messageText = NSLocalizedString(
+                    alert.informativeText = NSLocalizedString(
                         @"<b>If and only if this issue persists</b>, please submit feedback including:<br><br>"
                         @"<ul>"
                         @"<li>The model of Mac you are using <b>and</b> the version of macOS you have installed"

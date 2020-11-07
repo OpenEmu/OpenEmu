@@ -31,7 +31,7 @@ class AlertStatus: NSObject
     @objc var alternateButtonText = ""
     @objc var otherButtonText = ""
     @objc var messageText = ""
-    @objc var headlineText = ""
+    @objc var informativeText = ""
     @objc var showsInputField = false
     @objc var stringValue = ""
     @objc var showsOtherInputField = false
@@ -47,10 +47,10 @@ class AlertStatus: NSObject
     func update(_ alert: OEAlert)
     {
         alert.messageText = messageText
+        alert.informativeText = informativeText
         alert.defaultButtonTitle = defaultButtonText
         alert.alternateButtonTitle = alternateButtonText
         alert.otherButtonTitle = otherButtonText
-        alert.headlineText = headlineText
         alert.showsInputField = showsInputField
         alert.stringValue = stringValue
         alert.showsOtherInputField = showsOtherInputField
@@ -126,8 +126,8 @@ class AppDelegate: NSObject, NSApplicationDelegate
     @IBAction func nsAlert(_ sender: Any?)
     {
         let nsalert = NSAlert()
-        nsalert.messageText = currentStatus.headlineText
-        nsalert.informativeText = currentStatus.messageText
+        nsalert.messageText = currentStatus.messageText
+        nsalert.informativeText = currentStatus.informativeText
         nsalert.addButton(withTitle: currentStatus.defaultButtonText)
         if (currentStatus.alternateButtonText.count != 0) {
             nsalert.addButton(withTitle: currentStatus.alternateButtonText)

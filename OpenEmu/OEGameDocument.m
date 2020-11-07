@@ -189,15 +189,16 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
                 __block NSURL   *destination;
                 __block NSError *error;
                 
-                NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Downloading %@…", @"Downloading rom message text"), name];
-                OEAlert *alert = [OEAlert alertWithMessageText:message defaultButton:NSLocalizedString(@"Cancel",@"") alternateButton:@""];
-                [alert setShowsProgressbar:YES];
-                [alert setProgress:-1];
+                OEAlert *alert = [[OEAlert alloc] init];
+                alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"Downloading %@…", @"Downloading rom message text"), name];
+                alert.defaultButtonTitle = NSLocalizedString(@"Cancel", @"");
+                alert.showsProgressbar = YES;
+                alert.progress = -1;
                 
                 [alert performBlockInModalSession:^{
                     OEDownload *download = [[OEDownload alloc] initWithURL:sourceURL];
                     [download setProgressHandler:^BOOL(CGFloat progress) {
-                        [alert setProgress:progress];
+                        alert.progress = progress;
                         return YES;
                     }];
                     
@@ -490,11 +491,11 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     [self setEmulationPaused:YES];
     
     OEDeviceHandler *devHandler = [notification object];
-    NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"The battery in device number %lu, %@, is low. Please charge or replace the battery.", @"Low battery alert detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
-    OEAlert *alert = [OEAlert alertWithMessageText:lowBatteryString
-                                     defaultButton:NSLocalizedString(@"Resume", nil)
-                                   alternateButton:nil];
-    [alert setHeadlineText:NSLocalizedString(@"Low Controller Battery", @"Device battery level is low.")];
+    NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"The battery in device number %lu, %@, is low. Please charge or replace the battery.", @"Low battery alert detail message."), devHandler.deviceNumber, devHandler.deviceDescription.name];
+    OEAlert *alert = [[OEAlert alloc] init];
+    alert.messageText = NSLocalizedString(@"Low Controller Battery", @"Device battery level is low.");
+    alert.informativeText = lowBatteryString;
+    alert.defaultButtonTitle = NSLocalizedString(@"Resume", nil);
     [alert runModal];
     
     if(isRunning) [self setEmulationPaused:NO];
@@ -507,10 +508,10 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     
     OEDeviceHandler *devHandler = [[notification userInfo] objectForKey:OEDeviceManagerDeviceHandlerUserInfoKey];
     NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"Device number %lu, %@, has disconnected.", @"Device disconnection detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
-    OEAlert *alert = [OEAlert alertWithMessageText:lowBatteryString
-                                     defaultButton:NSLocalizedString(@"Resume", @"Resume game after battery warning button label")
-                                   alternateButton:nil];
-    [alert setHeadlineText:NSLocalizedString(@"Device Disconnected", @"A controller device has disconnected.")];
+    OEAlert *alert = [[OEAlert alloc] init];
+    alert.messageText = NSLocalizedString(@"Device Disconnected", @"A controller device has disconnected.");
+    alert.informativeText = lowBatteryString;
+    alert.defaultButtonTitle = NSLocalizedString(@"Resume", @"Resume game after battery warning button label");
     [alert runModal];
     
     if(isRunning) [self setEmulationPaused:NO];
@@ -629,8 +630,8 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
             NSString *fileName    = [[absoluteURL lastPathComponent] stringByDeletingPathExtension];
             NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"The game '%@' was imported.", @""), fileName];
             
-            alert.headlineText = NSLocalizedString(@"Your game finished importing, do you want to play it now?", @"");
-            alert.messageText = messageText;
+            alert.messageText = NSLocalizedString(@"Your game finished importing, do you want to play it now?", @"");
+            alert.informativeText = messageText;
             alert.defaultButtonTitle = NSLocalizedString(@"Yes", @"");
             alert.alternateButtonTitle = NSLocalizedString(@"No", @"");
             
@@ -869,9 +870,10 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     
     [self setEmulationPaused:YES];
     
-    OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"If you change the core you current progress will be lost and save states will not work anymore.", @"")
-                                           defaultButton:NSLocalizedString(@"Change Core", @"")
-                                         alternateButton:NSLocalizedString(@"Cancel", @"")];
+    OEAlert *alert = [[OEAlert alloc] init];
+    alert.messageText = NSLocalizedString(@"If you change the core you current progress will be lost and save states will not work anymore.", @"");
+    alert.defaultButtonTitle = NSLocalizedString(@"Change Core", @"");
+    alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
     [alert showSuppressionButtonForUDKey:OEAlert.OEAutoSwitchCoreAlertSuppressionKey];
     
     [alert setCallbackHandler:
@@ -1178,12 +1180,12 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     if([[[_gameCoreManager plugin] controller] hasGlitchesForSystemIdentifier:[_systemPlugin systemIdentifier]] && showAlert)
     {
         NSString *message = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", @""), coreName, coreName];
-        OEAlert *alert = [OEAlert alertWithMessageText:message
-                                               defaultButton:NSLocalizedString(@"OK", @"")
-                                             alternateButton:nil];
-        [alert setHeadlineText:NSLocalizedString(@"Warning", @"")];
-        [alert setShowsSuppressionButton:YES];
-        [alert setSuppressionLabelText:NSLocalizedString(@"Do not show me again", @"Alert suppression label")];
+        OEAlert *alert = [[OEAlert alloc] init];
+        alert.messageText = NSLocalizedString(@"Warning", @"");
+        alert.informativeText = message;
+        alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
+        alert.showsSuppressionButton = YES;
+        alert.suppressionLabelText = NSLocalizedString(@"Do not show me again", @"Alert suppression label");
         
         if([alert runModal] == NSAlertFirstButtonReturn && alert.suppressionButtonState)
         {
@@ -1315,21 +1317,21 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 {
     OEAlert *alert = [[OEAlert alloc] init];
     
-    [alert setOtherInputLabelText:NSLocalizedString(@"Title:", @"")];
-    [alert setShowsOtherInputField:YES];
+    alert.otherInputLabelText = NSLocalizedString(@"Title:", @"");
+    alert.showsOtherInputField = YES;
     alert.otherInputPlaceholderText = NSLocalizedString(@"Cheat Description", @"");
     
-    [alert setInputLabelText:NSLocalizedString(@"Code:", @"")];
-    [alert setShowsInputField:YES];
+    alert.inputLabelText = NSLocalizedString(@"Code:", @"");
+    alert.showsInputField = YES;
     alert.inputPlaceholderText = NSLocalizedString(@"Join multi-line cheats with '+' e.g. 000-000+111-111", @"");
     
-    [alert setDefaultButtonTitle:NSLocalizedString(@"Add Cheat", @"")];
-    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+    alert.defaultButtonTitle = NSLocalizedString(@"Add Cheat", @"");
+    alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
     
-    [alert setShowsSuppressionButton:YES];
-    [alert setSuppressionLabelText:NSLocalizedString(@"Enable now", @"Cheats button label")];
+    alert.showsSuppressionButton = YES;
+    alert.suppressionLabelText = NSLocalizedString(@"Enable now", @"Cheats button label");
     
-    [alert setInputLimit:1000];
+    alert.inputLimit = 1000;
     
     if([alert runModal] == NSAlertFirstButtonReturn)
     {
@@ -1906,9 +1908,10 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
          }];
     };
     
-    OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"This save state was created with a different core. Do you want to switch to that core now?", @"")
-                                           defaultButton:NSLocalizedString(@"OK", @"")
-                                         alternateButton:NSLocalizedString(@"Cancel", @"")];
+    OEAlert *alert = [[OEAlert alloc] init];
+    alert.messageText = NSLocalizedString(@"This save state was created with a different core. Do you want to switch to that core now?", @"");
+    alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
+    alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
     [alert showSuppressionButtonForUDKey:OEAlert.OEAutoSwitchCoreAlertSuppressionKey];
     
     if([alert runModal] == NSAlertFirstButtonReturn)

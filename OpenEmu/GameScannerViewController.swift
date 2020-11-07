@@ -368,8 +368,8 @@ class GameScannerViewController: NSViewController {
             importer.pause()
             
             let cancelAlert = OEAlert()
-            cancelAlert.headlineText = NSLocalizedString("Do you really want to cancel importation?", comment: "")
-            cancelAlert.messageText = NSLocalizedString("Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.", comment: "")
+            cancelAlert.messageText = NSLocalizedString("Do you really want to cancel importation?", comment: "")
+            cancelAlert.informativeText = NSLocalizedString("Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.", comment: "")
             cancelAlert.defaultButtonTitle = NSLocalizedString("Yes", comment: "")
             cancelAlert.alternateButtonTitle = NSLocalizedString("No", comment: "")
             
@@ -708,8 +708,8 @@ extension GameScannerViewController: OEROMImporterDelegate {
         let failedMessage = [itemsAlreadyInDatabase, itemsAlreadyInDatabaseFileUnreachable, itemsNoSystem, itemsDisallowArchivedFile, itemsEmptyFile, itemsDiscDescriptorUnreadableFile, itemsDiscDescriptorMissingFiles, itemsDiscDescriptorNotPlainTextFile, itemsDiscDescriptorNoPermissionReadFile, itemsCueSheetInvalidFileFormat, itemsDreamcastGDIInvalidFileFormat].compactMap{$0}.joined(separator:"\n\n")
 
         let alert = OEAlert()
-        alert.headlineText = NSLocalizedString("Files failed to import.", comment: "")
-        alert.messageText = failedMessage
+        alert.messageText = NSLocalizedString("Files failed to import.", comment: "")
+        alert.informativeText = failedMessage
         alert.defaultButtonTitle = NSLocalizedString("View Guide in Browser", comment:"")
         alert.alternateButtonTitle = NSLocalizedString("Dismiss", comment:"")
 

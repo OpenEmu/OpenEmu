@@ -502,21 +502,16 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         NSArray *games = [self selectedGames];
         if([games count] == 0) return;
 
-        OEAlert  *alert = [[OEAlert alloc] init];
-        [alert setHeadlineText:@""];
-        [alert setMessageText:NSLocalizedString(@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.", @"")];
-        [alert setDefaultButtonTitle:NSLocalizedString(@"Consolidate", @"")];
-        [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+        OEAlert *alert = [[OEAlert alloc] init];
+        alert.messageText = NSLocalizedString(@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.", @"");
+        alert.defaultButtonTitle = NSLocalizedString(@"Consolidate", @"");
+        alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
         if([alert runModal] != NSAlertFirstButtonReturn) return;
 
         alert = [[OEAlert alloc] init];
-        [alert setShowsProgressbar:YES];
-        [alert setProgress:0.0];
-        [alert setHeadlineText:NSLocalizedString(@"Copying Game Files…", @"")];
-        [alert setTitle:@""];
-        [alert setShowsProgressbar:YES];
-        [alert setDefaultButtonTitle:nil];
-        [alert setMessageText:nil];
+        alert.messageText = NSLocalizedString(@"Copying Game Files…", @"");
+        alert.showsProgressbar = YES;
+        alert.progress = 0.0;
 
         __block NSInteger alertResult = -1;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
@@ -545,7 +540,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
                     }
 
                     [alert performBlockInModalSession:^{
-                        [alert setProgress:(float)(i+1)/[games count]];
+                        alert.progress = (float)(i+1)/games.count;
                     }];
 
                     if(error != nil)
@@ -556,9 +551,10 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
                 {
                     OEAlertCompletionHandler originalCompletionHandler = [alert callbackHandler];
                     [alert setCallbackHandler:^(OEAlert *alert, NSModalResponse result){
-                        NSString *messageText = [error localizedDescription];
-                        OEAlert *errorAlert = [OEAlert alertWithMessageText:messageText defaultButton:NSLocalizedString(@"OK", @"") alternateButton:@""];
-                        [errorAlert setTitle:NSLocalizedString(@"Consolidating files failed.", @"")];
+                        OEAlert *errorAlert = [[OEAlert alloc] init];
+                        errorAlert.messageText = NSLocalizedString(@"Consolidating files failed.", @"");
+                        errorAlert.informativeText = error.localizedDescription;
+                        errorAlert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
                         [errorAlert runModal];
 
                         if(originalCompletionHandler) originalCompletionHandler(alert, result);

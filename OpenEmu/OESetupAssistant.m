@@ -290,8 +290,8 @@ enum : OEFSMEventLabel
     }
     
     OEAlert *alert = [[OEAlert alloc] init];
-    alert.headlineText = NSLocalizedString(@"OpenEmu could not download required data from the internet", @"Setup Assistant");
-    alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again.", @"Setup Assistant"), err.localizedDescription];
+    alert.messageText = NSLocalizedString(@"OpenEmu could not download required data from the internet", @"Setup Assistant");
+    alert.informativeText = [NSString stringWithFormat:NSLocalizedString(@"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again.", @"Setup Assistant"), err.localizedDescription];
     alert.defaultButtonTitle = NSLocalizedString(@"Retry", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Quit OpenEmu", @"");
     [alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {

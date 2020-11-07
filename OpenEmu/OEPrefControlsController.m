@@ -530,11 +530,11 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     
     if([[OEDeviceManager sharedDeviceManager] isBluetoothEnabled])
     {
-        [alert setMessageText:NSLocalizedString(@"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②.", @"")];
-        [alert setDefaultButtonTitle:NSLocalizedString(@"Start Scanning", @"")];
-        [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
-        [alert setOtherButtonTitle:NSLocalizedString(@"Learn More", @"")];
-        [alert setHeadlineText:NSLocalizedString(@"Make your Wiimote discoverable", @"")];
+        alert.messageText = NSLocalizedString(@"Make your Wiimote discoverable", @"");
+        alert.informativeText = NSLocalizedString(@"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②.", @"");
+        alert.defaultButtonTitle = NSLocalizedString(@"Start Scanning", @"");
+        alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
+        alert.otherButtonTitle = NSLocalizedString(@"Learn More", @"");
 
         NSUInteger result = [alert runModal];
         if(result == NSAlertFirstButtonReturn)
@@ -550,9 +550,9 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     }
     else
     {
-        [alert setMessageText:NSLocalizedString(@"Bluetooth must be enabled to pair a Wii controller.", @"")];
-        [alert setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
-        [alert setHeadlineText:NSLocalizedString(@"Bluetooth Not Enabled", @"")];
+        alert.messageText = NSLocalizedString(@"Bluetooth Not Enabled", @"");
+        alert.informativeText = NSLocalizedString(@"Bluetooth must be enabled to pair a Wii controller.", @"");
+        alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
         [alert runModal];
     }
 }

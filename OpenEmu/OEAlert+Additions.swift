@@ -47,8 +47,8 @@ extension OEAlert {
     final class func quitApplication() -> OEAlert {
         
         let alert = OEAlert()
-        alert.headlineText = NSLocalizedString("Are you sure you want to quit the application?", comment: "")
-        alert.messageText = NSLocalizedString("OpenEmu will save and quit all games that are currently running.", comment: "")
+        alert.messageText = NSLocalizedString("Are you sure you want to quit the application?", comment: "")
+        alert.informativeText = NSLocalizedString("OpenEmu will save and quit all games that are currently running.", comment: "")
         alert.defaultButtonTitle = NSLocalizedString("Quit", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
         
@@ -77,8 +77,8 @@ extension OEAlert {
     final class func loadAutoSaveGame() -> OEAlert {
         
         let alert = OEAlert()
-        alert.headlineText = NSLocalizedString("Would you like to continue your last game?", comment: "")
-        alert.messageText = NSLocalizedString("Do you want to continue playing where you left off?", comment: "")
+        alert.messageText = NSLocalizedString("Would you like to continue your last game?", comment: "")
+        alert.informativeText = NSLocalizedString("Do you want to continue playing where you left off?", comment: "")
         alert.defaultButtonTitle = NSLocalizedString("Yes", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("No", comment: "")
         alert.showSuppressionButton(forUDKey: OELoadAutoSaveAlertSuppressionKey)
@@ -163,8 +163,8 @@ extension OEAlert {
     final class func removeGameFilesFromLibrary(multipleGames: Bool) -> OEAlert {
         
         let alert = OEAlert()
-        alert.headlineText = multipleGames ? NSLocalizedString("Move selected games to Trash, or keep them in the Library folder?", comment: "") : NSLocalizedString("Move selected game to Trash, or keep it in the Library folder?", comment: "")
-        alert.messageText = NSLocalizedString("Only files in the OpenEmu Library folder will be moved to the Trash.", comment: "")
+        alert.messageText = multipleGames ? NSLocalizedString("Move selected games to Trash, or keep them in the Library folder?", comment: "") : NSLocalizedString("Move selected game to Trash, or keep it in the Library folder?", comment: "")
+        alert.informativeText = NSLocalizedString("Only files in the OpenEmu Library folder will be moved to the Trash.", comment: "")
         alert.defaultButtonTitle = NSLocalizedString("Move to Trash", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Keep Files", comment: "")
         alert.showSuppressionButton(forUDKey: OERemoveGameFilesFromLibraryAlertSuppressionKey)
@@ -213,8 +213,8 @@ extension OEAlert {
     final class func renameSpecialSaveState() -> OEAlert {
         
         let alert = OEAlert()
-        alert.headlineText = NSLocalizedString("Rename Special Save State or something?", comment: "")
-        alert.messageText = NSLocalizedString("Won't be able to recognize it as special save state…", comment: "")
+        alert.messageText = NSLocalizedString("Rename Special Save State or something?", comment: "")
+        alert.informativeText = NSLocalizedString("Won't be able to recognize it as special save state…", comment: "")
         alert.defaultButtonTitle = NSLocalizedString("Rename", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
         alert.showSuppressionButton(forUDKey: OERenameSpecialSaveStateAlertSuppressionKey)
@@ -226,8 +226,8 @@ extension OEAlert {
     final class func romDownloadRequired(name: String) -> OEAlert {
         
         let alert = OEAlert()
-        alert.headlineText = NSLocalizedString("Game requires download", comment: "")
-        alert.messageText = NSLocalizedString("In order to play the game it must be downloaded.", comment: "")
+        alert.messageText = NSLocalizedString("Game requires download", comment: "")
+        alert.informativeText = NSLocalizedString("In order to play the game it must be downloaded.", comment: "")
         alert.defaultButtonTitle = NSLocalizedString("Download", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
         alert.showSuppressionButton(forUDKey: OEDownloadRomWarningSuppressionKey)
@@ -238,8 +238,8 @@ extension OEAlert {
     final class func missingBIOSFiles(_ missingFilesList: String) -> OEAlert {
         
         let alert = OEAlert()
-        alert.headlineText = NSLocalizedString("Required files are missing.", comment: "")
-        alert.messageText = .localizedStringWithFormat(NSLocalizedString("To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.", comment: ""), missingFilesList)
+        alert.messageText = NSLocalizedString("Required files are missing.", comment: "")
+        alert.informativeText = .localizedStringWithFormat(NSLocalizedString("To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.", comment: ""), missingFilesList)
         alert.defaultButtonTitle = NSLocalizedString("OK", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Learn More", comment: "")
         

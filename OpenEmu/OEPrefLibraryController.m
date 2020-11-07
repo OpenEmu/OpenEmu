@@ -113,11 +113,11 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
 - (IBAction)changeLibraryFolder:(id)sender
 {
     OEAlert *dropboxAlert = [[OEAlert alloc] init];
-    [dropboxAlert setMessageUsesHTML:YES];
-    [dropboxAlert setHeadlineText:NSLocalizedString(
+    dropboxAlert.messageUsesHTML = YES;
+    dropboxAlert.messageText = NSLocalizedString(
         @"Moving the Game Library is not recommended",
-        @"Message headline (attempted to change location of library)")];
-    [dropboxAlert setMessageText:NSLocalizedString(
+        @"Message headline (attempted to change location of library)");
+    dropboxAlert.informativeText = NSLocalizedString(
         @"The OpenEmu Game Library contains a database file which could get "
         @"corrupted if the library is moved to the following locations:<br><br>"
         @"<ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li>"
@@ -125,11 +125,11 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
         @"Additionally, <b>sharing the same library between multiple computers or users</b> "
         @"may also corrupt it. This also applies to moving the library "
         @"to external USB drives.",
-        @"Message text (attempted to change location of library, HTML)")];
-    [dropboxAlert setDefaultButtonTitle:NSLocalizedString(@"Cancel", @"")];
-    [dropboxAlert setAlternateButtonTitle:NSLocalizedString(
+        @"Message text (attempted to change location of library, HTML)");
+    dropboxAlert.defaultButtonTitle = NSLocalizedString(@"Cancel", @"");
+    dropboxAlert.alternateButtonTitle = NSLocalizedString(
         @"I understand the risks",
-        @"OK button (attempted to change location of library)")];
+        @"OK button (attempted to change location of library)");
     [dropboxAlert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSAlertSecondButtonReturn)
             [self OE_moveGameLibrary];
@@ -169,7 +169,9 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
     NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
     if([documents count] != 0 || [[library importer] status] == OEImporterStatusRunning)
     {
-        OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"Please close all games and wait for the importer to finish.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
+        OEAlert *alert = [[OEAlert alloc] init];
+        alert.messageText = NSLocalizedString(@"Please close all games and wait for the importer to finish.", @"");
+        alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
         [alert runModal];
         return;
     }
@@ -184,7 +186,9 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
     }
     if([newLocation isSubpathOfURL:currentLocation])
     {
-        OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"You can't move your library into one of its subfolders.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
+        OEAlert *alert = [[OEAlert alloc] init];
+        alert.messageText = NSLocalizedString(@"You can't move your library into one of its subfolders.", @"");
+        alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
         [alert runModal];
         return;
     }
@@ -226,14 +230,10 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
             __block NSInteger alertResult = -1;
             
             OEAlert *alert = [[OEAlert alloc] init];
-            
-            [alert setShowsProgressbar:YES];
-            [alert setProgress:0.0];
-            [alert setHeadlineText:NSLocalizedString(@"Copying Artwork Files…", @"Alert Headline: Library migration")];
-            [alert setTitle:@""];
-            [alert setShowsProgressbar:YES];
-            [alert setDefaultButtonTitle:NSLocalizedString(@"Cancel", @"")];
-            [alert setMessageText:nil];
+            alert.messageText = NSLocalizedString(@"Copying Artwork Files…", @"Alert Headline: Library migration");
+            alert.defaultButtonTitle = NSLocalizedString(@"Cancel", @"");
+            alert.showsProgressbar = YES;
+            alert.progress = 0.0;
 
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -245,7 +245,7 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
                 [fm setProgressHandler:^BOOL(float progress){
                     // update progress
                     [alert performBlockInModalSession:^{
-                        [alert setProgress:progress];
+                        alert.progress = progress;
                     }];
                     
                     // continue if alert is still open
@@ -269,9 +269,9 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
 
                     // show error
                     [alert performBlockInModalSession:^{
-                        [alert setShowsProgressbar:NO];
-                        [alert setMessageText:NSLocalizedString(@"Copying artwork failed!", @"")];
-                        [alert setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
+                        alert.messageText = NSLocalizedString(@"Copying artwork failed!", @"");
+                        alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
+                        alert.showsProgressbar = NO;
                     }];
                     
                     // clean up
@@ -284,9 +284,8 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
                 
                 // Copy roms directory
                 [alert performBlockInModalSession:^{
-                    [alert setProgress:0.0];
-                    [alert setHeadlineText:NSLocalizedString(@"Copying ROM Files…", @"Alert Headline: Library migration")];
-                    [alert setTitle:@""];
+                    alert.messageText = NSLocalizedString(@"Copying ROM Files…", @"Alert Headline: Library migration");
+                    alert.progress = 0.0;
                 }];
 
                 // copy only if it exists
@@ -296,9 +295,9 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
                     
                     // show error
                     [alert performBlockInModalSession:^{
-                        [alert setShowsProgressbar:NO];
-                        [alert setHeadlineText:NSLocalizedString(@"Copying ROM files failed!", @"")];
-                        [alert setDefaultButtonTitle:NSLocalizedString(@"OK",@"")];
+                        alert.messageText = NSLocalizedString(@"Copying ROM files failed!", @"");
+                        alert.defaultButtonTitle = NSLocalizedString(@"OK",@"");
+                        alert.showsProgressbar = NO;
                     }];
                     
                     // clean up
@@ -308,9 +307,8 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
                 }
                 
                 [alert performBlockInModalSession:^{
-                    [alert setProgress:-1.0];
-                    [alert setHeadlineText:NSLocalizedString(@"Moving Library…", @"Alert Headline: Library migration")];
-                    [alert setTitle:@""];
+                    alert.messageText = NSLocalizedString(@"Moving Library…", @"Alert Headline: Library migration");
+                    alert.progress = -1.0;
                 }];
 
                 // copy core data store over
@@ -323,9 +321,9 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
                     
                     // show error
                     [alert performBlockInModalSession:^{
-                        [alert setShowsProgressbar:NO];
-                        [alert setMessageText:NSLocalizedString(@"Could not move library data!", @"")];
-                        [alert setDefaultButtonTitle:NSLocalizedString(@"OK",@"")];
+                        alert.messageText = NSLocalizedString(@"Could not move library data!", @"");
+                        alert.defaultButtonTitle = NSLocalizedString(@"OK",@"");
+                        alert.showsProgressbar = NO;
                     }];
                     
                     return;
@@ -402,7 +400,9 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
         // point openemu to new library location
         [[NSUserDefaults standardUserDefaults] setObject:[[newLocation path] stringByAbbreviatingWithTildeInPath] forKey:OEDatabasePathKey];
 
-        OEAlert *alert = [OEAlert alertWithMessageText:NSLocalizedString(@"Your library was moved sucessfully.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
+        OEAlert *alert = [[OEAlert alloc] init];
+        alert.messageText = NSLocalizedString(@"Your library was moved sucessfully.", @"");
+        alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
         [alert runModal];
     }
     else

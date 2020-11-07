@@ -145,26 +145,9 @@
 		016F22DF23F19F5F00181842 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016F22DE23F19F5F00181842 /* AppDelegate.swift */; };
 		016F22E423F19F6100181842 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 016F22E323F19F6100181842 /* MainMenu.xib */; };
 		016F22EA23F1A35400181842 /* OEAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEAlert.m */; };
-		016F22EC23F1A35B00181842 /* OEAlert+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEAlert+Additions.swift */; };
 		016F22ED23F1A36E00181842 /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; };
 		016F230323F1A65000181842 /* NSControl+TargetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606DF1C0B12FE0089B494 /* NSControl+TargetAction.swift */; };
-		016F230B23F1A69D00181842 /* NSImage+DrawingAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E71C0BCD350089B494 /* NSImage+DrawingAdditions.swift */; };
-		016F230C23F1A6BE00181842 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E91C0BD2BD0089B494 /* DLog.swift */; };
 		016F230D23F1A6CC00181842 /* OEInputLimitFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */; };
-		016F230E23F1A88A00181842 /* NSColor+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.swift */; };
-		016F230F23F1A89B00181842 /* NS(Attributed)String+Geometrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */; };
-		016F231023F1A89B00181842 /* NSArray+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.m */; };
-		016F231123F1A89B00181842 /* NSAttributedString+Hyperlink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606DD1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift */; };
-		016F231223F1A89B00181842 /* NSBitmapImageRep+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */; };
-		016F231323F1A89B00181842 /* NSDocument+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C67DBF4217DBE859006AF087 /* NSDocument+OEAdditions.m */; };
-		016F231423F1A89B00181842 /* NSFileManager+OEHashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */; };
-		016F231523F1A89B00181842 /* NSImageView+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B6A223D16D6300F63D61 /* NSImageView+OEAdditions.swift */; };
-		016F231723F1A89B00181842 /* NSMutableDictionary+Pop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606D31C0A63740089B494 /* NSMutableDictionary+Pop.swift */; };
-		016F231823F1A89B00181842 /* NSURL+LibraryAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E31C0BA85F0089B494 /* NSURL+LibraryAdditions.swift */; };
-		016F231923F1A89B00181842 /* NSWindow+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A886E571BF43AC900775123 /* NSWindow+Image.swift */; };
-		016F231A23F1A89B00181842 /* NSWindow+FullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606D51C0A7C9D0089B494 /* NSWindow+FullScreen.swift */; };
-		016F231B23F1A89B00181842 /* OEFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DBAE18C0E2470029199C /* OEFileManager.m */; };
-		016F231C23F1A89B00181842 /* UserDefaults+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */; };
 		016F9D2624DC88F6001DD1D2 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		01E2A2F323E60F7E00194150 /* PrefCoresController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E2A2F223E60F7D00194150 /* PrefCoresController.swift */; };
 		051DDCB523E5D74400325147 /* AvailableLibrariesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051DDCB423E5D74400325147 /* AvailableLibrariesViewController.swift */; };
@@ -6441,27 +6424,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				016F231323F1A89B00181842 /* NSDocument+OEAdditions.m in Sources */,
 				016F230D23F1A6CC00181842 /* OEInputLimitFormatter.m in Sources */,
 				016F22EA23F1A35400181842 /* OEAlert.m in Sources */,
-				016F231023F1A89B00181842 /* NSArray+OEAdditions.m in Sources */,
-				016F231B23F1A89B00181842 /* OEFileManager.m in Sources */,
-				016F231C23F1A89B00181842 /* UserDefaults+OEAdditions.swift in Sources */,
-				016F22EC23F1A35B00181842 /* OEAlert+Additions.swift in Sources */,
-				016F231123F1A89B00181842 /* NSAttributedString+Hyperlink.swift in Sources */,
-				016F231A23F1A89B00181842 /* NSWindow+FullScreen.swift in Sources */,
-				016F230B23F1A69D00181842 /* NSImage+DrawingAdditions.swift in Sources */,
-				016F231423F1A89B00181842 /* NSFileManager+OEHashingAdditions.m in Sources */,
 				016F230323F1A65000181842 /* NSControl+TargetAction.swift in Sources */,
-				016F230F23F1A89B00181842 /* NS(Attributed)String+Geometrics.m in Sources */,
-				016F230C23F1A6BE00181842 /* DLog.swift in Sources */,
-				016F231923F1A89B00181842 /* NSWindow+Image.swift in Sources */,
-				016F231523F1A89B00181842 /* NSImageView+OEAdditions.swift in Sources */,
-				016F231223F1A89B00181842 /* NSBitmapImageRep+OEAdditions.swift in Sources */,
-				016F230E23F1A88A00181842 /* NSColor+OEAdditions.swift in Sources */,
 				016F22DF23F19F5F00181842 /* AppDelegate.swift in Sources */,
-				016F231823F1A89B00181842 /* NSURL+LibraryAdditions.swift in Sources */,
-				016F231723F1A89B00181842 /* NSMutableDictionary+Pop.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

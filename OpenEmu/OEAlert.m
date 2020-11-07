@@ -90,15 +90,17 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 @synthesize callbackHandler = _callbackHandler;
 
-+ (OEAlert *)alertWithMessageText:(nullable NSString *)msgText defaultButton:(nullable NSString *)defaultButtonLabel alternateButton:(nullable NSString *)alternateButtonLabel
+- (void)addButtonWithTitle:(NSString *)title
 {
-    OEAlert *alert = [[OEAlert alloc] init];
-    
-    alert.defaultButtonTitle = defaultButtonLabel;
-    alert.alternateButtonTitle = alternateButtonLabel;
-    alert.messageText = msgText;
-    
-    return alert;
+    if([self.defaultButtonTitle isEqual:@""]) {
+        self.defaultButtonTitle = title;
+    }
+    else if([self.alternateButtonTitle isEqual:@""]) {
+        self.alternateButtonTitle = title;
+    }
+    else if([self.otherButtonTitle isEqual:@""]) {
+        self.otherButtonTitle = title;
+    }
 }
 
 #pragma mark - Memory Management
@@ -253,18 +255,6 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     }
 }
 
-#pragma mark - Window Configuration
-
-- (void)setTitle:(NSString *)title
-{
-    _window.title = title;
-}
-
-- (NSString *)title
-{
-    return _window.title;
-}
-
 #pragma mark - Progress Bar
 
 - (void)setShowsProgressbar:(BOOL)showsProgressbar
@@ -384,13 +374,13 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 
 #pragma mark - Message Text
 
-- (void)setHeadlineText:(nullable NSString *)headlineText
+- (void)setMessageText:(nullable NSString *)messageText
 {
-    self.headlineLabel.stringValue = headlineText ? : @"";
+    self.headlineLabel.stringValue = messageText ? : @"";
     _needsRebuild = YES;
 }
 
-- (NSString *)headlineText
+- (NSString *)messageText
 {
     return self.headlineLabel.stringValue;
 }
@@ -401,9 +391,9 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     _needsRebuild = YES;
 }
 
-- (void)setMessageText:(nullable NSString *)messageText
+- (void)setInformativeText:(nullable NSString *)informativeText
 {
-    _messageText = messageText ? : @"";
+    _informativeText = informativeText ? : @"";
     _needsRebuild = YES;
 }
 
@@ -677,7 +667,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     NSImageView *image;
     
     /* create a NSAlert-style decoration image only if at least one of the messages is displayed. */
-    if (self.headlineText.length != 0 || self.messageText.length != 0) {
+    if (self.messageText.length != 0 || self.informativeText.length != 0) {
         image = [NSImageView imageViewWithImage:[NSImage imageNamed:NSImageNameApplicationIcon]];
         image.translatesAutoresizingMaskIntoConstraints = NO;
         image.imageFrameStyle = NSImageFrameNone;
@@ -691,9 +681,9 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
         effectiveLeadingAnchor = image.trailingAnchor;
     }
     
-    if (self.headlineText.length != 0)
-        lastAnchor = [self OE_layoutHeadlineUnderAnchor:lastAnchor leadingAnchor:effectiveLeadingAnchor];
     if (self.messageText.length != 0)
+        lastAnchor = [self OE_layoutHeadlineUnderAnchor:lastAnchor leadingAnchor:effectiveLeadingAnchor];
+    if (self.informativeText.length != 0)
         lastAnchor = [self OE_layoutMessageUnderAnchor:lastAnchor leadingAnchor:effectiveLeadingAnchor];
     if (self.showsProgressbar)
         lastAnchor = [self OE_layoutProgressBarUnderAnchor:lastAnchor leadingAnchor:effectiveLeadingAnchor];
@@ -759,7 +749,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 - (NSLayoutAnchor *)OE_layoutMessageUnderAnchor:(NSLayoutAnchor *)lastAnchor leadingAnchor:(NSLayoutAnchor *)effectiveLeadingAnchor
 {
     NSView *contentView = self.window.contentView;
-    BOOL hasHeadline = self.headlineText.length != 0;
+    BOOL hasHeadline = self.messageText.length != 0;
     
     NSFont *messageFont;
     if (!hasHeadline) {
@@ -770,7 +760,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     if (self.messageUsesHTML) {
         NSString *adjustedHtml = [NSString stringWithFormat:
                 @"<span style=\"font-family: '-apple-system'; font-size:%fpx\">%@</span>",
-                messageFont.pointSize, self.messageText];
+                messageFont.pointSize, self.informativeText];
         NSData *htmlData = [adjustedHtml dataUsingEncoding:NSUTF8StringEncoding];
         NSMutableAttributedString *as = [[NSMutableAttributedString alloc]
                 initWithHTML:htmlData options:@{
@@ -781,7 +771,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
         /* selectable labels revert to non-attributed values as soon as they are touched, losing all formatting */
         self.messageLabel.selectable = NO;
     } else {
-        self.messageLabel.stringValue = self.messageText;
+        self.messageLabel.stringValue = self.informativeText;
         self.messageLabel.font = messageFont;
         self.messageLabel.selectable = YES;
     }

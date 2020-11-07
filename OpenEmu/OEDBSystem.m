@@ -257,7 +257,9 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
     NSError *error;
     if (![self toggleEnabledWithError:&error]) {
         
-        OEAlert *alert = [OEAlert alertWithMessageText:error.localizedDescription defaultButton:NSLocalizedString(@"OK", nil) alternateButton:nil];
+        OEAlert *alert = [[OEAlert alloc] init];
+        alert.messageText = error.localizedDescription;
+        alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
         [alert runModal];
         
         return NO;

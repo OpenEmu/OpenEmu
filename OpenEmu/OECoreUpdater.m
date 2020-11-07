@@ -324,12 +324,10 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 - (void)installCoreWithDownload:(OECoreDownload *)download message:(NSString *)message completionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler
 {
     OEAlert *aAlert = [[OEAlert alloc] init];
-    [aAlert setDefaultButtonTitle:NSLocalizedString(@"Install", @"")];
-    [aAlert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
-
-    [aAlert setHeadlineText:NSLocalizedString(@"Missing Core", @"")];
-    [aAlert setMessageText:message];
-
+    aAlert.messageText = NSLocalizedString(@"Missing Core", @"");
+    aAlert.informativeText = message;
+    aAlert.defaultButtonTitle = NSLocalizedString(@"Install", @"");
+    aAlert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
     [aAlert setDefaultButtonAction:@selector(startInstall) andTarget:self];
 
     NSString *coreIdentifier = [[_coresDict allKeysForObject:download] lastObject];
@@ -386,28 +384,23 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
 - (void)startInstall
 {
-    [[self alert] setProgress:0.0];
-    [[self alert] setHeadlineText:NSLocalizedString(@"Downloading and Installing Core…", @"")];
-    [[self alert] setTitle:NSLocalizedString(@"Installing Core", @"")];
-    [[self alert] setShowsProgressbar:YES];
-    [[self alert] setDefaultButtonTitle:nil];
-    [[self alert] setMessageText:nil];
-
-    [[self alert] setAlternateButtonAction:@selector(cancelInstall) andTarget:self];
+    self.alert.messageText = NSLocalizedString(@"Downloading and Installing Core…", @"");
+    self.alert.informativeText = nil;
+    self.alert.defaultButtonTitle = nil;
+    [self.alert setAlternateButtonAction:@selector(cancelInstall) andTarget:self];
+    self.alert.showsProgressbar = YES;
+    self.alert.progress = 0.0;
 
     OECoreDownload *pluginDL = [_coresDict objectForKey:[self coreIdentifier]];
 
     if(pluginDL == nil)
     {
-        [[self alert] setShowsProgressbar:NO];
-        [[self alert] setHeadlineText:nil];
-        [[self alert] setTitle:NSLocalizedString(@"Error!", @"")];
-
-        [[self alert] setMessageText:NSLocalizedString(@"The core could not be downloaded. Try installing it from the Cores preferences.", @"")];
-        [[self alert] setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
-        [[self alert] setAlternateButtonTitle:nil];
-
-        [[self alert] setDefaultButtonAction:@selector(buttonAction:) andTarget:[self alert]];
+        self.alert.messageText = NSLocalizedString(@"Error!", @"");
+        self.alert.informativeText = NSLocalizedString(@"The core could not be downloaded. Try installing it from the Cores preferences.", @"");
+        self.alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
+        self.alert.alternateButtonTitle = nil;
+        [self.alert setDefaultButtonAction:@selector(buttonAction:) andTarget:self.alert];
+        self.alert.showsProgressbar = NO;
         
         return;
     }
@@ -491,8 +484,8 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
     if(context != _OECoreDownloadProgressContext)
         return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 
-    if(object == [self coreDownload])
-        [[self alert] setProgress:[[self coreDownload] progress]];
+    if(object == self.coreDownload)
+        self.alert.progress = self.coreDownload.progress;
 }
 
 #pragma mark -
