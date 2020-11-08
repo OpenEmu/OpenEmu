@@ -59,9 +59,9 @@
                             </textField>
                         </gridCell>
                         <gridCell row="uy1-hz-6Cy" column="WTK-4D-5ET" yPlacement="bottom" id="uhe-y2-BoJ">
-                            <pathControl key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="200" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-tf-vv5">
+                            <pathControl key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="200" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-tf-vv5">
                                 <rect key="frame" x="189" y="293" width="226" height="20"/>
-                                <pathCell key="cell" selectable="YES" alignment="left" id="El6-wi-KVm">
+                                <pathCell key="cell" selectable="YES" focusRingType="none" alignment="left" id="El6-wi-KVm">
                                     <font key="font" metaFont="system"/>
                                     <url key="url" string="file://localhost/Applications/"/>
                                 </pathCell>
