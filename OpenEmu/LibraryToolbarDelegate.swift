@@ -251,6 +251,8 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         searchField.widthAnchor.constraint(lessThanOrEqualToConstant: 166).isActive = true
         if #available(macOS 11.0, *) {
             searchField.heightAnchor.constraint(equalToConstant: 28).isActive = true
+        } else {
+            searchField.heightAnchor.constraint(equalToConstant: 22).isActive = true
         }
         
         toolbar.searchField = searchField

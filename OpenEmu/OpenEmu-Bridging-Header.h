@@ -45,6 +45,7 @@
 #import "NSImageRep+ApplePrivate.h"
 #import "NSToolbar+ApplePrivate.h"
 #import "OEBlankSlateSpinnerView.h"
+#import "NSWindow+BigSur.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <OpenEmuKit/OpenEmuKit.h>

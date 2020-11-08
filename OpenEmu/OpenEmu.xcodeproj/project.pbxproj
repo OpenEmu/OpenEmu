@@ -1791,6 +1791,7 @@
 		8FD78306243A8AD300861B7A /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Debug.strings; sourceTree = "<group>"; };
 		8FD78308243A8ADC00861B7A /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Debug.strings; sourceTree = "<group>"; };
 		8FDCE3962520022700277BFA /* GlossCheckboxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossCheckboxCell.swift; sourceTree = "<group>"; };
+		8FDD04A62557B3B8005DFF30 /* NSWindow+BigSur.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSWindow+BigSur.h"; sourceTree = "<group>"; };
 		8FEC1B9F24F7D37700DBBF72 /* TextButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
 		8FEDF0C824F2BC37001ABF6F /* OEGBSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBSystemController.h; sourceTree = "<group>"; };
 		8FEDF0C924F2BC37001ABF6F /* OEGBSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBSystemController.m; sourceTree = "<group>"; };
@@ -2951,6 +2952,7 @@
 				5A9606E31C0BA85F0089B494 /* NSURL+LibraryAdditions.swift */,
 				5A886E571BF43AC900775123 /* NSWindow+Image.swift */,
 				5A9606D51C0A7C9D0089B494 /* NSWindow+FullScreen.swift */,
+				8FDD04A62557B3B8005DFF30 /* NSWindow+BigSur.h */,
 				83F7DBAD18C0E2470029199C /* OEFileManager.h */,
 				83F7DBAE18C0E2470029199C /* OEFileManager.m */,
 				05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */,
