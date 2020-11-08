@@ -173,8 +173,7 @@
 
 "Disc-based games have special requirements. Please read the disc importing guide." = "Per importare un disco di gioco è necessario seguire una procedura speciale. Leggi la guida all'importazione dei dischi di gioco.";
 
-"Dismiss" = "Ignora"; // TODO
-"Dismiss" = "Chiudi"; // TODO
+"Dismiss" = "Chiudi";
 
 "Do not ask me again" = "Non chiedermelo più";
 
