@@ -33,7 +33,7 @@ extension NSUserInterfaceItemIdentifier {
 }
 
 @objc(OEGameTableView)
-class GameTableView: NSTableView {
+class GameTableView: OETableView {
     var headerState: [String: Bool] = [:] {
         didSet {
             for column in tableColumns {
