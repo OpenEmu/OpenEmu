@@ -388,7 +388,7 @@
 		83C748CC196DF34D0090BC91 /* OEHomebrewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83C748CB196DF34D0090BC91 /* OEHomebrewViewController.xib */; };
 		83CA87B41961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */; };
 		83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CACEC7196D6D1300999E70 /* OEDownload.m */; };
-		83CB0C7A1A3F000700409FB2 /* OEBlankSlateSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CB0C791A3F000700409FB2 /* OEBlankSlateSpinnerView.m */; };
+		83CB0C7A1A3F000700409FB2 /* BlankSlateSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CB0C791A3F000700409FB2 /* BlankSlateSpinnerView.swift */; };
 		83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */; };
 		83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */; };
 		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
@@ -1662,8 +1662,7 @@
 		83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.2 to 1.3.xcmappingmodel"; sourceTree = "<group>"; };
 		83CACEC6196D6D1300999E70 /* OEDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDownload.h; sourceTree = "<group>"; };
 		83CACEC7196D6D1300999E70 /* OEDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDownload.m; sourceTree = "<group>"; };
-		83CB0C781A3F000700409FB2 /* OEBlankSlateSpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBlankSlateSpinnerView.h; sourceTree = "<group>"; };
-		83CB0C791A3F000700409FB2 /* OEBlankSlateSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateSpinnerView.m; sourceTree = "<group>"; };
+		83CB0C791A3F000700409FB2 /* BlankSlateSpinnerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlankSlateSpinnerView.swift; sourceTree = "<group>"; };
 		83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveState.h; sourceTree = "<group>"; };
 		83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveState.m; sourceTree = "<group>"; };
 		83D175B918FF218200E5ED34 /* OEDatabase 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.2.xcdatamodel"; sourceTree = "<group>"; };
@@ -3531,8 +3530,7 @@
 		83955CB9165DAE7900572B34 /* Blank Slate View */ = {
 			isa = PBXGroup;
 			children = (
-				83CB0C781A3F000700409FB2 /* OEBlankSlateSpinnerView.h */,
-				83CB0C791A3F000700409FB2 /* OEBlankSlateSpinnerView.m */,
+				83CB0C791A3F000700409FB2 /* BlankSlateSpinnerView.swift */,
 				83955CB3165D939100572B34 /* OEBlankSlateView.h */,
 				83955CB4165D939100572B34 /* OEBlankSlateView.m */,
 			);
@@ -6700,7 +6698,7 @@
 				8F80218124F45E9800DC82E3 /* HUDSliderCell.swift in Sources */,
 				0544B6AA23D16DDC00F63D61 /* SaveStateViewController.swift in Sources */,
 				8FEC1BA024F7D37700DBBF72 /* TextButton.swift in Sources */,
-				83CB0C7A1A3F000700409FB2 /* OEBlankSlateSpinnerView.m in Sources */,
+				83CB0C7A1A3F000700409FB2 /* BlankSlateSpinnerView.swift in Sources */,
 				5A6E80A71DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift in Sources */,
 				5A9606E01C0B12FE0089B494 /* NSControl+TargetAction.swift in Sources */,
 				14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */,

@@ -34,7 +34,7 @@ class HomebrewBlankSlateView: OEBlankSlateView {
         
         if representedObject is String {
             
-            setupBox(withText: representedObject as? String, andImageView: OEBlankSlateSpinnerView())
+            setupBox(withText: representedObject as? String, andImageView: BlankSlateSpinnerView())
         }
         else if representedObject is Error {
             
