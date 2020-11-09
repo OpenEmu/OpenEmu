@@ -35,7 +35,7 @@ typedef enum
     IKImageBrowserDropNone = 2
 } ExtendedIKImageBrowserDropOperation;
 
-@interface OEGridView : IKImageBrowserView <NSTextFieldDelegate>
+@interface OEGridView : IKImageBrowserView <NSTextFieldDelegate, NSViewToolTipOwner>
 @property NSImage *proposedImage;
 @property (assign) IKImageBrowserDropOperation draggingOperation;
 

@@ -114,7 +114,7 @@ NSString *const OEDebugDrawControllerMaskKey = @"drawControllerMask";
         NSRect rect = NSMakeRect(targetRect.origin.x+ringPosition.x-33, targetRect.origin.y+ringPosition.y-33, 66.0, 66.0);
         
         NSBezierPath *path = [NSBezierPath bezierPathWithRect:[self bounds]];
-        [path setWindingRule:NSEvenOddWindingRule];
+        [path setWindingRule:NSWindingRuleEvenOdd];
         [path appendBezierPathWithOvalInRect:rect];
         [path setClip];
         

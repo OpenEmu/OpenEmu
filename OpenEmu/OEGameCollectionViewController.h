@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSNotificationName const OEGameCollectionViewControllerDidSetSelectionIndexesNotification;
 
-@interface OEGameCollectionViewController : OECollectionViewController <OEGameGridViewDelegate>
+@interface OEGameCollectionViewController : OECollectionViewController <OEGameGridViewDelegate, NSMenuItemValidation, NSViewToolTipOwner>
 - (IBAction)showInFinder:(nullable id)sender;
 
 - (void)performSearch:(NSString *)text;

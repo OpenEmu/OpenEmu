@@ -71,7 +71,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 
 @end
 
-@interface OEGameViewController : NSViewController
+@interface OEGameViewController : NSViewController <NSMenuItemValidation>
 
 #pragma mark -
 
