@@ -35,13 +35,13 @@ class TextButton: HoverButton {
     
     private var arrowImage: NSImage? {
         if isHighlighted {
-            return NSImage(named: "arrow_right")?.image(with: NSColor.tertiaryLabelColor)
+            return NSImage(named: "arrow_right")?.withTintColor(NSColor.tertiaryLabelColor)
         }
         else if isHovering {
-            return NSImage(named: "arrow_right")?.image(with: NSColor.labelColor)
+            return NSImage(named: "arrow_right")?.withTintColor(NSColor.labelColor)
         }
         else {
-            return NSImage(named: "arrow_right")?.image(with: NSColor.secondaryLabelColor)
+            return NSImage(named: "arrow_right")?.withTintColor(NSColor.secondaryLabelColor)
         }
     }
     

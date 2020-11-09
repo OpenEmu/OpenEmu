@@ -32,16 +32,16 @@ final class GameScannerButton: HoverButton {
     private var iconImage: NSImage? {
         
         if isHighlighted {
-            return NSImage(named: icon)?.image(with: NSColor.labelColor.withSystemEffect(.pressed))
+            return NSImage(named: icon)?.withTintColor(NSColor.labelColor.withSystemEffect(.pressed))
         }
         else if isHovering && isEnabled {
-            return NSImage(named: icon)?.image(with: NSColor.labelColor.withSystemEffect(.rollover))
+            return NSImage(named: icon)?.withTintColor(NSColor.labelColor.withSystemEffect(.rollover))
         }
         else if window?.isMainWindow == false {
-            return NSImage(named: icon)?.image(with: NSColor.labelColor.withSystemEffect(.disabled))
+            return NSImage(named: icon)?.withTintColor(NSColor.labelColor.withSystemEffect(.disabled))
         }
         else {
-            return NSImage(named: icon)?.image(with: NSColor.labelColor)
+            return NSImage(named: icon)?.withTintColor(NSColor.labelColor)
         }
     }
     
