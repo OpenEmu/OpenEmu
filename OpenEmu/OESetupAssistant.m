@@ -142,22 +142,6 @@ enum : OEFSMEventLabel
     [_fsm start];
 }
 
-- (void)viewDidAppear
-{
-    [super viewDidAppear];
-
-    NSWindow *window = [[self view] window];
-    [window setStyleMask:[window styleMask] ^ NSWindowStyleMaskClosable];
-}
-
-- (void)viewWillDisappear
-{
-    [super viewWillDisappear];
-    
-    NSWindow *window = [[self view] window];
-    [window setStyleMask:[window styleMask] | NSWindowStyleMaskClosable];
-}
-
 - (IBAction)processFSMButtonAction:(id)sender
 {
     OEFSMEventLabel event = [[(NSButton *)sender OEFSMEventNumber] unsignedIntegerValue];

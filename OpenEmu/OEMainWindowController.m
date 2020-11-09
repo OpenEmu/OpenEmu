@@ -228,7 +228,8 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         window.toolbar.allowsUserCustomization = YES;
         window.titleVisibility = NSWindowTitleHidden;
         window.titlebarAppearsTransparent = NO;
-    
+        window.styleMask |= NSWindowStyleMaskClosable;
+        
         // content overlaps the title bar
         placeHolderView.frame = window.contentView.frame;
         
@@ -237,6 +238,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         window.toolbar.allowsUserCustomization = NO;
         window.titleVisibility = NSWindowTitleHidden;
         window.titlebarAppearsTransparent = YES;
+        window.styleMask &= ~NSWindowStyleMaskClosable;
         
         // content overlaps the title bar
         placeHolderView.frame = window.contentView.frame;
