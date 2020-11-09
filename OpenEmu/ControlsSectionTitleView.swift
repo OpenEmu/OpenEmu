@@ -25,11 +25,28 @@
 import Cocoa
 
 @objc(OEControlsSectionTitleView)
-class ControlsSectionTitleView: NSView {
+final class ControlsSectionTitleView: NSView {
     
-    private let topColor = NSColor(deviceRed: 85/255, green: 45/255, blue: 0, alpha: 1)
-    private let bottomColor = NSColor(deviceRed: 1, green: 1, blue: 0, alpha: 0.2)
+    private lazy var topColor = NSColor(deviceRed: 85/255, green: 45/255, blue: 0, alpha: 1)
+    private lazy var bottomColor = NSColor(deviceRed: 1, green: 1, blue: 0, alpha: 0.2)
     private let leftGap: CGFloat = 16
+    
+    private let isWood = UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue
+    
+    private lazy var visualEffectView: NSVisualEffectView = NSVisualEffectView()
+    
+    private lazy var imageView: NSImageView = {
+        let imageView = NSImageView(image: NSImage(named: "controls_bg")!)
+        imageView.imageScaling = .scaleAxesIndependently
+        return imageView
+    }()
+    
+    private lazy var textField: NSTextField = {
+        let textField = NSTextField(labelWithString: "")
+        textField.font = .systemFont(ofSize: 12, weight: .medium)
+        textField.textColor = .labelColor
+        return textField
+    }()
     
     private lazy var string = NSAttributedString(string: stringValue, attributes: ControlsSectionTitleView.attributes)
     
@@ -37,15 +54,36 @@ class ControlsSectionTitleView: NSView {
     
     @objc var pinned = false {
         didSet {
-            needsDisplay = true
+            if isWood {
+                needsDisplay = true
+            }
         }
     }
     
-    override var isOpaque: Bool {
-        return false
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        
+        if !isWood {
+            addSubview(visualEffectView)
+            addSubview(imageView)
+            addSubview(textField)
+        }
     }
     
     override func draw(_ dirtyRect: NSRect) {
+        
+        guard isWood else {
+            visualEffectView.frame = bounds
+            imageView.frame = bounds
+            textField.stringValue = stringValue
+            textField.frame = titleRect
+            return
+        }
+        
         NSColor.clear.setFill()
         bounds.fill()
         
@@ -97,6 +135,16 @@ class ControlsSectionTitleView: NSView {
     }
     
     private var titleRect: NSRect {
+        
+        guard isWood else {
+            var rect = bounds
+            
+            rect.origin.y -= (rect.size.height-textField.attributedStringValue.size().height)/2
+            rect.origin.x += leftGap
+            
+            return backingAlignedRect(rect, options: .alignAllEdgesNearest)
+        }
+        
         var rect = bounds
         
         rect.origin.y -= (rect.size.height-string.size().height)/2

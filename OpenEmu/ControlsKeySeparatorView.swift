@@ -25,10 +25,10 @@
 import Cocoa
 
 @objc(OEControlsKeySeparatorView)
-class ControlsKeySeparatorView: NSView {
+final class ControlsKeySeparatorView: NSView {
     
-    let topColor = NSColor(deviceRed: 85/255, green: 45/255, blue: 0, alpha: 1)
-    let bottomColor = NSColor(deviceRed: 1, green: 1, blue: 0, alpha: 0.2)
+    private let topColor = NSColor(red: 85/255, green: 45/255, blue: 0, alpha: 1)
+    private let bottomColor = NSColor(red: 1, green: 1, blue: 0, alpha: 0.2)
     
     override var isOpaque: Bool {
         return false
@@ -40,11 +40,18 @@ class ControlsKeySeparatorView: NSView {
         lineRect.size.height = 1
         lineRect.origin.y = bounds.size.height/2
         
-        topColor.setFill()
-        lineRect.fill()
+        if UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue {
+            
+            topColor.setFill()
+            lineRect.fill()
+            
+            lineRect.origin.y -= 1
+            bottomColor.setFill()
+            
+        } else {
+            NSColor.darkGray.setFill()
+        }
         
-        lineRect.origin.y -= 1
-        bottomColor.setFill()
         lineRect.fill(using: .sourceOver)
     }
 }

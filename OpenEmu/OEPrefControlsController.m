@@ -118,11 +118,14 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [self changeSystem:[self consolesPopupButton]];
     [CATransaction commit];
 
-    [self gradientOverlay].topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
-    [self gradientOverlay].bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
-
-    NSAppearance *aquaAppearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
-    [self.controlsContainer.enclosingScrollView setAppearance:aquaAppearance];
+    if([NSUserDefaults.standardUserDefaults integerForKey:OEControlsPrefsAppearancePreferenceKey] == OEControlsPrefsAppearancePreferenceValueWood)
+    {
+        self.gradientOverlay.topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
+        self.gradientOverlay.bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
+        
+        NSAppearance *aquaAppearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+        self.controlsContainer.enclosingScrollView.appearance = aquaAppearance;
+    }
 
     [[self controllerView] setWantsLayer:YES];
 
@@ -223,7 +226,10 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (NSString *)nibName
 {
-    return @"OEPrefControlsController";
+    if([NSUserDefaults.standardUserDefaults integerForKey:OEControlsPrefsAppearancePreferenceKey] == OEControlsPrefsAppearancePreferenceValueWood)
+        return @"OEPrefControlsController";
+    else
+        return @"OEPrefControlsController2";
 }
 
 - (void)systemsChanged
@@ -764,7 +770,10 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (NSSize)viewSize
 {
-    return NSMakeSize(755, 450);
+    if([NSUserDefaults.standardUserDefaults integerForKey:OEControlsPrefsAppearancePreferenceKey] == OEControlsPrefsAppearancePreferenceValueWood)
+        return NSMakeSize(755, 450);
+    else
+        return NSMakeSize(760, 450);
 }
 
 #pragma mark -

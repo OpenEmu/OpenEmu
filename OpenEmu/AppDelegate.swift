@@ -143,6 +143,7 @@ class AppDelegate: NSObject {
             OEPopoutGameWindowIntegerScalingOnlyKey: true,
             OEAppearancePreferenceKey: OEAppearancePreferenceValue.dark.rawValue,
             OEHUDBarAppearancePreferenceKey: OEHUDBarAppearancePreferenceValue.dark.rawValue,
+            OEControlsPrefsAppearancePreferenceKey: OEControlsPrefsAppearancePreferenceValue.wood.rawValue,
             ])
         
         #if !DEBUG_PRINT

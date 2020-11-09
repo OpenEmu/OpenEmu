@@ -40,6 +40,12 @@ typedef NS_ENUM(NSInteger, OEHUDBarAppearancePreferenceValue) {
     OEHUDBarAppearancePreferenceValueDark,
 };
 
+extern NSString * const OEControlsPrefsAppearancePreferenceKey;
+typedef NS_ENUM(NSInteger, OEControlsPrefsAppearancePreferenceValue) {
+    OEControlsPrefsAppearancePreferenceValueWood,
+    OEControlsPrefsAppearancePreferenceValueLumberjack,
+};
+
 @interface OEPrefDebugController : NSViewController <OEPreferencePane>
 @property (weak, nonatomic) IBOutlet NSGridView *contentView;
 @end

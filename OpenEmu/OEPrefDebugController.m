@@ -66,6 +66,7 @@
 
 NSString * const OEAppearancePreferenceKey = @"OEAppearance";
 NSString * const OEHUDBarAppearancePreferenceKey = @"OEHUDBarAppearance";
+NSString * const OEControlsPrefsAppearancePreferenceKey = @"OEControlsPrefsAppearance";
 
 @interface OELibraryDatabase (Private)
 - (void)OE_createInitialItems;
@@ -200,6 +201,11 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox(@"logsHIDEvents", @"Log HID Events"),
                               Checkbox(@"logsHIDEventsNoKeyboard", @"Log Keyboard Events"),
                               Checkbox(@"OEShowAllGlobalKeys", @"Show all global keys"),
+                              Popover(@"Appearance:", @selector(changeControlsPrefsAppearance:),
+                                      Option(@"Wood", @(OEControlsPrefsAppearancePreferenceValueWood)),
+                                      Option(@"Vibrant", @(OEControlsPrefsAppearancePreferenceValueLumberjack))
+                                      ),
+                              ColorWell(OEGameViewBackgroundColorKey, @"Game View Background color:"),
                               NumberTextBox(@"OESystemResponderADCThreshold", @"Threshold for analog controls bound to buttons:", adcSensitivityNF),
 
                               Group2(@"Save States"),
@@ -276,6 +282,16 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 {
     NSMenuItem *selectedItem = [sender selectedItem];
     [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEHUDBarAppearancePreferenceKey];
+}
+
+- (void)changeControlsPrefsAppearance:(NSPopUpButton *)sender
+{
+    NSMenuItem *selectedItem = [sender selectedItem];
+    [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEControlsPrefsAppearancePreferenceKey];
+    OEAlert *alert = [OEAlert new];
+    alert.messageText = NSLocalizedString(@"You need to restart the application to commit the change", @"");
+    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"")];
+    [alert runModal];
 }
 
 #pragma mark -
@@ -1021,6 +1037,13 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     else if ([action isEqual:NSStringFromSelector(@selector(changeHUDBarAppearance:))])
     {
         userDefaultsKey = OEHUDBarAppearancePreferenceKey;
+        test = ^BOOL(id obj, id currentValue) {
+            return [[obj representedObject] intValue] == [currentValue intValue];
+        };
+    }
+    else if ([action isEqual:NSStringFromSelector(@selector(changeControlsPrefsAppearance:))])
+    {
+        userDefaultsKey = OEControlsPrefsAppearancePreferenceKey;
         test = ^BOOL(id obj, id currentValue) {
             return [[obj representedObject] intValue] == [currentValue intValue];
         };

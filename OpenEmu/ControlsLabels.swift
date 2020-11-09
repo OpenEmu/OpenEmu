@@ -24,6 +24,7 @@
 
 import Cocoa
 
+@objc(OEControlsLabel)
 class ControlsLabel: NSTextField {
     
     required init?(coder: NSCoder) {
@@ -36,13 +37,22 @@ class ControlsLabel: NSTextField {
         commonInit()
     }
     
+    let isWood = UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue
+    
     private func commonInit() {
         
         isBezeled = false
         isEditable = false
         isSelectable = false
         drawsBackground = false
-        textColor = .black
+        
+        if isWood {
+            textColor = .black
+            font = .boldSystemFont(ofSize: 11)
+        } else {
+            textColor = .labelColor
+            font = .systemFont(ofSize: 11)
+        }
         
         setupAttributes()
     }
@@ -51,6 +61,8 @@ class ControlsLabel: NSTextField {
     }
     
     override func draw(_ dirtyRect: NSRect) {
+        
+        guard isWood else { return super.draw(dirtyRect) }
         
         let attributedString = attributedStringValue.mutableCopy() as! NSMutableAttributedString
         attributedString.addAttributes([.shadow : NSShadow.oeControls], range: NSRange(location: 0, length: attributedString.length))
@@ -65,7 +77,11 @@ class ControlsLabel: NSTextField {
 final class ControlsKeyHeadline: ControlsLabel {
     
     override func setupAttributes() {
-        font = .boldSystemFont(ofSize: 11.5)
+        if isWood {
+            font = .boldSystemFont(ofSize: 11.5)
+        } else {
+            font = .systemFont(ofSize: 11.5)
+        }
     }
 }
 
@@ -73,15 +89,6 @@ final class ControlsKeyHeadline: ControlsLabel {
 final class ControlsKeyLabel: ControlsLabel {
     
     override func setupAttributes() {
-        font = .boldSystemFont(ofSize: 11)
         alignment = .right
-    }
-}
-
-@objc(OEControlsInputLabel)
-final class ControlsInputLabel: ControlsLabel {
-    
-    override func setupAttributes() {
-        font = .boldSystemFont(ofSize: 11)
     }
 }

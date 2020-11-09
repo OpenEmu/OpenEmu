@@ -23,7 +23,9 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @objc(OEControlsKeyButton)
-class ControlsKeyButton: NSButton {
+final class ControlsKeyButton: NSButton {
+    
+    let isWood = UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue
     
     override var isFlipped: Bool {
         return false
@@ -31,7 +33,13 @@ class ControlsKeyButton: NSButton {
     
     override func draw(_ dirtyRect: NSRect) {
         
-        let image = state == .on ? NSImage(named: "wood_textfield_focus") : NSImage(named: "wood_textfield")
+        var image: NSImage?
+        if isWood {
+            image = state == .on ? NSImage(named: "wood_textfield_focus") : NSImage(named: "wood_textfield")
+
+        } else {
+            image = state == .on ? NSImage(named: "controls_textfield_focus")?.withTintColor(.controlAccentColor) : NSImage(named: "controls_textfield")
+        }
         image?.draw(in: dirtyRect)
         
         let p = NSPoint(x: bounds.origin.x + 4, y: bounds.origin.y + (isFlipped ? 4 : 6))
@@ -40,10 +48,14 @@ class ControlsKeyButton: NSButton {
     
     private static let attributes: [NSAttributedString.Key : Any]? = {
         
-        let attributes: [NSAttributedString.Key : Any] =
-                                          [.font: NSFont.boldSystemFont(ofSize: 11),
-                                .foregroundColor: NSColor.black,
-                                         .shadow: NSShadow.oeControls]
+        let isWood = UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue
+        
+        var attributes: [NSAttributedString.Key : Any] =
+                                          [.font: isWood ? NSFont.boldSystemFont(ofSize: 11) : NSFont.systemFont(ofSize: 11),
+                                .foregroundColor: isWood ? NSColor.black : NSColor.labelColor]
+        if isWood {
+            attributes[.shadow] = NSShadow.oeControls
+        }
         
         return attributes
     }()
