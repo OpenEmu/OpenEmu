@@ -68,8 +68,8 @@ typedef NS_OPTIONS(NSInteger, OESidebarCellState)
     static NSDictionary *attributes;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSFont *font = [NSFont boldSystemFontOfSize:11];
-        NSColor *color = NSColor.labelColor;
+        NSFont *font = [NSFont systemFontOfSize:11 weight:NSFontWeightMedium];
+        NSColor *color = NSColor.secondaryLabelColor;
         
         attributes = @{
             NSFontAttributeName : font,
@@ -110,8 +110,7 @@ typedef NS_OPTIONS(NSInteger, OESidebarCellState)
         color = NSColor.selectedControlTextColor;
     }
     
-    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-    [attributes addEntriesFromDictionary:sharedAttributes];
+    NSMutableDictionary *attributes = [sharedAttributes mutableCopy];
     [attributes setObject:color forKey:NSForegroundColorAttributeName];
     
     return attributes;
