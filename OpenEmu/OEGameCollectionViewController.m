@@ -617,8 +617,8 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         if(hasLocalFiles)
         {
             [menu addItemWithTitle:NSLocalizedString(@"Show in Finder", @"") action:@selector(showInFinder:) keyEquivalent:@""];
-            if(hasRemoteFiles)
-                [menu addItemWithTitle:NSLocalizedString(@"Trash downloaded Files", @"") action:@selector(trashDownloadedFiles:) keyEquivalent:@""];
+            //if(hasRemoteFiles)
+                //[menu addItemWithTitle:NSLocalizedString(@"Trash downloaded Files", @"") action:@selector(trashDownloadedFiles:) keyEquivalent:@""];
         }
         [menu addItem:[NSMenuItem separatorItem]];
 
@@ -628,7 +628,8 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
             [menu addItemWithTitle:NSLocalizedString(@"Cancel Cover Art Download", @"") action:@selector(cancelCoverArtDownload:) keyEquivalent:@""];
 
         [menu addItemWithTitle:NSLocalizedString(@"Add Cover Art from File…", @"") action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
-        [menu addItemWithTitle:NSLocalizedString(@"Consolidate Files…", @"") action:@selector(consolidateFiles:) keyEquivalent:@""];
+        if(hasLocalFiles)
+            [menu addItemWithTitle:NSLocalizedString(@"Consolidate Files…", @"") action:@selector(consolidateFiles:) keyEquivalent:@""];
 
         //[menu addItemWithTitle:@"Add Save File To Game…" action:@selector(addSaveStateFromFile:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
@@ -663,8 +664,8 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         if(hasLocalFiles)
         {
             [menu addItemWithTitle:NSLocalizedString(@"Show in Finder", @"") action:@selector(showInFinder:) keyEquivalent:@""];
-            if(hasRemoteFiles)
-                [menu addItemWithTitle:NSLocalizedString(@"Trash downloaded Files", @"") action:@selector(trashDownloadedFiles:) keyEquivalent:@""];
+            //if(hasRemoteFiles)
+                //[menu addItemWithTitle:NSLocalizedString(@"Trash downloaded Files", @"") action:@selector(trashDownloadedFiles:) keyEquivalent:@""];
         }
         [menu addItem:[NSMenuItem separatorItem]];
 
