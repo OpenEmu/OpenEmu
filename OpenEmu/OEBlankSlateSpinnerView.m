@@ -25,12 +25,11 @@
  */
 
 #import "OEBlankSlateSpinnerView.h"
+#import "OpenEmu-Swift.h"
 @import QuartzCore;
 
 @interface OEBlankSlateSpinnerView () <CALayerDelegate>
-@property (strong) CALayer *dropShadowLayer;
 @property (strong) CALayer *spinnerLayer;
-@property (strong) CALayer *innerShadowLayer;
 @end
 
 @implementation OEBlankSlateSpinnerView
@@ -52,30 +51,15 @@
 {
     CALayer *rootLayer = [CALayer layer];
     [rootLayer setDelegate:self];
-    const CGRect bounds = [rootLayer bounds];
-
-    CALayer *bgLayer = [CALayer layer];
-    [bgLayer setContentsGravity:kCAAlignmentCenter];
-    [bgLayer setFrame:bounds];
-    [bgLayer setDelegate:self];
-    [self setDropShadowLayer:bgLayer];
 
     CALayer *spinnerLayer = [CALayer layer];
     [spinnerLayer setContentsGravity:kCAAlignmentCenter];
-    [spinnerLayer setFrame:bounds];
+    [spinnerLayer setFrame:rootLayer.bounds];
     [spinnerLayer addAnimation:[self spinnerAnimation] forKey:nil];
     [spinnerLayer setDelegate:self];
     [self setSpinnerLayer:spinnerLayer];
 
-    CALayer *fgLayer = [CALayer layer];
-    [fgLayer setContentsGravity:kCAAlignmentCenter];
-    [fgLayer setFrame:bounds];
-    [fgLayer setDelegate:self];
-    [self setInnerShadowLayer:fgLayer];
-
-    [rootLayer addSublayer:bgLayer];
     [rootLayer addSublayer:spinnerLayer];
-    [rootLayer addSublayer:fgLayer];
     
     return rootLayer;
 }
@@ -105,16 +89,10 @@
 #pragma mark - Layer Delegate
 - (void)layoutSublayersOfLayer:(CALayer *)layer
 {
-    if(layer == [self layer])
+    if(layer == self.layer)
     {
-        const CGRect bounds = [layer bounds];
-        [[self dropShadowLayer] setFrame:bounds];
-        [[self innerShadowLayer] setFrame:bounds];
-        [[self spinnerLayer] setFrame:bounds];
-
-        [[self dropShadowLayer]  setContents:[NSImage imageNamed:@"blank_slate_spinner_bg"]];
-        [[self innerShadowLayer] setContents:[NSImage imageNamed:@"blank_slate_spinner_fg"]];
-        [[self spinnerLayer]     setContents:[NSImage imageNamed:@"blank_slate_spinner_sp"]];
+        self.spinnerLayer.frame = layer.bounds;
+        self.spinnerLayer.contents = [[NSImage imageNamed:@"blank_slate_spinner"] imageWithTintColor:[NSColor colorNamed:@"blank_slate_box_text"]];
     }
 }
 
