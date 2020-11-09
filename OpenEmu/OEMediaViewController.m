@@ -58,7 +58,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
 @end
 
-@interface OEMediaViewController () <OELibrarySubviewControlleSaveStateSelection>
+@interface OEMediaViewController () <OELibrarySubviewControllerSaveStateSelection>
 
 @property (strong) NSArray *groupRanges;
 @property (strong) NSArray *items;

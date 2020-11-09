@@ -870,7 +870,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
         NSString *label = [keyDescription objectForKey:LabelKey];
         NSTextField *field = [NSTextField labelWithString:label];
         [field setStringValue:label];
-        [field setFont:[NSFont systemFontOfSize:0 weight:NSFontWeightBold]];
+        [field setFont:[NSFont boldSystemFontOfSize:0]];
         
         NSGridRow *row = [gridView addRowWithViews:@[[NSGridCell emptyContentView], field]];
         row.bottomPadding = 4;

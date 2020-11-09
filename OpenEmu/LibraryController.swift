@@ -220,7 +220,6 @@ class LibraryController: NSTabViewController {
     }
     
     @IBAction func decreaseGridSize(_ sender: Any?) {
-        NSSelectorFromString(#function)
         tryForwardAction(sel: #selector(decreaseGridSize(_:)), with: sender)
     }
     
@@ -229,11 +228,7 @@ class LibraryController: NSTabViewController {
     }
     
     override func magnify(with event: NSEvent) {
-        guard let toolbar = toolbar else { return }
-        
-        if !toolbar.gridSizeSlider.isEnabled {
-            return
-        }
+        guard let toolbar = toolbar, toolbar.gridSizeSlider.isEnabled else { return }
         
         if let ctl = tabView.selectedTabViewItem?.viewController, !ctl.responds(to: #selector(changeGridSize(_:))) {
             return
@@ -392,7 +387,7 @@ class LibraryController: NSTabViewController {
     
     @IBAction func startSaveState(_ sender: Any?) {
         guard
-            let ctl = tabView.selectedTabViewItem?.viewController as? LibrarySubviewControlleSaveStateSelection,
+            let ctl = tabView.selectedTabViewItem?.viewController as? LibrarySubviewControllerSaveStateSelection,
             let game = ctl.selectedSaveStates.first
         else { return }
         
@@ -446,7 +441,7 @@ protocol LibrarySubviewControllerGameSelection {
     var selectedGames: [OEDBGame] { get }
 }
 
-@objc(OELibrarySubviewControlleSaveStateSelection)
-protocol LibrarySubviewControlleSaveStateSelection {
+@objc(OELibrarySubviewControllerSaveStateSelection)
+protocol LibrarySubviewControllerSaveStateSelection {
     var selectedSaveStates: [OEDBSaveState] { get }
 }

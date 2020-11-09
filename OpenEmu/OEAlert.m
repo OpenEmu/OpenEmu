@@ -603,7 +603,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     self.headlineLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.headlineLabel.editable = NO;
     self.headlineLabel.selectable = YES;
-    self.headlineLabel.font = [NSFont systemFontOfSize:NSFont.systemFontSize weight:NSFontWeightBold];
+    self.headlineLabel.font = [NSFont boldSystemFontOfSize:NSFont.systemFontSize];
 
     // Setup Message Text View
     _messageLabel = [NSTextField wrappingLabelWithString:@""];

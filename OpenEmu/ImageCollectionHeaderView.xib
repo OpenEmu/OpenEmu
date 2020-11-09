@@ -9,7 +9,7 @@
         <customObject id="-2" userLabel="File's Owner"/>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <visualEffectView blendingMode="withinWindow" material="underWindowBackground" state="followsWindowActiveState" id="01D-Kh-crt" customClass="ImageCollectionHeaderView" customModule="OpenEmu" customModuleProvider="target">
+        <visualEffectView wantsLayer="YES" blendingMode="withinWindow" material="underWindowBackground" state="followsWindowActiveState" id="01D-Kh-crt" customClass="ImageCollectionHeaderView" customModule="OpenEmu" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="563" height="27"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
