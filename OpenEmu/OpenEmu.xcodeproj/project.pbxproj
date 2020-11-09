@@ -477,6 +477,7 @@
 		8F80218224F45E9800DC82E3 /* HUDSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80218024F45E9800DC82E3 /* HUDSlider.swift */; };
 		8F94B44D25566FE00058AA94 /* NSShadow+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */; };
 		8F94DEC1250EC701003A1F33 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94DEC0250EC701003A1F33 /* ThumbnailProvider.swift */; };
+		8F94DED4250ED838003A1F33 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94DED3250ED838003A1F33 /* PreviewViewController.swift */; };
 		8F957B4225227175008A9BC9 /* GlossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F957B4125227175008A9BC9 /* GlossButton.swift */; };
 		8F99F816256BF358007B83E1 /* OESidebarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F99F815256BF358007B83E1 /* OESidebarController.xib */; };
 		8FA2379325626C1B00D24E83 /* HUDControlsBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA2379225626C1B00D24E83 /* HUDControlsBarView.swift */; };
@@ -1089,6 +1090,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8F94DEB9250EC701003A1F33;
 			remoteInfo = OpenEmuQLThumbnail;
+		};
+		8F94DEDA250ED838003A1F33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F94DECE250ED838003A1F33;
+			remoteInfo = OpenEmuQLPreview;
 		};
 		940553B117A35DE0009B505D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1780,6 +1788,10 @@
 		8F94DEC0250EC701003A1F33 /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
 		8F94DEC2250EC701003A1F33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F94DEC3250EC701003A1F33 /* OpenEmuQLThumbnail.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OpenEmuQLThumbnail.entitlements; sourceTree = "<group>"; };
+		8F94DECF250ED838003A1F33 /* OpenEmuQLPreview.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OpenEmuQLPreview.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F94DED3250ED838003A1F33 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		8F94DED8250ED838003A1F33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8F94DED9250ED838003A1F33 /* OpenEmuQLPreview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OpenEmuQLPreview.entitlements; sourceTree = "<group>"; };
 		8F957B4125227175008A9BC9 /* GlossButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlossButton.swift; sourceTree = "<group>"; };
 		8F99F815256BF358007B83E1 /* OESidebarController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESidebarController.xib; sourceTree = "<group>"; };
 		8FA2379225626C1B00D24E83 /* HUDControlsBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDControlsBarView.swift; sourceTree = "<group>"; };
@@ -2313,6 +2325,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8F94DEB7250EC701003A1F33 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F94DECC250ED838003A1F33 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2889,6 +2908,7 @@
 				05DB72A12532681B0098459D /* OpenEmuTests.xctest */,
 				012148052537C6D6007F3C84 /* OESystemPluginPostInstall */,
 				8F94DEBA250EC701003A1F33 /* OpenEmuQLThumbnail.appex */,
+				8F94DECF250ED838003A1F33 /* OpenEmuQLPreview.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3044,6 +3064,7 @@
 				0547FE1524E86D9F005C1FFC /* broker */,
 				3887A8011024D29D000FC4CF /* OpenEmuQLGenerator */,
 				8F94DEBF250EC701003A1F33 /* OpenEmuQLThumbnail */,
+				8F94DED2250ED838003A1F33 /* OpenEmuQLPreview */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				05DB72A22532681B0098459D /* OpenEmuTests */,
@@ -3702,6 +3723,16 @@
 				8F94DEC3250EC701003A1F33 /* OpenEmuQLThumbnail.entitlements */,
 			);
 			path = OpenEmuQLThumbnail;
+			sourceTree = "<group>";
+		};
+		8F94DED2250ED838003A1F33 /* OpenEmuQLPreview */ = {
+			isa = PBXGroup;
+			children = (
+				8F94DED3250ED838003A1F33 /* PreviewViewController.swift */,
+				8F94DED8250ED838003A1F33 /* Info.plist */,
+				8F94DED9250ED838003A1F33 /* OpenEmuQLPreview.entitlements */,
+			);
+			path = OpenEmuQLPreview;
 			sourceTree = "<group>";
 		};
 		9405538617A34C6B009B505D /* PC Engine CD */ = {
@@ -4920,6 +4951,7 @@
 				1B6A25021430F8FB009F1CE1 /* PBXTargetDependency */,
 				0547FE1E24E86D9F005C1FFC /* PBXTargetDependency */,
 				8F94DEC5250EC701003A1F33 /* PBXTargetDependency */,
+				8F94DEDB250ED838003A1F33 /* PBXTargetDependency */,
 			);
 			name = OpenEmu;
 			productInstallPath = "$(HOME)/Applications";
@@ -4942,6 +4974,23 @@
 			name = OpenEmuQLThumbnail;
 			productName = OpenEmuQLThumbnail;
 			productReference = 8F94DEBA250EC701003A1F33 /* OpenEmuQLThumbnail.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		8F94DECE250ED838003A1F33 /* OpenEmuQLPreview */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F94DEDD250ED838003A1F33 /* Build configuration list for PBXNativeTarget "OpenEmuQLPreview" */;
+			buildPhases = (
+				8F94DECB250ED838003A1F33 /* Sources */,
+				8F94DECC250ED838003A1F33 /* Frameworks */,
+				8F94DECD250ED838003A1F33 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenEmuQLPreview;
+			productName = OpenEmuQLPreview;
+			productReference = 8F94DECF250ED838003A1F33 /* OpenEmuQLPreview.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		9405538317A34C6B009B505D /* PC Engine CD */ = {
@@ -5584,6 +5633,10 @@
 						CreatedOnToolsVersion = 12.0;
 						ProvisioningStyle = Automatic;
 					};
+					8F94DECE250ED838003A1F33 = {
+						CreatedOnToolsVersion = 12.0;
+						ProvisioningStyle = Automatic;
+					};
 					9405538317A34C6B009B505D = {
 						ProvisioningStyle = Manual;
 					};
@@ -5717,6 +5770,7 @@
 				1BEF2A9311682A530090F72B /* OpenEmuHelperApp */,
 				0547FE1324E86D9F005C1FFC /* broker */,
 				8F94DEB9250EC701003A1F33 /* OpenEmuQLThumbnail */,
+				8F94DECE250ED838003A1F33 /* OpenEmuQLPreview */,
 				3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */,
 				943F99B21707DF3700270E89 /* 3DO */,
 				945E42FA1517F2B500057D08 /* Arcade */,
@@ -5974,6 +6028,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8F94DEB8250EC701003A1F33 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F94DECD250ED838003A1F33 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -6795,6 +6856,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8F94DECB250ED838003A1F33 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F94DED4250ED838003A1F33 /* PreviewViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9405538017A34C6B009B505D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -7336,6 +7405,11 @@
 			isa = PBXTargetDependency;
 			target = 8F94DEB9250EC701003A1F33 /* OpenEmuQLThumbnail */;
 			targetProxy = 8F94DEC4250EC701003A1F33 /* PBXContainerItemProxy */;
+		};
+		8F94DEDB250ED838003A1F33 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F94DECE250ED838003A1F33 /* OpenEmuQLPreview */;
+			targetProxy = 8F94DEDA250ED838003A1F33 /* PBXContainerItemProxy */;
 		};
 		940553B217A35DE0009B505D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -8140,6 +8214,34 @@
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = OpenEmuQLThumbnail/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.OpenEmu.$(PRODUCT_NAME:identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		8F94DEDE250ED838003A1F33 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = OpenEmuQLPreview/OpenEmuQLPreview.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = OpenEmuQLPreview/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.OpenEmu.$(PRODUCT_NAME:identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8F94DEDF250ED838003A1F33 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = OpenEmuQLPreview/OpenEmuQLPreview.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = OpenEmuQLPreview/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.OpenEmu.$(PRODUCT_NAME:identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -9220,6 +9322,15 @@
 			buildConfigurations = (
 				8F94DEC8250EC701003A1F33 /* Debug */,
 				8F94DEC9250EC701003A1F33 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8F94DEDD250ED838003A1F33 /* Build configuration list for PBXNativeTarget "OpenEmuQLPreview" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F94DEDE250ED838003A1F33 /* Debug */,
+				8F94DEDF250ED838003A1F33 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
