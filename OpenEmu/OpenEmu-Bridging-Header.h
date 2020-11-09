@@ -46,6 +46,7 @@
 #import "NSToolbar+ApplePrivate.h"
 #import "NSWindow+BigSur.h"
 #import "OETableView.h"
+#import "OEHUDBar.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <OpenEmuKit/OpenEmuKit.h>

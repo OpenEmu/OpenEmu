@@ -34,6 +34,12 @@ typedef NS_ENUM(NSInteger, OEAppearancePreferenceValue) {
     OEAppearancePreferenceValueLight,
 };
 
+extern NSString * const OEHUDBarAppearancePreferenceKey;
+typedef NS_ENUM(NSInteger, OEHUDBarAppearancePreferenceValue) {
+    OEHUDBarAppearancePreferenceValueVibrant,
+    OEHUDBarAppearancePreferenceValueDark,
+};
+
 @interface OEPrefDebugController : NSViewController <OEPreferencePane>
 @property (weak, nonatomic) IBOutlet NSGridView *contentView;
 @end

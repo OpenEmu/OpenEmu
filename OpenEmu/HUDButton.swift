@@ -61,15 +61,15 @@ final class HUDButton: HoverButton {
         
         if backgroundSubImageRect != nil {
             let bgSubImageRect = isHighlighted ? backgroundSubImageHighlightRect : backgroundSubImageRect!
-            NSImage(named: "hud_button")?.subImage(from: bgSubImageRect).draw(in: dirtyRect)
+            NSImage(named: "HUD/hud_button")?.subImage(from: bgSubImageRect).draw(in: dirtyRect)
         }
         
         let image = subImageFromImageName
         
-        let imageRect = NSRect.init(x: frame.size.width/2 - image.size.width/2,
-                                    y: frame.size.height/2 - image.size.height/2,
-                                width: image.size.width,
-                               height: image.size.height)
+        let imageRect = NSRect(x: frame.size.width/2 - image.size.width/2,
+                               y: frame.size.height/2 - image.size.height/2,
+                           width: image.size.width,
+                          height: image.size.height)
         
         image.draw(in: imageRect)
     }

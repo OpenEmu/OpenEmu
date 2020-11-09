@@ -34,6 +34,7 @@
 #import "OEPopoutGameWindowController.h"
 
 #import "OEDBSaveState.h"
+#import "OEHUDBar.h"
 
 #import "OEAudioDeviceManager.h"
 
@@ -50,7 +51,7 @@ NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions
 NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutput";
 
-@interface OEHUDControlsBarView : NSView <CAAnimationDelegate>
+@interface OEHUDControlsBarView : NSView <CAAnimationDelegate, OEHUDBarView>
 
 @property(strong, readonly) OEHUDSlider *slider;
 @property(strong, readonly) OEHUDButton *fullScreenButton;
@@ -67,7 +68,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 @property          BOOL cheatsLoaded;
 
 @property (unsafe_unretained) OEGameViewController *gameViewController;
-@property (strong) OEHUDControlsBarView *controlsView;
+@property (strong) NSView<OEHUDBarView> *controlsView;
 @property (strong, nonatomic) NSDate *lastMouseMovement;
 @end
 
@@ -76,6 +77,14 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     NSArray<NSString *> *_sortedSystemShaders;
     NSArray<NSString *> *_sortedCustomShaders;
     NSRect _lastGameWindowFrame;
+}
+
+- (BOOL)canBecomeKeyWindow {
+    return NO;
+}
+
+- (BOOL)canBecomeMainWindow {
+    return NO;
 }
 
 + (void)initialize
@@ -95,20 +104,47 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 - (id)initWithGameViewController:(OEGameViewController *)controller
 {
     BOOL hideOptions = [NSUserDefaults.standardUserDefaults boolForKey:OEGameControlsBarHidesOptionButtonKey];
-
-    self = [super initWithContentRect:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
+    BOOL useNew = [NSUserDefaults.standardUserDefaults integerForKey:OEHUDBarAppearancePreferenceKey] == OEHUDBarAppearancePreferenceValueVibrant;
+    
+    if(useNew)
+        self = [super initWithContentRect:NSMakeRect(0, 0, 442, 42) styleMask:NSWindowStyleMaskTitled backing:NSBackingStoreBuffered defer:YES];
+    else
+        self = [super initWithContentRect:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
+    
     if(self != nil)
     {
-        [self setMovableByWindowBackground:YES];
-        [self setOpaque:NO];
-        [self setBackgroundColor:[NSColor clearColor]];
-        [self setAlphaValue:0.0];
-        [self setCanShow:YES];
-        [self setGameViewController:controller];
-        [self setAnimationBehavior:NSWindowAnimationBehaviorNone];
-
-        OEHUDControlsBarView *barView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
-        [[self contentView] addSubview:barView];
+        self.movableByWindowBackground = YES;
+        self.animationBehavior = NSWindowAnimationBehaviorNone;
+        
+        self.canShow = YES;
+        self.gameViewController = controller;
+        
+        if(useNew)
+        {
+            self.titlebarAppearsTransparent = YES;
+            self.titleVisibility = NSWindowTitleHidden;
+            self.styleMask |= NSWindowStyleMaskFullSizeContentView;
+            self.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
+            
+            NSVisualEffectView *veView = [NSVisualEffectView new];
+            veView.material = NSVisualEffectMaterialHUDWindow;
+            veView.state = NSVisualEffectStateActive;
+            self.contentView = veView;
+        }
+        else
+        {
+            self.backgroundColor = NSColor.clearColor;
+            self.alphaValue = 0.0;
+        }
+        
+        NSView<OEHUDBarView> *barView;
+        
+        if(useNew)
+            barView = [[OEGameControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 442, 42)];
+        else
+            barView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
+        
+        [self.contentView addSubview:barView];
         [barView setupControls];
         
         _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskMouseMoved handler:^NSEvent*(NSEvent* e)
@@ -765,7 +801,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)reflectVolume:(CGFloat)volume
 {
-    OEHUDControlsBarView *view   = self.contentView.subviews.lastObject;
+    NSView<OEHUDBarView> *view   = self.contentView.subviews.lastObject;
     NSSlider             *slider = view.slider;
 
     [slider animator].doubleValue = volume;
@@ -773,7 +809,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)reflectEmulationRunning:(BOOL)isEmulationRunning
 {
-    OEHUDControlsBarView *view        = self.contentView.subviews.lastObject;
+    NSView<OEHUDBarView> *view        = self.contentView.subviews.lastObject;
     NSButton             *pauseButton = view.pauseButton;
     pauseButton.state = !isEmulationRunning;
 
@@ -788,14 +824,14 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)gameWindowDidEnterFullScreen:(NSNotification *)notification;
 {
-    OEHUDControlsBarView *view = self.contentView.subviews.lastObject;
+    NSView<OEHUDBarView> *view = self.contentView.subviews.lastObject;
     view.fullScreenButton.state = NSControlStateValueOn;
     [self _performMouseMoved:nil];  // Show HUD because fullscreen animation makes the cursor appear
 }
 
 - (void)gameWindowWillExitFullScreen:(NSNotification *)notification;
 {
-    OEHUDControlsBarView *view = self.contentView.subviews.lastObject;
+    NSView<OEHUDBarView> *view = self.contentView.subviews.lastObject;
     view.fullScreenButton.state = NSControlStateValueOff;
 }
 
@@ -833,7 +869,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [nc addObserver:self selector:@selector(gameWindowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:gameWindow];
         [nc addObserver:self selector:@selector(gameWindowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:gameWindow];
 
-        OEHUDControlsBarView *view = self.contentView.subviews.lastObject;
+        NSView<OEHUDBarView> *view = self.contentView.subviews.lastObject;
         view.fullScreenButton.state = gameWindow.isFullScreen ? NSControlStateValueOn : NSControlStateValueOff;
     }
 }
@@ -865,14 +901,14 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 #pragma mark -
 - (void)drawRect:(NSRect)dirtyRect
 {
-    NSImage *barBackground = [NSImage imageNamed:@"hud_bar"];
+    NSImage *barBackground = [NSImage imageNamed:@"HUD/hud_bar"];
     [barBackground drawInRect:self.bounds];
 }
 
 - (void)setupControls
 {
     OEHUDButton *stopButton = [[OEHUDButton alloc] init];
-    stopButton.imageName = @"hud_power";
+    stopButton.imageName = @"HUD/hud_power";
     stopButton.backgroundColor = NSColor.redColor;
     [stopButton setTarget:self];
     [stopButton setAction:@selector(stopEmulation:)];
@@ -883,8 +919,8 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
     _pauseButton = [[OEHUDButton alloc] init];
     [_pauseButton setButtonType:NSButtonTypeToggle];
-    _pauseButton.imageName = @"hud_pause";
-    _pauseButton.alternateImageName = @"hud_play";
+    _pauseButton.imageName = @"HUD/hud_pause";
+    _pauseButton.alternateImageName = @"HUD/hud_play";
     [_pauseButton setAction:@selector(toggleEmulationPaused:)];
     [_pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];
     [_pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
@@ -892,7 +928,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [self addSubview:_pauseButton];
 
     OEHUDButton *restartButton = [[OEHUDButton alloc] init];
-    restartButton.imageName = @"hud_restart";
+    restartButton.imageName = @"HUD/hud_restart";
     [restartButton setAction:@selector(resetEmulation:)];
     [restartButton setFrame:NSMakeRect(111, 9, 32, 32)];
     [restartButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
@@ -900,7 +936,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [self addSubview:restartButton];
 
     OEHUDButton *saveButton = [[OEHUDButton alloc] init];
-    saveButton.imageName = @"hud_save";
+    saveButton.imageName = @"HUD/hud_save";
     [saveButton setTarget:[self window]];
     [saveButton setAction:@selector(showSaveMenu:)];
     [saveButton setFrame:NSMakeRect(162, 7, 32, 32)];
@@ -912,7 +948,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     if(!hideOptions)
     {
         OEHUDButton *optionsButton = [[OEHUDButton alloc] init];
-        optionsButton.imageName = @"hud_options";
+        optionsButton.imageName = @"HUD/hud_options";
         [optionsButton setTarget:[self window]];
         [optionsButton setAction:@selector(showOptionsMenu:)];
         [optionsButton setFrame:NSMakeRect(212, 7, 32, 32)];
@@ -922,13 +958,13 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     }
 
     OEHUDButton *volumeDownButton = [[OEHUDButton alloc] initWithFrame:NSMakeRect(224 + (hideOptions ? 0 : 50), 15, 12, 18)];
-    volumeDownButton.imageName = @"hud_volume_down";
+    volumeDownButton.imageName = @"HUD/hud_volume_down";
     [volumeDownButton setAction:@selector(mute:)];
     [volumeDownButton setToolTip:NSLocalizedString(@"Mute Audio", @"Tooltip")];
     [self addSubview:volumeDownButton];
 
     OEHUDButton *volumeUpButton = [[OEHUDButton alloc] initWithFrame:NSMakeRect(320 + (hideOptions? 0 : 50), 15, 17, 18)];
-    volumeUpButton.imageName = @"hud_volume_up";
+    volumeUpButton.imageName = @"HUD/hud_volume_up";
     [volumeUpButton setAction:@selector(unmute:)];
     [volumeUpButton setToolTip:NSLocalizedString(@"Unmute Audio", @"Tooltip")];
     [self addSubview:volumeUpButton];
@@ -952,8 +988,8 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [self addSubview:_slider];
 
     _fullScreenButton = [[OEHUDButton alloc] init];
-    _fullScreenButton.imageName = @"hud_fullscreen_enter";
-    _fullScreenButton.alternateImageName = @"hud_fullscreen_exit";
+    _fullScreenButton.imageName = @"HUD/hud_fullscreen_enter";
+    _fullScreenButton.alternateImageName = @"HUD/hud_fullscreen_exit";
     _fullScreenButton.backgroundColor = NSColor.blackColor;
     [_fullScreenButton setButtonType:NSButtonTypePushOnPushOff];
     [_fullScreenButton setAction:@selector(toggleFullScreen:)];

@@ -2,8 +2,5 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "provides-namespace" : true
   }
 }

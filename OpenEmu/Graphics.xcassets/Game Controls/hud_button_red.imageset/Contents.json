@@ -1,0 +1,18 @@
+{
+  "images" : [
+    {
+      "filename" : "hud_button_red.png",
+      "idiom" : "mac",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "hud_button_red@x2.png",
+      "idiom" : "mac",
+      "scale" : "2x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

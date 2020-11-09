@@ -65,6 +65,7 @@
 #import "OpenEmu-Swift.h"
 
 NSString * const OEAppearancePreferenceKey = @"OEAppearance";
+NSString * const OEHUDBarAppearancePreferenceKey = @"OEHUDBarAppearance";
 
 @interface OELibraryDatabase (Private)
 - (void)OE_createInitialItems;
@@ -184,6 +185,10 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox(OEGameControlsBarShowsAudioOutput, @"Show audio output device in menu"),
                               Checkbox(OETakeNativeScreenshots, @"Take screenshots in native size"),
                               Checkbox(OEScreenshotAspectRatioCorrectionDisabled, @"Disable aspect ratio correction in screenshots"),
+                              Popover(@"Appearance:", @selector(changeHUDBarAppearance:),
+                                      Option(@"Vibrant", @(OEHUDBarAppearancePreferenceValueVibrant)),
+                                      Option(@"Dark", @(OEHUDBarAppearancePreferenceValueDark))
+                                      ),
                               ColorWell(OEGameViewBackgroundColorKey, @"Game View Background color:"),
 
                               Group(@"Controls Setup"),
@@ -265,6 +270,12 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 {
     NSMenuItem *selectedItem = [sender selectedItem];
     [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEAppearancePreferenceKey];
+}
+
+- (void)changeHUDBarAppearance:(NSPopUpButton *)sender
+{
+    NSMenuItem *selectedItem = [sender selectedItem];
+    [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEHUDBarAppearancePreferenceKey];
 }
 
 #pragma mark -
@@ -1003,6 +1014,13 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     else if ([action isEqual:NSStringFromSelector(@selector(changeAppAppearance:))])
     {
         userDefaultsKey = OEAppearancePreferenceKey;
+        test = ^BOOL(id obj, id currentValue) {
+            return [[obj representedObject] intValue] == [currentValue intValue];
+        };
+    }
+    else if ([action isEqual:NSStringFromSelector(@selector(changeHUDBarAppearance:))])
+    {
+        userDefaultsKey = OEHUDBarAppearancePreferenceKey;
         test = ^BOOL(id obj, id currentValue) {
             return [[obj representedObject] intValue] == [currentValue intValue];
         };

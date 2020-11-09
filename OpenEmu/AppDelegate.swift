@@ -141,7 +141,8 @@ class AppDelegate: NSObject {
             OEDBSavedGamesMediaShowsQuickSaves: true,
             OEForcePopoutGameWindowKey: true,
             OEPopoutGameWindowIntegerScalingOnlyKey: true,
-            OEAppearancePreferenceKey: OEAppearancePreferenceValue.dark.rawValue
+            OEAppearancePreferenceKey: OEAppearancePreferenceValue.dark.rawValue,
+            OEHUDBarAppearancePreferenceKey: OEHUDBarAppearancePreferenceValue.dark.rawValue,
             ])
         
         #if !DEBUG_PRINT

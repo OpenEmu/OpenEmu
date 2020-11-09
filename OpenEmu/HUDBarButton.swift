@@ -24,47 +24,35 @@
 
 import Cocoa
 
-@objc(OEHUDSliderCell)
-final class HUDSliderCell: NSSliderCell {
+final class HUDBarButton: HoverButton {
     
-    let trackImage = NSImage(named: "HUD/hud_slider_track")
-    let levelImage = NSImage(named: "HUD/hud_slider_level")
-    let knobImage  = NSImage(named: "HUD/hud_slider_thumb")
+    @objc var backgroundColor = NSColor.clear
     
-    private var trackThickness: CGFloat {
-        return trackImage?.size.height ?? trackRect.height
-    }
-    
-    override func drawBar(inside aRect: NSRect, flipped: Bool) {
+    override func draw(_ dirtyRect: NSRect) {
         
-        var barRect = aRect.insetBy(dx: 2, dy: (aRect.height-trackThickness)/2)
-        barRect = controlView?.backingAlignedRect(barRect, options: .alignAllEdgesNearest) ?? .zero
+        var backgroundImageName = ""
         
-        trackImage?.draw(in: barRect)
+        if backgroundColor == .black {
+            backgroundImageName = isHighlighted ? "hud_button_black_pressed" : "hud_button_black"
+        } else if backgroundColor == .red {
+            backgroundImageName = isHighlighted ? "hud_button_red_pressed" : "hud_button_red"
+        }
         
-        let knobRect = self.knobRect(flipped: flipped)
+        NSImage(named: backgroundImageName)?.draw(in: dirtyRect)
         
-        var levelRect = barRect
-        levelRect.size.width = max(knobRect.midX-barRect.minX, levelImage?.size.width ?? 0)
-        levelRect = controlView?.backingAlignedRect(levelRect, options: .alignAllEdgesNearest) ?? .zero
-        
-        levelImage?.draw(in: levelRect)
-    }
-    
-    override func drawKnob(_ knobRect: NSRect) {
-        
-        if let knobImage = self.knobImage {
-            var knobRect = knobRect
-            var knobOffset: CGFloat = 4 // knob shadow height
-            if #available(macOS 11.0, *) {
-                knobOffset += 1.5
+        if var img = state == .on && alternateImage != nil ? alternateImage : image {
+            if isHighlighted || !isHovering {
+                img = img.withTintColor(.labelColor)
+            } else {
+                img = img.withTintColor(.white)
             }
-            knobRect.origin.y += knobRect.height-knobImage.size.height-knobOffset
-            knobRect.origin.x += (knobRect.width-knobImage.size.width)/2
-            knobRect.size = knobImage.size
-            knobRect = controlView?.backingAlignedRect(knobRect, options: .alignAllEdgesNearest) ?? .zero
             
-            knobImage.draw(in: knobRect)
+            let imageRect = NSRect(x: frame.size.width/2 - img.size.width/2,
+                                   y: frame.size.height/2 - img.size.height/2,
+                               width: img.size.width,
+                              height: img.size.height)
+            
+            img.draw(in: imageRect)
         }
     }
 }
