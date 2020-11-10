@@ -89,8 +89,4 @@ final class BlankSlateSpinnerView: NSView, CALayerDelegate, NSViewLayerContentSc
     func action(for layer: CALayer, forKey event: String) -> CAAction? {
         return nil
     }
-    
-    func layer(_ layer: CALayer, shouldInheritContentsScale newScale: CGFloat, from window: NSWindow) -> Bool {
-        return true
-    }
 }
