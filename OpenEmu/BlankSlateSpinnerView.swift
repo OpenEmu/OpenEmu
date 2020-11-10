@@ -82,6 +82,8 @@ final class BlankSlateSpinnerView: NSView, CALayerDelegate, NSViewLayerContentSc
     func layoutSublayers(of layer: CALayer) {
         if layer == self.layer, spinnerLayer != nil {
             spinnerLayer!.frame = layer.bounds
+            spinnerLayer!.frame.size.height = 124
+            spinnerLayer!.frame.origin.y -= (spinnerLayer!.frame.height - layer.frame.height) / 2
             spinnerLayer!.contents = NSImage(named: "blank_slate_spinner")?.withTintColor(NSColor(named: "blank_slate_box_text")!)
         }
     }
