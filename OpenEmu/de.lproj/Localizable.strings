@@ -31,7 +31,7 @@
 
 "Already in library:" = "Bereits in Mediathek:";
 
-"Already in library, but manually deleted or unreachable:" = "Already in library, but manually deleted or unreachable:"; // TODO
+"Already in library, but manually deleted or unreachable:" = "Bereits in Mediathek, aber gelöscht oder nicht erreichbar:";
 
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Möchtest du die %ld ausgewählten Spielstände wirklich aus der Mediathek löschen?";
 
@@ -107,7 +107,7 @@
 
 "This cannot be undone." = "Diese Aktion kann nicht rückgängig gemacht werden.";
 
-"Contains no data:" = "Contains no data:"; // TODO
+"Contains no data:" = "Leere Datei:";
 
 "Controls" = "Steuerung";
 
@@ -285,7 +285,7 @@
 
 "Moving Library…" = "Mediathek verschieben …";
 
-"Must not be compressed:" = "Must not be compressed:"; // TODO
+"Must not be compressed:" = "Darf nicht komprimiert sein:";
 
 "Mute Audio" = "Ton aus";
 
@@ -625,20 +625,20 @@
 
 "The emulator could not load ROM." = "Der Emulator konnte die Spieledatei nicht laden.";
 
-"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "Um die Belegung für %@ zu ändern, klicke diese Taste und anschließend die gewünschte Taste auf deiner Tastatur oder deinem Controller."; // TODO, Controls preferences, accessibility help
+"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "Um die Belegung für %@ zu ändern, klicke diese Taste und anschließend die gewünschte Taste auf deiner Tastatur oder deinem Controller."; // Controls preferences, accessibility help
 
-"Changed button for %1$@ to %2$@." = "Taste für %1$@ zu %2$@ geändert."; // TODO, Controls preferences, accessibility notification (“Changed button for Up to W.”)
+"Changed button for %1$@ to %2$@." = "Taste für %1$@ zu %2$@ geändert."; // Controls preferences, accessibility notification (“Changed button for Up to W.”)
 
-"Not assigned" = "Nicht zugewiesen"; // TODO, Controls preferences, accessibility title (key is not mapped, “empty”)
+"Not assigned" = "Nicht zugewiesen"; // Controls preferences, accessibility title (key is not mapped, “empty”)
 
-"OpenEmu could not download required data from the internet" = "OpenEmu could not download required data from the internet";  // TODO // Setup Assistant
+"OpenEmu could not download required data from the internet" = "OpenEmu konnte die erforderlichen Daten nicht laden";  // Setup Assistant
 
-"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again.";  // TODO // Setup Assistant
+"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "Ein Fehler ist aufgetreten. (%@) Stelle sicher, dass du mit dem Internet verbunden bist und versuche es erneut.";  // Setup Assistant
 
-"Retry" = "Retry";  // TODO
+"Retry" = "Erneut versuchen";
 
-"Downloading core list..." = "Downloading core list...";  // TODO
+"Downloading core list..." = "Kern-Liste herunterladen …";
 
-"The %@ core has quit unexpectedly" = "The %@ core has quit unexpectedly";  // TODO
+"The %@ core has quit unexpectedly" = "Der „%@“-Kern wurde unerwarted beendet";
 
-"<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed." = "<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English  // TODO
+"<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed." = "<b>Sollte das Problem fortbestehen</b>, sende uns Feedback mit den folgenden Informationen:<br><br><ul><li>Das Model deines Macs <b>und</b> die installierte macOS-Version<ul><li>Du findest diese Informationen unter  > Über diesen Mac.</li></ul></li><li>Der <b>genaue Name</b> des Spiels, das du gespielt hast</li><li>Der Absturzbericht von OpenEmuHelperApp<ul><li>Öffne Konsole.app, klicke auf „Diagnoseberichte“ in der Seitenleiste und suche nach dem neuesten Eintrag mit „OpenEmuHelperApp“ im Namen.</ul></li></li></ul><br><b>Stelle sicher, dass nicht bereits ähnliche Probleme von anderen Benutzern berichtet wurden!</b><br>Bitte verfasse deinen Bericht in englischer Sprache.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
