@@ -44,7 +44,7 @@ final class BlankSlateSpinnerView: NSView, CALayerDelegate, NSViewLayerContentSc
         rootLayer.delegate = self
         
         let spinnerLayer = CALayer()
-        spinnerLayer.contentsGravity = .center
+        spinnerLayer.contentsGravity = .resizeAspect
         spinnerLayer.frame = rootLayer.bounds
         spinnerLayer.add(spinnerAnimation, forKey: nil)
         spinnerLayer.delegate = self
