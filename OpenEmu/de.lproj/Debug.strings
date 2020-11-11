@@ -5,9 +5,9 @@
 
 "Setup Assistant has finished" = "Setup-Assistent wurde abgeschlossen";
 
-"Region" = "Region";
+"Region:" = "Region:";
 
-"Run games using" = "Starte Spiele per";
+"Run games using:" = "Starte Spiele per:";
 
 "Library Window" = "Mediathek-Ansicht";
 
@@ -47,7 +47,7 @@
 
 "Disable aspect ratio correction in screenshots" = "Seitenverhältnis-Korrektur von Bildschirmfotos deaktivieren";
 
-"Game View Background color" = "Spielefenster-Hintergrund";
+"Game View Background color:" = "Spielefenster-Hintergrund:";
 
 "Controls Setup" = "Steuerung";
 
@@ -103,7 +103,7 @@
 
 "Sync games without artwork" = "Spiele ohne Cover synchronisieren";
 
-"Threshold for analog controls bound to buttons" = "Grenzwert für auf Knöpfe\ngelegte analoge Eingaben";
+"Threshold for analog controls bound to buttons:" = "Grenzwert für auf Knöpfe\ngelegte analoge Eingaben:";
 
 "Range: %@ to %@" = "Bereich: %@ bis %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
 
@@ -119,7 +119,7 @@
 
 "Reveal user shader folder" = "Benutzershader-Ordner anzeigen";
 
-"Appearance" = "Erscheinungsbild";
+"Appearance:" = "Erscheinungsbild:";
 
 "Auto (region)" = "Automatisch";
 

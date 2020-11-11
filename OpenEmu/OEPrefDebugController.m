@@ -99,6 +99,8 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 @{ TypeKey:GroupType, LabelKey:NSLocalizedStringFromTable(_NAME_, @"Debug", @"Debug Group") }
 #define Group(_NAME_) Separator(), \
 @{ TypeKey:GroupType, LabelKey:NSLocalizedStringFromTable(_NAME_, @"Debug", @"Debug Group") }
+#define Group2(_NAME_) Separator(), \
+@{ TypeKey:GroupType, LabelKey:NSLocalizedString(_NAME_, @"Debug Group") }
 #define Checkbox(_KEY_, _LABEL_)  \
 @{ KeyKey:_KEY_, LabelKey:NSLocalizedStringFromTable(_LABEL_, @"Debug", @"Debug Checkbox Label"), TypeKey:CheckboxType }
 #define NCheckbox(_KEY_, _LABEL_) \
@@ -139,18 +141,18 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               FirstGroup(@"General"),
                               Checkbox([OEPreferencesWindowController debugModeKey], @"Debug Mode"),
                               Checkbox(OESetupAssistantHasFinishedKey, @"Setup Assistant has finished"),
-                              Popover(@"Region", @selector(changeRegion:),
+                              Popover(@"Region:", @selector(changeRegion:),
                                       Option(@"Auto (region)", @(-1)),
                                       Option(@"North America", @0),
                                       Option(@"Japan", @1),
                                       Option(@"Europe", @2),
                                       Option(@"Other", @3),
                                       ),
-                              Popover(@"Run games using", @selector(changeGameMode:),
+                              Popover(@"Run games using:", @selector(changeGameMode:),
                                       Option(@"XPC", NSStringFromClass([OEXPCGameCoreManager class])),
                                       Option(@"Background Thread", NSStringFromClass([OEThreadGameCoreManager class])),
                                       ),
-                              Popover(@"Appearance", @selector(changeAppAppearance:),
+                              Popover(@"Appearance:", @selector(changeAppAppearance:),
                                       Option(@"System", @(OEAppearancePreferenceValueSystem)),
                                       Option(@"Dark (default)", @(OEAppearancePreferenceValueDark)),
                                       Option(@"Light", @(OEAppearancePreferenceValueLight))
@@ -182,7 +184,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox(OEGameControlsBarShowsAudioOutput, @"Show audio output device in menu"),
                               Checkbox(OETakeNativeScreenshots, @"Take screenshots in native size"),
                               Checkbox(OEScreenshotAspectRatioCorrectionDisabled, @"Disable aspect ratio correction in screenshots"),
-                              ColorWell(OEGameViewBackgroundColorKey, @"Game View Background color"),
+                              ColorWell(OEGameViewBackgroundColorKey, @"Game View Background color:"),
 
                               Group(@"Controls Setup"),
                               Checkbox(OEWiimoteSupportEnabled, @"WiiRemote support (requires relaunch)"),
@@ -193,9 +195,9 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox(@"logsHIDEvents", @"Log HID Events"),
                               Checkbox(@"logsHIDEventsNoKeyboard", @"Log Keyboard Events"),
                               Checkbox(@"OEShowAllGlobalKeys", @"Show all global keys"),
-                              NumberTextBox(@"OESystemResponderADCThreshold", @"Threshold for analog controls bound to buttons", adcSensitivityNF),
+                              NumberTextBox(@"OESystemResponderADCThreshold", @"Threshold for analog controls bound to buttons:", adcSensitivityNF),
 
-                              Group(@"Save States"),
+                              Group2(@"Save States"),
                               Button(@"Set default save states directory", @selector(restoreSaveStatesDirectory:)),
                               Button(@"Choose save states directory…", @selector(chooseSaveStatesDirectory:)),
                               Button(@"Cleanup autosave state", @selector(cleanupAutoSaveStates:)),

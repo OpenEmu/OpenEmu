@@ -1,7 +1,7 @@
 
-"Game View Background color" = "Game View Background colour";
+"Game View Background color:" = "Game View Background colour:";
 
-"Threshold for analog controls bound to buttons" = "Threshold for analogue controls\nbound to buttons";
+"Threshold for analog controls bound to buttons:" = "Threshold for analogue controls\nbound to buttons:";
 
 "Checked" = "Ticked";  // Default value tooltip for checkboxes: checked default
 

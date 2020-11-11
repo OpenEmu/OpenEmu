@@ -5,9 +5,9 @@
 
 "Setup Assistant has finished" = "設置助理已完成";
 
-"Region" = "地區";
+"Region:" = "地區:";
 
-"Run games using" = "運行遊戲，使用";
+"Run games using:" = "運行遊戲，使用:";
 
 "Library Window" = "資源庫視窗";
 
@@ -47,7 +47,7 @@
 
 "Disable aspect ratio correction in screenshots" = "禁用長寬比修正"; // TODO: specify "in screenshots"
 
-"Game View Background color" = "遊戲視圖背景顏色";
+"Game View Background color:" = "遊戲視圖背景顏色:";
 
 "Controls Setup" = "控制鍵設置";
 
@@ -103,7 +103,7 @@
 
 "Sync games without artwork" = "Sync games without artwork";
 
-"Threshold for analog controls bound to buttons" = "Threshold for analog controls\nbound to buttons";
+"Threshold for analog controls bound to buttons:" = "Threshold for analog controls\nbound to buttons:";
 
 "Range: %@ to %@" = "范围: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
 
@@ -119,7 +119,7 @@
 
 "Reveal user shader folder" = "Reveal user shader folder";  // TODO
 
-"Appearance" = "Appearance";  // TODO
+"Appearance:" = "Appearance:";  // TODO
 
 "Auto (region)" = "Auto";  // TODO
 

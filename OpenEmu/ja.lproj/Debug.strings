@@ -5,9 +5,9 @@
 
 "Setup Assistant has finished" = "セットアップ・アシスタントが完了しました。";
 
-"Region" = "地域";
+"Region:" = "地域:";
 
-"Run games using" = "以下を用いてゲームを起動";
+"Run games using:" = "以下を用いてゲームを起動:";
 
 "Library Window" = "ライブラリ ウィンドウ";
 
@@ -47,7 +47,7 @@
 
 "Disable aspect ratio correction in screenshots" = "スクリーンショットのアスペクト比調整を無効にする";
 
-"Game View Background color" = "ゲーム画面の背景色";
+"Game View Background color:" = "ゲーム画面の背景色:";
 
 "Controls Setup" = "コントローラー設定";
 
@@ -103,7 +103,7 @@
 
 "Sync games without artwork" = "Sync games without artwork"; // TODO
 
-"Threshold for analog controls bound to buttons" = "ボタンによるアナログ操作のしきい値";
+"Threshold for analog controls bound to buttons:" = "ボタンによるアナログ操作のしきい値:";
 
 "Range: %@ to %@" = "範囲: %@ から %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
 
@@ -119,7 +119,7 @@
 
 "Reveal user shader folder" = "Reveal user shader folder";  // TODO
 
-"Appearance" = "Appearance";  // TODO
+"Appearance:" = "Appearance:";  // TODO
 
 "Auto (region)" = "Auto";  // TODO
 
