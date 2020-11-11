@@ -920,13 +920,19 @@ DQ
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="1g0-za-3ea"/>
-                                        <menuItem title="Submit Feedback…" id="ftM-3D-CSh">
+                                        <menuItem title="Submit Feedback" id="ftM-3D-CSh">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                                             </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="showOEIssues:" target="-1" id="qPI-Hb-6UM"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Translate OpenEmu" id="Dye-Hd-BVp">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="showOELocalizationGuide:" target="-1" id="xUJ-uy-6qX"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -945,6 +951,7 @@ DQ
                 <customObject id="805" userLabel="OEApplicationDelegate" customClass="OEApplicationDelegate">
                     <connections>
                         <outlet property="fileMenu" destination="980" id="1224"/>
+                        <outlet property="localizationGuideMenuItem" destination="Dye-Hd-BVp" id="Ccr-IB-JH8"/>
                     </connections>
                 </customObject>
                 <userDefaultsController id="1212"/>
