@@ -126,6 +126,11 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
         NSAppearance *aquaAppearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
         self.controlsContainer.enclosingScrollView.appearance = aquaAppearance;
     }
+    else if([NSUserDefaults.standardUserDefaults integerForKey:OEControlsPrefsAppearancePreferenceKey] == OEControlsPrefsAppearancePreferenceValueWoodVibrant)
+    {
+        self.veView.blendingMode = NSVisualEffectBlendingModeWithinWindow;
+        self.veView.state = NSVisualEffectStateActive;
+    }
 
     [[self controllerView] setWantsLayer:YES];
 

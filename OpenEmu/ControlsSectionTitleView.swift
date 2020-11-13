@@ -32,11 +32,27 @@ final class ControlsSectionTitleView: NSView {
     private let leftGap: CGFloat = 16
     
     private let isWood = UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue
+    private let isWoodVibrant = UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.woodVibrant.rawValue
     
-    private lazy var visualEffectView: NSVisualEffectView = NSVisualEffectView()
+    private lazy var visualEffectView: NSVisualEffectView = {
+        let veView = NSVisualEffectView()
+        
+        if isWoodVibrant {
+            veView.blendingMode = .withinWindow
+            veView.state = .active
+        }
+        
+        return veView
+    }()
     
     private lazy var imageView: NSImageView = {
-        let imageView = NSImageView(image: NSImage(named: "controls_bg")!)
+        let imageView = NSImageView()
+        
+        if isWoodVibrant {
+            imageView.image = NSImage(named: "controls_background")
+        } else {
+            imageView.image = NSImage(named: "controls_bg")
+        }
         imageView.imageScaling = .scaleAxesIndependently
         return imageView
     }()
@@ -68,8 +84,13 @@ final class ControlsSectionTitleView: NSView {
         super.init(frame: frameRect)
         
         if !isWood {
-            addSubview(visualEffectView)
-            addSubview(imageView)
+            if isWoodVibrant {
+                addSubview(imageView)
+                addSubview(visualEffectView)
+            } else {
+                addSubview(visualEffectView)
+                addSubview(imageView)
+            }
             addSubview(textField)
         }
     }

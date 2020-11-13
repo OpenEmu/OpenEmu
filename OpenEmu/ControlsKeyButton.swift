@@ -36,31 +36,36 @@ final class ControlsKeyButton: NSButton {
         var image: NSImage?
         if isWood {
             image = state == .on ? NSImage(named: "wood_textfield_focus") : NSImage(named: "wood_textfield")
-
         } else {
             image = state == .on ? NSImage(named: "controls_textfield_focus")?.withTintColor(.controlAccentColor) : NSImage(named: "controls_textfield")
         }
         image?.draw(in: dirtyRect)
         
         let p = NSPoint(x: bounds.origin.x + 4, y: bounds.origin.y + (isFlipped ? 4 : 6))
-        title.draw(at: p, withAttributes: ControlsKeyButton.attributes)
+        title.draw(at: p, withAttributes: isWood ? ControlsKeyButton.attributesWood : ControlsKeyButton.attributes)
     }
     
     private static let attributes: [NSAttributedString.Key : Any]? = {
         
-        let isWood = UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue
+        let attributes: [NSAttributedString.Key : Any] =
+                                          [.font: NSFont.systemFont(ofSize: 11),
+                                .foregroundColor: NSColor.labelColor]
         
-        var attributes: [NSAttributedString.Key : Any] =
-                                          [.font: isWood ? NSFont.boldSystemFont(ofSize: 11) : NSFont.systemFont(ofSize: 11),
-                                .foregroundColor: isWood ? NSColor.black : NSColor.labelColor]
-        if isWood {
-            attributes[.shadow] = NSShadow.oeControls
-        }
+        return attributes
+    }()
+    
+    private static let attributesWood: [NSAttributedString.Key : Any]? = {
+        
+        let attributes: [NSAttributedString.Key : Any] =
+                                          [.font: NSFont.boldSystemFont(ofSize: 11),
+                                .foregroundColor: NSColor.black,
+                                         .shadow: NSShadow.oeControls]
         
         return attributes
     }()
     
     // MARK: - Accessibility
+    
     @objc var label: String = ""
     
     override var title: String {

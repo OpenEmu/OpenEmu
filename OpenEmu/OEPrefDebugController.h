@@ -44,6 +44,7 @@ extern NSString * const OEControlsPrefsAppearancePreferenceKey;
 typedef NS_ENUM(NSInteger, OEControlsPrefsAppearancePreferenceValue) {
     OEControlsPrefsAppearancePreferenceValueWood,
     OEControlsPrefsAppearancePreferenceValueLumberjack,
+    OEControlsPrefsAppearancePreferenceValueWoodVibrant,
 };
 
 @interface OEPrefDebugController : NSViewController <OEPreferencePane>

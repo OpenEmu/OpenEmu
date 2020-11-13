@@ -15,6 +15,7 @@
                 <outlet property="gradientOverlay" destination="4" id="43"/>
                 <outlet property="inputPopupButton" destination="9" id="44"/>
                 <outlet property="playerPopupButton" destination="8" id="45"/>
+                <outlet property="veView" destination="I6g-pL-hLm" id="SK3-lg-mh3"/>
                 <outlet property="view" destination="3" id="41"/>
             </connections>
         </customObject>
@@ -63,7 +64,7 @@
                     <rect key="frame" x="515" y="14" width="231" height="390"/>
                     <subviews>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8">
-                            <rect key="frame" x="12" y="352" width="207" height="25"/>
+                            <rect key="frame" x="12" y="352" width="208" height="25"/>
                             <popUpButtonCell key="cell" type="push" title="PLAYER" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="29" id="24">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
@@ -117,12 +118,12 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="26" id="lww-pM-fVv"/>
                             </constraints>
-                            <popUpButtonCell key="cell" type="push" title="DEVICE" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="16" id="12">
+                            <popUpButtonCell key="cell" type="push" title="DEVICE" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="16" id="12">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
                                 <menu key="menu" id="13">
                                     <items>
-                                        <menuItem title="DEVICE" id="16">
+                                        <menuItem title="DEVICE" state="on" id="16">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                     </items>

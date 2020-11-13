@@ -203,7 +203,8 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox(@"OEShowAllGlobalKeys", @"Show all global keys"),
                               Popover(@"Appearance:", @selector(changeControlsPrefsAppearance:),
                                       Option(@"Wood", @(OEControlsPrefsAppearancePreferenceValueWood)),
-                                      Option(@"Vibrant", @(OEControlsPrefsAppearancePreferenceValueLumberjack))
+                                      Option(@"Vibrant", @(OEControlsPrefsAppearancePreferenceValueLumberjack)),
+                                      Option(@"Vibrant Wood", @(OEControlsPrefsAppearancePreferenceValueWoodVibrant))
                                       ),
                               ColorWell(OEGameViewBackgroundColorKey, @"Game View Background color:"),
                               NumberTextBox(@"OESystemResponderADCThreshold", @"Threshold for analog controls bound to buttons:", adcSensitivityNF),

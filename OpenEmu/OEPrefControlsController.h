@@ -52,6 +52,7 @@
 @property(weak)   IBOutlet NSPopUpButton             *inputPopupButton;
 
 @property(weak)   IBOutlet OEBackgroundGradientView  *gradientOverlay;
+@property(weak)   IBOutlet NSVisualEffectView        *veView;
 @property(weak)   IBOutlet NSView                    *controlsContainer;
 
 @property(weak)   IBOutlet OEControlsButtonSetupView *controlsSetupView;
