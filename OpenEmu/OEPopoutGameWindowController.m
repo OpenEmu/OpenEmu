@@ -473,6 +473,8 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         _integralScale = (unsigned int)_snapDelegate.currentScale;
         _snapResize = NO;
     }
+    if (!(NSApp.currentEvent.modifierFlags & NSEventModifierFlagShift))
+        _shouldSnapResize = [NSUserDefaults.standardUserDefaults boolForKey:OEPopoutGameWindowIntegerScalingOnlyKey];
 }
 
 - (void)cancelOperation:(id)sender
