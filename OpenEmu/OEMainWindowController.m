@@ -299,7 +299,8 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     [self OE_openGameDocumentWithGame:game saveState:state secondAttempt:NO];
 }
 
-- (void)OE_openGameDocumentWithGame:(OEDBGame *)game saveState:(OEDBSaveState *)state secondAttempt:(BOOL)retry
+- (void)OE_openGameDocumentWithGame:(OEDBGame *)game saveState:(OEDBSaveState *)state secondAttempt:(BOOL)retry API_DEPRECATED("Remove \"User Reports\" from alert (~line 413), that term is not used in Catalina and above", macos(10.0, 10.15));
+
 {
     // make sure we don't launch a game multiple times :/
     if(_isLaunchingGame) return;
@@ -409,7 +410,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                             @"<ul><li>This information is found in  > About this Mac</li></ul></li>"
                         @"<li>The <b>exact name</b> of the game you were playing</li>"
                         @"<li>The crash report of OpenEmuHelperApp"
-                            @"<ul><li>Open Console.app, click on \"User Reports\" in the sidebar, "
+                            @"<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, "
                             @"then look for the latest document with OpenEmuHelperApp in the name</ul></li></li>"
                         @"</ul><br>"
                         @"<b>Always search for similar feedback previously reported by other users!</b><br>"
