@@ -95,6 +95,16 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 
     _snapDelegate = [OEIntegralWindowResizingDelegate new];
     
+    [NSUserDefaults.standardUserDefaults addObserver:self
+                                          forKeyPath:OEPopoutGameWindowIntegerScalingOnlyKey
+                                             options:NSKeyValueObservingOptionNew
+                                             context:NULL];
+    
+    if ([NSUserDefaults.standardUserDefaults boolForKey:OEPopoutGameWindowIntegerScalingOnlyKey])
+        _shouldSnapResize = YES;
+    else
+        _shouldSnapResize = NO;
+    
     [window setDelegate:self];
     [window setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
     [window setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
@@ -115,10 +125,20 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     return self;
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
+    change:(NSDictionary<NSKeyValueChangeKey, id> *)change context:(void *)context
+{
+    if (object == NSUserDefaults.standardUserDefaults && [keyPath isEqualToString:OEPopoutGameWindowIntegerScalingOnlyKey])
+        _shouldSnapResize = _shouldSnapResize ? NO : YES;
+    else
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+}
+
 - (void)dealloc
 {
     [[self window] setDelegate:nil];
     [self setWindow:nil];
+    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:OEPopoutGameWindowIntegerScalingOnlyKey];
 }
 
 - (BOOL)windowShouldClose:(id)sender
@@ -383,14 +403,12 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 
 - (void)flagsChanged:(NSEvent *)event
 {
-    if (_fullScreenStatus != _OEPopoutGameWindowFullScreenStatusNonFullScreen) {
+    if (_fullScreenStatus != _OEPopoutGameWindowFullScreenStatusNonFullScreen || self.window.inLiveResize) {
         return;
     }
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:OEPopoutGameWindowIntegerScalingOnlyKey])
     {
-        if (self.window.inLiveResize) return;
-        
         if (event.modifierFlags & NSEventModifierFlagShift)
         {
             _shouldSnapResize = YES;
@@ -400,11 +418,22 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
             _shouldSnapResize = NO;
         }
     }
+    else
+    {
+        if (event.modifierFlags & NSEventModifierFlagShift)
+        {
+            _shouldSnapResize = NO;
+        }
+        else
+        {
+            _shouldSnapResize = YES;
+        }
+    }
 }
 
 - (void)windowWillStartLiveResize:(NSNotification *)notification
 {
-    if (_shouldSnapResize || [[NSUserDefaults standardUserDefaults] boolForKey:OEPopoutGameWindowIntegerScalingOnlyKey])
+    if (_shouldSnapResize)
     {
         _snapResize = YES;
     }
