@@ -47,10 +47,11 @@ final class HUDBarButton: HoverButton {
                 img = img.withTintColor(.white)
             }
             
-            let imageRect = NSRect(x: frame.size.width/2 - img.size.width/2,
+            var imageRect = NSRect(x: frame.size.width/2 - img.size.width/2,
                                    y: frame.size.height/2 - img.size.height/2,
                                width: img.size.width,
                               height: img.size.height)
+            imageRect = backingAlignedRect(imageRect, options:.alignAllEdgesNearest)
             
             img.draw(in: imageRect)
         }
