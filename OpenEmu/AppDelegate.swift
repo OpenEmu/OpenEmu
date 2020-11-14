@@ -25,6 +25,7 @@
  */
 
 import Cocoa
+import os
 
 private var appearancePrefChangedKVOContext = 0
 
@@ -74,7 +75,7 @@ class AppDelegate: NSObject {
             if logHIDEvents {
                 hidEventsMonitor = OEDeviceManager.shared.addGlobalEventMonitorHandler { handler, event in
                     if event.type != .keyboard {
-                        NSLog("\(event)")
+                        os_log(.info, log: OE_LOG_EVENT_HID, "%{public}@", event)
                     }
                     return true
                 }
@@ -94,7 +95,7 @@ class AppDelegate: NSObject {
             if logKeyboardEvents {
                 keyboardEventsMonitor = OEDeviceManager.shared.addGlobalEventMonitorHandler { handler, event in
                     if event.type == .keyboard {
-                        NSLog("\(event)")
+                        os_log(.info, log: OE_LOG_EVENT_KEYBOARD, "%{public}@", event)
                     }
                     return true
                 }
@@ -811,8 +812,6 @@ extension AppDelegate: NSMenuDelegate {
         
         OECoreUpdater.shared.checkForUpdatesAndInstall()
         
-        DLog("")
-        
         if !restoreWindow {
             _ = mainWindowController.window
         }
@@ -882,8 +881,6 @@ extension AppDelegate: NSMenuDelegate {
         }
         
         let block: StartupQueueClosure = {
-            
-            DLog("")
             
             if filenames.count == 1 {
                 

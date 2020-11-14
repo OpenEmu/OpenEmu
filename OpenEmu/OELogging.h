@@ -24,4 +24,9 @@
 
 #import <os/log.h>
 
+extern os_log_t OE_LOG_DEFAULT;
 extern os_log_t OE_LOG_IMPORT;
+extern os_log_t OE_LOG_LIBRARY;
+
+extern os_log_t OE_LOG_EVENT_KEYBOARD;
+extern os_log_t OE_LOG_EVENT_HID;

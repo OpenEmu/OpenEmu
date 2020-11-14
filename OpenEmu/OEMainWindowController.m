@@ -180,8 +180,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 - (void)windowDidLoad
 {
-    NSLog(@"window did load");
-    
     [super windowDidLoad];
     
     NSWindow *window = self.window;

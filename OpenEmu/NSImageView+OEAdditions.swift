@@ -57,7 +57,7 @@ extension NSImageView {
     
     
     /// The image's bounds, which expresses its location and size in its own coordinate system after
-    /// factoring aspect and alignment properties.
+    /// factoring imageScaling and imageAlignment properties.
     var croppedBounds: NSRect {
         guard
             let imageSize = image?.size,

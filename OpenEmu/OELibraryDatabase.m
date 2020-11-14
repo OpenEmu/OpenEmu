@@ -34,6 +34,7 @@
 #import "OEDBRom.h"
 #import "OEDBSaveState.h"
 #import "OEDBImage.h"
+#import "OELogging.h"
 
 #import "OEDBSavedGamesMedia.h"
 #import "OEDBScreenshotsMedia.h"
@@ -99,8 +100,6 @@ const NSInteger OpenVGDBSyncBatchSize = 5;
 
 static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
-#define MergeLog(_MOC1_, _MOC2_, SKIP) DLog(@"merge %@ into %@%s", [[_MOC2_ userInfo] objectForKey:@"name"], [[_MOC1_ userInfo] objectForKey:@"name"], SKIP ? " ignored" : "")
-
 @implementation OELibraryDatabase
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator, databaseURL, importer, saveStateWatcher;
 
@@ -108,7 +107,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
 + (BOOL)loadFromURL:(NSURL *)url error:(NSError **)outError
 {
-    NSLog(@"OELibraryDatabase loadFromURL: '%@'", url);
+    os_log_info(OE_LOG_LIBRARY, "OELibraryDatabase loadFromURL: '%@'", url);
 
     BOOL isDir = NO;
     if(![[NSFileManager defaultManager] fileExistsAtPath:url.path isDirectory:&isDir] || !isDir)
@@ -206,7 +205,9 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     NSManagedObjectModel *mom = self.managedObjectModel;
     if(mom == nil)
     {
-        NSLog(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
+        os_log_error(OE_LOG_LIBRARY, "%{public}@:%{public}@ No model to generate a store from",
+                     [self class],
+                     NSStringFromSelector(_cmd));
         
         if(outError != NULL)
         {
@@ -230,7 +231,8 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
         return NO;
     }
 
-    DLog(@"ROMS folder url: %@", self.romsFolderURL);
+    os_log_debug(OE_LOG_LIBRARY, "ROMs folder URL: %{public}@", self.romsFolderURL);
+
     return YES;
 }
 
@@ -259,7 +261,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
 - (void)dealloc
 {
-    NSLog(@"destroying LibraryDatabase");
+    os_log_debug(OE_LOG_LIBRARY, "Destroying library database");
     [self OE_removeStateWatcher];
     [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:OESaveStateFolderURLKey];
 }
@@ -281,8 +283,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
     if(![_writerContext save:&error])
     {
-        NSLog(@"Could not save databse: ");
-        NSLog(@"%@", error);
+        os_log_error(OE_LOG_LIBRARY, "Could not save databse: %{public}@", error);
 
         [NSApp presentError:error];
     }
@@ -441,7 +442,10 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
                 NSPredicate    *predicate    = [NSPredicate predicateWithFormat:@"location BEGINSWITH[cd] %@", url.absoluteString];
                 fetchRequest.predicate = predicate;
                 NSArray *result = [context executeFetchRequest:fetchRequest error:&error];
-                if(error) DLog(@"executing fetch request failed: %@", error);
+                if(error)
+                {
+                    os_log_error(OE_LOG_LIBRARY, "executing fetch request failed: %{public}@", error);
+                }
                 for(OEDBSaveState *state in result)
                 {
                     [state delete];
@@ -464,7 +468,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
 - (void)OE_removeStateWatcher
 {
-    NSLog(@"OE_removeStateWatcher");
+    os_log_debug(OE_LOG_LIBRARY, "OE_removeStateWatcher");
     [self.saveStateWatcher stopWatching];
     self.saveStateWatcher = nil;
 }
@@ -625,8 +629,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
         result = [context executeFetchRequest:fetchRequest error:&err];
         if(result == nil)
         {
-            NSLog(@"Error executing fetch request to get rom by md5");
-            NSLog(@"%@", err);
+            os_log_error(OE_LOG_LIBRARY, "Error executing fetch request to get rom by md5: %{public}@", err);
             return;
         }
     }];
@@ -1046,7 +1049,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
         else NSLog(@"%@ ROM is %@", subPrefix, ROM);
     }
 */
-    NSLog(@"%@ End of database dump\n\n", prefix);
+    os_log_debug(OE_LOG_LIBRARY, "%{public}@ end of database dump", prefix);
 }
 
 - (NSArray *)allROMsForDump

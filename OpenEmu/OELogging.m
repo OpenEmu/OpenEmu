@@ -24,10 +24,20 @@
 
 #import "OELogging.h"
 
+os_log_t OE_LOG_DEFAULT;
 os_log_t OE_LOG_IMPORT;
+os_log_t OE_LOG_LIBRARY;
+
+os_log_t OE_LOG_EVENT_KEYBOARD;
+os_log_t OE_LOG_EVENT_HID;
 
 __attribute__((constructor))
 static void InitializeLogging() {
-    OE_LOG_IMPORT = os_log_create("org.openemu.OpenEmu", "import");
+    OE_LOG_DEFAULT  = os_log_create("org.openemu.OpenEmu", "default");
+    OE_LOG_IMPORT   = os_log_create("org.openemu.OpenEmu", "import");
+    OE_LOG_LIBRARY  = os_log_create("org.openemu.OpenEmu", "library");
+    
+    OE_LOG_EVENT_KEYBOARD   = os_log_create("org.openemu.OpenEmu.event", "keyboard");
+    OE_LOG_EVENT_HID        = os_log_create("org.openemu.OpenEmu.event", "hid");
 }
 

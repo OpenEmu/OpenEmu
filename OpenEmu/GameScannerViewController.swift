@@ -591,7 +591,7 @@ extension GameScannerViewController: OEROMImporterDelegate {
                 showGameScannerView(animated: true)
                 
             } else {
-                NSLog("\(error)")
+                os_log(.debug, log: OE_LOG_IMPORT, "Import error: %{public}@", error.localizedDescription)
 
                 // Track item that failed import
                 //if item.exitStatus == OEImportExitStatus.errorFatal {
