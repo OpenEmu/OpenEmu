@@ -1112,7 +1112,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 
 - (BOOL)isDocumentEdited
 {
-    return _emulationStatus == OEEmulationStatusPlaying || _emulationStatus == OEEmulationStatusPaused;
+    return NO;
 }
 
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
