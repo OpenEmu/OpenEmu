@@ -648,10 +648,11 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     }
     else
     {
-        if([[NSUserDefaults standardUserDefaults] boolForKey:OEForcePopoutGameWindowKey])
-        {
-            [menu addItemWithTitle:NSLocalizedString(@"Play Games (Caution)", @"") action:@selector(startSelectedGame:) keyEquivalent:@""];
-        }
+        // FIXME: starting multiple games only starts the first of the selected games
+        //if([[NSUserDefaults standardUserDefaults] boolForKey:OEForcePopoutGameWindowKey])
+        //{
+        //    [menu addItemWithTitle:NSLocalizedString(@"Play Games (Caution)", @"") action:@selector(startSelectedGame:) keyEquivalent:@""];
+        //}
 
         // Create Rating Item
         menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Rating", @"") action:NULL keyEquivalent:@""];
