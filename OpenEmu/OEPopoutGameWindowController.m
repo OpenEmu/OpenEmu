@@ -484,7 +484,6 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     NSScreen *mainScreen = self.window.screen;
     [_screenshotWindow setFrameOrigin:mainScreen.frame.origin];
 
-    [NSCursor hide];
     [[gameViewController controlsWindow] setCanShow:NO];
     [[gameViewController controlsWindow] hideAnimated:YES];
     if (_integralScale != _OEFitToWindowScale)
@@ -557,7 +556,6 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 
     [[gameViewController controlsWindow] hideAnimated:YES];
     [[gameViewController controlsWindow] setCanShow:YES];
-    [NSCursor unhide];
 }
 
 - (void)windowWillExitFullScreen:(NSNotification *)notification
@@ -569,7 +567,6 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     
     [[self document] setEmulationPaused:YES];
     
-    [NSCursor hide];
     [[gameViewController controlsWindow] setCanShow:NO];
     [[gameViewController controlsWindow] hideAnimated:YES];
 }
@@ -654,7 +651,6 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     [[gameViewController controlsWindow] hideAnimated:YES];
     [[gameViewController controlsWindow] setCanShow:YES];
     [gameViewController gameViewFillSuperView];
-    [NSCursor unhide];
 }
 
 - (void)windowDidFailToEnterFullScreen:(NSWindow *)window
@@ -667,7 +663,6 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         [[self document] setEmulationPaused:NO];
 
     [[gameViewController controlsWindow] setCanShow:YES];
-    [NSCursor unhide];
 }
 
 - (void)windowDidFailToExitFullScreen:(NSWindow *)window
@@ -680,7 +675,6 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         [[self document] setEmulationPaused:NO];
 
     [[gameViewController controlsWindow] setCanShow:YES];
-    [NSCursor unhide];
 }
 
 @end
