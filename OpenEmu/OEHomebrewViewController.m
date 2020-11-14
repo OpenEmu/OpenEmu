@@ -428,7 +428,7 @@ const static CGFloat TableViewSpacing = 86.0;
         view = [tableView makeViewWithIdentifier:@"FeatureView" owner:self];
         NSArray *games = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
 
-        NSView *subview = [[view subviews] lastObject];
+        NSView *subview = [[[[view subviews] lastObject] subviews] lastObject];
         [games enumerateObjectsUsingBlock:^(OEHomebrewGame *game, NSUInteger idx, BOOL *stop) {
             NSView *container = [[subview subviews] objectAtIndex:idx];
 

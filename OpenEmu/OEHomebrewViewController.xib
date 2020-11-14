@@ -153,7 +153,7 @@
                                                             <constraint firstAttribute="height" constant="57" id="oed-0a-Slh"/>
                                                         </constraints>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="HEADLINE" id="JSC-Ns-HCV">
-                                                            <font key="font" metaFont="system" size="18"/>
+                                                            <font key="font" metaFont="systemMedium" size="20"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
@@ -175,103 +175,106 @@
                                                 <rect key="frame" x="0.0" y="261" width="817" height="230"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="1yX-5M-iLY" customClass="OEBackgroundImageView">
-                                                        <rect key="frame" x="34" y="0.0" width="748" height="230"/>
-                                                        <subviews>
-                                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="RVu-F3-nDj">
-                                                                <rect key="frame" x="2" y="1" width="242" height="220"/>
-                                                                <subviews>
-                                                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hbl-cX-W2X" customClass="OEHomebrewCoverView">
-                                                                        <rect key="frame" x="2" y="33" width="240" height="185"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                    </customView>
-                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0CD-QO-y6f">
-                                                                        <rect key="frame" x="2" y="0.0" width="240" height="29"/>
-                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="GAME TITLE" id="Qg6-Jy-yrb">
-                                                                            <font key="font" metaFont="system" size="14"/>
-                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                        </textFieldCell>
-                                                                        <connections>
-                                                                            <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="hAP-Wg-Xa5"/>
-                                                                        </connections>
-                                                                    </textField>
-                                                                </subviews>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="242" id="8CF-I5-Ihx"/>
-                                                                    <constraint firstAttribute="height" constant="220" id="QFv-eX-5YA"/>
-                                                                </constraints>
-                                                            </customView>
-                                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="fWt-jo-lSb">
-                                                                <rect key="frame" x="253" y="1" width="242" height="220"/>
-                                                                <subviews>
-                                                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8In-DY-9QG" customClass="OEHomebrewCoverView">
-                                                                        <rect key="frame" x="2" y="33" width="240" height="185"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                    </customView>
-                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eif-4f-CpZ">
-                                                                        <rect key="frame" x="2" y="0.0" width="240" height="29"/>
-                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="GAME TITLE" id="RKM-R4-e0F">
-                                                                            <font key="font" metaFont="system" size="14"/>
-                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                        </textFieldCell>
-                                                                        <connections>
-                                                                            <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="Uwc-vB-7eq"/>
-                                                                        </connections>
-                                                                    </textField>
-                                                                </subviews>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="220" id="HSy-xI-b1l"/>
-                                                                    <constraint firstAttribute="width" constant="242" id="LpU-89-uOI"/>
-                                                                </constraints>
-                                                            </customView>
-                                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="sN5-rM-I3f">
-                                                                <rect key="frame" x="504" y="1" width="242" height="220"/>
-                                                                <subviews>
-                                                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LeL-8G-gVy" customClass="OEHomebrewCoverView">
-                                                                        <rect key="frame" x="2" y="33" width="240" height="185"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                    </customView>
-                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9PG-f8-PSQ">
-                                                                        <rect key="frame" x="2" y="0.0" width="240" height="29"/>
-                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="GAME TITLE" id="dJP-6m-thX">
-                                                                            <font key="font" metaFont="system" size="14"/>
-                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                        </textFieldCell>
-                                                                        <connections>
-                                                                            <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="5Cw-mm-wZg"/>
-                                                                        </connections>
-                                                                    </textField>
-                                                                </subviews>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="220" id="BWD-C4-mNL"/>
-                                                                    <constraint firstAttribute="width" constant="242" id="wp1-Wy-Ygm"/>
-                                                                </constraints>
-                                                            </customView>
-                                                        </subviews>
+                                                    <box titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Qpt-e1-5Or">
+                                                        <rect key="frame" x="31" y="-4" width="754" height="236"/>
+                                                        <view key="contentView" id="nts-8A-NEu">
+                                                            <rect key="frame" x="3" y="3" width="748" height="230"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="RVu-F3-nDj" userLabel="Featured1">
+                                                                    <rect key="frame" x="2" y="1" width="242" height="220"/>
+                                                                    <subviews>
+                                                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hbl-cX-W2X" customClass="OEHomebrewCoverView">
+                                                                            <rect key="frame" x="2" y="33" width="240" height="185"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        </customView>
+                                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0CD-QO-y6f">
+                                                                            <rect key="frame" x="2" y="0.0" width="240" height="29"/>
+                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="GAME TITLE" id="Qg6-Jy-yrb">
+                                                                                <font key="font" metaFont="system" size="14"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                            <connections>
+                                                                                <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="hAP-Wg-Xa5"/>
+                                                                            </connections>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="242" id="8CF-I5-Ihx"/>
+                                                                        <constraint firstAttribute="height" constant="220" id="QFv-eX-5YA"/>
+                                                                    </constraints>
+                                                                </customView>
+                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="fWt-jo-lSb" userLabel="Featured2">
+                                                                    <rect key="frame" x="253" y="1" width="242" height="220"/>
+                                                                    <subviews>
+                                                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8In-DY-9QG" customClass="OEHomebrewCoverView">
+                                                                            <rect key="frame" x="2" y="33" width="240" height="185"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        </customView>
+                                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eif-4f-CpZ">
+                                                                            <rect key="frame" x="2" y="0.0" width="240" height="29"/>
+                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="GAME TITLE" id="RKM-R4-e0F">
+                                                                                <font key="font" metaFont="system" size="14"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                            <connections>
+                                                                                <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="Uwc-vB-7eq"/>
+                                                                            </connections>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="220" id="HSy-xI-b1l"/>
+                                                                        <constraint firstAttribute="width" constant="242" id="LpU-89-uOI"/>
+                                                                    </constraints>
+                                                                </customView>
+                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="sN5-rM-I3f" userLabel="Featured3">
+                                                                    <rect key="frame" x="504" y="1" width="242" height="220"/>
+                                                                    <subviews>
+                                                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LeL-8G-gVy" customClass="OEHomebrewCoverView">
+                                                                            <rect key="frame" x="2" y="33" width="240" height="185"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        </customView>
+                                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9PG-f8-PSQ">
+                                                                            <rect key="frame" x="2" y="0.0" width="240" height="29"/>
+                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="GAME TITLE" id="dJP-6m-thX">
+                                                                                <font key="font" metaFont="system" size="14"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                            <connections>
+                                                                                <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="5Cw-mm-wZg"/>
+                                                                            </connections>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="220" id="BWD-C4-mNL"/>
+                                                                        <constraint firstAttribute="width" constant="242" id="wp1-Wy-Ygm"/>
+                                                                    </constraints>
+                                                                </customView>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="fWt-jo-lSb" firstAttribute="top" secondItem="nts-8A-NEu" secondAttribute="top" constant="9" id="2Hk-rQ-Tfp"/>
+                                                                <constraint firstAttribute="trailing" secondItem="sN5-rM-I3f" secondAttribute="trailing" constant="2" id="5LN-aC-HId"/>
+                                                                <constraint firstItem="fWt-jo-lSb" firstAttribute="centerX" secondItem="nts-8A-NEu" secondAttribute="centerX" id="MMo-RU-3VF"/>
+                                                                <constraint firstItem="RVu-F3-nDj" firstAttribute="leading" secondItem="nts-8A-NEu" secondAttribute="leading" constant="2" id="ZfI-Si-wXy"/>
+                                                                <constraint firstItem="RVu-F3-nDj" firstAttribute="top" secondItem="nts-8A-NEu" secondAttribute="top" constant="9" id="j21-LU-Dz4"/>
+                                                                <constraint firstItem="sN5-rM-I3f" firstAttribute="top" secondItem="nts-8A-NEu" secondAttribute="top" constant="9" id="jyr-ge-k8T"/>
+                                                            </constraints>
+                                                        </view>
                                                         <constraints>
-                                                            <constraint firstItem="fWt-jo-lSb" firstAttribute="top" secondItem="1yX-5M-iLY" secondAttribute="top" constant="9" id="H0z-hf-NAC"/>
-                                                            <constraint firstItem="RVu-F3-nDj" firstAttribute="leading" secondItem="1yX-5M-iLY" secondAttribute="leading" constant="2" id="MpT-01-xhe"/>
-                                                            <constraint firstAttribute="height" constant="230" id="cn0-dN-Ohq"/>
-                                                            <constraint firstItem="fWt-jo-lSb" firstAttribute="centerX" secondItem="1yX-5M-iLY" secondAttribute="centerX" id="fOk-vW-Mqg"/>
-                                                            <constraint firstItem="RVu-F3-nDj" firstAttribute="top" secondItem="1yX-5M-iLY" secondAttribute="top" constant="9" id="fVP-Wm-2Ew"/>
-                                                            <constraint firstAttribute="trailing" secondItem="sN5-rM-I3f" secondAttribute="trailing" constant="2" id="i8u-Qs-uqU"/>
-                                                            <constraint firstItem="sN5-rM-I3f" firstAttribute="top" secondItem="1yX-5M-iLY" secondAttribute="top" constant="9" id="x6s-jl-jNB"/>
+                                                            <constraint firstAttribute="height" constant="230" id="09Q-Le-LbY"/>
                                                         </constraints>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="image" keyPath="background" value="dark_inset_box"/>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </customView>
+                                                    </box>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="1yX-5M-iLY" firstAttribute="top" secondItem="AlP-qZ-NUr" secondAttribute="top" id="4NC-6a-cjf"/>
-                                                    <constraint firstItem="1yX-5M-iLY" firstAttribute="leading" secondItem="AlP-qZ-NUr" secondAttribute="leading" constant="34" id="CcT-fe-AY9"/>
-                                                    <constraint firstAttribute="trailing" secondItem="1yX-5M-iLY" secondAttribute="trailing" constant="35" id="uxs-Ep-ohc"/>
+                                                    <constraint firstItem="Qpt-e1-5Or" firstAttribute="top" secondItem="AlP-qZ-NUr" secondAttribute="top" id="4NC-6a-cjf"/>
+                                                    <constraint firstItem="Qpt-e1-5Or" firstAttribute="leading" secondItem="AlP-qZ-NUr" secondAttribute="leading" constant="34" id="CcT-fe-AY9"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Qpt-e1-5Or" secondAttribute="trailing" constant="35" id="uxs-Ep-ohc"/>
                                                 </constraints>
                                             </tableCellView>
                                         </prototypeCellViews>
@@ -299,7 +302,4 @@
             <point key="canvasLocation" x="139" y="155"/>
         </customView>
     </objects>
-    <resources>
-        <image name="dark_inset_box" width="33" height="33"/>
-    </resources>
 </document>
