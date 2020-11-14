@@ -321,12 +321,17 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
 {
     _screenSize = newScreenSize;
     _aspectSize = newAspectSize;
-    if (OEIntSizeIsEmpty(newScreenSize) || OEIntSizeIsEmpty(newAspectSize))
+    // Should never happen
+    if (OEIntSizeIsEmpty(newScreenSize) && OEIntSizeIsEmpty(newAspectSize))
     {
         _defaultScreenSize = NSMakeSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
     else
     {
+        // Some cores may initially report a 0x0 screenRect on launch, so use aspectSize instead.
+        if (OEIntSizeIsEmpty(newScreenSize)) {
+            _screenSize = _aspectSize;
+        }
         OEIntSize correct  = OECorrectScreenSizeForAspectSize(_screenSize, _aspectSize);
         _defaultScreenSize = NSMakeSize(correct.width, correct.height);
     }
