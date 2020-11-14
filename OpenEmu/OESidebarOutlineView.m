@@ -325,13 +325,17 @@
 
 - (void)_flashOutlineCell
 {}
+
 #pragma mark - Key Handling
-- (void)keyDown:(NSEvent *)theEvent
+- (void)keyDown:(NSEvent *)event;
 {
-    if([theEvent keyCode] == 51 || [theEvent keyCode] == 117)
-        [NSApp sendAction:@selector(removeSelectedItemsOfOutlineView:) to:[self dataSource] from:self];
+    if(event.keyCode == 51 || event.keyCode == 117)
+        [NSApp sendAction:@selector(removeSelectedItemsOfOutlineView:) to:self.dataSource from:self];
+    // ignore left and right arrow keys; pressing them causes flickering
+    else if(event.keyCode == 123 || event.keyCode == 124)
+        return;
     else
-        [super keyDown:theEvent];
+        [super keyDown:event];
 }
 
 @end
