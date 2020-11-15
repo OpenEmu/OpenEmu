@@ -248,11 +248,11 @@
 
 "Next Display Mode" = "次のディスプレイモード";
 
-"Pause" = "一時停止";
+"Pause/Resume" = "一時停止"; // TODO
 
-"Quick Load Button" = "クイックロード";
+"Quick Load" = "クイックロード";
 
-"Quick Save Button" = "クイックセーブ";
+"Quick Save" = "クイックセーブ";
 
 "Rapid Fire Clear" = "連射をクリア";
 

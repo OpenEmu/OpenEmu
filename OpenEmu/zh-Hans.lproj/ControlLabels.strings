@@ -248,11 +248,11 @@
 
 "Next Display Mode" = "下一个显示模式";
 
-"Pause" = "暂停";
+"Pause/Resume" = "暂停"; // TODO
 
-"Quick Load Button" = "快速读取";
+"Quick Load" = "快速读取";
 
-"Quick Save Button" = "快速保存";
+"Quick Save" = "快速保存";
 
 "Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
 

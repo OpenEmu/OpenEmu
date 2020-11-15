@@ -248,11 +248,11 @@
 
 "Next Display Mode" = "下一個顯示模式";
 
-"Pause" = "暫停";
+"Pause/Resume" = "暫停"; // TODO
 
-"Quick Load Button" = "快速載入按鈕";
+"Quick Load" = "快速載入按鈕";
 
-"Quick Save Button" = "快速儲存按鈕";
+"Quick Save" = "快速儲存按鈕";
 
 "Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
 

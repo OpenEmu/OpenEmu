@@ -89,7 +89,7 @@ class OEGameLayerNotificationView: NSImageView {
     
     @objc public func showQuickSave() {
         performShowHideNotification(img: quicksaveImage)
-        postAccessibilityNotification(announcement: NSLocalizedString("Quick Save Button", tableName: "ControlLabels", comment: ""))
+        postAccessibilityNotification(announcement: NSLocalizedString("Quick Save", tableName: "ControlLabels", comment: ""))
     }
     
     @objc public func showScreenShot() {

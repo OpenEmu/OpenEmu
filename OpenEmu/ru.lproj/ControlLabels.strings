@@ -248,11 +248,11 @@
 
 "Next Display Mode" = "Next Display Mode";
 
-"Pause" = "Pause";
+"Pause/Resume" = "Pause"; // TODO
 
-"Quick Load Button" = "Quick Load";
+"Quick Load" = "Quick Load";
 
-"Quick Save Button" = "Quick Save";
+"Quick Save" = "Quick Save";
 
 "Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
 
