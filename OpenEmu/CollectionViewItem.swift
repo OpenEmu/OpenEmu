@@ -83,7 +83,6 @@ class CollectionViewItem: NSCollectionViewItem {
             
             selectionLayer = sel
             layer.addSublayer(sel)
-            view.needsLayout = true
         } else if let sel = selectionLayer, (!isSelected || highlightState == .forDeselection) {
             sel.removeFromSuperlayer()
             selectionLayer = nil

@@ -49,7 +49,6 @@ class CollectionView: NSCollectionView {
     // MARK: - Other State
     
     var extendedDelegate: CollectionViewExtendedDelegate?
-    var panelItems: [QLPreviewItem]?
     
     override var delegate: NSCollectionViewDelegate? {
         didSet {
@@ -174,7 +173,6 @@ extension CollectionView: QLPreviewPanelDataSource, QLPreviewPanelDelegate {
         if QLPreviewPanel.sharedPreviewPanelExists() {
             let panel = QLPreviewPanel.shared()!
             if panel.isVisible && panel.delegate === self {
-                loadPanelItems()
                 panel.reloadData()
             }
         }
@@ -187,31 +185,21 @@ extension CollectionView: QLPreviewPanelDataSource, QLPreviewPanelDelegate {
     override func beginPreviewPanelControl(_ panel: QLPreviewPanel!) {
         panel.dataSource = self
         panel.delegate   = self
-        loadPanelItems()
     }
     
     override func endPreviewPanelControl(_ panel: QLPreviewPanel!) {
         panel.dataSource = nil
         panel.delegate   = nil
-        panelItems       = nil
-    }
-    
-    private func loadPanelItems() {
-        var items = [QLPreviewItem]()
-        for ip in selectionIndexPaths {
-            if let item = item(at: ip) as? QLPreviewItem {
-                items.append(item)
-            }
-        }
-        panelItems = items
     }
     
     func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
-        return panelItems!.count
+        return selectionIndexPaths.count
     }
     
     func previewPanel(_ panel: QLPreviewPanel!, previewItemAt index: Int) -> QLPreviewItem! {
-        return panelItems![index]
+        let sip = selectionIndexPaths
+        let si = sip.index(sip.startIndex, offsetBy: index)
+        return item(at: sip[si]) as? QLPreviewItem
     }
     
     func previewPanel(_ panel: QLPreviewPanel!, sourceFrameOnScreenFor item: QLPreviewItem!) -> NSRect {

@@ -424,7 +424,7 @@ class AppDelegate: NSObject {
         
         if !incompatibleSaveStates.isEmpty {
             
-            NSLog("Removing \(incompatibleSaveStates.count) incompatible save state(s).")
+            os_log(.info, log: OE_LOG_DEFAULT, "Removing %d incompatible save states(s).", incompatibleSaveStates.count)
             
             for saveState in incompatibleSaveStates {
                 saveState.deleteAndRemoveFiles()
@@ -562,8 +562,7 @@ class AppDelegate: NSObject {
     // MARK: - Debug
     
     @IBAction func OEDebug_logResponderChain(_ sender: AnyObject?) {
-        
-        DLog("NSApp.KeyWindow: \(String(describing: NSApp.keyWindow))")
+        os_log(.info, log: OE_LOG_DEFAULT, "NSApp.KeyWindow: %{public}@", String(describing: NSApp.keyWindow))
         
         if let keyWindow = NSApp.keyWindow {
             
@@ -577,7 +576,7 @@ class AppDelegate: NSObject {
             
             let output = responderChain.reduce("Responder Chain: ") { $0 + " -> \($1)" }
             
-            NSLog(output)
+            os_log(.info, log: OE_LOG_DEFAULT, "%{public}@", output)
         }
     }
 }
