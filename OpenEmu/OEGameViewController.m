@@ -46,6 +46,7 @@ NSString *const OEBackgroundPauseKey = @"backgroundPause";
 NSString *const OEBackgroundControllerPlayKey = @"backgroundControllerPlay";
 NSString *const OEPopoutGameWindowAlwaysOnTopKey        = @"OEPopoutGameWindowAlwaysOnTop";
 NSString *const OEPopoutGameWindowIntegerScalingOnlyKey = @"OEPopoutGameWindowIntegerScalingOnly";
+NSString *const OEPopoutGameWindowTreatScaleFactorAsPixels = @"OEPopoutGameWindowTreatScaleFactorAsPixels";
 NSString *const OETakeNativeScreenshots = @"takeNativeScreenshots";
 NSString *const OEGameViewControllerROMKey = @"OEROM";
 NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor";

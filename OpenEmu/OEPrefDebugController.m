@@ -184,6 +184,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox(OEGameControlsBarShowsAudioOutput, @"Show audio output device in menu"),
                               Checkbox(OETakeNativeScreenshots, @"Take screenshots in native size"),
                               Checkbox(OEScreenshotAspectRatioCorrectionDisabled, @"Disable aspect ratio correction in screenshots"),
+                              Checkbox(OEPopoutGameWindowTreatScaleFactorAsPixels, @"Change scale menu unit from points to pixels"),
                               Popover(@"Appearance:", @selector(changeHUDBarAppearance:),
                                       Option(@"Vibrant", @(OEHUDBarAppearancePreferenceValueVibrant)),
                                       Option(@"Dark", @(OEHUDBarAppearancePreferenceValueDark))

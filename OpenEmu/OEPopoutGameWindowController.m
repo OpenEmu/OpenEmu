@@ -253,8 +253,15 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 - (unsigned int)maximumIntegralScale
 {
     NSScreen *screen            = ([[self window] screen] ? : [NSScreen mainScreen]);
-    const NSSize maxContentSize = [self.window contentRectForFrameRect:screen.visibleFrame].size;
+    NSSize maxContentSize = [self.window contentRectForFrameRect:screen.visibleFrame].size;
     const NSSize defaultSize    = [[[self OE_gameDocument] gameViewController] defaultScreenSize];
+    
+    if([NSUserDefaults.standardUserDefaults boolForKey:OEPopoutGameWindowTreatScaleFactorAsPixels])
+    {
+        CGFloat backingScaleFactor = self.window.backingScaleFactor ?: 1;
+        maxContentSize = NSMakeSize(maxContentSize.width * backingScaleFactor,
+                                    maxContentSize.height * backingScaleFactor);
+    }
     const unsigned int maxScale = MAX(MIN(floor(maxContentSize.height / defaultSize.height), floor(maxContentSize.width / defaultSize.width)), 1);
 
     return maxScale;
@@ -275,8 +282,13 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 - (NSSize)OE_windowContentSizeForGameViewIntegralScale:(unsigned int)gameViewIntegralScale
 {
     const NSSize defaultSize = [[[self OE_gameDocument] gameViewController] defaultScreenSize];
-    const NSSize contentSize = OEScaleSize(defaultSize, (CGFloat)gameViewIntegralScale);
-
+    NSSize contentSize = OEScaleSize(defaultSize, (CGFloat)gameViewIntegralScale);
+    
+    if([NSUserDefaults.standardUserDefaults boolForKey:OEPopoutGameWindowTreatScaleFactorAsPixels])
+    {
+        CGFloat backingScaleFactor = self.window.backingScaleFactor ?: 1;
+        contentSize = NSMakeSize(contentSize.width/backingScaleFactor, contentSize.height/backingScaleFactor);
+    }
     return contentSize;
 }
 
@@ -290,7 +302,8 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 
 - (void)OE_changeGameViewIntegralScale:(unsigned int)newScale
 {
-    if (_integralScale == newScale) return;
+    if(![NSUserDefaults.standardUserDefaults boolForKey:OEPopoutGameWindowTreatScaleFactorAsPixels])
+        if (_integralScale == newScale) return;
     
     _integralScale = newScale;
     
@@ -474,6 +487,25 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 {
     if([[self window] isFullScreen])
         [[self window] toggleFullScreen:self];
+}
+
+-(void)windowDidChangeBackingProperties:(NSNotification *)notification
+{
+    // If a game started on an x2 screen is moved to an x1 screen, ensure that the size stays about the same
+    // and that we don’t end up with an x.5 scaling if the scale is explicitly set to an integer.
+    NSNumber *oldScaleFactor = [notification.userInfo objectForKey:NSBackingPropertyOldScaleFactorKey];
+    CGFloat backingScaleFactor = self.window.backingScaleFactor;
+    if(oldScaleFactor.doubleValue == backingScaleFactor)
+        return;
+    else if([NSUserDefaults.standardUserDefaults boolForKey:OEPopoutGameWindowTreatScaleFactorAsPixels])
+    {
+        unsigned int newIntegralScale;
+        if (oldScaleFactor.doubleValue > backingScaleFactor)
+            newIntegralScale = MIN(ceil([self currentIntegralScale] / backingScaleFactor), [self maximumIntegralScale]);
+        else
+            newIntegralScale = MIN([self currentIntegralScale] * backingScaleFactor, [self maximumIntegralScale]);
+        [self OE_changeGameViewIntegralScale:newIntegralScale];
+    }
 }
 
 #pragma mark - NSWindowDelegate Full Screen
