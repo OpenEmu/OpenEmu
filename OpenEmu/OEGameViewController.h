@@ -38,6 +38,8 @@ extern NSString *const OEGameViewControllerROMKey;
 extern NSString *const OEBackgroundPauseKey;
 extern NSString *const OEBackgroundControllerPlayKey;
 extern NSString *const OEGameViewBackgroundColorKey;
+extern NSString *const OEPopoutGameWindowAlwaysOnTopKey;
+extern NSString *const OEPopoutGameWindowIntegerScalingOnlyKey;
 extern NSString *const OETakeNativeScreenshots;
 
 extern NSString *const OEScreenshotFileFormatKey;

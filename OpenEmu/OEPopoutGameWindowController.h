@@ -27,7 +27,7 @@
 @import Cocoa;
 #import "OpenEmu-Swift.h"
 
-@interface OEPopoutGameWindowController : NSWindowController <NSWindowDelegate, OEGameIntegralScalingDelegate>
+@interface OEPopoutGameWindowController : NSWindowController <NSWindowDelegate, OEGameIntegralScalingDelegate, NSMenuItemValidation>
 
 @property(getter=isWindowFullScreen) BOOL windowFullScreen;
 

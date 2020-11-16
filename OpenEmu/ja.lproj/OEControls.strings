@@ -36,6 +36,8 @@
 
 "Allow playing with controllers when in background" = "ゲーム画面がバックグラウンドにあってもコントローラを有効にする";
 
+"Always float popout gamplay window on top" = "Always float popout gamplay window on top"; // TODO
+
 
 /* Preferences: Controls (OEPrefControlsController.xib) */
 

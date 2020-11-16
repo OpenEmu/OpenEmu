@@ -36,6 +36,8 @@
 
 "Allow playing with controllers when in background" = "No deshabilitis els controladors quan la finestra estigui en segon pla";
 
+"Always float popout gamplay window on top" = "Always float popout gamplay window on top"; // TODO
+
 
 /* Preferences: Controls (OEPrefControlsController.xib) */
 

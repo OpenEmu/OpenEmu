@@ -36,6 +36,8 @@
 
 "Allow playing with controllers when in background" = "在后台时允许使用控制器游玩"; // TODO
 
+"Always float popout gamplay window on top" = "Always float popout gamplay window on top"; // TODO
+
 
 /* Preferences: Controls (OEPrefControlsController.xib) */
 

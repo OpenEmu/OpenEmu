@@ -648,6 +648,15 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" tag="1" id="1308"/>
+                                        <menuItem title="Float on Top" enabled="NO" id="GPT-Te-noY">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="floatOnTop:" target="-1" id="6ir-Xm-iSw"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Fullscreen" tag="2" enabled="NO" keyEquivalent="f" id="1038">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>

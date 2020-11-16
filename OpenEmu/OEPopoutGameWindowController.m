@@ -49,7 +49,6 @@ static const unsigned int _OEFitToWindowScale        = 0;
 static NSString *const _OESystemIntegralScaleKeyFormat = @"OEIntegralScale.%@";
 static NSString *const _OEIntegralScaleKey             = @"integralScale";
 static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize";
-static NSString *const OEPopoutGameWindowAlwaysOnTop   = @"popoutGameWindowAlwaysOnTop";
 
 typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 {
@@ -115,7 +114,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     NSColor *bgColor = bgColorStr ? [[NSColor alloc] colorFromHexString:bgColorStr] : [NSColor blackColor];
     window.backgroundColor = bgColor;
     
-    if([ud boolForKey:OEPopoutGameWindowAlwaysOnTop] == YES)
+    if([ud boolForKey:OEPopoutGameWindowAlwaysOnTopKey] == YES)
     {
         window.level = NSFloatingWindowLevel;
     }
@@ -209,6 +208,34 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 
     if(needsToggleFullScreen)
         [window toggleFullScreen:self];
+}
+
+#pragma mark - Menu Items
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+    SEL action = menuItem.action;
+    if(action == @selector(floatOnTop:))
+    {
+        if(self.window.level == NSFloatingWindowLevel)
+            menuItem.state = NSControlStateValueOn;
+        else
+            menuItem.state = NSControlStateValueOff;
+    }
+    
+    return YES;
+}
+
+- (IBAction)floatOnTop:(NSMenuItem *)sender
+{
+    if(self.window.level == NSNormalWindowLevel)
+    {
+        self.window.level = NSFloatingWindowLevel;
+    }
+    else
+    {
+        self.window.level = NSNormalWindowLevel;
+    }
 }
 
 #pragma mark - Actions
