@@ -25,7 +25,7 @@
                     <subviews>
                         <slider verticalHuggingPriority="750" tag="100" translatesAutoresizingMaskIntoConstraints="NO" id="Tz5-Rx-tyL">
                             <rect key="frame" x="-2" y="39" width="241" height="19"/>
-                            <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="flr-84-D09"/>
+                            <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="below" sliderType="linear" id="flr-84-D09"/>
                         </slider>
                         <textField verticalHuggingPriority="750" tag="101" translatesAutoresizingMaskIntoConstraints="NO" id="Jj4-Gz-vjh">
                             <rect key="frame" x="245" y="38" width="100" height="21"/>
