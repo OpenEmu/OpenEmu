@@ -634,6 +634,10 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
     NSString *title = [[cell representedItem] imageTitle];
     [_fieldEditor setString:title];
     [_fieldEditor setDelegate:self];
+    if ([[self cellForItemAtIndex:index] isKindOfClass: OEGridGameCell.class])
+        _fieldEditor.font = [NSFont systemFontOfSize:NSFont.systemFontSize weight:NSFontWeightMedium];
+    else
+        _fieldEditor.font = [NSFont boldSystemFontOfSize:12];
     [_fieldEditor setHidden:NO];
     [[self window] makeFirstResponder:[[_fieldEditor subviews] objectAtIndex:0]];
 }

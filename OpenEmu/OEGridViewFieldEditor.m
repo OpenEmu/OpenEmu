@@ -33,54 +33,25 @@
     NSTextField *textView;
 }
 
-@synthesize borderColor;
-
 - (id)initWithFrame:(NSRect)frame
 {
     if((self = [super initWithFrame:frame]))
     {
-        textView = [[NSTextField alloc] initWithFrame:NSMakeRect(10, 10, 80, 80)];
+        textView = [[NSTextField alloc] init];
         [[textView cell] setUsesSingleLineMode:YES];
         [[textView cell] setScrollable:YES];
         [textView setBezeled:NO];
         [textView setAllowsEditingTextAttributes:NO];
         [textView setBackgroundColor:NSColor.textBackgroundColor];
         [textView setTextColor:NSColor.textColor];
+        [textView setAlignment:NSTextAlignmentCenter];
         [self addSubview:textView];
 
         [self setAutoresizesSubviews:NO];
         [self setHidden:YES];
-        [self setWantsLayer:YES];
-
-        NSFont *fieldEditorFont = [NSFont boldSystemFontOfSize:12];
-        [self setAlignment:NSTextAlignmentCenter];
-        [self setBorderColor:[NSColor blackColor]];
-        [self setFont:fieldEditorFont];
-        
-        CALayer *layer = [self layer];
-        [layer setShadowOpacity:0.45];
-        [layer setShadowColor:[[NSColor blackColor] CGColor]];
-        [layer setShadowOffset:CGSizeMake(0.0, -6.0)];
-        [layer setShadowRadius:5];
     }
     
     return self;
-}
-
-#pragma mark -
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-    [super drawRect:dirtyRect];
-    
-    [[self borderColor] setStroke];
-    
-    NSBezierPath *borderPath = [NSBezierPath bezierPathWithRect:NSInsetRect([self bounds], 0.5, 0.5)];
-    [borderPath stroke];
-    
-    [[NSColor whiteColor] setStroke];
-    borderPath = [NSBezierPath bezierPathWithRect:NSInsetRect([self bounds], 1.5, 1.5)];
-    [borderPath stroke];
 }
 
 #pragma mark -
@@ -100,9 +71,6 @@
 
 - (NSString *)string                            { return [textView stringValue]; }
 - (void)setString:(NSString *)newString         { [textView setStringValue:newString]; }
-
-- (NSTextAlignment)alignment                    { return [textView alignment]; }
-- (void)setAlignment:(NSTextAlignment)alignment { [textView setAlignment:alignment]; }
 
 - (NSFont *)font                                { return [textView font]; }
 - (void)setFont:(NSFont *)newFont               { [textView setFont:newFont]; }
