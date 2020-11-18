@@ -27,7 +27,7 @@
 
 "Hide game scanner view" = "Spiele-Scanner ausblenden";
 
-"HUD Bar / Gameplay" = "HUD-Bar/Gameplay";
+"HUD Bar / Gameplay" = "Steuerungsleiste/Gameplay";
 
 "Can delete save states" = "Spielstände sind löschbar";
 
@@ -41,7 +41,7 @@
 
 "Show autosave in menu" = "Automatische Sicherungen in Menü anzeigen";
 
-"Show audio output device in menu" = "Audio-Ausgabegerät in Menü anzeigen";
+"Show audio output device in menu" = "Audio-Ausgabegeräte in Menü anzeigen";
 
 "Take screenshots in native size" = "Bildschirmfotos in Originalgröße aufnehmen";
 
@@ -67,7 +67,7 @@
 
 "Show all global keys" = "Alle Spezialtasten anzeigen";
 
-"Set default save states directory" = "Standard-Spielstandordner festlegen";
+"Set default save states directory" = "Auf Standard-Spielstandordner zurücksetzen";
 
 "Choose save states directory…" = "Spielstandordner auswählen …";
 

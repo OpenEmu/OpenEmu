@@ -237,7 +237,7 @@
 
 "If you change the core you current progress will be lost and save states will not work anymore." = "Wenn du den Kern wechselst, wirst du deinen aktuellen Fortschritt verlieren und bisher gesicherte Spielstände werden nicht mehr funktionieren.";
 
-"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "Aufgrund der zunehmenden Komplexität der Hard- und Software neuerer Spielkonsolen werden BIOS-Dateien zu deren Emulation benötigt. Bitte lies unser %@ für nähere Informationen.";
+"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "Aufgrund der zunehmenden Komplexität der Hard- und Software neuerer Spielkonsolen werden BIOS-Dateien für deren Emulation benötigt. Bitte lies die %@ für nähere Informationen.";
 
 "In order to play the game it must be downloaded." = "Um das Spiel zu starten, muss es zunächst heruntergeladen werden.";
 
@@ -509,11 +509,11 @@
 
 "Updating Library" = "Mediathek wird aktualisiert";
 
-"User guide on BIOS files" = "Benutzerhandbuch über BIOS-Dateien";
+"User guide on BIOS files" = "Anleitung über BIOS-Dateien";
 
 "Version" = "Version";
 
-"View Guide in Browser" = "Im Browser anzeigen";
+"View Guide in Browser" = "Anleitung aufrufen";
 
 "Volume" = "Lautstärke";
 
@@ -523,7 +523,7 @@
 
 "Won't be able to recognize it as special save state…" = "Wird eine Automatische bzw. Schnelle Sicherung umbenannt, wird sie nicht mehr als solche erkannt werden können.";
 
-"Would you like to continue your last game?" = "Möchtest du dein letztes Spiel weiterspielen?";
+"Would you like to continue your last game?" = "Möchtest du dein letztes Spiel fortsetzen?";
 
 "Would you like to save your game before you quit?" = "Möchtest du dein Spiel vor dem Beenden sichern?";
 
