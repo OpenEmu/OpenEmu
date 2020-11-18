@@ -540,7 +540,7 @@ CA
                             <menuItem title="View" id="973">
                                 <menu key="submenu" title="View" id="1035">
                                     <items>
-                                        <menuItem title="as Grid" state="on" tag="301" enabled="NO" keyEquivalent="1" id="1040">
+                                        <menuItem title="as Grid" enabled="NO" keyEquivalent="1" id="1040">
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                                             </userDefinedRuntimeAttributes>
@@ -548,7 +548,7 @@ CA
                                                 <action selector="switchToGridView:" target="-1" id="1151"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="as List" tag="303" enabled="NO" keyEquivalent="2" id="1036">
+                                        <menuItem title="as List" enabled="NO" keyEquivalent="2" id="1036">
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                                             </userDefinedRuntimeAttributes>

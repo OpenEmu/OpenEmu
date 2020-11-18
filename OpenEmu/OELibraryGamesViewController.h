@@ -30,7 +30,7 @@ extern NSNotificationName const OELibrarySplitViewResetSidebarNotification;
 
 @class OESidebarController, OEGameCollectionViewController, OEGameScannerViewController, OELibraryDatabase;
 
-@interface OELibraryGamesViewController : NSViewController
+@interface OELibraryGamesViewController : NSViewController <NSMenuItemValidation>
 @property (nonatomic) OELibraryDatabase *database;
 @property (weak) IBOutlet OESidebarController *sidebarController;
 @property (weak) IBOutlet OEGameCollectionViewController *collectionController;

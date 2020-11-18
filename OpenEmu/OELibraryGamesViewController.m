@@ -43,9 +43,6 @@ NSNotificationName const OELibrarySplitViewResetSidebarNotification = @"OELibrar
 
 #pragma mark - Private constants
 
-#define MainMenu_View_GridTag      301
-#define MainMenu_View_ListTag      303
-
 static const CGFloat _OESidebarMinWidth     = 105;
 static const CGFloat _OESidebarDefaultWidth = 200;
 static const CGFloat _OESidebarMaxWidth     = 450;
@@ -136,6 +133,27 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     toolbar.addButton.enabled = YES;
 }
 
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+    BOOL isGridView = self.collectionController.selectedViewTag == OEGridViewTag;
+    BOOL isBlankSlate = self.collectionController.shouldShowBlankSlate;
+    SEL action = menuItem.action;
+    
+    if (action == @selector(switchToGridView:))
+    {
+        menuItem.state = isGridView ? NSControlStateValueOn : NSControlStateValueOff;
+        return !isBlankSlate;
+    }
+    
+    if (action == @selector(switchToListView:))
+    {
+        menuItem.state = !isGridView ? NSControlStateValueOn : NSControlStateValueOff;
+        return !isBlankSlate;
+    }
+    
+    return YES;
+}
+
 #pragma mark - Split View
 
 - (void)_setupSplitView
@@ -205,22 +223,12 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 {
     [self.collectionController showGridView];
     [self _validateToolbarItems];
-    
-    // Update state of respective view menu items.
-    NSMenu *viewMenu = [[[NSApp mainMenu] itemAtIndex:3] submenu];
-    [[viewMenu itemWithTag:MainMenu_View_GridTag] setState:NSControlStateValueOn];
-    [[viewMenu itemWithTag:MainMenu_View_ListTag] setState:NSControlStateValueOff];
 }
 
 - (IBAction)switchToListView:(id)sender
 {
     [self.collectionController showListView];
     [self _validateToolbarItems];
-    
-    // Update state of respective view menu items.
-    NSMenu *viewMenu = [[[NSApp mainMenu] itemAtIndex:3] submenu];
-    [[viewMenu itemWithTag:MainMenu_View_GridTag] setState:NSControlStateValueOff];
-    [[viewMenu itemWithTag:MainMenu_View_ListTag] setState:NSControlStateValueOn];
 }
 
 - (IBAction)search:(id)sender
