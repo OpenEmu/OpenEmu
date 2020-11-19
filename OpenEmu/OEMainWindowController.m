@@ -147,7 +147,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         // Adjust visual properties of the window.
         window.titlebarAppearsTransparent = YES;
         window.toolbar.visible = NO;
-        window.styleMask |= NSWindowStyleMaskFullSizeContentView;
         
         [window center];
         
@@ -209,21 +208,10 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     [newController viewWillAppear];
 
     NSView *viewToReplace = _currentContentController.view;
-    newController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-    newController.view.frame = placeHolderView.bounds;
     
     if(viewToReplace)
-        [placeHolderView replaceSubview:viewToReplace with:newController.view];
-    else
-        [placeHolderView addSubview:newController.view];
-    
-    [self.window makeFirstResponder:newController.view];
-    
+        [viewToReplace removeFromSuperview];
     [self->_currentContentController viewDidDisappear];
-    [newController viewDidAppear];
-    self->_currentContentController = newController;
-    
-    [viewToReplace removeFromSuperview];
     
     if(newController == self->_gameDocument.gameViewController)
     {
@@ -231,10 +219,8 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         window.toolbar.visible = NO;
         window.titleVisibility = NSWindowTitleVisible;
         
-        // Disable the full size content view window style mask attribute.
-        NSRect windowFrame = window.frame;
-        window.styleMask &= ~NSWindowStyleMaskFullSizeContentView;
-        [window setFrame:windowFrame display:NO];
+        // Change the placeholder view to not overlap the title bar
+        placeHolderView.frame = window.contentLayoutRect;
         
         self->_gameDocument.gameWindowController = self;
     }
@@ -244,15 +230,24 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         
         if(newController == self.libraryController)
         {
-            // Enable the full size content view window style mask attribute.
-            NSRect windowFrame = window.frame;
-            window.styleMask |= NSWindowStyleMaskFullSizeContentView;
-            [window setFrame:windowFrame display:NO];
-            
             // Adjust visual properties of the window.
             window.toolbar.visible = YES;
+        
+            // Change the placeholder view to overlap the title bar
+            placeHolderView.frame = window.contentView.frame;
         }
     }
+    
+    // Set the size of the new controller *before* it is added to the
+    // view hierarchy. This is important because things like NSSplitter
+    // sizes are loaded as soon as the view is added to a subview.
+    newController.view.frame = placeHolderView.bounds;
+    newController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    [placeHolderView addSubview:newController.view];
+    [window makeFirstResponder:newController.view];
+    
+    self->_currentContentController = newController;
+    [newController viewDidAppear];
     
     // If a game is playing in the library window, unpause emulation immediately.
     if (newController == _gameDocument.gameViewController) {
