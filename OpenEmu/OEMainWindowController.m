@@ -205,62 +205,54 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     NSView *placeHolderView = self.placeholderView;
     NSWindow *window = self.window;
     
-    // We use Objective-C blocks to factor out common code used in both animated and non-animated controller switching
-    void (^sendViewWillDisappear)(void) = ^{
-        [self->_currentContentController viewWillDisappear];
-        [newController viewWillAppear];
-    };
+    [self->_currentContentController viewWillDisappear];
+    [newController viewWillAppear];
+
+    NSView *viewToReplace = _currentContentController.view;
+    newController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    newController.view.frame = placeHolderView.bounds;
     
-    void (^replaceController)(NSView *) = ^(NSView *viewToReplace) {
+    if(viewToReplace)
+        [placeHolderView replaceSubview:viewToReplace with:newController.view];
+    else
+        [placeHolderView addSubview:newController.view];
+    
+    [self.window makeFirstResponder:newController.view];
+    
+    [self->_currentContentController viewDidDisappear];
+    [newController viewDidAppear];
+    self->_currentContentController = newController;
+    
+    [viewToReplace removeFromSuperview];
+    
+    if(newController == self->_gameDocument.gameViewController)
+    {
+        // Adjust visual properties of the window.
+        window.toolbar.visible = NO;
+        window.titleVisibility = NSWindowTitleVisible;
         
-        newController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-        newController.view.frame = placeHolderView.bounds;
+        // Disable the full size content view window style mask attribute.
+        NSRect windowFrame = window.frame;
+        window.styleMask &= ~NSWindowStyleMaskFullSizeContentView;
+        [window setFrame:windowFrame display:NO];
         
-        if(viewToReplace)
-            [placeHolderView replaceSubview:viewToReplace with:newController.view];
-        else
-            [placeHolderView addSubview:newController.view];
+        self->_gameDocument.gameWindowController = self;
+    }
+    else
+    {
+        window.titleVisibility = NSWindowTitleHidden;
         
-        [self.window makeFirstResponder:newController.view];
-        
-        [self->_currentContentController viewDidDisappear];
-        [newController viewDidAppear];
-        self->_currentContentController = newController;
-        
-        [viewToReplace removeFromSuperview];
-        
-        if(newController == self->_gameDocument.gameViewController)
+        if(newController == self.libraryController)
         {
-            // Adjust visual properties of the window.
-            window.toolbar.visible = NO;
-            window.titleVisibility = NSWindowTitleVisible;
-            
-            // Disable the full size content view window style mask attribute.
+            // Enable the full size content view window style mask attribute.
             NSRect windowFrame = window.frame;
-            window.styleMask &= ~NSWindowStyleMaskFullSizeContentView;
+            window.styleMask |= NSWindowStyleMaskFullSizeContentView;
             [window setFrame:windowFrame display:NO];
             
-            self->_gameDocument.gameWindowController = self;
+            // Adjust visual properties of the window.
+            window.toolbar.visible = YES;
         }
-        else
-        {
-            window.titleVisibility = NSWindowTitleHidden;
-            
-            if(newController == self.libraryController)
-            {
-                // Enable the full size content view window style mask attribute.
-                NSRect windowFrame = window.frame;
-                window.styleMask |= NSWindowStyleMaskFullSizeContentView;
-                [window setFrame:windowFrame display:NO];
-                
-                // Adjust visual properties of the window.
-                window.toolbar.visible = YES;
-            }
-        }
-    };
-    
-    sendViewWillDisappear();
-    replaceController(_currentContentController.view);
+    }
     
     // If a game is playing in the library window, unpause emulation immediately.
     if (newController == _gameDocument.gameViewController) {
