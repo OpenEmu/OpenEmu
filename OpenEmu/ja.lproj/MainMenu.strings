@@ -137,4 +137,4 @@
 
 "Last Display Mode" = "前のディスプレイモード";
 
-"Float on Top" = "Float on Top"; // TODO (Check QuickTime Player → View)
+"Float on Top" = "常に手前に表示"; // (same as QuickTime Player → View)

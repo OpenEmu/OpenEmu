@@ -131,10 +131,10 @@
 
 "User Guide" = "用户指南";
 
-"Send a Donation…" = "发送捐款…";  // TODO
+"Send a Donation…" = "发送捐款…";
 
-"Next Display Mode" = "下一个显示模式"; // TODO
+"Next Display Mode" = "下一个显示模式";
 
-"Last Display Mode" = "上一个显示模式"; // TODO
+"Last Display Mode" = "上一个显示模式";
 
-"Float on Top" = "Float on Top"; // TODO (Check QuickTime Player → View)
+"Float on Top" = "浮动在最前面"; // (same as QuickTime Player → View)

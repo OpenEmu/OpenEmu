@@ -51,7 +51,7 @@
 
 "Are you sure you want to remove the selected games from the collection?" = "Sei sicuro di voler rimuovere i giochi selezionati da questa raccolta?";
 
-"Are you sure you want to remove the collection '%@'?" = "Sei sicuro di voler eliminare questa raccolta?"; // TODO
+"Are you sure you want to remove the collection '%@'?" = "Sei sicuro di voler eliminare la raccolta \"%@\"?";
 
 "Are you sure you want to restart the game?" = "Sei sicuro di voler riavviare il gioco?";
 
@@ -85,7 +85,7 @@
 
 "Choose OpenEmu Library" = "Scegli Libreria di OpenEmu";
 
-"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "Scegli Sì per annullare l'importazione di tutti gli elementi ancora in coda. I contenuti già importati verranno mantenuti nella Libreria."; // TODO
+"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "L'importazione di tutti gli elementi ancora in coda verrà annullata. I contenuti già importati resteranno nella Libreria.";
 
 "Code:" = "Codice:";
 
@@ -585,7 +585,7 @@
 
 "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "Per utilizzare la tastiera come dispositivo di input, è necessario conferire a OpenEmu il permesso \"Monitoraggio input\".\n\nSe i controlli da tastiera smettono di funzionare, disattivare e poi riattivare questo permesso.";  // "Message for Input Monitoring permissions"
 
-"Open System Preferences" = "Open System Preferences";  // TODO
+"Open System Preferences" = "Apri Preferenze di Sistema";
 
 "Show" = "Visualizza";
 

@@ -137,4 +137,4 @@
 
 "Last Display Mode" = "Last Display Mode"; // TODO
 
-"Float on Top" = "Float on Top"; // TODO (Check QuickTime Player → View)
+"Float on Top" = "Em primeiro plano"; // (same as QuickTime Player → View)

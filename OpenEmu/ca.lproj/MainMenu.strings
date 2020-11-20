@@ -137,4 +137,4 @@
 
 "Last Display Mode" = "Mode de visualització anterior";
 
-"Float on Top" = "Float on Top"; // TODO (Check QuickTime Player → View)
+"Float on Top" = "Portar a primer pla"; // (same as QuickTime Player → View)
