@@ -205,8 +205,18 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     [self->_currentContentController viewDidDisappear];
     
     // Adjust visual properties of the window.
+    // HACK: toolbar.allowsUserCustomization=NO prevents re-enabling the toolbar
+    // by right clicking on the title bar.
+    // The correct fix would be to set window.toolbar to nil, but because the
+    // toolbar is instantiated from InterfaceBuilder setting the toolbar to nil
+    // also deallocates the toolbar...
+    // Changing the toolbar to be instantiated in code causes the items to
+    // be loaded too late, and it would require basically a rewrite of the
+    // toolbar handling code... :/
+    // TODO: fix toolbar handling code to remove the hack
     if (newController == _gameDocument.gameViewController) {
         window.toolbar.visible = NO;
+        window.toolbar.allowsUserCustomization = NO;
         window.titleVisibility = NSWindowTitleVisible;
         window.titlebarAppearsTransparent = NO;
         
@@ -215,6 +225,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         
     } else if (newController == self.libraryController) {
         window.toolbar.visible = YES;
+        window.toolbar.allowsUserCustomization = YES;
         window.titleVisibility = NSWindowTitleHidden;
         window.titlebarAppearsTransparent = NO;
     
@@ -223,6 +234,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         
     } else if ([newController isKindOfClass:[OESetupAssistant class]]) {
         window.toolbar.visible = NO;
+        window.toolbar.allowsUserCustomization = NO;
         window.titleVisibility = NSWindowTitleHidden;
         window.titlebarAppearsTransparent = YES;
         
