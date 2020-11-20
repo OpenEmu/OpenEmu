@@ -607,6 +607,15 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         [menuItem setSubmenu:[self OE_saveStateMenuForGame:game]];
         [menu addItem:menuItem];
 
+        if([NSUserDefaults.standardUserDefaults boolForKey:OEGameControlsBarCanDeleteSaveStatesKey])
+        {
+            NSMenuItem *alternateItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete Save State", @"") action:NULL keyEquivalent:@""];
+            alternateItem.alternate = YES;
+            alternateItem.keyEquivalentModifierMask = NSEventModifierFlagOption;
+            alternateItem.submenu = [self OE_saveStateMenuForGame:game];
+            [menu addItem:alternateItem];
+        }
+
         [menu addItem:[NSMenuItem separatorItem]];
 
         // Create Rating Item
