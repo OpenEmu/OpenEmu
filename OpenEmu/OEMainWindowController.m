@@ -123,11 +123,9 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     NSWindow *window = self.window;
     
     window.delegate = self;
-    
     window.excludedFromWindowsMenu = YES;
-    window.titleVisibility = NSWindowTitleHidden;
-    
     window.restorationClass = [self class];
+    
     NSAssert([window.identifier isEqualToString:OEMainWindowIdentifier], @"Main library window identifier does not match between nib and code");
 }
 
@@ -135,20 +133,12 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 {
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OESetupAssistantHasFinishedKey])
     {
-        NSWindow *window = self.window;
-        
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
         [setupAssistant setCompletionBlock:^{
-            window.titlebarAppearsTransparent = NO;
-            window.toolbar.visible = YES;
             [self setCurrentContentController:self.libraryController];
         }];
         
-        // Adjust visual properties of the window.
-        window.titlebarAppearsTransparent = YES;
-        window.toolbar.visible = NO;
-        
-        [window center];
+        [self.window center];
         
         [self setCurrentContentController:setupAssistant];
     }
@@ -213,29 +203,34 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         [viewToReplace removeFromSuperview];
     [self->_currentContentController viewDidDisappear];
     
-    if(newController == self->_gameDocument.gameViewController)
-    {
-        // Adjust visual properties of the window.
+    // Adjust visual properties of the window.
+    if (newController == _gameDocument.gameViewController) {
         window.toolbar.visible = NO;
         window.titleVisibility = NSWindowTitleVisible;
+        window.titlebarAppearsTransparent = NO;
         
-        // Change the placeholder view to not overlap the title bar
+        // content does not overlap the title bar
         placeHolderView.frame = window.contentLayoutRect;
         
-        self->_gameDocument.gameWindowController = self;
-    }
-    else
-    {
+    } else if (newController == self.libraryController) {
+        window.toolbar.visible = YES;
         window.titleVisibility = NSWindowTitleHidden;
+        window.titlebarAppearsTransparent = NO;
+    
+        // content overlaps the title bar
+        placeHolderView.frame = window.contentView.frame;
         
-        if(newController == self.libraryController)
-        {
-            // Adjust visual properties of the window.
-            window.toolbar.visible = YES;
+    } else if ([newController isKindOfClass:[OESetupAssistant class]]) {
+        window.toolbar.visible = NO;
+        window.titleVisibility = NSWindowTitleHidden;
+        window.titlebarAppearsTransparent = YES;
         
-            // Change the placeholder view to overlap the title bar
-            placeHolderView.frame = window.contentView.frame;
-        }
+        // content overlaps the title bar
+        placeHolderView.frame = window.contentView.frame;
+        
+    } else {
+        // probably unused
+        window.titleVisibility = NSWindowTitleHidden;
     }
     
     // Set the size of the new controller *before* it is added to the
@@ -246,7 +241,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     [placeHolderView addSubview:newController.view];
     [window makeFirstResponder:newController.view];
     
-    self->_currentContentController = newController;
+    _currentContentController = newController;
+    if (newController == _gameDocument.gameViewController) {
+        _gameDocument.gameWindowController = self;
+    }
+    
     [newController viewDidAppear];
     
     // If a game is playing in the library window, unpause emulation immediately.
