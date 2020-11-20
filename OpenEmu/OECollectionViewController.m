@@ -170,9 +170,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
     // Setup BlankSlate View
     [blankSlateView setDelegate:self];
-    [blankSlateView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [blankSlateView registerForDraggedTypes:@[NSPasteboardTypeFileURL]];
-    [blankSlateView setFrame:[self OE_staticContentRect]];
 
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
     // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
@@ -203,6 +201,12 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     NSSlider *sizeSlider = self.toolbar.gridSizeSlider;
     sizeSlider.floatValue = [NSUserDefaults.standardUserDefaults floatForKey:OELastGridSizeKey];
     [self zoomGridViewWithValue:[sizeSlider floatValue]];
+    
+    // update frame of the blank slate view (in viewDidLoad we didn't have a
+    // window to check the toolbar height of).
+    // TODO: remove together with the other todo in -OE_staticContentRect
+    [blankSlateView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+    [blankSlateView setFrame:[self OE_staticContentRect]];
 }
 
 - (NSString *)nibName
@@ -382,6 +386,9 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 - (NSRect)OE_staticContentRect
 {
     NSRect frame = self.view.bounds;
+    if (!self.view.window)
+        // TODO: refactor to avoid triggering this case
+        return frame;
     /* offset down to avoid the title bar */
     NSRect contentWithoutTitle = self.view.window.contentLayoutRect;
     NSRect contentWithTitle = self.view.window.contentView.frame;

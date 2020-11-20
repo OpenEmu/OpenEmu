@@ -299,7 +299,7 @@ const static CGFloat TableViewSpacing = 86.0;
     if(_blankSlate)
     {
         NSView *view = [self view];
-        NSRect bounds = [view bounds];
+        NSRect bounds = (NSRect){NSZeroPoint, view.window.contentLayoutRect.size};
         [_blankSlate setFrame:bounds];
 
         [view addSubview:_blankSlate];
