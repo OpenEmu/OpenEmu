@@ -1687,7 +1687,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     formatter.timeZone = [NSTimeZone localTimeZone];
     formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss ZZZ";
     
-    NSString *format = NSLocalizedString(@"Save-Game-%ld %@", @"default save game name");
+    NSString *format = NSLocalizedString(@"Save-Game-%ld %@", @"default save state name");
     NSString    *proposedName = [NSString stringWithFormat:format, saveGameNo, [formatter stringFromDate:date]];
     OEAlert  *alert        = [OEAlert saveGameAlertWithProposedName:proposedName];
     

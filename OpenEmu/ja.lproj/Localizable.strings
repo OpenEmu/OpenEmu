@@ -33,11 +33,11 @@
 
 "Already in library, but manually deleted or unreachable:" = "Already in library, but manually deleted or unreachable:"; // TODO
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "&ld のセーブデータをOpenEmuライブラリから削除してもよろしいですか？";
+"Are you sure you want to delete %ld save states from your OpenEmu library?" = "&ld のセーブデータをOpenEmuライブラリから削除してもよろしいですか？";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "%ld のスクリーンショットデータをOpenEmuライブラリから削除してもよろしいですか？";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "'%@'という名前のセーブデータをOpenEmuライブラリから削除してもよろしいですか？";
+"Are you sure you want to delete the save state called '%@' from your OpenEmu library?" = "'%@'という名前のセーブデータをOpenEmuライブラリから削除してもよろしいですか？";
 
 "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "'%@'という名前のスクリーンショットデータをOpenEmuライブラリから削除してもよろしいですか？";
 
@@ -329,7 +329,7 @@
 
 "OpenEmu could not find a Core to launch the game" = "このゲームを開くためのコアが見つかりませんでした。";
 
-"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmuは、ゲームを中断したときの状態をセーブする機能があります。";
+"OpenEmu includes a save state feature that allows you to continue playing exactly where you left off." = "OpenEmuは、ゲームを中断したときの状態をセーブする機能があります。";
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmuを続けるためにはライブラリが必要です。既存のOpenEmuライブラリを選択するか、新規ライブラリを作成してください。";
 
@@ -410,8 +410,6 @@
 "Save States" = "セーブステート";
 
 "Save-Game-%ld %@" = "セーブ-ゲーム-%ld %@";
-
-"Saved Games" = "保存されたゲーム";
 
 "Scanner Paused" = "スキャナ停止中";
 

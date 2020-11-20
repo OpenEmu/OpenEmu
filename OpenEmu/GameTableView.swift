@@ -60,7 +60,7 @@ class GameTableView: OETableView {
             case "listViewConsoleName":
                 column.headerCell.title = NSLocalizedString("System", comment: "Game table, column header")
             case "listViewSaveStateCount":
-                column.headerCell.title = NSLocalizedString("Save Games", comment: "Game table, column header")
+                column.headerCell.title = NSLocalizedString("Save States", comment: "Game table, column header")
             case "listViewPlayCount":
                 column.headerCell.title = NSLocalizedString("Play Count", comment: "Game table, column header")
             case "listViewPlayTime":

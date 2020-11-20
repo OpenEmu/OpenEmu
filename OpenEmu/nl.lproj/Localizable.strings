@@ -33,11 +33,11 @@
 
 "Already in library, but manually deleted or unreachable:" = "Already in library, but manually deleted or unreachable:"; // TODO
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Weet u zeker dat u %ld opgeslagen spellen wilt verwijderen uit uw OpenEmu-bibliotheek?";
+"Are you sure you want to delete %ld save states from your OpenEmu library?" = "Weet u zeker dat u %ld opgeslagen spellen wilt verwijderen uit uw OpenEmu-bibliotheek?";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Weet u zeker dat u %ld schermafbeeldingen wilt verwijderen uit uw OpenEmu-bibliotheek?";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Weet u zeker dat u het opgeslagen spel '%@' wilt verwijderen uit uw OpenEmu-bibliotheek?";
+"Are you sure you want to delete the save state called '%@' from your OpenEmu library?" = "Weet u zeker dat u het opgeslagen spel '%@' wilt verwijderen uit uw OpenEmu-bibliotheek?";
 
 "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Weet u zeker dat u de schermafbeelding '%@' wilt verwijderen uit uw OpenEmu-bibliotheek?";
 
@@ -329,7 +329,7 @@
 
 "OpenEmu could not find a Core to launch the game" = "OpenEmu could not find a Core to launch the game";
 
-"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu includes a save game feature that allows you to continue playing exactly where you left off.";
+"OpenEmu includes a save state feature that allows you to continue playing exactly where you left off." = "OpenEmu includes a save state feature that allows you to continue playing exactly where you left off.";
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one";
 
@@ -410,8 +410,6 @@
 "Save States" = "Momentopnames";
 
 "Save-Game-%ld %@" = "Save-Game-%ld %@";
-
-"Saved Games" = "Opgeslagen spellen";
 
 "Scanner Paused" = "Scanner gepauzeerd";
 

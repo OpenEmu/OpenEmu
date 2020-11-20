@@ -33,11 +33,11 @@
 
 "Already in library, but manually deleted or unreachable:" = "Già in libreria, ma eliminato manualmente o irraggiungibile:";
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Sei sicuro di voler cancellare %ld salvataggi dalla Libreria di OpenEmu?";
+"Are you sure you want to delete %ld save states from your OpenEmu library?" = "Sei sicuro di voler cancellare %ld salvataggi dalla Libreria di OpenEmu?";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Sei sicuro di voler cancellare %ld istantanee dalla Libreria di OpenEmu?";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Sei sicuro di voler cancellare il salvataggio \"%@\" dalla Libreria di OpenEmu?";
+"Are you sure you want to delete the save state called '%@' from your OpenEmu library?" = "Sei sicuro di voler cancellare il salvataggio \"%@\" dalla Libreria di OpenEmu?";
 
 "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Sei sicuro di voler cancellare l'istantanea \"%@\" dalla Libreria di OpenEmu?";
 
@@ -329,7 +329,7 @@
 
 "OpenEmu could not find a Core to launch the game" = "OpenEmu non ha trovato nessun core per avviare il gioco";
 
-"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu include un sistema di salvataggio che permette di continuare il gioco esattamente da dove lo avevi interrotto.";  // autosave before you quit alert description
+"OpenEmu includes a save state feature that allows you to continue playing exactly where you left off." = "OpenEmu include un sistema di salvataggio che permette di continuare il gioco esattamente da dove lo avevi interrotto.";  // autosave before you quit alert description
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "A OpenEmu serve una Libreria per continuare. Puoi scegliere una Libreria di OpenEmu esistente o crearne una nuova";
 
@@ -410,8 +410,6 @@
 "Save States" = "Salvataggi emulazione";
 
 "Save-Game-%ld %@" = "Salvataggio-%ld %@";
-
-"Saved Games" = "Salvataggi";  // sidebar
 
 "Scanner Paused" = "Scansione in pausa";  // scanner caption
 

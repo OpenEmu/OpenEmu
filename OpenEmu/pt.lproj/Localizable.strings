@@ -33,11 +33,11 @@
 
 "Already in library, but manually deleted or unreachable:" = "Already in library, but manually deleted or unreachable:"; // TODO
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Tem certeza que deseja remover %ld jogos salvos de sua biblioteca OpenEmu?";
+"Are you sure you want to delete %ld save state from your OpenEmu library?" = "Tem certeza que deseja remover %ld jogos salvos de sua biblioteca OpenEmu?";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Tem certeza que deseja remover %ld capturas de tela salvas de sua biblioteca OpenEmu?";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Tem certeza que deseja remover o salvamento '%@' de sua biblioteca OpenEmu?";
+"Are you sure you want to delete the save state called '%@' from your OpenEmu library?" = "Tem certeza que deseja remover o salvamento '%@' de sua biblioteca OpenEmu?";
 
 "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Tem certeza que deseja remover a capturas de tela '%@' de sua biblioteca OpenEmu?";
 
@@ -329,7 +329,7 @@
 
 "OpenEmu could not find a Core to launch the game" = "O OpenEmu não encontrou um Núcleo para iniciar o jogo";
 
-"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "O OpenEmu traz a possibilidade de Salvamentos permitindo que você continue jogando exatamente de onde parou.";
+"OpenEmu includes a save state feature that allows you to continue playing exactly where you left off." = "O OpenEmu traz a possibilidade de Salvamentos permitindo que você continue jogando exatamente de onde parou.";
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "O OpenEmu precisa de uma biblioteca para continuar. Você pode abrir bibliotecas OpenEmu existentes ou criar uma nova.";
 
@@ -410,8 +410,6 @@
 "Save States" = "Estados de Salvamento";
 
 "Save-Game-%ld %@" = "Salvamento-%ld %@";
-
-"Saved Games" = "Jogos Salvos";
 
 "Scanner Paused" = "Scanner Pausado";
 

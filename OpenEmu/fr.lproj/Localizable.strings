@@ -33,11 +33,11 @@
 
 "Already in library, but manually deleted or unreachable:" = "Already in library, but manually deleted or unreachable:"; // TODO
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Voulez-vous vraiment supprimer %ld parties sauvegardées de votre bibliothèque OpenEmu ?";
+"Are you sure you want to delete %ld save states from your OpenEmu library?" = "Voulez-vous vraiment supprimer %ld parties sauvegardées de votre bibliothèque OpenEmu ?";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Voulez-vous vraiment supprimer %ld captures d’écran de votre bibliothèque OpenEmu ?";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Voulez-vous vraiment supprimer le jeu « %@ » de votre bibliothèque OpenEmu ?";
+"Are you sure you want to delete the save state called '%@' from your OpenEmu library?" = "Voulez-vous vraiment supprimer le jeu « %@ » de votre bibliothèque OpenEmu ?";
 
 "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Voulez-vous vraiment supprimer la capture d’écran « %@ » de votre bibliothèque OpenEmu ?";
 
@@ -329,7 +329,7 @@
 
 "OpenEmu could not find a Core to launch the game" = "OpenEmu n’a pas pu trouver de cœur pour lancer le jeu";
 
-"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu inclut une fonctionnalité de sauvegarde qui vous permet de continuer votre partie exactement là où vous l’avez quitée.";
+"OpenEmu includes a save state feature that allows you to continue playing exactly where you left off." = "OpenEmu inclut une fonctionnalité de sauvegarde qui vous permet de continuer votre partie exactement là où vous l’avez quitée.";
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu nécessite une bibliothèque pour continuer. Vous devez sélectionner une bibliothèque OpenEmu existante ou en créer une nouvelle";
 
@@ -410,8 +410,6 @@
 "Save States" = "Sauvegarder les parties";
 
 "Save-Game-%ld %@" = "Sauvegarde-%ld %@";
-
-"Saved Games" = "Parties sauvegardées";
 
 "Scanner Paused" = "Analyse en pause";
 

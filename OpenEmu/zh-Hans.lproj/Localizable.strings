@@ -33,11 +33,11 @@
 
 "Already in library, but manually deleted or unreachable:" = "Already in library, but manually deleted or unreachable:"; // TODO
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "你确定要从 OpenEmu 库删除 %ld 个已保存游戏？";
+"Are you sure you want to delete %ld save states from your OpenEmu library?" = "你确定要从 OpenEmu 库删除 %ld 个已保存游戏？";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "你确定要从 OpenEmu 库删除 %ld 个截屏？";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "你确定要从 OpenEmu 库删除名为“%@”的游戏？";
+"Are you sure you want to delete the save state called '%@' from your OpenEmu library?" = "你确定要从 OpenEmu 库删除名为“%@”的游戏？";
 
 "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "你确定要从 OpenEmu 库删除名为“%@”的截屏？";
 
@@ -329,7 +329,7 @@
 
 "OpenEmu could not find a Core to launch the game" = "OpenEmu 无法找到核心来启动游戏";
 
-"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu 有保存游戏的特性，允许你从之前离开的位置继续玩。";
+"OpenEmu includes a save state feature that allows you to continue playing exactly where you left off." = "OpenEmu 有保存游戏的特性，允许你从之前离开的位置继续玩。";
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu 需要一个库以继续。你可以选择一个已存在的 OpenEmu 库或创建一个新的。";
 
@@ -410,8 +410,6 @@
 "Save States" = "保存状态";
 
 "Save-Game-%ld %@" = "保存游戏-%ld %@";
-
-"Saved Games" = "已保存的游戏";
 
 "Scanner Paused" = "扫描暂停";
 

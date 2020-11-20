@@ -33,11 +33,11 @@
 
 "Already in library, but manually deleted or unreachable:" = "Bereits in Mediathek, aber gelöscht oder nicht erreichbar:";
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Möchtest du die %ld ausgewählten Spielstände wirklich aus der Mediathek löschen?";
+"Are you sure you want to delete %ld save states from your OpenEmu library?" = "Möchtest du die %ld ausgewählten Spielstände wirklich aus der Mediathek löschen?";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Möchtest du die %ld ausgewählten Bildschirmfotos wirklich aus der Mediathek löschen?";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Möchtest du den Spielstand „%@“ wirklich aus der Mediathek löschen?";
+"Are you sure you want to delete the save state called '%@' from your OpenEmu library?" = "Möchtest du den Spielstand „%@“ wirklich aus der Mediathek löschen?";
 
 "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Möchtest du das Bildschirmfoto „%@“ wirklich aus der Mediathek löschen?";
 
@@ -329,7 +329,7 @@
 
 "OpenEmu could not find a Core to launch the game" = "OpenEmu konnte keinen Kern finden, um das Spiel zu starten";
 
-"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu besitzt eine Funktion, dank der du dort weiterspielen kannst, wo du zuletzt aufgehört hast.";
+"OpenEmu includes a save state feature that allows you to continue playing exactly where you left off." = "OpenEmu besitzt eine Funktion, dank der du dort weiterspielen kannst, wo du zuletzt aufgehört hast.";
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu benötigt zum Fortfahren eine Mediathek. Du kannst eine vorhandene OpenEmu-Mediathek wählen oder eine neue erstellen.";
 
@@ -410,8 +410,6 @@
 "Save States" = "Spielstände";
 
 "Save-Game-%ld %@" = "Spielstand %ld - %@";
-
-"Saved Games" = "Spielstände";
 
 "Scanner Paused" = "Scanner pausiert";
 

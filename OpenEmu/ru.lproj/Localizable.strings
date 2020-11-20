@@ -33,11 +33,11 @@
 
 "Already in library, but manually deleted or unreachable:" = "Already in library, but manually deleted or unreachable:"; // TODO
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Вы уверены, что хотите удалить %ld сохранений игр из медиатеки OpenEmu?";
+"Are you sure you want to delete %ld save states from your OpenEmu library?" = "Вы уверены, что хотите удалить %ld сохранений игр из медиатеки OpenEmu?";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Вы уверены, что хотите удалить %ld снимков экрана из медиатеки OpenEmu?";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Вы уверены, что хотите удалить сохранение игры: '%@' из медиатеки OpenEmu?";
+"Are you sure you want to delete the save state called '%@' from your OpenEmu library?" = "Вы уверены, что хотите удалить сохранение игры: '%@' из медиатеки OpenEmu?";
 
 "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Вы уверены, что хотите удалить снимок экрана: '%@' из медиатеки OpenEmu?";
 
@@ -329,7 +329,7 @@
 
 "OpenEmu could not find a Core to launch the game" = "OpenEmu не может найти подходящее ядро для запуска игры";
 
-"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu включает в себя возможность сохранения игр, благодаря которой вы можете продолжать играть именно там, где вы остановились";
+"OpenEmu includes a save state feature that allows you to continue playing exactly where you left off." = "OpenEmu включает в себя возможность сохранения игр, благодаря которой вы можете продолжать играть именно там, где вы остановились";
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu необходима библиотека для продолжения. Вы можете выбрать существующую библиотеку OpenEmu или создать новую";
 
@@ -410,8 +410,6 @@
 "Save States" = "Сохранить состояние";
 
 "Save-Game-%ld %@" = "Сохранение-%ld %@";
-
-"Saved Games" = "Сохраненные игры";
 
 "Scanner Paused" = "Сканер приостановлен";
 

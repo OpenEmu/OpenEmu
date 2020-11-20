@@ -602,8 +602,8 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         [menu addItemWithTitle:NSLocalizedString(@"Play Game", @"") action:@selector(startSelectedGame:) keyEquivalent:@""];
         OEDBGame  *game = [[gamesController arrangedObjects] objectAtIndex:index];
 
-        // Create Save Game Menu
-        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Play Save Games", @"") action:NULL keyEquivalent:@""];
+        // Create Save State Menu
+        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Play Save State", @"") action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_saveStateMenuForGame:game]];
         [menu addItem:menuItem];
 

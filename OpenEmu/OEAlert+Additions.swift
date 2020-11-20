@@ -91,8 +91,8 @@ extension OEAlert {
     final class func deleteSaveState(name: String) -> OEAlert {
         
         let alert = OEAlert()
-        alert.messageText = .localizedStringWithFormat(NSLocalizedString("Are you sure you want to delete the save game called '%@' from your OpenEmu library?", comment: ""), name)
-        alert.defaultButtonTitle = NSLocalizedString("Delete Save", comment: "")
+        alert.messageText = .localizedStringWithFormat(NSLocalizedString("Are you sure you want to delete the save state called '%@' from your OpenEmu library?", comment: ""), name)
+        alert.defaultButtonTitle = NSLocalizedString("Delete Save State", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
         alert.showSuppressionButton(forUDKey: OEDeleteSaveStateAlertSuppressionKey)
         
@@ -103,8 +103,8 @@ extension OEAlert {
     final class func deleteSaveStates(count: Int) -> OEAlert {
         
         let alert = OEAlert()
-        alert.messageText = .localizedStringWithFormat(NSLocalizedString("Are you sure you want to delete %ld save games from your OpenEmu library?", comment: ""), count)
-        alert.defaultButtonTitle = NSLocalizedString("Delete Saves", comment: "")
+        alert.messageText = .localizedStringWithFormat(NSLocalizedString("Are you sure you want to delete %ld save states from your OpenEmu library?", comment: ""), count)
+        alert.defaultButtonTitle = NSLocalizedString("Delete Save States", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
         alert.showSuppressionButton(forUDKey: OEDeleteSaveStateAlertSuppressionKey)
         

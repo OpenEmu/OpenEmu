@@ -131,7 +131,7 @@
                                 <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                             </tableColumn>
                             <tableColumn identifier="listViewSaveStateCount" editable="NO" width="90" minWidth="90" maxWidth="1000" id="103">
-                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Save Games">
+                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Save States">
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>

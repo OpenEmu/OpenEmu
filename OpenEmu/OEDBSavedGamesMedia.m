@@ -53,7 +53,7 @@ NSString * const OEDBSavedGamesMediaShowsQuickSaves = @"OEDBSavedGamesMediaShows
 
 - (NSString *)sidebarName
 {
-    return NSLocalizedString(@"Saved Games", @"");
+    return NSLocalizedString(@"Save States", @"");
 }
 
 - (void)setSidebarName:(NSString *)newName
