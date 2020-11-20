@@ -673,7 +673,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
         image.imageFrameStyle = NSImageFrameNone;
         image.imageScaling = NSImageScaleProportionallyUpOrDown;
         [contentView addSubview:image];
-        [contentView addConstraints:@[
+        [NSLayoutConstraint activateConstraints:@[
             [image.topAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertTopInset],
             [image.leadingAnchor constraintEqualToAnchor:contentView.leadingAnchor constant:OEAlertImageLeadingInset],
             [image.heightAnchor constraintEqualToConstant:OEAlertImageWidth],
@@ -694,7 +694,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
         NSView *dummyView = [[NSView alloc] init];
         dummyView.translatesAutoresizingMaskIntoConstraints = NO;
         [contentView addSubview:dummyView];
-        [contentView addConstraints:@[
+        [NSLayoutConstraint activateConstraints:@[
             [dummyView.topAnchor constraintEqualToAnchor:lastAnchor],
             [dummyView.bottomAnchor constraintGreaterThanOrEqualToAnchor:image.bottomAnchor constant:0],
             [dummyView.widthAnchor constraintEqualToConstant:0],
@@ -710,7 +710,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     
     NSLayoutConstraint *maxWidthConstraint = [contentView.widthAnchor constraintLessThanOrEqualToConstant:OEAlertMaximumWidth];
     maxWidthConstraint.priority = NSLayoutPriorityDefaultHigh-1;
-    [contentView addConstraints:@[
+    [NSLayoutConstraint activateConstraints:@[
         [contentView.bottomAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertBottomInset],
         [contentView.widthAnchor constraintGreaterThanOrEqualToConstant:OEAlertMinimumWidth],
         maxWidthConstraint]];
@@ -739,7 +739,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     
     [self.headlineLabel setContentHuggingPriority:NSLayoutPriorityDefaultHigh+1 forOrientation:NSLayoutConstraintOrientationVertical];
     [contentView addSubview:self.headlineLabel];
-    [contentView addConstraints:@[
+    [NSLayoutConstraint activateConstraints:@[
         [self.headlineLabel.topAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertTopInset],
         [self.headlineLabel.leadingAnchor constraintEqualToAnchor:effectiveLeadingAnchor constant:OEAlertLeadingInset],
         [contentView.trailingAnchor constraintGreaterThanOrEqualToAnchor:self.headlineLabel.trailingAnchor constant:OEAlertTrailingInset]]];
@@ -777,7 +777,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     }
     
     [contentView addSubview:self.messageLabel];
-    [contentView addConstraints:@[
+    [NSLayoutConstraint activateConstraints:@[
         [self.messageLabel.topAnchor constraintEqualToAnchor:lastAnchor constant:hasHeadline ? OEAlertHeadlineToMessageSpacing : OEAlertTopInset],
         [self.messageLabel.leadingAnchor constraintEqualToAnchor:effectiveLeadingAnchor constant:OEAlertLeadingInset],
         [contentView.trailingAnchor constraintGreaterThanOrEqualToAnchor:self.messageLabel.trailingAnchor constant:OEAlertTrailingInset]]];
@@ -789,7 +789,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     NSView *contentView = self.window.contentView;
     
     [contentView addSubview:self.progressbar];
-    [contentView addConstraints:@[
+    [NSLayoutConstraint activateConstraints:@[
         [self.progressbar.topAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertProgressBarSpacing],
         [self.progressbar.leadingAnchor constraintEqualToAnchor:effectiveLeadingAnchor constant:OEAlertLeadingInset],
         [contentView.trailingAnchor constraintEqualToAnchor:self.progressbar.trailingAnchor constant:OEAlertTrailingInset]]];
@@ -805,7 +805,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     inputGrid.rowAlignment = NSGridRowAlignmentLastBaseline;
     [inputGrid columnAtIndex:0].xPlacement = NSGridCellPlacementTrailing;
     [contentView addSubview:inputGrid];
-    [contentView addConstraints:@[
+    [NSLayoutConstraint activateConstraints:@[
         [inputGrid.topAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertTopInset],
         [inputGrid.leadingAnchor constraintEqualToAnchor:effectiveLeadingAnchor constant:OEAlertLeadingInset],
         [contentView.trailingAnchor constraintEqualToAnchor:inputGrid.trailingAnchor constant:OEAlertTrailingInset]]];
@@ -830,7 +830,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     buttonStackView.alignment = NSLayoutAttributeLastBaseline;
     buttonStackView.spacing = OEAlertInterButtonSpacing;
     [contentView addSubview:buttonStackView];
-    [contentView addConstraints:@[
+    [NSLayoutConstraint activateConstraints:@[
         [buttonStackView.topAnchor constraintEqualToAnchor:lastAnchor constant:OEAlertButtonTopSpacing],
         [buttonStackView.leadingAnchor constraintEqualToAnchor:contentView.leadingAnchor constant:OEAlertLeadingInset],
         [contentView.trailingAnchor constraintEqualToAnchor:buttonStackView.trailingAnchor constant:OEAlertTrailingInset]]];
@@ -849,7 +849,7 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     if (self.otherButtonTitle.length != 0) {
         [buttonStackView addView:self.otherButton inGravity:NSStackViewGravityLeading];
         [buttonStackView setCustomSpacing:OEAlertOtherButtonSpacing afterView:self.otherButton];
-        [contentView addConstraints:@[
+        [NSLayoutConstraint activateConstraints:@[
             [self.otherButton.widthAnchor constraintGreaterThanOrEqualToConstant:OEAlertMinimumButtonWidth],
             [self.otherButton.leadingAnchor constraintGreaterThanOrEqualToAnchor:effectiveLeadingAnchor constant:OEAlertLeadingInset]]];
     } else if (self.showsSuppressionButton) {

@@ -163,7 +163,7 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     NSView *sidebar = librarySplitView.arrangedSubviews[0];
     NSView *gridView = librarySplitView.arrangedSubviews[1];
     
-    [librarySplitView addConstraints:@[
+    [NSLayoutConstraint activateConstraints:@[
         [sidebar.widthAnchor constraintGreaterThanOrEqualToConstant:_OESidebarMinWidth],
         [sidebar.widthAnchor constraintLessThanOrEqualToConstant:_OESidebarMaxWidth],
         [gridView.widthAnchor constraintGreaterThanOrEqualToConstant:_OEMainViewMinWidth]

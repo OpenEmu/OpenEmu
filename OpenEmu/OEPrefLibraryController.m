@@ -73,7 +73,7 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
     self.librariesView = lv;
     
     lv.borderType = NSBezelBorder;
-    [lv addConstraints:@[
+    [NSLayoutConstraint activateConstraints:@[
         [lv.widthAnchor constraintEqualToConstant:size.width],
         [lv.heightAnchor constraintEqualToConstant:size.height]]];
 }

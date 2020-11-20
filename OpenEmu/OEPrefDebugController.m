@@ -847,7 +847,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     fittingSize.width += scrollerWidth;
     viewSize = NSMakeSize(fittingSize.width, 500);
     
-    [self.contentView addConstraints:@[
+    [NSLayoutConstraint activateConstraints:@[
         [NSLayoutConstraint constraintWithItem:gridView attribute:NSLayoutAttributeLeft
             relatedBy:NSLayoutRelationEqual
             toItem:self.contentView attribute:NSLayoutAttributeLeft
@@ -934,7 +934,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
         NSGridRow *row = [gridView addRowWithViews:@[labelField, colorWell]];
         row.rowAlignment = NSGridRowAlignmentNone;
         row.yPlacement = NSGridCellPlacementCenter;
-        [gridView addConstraints:@[
+        [NSLayoutConstraint activateConstraints:@[
             [NSLayoutConstraint constraintWithItem:colorWell attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:60],
             [NSLayoutConstraint constraintWithItem:colorWell attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:24],
         ]];
@@ -992,7 +992,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
         [inputField setToolTip:tooltip];
         
         [gridView addRowWithViews:@[labelField, inputField]];
-        [gridView addConstraints:@[
+        [NSLayoutConstraint activateConstraints:@[
             [NSLayoutConstraint constraintWithItem:inputField attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:70]]];
         
     } else if (type == SeparatorType) {
