@@ -195,6 +195,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     NSWindow *window = self.window;
     
     [self->_currentContentController viewWillDisappear];
+    [newController view];
     [newController viewWillAppear];
 
     NSView *viewToReplace = _currentContentController.view;
