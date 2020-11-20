@@ -108,6 +108,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     [window setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
     [window setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
     [window setMinSize:_OEPopoutGameWindowMinSize];
+    window.tabbingMode = NSWindowTabbingModeDisallowed;
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSString *bgColorStr = [ud objectForKey:OEGameViewBackgroundColorKey];
