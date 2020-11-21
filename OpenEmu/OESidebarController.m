@@ -381,8 +381,9 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
     {
         collection = item;
     }
-    else if(![item isKindOfClass:[OESidebarGroupItem class]])
+    else if(item == self.groups[1])
     {
+        // create a new collection with a single game
         NSString *name = nil;
         if([[pboard types] containsObject:OEPasteboardTypeGame])
         {
@@ -438,24 +439,38 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
     // Allow drop on systems group, ignoring which system exactly is highlighted
     if(item == [[self groups] objectAtIndex:0] || [item isKindOfClass:[OEDBSystem class]])
     {
-        [outlineView setDropItem:[[self groups] objectAtIndex:0] dropChildIndex:NSOutlineViewDropOnItemIndex];
+        // Disallow drop on systems for already imported games
+        if ([[pboard types] containsObject:OEPasteboardTypeGame])
+            return NSDragOperationNone;
+        
+        // For new games, change drop target to the whole view
+        [outlineView setDropItem:nil dropChildIndex:NSOutlineViewDropOnItemIndex];
         return NSDragOperationCopy;
     }
 
     // Allow drop on normal collections
-    if([item isMemberOfClass:[OEDBCollection class]])
+    if ([item isMemberOfClass:[OEDBCollection class]])
     {
-        if(index != NSOutlineViewDropOnItemIndex)
-        {
-            index = index != 0 ? index-1:index;
-            [outlineView setDropItem:[self outlineView:outlineView child:index ofItem:item] dropChildIndex:NSOutlineViewDropOnItemIndex];
+        return NSDragOperationCopy;
+    }
+    // Allow drop on the collections header and on smart collections
+    else if (item == self.groups[1] ||
+            [item isKindOfClass:[OEDBCollection class]] ||
+            [item isKindOfClass:[OEDBAllGamesCollection class]])
+    {
+        // Find the first normal collection in the list
+        NSInteger i;
+        for (i = 0; i < self.collections.count; i++) {
+            if ([self.collections[i] isMemberOfClass:[OEDBCollection class]])
+                break;
         }
+        // Register as a drop just before that collection
+        [outlineView setDropItem:self.groups[1] dropChildIndex:i];
         return NSDragOperationCopy;
     }
 
-    // Everything else goes to whole view
-    [outlineView setDropItem:nil dropChildIndex:NSOutlineViewDropOnItemIndex];
-    return NSDragOperationCopy;
+    // Everything else is disabled
+    return NSDragOperationNone;
 }
 
 #pragma mark - NSOutlineView Delegate
