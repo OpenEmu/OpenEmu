@@ -97,7 +97,7 @@
     [super drawRect:[self bounds]];
 
     if(_highlightedRow != -1)
-        [self _drawDropHighlightOnRow:_highlightedRow];
+        [self OE_drawDropHighlightOnRow:_highlightedRow];
 }
 
 - (void)mouseDown:(NSEvent*)theEvent
@@ -262,53 +262,25 @@
     return NSZeroRect;
 }
 
-- (NSRect)rectOfGroup:(id)item
-{
-    if(item == nil)
-    {
-        NSRect bounds = [self bounds];
-        bounds.size.width -= 1;
-        bounds.size.height -= 2.0;
-        return bounds;
-    }
-
-    if(![self isItemExpanded:item])
-        return [self rectOfRow:[self rowForItem:item]];
-    
-    // TODO: this will break when we add collection folders that can have children of their own
-    NSUInteger children = [[self dataSource] outlineView:self numberOfChildrenOfItem:item];
-    NSRect firstItem = [self rectOfRow:[self rowForItem:item]];
-    NSRect lastItem  = [self rectOfRow:[self rowForItem:item] + children];
-    
-    return NSMakeRect(NSMinX(firstItem), NSMinY(firstItem), NSMaxX(lastItem)-NSMinX(firstItem), NSMaxY(lastItem)-NSMinY(firstItem));
-}
-
 #pragma mark - Drop Highlight
-- (struct CGRect)_dropHighlightBackgroundRectForRow:(NSInteger)arg1
+
+- (void)_drawDropHighlightOnEntireTableView
 {
-    return NSZeroRect;
+    [self OE_drawDropHighlightOnRow:-1];
 }
 
-- (void)_setNeedsDisplayForDropCandidateRow:(NSInteger)arg1 operation:(NSUInteger)arg2 mask:(NSUInteger)arg3
+- (void)OE_drawDropHighlightOnRow:(NSInteger)row
 {
-    [self setNeedsDisplayInRect:[self bounds]];
-}
-
-- (void)_drawDropHighlightOnRow:(NSInteger)arg1
-{
-    // do not draw Drop Highlight on currently selected row
-    if([self selectedRow] == arg1)
-        return;
+    NSRect rect;
     
-    NSRect rect = [self rectOfGroup:[self itemAtRow:arg1]];
-    if([[self itemAtRow:arg1] isGroupHeaderInSidebar] || arg1 == -1)
-    {
-        rect.origin.y += 2.0;
-        
-        rect.origin.y += 4.0;
-        rect.size.height -= 4.0;
+    if (row == -1) {
+        NSRect rawVisibleRect = [self convertRect:self.visibleRect toView:nil];
+        NSRect contentRect = self.window.contentLayoutRect;
+        NSRect realVisibleRect = NSIntersectionRect(rawVisibleRect, contentRect);
+        rect = NSInsetRect([self convertRect:realVisibleRect fromView:nil], 0, 1);
+    } else {
+        rect = [self rectOfRow:row];
     }
-    
     rect = NSInsetRect(rect, 3, 1);
     
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:rect xRadius:[self dropCornerRadius] yRadius:[self dropCornerRadius]];
@@ -322,9 +294,6 @@
 {
     return [NSColor controlAccentColor];
 }
-
-- (void)_flashOutlineCell
-{}
 
 #pragma mark - Key Handling
 - (void)keyDown:(NSEvent *)event;
