@@ -170,11 +170,32 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         let item = NSToolbarItem(itemIdentifier: .oeViewMode)
         item.view = segmControl
         item.visibilityPriority = .low
+        item.menuFormRepresentation = viewModeMenu
         item.label = NSLocalizedString("View Mode", comment:"Toolbar, view mode selector label")
         
         itemCache[item.itemIdentifier] = item
         return item;
     }
+    
+    let viewModeMenu: NSMenuItem = {
+        
+        let gridView = NSMenuItem()
+        gridView.title = NSLocalizedString("as Grid", tableName: "MainMenu", comment: "")
+        gridView.action = #selector(LibraryController.switchToGridView(_:))
+        
+        let listView = NSMenuItem()
+        listView.title = NSLocalizedString("as List", tableName: "MainMenu", comment: "")
+        listView.action = #selector(LibraryController.switchToListView(_:))
+        
+        let menu = NSMenu()
+        menu.items = [gridView, listView]
+        
+        let viewModeMenu = NSMenuItem()
+        viewModeMenu.title = NSLocalizedString("View", tableName: "MainMenu", comment:"")
+        viewModeMenu.submenu = menu
+        
+        return viewModeMenu
+    }()
     
     
     @discardableResult
