@@ -1,14 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "list_rating.png",
-      "idiom" : "mac",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "list_rating@2x.png",
-      "idiom" : "mac",
-      "scale" : "2x"
+      "filename" : "grid_rating.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {

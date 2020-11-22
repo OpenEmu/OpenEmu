@@ -28,8 +28,6 @@
 
 @interface OERatingCell : NSCell
 
-- (NSRect)imageRectForRating:(NSInteger)rating;
-
 - (NSInteger)ratingForPoint:(NSPoint)aPoint inTableView:(NSTableView *)view;
 - (void)updateRatingWithPoint:(NSPoint)aPoint inTableView:(NSTableView *)view;
 
