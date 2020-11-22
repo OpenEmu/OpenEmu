@@ -635,13 +635,9 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [listView noteNumberOfRowsChanged];
     [self setNeedsReloadVisible];
     
-    /* Call -updateBlankSlate if:
-        - This collection view controller is selected.
-        - The blank slate view is the current view tag. This allows switching to a different view tag if an item has been added.
-     */
-    if (self.selectedViewTag == OEBlankSlateTag || self.view.superview != nil) {
-        [self updateBlankSlate];
-    }
+    /* Call -updateBlankSlate to allow switching to a different view tag if an
+     * item has been added, or no items are left */
+    [self updateBlankSlate];
 }
 
 - (void)setNeedsReload

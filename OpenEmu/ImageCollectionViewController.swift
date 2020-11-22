@@ -398,9 +398,7 @@ extension ImageCollectionViewController: NSCollectionViewDataSource {
         // TODO: save selection,
         
         dataSourceDelegate.fetchItems()
-        if dataSourceDelegate.isEmpty {
-            shouldShowBlankSlate = true
-        }
+        shouldShowBlankSlate = dataSourceDelegate.isEmpty
         
         collectionView.reloadData()
         updateBlankSlate()
