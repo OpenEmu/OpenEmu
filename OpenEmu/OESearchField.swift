@@ -24,12 +24,64 @@
 
 import Cocoa
 
-// Force redraw of the search glyph after changing the menu to make sure the chevron is displayed.
+@available(macOS, introduced: 10.14, deprecated: 11.0, message: "Remove everything but searchMenuTemplate.")
 final class OESearchField: NSSearchField {
+    
+    // Force redraw of the search glyph after changing the menu to make sure the chevron is displayed.
     override var searchMenuTemplate: NSMenu? {
         didSet {
             let cell = self.cell as! NSSearchFieldCell
             cell.resetSearchButtonCell()
+        }
+    }
+    
+    // Due to a bug in AppKit, the background of a disabled search field is not dimmed when its window moves into the background.
+    // As a workaround, enable the search field when it goes into background and restore its state once its window becomes key again
+    // (unless the enabled state changed in the meantime).
+    // Should be removed once support for Catalina is dropped.
+    var wasEnabled: Bool?
+    var isInBackground = false
+    
+    override var isEnabled: Bool {
+        didSet {
+            if isInBackground {
+                wasEnabled = nil
+            }
+        }
+    }
+    
+    override func viewWillMove(toWindow newWindow: NSWindow?) {
+        super.viewWillMove(toWindow: newWindow)
+        
+        if #available(macOS 11.0, *) {
+            return
+        } else {
+            
+            if (window != nil) {
+                
+                NotificationCenter.default.removeObserver(self, name: NSWindow.didBecomeMainNotification, object: window)
+                NotificationCenter.default.removeObserver(self, name: NSWindow.didResignMainNotification, object: window)
+            }
+            
+            if (newWindow != nil) {
+                
+                NotificationCenter.default.addObserver(self, selector: #selector(windowDidBecomeMain), name: NSWindow.didBecomeMainNotification, object: newWindow)
+                NotificationCenter.default.addObserver(self, selector: #selector(windowDidResignMain), name: NSWindow.didResignMainNotification, object: newWindow)
+            }
+        }
+    }
+    
+    @objc func windowDidResignMain() {
+        wasEnabled = isEnabled
+        isEnabled = true
+        isInBackground = true
+    }
+    
+    @objc func windowDidBecomeMain() {
+        isInBackground = false
+        if wasEnabled != nil {
+            isEnabled = wasEnabled!
+            wasEnabled = nil
         }
     }
 }
