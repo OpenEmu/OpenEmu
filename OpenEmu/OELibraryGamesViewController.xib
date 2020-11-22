@@ -24,7 +24,7 @@
             </connections>
         </viewController>
         <viewController nibName="" id="ZI1-g0-Ovb" customClass="OEGameCollectionViewController"/>
-        <splitView autosaveName="mainSplitView" dividerStyle="thin" vertical="YES" id="swh-F8-vNy" userLabel="Library Split View">
+        <splitView dividerStyle="thin" vertical="YES" id="swh-F8-vNy" userLabel="Library Split View">
             <rect key="frame" x="0.0" y="0.0" width="830" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
