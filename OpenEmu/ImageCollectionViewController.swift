@@ -68,9 +68,7 @@ class ImageCollectionViewController: NSViewController {
         collectionView.setDraggingSourceOperationMask(.copy, forLocal: false)
 
         blankSlateView.delegate = self
-        blankSlateView.autoresizingMask = [.width, .height]
         blankSlateView.registerForDraggedTypes([.fileURL])
-        blankSlateView.frame = view.bounds
         
         if let context = OELibraryDatabase.default?.mainThreadContext {
             NotificationCenter.default.addObserver(self,
@@ -134,6 +132,14 @@ class ImageCollectionViewController: NSViewController {
             slider.floatValue = Self.lastGridSize
             zoomGridView(zoomValue: CGFloat(slider.floatValue))
         }
+        
+        // update frame of the blank slate view (in viewDidLoad we didn't have a
+        // window to check the toolbar height of).
+        // TODO: change OE main window to not use full size content rect and remove
+        blankSlateView.autoresizingMask = [.width, .height]
+        let viewFrame = view.convert(view.bounds, to: nil)
+        let nonOverlappingFrame = NSIntersectionRect(viewFrame, view.window!.contentLayoutRect)
+        blankSlateView.frame = view.convert(nonOverlappingFrame, from: nil)
         
         validateToolbarItems();
         restoreSelectionFromDefaults()
