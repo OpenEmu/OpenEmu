@@ -480,6 +480,7 @@
 		8F80218224F45E9800DC82E3 /* HUDSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80218024F45E9800DC82E3 /* HUDSlider.swift */; };
 		8F94B44D25566FE00058AA94 /* NSShadow+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */; };
 		8F957B4225227175008A9BC9 /* GlossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F957B4125227175008A9BC9 /* GlossButton.swift */; };
+		8F99F816256BF358007B83E1 /* OESidebarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F99F815256BF358007B83E1 /* OESidebarController.xib */; };
 		8FA2379325626C1B00D24E83 /* HUDControlsBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA2379225626C1B00D24E83 /* HUDControlsBarView.swift */; };
 		8FAF08D8251FB65D00EDB247 /* HoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF069A251FB02700EDB247 /* HoverButton.swift */; };
 		8FBAE60C254BA0D300446C3B /* OEControls.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FBAE60E254BA0D300446C3B /* OEControls.strings */; };
@@ -1769,6 +1770,7 @@
 		8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSShadow+OEAdditions.swift"; sourceTree = "<group>"; };
 		8F957B4125227175008A9BC9 /* GlossButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlossButton.swift; sourceTree = "<group>"; };
 		8F9943C12544A020005ADAAF /* NSToolbar+ApplePrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSToolbar+ApplePrivate.h"; sourceTree = "<group>"; };
+		8F99F815256BF358007B83E1 /* OESidebarController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESidebarController.xib; sourceTree = "<group>"; };
 		8FA2379225626C1B00D24E83 /* HUDControlsBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDControlsBarView.swift; sourceTree = "<group>"; };
 		8FAF069A251FB02700EDB247 /* HoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverButton.swift; sourceTree = "<group>"; };
 		8FBAE647254BA0DF00446C3B /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OEControls.strings; sourceTree = "<group>"; };
@@ -2924,6 +2926,7 @@
 				010EDCA21CE628490020417C /* OELibraryController.xib */,
 				8F40EB7D1C1072B100683055 /* OECollectionViewController.xib */,
 				8F5074751C10BCEC00F52B83 /* OELibraryGamesViewController.xib */,
+				8F99F815256BF358007B83E1 /* OESidebarController.xib */,
 				8F071F381C25534E007B76DA /* Preferences.xib */,
 				8F40EB811C1072B200683055 /* OEGameScanner.xib */,
 				8F40EB841C1072B300683055 /* OESetupAssistant.xib */,
@@ -5925,6 +5928,7 @@
 				83FE965919685F6700DD8DB9 /* OEGameScanner.xib in Resources */,
 				83B04E411968610F00CB985E /* InfoPlist.strings in Resources */,
 				83FE963C1968596C00DD8DB9 /* OEMigrationWindowController.xib in Resources */,
+				8F99F816256BF358007B83E1 /* OESidebarController.xib in Resources */,
 				83495DD819A38F3D009DB6E5 /* OEPrefBiosController.xib in Resources */,
 				05A002DC23DE5E1B007F0DB7 /* SidebarItemView.xib in Resources */,
 				83338C2217A281C7007E32E9 /* secret.mp3 in Resources */,

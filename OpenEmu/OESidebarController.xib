@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="OESidebarController">
+            <connections>
+                <outlet property="gameScannerViewController" destination="juh-5x-f5U" id="lNb-43-pvO"/>
+                <outlet property="sidebarView" destination="Evu-SM-BeR" id="vF6-Ws-Arl"/>
+                <outlet property="view" destination="jVR-Tc-HAY" id="LtQ-NT-Exd"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <view id="jVR-Tc-HAY">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="500"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView autoresizesSubviews="NO" focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="JYU-Tk-u7m">
+                    <rect key="frame" x="0.0" y="103" width="200" height="397"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <clipView key="contentView" drawsBackground="NO" id="MQJ-cq-QCT">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="397"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" indentationPerLevel="16" outlineTableColumn="TQT-sV-f9j" id="Evu-SM-BeR" customClass="OESidebarOutlineView">
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="397"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <size key="intercellSpacing" width="3" height="2"/>
+                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                <tableColumns>
+                                    <tableColumn width="197" minWidth="16" maxWidth="1000" id="TQT-sV-f9j">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="y45-NU-dbu" customClass="OESidebarCell">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                    </tableColumn>
+                                </tableColumns>
+                            </outlineView>
+                        </subviews>
+                        <nil key="backgroundColor"/>
+                    </clipView>
+                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="AhO-Jy-5F7">
+                        <rect key="frame" x="-100" y="-100" width="171" height="15"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="rph-sy-VNi">
+                        <rect key="frame" x="171" y="17" width="15" height="494"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                </scrollView>
+                <customView id="GEj-BL-eLK" userLabel="Game Scanner">
+                    <rect key="frame" x="0.0" y="0.0" width="200" height="75"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ABQ-4h-z9d">
+                            <rect key="frame" x="0.0" y="72" width="200" height="5"/>
+                        </box>
+                        <textField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YLv-AD-2L2">
+                            <rect key="frame" x="13" y="49" width="85" height="14"/>
+                            <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Game Scanner" id="R5g-ov-B26">
+                                <font key="font" metaFont="smallSystemBold"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <textField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KwU-gZ-ksn">
+                            <rect key="frame" x="13" y="11" width="89" height="14"/>
+                            <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Scanner Paused" id="gJT-pJ-BJg">
+                                <font key="font" metaFont="smallSystem"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <button translatesAutoresizingMaskIntoConstraints="NO" id="Nvs-ey-EH6" customClass="OEGameScannerButton">
+                            <rect key="frame" x="166" y="24" width="26" height="26"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="26" id="CFR-jn-zSg"/>
+                                <constraint firstAttribute="width" constant="26" id="ddZ-Gv-tdq"/>
+                            </constraints>
+                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" enabled="NO" inset="2" id="J1i-Ms-dUn">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system" size="10"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="buttonAction:" target="juh-5x-f5U" id="o8W-6K-ddm"/>
+                            </connections>
+                        </button>
+                        <progressIndicator wantsLayer="YES" maxValue="100" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="ecg-qx-RWc">
+                            <rect key="frame" x="15" y="31" width="150" height="12"/>
+                        </progressIndicator>
+                        <button hidden="YES" verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vaP-Xa-Oni">
+                            <rect key="frame" x="15" y="8" width="115" height="20"/>
+                            <buttonCell key="cell" type="inline" title="Resolve Issues" bezelStyle="inline" image="arrow_right" imagePosition="trailing" controlSize="small" lineBreakMode="truncatingTail" inset="2" id="dGi-Zi-KFE">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="smallSystemBold"/>
+                            </buttonCell>
+                            <color key="contentTintColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <connections>
+                                <action selector="showIssuesView:" target="-2" id="H8k-SO-c9D"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="KwU-gZ-ksn" firstAttribute="centerY" secondItem="vaP-Xa-Oni" secondAttribute="centerY" id="49t-48-jZh"/>
+                        <constraint firstItem="ABQ-4h-z9d" firstAttribute="top" secondItem="GEj-BL-eLK" secondAttribute="top" id="4cA-AW-ELA"/>
+                        <constraint firstItem="ecg-qx-RWc" firstAttribute="top" secondItem="YLv-AD-2L2" secondAttribute="bottom" constant="6" id="BOb-YJ-gug"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="YLv-AD-2L2" secondAttribute="trailing" constant="15" id="Eg5-eI-MOy"/>
+                        <constraint firstItem="ABQ-4h-z9d" firstAttribute="leading" secondItem="GEj-BL-eLK" secondAttribute="leading" id="Fx6-eM-s8C"/>
+                        <constraint firstItem="KwU-gZ-ksn" firstAttribute="top" secondItem="ecg-qx-RWc" secondAttribute="bottom" constant="6" id="KKN-gz-YRR"/>
+                        <constraint firstAttribute="trailing" secondItem="ABQ-4h-z9d" secondAttribute="trailing" id="Ks1-M3-bft"/>
+                        <constraint firstItem="YLv-AD-2L2" firstAttribute="top" secondItem="ABQ-4h-z9d" secondAttribute="bottom" constant="11" id="Lhk-KP-KSB"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="vaP-Xa-Oni" secondAttribute="trailing" constant="15" id="Ok0-lP-BLp"/>
+                        <constraint firstItem="ecg-qx-RWc" firstAttribute="leading" secondItem="YLv-AD-2L2" secondAttribute="leading" id="POE-Em-cEg"/>
+                        <constraint firstItem="vaP-Xa-Oni" firstAttribute="leading" secondItem="YLv-AD-2L2" secondAttribute="leading" id="PvE-Az-4Ie"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KwU-gZ-ksn" secondAttribute="trailing" constant="15" id="TAQ-av-hGc"/>
+                        <constraint firstItem="Nvs-ey-EH6" firstAttribute="centerY" secondItem="ecg-qx-RWc" secondAttribute="centerY" id="U6Q-wt-kA9"/>
+                        <constraint firstItem="KwU-gZ-ksn" firstAttribute="leading" secondItem="YLv-AD-2L2" secondAttribute="leading" id="WQM-AP-yyL"/>
+                        <constraint firstItem="Nvs-ey-EH6" firstAttribute="leading" secondItem="ecg-qx-RWc" secondAttribute="trailing" constant="1" id="eN6-OL-Vbk"/>
+                        <constraint firstItem="YLv-AD-2L2" firstAttribute="leading" secondItem="GEj-BL-eLK" secondAttribute="leading" constant="15" id="oQ5-q7-WOz"/>
+                        <constraint firstAttribute="trailing" secondItem="Nvs-ey-EH6" secondAttribute="trailing" constant="8" id="v8j-Wh-38p"/>
+                    </constraints>
+                </customView>
+                <customView id="aoh-d8-ctm" userLabel="Bottom Bar">
+                    <rect key="frame" x="0.0" y="75" width="200" height="28"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <popUpButton id="GFy-U9-H7A">
+                            <rect key="frame" x="0.0" y="7" width="29" height="14"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <popUpButtonCell key="cell" type="smallSquare" bezelStyle="smallSquare" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" inset="2" pullsDown="YES" arrowPosition="noArrow" id="npV-Do-MPo">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="F3c-W5-k5f" customClass="OESidebarAddMenu">
+                                    <items>
+                                        <menuItem image="NSAddTemplate" hidden="YES" id="ngO-qO-EH7"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                        </popUpButton>
+                    </subviews>
+                </customView>
+            </subviews>
+            <point key="canvasLocation" x="-212" y="121"/>
+        </view>
+        <viewController id="juh-5x-f5U" customClass="OEGameScannerViewController">
+            <connections>
+                <outlet property="bottomBar" destination="aoh-d8-ctm" id="MAg-kQ-hP4"/>
+                <outlet property="fixButton" destination="vaP-Xa-Oni" id="Ro8-XB-pIU"/>
+                <outlet property="headlineLabel" destination="YLv-AD-2L2" id="Jvd-JE-D46"/>
+                <outlet property="progressIndicator" destination="ecg-qx-RWc" id="s7a-30-SCw"/>
+                <outlet property="scannerView" destination="GEj-BL-eLK" id="eJ4-ey-JOd"/>
+                <outlet property="sourceListScrollView" destination="JYU-Tk-u7m" id="2Ur-DI-1oj"/>
+                <outlet property="statusLabel" destination="KwU-gZ-ksn" id="Qmg-oQ-LjA"/>
+                <outlet property="togglePauseButton" destination="Nvs-ey-EH6" id="HUz-DO-0vK"/>
+            </connections>
+        </viewController>
+    </objects>
+    <resources>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
+        <image name="arrow_right" width="20" height="20"/>
+    </resources>
+</document>

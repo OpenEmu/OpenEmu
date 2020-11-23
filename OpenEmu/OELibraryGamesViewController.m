@@ -52,6 +52,8 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 
 @interface OELibraryGamesViewController()<OELibrarySubviewControllerGameSelection>
 @property (nonatomic, readonly, nullable) OELibraryToolbar *toolbar;
+@property OESidebarController *sidebarController;
+@property OEGameCollectionViewController *collectionController;
 @end
 
 #pragma mark - Implementation
@@ -73,24 +75,13 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-        
-    [self _assignDatabase];
-
-    NSNotificationCenter *noc = [NSNotificationCenter defaultCenter];
-    [noc addObserver:self selector:@selector(_updateCollectionContentsFromSidebar:) name:OESidebarSelectionDidChangeNotification object:[self sidebarController]];
-
-    NSView *collectionView = [[self collectionController] view];
-    NSView *collectionViewContainer = [self collectionViewContainer];
-
-    [collectionView setFrame:[collectionViewContainer bounds]];
-    [collectionView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    [collectionViewContainer addSubview:collectionView];
-
-    [self addChildViewController:self.sidebarController];
-    [self addChildViewController:self.collectionController];
-    [self addChildViewController:self.gameScannerController];
     
     [self OE_setupSplitView];
+    
+    [self _assignDatabase];
+    
+    NSNotificationCenter *noc = [NSNotificationCenter defaultCenter];
+    [noc addObserver:self selector:@selector(_updateCollectionContentsFromSidebar:) name:OESidebarSelectionDidChangeNotification object:[self sidebarController]];
 }
 
 - (void)viewWillAppear
@@ -99,8 +90,21 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     
     [self _setupSplitViewAutosave];
     [self _updateCollectionContentsFromSidebar:nil];
-
+    
     self.view.needsDisplay = YES;
+    
+    if (@available(macOS 11.0, *)) {
+        self.view.window.titlebarSeparatorStyle = NSTitlebarSeparatorStyleAutomatic;
+    }
+}
+
+- (void)viewWillDisppear
+{
+    [super viewWillDisappear];
+    
+    if (@available(macOS 11.0, *)) {
+        self.view.window.titlebarSeparatorStyle = NSTitlebarSeparatorStyleLine;
+    }
 }
 
 - (void)viewDidAppear
@@ -159,29 +163,31 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 
 - (void)OE_setupSplitView
 {
-    NSView *sidebar = self.sidebarController.view;
-    NSView *gridView = self.collectionViewContainer;
+    _sidebarController = [[OESidebarController alloc] init];
+    _collectionController = [[OEGameCollectionViewController alloc] init];
     
-    NSSplitView *librarySplitView = [[NSSplitView alloc] initWithFrame:self.view.frame];
-    librarySplitView.dividerStyle = NSSplitViewDividerStyleThin;
-    librarySplitView.vertical = YES;
-    [librarySplitView addSubview:sidebar];
-    [librarySplitView addSubview:gridView];
-    [librarySplitView setHoldingPriority:260 forSubviewAtIndex:0];
-    [librarySplitView setHoldingPriority:250 forSubviewAtIndex:1];
+    self.splitView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    self.view = librarySplitView;
+    NSSplitViewItem *sidebarItem = [NSSplitViewItem sidebarWithViewController:_sidebarController];
+    sidebarItem.minimumThickness = _OESidebarMinWidth;
+    sidebarItem.maximumThickness = _OESidebarMaxWidth;
+    sidebarItem.canCollapse = NO;
+    if (@available(macOS 11.0, *)) {
+        sidebarItem.titlebarSeparatorStyle = NSTitlebarSeparatorStyleAutomatic;
+    }
+    [self addSplitViewItem:sidebarItem];
     
-    [NSLayoutConstraint activateConstraints:@[
-        [sidebar.widthAnchor constraintGreaterThanOrEqualToConstant:_OESidebarMinWidth],
-        [sidebar.widthAnchor constraintLessThanOrEqualToConstant:_OESidebarMaxWidth],
-        [gridView.widthAnchor constraintGreaterThanOrEqualToConstant:_OEMainViewMinWidth]
-    ]];
+    NSSplitViewItem *collectionItem = [NSSplitViewItem splitViewItemWithViewController:_collectionController];
+    collectionItem.minimumThickness = _OEMainViewMinWidth;
+    if (@available(macOS 11.0, *)) {
+        collectionItem.titlebarSeparatorStyle = NSTitlebarSeparatorStyleLine;
+    }
+    [self addSplitViewItem:collectionItem];
 }
 
 - (void)_setupSplitViewAutosave
 {
-    NSSplitView *librarySplitView = (NSSplitView *)self.view;
+    NSSplitView *librarySplitView = (NSSplitView *)self.splitView;
     if (librarySplitView.autosaveName && ![librarySplitView.autosaveName isEqual:@""])
         return;
         
@@ -189,20 +195,19 @@ static const CGFloat _OEMainViewMinWidth    = 495;
         @"lastSidebarWidth": @(_OESidebarDefaultWidth),
     }];
     
-    if (![NSUserDefaults.standardUserDefaults objectForKey:@"NSSplitView Subview Frames libraryGamesSplitView"]) {
+    if (![NSUserDefaults.standardUserDefaults objectForKey:@"NSSplitView Subview Frames OELibraryGamesSplitView"]) {
         /* read the old property key (OE 2.2.1 and prior) */
         CGFloat dividerPosition = [NSUserDefaults.standardUserDefaults doubleForKey:@"lastSidebarWidth"];
         [librarySplitView setPosition:dividerPosition ofDividerAtIndex:0];
     }
-    librarySplitView.autosaveName = @"libraryGamesSplitView";
+    librarySplitView.autosaveName = @"OELibraryGamesSplitView";
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(resetSidebar) name:OELibrarySplitViewResetSidebarNotification object:nil];
 }
 
 - (void)resetSidebar
 {
-    NSSplitView *librarySplitView = (NSSplitView *)self.view;
-    [librarySplitView setPosition:_OESidebarDefaultWidth ofDividerAtIndex:0];
+    [self.splitView setPosition:_OESidebarDefaultWidth ofDividerAtIndex:0];
 }
 
 #pragma mark - OELibrarySubviewController
@@ -314,12 +319,6 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 
     [[self collectionController] setNeedsReload];
     [self _validateToolbarItems];
-}
-
-#pragma mark - Issue Resolving
-- (IBAction)showIssuesView:(id)sender
-{
-    [self presentViewControllerAsSheet:self.gameScannerController];
 }
 
 @end
