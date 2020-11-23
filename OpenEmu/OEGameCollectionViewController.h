@@ -25,13 +25,12 @@
  */
 
 #import "OECollectionViewController.h"
-#import "OEGameGridViewDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSNotificationName const OEGameCollectionViewControllerDidSetSelectionIndexesNotification;
 
-@interface OEGameCollectionViewController : OECollectionViewController <OEGameGridViewDelegate, NSMenuItemValidation, NSViewToolTipOwner>
+@interface OEGameCollectionViewController : OECollectionViewController <NSMenuItemValidation, NSViewToolTipOwner>
 - (IBAction)showInFinder:(nullable id)sender;
 
 - (void)performSearch:(NSString *)text;

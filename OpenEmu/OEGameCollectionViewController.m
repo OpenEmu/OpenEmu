@@ -361,13 +361,11 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 
 - (void)deleteSaveState:(id)stateItem
 {
-    // TODO: localize and rephrase text
     OEDBSaveState *state = [stateItem representedObject];
-    NSString *stateName = [state name];
+    NSString *stateName = state.name;
     OEAlert *alert = [OEAlert deleteStateAlertWithStateName:stateName];
-
-    NSUInteger result = [alert runModal];
-    if(result == NSAlertFirstButtonReturn)
+    
+    if([alert runModal] == NSAlertFirstButtonReturn)
         [state deleteAndRemoveFiles];
 }
 
@@ -841,11 +839,6 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     [NSApp sendAction:@selector(startSelectedGame:) to:nil from:self];
 }
 
-- (void)gridView:(OEGridView*)gridView requestsDownloadRomForItemAtIndex:(NSUInteger)index
-{
-    OEDBGame *game = [[[self gamesController] arrangedObjects] objectAtIndex:index];
-    [game requestROMDownload];
-}
 #pragma mark - GridView DraggingDestinationDelegate
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {

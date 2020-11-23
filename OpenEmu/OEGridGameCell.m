@@ -13,8 +13,6 @@
 
 #import "IKImageBrowserCell.h"
 
-#import "OEGameGridViewDelegate.h"
-
 #import "OpenEmu-Swift.h"
 
 static const CGFloat OEGridCellTitleHeight                      = 16.0; // Height of the title view
