@@ -140,8 +140,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
         return NO;
     }
 
-    if(!isOldDB)
-        [defaultDatabase OE_createInitialItems];
+    [defaultDatabase OE_createInitialItemsIfNeeded];
     
     [[NSUserDefaults standardUserDefaults] setObject:defaultDatabase.databaseURL.path.stringByAbbreviatingWithTildeInPath forKey:OEDatabasePathKey];
     [defaultDatabase OE_setupStateWatcher];
@@ -160,10 +159,14 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     return YES;
 }
 
-- (void)OE_createInitialItems
+- (void)OE_createInitialItemsIfNeeded
 {
     NSManagedObjectContext *context = self.mainThreadContext;
-
+    
+    NSArray *smartCollections = [OEDBSmartCollection allObjectsInContext:context sortBy:nil error:nil];
+    if (smartCollections.count > 0)
+        return;
+    
     OEDBSmartCollection *recentlyAdded = [OEDBSmartCollection createObjectInContext:context];
     recentlyAdded.name = @"Recently Added";
     [recentlyAdded save];
