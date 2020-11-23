@@ -173,7 +173,7 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 - (void)_setupSplitViewAutosave
 {
     NSSplitView *librarySplitView = (NSSplitView *)self.view;
-    if (librarySplitView.autosaveName || [librarySplitView isEqual:@""])
+    if (librarySplitView.autosaveName && ![librarySplitView.autosaveName isEqual:@""])
         return;
         
     [NSUserDefaults.standardUserDefaults registerDefaults:@{
