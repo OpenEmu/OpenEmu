@@ -37,7 +37,6 @@ extern NSNotificationName const OELibrarySplitViewResetSidebarNotification;
 @property (weak) IBOutlet OEGameScannerViewController *gameScannerController;
 
 @property (weak) IBOutlet NSView *collectionViewContainer;
-@property (weak) IBOutlet NSView *sidebar;
 
 - (IBAction)showIssuesView:(id)sender;
 - (void)makeNewCollectionWithSelectedGames:(id)sender;

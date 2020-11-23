@@ -11,7 +11,6 @@
                 <outlet property="collectionController" destination="ZI1-g0-Ovb" id="UFH-j4-ahm"/>
                 <outlet property="collectionViewContainer" destination="0nE-Pi-8Ai" id="4Fj-Az-faN"/>
                 <outlet property="gameScannerController" destination="juh-5x-f5U" id="d2Q-Um-3Fo"/>
-                <outlet property="sidebar" destination="jVR-Tc-HAY" id="Nci-Lk-xDQ"/>
                 <outlet property="sidebarController" destination="Rft-IF-Ag9" id="icY-DX-yAy"/>
                 <outlet property="view" destination="swh-F8-vNy" id="phb-uI-0hA"/>
             </connections>
@@ -22,7 +21,7 @@
             <connections>
                 <outlet property="gameScannerViewController" destination="juh-5x-f5U" id="8qz-k6-S8J"/>
                 <outlet property="sidebarView" destination="Evu-SM-BeR" id="K3K-gm-dzK"/>
-                <outlet property="view" destination="Evu-SM-BeR" id="e43-jY-76m"/>
+                <outlet property="view" destination="jVR-Tc-HAY" id="e43-jY-76m"/>
             </connections>
         </viewController>
         <viewController nibName="" id="ZI1-g0-Ovb" customClass="OEGameCollectionViewController"/>

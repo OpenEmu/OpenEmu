@@ -90,7 +90,7 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     [self addChildViewController:self.collectionController];
     [self addChildViewController:self.gameScannerController];
     
-    [self _setupSplitView];
+    [self OE_setupSplitView];
 }
 
 - (void)viewWillAppear
@@ -157,9 +157,9 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 
 #pragma mark - Split View
 
-- (void)_setupSplitView
+- (void)OE_setupSplitView
 {
-    NSView *sidebar = self.sidebar;
+    NSView *sidebar = self.sidebarController.view;
     NSView *gridView = self.collectionViewContainer;
     
     NSSplitView *librarySplitView = [[NSSplitView alloc] initWithFrame:self.view.frame];

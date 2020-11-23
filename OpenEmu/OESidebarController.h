@@ -31,10 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSNotificationName const OESidebarSelectionDidChangeNotification;
 
-extern NSString *const OESidebarMinWidth;
-extern NSString *const OESidebarMaxWidth;
-extern NSString *const OEMainViewMinWidth;
-
 @class OELibraryDatabase, OEDBCollection;
 @protocol OEGameCollectionViewItemProtocol;
 @protocol OESidebarItem;
@@ -42,6 +38,7 @@ extern NSString *const OEMainViewMinWidth;
 @interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource>
 
 - (IBAction)addCollectionAction:(nullable id)sender;
+- (IBAction)showIssuesView:(id)sender;
 
 - (void)setEnabled:(BOOL)enabled;
 

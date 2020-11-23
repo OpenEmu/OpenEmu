@@ -55,10 +55,6 @@ NSNotificationName const OESidebarSelectionDidChangeNotification = @"OESidebarSe
 NSString * const OESidebarGroupConsolesAutosaveName    = @"sidebarConsolesItem";
 NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsItem";
 
-NSString * const OESidebarMinWidth = @"sidebarMinWidth";
-NSString * const OESidebarMaxWidth = @"sidebarMaxWidth";
-NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
-
 NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 
 @interface OESidebarController ()
@@ -127,9 +123,9 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 
     [defaults addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEDBSystemAvailabilityDidChangeNotification object:nil];
 
-    id viewsNextResponder = self.sidebarView.nextResponder;
+    id viewsNextResponder = self.view.nextResponder;
     if (viewsNextResponder != self) {
-        self.sidebarView.nextResponder = self;
+        self.view.nextResponder = self;
         self.nextResponder = viewsNextResponder;
     }
 }
@@ -668,6 +664,12 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 - (void)controlTextDidEndEditing:(NSNotification *)aNotification
 {
     self.editingItem = nil;
+}
+
+#pragma mark - Issue Resolving
+- (IBAction)showIssuesView:(id)sender
+{
+    [self presentViewControllerAsSheet:self.gameScannerViewController];
 }
 
 @end
