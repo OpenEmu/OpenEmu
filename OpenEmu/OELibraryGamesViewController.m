@@ -90,13 +90,14 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     [self addChildViewController:self.collectionController];
     [self addChildViewController:self.gameScannerController];
     
-    [self _setupSplitView];
+    [self _setupSplitViewConstraints];
 }
 
 - (void)viewWillAppear
 {
     [super viewWillAppear];
     
+    [self _setupSplitViewAutosave];
     [self _updateCollectionContentsFromSidebar:nil];
 
     self.view.needsDisplay = YES;
@@ -156,12 +157,8 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 
 #pragma mark - Split View
 
-- (void)_setupSplitView
+- (void)_setupSplitViewConstraints
 {
-    [NSUserDefaults.standardUserDefaults registerDefaults:@{
-        @"lastSidebarWidth": @(_OESidebarDefaultWidth),
-    }];
-    
     NSSplitView *librarySplitView = (NSSplitView *)self.view;
     NSView *sidebar = librarySplitView.arrangedSubviews[0];
     NSView *gridView = librarySplitView.arrangedSubviews[1];
@@ -171,6 +168,17 @@ static const CGFloat _OEMainViewMinWidth    = 495;
         [sidebar.widthAnchor constraintLessThanOrEqualToConstant:_OESidebarMaxWidth],
         [gridView.widthAnchor constraintGreaterThanOrEqualToConstant:_OEMainViewMinWidth]
     ]];
+}
+
+- (void)_setupSplitViewAutosave
+{
+    NSSplitView *librarySplitView = (NSSplitView *)self.view;
+    if (librarySplitView.autosaveName || [librarySplitView isEqual:@""])
+        return;
+        
+    [NSUserDefaults.standardUserDefaults registerDefaults:@{
+        @"lastSidebarWidth": @(_OESidebarDefaultWidth),
+    }];
     
     if (![NSUserDefaults.standardUserDefaults objectForKey:@"NSSplitView Subview Frames libraryGamesSplitView"]) {
         /* read the old property key (OE 2.2.1 and prior) */
@@ -180,7 +188,6 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     librarySplitView.autosaveName = @"libraryGamesSplitView";
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(resetSidebar) name:OELibrarySplitViewResetSidebarNotification object:nil];
-    
 }
 
 - (void)resetSidebar
