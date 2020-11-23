@@ -21,6 +21,7 @@
         <viewController nibName="" id="Rft-IF-Ag9" customClass="OESidebarController">
             <connections>
                 <outlet property="gameScannerViewController" destination="juh-5x-f5U" id="8qz-k6-S8J"/>
+                <outlet property="sidebarView" destination="Evu-SM-BeR" id="K3K-gm-dzK"/>
                 <outlet property="view" destination="Evu-SM-BeR" id="e43-jY-76m"/>
             </connections>
         </viewController>

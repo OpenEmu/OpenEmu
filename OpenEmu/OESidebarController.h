@@ -63,7 +63,7 @@ extern NSString *const OEMainViewMinWidth;
 
 @property (nonatomic, readonly, nullable) id<OESidebarItem> selectedSidebarItem;
 
-@property (strong) OESidebarOutlineView *view;
+@property (strong) IBOutlet OESidebarOutlineView *sidebarView;
 @property (strong, nonatomic, nullable) OELibraryDatabase *database;
 @property (strong, readonly) NSArray *groups;
 @property (strong, readonly) NSArray *systems, *collections;

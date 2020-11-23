@@ -79,7 +79,6 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 
 @implementation OESidebarController
 @synthesize groups, database=_database, editingItem;
-@dynamic view;
 
 + (void)initialize
 {
@@ -102,13 +101,11 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
                     [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"Collections", @"") autosaveName:OESidebarGroupCollectionsAutosaveName]
                     ];
 
-    OESidebarOutlineView *sidebarView = (OESidebarOutlineView *)self.view;
-
-    [sidebarView setHeaderView:nil];
+    self.sidebarView.headerView = nil;
 
     OESidebarCell *cell = [[OESidebarCell alloc] init];
-    for(NSTableColumn *column in sidebarView.tableColumns)
-        [column setDataCell:cell];
+    for(NSTableColumn *column in self.sidebarView.tableColumns)
+        column.dataCell = cell;
     cell.editable = YES;
     
     NSNotificationCenter *defaults = [NSNotificationCenter defaultCenter];
@@ -118,29 +115,21 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
     
     [defaults addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotification object:nil];
 
-    sidebarView.indentationPerLevel = 7;
-    sidebarView.intercellSpacing = NSMakeSize(0, 4);
-    sidebarView.autosaveName = @"sidebarView";
-    sidebarView.autoresizesOutlineColumn = NO;
-    sidebarView.delegate = self;
-    sidebarView.dataSource = self;
-    sidebarView.allowsEmptySelection = NO;
-    [sidebarView registerForDraggedTypes:@[ OEPasteboardTypeGame, NSPasteboardTypeFileURL ]];
-    [sidebarView expandItem:nil expandChildren:YES];
-
-    NSScrollView *enclosingScrollView = sidebarView.enclosingScrollView;
-    if (enclosingScrollView != nil) {
-        enclosingScrollView.drawsBackground = NO;
-        sidebarView.backgroundColor = [NSColor clearColor];
-    } else {
-        sidebarView.backgroundColor = [NSColor colorWithDeviceWhite:0.19 alpha:1.0];
-    }
+    self.sidebarView.indentationPerLevel = 7;
+    self.sidebarView.intercellSpacing = NSMakeSize(0, 4);
+    self.sidebarView.autosaveName = @"sidebarView";
+    self.sidebarView.autoresizesOutlineColumn = NO;
+    self.sidebarView.delegate = self;
+    self.sidebarView.dataSource = self;
+    self.sidebarView.allowsEmptySelection = NO;
+    [self.sidebarView registerForDraggedTypes:@[ OEPasteboardTypeGame, NSPasteboardTypeFileURL ]];
+    [self.sidebarView expandItem:nil expandChildren:YES];
 
     [defaults addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEDBSystemAvailabilityDidChangeNotification object:nil];
 
-    id viewsNextResponder = self.view.nextResponder;
+    id viewsNextResponder = self.sidebarView.nextResponder;
     if (viewsNextResponder != self) {
-        self.view.nextResponder = self;
+        self.sidebarView.nextResponder = self;
         self.nextResponder = viewsNextResponder;
     }
 }
@@ -150,10 +139,9 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
     [super viewWillAppear];
     
     // Scroll to the selection.
-    OESidebarOutlineView *sidebarView = (OESidebarOutlineView *)self.view;
-    NSInteger selectedRow = sidebarView.selectedRow;
+    NSInteger selectedRow = self.sidebarView.selectedRow;
     if (selectedRow != -1) {
-        [sidebarView scrollRowToVisible:selectedRow];
+        [self.sidebarView scrollRowToVisible:selectedRow];
     }
 }
 
@@ -164,7 +152,7 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
     // Make sure the user knows there are more systems to scroll to--but only do it once in each of the first three sessions.
     NSInteger scrollerFlashed = [NSUserDefaults.standardUserDefaults integerForKey:OESidebarScrollerFlashed];
     if (scrollerFlashed < 3 && !self.scrollersFlashed) {
-        [self.view.enclosingScrollView flashScrollers];
+        [self.sidebarView.enclosingScrollView flashScrollers];
         self.scrollersFlashed = YES;
         [NSUserDefaults.standardUserDefaults setInteger:scrollerFlashed + 1 forKey:OESidebarScrollerFlashed];
     }
@@ -203,8 +191,7 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 
 - (void)setEnabled:(BOOL)enabled
 {
-    OESidebarOutlineView *sidebarView = (OESidebarOutlineView *)self.view;
-    sidebarView.enabled = enabled;
+    self.sidebarView.enabled = enabled;
 }
 
 - (IBAction)addCollectionAction:(id)sender
@@ -256,47 +243,42 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
     NSArray *collections = database.collections;
     self.collections = collections;
 
-    OESidebarOutlineView *sidebarView = (OESidebarOutlineView *)self.view;
-    [sidebarView reloadData];
+    [self.sidebarView reloadData];
 }
 
 - (void)selectItem:(id)item
 {
-    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
-
     if(![item isSelectableInSidebar]) return;
 
-    NSInteger index = [sidebarView rowForItem:item];
+    NSInteger index = [self.sidebarView rowForItem:item];
     if(index == -1) return;
 
-    if([sidebarView selectedRow] != index)
+    if(self.sidebarView.selectedRow != index)
     {
-        [sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+        [self.sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
         [self outlineViewSelectionDidChange:[NSNotification notificationWithName:NSOutlineViewSelectionDidChangeNotification object:self]];
     }
 }
 
 - (void)startEditingItem:(id)item
 {
-    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     if(![item isEditableInSidebar]) return;
 
-    NSInteger index = [sidebarView rowForItem:item];
+    NSInteger index = [self.sidebarView rowForItem:item];
     if(index == -1) return;
 
     NSEvent *event = [[NSEvent alloc] init];
-    [sidebarView editColumn:0 row:index withEvent:event select:YES];
+    [self.sidebarView editColumn:0 row:index withEvent:event select:YES];
 }
 
 - (void)expandCollections:(id)sender
 {
-    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
-    [sidebarView expandItem:[self.groups objectAtIndex:1]];
+    [self.sidebarView expandItem:[self.groups objectAtIndex:1]];
 }
 
 - (id<OESidebarItem>)selectedSidebarItem
 {
-    id<OESidebarItem> item = [[self view] itemAtRow:[[self view] selectedRow]];
+    id<OESidebarItem> item = [self.sidebarView itemAtRow:self.sidebarView.selectedRow];
     NSAssert(item==nil || [item conformsToProtocol:@protocol(OESidebarItem)], @"All sidebar items must conform to OESidebarItem");
 
     return item;
@@ -317,7 +299,7 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 - (void)reloadDataAndPreserveSelection
 {
     id previousSelectedItem = self.selectedSidebarItem;
-    NSInteger previousSelectedRow = self.view.selectedRow;
+    NSInteger previousSelectedRow = self.sidebarView.selectedRow;
 
     [self reloadData];
 
@@ -325,27 +307,27 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
         return;
 
     NSInteger rowToSelect = previousSelectedRow;
-    NSInteger reloadedRowForPreviousSelectedItem = [self.view rowForItem:previousSelectedItem];
+    NSInteger reloadedRowForPreviousSelectedItem = [self.sidebarView rowForItem:previousSelectedItem];
 
     // The previously selected item may have been disabled/removed, so we should select another item...
     if (reloadedRowForPreviousSelectedItem == -1) {
         
         // Try to select the previously selected row or a row before it...
         rowToSelect = previousSelectedRow;
-        while (rowToSelect > 0 && ![self outlineView:self.view shouldSelectItem:[self.view itemAtRow:rowToSelect]]) {
+        while (rowToSelect > 0 && ![self outlineView:self.sidebarView shouldSelectItem:[self.sidebarView itemAtRow:rowToSelect]]) {
             rowToSelect--;
         }
 
         // If we can't select the previously selected row or a row before it, try to select a row after it
-        if (![self outlineView:self.view shouldSelectItem:[self.view itemAtRow:rowToSelect]]) {
+        if (![self outlineView:self.sidebarView shouldSelectItem:[self.sidebarView itemAtRow:rowToSelect]]) {
             rowToSelect = previousSelectedRow;
             
-            while (rowToSelect < [self.view numberOfRows] && ![self outlineView:self.view shouldSelectItem:[self.view itemAtRow:rowToSelect]]) {
+            while (rowToSelect < [self.sidebarView numberOfRows] && ![self outlineView:self.sidebarView shouldSelectItem:[self.sidebarView itemAtRow:rowToSelect]]) {
                 rowToSelect++;
             }
         }
 
-        NSAssert(rowToSelect > 0 && rowToSelect < self.view.numberOfRows && [self outlineView:self.view shouldSelectItem:[self.view itemAtRow:rowToSelect]],
+        NSAssert(rowToSelect > 0 && rowToSelect < self.sidebarView.numberOfRows && [self outlineView:self.sidebarView shouldSelectItem:[self.sidebarView itemAtRow:rowToSelect]],
                  @"Tried to select a sidebar item but couldn't find any");
         
     } else if (reloadedRowForPreviousSelectedItem != previousSelectedRow) {
@@ -354,7 +336,7 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
     }
     
     if (rowToSelect != NSNotFound) {
-        [self.view selectRowIndexes:[NSIndexSet indexSetWithIndex:rowToSelect] byExtendingSelection:NO];
+        [self.sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:rowToSelect] byExtendingSelection:NO];
         [self outlineViewSelectionDidChange:[NSNotification notificationWithName:NSOutlineViewSelectionDidChangeNotification object:self]];
     }
 }
@@ -480,17 +462,17 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
     if (!self.database)
         return;
 
-    if (![self outlineView:self.view shouldSelectItem:self.selectedSidebarItem]) {
+    if (![self outlineView:self.sidebarView shouldSelectItem:self.selectedSidebarItem]) {
         
         DLog(@"invalid selection");
         
-        NSInteger row = self.view.selectedRow;
+        NSInteger row = self.sidebarView.selectedRow;
         if (row == NSNotFound)
             row = 1;
         else
             row ++;
         
-        [self.view selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+        [self.sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
     }
 
     id <OESidebarItem> selectedItem = self.selectedSidebarItem;
@@ -630,7 +612,7 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 
 - (void)removeItemAtIndex:(NSUInteger)index
 {
-    id item = [self.view itemAtRow:index];
+    id item = [self.sidebarView itemAtRow:index];
 
     if ([item isEditableInSidebar]) {
         
@@ -640,22 +622,21 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
             [(OEDBCollection *)item save];
 
             // keep selection on last object if the one we removed was last
-            if (index == self.view.numberOfRows - 1)
+            if (index == self.sidebarView.numberOfRows - 1)
                 index --;
 
             NSIndexSet *selIn = [[NSIndexSet alloc] initWithIndex:index];
-            [self.view selectRowIndexes:selIn byExtendingSelection:NO];
+            [self.sidebarView selectRowIndexes:selIn byExtendingSelection:NO];
             [self reloadData];
 
-            OESidebarOutlineView *sidebarView = (OESidebarOutlineView *)self.view;
-            [[NSNotificationCenter defaultCenter] postNotificationName:NSOutlineViewSelectionDidChangeNotification object:sidebarView];
+            [[NSNotificationCenter defaultCenter] postNotificationName:NSOutlineViewSelectionDidChangeNotification object:self.sidebarView];
         }
     }
 }
 
 - (void)renameItemAtIndex:(NSUInteger)index
 {
-    id item = [self.view itemAtRow:index];
+    id item = [self.sidebarView itemAtRow:index];
     [self selectItem:item];
     [self startEditingItem:item];
 }
