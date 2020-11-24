@@ -154,10 +154,31 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         let group = NSToolbarItemGroup(itemIdentifier: .oeGridSize)
         group.subitems = [minHint, item, maxHint]
         group.label = NSLocalizedString("Grid Size", comment:"Toolbar, grid size slider label")
+        group.menuFormRepresentation = gridSizeMenu
         
         itemCache[group.itemIdentifier] = group
         return group;
     }
+    
+    let gridSizeMenu: NSMenuItem = {
+        
+        let decrease = NSMenuItem()
+        decrease.title = NSLocalizedString("Decrease Grid Size", comment: "")
+        decrease.action = #selector(LibraryController.decreaseGridSize(_:))
+        
+        let increase = NSMenuItem()
+        increase.title = NSLocalizedString("Increase Grid Size", comment: "")
+        increase.action = #selector(LibraryController.increaseGridSize(_:))
+        
+        let menu = NSMenu()
+        menu.items = [decrease, increase]
+        
+        let gridSizeMenu = NSMenuItem()
+        gridSizeMenu.title = NSLocalizedString("Grid Size", comment:"")
+        gridSizeMenu.submenu = menu
+        
+        return gridSizeMenu
+    }()
     
     
     @discardableResult
@@ -225,6 +246,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         
         let item = NSToolbarItem(itemIdentifier: .oeCategory)
         item.view = segmControl
+        item.visibilityPriority = .high
         item.menuFormRepresentation = categoryMenu
         item.label = NSLocalizedString("Category", comment:"Toolbar, category selector label")
         
@@ -314,6 +336,11 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         let item = NSToolbarItem(itemIdentifier: .oeAdd)
         item.view = segmControl
         item.label = NSLocalizedString("Add", comment:"Toolbar, add button label")
+        
+        let addMenu = NSMenuItem()
+        addMenu.title = NSLocalizedString("Add", comment:"")
+        addMenu.submenu = self.addMenu
+        item.menuFormRepresentation = addMenu
         
         itemCache[item.itemIdentifier] = item
         return item;
