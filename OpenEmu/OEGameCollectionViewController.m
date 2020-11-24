@@ -104,6 +104,8 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 {
     [super viewDidAppear];
     [[self listView] bind:@"selectionIndexes" toObject:gamesController withKeyPath:@"selectionIndexes" options:@{}];
+    
+    [self _validateToolbarItems];
 }
 
 - (void)viewDidDisappear
@@ -234,6 +236,8 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 {
     [super OE_switchToView:tag];
     
+    [self _validateToolbarItems];
+    
     if (tag != OEBlankSlateTag)
         [[NSUserDefaults standardUserDefaults] setInteger:self.selectedViewTag forKey:OELastCollectionViewKey];
 }
@@ -294,6 +298,28 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 - (id <OEGameCollectionViewItemProtocol>)representedObject
 {
     return (id <OEGameCollectionViewItemProtocol>) [super representedObject];
+}
+
+#pragma mark - Validation
+
+- (void)_validateToolbarItems
+{
+    OELibraryToolbar *toolbar = self.toolbar;
+    BOOL isGridView = self.selectedViewTag == OEGridViewTag;
+    BOOL isBlankSlate = self.shouldShowBlankSlate;
+    
+    toolbar.viewModeSelector.enabled = !isBlankSlate;
+    toolbar.viewModeSelector.selectedSegment = isGridView ? 0 : 1;
+    
+    toolbar.gridSizeSlider.enabled = isGridView && !isBlankSlate;
+    toolbar.decreaseGridSizeButton.enabled = isGridView && !isBlankSlate;
+    toolbar.increaseGridSizeButton.enabled = isGridView && !isBlankSlate;
+    
+    toolbar.searchField.enabled = !isBlankSlate;
+    toolbar.searchField.searchMenuTemplate = nil;
+    toolbar.searchField.stringValue = self.currentSearchTerm ?: @"";
+    
+    toolbar.addButton.enabled = YES;
 }
 
 #pragma mark - UI Actions

@@ -111,32 +111,10 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 {
     [super viewDidAppear];
     
-    [self _validateToolbarItems];
-    
     [self.collectionController updateBlankSlate];
 }
 
 #pragma mark - Validation
-
-- (void)_validateToolbarItems
-{
-    OELibraryToolbar *toolbar = self.toolbar;
-    BOOL isGridView = self.collectionController.selectedViewTag == OEGridViewTag;
-    BOOL isBlankSlate = self.collectionController.shouldShowBlankSlate;
-    
-    toolbar.viewModeSelector.enabled = !isBlankSlate;
-    toolbar.viewModeSelector.selectedSegment = isGridView ? 0 : 1;
-    
-    toolbar.gridSizeSlider.enabled = isGridView && !isBlankSlate;
-    toolbar.decreaseGridSizeButton.enabled = isGridView && !isBlankSlate;
-    toolbar.increaseGridSizeButton.enabled = isGridView && !isBlankSlate;
-    
-    toolbar.searchField.enabled = !isBlankSlate;
-    toolbar.searchField.searchMenuTemplate = nil;
-    toolbar.searchField.stringValue = self.collectionController.currentSearchTerm ?: @"";
-    
-    toolbar.addButton.enabled = YES;
-}
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
@@ -243,13 +221,11 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 - (IBAction)switchToGridView:(id)sender
 {
     [self.collectionController showGridView];
-    [self _validateToolbarItems];
 }
 
 - (IBAction)switchToListView:(id)sender
 {
     [self.collectionController showListView];
-    [self _validateToolbarItems];
 }
 
 - (IBAction)search:(id)sender
@@ -283,7 +259,6 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 {
     id selectedItem = self.sidebarController.selectedSidebarItem;
     self.collectionController.representedObject = selectedItem;
-    [self _validateToolbarItems];
     
     // For empty collections of disc-based games, display an alert to compel the user to read the disc-importing guide.
     if ([selectedItem isKindOfClass:[OEDBSystem class]] &&
@@ -318,7 +293,6 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     [collection save];
 
     [[self collectionController] setNeedsReload];
-    [self _validateToolbarItems];
 }
 
 @end
