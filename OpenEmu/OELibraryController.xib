@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="LibraryController" customModule="OpenEmu">
+        <customObject id="-2" userLabel="File's Owner" customClass="OELibraryController">
             <connections>
                 <outlet property="toolbar" destination="386-1H-9HX" id="nDj-TB-Hw2"/>
                 <outlet property="view" destination="616" id="df8-ab-p2v"/>
@@ -19,7 +19,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <point key="canvasLocation" x="-156" y="492"/>
         </customView>
-        <toolbar implicitIdentifier="647CF7A7-A628-4038-A1D8-26746C7CC43D" prefersToBeShown="NO" displayMode="iconOnly" sizeMode="regular" id="386-1H-9HX" customClass="OELibraryToolbar">
+        <toolbar implicitIdentifier="647CF7A7-A628-4038-A1D8-26746C7CC43D" explicitIdentifier="OELibraryToolbar" prefersToBeShown="NO" displayMode="iconOnly" sizeMode="regular" id="386-1H-9HX" customClass="OELibraryToolbar">
             <allowedToolbarItems/>
             <defaultToolbarItems/>
             <connections>

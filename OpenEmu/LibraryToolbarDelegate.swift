@@ -53,11 +53,21 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     
     func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         cacheItems(toolbar: toolbar as! LibraryToolbar)
-        return [.oeViewMode,
-                .oeGridSize,
-                .oeCategory,
-                .flexibleSpace,
-                .oeSearch]
+        if #available(macOS 11.0, *) {
+            return [.flexibleSpace,
+                    .oeAdd,
+                    .sidebarTrackingSeparator,
+                    .oeViewMode,
+                    .oeCategory,
+                    .flexibleSpace,
+                    .oeSearch]
+        } else {
+            return [.oeViewMode,
+                    .oeGridSize,
+                    .oeCategory,
+                    .flexibleSpace,
+                    .oeSearch]
+        }
     }
     
     
