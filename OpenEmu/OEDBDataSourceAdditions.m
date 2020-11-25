@@ -373,7 +373,7 @@ NSString * OE_localizedStringFromElapsedTime(NSTimeInterval timeInterval)
 
 - (NSPredicate *)fetchPredicate
 {
-    return [NSPredicate predicateWithFormat:@"system.enabled = YES"];
+    return [NSPredicate predicateWithValue:YES];
 }
 
 - (BOOL)shouldShowSystemColumnInListView
