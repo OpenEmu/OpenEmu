@@ -485,7 +485,6 @@
 		8FAF08D8251FB65D00EDB247 /* HoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF069A251FB02700EDB247 /* HoverButton.swift */; };
 		8FBAE60C254BA0D300446C3B /* OEControls.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FBAE60E254BA0D300446C3B /* OEControls.strings */; };
 		8FBAE9EB254BD7FA00446C3B /* NSControl+i18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBAE9EA254BD7FA00446C3B /* NSControl+i18n.swift */; };
-		8FD7104D252556BF0093149B /* SidebarAddMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD7104C252556BF0093149B /* SidebarAddMenu.swift */; };
 		8FD78305243A8AD300861B7A /* Debug.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FD78307243A8AD300861B7A /* Debug.strings */; };
 		8FD905771AA2927100FA7662 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F40EB791C1072B100683055 /* OEPrefControlsController.xib */; };
 		8FDCE3972520022700277BFA /* GlossCheckboxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDCE3962520022700277BFA /* GlossCheckboxCell.swift */; };
@@ -1799,7 +1798,6 @@
 		8FCCCE5F24E7088E00223181 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Debug.strings; sourceTree = "<group>"; };
 		8FCCCE6024E7089100223181 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Debug.strings"; sourceTree = "<group>"; };
 		8FCCCE6124E7089300223181 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Debug.strings"; sourceTree = "<group>"; };
-		8FD7104C252556BF0093149B /* SidebarAddMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarAddMenu.swift; sourceTree = "<group>"; };
 		8FD78306243A8AD300861B7A /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Debug.strings; sourceTree = "<group>"; };
 		8FD78308243A8ADC00861B7A /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Debug.strings; sourceTree = "<group>"; };
 		8FDCE3962520022700277BFA /* GlossCheckboxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossCheckboxCell.swift; sourceTree = "<group>"; };
@@ -3420,7 +3418,6 @@
 				8306CD1F1BD3AC3D0025BC6C /* OESidebarItem.h */,
 				8306CD201BD3AC3D0025BC6C /* OESidebarOutlineView.h */,
 				8306CD211BD3AC3D0025BC6C /* OESidebarOutlineView.m */,
-				8FD7104C252556BF0093149B /* SidebarAddMenu.swift */,
 			);
 			name = Sidebar;
 			sourceTree = "<group>";
@@ -6655,7 +6652,6 @@
 				8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */,
 				839310BC147802380020058E /* OECoreDownload.m in Sources */,
 				5A3DB1B11D8E6806009445EC /* AppDelegate.swift in Sources */,
-				8FD7104D252556BF0093149B /* SidebarAddMenu.swift in Sources */,
 				83CA87B41961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel in Sources */,
 				83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */,
 				EF2FDBEB14CFFE06002A64F2 /* ControlsKeyButton.swift in Sources */,

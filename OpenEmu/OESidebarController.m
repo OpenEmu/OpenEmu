@@ -67,6 +67,7 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 @property (strong, readwrite) NSArray *collections;
 
 @property (weak) IBOutlet OEGameScannerViewController *gameScannerViewController;
+@property (weak) IBOutlet NSMenuItem *addMenuItem;
 
 /// If YES, the sidebar scroll view's scroll bars have been flashed to the user to make sure they know there are more systems than what may be currently visible to them. We only want to do it once, though.
 @property (nonatomic) BOOL scrollersFlashed;
@@ -123,6 +124,10 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 
     [defaults addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEDBSystemAvailabilityDidChangeNotification object:nil];
 
+    if (@available(macOS 11.0, *)) {
+        self.addMenuItem.image = [NSImage imageNamed:@"sidebar_add_11"];
+    }
+    
     id viewsNextResponder = self.view.nextResponder;
     if (viewsNextResponder != self) {
         self.view.nextResponder = self;
