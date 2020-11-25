@@ -28,11 +28,10 @@
 
 extern NSNotificationName const OELibrarySplitViewResetSidebarNotification;
 
-@class OESidebarController, OEGameCollectionViewController, OEGameScannerViewController, OELibraryDatabase;
+@class OESidebarController, OEGameCollectionViewController, OELibraryDatabase;
 
 @interface OELibraryGamesViewController : NSSplitViewController <NSMenuItemValidation>
 @property (nonatomic) OELibraryDatabase *database;
-@property (weak) IBOutlet OEGameScannerViewController *gameScannerController;
 
 - (void)makeNewCollectionWithSelectedGames:(id)sender;
 @end

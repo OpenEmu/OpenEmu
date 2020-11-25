@@ -315,26 +315,14 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     [[NSNotificationCenter defaultCenter] postNotificationName:OELibrarySplitViewResetSidebarNotification object:self];
 }
 
-- (void)showGameScannerView:(id)sender {
-    
-    OEMainWindowController *mainWindowController = self.mainWindow.windowController;
-    NSViewController *currentViewController = mainWindowController.libraryController.currentSubviewController;
-    
-    if([currentViewController isKindOfClass:[OELibraryGamesViewController class]])
-    {
-        [((OELibraryGamesViewController *)currentViewController).gameScannerController showGameScannerViewAnimated:YES];
-    }
+- (void)showGameScannerView:(id)sender
+{
+    [NSNotificationCenter.defaultCenter postNotificationName:OEGameScannerViewController.OEGameScannerShowNotification object:self];
 }
 
-- (void)hideGameScannerView:(id)sender {
-    
-    OEMainWindowController *mainWindowController = self.mainWindow.windowController;
-    NSViewController *currentViewController = mainWindowController.libraryController.currentSubviewController;
-    
-    if([currentViewController isKindOfClass:[OELibraryGamesViewController class]])
-    {
-        [((OELibraryGamesViewController *)currentViewController).gameScannerController hideGameScannerViewAnimated:YES];
-    }
+- (void)hideGameScannerView:(id)sender
+{
+    [NSNotificationCenter.defaultCenter postNotificationName:OEGameScannerViewController.OEGameScannerHideNotification object:self];
 }
 
 #pragma mark -

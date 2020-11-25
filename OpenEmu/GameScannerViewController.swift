@@ -29,6 +29,8 @@ class GameScannerViewController: NSViewController {
 
     @objc public static let OESidebarHideBottomBarKey = "OESidebarHideBottomBar"
     public static let OESidebarBottomBarDidChange = Notification.Name("OESidebarBottomBarDidChangeNotification")
+    @objc public static let OEGameScannerShowNotification = Notification.Name("OEGameScannerShowNotification")
+    @objc public static let OEGameScannerHideNotification = Notification.Name("OEGameScannerHideNotification")
     private static let importGuideURL = URL(string: "https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-Importing")!
 
     @IBOutlet weak var scannerView: NSView!
@@ -62,6 +64,8 @@ class GameScannerViewController: NSViewController {
         notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidChangeUpdateProgress(_:)), name: .OEGameInfoHelperDidChangeUpdateProgress, object: nil)
         notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidUpdate(_:)), name: .OEGameInfoHelperDidUpdate, object: nil)
         notificationCenter.addObserver(self, selector: #selector(bottomBarDidChange), name: GameScannerViewController.OESidebarBottomBarDidChange, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(showGameScannerView(animated:)), name: GameScannerViewController.OEGameScannerShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(hideGameScannerView(animated:)), name: GameScannerViewController.OEGameScannerHideNotification, object: nil)
     }
     
     override var nibName: NSNib.Name? {
