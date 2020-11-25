@@ -80,7 +80,11 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         gridSizeToolbarItem(toolbar: toolbar)
         viewModeToolbarItem(toolbar: toolbar)
         categoryToolbarItem(toolbar: toolbar)
-        searchToolbarItem(toolbar: toolbar)
+        if #available(macOS 11.0, *) {
+            searchToolbarItem11(toolbar: toolbar)
+        } else {
+            searchToolbarItem(toolbar: toolbar)
+        }
         addToolbarItem(toolbar: toolbar)
     }
     
@@ -95,7 +99,11 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         case .oeCategory:
             return categoryToolbarItem(toolbar: toolbar as! LibraryToolbar)
         case .oeSearch:
-            return searchToolbarItem(toolbar: toolbar as! LibraryToolbar)
+            if #available(macOS 11.0, *) {
+                return searchToolbarItem11(toolbar: toolbar as! LibraryToolbar)
+            } else {
+                return searchToolbarItem(toolbar: toolbar as! LibraryToolbar)
+            }
         case .oeAdd:
             return addToolbarItem(toolbar: toolbar as! LibraryToolbar)
         default:
@@ -119,6 +127,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
     }
     
+    // MARK: - Grid Size
     
     @discardableResult
     func gridSizeToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
@@ -180,6 +189,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         return gridSizeMenu
     }()
     
+    // MARK: - View Mode
     
     @discardableResult
     func viewModeToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
@@ -228,6 +238,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         return viewModeMenu
     }()
     
+    // MARK: - Category
     
     @discardableResult
     func categoryToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
@@ -286,12 +297,9 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         return categoryMenu
     }()
     
-    @discardableResult
-    func searchToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
-        if let item = itemCache[.oeSearch] {
-            return item
-        }
-        
+    // MARK: - Search
+    
+    lazy var searchField: OESearchField = {
         let searchField = OESearchField()
         searchField.lineBreakMode = .byClipping
         searchField.usesSingleLineMode = true
@@ -302,11 +310,16 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         searchField.action = #selector(LibraryController.search(_:))
         searchField.target = toolbarOwner
         searchField.widthAnchor.constraint(lessThanOrEqualToConstant: 166).isActive = true
-        if #available(macOS 11.0, *) {
-            searchField.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        } else {
-            searchField.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        return searchField
+    }()
+    
+    @discardableResult
+    func searchToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
+        if let item = itemCache[.oeSearch] {
+            return item
         }
+        
+        let searchField = self.searchField
         
         toolbar.searchField = searchField
         
@@ -318,6 +331,26 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         return item;
     }
     
+    @available(macOS 11.0, *)
+    @discardableResult
+    func searchToolbarItem11(toolbar: LibraryToolbar) -> NSSearchToolbarItem {
+        if let item = itemCache[.oeSearch] {
+            return item as! NSSearchToolbarItem
+        }
+        
+        let searchField = self.searchField
+        
+        toolbar.searchField = searchField
+        
+        let item = NSSearchToolbarItem(itemIdentifier: .oeSearch)
+        item.searchField = searchField
+        item.label = NSLocalizedString("Search", comment:"Toolbar, search field label")
+        
+        itemCache[item.itemIdentifier] = item
+        return item;
+    }
+    
+    // MARK: - Add
     
     @discardableResult
     func addToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
