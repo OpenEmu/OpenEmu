@@ -25,7 +25,6 @@
  */
 
 @import Cocoa;
-#import "OESidebarOutlineView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -60,7 +59,6 @@ extern NSNotificationName const OESidebarSelectionDidChangeNotification;
 
 @property (nonatomic, readonly, nullable) id<OESidebarItem> selectedSidebarItem;
 
-@property (strong) IBOutlet OESidebarOutlineView *sidebarView;
 @property (strong, nonatomic, nullable) OELibraryDatabase *database;
 @property (strong, readonly) NSArray *groups;
 @property (strong, readonly) NSArray *systems, *collections;

@@ -25,7 +25,6 @@
  */
 
 #import "OESidebarCell.h"
-#import "OESidebarOutlineView.h"
 
 typedef NS_OPTIONS(NSInteger, OESidebarCellState)
 {

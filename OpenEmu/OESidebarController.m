@@ -32,7 +32,6 @@
 
 #import "OEPrefLibraryController.h"
 
-#import "OESidebarOutlineView.h"
 #import "OEDBGame.h"
 #import "OEDBAllGamesCollection.h"
 #import "OEDBSystem.h"
@@ -67,6 +66,7 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 @property (strong, readwrite) NSArray *collections;
 
 @property (weak) IBOutlet OEGameScannerViewController *gameScannerViewController;
+@property (weak) IBOutlet OESidebarOutlineView *sidebarView;
 @property (weak) IBOutlet NSMenuItem *addMenuItem;
 
 /// If YES, the sidebar scroll view's scroll bars have been flashed to the user to make sure they know there are more systems than what may be currently visible to them. We only want to do it once, though.

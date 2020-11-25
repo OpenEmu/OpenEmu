@@ -29,7 +29,6 @@
 #import "OEDBRom.h"
 #import "OEDBSystem+CoreDataProperties.h"
 @import OpenEmuKit;
-#import "OESidebarOutlineView.h"
 #import "OEROMImporter.h"
 
 #import "OEAlert.h"
