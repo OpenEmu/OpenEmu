@@ -29,7 +29,6 @@
 #import "OEArrayController.h"
 #import "OESidebarController.h"
 #import "OEAlert.h"
-#import "OERatingCell.h"
 #import "OEMainWindowController.h"
 #import "OELibraryGamesViewController.h"
 
