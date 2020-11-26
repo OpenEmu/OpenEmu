@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="200" height="500"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView autoresizesSubviews="NO" focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="JYU-Tk-u7m">
+                <scrollView autoresizesSubviews="NO" focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="JYU-Tk-u7m" customClass="OEInsetScrollView">
                     <rect key="frame" x="0.0" y="103" width="200" height="397"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" drawsBackground="NO" id="MQJ-cq-QCT">
@@ -28,7 +28,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="22" indentationPerLevel="14" outlineTableColumn="TQT-sV-f9j" id="Evu-SM-BeR" customClass="OESidebarOutlineView">
-                                <rect key="frame" x="0.0" y="0.0" width="200" height="397"/>
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="360"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <size key="intercellSpacing" width="3" height="0.0"/>
                                 <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -51,6 +51,7 @@
                         </subviews>
                         <nil key="backgroundColor"/>
                     </clipView>
+                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
                     <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="AhO-Jy-5F7">
                         <rect key="frame" x="-100" y="-100" width="171" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
