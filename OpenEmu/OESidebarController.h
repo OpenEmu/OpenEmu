@@ -36,19 +36,15 @@ extern NSNotificationName const OESidebarSelectionDidChangeNotification;
 
 @interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource>
 
-- (IBAction)addCollectionAction:(nullable id)sender;
+- (IBAction)newCollection:(nullable id)sender;
 - (IBAction)showIssuesView:(id)sender;
 
-- (void)setEnabled:(BOOL)enabled;
-
 - (void)reloadData;
-- (id)addCollection:(BOOL)isSmart;
 - (OEDBCollection *)addCollection;
-- (id)duplicateCollection:(id)originalCollection;
+- (OEDBCollection *)duplicateCollection:(id)originalCollection;
 
 - (void)selectItem:(id)item;
 - (void)startEditingItem:(id)item;
-- (void)expandCollections:(id)sender;
 - (void)removeItemAtIndex:(NSUInteger)index;
 - (void)renameItemAtIndex:(NSUInteger)index;
 - (void)removeSelectedItemsOfOutlineView:(NSOutlineView *)outlineView;

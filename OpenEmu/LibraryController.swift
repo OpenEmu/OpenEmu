@@ -188,10 +188,6 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
         }
     }
     
-    @IBAction func addCollectionAction(_ sender: Any?) {
-        tryForwardAction(sel: #selector(addCollectionAction(_:)), with: sender)
-    }
-    
     @IBAction func switchToView(_ sender: Any?) {
         switch toolbar?.viewModeSelector.selectedSegment {
         case 0:
@@ -244,7 +240,7 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
     // MARK: - File Menu Item Actions
     
     @IBAction func newCollection(_ sender: Any?) {
-        tryForwardAction(sel: #selector(addCollectionAction(_:)), with: sender)
+        tryForwardAction(sel: #selector(newCollection(_:)), with: sender)
     }
     
     @IBAction func newSmartCollection(_ sender: Any?) {

@@ -8,7 +8,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OESidebarController">
             <connections>
-                <outlet property="addMenuItem" destination="ngO-qO-EH7" id="Xx3-ax-znc"/>
                 <outlet property="gameScannerViewController" destination="juh-5x-f5U" id="lNb-43-pvO"/>
                 <outlet property="sidebarView" destination="Evu-SM-BeR" id="vF6-Ws-Arl"/>
                 <outlet property="view" destination="jVR-Tc-HAY" id="LtQ-NT-Exd"/>
@@ -35,11 +34,11 @@
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
                                     <tableColumn width="197" minWidth="16" maxWidth="1000" id="TQT-sV-f9j">
-                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                         </tableHeaderCell>
-                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="y45-NU-dbu" customClass="OESidebarCell">
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" id="y45-NU-dbu">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>

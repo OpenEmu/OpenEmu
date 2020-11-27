@@ -27,7 +27,6 @@
 
 #import "OEPrefDebugController.h"
 #import "OELibraryDatabase.h"
-#import "OESidebarController.h"
 
 #import "OEDBGame.h"
 #import "OEDBImage.h"

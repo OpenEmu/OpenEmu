@@ -2652,26 +2652,6 @@
 			name = "Collection View";
 			sourceTree = "<group>";
 		};
-		0544B68523D1416300F63D61 /* Games Library */ = {
-			isa = PBXGroup;
-			children = (
-				0544B68723D14E4200F63D61 /* Sidebar */,
-			);
-			name = "Games Library";
-			sourceTree = "<group>";
-		};
-		0544B68723D14E4200F63D61 /* Sidebar */ = {
-			isa = PBXGroup;
-			children = (
-				0544B68823D14E6300F63D61 /* SidebarController.swift */,
-				05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */,
-				05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */,
-				05A002D723DE539F007F0DB7 /* SidebarItemView.swift */,
-				05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */,
-			);
-			name = Sidebar;
-			sourceTree = "<group>";
-		};
 		0544B69A23D16D2500F63D61 /* Grid View */ = {
 			isa = PBXGroup;
 			children = (
@@ -2732,7 +2712,6 @@
 			isa = PBXGroup;
 			children = (
 				0544B68423D1415900F63D61 /* Collection View */,
-				0544B68523D1416300F63D61 /* Games Library */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -3411,6 +3390,11 @@
 				8306CD1D1BD3AC3D0025BC6C /* OESidebarGroupItem.h */,
 				8306CD1E1BD3AC3D0025BC6C /* OESidebarGroupItem.m */,
 				8306CD1F1BD3AC3D0025BC6C /* OESidebarItem.h */,
+				0544B68823D14E6300F63D61 /* SidebarController.swift */,
+				05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */,
+				05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */,
+				05A002D723DE539F007F0DB7 /* SidebarItemView.swift */,
+				05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */,
 				8306CD211BD3AC3D0025BC6C /* SidebarOutlineView.swift */,
 			);
 			name = Sidebar;

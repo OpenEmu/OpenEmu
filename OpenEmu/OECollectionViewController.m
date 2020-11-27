@@ -48,9 +48,6 @@
 #import "OEDBAllGamesCollection.h"
 
 #import "OELibraryDatabase.h"
-
-#import "OESidebarController.h"
-
 #import "OEArrayController.h"
 
 #import "OEGridGameCell.h"

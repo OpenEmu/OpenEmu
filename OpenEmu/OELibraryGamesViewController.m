@@ -213,9 +213,9 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 }
 
 #pragma mark - Toolbar
-- (IBAction)addCollectionAction:(id)sender
+- (IBAction)newCollection:(id)sender
 {
-    [[self sidebarController] addCollectionAction:sender];
+    [self.sidebarController newCollection:sender];
 }
 
 - (IBAction)switchToGridView:(id)sender
@@ -288,7 +288,7 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 {
     OECoreDataMainThreadAssertion();
     NSArray<OEDBGame *> *selectedGames = self.selectedGames;
-    OEDBCollection *collection = [self.sidebarController addCollection:NO];
+    OEDBCollection *collection = [self.sidebarController addCollection];
     collection.games = [NSSet setWithArray:selectedGames];
     [collection save];
 

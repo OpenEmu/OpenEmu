@@ -54,8 +54,6 @@ NSNotificationName const OESidebarSelectionDidChangeNotification = @"OESidebarSe
 NSString * const OESidebarGroupConsolesAutosaveName    = @"sidebarConsolesItem";
 NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsItem";
 
-NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
-
 @interface OESidebarController ()
 {
     id editingItem;
@@ -67,10 +65,6 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 
 @property (weak) IBOutlet OEGameScannerViewController *gameScannerViewController;
 @property (weak) IBOutlet OESidebarOutlineView *sidebarView;
-@property (weak) IBOutlet NSMenuItem *addMenuItem;
-
-/// If YES, the sidebar scroll view's scroll bars have been flashed to the user to make sure they know there are more systems than what may be currently visible to them. We only want to do it once, though.
-@property (nonatomic) BOOL scrollersFlashed;
 
 @end
 
@@ -123,10 +117,6 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
     [self.sidebarView expandItem:nil expandChildren:YES];
 
     [defaults addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEDBSystemAvailabilityDidChangeNotification object:nil];
-
-    if (@available(macOS 11.0, *)) {
-        self.addMenuItem.image = [NSImage imageNamed:@"sidebar_add_11"];
-    }
     
     id viewsNextResponder = self.view.nextResponder;
     if (viewsNextResponder != self) {
@@ -143,19 +133,6 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
     NSInteger selectedRow = self.sidebarView.selectedRow;
     if (selectedRow != -1) {
         [self.sidebarView scrollRowToVisible:selectedRow];
-    }
-}
-
-- (void)viewDidAppear
-{
-    [super viewDidAppear];
-    
-    // Make sure the user knows there are more systems to scroll to--but only do it once in each of the first three sessions.
-    NSInteger scrollerFlashed = [NSUserDefaults.standardUserDefaults integerForKey:OESidebarScrollerFlashed];
-    if (scrollerFlashed < 3 && !self.scrollersFlashed) {
-        [self.sidebarView.enclosingScrollView flashScrollers];
-        self.scrollersFlashed = YES;
-        [NSUserDefaults.standardUserDefaults setInteger:scrollerFlashed + 1 forKey:OESidebarScrollerFlashed];
     }
 }
 
@@ -190,34 +167,23 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 
 #pragma mark - Public
 
-- (void)setEnabled:(BOOL)enabled
+- (IBAction)newCollection:(id)sender
 {
-    self.sidebarView.enabled = enabled;
+    [self addCollection];
 }
 
-- (IBAction)addCollectionAction:(id)sender
+- (OEDBCollection *)addCollection
 {
-    [self addCollection:NO];
-}
-
-- (id)addCollection:(BOOL)isSmart
-{
-    id item = isSmart ? [self.database addNewSmartCollection:nil] : [self.database addNewCollection:nil];
+    id item = [self.database addNewCollection:nil];
 
     [self reloadData];
-    [self expandCollections:self];
     [self selectItem:item];
     [self startEditingItem:item];
 
     return item;
 }
 
-- (OEDBCollection *)addCollection
-{
-    return (OEDBCollection *)[self addCollection:NO];
-}
-
-- (id)duplicateCollection:(id)originalCollection
+- (OEDBCollection *)duplicateCollection:(id)originalCollection
 {
     OEDBCollection *duplicateCollection = [self.database addNewCollection:[NSString stringWithFormat:NSLocalizedString(@"%@ copy", @"Duplicated collection name"), [originalCollection valueForKey:@"name"]]];
 
@@ -225,7 +191,6 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
     [duplicateCollection save];
 
     [self reloadData];
-    [self expandCollections:self];
 
     return duplicateCollection;
 }
@@ -270,11 +235,6 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
 
     NSEvent *event = [[NSEvent alloc] init];
     [self.sidebarView editColumn:0 row:index withEvent:event select:YES];
-}
-
-- (void)expandCollections:(id)sender
-{
-    [self.sidebarView expandItem:[self.groups objectAtIndex:1]];
 }
 
 - (id<OESidebarItem>)selectedSidebarItem
@@ -340,12 +300,6 @@ NSString * const OESidebarScrollerFlashed = @"OESidebarScrollerFlashed";
         [self.sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:rowToSelect] byExtendingSelection:NO];
         [self outlineViewSelectionDidChange:[NSNotification notificationWithName:NSOutlineViewSelectionDidChangeNotification object:self]];
     }
-}
-
-- (void)importingChanged
-{
-    [self reloadData];
-    [self outlineViewSelectionDidChange:[NSNotification notificationWithName:NSOutlineViewSelectionDidChangeNotification object:self]];
 }
 
 - (void)libraryLocationDidChange:(NSNotification*)notification

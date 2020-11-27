@@ -32,7 +32,7 @@ class SidebarController: NSViewController {
     
     @IBOutlet var sidebarView: NSOutlineView!
     
-    var database: OELibraryDatabase? {
+    @objc var database: OELibraryDatabase? {
         didSet {
             reloadData()
             
@@ -62,7 +62,7 @@ class SidebarController: NSViewController {
     var systems: [OESidebarItem] = []
     var collections: [OESidebarItem] = []
     
-    var selectedSidebarItem: OESidebarItem? {
+    @objc var selectedSidebarItem: OESidebarItem? {
         let item = sidebarView.item(atRow: sidebarView.selectedRow)
         precondition(item == nil || item is OESidebarItem, "All sidebar items must confirm to OESidebarItem")
         return item as? OESidebarItem
@@ -79,11 +79,9 @@ class SidebarController: NSViewController {
         sidebarView.expandItem(nil, expandChildren: true)
         database = OELibraryDatabase.default
         
-        let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: "Item One", action: nil, keyEquivalent: ""))
-        menu.addItem(NSMenuItem(title: "Item Two", action: nil, keyEquivalent: ""))
-        menu.delegate = self
-        sidebarView.menu = menu
+//        let menu = NSMenu()
+//        menu.delegate = self
+//        sidebarView.menu = menu
         
         token = NotificationCenter.default.addObserver(forName: .OEDBSystemAvailabilityDidChange, object: nil, queue: .main) { [weak self] _ in
             guard let self = self else { return }
@@ -267,10 +265,8 @@ extension SidebarController: NSOutlineViewDataSource {
         po.contentViewController = AvailableLibrariesViewController()
         po.show(relativeTo: v.frame, of: sidebarView, preferredEdge: .maxX)
     }
-}
-
-// MARK: - Drag & Drop
-extension SidebarController {
+    
+    // MARK: - Drag & Drop
     
     func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
         false
