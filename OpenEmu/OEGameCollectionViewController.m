@@ -87,7 +87,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     
     // Restore grid/list view mode.
     OECollectionViewControllerViewTag tag = [[NSUserDefaults standardUserDefaults] integerForKey:OELastCollectionViewKey];
-    self.selectedViewTag = tag;
+    self.selectedViewTag = tag != -1 ? tag : 0;
 
     [[self listView] setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 }
