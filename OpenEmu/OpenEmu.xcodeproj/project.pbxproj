@@ -1766,7 +1766,6 @@
 		8F80218024F45E9800DC82E3 /* HUDSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDSlider.swift; sourceTree = "<group>"; };
 		8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSShadow+OEAdditions.swift"; sourceTree = "<group>"; };
 		8F957B4125227175008A9BC9 /* GlossButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlossButton.swift; sourceTree = "<group>"; };
-		8F9943C12544A020005ADAAF /* NSToolbar+ApplePrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSToolbar+ApplePrivate.h"; sourceTree = "<group>"; };
 		8F99F815256BF358007B83E1 /* OESidebarController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESidebarController.xib; sourceTree = "<group>"; };
 		8FA2379225626C1B00D24E83 /* HUDControlsBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDControlsBarView.swift; sourceTree = "<group>"; };
 		8FAF069A251FB02700EDB247 /* HoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverButton.swift; sourceTree = "<group>"; };
@@ -2971,7 +2970,6 @@
 				05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */,
 				8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */,
 				01D6F3D125269F1400E8404B /* NSImageRep+ApplePrivate.h */,
-				8F9943C12544A020005ADAAF /* NSToolbar+ApplePrivate.h */,
 				8FBAE798254BA99B00446C3B /* NSObject+OEi18n.m */,
 				8FBAE9EA254BD7FA00446C3B /* NSControl+i18n.swift */,
 			);

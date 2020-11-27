@@ -180,46 +180,19 @@ class ImageCollectionViewController: NSViewController {
     func updateBlankSlate() {
         if shouldShowBlankSlate {
             switchTo(tag: .blankSlate)
-//            if let toolbar = libraryController.toolbar, isSelected {
-//                toolbar.viewSelector.isEnabled = false
-//                toolbar.gridSizeSlider.isEnabled = false
-//                toolbar.searchField.isEnabled = false
-//                toolbar.searchField.menu = nil
-//            }
-            
             blankSlateView.representedObject = representedObject
         } else {
             switchTo(tag: .collection)
-//            if let toolbar = libraryController.toolbar, isSelected {
-//                toolbar.viewSelector.isEnabled = true
-//                toolbar.gridSizeSlider.isEnabled = true
-//                toolbar.searchField.isEnabled = true
-//                toolbar.searchField.menu = nil
-//            }
         }
     }
     
     func switchTo(tag: ViewTag) {
         if isSelected {
-//            setupToolbar(tag: tag)
+//            validateToolbarItems()
         }
         
         show(tag: tag)
     }
-    
-//    func setupToolbar(tag: ViewTag) {
-//        guard let toolbar = libraryController.toolbar else { return }
-//
-//        switch tag {
-//        case .collection:
-//            toolbar.viewSelector.selectedSegment = 0
-//            toolbar.gridSizeSlider.isEnabled = true
-//
-//        case .blankSlate:
-//            toolbar.viewSelector.isEnabled = false
-//            toolbar.gridSizeSlider.isEnabled = false
-//        }
-//    }
     
     func show(tag: ViewTag) {
         var newView: NSView!

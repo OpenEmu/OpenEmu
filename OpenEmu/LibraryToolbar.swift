@@ -36,7 +36,7 @@ class LibraryToolbar: NSToolbar {
     @IBOutlet weak var increaseGridSizeButton: NSButton!
     @IBOutlet weak var searchField: NSSearchField!
     
-    override func _allowsSizeMode(_ mode: NSToolbar.SizeMode) -> Bool {
+    @objc func _allowsSizeMode(_ mode: NSToolbar.SizeMode) -> Bool {
         return mode != .small
     }
 }

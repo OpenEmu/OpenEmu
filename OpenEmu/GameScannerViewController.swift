@@ -431,45 +431,6 @@ extension GameScannerViewController {
     }
 }
 
-// MARK: - OESidebarItem
-
-extension GameScannerViewController: OESidebarItem {
-    
-    var sidebarIcon: NSImage? {
-        return nil
-    }
-    
-    var sidebarName: String {
-        return NSLocalizedString("Game Scanner", comment: "")
-    }
-    
-    var sidebarID: String? {
-        return "Game Scanner"
-    }
-    
-    var viewControllerClassName: String? {
-        return className
-    }
-    
-    func setSidebarName(_ newName: String) {}
-    
-    var isSelectableInSidebar: Bool {
-        return true
-    }
-    
-    var isEditableInSidebar: Bool {
-        return false
-    }
-    
-    var isGroupHeaderInSidebar: Bool {
-        return false
-    }
-    
-    var hasSubCollections: Bool {
-        return false
-    }
-}
-
 // MARK: - NSTableViewDataSource
 
 extension GameScannerViewController: NSTableViewDataSource {

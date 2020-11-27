@@ -115,10 +115,8 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     NSColor *bgColor = bgColorStr ? [[NSColor alloc] colorFromHexString:bgColorStr] : [NSColor blackColor];
     window.backgroundColor = bgColor;
     
-    if([ud boolForKey:OEPopoutGameWindowAlwaysOnTopKey] == YES)
-    {
+    if([ud boolForKey:OEPopoutGameWindowAlwaysOnTopKey])
         window.level = NSFloatingWindowLevel;
-    }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_constrainIntegralScaleIfNeeded) name:NSApplicationDidChangeScreenParametersNotification object:nil];
 

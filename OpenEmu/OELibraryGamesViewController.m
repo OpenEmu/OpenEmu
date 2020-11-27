@@ -98,6 +98,13 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     }
 }
 
+- (void)viewDidAppear
+{
+    [super viewDidAppear];
+    
+    [self.collectionController updateBlankSlate];
+}
+
 - (void)viewWillDisppear
 {
     [super viewWillDisappear];
@@ -105,13 +112,6 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     if (@available(macOS 11.0, *)) {
         self.view.window.titlebarSeparatorStyle = NSTitlebarSeparatorStyleLine;
     }
-}
-
-- (void)viewDidAppear
-{
-    [super viewDidAppear];
-    
-    [self.collectionController updateBlankSlate];
 }
 
 #pragma mark - Validation
@@ -165,10 +165,10 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 
 - (void)_setupSplitViewAutosave
 {
-    NSSplitView *librarySplitView = (NSSplitView *)self.splitView;
+    NSSplitView *librarySplitView = self.splitView;
     if (librarySplitView.autosaveName && ![librarySplitView.autosaveName isEqual:@""])
         return;
-        
+    
     [NSUserDefaults.standardUserDefaults registerDefaults:@{
         @"lastSidebarWidth": @(_OESidebarDefaultWidth),
     }];
@@ -192,7 +192,7 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 
 - (NSArray<OEDBGame *> *)selectedGames
 {
-    return [[self collectionController] selectedGames];
+    return self.collectionController.selectedGames;
 }
 
 - (OELibraryDatabase *)database
@@ -208,8 +208,8 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 
 - (void)_assignDatabase
 {
-    [[self sidebarController] setDatabase:_database];
-    [[self collectionController] setDatabase:_database];
+    self.sidebarController.database = _database;
+    self.collectionController.database = _database;
 }
 
 #pragma mark - Toolbar
@@ -264,7 +264,7 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     if ([selectedItem isKindOfClass:[OEDBSystem class]] &&
         ((OEDBSystem *)selectedItem).plugin.supportsDiscsWithDescriptorFile &&
         ((OEDBSystem *)selectedItem).games.count == 0 &&
-        ![[NSUserDefaults standardUserDefaults] boolForKey:OESkipDiscGuideMessageKey])
+        ![NSUserDefaults.standardUserDefaults boolForKey:OESkipDiscGuideMessageKey])
     {
         
         NSAlert *alert = [[NSAlert alloc] init];
@@ -274,11 +274,11 @@ static const CGFloat _OEMainViewMinWidth    = 495;
         alert.alertStyle = NSAlertStyleInformational;
         [alert addButtonWithTitle:NSLocalizedString(@"View Guide in Browser", @"")];
         [alert addButtonWithTitle:NSLocalizedString(@"Dismiss", @"")];
-                
+        
         [alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
             if(returnCode == NSAlertFirstButtonReturn) {
                 NSURL *guideURL = [NSURL URLWithString:OECDBasedGamesUserGuideURLString];
-                [[NSWorkspace sharedWorkspace] openURL:guideURL];
+                [NSWorkspace.sharedWorkspace openURL:guideURL];
             }
         }];
     }
@@ -287,12 +287,12 @@ static const CGFloat _OEMainViewMinWidth    = 495;
 - (void)makeNewCollectionWithSelectedGames:(id)sender
 {
     OECoreDataMainThreadAssertion();
-    NSArray<OEDBGame *> *selectedGames = [self selectedGames];
-    OEDBCollection *collection = [[self sidebarController] addCollection:NO];
-    [collection setGames:[NSSet setWithArray:selectedGames]];
+    NSArray<OEDBGame *> *selectedGames = self.selectedGames;
+    OEDBCollection *collection = [self.sidebarController addCollection:NO];
+    collection.games = [NSSet setWithArray:selectedGames];
     [collection save];
 
-    [[self collectionController] setNeedsReload];
+    [self.collectionController setNeedsReload];
 }
 
 @end

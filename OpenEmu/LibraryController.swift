@@ -22,10 +22,10 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import Foundation
+import Cocoa
 
 @objc(OELibraryController)
-class LibraryController: NSTabViewController {
+class LibraryController: NSTabViewController, NSMenuItemValidation {
     
     enum DefaultKeys: String {
         case lastCategory = "OELibraryLastCategoryKey"
@@ -296,8 +296,7 @@ class LibraryController: NSTabViewController {
     
     // MARK: - Validation
     
-    @objc(validateMenuItem:)
-    func validate(menuItem: NSMenuItem) -> Bool {
+    @objc func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let sel = menuItem.action else { return false }
         
         if sel == #selector(newCollectionFolder(_:)) { return false }

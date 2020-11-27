@@ -261,11 +261,6 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     }
 }
 
-- (OECollectionViewControllerViewTag)OE_currentViewTagByToolbarState
-{
-    return OEGridViewTag;
-}
-
 #pragma mark - OELibrarySubviewController Implementation
 
 - (NSArray<OEDBGame *> *)selectedGames
