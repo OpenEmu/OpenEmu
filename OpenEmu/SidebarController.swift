@@ -197,7 +197,10 @@ class SidebarController: NSViewController {
         
         // keep selection on last object if the one we removed was last
         var index = index
-        if index == sidebarView.numberOfRows - 1 {
+        if sidebarView.selectedRowIndexes.first != index {
+            index = sidebarView.selectedRowIndexes.first ?? index
+        }
+        else if index == sidebarView.numberOfRows - 1 {
             index -= 1
         }
         

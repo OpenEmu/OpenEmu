@@ -577,11 +577,13 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
             [(OEDBCollection *)item save];
 
             // keep selection on last object if the one we removed was last
-            if (index == self.sidebarView.numberOfRows - 1)
-                index --;
+            if (self.sidebarView.selectedRowIndexes.firstIndex == index) {
+                if (index == self.sidebarView.numberOfRows - 1)
+                    index --;
 
-            NSIndexSet *selIn = [[NSIndexSet alloc] initWithIndex:index];
-            [self.sidebarView selectRowIndexes:selIn byExtendingSelection:NO];
+                NSIndexSet *selIn = [[NSIndexSet alloc] initWithIndex:index];
+                [self.sidebarView selectRowIndexes:selIn byExtendingSelection:NO];
+            }
             [self reloadData];
 
             [[NSNotificationCenter defaultCenter] postNotificationName:NSOutlineViewSelectionDidChangeNotification object:self.sidebarView];
