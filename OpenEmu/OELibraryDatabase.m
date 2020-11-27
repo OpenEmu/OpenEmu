@@ -517,7 +517,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
 #pragma mark - Collection Editing
 
-- (id)addNewCollection:(nullable NSString *)name
+- (OEDBCollection *)addNewCollection:(nullable NSString *)name
 {
     NSManagedObjectContext *context = self.mainThreadContext;
 
@@ -549,7 +549,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     return aCollection;
 }
 
-- (id)addNewSmartCollection:(nullable NSString *)name
+- (OEDBSmartCollection *)addNewSmartCollection:(nullable NSString *)name
 {
     NSManagedObjectContext *context  = self.mainThreadContext;
     if(name == nil)
@@ -581,7 +581,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     return aCollection;
 }
 
-- (id)addNewCollectionFolder:(nullable NSString *)name
+- (OEDBCollectionFolder *)addNewCollectionFolder:(nullable NSString *)name
 {
     NSManagedObjectContext *context  = [self mainThreadContext];
 

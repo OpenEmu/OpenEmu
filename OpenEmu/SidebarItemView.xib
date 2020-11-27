@@ -26,6 +26,9 @@
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
+                    <connections>
+                        <action selector="endedEditingItem:" target="-1" id="T3C-OU-3BI"/>
+                    </connections>
                 </textField>
             </subviews>
             <constraints>

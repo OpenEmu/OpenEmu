@@ -28,9 +28,14 @@ extension NSPasteboard.PasteboardType {
     static let game = NSPasteboard.PasteboardType("org.openemu.game")
 }
 
+extension NSNotification.Name {
+    static let OESidebarSelectionDidChange = NSNotification.Name("OESidebarSelectionDidChange")
+}
+
 class SidebarController: NSViewController {
     
     @IBOutlet var sidebarView: NSOutlineView!
+    @IBOutlet var gameScannerViewController: GameScannerViewController!
     
     @objc var database: OELibraryDatabase? {
         didSet {
@@ -41,7 +46,7 @@ class SidebarController: NSViewController {
                 let item = lastSidebarSelectionItem
                 else { return }
             
-            selectItem(item: item)
+            selectItem(item)
         }
     }
     
@@ -88,6 +93,7 @@ class SidebarController: NSViewController {
             
             self.reloadDataAndPreserveSelection()
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(libraryLocationDidChange(_:)), name: .OELibraryLocationDidChange, object: nil)
     }
     
     func reloadDataAndPreserveSelection() {
@@ -135,7 +141,13 @@ class SidebarController: NSViewController {
         sidebarView.reloadData()
     }
     
-    func selectItem(item: OESidebarItem) {
+    @objc func libraryLocationDidChange(_ notification: Notification) {
+        reloadData()
+    }
+    
+    // MARK: - Actions
+    
+    func selectItem(_ item: OESidebarItem) {
         guard item.isSelectableInSidebar else { return }
         
         let index = sidebarView.row(forItem: item)
@@ -145,13 +157,126 @@ class SidebarController: NSViewController {
             sidebarView.selectRowIndexes([index], byExtendingSelection: false)
         }
     }
+    
+    func startEditingItem(_ item: OESidebarItem) {
+        guard item.isSelectableInSidebar else { return }
+        
+        let index = sidebarView.row(forItem: item)
+        guard index > -1 else { return }
+        
+        let event = NSEvent()
+        sidebarView.editColumn(0, row: index, with: event, select: true)
+    }
+    
+    @IBAction func endedEditingItem(_ sender: NSTextField) {
+        let index = sidebarView.row(for: sender)
+        
+        if let item = sidebarView.item(atRow: index) as? OEDBCollection,
+           !sender.stringValue.isEmpty {
+            item.name = sender.stringValue
+            item.save()
+        }
+        
+        reloadDataAndPreserveSelection()
+    }
+    
+    func renameItem(at index: Int) {
+        guard let item = sidebarView.item(atRow: index) as? OESidebarItem else { return }
+        
+        selectItem(item)
+        startEditingItem(item)
+    }
+    
+    private func removeItem(at index: Int) {
+        guard let item = sidebarView.item(atRow: index) as? OEDBCollection,
+              item.isEditableInSidebar,
+              OEAlert.removeCollection(name: item.sidebarName).runModal() == .alertFirstButtonReturn else { return }
+        
+        item.delete()
+        item.save()
+        
+        // keep selection on last object if the one we removed was last
+        var index = index
+        if index == sidebarView.numberOfRows - 1 {
+            index -= 1
+        }
+        
+        reloadData()
+        sidebarView.selectRowIndexes([index], byExtendingSelection: false)
+    }
+    
+    @objc func addCollection() -> OEDBCollection {
+        let newCollection = database!.addNewCollection(nil)
+        
+        reloadData()
+        selectItem(newCollection)
+        startEditingItem(newCollection)
+        
+        return newCollection
+    }
+    
+    @IBAction func newCollection(_ sender: AnyObject?) {
+        _ = addCollection()
+    }
+    
+    @objc func duplicateCollection(_ originalCollection: Any?) {
+        guard let originalCollection = originalCollection as? OEDBCollection,
+              let originalName = originalCollection.value(forKey: "name") as? String else { return }
+        
+        let duplicateName = String.localizedStringWithFormat(NSLocalizedString("%@ copy", comment: "Duplicated collection name"), originalName)
+        let duplicateCollection = database!.addNewCollection(duplicateName)
+        duplicateCollection.games = originalCollection.games
+        duplicateCollection.save()
+        
+        reloadDataAndPreserveSelection()
+    }
+    
+    @objc func renameItem(for menuItem: NSMenuItem) {
+        renameItem(at: menuItem.tag)
+    }
+    
+    @objc func removeItem(for menuItem: NSMenuItem) {
+        removeItem(at: menuItem.tag)
+    }
+    
+    @objc func removeSelectedItems(of outlineView: NSOutlineView) {
+        guard let index = outlineView.selectedRowIndexes.first else { return }
+        
+        removeItem(at: index)
+    }
+    
+    @objc func changeDefaultCore(_ sender: AnyObject?) {
+        guard let data = sender?.representedObject as? [AnyHashable : Any],
+              let systemIdentifier = data["system"] as? String,
+              let coreIdentifier = data["core"] as? String else { return }
+        
+        let defaultCoreKey = "defaultCore.\(systemIdentifier)"
+        UserDefaults.standard.set(coreIdentifier, forKey: defaultCoreKey)
+    }
+    
+    @IBAction func selectSystems(_ sender: Any?) {
+        guard let v = sender as? NSView else { return }
+        
+        let po = NSPopover()
+        po.behavior = .transient
+        po.contentSize = NSSize(width: 200, height: 500)
+        po.contentViewController = AvailableLibrariesViewController()
+        po.show(relativeTo: v.frame, of: sidebarView, preferredEdge: .maxX)
+    }
+    
+    @IBAction func showIssuesView(_ sender: NSButton) {
+        presentAsSheet(gameScannerViewController)
+    }
 }
 
 // MARK: - Delegate
 
 extension SidebarController: NSOutlineViewDelegate {
     func outlineViewSelectionDidChange(_ notification: Notification) {
-        print("\(#function)")
+        if let id = selectedSidebarItem?.sidebarID {
+            lastSidebarSelection = id
+        }
+        NotificationCenter.default.post(name: .OESidebarSelectionDidChange, object: self, userInfo: nil)
     }
     
     func outlineView(_ outlineView: NSOutlineView, shouldCollapseItem item: Any) -> Bool {
@@ -250,15 +375,6 @@ extension SidebarController: NSOutlineViewDataSource {
     
     func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
         !(item is SidebarGroupItem)
-    }
-    
-    @IBAction func selectCores(_ sender: Any?) {
-        guard let v = sender as? NSView else { return }
-        
-        let po = NSPopover()
-        po.behavior = .transient
-        po.contentViewController = AvailableLibrariesViewController()
-        po.show(relativeTo: v.frame, of: sidebarView, preferredEdge: .maxX)
     }
     
     // MARK: - Drag & Drop

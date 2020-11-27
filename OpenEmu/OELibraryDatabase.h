@@ -30,6 +30,9 @@
 @class OEDBRom;
 @class OEDBGame;
 @class OEDBSystem;
+@class OEDBCollection;
+@class OEDBSmartCollection;
+@class OEDBCollectionFolder;
 @class OEROMImporter;
 @protocol OESidebarItem;
 
@@ -78,9 +81,9 @@ extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 
 #pragma mark - Database Collection editing
 
-- (id)addNewCollection:(nullable NSString *)name;
-- (id)addNewSmartCollection:(nullable NSString *)name;
-- (id)addNewCollectionFolder:(nullable NSString *)name;
+- (OEDBCollection *)addNewCollection:(nullable NSString *)name;
+- (OEDBSmartCollection *)addNewSmartCollection:(nullable NSString *)name;
+- (OEDBCollectionFolder *)addNewCollectionFolder:(nullable NSString *)name;
 
 #pragma mark - Database Folders
 

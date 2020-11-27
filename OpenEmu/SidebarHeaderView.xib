@@ -28,7 +28,7 @@
                         <font key="font" metaFont="systemMedium" size="11"/>
                     </buttonCell>
                     <connections>
-                        <action selector="selectCores:" target="-1" id="pIT-Jv-NEz"/>
+                        <action selector="selectSystems:" target="-1" id="pIT-Jv-NEz"/>
                     </connections>
                 </button>
                 <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dqD-XN-Wy2">
