@@ -241,12 +241,7 @@ extension SidebarController: NSOutlineViewDataSource {
     }
     
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
-        switch item {
-        case is SidebarGroupItem:
-            return 26
-        default:
-            return 20
-        }
+        return 24
     }
     
     func outlineView(_ outlineView: NSOutlineView, isGroupItem item: Any) -> Bool {
