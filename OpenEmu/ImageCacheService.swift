@@ -27,6 +27,8 @@ import Foundation
 final class ImageCacheService {
     private var cache = NSCache<NSString, NSImage>()
     
+    private static let queue = DispatchQueue(label: "org.openemu.OpenEmu.imageLoader", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
+    
     public static var shared = ImageCacheService()
     
     public func fetchImage(_ url: URL, success: @escaping (NSImage) -> Void) {
@@ -35,7 +37,8 @@ final class ImageCacheService {
             return
         }
         
-        DispatchQueue.global(qos: .userInteractive).async {
+        
+        Self.queue.async {
             let imageSource = CGImageSourceCreateWithURL(url as CFURL, nil)
             if let imageSource = imageSource {
                 guard CGImageSourceGetType(imageSource) != nil else { return }

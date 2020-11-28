@@ -228,6 +228,8 @@ class ImageCollectionViewController: NSViewController {
         let finalZoom = zoomValue * 1.07 // multiplier replicates zoom level of IKImageBrowserView
         flowLayout.itemSize = itemSize.applying(CGAffineTransform(scaleX: finalZoom, y: finalZoom))
         Self.lastGridSize = Float(zoomValue)
+        // required if implementing NSCollectionViewDelegateFlowLayout methods
+        flowLayout.invalidateLayout()
     }
     
     private func searchMenuTemplate() -> NSMenu {
@@ -290,7 +292,7 @@ class ImageCollectionViewController: NSViewController {
         sender.state = .on
         if let keys = sender.representedObject as? [String] {
             searchKeys = keys
-//            search(libraryController.toolbar?.searchField)
+            performSearch(currentSearchTerm)
         }
     }
     
@@ -445,6 +447,15 @@ extension ImageCollectionViewController: NSCollectionViewDelegate {
         dataSourceDelegate.imageURL(forItemAt: indexPath)?.absoluteURL as NSPasteboardWriting?
     }
     
+    func collectionView(_ collectionView: NSCollectionView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forItemsAt indexPaths: Set<IndexPath>) {
+        // Unhide the source views during drag operations per https://stackoverflow.com/a/59893117/12606
+        indexPaths
+            .compactMap(collectionView.item(at:))
+            .forEach {
+                $0.view.isHidden = false
+        }
+    }
+    
     // MARK: - Handle Incoming Drag and Drop
     
     func collectionView(_ collectionView: NSCollectionView, acceptDrop draggingInfo: NSDraggingInfo, indexPath: IndexPath, dropOperation: NSCollectionView.DropOperation) -> Bool {
@@ -461,11 +472,23 @@ extension ImageCollectionViewController: NSCollectionViewDelegate {
     
    
     func collectionView(_ collectionView: NSCollectionView, validateDrop draggingInfo: NSDraggingInfo, proposedIndexPath proposedDropIndexPath: AutoreleasingUnsafeMutablePointer<NSIndexPath>, dropOperation proposedDropOperation: UnsafeMutablePointer<NSCollectionView.DropOperation>) -> NSDragOperation {
+        if let draggingSource = draggingInfo.draggingSource as? NSCollectionView,
+           draggingSource == collectionView {
+            // Drag came from self, so do nothing
+            return []
+        }
+        
         let pboard = draggingInfo.draggingPasteboard
         if pboard.canReadObject(forClasses: [NSURL.self], options: nil) {
-            return .copy
+            return [.copy]
         }
         return []
+    }
+}
+
+extension ImageCollectionViewController: NSCollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
+        return flowLayout.itemSize
     }
 }
 
