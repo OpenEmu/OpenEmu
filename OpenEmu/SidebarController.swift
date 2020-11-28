@@ -383,11 +383,113 @@ extension SidebarController: NSOutlineViewDataSource {
     // MARK: - Drag & Drop
     
     func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
-        false
+        
+        let pboard = info.draggingPasteboard
+        
+        var collection: OEDBCollection?
+        if item is OEDBCollection {
+            
+            collection = item as? OEDBCollection
+        }
+        else if item as? SidebarGroupItem == groups[1] {
+            
+            // create a new collection with a single game
+            var name: String?
+            if pboard.types?.contains(.game) ?? false {
+                
+                let games = pboard.readObjects(forClasses: [OEDBGame.self], options: nil) as! [OEDBGame]
+                if games.count == 1 {
+                    name = games.first?.displayName
+                }
+            }
+            else {
+                
+                let games = pboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL]
+                if games?.count == 1 {
+                    name = games?.first?.deletingPathExtension().lastPathComponent.removingPercentEncoding
+                }
+            }
+            collection = database!.addNewCollection(name)
+            reloadData()
+            let index = outlineView.row(forItem: collection)
+            if index != NSNotFound {
+                outlineView.selectRowIndexes([index], byExtendingSelection: false)
+                NotificationCenter.default.post(name: .OESidebarSelectionDidChange, object: self, userInfo: nil)
+            }
+        }
+        
+        if pboard.types?.contains(.game) ?? false {
+            
+            guard let collection = collection else { return true }
+            
+            // just add to collection
+            let games = pboard.readObjects(forClasses: [OEDBGame.self], options: nil) as! [OEDBGame]
+            collection.mutableGames?.addObjects(from: games)
+            collection.save()
+        }
+        else {
+            
+            // import and add to collection
+            if let files = pboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] {
+                let collectionID = collection?.permanentID
+                let importer = database!.importer
+                importer.importItems(at: files, intoCollectionWith: collectionID)
+            }
+        }
+        
+        return true
     }
     
     func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
-        .copy
+        
+        guard let types = info.draggingPasteboard.types,
+              types.contains(.game) || types.contains(.fileURL),
+              item is OESidebarItem else {
+            return []
+        }
+        
+        // Ignore anything that is between two rows
+        if index != NSOutlineViewDropOnItemIndex {
+            return []
+        }
+        
+        // Allow drop on systems group, ignoring which system exactly is highlighted
+        if item as? SidebarGroupItem == groups[0] || item is OEDBSystem {
+            
+            // Disallow drop on systems for already imported games
+            if types.contains(.game) {
+                return []
+            }
+            
+            // For new games, change drop target to the consoles header
+            outlineView.setDropItem(groups[0], dropChildIndex: NSOutlineViewDropOnItemIndex)
+            return .copy
+        }
+        
+        // Allow drop on regular collections
+        if type(of: item as! OESidebarItem) === OEDBCollection.self {
+            return .copy
+        }
+        
+        // Allow drop on the collections header and on smart collections
+        if item as? SidebarGroupItem == groups[1] || item is OEDBCollection || item is OEDBAllGamesCollection {
+            
+            // Find the first regular collection in the list
+            var i = 0
+            for collection in 0..<collections.count {
+                if type(of: collections[collection]) === OEDBCollection.self {
+                    break
+                }
+                i += 1
+            }
+            
+            // Register as a drop just before that collection
+            outlineView.setDropItem(groups[1], dropChildIndex: i)
+            return .copy
+        }
+        
+        // Everything else is disabled
+        return []
     }
 }
 
