@@ -52,10 +52,7 @@ class SidebarOutlineView: NSOutlineView {
     
     override func keyDown(with event: NSEvent) {
         if event.keyCode == 51 || event.keyCode == 117 {
-            NSApp.sendAction(#selector(OESidebarController.removeSelectedItems(of:)), to: dataSource, from: self)
-        // ignore left and right arrow keys; pressing them causes flickering
-        } else if event.keyCode == 123 || event.keyCode == 124 {
-            return
+            NSApp.sendAction(#selector(SidebarController.removeSelectedItems(of:)), to: dataSource, from: self)
         } else {
             super.keyDown(with: event)
         }
@@ -81,19 +78,7 @@ class SidebarOutlineView: NSOutlineView {
         var menuItem: NSMenuItem
         
         if item.isGroupHeaderInSidebar {
-            if index == 0 {
-                if let systems = OEDBSystem.allSystems(in: OELibraryDatabase.default!.mainThreadContext) {
-                    
-                    for system in systems {
-                        menuItem = NSMenuItem()
-                        menuItem.title = system.name
-                        menuItem.action = #selector(toggleSystem(for:))
-                        menuItem.representedObject = system
-                        menuItem.state = system.enabled?.boolValue ?? false ? .on : .off
-                        menu.addItem(menuItem)
-                    }
-                }
-            }
+            return nil
         }
         else if item is OEDBSystem {
             
@@ -115,7 +100,7 @@ class SidebarOutlineView: NSOutlineView {
                     
                     let item = NSMenuItem()
                     item.title = coreName ?? ""
-                    item.action = #selector(OESidebarController.changeDefaultCore(_:))
+                    item.action = #selector(SidebarController.changeDefaultCore(_:))
                     item.state = (coreIdentifier == defaultCoreIdentifier) ? .on : .off
                     item.representedObject = ["core": coreIdentifier,
                                             "system": systemIdentifier]
@@ -172,11 +157,11 @@ class SidebarOutlineView: NSOutlineView {
     }
     
     @objc private func renameRow(for menuItem: NSMenuItem) {
-        NSApp.sendAction(#selector(OESidebarController.renameItem(for:)), to: dataSource, from: menuItem)
+        NSApp.sendAction(#selector(SidebarController.renameItem(for:)), to: dataSource, from: menuItem)
     }
     
     @objc private func removeRow(for menuItem: NSMenuItem) {
-        NSApp.sendAction(#selector(OESidebarController.removeItem(for:)), to: dataSource, from: menuItem)
+        NSApp.sendAction(#selector(SidebarController.removeItem(for:)), to: dataSource, from: menuItem)
     }
     
     @objc private func toggleSystem(for menuItem: NSMenuItem) {
@@ -185,7 +170,7 @@ class SidebarOutlineView: NSOutlineView {
     }
     
     @objc private func duplicateCollection(for menuItem: NSMenuItem) {
-        NSApp.sendAction(#selector(OESidebarController.duplicateCollection(_:)), to: dataSource, from: menuItem.representedObject)
+        NSApp.sendAction(#selector(SidebarController.duplicateCollection(_:)), to: dataSource, from: menuItem.representedObject)
     }
     
     // MARK: - Calculating Rects

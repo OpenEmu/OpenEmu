@@ -27,8 +27,6 @@ import Foundation
 @objc(OEGameScannerViewController)
 class GameScannerViewController: NSViewController {
 
-    @objc public static let OESidebarHideBottomBarKey = "OESidebarHideBottomBar"
-    public static let OESidebarBottomBarDidChange = Notification.Name("OESidebarBottomBarDidChangeNotification")
     @objc public static let OEGameScannerShowNotification = Notification.Name("OEGameScannerShowNotification")
     @objc public static let OEGameScannerHideNotification = Notification.Name("OEGameScannerHideNotification")
     private static let importGuideURL = URL(string: "https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-Importing")!
@@ -45,7 +43,6 @@ class GameScannerViewController: NSViewController {
     @IBOutlet var actionPopUpButton: NSPopUpButton!
     @IBOutlet var applyButton: NSButton!
     
-    @IBOutlet private weak var bottomBar: NSView!
     @IBOutlet private weak var sourceListScrollView: NSScrollView!
     
     private var itemsRequiringAttention = [OEImportOperation]()
@@ -63,7 +60,6 @@ class GameScannerViewController: NSViewController {
         notificationCenter.addObserver(self, selector: #selector(gameInfoHelperWillUpdate(_:)), name: .OEGameInfoHelperWillUpdate, object: nil)
         notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidChangeUpdateProgress(_:)), name: .OEGameInfoHelperDidChangeUpdateProgress, object: nil)
         notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidUpdate(_:)), name: .OEGameInfoHelperDidUpdate, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(bottomBarDidChange), name: GameScannerViewController.OESidebarBottomBarDidChange, object: nil)
         notificationCenter.addObserver(self, selector: #selector(showGameScannerView(animated:)), name: GameScannerViewController.OEGameScannerShowNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(hideGameScannerView(animated:)), name: GameScannerViewController.OEGameScannerHideNotification, object: nil)
     }
@@ -149,27 +145,13 @@ class GameScannerViewController: NSViewController {
         actionPopUpButton.menu = menu
     }
     
-    @objc func bottomBarDidChange() {
-        layOutSidebarViews(withVisibleGameScanner: isGameScannerVisible, animated: false)
-    }
-    
     private func layOutSidebarViews(withVisibleGameScanner visibleGameScanner: Bool, animated: Bool) {
-        
-        if UserDefaults.standard.bool(forKey: GameScannerViewController.OESidebarHideBottomBarKey) {
-            bottomBar.isHidden = true
-        }
-        else {
-            bottomBar.isHidden = false
-        }
         
         var gameScannerFrame = scannerView.frame
         gameScannerFrame.origin.y = visibleGameScanner ? 0 : -gameScannerFrame.height
         
-        var bottomBarFrame = bottomBar.frame
-        bottomBarFrame.origin.y = gameScannerFrame.maxY
-        
         var sourceListFrame = sourceListScrollView.frame
-        sourceListFrame.origin.y = bottomBar.isHidden ? gameScannerFrame.maxY : bottomBarFrame.maxY
+        sourceListFrame.origin.y = gameScannerFrame.maxY
         sourceListFrame.size.height = sourceListScrollView.superview!.frame.height - sourceListFrame.minY
         
         if animated {
@@ -178,7 +160,6 @@ class GameScannerViewController: NSViewController {
             
             // Set frames through animator proxies to implicitly animate changes.
             scannerView.animator().frame = gameScannerFrame
-            bottomBar.animator().frame = bottomBarFrame
             sourceListScrollView.animator().frame = sourceListFrame
             
             NSAnimationContext.endGrouping()
@@ -187,7 +168,6 @@ class GameScannerViewController: NSViewController {
             
             // Set frames directly without implicit animations.
             scannerView.frame = gameScannerFrame
-            bottomBar.frame = bottomBarFrame
             sourceListScrollView.frame = sourceListFrame
         }
         

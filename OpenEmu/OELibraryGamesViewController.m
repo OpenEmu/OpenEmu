@@ -27,7 +27,6 @@
 #import "OELibraryGamesViewController.h"
 
 #import "OEGameCollectionViewController.h"
-#import "OESidebarController.h"
 
 #import "OEDBCollection.h"
 #import "OEDBSystem+CoreDataProperties.h"
@@ -81,7 +80,7 @@ static const CGFloat _OEMainViewMinWidth    = 495;
     [self _assignDatabase];
     
     NSNotificationCenter *noc = [NSNotificationCenter defaultCenter];
-    [noc addObserver:self selector:@selector(_updateCollectionContentsFromSidebar:) name:OESidebarSelectionDidChangeNotification object:[self sidebarController]];
+    [noc addObserver:self selector:@selector(_updateCollectionContentsFromSidebar:) name:@"OESidebarSelectionDidChange" object:[self sidebarController]];
 }
 
 - (void)viewWillAppear

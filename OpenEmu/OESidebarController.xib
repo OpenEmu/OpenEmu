@@ -26,7 +26,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="200" height="397"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="22" indentationPerLevel="14" outlineTableColumn="TQT-sV-f9j" id="Evu-SM-BeR" customClass="OESidebarOutlineView">
+                            <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="22" viewBased="YES" floatsGroupRows="NO" indentationPerLevel="14" outlineTableColumn="TQT-sV-f9j" id="Evu-SM-BeR" customClass="OESidebarOutlineView">
                                 <rect key="frame" x="0.0" y="0.0" width="200" height="360"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <size key="intercellSpacing" width="3" height="0.0"/>
@@ -46,6 +46,10 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                     </tableColumn>
                                 </tableColumns>
+                                <connections>
+                                    <outlet property="dataSource" destination="-2" id="zpO-TQ-K3f"/>
+                                    <outlet property="delegate" destination="-2" id="VAz-8M-mzn"/>
+                                </connections>
                             </outlineView>
                         </subviews>
                         <nil key="backgroundColor"/>
@@ -132,52 +136,11 @@
                         <constraint firstAttribute="trailing" secondItem="Nvs-ey-EH6" secondAttribute="trailing" constant="8" id="v8j-Wh-38p"/>
                     </constraints>
                 </customView>
-                <customView id="aoh-d8-ctm" userLabel="Bottom Bar">
-                    <rect key="frame" x="0.0" y="75" width="200" height="28"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <popUpButton id="GFy-U9-H7A">
-                            <rect key="frame" x="0.0" y="7" width="29" height="14"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                            <popUpButtonCell key="cell" type="smallSquare" bezelStyle="smallSquare" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" inset="2" pullsDown="YES" arrowPosition="noArrow" id="npV-Do-MPo">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="menu"/>
-                                <menu key="menu" id="F3c-W5-k5f">
-                                    <items>
-                                        <menuItem image="NSAddTemplate" hidden="YES" id="ngO-qO-EH7">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                        </menuItem>
-                                        <menuItem title="Add to Library…" id="ysb-ZC-rsi">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
-                                            </userDefinedRuntimeAttributes>
-                                            <connections>
-                                                <action selector="addToLibrary:" target="-1" id="IeO-3m-x59"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="XsM-dZ-bFq"/>
-                                        <menuItem title="New Collection" id="dQ1-ZM-zqh">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
-                                            </userDefinedRuntimeAttributes>
-                                            <connections>
-                                                <action selector="newCollection:" target="-1" id="f4B-4Y-qjg"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </popUpButtonCell>
-                        </popUpButton>
-                    </subviews>
-                </customView>
             </subviews>
             <point key="canvasLocation" x="-212" y="121"/>
         </view>
         <viewController id="juh-5x-f5U" customClass="OEGameScannerViewController">
             <connections>
-                <outlet property="bottomBar" destination="aoh-d8-ctm" id="MAg-kQ-hP4"/>
                 <outlet property="fixButton" destination="vaP-Xa-Oni" id="Ro8-XB-pIU"/>
                 <outlet property="headlineLabel" destination="YLv-AD-2L2" id="Jvd-JE-D46"/>
                 <outlet property="progressIndicator" destination="ecg-qx-RWc" id="s7a-30-SCw"/>
@@ -189,7 +152,6 @@
         </viewController>
     </objects>
     <resources>
-        <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
         <image name="arrow_right" width="20" height="20"/>
     </resources>

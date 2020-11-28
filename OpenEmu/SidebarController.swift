@@ -32,6 +32,7 @@ extension NSNotification.Name {
     static let OESidebarSelectionDidChange = NSNotification.Name("OESidebarSelectionDidChange")
 }
 
+@objc(OESidebarController)
 class SidebarController: NSViewController {
     
     @IBOutlet var sidebarView: NSOutlineView!

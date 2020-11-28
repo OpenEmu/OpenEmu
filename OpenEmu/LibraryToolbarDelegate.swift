@@ -54,10 +54,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         cacheItems(toolbar: toolbar as! LibraryToolbar)
         if #available(macOS 11.0, *) {
-            return [.flexibleSpace,
-                    .oeAdd,
-                    .sidebarTrackingSeparator,
-                    .oeViewMode,
+            return [.oeViewMode,
                     .oeCategory,
                     .flexibleSpace,
                     .oeSearch]
@@ -111,21 +108,6 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
     }
     
-    
-    func toolbarWillAddItem(_ notification: Notification) {
-        if (notification.userInfo?["item"] as? NSToolbarItem)?.itemIdentifier == .oeAdd {
-            UserDefaults.standard.set(true, forKey: GameScannerViewController.OESidebarHideBottomBarKey)
-            NotificationCenter.default.post(name: GameScannerViewController.OESidebarBottomBarDidChange, object: nil)
-        }
-    }
-    
-    
-    func toolbarDidRemoveItem(_ notification: Notification) {
-        if (notification.userInfo?["item"] as? NSToolbarItem)?.itemIdentifier == .oeAdd {
-            UserDefaults.standard.set(false, forKey: GameScannerViewController.OESidebarHideBottomBarKey)
-            NotificationCenter.default.post(name: GameScannerViewController.OESidebarBottomBarDidChange, object: nil)
-        }
-    }
     
     // MARK: - Grid Size
     
