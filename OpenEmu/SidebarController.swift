@@ -85,9 +85,10 @@ class SidebarController: NSViewController {
         sidebarView.expandItem(nil, expandChildren: true)
         database = OELibraryDatabase.default
         
-//        let menu = NSMenu()
-//        menu.delegate = self
-//        sidebarView.menu = menu
+        let menu = NSMenu()
+        menu.delegate = self
+        sidebarView.menu = menu
+        menuNeedsUpdate(menu)
         
         token = NotificationCenter.default.addObserver(forName: .OEDBSystemAvailabilityDidChange, object: nil, queue: .main) { [weak self] _ in
             guard let self = self else { return }
@@ -243,10 +244,19 @@ class SidebarController: NSViewController {
         removeItem(at: menuItem.tag)
     }
     
-    @objc func removeSelectedItems(of outlineView: NSOutlineView) {
-        guard let index = outlineView.selectedRowIndexes.first else { return }
+    @objc func removeSelectedItems() {
+        guard let index = sidebarView.selectedRowIndexes.first else { return }
         
         removeItem(at: index)
+    }
+    
+    @objc func duplicateCollection(for menuItem: NSMenuItem) {
+        duplicateCollection(menuItem.representedObject)
+    }
+    
+    @objc func toggleSystem(for menuItem: NSMenuItem) {
+        let system = menuItem.representedObject as? OEDBSystem
+        system?.toggleEnabledAndPresentError()
     }
     
     @objc func changeDefaultCore(_ sender: AnyObject?) {
@@ -270,6 +280,19 @@ class SidebarController: NSViewController {
     
     @IBAction func showIssuesView(_ sender: NSButton) {
         presentAsSheet(gameScannerViewController)
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        if event.keyCode == 51 || event.keyCode == 117,
+           let index = sidebarView.selectedRowIndexes.first,
+           let item = sidebarView.item(atRow: index) as? OESidebarItem,
+           item.isEditableInSidebar {
+            
+            removeSelectedItems()
+        }
+        else {
+            super.keyDown(with: event)
+        }
     }
 }
 
@@ -499,10 +522,84 @@ extension SidebarController: NSOutlineViewDataSource {
 extension SidebarController: NSMenuDelegate {
     func menuNeedsUpdate(_ menu: NSMenu) {
         
-    }
-    
-    func menu(_ menu: NSMenu, update item: NSMenuItem, at index: Int, shouldCancel: Bool) -> Bool {
-        return true
+        menu.removeAllItems()
+        
+        let index = sidebarView.clickedRow
+        
+        guard index != -1 else { return }
+        let item = sidebarView.item(atRow: index) as! OESidebarItem
+        
+        var menuItem: NSMenuItem
+        
+        if item is SidebarGroupItem {
+            return
+        }
+        else if item is OEDBSystem {
+            
+            if let cores = OECorePlugin.corePlugins(forSystemIdentifier: (item as! OEDBSystem).systemIdentifier),
+               cores.count > 1 {
+                
+                let systemIdentifier = (item as! OEDBSystem).systemIdentifier!
+                let defaultCoreKey = "defaultCore.\(systemIdentifier)"
+                let defaultCoreIdentifier = UserDefaults.standard.object(forKey: defaultCoreKey) as? String
+                
+                let coreItem = NSMenuItem()
+                coreItem.title = NSLocalizedString("Default Core", comment: "Sidebar context menu item to pick default core for a system")
+                let submenu = NSMenu()
+                
+                cores.forEach { core in
+                    let coreName = core.displayName
+                    let systemIdentifier = (item as! OEDBSystem).systemIdentifier!
+                    let coreIdentifier = core.bundleIdentifier
+                    
+                    let item = NSMenuItem()
+                    item.title = coreName ?? ""
+                    item.action = #selector(changeDefaultCore(_:))
+                    item.state = coreIdentifier == defaultCoreIdentifier ? .on : .off
+                    item.representedObject = ["core": coreIdentifier,
+                                            "system": systemIdentifier]
+                    submenu.addItem(item)
+                }
+                coreItem.submenu = submenu
+                menu.addItem(coreItem)
+            }
+            
+            menuItem = NSMenuItem()
+            menuItem.title = .localizedStringWithFormat(NSLocalizedString("Hide \"%@\"", comment: ""), (item as! OEDBSystem).name)
+            menuItem.action = #selector(toggleSystem(for:))
+            menuItem.representedObject = item
+            menu.addItem(menuItem)
+        }
+        else if item is OEDBCollection || item is OEDBAllGamesCollection {
+            
+            if item.isEditableInSidebar {
+                
+                menuItem = NSMenuItem()
+                menuItem.title = .localizedStringWithFormat(NSLocalizedString("Rename \"%@\"", comment: "Rename collection sidebar context menu item"), item.sidebarName)
+                menuItem.action = #selector(renameItem(for:))
+                menuItem.tag = index
+                menu.addItem(menuItem)
+                
+                menuItem = NSMenuItem()
+                menuItem.title = NSLocalizedString("Duplicate Collection", comment: "")
+                menuItem.action = #selector(duplicateCollection(for:))
+                menuItem.representedObject = item
+                menu.addItem(menuItem)
+                
+                menuItem = NSMenuItem()
+                menuItem.title = NSLocalizedString("Delete Collection", comment: "")
+                menuItem.action = #selector(removeItem(for:))
+                menuItem.tag = index
+                menu.addItem(menuItem)
+                
+                menu.addItem(NSMenuItem.separator())
+            }
+            
+            menuItem = NSMenuItem()
+            menuItem.title = NSLocalizedString("New Collection", comment: "")
+            menuItem.action = #selector(newCollection(_:))
+            menu.addItem(menuItem)
+        }
     }
 }
 
