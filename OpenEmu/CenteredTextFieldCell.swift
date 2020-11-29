@@ -39,4 +39,20 @@ class CenteredTextFieldCell: NSTextFieldCell {
     override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
         attributedStringValue.draw(in: titleRect(forBounds: cellFrame))
     }
+    
+    override func edit(withFrame rect: NSRect, in controlView: NSView, editor textObj: NSText, delegate: Any?, event: NSEvent?) {
+        
+        var titleFrame = titleRect(forBounds: rect)
+        titleFrame.origin.x -= 2
+        
+        super.edit(withFrame: titleFrame, in: controlView, editor: textObj, delegate: delegate, event: event)
+    }
+    
+    override func select(withFrame rect: NSRect, in controlView: NSView, editor textObj: NSText, delegate: Any?, start selStart: Int, length selLength: Int) {
+        
+        var titleFrame = titleRect(forBounds: rect)
+        titleFrame.origin.x -= 2
+        
+        super.select(withFrame: titleFrame, in: controlView, editor: textObj, delegate: delegate, start: selStart, length: selLength)
+    }
 }
