@@ -618,7 +618,7 @@ extension GameScannerViewController: OEROMImporterDelegate {
                 }
                 itemsEmptyFile! += "\n• \"\(failedFilename)\""
 
-            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorUnreadableFileError {
+            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorErrors.unreadableFileError.rawValue {
                 if itemsDiscDescriptorUnreadableFile == nil {
                     itemsDiscDescriptorUnreadableFile = NSLocalizedString("Unexpected error:", comment:"")
                 }
@@ -626,7 +626,7 @@ extension GameScannerViewController: OEROMImporterDelegate {
                 itemsDiscDescriptorUnreadableFile! += "\n• \"\(failedFilename)\""
                 itemsDiscDescriptorUnreadableFile! += "\n\n\(underlyingError)"
 
-            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorMissingFilesError {
+            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorErrors.missingFilesError.rawValue {
                 let underlyingError = error.userInfo[NSUnderlyingErrorKey] as! NSError
                 if underlyingError.code == CocoaError.fileReadNoSuchFile.rawValue {
                     if itemsDiscDescriptorMissingFiles == nil {
@@ -637,13 +637,13 @@ extension GameScannerViewController: OEROMImporterDelegate {
                     itemsDiscDescriptorMissingFiles! += "\n• \"\(failedFilename)\"\n   - \(notFoundMsg)"
                 }
 
-            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorNotPlainTextFileError {
+            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorErrors.notPlainTextFileError.rawValue {
                 if itemsDiscDescriptorNotPlainTextFile == nil {
                     itemsDiscDescriptorNotPlainTextFile = NSLocalizedString("Not plain text:", comment:"")
                 }
                 itemsDiscDescriptorNotPlainTextFile! += "\n• \"\(failedFilename)\""
 
-            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorNoPermissionReadFileError {
+            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorErrors.noPermissionReadFileError.rawValue {
                 if itemsDiscDescriptorNoPermissionReadFile == nil {
                     itemsDiscDescriptorNoPermissionReadFile = NSLocalizedString("No permission to open:", comment:"")
                 }
