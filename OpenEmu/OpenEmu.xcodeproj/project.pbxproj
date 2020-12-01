@@ -329,7 +329,7 @@
 		82DE4B8010265600007184EB /* UniversalDetector.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEE1026533E007184EB /* UniversalDetector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8301557B1456BF7A0093D681 /* OEGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8301557A1456BF7A0093D681 /* OEGameViewController.m */; };
 		8305A48018FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */; };
-		8306CD101BD3AC180025BC6C /* OELibraryGamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD0E1BD3AC180025BC6C /* OELibraryGamesViewController.m */; };
+		8306CD101BD3AC180025BC6C /* LibraryGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD0E1BD3AC180025BC6C /* LibraryGamesViewController.swift */; };
 		8306CD3E1BD3DB180025BC6C /* OEGameCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */; };
 		83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */; };
 		8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy SaveState QL Generator */ = {isa = PBXBuildFile; fileRef = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1544,8 +1544,7 @@
 		8301557A1456BF7A0093D681 /* OEGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameViewController.m; sourceTree = "<group>"; };
 		8305A47E18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewCellIndicationLayer.h; sourceTree = "<group>"; };
 		8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewCellIndicationLayer.m; sourceTree = "<group>"; };
-		8306CD0D1BD3AC180025BC6C /* OELibraryGamesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryGamesViewController.h; sourceTree = "<group>"; };
-		8306CD0E1BD3AC180025BC6C /* OELibraryGamesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryGamesViewController.m; sourceTree = "<group>"; };
+		8306CD0E1BD3AC180025BC6C /* LibraryGamesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryGamesViewController.swift; sourceTree = "<group>"; };
 		8306CD181BD3AC3D0025BC6C /* OESidebarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarController.m; sourceTree = "<group>"; };
 		8306CD1F1BD3AC3D0025BC6C /* OESidebarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarItem.h; sourceTree = "<group>"; };
 		8306CD211BD3AC3D0025BC6C /* SidebarOutlineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarOutlineView.swift; sourceTree = "<group>"; };
@@ -3365,8 +3364,7 @@
 				5A6E80A61DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift */,
 				8306CD3D1BD3DB180025BC6C /* OEGameCollectionViewItemProtocol.h */,
 				5AFD06BC2058893B00DFE765 /* GameScannerViewController.swift */,
-				8306CD0D1BD3AC180025BC6C /* OELibraryGamesViewController.h */,
-				8306CD0E1BD3AC180025BC6C /* OELibraryGamesViewController.m */,
+				8306CD0E1BD3AC180025BC6C /* LibraryGamesViewController.swift */,
 			);
 			name = "Games Library";
 			sourceTree = "<group>";
@@ -6555,7 +6553,7 @@
 				53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */,
 				53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */,
 				83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */,
-				8306CD101BD3AC180025BC6C /* OELibraryGamesViewController.m in Sources */,
+				8306CD101BD3AC180025BC6C /* LibraryGamesViewController.swift in Sources */,
 				8F94B44D25566FE00058AA94 /* NSShadow+OEAdditions.swift in Sources */,
 				0544B6A023D16D3100F63D61 /* CollectionViewItem.swift in Sources */,
 				8F80217E24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift in Sources */,

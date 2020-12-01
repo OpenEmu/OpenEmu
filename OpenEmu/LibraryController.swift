@@ -120,7 +120,7 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
     
     private func setupTabViews() {
         do {
-            let ctrl = OELibraryGamesViewController()
+            let ctrl = LibraryGamesViewController()
             ctrl.database = database
             let item = NSTabViewItem(identifier: "org.openemu.category.library")
             item.viewController = ctrl

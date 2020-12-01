@@ -58,7 +58,6 @@
 #import "OEImportOperation.h"
 #import "OEPrefBiosController.h"
 #import "OEMainWindowController.h"
-#import "OELibraryGamesViewController.h"
 #import "OEDBSavedGamesMedia.h"
 
 #import "OpenEmu-Swift.h"
@@ -310,7 +309,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     
     [mainWindow center];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:OELibrarySplitViewResetSidebarNotification object:self];
+    [NSNotificationCenter.defaultCenter postNotificationName:@"OELibrarySplitViewResetSidebar" object:self];
 }
 
 - (void)showGameScannerView:(id)sender
