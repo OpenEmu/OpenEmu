@@ -204,12 +204,7 @@ class LibraryGamesViewController: NSSplitViewController {
     @objc func makeNewCollectionWithSelectedGames(_ sender: Any?) {
         assert(Thread.isMainThread, "Only call on main thread!")
         
-        let selectedGames = Set(self.selectedGames)
-        let collection = sidebarController.addCollection()
-        collection.games = selectedGames
-        collection.save()
-        
-        collectionController.setNeedsReload()
+        sidebarController.newCollection(games: selectedGames)
     }
 }
 

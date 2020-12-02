@@ -224,6 +224,20 @@ class SidebarController: NSViewController {
         _ = addCollection()
     }
     
+    func newCollection(games: [OEDBGame]) {
+        let newCollection = database!.addNewCollection(nil)
+        
+        newCollection.games = Set(games)
+        if games.count == 1 {
+            newCollection.name = games.first?.displayName
+        }
+        newCollection.save()
+        
+        reloadData()
+        selectItem(newCollection)
+        startEditingItem(newCollection)
+    }
+    
     @objc func duplicateCollection(_ originalCollection: Any?) {
         guard let originalCollection = originalCollection as? OEDBCollection,
               let originalName = originalCollection.value(forKey: "name") as? String else { return }
