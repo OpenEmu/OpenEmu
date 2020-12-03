@@ -141,6 +141,10 @@ class LibraryGamesViewController: NSSplitViewController {
         sidebarController.newCollection(sender)
     }
     
+    @IBAction func selectSystems(_ sender: Any?) {
+        sidebarController.selectSystems(sender)
+    }
+    
     @IBAction func switchToGridView(_ sender: Any?) {
         collectionController.showGridView()
     }
