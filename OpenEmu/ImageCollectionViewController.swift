@@ -167,11 +167,6 @@ class ImageCollectionViewController: NSViewController {
         }
     }
     
-    @IBAction func showInFinder(_ sender: Any?) {
-        let urls = dataSourceDelegate.imageURLs(forItemsAt: collectionView.selectionIndexPaths)
-        NSWorkspace.shared.activateFileViewerSelecting(urls)
-    }
-    
     enum ViewTag {
         case collection
         case blankSlate

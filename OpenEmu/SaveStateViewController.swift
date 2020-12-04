@@ -25,7 +25,7 @@
 import Cocoa
 
 @objc
-class SaveStateViewController: ImageCollectionViewController {
+class SaveStateViewController: ImageCollectionViewController, LibrarySubviewControllerSaveStateSelection {
     var supportsQuickLook: Bool { false }
     
     override var representedObject: Any? {
@@ -57,7 +57,7 @@ class SaveStateViewController: ImageCollectionViewController {
 
 extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemValidation {
     func collectionView(_ collectionView: CollectionView, setTitle title: String, forItemAt indexPath: IndexPath) {
-        guard let item = dataSource.item(at: indexPath), !title.isEmpty else { return }
+        guard let item = dataSource.item(at: indexPath), !title.isEmpty, title != item.displayName  else { return }
         
         if title.hasPrefix("OESpecialState_") {
             return
@@ -78,7 +78,7 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
     }
     
     @objc func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        if let sel = menuItem.action, sel == #selector(showInFinder(_:)) {
+        if let sel = menuItem.action, sel == #selector(showInFinder(_:)) || sel == #selector(delete(_:)) {
             return collectionView.selectionIndexPaths.count > 0
         }
         
@@ -87,13 +87,12 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
     
     func collectionView(_ collectionView: CollectionView, menuForItemsAt indexPaths: Set<IndexPath>) -> NSMenu? {
         let menu = NSMenu()
-        menu.autoenablesItems = true
         
         if indexPaths.count == 1 {
             menu.addItem(withTitle: NSLocalizedString("Play Save State", comment: "SaveState View Context menu"),
                          action: #selector(LibraryController.startSaveState(_:)),
                          keyEquivalent: "")
-
+            
             menu.addItem(withTitle: NSLocalizedString("Rename", comment: "SaveState View Context menu"),
                          action: #selector(CollectionView.beginEditingWithSelectedItem(_:)),
                          keyEquivalent: "")
@@ -117,7 +116,11 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
         
         return menu
     }
-        
+    
+    @IBAction override func delete(_ sender: Any?) {
+        deleteSelectedItems(sender)
+    }
+    
     @IBAction func deleteSelectedItems(_ sender: Any?) {
         let items = dataSource.items(at: collectionView.selectionIndexPaths)
         if items.count == 0 {
@@ -138,6 +141,13 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
         }
         
         reloadData()
+    }
+    
+    @IBAction func showInFinder(_ sender: Any?) {
+        let items = dataSource.items(at: collectionView.selectionIndexPaths)
+        let urls = items.compactMap { $0.url.absoluteURL }
+        
+        NSWorkspace.shared.activateFileViewerSelecting(urls)
     }
     
     func collectionView(_ collectionView: CollectionView, doubleClickForItemAt indexPath: IndexPath) {
@@ -198,7 +208,7 @@ extension SaveStateViewController: NSTouchBarDelegate {
     public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
         
         switch identifier {
-            
+        
         case .deleteSaveState:
             
             let item = NSCustomTouchBarItem(identifier: identifier)

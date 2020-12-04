@@ -251,7 +251,7 @@ extension CollectionView: NSTextDelegate {
             editedItem = indexPath
             editor.delegate = self
             tf.isEditable = true
-            tf.select(withFrame: tf.bounds, editor: editor, delegate: self, start: 0, length: 0)
+            tf.select(withFrame: tf.bounds, editor: editor, delegate: self, start: 0, length: tf.stringValue.count)
         }
     }
 

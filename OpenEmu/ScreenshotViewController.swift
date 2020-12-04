@@ -50,7 +50,7 @@ class ScreenshotViewController: ImageCollectionViewController {
 
 extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemValidation {
     func collectionView(_ collectionView: CollectionView, setTitle title: String, forItemAt indexPath: IndexPath) {
-        guard let item = dataSource.item(at: indexPath), !title.isEmpty else { return }
+        guard let item = dataSource.item(at: indexPath), !title.isEmpty, title != item.name else { return }
         
         item.name = title
         item.updateFile()
@@ -152,6 +152,13 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
         }
         
         reloadData()
+    }
+    
+    @IBAction func showInFinder(_ sender: Any?) {
+        let items = dataSource.items(at: collectionView.selectionIndexPaths)
+        let urls = items.compactMap { $0.url.absoluteURL }
+        
+        NSWorkspace.shared.activateFileViewerSelecting(urls)
     }
     
     func collectionView(_ collectionView: CollectionView, doubleClickForItemAt indexPath: IndexPath) {
