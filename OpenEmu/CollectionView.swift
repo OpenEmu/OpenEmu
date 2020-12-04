@@ -251,15 +251,15 @@ extension CollectionView: NSTextDelegate {
             editedItem = indexPath
             editor.delegate = self
             tf.isEditable = true
-            tf.select(withFrame: tf.bounds, editor: editor, delegate: self, start: 0, length: tf.stringValue.count)
+            tf.select(withFrame: tf.bounds, editor: editor, delegate: self, start: 0, length: tf.stringValue.unicodeScalars.count)
         }
     }
-
+    
     func textDidEndEditing(_ notification: Notification) {
         if let ed = extendedDelegate,
             let editor = fieldEditor,
             let item = editedItem {
-            ed.collectionView(self, setTitle: editor.string, forItemAt: item)
+            ed.collectionView(self, setTitle: editor.string.replacingOccurrences(of: "\n", with: " "), forItemAt: item)
         }
         endEditing()
     }
