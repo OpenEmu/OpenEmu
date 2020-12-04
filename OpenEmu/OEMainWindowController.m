@@ -60,6 +60,8 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     BOOL            _resumePlayingAfterFullScreenTransition;
     
     BOOL _isLaunchingGame;
+    
+    NSLayoutConstraint *_lastPlaceholderViewTopConstraint;
 }
 
 @end
@@ -92,12 +94,29 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 {
     [super awakeFromNib];
     
+    [self setUpPlaceholderView];
     [self setUpLibraryController];
     [self setUpWindow];
     [self setUpCurrentContentController];
     [self setUpViewMenuItemBindings];
     
     _isLaunchingGame = NO;
+}
+
+- (void)setUpPlaceholderView
+{
+    self.placeholderView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSLayoutGuide *windowGuide = self.window.contentLayoutGuide;
+    _lastPlaceholderViewTopConstraint =
+        [windowGuide.topAnchor constraintEqualToAnchor:self.placeholderView.topAnchor];
+        
+    [NSLayoutConstraint activateConstraints:@[
+        [windowGuide.leftAnchor constraintEqualToAnchor:self.placeholderView.leftAnchor],
+        [windowGuide.bottomAnchor constraintEqualToAnchor:self.placeholderView.bottomAnchor],
+        [windowGuide.rightAnchor constraintEqualToAnchor:self.placeholderView.rightAnchor],
+        _lastPlaceholderViewTopConstraint
+    ]];
 }
 
 - (void)setUpLibraryController
@@ -205,6 +224,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     [self->_currentContentController viewDidDisappear];
     
     // Adjust visual properties of the window.
+    
     // HACK: toolbar.allowsUserCustomization=NO prevents re-enabling the toolbar
     // by right clicking on the title bar.
     // The correct fix would be to set window.toolbar to nil, but because the
@@ -214,14 +234,14 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     // be loaded too late, and it would require basically a rewrite of the
     // toolbar handling code... :/
     // TODO: fix toolbar handling code to remove the hack
+    
+    BOOL overlapsTitleBar = NO;
     if (newController == _gameDocument.gameViewController) {
         window.toolbar.visible = NO;
         window.toolbar.allowsUserCustomization = NO;
         window.titleVisibility = NSWindowTitleVisible;
         window.titlebarAppearsTransparent = NO;
-        
-        // content does not overlap the title bar
-        placeHolderView.frame = window.contentLayoutRect;
+        overlapsTitleBar = NO;
         
     } else if (newController == self.libraryController) {
         window.toolbar.visible = YES;
@@ -229,9 +249,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         window.titleVisibility = NSWindowTitleHidden;
         window.titlebarAppearsTransparent = NO;
         window.styleMask |= NSWindowStyleMaskClosable;
-        
-        // content overlaps the title bar
-        placeHolderView.frame = window.contentView.frame;
+        overlapsTitleBar = YES;
         
     } else if ([newController isKindOfClass:[OESetupAssistant class]]) {
         window.toolbar.visible = NO;
@@ -239,9 +257,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         window.titleVisibility = NSWindowTitleHidden;
         window.titlebarAppearsTransparent = YES;
         window.styleMask &= ~NSWindowStyleMaskClosable;
-        
-        // content overlaps the title bar
-        placeHolderView.frame = window.contentView.frame;
+        overlapsTitleBar = YES;
         
     } else {
         // probably unused
@@ -254,6 +270,14 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     newController.view.frame = placeHolderView.bounds;
     newController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     [placeHolderView addSubview:newController.view];
+    
+    NSLayoutGuide *windowGuide = self.window.contentLayoutGuide;
+    _lastPlaceholderViewTopConstraint.active = NO;
+    _lastPlaceholderViewTopConstraint = overlapsTitleBar ?
+        [self.placeholderView.topAnchor constraintEqualToAnchor:self.window.contentView.topAnchor] :
+        [self.placeholderView.topAnchor constraintEqualToAnchor:windowGuide.topAnchor];
+    _lastPlaceholderViewTopConstraint.active = YES;
+
     [window makeFirstResponder:newController.view];
     
     _currentContentController = newController;
