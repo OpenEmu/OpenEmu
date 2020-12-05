@@ -285,10 +285,12 @@ class SidebarController: NSViewController {
     @IBAction func selectSystems(_ sender: Any?) {
         guard let v = sender as? NSView else { return }
         
+        let selectLibraryController = AvailableLibrariesViewController()
         let po = NSPopover()
         po.behavior = .transient
         po.contentSize = NSSize(width: 200, height: 500)
-        po.contentViewController = AvailableLibrariesViewController()
+        po.contentViewController = selectLibraryController
+        selectLibraryController.transparentBackground = true
         po.show(relativeTo: v.frame, of: sidebarView, preferredEdge: .maxX)
     }
     

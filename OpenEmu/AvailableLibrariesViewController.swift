@@ -64,8 +64,25 @@ class AvailableLibrariesViewController: NSViewController {
         "AvailableLibrariesViewController"
     }
     
+    private var _transparentBackground = false
+    var transparentBackground: Bool {
+        set(newValue) {
+            let _ = self.view
+            _transparentBackground = newValue
+            if (newValue) {
+                collectionView.backgroundColors = [.clear]
+            } else {
+                collectionView.backgroundColors = [.controlBackgroundColor]
+            }
+        }
+        get {
+            return _transparentBackground
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        transparentBackground = false
     }
     
     override func viewWillAppear() {
