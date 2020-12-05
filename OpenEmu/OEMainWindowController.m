@@ -245,7 +245,13 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         
     } else if (newController == self.libraryController) {
         window.toolbar.visible = YES;
-        window.toolbar.allowsUserCustomization = YES;
+        if (@available(macOS 10.15.0, *)) {
+            window.toolbar.allowsUserCustomization = YES;
+        } else {
+            /* avoids a crash on 10.14.
+             * TODO: remove when 10.14 support goes away */
+            window.toolbar.allowsUserCustomization = NO;
+        }
         window.titleVisibility = NSWindowTitleHidden;
         window.titlebarAppearsTransparent = NO;
         window.styleMask |= NSWindowStyleMaskClosable;
