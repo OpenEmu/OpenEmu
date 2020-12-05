@@ -95,7 +95,7 @@
                                                             <constraint firstAttribute="width" constant="240" id="y03-XI-7JS"/>
                                                         </constraints>
                                                     </customView>
-                                                    <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="5kk-p4-hJg" customClass="OEHomebrewDeveloperLink">
+                                                    <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="5kk-p4-hJg" customClass="OETextButton">
                                                         <rect key="frame" x="284" y="172" width="128" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="rPC-sg-MLL"/>

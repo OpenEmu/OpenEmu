@@ -26,7 +26,6 @@
 #import "OEPopoutGameWindowController.h"
 #import "OEGameCollectionViewController.h"
 #import "OEMediaViewController.h"
-#import "OEHomebrewViewController.h"
 #import "OEGameControlsBar.h"
 #import "OEGameInfoHelper.h"
 #import "OEROMImporter.h"
@@ -41,6 +40,8 @@
 #import "OETableView.h"
 #import "OEHUDBar.h"
 #import "OELogging.h"
+#import "OEHomebrewCoverView.h"
+#import "OEDownload.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <OpenEmuKit/OpenEmuKit.h>

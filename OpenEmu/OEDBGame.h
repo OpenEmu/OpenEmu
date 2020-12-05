@@ -82,8 +82,8 @@ extern NSString *const OEGameArtworkPropertiesKey;
 
 #pragma mark -
 
-- (void)setBoxImageByImage:(NSImage *)image;
-- (void)setBoxImageByURL:(NSURL *)imageURL;
+- (void)setBoxImageByImage:(NSImage *)image NS_SWIFT_NAME(setBoxImage(image:));
+- (void)setBoxImageByURL:(NSURL *)imageURL NS_SWIFT_NAME(setBoxImage(url:));
 
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)keepSaveStates;
 

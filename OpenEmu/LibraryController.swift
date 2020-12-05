@@ -195,7 +195,7 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
             }
         }
         do {
-            let ctrl = OEHomebrewViewController()
+            let ctrl = HomebrewViewController()
             ctrl.database = database
             let item = NSTabViewItem(identifier: "org.openemu.category.homebrew")
             item.viewController = ctrl

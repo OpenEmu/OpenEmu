@@ -405,7 +405,7 @@
 		83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */; };
 		83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83DEF7C3196C403400C7DF57 /* ControlLabels.strings */; };
 		83E89274197471F8004D4489 /* OEHomebrewCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E89273197471F8004D4489 /* OEHomebrewCoverView.m */; };
-		83F444FD196CA24B007E8C63 /* OEHomebrewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F444FC196CA24B007E8C63 /* OEHomebrewViewController.m */; };
+		83F444FD196CA24B007E8C63 /* HomebrewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F444FC196CA24B007E8C63 /* HomebrewViewController.swift */; };
 		83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */; };
 		83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DBAE18C0E2470029199C /* OEFileManager.m */; };
 		83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
@@ -467,7 +467,6 @@
 		8F071F391C25534E007B76DA /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F381C25534E007B76DA /* Preferences.xib */; };
 		8F071F3B1C255362007B76DA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F3A1C255362007B76DA /* Credits.rtf */; };
 		8F0D804724ED76C4001BD8E2 /* ControlsLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */; };
-		8F1482FB24EABEAB006E79DB /* HomebrewDeveloperLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */; };
 		8F2F92AA2519A9E700699691 /* GameScannerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2F92A92519A9E700699691 /* GameScannerButton.swift */; };
 		8F3062DB251A897F00BDFF1F /* OESearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3062DA251A897E00BDFF1F /* OESearchField.swift */; };
 		8F4A69732547F84500DFE092 /* GameControlsBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4A69722547F84500DFE092 /* GameControlsBarView.swift */; };
@@ -1722,8 +1721,7 @@
 		83F3E31E19B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83F3E31F19B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83F3E32019B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ControlLabels.strings; sourceTree = "<group>"; };
-		83F444FB196CA24B007E8C63 /* OEHomebrewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHomebrewViewController.h; sourceTree = "<group>"; };
-		83F444FC196CA24B007E8C63 /* OEHomebrewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHomebrewViewController.m; sourceTree = "<group>"; };
+		83F444FC196CA24B007E8C63 /* HomebrewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewViewController.swift; sourceTree = "<group>"; };
 		83F4DE1114DFF9C200A82E36 /* OEInputLimitFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEInputLimitFormatter.h; sourceTree = "<group>"; };
 		83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEInputLimitFormatter.m; sourceTree = "<group>"; };
 		83F7DBAD18C0E2470029199C /* OEFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFileManager.h; sourceTree = "<group>"; };
@@ -1777,7 +1775,6 @@
 		8F071F381C25534E007B76DA /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		8F071F3A1C255362007B76DA /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsLabels.swift; sourceTree = "<group>"; };
-		8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewDeveloperLink.swift; sourceTree = "<group>"; };
 		8F2F92A92519A9E700699691 /* GameScannerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScannerButton.swift; sourceTree = "<group>"; };
 		8F3062DA251A897E00BDFF1F /* OESearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OESearchField.swift; sourceTree = "<group>"; };
 		8F3693FC2557339300E044DA /* fr-CA */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -3651,13 +3648,11 @@
 		83F444FA196CA207007E8C63 /* Homebrew */ = {
 			isa = PBXGroup;
 			children = (
-				83F444FB196CA24B007E8C63 /* OEHomebrewViewController.h */,
-				83F444FC196CA24B007E8C63 /* OEHomebrewViewController.m */,
+				83F444FC196CA24B007E8C63 /* HomebrewViewController.swift */,
 				83C748CB196DF34D0090BC91 /* OEHomebrewViewController.xib */,
 				83E89272197471F8004D4489 /* OEHomebrewCoverView.h */,
 				83E89273197471F8004D4489 /* OEHomebrewCoverView.m */,
 				834B6F2D1A3B453000CA6A26 /* HomebrewBlankSlateView.swift */,
-				8F1482FA24EABEAB006E79DB /* HomebrewDeveloperLink.swift */,
 				8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */,
 			);
 			name = Homebrew;
@@ -6798,11 +6793,10 @@
 				8F58592F24F4340D009B8502 /* HomebrewOutlinedButton.swift in Sources */,
 				5A9606D21C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift in Sources */,
 				5AFD06BD2058893B00DFE765 /* GameScannerViewController.swift in Sources */,
-				8F1482FB24EABEAB006E79DB /* HomebrewDeveloperLink.swift in Sources */,
 				8F762539255C4CAA00A1246D /* HUDButton.swift in Sources */,
 				8370D3E11A8D2A7600313F87 /* ArrowCursorTextView.swift in Sources */,
 				53439B0713B92EEC005C0CC8 /* OEGridViewFieldEditor.m in Sources */,
-				83F444FD196CA24B007E8C63 /* OEHomebrewViewController.m in Sources */,
+				83F444FD196CA24B007E8C63 /* HomebrewViewController.swift in Sources */,
 				830CB918186878D6006EAE5A /* OEArrayController.m in Sources */,
 				53439B6E13B932DB005C0CC8 /* PrefLibraryController.swift in Sources */,
 				055BE6EA25CDE8DD000189CC /* ShaderPreset.swift in Sources */,
