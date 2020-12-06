@@ -160,7 +160,7 @@ class PreferencesTabViewController: NSTabViewController {
         // The collection of preference panes to add.
         var preferencePanes: [PreferencesViewController] = [
             PrefLibraryController(),
-            OEPrefGameplayController(),
+            PrefGameplayController(),
             OEPrefControlsController(),
             PrefCoresController(),
             OEPrefBiosController()
