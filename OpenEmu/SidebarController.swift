@@ -38,9 +38,11 @@ class SidebarController: NSViewController {
     @IBOutlet var sidebarView: NSOutlineView!
     @IBOutlet var gameScannerViewController: GameScannerViewController!
     
-    @objc var database: OELibraryDatabase? {
+    var database: OELibraryDatabase? {
         didSet {
+            let lastSidebarSelection = self.lastSidebarSelection
             reloadData()
+            self.lastSidebarSelection = lastSidebarSelection
             
             guard
                 !lastSidebarSelection.isEmpty,
@@ -68,7 +70,7 @@ class SidebarController: NSViewController {
     var systems: [OESidebarItem] = []
     var collections: [OESidebarItem] = []
     
-    @objc var selectedSidebarItem: OESidebarItem? {
+    var selectedSidebarItem: OESidebarItem? {
         let item = sidebarView.item(atRow: sidebarView.selectedRow)
         precondition(item == nil || item is OESidebarItem, "All sidebar items must confirm to OESidebarItem")
         return item as? OESidebarItem
@@ -83,7 +85,6 @@ class SidebarController: NSViewController {
         
         sidebarView.registerForDraggedTypes([.fileURL, .game])
         sidebarView.expandItem(nil, expandChildren: true)
-        database = OELibraryDatabase.default
         
         let menu = NSMenu()
         menu.delegate = self
