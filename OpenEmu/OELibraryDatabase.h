@@ -44,6 +44,7 @@ extern const int OELibraryErrorCodeFileInFolderNotFound;
 #define OEDatabaseFileName @"Library.storedata"
 
 extern NSNotificationName const OELibraryDidLoadNotificationName;
+extern NSNotificationName const OELibraryLocationDidChangeNotification;
 
 extern NSString *const OEDatabasePathKey;
 extern NSString *const OEDefaultDatabasePathKey;
@@ -108,6 +109,14 @@ extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 #pragma mark - Debug
 
 - (void)dump;
+
+@end
+
+#pragma mark - Moving
+
+@interface OELibraryDatabase (Moving)
+
+- (void)moveGameLibraryToLocation:(NSURL*)newParentLocation NS_SWIFT_NAME(move(to:));
 
 @end
 

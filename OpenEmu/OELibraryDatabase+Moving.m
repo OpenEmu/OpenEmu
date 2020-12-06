@@ -24,11 +24,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEPrefLibraryController.h"
 #import "OELibraryDatabase.h"
 #import "OEDBRom.h"
 #import "OEDBSystem+CoreDataProperties.h"
-@import OpenEmuKit;
 #import "OEROMImporter.h"
 
 #import "OEAlert.h"
@@ -36,135 +34,9 @@
 
 #import "OpenEmu-Swift.h"
 
-NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLocationDidChangeNotificationName";
+@implementation OELibraryDatabase (Moving)
 
-@implementation OEPrefLibraryController
-
-- (void)awakeFromNib
-{
-    self.pathField.URL = [OELibraryDatabase defaultDatabase].databaseFolderURL;
-    [self showResetLocationButtonIfNeeded];
-}
-
-- (void)dealloc
-{
-    self.availableLibrariesViewController.isEnableObservers = NO;
-}
-#pragma mark - ViewController Overrides
-
-- (NSString *)nibName
-{
-	return @"OEPrefLibraryController";
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    self.availableLibrariesViewController.isEnableObservers = YES;
-    [self addChildViewController:self.availableLibrariesViewController];
-    
-    NSSize size = self.librariesView.frame.size;
-    NSScrollView *lv = (NSScrollView *)self.availableLibrariesViewController.view;
-    NSGridView *gridview = (NSGridView *)self.librariesView.superview;
-    NSGridCell *cell = [gridview cellForView:self.librariesView];
-    [cell setContentView:lv];
-    [self.librariesView removeFromSuperview];
-    self.librariesView = lv;
-    
-    lv.borderType = NSBezelBorder;
-    [NSLayoutConstraint activateConstraints:@[
-        [lv.widthAnchor constraintEqualToConstant:size.width],
-        [lv.heightAnchor constraintEqualToConstant:size.height]]];
-}
-
-#pragma mark - OEPreferencePane Protocol
-
-- (NSImage *)icon
-{
-	return [NSImage imageNamed:@"library_tab_icon"];
-}
-
-- (NSString *)panelTitle
-{
-	return @"Library";
-}
-
-- (NSString *)localizedPanelTitle
-{
-    return NSLocalizedString(@"Library", @"Preferences: Library Toolbar Item");
-}
-
-- (NSSize)viewSize
-{
-	return self.view.fittingSize;
-}
-
-#pragma mark -
-#pragma mark UI Actions
-- (IBAction)resetLibraryFolder:(id)sender
-{
-    NSString *databasePath = [[[NSUserDefaults standardUserDefaults] stringForKey:OEDefaultDatabasePathKey] stringByDeletingLastPathComponent];
-    NSURL    *location     = [NSURL fileURLWithPath:[databasePath stringByExpandingTildeInPath] isDirectory:YES];
-
-    [self OE_moveGameLibraryToLocation:location];
-}
-
-- (IBAction)changeLibraryFolder:(id)sender
-{
-    OEAlert *dropboxAlert = [[OEAlert alloc] init];
-    dropboxAlert.messageUsesHTML = YES;
-    dropboxAlert.messageText = NSLocalizedString(
-        @"Moving the Game Library is not recommended",
-        @"Message headline (attempted to change location of library)");
-    dropboxAlert.informativeText = NSLocalizedString(
-        @"The OpenEmu Game Library contains a database file which could get "
-        @"corrupted if the library is moved to the following locations:<br><br>"
-        @"<ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li>"
-        @"<li>Network drives</li></ul><br>"
-        @"Additionally, <b>sharing the same library between multiple computers or users</b> "
-        @"may also corrupt it. This also applies to moving the library "
-        @"to external USB drives.",
-        @"Message text (attempted to change location of library, HTML)");
-    dropboxAlert.defaultButtonTitle = NSLocalizedString(@"Cancel", @"");
-    dropboxAlert.alternateButtonTitle = NSLocalizedString(
-        @"I understand the risks",
-        @"OK button (attempted to change location of library)");
-    [dropboxAlert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
-        if (returnCode == NSAlertSecondButtonReturn)
-            [self OE_moveGameLibrary];
-    }];
-}
-
-- (void)showResetLocationButtonIfNeeded
-{
-    NSString *defaultDatabasePath = [NSUserDefaults.standardUserDefaults stringForKey:OEDefaultDatabasePathKey];
-    NSURL *defaultLocation = [NSURL fileURLWithPath:defaultDatabasePath.stringByExpandingTildeInPath isDirectory:YES];
-    
-    NSURL *currentLocation = OELibraryDatabase.defaultDatabase.databaseFolderURL;
-    
-    self.resetLocationButton.hidden = [currentLocation isEqual:defaultLocation];
-}
-
-- (void)OE_moveGameLibrary
-{
-    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-
-    [openPanel setCanChooseFiles:NO];
-    [openPanel setCanChooseDirectories:YES];
-    [openPanel setCanCreateDirectories:YES];
-    [openPanel beginSheetModalForWindow:[[self view] window] completionHandler:
-     ^(NSInteger result)
-     {
-         if(result == NSModalResponseOK)
-             // give the openpanel some time to fade out
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 [self OE_moveGameLibraryToLocation:[openPanel URL]];
-             });
-     }];
-}
-
-- (void)OE_moveGameLibraryToLocation:(NSURL*)newParentLocation
+- (void)moveGameLibraryToLocation:(NSURL*)newParentLocation
 {
     OELibraryDatabase *library = [OELibraryDatabase defaultDatabase];
     
@@ -426,38 +298,8 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
             [[library writerContext] save:nil];
         }];
 
-        if(error) [self presentError:error];
+        if(error) [NSApp presentError:error];
     }
-    
-    self.pathField.URL = library.databaseFolderURL;
-    [self showResetLocationButtonIfNeeded];
-}
-
-- (IBAction)resetWarningDialogs:(id)sender
-{
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-
-    NSArray *keysToRemove = @[OEAlert.OERemoveCollectionAlertSuppressionKey,
-                              OEAlert.OEAutoSwitchCoreAlertSuppressionKey,
-                              OEAlert.OERemoveGameFromCollectionAlertSuppressionKey,
-                              OEAlert.OERemoveGameFromLibraryAlertSuppressionKey,
-                              OEAlert.OELoadAutoSaveAlertSuppressionKey,
-                              OEAlert.OEDeleteGameAlertSuppressionKey,
-                              OEAlert.OESaveGameAlertSuppressionKey,
-                              OEAlert.OEChangeCoreAlertSuppressionKey,
-                              OEAlert.OEResetSystemAlertSuppressionKey,
-                              OEAlert.OEStopEmulationAlertSuppressionKey,
-                              OEAlert.OEDeleteSaveStateAlertSuppressionKey,
-                              OEAlert.OEDeleteScreenshotAlertSuppressionKey,
-                              OEAlert.OERemoveGameFilesFromLibraryAlertSuppressionKey,
-                              OEAlert.OERenameSpecialSaveStateAlertSuppressionKey,
-                              OEAlert.OEGameCoreGlitchesSuppressionKey,
-                              OEAlert.OEDownloadRomWarningSuppressionKey];
-    
-    [keysToRemove enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
-        [standardUserDefaults removeObjectForKey:key];
-    }];
 }
 
 @end
-
