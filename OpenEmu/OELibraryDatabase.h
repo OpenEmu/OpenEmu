@@ -97,7 +97,6 @@ extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 @property(readonly) NSURL *screenshotFolderURL;
 @property(readonly) NSURL *coverFolderURL;
 @property(readonly) NSURL *importQueueURL;
-@property(readonly) NSURL *autoImportFolderURL;
 
 #pragma mark - OpenVGDB Sync
 
