@@ -658,22 +658,15 @@ extension GameScannerViewController: OEROMImporterDelegate {
         alert.defaultButtonTitle = NSLocalizedString("View Guide in Browser", comment:"")
         alert.alternateButtonTitle = NSLocalizedString("Dismiss", comment:"")
         
-        if alert.runModal() == .alertFirstButtonReturn {
-            NSWorkspace.shared.open(GameScannerViewController.importGuideURL)
-        }
-
-        // FIXME: HACK: walk up hierarchy to find a controller with a window
-        var current: NSViewController = self
-        while let parent = current.parent {
-            if let win = parent.view.window {
-                alert.beginSheetModal(for: win) { result in
+        for window in NSApp.windows {
+            if window.windowController is OEMainWindowController {
+                alert.beginSheetModal(for: window) { result in
                     if result == .alertFirstButtonReturn {
                         NSWorkspace.shared.open(GameScannerViewController.importGuideURL)
                     }
                 }
-                return
+                break
             }
-            current = parent
         }
     }
 }
