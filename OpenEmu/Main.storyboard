@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -846,9 +846,9 @@ DQ
                                     </userDefinedRuntimeAttributes>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Debug" id="1208">
+                            <menuItem title="Help" id="Qhx-nq-JmY">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Debug" id="1209">
+                                <menu key="submenu" title="Help" id="0ql-Da-Qro">
                                     <items>
                                         <menuItem title="Log Responder Chain" keyEquivalent="0" id="1210">
                                             <userDefinedRuntimeAttributes>
@@ -856,34 +856,14 @@ DQ
                                             </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="OEDebug_logResponderChain:" target="805" id="1211"/>
+                                                <binding destination="1212" name="hidden" keyPath="values.debug" id="1216">
+                                                    <dictionary key="options">
+                                                        <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Log Grid Info" keyEquivalent="5" id="1217">
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
-                                            </userDefinedRuntimeAttributes>
-                                            <connections>
-                                                <action selector="OEDebug_logGridViewFrames:" target="-1" id="1219"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
-                                    </userDefinedRuntimeAttributes>
-                                </menu>
-                                <connections>
-                                    <binding destination="1212" name="hidden" keyPath="values.debug" id="1216">
-                                        <dictionary key="options">
-                                            <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
-                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                        </dictionary>
-                                    </binding>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Help" id="Qhx-nq-JmY">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Help" id="0ql-Da-Qro">
-                                    <items>
                                         <menuItem title="User Guide" keyEquivalent="?" id="q7W-GV-n3p">
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
