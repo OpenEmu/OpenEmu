@@ -115,7 +115,8 @@ const static CGFloat TableViewSpacing = 86.0;
 
     [tableView setPostsBoundsChangedNotifications:YES];
     [tableView setPostsFrameChangedNotifications:YES];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:tableView];
+
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(windowDidEndLiveResize:) name:NSWindowDidEndLiveResizeNotification object:self.view.window];
 }
 
 - (void)viewDidAppear
@@ -279,11 +280,11 @@ const static CGFloat TableViewSpacing = 86.0;
     return attributes;
 }
 
-- (void)tableViewFrameDidChange:(NSNotification*)notification
+- (void)windowDidEndLiveResize:(NSNotification *)notification
 {
-    [[self tableView] beginUpdates];
-    [[self tableView] reloadData];
-    [[self tableView] endUpdates];
+    [self.tableView beginUpdates];
+    [self.tableView reloadData];
+    [self.tableView endUpdates];
 }
 
 #pragma mark -
