@@ -99,10 +99,8 @@
     }];
 }
 
-- (void)viewWillDisappear
+- (void)dealloc
 {
-    [super viewWillDisappear];
-    
     if (_token)
     {
         [NSNotificationCenter.defaultCenter removeObserver:_token];
