@@ -155,6 +155,9 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
         [setupAssistant setCompletionBlock:^{
             [self setCurrentContentController:self.libraryController];
+            
+            // Reload sidebar to make systems show up // FIXME: 
+            [NSNotificationCenter.defaultCenter postNotificationName:OELibraryLocationDidChangeNotification object:nil];
         }];
         
         [self.window center];
