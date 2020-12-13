@@ -66,16 +66,16 @@ class LibraryGamesViewController: NSSplitViewController {
         updateCollectionContentsFromSidebar()
         
         view.needsDisplay = true
-        
-        if #available(macOS 11.0, *) {
-            view.window?.titlebarSeparatorStyle = .automatic
-        }
     }
     
     override func viewDidAppear() {
         super.viewDidAppear()
         
         collectionController.updateBlankSlate()
+        
+        if #available(macOS 11.0, *) {
+            view.window?.titlebarSeparatorStyle = .automatic
+        }
     }
     
     override func viewWillDisappear() {
