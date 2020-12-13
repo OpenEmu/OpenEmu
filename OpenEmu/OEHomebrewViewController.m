@@ -115,8 +115,6 @@ const static CGFloat TableViewSpacing = 86.0;
 
     [tableView setPostsBoundsChangedNotifications:YES];
     [tableView setPostsFrameChangedNotifications:YES];
-
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(windowDidEndLiveResize:) name:NSWindowDidEndLiveResizeNotification object:self.view.window];
 }
 
 - (void)viewDidAppear
@@ -280,13 +278,6 @@ const static CGFloat TableViewSpacing = 86.0;
     return attributes;
 }
 
-- (void)windowDidEndLiveResize:(NSNotification *)notification
-{
-    [self.tableView beginUpdates];
-    [self.tableView reloadData];
-    [self.tableView endUpdates];
-}
-
 #pragma mark -
 - (void)showBlankSlate:(OEHomebrewBlankSlateView *)blankSlate
 {
@@ -392,7 +383,7 @@ const static CGFloat TableViewSpacing = 86.0;
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     if(rowIndex == 0) return NSLocalizedString(@"Featured Games", @"");
-    if(rowIndex == 2) return NSLocalizedString(@"All Homebrew", @"");
+    if(rowIndex == 2) return nil;
 
     if(rowIndex == 1) return [[self games] subarrayWithRange:NSMakeRange(0, 3)];
 
@@ -422,7 +413,7 @@ const static CGFloat TableViewSpacing = 86.0;
     }
     else if (row == 2)
     {
-        [view setHidden:YES];
+        view = [tableView makeViewWithIdentifier:@"DummyView" owner:self];
     }
     else if(row == 1)
     {
@@ -463,13 +454,10 @@ const static CGFloat TableViewSpacing = 86.0;
         [year setTitle:[formatter stringFromDate:[game released]]];
 
         // description
-        NSScrollView *descriptionScroll = [subviews objectAtIndex:3];
-        NSTextView *description = [descriptionScroll documentView];
-
+        NSTextField *description = [subviews objectAtIndex:3];
         NSString *realdesc = [game gameDescription] ?: @"";
         NSDictionary *attributes = [self descriptionStringAttributes];
-        NSTextStorage *ts = [[NSTextStorage alloc] initWithString:realdesc attributes:attributes];
-        [[description layoutManager] replaceTextStorage:ts];
+        description.attributedStringValue = [[NSAttributedString alloc] initWithString:realdesc attributes:attributes];
 
         NSButton    *developer = [subviews objectAtIndex:5];
         [developer setTarget:self];
@@ -484,30 +472,6 @@ const static CGFloat TableViewSpacing = 86.0;
     }
 
     return view;
-}
-
-- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
-{
-    if(row == 0 || [[self headerIndices] containsObject:@(row)])
-        return 94.0;
-    if(row == 1)
-        return 230.0; // adjusts inset
-    if (row == 2)
-        return 1.0;
-
-    CGFloat textHeight = 0.0;
-    OEHomebrewGame *game = [self tableView:tableView objectValueForTableColumn:nil row:row];
-    NSString *gameDescription = [game gameDescription];
-    if(gameDescription)
-    {
-        NSDictionary *attributes = [self descriptionStringAttributes];
-        NSAttributedString *string = [[NSAttributedString alloc] initWithString:gameDescription attributes:attributes];
-
-        CGFloat width = NSWidth([tableView bounds]) - 2*TableViewSpacing -DescriptionX;
-        textHeight = [string heightForWidth:width] + 120.0; // fixes overlapping description rows
-    }
-
-    return MAX(220.0, textHeight);
 }
 
 #pragma mark - TableView Delegate

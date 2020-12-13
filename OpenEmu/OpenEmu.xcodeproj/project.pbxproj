@@ -391,8 +391,6 @@
 		83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */; };
 		83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83DEF7C3196C403400C7DF57 /* ControlLabels.strings */; };
 		83E89274197471F8004D4489 /* OEHomebrewCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E89273197471F8004D4489 /* OEHomebrewCoverView.m */; };
-		83E8927A19748C20004D4489 /* NS(Attributed)String+Geometrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */; };
-		83E8927D197490B3004D4489 /* DisabledScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E8927C197490B3004D4489 /* DisabledScrollView.swift */; };
 		83F444FD196CA24B007E8C63 /* OEHomebrewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F444FC196CA24B007E8C63 /* OEHomebrewViewController.m */; };
 		83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */; };
 		83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DBAE18C0E2470029199C /* OEFileManager.m */; };
@@ -6580,7 +6578,6 @@
 				8F762539255C4CAA00A1246D /* HUDButton.swift in Sources */,
 				8370D3E11A8D2A7600313F87 /* ArrowCursorTextView.swift in Sources */,
 				53439B0713B92EEC005C0CC8 /* OEGridViewFieldEditor.m in Sources */,
-				83E8927D197490B3004D4489 /* DisabledScrollView.swift in Sources */,
 				83F444FD196CA24B007E8C63 /* OEHomebrewViewController.m in Sources */,
 				830CB918186878D6006EAE5A /* OEArrayController.m in Sources */,
 				53439B6E13B932DB005C0CC8 /* OEPrefLibraryController.m in Sources */,
@@ -6652,7 +6649,6 @@
 				0544B68923D14E6300F63D61 /* SidebarController.swift in Sources */,
 				83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */,
 				5A79F7951C15F542003124D5 /* PreferencesWindowController.swift in Sources */,
-				83E8927A19748C20004D4489 /* NS(Attributed)String+Geometrics.m in Sources */,
 				059ECCC22524030D00DCA0F6 /* ShaderParametersWindowController.swift in Sources */,
 				C6F738FC1617FF2B00BB2519 /* OEUtilities.m in Sources */,
 				05E789A723D01B16000E14EE /* GameDocumentController.swift in Sources */,
