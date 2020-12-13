@@ -110,12 +110,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     [window setMinSize:_OEPopoutGameWindowMinSize];
     window.tabbingMode = NSWindowTabbingModeDisallowed;
     
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSString *bgColorStr = [ud objectForKey:OEGameViewBackgroundColorKey];
-    NSColor *bgColor = bgColorStr ? [[NSColor alloc] colorFromHexString:bgColorStr] : [NSColor blackColor];
-    window.backgroundColor = bgColor;
-    
-    if([ud boolForKey:OEPopoutGameWindowAlwaysOnTopKey])
+    if([NSUserDefaults.standardUserDefaults boolForKey:OEPopoutGameWindowAlwaysOnTopKey])
         window.level = NSFloatingWindowLevel;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_constrainIntegralScaleIfNeeded) name:NSApplicationDidChangeScreenParametersNotification object:nil];
@@ -582,6 +577,10 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 
     [[gameViewController controlsWindow] hideAnimated:YES];
     [[gameViewController controlsWindow] setCanShow:YES];
+    
+    NSString *bgColorStr = [NSUserDefaults.standardUserDefaults objectForKey:OEGameViewBackgroundColorKey];
+    NSColor *bgColor = bgColorStr ? [[NSColor alloc] colorFromHexString:bgColorStr] : [NSColor blackColor];
+    self.window.backgroundColor = bgColor;
 }
 
 - (void)windowWillExitFullScreen:(NSNotification *)notification
@@ -595,6 +594,8 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     
     [[gameViewController controlsWindow] setCanShow:NO];
     [[gameViewController controlsWindow] hideAnimated:YES];
+    
+    self.window.backgroundColor = NSColor.clearColor;
 }
 
 - (NSArray *)customWindowsToExitFullScreenForWindow:(NSWindow *)window
