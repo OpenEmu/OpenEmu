@@ -80,7 +80,34 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
             selectedCatagory = category
         }
         
-        screenshotsObserver =  Self.$useNewScreenshotsViewController.observe { [weak self] _, newValue in
+        newSaveStatesViewObserver = Self.$useNewSaveStatesViewController.observe { [weak self] _, newValue in
+            guard
+                let self = self,
+                let useNew = newValue
+            else { return }
+            
+            let idx = self.tabView.indexOfTabViewItem(withIdentifier: NSUserInterfaceItemIdentifier.savestatesViewController)
+            let item = self.tabView.tabViewItem(at: idx)
+            self.removeTabViewItem(item)
+            if useNew {
+                let ctrl = SaveStateViewController()
+                ctrl.database = self.database
+                ctrl.representedObject = OEDBSavedGamesMedia.shared
+                let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.savestatesViewController)
+                item.viewController = ctrl
+                self.insertTabViewItem(item, at: idx)
+            } else {
+                let ctrl = OEMediaViewController()
+                ctrl.database = self.database
+                ctrl.representedObject = OEDBSavedGamesMedia.shared
+                let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.savestatesViewController)
+                item.viewController = ctrl
+                self.insertTabViewItem(item, at: idx)
+            }
+            self.selectedTabViewItemIndex = idx
+        }
+        
+        newScreenshotsViewObserver = Self.$useNewScreenshotsViewController.observe { [weak self] _, newValue in
             guard
                 let self = self,
                 let useNew = newValue
@@ -108,7 +135,8 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
         }
     }
     
-    var screenshotsObserver: Any?
+    var newSaveStatesViewObserver: Any?
+    var newScreenshotsViewObserver: Any?
     
     override func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
         super.tabView(tabView, didSelect: tabViewItem)
@@ -127,13 +155,24 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
             addTabViewItem(item)
         }
         
-        do {
-            let ctrl = OEMediaViewController()
-            ctrl.database = database
-            ctrl.representedObject = OEDBSavedGamesMedia.shared
-            let item = NSTabViewItem(identifier: "org.openemu.category.media")
-            item.viewController = ctrl
-            addTabViewItem(item)
+        if Self.useNewSaveStatesViewController {
+            do {
+                let ctrl = SaveStateViewController()
+                ctrl.database = database
+                ctrl.representedObject = OEDBSavedGamesMedia.shared
+                let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.screenshotsViewController)
+                item.viewController = ctrl
+                addTabViewItem(item)
+            }
+        } else {
+            do {
+                let ctrl = OEMediaViewController()
+                ctrl.database = database
+                ctrl.representedObject = OEDBSavedGamesMedia.shared
+                let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.savestatesViewController)
+                item.viewController = ctrl
+                addTabViewItem(item)
+            }
         }
         
         if Self.useNewScreenshotsViewController {
@@ -409,14 +448,18 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
 }
 
 extension NSUserInterfaceItemIdentifier {
+    static let savestatesViewController = Self("org.openemu.category.savestates")
     static let screenshotsViewController = Self("org.openemu.category.screenshots")
 }
 
 extension Key {
+    static let useNewSaveStatesViewController: Key = "useNewSaveStatesViewController"
     static let useNewScreenshotsViewController: Key = "useNewScreenshotsViewController"
 }
 
 extension LibraryController {
+    @UserDefault(.useNewSaveStatesViewController, defaultValue: false)
+    static var useNewSaveStatesViewController: Bool
     @UserDefault(.useNewScreenshotsViewController, defaultValue: false)
     static var useNewScreenshotsViewController: Bool
 }

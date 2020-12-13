@@ -59,7 +59,7 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
     func collectionView(_ collectionView: CollectionView, setTitle title: String, forItemAt indexPath: IndexPath) {
         guard let item = dataSource.item(at: indexPath), !title.isEmpty, title != item.displayName  else { return }
         
-        if title.hasPrefix("OESpecialState_") {
+        if title.hasPrefix(OESaveStateSpecialNamePrefix) {
             return
         }
         
