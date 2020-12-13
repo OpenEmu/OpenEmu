@@ -114,6 +114,9 @@ class HUDControlsBarView: NSView, CAAnimationDelegate, OEHUDBarView {
         
         
         let volume = HUDSlider(frame: NSRect(x: 238 + optionsOffset, y: 12, width: 78, height: 23))
+        if #available(macOS 11.0, *) {
+            volume.frame.origin.y += 2
+        }
         volume.cell = HUDSliderCell()
         volume.isContinuous = true
         volume.minValue = 0
