@@ -32,7 +32,7 @@ extension NSNotification.Name {
 class LibraryGamesViewController: NSSplitViewController {
     
     private let OESkipDiscGuideMessageKey = "OESkipDiscGuideMessageKey"
-    private var lastDiscGuideMessageSystemID: String?
+    private lazy var discGuideMessageSystemIDs: [String?] = []
     
     private let sidebarMinWidth: CGFloat = 105
     private let sidebarDefaultWidth: CGFloat = 200
@@ -185,12 +185,11 @@ class LibraryGamesViewController: NSSplitViewController {
         if let system = selectedItem as? OEDBSystem,
            system.plugin?.supportsDiscsWithDescriptorFile ?? false,
            system.games?.count == 0,
-           system.systemIdentifier != lastDiscGuideMessageSystemID,
+           !discGuideMessageSystemIDs.contains(system.systemIdentifier),
            !UserDefaults.standard.bool(forKey: OESkipDiscGuideMessageKey),
            let window = view.window {
             
             let alert = NSAlert()
-            
             alert.messageText = NSLocalizedString("Have you read the guide?", comment: "")
             alert.informativeText = NSLocalizedString("Disc-based games have special requirements. Please read the disc importing guide.", comment: "")
             alert.alertStyle = .informational
@@ -205,7 +204,7 @@ class LibraryGamesViewController: NSSplitViewController {
                 }
             })
             
-            lastDiscGuideMessageSystemID = system.systemIdentifier
+            discGuideMessageSystemIDs.append(system.systemIdentifier)
         }
     }
     
