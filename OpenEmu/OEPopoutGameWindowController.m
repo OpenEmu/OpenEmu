@@ -108,7 +108,6 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     [window setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
     [window setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
     [window setMinSize:_OEPopoutGameWindowMinSize];
-    window.tabbingMode = NSWindowTabbingModeDisallowed;
     
     if([NSUserDefaults.standardUserDefaults boolForKey:OEPopoutGameWindowAlwaysOnTopKey])
         window.level = NSFloatingWindowLevel;
@@ -177,6 +176,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         [window setFrame:windowRect display:NO animate:NO];
         [window center];
         [window setContentAspectRatio:gameViewController.defaultScreenSize];
+        window.tabbingIdentifier = self.OE_gameDocument.gameViewController.document.rom.game.system.systemIdentifier;
         
         _integralScale = lastScale;
 
