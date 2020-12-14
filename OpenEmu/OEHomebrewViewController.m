@@ -45,9 +45,6 @@ NSString * const OEHomebrewGamesURLString = @"https://raw.githubusercontent.com/
 
 NSString * const OELastHomebrewCheckKey = @"lastHomebrewCheck";
 
-const static CGFloat DescriptionX     = 146.0;
-const static CGFloat TableViewSpacing = 86.0;
-
 @interface OEHomebrewGame : NSObject
 - (instancetype)initWithNode:(NSXMLNode*)node;
 

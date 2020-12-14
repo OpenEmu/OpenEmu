@@ -121,9 +121,6 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
     defaultDatabase = [[OELibraryDatabase alloc] init];
     defaultDatabase.databaseURL = url;
-    
-    NSURL *dbFileURL = [url URLByAppendingPathComponent:OEDatabaseFileName];
-    BOOL isOldDB = [dbFileURL checkResourceIsReachableAndReturnError:nil];
 
     if(![defaultDatabase loadPersistantStoreWithError:outError])
     {
