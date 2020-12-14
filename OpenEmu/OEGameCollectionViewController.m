@@ -317,6 +317,14 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     toolbar.searchField.stringValue = self.currentSearchTerm ?: @"";
     
     toolbar.addButton.enabled = YES;
+    
+    if (@available(macOS 11.0, *)) {
+        for (NSToolbarItem *item in toolbar.items) {
+            if ([item.itemIdentifier isEqual: @"OEToolbarSearchItem"]) {
+                    item.enabled = !isBlankSlate;
+            }
+        }
+    }
 }
 
 #pragma mark - UI Actions

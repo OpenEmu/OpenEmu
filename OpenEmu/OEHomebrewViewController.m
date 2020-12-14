@@ -149,6 +149,14 @@ NSString * const OELastHomebrewCheckKey = @"lastHomebrewCheck";
     toolbar.searchField.stringValue = @"";
     
     toolbar.addButton.enabled = NO;
+    
+    if (@available(macOS 11.0, *)) {
+        for (NSToolbarItem *item in toolbar.items) {
+            if ([item.itemIdentifier isEqual: @"OEToolbarSearchItem"]) {
+                    item.enabled = NO;
+            }
+        }
+    }
 }
 
 #pragma mark - Data Handling

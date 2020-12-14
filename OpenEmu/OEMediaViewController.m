@@ -183,6 +183,14 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     toolbar.searchField.stringValue = self.currentSearchTerm ?: @"";
     
     toolbar.addButton.enabled = NO;
+    
+    if (@available(macOS 11.0, *)) {
+        for (NSToolbarItem *item in toolbar.items) {
+            if ([item.itemIdentifier isEqual: @"OEToolbarSearchItem"]) {
+                item.enabled = !_shouldShowBlankSlate;
+            }
+        }
+    }
 }
 
 - (void)updateBlankSlate

@@ -94,7 +94,7 @@ class ImageCollectionViewController: NSViewController {
         toolbar.gridSizeSlider.isEnabled = !shouldShowBlankSlate
         toolbar.decreaseGridSizeButton.isEnabled = !shouldShowBlankSlate
         toolbar.increaseGridSizeButton.isEnabled = !shouldShowBlankSlate
-
+        
         toolbar.searchField.isEnabled = !shouldShowBlankSlate
         if toolbar.searchField.searchMenuTemplate == nil {
              toolbar.searchField.searchMenuTemplate = searchMenuTemplate()
@@ -102,6 +102,14 @@ class ImageCollectionViewController: NSViewController {
         toolbar.searchField.stringValue = currentSearchTerm
          
         toolbar.addButton.isEnabled = false
+        
+        if #available(macOS 11.0, *) {
+            for item in toolbar.items {
+                if item.itemIdentifier == .oeSearch {
+                    item.isEnabled = !shouldShowBlankSlate
+                }
+            }
+        }
     }
     
     @objc func libraryLocationDidChange(_ notification: Notification) {
