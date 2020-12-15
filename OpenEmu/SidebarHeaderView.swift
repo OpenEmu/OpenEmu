@@ -60,4 +60,9 @@ class SidebarHeaderView: NSTableCellView {
     override func mouseExited(with theEvent: NSEvent) {
         isHovering = false
     }
+    
+    override func prepareForReuse() {
+        selectSystems?.isHidden = true
+        addCollection?.isHidden = true
+    }
 }
