@@ -182,7 +182,7 @@ class LibraryGamesViewController: NSSplitViewController {
         collectionController.representedObject = selectedItem as? OECollectionViewItemProtocol
         
         // For empty collections of disc-based games, display an alert to compel the user to read the disc-importing guide.
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
             guard self.sidebarController.selectedSidebarItem === selectedItem else { return }
             
             if let system = selectedItem as? OEDBSystem,
