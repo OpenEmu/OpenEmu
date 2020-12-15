@@ -393,6 +393,21 @@ extension SidebarController: NSOutlineViewDataSource {
         if item.isGroupHeaderInSidebar {
             view = outlineView.makeView(withIdentifier: Self.headerViewIdentifier, owner: self) as? NSTableCellView
             
+            if let group = item as? SidebarGroupItem,
+               let button = (view as? SidebarHeaderView)?.button {
+                
+                switch group.autosaveName {
+                case .sidebarConsolesItem:
+                    button.title = NSLocalizedString("Edit", tableName: "OEControls", comment: "")
+                    button.image = nil
+                    button.action = #selector(selectSystems(_:))
+                case .sidebarCollectionsItem:
+                    button.title = ""
+                    button.image = NSImage(named: "sidebar_add")
+                    button.action = #selector(newCollection(_:))
+                }
+            }
+            
         } else {
             view = outlineView.makeView(withIdentifier: Self.itemViewIdentifier, owner: self) as? NSTableCellView
             view?.imageView?.image = item.sidebarIcon

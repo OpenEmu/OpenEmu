@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -27,43 +27,17 @@
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="systemMedium" size="11"/>
                     </buttonCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="selectSystems:" target="-1" id="pIT-Jv-NEz"/>
-                    </connections>
-                </button>
-                <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dqD-XN-Wy2">
-                    <rect key="frame" x="175" y="2" width="20" height="20"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="20" id="XTq-Wt-rQz"/>
-                        <constraint firstAttribute="height" constant="20" id="vBe-BD-sXT"/>
-                    </constraints>
-                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="sidebar_add" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="s2C-wD-s2h">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="systemMedium" size="11"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="newCollection:" target="-1" id="prP-zQ-lEs"/>
-                    </connections>
                 </button>
             </subviews>
             <constraints>
-                <constraint firstItem="dqD-XN-Wy2" firstAttribute="centerY" secondItem="FHH-87-Out" secondAttribute="centerY" id="5ej-DY-DwB"/>
-                <constraint firstAttribute="trailing" secondItem="dqD-XN-Wy2" secondAttribute="trailing" constant="5" id="7g4-CO-2H0"/>
                 <constraint firstAttribute="trailing" secondItem="bhC-8g-P0A" secondAttribute="trailing" constant="5" id="mun-Rt-4Hu"/>
                 <constraint firstItem="bhC-8g-P0A" firstAttribute="centerY" secondItem="FHH-87-Out" secondAttribute="centerY" id="qDo-L6-8lj"/>
             </constraints>
             <connections>
-                <outlet property="addCollection" destination="dqD-XN-Wy2" id="3qE-iG-QcM"/>
-                <outlet property="selectSystems" destination="bhC-8g-P0A" id="oah-PP-tlX"/>
+                <outlet property="button" destination="bhC-8g-P0A" id="oah-PP-tlX"/>
                 <outlet property="textField" destination="ctf-sj-8NC" id="Hve-Ml-fV0"/>
             </connections>
             <point key="canvasLocation" x="139" y="154"/>
         </tableCellView>
     </objects>
-    <resources>
-        <image name="sidebar_add" width="13" height="13"/>
-    </resources>
 </document>

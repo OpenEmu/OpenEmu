@@ -27,18 +27,13 @@ import Cocoa
 @objc(OESidebarHeaderView)
 class SidebarHeaderView: NSTableCellView {
     
-    @IBOutlet var selectSystems: NSButton?
-    @IBOutlet var addCollection: NSButton?
+    @IBOutlet var button: NSButton!
     
     private var trackingArea: NSTrackingArea?
     
     var isHovering: Bool = false {
         didSet {
-            if textField?.stringValue == NSLocalizedString("Consoles", comment: "") {
-                selectSystems?.animator().isHidden = !isHovering
-            } else if textField?.stringValue == NSLocalizedString("Collections", comment: "") {
-                addCollection?.animator().isHidden = !isHovering
-            }
+            button.animator().isHidden = !isHovering
         }
     }
     
@@ -59,10 +54,5 @@ class SidebarHeaderView: NSTableCellView {
     
     override func mouseExited(with theEvent: NSEvent) {
         isHovering = false
-    }
-    
-    override func prepareForReuse() {
-        selectSystems?.isHidden = true
-        addCollection?.isHidden = true
     }
 }
