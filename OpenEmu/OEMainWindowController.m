@@ -327,10 +327,10 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 - (void)OE_openGameDocumentWithGame:(OEDBGame *)game saveState:(OEDBSaveState *)state
 {
-    [self OE_openGameDocumentWithGame:game saveState:state secondAttempt:NO];
+    [self OE_openGameDocumentWithGame:game saveState:state secondAttempt:NO disableAutoReload:NO];
 }
 
-- (void)OE_openGameDocumentWithGame:(OEDBGame *)game saveState:(OEDBSaveState *)state secondAttempt:(BOOL)retry API_DEPRECATED("Remove \"User Reports\" from alert (~line 413), that term is not used in Catalina and above", macos(10.0, 10.15));
+- (void)OE_openGameDocumentWithGame:(OEDBGame *)game saveState:(OEDBSaveState *)state secondAttempt:(BOOL)retry disableAutoReload:(BOOL)noAutoReload API_DEPRECATED("Remove \"User Reports\" from alert (~line 413), that term is not used in Catalina and above", macos(10.0, 10.15));
 
 {
     // make sure we don't launch a game multiple times :/
@@ -340,6 +340,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     BOOL openInSeparateWindow = _mainWindowRunsGame || [standardDefaults boolForKey:OEForcePopoutGameWindowKey];
     BOOL fullScreen = [standardDefaults boolForKey:OEFullScreenGameWindowKey];
+    
+    BOOL openWithSaveState = state != nil;
+    if (!noAutoReload) {
+        openWithSaveState = openWithSaveState || ((state=[game autosaveForLastPlayedRom]) && [[OEAlert loadAutoSaveGameAlert] runModal] == NSAlertFirstButtonReturn);
+    }
     
     _shouldExitFullScreenWhenGameFinishes = NO;
     void (^openDocument)(OEGameDocument *, NSError *) =
@@ -420,7 +425,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                     });
                 } else {
                     // let's give it another try
-                    [self OE_openGameDocumentWithGame:game saveState:state secondAttempt:YES];
+                    [self OE_openGameDocumentWithGame:game saveState:state secondAttempt:YES disableAutoReload:NO];
                 }
             }
             else if ([error.domain isEqual:OEGameDocumentErrorDomain] && error.code == OEGameCoreCrashedError) {
@@ -430,26 +435,36 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                 BOOL glitchy = [core.controller hasGlitchesForSystemIdentifier:error.userInfo[@"systemIdentifier"]];
                 
                 OEAlert *alert = [[OEAlert alloc] init];
-                alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has quit unexpectedly", @""), coreName];
-                if (glitchy) {
-                    alert.informativeText = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", @""), coreName, coreName];
+                if (openWithSaveState) {
+                    alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has quit unexpectedly after loading a save state", @""), coreName];
+                    alert.informativeText = NSLocalizedString(@"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?", @"");
+                    alert.defaultButtonTitle = NSLocalizedString(@"Reopen without loading state", @"");
+                    alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
+                    NSModalResponse resp = [alert runModal];
+                    if (resp == NSAlertFirstButtonReturn)
+                        [self OE_openGameDocumentWithGame:state.rom.game saveState:nil secondAttempt:YES disableAutoReload:YES];
                 } else {
-                    alert.informativeText = NSLocalizedString(
-                        @"<b>If and only if this issue persists</b>, please submit feedback including:<br><br>"
-                        @"<ul>"
-                        @"<li>The model of Mac you are using <b>and</b> the version of macOS you have installed"
-                            @"<ul><li>This information is found in  > About this Mac</li></ul></li>"
-                        @"<li>The <b>exact name</b> of the game you were playing</li>"
-                        @"<li>The crash report of OpenEmuHelperApp"
-                            @"<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, "
-                            @"then look for the latest document with OpenEmuHelperApp in the name</ul></li></li>"
-                        @"</ul><br>"
-                        @"<b>Always search for similar feedback previously reported by other users!</b><br>"
-                        @"If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed.", @"Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English");
-                    alert.messageUsesHTML = YES;
+                    alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has quit unexpectedly", @""), coreName];
+                    if (glitchy) {
+                        alert.informativeText = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", @""), coreName, coreName];
+                    } else {
+                        alert.informativeText = NSLocalizedString(
+                            @"<b>If and only if this issue persists</b>, please submit feedback including:<br><br>"
+                            @"<ul>"
+                            @"<li>The model of Mac you are using <b>and</b> the version of macOS you have installed"
+                                @"<ul><li>This information is found in  > About this Mac</li></ul></li>"
+                            @"<li>The <b>exact name</b> of the game you were playing</li>"
+                            @"<li>The crash report of OpenEmuHelperApp"
+                                @"<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, "
+                                @"then look for the latest document with OpenEmuHelperApp in the name</ul></li></li>"
+                            @"</ul><br>"
+                            @"<b>Always search for similar feedback previously reported by other users!</b><br>"
+                            @"If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed.", @"Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English");
+                        alert.messageUsesHTML = YES;
+                    }
+                    alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
+                    [alert runModal];
                 }
-                alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
-                [alert runModal];
             }
             else if(error && !([error.domain isEqual:NSCocoaErrorDomain] && error.code == NSUserCancelledError)) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -490,7 +505,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         }
     };
     
-    if(state != nil || ((state=[game autosaveForLastPlayedRom]) && [[OEAlert loadAutoSaveGameAlert] runModal] == NSAlertFirstButtonReturn))
+    if (openWithSaveState)
         [[NSDocumentController sharedDocumentController] openGameDocumentWithSaveState:state display:openInSeparateWindow fullScreen:fullScreen completionHandler:openDocument];
     else
         [[NSDocumentController sharedDocumentController] openGameDocumentWithGame:game display:openInSeparateWindow fullScreen:fullScreen completionHandler:openDocument];
