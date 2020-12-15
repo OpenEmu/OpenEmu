@@ -182,29 +182,33 @@ class LibraryGamesViewController: NSSplitViewController {
         collectionController.representedObject = selectedItem as? OECollectionViewItemProtocol
         
         // For empty collections of disc-based games, display an alert to compel the user to read the disc-importing guide.
-        if let system = selectedItem as? OEDBSystem,
-           system.plugin?.supportsDiscsWithDescriptorFile ?? false,
-           system.games?.count == 0,
-           !discGuideMessageSystemIDs.contains(system.systemIdentifier),
-           !UserDefaults.standard.bool(forKey: OESkipDiscGuideMessageKey),
-           let window = view.window {
+        DispatchQueue.main.async {
+            guard self.sidebarController.selectedSidebarItem === selectedItem else { return }
             
-            let alert = NSAlert()
-            alert.messageText = NSLocalizedString("Have you read the guide?", comment: "")
-            alert.informativeText = NSLocalizedString("Disc-based games have special requirements. Please read the disc importing guide.", comment: "")
-            alert.alertStyle = .informational
-            alert.addButton(withTitle: NSLocalizedString("View Guide in Browser", comment: ""))
-            alert.addButton(withTitle: NSLocalizedString("Dismiss", comment: ""))
-            
-            alert.beginSheetModal(for: window, completionHandler: { returnCode in
-                if returnCode == .alertFirstButtonReturn {
-                    if let guideURL = URL(string: OECDBasedGamesUserGuideURLString) {
-                        NSWorkspace.shared.open(guideURL)
+            if let system = selectedItem as? OEDBSystem,
+               system.plugin?.supportsDiscsWithDescriptorFile ?? false,
+               system.games?.count == 0,
+               !self.discGuideMessageSystemIDs.contains(system.systemIdentifier),
+               !UserDefaults.standard.bool(forKey: self.OESkipDiscGuideMessageKey),
+               let window = self.view.window {
+                
+                let alert = NSAlert()
+                alert.messageText = NSLocalizedString("Have you read the guide?", comment: "")
+                alert.informativeText = NSLocalizedString("Disc-based games have special requirements. Please read the disc importing guide.", comment: "")
+                alert.alertStyle = .informational
+                alert.addButton(withTitle: NSLocalizedString("View Guide in Browser", comment: ""))
+                alert.addButton(withTitle: NSLocalizedString("Dismiss", comment: ""))
+                
+                alert.beginSheetModal(for: window, completionHandler: { returnCode in
+                    if returnCode == .alertFirstButtonReturn {
+                        if let guideURL = URL(string: OECDBasedGamesUserGuideURLString) {
+                            NSWorkspace.shared.open(guideURL)
+                        }
                     }
-                }
-            })
-            
-            discGuideMessageSystemIDs.append(system.systemIdentifier)
+                })
+                
+                self.discGuideMessageSystemIDs.append(system.systemIdentifier)
+            }
         }
     }
     
