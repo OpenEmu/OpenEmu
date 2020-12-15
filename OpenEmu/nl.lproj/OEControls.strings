@@ -88,3 +88,8 @@
 /* Library Database Migration (OEMigrationWindowController.xib) */
 
 "Cancel and Quit" = "Annuleer en stop";
+
+
+/* Sidebar Header (OESidebarHeaderView.xib) */
+
+"Edit" = "Wijzig";

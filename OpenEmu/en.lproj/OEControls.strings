@@ -88,3 +88,8 @@
 /* Library Database Migration (OEMigrationWindowController.xib) */
 
 "Cancel and Quit" = "Cancel and Quit";
+
+
+/* Sidebar Header (OESidebarHeaderView.xib) */
+
+"Edit" = "Edit";
