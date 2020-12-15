@@ -229,55 +229,32 @@ NSString * const OELastHomebrewCheckKey = @"lastHomebrewCheck";
 }
 
 #pragma mark - View Management
+
 - (void)displayUpdate
 {
     OEHomebrewBlankSlateView *blankSlate = [[OEHomebrewBlankSlateView alloc] initWithFrame:[[self view] bounds]];
     [blankSlate setRepresentedObject:NSLocalizedString(@"Fetching Games…", @"Homebrew Blank Slate View Updating Info")];
-    [self showBlankSlate:blankSlate];
-
-    [[self tableView] setHidden:YES];
-
+    [self displayBlankSlate:blankSlate];
 }
 
 - (void)displayError:(NSError*)error
 {
     OEHomebrewBlankSlateView *blankSlate = [[OEHomebrewBlankSlateView alloc] initWithFrame:[[self view] bounds]];
     [blankSlate setRepresentedObject:error];
-    [self showBlankSlate:blankSlate];
+    [self displayBlankSlate:blankSlate];
 }
 
 - (void)displayResults
 {
-    [_blankSlate removeFromSuperview];
-    [self setBlankSlate:nil];
-
-    [[self tableView] reloadData];
-    [[self tableView] setHidden:NO];
+    [self displayBlankSlate:nil];
 }
 
-- (NSDictionary*)descriptionStringAttributes
+- (void)displayBlankSlate:(OEHomebrewBlankSlateView *)blankSlate
 {
-    static NSDictionary *attributes;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSFont *font = [NSFont systemFontOfSize:12];
-        NSColor *color = NSColor.secondaryLabelColor;
-        
-        NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
-        paragraphStyle.alignment = NSTextAlignmentJustified;
-        
-        attributes = @{
-            NSFontAttributeName : font,
-            NSForegroundColorAttributeName : color,
-            NSParagraphStyleAttributeName : paragraphStyle,
-        };
-    });
-    return attributes;
-}
-
-#pragma mark -
-- (void)showBlankSlate:(OEHomebrewBlankSlateView *)blankSlate
-{
+    // Determine if we are about to replace the current first responder or one of its superviews
+    id firstResponder = self.view.window.firstResponder;
+    BOOL makeFirstResponder = [firstResponder isKindOfClass:[NSView class]] && [firstResponder isDescendantOf:self.view];
+    
     if(_blankSlate != blankSlate)
     {
         [_blankSlate removeFromSuperview];
@@ -293,6 +270,22 @@ NSString * const OELastHomebrewCheckKey = @"lastHomebrewCheck";
 
         [view addSubview:_blankSlate];
         [_blankSlate setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
+        
+        self.tableView.hidden = YES;
+    }
+    else
+    {
+        [self.tableView reloadData];
+        self.tableView.hidden = NO;
+    }
+    
+    // restore first responder if necessary
+    if (makeFirstResponder)
+    {
+        if (_blankSlate)
+            [self.view.window makeFirstResponder:_blankSlate];
+        else
+            [self.view.window makeFirstResponder:self.tableView];
     }
 }
 #pragma mark - UI Methods
@@ -371,7 +364,29 @@ NSString * const OELastHomebrewCheckKey = @"lastHomebrewCheck";
 
     return row;
 }
+
 #pragma mark - Table View Datasource
+
+- (NSDictionary*)descriptionStringAttributes
+{
+    static NSDictionary *attributes;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSFont *font = [NSFont systemFontOfSize:12];
+        NSColor *color = NSColor.secondaryLabelColor;
+        
+        NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+        paragraphStyle.alignment = NSTextAlignmentJustified;
+        
+        attributes = @{
+            NSFontAttributeName : font,
+            NSForegroundColorAttributeName : color,
+            NSParagraphStyleAttributeName : paragraphStyle,
+        };
+    });
+    return attributes;
+}
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     return [[self games] count] +0; // -3 for featured games which share a row + 2 for headers +1 for the shared row
