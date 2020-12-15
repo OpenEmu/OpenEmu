@@ -82,7 +82,7 @@
 
 /* Shader Parameters (ShaderParameters.xib) */
 
-"Reset All" = "Reset All";
+"Reset All" = "Reset All";  // TODO
 
 
 /* Library Database Migration (OEMigrationWindowController.xib) */

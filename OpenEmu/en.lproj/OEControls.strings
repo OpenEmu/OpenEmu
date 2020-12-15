@@ -77,7 +77,7 @@
 
 "Go" = "Go";
 
-"Downloading Data…" = "Downloading Data…";  // TODO
+"Downloading Data…" = "Downloading Data…";
 
 
 /* Shader Parameters (ShaderParameters.xib) */
