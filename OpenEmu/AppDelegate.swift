@@ -861,6 +861,21 @@ extension AppDelegate: NSMenuDelegate {
         preferencesWindowController.showWindow(with: notification)
     }
     
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        
+        for window in sender.windows {
+            
+            if window.windowController is OEMainWindowController,
+               !window.isVisible,
+               sender.mainWindow == nil {
+                
+                window.makeKeyAndOrderFront(self)
+                return false
+            }
+        }
+        return true
+    }
+    
     func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
         if libraryLoaded {
             mainWindowController.showWindow(self)
