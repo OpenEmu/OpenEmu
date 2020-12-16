@@ -259,12 +259,6 @@ class SidebarController: NSViewController {
         removeItem(at: menuItem.tag)
     }
     
-    @objc func removeSelectedItems() {
-        guard let index = sidebarView.selectedRowIndexes.first else { return }
-        
-        removeItem(at: index)
-    }
-    
     @objc func duplicateCollection(for menuItem: NSMenuItem) {
         duplicateCollection(menuItem.representedObject)
     }
@@ -305,8 +299,15 @@ class SidebarController: NSViewController {
            let item = sidebarView.item(atRow: index) as? OESidebarItem,
            item.isEditableInSidebar {
             
-            removeSelectedItems()
+            removeItem(at: index)
         }
+        else if event.keyCode == kVK_Return,
+                let index = sidebarView.selectedRowIndexes.first,
+                let item = sidebarView.item(atRow: index) as? OESidebarItem,
+                item.isEditableInSidebar {
+                    
+                    renameItem(at: index)
+                }
         else {
             super.keyDown(with: event)
         }
