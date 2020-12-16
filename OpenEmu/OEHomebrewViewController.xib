@@ -80,11 +80,11 @@
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                     </button>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" horizontalCompressionResistancePriority="251" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="Evx-ye-zG9">
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Evx-ye-zG9">
                                                         <rect key="frame" x="282" y="20" width="500" height="115"/>
-                                                        <textFieldCell key="cell" selectable="YES" title="DESCRIPTION" id="zcw-zI-8cf">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <textFieldCell key="cell" selectable="YES" alignment="justified" title="DESCRIPTION" id="zcw-zI-8cf">
+                                                            <font key="font" metaFont="system" size="12"/>
+                                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
@@ -251,7 +251,6 @@
                                                         </view>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="230" id="09Q-Le-LbY"/>
-                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="230" id="1Jd-RD-M6f"/>
                                                         </constraints>
                                                     </box>
                                                 </subviews>

@@ -43,8 +43,6 @@
 
 NSString * const OEHomebrewGamesURLString = @"https://raw.githubusercontent.com/OpenEmu/OpenEmu-Update/master/games.xml";
 
-NSString * const OELastHomebrewCheckKey = @"lastHomebrewCheck";
-
 @interface OEHomebrewGame : NSObject
 - (instancetype)initWithNode:(NSXMLNode*)node;
 
@@ -75,16 +73,6 @@ NSString * const OELastHomebrewCheckKey = @"lastHomebrewCheck";
 @implementation OEHomebrewViewController
 @synthesize blankSlate = _blankSlate;
 
-+ (void)initialize
-{
-    if(self == [OEHomebrewViewController class])
-    {
-        NSDictionary *defaults = @{ OELastHomebrewCheckKey:[NSDate dateWithTimeIntervalSince1970:0],
-                                    };
-        [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
-    }
-}
-
 - (NSString*)nibName
 {
     return @"OEHomebrewViewController";
@@ -109,9 +97,6 @@ NSString * const OELastHomebrewCheckKey = @"lastHomebrewCheck";
     [tableView sizeLastColumnToFit];
     [tableView setColumnAutoresizingStyle:NSTableViewUniformColumnAutoresizingStyle];
     [[[tableView tableColumns] lastObject] setResizingMask:NSTableColumnAutoresizingMask];
-
-    [tableView setPostsBoundsChangedNotifications:YES];
-    [tableView setPostsFrameChangedNotifications:YES];
 }
 
 - (void)viewDidAppear
@@ -208,20 +193,7 @@ NSString * const OELastHomebrewCheckKey = @"lastHomebrewCheck";
         return NO;
     }
 
-    NSArray *dates = [document nodesForXPath:@"//game/@added" error:&error];
-    dates = [dates arrayByEvaluatingBlock:^id(id obj, NSUInteger idx, BOOL *stop) {
-        return [NSDate dateWithTimeIntervalSince1970:[[obj stringValue] integerValue]];
-    }];
-
-    NSDate *lastCheck = [[NSUserDefaults standardUserDefaults] objectForKey:OELastHomebrewCheckKey];
-    NSMutableIndexSet *newGameIndices = [NSMutableIndexSet indexSet];
-    [dates enumerateObjectsUsingBlock:^(NSDate *obj, NSUInteger idx, BOOL *stop) {
-        if([obj compare:lastCheck] == NSOrderedDescending)
-            [newGameIndices addIndex:idx];
-    }];
-
     NSArray *allGames = [document nodesForXPath:@"//system | //game" error:&error];
-    //NSArray *newGames = [allGames objectsAtIndexes:newGameIndices];
     NSMutableArray *allHeaderIndices = [[NSMutableArray alloc] init];
     self.games = [allGames arrayByEvaluatingBlock:^id(id node, NSUInteger idx, BOOL *stop) {
         // Keep track of system node indices to use for headers
@@ -375,26 +347,6 @@ NSString * const OELastHomebrewCheckKey = @"lastHomebrewCheck";
 
 #pragma mark - Table View Datasource
 
-- (NSDictionary*)descriptionStringAttributes
-{
-    static NSDictionary *attributes;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSFont *font = [NSFont systemFontOfSize:12];
-        NSColor *color = NSColor.secondaryLabelColor;
-        
-        NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
-        paragraphStyle.alignment = NSTextAlignmentJustified;
-        
-        attributes = @{
-            NSFontAttributeName : font,
-            NSForegroundColorAttributeName : color,
-            NSParagraphStyleAttributeName : paragraphStyle,
-        };
-    });
-    return attributes;
-}
-
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     return [[self games] count] +0; // -3 for featured games which share a row + 2 for headers +1 for the shared row
@@ -475,9 +427,7 @@ NSString * const OELastHomebrewCheckKey = @"lastHomebrewCheck";
 
         // description
         NSTextField *description = [subviews objectAtIndex:3];
-        NSString *realdesc = [game gameDescription] ?: @"";
-        NSDictionary *attributes = [self descriptionStringAttributes];
-        description.attributedStringValue = [[NSAttributedString alloc] initWithString:realdesc attributes:attributes];
+        description.stringValue = [game gameDescription] ?: @"";
 
         NSButton    *developer = [subviews objectAtIndex:5];
         [developer setTarget:self];

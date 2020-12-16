@@ -26,7 +26,6 @@
 @import Cocoa;
 #import "OEPreferencePane.h"
 
-extern NSString * const OEPreferencesAlwaysShowBiosKey;
 @interface OEPrefBiosController : NSViewController <OEPreferencePane, NSTableViewDataSource, NSTableViewDelegate>
 
 @property (assign) IBOutlet NSTableView *tableView;

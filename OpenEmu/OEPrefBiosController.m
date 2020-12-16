@@ -33,10 +33,9 @@
 #import "OpenEmu-Swift.h"
 #import "OEFSWatcher.h"
 
-NSString * const OEPreferencesAlwaysShowBiosKey = @"OEPreferencesAlwaysShowBios";
 NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files";
 
-@interface OEPrefBiosController () <NSTextViewDelegate>
+@interface OEPrefBiosController ()
 @property (strong) NSArray *items;
 @property (strong) OEFSWatcher *fileSystemWatcher;
 @end
@@ -227,18 +226,6 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
         return fileCell;
     }
     return nil;
-}
-
-#pragma mark - NSTextView Delegate
-- (BOOL)textView:(NSTextView *)textView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex
-{
-    [[NSWorkspace sharedWorkspace] openURL:link];
-    return YES;
-}
-
-- (NSRange)textView:(NSTextView *)aTextView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange
-{
-    return NSMakeRange(0, 0);
 }
 
 #pragma mark - NSTableView Delegate
