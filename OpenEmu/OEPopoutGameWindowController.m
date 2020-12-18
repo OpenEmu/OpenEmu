@@ -448,9 +448,11 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     
     if (_snapResize)
     {
-        // necessary to prevent erratic resize behavior when window is
-        // resized via top or bottom only (Y-axis)
-        [self.window setContentAspectRatio:CGSizeZero];
+        self.window.contentAspectRatio = CGSizeZero;
+        // Set resize increments is necessary to fix a crash / hang bug
+        // on macOS 11.0+ (FB8943798) when setting (contentA|a)spectRatio = CGSizeZero.
+        // Set aspect ratio and then resize increments *after* to work around the issue.
+        self.window.contentResizeIncrements = CGSizeMake(1, 1);
         _snapDelegate.currentScale = _integralScale;
         _snapDelegate.screenSize = [self OE_gameDocument].gameViewController.defaultScreenSize;
         [_snapDelegate windowWillStartLiveResize:notification];
