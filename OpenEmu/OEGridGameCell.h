@@ -13,4 +13,6 @@
 - (NSImage *)missingArtworkImageWithSize:(NSSize)size;
 
 - (NSRect)ratingFrame;
+
+- (void)updateTextLayer;
 @end

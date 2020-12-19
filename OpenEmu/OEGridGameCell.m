@@ -216,6 +216,26 @@ static NSDictionary *disabledActions = nil;
     [_backgroundLayer setContentsGravity:kCAGravityResize];
 }
 
+
+- (void)updateTextLayer
+{
+    NSAppearance.currentAppearance = self.imageBrowserView.effectiveAppearance;
+    
+    [_textLayer removeFromSuperlayer];
+    
+    const CGFloat titleFontSize = NSFont.systemFontSize;
+    NSFont *titleFont = [NSFont systemFontOfSize:titleFontSize weight:NSFontWeightMedium];
+    _textLayer = [CATextLayer layer];
+    _textLayer.actions = disabledActions;
+    _textLayer.alignmentMode = kCAAlignmentCenter;
+    _textLayer.truncationMode = kCATruncationEnd;
+    _textLayer.foregroundColor = NSColor.labelColor.CGColor;
+    _textLayer.font = (__bridge CTFontRef)titleFont;
+    _textLayer.fontSize = titleFontSize;
+    
+    [_foregroundLayer addSublayer:_textLayer];
+}
+
 - (CALayer *)layerForType:(NSString *)type
 {
     NSAppearance.currentAppearance = self.imageBrowserView.effectiveAppearance;

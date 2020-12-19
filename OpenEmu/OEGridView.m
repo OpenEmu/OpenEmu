@@ -855,6 +855,12 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
 - (void)viewDidChangeEffectiveAppearance
 {
     [self reloadData];
+    
+    [[self visibleItemIndexes] enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        OEGridGameCell *cell = (OEGridGameCell*)[self cellForItemAtIndex:idx];
+        if ([cell respondsToSelector:@selector(updateTextLayer)])
+            [cell updateTextLayer];
+    }];
 }
 
 @end
