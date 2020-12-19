@@ -77,11 +77,11 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     OEPopoutGameWindowFullScreenStatus  _fullScreenStatus;
     BOOL                                _resumePlayingAfterFullScreenTransition;
     BOOL                                _snapResize;
-    BOOL                                _shouldSnapResize;
     OEIntegralWindowResizingDelegate   *_snapDelegate;
     // State prior to entering full screen
     NSRect                              _windowedFrame;
     unsigned int                        _windowedIntegralScale;
+    id<NSObject>                        _eventMonitor;
 }
 
 #pragma mark - NSWindowController overridden methods
@@ -94,16 +94,6 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 
     _snapDelegate = [OEIntegralWindowResizingDelegate new];
     
-    [NSUserDefaults.standardUserDefaults addObserver:self
-                                          forKeyPath:OEPopoutGameWindowIntegerScalingOnlyKey
-                                             options:NSKeyValueObservingOptionNew
-                                             context:NULL];
-    
-    if ([NSUserDefaults.standardUserDefaults boolForKey:OEPopoutGameWindowIntegerScalingOnlyKey])
-        _shouldSnapResize = YES;
-    else
-        _shouldSnapResize = NO;
-    
     [window setDelegate:self];
     [window setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
     [window setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
@@ -114,23 +104,31 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_constrainIntegralScaleIfNeeded) name:NSApplicationDidChangeScreenParametersNotification object:nil];
 
+    _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFlagsChanged|NSEventMaskKeyDown handler:^NSEvent * (NSEvent * event) {
+        if (event.modifierFlags & NSEventModifierFlagShift && event.keyCode == 56) // shift key pressed
+        {
+            [self OE_updateContentSize];
+        }
+        else if (event.keyCode == 56) // shift key released
+        {
+            [self OE_updateContentSize];
+        }
+        return event;
+    }];
+    
     return self;
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
-    change:(NSDictionary<NSKeyValueChangeKey, id> *)change context:(void *)context
-{
-    if (object == NSUserDefaults.standardUserDefaults && [keyPath isEqualToString:OEPopoutGameWindowIntegerScalingOnlyKey])
-        _shouldSnapResize = _shouldSnapResize ? NO : YES;
-    else
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 - (void)dealloc
 {
     [[self window] setDelegate:nil];
     [self setWindow:nil];
-    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:OEPopoutGameWindowIntegerScalingOnlyKey];
+    
+    if (_eventMonitor)
+    {
+        [NSEvent removeMonitor:_eventMonitor];
+        _eventMonitor = nil;
+    }
 }
 
 - (BOOL)windowShouldClose:(id)sender
@@ -179,8 +177,44 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         window.tabbingIdentifier = self.OE_gameDocument.gameViewController.document.rom.game.system.systemIdentifier;
         
         _integralScale = lastScale;
-
+        
+        [self OE_updateContentSize];
+        
         [self OE_buildScreenshotWindow];
+    }
+}
+
+- (BOOL)shouldSnapResize
+{
+    BOOL snapResizeEnabled = [NSUserDefaults.standardUserDefaults boolForKey:OEPopoutGameWindowIntegerScalingOnlyKey];
+    BOOL shiftPressed = (NSEvent.modifierFlags & NSEventModifierFlagShift) != 0;
+    
+    if ((snapResizeEnabled && !shiftPressed) || (!snapResizeEnabled && shiftPressed))
+        return YES;
+    else
+        return NO;
+}
+
+- (void)OE_updateContentSize
+{
+    // Set contentMin/MaxSize to get the mouse pointer to correctly indicate that the window size
+    // cannot be further de-/increased at min/max scale if snap resizing is enabled.
+    
+    // Exempt NDS where changing the screen configuration from the display mode menu causes issues FIXME: 
+    if ([self.OE_gameDocument.gameViewController.document.rom.game.system.systemIdentifier isEqual: @"openemu.system.nds"])
+        return;
+    
+    if ([self shouldSnapResize])
+    {
+        NSSize minSize = self.OE_gameDocument.gameViewController.defaultScreenSize;
+        self.window.contentMinSize = minSize;
+        self.window.contentMaxSize = (NSSize){minSize.width * self.maximumIntegralScale,
+                                              minSize.height * self.maximumIntegralScale};
+    }
+    else
+    {
+        self.window.contentMinSize = _OEPopoutGameWindowMinSize;
+        self.window.contentMaxSize = NSMakeSize(FLT_MAX, FLT_MAX);
     }
 }
 
@@ -353,7 +387,10 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     const NSRect currentFrame      = [[self window] frame];
 
     if(newScreenFrame.size.width < currentFrame.size.width || newScreenFrame.size.height < currentFrame.size.height)
+    {
         [self OE_changeGameViewIntegralScale:newMaxScale];
+        [self OE_updateContentSize];
+    }
 }
 
 - (OEGameDocument *)OE_gameDocument
@@ -440,8 +477,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     if (_fullScreenStatus != _OEPopoutGameWindowFullScreenStatusNonFullScreen)
         return;
     
-    BOOL shiftPressed = (NSEvent.modifierFlags & NSEventModifierFlagShift) != 0;
-    if ((_shouldSnapResize && !shiftPressed) || (!_shouldSnapResize && shiftPressed))
+    if ([self shouldSnapResize])
     {
         _snapResize = YES;
     }
@@ -483,6 +519,8 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         _integralScale = (unsigned int)_snapDelegate.currentScale;
         _snapResize = NO;
     }
+    
+    [self OE_updateContentSize];
 }
 
 - (void)cancelOperation:(id)sender
