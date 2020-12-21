@@ -373,12 +373,35 @@ extension ImageCollectionViewController: NSCollectionViewDataSource {
     func reloadData() {
         precondition(Thread.isMainThread, "should only be called on main thread")
         
-        // TODO: save selection,
-        
         dataSourceDelegate.fetchItems()
         shouldShowBlankSlate = dataSourceDelegate.isEmpty
         
+        var selectedItemIDs = Set<NSManagedObjectID>()
+        for indexPath in collectionView.selectionIndexPaths {
+            if let item = collectionView.item(at: indexPath)?.representedObject as? OEDBItem {
+                selectedItemIDs.insert(item.objectID)
+            }
+        }
+        
         collectionView.reloadData()
+        
+        var indexPaths = Set<IndexPath>()
+        for s in 0..<collectionView.numberOfSections {
+            for i in 0..<collectionView.numberOfItems(inSection: s) {
+                indexPaths.insert(IndexPath(item: i, section: s))
+            }
+        }
+        
+        var selectedIndexPaths = Set<IndexPath>()
+        for indexPath in indexPaths {
+            if let item = collectionView.item(at: indexPath)?.representedObject as? OEDBItem,
+               selectedItemIDs.contains(item.objectID) {
+                selectedIndexPaths.insert(indexPath)
+            }
+        }
+        
+        collectionView.selectItems(at: selectedIndexPaths, scrollPosition: [])
+        
         updateBlankSlate()
     }
 }
