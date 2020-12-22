@@ -115,10 +115,12 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         if (event.modifierFlags & NSEventModifierFlagShift && event.keyCode == 56) // shift key pressed
         {
             [self OE_updateContentSize];
+            [self.window resetCursorRects];
         }
         else if (event.keyCode == 56) // shift key released
         {
             [self OE_updateContentSize];
+            [self.window resetCursorRects];
         }
         return event;
     }];
