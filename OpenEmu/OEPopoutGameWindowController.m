@@ -174,7 +174,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         [window setFrame:windowRect display:NO animate:NO];
         [window center];
         [window setContentAspectRatio:gameViewController.defaultScreenSize];
-        window.tabbingIdentifier = self.OE_gameDocument.gameViewController.document.rom.game.system.systemIdentifier;
+        window.tabbingIdentifier = self.OE_gameDocument.rom.game.system.systemIdentifier;
         
         _integralScale = lastScale;
         
@@ -201,7 +201,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     // cannot be further de-/increased at min/max scale if snap resizing is enabled.
     
     // Exempt NDS where changing the screen configuration from the display mode menu causes issues FIXME: 
-    if ([self.OE_gameDocument.gameViewController.document.rom.game.system.systemIdentifier isEqual: @"openemu.system.nds"])
+    if ([self.OE_gameDocument.rom.game.system.systemIdentifier isEqual: @"openemu.system.nds"])
         return;
     
     if ([self shouldSnapResize])
