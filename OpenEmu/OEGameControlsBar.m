@@ -138,8 +138,15 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [self.contentView addSubview:barView];
         [barView setupControls];
         
+        __weak __auto_type weakSelf = self;
         _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskMouseMoved handler:^NSEvent*(NSEvent* e)
                          {
+                             OEGameControlsBar *self = weakSelf;
+                             if (self == nil)
+                             {
+                                 return e;
+                             }
+                
                              if(NSApp.isActive && self.gameWindow.isMainWindow)
                                  [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:e waitUntilDone:NO];
                              return e;

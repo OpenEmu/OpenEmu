@@ -129,7 +129,6 @@ class HUDControlsBarView: NSView, CAAnimationDelegate, OEHUDBarView {
         
         let animation = CABasicAnimation()
         animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
-        animation.delegate = self
         volume.animations = ["floatValue" : animation]
         
         

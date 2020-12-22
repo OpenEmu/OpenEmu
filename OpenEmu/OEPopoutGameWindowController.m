@@ -104,7 +104,14 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_constrainIntegralScaleIfNeeded) name:NSApplicationDidChangeScreenParametersNotification object:nil];
 
+    __weak __auto_type weakSelf = self;
     _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFlagsChanged|NSEventMaskKeyDown handler:^NSEvent * (NSEvent * event) {
+        OEPopoutGameWindowController *self = weakSelf;
+        if (self == nil)
+        {
+            return event;
+        }
+        
         if (event.modifierFlags & NSEventModifierFlagShift && event.keyCode == 56) // shift key pressed
         {
             [self OE_updateContentSize];
@@ -129,6 +136,10 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         [NSEvent removeMonitor:_eventMonitor];
         _eventMonitor = nil;
     }
+    
+    [NSNotificationCenter.defaultCenter removeObserver:self
+                                                  name:NSApplicationDidChangeScreenParametersNotification
+                                                object:nil];
 }
 
 - (BOOL)windowShouldClose:(id)sender
@@ -181,6 +192,10 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         [self OE_updateContentSize];
         
         [self OE_buildScreenshotWindow];
+    }
+    else
+    {
+        self.window.contentViewController = nil;
     }
 }
 
