@@ -142,7 +142,7 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
     [_controlsWindow close];
     _controlsWindow = nil;
     
-    [_controller.window close];
+    [_controller close];
     _controller = nil;
 }
 
