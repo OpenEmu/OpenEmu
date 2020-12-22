@@ -221,7 +221,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     if ([self.OE_gameDocument.rom.game.system.systemIdentifier isEqual: @"openemu.system.nds"])
         return;
     
-    if ([self shouldSnapResize])
+    if ([self shouldSnapResize] && _fullScreenStatus != _OEPopoutGameWindowFullScreenStatusEntering)
     {
         NSSize minSize = self.OE_gameDocument.gameViewController.defaultScreenSize;
         self.window.contentMinSize = minSize;
