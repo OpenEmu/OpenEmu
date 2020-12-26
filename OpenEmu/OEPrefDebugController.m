@@ -35,8 +35,6 @@
 
 #import "OEGameControlsBar.h"
 
-#import "OEGameViewController.h"
-
 #import "OEGameDocument.h"
 
 #import "OEGameInfoHelper.h"
@@ -48,7 +46,6 @@
 #pragma mark Key sources
 #import "OESetupAssistant.h"
 #import "OECollectionViewController.h"
-#import "OEGameViewController.h"
 #import "OEGridGameCell.h"
 #import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"

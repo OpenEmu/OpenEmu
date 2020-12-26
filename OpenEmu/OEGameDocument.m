@@ -35,7 +35,6 @@
 #import "OEDBGame.h"
 #import "OEDBSaveState.h"
 #import "OEDBSystem.h"
-#import "OEGameViewController.h"
 #import "OELibraryDatabase.h"
 #import "OEPopoutGameWindowController.h"
 #import "OEDownload.h"
@@ -50,7 +49,17 @@
 
 #import "OpenEmu-Swift.h"
 
-NSString * const OEScreenshotAspectRatioCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
+NSString *const OEGameVolumeKey = @"volume";
+NSString *const OEGameDefaultVideoShaderKey = @"videoShader";
+NSString *const OEGameSystemVideoShaderKeyFormat = @"videoShader.%@";
+NSString *const OEGameCoreDisplayModeKeyFormat = @"displayMode.%@";
+NSString *const OEBackgroundPauseKey = @"backgroundPause";
+NSString *const OEBackgroundControllerPlayKey = @"backgroundControllerPlay";
+NSString *const OETakeNativeScreenshots = @"takeNativeScreenshots";
+
+NSString *const OEScreenshotFileFormatKey = @"screenshotFormat";
+NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
+NSString *const OEScreenshotAspectRatioCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
 
 NSString *const OEGameCoreManagerModePreferenceKey = @"OEGameCoreManagerModePreference";
 NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
@@ -108,6 +117,17 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 @end
 
 @implementation OEGameDocument
+
++ (void)initialize
+{
+    if([self class] == [OEGameDocument class])
+    {
+        [[NSUserDefaults standardUserDefaults] registerDefaults:@{
+                                                                  OEScreenshotFileFormatKey : @(NSBitmapImageFileTypePNG),
+                                                                  OEScreenshotPropertiesKey : @{},
+                                                                  }];
+    }
+}
 
 - (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin *)core error:(NSError **)outError
 {

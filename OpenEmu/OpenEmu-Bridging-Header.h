@@ -23,10 +23,10 @@
 
 #import "OEGameDocument.h"
 #import "OEMainWindowController.h"
+#import "OEPopoutGameWindowController.h"
 #import "OEGameCollectionViewController.h"
 #import "OEMediaViewController.h"
 #import "OEHomebrewViewController.h"
-#import "OEGameViewController.h"
 #import "OEGameControlsBar.h"
 #import "OEGameInfoHelper.h"
 #import "OEROMImporter.h"

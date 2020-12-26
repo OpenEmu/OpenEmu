@@ -25,9 +25,18 @@
  */
 
 @import Cocoa;
-#import "OEGameViewController.h"
 
-extern NSString * const OEScreenshotAspectRatioCorrectionDisabled;
+extern NSString *const OEGameVolumeKey;
+extern NSString *const OEGameDefaultVideoShaderKey;
+extern NSString *const OEGameSystemVideoShaderKeyFormat;
+extern NSString *const OEGameCoreDisplayModeKeyFormat;
+extern NSString *const OEBackgroundPauseKey;
+extern NSString *const OEBackgroundControllerPlayKey;
+extern NSString *const OETakeNativeScreenshots;
+
+extern NSString *const OEScreenshotFileFormatKey;
+extern NSString *const OEScreenshotPropertiesKey;
+extern NSString *const OEScreenshotAspectRatioCorrectionDisabled;
 
 extern NSString *const OEGameCoreManagerModePreferenceKey;
 extern NSString *const OEGameDocumentErrorDomain;
@@ -51,6 +60,7 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 @class OEGameViewController;
 @class OESystemPlugin;
 @class OEEvent;
+@protocol OEGameCoreHelper;
 
 @interface OEGameDocument : NSDocument
 

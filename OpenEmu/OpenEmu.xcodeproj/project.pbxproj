@@ -316,7 +316,7 @@
 		5A3DB1B11D8E6806009445EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1B01D8E6806009445EC /* AppDelegate.swift */; };
 		5A438A1B1D89AEB60061A47C /* OpenEmuApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A438A1A1D89AEB60061A47C /* OpenEmuApplication.swift */; };
 		5A44301C1D93380600E54F1D /* OEBuildInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A44301B1D93380600E54F1D /* OEBuildInfo.m */; };
-		5A46AC411DC66D8300771B3B /* OEGameViewController+TouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A46AC401DC66D8300771B3B /* OEGameViewController+TouchBar.swift */; };
+		5A46AC411DC66D8300771B3B /* GameViewController+TouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A46AC401DC66D8300771B3B /* GameViewController+TouchBar.swift */; };
 		5A575DFB1E92B6CE00491B0D /* BIOSFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A575DFA1E92B6CE00491B0D /* BIOSFile.swift */; };
 		5A575DFD1E92D23600491B0D /* Cheats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A575DFC1E92D23600491B0D /* Cheats.swift */; };
 		5A6C157C1DC96C3700839986 /* OEMediaViewController+TouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6C157B1DC96C3700839986 /* OEMediaViewController+TouchBar.swift */; };
@@ -341,7 +341,7 @@
 		82DE4B63102655DA007184EB /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEE1026533E007184EB /* UniversalDetector.framework */; };
 		82DE4B7F102655FC007184EB /* XADMaster.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		82DE4B8010265600007184EB /* UniversalDetector.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEE1026533E007184EB /* UniversalDetector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		8301557B1456BF7A0093D681 /* OEGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8301557A1456BF7A0093D681 /* OEGameViewController.m */; };
+		8301557B1456BF7A0093D681 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8301557A1456BF7A0093D681 /* GameViewController.swift */; };
 		8305A48018FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */; };
 		8306CD101BD3AC180025BC6C /* LibraryGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD0E1BD3AC180025BC6C /* LibraryGamesViewController.swift */; };
 		8306CD3E1BD3DB180025BC6C /* OEGameCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */; };
@@ -1555,7 +1555,7 @@
 		5A438A1A1D89AEB60061A47C /* OpenEmuApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenEmuApplication.swift; sourceTree = "<group>"; };
 		5A44301A1D93380600E54F1D /* OEBuildInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBuildInfo.h; sourceTree = "<group>"; };
 		5A44301B1D93380600E54F1D /* OEBuildInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBuildInfo.m; sourceTree = "<group>"; };
-		5A46AC401DC66D8300771B3B /* OEGameViewController+TouchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEGameViewController+TouchBar.swift"; sourceTree = "<group>"; };
+		5A46AC401DC66D8300771B3B /* GameViewController+TouchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GameViewController+TouchBar.swift"; sourceTree = "<group>"; };
 		5A575DFA1E92B6CE00491B0D /* BIOSFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BIOSFile.swift; sourceTree = "<group>"; };
 		5A575DFC1E92D23600491B0D /* Cheats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cheats.swift; sourceTree = "<group>"; };
 		5A6C157B1DC96C3700839986 /* OEMediaViewController+TouchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEMediaViewController+TouchBar.swift"; sourceTree = "<group>"; };
@@ -1594,8 +1594,7 @@
 		82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KeyboardUsages.plist; sourceTree = "<group>"; };
 		82DE4AEE1026533E007184EB /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UniversalDetector.framework; sourceTree = "<group>"; };
 		82DE4AEF1026533E007184EB /* XADMaster.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XADMaster.framework; sourceTree = "<group>"; };
-		830155791456BF7A0093D681 /* OEGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameViewController.h; sourceTree = "<group>"; };
-		8301557A1456BF7A0093D681 /* OEGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameViewController.m; sourceTree = "<group>"; };
+		8301557A1456BF7A0093D681 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		8305A47E18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewCellIndicationLayer.h; sourceTree = "<group>"; };
 		8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewCellIndicationLayer.m; sourceTree = "<group>"; };
 		8306CD0E1BD3AC180025BC6C /* LibraryGamesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryGamesViewController.swift; sourceTree = "<group>"; };
@@ -2890,9 +2889,8 @@
 				53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */,
 				2A37F4AEFDCFA73011CA2CEA /* OEGameDocument.h */,
 				2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */,
-				830155791456BF7A0093D681 /* OEGameViewController.h */,
-				8301557A1456BF7A0093D681 /* OEGameViewController.m */,
-				5A46AC401DC66D8300771B3B /* OEGameViewController+TouchBar.swift */,
+				8301557A1456BF7A0093D681 /* GameViewController.swift */,
+				5A46AC401DC66D8300771B3B /* GameViewController+TouchBar.swift */,
 				14F6A924168180CF0071386D /* OEPopoutGameWindowController.h */,
 				14F6A925168180CF0071386D /* OEPopoutGameWindowController.m */,
 				5AC349321D89EB7B0089B26F /* GameIntegralScalingDelegate.swift */,
@@ -6813,7 +6811,7 @@
 				53439B7413B932FA005C0CC8 /* OEPrefControlsController.m in Sources */,
 				53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */,
 				0544B69E23D16D3100F63D61 /* CollectionView.swift in Sources */,
-				5A46AC411DC66D8300771B3B /* OEGameViewController+TouchBar.swift in Sources */,
+				5A46AC411DC66D8300771B3B /* GameViewController+TouchBar.swift in Sources */,
 				051DDCB523E5D74400325147 /* AvailableLibrariesViewController.swift in Sources */,
 				836AEA711975BFE100B86935 /* OEGridCell.m in Sources */,
 				05644A4823331EA90033576F /* AboutViewController.swift in Sources */,
@@ -6827,7 +6825,7 @@
 				5A9606DE1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift in Sources */,
 				83C68ED114483579000F720A /* OEAlert.m in Sources */,
 				832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */,
-				8301557B1456BF7A0093D681 /* OEGameViewController.m in Sources */,
+				8301557B1456BF7A0093D681 /* GameViewController.swift in Sources */,
 				83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */,
 				83BABBEE1458978B0097F6B2 /* SetupAssistantTableView.swift in Sources */,
 				8F4A69732547F84500DFE092 /* GameControlsBarView.swift in Sources */,

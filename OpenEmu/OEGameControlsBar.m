@@ -30,7 +30,6 @@
 
 @import OpenEmuKit;
 #import "OEGameDocument.h"
-#import "OEGameViewController.h"
 #import "OEPopoutGameWindowController.h"
 
 #import "OEDBSaveState.h"

@@ -28,7 +28,6 @@
 #import "OEDBImage.h"
 #import "OEDBRom.h"
 #import "OEGameDocument.h"
-#import "OEGameViewController.h"
 #import "NSArray+OEAdditions.h"
 @import Quartz;
 

@@ -28,7 +28,6 @@
 
 #import "OEMainWindowController.h"
 #import "OEGameDocument.h"
-#import "OEGameViewController.h"
 #import "OEGameControlsBar.h"
 #import "OEUtilities.h"
 
@@ -39,6 +38,11 @@
 @import QuartzCore;
 
 #import "OpenEmu-Swift.h"
+
+NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor";
+NSString *const OEPopoutGameWindowAlwaysOnTopKey        = @"OEPopoutGameWindowAlwaysOnTop";
+NSString *const OEPopoutGameWindowIntegerScalingOnlyKey = @"OEPopoutGameWindowIntegerScalingOnly";
+NSString *const OEPopoutGameWindowTreatScaleFactorAsPixels = @"OEPopoutGameWindowTreatScaleFactorAsPixels";
 
 #pragma mark - Private variables
 
@@ -67,12 +71,11 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 @end
 
 
-@interface OEPopoutGameWindowController()
+@interface OEPopoutGameWindowController () <OEGameIntegralScalingDelegate>
 @property (readonly, nonatomic) OEGameDocument *OE_gameDocument;
 /// A size with the same aspect ratio as the game document, matching the screen size in one dimension.
 @property (readonly)            NSSize          OE_fillScreenContentSize;
 @end
-
 
 @implementation OEPopoutGameWindowController
 {

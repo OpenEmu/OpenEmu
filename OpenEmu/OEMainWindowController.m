@@ -32,7 +32,6 @@
 
 #import "OEGameDocument.h"
 @import OpenEmuKit;
-#import "OEGameViewController.h"
 
 #import "OEDBGame.h"
 #import "OEDBRom.h"
