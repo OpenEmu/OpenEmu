@@ -28,8 +28,6 @@
 
 #import "OEDBSystem.h"
 @import OpenEmuKit;
-#import "OEDBSavedGamesMedia.h"
-#import "OEDBScreenshotsMedia.h"
 
 #import "OECollectionViewItemProtocol.h"
 #import "OEGameCollectionViewItemProtocol.h"
@@ -405,13 +403,10 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     [container addSubview:dragAndDropHereField];
 }
 
-- (void)setRepresentedMediaType:(id <OESidebarItem>)item
+- (void)setRepresentedMediaType:(id)item
 {
-    if(_representedCollectionName == item.sidebarName)
-        return;
-
     _representedSystemPlugin = nil;
-    _representedCollectionName = item.sidebarName;
+    _representedCollectionName = nil;
 
     if([_representedObject isKindOfClass:[OEDBScreenshotsMedia class]])
     {

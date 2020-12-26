@@ -19,10 +19,7 @@
 #import "OEDatabase+CoreDataModel.h"
 #import "OEDBGame.h"
 #import "OEDBCollection.h"
-#import "OEDBAllGamesCollection.h"
 #import "OEDBDataSourceAdditions.h"
-#import "OEDBSavedGamesMedia.h"
-#import "OEDBScreenshotsMedia.h"
 
 #import "OEGameDocument.h"
 #import "OEMainWindowController.h"

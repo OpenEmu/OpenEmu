@@ -251,7 +251,7 @@
 		3DB744CE1BD8BB0B00C23E74 /* PlayStation 2.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3DB744BA1BD8BA9E00C23E74 /* PlayStation 2.oesystemplugin */; };
 		53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */; };
 		53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8F13B92C68005C0CC8 /* OEDBDataSourceAdditions.m */; };
-		53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9313B92C97005C0CC8 /* OEDBAllGamesCollection.m */; };
+		53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9313B92C97005C0CC8 /* OEDBAllGamesCollection.swift */; };
 		53439A9B13B92C97005C0CC8 /* OEDBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9513B92C97005C0CC8 /* OEDBCollection.m */; };
 		53439A9C13B92C97005C0CC8 /* OEDBCollectionFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9713B92C97005C0CC8 /* OEDBCollectionFolder.m */; };
 		53439A9D13B92C97005C0CC8 /* OEDBSmartCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9913B92C97005C0CC8 /* OEDBSmartCollection.m */; };
@@ -628,8 +628,8 @@
 		94A225FA1707614500098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F31707614500098DA0 /* Controller-Mappings.plist */; };
 		94A225FB1707614500098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F41707614500098DA0 /* Controller-Preferences.plist */; };
 		94A225FC1707614500098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F51707614500098DA0 /* Keyboard-Mappings.plist */; };
-		94A4E98D179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E98C179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m */; };
-		94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.m */; };
+		94A4E98D179F9A4D00AD8C7D /* OEDBSaveStatesMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E98C179F9A4D00AD8C7D /* OEDBSaveStatesMedia.swift */; };
+		94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.swift */; };
 		94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */; };
 		94A5321918DF8A3700AE11B3 /* Jaguar.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 943C80121708A62E00D8D93E /* Jaguar.oesystemplugin */; };
 		94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */ = {isa = PBXBuildFile; fileRef = 94AE2C0F17B07D450018DFBB /* cheats-database.xml */; };
@@ -1476,8 +1476,7 @@
 		53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryDatabase.m; sourceTree = "<group>"; };
 		53439A8E13B92C68005C0CC8 /* OEDBDataSourceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBDataSourceAdditions.h; sourceTree = "<group>"; };
 		53439A8F13B92C68005C0CC8 /* OEDBDataSourceAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBDataSourceAdditions.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		53439A9213B92C97005C0CC8 /* OEDBAllGamesCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBAllGamesCollection.h; sourceTree = "<group>"; };
-		53439A9313B92C97005C0CC8 /* OEDBAllGamesCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBAllGamesCollection.m; sourceTree = "<group>"; };
+		53439A9313B92C97005C0CC8 /* OEDBAllGamesCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEDBAllGamesCollection.swift; sourceTree = "<group>"; };
 		53439A9413B92C97005C0CC8 /* OEDBCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBCollection.h; sourceTree = "<group>"; };
 		53439A9513B92C97005C0CC8 /* OEDBCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBCollection.m; sourceTree = "<group>"; };
 		53439A9613B92C97005C0CC8 /* OEDBCollectionFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBCollectionFolder.h; sourceTree = "<group>"; };
@@ -2070,10 +2069,8 @@
 		94A225F31707614500098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94A225F41707614500098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94A225F51707614500098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
-		94A4E98B179F9A4D00AD8C7D /* OEDBSavedGamesMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSavedGamesMedia.h; sourceTree = "<group>"; };
-		94A4E98C179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSavedGamesMedia.m; sourceTree = "<group>"; };
-		94A4E98E179F9D0400AD8C7D /* OEDBScreenshotsMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBScreenshotsMedia.h; sourceTree = "<group>"; };
-		94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBScreenshotsMedia.m; sourceTree = "<group>"; };
+		94A4E98C179F9A4D00AD8C7D /* OEDBSaveStatesMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEDBSaveStatesMedia.swift; sourceTree = "<group>"; };
+		94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEDBScreenshotsMedia.swift; sourceTree = "<group>"; };
 		94A4E994179FAB9E00AD8C7D /* OEMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMediaViewController.h; sourceTree = "<group>"; };
 		94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMediaViewController.m; sourceTree = "<group>"; };
 		94AE2C0F17B07D450018DFBB /* cheats-database.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "cheats-database.xml"; sourceTree = "<group>"; };
@@ -3299,8 +3296,7 @@
 		53439A9113B92C6B005C0CC8 /* Collections */ = {
 			isa = PBXGroup;
 			children = (
-				53439A9213B92C97005C0CC8 /* OEDBAllGamesCollection.h */,
-				53439A9313B92C97005C0CC8 /* OEDBAllGamesCollection.m */,
+				53439A9313B92C97005C0CC8 /* OEDBAllGamesCollection.swift */,
 				53439A9413B92C97005C0CC8 /* OEDBCollection.h */,
 				53439A9513B92C97005C0CC8 /* OEDBCollection.m */,
 				53439A9613B92C97005C0CC8 /* OEDBCollectionFolder.h */,
@@ -4323,10 +4319,8 @@
 		94A4E988179F9A3F00AD8C7D /* Media */ = {
 			isa = PBXGroup;
 			children = (
-				94A4E98B179F9A4D00AD8C7D /* OEDBSavedGamesMedia.h */,
-				94A4E98C179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m */,
-				94A4E98E179F9D0400AD8C7D /* OEDBScreenshotsMedia.h */,
-				94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.m */,
+				94A4E98C179F9A4D00AD8C7D /* OEDBSaveStatesMedia.swift */,
+				94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.swift */,
 			);
 			name = Media;
 			sourceTree = "<group>";
@@ -6781,7 +6775,7 @@
 				53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */,
 				5A575DFD1E92D23600491B0D /* Cheats.swift in Sources */,
 				53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */,
-				53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */,
+				53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.swift in Sources */,
 				83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */,
 				8306CD101BD3AC180025BC6C /* LibraryGamesViewController.swift in Sources */,
 				8F94B44D25566FE00058AA94 /* NSShadow+OEAdditions.swift in Sources */,
@@ -6921,9 +6915,9 @@
 				0544B69723D16D0C00F63D61 /* ImageCacheService.swift in Sources */,
 				837820BD19081A090043593F /* OELibraryMigrator.m in Sources */,
 				8337F38E1726B3600068DD90 /* BackgroundImageView.swift in Sources */,
-				94A4E98D179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m in Sources */,
+				94A4E98D179F9A4D00AD8C7D /* OEDBSaveStatesMedia.swift in Sources */,
 				5A3DB1731D8CA752009445EC /* BackgroundGradientView.swift in Sources */,
-				94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.m in Sources */,
+				94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.swift in Sources */,
 				94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */,
 				83E89274197471F8004D4489 /* OEHomebrewCoverView.m in Sources */,
 				0544B69823D16D0C00F63D61 /* ImageCollectionDataSource.swift in Sources */,

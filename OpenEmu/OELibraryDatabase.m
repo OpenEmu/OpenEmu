@@ -28,16 +28,12 @@
 
 @import OpenEmuKit;
 
-#import "OEDBAllGamesCollection.h"
 #import "OEDBSystem+CoreDataProperties.h"
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBSaveState.h"
 #import "OEDBImage.h"
 #import "OELogging.h"
-
-#import "OEDBSavedGamesMedia.h"
-#import "OEDBScreenshotsMedia.h"
 
 #import "OEFSWatcher.h"
 #import "OEROMImporter.h"

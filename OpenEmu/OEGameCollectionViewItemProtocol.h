@@ -27,11 +27,12 @@
 @import Foundation;
 #import "OECollectionViewItemProtocol.h"
 
+NS_SWIFT_NAME(OEGameCollectionViewItem)
 @protocol OEGameCollectionViewItemProtocol <OECollectionViewItemProtocol>
-- (NSString *)collectionViewName;
-- (BOOL)shouldShowSystemColumnInListView;
+@property (readonly) NSString* collectionViewName;
+@property (readonly) BOOL shouldShowSystemColumnInListView;
 
-- (NSPredicate *)fetchPredicate;
-- (NSInteger)fetchLimit;
+@property (readonly) NSPredicate* fetchPredicate;
+@property (readonly) NSInteger fetchLimit;
 @property (nonatomic, readonly) NSArray<NSSortDescriptor *> *fetchSortDescriptors;
 @end

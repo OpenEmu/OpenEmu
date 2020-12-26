@@ -56,7 +56,6 @@
 #import "OEImportOperation.h"
 #import "OEPrefBiosController.h"
 #import "OEMainWindowController.h"
-#import "OEDBSavedGamesMedia.h"
 
 #import "OpenEmu-Swift.h"
 
@@ -161,8 +160,8 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox(OECoverGridViewAutoDownloadEnabledKey, @"Download missing artwork on the fly"),
                               Checkbox(OEDisplayGameTitle, @"Show game titles instead of rom names"),
                               Checkbox(OEImportManualSystems, @"Manually choose system on import"),
-                              Checkbox(OEDBSavedGamesMediaShowsAutoSaves, @"Show autosave states in save state category"),
-                              Checkbox(OEDBSavedGamesMediaShowsQuickSaves, @"Show quicksave states in save state category"),
+                              Checkbox(OEDBSavedGamesMedia.showsAutoSavesKey, @"Show autosave states in save state category"),
+                              Checkbox(OEDBSavedGamesMedia.showsQuickSavesKey, @"Show quicksave states in save state category"),
                               Checkbox(@"useNewSaveStatesViewController", @"Use new save states view"),
                               Checkbox(@"useNewScreenshotsViewController", @"Use new screenshots view"),
                               Button(@"Show game scanner view", @selector(showGameScannerView:)),

@@ -26,9 +26,10 @@
 
 @import Foundation;
 
+NS_SWIFT_NAME(OECollectionViewItem)
 @protocol OECollectionViewItemProtocol <NSObject>
-- (BOOL)isCollectionEditable;
 @optional
-- (BOOL)collectionSupportsQuickLook;
-- (NSPredicate*)baseFilterPredicate;
+@property (readonly) BOOL isCollectionEditable;
+@property (readonly) BOOL collectionSupportsQuickLook;
+@property (readonly) NSPredicate* baseFilterPredicate;
 @end

@@ -45,8 +45,6 @@
 #import "OEDBSmartCollection.h"
 #import "OEDBSaveState.h"
 
-#import "OEDBAllGamesCollection.h"
-
 #import "OELibraryDatabase.h"
 #import "OEArrayController.h"
 

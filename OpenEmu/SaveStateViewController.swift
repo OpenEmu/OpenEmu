@@ -30,7 +30,7 @@ class SaveStateViewController: ImageCollectionViewController, LibrarySubviewCont
     
     override var representedObject: Any? {
         willSet {
-            precondition(newValue == nil || newValue is OEDBSavedGamesMedia, "unexpected object")
+            precondition(newValue == nil || newValue is OEDBSaveStatesMedia, "unexpected object")
         }
     }
     
@@ -48,7 +48,7 @@ class SaveStateViewController: ImageCollectionViewController, LibrarySubviewCont
     }
     
     override func viewDidLoad() {
-        self.representedObject = OEDBSavedGamesMedia.shared
+        self.representedObject = OEDBSaveStatesMedia.shared
         self.dataSourceDelegate = dataSource
         
         super.viewDidLoad()

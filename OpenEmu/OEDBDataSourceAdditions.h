@@ -32,7 +32,6 @@
 #import "OECoverGridDataSourceItem.h"
 #import "OESidebarItem.h"
 #import "OEListViewDataSourceItem.h"
-#import "OEDBAllGamesCollection.h"
 
 #import "OEGameCollectionViewItemProtocol.h"
 
@@ -52,7 +51,5 @@ extern NSString * const OECoverGridViewAutoDownloadEnabledKey;
 @interface OEDBSystem (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>
 @end
 
-@interface OEDBAllGamesCollection (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>
-@end
 
 NS_ASSUME_NONNULL_END

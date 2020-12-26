@@ -350,42 +350,4 @@ NSString * OE_localizedStringFromElapsedTime(NSTimeInterval timeInterval)
 }
 @end
 
-@implementation OEDBAllGamesCollection (OECollectionViewItemAdditions)
-
-- (NSString *)collectionViewName
-{
-    return self.sidebarName;
-}
-
-- (BOOL)isCollectionEditable
-{
-    return YES;
-}
-
-- (NSArray * _Nullable)items
-{
-    return nil;
-}
-
-- (NSPredicate *)fetchPredicate
-{
-    return [NSPredicate predicateWithValue:YES];
-}
-
-- (BOOL)shouldShowSystemColumnInListView
-{
-    return YES;
-}
-
-- (NSInteger)fetchLimit
-{
-    return 0;
-}
-
-- (NSArray<NSSortDescriptor *> *)fetchSortDescriptors
-{
-    return @[];
-}
-@end
-
 NS_ASSUME_NONNULL_END

@@ -92,14 +92,14 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
             if useNew {
                 let ctrl = SaveStateViewController()
                 ctrl.database = self.database
-                ctrl.representedObject = OEDBSavedGamesMedia.shared
+                ctrl.representedObject = OEDBSaveStatesMedia.shared
                 let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.savestatesViewController)
                 item.viewController = ctrl
                 self.insertTabViewItem(item, at: idx)
             } else {
                 let ctrl = OEMediaViewController()
                 ctrl.database = self.database
-                ctrl.representedObject = OEDBSavedGamesMedia.shared
+                ctrl.representedObject = OEDBSaveStatesMedia.shared
                 let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.savestatesViewController)
                 item.viewController = ctrl
                 self.insertTabViewItem(item, at: idx)
@@ -159,7 +159,7 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
             do {
                 let ctrl = SaveStateViewController()
                 ctrl.database = database
-                ctrl.representedObject = OEDBSavedGamesMedia.shared
+                ctrl.representedObject = OEDBSaveStatesMedia.shared
                 let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.screenshotsViewController)
                 item.viewController = ctrl
                 addTabViewItem(item)
@@ -168,7 +168,7 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
             do {
                 let ctrl = OEMediaViewController()
                 ctrl.database = database
-                ctrl.representedObject = OEDBSavedGamesMedia.shared
+                ctrl.representedObject = OEDBSaveStatesMedia.shared
                 let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.savestatesViewController)
                 item.viewController = ctrl
                 addTabViewItem(item)

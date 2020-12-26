@@ -37,7 +37,6 @@
 #import "OEDBSaveState.h"
 #import "OEDBCollection.h"
 #import "OEDBSmartCollection.h"
-#import "OEDBAllGamesCollection.h"
 
 #import "OEROMImporter.h"
 
