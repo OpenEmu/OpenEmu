@@ -34,7 +34,6 @@
 #import "OEListViewDataSourceItem.h"
 
 #import "OECoverGridDataSourceItem.h"
-#import "OEBlankSlateView.h"
 
 #import "OEDBSystem.h"
 @import OpenEmuKit;
@@ -85,7 +84,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 @end
 
-@interface OECollectionViewController ()
+@interface OECollectionViewController () <OEBlankSlateViewDelegate>
 {
     IBOutlet NSView *gridViewContainer;// gridview
     IBOutlet OEBlankSlateView *blankSlateView;

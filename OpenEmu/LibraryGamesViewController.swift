@@ -199,11 +199,9 @@ class LibraryGamesViewController: NSSplitViewController {
                 alert.addButton(withTitle: NSLocalizedString("View Guide in Browser", comment: ""))
                 alert.addButton(withTitle: NSLocalizedString("Dismiss", comment: ""))
                 
-                alert.beginSheetModal(for: window) { returnCode in
-                    if returnCode == .alertFirstButtonReturn {
-                        if let guideURL = URL(string: OECDBasedGamesUserGuideURLString) {
-                            NSWorkspace.shared.open(guideURL)
-                        }
+                alert.beginSheetModal(for: window) { result in
+                    if result == .alertFirstButtonReturn {
+                        NSWorkspace.shared.open(.userGuideCDBasedGames)
                     }
                 }
                 

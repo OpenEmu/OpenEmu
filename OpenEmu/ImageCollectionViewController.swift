@@ -31,7 +31,7 @@ class ImageCollectionViewController: NSViewController {
     
     @IBOutlet weak var collectionView: CollectionView!
     @IBOutlet weak var flowLayout: NSCollectionViewFlowLayout!
-    @IBOutlet weak var blankSlateView: OEBlankSlateView!
+    @IBOutlet weak var blankSlateView: BlankSlateView!
     
     var shouldShowBlankSlate = false
     var searchKeys = ["rom.game.gameTitle", "rom.game.name", "rom.game.system.lastLocalizedName", "name", "userDescription"]
@@ -518,8 +518,8 @@ extension ImageCollectionViewController: NSCollectionViewDelegateFlowLayout {
 
 // MARK: - Blank Slate Delegate
 
-extension ImageCollectionViewController: OEBlankSlateViewDelegate {
-    func blankSlateView(_ gridView: OEBlankSlateView!, validateDrop sender: NSDraggingInfo!) -> NSDragOperation {
+extension ImageCollectionViewController: BlankSlateViewDelegate {
+    func blankSlateView(_ gridView: BlankSlateView, validateDrop sender: NSDraggingInfo) -> NSDragOperation {
         if let types = sender.draggingPasteboard.types, types.contains(.fileURL) {
             return .copy
         }
@@ -527,7 +527,7 @@ extension ImageCollectionViewController: OEBlankSlateViewDelegate {
         return []
     }
     
-    func blankSlateView(_ gridView: OEBlankSlateView!, acceptDrop sender: NSDraggingInfo!) -> Bool {
+    func blankSlateView(_ gridView: BlankSlateView, acceptDrop sender: NSDraggingInfo) -> Bool {
         let pboard = sender.draggingPasteboard
         if pboard.canReadObject(forClasses: [NSURL.self], options: nil) {
             guard let files = pboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] else { return false }

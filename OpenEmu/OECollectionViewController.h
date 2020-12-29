@@ -27,7 +27,6 @@
 @import Cocoa;
 
 #import "OEGridView.h"
-#import "OEBlankSlateView.h"
 
 #import "OECollectionViewItemProtocol.h"
 
@@ -48,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN;
 extern NSString * const OELastGridSizeKey;
 extern NSString * const OELastCollectionViewKey;
 
-@interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OEGridViewDelegate, OEGridViewMenuSource, QLPreviewPanelDelegate, QLPreviewPanelDataSource>
+@interface OECollectionViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource, OEGridViewDelegate, OEGridViewMenuSource, QLPreviewPanelDelegate, QLPreviewPanelDataSource>
 
 - (void)reloadData;
 - (void)setNeedsReload;

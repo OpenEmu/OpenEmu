@@ -25,16 +25,16 @@
 import Cocoa
 
 @objc(OEHomebrewBlankSlateView)
-class HomebrewBlankSlateView: OEBlankSlateView {
+final class HomebrewBlankSlateView: BlankSlateView {
     
     override func setupViewForRepresentedObject() {
         
-        addLeftHeadline(withText: NSLocalizedString("Homebrew Games", comment: ""))
+        addLeftHeadline(NSLocalizedString("Homebrew Games", comment: ""))
         addInformationalText(NSLocalizedString("Check out some excellent homebrew games.", comment: ""))
         
         if representedObject is String {
             
-            setupBox(withText: representedObject as? String, andImageView: BlankSlateSpinnerView())
+            setupBox(text: representedObject as! String, imageView: BlankSlateSpinnerView())
         }
         else if representedObject is Error {
             
@@ -44,7 +44,7 @@ class HomebrewBlankSlateView: OEBlankSlateView {
             warningImageView.imageAlignment = .alignTop
             warningImageView.unregisterDraggedTypes()
             
-            setupBox(withText: NSLocalizedString("No Internet Connection", comment: "Homebrew Blank Slate View Error Info"), andImageView: warningImageView)
+            setupBox(text: NSLocalizedString("No Internet Connection", comment: "Homebrew Blank Slate View Error Info"), imageView: warningImageView)
         }
         else {
             DLog("Unknown Represented Object!")

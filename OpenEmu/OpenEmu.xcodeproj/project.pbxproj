@@ -384,7 +384,7 @@
 		837964F91A614C0A00A8DE5C /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		837964FA1A614C6A00A8DE5C /* Supervision.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 837964E11A6149C000A8DE5C /* Supervision.oesystemplugin */; };
 		839310BC147802380020058E /* OECoreDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 839310BB147802380020058E /* OECoreDownload.m */; };
-		83955CB5165D939100572B34 /* OEBlankSlateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB4165D939100572B34 /* OEBlankSlateView.m */; };
+		83955CB5165D939100572B34 /* BlankSlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB4165D939100572B34 /* BlankSlateView.swift */; };
 		8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */; };
 		83A9758A184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A97589184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift */; };
 		83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AAC32814581699005ADD16 /* OESetupAssistantBackgroundView.m */; };
@@ -1680,8 +1680,7 @@
 		839310BA147802380020058E /* OECoreDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreDownload.h; sourceTree = "<group>"; };
 		839310BB147802380020058E /* OECoreDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreDownload.m; sourceTree = "<group>"; };
 		8393FD33195D71B50021D3D9 /* OEDatabase 1.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.3.xcdatamodel"; sourceTree = "<group>"; };
-		83955CB3165D939100572B34 /* OEBlankSlateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBlankSlateView.h; sourceTree = "<group>"; };
-		83955CB4165D939100572B34 /* OEBlankSlateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateView.m; sourceTree = "<group>"; };
+		83955CB4165D939100572B34 /* BlankSlateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlankSlateView.swift; sourceTree = "<group>"; };
 		8396CC5514068DA90096F791 /* ControlsKeyButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsKeyButton.swift; sourceTree = "<group>"; };
 		8397082C163C3FD300E04871 /* OEDatabase 0.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.3.xcdatamodel"; sourceTree = "<group>"; };
 		8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "0.2 to 0.3.xcmappingmodel"; sourceTree = "<group>"; };
@@ -3314,7 +3313,6 @@
 				8363A43C193CC1BF00F18425 /* OECollectionViewItemProtocol.h */,
 				53439AAE13B92CFE005C0CC8 /* Grid View */,
 				53439AAD13B92CFC005C0CC8 /* List View */,
-				83955CB9165DAE7900572B34 /* Blank Slate View */,
 				830CB916186878D6006EAE5A /* OEArrayController.h */,
 				830CB917186878D6006EAE5A /* OEArrayController.m */,
 			);
@@ -3491,6 +3489,7 @@
 				53439AA713B92CD4005C0CC8 /* Collection View */,
 				83F444FA196CA207007E8C63 /* Homebrew */,
 				8306CD0C1BD3ABFD0025BC6C /* Games Library */,
+				83955CB9165DAE7900572B34 /* Blank Slate View */,
 				0544B68223D1355400F63D61 /* LibraryController.swift */,
 				8F3062DA251A897E00BDFF1F /* OESearchField.swift */,
 				012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */,
@@ -3605,9 +3604,8 @@
 		83955CB9165DAE7900572B34 /* Blank Slate View */ = {
 			isa = PBXGroup;
 			children = (
+				83955CB4165D939100572B34 /* BlankSlateView.swift */,
 				83CB0C791A3F000700409FB2 /* BlankSlateSpinnerView.swift */,
-				83955CB3165D939100572B34 /* OEBlankSlateView.h */,
-				83955CB4165D939100572B34 /* OEBlankSlateView.m */,
 			);
 			name = "Blank Slate View";
 			sourceTree = "<group>";
@@ -6837,6 +6835,7 @@
 				83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */,
 				5A2CE89A206EA61B00790F89 /* NSArray+OEAdditions.m in Sources */,
 				83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */,
+				83955CB5165D939100572B34 /* BlankSlateView.swift in Sources */,
 				8FBAE9EB254BD7FA00446C3B /* NSControl+i18n.swift in Sources */,
 				0547FD9924E773F0005C1FFC /* OELogging.m in Sources */,
 				0571307F259A8859001CB13A /* AppMover.swift in Sources */,
@@ -6884,7 +6883,6 @@
 				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,
 				14F8750D1649377E002AE3B8 /* OEFiniteStateMachine.m in Sources */,
 				5A575DFB1E92B6CE00491B0D /* BIOSFile.swift in Sources */,
-				83955CB5165D939100572B34 /* OEBlankSlateView.m in Sources */,
 				83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */,
 				83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */,
 				5A6C157C1DC96C3700839986 /* OEMediaViewController+TouchBar.swift in Sources */,
