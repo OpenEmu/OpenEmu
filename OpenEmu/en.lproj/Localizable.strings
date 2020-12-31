@@ -642,3 +642,11 @@
 "Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?";
 
 "Reopen without loading state" = "Reopen without loading state";
+
+"MOVE_ALERT_TITLE" = "Move to Applications folder";
+
+"MOVE_ALERT_INFO_TEXT" = "%@ must move to your Applications folder in order to work properly.";
+
+"MOVE_ALERT_NEEDS_AUTH" = "You need to authenticate with your administrator password to complete this step.";
+
+"MOVE_ALERT_MOVE_BUTTON" = "Move to Applications folder";

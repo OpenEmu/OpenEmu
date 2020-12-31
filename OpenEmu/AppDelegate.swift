@@ -733,6 +733,19 @@ extension AppDelegate: NSMenuDelegate {
 @objc extension AppDelegate: OpenEmuApplicationDelegateProtocol {
     
     func applicationWillFinishLaunching(_ notification: Notification) {
+        atexit {
+            // Always remove the XPC broker registered with launchd.
+            // If the app was executed under App Translocation,
+            // the broker may refer to an invalid path, so this ensures
+            // it is re-registered on next launch.
+            try? LaunchControl.remove(service: "org.openemu.broker")
+        }
+        
+        if AppMover.isAppQuarantined() {
+            AppMover.removeQuarantineAttribute()
+            // TODO: trigger a relaunch?
+        }
+        AppMover.moveIfNecessary()
         
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.".appending(OEAppearancePreferenceKey), options: [.initial], context: &appearancePrefChangedKVOContext)
         
@@ -756,7 +769,6 @@ extension AppDelegate: NSMenuDelegate {
         notificationCenter.removeObserver(self, name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
     }
     func applicationDidFinishLaunching(_ notification: Notification) {
-        
         // Hide link to localization guide if localization for preferred language exists
         let preferredLanguage = NSLocale.preferredLanguages[0]
         for localization in Bundle.main.localizations {

@@ -245,4 +245,20 @@ extension OEAlert {
         
         return alert
     }
+    
+    final class func moveToApplications(needAuth: Bool) -> OEAlert {
+        
+        let localizedName = NSRunningApplication.current.localizedName ?? "The App"
+        
+        let alert = OEAlert()
+        alert.messageText = NSLocalizedString("MOVE_ALERT_TITLE", tableName: nil, bundle: .main, value: "Move to Applications folder", comment: "")
+        alert.informativeText = .localizedStringWithFormat(NSLocalizedString("MOVE_ALERT_INFO_TEXT", tableName: nil, bundle: .main, value: "%@ must move to your Applications folder in order to work properly.", comment: ""), localizedName)
+        if needAuth {
+            alert.informativeText.append(" ")
+            alert.informativeText.append(NSLocalizedString("MOVE_ALERT_NEEDS_AUTH", tableName: nil, bundle: .main, value: "You need to authenticate with your administrator password to complete this step.", comment: ""))
+        }
+        alert.defaultButtonTitle = NSLocalizedString("MOVE_ALERT_MOVE_BUTTON", tableName: nil, bundle: .main, value: "Move to Applications Folder", comment: "")
+        
+        return alert
+    }
 }

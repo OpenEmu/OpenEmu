@@ -185,6 +185,7 @@
 		0557CB1B22A781B60037175F /* OEShadersModel+OpenEmu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */; };
 		05644A4823331EA90033576F /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05644A4723331EA90033576F /* AboutViewController.swift */; };
 		0570B85725449E4C008EC8A6 /* ImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B68A23D16D0B00F63D61 /* ImageCollectionViewController.swift */; };
+		0571307F259A8859001CB13A /* AppMover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0571307E259A8859001CB13A /* AppMover.swift */; };
 		0586AB22231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */; };
 		059ECCC22524030D00DCA0F6 /* ShaderParametersWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */; };
 		05A002D423DE1006007F0DB7 /* UserDefaults+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */; };
@@ -1327,6 +1328,7 @@
 		05644A18233313070033576F /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		05644A1A2333130B0033576F /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		05644A4723331EA90033576F /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		0571307E259A8859001CB13A /* AppMover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMover.swift; sourceTree = "<group>"; };
 		0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEGameLayerNotificationView.swift; sourceTree = "<group>"; };
 		05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+OEAdditions.swift"; sourceTree = "<group>"; };
 		05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarHeaderView.swift; sourceTree = "<group>"; };
@@ -2677,6 +2679,14 @@
 			name = Shaders;
 			sourceTree = "<group>";
 		};
+		057130B8259A8885001CB13A /* AppMover */ = {
+			isa = PBXGroup;
+			children = (
+				0571307E259A8859001CB13A /* AppMover.swift */,
+			);
+			name = AppMover;
+			sourceTree = "<group>";
+		};
 		05D50C3023CEA34000733BA2 /* Modern UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -3322,6 +3332,7 @@
 				829165DA0E85F9A400493FD8 /* Graphics */,
 				01E2A2F123E6027900194150 /* Custom Controls */,
 				83B6E444143E1BBD00BCDB7A /* Utilities */,
+				057130B8259A8885001CB13A /* AppMover */,
 				14CB5DA516FE1F6600342817 /* Audio Devices */,
 				14F6A92A168184550071386D /* Game Document */,
 				C69DCCFF0FE994A5009AE5A6 /* OEPluginDocument.h */,
@@ -6617,6 +6628,7 @@
 				83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */,
 				8FBAE9EB254BD7FA00446C3B /* NSControl+i18n.swift in Sources */,
 				0547FD9924E773F0005C1FFC /* OELogging.m in Sources */,
+				0571307F259A8859001CB13A /* AppMover.swift in Sources */,
 				8F80217A24F45E4800DC82E3 /* ControlsScroller.swift in Sources */,
 				EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.swift in Sources */,
 				EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */,
