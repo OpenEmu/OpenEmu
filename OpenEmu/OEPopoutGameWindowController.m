@@ -473,18 +473,16 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
                                                                styleMask:NSWindowStyleMaskBorderless
                                                                  backing:NSBackingStoreBuffered
                                                                    defer:NO];
-    [_screenshotWindow setBackgroundColor:self.window.backgroundColor];
-    [_screenshotWindow setOpaque:NO];
+    [_screenshotWindow setBackgroundColor:NSColor.blackColor];
+    [_screenshotWindow setOpaque:YES];
     [_screenshotWindow setAnimationBehavior:NSWindowAnimationBehaviorNone];
     
-    NSView *view = _screenshotWindow.contentView;
-
-    NSImageView  *imageView  = [[NSImageView alloc] initWithFrame:(NSRect){.origin = NSZeroPoint, .size = view.frame.size}];
+    NSImageView  *imageView  = [[NSImageView alloc] initWithFrame:(NSRect){.origin = NSZeroPoint, .size = screenFrame.size}];
     imageView.imageAlignment = NSImageAlignCenter;
     imageView.imageScaling   = NSImageScaleProportionallyUpOrDown;
     [imageView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
     _screenshotWindow.screenshotView = imageView;
-    [view addSubview:imageView];
+    _screenshotWindow.contentView = imageView;
 }
 
 - (void)OE_hideScreenshotWindow
