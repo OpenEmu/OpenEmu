@@ -85,7 +85,7 @@ extension Bundle {
     
     func preferredLocalizedString(forKey key: String, value: String?, table: String?) -> String {
         let new = localizedString(forKey: key, value: Self.noTransKey, table: table)
-        if new != Self.noTransKey {
+        if new.compare(Self.noTransKey, options: [.caseInsensitive], range: nil, locale: nil) != .orderedSame {
             return new
         }
         
@@ -96,7 +96,7 @@ extension Bundle {
                 else { continue }
             
             let new = bundle.localizedString(forKey: key, value: Self.noTransKey, table: table)
-            if new != Self.noTransKey {
+            if new.compare(Self.noTransKey, options: [.caseInsensitive], range: nil, locale: nil) != .orderedSame {
                 return new
             }
         }
