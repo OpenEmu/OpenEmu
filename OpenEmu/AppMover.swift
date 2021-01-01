@@ -51,23 +51,20 @@ public enum AppMover {
             }
     }
     
-    /// Verify if the app is running in the Applications folder and if not, alert the user
-    /// they must move it.
+    /// Check if the app is translocated; promt the user to move it in case it is.
     public static func moveIfNecessary() {
         let bundle = Bundle.main
         
-        if shouldIgnore || bundle.isInstalled {
-            return
-        }
+        guard bundle.isTranslocated else { return }
         
-        guard let applications = preferredInstallDirectory() else { return }
+        guard let appsDir = preferredInstallDirectory else { return }
         
         let srcUrl = bundle.bundleURL
-        let dstUrl = applications.appendingPathComponent(srcUrl.lastPathComponent)
+        var dstUrl = appsDir.appendingPathComponent(srcUrl.lastPathComponent)
         
         let fm = FileManager.default
         let needDestAuth = fm.fileExists(atPath: dstUrl.path) && !fm.isWritableFile(atPath: dstUrl.path)
-        let needAuth = needDestAuth || !fm.isWritableFile(atPath: applications.path)
+        var needAuth = needDestAuth || !fm.isWritableFile(atPath: appsDir.path)
         
         // Activate app -- work-around for focus issues related to "scary file from
         // internet" OS dialog.
@@ -76,7 +73,24 @@ public enum AppMover {
         }
         
         let alert: OEAlert = .moveToApplications(needAuth: needAuth)
-        guard alert.runModal() == .alertFirstButtonReturn else {
+        switch alert.runModal() {
+        case .alertFirstButtonReturn:
+            break
+        case .alertSecondButtonReturn:
+            return NSApp.terminate(self)
+        case .alertThirdButtonReturn:
+            let panel = NSOpenPanel()
+            panel.canChooseDirectories = true
+            panel.canChooseFiles = false
+            panel.canCreateDirectories = true
+            
+            if panel.runModal() == .OK, let url = panel.url {
+                dstUrl = url.appendingPathComponent(srcUrl.lastPathComponent)
+                needAuth = (fm.fileExists(atPath: dstUrl.path) && !fm.isWritableFile(atPath: dstUrl.path)) || !fm.isWritableFile(atPath: url.path)
+            } else {
+                return moveIfNecessary()
+            }
+        default:
             return
         }
         if needAuth {
@@ -118,8 +132,8 @@ public enum AppMover {
         case success, failed, canceled
     }
     
-    static private func authorizedInstall(from sourceURL: URL, to destinationURL: URL) -> InstallResult {
-        guard destinationURL.representsBundle,
+    private static func authorizedInstall(from sourceURL: URL, to destinationURL: URL) -> InstallResult {
+        guard destinationURL.representsApplicationBundle,
               destinationURL.isValid,
               sourceURL.isValid
         else { return .failed }
@@ -129,8 +143,8 @@ public enum AppMover {
             let dstPath = destinationURL.withUnsafeFileSystemRepresentation({ $0 == nil ? nil : String(cString: $0!) })
         else { return .failed }
         
-        let deleteCommand = "rm -rf '\(srcPath)'"
-        let copyCommand = "cp -pR '\(srcPath)' '\(dstPath)'"
+        let deleteCommand = "/bin/rm -rf '\(srcPath)'"
+        let copyCommand = "/bin/cp -pR '\(srcPath)' '\(dstPath)'"
         guard
             let script = NSAppleScript(source: "do shell script \"\(deleteCommand) && \(copyCommand)\" with administrator privileges")
         else { return .failed }
@@ -154,7 +168,7 @@ public enum AppMover {
         return .success
     }
     
-    static private func preferredInstallDirectory() -> URL? {
+    private static var preferredInstallDirectory: URL? {
         let fm = FileManager.default
         let dirs = fm.urls(for: .applicationDirectory, in: .allDomainsMask)
         // Find Applications dir with the most apps that isn't system protected
@@ -174,7 +188,7 @@ public enum AppMover {
             .last
     }
     
-    static private func isApplicationAtUrlRunning(_ url: URL) -> Bool {
+    private static func isApplicationAtUrlRunning(_ url: URL) -> Bool {
         let url = url.standardized
         return NSWorkspace
             .shared
@@ -184,7 +198,7 @@ public enum AppMover {
             }
     }
     
-    static private func relaunch(at path: String) {
+    private static func relaunch(at path: String) {
         let pid = ProcessInfo.processInfo.processIdentifier
         
         /// This script performs the following actions:
@@ -199,23 +213,11 @@ public enum AppMover {
         task.arguments = ["-c", script]
         try? task.run()
     }
-    
-    /// shouldIgnore returns true for any conditions that should suppress the
-    /// Move to Applications Folder alert, including if a debugger is attached
-    /// or the bundle is already in a path that contains Applications or DerivedData.
-    static private var shouldIgnore: Bool {
-        if OEXPCCDebugSupport.debuggerAttached {
-            return true
-        }
-        
-        let safe = ["/Applications/", "/DerivedData/"]
-        return safe.contains { Bundle.main.bundlePath.contains($0) }
-    }
 }
 
 fileprivate extension URL {
     
-    var representsBundle: Bool {
+    var representsApplicationBundle: Bool {
         pathExtension == "app"
     }
     
@@ -230,13 +232,8 @@ fileprivate extension URL {
 }
 
 fileprivate extension Bundle {
-    var isInstalled: Bool {
-        FileManager.default
-            .urls(for: .applicationDirectory, in: .allDomainsMask)
-            .contains {
-                bundlePath.hasPrefix($0.path)
-            }
-            || bundlePath.contains("/Applications/")
+    var isTranslocated: Bool {
+        return bundlePath.contains("/AppTranslocation/")
     }
 }
 

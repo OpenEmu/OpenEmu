@@ -645,8 +645,10 @@
 
 "MOVE_ALERT_TITLE" = "Move to Applications folder";
 
-"MOVE_ALERT_INFO_TEXT" = "%@ must move to your Applications folder in order to work properly.";
+"MOVE_ALERT_INFO_TEXT" = "OpenEmu must move to your Applications folder in order to work properly.";
 
-"MOVE_ALERT_NEEDS_AUTH" = "You need to authenticate with your administrator password to complete this step.";
+"MOVE_ALERT_NEEDS_AUTH" = "You need to authenticate with an administrator name and password to complete this step. Alternatively, you can choose a different location or quit the App and move it manually.";
 
 "MOVE_ALERT_MOVE_BUTTON" = "Move to Applications folder";
+
+"Choose Location…" = "Choose Location…";

@@ -644,3 +644,13 @@
 "Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "Inkompatibilitäten zwischen verschiedenen Versionen eines Kerns können beim Laden älterer Spielstände zu Abstürzen führen. Möchtest du das Spiel starten, ohne einen Spielstand zu laden?";
 
 "Reopen without loading state" = "Ohne Spielstand starten";
+
+"MOVE_ALERT_TITLE" = "In „Programme“-Ordner verschieben";
+
+"MOVE_ALERT_INFO_TEXT" = "OpenEmu muss in den „Programme“-Ordner verschoben werden, um korrekt funktionieren zu können.";
+
+"MOVE_ALERT_NEEDS_AUTH" = "Hierfür musst du einen Administratornamen und -passwort eingeben. Alternativ kannst du einen anderen Ort auswählen oder die App beenden und manuell verschieben.";
+
+"MOVE_ALERT_MOVE_BUTTON" = "Nach „Programme“ verschieben";
+
+"Choose Location…" = "Ort auswählen …";
