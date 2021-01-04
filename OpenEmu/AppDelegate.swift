@@ -586,8 +586,9 @@ class AppDelegate: NSObject {
 extension AppDelegate: NSMenuDelegate {
     
     func numberOfItems(in menu: NSMenu) -> Int {
-        
-        let database = OELibraryDatabase.default!
+        guard let database = OELibraryDatabase.default else {
+            return 0;
+        }
         
         guard let lastPlayedInfo = database.lastPlayedRomsBySystem, lastPlayedInfo.count > 0 else {
             cachedLastPlayedInfo.removeAll()
