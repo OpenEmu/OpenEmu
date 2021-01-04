@@ -296,7 +296,10 @@ class AppDelegate: NSObject {
                     self.loadDatabaseAsynchronously(from: databaseURL, createIfNecessary: false)
                     
                 } else {
-                    self.performDatabaseSelection()
+                    // let the openpanel disappear before re-displaying the alert
+                    DispatchQueue.main.async(execute: {
+                        self.performDatabaseSelection()
+                    })
                 }
             }
             
