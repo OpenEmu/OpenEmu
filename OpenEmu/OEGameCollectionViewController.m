@@ -255,7 +255,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     
     NSAssert([representedObject conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)], @"");
 
-    [self.listView tableColumnWithIdentifier:@"listViewConsoleName"].hidden = ![representedObject shouldShowSystemColumnInListView];
+    self.listView.shouldShowSystemColumn = [representedObject shouldShowSystemColumnInListView];
     [self reloadData];
     
     // Restore game selection.

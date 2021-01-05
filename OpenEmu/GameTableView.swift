@@ -29,41 +29,76 @@ protocol GameTableViewMenuSource {
 }
 
 extension NSUserInterfaceItemIdentifier {
-    static let gameTableViewTitleColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewTitle")
+    static let gameTableViewTitleColumn = NSUserInterfaceItemIdentifier.titleColumn
+    static let gameTableViewRatingColumn = NSUserInterfaceItemIdentifier.ratingColumn
+}
+
+private extension NSUserInterfaceItemIdentifier {
+    static let statusColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewStatus")
+    static let titleColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewTitle")
+    static let ratingColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewRating")
+    static let lastPlayedColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewLastPlayed")
+    static let systemColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewConsoleName")
+    static let saveStateCountColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewSaveStateCount")
+    static let playCountColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewPlayCount")
+    static let playTimeColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewPlayTime")
 }
 
 @objc(OEGameTableView)
 class GameTableView: OETableView {
+    
+    let headerStateKey = "OEGameTableColumnsHiddenState"
+    
+    @objc var shouldShowSystemColumn = true {
+        didSet {
+            if shouldShowSystemColumn {
+                tableColumn(withIdentifier: .systemColumn)?.isHidden = headerState[NSUserInterfaceItemIdentifier.systemColumn.rawValue] ?? false
+            } else {
+                tableColumn(withIdentifier: .systemColumn)?.isHidden = true
+            }
+        }
+    }
+    
     var headerState: [String: Bool] = [:] {
         didSet {
             for column in tableColumns {
                 column.isHidden = headerState[column.identifier.rawValue] ?? false
             }
+            
+            if !shouldShowSystemColumn {
+                tableColumn(withIdentifier: .systemColumn)?.isHidden = true
+            }
+            
+            UserDefaults.standard.set(headerState, forKey: headerStateKey)
         }
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        headerState = [String: Bool](uniqueKeysWithValues: tableColumns.map({ ($0.identifier.rawValue, false) }))
+        if let savedHeaderState = UserDefaults.standard.dictionary(forKey: headerStateKey) as? [String: Bool] {
+            headerState = savedHeaderState
+        } else {
+            headerState = [String: Bool](uniqueKeysWithValues: tableColumns.map({ ($0.identifier.rawValue, false) }))
+        }
         
         for column in tableColumns {
             switch column.identifier {
-            case "listViewStatus":
+            case .statusColumn:
                 column.headerCell.title = ""
-            case "listViewTitle":
+            case .titleColumn:
                 column.headerCell.title = NSLocalizedString("Name", comment: "Game table, column header")
-            case "listViewRating":
+            case .ratingColumn:
                 column.headerCell.title = NSLocalizedString("Rating", comment: "Game table, column header")
-            case "listViewLastPlayed":
+            case .lastPlayedColumn:
                 column.headerCell.title = NSLocalizedString("Last Played", comment: "Game table, column header")
-            case "listViewConsoleName":
+            case .systemColumn:
                 column.headerCell.title = NSLocalizedString("System", comment: "Game table, column header")
-            case "listViewSaveStateCount":
+            case .saveStateCountColumn:
                 column.headerCell.title = NSLocalizedString("Save States", comment: "Game table, column header")
-            case "listViewPlayCount":
+            case .playCountColumn:
                 column.headerCell.title = NSLocalizedString("Play Count", comment: "Game table, column header")
-            case "listViewPlayTime":
+            case .playTimeColumn:
                 column.headerCell.title = NSLocalizedString("Play Time", comment: "Game table, column header")
             default:
                 break
@@ -113,7 +148,7 @@ class GameTableView: OETableView {
     @objc func beginEditingWithSelectedItem(_ sender: Any?) {
         guard selectedRowIndexes.count == 1 else { return }
         
-        let titleColIndex = column(withIdentifier: .gameTableViewTitleColumn)
+        let titleColIndex = column(withIdentifier: .titleColumn)
         precondition(titleColIndex != -1, "The list view must have a column identified by listViewTitle")
         
         editColumn(titleColIndex, row: selectedRowIndexes.first!, with: nil, select: true)
@@ -132,6 +167,10 @@ class GameTableHeaderView: NSTableHeaderView {
         for column in tableView.tableColumns {
             let cell = column.headerCell
             guard !cell.stringValue.isEmpty else { continue }
+            
+            if column.identifier == .systemColumn && !tableView.shouldShowSystemColumn {
+                continue
+            }
             
             let menuItem = NSMenuItem(title: cell.stringValue, action: #selector(updateHeaderState(_:)), keyEquivalent: "")
             menuItem.representedObject = column
