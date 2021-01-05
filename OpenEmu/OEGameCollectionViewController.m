@@ -55,6 +55,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
 /// Archived URI representations of managed object IDs for selected OEDBGames.
 static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
+static NSString * const OEGameTableSortDescriptorsKey = @"OEGameTableSortDescriptors";
 
 @interface OECollectionViewController ()
 @property (readwrite) OECollectionViewControllerViewTag selectedViewTag;
@@ -978,7 +979,31 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 - (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
 {
     if(tableView != [self listView]) return;
-
+    
+    if (self.listView.sortDescriptors.count == 0)
+    {
+        NSData *savedSortDescriptors = [NSUserDefaults.standardUserDefaults dataForKey:OEGameTableSortDescriptorsKey];
+        
+        if (savedSortDescriptors != nil)
+        {
+            NSArray<NSSortDescriptor *> *sortDescriptors;
+            if (@available(macOS 11.0, *))
+            {
+                sortDescriptors = [NSKeyedUnarchiver unarchivedArrayOfObjectsOfClass:NSSortDescriptor.class fromData:savedSortDescriptors error:nil];
+            }
+            else
+            {
+                sortDescriptors = [NSKeyedUnarchiver unarchiveTopLevelObjectWithData:savedSortDescriptors error:nil];
+            }
+            self.listView.sortDescriptors = sortDescriptors;
+        }
+        else
+        {
+            NSSortDescriptor *listViewSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"listViewTitle" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
+            self.listView.sortDescriptors = @[listViewSortDescriptor];
+        }
+    }
+    
     if([[[self listView] sortDescriptors] count] > 0)
     {
         // Make sure we do not accumulate sort descriptors and `listViewTitle` is the secondary
@@ -996,6 +1021,9 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 
     [gamesController setSortDescriptors:[[self listView] sortDescriptors]];
     [[self listView] reloadData];
+    
+    NSData *sortDescriptors = [NSKeyedArchiver archivedDataWithRootObject:self.listView.sortDescriptors requiringSecureCoding:YES error:nil];
+    [NSUserDefaults.standardUserDefaults setObject:sortDescriptors forKey:OEGameTableSortDescriptorsKey];
 }
 
 #pragma mark - TableView Drag and Drop
