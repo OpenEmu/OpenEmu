@@ -69,6 +69,8 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 
 @interface OEPopoutGameWindowController()
 @property (readonly, nonatomic) OEGameDocument *OE_gameDocument;
+/// A size with the same aspect ratio as the game document, matching the screen size in one dimension.
+@property (readonly)            NSSize          OE_fillScreenContentSize;
 @end
 
 
@@ -268,6 +270,33 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     }
 }
 
+- (NSSize)OE_fillScreenContentSize
+{
+    // Exempt NDS because defaultScreenSize is not updated after changing the screen configuration from the display mode menu FIXME: 
+    if ([self.OE_gameDocument.rom.game.system.systemIdentifier isEqual: @"openemu.system.nds"])
+        return self.window.screen.frame.size;
+    
+    CGSize screenSize = self.window.screen.frame.size;
+    CGSize gameSize = self.OE_gameDocument.gameViewController.defaultScreenSize;
+    OEIntSize newSize;
+    
+    // pillarboxed or no border
+    if (screenSize.width/screenSize.height - gameSize.width/gameSize.height >= 0)
+    {
+        newSize.height = screenSize.height;
+        newSize.width = round(gameSize.width * screenSize.height/gameSize.height);
+        
+    }
+    // letterboxed
+    else
+    {
+        newSize.width = screenSize.width;
+        newSize.height = round(gameSize.height * screenSize.width/gameSize.width);
+    }
+    
+    return NSSizeFromOEIntSize(newSize);
+}
+
 - (void)showWindow:(id)sender
 {
     NSWindow *window = [self window];
@@ -434,7 +463,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         OEGameViewController *gv = [self OE_gameDocument].gameViewController;
         if (newScale == _OEFitToWindowScale)
         {
-            [gv gameViewSetIntegralSize:CGSizeZero animated:YES];
+            [gv gameViewSetIntegralSize:self.OE_fillScreenContentSize animated:YES];
         }
         else
         {
@@ -718,7 +747,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     }
     else
     {
-        [gameViewController gameViewSetIntegralSize:self.window.screen.frame.size animated:NO];
+        [gameViewController gameViewSetIntegralSize:self.OE_fillScreenContentSize animated:NO];
     }
 }
 
