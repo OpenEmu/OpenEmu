@@ -32,7 +32,7 @@
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
     // Handle gcm file and return early
-    if([file.fileExtension isEqualToString:@"gcm"])
+    if([file.fileExtension isEqualToString:@"gcm"] || [file.fileExtension isEqualToString:@"gcz"] || [file.fileExtension isEqualToString:@"rvz"])
         return OEFileSupportYes;
 
     NSRange dataRange = NSMakeRange(0x1C, 4);
