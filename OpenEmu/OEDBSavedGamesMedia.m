@@ -56,11 +56,6 @@ NSString * const OEDBSavedGamesMediaShowsQuickSaves = @"OEDBSavedGamesMediaShows
     return NSLocalizedString(@"Save States", @"");
 }
 
-- (void)setSidebarName:(NSString *)newName
-{
-    NSLog(@"OEDBSavedGamesMedia: can not change name!");
-}
-
 - (nullable NSString*)viewControllerClassName
 {
     return @"OEMediaViewController";

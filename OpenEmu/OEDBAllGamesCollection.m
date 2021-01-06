@@ -50,11 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
     return NSLocalizedString(@"All Games", @"");
 }
 
-- (void)setSidebarName:(NSString *)newName
-{
-    NSLog(@"OEDBAllGamesCollection: can not change name!");
-}
-
 - (nullable NSString*)viewControllerClassName
 {
     return @"OEGameCollectionViewController";

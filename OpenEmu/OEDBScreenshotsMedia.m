@@ -52,11 +52,6 @@ NS_ASSUME_NONNULL_BEGIN
     return NSLocalizedString(@"Screenshots", @"");
 }
 
-- (void)setSidebarName:(NSString *)newName
-{
-    NSLog(@"OEDBScreenshotsMedia: can not change name!");
-}
-
 - (nullable NSString *)viewControllerClassName
 {
     return @"OEMediaViewController";

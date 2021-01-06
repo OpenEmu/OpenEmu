@@ -56,9 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [self valueForKey:@"name"];
 }
 
-- (void)setSidebarName:(NSString *)newName
-{}
-
 #pragma mark - Game Collection View Item
 
 - (nullable NSString *)collectionViewName

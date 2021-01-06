@@ -38,9 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly)            BOOL isEditableInSidebar;
 @property (readonly)            BOOL isGroupHeaderInSidebar;
 @property (readonly)            BOOL hasSubCollections;
-
-- (void)setSidebarName:(NSString *)newName;
-
 @end
 
 NS_ASSUME_NONNULL_END

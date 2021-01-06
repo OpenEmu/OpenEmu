@@ -70,11 +70,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [self valueForKey:@"name"];
 }
 
-- (void)setSidebarName:(NSString *)newName
-{
-    [self setValue:newName forKey:@"name"];
-}
-
 - (BOOL)isSelectableInSidebar
 {
     return YES;

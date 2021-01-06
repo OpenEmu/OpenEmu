@@ -294,10 +294,6 @@ NSString * OE_localizedStringFromElapsedTime(NSTimeInterval timeInterval)
     return self.name;
 }
 
-- (void)setSidebarName:(NSString *)newName
-{
-}
-
 - (BOOL)isSelectableInSidebar
 {
     return YES;
