@@ -342,13 +342,13 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
         else if([cell isKindOfClass:[OEGridGameCell class]])
         {
             OEGridGameCell *clickedCell = (OEGridGameCell*)cell;
-            const NSRect ratingRect = NSInsetRect([clickedCell ratingFrame], -5, -1);
+            const NSRect ratingRect = NSInsetRect(clickedCell.ratingFrame, -5, -1);
 
             // Check for rating layer interaction
             if(NSPointInRect(mouseLocationInView, ratingRect))
             {
                 _ratingTracking = index;
-                [self OE_updateRatingForItemAtIndex:index withLocation:mouseLocationInView inRect:ratingRect];
+                [self OE_updateRatingForItemAtIndex:index withLocation:mouseLocationInView inRect:clickedCell.ratingFrame];
                 return;
             }
         }
@@ -410,9 +410,7 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
     else if(_ratingTracking != NSNotFound)
     {
         OEGridGameCell *clickedCell = (OEGridGameCell*)[self cellForItemAtIndex:_ratingTracking];
-        NSRect ratingRect = NSInsetRect([clickedCell ratingFrame], -5, -1);
-
-        [self OE_updateRatingForItemAtIndex:_ratingTracking withLocation:mouseLocationInView inRect:ratingRect];
+        [self OE_updateRatingForItemAtIndex:_ratingTracking withLocation:mouseLocationInView inRect:clickedCell.ratingFrame];
         _lastPointInView = mouseLocationInView;
         return;
     }
@@ -583,12 +581,18 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
 
     [self setProposedImage:image];
 }
-#pragma mark - Rating items
+#pragma mark - Rating item
 - (void)OE_updateRatingForItemAtIndex:(NSInteger)index withLocation:(NSPoint)location inRect:(NSRect)rect
 {
-    CGFloat percent = (location.x - NSMinX(rect))/NSWidth(rect);
-    percent = MAX(MIN(percent, 1.0), 0.0);
-    [self setRating:roundf(5*percent) forGameAtIndex:index];
+    CGFloat value = (location.x - NSMinX(rect))/NSWidth(rect);
+    
+    value = MAX(MIN(value, 1.0), 0.0) * 5;
+    
+    // Snap to integer, biased towards larger values
+    if(fmod(value, 1) < 0.25) value = floorf(value);
+    else value = ceilf(value);
+   
+    [self setRating:value forGameAtIndex:index];
 }
 
 - (void)setRating:(NSInteger)rating forGameAtIndex:(NSInteger)index
