@@ -47,7 +47,7 @@ class SidebarController: NSViewController {
             guard
                 !lastSidebarSelection.isEmpty,
                 let item = lastSidebarSelectionItem
-                else { return }
+            else { return }
             
             selectItem(item)
         }
@@ -62,9 +62,9 @@ class SidebarController: NSViewController {
     
     var groups = [
         SidebarGroupItem(name: NSLocalizedString("Consoles", comment: ""),
-                    autosaveName: .sidebarConsolesItem),
+                         autosaveName: .sidebarConsolesItem),
         SidebarGroupItem(name: NSLocalizedString("Collections", comment: ""),
-                    autosaveName: .sidebarCollectionsItem)
+                         autosaveName: .sidebarCollectionsItem)
     ]
     
     var systems: [OESidebarItem] = []
@@ -139,6 +139,10 @@ class SidebarController: NSViewController {
     func reloadData() {
         guard let database = database else { return }
         
+        if sidebarView.currentEditor() != nil {
+            sidebarView.abortEditing()
+        }
+        
         systems     = OEDBSystem.enabledSystemsinContext(database.mainThreadContext) ?? []
         collections = database.collections
         sidebarView.reloadData()
@@ -174,8 +178,11 @@ class SidebarController: NSViewController {
     @IBAction func endedEditingItem(_ sender: NSTextField) {
         let index = sidebarView.row(for: sender)
         
-        if let item = sidebarView.item(atRow: index) as? OEDBCollection,
-           !sender.stringValue.isEmpty {
+        guard let item = sidebarView.item(atRow: index) as? OEDBCollection,
+              item.name != sender.stringValue
+        else { return }
+        
+        if  !sender.stringValue.isEmpty {
             item.name = sender.stringValue
             item.save()
         }
@@ -305,9 +312,9 @@ class SidebarController: NSViewController {
                 let index = sidebarView.selectedRowIndexes.first,
                 let item = sidebarView.item(atRow: index) as? OESidebarItem,
                 item.isEditableInSidebar {
-                    
-                    renameItem(at: index)
-                }
+            
+            renameItem(at: index)
+        }
         else {
             super.keyDown(with: event)
         }
@@ -367,11 +374,11 @@ extension SidebarController: NSOutlineViewDataSource {
         if item == nil {
             return groups.count
         }
-
+        
         guard
             let _ = database,
             let item = item as? SidebarGroupItem
-            else { return 0 }
+        else { return 0 }
         
         
         switch item.autosaveName {
@@ -590,7 +597,7 @@ extension SidebarController: NSMenuDelegate {
                     item.action = #selector(changeDefaultCore(_:))
                     item.state = coreIdentifier == defaultCoreIdentifier ? .on : .off
                     item.representedObject = ["core": coreIdentifier,
-                                            "system": systemIdentifier]
+                                              "system": systemIdentifier]
                     submenu.addItem(item)
                 }
                 coreItem.submenu = submenu
