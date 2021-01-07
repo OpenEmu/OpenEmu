@@ -144,6 +144,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     window.delegate = self;
     window.excludedFromWindowsMenu = YES;
     window.restorationClass = [self class];
+    window.backgroundColor = NSColor.controlBackgroundColor;
     
     NSAssert([window.identifier isEqualToString:OEMainWindowIdentifier], @"Main library window identifier does not match between nib and code");
 }
