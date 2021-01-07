@@ -762,7 +762,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     [[gameViewController controlsWindow] setCanShow:NO];
     [[gameViewController controlsWindow] hideAnimated:YES];
     
-    self.window.backgroundColor = NSColor.clearColor;
+    self.window.backgroundColor = nil;
 }
 
 - (NSArray *)customWindowsToExitFullScreenForWindow:(NSWindow *)window
