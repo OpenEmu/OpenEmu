@@ -761,8 +761,6 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     OEGameViewController *gameViewController = self.OE_gameDocument.gameViewController;
     [[gameViewController controlsWindow] setCanShow:NO];
     [[gameViewController controlsWindow] hideAnimated:YES];
-    
-    self.window.backgroundColor = nil;
 }
 
 - (NSArray *)customWindowsToExitFullScreenForWindow:(NSWindow *)window
@@ -846,6 +844,8 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     [gameViewController.controlsWindow setCanShow:YES];
     [gameViewController gameViewFillSuperView];
     [self OE_updateContentSize];
+    
+    self.window.backgroundColor = nil;
 }
 
 - (void)windowDidFailToEnterFullScreen:(NSWindow *)window
