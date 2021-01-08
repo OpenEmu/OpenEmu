@@ -993,7 +993,11 @@ static NSString * const OEGameTableSortDescriptorsKey = @"OEGameTableSortDescrip
             }
             else
             {
-                sortDescriptors = [NSKeyedUnarchiver unarchiveTopLevelObjectWithData:savedSortDescriptors error:nil];
+                NSSet<Class> *items = [NSSet setWithArray:@[NSArray.class, NSSortDescriptor.class]];
+                sortDescriptors = [NSKeyedUnarchiver unarchivedObjectOfClasses:items fromData:savedSortDescriptors error:nil];
+            }
+            for (NSSortDescriptor *desc in sortDescriptors) {
+                [desc allowEvaluation];
             }
             self.listView.sortDescriptors = sortDescriptors;
         }
