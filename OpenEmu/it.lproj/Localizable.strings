@@ -644,3 +644,13 @@
 "Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "Un core può chiudersi inaspettatamente durante il caricamento di un salvataggio emulazione se ci sono incompatibilità tra versioni diverse. Vuoi riaprire il gioco senza caricare il salvataggio emulazione?";
 
 "Reopen without loading state" = "Riapri senza caricare salvataggi";
+
+"MOVE_ALERT_TITLE" = "Sposta nella cartella Applicazioni";
+
+"MOVE_ALERT_INFO_TEXT" = "OpenEmu deve essere spostato nella cartella Applicazioni per funzionare correttamente.";
+
+"MOVE_ALERT_NEEDS_AUTH" = "Per effettuare lo spostamento sarà necessario inserire nome utente e password di amministratore. In alternativa, è possibile scegliere un altra cartella o uscire da OpenEmu per spostarlo manualmente.";
+
+"MOVE_ALERT_MOVE_BUTTON" = "Sposta in Applicazioni";
+
+"Choose Location…" = "Sposta altrove…";
