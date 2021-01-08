@@ -73,7 +73,9 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     OEEmulationStatusSetup,
     /// The emulation has been requested to start
     OEEmulationStatusStarting,
+    ///
     OEEmulationStatusPlaying,
+    ///
     OEEmulationStatusPaused,
     /// After emulation stops, but before OEGameCoreManager is deallocated
     OEEmulationStatusTerminating,
@@ -93,6 +95,8 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     BOOL                _pausedByGoingToBackground;
     BOOL                _isTerminatingEmulation;
     BOOL                _coreDidTerminateSuddenly;
+    /// Indicates whether the document is currently moving from the main window into a separate popout window.
+    BOOL                _isUndocking;
     
     // track if ROM was decompressed
     NSString           *_romPath;
@@ -519,6 +523,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 
 - (void)showInSeparateWindowInFullScreen:(BOOL)fullScreen;
 {
+    _isUndocking = YES;
     NSWindow *window = [[NSWindow alloc]
             initWithContentRect:NSZeroRect
             styleMask:NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
@@ -532,6 +537,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     [self showWindows];
     
     [self setEmulationPaused:NO];
+    _isUndocking = NO;
 }
 
 - (NSString *)displayName
@@ -1110,9 +1116,13 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     return NO;
 }
 
+/// Returns YES if emulation is running or paused to prevent OpenEmu from quitting without warning/saving if the user attempts to quit the app during gameplay;
+/// returns NO while undocking to prevent an ‘unsaved’ indicator from appearing inside the new popout window’s close button.
 - (BOOL)isDocumentEdited
 {
-    return NO;
+    if (_isUndocking)
+        return NO;
+    return _emulationStatus == OEEmulationStatusPlaying || _emulationStatus == OEEmulationStatusPaused;
 }
 
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
