@@ -24,19 +24,19 @@
 
 "Window Management:" = "Gestión de ventanas:";
 
-"Shader:" = "Shader:";
+"Shader:" = "Sombreado:";
 
-"Always use popout gameplay window" = "Usar siempre ventana emergente";
+"Always use popout gameplay window" = "Usar siempre ventana emergente de juego";
 
 "Always launch games fullscreen" = "Iniciar siempre juegos a pantalla completa";
 
 "Always pause gameplay when in background" = "Pausar siempre en segundo plano";
 
-"Always snap popout gameplay window to integer scale" = "Always snap popout gameplay window to integer scale";  // TODO
+"Always snap popout gameplay window to integer scale" = "Ajustar siempre ventana emergente de juego a escala de enteros";
 
 "Allow playing with controllers when in background" = "Permitir jugar con mandos en segundo plano";
 
-"Always float popout gamplay window on top" = "Always float popout gamplay window on top"; // TODO
+"Always float popout gamplay window on top" = "Flotar siempre ventana emergente de juego en primer plano";
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */
@@ -77,12 +77,12 @@
 
 "Go" = "Continuar";
 
-"Downloading Data…" = "Downloading Data…";  // TODO
+"Downloading Data…" = "Descargando datos…";
 
 
 /* Shader Parameters (ShaderParameters.xib) */
 
-"Reset All" = "Reset All";  // TODO
+"Reset All" = "Restablecer todo";
 
 
 /* Library Database Migration (OEMigrationWindowController.xib) */

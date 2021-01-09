@@ -29,9 +29,9 @@
 
 "All Homebrew" = "Todos los caseros";
 
-"Already in library:" = "Already in library:";  // TODO
+"Already in library:" = "Ya en biblioteca:";
 
-"Already in library, but manually deleted or unreachable:" = "Already in library, but manually deleted or unreachable:"; // TODO
+"Already in library, but manually deleted or unreachable:" = "Ya en biblioteca, pero eliminado manualmente o inaccesible:";
 
 "Are you sure you want to delete %ld save states from your OpenEmu library?" = "¿Está seguro que desea eliminar %ld partidas guardadas de su biblioteca de OpenEmu?";
 
@@ -51,7 +51,7 @@
 
 "Are you sure you want to remove the selected games from the collection?" = "¿Está seguro que desea eliminar los juegos seleccionados de la colección?";
 
-"Are you sure you want to remove the collection '%@'?" = "¿Está seguro que desea eliminar esta colección?"; // TODO
+"Are you sure you want to remove the collection '%@'?" = "¿Está seguro que desea eliminar la colección '%@'?";
 
 "Are you sure you want to restart the game?" = "¿Está seguro que desea reiniciar la partida?";
 
@@ -83,13 +83,13 @@
 
 "Choose OpenEmu Library" = "Elegir biblioteca de OpenEmu";
 
-"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "Elija Si para eliminar todos los ítems de la cola. Los ítems que finalicen la importación se mantendrán en su biblioteca."; // TODO
+"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "Esto eliminará todos los ítems de la cola. Los ítems que finalicen la importación se mantendrán en su biblioteca.";
 
 "Code:" = "Código:";
 
 "Collections" = "Colecciones";
 
-"Configure Shader…" = "Configurar Shader…";
+"Configure Shader…" = "Configurar sombreado…";
 
 "Console" = "Consola";
 
@@ -105,7 +105,7 @@
 
 "This cannot be undone." = "Esto no se puede deshacer.";
 
-"Contains no data:" = "Contains no data:"; // TODO
+"Contains no data:" = "No contiene datos:";
 
 "Controls" = "Mandos";
 
@@ -245,7 +245,7 @@
 
 "Installing Core" = "Instalando núcleo";
 
-"Invalid cue sheet format:" = "Invalid cue sheet format:";  // TODO
+"Invalid cue sheet format:" = "Formato de hoja cue no válido:";
 
 "Invalid gdi format:" = "Invalid gdi format:";  // TODO
 
@@ -283,7 +283,7 @@
 
 "Moving Library…" = "Moving Library…";  // TODO
 
-"Must not be compressed:" = "Must not be compressed:"; // TODO
+"Must not be compressed:" = "No debe estar comprimido:";
 
 "Mute Audio" = "Silenciar audio";
 
@@ -309,7 +309,7 @@
 
 "No Screenshots Found" = "No se encontraron capturas de pantalla";
 
-"No valid system detected:" = "No valid system detected:";  // TODO
+"No valid system detected:" = "Ningún sistema válido detectado:";
 
 "No" = "No";
 
@@ -431,11 +431,11 @@
 
 "Select Display Mode" = "Seleccionar modo de visualización";
 
-"Select Shader" = "Seleccionar shader";
+"Select Shader" = "Seleccionar sombreado";
 
 "Select Scale" = "Seleccionar escala";
 
-"Shader Parameters" = "Shader Parameters"; // TODO
+"Shader Parameters" = "Parámetros de sombreado";
 
 "Share" = "Compartir";
 
@@ -457,7 +457,7 @@
 
 "Switch To List View" = "Cambiar vista a lista";
 
-"System Default" = "System Default"; // Default audio device setting // TODO
+"System Default" = "Sistema por omisión";
 
 "System Files" = "Archivos de sistema";
 
@@ -525,7 +525,7 @@
 
 "Yes" = "Si";
 
-"You can't move your library into one of its subfolders." = "¡No puede mover su biblioteca aquí!"; // TODO
+"You can't move your library into one of its subfolders." = "No puede mover su biblioteca en una de sus subcarpetas.";
 
 "You need to restart the application to commit the change" = "Necesita reiniciar la aplicación para confirmar el cambio";
 
@@ -581,15 +581,15 @@
 
 "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "Debe ser concedido a OpenEmu el permiso de monitorización de entrada para usar el teclado como un dispositivo de entrada.\n\nCambiar el permiso también puede resolver problemas de entrada de teclado.";
 
-"Open System Preferences" = "Open System Preferences";  // TODO
+"Open System Preferences" = "Abrir Preferencias del Sistema";
 
 "Show" = "Mostrar";
 
-"Moving the Game Library is not recommended" = "Moving the Game Library is not recommended";  //Message headline (attempted to change location of library)  // TODO
+"Moving the Game Library is not recommended" = "No se recomienda mover la biblioteca de juegos";
 
-"The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives.";  // Message text (attempted to change location of library, HTML  // TODO
+"The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "La biblioteca de juegos de OpenEmu contiene un archivo de base de datos que puede llegar a corromperse si la biblioteca es movida a las siguientes ubicaciones:<br><br><ul><li>Carpetas administradas por software de sincronización en la nube (como <b>iCloud Drive</b>)</li><li>Unidades de red</li></ul><br>Además, <b>compartir la misma biblioteca entre multíples equipos o usuarios</b> también puede corromperlo. Esto también aplica a mover la biblioteca a unidades USB externas.";
 
-"I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
+"I understand the risks" = "Comprendo los riesgos";
 
 "Continue" = "Continuar";
 
@@ -601,7 +601,7 @@
 
 "Play Time" = "Tiempo de juego";
 
-"Fill Screen" = "Fill Screen";  // Integral scale menu item title  // TODO
+"Fill Screen" = "Rellenar pantalla";
 
 "ECM compressed binary detected." = "Binario de compresión ECM detectado.";
 
@@ -609,17 +609,17 @@
 
 "Files failed to import." = "Files failed to import.";  // TODO
 
-"\"%@\" in %@" = "\"%1$@\" in %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)  // TODO
+"\"%@\" in %@" = "\"%1$@\" en %2$@";
 
 "NOT FOUND: \"%@\"" = "NOT FOUND: \"%@\"";  // Import error description: referenced file not found  // TODO
 
 "Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access.";  // TODO
 
-"Decrease Grid Size" = "Decrease Grid Size"; // TODO
+"Decrease Grid Size" = "Disminuir tamaño de cuadrícula";
 
-"Increase Grid Size" = "Increase Grid Size"; // TODO
+"Increase Grid Size" = "Incrementar tamaño de cuadrícula";
 
-"The emulator could not load ROM." = "The emulator could not load the ROM."; // TODO
+"The emulator could not load ROM." = "El emulador no puede cargar la ROM.";
 
 "To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad."; // TODO, Controls preferences, accessibility help
 

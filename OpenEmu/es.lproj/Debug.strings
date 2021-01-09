@@ -113,30 +113,30 @@
 
 "Unchecked" = "No marcado";
 
-"Shaders" = "Shaders";  // TODO
+"Shaders" = "Sombreados";
 
-"Clear shader cache" = "Clear shader cache";  // TODO
+"Clear shader cache" = "Vaciar caché de sombreado";
 
-"Reveal user shader folder" = "Reveal user shader folder";  // TODO
+"Reveal user shader folder" = "Mostrar carpeta de sombreado de usuario";
 
-"Appearance:" = "Appearance:";  // TODO
+"Appearance:" = "Apariencia:";
 
-"Auto (region)" = "Auto";  // TODO
+"Auto (region)" = "Auto (región)";
 
-"North America" = "North America";  // TODO
+"North America" = "Norte América";
 
-"Japan" = "Japan";  // TODO
+"Japan" = "Japón";
 
-"Europe" = "Europe";  // TODO
+"Europe" = "Europa";
 
-"Other" = "Other";  // TODO
+"Other" = "Otra";
 
-"XPC" = "XPC";  // TODO
+"XPC" = "XPC";
 
-"Background Thread" = "Background Thread";  // TODO
+"Background Thread" = "Hilo en segundo plano";
 
-"System" = "System";  // TODO
+"System" = "Sistema";
 
-"Dark (default)" = "Dark (default)";  // TODO
+"Dark (default)" = "Oscuro (por defecto)";
 
-"Light" = "Light";  // TODO
+"Light" = "Claro";
