@@ -51,7 +51,6 @@
 #import "OEControlsButtonSetupView.h"
 #import "OEDBDataSourceAdditions.h"
 #import "OEImportOperation.h"
-#import "OEPrefBiosController.h"
 #import "OEMainWindowController.h"
 
 #import "OpenEmu-Swift.h"

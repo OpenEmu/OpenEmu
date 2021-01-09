@@ -28,8 +28,8 @@
 
 typedef void (^OEFSBlock)(NSString *path, FSEventStreamEventFlags flags);
 @interface OEFSWatcher : NSObject
-+ (id)persistentWatcherWithKey:(NSString*)key forPath:(NSString*)path withBlock:(OEFSBlock)block;
-+ (id)watcherForPath:(NSString*)path withBlock:(OEFSBlock)block;
++ (instancetype)persistentWatcherWithKey:(NSString*)key forPath:(NSString*)path withBlock:(OEFSBlock)block;
++ (instancetype)watcherForPath:(NSString*)path withBlock:(OEFSBlock)block;
 
 - (void)startWatching;
 - (void)restartWatching;

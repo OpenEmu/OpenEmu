@@ -12,7 +12,6 @@
 #import "OEPreferencePane.h"
 #import "OEPrefControlsController.h"
 #import "OEPrefDebugController.h"
-#import "OEPrefBiosController.h"
 
 #import "OECollectionViewController.h"
 
@@ -42,6 +41,7 @@
 #import "OELogging.h"
 #import "OEHomebrewCoverView.h"
 #import "OEDownload.h"
+#import "OEFSWatcher.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <OpenEmuKit/OpenEmuKit.h>

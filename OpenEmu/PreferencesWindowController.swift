@@ -163,7 +163,7 @@ class PreferencesTabViewController: NSTabViewController {
             PrefGameplayController(),
             OEPrefControlsController(),
             PrefCoresController(),
-            OEPrefBiosController()
+            PrefBiosController()
         ]
         
         // Check if the debug pane should be included.

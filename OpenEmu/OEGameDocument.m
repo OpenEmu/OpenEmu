@@ -1188,7 +1188,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     if (validRequiredFiles == nil)
         return YES;
     
-    return [[[OEBIOSFile alloc] init] allRequiredFilesAvailableForSystemIdentifier:validRequiredFiles];
+    return [OEBIOSFile allRequiredFilesAvailableForSystemIdentifier:validRequiredFiles];
 }
 
 - (BOOL)OE_checkGlitches

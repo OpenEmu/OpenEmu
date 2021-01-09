@@ -36,15 +36,13 @@ class BIOSFile: NSObject {
          "OpenEmu",
          "BIOS"])
     
-    private static let fileGuideURL = URL(string: "https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files")!
-    
     // MARK: - File Handling
     
     /// Determine if BIOS file exists and has correct MD5 hash.
     /// - Parameter fileInfo: Dictionary containing "Name" and "MD5" keys.
     /// - Returns: `True` if file exists with correct MD5.
     @objc(isBIOSFileAvailable:)
-    func isBIOSFileAvailable(withFileInfo fileInfo: [String: Any]) -> Bool {
+    static func isBIOSFileAvailable(withFileInfo fileInfo: [String: Any]) -> Bool {
         
         let biosSystemFilename = fileInfo["Name"] as! String
         let biosSystemMD5 = fileInfo["MD5"] as! String
@@ -55,12 +53,12 @@ class BIOSFile: NSObject {
         let isReachable = (try? destinationURL.checkResourceIsReachable()) ?? false
         
         do {
-            var md5: NSString?
+            var md5: NSString!
             try FileManager.default.hashFile(at: destinationURL, md5: &md5)
             
             if isReachable {
                 
-                if md5!.caseInsensitiveCompare(biosSystemMD5) == .orderedSame {
+                if md5.caseInsensitiveCompare(biosSystemMD5) == .orderedSame {
                     return true
                 } else {
                     DLog("Incorrect MD5, deleting \(destinationURL)")
@@ -82,7 +80,7 @@ class BIOSFile: NSObject {
     ///     * "Optional"
     /// - Returns: Returns `true` if all required files exist. Otherwise, returns `false` and displays a user alert.
     @objc(allRequiredFilesAvailableForSystemIdentifier:)
-    func requiredFilesAvailable(forSystemIdentifier systemIdentifier: [[String: Any]]) -> Bool {
+    static func requiredFilesAvailable(forSystemIdentifier systemIdentifier: [[String: Any]]) -> Bool {
         
         var missingFileStatus = false
         
@@ -107,7 +105,7 @@ class BIOSFile: NSObject {
             
             // Alert the user of missing BIOS/system files that are required for the core.
             if OEAlert.missingBIOSFiles(missingFilesList).runModal() == .alertSecondButtonReturn {
-                NSWorkspace.shared.open(BIOSFile.fileGuideURL)
+                NSWorkspace.shared.open(.userGuideBIOSFiles)
             }
             
             return false
@@ -120,11 +118,11 @@ class BIOSFile: NSObject {
     /// - Parameter url: URL of the file.
     /// - Returns: Returns `true` if the file is a BIOS file and was copied successfully.
     @objc(checkIfBIOSFileAndImportAtURL:)
-    func checkIfBIOSFileAndImport(at url: URL) -> Bool {
+    static func checkIfBIOSFileAndImport(at url: URL) -> Bool {
         do {
-            var md5: NSString?
+            var md5: NSString!
             try FileManager.default.hashFile(at: url, md5: &md5)
-            return checkIfBIOSFileAndImport(at: url, withMD5: md5! as String)
+            return checkIfBIOSFileAndImport(at: url, withMD5: md5 as String)
         } catch {
             return false
         }
@@ -135,7 +133,7 @@ class BIOSFile: NSObject {
     /// - Parameter md5: The MD5 hash of the file.
     /// - Returns: Returns `true` if the file is a BIOS file, the MD5 hash matched, and the file was copied successfully.
     @objc(checkIfBIOSFileAndImportAtURL:withMD5:)
-    func checkIfBIOSFileAndImport(at url: URL, withMD5 md5: String) -> Bool {
+    static func checkIfBIOSFileAndImport(at url: URL, withMD5 md5: String) -> Bool {
         
         let fileManager = FileManager.default
         

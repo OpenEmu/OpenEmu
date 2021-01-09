@@ -635,8 +635,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     {
         self.md5Hash = md5.lowercaseString;
 
-        OEBIOSFile *biosFile = [[OEBIOSFile alloc] init];
-        if([biosFile checkIfBIOSFileAndImportAtURL:url withMD5:self.md5Hash])
+        if([OEBIOSFile checkIfBIOSFileAndImportAtURL:url withMD5:self.md5Hash])
         {
             DLog(@"File seems to be a BIOS at %@", url);
             [self exitWithStatus:OEImportExitNone error:nil];
