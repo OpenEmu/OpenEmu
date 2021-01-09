@@ -1,28 +1,3 @@
-/*
- Copyright (c) 2015, OpenEmu Team
-
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
-
- THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
- EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
- DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
 
 "%@ copy" = "Copia de %@";
 
@@ -36,6 +11,8 @@
 
 "A version of this plugin is already loaded" = "Una versión de este plugin ya está cargada";
 
+"Add" = "Añadir";
+
 "Add a Wiimote…" = "Añadir Wiimote…";
 
 "Add Cheat…" = "Añadir truco…";
@@ -46,15 +23,21 @@
 
 "Add to Collection" = "Añadir a la colección";
 
+"Add to Library…" = "Añadir a la biblioteca…";
+
 "All Games" = "Todos los juegos";
 
 "All Homebrew" = "Todos los caseros";
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "¿Está seguro que desea eliminar %ld partidas guardadas de su biblioteca de OpenEmu?";
+"Already in library:" = "Ya en biblioteca:";
+
+"Already in library, but manually deleted or unreachable:" = "Ya en biblioteca, pero eliminado manualmente o inaccesible:";
+
+"Are you sure you want to delete %ld save states from your OpenEmu library?" = "¿Está seguro que desea eliminar %ld partidas guardadas de su biblioteca de OpenEmu?";
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "¿Está seguro que desea eliminar %ld capturas de pantalla de su biblioteca de OpenEmu?";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "¿Está seguro que desea eliminar la partida guardada llamada '%@' de su biblioteca de OpenEmu?";
+"Are you sure you want to delete the save state called '%@' from your OpenEmu library?" = "¿Está seguro que desea eliminar la partida guardada llamada '%@' de su biblioteca de OpenEmu?";
 
 "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "¿Está seguro que desea eliminar la captura de pantalla llamada '%@' de su biblioteca de OpenEmu?";
 
@@ -64,19 +47,19 @@
 
 "Are you sure you want to quit the application?" = "¿Está seguro que desea salir de la aplicación?";
 
+"Are you sure you want to remove the selected game from the collection?" = "¿Está seguro que desea eliminar el juego seleccionado de la colección?";
+
 "Are you sure you want to remove the selected games from the collection?" = "¿Está seguro que desea eliminar los juegos seleccionados de la colección?";
 
-"Are you sure you want to remove this collection?" = "¿Está seguro que desea eliminar esta colección?";
+"Are you sure you want to remove the collection '%@'?" = "¿Está seguro que desea eliminar la colección '%@'?";
 
-"Are you sure you want to reset the console?" = "¿Está seguro que desea reiniciar la consola?";
+"Are you sure you want to restart the game?" = "¿Está seguro que desea reiniciar la partida?";
 
-"Are you sure you want to stop emulation?" = "¿Está seguro que desea detener la emulación?";
+"Are you sure you want to quit the game?" = "¿Está seguro que desea detener la partida?";
 
 "At least one System must be enabled" = "Al menos un sistema debe estar activado";
 
 "Auto Save State" = "Estado guardado automático";
-
-"Automatically Import" = "Automatically Import";
 
 "Bluetooth must be enabled to pair a Wii controller." = "Bluetooth debe estar activado para enlazar un mando de Wii.";
 
@@ -100,13 +83,15 @@
 
 "Choose OpenEmu Library" = "Elegir biblioteca de OpenEmu";
 
-"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Elija Si para eliminar todos los ítems de la cola. Los ítems que finalicen la importación se mantendrán en su biblioteca.";
+"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "Esto eliminará todos los ítems de la cola. Los ítems que finalicen la importación se mantendrán en su biblioteca.";
 
 "Code:" = "Código:";
 
 "Collections" = "Colecciones";
 
-"Configure Shader…" = "Configurar Shader…";
+"Configure Shader…" = "Configurar sombreado…";
+
+"Console" = "Consola";
 
 "Consoles" = "Consolas";
 
@@ -114,7 +99,13 @@
 
 "Consolidate" = "Consolidar";
 
-"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Consolidar copiará todos los juegos seleccionados en la carpeta biblioteca de OpenEmu.\n\nEsto no se puede deshacer.";
+"Consolidating files failed." = "Consolidating files failed."; // TODO
+
+"Consolidating will copy all of the selected games into the OpenEmu Library folder." = "Consolidar copiará todos los juegos seleccionados en la carpeta biblioteca de OpenEmu.";
+
+"This cannot be undone." = "Esto no se puede deshacer.";
+
+"Contains no data:" = "No contiene datos:";
 
 "Controls" = "Mandos";
 
@@ -126,11 +117,13 @@
 
 "Copying ROM Files…" = "Copiando archivos ROM…";
 
+"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+
 "Core Provided By…" = "Núcleo proporcionado por…";
 
-"Cores" = "Núcleos";
+"Core" = "Núcleo";
 
-"Could not move complete library! %ld roms were moved" = "¡No ha podido mover la biblioteca completa! %ld roms fueron movidas";
+"Cores" = "Núcleos";
 
 "Could not move library data!" = "¡No ha podido mover los datos de la biblioteca!";
 
@@ -252,6 +245,10 @@
 
 "Installing Core" = "Instalando núcleo";
 
+"Invalid cue sheet format:" = "Formato de hoja cue no válido:";
+
+"Invalid gdi format:" = "Invalid gdi format:";  // TODO
+
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Añadir varias líneas de trucos con '+' e.j. 000-000+111-111";
 
 "Keep Files" = "Mantener archivos";
@@ -266,7 +263,7 @@
 
 "Locate '%@'" = "Buscar '%@'";
 
-"Locate" = "Buscar";
+"Locate…" = "Buscar…";
 
 "Low Controller Battery" = "Batería del mando baja";
 
@@ -276,11 +273,17 @@
 
 "Missing Core" = "Núcleo no encontrado";
 
+"Missing referenced file:" = "Missing referenced file:";  // TODO
+
 "Move selected game to Trash, or keep it in the Library folder?" = "¿Mover el juego seleccionado a la papelera, o mantenerlo en la carpeta de la biblioteca?";
 
 "Move selected games to Trash, or keep them in the Library folder?" = "¿Mover los juegos seleccionados a la papelera, o mantenerlos en la carpeta de la biblioteca?";
 
 "Move to Trash" = "Mover a la papelera";
+
+"Moving Library…" = "Moving Library…";  // TODO
+
+"Must not be compressed:" = "No debe estar comprimido:";
 
 "Mute Audio" = "Silenciar audio";
 
@@ -300,13 +303,19 @@
 
 "No Internet Connection" = "No hay conexión a internet";
 
+"No permission to open:" = "No permission to open:";  // TODO
+
 "No Save States available" = "No hay estados guardados disponibles";
 
 "No Screenshots Found" = "No se encontraron capturas de pantalla";
 
+"No valid system detected:" = "Ningún sistema válido detectado:";
+
 "No" = "No";
 
 "None" = "Ninguna";
+
+"Not plain text:" = "Not plain text:";  // TODO
 
 "OK" = "Aceptar";
 
@@ -318,7 +327,7 @@
 
 "OpenEmu could not find a Core to launch the game" = "OpenEmu no ha podido encontrar un núcleo para iniciar el juego";
 
-"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu incluye la característica guardar partida que le permite continuar jugando exactamente donde lo dejó.";
+"OpenEmu includes a save state feature that allows you to continue playing exactly where you left off." = "OpenEmu incluye la característica guardar partida que le permite continuar jugando exactamente donde lo dejó.";
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu necesita una biblioteca para continuar. Puede elegir una biblioteca existente de OpenEmu o crear una nueva";
 
@@ -328,9 +337,11 @@
 
 "Options" = "Opciones";
 
-"Pause Emulation" = "Pausar emulación";
+"Pause/Restart" = "Pausar/Reiniciar";
 
-"Pause Gameplay" = "Pausar modo de juego";
+"Pause Game" = "Pausar partida";
+
+"Play" = "Jugar";
 
 "Play Game" = "Jugar partida";
 
@@ -360,7 +371,11 @@
 
 "Recovered Auto Save" = "Guardado autómatico recuperado";
 
-"Remove" = "Eliminar";
+"Remove Collection" = "Eliminar colección";
+
+"Remove Game" = "Remove Game";  // TODO
+
+"Remove Games" = "Remove Games";  // TODO
 
 "Rename \"%@\"" = "Renombrar \"%@\"";
 
@@ -376,17 +391,11 @@
 
 "Resolve %ld Issues" = "Solucionar %ld errores";
 
-"Resolve Issues" = "Solucionar errores";
-
-"Restart now" = "Reiniciar ahora";
-
-"Restart System" = "Reiniciar sistema";
+"Restart Game" = "Reiniciar partida";
 
 "Restart" = "Reiniciar";
 
-"Resume Emulation" = "Reanudar emulación";
-
-"Resume Gameplay" = "Reanudar modo de juego";
+"Resume Game" = "Reanudar partida";
 
 "Resume" = "Reanudar";
 
@@ -399,8 +408,6 @@
 "Save States" = "Estados guardados";
 
 "Save-Game-%ld %@" = "Guardar-Partida-%ld %@";
-
-"Saved Games" = "Partidas guardadas";
 
 "Scanner Paused" = "Análisis pausado";
 
@@ -424,9 +431,11 @@
 
 "Select Display Mode" = "Seleccionar modo de visualización";
 
-"Select Shader" = "Seleccionar shader";
+"Select Shader" = "Seleccionar sombreado";
 
 "Select Scale" = "Seleccionar escala";
+
+"Shader Parameters" = "Parámetros de sombreado";
 
 "Share" = "Compartir";
 
@@ -440,13 +449,15 @@
 
 "Start Scanning" = "Comenzar búsqueda";
 
-"Stop Emulation" = "Detener emulación";
+"Quit Game" = "Detener partida";
 
 "Stop" = "Detener";
 
 "Switch To Grid View" = "Cambiar vista a cuadrícula";
 
 "Switch To List View" = "Cambiar vista a lista";
+
+"System Default" = "Sistema por omisión";
 
 "System Files" = "Archivos de sistema";
 
@@ -486,13 +497,21 @@
 
 "Trash downloaded Files" = "Desechar archivos descargados";
 
+"Unexpected error:" = "Unexpected error:";  // TODO
+
 "Unmute Audio" = "No silenciar audio";
 
 "Update" = "Actualizar";
 
+"Updating Library" = "Actualizando biblioteca";
+
 "User guide on BIOS files" = "Guía de usuario sobre archivos de BIOS";
 
+"Version" = "Versión";
+
 "View Guide in Browser" = "Ver guía en navegador";
+
+"Volume" = "Volumen";
 
 "Warning" = "Advertencia";
 
@@ -506,7 +525,7 @@
 
 "Yes" = "Si";
 
-"You can't move your library here!" = "¡No puede mover su biblioteca aquí!";
+"You can't move your library into one of its subfolders." = "No puede mover su biblioteca en una de sus subcarpetas.";
 
 "You need to restart the application to commit the change" = "Necesita reiniciar la aplicación para confirmar el cambio";
 
@@ -514,13 +533,13 @@
 
 "Your library was moved sucessfully." = "Su biblioteca fue movida correctamente.";
 
-"Library" = "Biblioteca";
+"Toolbar: Library" = "Biblioteca";
 
-"Save States" = "Estados guardados";
+"Toolbar: Save States" = "Estados guardados";
 
-"Screenshots" = "Capturas de pantalla";
+"Toolbar: Screenshots" = "Capturas de pantalla";
 
-"Homebrew" = "Caseros";
+"Toolbar: Homebrew" = "Caseros";
 
 "Grid Size" = "Tamaño de cuadrícula";
 
@@ -562,133 +581,66 @@
 
 "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "Debe ser concedido a OpenEmu el permiso de monitorización de entrada para usar el teclado como un dispositivo de entrada.\n\nCambiar el permiso también puede resolver problemas de entrada de teclado.";
 
+"Open System Preferences" = "Abrir Preferencias del Sistema";
+
 "Show" = "Mostrar";
 
+"Moving the Game Library is not recommended" = "No se recomienda mover la biblioteca de juegos";
 
-/* Secrets */
+"The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "La biblioteca de juegos de OpenEmu contiene un archivo de base de datos que puede llegar a corromperse si la biblioteca es movida a las siguientes ubicaciones:<br><br><ul><li>Carpetas administradas por software de sincronización en la nube (como <b>iCloud Drive</b>)</li><li>Unidades de red</li></ul><br>Además, <b>compartir la misma biblioteca entre multíples equipos o usuarios</b> también puede corromperlo. Esto también aplica a mover la biblioteca a unidades USB externas.";
 
-"General" = "General";
+"I understand the risks" = "Comprendo los riesgos";
 
-"Debug Mode" = "Modo depurar";
+"Continue" = "Continuar";
 
-"Setup Assistant has finished" = "Asistente de configuración ha finalizado";
+"Last Played" = "Última partida";
 
-"Region" = "Región";
+"Save Games" = "Partidas guardadas";
 
-"Run games using" = "Ejecutar juegos usando";
+"Play Count" = "Número de partidas";
 
-"Library Window" = "Ventana de biblioteca";
+"Play Time" = "Tiempo de juego";
 
-"Reset main window size" = "Restablecer tamaño de ventana principal";
-
-"Dark GridView context menu" = "Menú contextual oscuro en vista cuadrícula";
-
-"Download missing artwork on the fly" = "Descargar carátula no encontrada al instante";
-
-"Show game titles instead of rom names" = "Mostrar títulos de juegos en lugar de nombres de roms";
-
-"Manually choose system on import" = "Elegir sistema manualmente al importar";
-
-"Show autosave states in save state category" = "Mostrar guardado automático de estados en categoría de estado guardado";
-
-"Show quicksave states in save state category" = "Mostrar guardado rápido de estados en categoría de estado guardado";
-
-"Show game scanner view" = "Mostrar vista de análisis de juego";
-
-"Hide game scanner view" = "Ocultar vista de análisis de juego";
-
-"HUD Bar / Gameplay" = "Barra HUD / Modo de juego";
-
-"Use game name as window title" = "Usar nombre de juego como título de ventana";
-
-"Can delete save states" = "Poder eliminar estados guardados";
-
-"Show options button" = "Mostrar botón opciones";
-
-"Show notifications during gameplay" = "Mostrar notificaciones durante modo de juego";
-
-"Use quicksave slots" = "Usar ranuras de guardado rápido";
-
-"Show quicksave in menu" = "Mostrar guardado rápido en menú";
-
-"Show autosave in menu" = "Mostrar guardado automático en menú";
-
-"Show audio output device in menu" = "Mostrar dispositivo de entrada de audio en menú";
-
-"Take screenshots in native size" = "Hacer capturas de pantalla en tamaño original";
-
-"Disable aspect ratio correction in screenshots" = "Desactivar corrección de relación de aspecto en capturas de pantalla";
-
-"Game View Background color" = "Color de fondo de vista de juego";
-
-"Controls Setup" = "Configuración de mandos";
-
-"WiiRemote support (requires relaunch)" = "Compatible WiiRemote (necesita reiniciar)";
-
-"Clicking on image selects button" = "Al hacer clic sobre la imagen marca botón";
-
-"Clicking outside image deselects button" = "Al hacer clic fuera de la imagen desmarca botón";
-
-"Select first field after setting the last" = "Seleccionar primer campo después de configurar el último";
-
-"Draw button mask above image" = "Dibujar máscara sobre imagen del botón";
-
-"Log HID Events" = "Registro de eventos de HID";
-
-"Log Keyboard Events" = "Registro de eventos de teclado";
-
-"Show all global keys" = "Mostrar todas las teclas genéricas";
-
-"Set default save states directory" = "Establecer carpeta predeterminada de estados guardados";
-
-"Choose save states directory…" = "Elegir carpeta de estados guardados…";
-
-"Cleanup autosave state" = "Limpiar estados guardados automaticos";
-
-"Cleanup Save States" = "Limpiar estados guardados";
-
-"OpenVGDB" = "OpenVGDB";
-
-"Update OpenVGDB" = "Actualizar OpenVGDB";
-
-"Cancel OpenVGDB Update" = "Cancelar actualizar OpenVGDB";
-
-"Database Actions" = "Opciones de base de datos";
-
-"Delete artwork that can be downloaded" = "Eliminar carátula que puede ser descargada";
-
-"Download missing artwork" = "Descargar carátula no encontrada";
-
-"Remove untracked artwork files" = "Borrar archivos de carátulas no indexados";
-
-"Cleanup rom hashes" = "Limpiar roms fragmentadas";
-
-"Remove duplicated roms" = "Borrar roms duplicadas";
-
-"Cancel cover sync for all games" = "Cancelar sincronizar carátula para todos los juegos";
-
-"Perform Sanity Check on Database" = "Realizar comprobación de integridad en base de datos";
-
-"While performing this operation OpenEmu will be unresponsive." = "Mientras realiza esta operación OpenEmu no responderá.";
-
-"Do it!" = "¡Hacerlo!";
-
-"Cancel Operation" = "Cancelar operación";
-
-"Delete useless image objects" = "Eliminar objetos de imagen inservibles";
-
-"Sync games without artwork" = "Sincronizar juegos sin carátula";
+"Fill Screen" = "Rellenar pantalla";
 
 "ECM compressed binary detected." = "Binario de compresión ECM detectado.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "Los binarios de compresión ECM no se pueden importar. Por favor lea la guía de importación de disco.";
 
-"Threshold for analog controls bound to buttons" = "Umbral para controles analógicos\nvinculados a botones";
+"Files failed to import." = "Files failed to import.";  // TODO
 
-"Range: %@ to %@" = "Rango: %@ a %@";
+"\"%@\" in %@" = "\"%1$@\" en %2$@";
 
-"Default Value: %@" = "Valor por defecto: %@";
+"NOT FOUND: \"%@\"" = "NOT FOUND: \"%@\"";  // Import error description: referenced file not found  // TODO
 
-"Checked" = "Marcado";
+"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access.";  // TODO
 
-"Unchecked" = "No marcado";
+"Decrease Grid Size" = "Disminuir tamaño de cuadrícula";
+
+"Increase Grid Size" = "Incrementar tamaño de cuadrícula";
+
+"The emulator could not load ROM." = "El emulador no puede cargar la ROM.";
+
+"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad."; // TODO, Controls preferences, accessibility help
+
+"Changed button for %1$@ to %2$@." = "Changed button for %1$@ to %2$@."; // TODO, Controls preferences, accessibility notification (“Changed button for Up to W.”)
+
+"Not assigned" = "Not assigned"; // TODO, Controls preferences, accessibility title (key is not mapped, “empty”)
+
+"OpenEmu could not download required data from the internet" = "OpenEmu could not download required data from the internet";  // TODO // Setup Assistant
+
+"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again.";  // TODO // Setup Assistant
+
+"Retry" = "Retry";  // TODO
+
+"Downloading core list..." = "Downloading core list...";  // TODO
+
+"The %@ core has quit unexpectedly" = "The %@ core has quit unexpectedly";  // TODO
+
+"<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed." = "<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English  // TODO
+
+"The %@ core has quit unexpectedly after loading a save state" = "The %@ core has quit unexpectedly after loading a save state";  // TODO
+
+"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?";  // TODO
+
+"Reopen without loading state" = "Reopen without loading state";  // TODO

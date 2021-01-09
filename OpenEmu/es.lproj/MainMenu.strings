@@ -1,0 +1,136 @@
+
+"File" = "Archivo";
+
+"Launch Game…" = "Iniciar juego…";
+
+"Edit Smart Collection" = "Editar colección inteligente";
+
+"New Smart Collection…" = "Nueva colección inteligente…";
+
+"New Collection Folder" = "Nueva carpeta de colección";
+
+"Display Exact Duplicates" = "Mostrar duplicados exactos";
+
+"Display Duplicates" = "Mostrar duplicados";
+
+"Get Info" = "Obtener información";
+
+"Close Window" = "Cerrar ventana";
+
+"Print…" = "Imprimir…";
+
+"Page Setup…" = "Configurar página…";
+
+"Back Up…" = "Copia de seguridad…";
+
+"Organize Library…" = "Organizar biblioteca…";
+
+"Export Library…" = "Exportar biblioteca…";
+
+"Import Collection" = "Importar colección";
+
+"Export Collection" = "Exportar colección";
+
+"Preferences…" = "Preferencias…";
+
+"Check for Updates…" = "Buscar actualizaciones…";
+
+"About OpenEmu" = "Acerca de OpenEmu";
+
+"Hide OpenEmu" = "Ocultar OpenEmu";
+
+"Show All" = "Mostrar todo";
+
+"Quit OpenEmu" = "Salir de OpenEmu";
+
+"Services" = "Servicios";
+
+"Hide Others" = "Ocultar otros";
+
+"Window" = "Ventana";
+
+"Bring All to Front" = "Traer todo al frente";
+
+"Zoom" = "Zoom";
+
+"Minimize" = "Minimizar";
+
+"View" = "Visualización";
+
+"as List" = "Como lista";
+
+"Fullscreen" = "Pantalla completa";
+
+"as Grid" = "Como cuadrícula";
+
+"Undock Game Window" = "Desacoplar ventana de juego";
+
+"Controls" = "Controles";
+
+"Volume Down" = "Bajar volumen";
+
+"Start Game" = "Comenzar partida";
+
+"Volume Up" = "Subir volumen";
+
+"Last Played" = "Último jugado";
+
+"Save State" = "Guardar estado";
+
+"Load State" = "Cargar estado";
+
+"Edit" = "Edición";
+
+"Find" = "Buscar";
+
+"Select All" = "Seleccionar todo";
+
+"Delete" = "Eliminar";
+
+"Paste" = "Pegar";
+
+"Copy" = "Copiar";
+
+"Cut" = "Cortar";
+
+"Redo" = "Rehacer";
+
+"Undo" = "Deshacer";
+
+"Jump to Selection" = "Ir a la selección";
+
+"Use Selection for Find" = "Usar selección para buscar";
+
+"Find Previous" = "Buscar anterior";
+
+"Find Next" = "Buscar siguiente";
+
+"Find…" = "Buscar…";
+
+"Log Responder Chain" = "Registro de cadena de respuesta";
+
+"Show ROM Names" = "Mostrar nombres de ROMS";
+
+"Show Library" = "Mostrar biblioteca";
+
+"Take Screenshot" = "Hacer captura de pantalla";
+
+"Help" = "Ayuda";
+
+"Release Notes" = "Notas de la versión";
+
+"OpenEmu Web Site" = "Página web de OpenEmu";
+
+"Always Hide HUD" = "Siempre ocultar HUD";
+
+"Submit Feedback" = "Enviar comentarios";
+
+"User Guide" = "Guía de usuario";
+
+"Send a Donation…" = "Enviar una donación…";
+
+"Next Display Mode" = "Modo de visualización siguiente";
+
+"Last Display Mode" = "Modo de visualización anterior";
+
+"Float on Top" = "Colocar en primer plano";

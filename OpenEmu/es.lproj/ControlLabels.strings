@@ -1,159 +1,277 @@
-/*
- Copyright (c) 2015, OpenEmu Team
-
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
-
- THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
- EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
- DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
 
 /* Section Title */
+
 "Gameplay Buttons" = "Botones de modo de juego";
+
 "Special Keys" = "Teclas especiales";
 
+
 /* Group Labels */
+
+"-" = "-";   // TODO
+
+"3D Control Pad" = "3D Control Pad";   // TODO
+
 "Analog" = "Analógico";
+
 "C-Pad" = "C-Pad";
+
 "C-Stick" = "C-Stick";
+
 "D-Pad" = "D-Pad";
+
 "Keypad" = "Teclado numérico";
+
 "Left Analog" = "Analógico izquierdo";
+
 "Left D-Pad" = "D-Pad izquierdo";
+
 "Right Analog" = "Analógico derecho";
+
 "Right D-Pad" = "D-Pad derecho";
+
 "Switches" = "Interruptores";
 
+
 /* Button Labels */
+
 "#" = "#";
+
 "*" = "*";
+
 "0" = "0";
+
 "1" = "1";
+
 "2" = "2";
+
 "2/6 Mode" = "Modo 2/6";
+
 "3" = "3";
+
 "4" = "4";
+
 "5" = "5";
+
 "6" = "6";
+
 "7" = "7";
+
 "8" = "8";
+
 "9" = "9";
+
 "A" = "A";
+
 "Action" = "Action";
+
 "Analog Mode" = "Modo analógico";
+
 "B" = "B";
+
 "Bottom Left Action" = "Botón action izquierdo";
+
 "Bottom Right Action" = "Botón action derecho";
+
 "Button 1" = "Botón 1";
+
 "Button 1/Start" = "Botón 1/Start";
+
 "Button 2" = "Botón 2";
+
 "Button 3" = "Botón 3";
+
 "Button 4" = "Botón 4";
+
 "Button 5" = "Botón 5";
+
 "Button 6" = "Botón 6";
+
 "C" = "C";
+
 "Change Disk Side" = "Cambiar lado de disco";
+
 "Clear" = "Clear";
+
+"Configure" = "Configure";   // TODO
+
 "Console Pause" = "Pausar consola";
+
 "Console Reset" = "Reiniciar consola";
+
 "Down" = "Abajo";
+
 "Enter" = "Enter";
-"Fire 1" = "Disparo 1";
-"Fire 2" = "Disparo 2";
+
 "Fire" = "Disparo";
+
+"Fire 1" = "Disparo 1";
+
+"Fire 2" = "Disparo 2";
+
 "Insert Coin" = "Insert Coin";/**/
-"L Diff A" = "L Diff A";
-"L Diff B" = "L Diff B";
-"L Diff" = "L Diff";
+
+"Jump" = "Jump";   // TODO
+
 "L" = "L";
+
+"L Diff" = "L Diff";
+
+"L Diff A" = "L Diff A";
+
+"L Diff B" = "L Diff B";
+
 "L1" = "L1";
+
 "L2" = "L2";
+
 "L3" = "L3";
-"Left Action" = "Action izquierdo";
-"Left Trigger" = "Gatillo izquierdo";
+
 "Left" = "Izquierda";
+
+"Left Action" = "Action izquierdo";
+
+"Left Trigger" = "Gatillo izquierdo";
+
 "Lid" = "Lid";
+
 "Menu" = "Menu";/**/
+
 "Mic" = "Mic";
+
 "Mode" = "Modo";
-"Option 1" = "Option 1";
-"Option 2" = "Option 2";
+
+"Mode Switch" = "Mode Switch";   // TODO
+
 "Option" = "Option";
+
+"Option 1" = "Option 1";
+
+"Option 2" = "Option 2";
+
 "P" = "P";
+
 "Player Start" = "Player Start";/**/
+
 "Power" = "Power";
-"R Diff A" = "R Diff A";
-"R Diff B" = "R Diff B";
-"R Diff" = "R Diff";
+
 "R" = "R";
+
+"R Diff" = "R Diff";
+
+"R Diff A" = "R Diff A";
+
+"R Diff B" = "R Diff B";
+
 "R1" = "R1";
+
 "R2" = "R2";
+
 "R3" = "R3";
-"Right Action" = "Action derecho";
-"Right Trigger" = "Gatillo derecho";
+
 "Right" = "Derecha";
+
+"Right Action" = "Action derecho";
+
+"Right Trigger" = "Gatillo derecho";
+
 "Run" = "Run";
+
 "Select" = "Select";
+
 "Service" = "Service";/**/
+
 "Shake" = "Shake";/**/
-"Sleep" = "Sleep";/**/
+
 "Sound" = "Sound";
+
 "Start" = "Start";
+
+"Swap Joysticks" = "Swap Joysticks";   // TODO
+
 "TV Black & White" = "TV blanco & negro";
+
 "TV Color" = "TV Color";
+
 "Top Action" = "Action superior";
+
+"Trigger L" = "Trigger L";   // TODO
+
+"Trigger R" = "Trigger R";   // TODO
+
 "Up" = "Arriba";
+
 "X" = "X";
+
 "X1 Up" = "X1 arriba";
+
 "X2 Right" = "X2 derecha";
+
 "X3 Down" = "X3 abajo";
+
 "X4 Left" = "X4 izquierda";
+
 "Y" = "Y";
+
 "Y1 Up" = "Y1 arriba";
+
 "Y2 Right" = "Y2 derecha";
+
 "Y3 Down" = "Y3 abajo";
+
 "Y4 Left" = "Y4 izquierda";
+
 "Z" = "Z";
+
 "▢" = "▢";
+
 "△" = "△";
+
 "◯" = "◯";
+
 "✕" = "✕";
 
+
 /* Special Keys */
+
 "Display Mode" = "Modo de visualización";
+
 "Fast Forward" = "Avance rápido";
+
 "Fullscreen" = "Pantalla completa";
+
 "Last Display Mode" = "Modo de visualización anterior";
+
 "Load" = "Cargar";
+
 "Mute" = "Silencio";
+
 "Next Display Mode" = "Modo de visualización siguiente";
-"Pause" = "Pausa";
-"Quick Load Button" = "Carga rápida";
-"Quick Save Button" = "Guardado rápido";
+
+"Pause/Resume" = "Pausa/Reanudar";
+
+"Quick Load" = "Carga rápida";
+
+"Quick Save" = "Guardado rápido";
+
 "Rapid Fire Clear" = "Quitar disparo rápido";
+
 "Rapid Fire Reset" = "Reiniciar disparo rápido";
+
 "Rapid Fire Toggle" = "Cambiar disparo rápido";
+
 "Reset" = "Reiniciar";
+
 "Rewind" = "Retroceder";
+
 "Save" = "Guardar";
+
 "Screenshot" = "Captura de pantalla";
+
 "Step Backward" = "Retroceso";
+
 "Step Forward" = "Avance";
+
 "Volume Down" = "Bajar volumen";
+
 "Volume Up" = "Subir volumen";
