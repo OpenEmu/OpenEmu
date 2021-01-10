@@ -3069,6 +3069,22 @@
 				<key>OEControllerProductID</key>
 				<integer>5143</integer>
 			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>SteelSeries Stratus</string>
+				<key>OEControllerVendorID</key>
+				<integer>273</integer>
+				<key>OEControllerProductID</key>
+				<integer>5145</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>GameSir M2</string>
+				<key>OEControllerVendorID</key>
+				<integer>3778</integer>
+				<key>OEControllerProductID</key>
+				<integer>1141</integer>
+			</dict>
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
