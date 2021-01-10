@@ -80,7 +80,10 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
     
     OEGameLayerNotificationView   *_notificationView;
     BOOL        _pausedByGoingToBackground;
-    OEShaderParametersWindowController *_controller;
+    
+    // Shader support
+    OEShaderControl                     *_shaderControl;
+    OEShaderParametersWindowController  *_controller;
 }
 
 @end
@@ -97,14 +100,18 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
     }
 }
 
-- (id)init
+- (instancetype)initWithDocument:(OEGameDocument *)document
 {
     if((self = [super init]))
     {
+        _document = document;
         _controlsWindow = [[OEGameControlsBar alloc] initWithGameViewController:self];
         [_controlsWindow setReleasedWhenClosed:NO];
         
-        _controller = [[OEShaderParametersWindowController alloc] initWithGameViewController:self];
+        _shaderControl = [[OEShaderControl alloc] initWithSystemIdentifier:_document.systemIdentifier
+                                                                    helper:_document.gameCoreHelper];
+        _shaderControl.shader = [OEShadersModel.shared shaderForSystem:_document.systemIdentifier];
+        _controller = [[OEShaderParametersWindowController alloc] initWithControl:_shaderControl];
         
         _defaultScreenSize = NSMakeSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         
@@ -258,8 +265,10 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
         DLog(@"Invalid argument passed: %@", sender);
 
     OEShaderModel *shader = [OEShadersModel.shared shaderWithName:shaderName];
+    NSDictionary<NSString *, NSNumber *> *params = [shader parametersForIdentifier:self.document.systemIdentifier];
+    
     if (shader) {
-        [[self document] gameViewController:self setShaderURL:shader.url completionHandler:^(BOOL success, NSError *error) {
+        [self.document gameViewController:self setShaderURL:shader.url parameters:params completionHandler:^(BOOL success, NSError *error) {
             if (success)
             {
                 [self didLoadShader:shader];
@@ -277,7 +286,7 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
 
 - (void)didLoadShader:(OEShaderModel *)shader
 {
-    _controller.shader = shader;
+    _shaderControl.shader = shader;
     if (_controller.window.isVisible)
     {
         [self configureShader:nil];
@@ -286,16 +295,7 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
 
 - (void)configureShader:(id)sender
 {
-    if (_controller.shader == nil)
-    {
-        _controller.shader = [OEShadersModel.shared shaderForSystem:self.document.systemIdentifier];
-    }
-    
-    [self.document gameViewController:self shaderParamGroupsWithCompletionHandler:^(NSArray<OEShaderParamGroupValue *> *groups) {
-        self->_controller.groups = groups;
-        [self->_controller showWindow:self->_controller];
-    }];
-
+    [_controller showWindow:sender];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem

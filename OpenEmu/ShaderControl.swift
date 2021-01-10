@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2021, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,32 +22,22 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import Cocoa
+import Foundation
 import OpenEmuKit
 
-@objc(OEShaderParametersWindowController)
-final class ShaderParametersWindowController: NSWindowController {
-    @objc var control: ShaderControl
-    
-    @objc public init(control: ShaderControl) {
-        self.control = control
-        super.init(window: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+@objc(OEShaderControl)
+public class ShaderControl: NSObject {
+    let helper: OEGameCoreHelper
+    @objc public let systemIdentifier: String
 
-    override var windowNibName: NSNib.Name? {
-        "ShaderParameters"
+    @objc public dynamic var shader: OEShadersModel.OEShaderModel?
+    
+    @objc public init(systemIdentifier: String, helper: OEGameCoreHelper) {
+        self.systemIdentifier = systemIdentifier
+        self.helper = helper
     }
     
-    override func windowDidLoad() {
-        super.windowDidLoad()
-        
-        window?.title = NSLocalizedString("Shader Parameters", comment: "Shader parameters window title")
-        
-        let oc = ShaderParametersViewController(shaderControl: control)
-        self.contentViewController = oc
+    public func set(value: CGFloat, forParameter name: String) {
+        helper.setShaderParameterValue(value, forKey: name)
     }
 }

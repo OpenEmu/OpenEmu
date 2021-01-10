@@ -110,17 +110,6 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 
 @implementation OEGameDocument
 
-- (id)init
-{
-    if((self = [super init]) != nil)
-    {
-        _gameViewController = [[OEGameViewController alloc] init];
-        [[self gameViewController] setDocument:self];
-    }
-    
-    return self;
-}
-
 - (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin *)core error:(NSError **)outError
 {
     if(!(self = [self init]))
@@ -298,8 +287,14 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     }
     
     _gameCoreManager = [self _newGameCoreManagerWithCorePlugin:_corePlugin];
+    _gameViewController = [[OEGameViewController alloc] initWithDocument:self];
     
     return _gameCoreManager != nil;
+}
+
+- (id<OEGameCoreHelper>)gameCoreHelper
+{
+    return (id<OEGameCoreHelper>)_gameCoreManager;
 }
 
 - (void)OE_setupGameCoreManagerUsingCorePlugin:(OECorePlugin *)core completionHandler:(void(^)(void))completionHandler
@@ -349,7 +344,9 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
         _romPath = path;
     }
     
-    NSURL *shader = [OEShadersModel.shared shaderForSystem:self.systemIdentifier].url;
+    OEShaderModel *shader = [OEShadersModel.shared shaderForSystem:self.systemIdentifier];
+    NSDictionary<NSString *, NSNumber *> *params = [shader parametersForIdentifier:_systemPlugin.systemIdentifier];
+
     
     OEGameStartupInfo *info = [[OEGameStartupInfo alloc] initWithROMPath:path
                                                                   romMD5:self.rom.md5
@@ -357,7 +354,8 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
                                                                romSerial:self.rom.serial
                                                             systemRegion:OELocalizationHelper.sharedHelper.regionName
                                                          displayModeInfo:lastDisplayModeInfo
-                                                                  shader:shader
+                                                                  shader:shader.url
+                                                        shaderParameters:params
                                                           corePluginPath:_corePlugin.path
                                                         systemPluginPath:_systemPlugin.path];
 
@@ -1070,8 +1068,9 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 {
     // we can't just close the document here because proper shutdown is implemented in
     // method -canCloseDocumentWithDelegate:shouldCloseSelector:contextInfo:
-    [[[self windowControllers] valueForKey:@"window"] makeObjectsPerformSelector:@selector(performClose:)
-                                                                      withObject:sender];
+    for (NSWindowController *wc in self.windowControllers) {
+        [wc.window performClose:sender];
+    }
 }
 
 - (void)toggleEmulationPaused:(id)sender;
@@ -1975,18 +1974,9 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     [_gameCoreManager setBackingScaleFactor:newScaleFactor];
 }
 
-- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block {
-    [_gameCoreManager setShaderURL:url completionHandler:block];
-}
-
-- (void)gameViewController:(OEGameViewController *)sender shaderParamGroupsWithCompletionHandler:(void (^)(NSArray<OEShaderParamGroupValue *> *))handler
+- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url parameters:(NSDictionary<NSString *, NSNumber *> *)parameters completionHandler:(void (^)(BOOL success, NSError *error))block
 {
-    [_gameCoreManager shaderParamGroupsWithCompletionHandler:handler];
-}
-
-- (void)gameViewController:(OEGameViewController *)sender setShaderParameterValue:(CGFloat)value atIndex:(NSUInteger)index atGroupIndex:(NSUInteger)group
-{
-    [_gameCoreManager setShaderParameterValue:value atIndex:index atGroupIndex:group];
+    [_gameCoreManager setShaderURL:url parameters:parameters completionHandler:block];
 }
 
 #pragma mark - OESystemBindingsObserver

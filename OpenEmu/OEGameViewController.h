@@ -68,9 +68,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 - (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
 - (void)gameViewController:(OEGameViewController *)sender updateBounds:(CGRect)newBounds;
 - (void)gameViewController:(OEGameViewController *)sender updateBackingScaleFactor:(CGFloat)newScaleFactor;
-- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url completionHandler:(void (^)(BOOL success, NSError *error))block;
-- (void)gameViewController:(OEGameViewController *)sender shaderParamGroupsWithCompletionHandler:(void (^)(NSArray<OEShaderParamGroupValue *> *))handler;
-- (void)gameViewController:(OEGameViewController *)sender setShaderParameterValue:(CGFloat)value atIndex:(NSUInteger)index atGroupIndex:(NSUInteger)group;
+- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url parameters:(NSDictionary<NSString *, NSNumber *> *)parameters completionHandler:(void (^)(BOOL success, NSError *error))block;
 
 @end
 
@@ -91,6 +89,10 @@ extern NSString *const OEScreenshotPropertiesKey;
 @property(readonly) BOOL supportsDisplayModeChange;
 @property(readonly) NSString *coreIdentifier;
 @property(readonly) NSString *systemIdentifier;
+
+#pragma mark - Initialization
+
+- (instancetype)initWithDocument:(OEGameDocument *)document;
 
 #pragma mark - Game View control
 

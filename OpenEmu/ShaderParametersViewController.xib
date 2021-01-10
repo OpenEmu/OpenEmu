@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ShaderParametersViewController" customModule="OpenEmu" customModuleProvider="target">
+            <connections>
+                <outlet property="outlineView" destination="N0M-kh-BHs" id="jhU-sB-6fO"/>
+                <outlet property="view" destination="GVp-fv-v3P" id="Ok9-AX-xnu"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <view wantsLayer="YES" id="GVp-fv-v3P">
+            <rect key="frame" x="0.0" y="0.0" width="339" height="380"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xM9-YK-ttg">
+                    <rect key="frame" x="0.0" y="39" width="339" height="341"/>
+                    <clipView key="contentView" drawsBackground="NO" id="o1m-Rh-4tX">
+                        <rect key="frame" x="0.0" y="0.0" width="339" height="341"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" usesAutomaticRowHeights="YES" viewBased="YES" indentationPerLevel="16" outlineTableColumn="WGV-x2-CcC" id="N0M-kh-BHs">
+                                <rect key="frame" x="0.0" y="0.0" width="339" height="341"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <size key="intercellSpacing" width="2" height="3"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                <tableColumns>
+                                    <tableColumn identifier="main" width="306" minWidth="40" maxWidth="1000" id="WGV-x2-CcC">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" id="x6e-de-IMa">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                    </tableColumn>
+                                </tableColumns>
+                            </outlineView>
+                        </subviews>
+                        <nil key="backgroundColor"/>
+                    </clipView>
+                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="bPm-t5-RVM">
+                        <rect key="frame" x="0.0" y="325" width="339" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1UQ-Y0-wXb">
+                        <rect key="frame" x="224" y="17" width="15" height="102"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                </scrollView>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VhF-3a-dpM">
+                    <rect key="frame" x="231" y="5" width="95" height="33"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="81" id="3ap-bz-sAg"/>
+                        <constraint firstAttribute="height" constant="21" id="oPb-DO-6Lh"/>
+                    </constraints>
+                    <buttonCell key="cell" type="push" title="Reset All" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VK4-bC-F9C">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="resetAll:" target="-2" id="gsr-rV-97K"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="VhF-3a-dpM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GVp-fv-v3P" secondAttribute="leading" constant="20" symbolic="YES" id="IQR-wA-tdO"/>
+                <constraint firstAttribute="trailing" secondItem="xM9-YK-ttg" secondAttribute="trailing" id="JTU-66-cRj"/>
+                <constraint firstAttribute="trailing" secondItem="VhF-3a-dpM" secondAttribute="trailing" constant="20" id="KHd-ps-O0h"/>
+                <constraint firstItem="VhF-3a-dpM" firstAttribute="top" secondItem="xM9-YK-ttg" secondAttribute="bottom" constant="6" id="cbz-91-urZ"/>
+                <constraint firstItem="xM9-YK-ttg" firstAttribute="leading" secondItem="GVp-fv-v3P" secondAttribute="leading" id="iyC-bG-FJ3"/>
+                <constraint firstAttribute="bottom" secondItem="VhF-3a-dpM" secondAttribute="bottom" constant="12" id="oPv-GB-2Gd"/>
+                <constraint firstItem="xM9-YK-ttg" firstAttribute="top" secondItem="GVp-fv-v3P" secondAttribute="top" id="tr7-Dh-Am6"/>
+            </constraints>
+            <point key="canvasLocation" x="12" y="-237"/>
+        </view>
+    </objects>
+</document>
