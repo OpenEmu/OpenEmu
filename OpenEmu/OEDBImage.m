@@ -66,7 +66,7 @@
     __block NSSize imageSize = image.size;
     const NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEGameArtworkPropertiesKey];
-    NSString *fileName = [NSString stringWithUUID];
+    NSString *fileName = NSUUID.UUID.UUIDString;
     OEBitmapImageFileType type = [standardUserDefaults integerForKey:OEGameArtworkFormatKey];
 
     NSBitmapImageRep *imageRep = nil;
@@ -162,7 +162,7 @@
 
     const NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     const NSSize         imageSize             = image.size;
-    NSString *fileName = [NSString stringWithUUID];
+    NSString *fileName = NSUUID.UUID.UUIDString;
 
     if(type == OEBitmapImageFileTypeDefault || type==OEBitmapImageFileTypeOriginal)
         type = [standardUserDefaults integerForKey:OEGameArtworkFormatKey];

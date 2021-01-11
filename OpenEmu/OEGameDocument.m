@@ -1760,14 +1760,14 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     
     NSString *temporaryDirectoryPath = NSTemporaryDirectory();
     NSURL    *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
-    NSURL    *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+    NSURL    *temporaryStateFileURL  = [NSURL URLWithString:NSUUID.UUID.UUIDString relativeToURL:temporaryDirectoryURL];
     OECorePlugin *core = [_gameCoreManager plugin];
     
     temporaryStateFileURL =
     [temporaryStateFileURL uniqueURLUsingBlock:
      ^ NSURL *(NSInteger triesCount)
      {
-         return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+         return [NSURL URLWithString:NSUUID.UUID.UUIDString relativeToURL:temporaryDirectoryURL];
      }];
     
     [_gameCoreManager saveStateToFileAtPath:[temporaryStateFileURL path] completionHandler:
