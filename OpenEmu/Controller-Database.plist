@@ -3069,6 +3069,14 @@
 				<key>OEControllerProductID</key>
 				<integer>5143</integer>
 			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Gamesir M2</string>
+				<key>OEControllerVendorID</key>
+				<integer>3778</integer>
+				<key>OEControllerProductID</key>
+				<integer>1141</integer>
+			</dict>
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
