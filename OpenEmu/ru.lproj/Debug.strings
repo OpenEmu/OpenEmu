@@ -19,13 +19,13 @@
 
 "Manually choose system on import" = "Определить систему вручную в процессе импорта";
 
-"Show autosave states in save state category" = "Show autosave states in save state category"; // TODO
+"Show autosave states in save state category" = "Показывать автосохранения в категории сохранений";
 
-"Show quicksave states in save state category" = "Show quicksave states in save state category"; // TODO
+"Show quicksave states in save state category" = "Показывать быстрые сохранения в категории сохранений";
 
-"Show game scanner view" = "Show game scanner view"; // TODO
+"Show game scanner view" = "Показать сканер игр";
 
-"Hide game scanner view" = "Hide game scanner view"; // TODO
+"Hide game scanner view" = "Скрыть сканер игр";
 
 "HUD Bar / Gameplay" = "HUD-полоса / Геймплей";
 
@@ -45,7 +45,7 @@
 
 "Take screenshots in native size" = "Делать снимки экрана в реальном размере";
 
-"Disable aspect ratio correction in screenshots" = "Отключить коррекцию соотношения сторон"; // TODO: specify "in screenshots"
+"Disable aspect ratio correction in screenshots" = "Отключить коррекцию соотношения сторон в снимках экрана";
 
 "Game View Background color:" = "Цвет фона окна игры:";
 
@@ -99,44 +99,44 @@
 
 "While performing this operation OpenEmu will be unresponsive." = "Во время выполнения данной операции OpenEmu может не отвечать.";
 
-"Delete useless image objects" = "Delete useless image objects"; // TODO
+"Delete useless image objects" = "Удалять бесполезные объекты изображений";
 
-"Sync games without artwork" = "Sync games without artwork"; // TODO
+"Sync games without artwork" = "Синхронизировать игры без обложки";
 
-"Threshold for analog controls bound to buttons:" = "Threshold for analog controls\nbound to buttons:";    // TODO
+"Threshold for analog controls bound to buttons:" = "Порог для аналоговых элементов\nназначенных на кнопки:";
 
-"Range: %@ to %@" = "Range: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
+"Range: %@ to %@" = "Диапазон: от %@ до %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
 
-"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+"Default Value: %@" = "Значение по умолчанию: %@";  // Default value tooltip format in the Debug Preferences
 
-"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+"Checked" = "Включено";  // Default value tooltip for checkboxes: checked default
 
-"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+"Unchecked" = "Выключено";  // Default value tooltip for checkboxes: unchecked default
 
-"Shaders" = "Shaders";  // TODO
+"Shaders" = "Шейдеры";
 
-"Clear shader cache" = "Clear shader cache";  // TODO
+"Clear shader cache" = "Очистить кэш шейдеров";
 
-"Reveal user shader folder" = "Reveal user shader folder";  // TODO
+"Reveal user shader folder" = "Показать папку пользовательских шейдеров";
 
-"Appearance:" = "Appearance:";  // TODO
+"Appearance:" = "Оформление:";
 
-"Auto (region)" = "Auto";  // TODO
+"Auto (region)" = "Автоматически";
 
-"North America" = "North America";  // TODO
+"North America" = "Северная Америка";
 
-"Japan" = "Japan";  // TODO
+"Japan" = "Япония";
 
-"Europe" = "Europe";  // TODO
+"Europe" = "Европа";
 
-"Other" = "Other";  // TODO
+"Other" = "Другой";
 
-"XPC" = "XPC";  // TODO
+"XPC" = "XPC";
 
-"Background Thread" = "Background Thread";  // TODO
+"Background Thread" = "Фоновый поток";
 
-"System" = "System";  // TODO
+"System" = "Системное";
 
-"Dark (default)" = "Dark (default)";  // TODO
+"Dark (default)" = "Тёмное (по умолчанию)";
 
-"Light" = "Light";  // TODO
+"Light" = "Светлое";

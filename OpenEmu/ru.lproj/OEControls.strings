@@ -32,11 +32,11 @@
 
 "Always pause gameplay when in background" = "Приостанавливать игры при переключении окна";
 
-"Always snap popout gameplay window to integer scale" = "Always snap popout gameplay window to integer scale";  // TODO
+"Always snap popout gameplay window to integer scale" = "Всегда привязывать всплывающее окно игры к целочисленному масштабу";
 
-"Allow playing with controllers when in background" = "Allow playing with controllers when in background"; // TODO
+"Allow playing with controllers when in background" = "Разрешить играть с помощью контроллеров в фоновом режиме";
 
-"Always float popout gamplay window on top" = "Always float popout gamplay window on top"; // TODO
+"Always float popout gamplay window on top" = "Всегда отображать всплывающее окно игр сверху";
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */
@@ -50,7 +50,7 @@
 
 "Apply" = "Применить";
 
-"Import Into:" = "Import Into:";   // TODO
+"Import Into:" = "Импортировать в:";
 
 
 /* Setup Assistant (OESetupAssistant.xib) */
@@ -77,12 +77,12 @@
 
 "Go" = "Поехали!";
 
-"Downloading Data…" = "Downloading Data…";  // TODO
+"Downloading Data…" = "Скачиваю данные…";
 
 
 /* Shader Parameters (ShaderParameters.xib) */
 
-"Reset All" = "Reset All";  // TODO
+"Reset All" = "Сбросить все";
 
 
 /* Library Database Migration (OEMigrationWindowController.xib) */
