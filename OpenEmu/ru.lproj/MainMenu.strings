@@ -127,10 +127,10 @@
 
 "User Guide" = "Руководство пользователя";
 
-"Send a Donation…" = "Send a Donation…";  // TODO
+"Send a Donation…" = "Отправить пожертвование…";
 
-"Next Display Mode" = "Next Display Mode"; // TODO
+"Next Display Mode" = "Следующий режим отображения";
 
-"Last Display Mode" = "Last Display Mode"; // TODO
+"Last Display Mode" = "Последний режим отображения";
 
 "Float on Top" = "Поверх всех окон"; // (same as QuickTime Player → View)

@@ -1,9 +1,9 @@
 
 /* Section Title */
 
-"Gameplay Buttons" = "Gameplay Buttons";
+"Gameplay Buttons" = "Игровые кнопки";
 
-"Special Keys" = "Special Keys";
+"Special Keys" = "Особые кнопки";
 
 
 /* Group Labels */
@@ -12,7 +12,7 @@
 
 "3D Control Pad" = "3D Control Pad";   // TODO
 
-"Analog" = "Analog";
+"Analog" = "Аналог";
 
 "C-Pad" = "C-Pad";
 
@@ -20,17 +20,17 @@
 
 "D-Pad" = "D-Pad";
 
-"Keypad" = "Keypad";
+"Keypad" = "Клавиатура";
 
-"Left Analog" = "Left Analog";
+"Left Analog" = "Левый аналог";
 
-"Left D-Pad" = "Left D-Pad";
+"Left D-Pad" = "Левый D-Pad";
 
-"Right Analog" = "Right Analog";
+"Right Analog" = "Правый аналог";
 
-"Right D-Pad" = "Right D-Pad";
+"Right D-Pad" = "Правый D-Pad";
 
-"Switches" = "Switches";
+"Switches" = "Переключатели";
 
 
 /* Button Labels */
@@ -65,7 +65,7 @@
 
 "Action" = "Action";
 
-"Analog Mode" = "Analog Mode";
+"Analog Mode" = "Режим аналога";
 
 "B" = "B";
 
@@ -73,33 +73,33 @@
 
 "Bottom Right Action" = "Bottom Right Action";
 
-"Button 1" = "Button 1";
+"Button 1" = "Кнопка 1";
 
-"Button 1/Start" = "Button 1/Start";
+"Button 1/Start" = "Кнопка 1/Start";
 
-"Button 2" = "Button 2";
+"Button 2" = "Кнопка 2";
 
-"Button 3" = "Button 3";
+"Button 3" = "Кнопка 3";
 
-"Button 4" = "Button 4";
+"Button 4" = "Кнопка 4";
 
-"Button 5" = "Button 5";
+"Button 5" = "Кнопка 5";
 
-"Button 6" = "Button 6";
+"Button 6" = "Кнопка 6";
 
 "C" = "C";
 
-"Change Disk Side" = "Change Disk Side";
+"Change Disk Side" = "Изменить сторону диска";
 
-"Clear" = "Clear";
+"Clear" = "Очистить";
 
-"Configure" = "Configure";   // TODO
+"Configure" = "Настроить";
 
-"Console Pause" = "Console Pause";
+"Console Pause" = "Приостановка консоли";
 
-"Console Reset" = "Console Reset";
+"Console Reset" = "Сброс консоли";
 
-"Down" = "Down";
+"Down" = "Вниз";
 
 "Enter" = "Enter";
 
@@ -109,9 +109,9 @@
 
 "Fire 2" = "Fire 2";
 
-"Insert Coin" = "Insert Coin";
+"Insert Coin" = "Вставить монету";
 
-"Jump" = "Jump";   // TODO
+"Jump" = "Прыжок";
 
 "L" = "L";
 
@@ -127,11 +127,11 @@
 
 "L3" = "L3";
 
-"Left" = "Left";
+"Left" = "Налево";
 
 "Left Action" = "Left Action";
 
-"Left Trigger" = "Left Trigger";
+"Left Trigger" = "Левый курок";
 
 "Lid" = "Lid";
 
@@ -141,7 +141,7 @@
 
 "Mode" = "Mode";
 
-"Mode Switch" = "Mode Switch";   // TODO
+"Mode Switch" = "Переключатель режима";
 
 "Option" = "Option";
 
@@ -169,11 +169,11 @@
 
 "R3" = "R3";
 
-"Right" = "Right";
+"Right" = "Направо";
 
 "Right Action" = "Right Action";
 
-"Right Trigger" = "Right Trigger";
+"Right Trigger" = "Правый курок";
 
 "Run" = "Run";
 
@@ -187,7 +187,7 @@
 
 "Start" = "Start";
 
-"Swap Joysticks" = "Swap Joysticks";   // TODO
+"Swap Joysticks" = "Поменять джойстики местами";
 
 "TV Black & White" = "TV Black & White";
 
@@ -195,11 +195,11 @@
 
 "Top Action" = "Top Action";
 
-"Trigger L" = "Trigger L";   // TODO
+"Trigger L" = "Курок L";
 
-"Trigger R" = "Trigger R";   // TODO
+"Trigger R" = "Курок R";
 
-"Up" = "Up";
+"Up" = "Вверх";
 
 "X" = "X";
 
@@ -234,25 +234,25 @@
 
 /* Special Keys */
 
-"Display Mode" = "Display Mode";
+"Display Mode" = "Режим отображения";
 
-"Fast Forward" = "Fast Forward";
+"Fast Forward" = "Быстрая перемотка";
 
-"Fullscreen" = "Fullscreen";
+"Fullscreen" = "Полный экран";
 
-"Last Display Mode" = "Last Display Mode";
+"Last Display Mode" = "Последний режим отображения";
 
-"Load" = "Load";
+"Load" = "Загрузить";
 
-"Mute" = "Mute";
+"Mute" = "Отключить звук";
 
-"Next Display Mode" = "Next Display Mode";
+"Next Display Mode" = "Следующий режим отображения";
 
-"Pause/Resume" = "Pause"; // TODO
+"Pause/Resume" = "Пауза";
 
-"Quick Load" = "Quick Load";
+"Quick Load" = "Быстрая загрузка";
 
-"Quick Save" = "Quick Save";
+"Quick Save" = "Быстрое сохранение";
 
 "Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
 
@@ -260,18 +260,18 @@
 
 "Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
 
-"Reset" = "Reset";
+"Reset" = "Сброс";
 
-"Rewind" = "Rewind";
+"Rewind" = "Перемотка назад";
 
-"Save" = "Save";
+"Save" = "Сохранение";
 
-"Screenshot" = "Screenshot";
+"Screenshot" = "Снимок экрана";
 
-"Step Backward" = "Step Backward";
+"Step Backward" = "Шаг назад";
 
-"Step Forward" = "Step Forward";
+"Step Forward" = "Шаг вперёд";
 
-"Volume Down" = "Volume Down";
+"Volume Down" = "Тише";
 
-"Volume Up" = "Volume Up";
+"Volume Up" = "Громче";
