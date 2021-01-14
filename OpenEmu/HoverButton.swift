@@ -26,7 +26,7 @@ import Cocoa
 
 class HoverButton: NSButton {
     
-    private var trackingArea: NSTrackingArea?
+    private var trackingArea: NSTrackingArea!
     
     var isHovering: Bool = false {
         didSet {
@@ -41,15 +41,15 @@ class HoverButton: NSButton {
             removeTrackingArea(trackingArea)
         }
         
-        let trackingArea = NSTrackingArea(rect: bounds, options: [.mouseEnteredAndExited, .activeInActiveApp], owner: self, userInfo: nil)
+        trackingArea = NSTrackingArea(rect: bounds, options: [.mouseEnteredAndExited, .activeInActiveApp], owner: self, userInfo: nil)
         addTrackingArea(trackingArea)
     }
     
-    override func mouseEntered(with theEvent: NSEvent) {
+    override func mouseEntered(with event: NSEvent) {
         isHovering = true
     }
     
-    override func mouseExited(with theEvent: NSEvent) {
+    override func mouseExited(with event: NSEvent) {
         isHovering = false
     }
 }
