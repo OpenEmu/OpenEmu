@@ -33,11 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nullable)  NSImage *sidebarIcon;
 @property (readonly)            NSString* sidebarName;
 @property (readonly, nullable)  NSString* sidebarID;
-@property (readonly, nullable)  NSString* viewControllerClassName;
 @property (readonly)            BOOL isSelectableInSidebar;
 @property (readonly)            BOOL isEditableInSidebar;
-@property (readonly)            BOOL isGroupHeaderInSidebar;
 @property (readonly)            BOOL hasSubCollections;
+@optional // TODO: Remove
+@property (readonly, nullable)  NSString* viewControllerClassName;
+@property (readonly)            BOOL isGroupHeaderInSidebar;
 @end
 
 NS_ASSUME_NONNULL_END

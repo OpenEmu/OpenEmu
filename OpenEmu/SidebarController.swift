@@ -32,6 +32,11 @@ extension NSNotification.Name {
     static let OESidebarSelectionDidChange = NSNotification.Name("OESidebarSelectionDidChange")
 }
 
+private extension NSUserInterfaceItemIdentifier {
+    static let headerView = NSUserInterfaceItemIdentifier("SidebarHeaderView")
+    static let itemView   = NSUserInterfaceItemIdentifier("SidebarItemView")
+}
+
 @objc(OESidebarController)
 class SidebarController: NSViewController {
     
@@ -76,12 +81,12 @@ class SidebarController: NSViewController {
         return item as? OESidebarItem
     }
     
-    private var token: NSObjectProtocol?
+    private var tokens = [NSObjectProtocol]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sidebarView.register(NSNib(nibNamed: "SidebarHeaderView", bundle: nil), forIdentifier: Self.headerViewIdentifier)
-        sidebarView.register(NSNib(nibNamed: "SidebarItemView", bundle: nil), forIdentifier: Self.itemViewIdentifier)
+        sidebarView.register(NSNib(nibNamed: "SidebarHeaderView", bundle: nil), forIdentifier: .headerView)
+        sidebarView.register(NSNib(nibNamed: "SidebarItemView", bundle: nil), forIdentifier: .itemView)
         
         sidebarView.registerForDraggedTypes([.fileURL, .game])
         sidebarView.expandItem(nil, expandChildren: true)
@@ -91,12 +96,25 @@ class SidebarController: NSViewController {
         sidebarView.menu = menu
         menuNeedsUpdate(menu)
         
-        token = NotificationCenter.default.addObserver(forName: .OEDBSystemAvailabilityDidChange, object: nil, queue: .main) { [weak self] _ in
-            guard let self = self else { return }
-            
-            self.reloadDataAndPreserveSelection()
+        tokens = [
+            NotificationCenter.default.addObserver(forName: .OEDBSystemAvailabilityDidChange, object: nil, queue: .main) { [weak self] _ in
+                guard let self = self else { return }
+                
+                self.reloadDataAndPreserveSelection()
+            },
+            NotificationCenter.default.addObserver(forName: .OELibraryLocationDidChange, object: nil, queue: .main) { [weak self] _ in
+                guard let self = self else { return }
+                
+                self.reloadData()
+            },
+        ]
+    }
+    
+    deinit {
+        tokens.forEach { observer in
+            NotificationCenter.default.removeObserver(observer)
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(libraryLocationDidChange(_:)), name: .OELibraryLocationDidChange, object: nil)
+        tokens = []
     }
     
     func reloadDataAndPreserveSelection() {
@@ -148,10 +166,6 @@ class SidebarController: NSViewController {
         sidebarView.reloadData()
     }
     
-    @objc func libraryLocationDidChange(_ notification: Notification) {
-        reloadData()
-    }
-    
     // MARK: - Actions
     
     func selectItem(_ item: OESidebarItem) {
@@ -171,8 +185,7 @@ class SidebarController: NSViewController {
         let index = sidebarView.row(forItem: item)
         guard index > -1 else { return }
         
-        let event = NSEvent()
-        sidebarView.editColumn(0, row: index, with: event, select: true)
+        sidebarView.editColumn(0, row: index, with: nil, select: true)
     }
     
     @IBAction func endedEditingItem(_ sender: NSTextField) {
@@ -197,7 +210,7 @@ class SidebarController: NSViewController {
         startEditingItem(item)
     }
     
-    private func removeItem(at index: Int) {
+    func removeItem(at index: Int) {
         guard let item = sidebarView.item(atRow: index) as? OEDBCollection,
               item.isEditableInSidebar,
               OEAlert.removeCollection(name: item.sidebarName).runModal() == .alertFirstButtonReturn else { return }
@@ -218,7 +231,7 @@ class SidebarController: NSViewController {
         sidebarView.selectRowIndexes([index], byExtendingSelection: false)
     }
     
-    @objc func addCollection() -> OEDBCollection {
+    func addCollection() -> OEDBCollection {
         let newCollection = database!.addNewCollection(nil)
         
         reloadData()
@@ -228,7 +241,7 @@ class SidebarController: NSViewController {
         return newCollection
     }
     
-    @IBAction func newCollection(_ sender: AnyObject?) {
+    @IBAction func newCollection(_ sender: Any?) {
         _ = addCollection()
     }
     
@@ -246,9 +259,8 @@ class SidebarController: NSViewController {
         startEditingItem(newCollection)
     }
     
-    @objc func duplicateCollection(_ originalCollection: Any?) {
-        guard let originalCollection = originalCollection as? OEDBCollection,
-              let originalName = originalCollection.value(forKey: "name") as? String else { return }
+    func duplicateCollection(_ originalCollection: OEDBCollection) {
+        guard let originalName = originalCollection.name else { return }
         
         let duplicateName = String.localizedStringWithFormat(NSLocalizedString("%@ copy", comment: "Duplicated collection name"), originalName)
         let duplicateCollection = database!.addNewCollection(duplicateName)
@@ -267,7 +279,8 @@ class SidebarController: NSViewController {
     }
     
     @objc func duplicateCollection(for menuItem: NSMenuItem) {
-        duplicateCollection(menuItem.representedObject)
+        guard let collection = menuItem.representedObject as? OEDBCollection else { return }
+        duplicateCollection(collection)
     }
     
     @objc func toggleSystem(for menuItem: NSMenuItem) {
@@ -349,9 +362,6 @@ extension NSUserInterfaceItemIdentifier: ExpressibleByStringLiteral {
 }
 
 extension SidebarController: NSOutlineViewDataSource {
-    static let headerViewIdentifier: NSUserInterfaceItemIdentifier = "SidebarHeaderView"
-    static let itemViewIdentifier: NSUserInterfaceItemIdentifier = "SidebarItemView"
-    static let rowViewIdentifier: NSUserInterfaceItemIdentifier = "SidebarRowView"
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         switch item {
@@ -367,7 +377,7 @@ extension SidebarController: NSOutlineViewDataSource {
     }
     
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        (item as? OESidebarItem)?.isGroupHeaderInSidebar ?? false
+        item is SidebarGroupItem
     }
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
@@ -398,11 +408,10 @@ extension SidebarController: NSOutlineViewDataSource {
         
         var view: NSTableCellView?
         
-        if item.isGroupHeaderInSidebar {
-            view = outlineView.makeView(withIdentifier: Self.headerViewIdentifier, owner: self) as? NSTableCellView
+        if let group = item as? SidebarGroupItem {
+            view = outlineView.makeView(withIdentifier: .headerView, owner: self) as? NSTableCellView
             
-            if let group = item as? SidebarGroupItem,
-               let button = (view as? SidebarHeaderView)?.button {
+            if let button = (view as? SidebarHeaderView)?.button {
                 
                 switch group.autosaveName {
                 case .sidebarConsolesItem:
@@ -417,7 +426,7 @@ extension SidebarController: NSOutlineViewDataSource {
             }
             
         } else {
-            view = outlineView.makeView(withIdentifier: Self.itemViewIdentifier, owner: self) as? NSTableCellView
+            view = outlineView.makeView(withIdentifier: .itemView, owner: self) as? NSTableCellView
             view?.imageView?.image = item.sidebarIcon
             view?.textField?.isSelectable = false
             view?.textField?.isEditable = item.isEditableInSidebar
@@ -566,20 +575,19 @@ extension SidebarController: NSMenuDelegate {
         
         let index = sidebarView.clickedRow
         
-        guard index != -1 else { return }
-        let item = sidebarView.item(atRow: index) as! OESidebarItem
+        guard index != -1,
+              let item = sidebarView.item(atRow: index) as? OESidebarItem,
+              !(item is SidebarGroupItem)
+        else { return }
         
         var menuItem: NSMenuItem
         
-        if item is SidebarGroupItem {
-            return
-        }
-        else if item is OEDBSystem {
+        if let item = item as? OEDBSystem {
             
-            if let cores = OECorePlugin.corePlugins(forSystemIdentifier: (item as! OEDBSystem).systemIdentifier),
+            if let cores = OECorePlugin.corePlugins(forSystemIdentifier: item.systemIdentifier),
                cores.count > 1 {
                 
-                let systemIdentifier = (item as! OEDBSystem).systemIdentifier!
+                let systemIdentifier = item.systemIdentifier!
                 let defaultCoreKey = "defaultCore.\(systemIdentifier)"
                 let defaultCoreIdentifier = UserDefaults.standard.object(forKey: defaultCoreKey) as? String
                 
@@ -589,7 +597,7 @@ extension SidebarController: NSMenuDelegate {
                 
                 cores.forEach { core in
                     let coreName = core.displayName
-                    let systemIdentifier = (item as! OEDBSystem).systemIdentifier!
+                    let systemIdentifier = item.systemIdentifier!
                     let coreIdentifier = core.bundleIdentifier
                     
                     let item = NSMenuItem()
@@ -605,7 +613,7 @@ extension SidebarController: NSMenuDelegate {
             }
             
             menuItem = NSMenuItem()
-            menuItem.title = .localizedStringWithFormat(NSLocalizedString("Hide \"%@\"", comment: ""), (item as! OEDBSystem).name)
+            menuItem.title = .localizedStringWithFormat(NSLocalizedString("Hide \"%@\"", comment: ""), item.name)
             menuItem.action = #selector(toggleSystem(for:))
             menuItem.representedObject = item
             menu.addItem(menuItem)
@@ -649,25 +657,20 @@ class SidebarGroupItem: NSObject, OESidebarItem {
         case sidebarConsolesItem, sidebarCollectionsItem
     }
     
-    var name: String
-    var autosaveName: AutosaveName
+    let name: String
+    let autosaveName: AutosaveName
     
     init(name: String, autosaveName: AutosaveName) {
         self.name = name
         self.autosaveName = autosaveName
     }
     
-    var sidebarIcon: NSImage?
-    var sidebarName: String {
-        return self.name
-    }
-    var sidebarID: String?
-    var viewControllerClassName: String?
-    var isSelectableInSidebar: Bool = false
-    var isEditableInSidebar: Bool = false
-    var isGroupHeaderInSidebar: Bool = true
-    var hasSubCollections: Bool = false
-    
+    let sidebarIcon: NSImage? = nil
+    lazy var sidebarName = name
+    let sidebarID: String? = nil
+    let isSelectableInSidebar = false
+    let isEditableInSidebar = false
+    let hasSubCollections = false
 }
 
 extension Key {
