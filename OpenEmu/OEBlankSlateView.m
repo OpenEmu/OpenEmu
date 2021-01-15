@@ -37,7 +37,7 @@
 
 #import "OpenEmu-Swift.h"
 
-@interface OEBlankSlateView () <NSTextViewDelegate>
+@interface OEBlankSlateView () <NSTextViewDelegate, CALayoutManager>
 
 @property CALayer *dragIndicationLayer;
 @property NSDragOperation lastDragOperation;
@@ -93,10 +93,12 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 
 - (void)commonBlankSlateInit
 {
+    CALayer *layer = [CALayer layer];
+    layer.layoutManager = self;
+    self.layer = layer;
+    
     NSAppearance.currentAppearance = self.effectiveAppearance;
     
-    CALayer *layer = [self layer];
-
     // Setup drag indication layer
     _dragIndicationLayer = [[CALayer alloc] init];
     _dragIndicationLayer.borderColor = [[NSColor controlAccentColor] CGColor];
@@ -104,7 +106,22 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     _dragIndicationLayer.cornerRadius = 8.0;
     _dragIndicationLayer.hidden = YES;
     
+    NSAppearance.currentAppearance = nil;
+    
     [layer addSublayer:_dragIndicationLayer];
+}
+
+- (void)viewDidChangeEffectiveAppearance
+{
+    if (@available(macOS 11.0, *)) {
+        [self.effectiveAppearance performAsCurrentDrawingAppearance: ^{
+            self->_dragIndicationLayer.borderColor = NSColor.controlAccentColor.CGColor;
+        }];
+    } else {
+        NSAppearance.currentAppearance = self.effectiveAppearance;
+        _dragIndicationLayer.borderColor = NSColor.controlAccentColor.CGColor;
+        NSAppearance.currentAppearance = nil;
+    }
 }
 
 - (void)gotoProjectURL:(id)sender
