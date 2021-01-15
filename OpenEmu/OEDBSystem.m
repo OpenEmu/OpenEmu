@@ -93,12 +93,12 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
     return allSystemIdentifiers;
 }
 
-+ (nullable NSArray <OEDBSystem *> *)enabledSystemsinContext:(NSManagedObjectContext *)context
++ (nullable NSArray <OEDBSystem *> *)enabledSystemsInContext:(NSManagedObjectContext *)context
 {
-    return [self enabledSystemsinContext:context error:nil];
+    return [self enabledSystemsInContext:context error:nil];
 }
 
-+ (nullable NSArray <OEDBSystem *> *)enabledSystemsinContext:(NSManagedObjectContext *)context error:(NSError**)outError
++ (nullable NSArray <OEDBSystem *> *)enabledSystemsInContext:(NSManagedObjectContext *)context error:(NSError**)outError
 {
     NSArray <NSSortDescriptor *> *sortDesc = @[[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]];
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"enabled = YES"];
@@ -228,7 +228,7 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
     BOOL enabled = self.enabled.boolValue;
 
     // Make sure at least one system would still be enabled.
-    if (enabled && [OEDBSystem enabledSystemsinContext:context].count == 1) {
+    if (enabled && [OEDBSystem enabledSystemsInContext:context].count == 1) {
         if (error) {
             NSString *localizedDescription = NSLocalizedString(@"At least one System must be enabled", @"");
             *error = [NSError errorWithDomain:OEDBSystemErrorDomain code:OEDBSystemErrorCodeEnabledToggleFailed userInfo:@{ NSLocalizedDescriptionKey : localizedDescription }];

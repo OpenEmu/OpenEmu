@@ -417,7 +417,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 - (BOOL)shouldDisallowArchive:(XADArchive *)archive
 {
     NSManagedObjectContext *context = self.importer.context;
-    NSArray <OEDBSystem *> *enabledSystems = [OEDBSystem enabledSystemsinContext:context];
+    NSArray <OEDBSystem *> *enabledSystems = [OEDBSystem enabledSystemsInContext:context];
     NSMutableSet <NSString *> *enabledExtensions = [NSMutableSet set];
     OEDBSystem *arcadeSystem = [OEDBSystem systemForPluginIdentifier:@"openemu.system.arcade" inContext:context];
     BOOL isArcadeEnabled = arcadeSystem.enabled.boolValue;

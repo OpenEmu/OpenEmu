@@ -161,7 +161,7 @@ class SidebarController: NSViewController {
             sidebarView.abortEditing()
         }
         
-        systems     = OEDBSystem.enabledSystemsinContext(database.mainThreadContext) ?? []
+        systems     = OEDBSystem.enabledSystems(in: database.mainThreadContext) ?? []
         collections = database.collections
         sidebarView.reloadData()
     }

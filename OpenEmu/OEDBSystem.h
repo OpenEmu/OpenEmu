@@ -43,8 +43,8 @@ extern NSNotificationName const OEDBSystemAvailabilityDidChangeNotification;
 
 + (NSArray <NSString *> *)allSystemIdentifiersInContext:(NSManagedObjectContext *)context;
 
-+ (nullable NSArray <OEDBSystem *> *)enabledSystemsinContext:(NSManagedObjectContext *)context;
-+ (nullable NSArray <OEDBSystem *> *)enabledSystemsinContext:(NSManagedObjectContext *)context error:(NSError **)outError;
++ (nullable NSArray <OEDBSystem *> *)enabledSystemsInContext:(NSManagedObjectContext *)context;
++ (nullable NSArray <OEDBSystem *> *)enabledSystemsInContext:(NSManagedObjectContext *)context error:(NSError **)outError;
 
 + (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)fileURL inContext:(NSManagedObjectContext *)context;
 + (NSArray <OEDBSystem *> *)systemsForFile:(OEFile *)file inContext:(NSManagedObjectContext *)context error:(NSError**)error;

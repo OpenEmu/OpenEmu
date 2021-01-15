@@ -814,7 +814,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     NSMenu *consolesMenu    = [[NSMenu alloc] init];
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [database mainThreadContext];
-    NSArray *enabledSystems = [OEDBSystem enabledSystemsinContext:context];
+    NSArray *enabledSystems = [OEDBSystem enabledSystemsInContext:context];
 
     for(OEDBSystem *system in enabledSystems)
     {
