@@ -42,9 +42,9 @@ class ShaderParametersViewController: NSViewController {
     
     func loadShader() {
         guard let shader = shaderControl.shader else { return }
-        guard let ss = try? SlangShader(fromURL: shader.url) else { return }
-        self.groups = OEShaderParamGroupValue.fromGroups(ss.parameterGroups)
         
+        self.groups = shader.readGroups()
+
         // update with existing user preferences
         if let user = shader.parameters(forIdentifier: shaderControl.systemIdentifier),
            let params = self.params {

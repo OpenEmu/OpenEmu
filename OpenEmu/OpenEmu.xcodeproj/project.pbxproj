@@ -2680,9 +2680,9 @@
 			isa = PBXGroup;
 			children = (
 				0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */,
+				0519A89E25AA4CD800D71C21 /* ShaderControl.swift */,
 				05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */,
 				05888F3925A0373300286232 /* ShaderParametersViewController.swift */,
-				0519A89E25AA4CD800D71C21 /* ShaderControl.swift */,
 			);
 			name = Shaders;
 			sourceTree = "<group>";

@@ -85,39 +85,3 @@ ygain_r = "0.1875"
 ygain_g = "0.6940"
 ygain_b = "0.1185"
 AUTO_PRESCALE = "0.0"
-
-parameter_groups = "feat;screen;post;ntsc;color;deconverge;scanline;defocus;phosphor;chroma;distortion;default"
-feat_group_desc = "Features"
-feat_group_parameters = "ntscsignal;scanlinetoggle;chromatoggle;distortiontoggle;phosphortoggle;swapxy"
-
-screen_group_desc = "Screen Layout"
-screen_group_parameters = "screenscale_x;screenscale_y;screenoffset_x;screenoffset_y"
-
-post_group_desc = "Post Pass"
-post_group_parameters = "mask_offset_x;mask_offset_y;shadowtilemode;power_r;power_g;power_b;floor_r;floor_g;floor_b;chromamode;conversiongain_x;conversiongain_y;conversiongain_z;humbaralpha;shadowalpha;shadowcount_x;shadowcount_y;shadowuv_x;shadowuv_y"
-
-ntsc_group_desc = "NTSC Pass"
-ntsc_group_parameters = "avalue;bvalue;ccvalue;ovalue;pvalue;scantime;notch_width;yfreqresponse;ifreqresponse;qfreqresponse;jitter_offset"
-
-color_group_desc = "Color Pass"
-color_group_parameters = "col_rr;col_rg;col_rb;col_gr;col_gg;col_gb;col_br;col_bg;col_bb;col_offset_x;col_offset_y;col_offset_z;col_scale_x;col_scale_y;col_scale_z;col_saturation"
-
-deconverge_group_desc = "Deconverge Pass"
-deconverge_group_parameters = "converge_x_r;converge_x_g;converge_x_b;converge_y_r;converge_y_g;converge_y_b;radial_conv_x_r;radial_conv_x_g;radial_conv_x_b;radial_conv_y_r;radial_conv_y_g;radial_conv_y_b"
-
-scanline_group_desc = "Scanline Pass"
-scanline_group_parameters = "scanlinealpha;scanlinescale;scanlineheight;scanlinevariation;scanlineoffset;scanlinebrightscale;scanlinebrightoffset;scanline_jitter_amount"
-
-defocus_group_desc = "Defocus Pass"
-defocus_group_parameters = "defocus_x;defocus_y"
-
-phosphor_group_desc = "Phosphor Pass"
-phosphor_group_parameters = "time;phosphor_r;phosphor_g;phosphor_b"
-
-chroma_group_desc = "Chroma Pass"
-chroma_group_parameters = "ygain_r;ygain_g;ygain_b;chromaa_x;chromaa_y;chromab_x;chromab_y;chromac_x;chromac_y"
-
-distortion_group_desc = "Distortion Pass"
-distortion_group_parameters = "distortion_amount;cubic_distortion_amount;distort_corner_amount;round_corner_amount;smooth_border_amount;vignette_amount;reflection_amount;jitter;humbar_hertz_rate;prescale;scanline_crawl;noise_amt"
-
-default_group_desc = "Other parameters"

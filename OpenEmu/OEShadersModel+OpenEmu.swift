@@ -24,30 +24,10 @@
 
 import Foundation
 
-// Extensions for OpenEmu.app
 extension OEShadersModel {
-    func setDefaultShader(_ name: String) {
-        UserDefaults.standard.set(name, forKey: Preferences.global.key)
-    }
-    
-    func setShader(name: String, forSystem id: String) {
-        UserDefaults.standard.set(name, forKey: Preferences.system(id).key)
-    }
-}
-
-extension OEShadersModel.OEShaderModel {
     @objc
-    public func write(parameters params: [OEShaderParamValue], identifier: String) {
-        var state = [String]()
-        
-        for p in params.filter({ !$0.isInitial }) {
-            state.append("\(p.name)=\(p.value)")
-        }
-        if state.isEmpty {
-            UserDefaults.standard.removeObject(forKey: Params.system(self.name, identifier).key)
-        } else {
-            UserDefaults.standard.set(state.joined(separator: ";"), forKey: Params.system(self.name, identifier).key)
-        }
-    }
+    public static var shared : OEShadersModel = {
+        OEShadersModel(store: .standard, bundle: .main)
+    }()
 }
 
