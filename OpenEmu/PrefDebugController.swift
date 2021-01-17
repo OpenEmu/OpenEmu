@@ -81,7 +81,7 @@ final class PrefDebugController: NSViewController {
         "-",
         
         Group(label: "Controls Setup"),
-        Checkbox(key: OEControlsButtonHighlightRollsOver, label: "Select first field after setting the last"),
+        Checkbox(key: ControlsButtonSetupView.controlsButtonHighlightRollsOver, label: "Select first field after setting the last"),
         Checkbox(key: ControllerImageView.drawControllerMaskKey, label: "Draw button mask above image"),
         Checkbox(key: "logsHIDEvents", label: "Log HID Events"),
         Checkbox(key: "logsHIDEventsNoKeyboard", label: "Log Keyboard Events"),

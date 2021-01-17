@@ -10,7 +10,6 @@
 #import "OELibraryMigrator.h"
 
 #import "OEPrefControlsController.h"
-#import "OEControlsButtonSetupView.h"
 
 #import "OECollectionViewController.h"
 

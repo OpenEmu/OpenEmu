@@ -30,8 +30,6 @@
 @import OpenEmuKit;
 #import "OEDBSystem.h"
 
-#import "OEControlsButtonSetupView.h"
-
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 @import Quartz;
