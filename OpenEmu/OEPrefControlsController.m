@@ -30,7 +30,6 @@
 @import OpenEmuKit;
 #import "OEDBSystem.h"
 
-#import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>

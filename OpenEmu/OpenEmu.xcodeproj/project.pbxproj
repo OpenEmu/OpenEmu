@@ -360,7 +360,7 @@
 		83495DD419A38F31009DB6E5 /* PrefBiosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83495DD319A38F31009DB6E5 /* PrefBiosController.swift */; };
 		83495DD819A38F3D009DB6E5 /* OEPrefBiosController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83495DD719A38F3D009DB6E5 /* OEPrefBiosController.xib */; };
 		834B6F2E1A3B453000CA6A26 /* HomebrewBlankSlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834B6F2D1A3B453000CA6A26 /* HomebrewBlankSlateView.swift */; };
-		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
+		83507247142F6029005D9033 /* ControllerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* ControllerImageView.swift */; };
 		8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB1F15FF5CB10026E326 /* OEDBRomMigrationPolicy.m */; };
 		8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB2215FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m */; };
 		8353EB7D15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */; };
@@ -1628,8 +1628,7 @@
 		83495DD319A38F31009DB6E5 /* PrefBiosController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefBiosController.swift; sourceTree = "<group>"; };
 		83495DD719A38F3D009DB6E5 /* OEPrefBiosController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefBiosController.xib; sourceTree = "<group>"; };
 		834B6F2D1A3B453000CA6A26 /* HomebrewBlankSlateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewBlankSlateView.swift; sourceTree = "<group>"; };
-		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
-		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
+		83507246142F6029005D9033 /* ControllerImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerImageView.swift; sourceTree = "<group>"; };
 		8352C0F0197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8352C0F1197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		8352C0F2197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/ControlLabels.strings; sourceTree = "<group>"; };
@@ -3370,8 +3369,7 @@
 				8F80217B24F45E6600DC82E3 /* ControlsPopUpButton.swift */,
 				8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */,
 				8F80217924F45E4800DC82E3 /* ControlsScroller.swift */,
-				83507245142F6029005D9033 /* OEControllerImageView.h */,
-				83507246142F6029005D9033 /* OEControllerImageView.m */,
+				83507246142F6029005D9033 /* ControllerImageView.swift */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -6817,7 +6815,7 @@
 				05644A4823331EA90033576F /* AboutViewController.swift in Sources */,
 				5A9606E81C0BCD350089B494 /* NSImage+DrawingAdditions.swift in Sources */,
 				83199722142741790068C865 /* OEROMImporter.m in Sources */,
-				83507247142F6029005D9033 /* OEControllerImageView.m in Sources */,
+				83507247142F6029005D9033 /* ControllerImageView.swift in Sources */,
 				8FE1BF1E2586C64200A2818A /* OELibraryDatabase+Moving.m in Sources */,
 				1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */,
 				012FE6591CE51D4100716960 /* LibraryToolbarDelegate.swift in Sources */,
