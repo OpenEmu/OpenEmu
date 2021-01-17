@@ -388,7 +388,7 @@ final class PrefDebugController: NSViewController {
         defaults.removeObject(forKey: "NSSplitView Subview Frames OELibraryGamesSplitView")
         defaults.removeObject(forKey: OELastGridSizeKey)
         
-        let mainWindow = NSApp.windows.first(where: { $0.windowController is OEMainWindowController })
+        let mainWindow = NSApp.windows.first(where: { $0.windowController is MainWindowController })
         
         // Matches the content size specified in MainWindow.xib.
         mainWindow?.setFrame(NSRect(x: 0, y: 0, width: 845, height: 555 + 22), display: false)

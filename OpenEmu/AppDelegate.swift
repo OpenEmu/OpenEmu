@@ -49,7 +49,7 @@ class AppDelegate: NSObject {
     @IBOutlet weak var fileMenu: NSMenu!
     @IBOutlet weak var localizationGuideMenuItem: NSMenuItem!
     
-    lazy var mainWindowController = OEMainWindowController(windowNibName: "MainWindow")
+    lazy var mainWindowController = MainWindowController(windowNibName: "MainWindow")
     
     lazy var preferencesWindowController = PreferencesWindowController(windowNibName: "Preferences")
     
@@ -642,7 +642,7 @@ extension AppDelegate: NSMenuDelegate {
             item.isEnabled = true
             item.indentationLevel = 1
             item.target = mainWindowController
-            item.action = #selector(OEMainWindowController.launchLastPlayedROM(_:))
+            item.action = #selector(MainWindowController.launchLastPlayedROM(_:))
             item.representedObject = rom
             
         default:
@@ -876,7 +876,7 @@ extension AppDelegate: NSMenuDelegate {
         
         for window in sender.windows {
             
-            if window.windowController is OEMainWindowController,
+            if window.windowController is MainWindowController,
                !window.isVisible,
                sender.mainWindow == nil {
                 

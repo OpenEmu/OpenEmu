@@ -26,7 +26,6 @@
 
 #import "OEPopoutGameWindowController.h"
 
-#import "OEMainWindowController.h"
 #import "OEGameDocument.h"
 #import "OEGameControlsBar.h"
 #import "OEUtilities.h"

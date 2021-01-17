@@ -355,7 +355,7 @@
 		83199722142741790068C865 /* OEROMImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* OEROMImporter.m */; };
 		8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8328D9E413C75CAE0026D2A7 /* OEDBImage.m */; };
 		832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */; };
-		832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D293F1451A68700BDF950 /* OEMainWindowController.m */; };
+		832D29401451A68700BDF950 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832D293F1451A68700BDF950 /* MainWindowController.swift */; };
 		832D29431451ACF200BDF950 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832D29421451ACF200BDF950 /* MainWindow.xib */; };
 		83338C2217A281C7007E32E9 /* secret.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83338C2117A281C7007E32E9 /* secret.mp3 */; };
 		8337F38E1726B3600068DD90 /* BackgroundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8337F38D1726B3600068DD90 /* BackgroundImageView.swift */; };
@@ -1622,8 +1622,7 @@
 		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImage.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.0.xcdatamodel"; sourceTree = "<group>"; };
 		832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.0 Beta 4 to 1.0.xcmappingmodel"; sourceTree = "<group>"; };
-		832D293E1451A68700BDF950 /* OEMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMainWindowController.h; sourceTree = "<group>"; };
-		832D293F1451A68700BDF950 /* OEMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMainWindowController.m; sourceTree = "<group>"; };
+		832D293F1451A68700BDF950 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		832D29421451ACF200BDF950 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		83338C2117A281C7007E32E9 /* secret.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = secret.mp3; sourceTree = "<group>"; };
 		8337F38D1726B3600068DD90 /* BackgroundImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundImageView.swift; sourceTree = "<group>"; };
@@ -3226,8 +3225,7 @@
 				832D29461451B0F200BDF950 /* Setup Assistant */,
 				05B753A123330EB60063BD73 /* Main.storyboard */,
 				05644A4723331EA90033576F /* AboutViewController.swift */,
-				832D293E1451A68700BDF950 /* OEMainWindowController.h */,
-				832D293F1451A68700BDF950 /* OEMainWindowController.m */,
+				832D293F1451A68700BDF950 /* MainWindowController.swift */,
 				832D29421451ACF200BDF950 /* MainWindow.xib */,
 			);
 			name = "Main Window";
@@ -6779,7 +6777,7 @@
 				83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */,
 				5A9606DE1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift in Sources */,
 				83C68ED114483579000F720A /* OEAlert.m in Sources */,
-				832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */,
+				832D29401451A68700BDF950 /* MainWindowController.swift in Sources */,
 				8F8BD0EA26D3473400B70BF0 /* PrefControlsController.swift in Sources */,
 				8301557B1456BF7A0093D681 /* GameViewController.swift in Sources */,
 				83AAC32914581699005ADD16 /* SetupAssistantBackgroundView.swift in Sources */,

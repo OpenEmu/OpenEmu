@@ -41,9 +41,6 @@
 #import "OEROMImporter.h"
 #import "OEDBScreenshot.h"
 
-// using the main window controller here is not very nice, but meh
-#import "OEMainWindowController.h"
-
 #import <objc/message.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
 

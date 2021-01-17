@@ -666,7 +666,7 @@ extension GameScannerViewController: OEROMImporterDelegate {
         alert.alternateButtonTitle = NSLocalizedString("Dismiss", comment:"")
         
         for window in NSApp.windows {
-            if window.windowController is OEMainWindowController {
+            if window.windowController is MainWindowController {
                 alert.beginSheetModal(for: window) { result in
                     if result == .alertFirstButtonReturn {
                         NSWorkspace.shared.open(GameScannerViewController.importGuideURL)

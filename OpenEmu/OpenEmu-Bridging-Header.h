@@ -14,7 +14,6 @@
 #import "OEDBDataSourceAdditions.h"
 
 #import "OEGameDocument.h"
-#import "OEMainWindowController.h"
 #import "OEPopoutGameWindowController.h"
 #import "OECollectionViewController.h"
 #import "OEGameCollectionViewController.h"

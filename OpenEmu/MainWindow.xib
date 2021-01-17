@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="OEMainWindowController">
+        <customObject id="-2" userLabel="File's Owner" customClass="MainWindowController" customModule="OpenEmu" customModuleProvider="target">
             <connections>
-                <outlet property="libraryController" destination="49" id="50"/>
                 <outlet property="placeholderView" destination="Brq-1C-d34" id="9dg-dY-wuu"/>
                 <outlet property="window" destination="3" id="42"/>
             </connections>
@@ -19,7 +18,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="196" y="114" width="845" height="555"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
             <value key="minSize" type="size" width="800" height="555"/>
             <view key="contentView" id="4">
                 <rect key="frame" x="0.0" y="0.0" width="845" height="555"/>
@@ -36,6 +35,5 @@
             </connections>
             <point key="canvasLocation" x="303" y="173.5"/>
         </window>
-        <viewController id="49" customClass="LibraryController" customModule="OpenEmu" customModuleProvider="target"/>
     </objects>
 </document>

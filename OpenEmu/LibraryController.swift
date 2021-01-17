@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OELibraryController)
 final class LibraryController: NSTabViewController, NSMenuItemValidation {
     
     enum DefaultKeys: String {
