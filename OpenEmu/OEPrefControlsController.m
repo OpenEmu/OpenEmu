@@ -551,8 +551,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
         if(result == NSAlertFirstButtonReturn)
         {
             // Start WiiRemote support
-            if([[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportEnabled])
-                [[OEDeviceManager sharedDeviceManager] startWiimoteSearch];
+            [OEDeviceManager.sharedDeviceManager startWiimoteSearch];
         }
         else if(result == NSAlertThirdButtonReturn)
         {

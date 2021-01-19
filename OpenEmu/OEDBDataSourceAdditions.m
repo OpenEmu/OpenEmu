@@ -39,8 +39,6 @@ static NSDateFormatter *_OEListViewDateFormatter;
 static void OE_initOEListViewDateFormatter(void) __attribute__((constructor));
 static NSString * OE_localizedStringFromElapsedTime(NSTimeInterval);
 
-NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDownloadEnabledKey";
-
 @implementation OEDBGame (DataSourceAdditions)
 
 #pragma mark - CoverGridDataSourceItem
@@ -84,8 +82,6 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
     NSString *result = nil;
     if(image.isLocalImageAvailable && image.relativePath != nil)
         result = image.UUID;
-    else if(image != nil && image.source != nil && [[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
-        result = image.source;
     else
     {
         CGFloat aspectRatio = self.system.coverAspectRatio;
@@ -100,8 +96,6 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
     OEDBImage *image = self.boxImage;
     if(image.isLocalImageAvailable && image.relativePath != nil)
         result = IKImageBrowserNSURLRepresentationType;
-    else if(image != nil && image.source != nil && [[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
-        result = IKImageBrowserNSURLRepresentationType;
     else
         result = IKImageBrowserNSImageRepresentationType;
     
@@ -115,11 +109,6 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
     if(image.isLocalImageAvailable && image.relativePath != nil)
     {
         return image.imageURL;
-    }
-
-    if(image != nil && image.source != nil && [[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
-    {
-        return image.sourceURL;
     }
 
     CGFloat aspectRatio = self.system.coverAspectRatio;

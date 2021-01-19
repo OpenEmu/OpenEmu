@@ -13,8 +13,6 @@
 
 "Reset main window size" = "Hauptfenstergröße zurücksetzen";
 
-"Download missing artwork on the fly" = "Fehlende Cover on-the-fly herunterladen";
-
 "Show game titles instead of rom names" = "Spieletitel statt Dateinamen anzeigen";
 
 "Manually choose system on import" = "Konsole beim Import manuell auswählen";
@@ -23,15 +21,9 @@
 
 "Show quicksave states in save state category" = "Schnelle Sicherungen in Spielstände-Ansicht anzeigen";
 
-"Show game scanner view" = "Spiele-Scanner einblenden";
-
-"Hide game scanner view" = "Spiele-Scanner ausblenden";
+"Toggle game scanner view" = "Spiele-Scanner ein-/ausblenden";
 
 "HUD Bar / Gameplay" = "Steuerungsleiste/Gameplay";
-
-"Can delete save states" = "Spielstände sind löschbar";
-
-"Show options button" = "Optionen-Schaltfläche anzeigen";
 
 "Show notifications during gameplay" = "Mitteilungsicons während des Spielens anzeigen";
 
@@ -51,12 +43,6 @@
 
 "Controls Setup" = "Steuerung";
 
-"WiiRemote support (requires relaunch)" = "Wiimote-Unterstützung aktivieren (erfordert Neustart)";
-
-"Clicking on image selects button" = "Klick auf Grafik wählt Button aus";
-
-"Clicking outside image deselects button" = "Klick außerhalb der Grafik hebt Auswahl auf";
-
 "Select first field after setting the last" = "Nach letztem Feld erstes auswählen";
 
 "Draw button mask above image" = "Button-Maske über Grafik legen";
@@ -69,8 +55,6 @@
 
 "Set default save states directory" = "Auf Standard-Spielstandordner zurücksetzen";
 
-"Choose save states directory…" = "Spielstandordner auswählen …";
-
 "Cleanup autosave state" = "Automatische Sicherungen aufräumen";
 
 "Cleanup Save States" = "Spielstände aufräumen";
@@ -78,8 +62,6 @@
 "OpenVGDB" = "OpenVGDB";
 
 "Update OpenVGDB" = "OpenVGDB aktualisieren";
-
-"Cancel OpenVGDB Update" = "OpenVGDB-Update abbrechen";
 
 "Database Actions" = "Datenbank-Aktionen";
 

@@ -124,7 +124,6 @@ class AppDelegate: NSObject {
         
         // Register defaults.
         UserDefaults.standard.register(defaults: [
-            OEWiimoteSupportEnabled: true,
             OEDefaultDatabasePathKey: path,
             OEDatabasePathKey: path,
             OEAutomaticallyGetInfoKey: true,

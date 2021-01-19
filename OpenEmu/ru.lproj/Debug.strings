@@ -13,8 +13,6 @@
 
 "Reset main window size" = "Сбросить размер главного окна";
 
-"Download missing artwork on the fly" = "Автоматически загружать недостающие обложки";
-
 "Show game titles instead of rom names" = "Показывать название игры вместо названия рома";
 
 "Manually choose system on import" = "Определить систему вручную в процессе импорта";
@@ -23,15 +21,9 @@
 
 "Show quicksave states in save state category" = "Показывать быстрые сохранения в категории сохранений";
 
-"Show game scanner view" = "Показать сканер игр";
-
-"Hide game scanner view" = "Скрыть сканер игр";
+"Toggle game scanner view" = "Показать/Скрыть сканер игр"; //TODO
 
 "HUD Bar / Gameplay" = "HUD-полоса / Геймплей";
-
-"Can delete save states" = "Можете удалить сохраненные состояния";
-
-"Show options button" = "Показать кнопку опций";
 
 "Show notifications during gameplay" = "Показать уведомления в процессе игры";
 
@@ -51,12 +43,6 @@
 
 "Controls Setup" = "Настроить управление";
 
-"WiiRemote support (requires relaunch)" = "Поддержка WiiRemote (необходим перезапуск)";
-
-"Clicking on image selects button" = "Щелчок по изображению назначает кнопку";
-
-"Clicking outside image deselects button" = "Щелчок за пределы изображения снимает назначение кнопки";
-
 "Select first field after setting the last" = "Выберите первое поле после установки последнего";
 
 "Draw button mask above image" = "Нарисуйте маску кнопки на изображении";
@@ -69,8 +55,6 @@
 
 "Set default save states directory" = "Установить директорию по-умолчанию для сохранения состояний";
 
-"Choose save states directory…" = "Выберите директорию для сохраненных состояний…";
-
 "Cleanup autosave state" = "Очистить автоматически сохраненное состояние";
 
 "Cleanup Save States" = "Очистить сохраненные состояния";
@@ -78,8 +62,6 @@
 "OpenVGDB" = "OpenVGDB";
 
 "Update OpenVGDB" = "Обновить OpenVGDB";
-
-"Cancel OpenVGDB Update" = "Отменить обновление OpenVGDB";
 
 "Database Actions" = "Действия с базой данных";
 

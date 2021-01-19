@@ -13,8 +13,6 @@
 
 "Reset main window size" = "メインウィンドウのサイズをリセット";
 
-"Download missing artwork on the fly" = "ダウンロードした写真が見つかりません";
-
 "Show game titles instead of rom names" = "ROMの名前の代わりにゲームタイトルを表示する";
 
 "Manually choose system on import" = "インポート時にシステムを自分で選択";
@@ -23,15 +21,9 @@
 
 "Show quicksave states in save state category" = "セーブステートカテゴリのクイックセーブを表示";
 
-"Show game scanner view" = "ゲームスキャナービューを表示";
-
-"Hide game scanner view" = "ゲームスキャナービューを隠す";
+"Toggle game scanner view" = "Toggle game scanner view"; //TODO
 
 "HUD Bar / Gameplay" = "HUDバー / ゲームプレイ";
-
-"Can delete save states" = "セーブステートを削除可能にする";
-
-"Show options button" = "オプションボタンを表示";
 
 "Show notifications during gameplay" = "ゲームプレイ中に通知を表示";
 
@@ -51,12 +43,6 @@
 
 "Controls Setup" = "コントローラー設定";
 
-"WiiRemote support (requires relaunch)" = "WiiRemoteサポート(再起動が必要です)";
-
-"Clicking on image selects button" = "画像をクリックしてボタンを選択";
-
-"Clicking outside image deselects button" = "画像の外をクリックして選択を解除";
-
 "Select first field after setting the last" = "設定後に最初のフィールドを選択";
 
 "Draw button mask above image" = "画像の上に重なるボタンマスクを作成";
@@ -69,8 +55,6 @@
 
 "Set default save states directory" = "デフォルトのオートセーブステートディレクトリを設定";
 
-"Choose save states directory…" = "セーブステートディレクトリを選択…";
-
 "Cleanup autosave state" = "オートセーブステートをクリーンアップ";
 
 "Cleanup Save States" = "セーブステートをクリーンアップ";
@@ -78,8 +62,6 @@
 "OpenVGDB" = "OpenVGDB";
 
 "Update OpenVGDB" = "OpenVGDBをアップデート";
-
-"Cancel OpenVGDB Update" = "OpenVGDBのアップデートをキャンセル";
 
 "Database Actions" = "データベース操作";
 

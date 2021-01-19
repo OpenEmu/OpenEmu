@@ -26,8 +26,6 @@
 
 @import Cocoa;
 
-extern NSString *const OEControlsDisableMouseSelection;
-extern NSString *const OEControlsDisableMouseDeactivation;
 extern NSString *const OEDebugDrawControllerMaskKey;
 
 @class OEControlsViewController;

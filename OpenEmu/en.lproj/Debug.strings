@@ -13,8 +13,6 @@
 
 "Reset main window size" = "Reset main window size";
 
-"Download missing artwork on the fly" = "Download missing artwork on the fly";
-
 "Show game titles instead of rom names" = "Show game titles instead of rom names";
 
 "Manually choose system on import" = "Manually choose system on import";
@@ -23,15 +21,9 @@
 
 "Show quicksave states in save state category" = "Show quicksave states in save state category";
 
-"Show game scanner view" = "Show game scanner view";
-
-"Hide game scanner view" = "Hide game scanner view";
+"Toggle game scanner view" = "Toggle game scanner view";
 
 "HUD Bar / Gameplay" = "HUD Bar / Gameplay";
-
-"Can delete save states" = "Can delete save states";
-
-"Show options button" = "Show options button";
 
 "Show notifications during gameplay" = "Show notifications during gameplay";
 
@@ -51,12 +43,6 @@
 
 "Controls Setup" = "Controls Setup";
 
-"WiiRemote support (requires relaunch)" = "WiiRemote support (requires relaunch)";
-
-"Clicking on image selects button" = "Clicking on image selects button";
-
-"Clicking outside image deselects button" = "Clicking outside image deselects button";
-
 "Select first field after setting the last" = "Select first field after setting the last";
 
 "Draw button mask above image" = "Draw button mask above image";
@@ -69,8 +55,6 @@
 
 "Set default save states directory" = "Set default save states directory";
 
-"Choose save states directory…" = "Choose save states directory…";
-
 "Cleanup autosave state" = "Cleanup autosave state";
 
 "Cleanup Save States" = "Cleanup Save States";
@@ -78,8 +62,6 @@
 "OpenVGDB" = "OpenVGDB";
 
 "Update OpenVGDB" = "Update OpenVGDB";
-
-"Cancel OpenVGDB Update" = "Cancel OpenVGDB Update";
 
 "Database Actions" = "Database Actions";
 

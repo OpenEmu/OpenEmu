@@ -27,8 +27,7 @@ import Foundation
 @objc(OEGameScannerViewController)
 class GameScannerViewController: NSViewController {
 
-    @objc public static let OEGameScannerShowNotification = Notification.Name("OEGameScannerShowNotification")
-    @objc public static let OEGameScannerHideNotification = Notification.Name("OEGameScannerHideNotification")
+    @objc public static let OEGameScannerToggleNotification = Notification.Name("OEGameScannerToggleNotification")
     private static let importGuideURL = URL(string: "https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-Importing")!
 
     @IBOutlet weak var scannerView: NSView!
@@ -60,8 +59,7 @@ class GameScannerViewController: NSViewController {
         notificationCenter.addObserver(self, selector: #selector(gameInfoHelperWillUpdate(_:)), name: .OEGameInfoHelperWillUpdate, object: nil)
         notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidChangeUpdateProgress(_:)), name: .OEGameInfoHelperDidChangeUpdateProgress, object: nil)
         notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidUpdate(_:)), name: .OEGameInfoHelperDidUpdate, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(showGameScannerView(animated:)), name: GameScannerViewController.OEGameScannerShowNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(hideGameScannerView(animated:)), name: GameScannerViewController.OEGameScannerHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(toggleGameScannerView), name: GameScannerViewController.OEGameScannerToggleNotification, object: nil)
     }
     
     override var nibName: NSNib.Name? { "OEGameScanner" }
@@ -270,15 +268,21 @@ class GameScannerViewController: NSViewController {
         applyButton.isEnabled = itemsRequiringAttention.contains { $0.isChecked }
     }
     
-    @objc(showGameScannerViewAnimated:)
-    func showGameScannerView(animated: Bool) {
+    func showGameScannerView(animated: Bool = true) {
         layOutSidebarViews(withVisibleGameScanner: true, animated: animated)
     }
     
-    @objc(hideGameScannerViewAnimated:)
-    func hideGameScannerView(animated: Bool) {
+    func hideGameScannerView(animated: Bool = true) {
         guard itemsRequiringAttention.isEmpty else { return }
         layOutSidebarViews(withVisibleGameScanner: false, animated: animated)
+    }
+    
+    @objc func toggleGameScannerView() {
+        if isGameScannerVisible {
+            hideGameScannerView()
+        } else {
+            showGameScannerView()
+        }
     }
     
     @objc override func selectAll(_ sender: Any?) {

@@ -13,8 +13,6 @@
 
 "Reset main window size" = "Rétablir la taille de la fenêtre principale";
 
-"Download missing artwork on the fly" = "Télécharger l’illustration manquante à la volée";
-
 "Show game titles instead of rom names" = "Afficher les titres des jeux à la place des noms des roms";
 
 "Manually choose system on import" = "Choisir manuellement le système lors de l’importation";
@@ -23,15 +21,9 @@
 
 "Show quicksave states in save state category" = "Afficher les sauvegardes rapides dans la catégorie des sauvegardes";
 
-"Show game scanner view" = "Afficher la vue d’analyse des jeux";
-
-"Hide game scanner view" = "Masquer la vue d’analyse des jeux";
+"Toggle game scanner view" = "Afficher/Masquer la vue d’analyse des jeux"; //TODO
 
 "HUD Bar / Gameplay" = "Barre HUD / Jeu";
-
-"Can delete save states" = "Peut supprimer les parties sauvegardées";
-
-"Show options button" = "Afficher le bouton des options";
 
 "Show notifications during gameplay" = "Afficher les notifications pendant le jeu";
 
@@ -51,12 +43,6 @@
 
 "Controls Setup" = "Configuration des contrôles";
 
-"WiiRemote support (requires relaunch)" = "Support de la télécommande Wii (nécessite un redémarrage)";
-
-"Clicking on image selects button" = "Cliquer sur l’image sélectionne le bouton";
-
-"Clicking outside image deselects button" = "Cliquer hors de l’image désélectionne le bouton";
-
 "Select first field after setting the last" = "Sélectionner le premier champ après avoir configuré le dernier";
 
 "Draw button mask above image" = "Dessiner un masque de bouton au-dessus de l’image";
@@ -69,8 +55,6 @@
 
 "Set default save states directory" = "Répertoire des parties sauvegardées par défaut";
 
-"Choose save states directory…" = "Choisir le répertoire des parties sauvegardées…";
-
 "Cleanup autosave state" = "Nettoyer la partie sauvegardée automatiquement";
 
 "Cleanup Save States" = "Nettoyer les parties sauvegardées";
@@ -78,8 +62,6 @@
 "OpenVGDB" = "OpenVGDB";
 
 "Update OpenVGDB" = "Mettre à jour OpenVGDB";
-
-"Cancel OpenVGDB Update" = "Annuler la mise à jour d’OpenVGDB";
 
 "Database Actions" = "Actions sur la base de données";
 

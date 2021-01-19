@@ -13,8 +13,6 @@
 
 "Reset main window size" = "Herstel grootte van hoofdvenster";
 
-"Download missing artwork on the fly" = "Download ontbrekend artwork wanneer nodig";
-
 "Show game titles instead of rom names" = "Toon titels van spellen in plaats van namen van ROM's";
 
 "Manually choose system on import" = "Kies manueel systeem bij importeren";
@@ -23,15 +21,9 @@
 
 "Show quicksave states in save state category" = "Show quicksave states in save state category";
 
-"Show game scanner view" = "Show game scanner view";
-
-"Hide game scanner view" = "Hide game scanner view";
+"Toggle game scanner view" = "Toggle game scanner view";
 
 "HUD Bar / Gameplay" = "HUD-balk/Spelen";
-
-"Can delete save states" = "Can delete save states";
-
-"Show options button" = "Toon optiesknop";
 
 "Show notifications during gameplay" = "Toon meldingen tijdens het spelen";
 
@@ -51,12 +43,6 @@
 
 "Controls Setup" = "Bedieningsset-up";
 
-"WiiRemote support (requires relaunch)" = "WiiRemote-ondersteuning (vereist herstart)";
-
-"Clicking on image selects button" = "Klikken op afbeelding selecteert knop";
-
-"Clicking outside image deselects button" = "Klikken buiten afbeelding deselecteert knop";
-
 "Select first field after setting the last" = "Selecteer eerste veld na het laatste ingesteld te hebben";
 
 "Draw button mask above image" = "Teken knopmasker boven afbeelding";
@@ -69,8 +55,6 @@
 
 "Set default save states directory" = "Stel standaardmap voor momentopnames in";
 
-"Choose save states directory…" = "Kies map voor momemtopnames…";
-
 "Cleanup autosave state" = "Ruim staat van momentopnames op";
 
 "Cleanup Save States" = "Ruim momentopnames op";
@@ -78,8 +62,6 @@
 "OpenVGDB" = "OpenVGDB";
 
 "Update OpenVGDB" = "Update OpenVGDB";
-
-"Cancel OpenVGDB Update" = "Annuleer OpenVGDB-update";
 
 "Database Actions" = "Database acties";
 

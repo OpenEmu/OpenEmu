@@ -43,10 +43,8 @@
 
 #pragma mark - Public variables
 
-NSString *const OEGameControlsBarCanDeleteSaveStatesKey = @"HUDBarCanDeleteState";
 NSString *const OEGameControlsBarShowsAutoSaveStateKey  = @"HUDBarShowAutosaveState";
 NSString *const OEGameControlsBarShowsQuickSaveStateKey = @"HUDBarShowQuicksaveState";
-NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions";
 NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutput";
 
@@ -93,13 +91,12 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (id)initWithGameViewController:(OEGameViewController *)controller
 {
-    BOOL hideOptions = [NSUserDefaults.standardUserDefaults boolForKey:OEGameControlsBarHidesOptionButtonKey];
     BOOL useNew = [NSUserDefaults.standardUserDefaults integerForKey:OEHUDBarAppearancePreferenceKey] == OEHUDBarAppearancePreferenceValueVibrant;
     
     if(useNew)
         self = [super initWithContentRect:NSMakeRect(0, 0, 442, 42) styleMask:NSWindowStyleMaskTitled backing:NSBackingStoreBuffered defer:YES];
     else
-        self = [super initWithContentRect:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
+        self = [super initWithContentRect:NSMakeRect(0, 0, 481, 45) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES];
     
     if(self != nil)
     {
@@ -132,7 +129,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         if(useNew)
             barView = [[OEGameControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 442, 42)];
         else
-            barView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
+            barView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 481, 45)];
         
         [self.contentView addSubview:barView];
         [barView setupControls];
@@ -694,7 +691,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         BOOL includeQuickSaveState = [NSUserDefaults.standardUserDefaults boolForKey:OEGameControlsBarShowsQuickSaveStateKey];
         BOOL useQuickSaveSlots = [NSUserDefaults.standardUserDefaults boolForKey:OESaveStateUseQuickSaveSlotsKey];
         NSArray *saveStates = [rom normalSaveStatesByTimestampAscending:YES];
-        BOOL canDeleteSaveStates = [NSUserDefaults.standardUserDefaults boolForKey:OEGameControlsBarCanDeleteSaveStatesKey];
 
         if(includeQuickSaveState && !useQuickSaveSlots && [rom quickSaveStateInSlot:0] != nil)
             saveStates = [@[[rom quickSaveStateInSlot:0]] arrayByAddingObjectsFromArray:saveStates];
@@ -710,14 +706,11 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             item.enabled = NO;
             [menu addItem:item];
 
-            if(canDeleteSaveStates)
-            {
-                item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete", @"") action:NULL keyEquivalent:@""];
-                item.alternate = YES;
-                item.enabled = NO;
-                item.keyEquivalentModifierMask = NSEventModifierFlagOption;
-                [menu addItem:item];
-            }
+            item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete", @"") action:NULL keyEquivalent:@""];
+            item.alternate = YES;
+            item.enabled = NO;
+            item.keyEquivalentModifierMask = NSEventModifierFlagOption;
+            [menu addItem:item];
 
             // Build Quck Load item with submenu
             if(includeQuickSaveState && useQuickSaveSlots)
@@ -757,16 +750,12 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                 item.representedObject = saveState;
                 [menu addItem:item];
 
-                if(canDeleteSaveStates)
-                {
-                    NSMenuItem *deleteStateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
-                    deleteStateItem.alternate = YES;
-                    deleteStateItem.keyEquivalentModifierMask = NSEventModifierFlagOption;
-                    deleteStateItem.representedObject = saveState;
-                    deleteStateItem.indentationLevel = 1;
-
-                    [menu addItem:deleteStateItem];
-                }
+                NSMenuItem *deleteStateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
+                deleteStateItem.alternate = YES;
+                deleteStateItem.keyEquivalentModifierMask = NSEventModifierFlagOption;
+                deleteStateItem.representedObject = saveState;
+                deleteStateItem.indentationLevel = 1;
+                [menu addItem:deleteStateItem];
             }
         }
     }

@@ -87,33 +87,29 @@ class HUDControlsBarView: NSView, OEHUDBarView {
         addSubview(saves)
         
         
-        let hideOptions = UserDefaults.standard.bool(forKey: OEGameControlsBarHidesOptionButtonKey)
-        let optionsOffset = hideOptions ? 0 : 50
-        if !hideOptions {
-            let options = HUDButton(frame: NSRect(x: 212, y: 7, width: 32, height: 32))
-            options.imageName = "HUD/hud_options"
-            options.target = window
-            options.action = #selector(OEGameControlsBar.showOptionsMenu(_:))
-            options.toolTip = NSLocalizedString("Options", comment: "HUD bar, tooltip")
-            addSubview(options)
-        }
+        let options = HUDButton(frame: NSRect(x: 212, y: 7, width: 32, height: 32))
+        options.imageName = "HUD/hud_options"
+        options.target = window
+        options.action = #selector(OEGameControlsBar.showOptionsMenu(_:))
+        options.toolTip = NSLocalizedString("Options", comment: "HUD bar, tooltip")
+        addSubview(options)
         
         
-        let volumeDown = HUDButton(frame: NSRect(x: 224 + optionsOffset, y: 15, width: 12, height: 18))
+        let volumeDown = HUDButton(frame: NSRect(x: 274, y: 15, width: 12, height: 18))
         volumeDown.imageName = "HUD/hud_volume_down"
         volumeDown.action = #selector(OEGameDocument.mute(_:))
         volumeDown.toolTip = NSLocalizedString("Mute Audio", comment: "HUD bar, tooltip")
         addSubview(volumeDown)
         
         
-        let volumeUp = HUDButton(frame: NSRect(x: 320 + optionsOffset, y: 15, width: 17, height: 18))
+        let volumeUp = HUDButton(frame: NSRect(x: 370, y: 15, width: 17, height: 18))
         volumeUp.imageName = "HUD/hud_volume_up"
         volumeUp.action = #selector(OEGameDocument.unmute(_:))
         volumeUp.toolTip = NSLocalizedString("Unmute Audio", comment: "HUD bar, tooltip")
         addSubview(volumeUp)
         
         
-        let volume = HUDSlider(frame: NSRect(x: 238 + optionsOffset, y: 12, width: 78, height: 23))
+        let volume = HUDSlider(frame: NSRect(x: 288, y: 12, width: 78, height: 23))
         if #available(macOS 11.0, *) {
             volume.frame.origin.y += 2
         }
@@ -132,7 +128,7 @@ class HUDControlsBarView: NSView, OEHUDBarView {
         volume.animations = ["floatValue" : animation]
         
         
-        let fullScreen = HUDButton(frame: NSRect(x: 370 + optionsOffset, y: 13, width: 51, height: 23))
+        let fullScreen = HUDButton(frame: NSRect(x: 420, y: 13, width: 51, height: 23))
         fullScreen.imageName = "HUD/hud_fullscreen_enter"
         fullScreen.alternateImageName = "HUD/hud_fullscreen_exit"
         fullScreen.backgroundColor = .black

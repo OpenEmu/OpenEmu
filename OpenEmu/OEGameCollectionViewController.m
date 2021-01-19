@@ -50,8 +50,6 @@ NSNotificationName const OEGameCollectionViewControllerDidSetSelectionIndexesNot
 
 static NSArray *OE_defaultSortDescriptors;
 
-extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
-
 /// Archived URI representations of managed object IDs for selected OEDBGames.
 static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 static NSString * const OEGameTableSortDescriptorsKey = @"OEGameTableSortDescriptors";
@@ -636,14 +634,11 @@ static NSString * const OEGameTableSortDescriptorsKey = @"OEGameTableSortDescrip
         [menuItem setSubmenu:[self OE_saveStateMenuForGame:game]];
         [menu addItem:menuItem];
 
-        if([NSUserDefaults.standardUserDefaults boolForKey:OEGameControlsBarCanDeleteSaveStatesKey])
-        {
-            NSMenuItem *alternateItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete Save State", @"") action:NULL keyEquivalent:@""];
-            alternateItem.alternate = YES;
-            alternateItem.keyEquivalentModifierMask = NSEventModifierFlagOption;
-            alternateItem.submenu = [self OE_saveStateMenuForGame:game];
-            [menu addItem:alternateItem];
-        }
+        NSMenuItem *alternateItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete Save State", @"") action:NULL keyEquivalent:@""];
+        alternateItem.alternate = YES;
+        alternateItem.keyEquivalentModifierMask = NSEventModifierFlagOption;
+        alternateItem.submenu = [self OE_saveStateMenuForGame:game];
+        [menu addItem:alternateItem];
 
         [menu addItem:[NSMenuItem separatorItem]];
 
@@ -751,14 +746,11 @@ static NSString * const OEGameTableSortDescriptorsKey = @"OEGameTableSortDescrip
             [item setRepresentedObject:saveState];
             [saveGamesMenu addItem:item];
 
-            if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarCanDeleteSaveStatesKey])
-            {
-                NSMenuItem *alternateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
-                [alternateItem setAlternate:YES];
-                [alternateItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
-                [alternateItem setRepresentedObject:saveState];
-                [saveGamesMenu addItem:alternateItem];
-            }
+            NSMenuItem *alternateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
+            [alternateItem setAlternate:YES];
+            [alternateItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
+            [alternateItem setRepresentedObject:saveState];
+            [saveGamesMenu addItem:alternateItem];
         }
     }];
 

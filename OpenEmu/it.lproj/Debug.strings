@@ -13,8 +13,6 @@
 
 "Reset main window size" = "Reimposta dimensioni finestra principale";
 
-"Download missing artwork on the fly" = "Scarica automaticamente le illustrazioni mancanti";
-
 "Show game titles instead of rom names" = "Mostra titoli dei giochi al posto dei nomi delle ROM";
 
 "Manually choose system on import" = "Scegli manualmente un sistema quando importi un gioco";
@@ -23,15 +21,9 @@
 
 "Show quicksave states in save state category" = "Mostra i salvataggi emulazione veloci nella categoria Salvataggi";
 
-"Show game scanner view" = "Mostra la vista Scanner Giochi";
-
-"Hide game scanner view" = "Nascondi la vista Scanner Giochi";
+"Toggle game scanner view" = "Mostra/Nascondi la vista Scanner Giochi"; //TODO
 
 "HUD Bar / Gameplay" = "Barra HUD / Modalità di gioco";
-
-"Can delete save states" = "Abilita eliminazione salvataggi emulazione";
-
-"Show options button" = "Mostra il pulsante Opzioni";
 
 "Show notifications during gameplay" = "Mostra le notifiche durante il gioco";
 
@@ -51,12 +43,6 @@
 
 "Controls Setup" = "Opzioni pannello controlli";
 
-"WiiRemote support (requires relaunch)" = "Supporto WiiRemote (richiede il riavvio di OpenEmu)";
-
-"Clicking on image selects button" = "Seleziona i pulsanti facendo clic sull'immagine";
-
-"Clicking outside image deselects button" = "Deseleziona i pulsanti facendo clic fuori dall'immagine";
-
 "Select first field after setting the last" = "Seleziona il primo campo dopo aver impostato l'ultimo";
 
 "Draw button mask above image" = "Mostra la maschera dei pulsanti sull'immagine";
@@ -69,8 +55,6 @@
 
 "Set default save states directory" = "Reimposta cartella dei salvataggi emulazione";
 
-"Choose save states directory…" = "Scegli cartella dei salvataggi emulazione…";
-
 "Cleanup autosave state" = "Ripulisci salvataggi emulazione automatici";
 
 "Cleanup Save States" = "Ripulisci salvataggi emulazione";
@@ -78,8 +62,6 @@
 "OpenVGDB" = "OpenVGDB";
 
 "Update OpenVGDB" = "Aggiorna OpenVGDB";
-
-"Cancel OpenVGDB Update" = "Annulla aggiornamento di OpenVGDB";
 
 "Database Actions" = "Operazioni sul database";
 

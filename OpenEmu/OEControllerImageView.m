@@ -34,8 +34,6 @@
 #define OverlayAlphaOFF 0.0
 #define RingRadius 37.0
 
-NSString *const OEControlsDisableMouseSelection = @"controlsDisableMouseSelection";
-NSString *const OEControlsDisableMouseDeactivation = @"controlsDisableMouseDeactivation";
 NSString *const OEDebugDrawControllerMaskKey = @"drawControllerMask";
 
 @protocol OEControlsButtonHighlightProtocol  <NSObject>
@@ -254,12 +252,6 @@ NSString *const OEDebugDrawControllerMaskKey = @"drawControllerMask";
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL allowDeactivationByMouse        = ![standardUserDefaults boolForKey:OEControlsDisableMouseDeactivation];
-    BOOL allowSwitchingByMouse           = ![standardUserDefaults boolForKey:OEControlsDisableMouseSelection];
-    
-    if(!allowDeactivationByMouse && !allowSwitchingByMouse) return;
-    
     NSString *selected = [self selectedKey];
 
     NSPoint event_location = [theEvent locationInWindow];
@@ -270,22 +262,19 @@ NSString *const OEDebugDrawControllerMaskKey = @"drawControllerMask";
     targetRect.size = [[self image] size];
     targetRect.origin = NSMakePoint(([self bounds].size.width - image.size.width) / 2, 0);
     
-    if(allowSwitchingByMouse)
+    NSImage *maskImage = [self imageMask];
+    BOOL selectAButton = [maskImage hitTestRect:(NSRect){local_event_location, {0,0}} withImageDestinationRect:targetRect context:nil hints:nil flipped:NO];
+    
+    if(selectAButton)
     {
-        NSImage *maskImage = [self imageMask];
-        BOOL selectAButton = [maskImage hitTestRect:(NSRect){local_event_location, {0,0}} withImageDestinationRect:targetRect context:nil hints:nil flipped:NO];
-        
-        if(selectAButton)
-        {
-            NSPoint locationOnController = NSSubtractPoints(local_event_location, targetRect.origin);
-            selected = [self OE_keyForHighlightPointClosestToPoint:locationOnController];
-        }
+        NSPoint locationOnController = NSSubtractPoints(local_event_location, targetRect.origin);
+        selected = [self OE_keyForHighlightPointClosestToPoint:locationOnController];
     }
     
     if(selected == [self selectedKey] && !NSEqualPoints(ringLocation, NSZeroPoint))
     {
         CGFloat distance = NSDistanceBetweenPoints(local_event_location, ringLocation);
-        if(allowDeactivationByMouse && distance > RingRadius && NSPointInRect(local_event_location, [self bounds]))
+        if(distance > RingRadius && NSPointInRect(local_event_location, [self bounds]))
             selected = nil;
     }
     

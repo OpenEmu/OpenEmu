@@ -37,8 +37,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString * const OECoverGridViewAutoDownloadEnabledKey;
-
 @interface OEDBGame (DataSourceAdditions) <OECoverGridDataSourceItem, OEListViewDataSourceItem>
 + (NSImage *)artworkPlaceholderWithAspectRatio:(CGFloat)ratio;
 @end

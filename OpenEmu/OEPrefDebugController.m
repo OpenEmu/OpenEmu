@@ -59,13 +59,8 @@ NSString * const OEAppearancePreferenceKey = @"OEAppearance";
 NSString * const OEHUDBarAppearancePreferenceKey = @"OEHUDBarAppearance";
 NSString * const OEControlsPrefsAppearancePreferenceKey = @"OEControlsPrefsAppearance";
 
-@interface OELibraryDatabase (Private)
-- (void)OE_createInitialItems;
-@end
-
-@interface OEPrefDebugController () <NSTableViewDelegate, NSTableViewDataSource>
+@interface OEPrefDebugController ()
 @property NSArray *keyDescriptions;
-@property (nonatomic, readonly) NSWindow *mainWindow;
 @end
 
 NSString * const  CheckboxType  = @"Checkbox";
@@ -132,7 +127,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     
     self.keyDescriptions =  @[
                               FirstGroup(@"General"),
-                              Checkbox([OEPreferencesWindowController debugModeKey], @"Debug Mode"),
+                              Checkbox(OEPreferencesWindowController.debugModeKey, @"Debug Mode"),
                               Checkbox(OESetupAssistantHasFinishedKey, @"Setup Assistant has finished"),
                               Popover(@"Region:", @selector(changeRegion:),
                                       Option(@"Auto (region)", @(-1)),
@@ -152,24 +147,15 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                                       ),
 
                               Group(@"Library Window"),
-                              Button(@"Reset main window size", @selector(resetMainWindow:)),
-                              Checkbox(OECoverGridViewAutoDownloadEnabledKey, @"Download missing artwork on the fly"),
-                              Checkbox(OEDisplayGameTitle, @"Show game titles instead of rom names"),
                               Checkbox(OEImportManualSystems, @"Manually choose system on import"),
                               Checkbox(OEDBSavedGamesMedia.showsAutoSavesKey, @"Show autosave states in save state category"),
                               Checkbox(OEDBSavedGamesMedia.showsQuickSavesKey, @"Show quicksave states in save state category"),
                               Checkbox(@"useNewSaveStatesViewController", @"Use new save states view"),
                               Checkbox(@"useNewScreenshotsViewController", @"Use new screenshots view"),
-                              Button(@"Show game scanner view", @selector(showGameScannerView:)),
-                              Button(@"Hide game scanner view", @selector(hideGameScannerView:)),
-                              
-                              Group(@"Shaders"),
-                              Button(@"Clear shader cache", @selector(clearShaderCache:)),
-                              Button(@"Reveal user shader folder", @selector(openUserShaderFolder:)),
+                              Button(@"Reset main window size", @selector(resetMainWindow:)),
+                              Button(@"Toggle game scanner view", @selector(toggleGameScannerView:)),
 
                               Group(@"HUD Bar / Gameplay"),
-                              Checkbox(OEGameControlsBarCanDeleteSaveStatesKey, @"Can delete save states"),
-                              NCheckbox(OEGameControlsBarHidesOptionButtonKey, @"Show options button"),
                               Checkbox(OEGameLayerNotificationView.OEShowNotificationsKey, @"Show notifications during gameplay"),
                               Checkbox(OESaveStateUseQuickSaveSlotsKey, @"Use quicksave slots"),
                               Checkbox(OEGameControlsBarShowsQuickSaveStateKey, @"Show quicksave in menu"),
@@ -185,9 +171,6 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               ColorWell(OEGameViewBackgroundColorKey, @"Game View Background color:"),
 
                               Group(@"Controls Setup"),
-                              Checkbox(OEWiimoteSupportEnabled, @"WiiRemote support (requires relaunch)"),
-                              NCheckbox(OEControlsDisableMouseSelection, @"Clicking on image selects button"),
-                              NCheckbox(OEControlsDisableMouseDeactivation, @"Clicking outside image deselects button"),
                               Checkbox(OEControlsButtonHighlightRollsOver, @"Select first field after setting the last"),
                               Checkbox(OEDebugDrawControllerMaskKey, @"Draw button mask above image"),
                               Checkbox(@"logsHIDEvents", @"Log HID Events"),
@@ -198,18 +181,19 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                                       Option(@"Vibrant", @(OEControlsPrefsAppearancePreferenceValueLumberjack)),
                                       Option(@"Vibrant Wood", @(OEControlsPrefsAppearancePreferenceValueWoodVibrant))
                                       ),
-                              ColorWell(OEGameViewBackgroundColorKey, @"Game View Background color:"),
                               NumberTextBox(@"OESystemResponderADCThreshold", @"Threshold for analog controls bound to buttons:", adcSensitivityNF),
 
                               Group2(@"Save States"),
                               Button(@"Set default save states directory", @selector(restoreSaveStatesDirectory:)),
-                              Button(@"Choose save states directory…", @selector(chooseSaveStatesDirectory:)),
                               Button(@"Cleanup autosave state", @selector(cleanupAutoSaveStates:)),
                               Button(@"Cleanup Save States", @selector(cleanupSaveStates:)),
 
+                              Group(@"Shaders"),
+                              Button(@"Clear shader cache", @selector(clearShaderCache:)),
+                              Button(@"Reveal user shader folder", @selector(openUserShaderFolder:)),
+
                               Group(@"OpenVGDB"),
                               Button(@"Update OpenVGDB", @selector(updateOpenVGDB:)),
-                              Button(@"Cancel OpenVGDB Update", @selector(cancelOpenVGDBUpdate:)),
 
                               Group(@"Database Actions"),
                               Button(@"Delete useless image objects", @selector(removeUselessImages:)),
@@ -224,20 +208,6 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Button(@"Perform Sanity Check on Database", @selector(sanityCheck:)),
                               Label(@""),
                               ];
-}
-
-#pragma mark - Retrieving The Main Window
-- (NSWindow *)mainWindow
-{
-    for (NSWindow *window in NSApp.windows)
-    {
-        if([window.windowController isKindOfClass:[OEMainWindowController class]])
-        {
-            return window;
-        }
-    }
-    
-    return nil;
 }
 
 #pragma mark - Actions
@@ -291,47 +261,36 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 - (void)resetMainWindow:(id)sender
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    [defaults removeObjectForKey:@"NSSplitView Subview Frames mainSplitView"];
+    [defaults removeObjectForKey:@"NSSplitView Subview Frames OELibraryGamesSplitView"];
     [defaults removeObjectForKey:@"NSWindow Frame LibraryWindow"];
-    [defaults removeObjectForKey:@"lastSidebarWidth"];
     [defaults removeObjectForKey:OELastGridSizeKey];
-
-    NSWindow *mainWindow = self.mainWindow;
+    
+    NSWindow *mainWindow;
+    for (NSWindow *window in NSApp.windows)
+    {
+        if([window.windowController isKindOfClass:[OEMainWindowController class]])
+        {
+            mainWindow = window;
+            break;
+        }
+    }
     
     // Matches the content size specified in MainWindow.xib.
     [mainWindow setFrame:NSMakeRect(0, 0, 845, 555 + 22) display:NO];
-    
     [mainWindow center];
 
     [NSNotificationCenter.defaultCenter postNotificationName:@"OELibrarySplitViewResetSidebar" object:self];
 }
 
-- (void)showGameScannerView:(id)sender
+- (void)toggleGameScannerView:(id)sender
 {
-    [NSNotificationCenter.defaultCenter postNotificationName:OEGameScannerViewController.OEGameScannerShowNotification object:self];
-}
-
-- (void)hideGameScannerView:(id)sender
-{
-    [NSNotificationCenter.defaultCenter postNotificationName:OEGameScannerViewController.OEGameScannerHideNotification object:self];
+    [NSNotificationCenter.defaultCenter postNotificationName:OEGameScannerViewController.OEGameScannerToggleNotification object:self];
 }
 
 #pragma mark -
 - (void)restoreSaveStatesDirectory:(id)sender
 {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:OESaveStateFolderURLKey];
-}
-
-- (void)chooseSaveStatesDirectory:(id)sender
-{
-    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-    [openPanel setCanChooseDirectories:YES];
-    [openPanel setCanChooseFiles:NO];
-    [openPanel setCanCreateDirectories:YES];
-
-    if([openPanel runModal] == NSAlertFirstButtonReturn)
-        [[NSUserDefaults standardUserDefaults] setObject:[[openPanel URL] absoluteString] forKey:OESaveStateFolderURLKey];
 }
 
 - (void)cleanupAutoSaveStates:(id)sender
@@ -453,12 +412,6 @@ NSString * const NumberFormatterKey = @"numberFormatter";
             [helper installVersion:version withDownloadURL:url];
         }
     }];
-}
-
-- (void)cancelOpenVGDBUpdate:(id)sender
-{
-    OEGameInfoHelper *helper = [OEGameInfoHelper sharedHelper];
-    [helper cancelUpdate];
 }
 
 #pragma mark - Database actions
@@ -656,7 +609,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     [context save:nil];
 }
 
-- (IBAction)cancelCoverArtSync:(id)sender
+- (void)cancelCoverArtSync:(id)sender
 {
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [database mainThreadContext];
@@ -669,7 +622,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     NSLog(@"Cancelled cover art download for %ld games", [games count]);
 }
 
-- (IBAction)sanityCheck:(id)sender
+- (void)sanityCheck:(id)sender
 {
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [database mainThreadContext];
