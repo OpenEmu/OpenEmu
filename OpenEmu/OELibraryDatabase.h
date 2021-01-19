@@ -120,4 +120,22 @@ extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 
 @end
 
+#pragma mark - Maintenance
+
+@interface OELibraryDatabase (Maintenance)
+
+- (void)cleanupAutoSaveStates;
+- (void)cleanupSaveStates;
+- (void)removeUselessImages;
+- (void)removeArtworkWithRemoteBacking;
+- (void)syncGamesWithoutArtwork;
+- (void)downloadMissingArtwork;
+- (void)removeUntrackedImageFiles;
+- (void)cleanupHashes;
+- (void)removeDuplicatedRoms;
+- (void)cancelCoverArtSync;
+- (void)sanityCheck;
+
+@end
+
 NS_ASSUME_NONNULL_END

@@ -372,7 +372,6 @@
 		836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */; };
 		836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9591853817500B6AF26 /* OEGameInfoHelper.m */; };
 		8370D3E11A8D2A7600313F87 /* ArrowCursorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */; };
-		83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83753F1614F537C400D708A7 /* OEPrefDebugController.m */; };
 		83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */; };
 		8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */; };
 		837820BD19081A090043593F /* OELibraryMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820BC19081A090043593F /* OELibraryMigrator.m */; };
@@ -469,6 +468,9 @@
 		8F0D804724ED76C4001BD8E2 /* ControlsLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */; };
 		8F2F92AA2519A9E700699691 /* GameScannerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2F92A92519A9E700699691 /* GameScannerButton.swift */; };
 		8F3062DB251A897F00BDFF1F /* OESearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3062DA251A897E00BDFF1F /* OESearchField.swift */; };
+		8F4198B025B68B7500A7F0BE /* OELibraryDatabase+Maintenance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4198AF25B68B7500A7F0BE /* OELibraryDatabase+Maintenance.m */; };
+		8F419A0325B6C7AE00A7F0BE /* OEAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F419A0225B6C7AE00A7F0BE /* OEAppearance.m */; };
+		8F419A3C25B6C81600A7F0BE /* PrefDebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83753F1614F537C400D708A7 /* PrefDebugController.swift */; };
 		8F4A69732547F84500DFE092 /* GameControlsBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4A69722547F84500DFE092 /* GameControlsBarView.swift */; };
 		8F4BDF7B1CE4AB25007DCB86 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */; };
 		8F4BDF7D1CE4AB34007DCB86 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7C1CE4AB34007DCB86 /* libsqlite3.tbd */; };
@@ -1655,8 +1657,7 @@
 		836BC9581853817500B6AF26 /* OEGameInfoHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameInfoHelper.h; sourceTree = "<group>"; };
 		836BC9591853817500B6AF26 /* OEGameInfoHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameInfoHelper.m; sourceTree = "<group>"; };
 		8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowCursorTextView.swift; sourceTree = "<group>"; };
-		83753F1514F537C400D708A7 /* OEPrefDebugController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefDebugController.h; sourceTree = "<group>"; };
-		83753F1614F537C400D708A7 /* OEPrefDebugController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefDebugController.m; sourceTree = "<group>"; };
+		83753F1614F537C400D708A7 /* PrefDebugController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefDebugController.swift; sourceTree = "<group>"; };
 		83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefDebugController.xib; sourceTree = "<group>"; };
 		8375E14D1477FC0D0018DA1F /* OECoreUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreUpdater.h; sourceTree = "<group>"; };
 		8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreUpdater.m; sourceTree = "<group>"; };
@@ -1785,6 +1786,9 @@
 		8F40EB7D1C1072B100683055 /* OECollectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OECollectionViewController.xib; sourceTree = "<group>"; };
 		8F40EB811C1072B200683055 /* OEGameScanner.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OEGameScanner.xib; sourceTree = "<group>"; };
 		8F40EB841C1072B300683055 /* OESetupAssistant.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OESetupAssistant.xib; sourceTree = "<group>"; };
+		8F4198AF25B68B7500A7F0BE /* OELibraryDatabase+Maintenance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "OELibraryDatabase+Maintenance.m"; sourceTree = "<group>"; };
+		8F419A0125B6C7AE00A7F0BE /* OEAppearance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEAppearance.h; sourceTree = "<group>"; };
+		8F419A0225B6C7AE00A7F0BE /* OEAppearance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEAppearance.m; sourceTree = "<group>"; };
 		8F4A69722547F84500DFE092 /* GameControlsBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameControlsBarView.swift; sourceTree = "<group>"; };
 		8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		8F4BDF7C1CE4AB34007DCB86 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -3042,6 +3046,8 @@
 				8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */,
 				01D6F3D125269F1400E8404B /* NSImageRep+ApplePrivate.h */,
 				8FBAE9EA254BD7FA00446C3B /* NSControl+i18n.swift */,
+				8F419A0125B6C7AE00A7F0BE /* OEAppearance.h */,
+				8F419A0225B6C7AE00A7F0BE /* OEAppearance.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -3228,8 +3234,7 @@
 				C669163B0FC9BC3E007DE3D8 /* OEControlsButtonSetupView.h */,
 				C6AFE0D50FED6FDF00AC0CCF /* OEControlsButtonSetupView.m */,
 				01E2A2F223E60F7D00194150 /* PrefCoresController.swift */,
-				83753F1514F537C400D708A7 /* OEPrefDebugController.h */,
-				83753F1614F537C400D708A7 /* OEPrefDebugController.m */,
+				83753F1614F537C400D708A7 /* PrefDebugController.swift */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -3252,6 +3257,7 @@
 				53439A8A13B92C4A005C0CC8 /* OELibraryDatabase.h */,
 				53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */,
 				8FE1BF1D2586C64200A2818A /* OELibraryDatabase+Moving.m */,
+				8F4198AF25B68B7500A7F0BE /* OELibraryDatabase+Maintenance.m */,
 				83199720142741790068C865 /* OEROMImporter.h */,
 				05DB735325326AED0098459D /* OEROMImporter+Private.h */,
 				83199721142741790068C865 /* OEROMImporter.m */,
@@ -6843,11 +6849,11 @@
 				8F80217A24F45E4800DC82E3 /* ControlsScroller.swift in Sources */,
 				EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.swift in Sources */,
 				EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */,
-				83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */,
 				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,
 				8F80218224F45E9800DC82E3 /* HUDSlider.swift in Sources */,
 				83BC345E1516456000F05A2B /* OEAlert+Additions.swift in Sources */,
 				C68A54E61516AD3C001053F2 /* OEDatabase.xcdatamodeld in Sources */,
+				8F4198B025B68B7500A7F0BE /* OELibraryDatabase+Maintenance.m in Sources */,
 				837820C119081B1C0043593F /* OEMigrationWindowController.m in Sources */,
 				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,
 				83A9758A184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift in Sources */,
@@ -6882,9 +6888,11 @@
 				0544B6A923D16DDC00F63D61 /* ScreenshotViewController.swift in Sources */,
 				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,
 				14F8750D1649377E002AE3B8 /* OEFiniteStateMachine.m in Sources */,
+				8F419A0325B6C7AE00A7F0BE /* OEAppearance.m in Sources */,
 				5A575DFB1E92B6CE00491B0D /* BIOSFile.swift in Sources */,
 				83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */,
 				83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */,
+				8F419A3C25B6C81600A7F0BE /* PrefDebugController.swift in Sources */,
 				5A6C157C1DC96C3700839986 /* OEMediaViewController+TouchBar.swift in Sources */,
 				5AC349331D89EB7B0089B26F /* GameIntegralScalingDelegate.swift in Sources */,
 				8F80218124F45E9800DC82E3 /* HUDSliderCell.swift in Sources */,

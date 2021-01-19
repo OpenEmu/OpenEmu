@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2021, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,36 +22,24 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import Cocoa
+@import Foundation;
 
-extension NSColor {
-    
-    @objc(colorFromHexString:)
-    convenience init?(from colorString: String) {
-        
-        guard colorString.count == 7 && colorString.prefix(1) == "#" else {
-            return nil
-        }
-        
-        let colorString = colorString.dropFirst(1).uppercased()
-        
-        var colorRGB: UInt64 = 0
-        let hexScanner = Scanner(string: colorString)
-        hexScanner.scanHexInt64(&colorRGB)
-        
-        let components = [CGFloat((colorRGB & 0xFF0000) >> 16) / 255, // r
-                          CGFloat((colorRGB & 0x00FF00) >>  8) / 255, // g
-                          CGFloat((colorRGB & 0x0000FF) >>  0) / 255, // b
-                          CGFloat(1)]                                 // a
-        
-        self.init(colorSpace: .deviceRGB, components: components, count: 4)
-    }
-    
-    var hexString: String? {
-        
-        let rgbColor = usingColorSpace(.deviceRGB)
-        let result = String(format: "#%02x%02x%02x", Int(rgbColor!.redComponent * 255), Int(rgbColor!.greenComponent * 255), Int(rgbColor!.blueComponent * 255))
-        
-        return result
-    }
-}
+extern NSString * const OEAppearancePreferenceKey;
+typedef NS_ENUM(NSInteger, OEAppearancePreferenceValue) {
+    OEAppearancePreferenceValueSystem,
+    OEAppearancePreferenceValueDark,
+    OEAppearancePreferenceValueLight,
+};
+
+extern NSString * const OEHUDBarAppearancePreferenceKey;
+typedef NS_ENUM(NSInteger, OEHUDBarAppearancePreferenceValue) {
+    OEHUDBarAppearancePreferenceValueVibrant,
+    OEHUDBarAppearancePreferenceValueDark,
+};
+
+extern NSString * const OEControlsPrefsAppearancePreferenceKey;
+typedef NS_ENUM(NSInteger, OEControlsPrefsAppearancePreferenceValue) {
+    OEControlsPrefsAppearancePreferenceValueWood,
+    OEControlsPrefsAppearancePreferenceValueLumberjack,
+    OEControlsPrefsAppearancePreferenceValueWoodVibrant,
+};

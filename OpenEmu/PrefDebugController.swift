@@ -1,0 +1,542 @@
+// Copyright (c) 2021, OpenEmu Team
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//     * Redistributions of source code must retain the above copyright
+//       notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright
+//       notice, this list of conditions and the following disclaimer in the
+//       documentation and/or other materials provided with the distribution.
+//     * Neither the name of the OpenEmu Team nor the
+//       names of its contributors may be used to endorse or promote products
+//       derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+// EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+// DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+// DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+// LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+import Cocoa
+
+@objcMembers
+@objc(OEPrefDebugController)
+final class PrefDebugController: NSViewController {
+    
+    @IBOutlet var contentView: NSGridView!
+    
+    private var fittingWidth: CGFloat = 0
+    
+    private static let keyDescriptions: [Any] = [
+        Group(label: "General"),
+        Checkbox(key: PreferencesWindowController.debugModeKey, label: "Debug Mode"),
+        Checkbox(key: OESetupAssistantHasFinishedKey, label: "Setup Assistant has finished"),
+        Popover(key: OERegionKey, label: "Region:", action: #selector(changeRegion(_:)), options: [
+            Option(label: "Auto (region)", value: -1),
+            Option(label: "North America", value: 0),
+            Option(label: "Japan", value: 1),
+            Option(label: "Europe", value: 2),
+            Option(label: "Other", value: 3),
+        ]),
+        Popover(key: OEGameCoreManagerModePreferenceKey, label: "Run games using:", action: #selector(changeGameMode(_:)), options: [
+            Option(label: "XPC", value: OEXPCGameCoreManager.className()),
+            Option(label: "Background Thread", value: OEThreadGameCoreManager.className()),
+        ]),
+        Popover(key: OEAppearancePreferenceKey, label: "Appearance:", action: #selector(changeAppAppearance(_:)), options: [
+            Option(label: "System", value: OEAppearancePreferenceValue.system.rawValue),
+            Option(label: "Dark (default)", value: OEAppearancePreferenceValue.dark.rawValue),
+            Option(label: "Light", value: OEAppearancePreferenceValue.light.rawValue),
+        ]),
+        "-",
+        
+        Group(label: "Library Window"),
+        Checkbox(key: OEImportManualSystems, label: "Manually choose system on import"),
+        Checkbox(key: OEDBSaveStatesMedia.showsAutoSavesKey, label: "Show autosave states in save state category"),
+        Checkbox(key: OEDBSaveStatesMedia.showsQuickSavesKey, label: "Show quicksave states in save state category"),
+        Checkbox(key: Key.useNewSaveStatesViewController.rawValue, label: "Use new save states view"),
+        Checkbox(key: Key.useNewScreenshotsViewController.rawValue, label: "Use new screenshots view"),
+        Button(label: "Reset main window size", action: #selector(resetMainWindow(_:))),
+        Button(label: "Toggle game scanner view", action: #selector(toggleGameScannerView(_:))),
+        "-",
+        
+        Group(label: "HUD Bar / Gameplay"),
+        Checkbox(key: OEGameLayerNotificationView.OEShowNotificationsKey, label: "Show notifications during gameplay"),
+        Checkbox(key: OESaveStateUseQuickSaveSlotsKey, label: "Use quicksave slots"),
+        Checkbox(key: OEGameControlsBarShowsQuickSaveStateKey, label: "Show quicksave in menu"),
+        Checkbox(key: OEGameControlsBarShowsAutoSaveStateKey, label: "Show autosave in menu"),
+        Checkbox(key: OEGameControlsBarShowsAudioOutput, label: "Show audio output device in menu"),
+        Checkbox(key: OETakeNativeScreenshots, label: "Take screenshots in native size"),
+        Checkbox(key: OEScreenshotAspectRatioCorrectionDisabled, label: "Disable aspect ratio correction in screenshots"),
+        Checkbox(key: OEPopoutGameWindowTreatScaleFactorAsPixels, label: "Change scale menu unit from points to pixels"),
+        Popover(key: OEHUDBarAppearancePreferenceKey, label: "Appearance:", action: #selector(changeHUDBarAppearance(_:)), options: [
+            Option(label: "Vibrant", value: OEHUDBarAppearancePreferenceValue.vibrant.rawValue),
+            Option(label: "Dark", value: OEHUDBarAppearancePreferenceValue.dark.rawValue),
+        ]),
+        ColorWell(key: OEGameViewBackgroundColorKey, label: "Game View Background color:"),
+        "-",
+        
+        Group(label: "Controls Setup"),
+        Checkbox(key: OEControlsButtonHighlightRollsOver, label: "Select first field after setting the last"),
+        Checkbox(key: OEDebugDrawControllerMaskKey, label: "Draw button mask above image"),
+        Checkbox(key: "logsHIDEvents", label: "Log HID Events"),
+        Checkbox(key: "logsHIDEventsNoKeyboard", label: "Log Keyboard Events"),
+        Checkbox(key: "OEShowAllGlobalKeys", label: "Show all special keys"),
+        Popover(key: OEControlsPrefsAppearancePreferenceKey, label: "Appearance:", action: #selector(changeControlsPrefsAppearance(_:)), options: [
+            Option(label: "Wood", value: OEControlsPrefsAppearancePreferenceValue.wood.rawValue),
+            Option(label: "Vibrant", value: OEControlsPrefsAppearancePreferenceValue.lumberjack.rawValue),
+            Option(label: "Vibrant Wood", value: OEControlsPrefsAppearancePreferenceValue.woodVibrant.rawValue),
+        ]),
+        NumericTextField(key: "OESystemResponderADCThreshold", label: "Threshold for analog controls bound to buttons:", numberFormatter: NumericTextField.NF(allowsFloats: true, minimum: NSNumber(value: 0.01), maximum: NSNumber(value: 0.99), numberStyle: .decimal)),
+        "-",
+        
+        Group(label: "Save States"),
+        Button(label: "Set default save states directory", action: #selector(restoreSaveStatesDirectory(_:))),
+        Button(label: "Cleanup autosave state", action: #selector(cleanupAutoSaveStates(_:))),
+        Button(label: "Cleanup Save States", action: #selector(cleanupSaveStates(_:))),
+        "-",
+        
+        Group(label: "Shaders"),
+        Button(label: "Clear shader cache", action: #selector(clearShaderCache(_:))),
+        Button(label: "Reveal user shader folder", action: #selector(openUserShaderFolder(_:))),
+        "-",
+        
+        Group(label: "OpenVGDB"),
+        Button(label: "Update OpenVGDB", action: #selector(updateOpenVGDB(_:))),
+        "-",
+        
+        Group(label: "Database Actions"),
+        Button(label: "Delete useless image objects", action: #selector(removeUselessImages(_:))),
+        Button(label: "Delete artwork that can be downloaded", action: #selector(removeArtworkWithRemoteBacking(_:))),
+        Button(label: "Sync games without artwork", action: #selector(syncGamesWithoutArtwork(_:))),
+        Button(label: "Download missing artwork…", action: #selector(downloadMissingArtwork(_:))),
+        Button(label: "Remove untracked artwork files", action: #selector(removeUntrackedImageFiles(_:))),
+        Button(label: "Cleanup rom hashes", action: #selector(cleanupHashes(_:))),
+        Button(label: "Remove duplicated roms", action: #selector(removeDuplicatedRoms(_:))),
+        Button(label: "Cancel cover sync for all games", action: #selector(cancelCoverArtSync(_:))),
+        Label(label: ""),
+        Button(label: "Perform Sanity Check on Database", action: #selector(sanityCheck(_:))),
+    ]
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupGridView()
+    }
+    
+    private func setupGridView() {
+        
+        let gridView = NSGridView(numberOfColumns: 2, rows: 0)
+        gridView.column(at: 0).xPlacement = .trailing
+        gridView.rowAlignment = .firstBaseline
+        
+        for item in Self.keyDescriptions {
+            createRow(for: gridView, item: item)
+        }
+        
+        gridView.setContentHuggingPriority(.defaultLow-1, for: .horizontal)
+        gridView.setContentHuggingPriority(.defaultHigh-1, for: .vertical)
+        gridView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(gridView)
+        
+        let scrollerWidth = NSScroller.scrollerWidth(for: .regular, scrollerStyle: .overlay)
+        var fittingSize = gridView.fittingSize
+        fittingSize.width += 60 - scrollerWidth
+        fittingSize.height += 40
+        contentView.setFrameSize(fittingSize)
+        contentView.enclosingScrollView?.contentView.scroll(to: NSPoint(x: 0, y: fittingSize.height))
+        
+        fittingSize.width += scrollerWidth
+        fittingWidth = fittingSize.width
+        
+        NSLayoutConstraint.activate([
+            gridView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            gridView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20)
+        ])
+    }
+    
+    private func createRow(for gridView: NSGridView, item: Any) {
+        
+        let defaultDefaults = UserDefaults.standard.volatileDomain(forName: UserDefaults.registrationDomain)
+        
+        if let item = item as? Checkbox {
+            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            let key = item.key
+            let negated = item.negated
+            
+            let checkbox = NSButton(checkboxWithTitle: label, target: nil, action: nil)
+            checkbox.title = label
+            
+            var options: [NSBindingOption : Any] = [.continuouslyUpdatesValue: NSNumber(value: true)]
+            if negated {
+                options[.valueTransformerName] = NSValueTransformerName.negateBooleanTransformerName
+            }
+            
+            let keyPath = "values.\(key)"
+            checkbox.bind(NSBindingName("value"), to: NSUserDefaultsController.shared, withKeyPath: keyPath, options: options)
+            
+            if let originalValue = defaultDefaults[key] as? NSNumber {
+                let origbool = originalValue.boolValue != negated
+                let fmt = NSLocalizedString("Default Value: %@", tableName: "Debug", comment: "Default value tooltip format in the Debug Preferences")
+                let val = origbool
+                    ? NSLocalizedString("Checked", tableName: "Debug", comment: "Default value tooltip for checkboxes: checked default")
+                    : NSLocalizedString("Unchecked", tableName: "Debug", comment: "Default value tooltip for checkboxes: unchecked default")
+                
+                checkbox.toolTip = String(format: fmt, val)
+            }
+            
+            gridView.addRow(with: [NSGridCell.emptyContentView, checkbox])
+        }
+        else if let item = item as? ColorWell {
+            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            let key = item.key
+            
+            let labelField = NSTextField(labelWithString: label)
+            labelField.alignment = .right
+            
+            let colorWell = NSColorWell()
+            if let colorString = UserDefaults.standard.string(forKey: key),
+               let color = NSColor(from: colorString) {
+                colorWell.color = color
+            } else {
+                colorWell.color = .black
+            }
+            colorWell.action = #selector(changeColor(_:))
+            colorWell.target = self
+            colorWell.stringValue = item.key
+            colorWell.autoresizingMask = [.width, .height]
+            
+            let row = gridView.addRow(with: [labelField, colorWell])
+            row.rowAlignment = .none
+            row.yPlacement = .center
+            
+            NSLayoutConstraint.activate([
+                colorWell.widthAnchor.constraint(equalToConstant: 60),
+                colorWell.heightAnchor.constraint(equalToConstant: 24)
+            ])
+        }
+        else if let item = item as? Group {
+            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            
+            let field = NSTextField(labelWithString: label)
+            field.font = NSFont.boldSystemFont(ofSize: 0)
+            
+            let row = gridView.addRow(with: [NSGridCell.emptyContentView, field])
+            row.bottomPadding = 4
+        }
+        else if let item = item as? Label {
+            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            
+            let labelField = NSTextField(labelWithString: label)
+            
+            gridView.addRow(with: [NSGridCell.emptyContentView, labelField])
+        }
+        else if let item = item as? Button {
+            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            let action = item.action
+            
+            let button = NSButton(title: label, target: self, action: action)
+            
+            gridView.addRow(with: [NSGridCell.emptyContentView, button])
+        }
+        else if let item = item as? Popover {
+            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            let options = item.options
+            let action = item.action
+            
+            let labelField = NSTextField(labelWithString: label)
+            labelField.alignment = .right
+            
+            let popup = NSPopUpButton()
+            popup.action = action
+            popup.target = self
+            
+            for (index, option) in options.enumerated() {
+                popup.addItem(withTitle: NSLocalizedString(option.label, tableName: "Debug", comment: ""))
+                popup.item(at: index)?.representedObject = option.value
+            }
+            setupSelectedItem(for: popup, item: item)
+            popup.sizeToFit()
+            
+            gridView.addRow(with: [labelField, popup])
+        }
+        else if let item = item as? NumericTextField {
+            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            let nf = item.numberFormatter
+            let key = item.key
+            
+            let numberFormatter = NumberFormatter()
+            numberFormatter.allowsFloats = nf.allowsFloats
+            numberFormatter.minimum = nf.minimum
+            numberFormatter.maximum = nf.maximum
+            numberFormatter.numberStyle = nf.numberStyle
+            
+            let labelField = NSTextField(labelWithString: label)
+            labelField.alignment = .right
+            
+            let inputField = NSTextField(string: "")
+            inputField.formatter = numberFormatter
+            let keyPath = "values.\(key)"
+            inputField.bind(.value, to: NSUserDefaultsController.shared, withKeyPath: keyPath, options: nil)
+            
+            let validRangeFormat = NSLocalizedString("Range: %@ to %@", tableName: "Debug", comment: "Range indicator tooltip for numeric text boxes in the Debug Preferences")
+            let min = numberFormatter.string(from: nf.minimum) ?? ""
+            let max = numberFormatter.string(from: nf.maximum) ?? ""
+            var tooltip = String(format: validRangeFormat, min, max)
+            
+            if let defaultv = defaultDefaults[key] as? NSNumber {
+                let fmt = NSLocalizedString("Default Value: %@", tableName: "Debug", comment: "Default value tooltip format in the Debug Preferences")
+                let defaultstr = numberFormatter.string(from: defaultv) ?? ""
+                tooltip += "\n" + String(format: fmt, defaultstr)
+            }
+            inputField.toolTip = tooltip
+            
+            gridView.addRow(with: [labelField, inputField])
+            inputField.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        }
+        else if item as? String == "-" {
+            let separator = NSBox()
+            separator.boxType = .separator
+            
+            let row = gridView.addRow(with: [separator])
+            row.mergeCells(in: NSRange(location: 0, length: 2))
+            row.topPadding = 6
+            row.bottomPadding = 6
+        }
+    }
+    
+    private func setupSelectedItem(for button: NSPopUpButton, item: Popover) {
+        
+        let key = item.key
+        
+        if key == OEGameCoreManagerModePreferenceKey {
+            let currentValue = UserDefaults.standard.string(forKey: key)
+            for (index, item) in button.itemArray.enumerated() {
+                if item.representedObject as? String == currentValue {
+                    button.selectItem(at: index)
+                    return
+                }
+            }
+        }
+        
+        let currentValue = UserDefaults.standard.object(forKey: key)
+        
+        for (index, item) in button.itemArray.enumerated() {
+            if item.representedObject as? Int == currentValue as? Int {
+                button.selectItem(at: index)
+            }
+        }
+    }
+    
+    // MARK: - Actions
+    
+    func changeRegion(_ sender: NSPopUpButton) {
+        let item = sender.selectedItem
+        let value = (item?.representedObject as? Int) ?? -1
+        
+        let defaults = UserDefaults.standard
+        if value == -1 {
+            defaults.removeObject(forKey: OERegionKey)
+        } else {
+            defaults.set(value, forKey: OERegionKey)
+        }
+        
+        NotificationCenter.default.post(Notification(name: .OEDBSystemAvailabilityDidChange))
+    }
+    
+    func changeGameMode(_ sender: NSPopUpButton) {
+        let selectedItem = sender.selectedItem
+        UserDefaults.standard.set(selectedItem?.representedObject, forKey: OEGameCoreManagerModePreferenceKey)
+    }
+    
+    func changeAppAppearance(_ sender: NSPopUpButton) {
+        let selectedItem = sender.selectedItem
+        UserDefaults.standard.set(selectedItem?.representedObject, forKey: OEAppearancePreferenceKey)
+    }
+    
+    func changeHUDBarAppearance(_ sender: NSPopUpButton) {
+        let selectedItem = sender.selectedItem
+        UserDefaults.standard.set(selectedItem?.representedObject, forKey: OEHUDBarAppearancePreferenceKey)
+    }
+    
+    func changeControlsPrefsAppearance(_ sender: NSPopUpButton) {
+        let selectedItem = sender.selectedItem
+        UserDefaults.standard.set(selectedItem?.representedObject, forKey: OEControlsPrefsAppearancePreferenceKey)
+        
+        let alert = OEAlert()
+        alert.messageText = NSLocalizedString("You need to restart the application to commit the change", comment: "")
+        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+        alert.runModal()
+    }
+    
+    func changeColor(_ sender: NSColorWell) {
+        let color = sender.color.hexString ?? "#000000"
+        UserDefaults.standard.set(color, forKey: sender.stringValue)
+    }
+    
+    // MARK: - Library Window
+    
+    func resetMainWindow(_ sender: Any?) {
+        
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "NSWindow Frame LibraryWindow")
+        defaults.removeObject(forKey: "NSSplitView Subview Frames OELibraryGamesSplitView")
+        defaults.removeObject(forKey: OELastGridSizeKey)
+        
+        let mainWindow = NSApp.windows.first(where: { $0.windowController is OEMainWindowController })
+        
+        // Matches the content size specified in MainWindow.xib.
+        mainWindow?.setFrame(NSRect(x: 0, y: 0, width: 845, height: 555 + 22), display: false)
+        mainWindow?.center()
+        
+        NotificationCenter.default.post(Notification(name: .OELibrarySplitViewResetSidebar))
+    }
+    
+    func toggleGameScannerView(_ sender: Any?) {
+        NotificationCenter.default.post(Notification(name: GameScannerViewController.OEGameScannerToggleNotification))
+    }
+    
+    // MARK: - OpenVGDB
+    
+    func updateOpenVGDB(_ sender: Any?) {
+        DLog("Removing OpenVGDB update check date and version from user defaults to force update.")
+        
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: OEOpenVGDBUpdateCheckKey)
+        defaults.removeObject(forKey: OEOpenVGDBVersionKey)
+        
+        let helper = OEGameInfoHelper.shared
+        helper.checkForUpdates { url, version in
+            if let url = url, let version = version {
+                helper.installVersion(version, withDownloadURL: url)
+            }
+        }
+    }
+    
+    // MARK: - Shaders
+    
+    func clearShaderCache(_ sender: Any?) {
+        if let url = OEShadersModel.shared.shadersCachePath {
+            try? FileManager.default.removeItem(at: url)
+        }
+    }
+    
+    func openUserShaderFolder(_ sender: Any?) {
+        if let url = OEShadersModel.shared.userShadersPath {
+            NSWorkspace.shared.open(url)
+        }
+    }
+    
+    // MARK: - Save States
+    
+    func restoreSaveStatesDirectory(_ sender: Any?) {
+        UserDefaults.standard.removeObject(forKey: OESaveStateFolderURLKey)
+    }
+    
+    func cleanupAutoSaveStates(_ sender: Any?) {
+        OELibraryDatabase.default?.cleanupAutoSaveStates()
+    }
+    
+    func cleanupSaveStates(_ sender: Any?) {
+        OELibraryDatabase.default?.cleanupSaveStates()
+    }
+    
+    // MARK: - Database Actions
+    
+    func removeUselessImages(_ sender: Any?) {
+        OELibraryDatabase.default?.removeUselessImages()
+    }
+    
+    func removeArtworkWithRemoteBacking(_ sender: Any?) {
+        OELibraryDatabase.default?.removeArtworkWithRemoteBacking()
+    }
+    
+    func syncGamesWithoutArtwork(_ sender: Any?) {
+        OELibraryDatabase.default?.syncGamesWithoutArtwork()
+    }
+    
+    func downloadMissingArtwork(_ sender: Any?) {
+        OELibraryDatabase.default?.downloadMissingArtwork()
+    }
+    
+    func removeUntrackedImageFiles(_ sender: Any?) {
+        OELibraryDatabase.default?.removeUntrackedImageFiles()
+    }
+    
+    func cleanupHashes(_ sender: Any?) {
+        OELibraryDatabase.default?.cleanupHashes()
+    }
+    
+    func removeDuplicatedRoms(_ sender: Any?) {
+        OELibraryDatabase.default?.removeDuplicatedRoms()
+    }
+    
+    func cancelCoverArtSync(_ sender: Any?) {
+        OELibraryDatabase.default?.cancelCoverArtSync()
+    }
+    
+    func sanityCheck(_ sender: Any?) {
+        OELibraryDatabase.default?.sanityCheck()
+    }
+    
+    // MARK: - Structs
+    
+    struct Group {
+        let label: String
+    }
+    struct Label {
+        let label: String
+    }
+    struct Checkbox {
+        let key: String
+        let label: String
+        var negated: Bool = false
+    }
+    struct Popover {
+        let key: String
+        let label: String
+        let action: Selector
+        let options: [Option]
+    }
+    struct Option {
+        let label: String
+        let value: Any
+    }
+    struct Button {
+        let label: String
+        let action: Selector
+    }
+    struct ColorWell {
+        let key: String
+        let label: String
+    }
+    struct NumericTextField {
+        let key: String
+        let label: String
+        let numberFormatter: NF
+        
+        struct NF {
+            var allowsFloats: Bool
+            var minimum: NSNumber
+            var maximum: NSNumber
+            var numberStyle: NumberFormatter.Style
+        }
+    }
+}
+
+// MARK: - OEPreferencePane
+
+extension PrefDebugController: OEPreferencePane {
+    
+    var icon: NSImage { NSImage(named: "debug_tab_icon")! }
+    
+    var panelTitle: String { "Secrets" }
+    
+    var localizedPanelTitle: String { NSLocalizedString(panelTitle, comment: "Preferences: Debug Toolbar Item") }
+    
+    var viewSize: NSSize { NSSize(width: fittingWidth, height: 500) }
+}

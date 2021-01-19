@@ -25,7 +25,6 @@
  */
 @import Cocoa;
 #import "OEPreferencePane.h"
-#import "OEPrefDebugController.h"
 
 @class OEBackgroundGradientView;
 @class OEControlsButtonSetupView;

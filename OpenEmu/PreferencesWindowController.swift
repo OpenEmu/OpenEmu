@@ -169,7 +169,7 @@ class PreferencesTabViewController: NSTabViewController {
         // Check if the debug pane should be included.
         let defaults = UserDefaults.standard
         if defaults.bool(forKey: PreferencesWindowController.debugModeKey) {
-            preferencePanes.append(OEPrefDebugController())
+            preferencePanes.append(PrefDebugController())
         }
         
         // Add tab view items for each preference pane.
@@ -263,7 +263,7 @@ class PreferencesTabViewController: NSTabViewController {
     
     func toggleDebugPaneVisibility() {
         
-        if let debugPaneIndex = children.firstIndex(where: { $0 is OEPrefDebugController }) {
+        if let debugPaneIndex = children.firstIndex(where: { $0 is PrefDebugController }) {
             
             if selectedTabViewItemIndex == debugPaneIndex {
                 tabView.selectTabViewItem(at: 0)
@@ -273,7 +273,7 @@ class PreferencesTabViewController: NSTabViewController {
             
         } else {
             
-            addTabViewItem(with: OEPrefDebugController())
+            addTabViewItem(with: PrefDebugController())
         }
     }
 }

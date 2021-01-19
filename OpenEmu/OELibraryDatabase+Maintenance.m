@@ -25,7 +25,6 @@
  */
 
 
-#import "OEPrefDebugController.h"
 #import "OELibraryDatabase.h"
 
 #import "OEDBGame.h"
@@ -33,36 +32,13 @@
 #import "OEDBRom.h"
 #import "OEDBSaveState.h"
 
-#import "OEGameControlsBar.h"
-
-#import "OEGameDocument.h"
-
-#import "OEGameInfoHelper.h"
-
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEAlert.h"
 #import "NSFileManager+OEHashingAdditions.h"
 
-#pragma mark Key sources
-#import "OESetupAssistant.h"
-#import "OECollectionViewController.h"
-#import "OEGridGameCell.h"
-#import "OEControllerImageView.h"
-#import "OEControlsButtonSetupView.h"
-#import "OEDBDataSourceAdditions.h"
-#import "OEImportOperation.h"
-#import "OEMainWindowController.h"
-
 #import "OpenEmu-Swift.h"
 
-NSString * const OEAppearancePreferenceKey = @"OEAppearance";
-NSString * const OEHUDBarAppearancePreferenceKey = @"OEHUDBarAppearance";
-NSString * const OEControlsPrefsAppearancePreferenceKey = @"OEControlsPrefsAppearance";
-
-@interface OEPrefDebugController ()
-@property NSArray *keyDescriptions;
-@end
-
+/*
 NSString * const  CheckboxType  = @"Checkbox";
 NSString * const  ButtonType    = @"Button";
 NSString * const  SeparatorType = @"Separator";
@@ -209,91 +185,12 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Label(@""),
                               ];
 }
+*/
 
-#pragma mark - Actions
-- (void)changeRegion:(NSPopUpButton*)sender
-{
-    NSMenuItem *item = [sender selectedItem];
-    NSInteger value = [[item representedObject] integerValue];
 
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    if(value == -1)
-    {
-        [standardUserDefaults removeObjectForKey:OERegionKey];
-    }
-    else
-    {
-        [standardUserDefaults setObject:@(value) forKey:OERegionKey];
-    }
+@implementation OELibraryDatabase (Maintenance)
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemAvailabilityDidChangeNotification object:self];
-}
-
-- (void)changeGameMode:(NSPopUpButton*)sender
-{
-    NSMenuItem *selectedItem = [sender selectedItem];
-    [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEGameCoreManagerModePreferenceKey];
-}
-
-- (void)changeAppAppearance:(NSPopUpButton *)sender
-{
-    NSMenuItem *selectedItem = [sender selectedItem];
-    [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEAppearancePreferenceKey];
-}
-
-- (void)changeHUDBarAppearance:(NSPopUpButton *)sender
-{
-    NSMenuItem *selectedItem = [sender selectedItem];
-    [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEHUDBarAppearancePreferenceKey];
-}
-
-- (void)changeControlsPrefsAppearance:(NSPopUpButton *)sender
-{
-    NSMenuItem *selectedItem = [sender selectedItem];
-    [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEControlsPrefsAppearancePreferenceKey];
-    OEAlert *alert = [OEAlert new];
-    alert.messageText = NSLocalizedString(@"You need to restart the application to commit the change", @"");
-    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"")];
-    [alert runModal];
-}
-
-#pragma mark -
-- (void)resetMainWindow:(id)sender
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:@"NSSplitView Subview Frames OELibraryGamesSplitView"];
-    [defaults removeObjectForKey:@"NSWindow Frame LibraryWindow"];
-    [defaults removeObjectForKey:OELastGridSizeKey];
-    
-    NSWindow *mainWindow;
-    for (NSWindow *window in NSApp.windows)
-    {
-        if([window.windowController isKindOfClass:[OEMainWindowController class]])
-        {
-            mainWindow = window;
-            break;
-        }
-    }
-    
-    // Matches the content size specified in MainWindow.xib.
-    [mainWindow setFrame:NSMakeRect(0, 0, 845, 555 + 22) display:NO];
-    [mainWindow center];
-
-    [NSNotificationCenter.defaultCenter postNotificationName:@"OELibrarySplitViewResetSidebar" object:self];
-}
-
-- (void)toggleGameScannerView:(id)sender
-{
-    [NSNotificationCenter.defaultCenter postNotificationName:OEGameScannerViewController.OEGameScannerToggleNotification object:self];
-}
-
-#pragma mark -
-- (void)restoreSaveStatesDirectory:(id)sender
-{
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:OESaveStateFolderURLKey];
-}
-
-- (void)cleanupAutoSaveStates:(id)sender
+- (void)cleanupAutoSaveStates
 {
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [database mainThreadContext];
@@ -331,7 +228,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     [context save:nil];
 }
 
-- (void)cleanupSaveStates:(id)sender
+- (void)cleanupSaveStates
 {
     OELibraryDatabase     *database = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [database mainThreadContext];
@@ -397,25 +294,8 @@ NSString * const NumberFormatterKey = @"numberFormatter";
         }
     }
 }
-#pragma mark - OpenVGDB Actions
-- (void)updateOpenVGDB:(id)sender
-{
-    DLog(@"Removing OpenVGDB update check date and version from user defaults to force update.");
-    
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    [standardDefaults removeObjectForKey:OEOpenVGDBUpdateCheckKey];
-    [standardDefaults removeObjectForKey:OEOpenVGDBVersionKey];
 
-    OEGameInfoHelper *helper = [OEGameInfoHelper sharedHelper];
-    [helper checkForUpdatesWithHandler:^(NSURL * _Nullable url, NSString * _Nullable version) {
-        if (url && version) {
-            [helper installVersion:version withDownloadURL:url];
-        }
-    }];
-}
-
-#pragma mark - Database actions
-- (void)removeUselessImages:(id)sender
+- (void)removeUselessImages
 {
     // removes all image objects that are neither on disc nor have a source
     OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
@@ -437,7 +317,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     NSLog(@"Deleted %ld images!", result.count);
 }
 
-- (void)removeArtworkWithRemoteBacking:(id)sender
+- (void)removeArtworkWithRemoteBacking
 {
     OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [library mainThreadContext];
@@ -470,7 +350,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     NSLog(@"Deleted %ld image files!", count);
 }
 
-- (void)syncGamesWithoutArtwork:(id)sender
+- (void)syncGamesWithoutArtwork
 {
     OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [library mainThreadContext];
@@ -491,8 +371,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     }
 }
 
-
-- (void)downloadMissingArtwork:(id)sender
+- (void)downloadMissingArtwork
 {
     OEAlert *alert = [[OEAlert alloc] init];
     alert.messageText = NSLocalizedStringFromTable(@"While performing this operation OpenEmu will be unresponsive.", @"Debug", @"");
@@ -539,7 +418,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     NSLog(@"Downloaded %ld image files!", count);
 }
 
-- (void)removeUntrackedImageFiles:(id)sender
+- (void)removeUntrackedImageFiles
 {
     OELibraryDatabase *library   = [OELibraryDatabase defaultDatabase];
     NSURL *artworkDirectory      = [library coverFolderURL];
@@ -569,7 +448,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     NSLog(@"Removed %ld unknown files from artwork directory", [artwork count]);
 }
 
-- (void)cleanupHashes:(id)sender
+- (void)cleanupHashes
 {
     OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [library mainThreadContext];
@@ -581,7 +460,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     [context save:nil];
 }
 
-- (void)removeDuplicatedRoms:(id)sender
+- (void)removeDuplicatedRoms
 {
     OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [library mainThreadContext];
@@ -609,7 +488,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     [context save:nil];
 }
 
-- (void)cancelCoverArtSync:(id)sender
+- (void)cancelCoverArtSync
 {
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [database mainThreadContext];
@@ -622,7 +501,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     NSLog(@"Cancelled cover art download for %ld games", [games count]);
 }
 
-- (void)sanityCheck:(id)sender
+- (void)sanityCheck
 {
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [database mainThreadContext];
@@ -717,308 +596,6 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     if(counts[1]) NSLog(@"Found %ld images without local path!", counts[1]);
 
     NSLog(@"= Done =");
-}
-#pragma mark -
-- (void)changeUDColor:(id)sender
-{
-    NSInteger index = [sender tag];
-    if(index >= 0)
-    {
-        NSDictionary *colorObject = [[self keyDescriptions] objectAtIndex:index];
-        if([colorObject objectForKey:TypeKey] != ColorType)
-        {
-            // Wrong object, should not happen…
-            return;
-        }
-
-        NSString *key  = [colorObject objectForKey:KeyKey];
-        NSString *value = [[(NSColorWell *)sender color] toString];
-
-        [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
-    }
-}
-
-#pragma mark - Shader group actions
-
-- (void)clearShaderCache:(id)sender
-{
-    [NSFileManager.defaultManager removeItemAtURL:OEShadersModel.shared.shadersCachePath error:nil];
-}
-
-- (void)openUserShaderFolder:(id)sender
-{
-    [NSWorkspace.sharedWorkspace openURL:OEShadersModel.shared.userShadersPath];
-}
-
-
-#pragma mark - Grid View Setup
-
-
-- (void)setupGridView
-{
-    NSGridView *gridView = [NSGridView gridViewWithNumberOfColumns:2 rows:0];
-    [[gridView columnAtIndex:0] setXPlacement:NSGridCellPlacementTrailing];
-    [gridView setRowAlignment:NSGridRowAlignmentFirstBaseline];
-    NSInteger i = 0;
-    for (NSDictionary *keyDesc in self.keyDescriptions) {
-        [self createRowForGridView:gridView index:i fromDescription:keyDesc];
-        i++;
-    }
-    
-    [gridView setContentHuggingPriority:NSLayoutPriorityDefaultLow-1 forOrientation:NSLayoutConstraintOrientationHorizontal];
-    [gridView setContentHuggingPriority:NSLayoutPriorityDefaultHigh-1 forOrientation:NSLayoutConstraintOrientationVertical];
-    gridView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.contentView addSubview:gridView];
-    
-    CGFloat scrollerWidth = [NSScroller scrollerWidthForControlSize:NSControlSizeRegular scrollerStyle:NSScrollerStyleOverlay];
-    NSSize fittingSize = gridView.fittingSize;
-    fittingSize.width += 60 - scrollerWidth;
-    fittingSize.height += 40;
-    [self.contentView setFrameSize:fittingSize];
-    [self.contentView.enclosingScrollView.contentView scrollToPoint:NSMakePoint(0, fittingSize.height)];
-    
-    fittingSize.width += scrollerWidth;
-    viewSize = NSMakeSize(fittingSize.width, 500);
-    
-    [NSLayoutConstraint activateConstraints:@[
-        [NSLayoutConstraint constraintWithItem:gridView attribute:NSLayoutAttributeLeft
-            relatedBy:NSLayoutRelationEqual
-            toItem:self.contentView attribute:NSLayoutAttributeLeft
-            multiplier:1.0 constant:30],
-        [NSLayoutConstraint constraintWithItem:gridView attribute:NSLayoutAttributeTop
-            relatedBy:NSLayoutRelationEqual
-            toItem:self.contentView attribute:NSLayoutAttributeTop
-            multiplier:1.0 constant:20]]];
-}
-
-
-- (void)createRowForGridView:(NSGridView *)gridView index:(NSInteger)i fromDescription:(NSDictionary *)keyDescription
-{
-	NSString *type   = [keyDescription objectForKey:@"type"];
-
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary<NSString *, id> *defaultDefaults = [userDefaults volatileDomainForName:NSRegistrationDomain];
-    
-    if(type == CheckboxType) {
-        NSString *label = [keyDescription objectForKey:LabelKey];
-        NSString *udkey = [keyDescription objectForKey:KeyKey];
-        BOOL negated    = [[keyDescription objectForKey:NegatedKey] boolValue];
-
-        NSButton *checkbox = [NSButton checkboxWithTitle:label target:nil action:nil];
-        [checkbox setTitle:label];
-
-        NSDictionary *options = @{ NSContinuouslyUpdatesValueBindingOption:@YES };
-        if(negated)
-        {
-            options = @{ NSValueTransformerNameBindingOption : NSNegateBooleanTransformerName, NSContinuouslyUpdatesValueBindingOption:@YES };
-        }
-
-        NSString *keypath = [NSString stringWithFormat:@"values.%@", udkey];
-        [checkbox bind:@"value" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:keypath options:options];
-        
-        id originalValue = [defaultDefaults objectForKey:udkey] ?: @NO;
-        if ([originalValue isKindOfClass:[NSNumber class]])  {
-            BOOL origbool = [originalValue boolValue] ^ negated;
-            NSString *fmt = NSLocalizedStringFromTable(@"Default Value: %@", @"Debug", @"Default value tooltip format in the Debug Preferences");
-            NSString *val = origbool ?
-                NSLocalizedStringFromTable(@"Checked", @"Debug", @"Default value tooltip for checkboxes: checked default") :
-                NSLocalizedStringFromTable(@"Unchecked", @"Debug", @"Default value tooltip for checkboxes: unchecked default");
-            NSString *defaultTooltip = [NSString stringWithFormat:fmt, val];
-            [checkbox setToolTip:defaultTooltip];
-        }
-        
-        [gridView addRowWithViews:@[[NSGridCell emptyContentView], checkbox]];
-        
-    } else if(type == GroupType) {
-        NSString *label = [keyDescription objectForKey:LabelKey];
-        NSTextField *field = [NSTextField labelWithString:label];
-        [field setStringValue:label];
-        [field setFont:[NSFont boldSystemFontOfSize:0]];
-        
-        NSGridRow *row = [gridView addRowWithViews:@[[NSGridCell emptyContentView], field]];
-        row.bottomPadding = 4;
-        
-    } else if(type == ButtonType) {
-        NSString *label = [keyDescription objectForKey:LabelKey];
-        NSString *action = [keyDescription objectForKey:ActionKey];
-
-        NSButton *button = [NSButton buttonWithTitle:label target:self action:NSSelectorFromString(action)];
-        [gridView addRowWithViews:@[[NSGridCell emptyContentView], button]];
-        
-    } else if(type == ColorType) {
-        NSString *label  = [keyDescription objectForKey:LabelKey];
-        NSString *key    = [keyDescription objectForKey:KeyKey];
-
-        NSTextField *labelField = [NSTextField labelWithString:label];
-        [labelField setAlignment:NSTextAlignmentRight];
-
-        NSColorWell *colorWell = [[NSColorWell alloc] init];
-        NSColor     *color     = [NSColor blackColor];
-        if([userDefaults stringForKey:key])
-        {
-            color = [[NSColor alloc] colorFromHexString:[userDefaults stringForKey:key]];
-        }
-        [colorWell setColor:color];
-        [colorWell setAction:@selector(changeUDColor:)];
-        [colorWell setTarget:self];
-        colorWell.tag = i;
-        colorWell.autoresizingMask = NSViewWidthSizable + NSViewHeightSizable;
-        
-        NSGridRow *row = [gridView addRowWithViews:@[labelField, colorWell]];
-        row.rowAlignment = NSGridRowAlignmentNone;
-        row.yPlacement = NSGridCellPlacementCenter;
-        [NSLayoutConstraint activateConstraints:@[
-            [NSLayoutConstraint constraintWithItem:colorWell attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:60],
-            [NSLayoutConstraint constraintWithItem:colorWell attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:24],
-        ]];
-        
-    } else if(type == LabelType) {
-        NSString *label  = [keyDescription objectForKey:LabelKey];
-        NSTextField *labelField = [NSTextField labelWithString:label];
-        [gridView addRowWithViews:@[[NSGridCell emptyContentView], labelField]];
-        
-    } else if(type == PopoverType) {
-        NSString *label  = [keyDescription objectForKey:LabelKey];
-        NSArray *options = [keyDescription objectForKey:OptionsKey];
-        NSString *action = [keyDescription objectForKey:ActionKey];
-        NSTextField *labelField = [NSTextField labelWithString:label];
-        [labelField setAlignment:NSTextAlignmentRight];
-
-        NSPopUpButton *popup = [[NSPopUpButton alloc] init];
-        [popup setAction:NSSelectorFromString(action)];
-        [popup setTarget:self];
-
-        [options enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [popup addItemWithTitle:[obj objectForKey:LabelKey]];
-            [[popup itemAtIndex:idx] setRepresentedObject:[obj objectForKey:ValueKey]];
-        }];
-
-        [self OE_setupSelectedItemForPopupButton:popup withKeyDescription:keyDescription];
-        [popup sizeToFit];
-        [gridView addRowWithViews:@[labelField, popup]];
-        
-    } else if (type == NumericTextFieldType) {
-        NSString *label = [keyDescription objectForKey:LabelKey];
-        NSNumberFormatter *nf = [keyDescription objectForKey:NumberFormatterKey];
-        NSString *udkey = [keyDescription objectForKey:KeyKey];
-        
-        NSTextField *labelField = [NSTextField labelWithString:label];
-        [labelField setAlignment:NSTextAlignmentRight];
-        
-        NSTextField *inputField = [NSTextField textFieldWithString:@""];
-        [inputField setFormatter:nf];
-        NSString *keypath = [NSString stringWithFormat:@"values.%@", udkey];
-        [inputField bind:NSValueBinding toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:keypath options:nil];
-        
-        NSString *validRangeFormat = NSLocalizedStringFromTable(@"Range: %@ to %@", @"Debug", @"Range indicator tooltip for numeric text boxes in the Debug Preferences");
-        NSString *min = [nf stringFromNumber:nf.minimum];
-        NSString *max = [nf stringFromNumber:nf.maximum];
-        NSMutableString *tooltip = [NSMutableString stringWithFormat:validRangeFormat, min, max];
-        
-        id defaultv = [defaultDefaults objectForKey:udkey] ?: @0;
-        if ([defaultv isKindOfClass:[NSNumber class]]) {
-            NSString *fmt = NSLocalizedStringFromTable(@"Default Value: %@", @"Debug", @"Default value tooltip format in the Debug Preferences");
-            NSString *defaultstr = [nf stringFromNumber:defaultv];
-            [tooltip appendString:@"\n"];
-            [tooltip appendFormat:fmt, defaultstr];
-        }
-        [inputField setToolTip:tooltip];
-        
-        [gridView addRowWithViews:@[labelField, inputField]];
-        [NSLayoutConstraint activateConstraints:@[
-            [NSLayoutConstraint constraintWithItem:inputField attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:70]]];
-        
-    } else if (type == SeparatorType) {
-        NSBox *sep = [[NSBox alloc] init];
-        sep.boxType = NSBoxSeparator;
-        
-        NSGridRow *row = [gridView addRowWithViews:@[sep]];
-        [row mergeCellsInRange:NSMakeRange(0, 2)];
-        row.topPadding = 6;
-        row.bottomPadding = 6;
-    }
-}
-
-- (void)OE_setupSelectedItemForPopupButton:(NSPopUpButton*)button withKeyDescription:(NSDictionary*)keyDescription
-{
-    NSString      *action    = [keyDescription valueForKey:@"action"];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
-    NSString   *userDefaultsKey = nil;
-    BOOL (^test)(id, id) = NULL;
-
-    if([action isEqual:NSStringFromSelector(@selector(changeGameMode:))])
-    {
-        userDefaultsKey = OEGameCoreManagerModePreferenceKey;
-        test = ^BOOL(id obj, id currentValue) {
-            return [[obj representedObject] isEqualToString:currentValue];
-        };
-    }
-    else if([action isEqual:NSStringFromSelector(@selector(changeRegion:))])
-    {
-        userDefaultsKey = OERegionKey;
-        test = ^BOOL(id obj, id currentValue) {
-            return [[obj representedObject] intValue] == [currentValue intValue];
-        };
-    }
-    else if ([action isEqual:NSStringFromSelector(@selector(changeAppAppearance:))])
-    {
-        userDefaultsKey = OEAppearancePreferenceKey;
-        test = ^BOOL(id obj, id currentValue) {
-            return [[obj representedObject] intValue] == [currentValue intValue];
-        };
-    }
-    else if ([action isEqual:NSStringFromSelector(@selector(changeHUDBarAppearance:))])
-    {
-        userDefaultsKey = OEHUDBarAppearancePreferenceKey;
-        test = ^BOOL(id obj, id currentValue) {
-            return [[obj representedObject] intValue] == [currentValue intValue];
-        };
-    }
-    else if ([action isEqual:NSStringFromSelector(@selector(changeControlsPrefsAppearance:))])
-    {
-        userDefaultsKey = OEControlsPrefsAppearancePreferenceKey;
-        test = ^BOOL(id obj, id currentValue) {
-            return [[obj representedObject] intValue] == [currentValue intValue];
-        };
-    }
-
-    id currentValue;
-    __block NSInteger index = 0;
-    if(userDefaultsKey && (currentValue = [defaults objectForKey:userDefaultsKey]))
-    {
-        NSArray *itemArray = [button itemArray];
-        [itemArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            if(test(obj, currentValue))
-            {
-                index = idx;
-                *stop = YES;
-            }
-        }];
-    }
-    [button selectItemAtIndex:index];
-}
-
-
-#pragma mark - OEPreferencePane Protocol
-- (NSImage *)icon
-{
-    return [NSImage imageNamed:@"debug_tab_icon"];
-}
-
-- (NSString *)panelTitle
-{
-    return @"Secrets";
-}
-
-- (NSString *)localizedPanelTitle
-{
-    return NSLocalizedString([self panelTitle], @"Preferences: Debug Toolbar Item");
-}
-
-- (NSString *)nibName
-{
-    return @"OEPrefDebugController";
 }
 
 @end
