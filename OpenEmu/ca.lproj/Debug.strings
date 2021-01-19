@@ -51,7 +51,7 @@
 
 "Log Keyboard Events" = "Registra els esdeveniments del teclat";
 
-"Show all global keys" = "Mostra totes les tecles globals";
+"Show all special keys" = "Mostra totes les tecles especials";
 
 "Set default save states directory" = "Defineix el directori de les partides desades";
 

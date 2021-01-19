@@ -51,7 +51,7 @@
 
 "Log Keyboard Events" = "記錄鍵盤事件";
 
-"Show all global keys" = "顯示所有全局按鍵";
+"Show all special keys" = "顯示所有全局按鍵"; // TODO
 
 "Set default save states directory" = "設置默認保存狀態目錄";
 

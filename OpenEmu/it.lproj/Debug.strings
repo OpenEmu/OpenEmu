@@ -51,7 +51,7 @@
 
 "Log Keyboard Events" = "Attiva log eventi tastiera";
 
-"Show all global keys" = "Mostra tutti i controlli globali";
+"Show all special keys" = "Mostra tutti i controlli speciali";
 
 "Set default save states directory" = "Reimposta cartella dei salvataggi emulazione";
 

@@ -51,7 +51,7 @@
 
 "Log Keyboard Events" = "Registro de eventos de teclado";
 
-"Show all global keys" = "Mostrar todas las teclas genéricas";
+"Show all special keys" = "Mostrar todas las teclas especiales";
 
 "Set default save states directory" = "Establecer carpeta predeterminada de estados guardados";
 

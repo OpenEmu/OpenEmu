@@ -51,7 +51,7 @@
 
 "Log Keyboard Events" = "Journaliser les événements du clavier";
 
-"Show all global keys" = "Afficher toutes les touches globales ";
+"Show all special keys" = "Afficher toutes les touches spéciales";
 
 "Set default save states directory" = "Répertoire des parties sauvegardées par défaut";
 

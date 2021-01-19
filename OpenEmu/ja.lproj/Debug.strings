@@ -51,7 +51,7 @@
 
 "Log Keyboard Events" = "Keyboard イベントを記録";
 
-"Show all global keys" = "グローバルキーを全て表示する";
+"Show all special keys" = "グローバルキーを全て表示する"; // TODO
 
 "Set default save states directory" = "デフォルトのオートセーブステートディレクトリを設定";
 

@@ -175,7 +175,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
                               Checkbox(OEDebugDrawControllerMaskKey, @"Draw button mask above image"),
                               Checkbox(@"logsHIDEvents", @"Log HID Events"),
                               Checkbox(@"logsHIDEventsNoKeyboard", @"Log Keyboard Events"),
-                              Checkbox(@"OEShowAllGlobalKeys", @"Show all global keys"),
+                              Checkbox(@"OEShowAllGlobalKeys", @"Show all special keys"),
                               Popover(@"Appearance:", @selector(changeControlsPrefsAppearance:),
                                       Option(@"Wood", @(OEControlsPrefsAppearancePreferenceValueWood)),
                                       Option(@"Vibrant", @(OEControlsPrefsAppearancePreferenceValueLumberjack)),

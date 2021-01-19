@@ -51,7 +51,7 @@
 
 "Log Keyboard Events" = "Логировать события клавиатуры";
 
-"Show all global keys" = "Показать все глобальные кнопки";
+"Show all special keys" = "Показать все особые кнопки"; // TODO
 
 "Set default save states directory" = "Установить директорию по-умолчанию для сохранения состояний";
 
