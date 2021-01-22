@@ -472,6 +472,61 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         }
     }
 
+    // Setup Advanced Settings Menu
+    if(self.gameViewController.supportsAdvancedMenu && self.gameViewController.advancedMenu.count > 0)
+    {
+        NSMenu *advancedSettingsMenu = [NSMenu new];
+        advancedSettingsMenu.autoenablesItems = NO;
+        advancedSettingsMenu.title = NSLocalizedString(@"Advanced Settings", @"");
+        item = [NSMenuItem new];
+        item.title = advancedSettingsMenu.title;
+        [menu addItem:item];
+        item.submenu = advancedSettingsMenu;
+
+        NSString *menuName;
+        BOOL selected, enabled;
+        NSInteger indentationLevel;
+        
+        for (NSDictionary *advancedSettingsMenuDict in self.gameViewController.advancedMenu)
+        {
+            if (advancedSettingsMenuDict[OEGameCoreAdvancedMenuSeparatorItemKey])
+            {
+                [advancedSettingsMenu addItem:[NSMenuItem separatorItem]];
+                continue;
+            }
+
+            menuName             =  advancedSettingsMenuDict[OEGameCoreAdvancedMenuNameKey] ?:
+                                advancedSettingsMenuDict[OEGameCoreAdvancedMenuLabelKey];
+            selected         = [advancedSettingsMenuDict[OEGameCoreAdvancedMenuStateKey] boolValue];
+            enabled          =  advancedSettingsMenuDict[OEGameCoreAdvancedMenuLabelKey] ? NO : YES;
+            indentationLevel = [advancedSettingsMenuDict[OEGameCoreAdvancedMenuIndentationLevelKey] integerValue] ?: 0;
+
+            // Menu group
+            if (advancedSettingsMenuDict[OEGameCoreAdvancedMenuGroupNameKey])
+           
+            {
+                // Main Menu
+                NSMenu *advMainMenu = [NSMenu new];
+                advMainMenu.autoenablesItems = NO;
+                advMainMenu.title = advancedSettingsMenuDict[OEGameCoreAdvancedMenuGroupNameKey];
+                item = [NSMenuItem new];
+                item.title = advMainMenu.title;
+                [advancedSettingsMenu addItem:item];
+                item.submenu = advMainMenu;
+
+                [self processItemsFor:advMainMenu advMenuDict:advancedSettingsMenuDict];
+                continue;
+            }
+
+            NSMenuItem *advMainMenuItem = [[NSMenuItem alloc] initWithTitle:menuName action:@selector(changeAdvancedMenu:) keyEquivalent:@""];
+            advMainMenuItem.representedObject = advancedSettingsMenuDict;
+            advMainMenuItem.state = selected ? NSControlStateValueOn : NSControlStateValueOff;
+            advMainMenuItem.enabled = enabled;
+            advMainMenuItem.indentationLevel = indentationLevel;
+            [advancedSettingsMenu addItem:advMainMenuItem];
+        }
+    }
+    
     // Setup Change Display Mode Menu
     if(self.gameViewController.supportsDisplayModeChange && self.gameViewController.displayModes.count > 0)
     {
@@ -675,6 +730,53 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     NSPoint menuPosition = NSMakePoint(NSMinX(targetRect), NSMaxY(targetRect));
     [menu popUpMenuPositioningItem:nil atLocation:menuPosition inView:sender];
 }
+
+- (void)processItemsFor:(NSMenu *)advMenu advMenuDict:(NSDictionary *)advMenuDict
+{
+            NSString *menuName;
+            BOOL selected, enabled;
+            NSInteger indentationLevel;
+            NSMenuItem *item;
+    
+            for (NSDictionary *advSubMenuDict in advMenuDict[OEGameCoreAdvancedMenuGroupItemsKey])
+            {
+                if (advSubMenuDict[OEGameCoreAdvancedMenuSeparatorItemKey])
+                {
+                    [advMenu addItem:[NSMenuItem separatorItem]];
+                    continue;
+                }
+    
+                menuName             =  advSubMenuDict[OEGameCoreAdvancedMenuNameKey] ?:
+                advSubMenuDict[OEGameCoreAdvancedMenuLabelKey];
+                selected         = [advSubMenuDict[OEGameCoreAdvancedMenuStateKey] boolValue];
+                enabled          =  advSubMenuDict[OEGameCoreAdvancedMenuLabelKey] ? NO : YES;
+                indentationLevel = [advSubMenuDict[OEGameCoreAdvancedMenuIndentationLevelKey] integerValue] ?: 0;
+    
+                // Submenu group
+                if (advSubMenuDict[OEGameCoreAdvancedMenuGroupNameKey])
+                {
+                    // Submenu
+                    NSMenu *advSubMenu = [NSMenu new];
+                    advSubMenu.autoenablesItems = NO;
+                    advSubMenu.title = advSubMenuDict[OEGameCoreAdvancedMenuGroupNameKey];
+                    item = [NSMenuItem new];
+                    item.title = advSubMenu.title;
+                    [advMenu addItem:item];
+                    item.submenu = advSubMenu;
+    
+                    [self processItemsFor:advSubMenu advMenuDict:advSubMenuDict];
+                    continue;
+                }
+
+                NSMenuItem *advSubMenuItem = [[NSMenuItem alloc] initWithTitle:menuName action:@selector(changeAdvancedMenu:) keyEquivalent:@""];
+                advSubMenuItem.representedObject = advSubMenuDict;
+                advSubMenuItem.state = selected ? NSControlStateValueOn : NSControlStateValueOff;
+                advSubMenuItem.enabled = enabled;
+                advSubMenuItem.indentationLevel = indentationLevel;
+                [advMenu addItem:advSubMenuItem];
+            }
+}
+
 
 - (void)showSaveMenu:(id)sender
 {
