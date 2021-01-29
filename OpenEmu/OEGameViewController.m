@@ -287,10 +287,6 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
 - (void)didLoadShader:(OEShaderModel *)shader
 {
     _shaderControl.shader = shader;
-    if (_controller.window.isVisible)
-    {
-        [self configureShader:nil];
-    }
 }
 
 - (void)configureShader:(id)sender

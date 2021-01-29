@@ -60,8 +60,6 @@ extern NSString *const OEScreenshotPropertiesKey;
 @class OECorePlugin;
 @class OEGameViewController;
 
-@class OEShaderParamGroupValue;
-
 @protocol OEGameIntegralScalingDelegate;
 
 @protocol OEGameViewControllerDelegate <NSObject>
