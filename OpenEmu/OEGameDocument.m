@@ -91,8 +91,8 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     OEDBSaveState      *_saveStateForGameStart;
     NSDate             *_lastPlayStartDate;
     NSString           *_lastSelectedDisplayModeOption;
-    NSString           *_lastSelectedAdvancedMenuItem;
-    NSString           *_lastSelectedAdvancedMenuID;
+    NSString           *_lastSelectedPreferenceItem;
+    NSString           *_lastSelectedPreferenceID;
     BOOL                _isMuted;
     BOOL                _pausedByGoingToBackground;
     BOOL                _isTerminatingEmulation;
@@ -1473,14 +1473,14 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
      }];
 }
 
-#pragma mark - Advanced Menu
+#pragma mark - Core Preferences
 
-- (BOOL)supportsAdvancedMenu
+- (BOOL)supportsPreferences
 {
-    return [[[_gameCoreManager plugin] controller] supportsAdvancedMenuForSystemIdentifier:[_systemPlugin systemIdentifier]];
+    return [[[_gameCoreManager plugin] controller] supportsPreferencesForSystemIdentifier:[_systemPlugin systemIdentifier]];
 }
 
-- (void)changeAdvancedMenu:(id)sender
+- (void)changePreference:(id)sender
 {
     BOOL fromMenu;
     NSDictionary <NSString *, id> *optionDict;
@@ -1497,45 +1497,45 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     else
         return;
 
-    BOOL isSelected   = [optionDict[OEGameCoreAdvancedMenuStateKey] boolValue];
-    BOOL isToggleable = [optionDict[OEGameCoreAdvancedMenuAllowsToggleKey] boolValue];
-    BOOL isPrefSaveDisallowed = [optionDict[OEGameCoreAdvancedMenuDisallowPrefSaveKey] boolValue];
-    BOOL isManual     = [optionDict[OEGameCoreAdvancedMenuManualOnlyKey] boolValue];
+    BOOL isSelected   = [optionDict[OEPreferenceStateKey] boolValue];
+    BOOL isToggleable = [optionDict[OEPreferenceAllowsToggleKey] boolValue];
+    BOOL isPrefSaveDisallowed = [optionDict[OEPreferenceDisallowPrefSaveKey] boolValue];
+    BOOL isManual     = [optionDict[OEPreferenceManualOnlyKey] boolValue];
 
     // Mutually exclusive option is already selected, do nothing
     if (isSelected && !isToggleable)
         return;
 
-    NSString *advancedMenuKeyForCore = [NSString stringWithFormat:OEGameCoreAdvancedMenuKeyFormat, _corePlugin.bundleIdentifier];
-    NSString *prefKey  = optionDict[OEGameCoreAdvancedMenuPrefKeyNameKey];
-    NSString *prefVal  = optionDict[OEGameCoreAdvancedMenuPrefValueNameKey];
-    NSString *menuName = optionDict[OEGameCoreAdvancedMenuNameKey];
-    NSString *menuID = optionDict[OEGameCoreAdvancedMenuGroupIDKey];
+    NSString *preferenceKeyForCore = [NSString stringWithFormat:OEPreferenceKeyFormat, _corePlugin.bundleIdentifier];
+    NSString *prefKey  = optionDict[OEPreferencePrefKeyNameKey];
+    NSString *prefVal  = optionDict[OEPreferencePrefValueNameKey];
+    NSString *preferenceName = optionDict[OEPreferenceNameKey];
+    NSString *prefGroupID = optionDict[OEPreferenceGroupIDKey];
     NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
-    NSMutableDictionary <NSString *, id> *advancedMenuInfo = [NSMutableDictionary dictionary];
+    NSMutableDictionary <NSString *, id> *preferenceInfo = [NSMutableDictionary dictionary];
 
     // Copy existing prefs
-    if ([defaults.dictionaryRepresentation[advancedMenuKeyForCore] isKindOfClass:[NSDictionary class]])
-        advancedMenuInfo = [defaults.dictionaryRepresentation[advancedMenuKeyForCore] mutableCopy];
+    if ([defaults.dictionaryRepresentation[preferenceKeyForCore] isKindOfClass:[NSDictionary class]])
+        preferenceInfo = [defaults.dictionaryRepresentation[preferenceKeyForCore] mutableCopy];
 
     // Mutually exclusive option is unselected
     if (!isToggleable)
     {
-        advancedMenuInfo[prefKey] = prefVal ?: menuName;
+        preferenceInfo[prefKey] = prefVal ?: preferenceName;
         if (fromMenu && !isManual)
         {
-            _lastSelectedAdvancedMenuItem = menuName;
-            _lastSelectedAdvancedMenuID = menuID;
+            _lastSelectedPreferenceItem = preferenceName;
+            _lastSelectedPreferenceID = prefGroupID;
         }
     }
     // Toggleable option, swap YES/NO
     else if (isToggleable)
-        advancedMenuInfo[prefKey] = @(!isSelected);
+        preferenceInfo[prefKey] = @(!isSelected);
 
     if (!isPrefSaveDisallowed)
-        [defaults setObject:advancedMenuInfo forKey:advancedMenuKeyForCore];
+        [defaults setObject:preferenceInfo forKey:preferenceKeyForCore];
 
-    [_gameCoreManager changeAdvancedMenuOption:menuName menuID:menuID];
+    [_gameCoreManager changePreferenceOption:preferenceName prefGroupID:prefGroupID];
 }
 
 #pragma mark - Display Mode
@@ -2147,9 +2147,9 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     [_gameViewController setDiscCount:discCount];
 }
 
-- (void)setAdvancedMenu:(NSArray <NSDictionary <NSString *, id> *> *)advancedMenu
+- (void)setCorePreferences:(NSArray <NSDictionary <NSString *, id> *> *)corePreferences
 {
-    [_gameViewController setAdvancedMenu:advancedMenu];
+    [_gameViewController setCorePreferences:corePreferences];
 }
 
 - (void)setDisplayModes:(NSArray <NSDictionary <NSString *, id> *> *)displayModes

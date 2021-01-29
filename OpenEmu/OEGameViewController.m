@@ -40,7 +40,7 @@ NSNotificationName const OEGameViewControllerEmulationDidFinishNotification = @"
 NSString *const OEGameVolumeKey = @"volume";
 NSString *const OEGameDefaultVideoShaderKey = @"videoShader";
 NSString *const OEGameSystemVideoShaderKeyFormat = @"videoShader.%@";
-NSString *const OEGameCoreAdvancedMenuKeyFormat = @"advancedMenu.%@";
+NSString *const OEPreferenceKeyFormat = @"corePreference.%@";
 NSString *const OEGameCoreDisplayModeKeyFormat = @"displayMode.%@";
 NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
 NSString *const OEBackgroundPauseKey = @"backgroundPause";
@@ -215,9 +215,9 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
     return [[self document] supportsFileInsertion];
 }
 
-- (BOOL)supportsAdvancedMenu
+- (BOOL)supportsPreferences
 {
-    return [[self document] supportsAdvancedMenu];
+    return [[self document] supportsPreferences];
 }
 
 - (BOOL)supportsDisplayModeChange

@@ -32,7 +32,7 @@ extern NSNotificationName const OEGameViewControllerEmulationDidFinishNotificati
 extern NSString *const OEGameVolumeKey;
 extern NSString *const OEGameDefaultVideoShaderKey;
 extern NSString *const OEGameSystemVideoShaderKeyFormat;
-extern NSString *const OEGameCoreAdvancedMenuKeyFormat;
+extern NSString *const OEPreferenceKeyFormat;
 extern NSString *const OEGameCoreDisplayModeKeyFormat;
 extern NSString *const OEGameCoresInBackgroundKey;
 extern NSString *const OEGameViewControllerROMKey;
@@ -87,7 +87,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 @property(readonly) BOOL supportsSaveStates;
 @property(readonly) BOOL supportsMultipleDiscs;
 @property(readonly) BOOL supportsFileInsertion;
-@property(readonly) BOOL supportsAdvancedMenu;
+@property(readonly) BOOL supportsPreferences;
 @property(readonly) BOOL supportsDisplayModeChange;
 @property(readonly) NSString *coreIdentifier;
 @property(readonly) NSString *systemIdentifier;
@@ -122,7 +122,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 @property (readonly) OEIntSize aspectSize;
 @property (readonly) OEIntSize screenSize;
 @property (nonatomic) NSUInteger discCount;
-@property (nonatomic) NSArray <NSDictionary <NSString *, id> *> *advancedMenu;
+@property (nonatomic) NSArray <NSDictionary <NSString *, id> *> *corePreferences;
 @property (nonatomic) NSArray <NSDictionary <NSString *, id> *> *displayModes;
 @property (nonatomic) NSUInteger remoteContextID;
 

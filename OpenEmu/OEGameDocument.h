@@ -117,8 +117,8 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 - (BOOL)supportsFileInsertion;
 
 #pragma mark - Display Mode
-- (void)changeAdvancedMenu:(id)sender;
-- (BOOL)supportsAdvancedMenu;
+- (void)changePreference:(id)sender;
+- (BOOL)supportsPreferences;
 
 #pragma mark - Display Mode
 - (void)changeDisplayMode:(id)sender;
