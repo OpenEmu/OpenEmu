@@ -30,7 +30,8 @@
 
 - (NSString *)serialLookupForFile:(__kindof OEFile *)file
 {
-    return [file readASCIIStringInRange:NSMakeRange(0xC, 4)];
+    NSString *serial = [file readASCIIStringInRange:NSMakeRange(0xC, 4)];
+    return [serial isEqualToString:@"NTRJ"] ? nil : serial;
 }
 
 @end
