@@ -1510,6 +1510,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     NSString *prefKey  = optionDict[OEPreferencePrefKeyNameKey];
     NSString *prefVal  = optionDict[OEPreferencePrefValueNameKey];
     NSString *preferenceName = optionDict[OEPreferenceNameKey];
+    NSString *preferenceID  = optionDict[OEPreferenceIDKey];
     NSString *prefGroupID = optionDict[OEPreferenceGroupIDKey];
     NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
     NSMutableDictionary <NSString *, id> *preferenceInfo = [NSMutableDictionary dictionary];
@@ -1535,7 +1536,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     if (!isPrefSaveDisallowed)
         [defaults setObject:preferenceInfo forKey:preferenceKeyForCore];
 
-    [_gameCoreManager changePreferenceOption:preferenceName prefGroupID:prefGroupID];
+    [_gameCoreManager changePreferenceOption:preferenceID prefGroupID:prefGroupID];
 }
 
 #pragma mark - Display Mode

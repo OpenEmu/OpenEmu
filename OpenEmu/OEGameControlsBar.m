@@ -485,7 +485,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
         NSString *preferenceName;
         BOOL selected, enabled;
-        NSInteger indentationLevel;
+        NSInteger indentationLevel, min, max, val;
         
         for (NSDictionary *preferencesMenuDict in self.gameViewController.corePreferences)
         {
@@ -500,7 +500,10 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             selected         = [preferencesMenuDict[OEPreferenceStateKey] boolValue];
             enabled          =  preferencesMenuDict[OEPreferenceLabelKey] ? NO : YES;
             indentationLevel = [preferencesMenuDict[OEPreferenceIndentationLevelKey] integerValue] ?: 0;
-
+            min              = [preferencesMenuDict[OEPreferenceMinKey] integerValue] ?: 0;
+            max              = [preferencesMenuDict[OEPreferenceMaxKey] integerValue] ?: 0;
+            val              = [preferencesMenuDict[OEPreferenceDefaultValKey] integerValue] ?: 0;
+                   
             // Menu group
             if (preferencesMenuDict[OEPreferenceGroupNameKey])
             {
@@ -519,7 +522,25 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
             NSMenuItem *advMainMenuItem = [[NSMenuItem alloc] initWithTitle:preferenceName action:@selector(changePreference:) keyEquivalent:@""];
             advMainMenuItem.representedObject = preferencesMenuDict;
-            advMainMenuItem.state = selected ? NSControlStateValueOn : NSControlStateValueOff;
+            if (max != 0){
+                NSMenuItem *sliderLabel = [[NSMenuItem alloc] initWithTitle:preferenceName action:nil keyEquivalent:@""];
+                sliderLabel.enabled = false;
+                [preferencesMenu addItem:sliderLabel];
+                
+                NSSlider *statusSlider = [NSSlider new];
+               
+                CGRect frame = statusSlider.frame;
+                frame.size.height = 16;
+                frame.size.width = 200;
+                
+                statusSlider.frame = frame;
+                statusSlider.enabled = enabled;
+                statusSlider.minValue = min;
+                statusSlider.maxValue = max;
+                statusSlider.intValue = (int)val;
+                advMainMenuItem.view = statusSlider;
+            } else
+                advMainMenuItem.state = selected ? NSControlStateValueOn : NSControlStateValueOff;
             advMainMenuItem.enabled = enabled;
             advMainMenuItem.indentationLevel = indentationLevel;
             [preferencesMenu addItem:advMainMenuItem];
@@ -734,7 +755,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 {
             NSString *preferenceName;
             BOOL selected, enabled;
-            NSInteger indentationLevel;
+            NSInteger indentationLevel, min, max, val;
             NSMenuItem *item;
     
             for (NSDictionary *advSubMenuDict in advMenuDict[OEPreferenceGroupItemsKey])
@@ -750,7 +771,10 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                 selected         = [advSubMenuDict[OEPreferenceStateKey] boolValue];
                 enabled          =  advSubMenuDict[OEPreferenceLabelKey] ? NO : YES;
                 indentationLevel = [advSubMenuDict[OEPreferenceIndentationLevelKey] integerValue] ?: 0;
-    
+                min              = [advSubMenuDict[OEPreferenceMinKey] integerValue] ?: 0;
+                max              = [advSubMenuDict[OEPreferenceMaxKey] integerValue] ?: 0;
+                val              = [advSubMenuDict[OEPreferenceDefaultValKey] integerValue] ?: 0;
+                
                 // Submenu group
                 if (advSubMenuDict[OEPreferenceGroupNameKey])
                 {
@@ -769,7 +793,25 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
                 NSMenuItem *advSubMenuItem = [[NSMenuItem alloc] initWithTitle:preferenceName action:@selector(changePreference:) keyEquivalent:@""];
                 advSubMenuItem.representedObject = advSubMenuDict;
-                advSubMenuItem.state = selected ? NSControlStateValueOn : NSControlStateValueOff;
+                if (max != 0){
+                    NSMenuItem *sliderLabel = [[NSMenuItem alloc] initWithTitle:preferenceName action:nil keyEquivalent:@""];
+                    sliderLabel.enabled = false;
+                    [advMenu addItem:sliderLabel];
+                    
+                    NSSlider *statusSlider = [NSSlider new];
+                   
+                    CGRect frame = statusSlider.frame;
+                    frame.size.height = 16;
+                    frame.size.width = 200;
+                    
+                    statusSlider.frame = frame;
+                    statusSlider.enabled = enabled;
+                    statusSlider.minValue = min;
+                    statusSlider.maxValue = max;
+                    statusSlider.intValue = (int)val;
+                    advSubMenuItem.view = statusSlider;
+                } else
+                    advSubMenuItem.state = selected ? NSControlStateValueOn : NSControlStateValueOff;
                 advSubMenuItem.enabled = enabled;
                 advSubMenuItem.indentationLevel = indentationLevel;
                 [advMenu addItem:advSubMenuItem];
