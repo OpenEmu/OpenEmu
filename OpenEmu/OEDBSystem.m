@@ -346,7 +346,7 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
     NSLog(@"%@ System last localized name is %@", prefix, self.lastLocalizedName);
     NSLog(@"%@ short name is %@", prefix, self.shortname);
     NSLog(@"%@ system identifier is %@", prefix, self.systemIdentifier);
-    NSLog(@"%@ enabled? %s", prefix, BOOL_STR(self.enabled));
+    NSLog(@"%@ enabled? %s", prefix, BOOL_STR(self.enabled.boolValue));
 
     NSLog(@"%@ Number of games in this system is %lu", prefix, (unsigned long)self.games.count);
 

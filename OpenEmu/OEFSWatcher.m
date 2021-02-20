@@ -113,7 +113,7 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
 		[defaults setObject:currentUUID forKey:uuidKey];
 
 		NSNumber *storedEventID = [defaults valueForKey:key];
-		if(storedEventID) {
+		if(storedEventID != nil) {
 			lastEventID = [storedEventID unsignedLongLongValue];
 		}
 	}

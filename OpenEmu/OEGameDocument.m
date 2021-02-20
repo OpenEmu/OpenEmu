@@ -334,7 +334,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     NSDictionary <NSString *, id> *lastDisplayModeInfo = ([NSUserDefaults.standardUserDefaults objectForKey:[NSString stringWithFormat:OEGameCoreDisplayModeKeyFormat, _corePlugin.bundleIdentifier]]
                                 ? : nil);
      // if file is in an archive append :entryIndex to path, so the core manager can figure out which entry to load
-    if([[self rom] archiveFileIndex])
+    if([[self rom] archiveFileIndex] != nil)
         path = [path stringByAppendingFormat:@":%d",[[[self rom] archiveFileIndex] intValue]];
     
     // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)

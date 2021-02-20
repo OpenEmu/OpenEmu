@@ -322,7 +322,7 @@ NS_ASSUME_NONNULL_BEGIN
     if(moveToTrash && [url isSubpathOfURL:self.libraryDatabase.romsFolderURL])
     {
         NSInteger count = 1;
-        if([self archiveFileIndex])
+        if([self archiveFileIndex] != nil)
         {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", [self location]];
             NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[[self class] entityName]];
@@ -399,7 +399,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSLog(@"%@ Beginning of ROM dump", prefix);
 
     NSLog(@"%@ ROM location is %@", prefix, self.location);
-    NSLog(@"%@ favorite? %s", prefix, BOOL_STR(self.isFavorite));
+    NSLog(@"%@ favorite? %s", prefix, BOOL_STR(self.isFavorite.boolValue));
     NSLog(@"%@ MD5 is %@", prefix, self.md5);
     NSLog(@"%@ last played is %@", prefix, self.lastPlayed);
     NSLog(@"%@ file size is %@", prefix, self.fileSize);
