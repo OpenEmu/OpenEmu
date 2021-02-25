@@ -243,6 +243,8 @@
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>iso</string>
+		<string>cue</string>
+		<string>ccd</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
