@@ -245,6 +245,7 @@
 		<string>cue</string>
 		<string>ccd</string>
 		<string>m3u</string>
+		<string>pbp</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
