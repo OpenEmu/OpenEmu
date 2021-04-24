@@ -35,6 +35,7 @@ extern NSString *const OEGameControlsBarShowsAudioOutput;
 
 @class OEGameViewController;
 @interface OEGameControlsBar : NSWindow <NSMenuDelegate>
+@property (strong) NSMutableArray *cheats;
 
 - (id)initWithGameViewController:(OEGameViewController*)controller;
 

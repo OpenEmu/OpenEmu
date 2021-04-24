@@ -25,7 +25,7 @@
  */
 
 #import "OEGameControlsBar.h"
-
+#import "OEPErsistentCheats.h"
 #import "OEDBRom.h"
 
 @import OpenEmuKit;
@@ -54,7 +54,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 @interface OEGameControlsBar () <CAAnimationDelegate>
 @property (strong) id eventMonitor;
 @property (strong) NSTimer *fadeTimer;
-@property (strong) NSMutableArray *cheats;
 @property          NSMutableSet *openMenus;
 @property          BOOL cheatsLoaded;
 
@@ -174,6 +173,11 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     _fadeTimer = nil;
     _gameViewController = nil;
 
+    // Record cheat state.
+    BOOL saveResult = [OEPErsistentCheats persistROMCheats:self.gameViewController.document.rom.URL
+                                             withCheatList:self.cheats];
+    NSLog(@"%s -- result of saveResult == %@", __PRETTY_FUNCTION__, @(saveResult));
+    
     [NSEvent removeMonitor:_eventMonitor];
 
     _gameWindow = nil;
@@ -199,6 +203,11 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         {
             OECheats *cheatsXML = [[OECheats alloc] initWithMd5Hash:md5Hash];
             _cheats             = [cheatsXML.allCheats mutableCopy];
+            
+            _cheats = [NSMutableArray array]; // Disable lame XML cheats, which has like 5 games of codes.
+            // Merge any persisted cheats.
+            NSArray *persistedCheats = [OEPErsistentCheats loadROMCheats:self.gameViewController.document.rom.URL];
+            [_cheats addObjectsFromArray:persistedCheats];
             _cheatsLoaded       = YES;
         }
     }

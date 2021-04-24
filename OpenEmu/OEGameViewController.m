@@ -25,6 +25,7 @@
  */
 
 #import "OEGameViewController.h"
+#import "OEPErsistentCheats.h"
 
 @import OpenEmuKit;
 @import OpenEmuSystem;
@@ -172,6 +173,9 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
 {
     [super viewWillDisappear];
 
+    BOOL saveResult = [OEPErsistentCheats persistROMCheats:self.document.rom.URL
+                                             withCheatList:_controlsWindow.cheats];
+    NSLog(@"%s -- result of saveResult == %@", __PRETTY_FUNCTION__, @(saveResult));
     [_controlsWindow hideAnimated:NO];
     [_controlsWindow setGameWindow:nil];
     [[self OE_rootWindow] removeChildWindow:_controlsWindow];
