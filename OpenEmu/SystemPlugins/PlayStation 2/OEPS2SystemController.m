@@ -34,9 +34,10 @@
         return OEFileSupportNo;
 
     NSString *dataTrackString = [file readASCIIStringInRange:NSMakeRange(0x8008, 11)];
+    NSString *dataTrackString2 = [file readASCIIStringInRange:NSMakeRange(0x9320, 11)];
 
     // Only tested this on one ISO. Might be different for DVDs.
-    return [dataTrackString isEqualToString:@"PLAYSTATION"] ? OEFileSupportYes : OEFileSupportNo;
+    return ([dataTrackString isEqualToString:@"PLAYSTATION"] || [dataTrackString2 isEqualToString:@"PLAYSTATION"]) ? OEFileSupportYes : OEFileSupportNo;
 }
 
 - (NSString *)serialLookupForFile:(__kindof OEFile *)file
