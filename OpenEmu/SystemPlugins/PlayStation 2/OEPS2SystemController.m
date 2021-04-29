@@ -30,7 +30,7 @@
 
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    if (![file isKindOfClass:[OEDiscDescriptor class]])
+    if (!([file isKindOfClass:[OEDiscDescriptor class]] || [file.fileExtension caseInsensitiveCompare:@"iso"] == NSOrderedSame))
         return OEFileSupportNo;
 
     NSString *dataTrackString = [file readASCIIStringInRange:NSMakeRange(0x8008, 11)];
@@ -42,7 +42,7 @@
 
 - (NSString *)serialLookupForFile:(__kindof OEFile *)file
 {
-    if(![file isKindOfClass:[OEDiscDescriptor class]])
+    if(!([file isKindOfClass:[OEDiscDescriptor class]] || [file.fileExtension caseInsensitiveCompare:@"iso"] == NSOrderedSame))
         return nil;
 
     // ISO 9660 CD001, check for MODE1 or MODE2
