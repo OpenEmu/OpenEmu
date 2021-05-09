@@ -166,5 +166,12 @@
 			</dict>
 		</dict>
 	</array>
+	<key>OpenEmuKit</key>
+	<dict>
+		<key>XPCBrokerServiceName</key>
+		<string>org.openemu.broker</string>
+		<key>XPCHelperExecutableName</key>
+		<string>OpenEmuHelperApp</string>
+	</dict>
 </dict>
 </plist>

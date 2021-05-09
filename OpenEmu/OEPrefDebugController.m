@@ -37,8 +37,6 @@
 
 #import "OEGameViewController.h"
 
-#import "OEXPCGameCoreManager.h"
-
 #import "OEGameDocument.h"
 
 #import "OEGameInfoHelper.h"

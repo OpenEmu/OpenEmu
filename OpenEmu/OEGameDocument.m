@@ -29,7 +29,6 @@
 @import OpenEmuKit;
 #import "OEGameDocument.h"
 
-#import "OEXPCGameCoreManager.h"
 #import "OEAudioDeviceManager.h"
 #import "OECoreUpdater.h"
 #import "OEDBRom.h"
