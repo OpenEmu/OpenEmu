@@ -110,7 +110,6 @@ extern NSString *const OEScreenshotPropertiesKey;
 - (void)toggleControlsVisibility:(id)sender;
 
 #pragma mark - Screenshots support
-- (NSImage *)screenshot;
 - (IBAction)takeScreenshot:(id)sender;
 
 #pragma mark - Info

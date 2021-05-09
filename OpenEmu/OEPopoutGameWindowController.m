@@ -664,6 +664,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     OEGameViewController *gameViewController = self.OE_gameDocument.gameViewController;
     [[gameViewController controlsWindow] setCanShow:NO];
     [[gameViewController controlsWindow] hideAnimated:YES];
+    [_screenshotWindow setScreenshot:self.OE_gameDocument.screenshot];
     
     self.window.contentMinSize = _OEPopoutGameWindowMinSize;
     self.window.contentMaxSize = NSMakeSize(FLT_MAX, FLT_MAX);
@@ -676,14 +677,12 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 
 - (void)window:(NSWindow *)window startCustomAnimationToEnterFullScreenWithDuration:(NSTimeInterval)duration
 {
-    OEGameViewController *gameViewController = self.OE_gameDocument.gameViewController;
     NSScreen *mainScreen                     = window.screen;
     const NSRect screenFrame                 = [mainScreen frame];
     const NSTimeInterval hideBorderDuration  = duration / 4;
     const NSTimeInterval resizeDuration      = duration - hideBorderDuration;
     const NSRect sourceScreenshotFrame       = [window contentRectForFrameRect:window.frame];
-
-    [_screenshotWindow setScreenshot:[gameViewController screenshot]];
+    
     [_screenshotWindow setFrame:sourceScreenshotFrame display:YES];
     [_screenshotWindow orderFront:self];
     
@@ -796,7 +795,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         screenshotFrame = NSIntegralRect(screenshotFrame);
     }
 
-    [_screenshotWindow setScreenshot:[gameViewController screenshot]];
+    [_screenshotWindow setScreenshot:self.OE_gameDocument.screenshot];
     [_screenshotWindow setFrame:screenshotFrame display:YES];
     [_screenshotWindow orderFront:self];
     [window setAlphaValue:0.0];

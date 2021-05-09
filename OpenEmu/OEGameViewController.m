@@ -229,11 +229,6 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
     return [[self document] systemIdentifier];
 }
 
-- (NSImage *)screenshot
-{
-    return [self.document screenshot];
-}
-
 - (IBAction)takeScreenshot:(id)sender
 {
     [[self document] takeScreenshot:sender];
