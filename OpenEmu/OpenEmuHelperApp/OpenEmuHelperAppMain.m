@@ -27,18 +27,6 @@
 @import Cocoa;
 @import OpenEmuKit;
 
-@interface OpenEmuXPCHelperApp: OpenEmuXPCHelperAppBase
-@end
-
-@implementation OpenEmuXPCHelperApp
-
-- (NSString *)serviceName
-{
-    return @"org.openemu.broker";
-}
-
-@end
-
 int main(int argc, const char * argv[])
 {
     static OpenEmuHelperApp *helperApp;

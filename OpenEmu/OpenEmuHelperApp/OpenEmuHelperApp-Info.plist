@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.openemu.OpenEmuHelperApp</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -16,5 +16,10 @@
 	<string>2.3.3</string>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
+	<key>OpenEmuKit</key>
+	<dict>
+		<key>XPCBrokerServiceName</key>
+		<string>org.openemu.broker</string>
+	</dict>
 </dict>
 </plist>
