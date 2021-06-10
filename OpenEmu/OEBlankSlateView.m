@@ -314,6 +314,10 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
                                   NSWidth(containerFrame) - OEBlankSlateRightColumnX,
                                   20.0);
         
+        if (@available(macOS 11.0, *)) {
+            frame.origin.x += 2;
+        }
+        
         OETextButton *gotoButton = [[OETextButton alloc] initWithFrame:frame];
         
         gotoButton.autoresizingMask = NSViewWidthSizable;
