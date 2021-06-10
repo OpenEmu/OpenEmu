@@ -37,7 +37,7 @@
 
 #import "OpenEmu-Swift.h"
 
-@interface OEBlankSlateView () <NSTextViewDelegate, CALayoutManager>
+@interface OEBlankSlateView () <NSTextViewDelegate, CALayerDelegate>
 
 @property CALayer *dragIndicationLayer;
 @property NSDragOperation lastDragOperation;
@@ -94,7 +94,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 - (void)commonBlankSlateInit
 {
     CALayer *layer = [CALayer layer];
-    layer.layoutManager = self;
+    layer.delegate = self;
     self.layer = layer;
     
     NSAppearance.currentAppearance = self.effectiveAppearance;
