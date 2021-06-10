@@ -3586,7 +3586,7 @@
 			<key>OEControllerNintendoSwitchProControllerButtonShare</key>
 			<dict>
 				<key>Name</key>
-				<string>Share</string>
+				<string>Capture</string>
 				<key>Type</key>
 				<string>Button</string>
 				<key>Usage</key>
