@@ -35,6 +35,7 @@ protocol ImageDataSourceDelegate {
     func loadHeaderView(_ view: ImageCollectionHeaderView, at indexPath: IndexPath)
     func fetchItems()
     func indexPath(forID id: NSManagedObjectID) -> IndexPath?
+    func item(at indexPath: IndexPath) -> Any
     
     func permanentIDURIs(forItemsAt indexPaths: Set<IndexPath>) -> [URL]
     func imageURL(forItemAt indexPath: IndexPath) -> URL?
@@ -174,6 +175,11 @@ class ImagesDataSource<Model: OEDBItem>: ImageDataSourceDelegate {
         }
         
         return group[indexPath.item]
+    }
+    
+    func item(at indexPath: IndexPath) -> Any {
+        let item: Model? = item(at: indexPath)
+        return item as Any
     }
     
     func permanentIDURIs(forItemsAt indexPaths: Set<IndexPath>) -> [URL] {

@@ -358,7 +358,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
                                                           corePluginPath:_corePlugin.path
                                                         systemPluginPath:_systemPlugin.path];
 
-    return [[managerClass alloc] initWithStartupInfo:info corePlugin:_corePlugin systemPlugin:_systemPlugin gameCoreOwner:self queue: nil];
+    return [[managerClass alloc] initWithStartupInfo:info corePlugin:_corePlugin systemPlugin:_systemPlugin gameCoreOwner:self];
 }
 
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError
@@ -734,10 +734,9 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
         handler(NO, nil);
         return;
     }
-    
     [_gameCoreManager loadROMWithCompletionHandler:^{
-        [self->_gameCoreManager setupEmulationWithCompletionHandler:^(OEIntSize screenSize, OEIntSize aspectSize) {
-            [self->_gameViewController setScreenSize:screenSize aspectSize:aspectSize];
+        [self->_gameCoreManager setupEmulationWithCompletionHandler:^(OEGameCoreHelperSetupResult result) {
+            [self->_gameViewController setScreenSize:result.screenSize aspectSize:result.aspectSize];
             
             DLog(@"SETUP DONE.");
             self->_emulationStatus = OEEmulationStatusSetup;
@@ -925,14 +924,14 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
                 image = [image resized:newSize];
             }
             __block NSData *imageData = [image representationUsingType:type properties:properties];
-            [self performSelectorOnMainThread:@selector(OE_writeScreenshotImageData:) withObject:imageData waitUntilDone:NO];
+            [self OE_writeScreenshotImageData:imageData];
         }];
     }
     else
     {
         [_gameCoreManager captureOutputImageWithCompletionHandler:^(NSBitmapImageRep *image) {
             __block NSData *imageData = [image representationUsingType:type properties:properties];
-            [self performSelectorOnMainThread:@selector(OE_writeScreenshotImageData:) withObject:imageData waitUntilDone:NO];
+            [self OE_writeScreenshotImageData:imageData];
         }];
     }
 }
@@ -964,15 +963,9 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 }
 
 - (NSImage *)screenshot {
-    __block dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-    __block NSImage *screenshot = nil;
-    [_gameCoreManager captureOutputImageWithCompletionHandler:^(NSBitmapImageRep *image) {
-        screenshot = [[NSImage alloc] initWithSize:image.size];
-        [screenshot addRepresentation:image];
-        dispatch_semaphore_signal(sem);
-    }];
-    
-    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+    NSBitmapImageRep *rep = [_gameCoreManager captureOutputImage];
+    NSImage *screenshot = [[NSImage alloc] initWithSize:rep.size];
+    [screenshot addRepresentation:rep];
     return screenshot;
 }
 
@@ -1679,7 +1672,8 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 
 - (void)saveState
 {
-    [self saveState:nil];
+    [NSApp sendAction:@selector(saveState:) to:nil from:nil];
+    //[self saveState:nil];
 }
 
 - (void)saveState:(id)sender
@@ -1711,7 +1705,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
         if ([[alert stringValue] isEqual: @""]) {
             [self OE_saveStateWithName:proposedName completionHandler:nil];
         } else {
-        [self OE_saveStateWithName:[alert stringValue] completionHandler:nil];
+            [self OE_saveStateWithName:[alert stringValue] completionHandler:nil];
         }
     }
     
@@ -1957,23 +1951,23 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     if([alert runModal] == NSAlertFirstButtonReturn) [state deleteAndRemoveFiles];
 }
 
-#pragma mark - OEGameViewControllerDelegate methods
+#pragma mark - Methods called by OEGameViewController
 
-- (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
+- (void)didReceiveMouseEvent:(OEEvent *)event;
 {
     [_gameCoreManager handleMouseEvent:event];
 }
 
-- (void)gameViewController:(OEGameViewController *)sender updateBounds:(CGRect)newBounds
+- (void)updateBounds:(CGRect)newBounds
 {
     [_gameCoreManager setOutputBounds:newBounds];
 }
 
-- (void)gameViewController:(OEGameViewController *)sender updateBackingScaleFactor:(CGFloat)newScaleFactor {
+- (void)updateBackingScaleFactor:(CGFloat)newScaleFactor {
     [_gameCoreManager setBackingScaleFactor:newScaleFactor];
 }
 
-- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url parameters:(NSDictionary<NSString *, NSNumber *> *)parameters completionHandler:(void (^)(BOOL success, NSError *error))block
+- (void)setShaderURL:(NSURL *)url parameters:(NSDictionary<NSString *, NSNumber *> *)parameters completionHandler:(void (^)(BOOL success, NSError * _Nullable error))block
 {
     [_gameCoreManager setShaderURL:url parameters:parameters completionHandler:block];
 }

@@ -62,14 +62,6 @@ extern NSString *const OEScreenshotPropertiesKey;
 
 @protocol OEGameIntegralScalingDelegate;
 
-@protocol OEGameViewControllerDelegate <NSObject>
-- (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
-- (void)gameViewController:(OEGameViewController *)sender updateBounds:(CGRect)newBounds;
-- (void)gameViewController:(OEGameViewController *)sender updateBackingScaleFactor:(CGFloat)newScaleFactor;
-- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url parameters:(NSDictionary<NSString *, NSNumber *> *)parameters completionHandler:(void (^)(BOOL success, NSError *error))block;
-
-@end
-
 @interface OEGameViewController : NSViewController <NSMenuItemValidation>
 
 #pragma mark -

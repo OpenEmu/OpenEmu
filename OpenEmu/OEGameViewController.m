@@ -76,10 +76,8 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
     // Standard game document stuff
     OEScaledGameLayerView   *_scaledView;
     OEGameLayerView         *_gameView;
-    NSArray<NSLayoutConstraint *> *_gameViewContraints;
     
     OEGameLayerNotificationView   *_notificationView;
-    BOOL        _pausedByGoingToBackground;
     
     // Shader support
     OEShaderControl                     *_shaderControl;
@@ -263,7 +261,7 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
     NSDictionary<NSString *, NSNumber *> *params = [shader parametersForIdentifier:self.document.systemIdentifier];
     
     if (shader) {
-        [self.document gameViewController:self setShaderURL:shader.url parameters:params completionHandler:^(BOOL success, NSError *error) {
+        [self.document setShaderURL:shader.url parameters:params completionHandler:^(BOOL success, NSError *error) {
             if (success)
             {
                 [self didLoadShader:shader];
@@ -353,17 +351,17 @@ CGFloat const DEFAULT_HEIGHT = 300.0;
 
 - (void)gameView:(OEGameLayerView *)gameView didReceiveMouseEvent:(OEEvent *)event
 {
-    [[self document] gameViewController:self didReceiveMouseEvent:event];
+    [self.document didReceiveMouseEvent:event];
 }
 
 - (void)gameView:(OEGameLayerView *)gameView updateBounds:(CGRect)newBounds
 {
-    [[self document] gameViewController:self updateBounds:newBounds];
+    [self.document updateBounds:newBounds];
 }
 
 - (void)gameView:(OEGameLayerView *)gameView updateBackingScaleFactor:(CGFloat)newScaleFactor
 {
-    [[self document] gameViewController:self updateBackingScaleFactor:newScaleFactor];
+    [self.document updateBackingScaleFactor:newScaleFactor];
 }
 
 @end

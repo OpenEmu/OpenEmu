@@ -33,9 +33,9 @@ int main(int argc, const char * argv[])
     @autoreleasepool
     {
 #if 0
-        // NOTE: enable this block and be given 10s to attach Xcode
-        // to debug process
-        [OEXPCCDebugSupport waitForDebugger];
+        // NOTE: Enable this block and the helper app will wait indefinitely
+        // for a debugger to attach before proceeding.
+        [XPCDebugSupport waitForDebuggerUntil:NSDate.distantFuture];
 #endif
 
         helperApp = [OpenEmuXPCHelperApp new];

@@ -52,7 +52,7 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 @class OESystemPlugin;
 @class OEEvent;
 
-@interface OEGameDocument : NSDocument <OEGameViewControllerDelegate>
+@interface OEGameDocument : NSDocument
 
 - (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin *)core error:(NSError **)outError;
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core error:(NSError **)outError;
@@ -134,9 +134,11 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 - (void)toggleFullScreen:(id)sender;
 
 #pragma mark - OEGameViewController Methods
+
 - (void)setOutputBounds:(NSRect)bounds;
-- (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
-- (void)gameViewController:(OEGameViewController *)sender updateBounds:(CGRect)newBounds;
-- (void)gameViewController:(OEGameViewController *)sender setShaderURL:(NSURL *)url parameters:(NSDictionary<NSString *, NSNumber *> *)parameters completionHandler:(void (^)(BOOL success, NSError *error))block;
+- (void)didReceiveMouseEvent:(OEEvent *)event;
+- (void)updateBackingScaleFactor:(CGFloat)newScaleFactor;
+- (void)updateBounds:(CGRect)newBounds;
+- (void)setShaderURL:(NSURL *)url parameters:(NSDictionary<NSString *, NSNumber *> *)parameters completionHandler:(void (^)(BOOL success, NSError * error))block;
 
 @end

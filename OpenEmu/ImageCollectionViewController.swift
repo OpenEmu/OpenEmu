@@ -378,7 +378,7 @@ extension ImageCollectionViewController: NSCollectionViewDataSource {
         
         var selectedItemIDs = Set<NSManagedObjectID>()
         for indexPath in collectionView.selectionIndexPaths {
-            if let item = collectionView.item(at: indexPath)?.representedObject as? OEDBItem {
+            if let item = dataSourceDelegate.item(at: indexPath) as? OEDBItem {
                 selectedItemIDs.insert(item.objectID)
             }
         }
@@ -394,7 +394,7 @@ extension ImageCollectionViewController: NSCollectionViewDataSource {
         
         var selectedIndexPaths = Set<IndexPath>()
         for indexPath in indexPaths {
-            if let item = collectionView.item(at: indexPath)?.representedObject as? OEDBItem,
+            if let item = dataSourceDelegate.item(at: indexPath) as? OEDBItem,
                selectedItemIDs.contains(item.objectID) {
                 selectedIndexPaths.insert(indexPath)
             }
