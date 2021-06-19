@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -21,12 +21,12 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NHb-8I-u1p">
+                <textField wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="NHb-8I-u1p">
                     <rect key="frame" x="18" y="5" width="86" height="17"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="17" id="dao-tQ-N3M"/>
                     </constraints>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Section Title" id="BKq-b6-TJb" userLabel="Section Title">
+                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Section Title" id="BKq-b6-TJb" userLabel="Section Title">
                         <font key="font" metaFont="systemBold"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -34,6 +34,7 @@
                 </textField>
             </subviews>
             <constraints>
+                <constraint firstItem="Ez8-x4-kUV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NHb-8I-u1p" secondAttribute="trailing" constant="8" symbolic="YES" id="Bz7-3S-Ujt"/>
                 <constraint firstItem="NHb-8I-u1p" firstAttribute="leading" secondItem="01D-Kh-crt" secondAttribute="leading" constant="20" symbolic="YES" id="GSx-vc-TI3"/>
                 <constraint firstAttribute="trailing" secondItem="Ez8-x4-kUV" secondAttribute="trailing" constant="20" symbolic="YES" id="SLw-9c-ns2"/>
                 <constraint firstItem="NHb-8I-u1p" firstAttribute="centerY" secondItem="01D-Kh-crt" secondAttribute="centerY" id="VSd-7m-QXh"/>
