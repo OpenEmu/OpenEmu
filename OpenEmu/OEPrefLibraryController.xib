@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="620" height="354"/>
             <subviews>
                 <gridView horizontalHuggingPriority="249" verticalHuggingPriority="600" xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" translatesAutoresizingMaskIntoConstraints="NO" id="T5w-dz-S0s">
-                    <rect key="frame" x="30" y="19" width="559" height="315"/>
+                    <rect key="frame" x="30" y="18" width="559" height="316"/>
                     <constraints>
                         <constraint firstItem="D1O-dF-TRh" firstAttribute="leading" secondItem="T5w-dz-S0s" secondAttribute="leading" id="Deh-u2-4IZ"/>
                         <constraint firstItem="3Ox-G1-m3j" firstAttribute="leading" secondItem="T5w-dz-S0s" secondAttribute="leading" id="Oth-70-wjf"/>
@@ -46,7 +46,7 @@
                     <gridCells>
                         <gridCell row="uy1-hz-6Cy" column="oTy-pp-h5N" yPlacement="bottom" id="f2J-dK-eE0">
                             <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Library Location:">
-                                <rect key="frame" x="-2" y="297" width="187" height="16"/>
+                                <rect key="frame" x="-2" y="298" width="187" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Game Library Folder Location:" id="19">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -59,7 +59,7 @@
                         </gridCell>
                         <gridCell row="uy1-hz-6Cy" column="WTK-4D-5ET" yPlacement="bottom" id="uhe-y2-BoJ">
                             <pathControl key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="200" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-tf-vv5">
-                                <rect key="frame" x="189" y="293" width="226" height="22"/>
+                                <rect key="frame" x="189" y="294" width="199" height="22"/>
                                 <pathCell key="cell" selectable="YES" focusRingType="none" alignment="left" id="El6-wi-KVm">
                                     <font key="font" metaFont="system"/>
                                     <url key="url" string="file://localhost/Applications/"/>
@@ -69,11 +69,11 @@
                         <gridCell row="IDg-pY-p2S" column="oTy-pp-h5N" id="Ok7-bB-YYe"/>
                         <gridCell row="IDg-pY-p2S" column="WTK-4D-5ET" id="HD3-hn-TB9">
                             <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="bottom" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tme-Qp-T85">
-                                <rect key="frame" x="189" y="266" width="157" height="21"/>
+                                <rect key="frame" x="189" y="268" width="245" height="20"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="14">
-                                        <rect key="frame" x="-6" y="-7" width="98" height="32"/>
-                                        <buttonCell key="cell" type="push" title="Change…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15">
+                                        <rect key="frame" x="-7" y="-7" width="79" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Move..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -85,8 +85,8 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="13">
-                                        <rect key="frame" x="88" y="-7" width="75" height="32"/>
-                                        <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="16">
+                                        <rect key="frame" x="66" y="-7" width="186" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Move to Default Location" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="16">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -110,13 +110,13 @@
                         </gridCell>
                         <gridCell row="D7y-rV-j2j" column="oTy-pp-h5N" headOfMergedCell="gHb-Xc-Z1m" id="gHb-Xc-Z1m">
                             <box key="contentView" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="3Ox-G1-m3j">
-                                <rect key="frame" x="0.0" y="251" width="559" height="5"/>
+                                <rect key="frame" x="0.0" y="252" width="559" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="D7y-rV-j2j" column="WTK-4D-5ET" headOfMergedCell="gHb-Xc-Z1m" id="5zF-n2-TPy"/>
                         <gridCell row="G1f-wj-10F" column="oTy-pp-h5N" id="7kW-EW-y2q">
                             <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="etg-C7-Lej" userLabel="Reset all warnings:">
-                                <rect key="frame" x="27" y="223" width="158" height="16"/>
+                                <rect key="frame" x="27" y="225" width="158" height="16"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Reset all dialog warnings:" id="Ua1-J2-mdy">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -129,7 +129,7 @@
                         </gridCell>
                         <gridCell row="G1f-wj-10F" column="WTK-4D-5ET" id="UJ1-Sj-qXb">
                             <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q95-qb-F7X">
-                                <rect key="frame" x="183" y="213" width="135" height="32"/>
+                                <rect key="frame" x="182" y="215" width="129" height="32"/>
                                 <buttonCell key="cell" type="push" title="Reset Warnings" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -144,13 +144,13 @@
                         </gridCell>
                         <gridCell row="Yd5-Q8-6RB" column="oTy-pp-h5N" headOfMergedCell="egR-af-Kx8" id="egR-af-Kx8">
                             <box key="contentView" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="D1O-dF-TRh">
-                                <rect key="frame" x="0.0" y="205" width="559" height="5"/>
+                                <rect key="frame" x="0.0" y="207" width="559" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="Yd5-Q8-6RB" column="WTK-4D-5ET" headOfMergedCell="egR-af-Kx8" id="ab9-5X-AKU"/>
                         <gridCell row="fjJ-Lb-pEQ" column="oTy-pp-h5N" id="nIf-O2-6A4">
                             <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10">
-                                <rect key="frame" x="43" y="179" width="142" height="16"/>
+                                <rect key="frame" x="43" y="181" width="142" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Organization Methods:" id="18">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -163,7 +163,7 @@
                         </gridCell>
                         <gridCell row="fjJ-Lb-pEQ" column="WTK-4D-5ET" id="vYn-VI-b4U">
                             <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pdq-ib-TlX">
-                                <rect key="frame" x="187" y="178" width="360" height="18"/>
+                                <rect key="frame" x="187" y="180" width="364" height="18"/>
                                 <buttonCell key="cell" type="check" title="Copy files to Game Library folder when adding to library" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="20" userLabel="Check Box Cell">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -179,7 +179,7 @@
                         <gridCell row="p2b-aW-Bk6" column="oTy-pp-h5N" id="91u-Bo-SiS"/>
                         <gridCell row="p2b-aW-Bk6" column="WTK-4D-5ET" id="W7q-eF-KhO">
                             <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hEf-vx-kWr">
-                                <rect key="frame" x="187" y="157" width="321" height="18"/>
+                                <rect key="frame" x="187" y="158" width="325" height="18"/>
                                 <buttonCell key="cell" type="check" title="Automatically lookup game information &amp; artwork" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="21" userLabel="Check Box Cell">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>

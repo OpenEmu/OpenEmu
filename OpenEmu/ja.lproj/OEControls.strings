@@ -1,9 +1,9 @@
 
 /* Preferences: Library (OEPrefLibraryController.xib) */
 
-"Change…" = "変更…";
+"Move..." = "Move...";  // TODO
 
-"Reset" = "リセット";
+"Move to Default Location" = "Move to Default Location";  // TODO
 
 "Organization Methods:" = "整理順序:";
 

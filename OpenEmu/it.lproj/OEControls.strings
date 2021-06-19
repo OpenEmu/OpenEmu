@@ -1,9 +1,9 @@
 
 /* Preferences: Library (OEPrefLibraryController.xib) */
 
-"Change…" = "Cambia…";
+"Move..." = "Sposta...";
 
-"Reset" = "Reimposta";
+"Move to Default Location" = "Sposta nella posizione originale";
 
 "Organization Methods:" = "Organizzazione:";
 

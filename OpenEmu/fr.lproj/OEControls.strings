@@ -1,9 +1,9 @@
 
 /* Preferences: Library (OEPrefLibraryController.xib) */
 
-"Change…" = "Changer…";
+"Move..." = "Move...";  // TODO
 
-"Reset" = "Rétablir";
+"Move to Default Location" = "Move to Default Location";  // TODO
 
 "Organization Methods:" = "Méthodes d’organisation:";
 
