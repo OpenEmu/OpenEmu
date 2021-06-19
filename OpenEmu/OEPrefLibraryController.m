@@ -43,6 +43,7 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
 - (void)awakeFromNib
 {
     self.pathField.URL = [OELibraryDatabase defaultDatabase].databaseFolderURL;
+    [self showResetLocationButtonIfNeeded];
 }
 
 - (void)dealloc
@@ -103,7 +104,7 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
 #pragma mark UI Actions
 - (IBAction)resetLibraryFolder:(id)sender
 {
-    NSString *databasePath = [[[NSUserDefaults standardUserDefaults] valueForKey:OEDefaultDatabasePathKey] stringByDeletingLastPathComponent];
+    NSString *databasePath = [[[NSUserDefaults standardUserDefaults] stringForKey:OEDefaultDatabasePathKey] stringByDeletingLastPathComponent];
     NSURL    *location     = [NSURL fileURLWithPath:[databasePath stringByExpandingTildeInPath] isDirectory:YES];
 
     [self OE_moveGameLibraryToLocation:location];
@@ -133,6 +134,16 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
         if (returnCode == NSAlertSecondButtonReturn)
             [self OE_moveGameLibrary];
     }];
+}
+
+- (void)showResetLocationButtonIfNeeded
+{
+    NSString *defaultDatabasePath = [NSUserDefaults.standardUserDefaults stringForKey:OEDefaultDatabasePathKey];
+    NSURL *defaultLocation = [NSURL fileURLWithPath:defaultDatabasePath.stringByExpandingTildeInPath isDirectory:YES];
+    
+    NSURL *currentLocation = OELibraryDatabase.defaultDatabase.databaseFolderURL;
+    
+    self.resetLocationButton.hidden = [currentLocation isEqual:defaultLocation];
 }
 
 - (void)OE_moveGameLibrary
@@ -419,6 +430,7 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
     }
     
     self.pathField.URL = library.databaseFolderURL;
+    [self showResetLocationButtonIfNeeded];
 }
 
 - (IBAction)resetWarningDialogs:(id)sender

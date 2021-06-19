@@ -35,6 +35,7 @@ extern NSNotificationName const OELibraryLocationDidChangeNotification;
 @property (strong) IBOutlet OEAvailableLibrariesViewController *availableLibrariesViewController;
 @property IBOutlet NSPathControl *pathField;
 @property IBOutlet NSView      *librariesView;
+@property IBOutlet NSButton *resetLocationButton;
 
 #pragma mark -
 #pragma mark UI Actions

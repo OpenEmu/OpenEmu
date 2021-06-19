@@ -11,6 +11,7 @@
                 <outlet property="availableLibrariesViewController" destination="3wi-9o-3qK" id="1hd-mR-TTJ"/>
                 <outlet property="librariesView" destination="Cx7-H9-Kv5" id="YXN-PY-aCi"/>
                 <outlet property="pathField" destination="j1X-tf-vv5" id="pJX-b2-pHE"/>
+                <outlet property="resetLocationButton" destination="13" id="ULv-d5-T2W"/>
                 <outlet property="view" destination="3" id="34"/>
             </connections>
         </customObject>
@@ -59,7 +60,7 @@
                         </gridCell>
                         <gridCell row="uy1-hz-6Cy" column="WTK-4D-5ET" yPlacement="bottom" id="uhe-y2-BoJ">
                             <pathControl key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="200" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-tf-vv5">
-                                <rect key="frame" x="189" y="294" width="199" height="22"/>
+                                <rect key="frame" x="189" y="294" width="184" height="22"/>
                                 <pathCell key="cell" selectable="YES" focusRingType="none" alignment="left" id="El6-wi-KVm">
                                     <font key="font" metaFont="system"/>
                                     <url key="url" string="file://localhost/Applications/"/>
