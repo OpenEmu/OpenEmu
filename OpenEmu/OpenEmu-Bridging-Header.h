@@ -43,7 +43,6 @@
 #import "NSFileManager+OEHashingAdditions.h"
 #import "OEAudioDeviceManager.h"
 #import "NSImageRep+ApplePrivate.h"
-#import "NSWindow+BigSur.h"
 #import "OETableView.h"
 #import "OEHUDBar.h"
 #import "OELogging.h"

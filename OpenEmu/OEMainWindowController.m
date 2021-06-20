@@ -40,7 +40,6 @@
 #import "OEROMImporter.h"
 
 #import "NSDocument+OEAdditions.h"
-#import "NSWindow+BigSur.h"
 
 #import "OpenEmu-Swift.h"
 
@@ -130,9 +129,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     self.window.toolbar.centeredItemIdentifier = @"OEToolbarCategoryItem";
     
     if (@available(macOS 11.0, *)) {
-        #if __MAC_OS_X_VERSION_MAX_ALLOWED >= 101600
         self.window.toolbarStyle = NSWindowToolbarStyleUnified;
-        #endif
         self.window.titlebarSeparatorStyle = NSTitlebarSeparatorStyleLine;
     }
 }

@@ -63,6 +63,7 @@ class PreferencesWindowController: NSWindowController {
         self.window?.contentView = preferencesTabViewController.view
         
         if #available(macOS 11.0, *) {
+            window?.toolbarStyle = .preference
             window?.titlebarSeparatorStyle = .line
         }
         
