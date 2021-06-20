@@ -351,7 +351,7 @@
 
 "Play Save State" = "Spielstand starten";
 
-"Player %ld" = "Spieler %ld";
+"Player %ld" = "Spieler:in %ld";
 
 "Please close all games and wait for the importer to finish." = "Bitte beende alle Spiele und warte, bis der Import beendet ist.";
 
@@ -549,7 +549,7 @@
 
 "An issue was detected with one of your controllers." = "Bei einem deiner Controller wurde ein Problem festgestellt.";  // Headline for bindings repaired alert
 
-"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "Das Tastenprofil eines deiner Controller hat sich seit dem letzten Verbinden mit OpenEmu verändert. Einige der benutzerdefinierten Tastenzuordnungen des betroffenen Controllers wurden zurückgesetzt.\n\nDu kannst deine Tastenbelegung in den Steuerung-Einstellungen überprüfen.";  // Message for bindings repaired alert
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "Das Tastenprofil eines deiner Controller hat sich seit dem letzten Verbinden mit OpenEmu verändert, daher wurden einige deiner Tastenzuordnungen des betroffenen Controllers zurückgesetzt.\n\nDu kannst die Tastenbelegung in den Einstellungen unter „Steuerung“ überprüfen.";  // Message for bindings repaired alert
 
 "Keycode 0x%lX" = "Tastencode 0x%lX";  // Fallback for unknown keys
 
@@ -587,7 +587,7 @@
 
 "Moving the Game Library is not recommended" = "Das Bewegen der Mediathek wird nicht empfohlen";  //Message headline (attempted to change location of library)
 
-"The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "Die OpenEmu-Mediathek enthät eine Datenbankdatei, die beschädigt werden kann, wenn sie an einen der folgenden Orte bewegt wird:<br><br><ul><li>Ordner, die von einem Synchronisierungsdienst (wie <b>iCloud Drive</b>) verwaltet werden</li><li>Netzwerklaufwerke</li></ul><br>Auch das <b>Teilen der Mediathek zwischen mehreren Computern oder Benutzern</b> kann zur Beschädigung führen. Dies gilt auch dann, wenn sie auf ein externes Speichermedium verschoben wird.";  // Message text (attempted to change location of library, HTML
+"The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "Die OpenEmu-Mediathek enthät eine Datenbankdatei, die beschädigt werden kann, wenn sie an einen der folgenden Orte bewegt wird:<br><br><ul><li>Ordner, die von einem Synchronisierungsdienst (wie <b>iCloud Drive</b>) verwaltet werden</li><li>Netzwerklaufwerke</li></ul><br>Auch das <b>Teilen der Mediathek zwischen mehreren Computern oder Benutzer:innen</b> kann zur Beschädigung führen. Dies gilt auch dann, wenn sie auf ein externes Speichermedium verschoben wird.";  // Message text (attempted to change location of library, HTML
 
 "I understand the risks" = "Ich bin mir der Risiken bewusst";  // OK button (attempted to change location of library)
 
@@ -637,7 +637,7 @@
 
 "The %@ core has quit unexpectedly" = "Der „%@“-Kern wurde unerwarted beendet";
 
-"<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed." = "<b>Sollte das Problem fortbestehen</b>, sende uns Feedback mit den folgenden Informationen:<br><br><ul><li>Das Model deines Macs <b>und</b> die installierte macOS-Version<ul><li>Du findest diese Informationen unter  > Über diesen Mac.</li></ul></li><li>Der <b>genaue Name</b> des Spiels, das du gespielt hast</li><li>Der Absturzbericht von OpenEmuHelperApp<ul><li>Öffne Konsole.app, klicke auf „Absturzberichte“ bzw. „Benutzerberichte“ in der Seitenleiste und suche nach dem neuesten Eintrag mit „OpenEmuHelperApp“ im Namen.</ul></li></li></ul><br><b>Stelle sicher, dass nicht bereits ähnliche Probleme von anderen Benutzern berichtet wurden!</b><br>Bitte verfasse deinen Bericht in englischer Sprache.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
+"<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed." = "<b>Sollte das Problem fortbestehen</b>, sende uns Feedback mit den folgenden Informationen:<br><br><ul><li>Das Model deines Macs <b>und</b> die installierte macOS-Version<ul><li>Du findest diese Informationen unter  > Über diesen Mac.</li></ul></li><li>Der <b>genaue Name</b> des Spiels, das du gespielt hast</li><li>Der Absturzbericht von OpenEmuHelperApp<ul><li>Öffne Konsole.app, klicke auf „Absturzberichte“ bzw. „Benutzerberichte“ in der Seitenleiste und suche nach dem neuesten Eintrag mit „OpenEmuHelperApp“ im Namen.</ul></li></li></ul><br><b>Stelle sicher, dass nicht bereits ähnliche Probleme von anderen Nutzer:innen berichtet wurden!</b><br>Bitte verfasse deinen Bericht in englischer Sprache.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
 
 "The %@ core has quit unexpectedly after loading a save state" = "Der „%@“-Kern wurde beim Versuch, einen Spielstand zu laden, unerwartet beendet";
 
@@ -649,7 +649,7 @@
 
 "MOVE_ALERT_INFO_TEXT" = "OpenEmu muss in den „Programme“-Ordner verschoben werden, um korrekt funktionieren zu können.";
 
-"MOVE_ALERT_NEEDS_AUTH" = "Hierfür musst du einen Administratornamen und -passwort eingeben. Alternativ kannst du einen anderen Ort auswählen oder die App beenden und manuell verschieben.";
+"MOVE_ALERT_NEEDS_AUTH" = "Hierfür musst du den Namen und das Passwort eines Admin-Kontos eingeben. Alternativ kannst du einen anderen Ort auswählen oder die App beenden und manuell verschieben.";
 
 "MOVE_ALERT_MOVE_BUTTON" = "Nach „Programme“ verschieben";
 
