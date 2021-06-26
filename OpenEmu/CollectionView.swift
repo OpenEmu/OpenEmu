@@ -197,7 +197,7 @@ extension CollectionView: QLPreviewPanelDataSource, QLPreviewPanelDelegate {
     }
     
     func previewPanel(_ panel: QLPreviewPanel!, previewItemAt index: Int) -> QLPreviewItem! {
-        let sip = selectionIndexPaths
+        let sip = selectionIndexPaths.sorted()
         let si = sip.index(sip.startIndex, offsetBy: index)
         return item(at: sip[si]) as? QLPreviewItem
     }
