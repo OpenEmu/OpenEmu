@@ -53,6 +53,10 @@ class SaveStateViewController: ImageCollectionViewController, LibrarySubviewCont
         
         super.viewDidLoad()
     }
+    
+    override func collectionView(_ collectionView: NSCollectionView, pasteboardWriterForItemAt indexPath: IndexPath) -> NSPasteboardWriting? {
+        return dataSource.item(at: indexPath)?.url.absoluteURL as NSPasteboardWriting?
+    }
 }
 
 extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemValidation {
