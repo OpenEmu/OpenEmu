@@ -312,7 +312,7 @@ static NSDictionary *disabledActions = nil;
         {
             if([identifier characterAtIndex:0]==':' && !NSEqualSizes(relativeImageFrame.size, _lastImageSize))
             {
-                NSImage *missingArtworkImage = [self missingArtworkImageWithSize:relativeImageFrame.size];
+                NSImage *missingArtworkImage = [NSImage missingArtworkImageWithSize:relativeImageFrame.size];
                 [_missingArtworkLayer setFrame:relativeImageFrame];
                 [_missingArtworkLayer setContents:missingArtworkImage];
                 _lastImageSize = relativeImageFrame.size;
@@ -459,52 +459,6 @@ static NSDictionary *disabledActions = nil;
 {
     // TODO: why do we use the background layer?
     [[[self imageBrowserView] backgroundLayer] setValue:image forKey:name];
-}
-
-- (NSImage *)missingArtworkImageWithSize:(NSSize)size
-{
-    return [[self class] missingArtworkImageWithSize:size];
-}
-
-+ (NSImage *)missingArtworkImageWithSize:(NSSize)size
-{
-    if(NSEqualSizes(size, NSZeroSize)) return nil;
-
-    static NSCache *cache = nil;
-    if(cache == nil)
-    {
-        cache = [[NSCache alloc] init];
-        [cache setCountLimit:25];
-    }
-
-    NSString *key = NSStringFromSize(size);
-    NSImage *missingArtwork = [cache objectForKey:key];
-    if(missingArtwork) return missingArtwork;
-
-    missingArtwork = [[NSImage alloc] initWithSize:size];
-    [missingArtwork lockFocus];
-
-    NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
-    [currentContext saveGraphicsState];
-    [currentContext setShouldAntialias:NO];
-
-    NSImage      *scanLineImage     = [NSImage imageNamed:@"missing_artwork"];
-    const NSSize  scanLineImageSize = [scanLineImage size];
-
-    CGRect scanLineRect = CGRectMake(0.0, 0.0, size.width, scanLineImageSize.height);
-    for(CGFloat y = 0.0; y < size.height; y += scanLineImageSize.height)
-    {
-        scanLineRect.origin.y = y;
-        [scanLineImage drawInRect:scanLineRect fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
-    }
-
-    [currentContext restoreGraphicsState];
-    [missingArtwork unlockFocus];
-
-    // Cache the image for later use
-    [cache setObject:missingArtwork forKey:key cost:size.width*size.height];
-
-    return missingArtwork;
 }
 
 - (NSImage*)OE_ratingImageForRating:(NSInteger)rating

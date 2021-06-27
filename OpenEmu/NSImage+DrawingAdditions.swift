@@ -323,4 +323,48 @@ extension NSImage {
         
         return image
     }
+    
+    // MARK: - Missing Artwork Image Generation
+    
+    private static let missingArtworkImageCache: NSCache<NSString, NSImage> = {
+        let cache = NSCache<NSString, NSImage>()
+        cache.countLimit = 25
+        return cache
+    }()
+    
+    @objc
+    static func missingArtworkImage(size: NSSize) -> NSImage? {
+        guard size != .zero else { return nil }
+        
+        let key = "\(size)" as NSString
+        
+        if let missingArtwork = missingArtworkImageCache.object(forKey: key) {
+            return missingArtwork
+        }
+        
+        let missingArtwork = NSImage(size: size)
+        missingArtwork.lockFocus()
+        
+        let currentContext = NSGraphicsContext.current
+        currentContext?.saveGraphicsState()
+        currentContext?.shouldAntialias = false
+        
+        let scanLineImage = NSImage(named: "missing_artwork")!
+        let scanLineImageSize = scanLineImage.size
+        
+        var scanLineRect = CGRect(x: 0, y: 0, width: size.width, height: scanLineImageSize.height)
+        
+        for y in stride(from: 0, to: size.height, by: scanLineImageSize.height) {
+            scanLineRect.origin.y = y
+            scanLineImage.draw(in: scanLineRect, from: .zero, operation: .copy, fraction: 1)
+        }
+        
+        currentContext?.restoreGraphicsState()
+        missingArtwork.unlockFocus()
+        
+        // Cache the image for later use
+        missingArtworkImageCache.setObject(missingArtwork, forKey: key, cost: Int(size.width * size.height))
+        
+        return missingArtwork
+    }
 }

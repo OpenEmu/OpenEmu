@@ -30,6 +30,8 @@
 #import "OEGridViewFieldEditor.h"
 #import "OECoverGridDataSourceItem.h"
 
+#import "OpenEmu-Swift.h"
+
 #pragma mark - ImageKit Private Headers
 #import "IKImageBrowserView.h"
 #import "IKImageWrapper.h"
@@ -383,7 +385,7 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
             NSImage *dragImage = nil;
             if([[item imageUID] characterAtIndex:0] == ':')
             {
-                dragImage = [OEGridGameCell missingArtworkImageWithSize:imageRect.size];
+                dragImage = [NSImage missingArtworkImageWithSize:imageRect.size];
             }
             else
             {

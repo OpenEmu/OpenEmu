@@ -9,9 +9,6 @@
 #import "OEGridCell.h"
 
 @interface OEGridGameCell : OEGridCell
-+ (NSImage *)missingArtworkImageWithSize:(NSSize)size;
-- (NSImage *)missingArtworkImageWithSize:(NSSize)size;
-
 - (NSRect)ratingFrame;
 
 - (void)updateTextLayer;
