@@ -37,7 +37,6 @@ final class ImageCacheService {
             return
         }
         
-        
         Self.queue.async {
             let imageSource = CGImageSourceCreateWithURL(url as CFURL, nil)
             if let imageSource = imageSource {
@@ -48,6 +47,11 @@ final class ImageCacheService {
                     DispatchQueue.main.async {
                         success(thumbnail)
                     }
+                }
+            }
+            else {
+                DispatchQueue.main.async {
+                    success(NSImage(named: NSImage.cautionName)!)
                 }
             }
         }
