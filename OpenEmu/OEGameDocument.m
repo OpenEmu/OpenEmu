@@ -916,6 +916,11 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     BOOL takeNativeScreenshots = [standardUserDefaults boolForKey:OETakeNativeScreenshots];
     BOOL disableAspectRatioFix = [standardUserDefaults boolForKey:OEScreenshotAspectRatioCorrectionDisabled];
     
+    if ([sender isKindOfClass:NSMenuItem.class]) {
+        NSMenuItem *mi = (NSMenuItem *)sender;
+        takeNativeScreenshots |= (mi.tag == 1);
+    }
+    
     if (takeNativeScreenshots)
     {
         [_gameCoreManager captureSourceImageWithCompletionHandler:^(NSBitmapImageRep *image) {
