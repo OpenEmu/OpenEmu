@@ -126,11 +126,8 @@ class ImagesDataSource<Model: OEDBItem>: ImageDataSourceDelegate {
         req.entity = NSEntityDescription.entity(forEntityName: entityName, in: ctx)
         
         let count = try? ctx.count(for: req)
-        if count == .none || count! == 0 {
-            isEmpty = true
-            return
-        }
-        isEmpty = false
+        isEmpty = count == .none || count! == 0
+        if isEmpty { return }
         
         req.sortDescriptors = sortDescriptors
         req.predicate       = searchPredicate
@@ -187,7 +184,7 @@ class ImagesDataSource<Model: OEDBItem>: ImageDataSourceDelegate {
     }
     
     func imageURL(forItemAt indexPath: IndexPath) -> URL? {
-        item(at: indexPath)?[keyPath: imageURLKeyPath].absoluteURL as URL?
+        item(at: indexPath)?[keyPath: imageURLKeyPath].absoluteURL
     }
     
     func imageURLs(forItemsAt indexPaths: Set<IndexPath>) -> [URL] {
