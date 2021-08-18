@@ -25,7 +25,7 @@
 import Cocoa
 
 @objc(OEGameControlsBarView)
-class GameControlsBarView: NSView, CAAnimationDelegate, OEHUDBarView {
+class GameControlsBarView: NSView, OEHUDBarView {
     
     @objc private(set) var slider: NSSlider?
     @objc private(set) var fullScreenButton: NSButton?
@@ -138,10 +138,6 @@ class GameControlsBarView: NSView, CAAnimationDelegate, OEHUDBarView {
         
         // MARK: - Auto Layout
         
-        guard window?.contentView != nil else {
-            return
-        }
-        
         for view in subviews {
             view.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -164,7 +160,7 @@ class GameControlsBarView: NSView, CAAnimationDelegate, OEHUDBarView {
         
         // MARK: X axis
         constraints += [
-            stop.leadingAnchor.constraint(equalTo:        window!.contentView!.leadingAnchor,  constant:  10),
+            stop.leadingAnchor.constraint(equalTo:        leadingAnchor,  constant:  10),
             playPause.leadingAnchor.constraint(equalTo:   stop.trailingAnchor,                 constant:  14),
             restart.leadingAnchor.constraint(equalTo:     playPause.trailingAnchor,            constant:   0),
             saves.leadingAnchor.constraint(equalTo:       restart.trailingAnchor,              constant:   15),
@@ -172,13 +168,13 @@ class GameControlsBarView: NSView, CAAnimationDelegate, OEHUDBarView {
             volume.leadingAnchor.constraint(equalTo:      volumeDown.trailingAnchor,           constant:   3),
             volumeUp.leadingAnchor.constraint(equalTo:    volume.trailingAnchor,               constant:   3),
             fullScreen.leadingAnchor.constraint(equalTo:  volumeUp.trailingAnchor,             constant:  22),
-            fullScreen.trailingAnchor.constraint(equalTo: window!.contentView!.trailingAnchor, constant: -10)
+            fullScreen.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
         ]
         
         
         // MARK: Y axis
         for view in subviews {
-            constraints.append(view.centerYAnchor.constraint(equalTo: window!.contentView!.centerYAnchor))
+            constraints.append(view.centerYAnchor.constraint(equalTo: centerYAnchor))
         }
         
         NSLayoutConstraint.activate(constraints)

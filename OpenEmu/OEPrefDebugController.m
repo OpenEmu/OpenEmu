@@ -999,14 +999,14 @@ NSString * const NumberFormatterKey = @"numberFormatter";
     NSString   *userDefaultsKey = nil;
     BOOL (^test)(id, id) = NULL;
 
-    if([action isEqualToString:@"changeGameMode:"])
+    if([action isEqual:NSStringFromSelector(@selector(changeGameMode:))])
     {
         userDefaultsKey = OEGameCoreManagerModePreferenceKey;
         test = ^BOOL(id obj, id currentValue) {
             return [[obj representedObject] isEqualToString:currentValue];
         };
     }
-    else if([action isEqualToString:@"changeRegion:"])
+    else if([action isEqual:NSStringFromSelector(@selector(changeRegion:))])
     {
         userDefaultsKey = OERegionKey;
         test = ^BOOL(id obj, id currentValue) {

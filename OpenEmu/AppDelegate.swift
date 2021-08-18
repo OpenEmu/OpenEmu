@@ -55,7 +55,6 @@ class AppDelegate: NSObject {
     
     var restoreWindow = false
     var libraryDidLoadObserverForRestoreWindow: NSObjectProtocol?
-    var libraryDidLoadObserverForRestoreWindow2: NSObjectProtocol?
     
     var hidEventsMonitor: Any?
     var keyboardEventsMonitor: Any?
@@ -763,11 +762,6 @@ extension AppDelegate: NSMenuDelegate {
         if let observer = libraryDidLoadObserverForRestoreWindow {
             notificationCenter.removeObserver(observer)
             libraryDidLoadObserverForRestoreWindow = nil
-        }
-        
-        if let observer = libraryDidLoadObserverForRestoreWindow2 {
-            notificationCenter.removeObserver(observer)
-            libraryDidLoadObserverForRestoreWindow2 = nil
         }
         
         notificationCenter.removeObserver(self, name: NSApplication.didFinishRestoringWindowsNotification, object: nil)

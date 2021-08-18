@@ -29,8 +29,8 @@ final class ControlsPopUpButton: NSPopUpButton {
     
     private var cachedIntrinsicWidth: CGFloat = 0
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
         
         frame.size.height = 23
         cachedIntrinsicWidth = -1

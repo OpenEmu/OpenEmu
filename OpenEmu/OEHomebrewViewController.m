@@ -34,7 +34,6 @@
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 
-#import "NS(Attributed)String+Geometrics.h"
 #import "NSArray+OEAdditions.h"
 
 #import "OpenEmu-Swift.h"

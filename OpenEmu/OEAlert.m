@@ -580,23 +580,20 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
 - (void)OE_createControls
 {
     // Setup Button
-    _defaultButton = [NSButton buttonWithTitle:@"" target:nil action:nil];
+    _defaultButton = [NSButton buttonWithTitle:@"" target:self action:nil];
     self.defaultButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.defaultButton setTarget:self andAction:@selector(buttonAction:)];
+    self.defaultButton.action = @selector(buttonAction:);
     self.defaultButton.keyEquivalent = @"\r";
-    self.defaultButton.title = @"";
     
-    _alternateButton = [NSButton buttonWithTitle:@"" target:nil action:nil];
+    _alternateButton = [NSButton buttonWithTitle:@"" target:self action:nil];
     self.alternateButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.alternateButton setTarget:self andAction:@selector(buttonAction:)];
+    self.alternateButton.action = @selector(buttonAction:);
     self.alternateButton.keyEquivalent = @"\E";
-    self.alternateButton.title = @"";
     
-    _otherButton = [NSButton buttonWithTitle:@"" target:nil action:nil];
+    _otherButton = [NSButton buttonWithTitle:@"" target:self action:nil];
     self.otherButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.otherButton setTarget:self andAction:@selector(buttonAction:)];
+    self.otherButton.action = @selector(buttonAction:);
     self.otherButton.keyEquivalent = @"";
-    self.otherButton.title = @"";
 
     // Setup Headline Text View
     _headlineLabel = [NSTextField wrappingLabelWithString:@""];
@@ -641,11 +638,11 @@ static const CGFloat OEAlertMinimumButtonWidth       = 79.0;
     _progressbar.usesThreadedAnimation = YES;
     
     // Setup Suppression Button
-    _suppressionButton = [NSButton checkboxWithTitle:@"" target:nil action:nil];
+    _suppressionButton = [NSButton checkboxWithTitle:@"" target:self action:nil];
     self.suppressionButton.translatesAutoresizingMaskIntoConstraints = NO;
     self.suppressionButton.buttonType = NSButtonTypeSwitch;
     self.suppressionButton.title = NSLocalizedString(@"Do not ask me again", @"");
-    [self.suppressionButton setTarget:self andAction:@selector(suppressionButtonAction:)];
+    self.suppressionButton.action = @selector(suppressionButtonAction:);
 }
 
 - (void)OE_layoutWindowIfNeeded

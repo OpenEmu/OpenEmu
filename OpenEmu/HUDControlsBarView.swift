@@ -25,7 +25,7 @@
 import Cocoa
 
 @objc(OEHUDControlsBarView)
-class HUDControlsBarView: NSView, CAAnimationDelegate, OEHUDBarView {
+class HUDControlsBarView: NSView, OEHUDBarView {
     
     @objc private(set) var slider: NSSlider?
     @objc private(set) var fullScreenButton: NSButton?
