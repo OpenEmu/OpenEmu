@@ -9815,7 +9815,7 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		054A74C625B0137500F2F3D6 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:apple/swift-argument-parser.git";
+			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
 			requirement = {
 				branch = main;
 				kind = branch;
