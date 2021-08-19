@@ -32,16 +32,16 @@ final class GameScannerButton: HoverButton {
     private var iconImage: NSImage? {
         
         if isHighlighted {
-            return NSImage(named: icon)?.withTintColor(NSColor.labelColor.withSystemEffect(.pressed))
+            return NSImage(named: icon)?.withTintColor(.labelColor.withSystemEffect(.pressed))
         }
         else if isHovering && isEnabled {
-            return NSImage(named: icon)?.withTintColor(NSColor.labelColor.withSystemEffect(.rollover))
+            return NSImage(named: icon)?.withTintColor(.labelColor.withSystemEffect(.rollover))
         }
         else if window?.isMainWindow == false {
-            return NSImage(named: icon)?.withTintColor(NSColor.labelColor.withSystemEffect(.disabled))
+            return NSImage(named: icon)?.withTintColor(.labelColor.withSystemEffect(.disabled))
         }
         else {
-            return NSImage(named: icon)?.withTintColor(NSColor.labelColor)
+            return NSImage(named: icon)?.withTintColor(.labelColor)
         }
     }
     
@@ -53,14 +53,12 @@ final class GameScannerButton: HoverButton {
     override func viewWillMove(toWindow newWindow: NSWindow?) {
         super.viewWillMove(toWindow: newWindow)
         
-        if (window != nil) {
-            
+        if window != nil {
             NotificationCenter.default.removeObserver(self, name: NSWindow.didBecomeMainNotification, object: window)
             NotificationCenter.default.removeObserver(self, name: NSWindow.didResignMainNotification, object: window)
         }
         
-        if (newWindow != nil) {
-            
+        if newWindow != nil {
             NotificationCenter.default.addObserver(self, selector: #selector(windowKeyChanged), name: NSWindow.didBecomeMainNotification, object: newWindow)
             NotificationCenter.default.addObserver(self, selector: #selector(windowKeyChanged), name: NSWindow.didResignMainNotification, object: newWindow)
         }

@@ -207,7 +207,7 @@ extension CollectionView: QLPreviewPanelDataSource, QLPreviewPanelDelegate {
             let item = item as? NSCollectionViewItem,
             let view = item.imageView,
             let win  = window
-            else { return NSRect.zero }
+            else { return .zero }
         var rect = view.croppedBounds
         rect = item.view.convert(rect, from: view)
         let windowRect = item.view.convert(rect, to: nil)
@@ -283,5 +283,4 @@ extension CollectionView: NSTextDelegate {
         }
         window?.makeFirstResponder(self)
     }
-    
 }

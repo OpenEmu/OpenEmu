@@ -31,7 +31,7 @@ extension NSAttributedString {
     /// Returns an attributed string containing a hyperlink.
     /// - Parameter string: The text to use for the hyperlink.
     /// - Parameter URL: The URL of the hyperlink.
-    convenience init(string: String, hyperlinkURL URL: Foundation.URL) {
+    convenience init(string: String, hyperlinkURL URL: URL) {
         
         let attributes: [NSAttributedString.Key: Any] = [
             .link: URL.absoluteString,

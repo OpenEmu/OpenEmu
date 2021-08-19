@@ -24,8 +24,8 @@
 
 import Cocoa
 
-extension NSUserInterfaceItemIdentifier {
-    static let availableLibrariesCollectionViewItem: NSUserInterfaceItemIdentifier = "AvailableLibrariesCollectionViewItem"
+private extension NSUserInterfaceItemIdentifier {
+    static let availableLibrariesCollectionViewItem = NSUserInterfaceItemIdentifier("AvailableLibrariesCollectionViewItem")
 }
 
 @objc(OEAvailableLibrariesViewController)
@@ -60,16 +60,14 @@ class AvailableLibrariesViewController: NSViewController {
         }
     }
     
-    override var nibName: NSNib.Name? {
-        "AvailableLibrariesViewController"
-    }
+    override var nibName: NSNib.Name? { "AvailableLibrariesViewController" }
     
     private var _transparentBackground = false
     var transparentBackground: Bool {
-        set(newValue) {
-            let _ = self.view
+        set {
+            _ = view
             _transparentBackground = newValue
-            if (newValue) {
+            if newValue {
                 collectionView.backgroundColors = [.clear]
             } else {
                 collectionView.backgroundColors = [.controlBackgroundColor]

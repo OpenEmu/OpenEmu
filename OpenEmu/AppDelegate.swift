@@ -49,7 +49,7 @@ class AppDelegate: NSObject {
     
     lazy var mainWindowController = OEMainWindowController(windowNibName: "MainWindow")
     
-    lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: "Preferences")
+    lazy var preferencesWindowController = PreferencesWindowController(windowNibName: "Preferences")
     
     var documentController = GameDocumentController.shared
     
@@ -159,7 +159,7 @@ class AppDelegate: NSObject {
         _ = OEControllerDescription.self
         
         // Reset preferences for default cores when migrating to 2.0.3. This is an attempt at cleanup after 9d5d696d07fe651f44f16f8bf8b98c87d90fe53f and d36e9ad4b7097f21ffbbe32d9cea3b72a390bc0f and for getting as many users as possible onto mGBA.
-        OEVersionMigrationController.default.addMigratorTarget(self, selector: #selector(AppDelegate.migrationRemoveCoreDefaults), forVersion: "2.0.3")
+        OEVersionMigrationController.default.addMigratorTarget(self, selector: #selector(migrationRemoveCoreDefaults), forVersion: "2.0.3")
     }
     
     required init?(coder: NSCoder) {
@@ -287,7 +287,7 @@ class AppDelegate: NSObject {
                     var databaseURL = openPanel.url!
                     let databasePath = databaseURL.path
                     
-                    var isDir: ObjCBool = ObjCBool(false)
+                    var isDir = ObjCBool(false)
                     if FileManager.default.fileExists(atPath: databasePath, isDirectory: &isDir) && !isDir.boolValue {
                         databaseURL = databaseURL.deletingLastPathComponent()
                     }
@@ -296,9 +296,9 @@ class AppDelegate: NSObject {
                     
                 } else {
                     // let the openpanel disappear before re-displaying the alert
-                    DispatchQueue.main.async(execute: {
+                    DispatchQueue.main.async {
                         self.performDatabaseSelection()
-                    })
+                    }
                 }
             }
             
@@ -377,7 +377,7 @@ class AppDelegate: NSObject {
         
         let context = library.mainThreadContext
         for plugin in OESystemPlugin.allPlugins as! [OESystemPlugin] {
-            _ = OEDBSystem.init(for: plugin, in: context)
+            _ = OEDBSystem(for: plugin, in: context)
         }
         
         library.disableSystemsWithoutPlugin()
@@ -558,7 +558,7 @@ class AppDelegate: NSObject {
             let library = OELibraryDatabase.default
         else { return }
         
-        _ = OEDBSystem.init(for: plugin, in: library.mainThreadContext)
+        _ = OEDBSystem(for: plugin, in: library.mainThreadContext)
     }
     
     // MARK: - Debug
@@ -589,7 +589,7 @@ extension AppDelegate: NSMenuDelegate {
     
     func numberOfItems(in menu: NSMenu) -> Int {
         guard let database = OELibraryDatabase.default else {
-            return 0;
+            return 0
         }
         
         guard let lastPlayedInfo = database.lastPlayedRomsBySystem, lastPlayedInfo.count > 0 else {
@@ -752,7 +752,7 @@ extension AppDelegate: NSMenuDelegate {
         
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.".appending(OEAppearancePreferenceKey), options: [.initial], context: &appearancePrefChangedKVOContext)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter), name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter), name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
     }
     
     func removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter(_ notification: Notification) {
@@ -783,12 +783,12 @@ extension AppDelegate: NSMenuDelegate {
         
         let notificationCenter = NotificationCenter.default
         
-        notificationCenter.addObserver(self, selector: #selector(AppDelegate.libraryDatabaseDidLoad), name: .OELibraryDidLoadNotificationName, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(AppDelegate.openPreferencePane), name: PreferencesWindowController.openPaneNotificationName, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(libraryDatabaseDidLoad), name: .OELibraryDidLoadNotificationName, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(openPreferencePane), name: PreferencesWindowController.openPaneNotificationName, object: nil)
         
-        notificationCenter.addObserver(self, selector: #selector(AppDelegate.didRepairBindings), name: NSNotification.Name.OEBindingsRepaired, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(didRepairBindings), name: .OEBindingsRepaired, object: nil)
         
-        notificationCenter.addObserver(self, selector: #selector(AppDelegate.didRegisterSystemPlugin), name: NSNotification.Name.OESystemPluginDidRegister, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(didRegisterSystemPlugin), name: .OESystemPluginDidRegister, object: nil)
         
         NSDocumentController.shared.clearRecentDocuments(nil)
         
@@ -855,11 +855,11 @@ extension AppDelegate: NSMenuDelegate {
         bind(.logKeyboardEvents, to: userDefaultsController, withKeyPath: "values.logsHIDEventsNoKeyboard", options: nil)
         bind(.backgroundControllerPlay, to: userDefaultsController, withKeyPath: "values.backgroundControllerPlay", options: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.windowDidBecomeKey), name: NSWindow.didBecomeKeyNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(windowDidBecomeKey), name: NSWindow.didBecomeKeyNotification, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.deviceManagerDidChangeGlobalEventMonitor(_:)), name: NSNotification.Name.OEDeviceManagerDidAddGlobalEventMonitorHandler, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.deviceManagerDidChangeGlobalEventMonitor(_:)), name: NSNotification.Name.OEDeviceManagerDidRemoveGlobalEventMonitorHandler, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.gameDocumentSetupDidFinish(_:)), name: .OEGameDocumentSetupDidFinish, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceManagerDidChangeGlobalEventMonitor(_:)), name: .OEDeviceManagerDidAddGlobalEventMonitorHandler, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceManagerDidChangeGlobalEventMonitor(_:)), name: .OEDeviceManagerDidRemoveGlobalEventMonitorHandler, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(gameDocumentSetupDidFinish(_:)), name: .OEGameDocumentSetupDidFinish, object: nil)
 
         for startupQueueItem in startupQueue {
             startupQueueItem()
@@ -890,9 +890,9 @@ extension AppDelegate: NSMenuDelegate {
         if libraryLoaded {
             mainWindowController.showWindow(self)
         } else {
-            startupQueue.append({ [unowned self] in
+            startupQueue.append { [unowned self] in
                 self.mainWindowController.showWindow(self)
-            })
+            }
         }
         return false
     }
@@ -909,12 +909,12 @@ extension AppDelegate: NSMenuDelegate {
             if filenames.count == 1 {
                 
                 let url = URL(fileURLWithPath: filenames.last!)
-                self.documentController.openDocument(withContentsOf: url, display: true, completionHandler: { (document, documentWasAlreadyOpen, error) in
+                self.documentController.openDocument(withContentsOf: url, display: true) { (document, documentWasAlreadyOpen, error) in
                     if error != nil {
                         self.documentController.presentError(error!)
                     }
                     NSApp.reply(toOpenOrPrint: document != nil ? .success : .failure)
-                })
+                }
                 
             } else {
                 

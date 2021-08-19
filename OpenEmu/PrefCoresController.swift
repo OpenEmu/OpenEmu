@@ -24,32 +24,30 @@
 
 import Cocoa
 
+private extension NSUserInterfaceItemIdentifier {
+    static let coreColumn    = NSUserInterfaceItemIdentifier("coreColumn")
+    static let systemColumn  = NSUserInterfaceItemIdentifier("systemColumn")
+    static let versionColumn = NSUserInterfaceItemIdentifier("versionColumn")
+    
+    static let coreNameCell        = NSUserInterfaceItemIdentifier("coreNameCell")
+    static let systemListCell      = NSUserInterfaceItemIdentifier("systemListCell")
+    static let versionCell         = NSUserInterfaceItemIdentifier("versionCell")
+    static let installButtonCell   = NSUserInterfaceItemIdentifier("installBtnCell")
+    static let installProgressCell = NSUserInterfaceItemIdentifier("installProgressCell")
+}
+
 @objc(OEPrefCoresController)
-class PrefCoresController: NSViewController, OEPreferencePane, NSTableViewDelegate, NSTableViewDataSource
-{
-    private let coreNameCellIdentifier = NSUserInterfaceItemIdentifier(rawValue:"coreNameCell")
-    private let systemListCellIdentifier = NSUserInterfaceItemIdentifier(rawValue:"systemListCell")
-    private let versionCellIdentifier = NSUserInterfaceItemIdentifier(rawValue:"versionCell")
-    private let installBtnCellIdentifier = NSUserInterfaceItemIdentifier(rawValue:"installBtnCell")
-    private let installProgressCellIdentifier = NSUserInterfaceItemIdentifier(rawValue:"installProgressCell")
+class PrefCoresController: NSViewController {
     
     @IBOutlet var coresTableView: NSTableView!
     
     var coreListObservation: NSKeyValueObservation?
     
-    var icon: NSImage { NSImage(named: "cores_tab_icon")! }
-    
-    var panelTitle: String { "Cores" }
-    
-    var localizedPanelTitle: String { NSLocalizedString(panelTitle, comment: "Preferences: Cores Toolbar item") }
-    
-    var viewSize: NSSize { view.fittingSize }
-    
     override var nibName: NSNib.Name? { "OEPrefCoresController" }
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
+        
         coreListObservation = OECoreUpdater.shared.observe(\OECoreUpdater.coreList) {
             object, _ in
             self.coresTableView.reloadData()
@@ -59,11 +57,11 @@ class PrefCoresController: NSViewController, OEPreferencePane, NSTableViewDelega
         
         for column in coresTableView.tableColumns {
             switch column.identifier {
-            case "coreColumn":
+            case .coreColumn:
                 column.headerCell.title = NSLocalizedString("Core", comment: "Cores preferences, column header")
-            case "systemColumn":
+            case .systemColumn:
                 column.headerCell.title = NSLocalizedString("System", comment: "Cores preferences, column header")
-            case "versionColumn":
+            case .versionColumn:
                 column.headerCell.title = NSLocalizedString("Version", comment: "Cores preferences, column header")
             default:
                 break
@@ -71,40 +69,41 @@ class PrefCoresController: NSViewController, OEPreferencePane, NSTableViewDelega
         }
     }
     
-    @IBAction func updateOrInstall(_ sender: NSButton)
-    {
+    @IBAction func updateOrInstall(_ sender: NSButton) {
         let cellView = sender.superview as! NSTableCellView
         let row = coresTableView.row(for: cellView)
         updateOrInstallItem(row)
     }
     
-    private func updateOrInstallItem(_ row: Int)
-    {
+    private func updateOrInstallItem(_ row: Int) {
         OECoreUpdater.shared.installCoreInBackgroundUserInitiated(coreDownload(row))
     }
     
-    private func coreDownload(_ row: Int) -> OECoreDownload
-    {
+    private func coreDownload(_ row: Int) -> OECoreDownload {
         return OECoreUpdater.shared.coreList[row]
     }
+}
+
+// MARK: - NSTableView DataSource
+
+extension PrefCoresController: NSTableViewDataSource {
     
-    func numberOfRows(in tableView: NSTableView) -> Int
-    {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return OECoreUpdater.shared.coreList.count
     }
     
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any?
-    {
-        let plugin = coreDownload(row)
-        let ident = tableColumn!.identifier as NSString
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         
-        if ident == "coreColumn" {
+        let plugin = coreDownload(row)
+        let ident = tableColumn!.identifier
+        
+        if ident == .coreColumn {
             return plugin.name
             
-        } else if ident == "systemColumn" {
+        } else if ident == .systemColumn {
             return plugin.systemNames.joined(separator: ", ")
             
-        } else if ident == "versionColumn" {
+        } else if ident == .versionColumn {
             if plugin.isDownloading {
                 return plugin
             } else if plugin.canBeInstalled {
@@ -117,39 +116,55 @@ class PrefCoresController: NSViewController, OEPreferencePane, NSTableViewDelega
         }
         return plugin
     }
+}
+
+// MARK: - NSTableView Delegate
+
+extension PrefCoresController: NSTableViewDelegate {
     
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
-    {
-        let ident = tableColumn!.identifier as NSString
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        
+        let ident = tableColumn!.identifier
         let plugin = coreDownload(row)
         
-        if ident == "coreColumn" {
-            let view = tableView.makeView(withIdentifier: coreNameCellIdentifier, owner: self) as! NSTableCellView
-            let color = plugin.canBeInstalled ? NSColor.disabledControlTextColor : NSColor.labelColor
+        if ident == .coreColumn {
+            let view = tableView.makeView(withIdentifier: .coreNameCell, owner: self) as! NSTableCellView
+            let color: NSColor = plugin.canBeInstalled ? .disabledControlTextColor : .labelColor
             view.textField!.textColor = color
             return view
             
-        } else if ident == "systemColumn" {
-            let view = tableView.makeView(withIdentifier: systemListCellIdentifier, owner: self) as! NSTableCellView
-            let color = plugin.canBeInstalled ? NSColor.disabledControlTextColor : NSColor.labelColor
+        } else if ident == .systemColumn {
+            let view = tableView.makeView(withIdentifier: .systemListCell, owner: self) as! NSTableCellView
+            let color: NSColor = plugin.canBeInstalled ? .disabledControlTextColor : .labelColor
             view.textField!.textColor = color
             return view
             
-        } else if ident == "versionColumn" {
-            if (plugin.isDownloading) {
-                return tableView.makeView(withIdentifier: installProgressCellIdentifier, owner: self)
+        } else if ident == .versionColumn {
+            if plugin.isDownloading {
+                return tableView.makeView(withIdentifier: .installProgressCell, owner: self)
             } else if plugin.canBeInstalled || plugin.hasUpdate {
-                return tableView.makeView(withIdentifier: installBtnCellIdentifier, owner: self)
+                return tableView.makeView(withIdentifier: .installButtonCell, owner: self)
             } else {
-                return tableView.makeView(withIdentifier: versionCellIdentifier, owner: self)
+                return tableView.makeView(withIdentifier: .versionCell, owner: self)
             }
         }
         return nil
     }
     
-    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool
-    {
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         return false
     }
 }
 
+// MARK: - OEPreferencePane
+
+extension PrefCoresController: OEPreferencePane {
+    
+    var icon: NSImage { NSImage(named: "cores_tab_icon")! }
+    
+    var panelTitle: String { "Cores" }
+    
+    var localizedPanelTitle: String { NSLocalizedString(panelTitle, comment: "Preferences: Cores Toolbar item") }
+    
+    var viewSize: NSSize { view.fittingSize }
+}

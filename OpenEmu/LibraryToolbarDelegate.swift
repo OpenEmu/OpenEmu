@@ -26,12 +26,12 @@
 
 import Cocoa
 
-extension NSToolbarItem.Identifier {
-    public static let oeGridSize = Self("OEToolbarGridSizeItem")
-    public static let oeViewMode = Self("OEToolbarViewModeItem")
-    public static let oeSearch   = Self("OEToolbarSearchItem")
-    public static let oeCategory = Self("OEToolbarCategoryItem")
-    public static let oeAdd      = Self("OEToolbarAddItem")
+public extension NSToolbarItem.Identifier {
+    static let oeGridSize = NSToolbarItem.Identifier("OEToolbarGridSizeItem")
+    static let oeViewMode = NSToolbarItem.Identifier("OEToolbarViewModeItem")
+    static let oeSearch   = NSToolbarItem.Identifier("OEToolbarSearchItem")
+    static let oeCategory = NSToolbarItem.Identifier("OEToolbarCategoryItem")
+    static let oeAdd      = NSToolbarItem.Identifier("OEToolbarAddItem")
 }
 
 @objc(OELibraryToolbarDelegate)
@@ -39,7 +39,6 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     var itemCache = [NSToolbarItem.Identifier: NSToolbarItem]()
     
     @IBOutlet weak var toolbarOwner: AnyObject?
-    
     
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         return [.flexibleSpace,
@@ -49,7 +48,6 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
                 .oeSearch,
                 .oeCategory]
     }
-    
     
     func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         cacheItems(toolbar: toolbar as! LibraryToolbar)
@@ -67,11 +65,9 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
     }
     
-    
     func toolbarSelectableItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         return []
     }
-    
     
     func cacheItems(toolbar: LibraryToolbar) {
         gridSizeToolbarItem(toolbar: toolbar)
@@ -84,7 +80,6 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         }
         addToolbarItem(toolbar: toolbar)
     }
-    
     
     func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
         
@@ -107,7 +102,6 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
             return NSToolbarItem(itemIdentifier: itemIdentifier)
         }
     }
-    
     
     // MARK: - Grid Size
     
@@ -148,7 +142,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         group.menuFormRepresentation = gridSizeMenu
         
         itemCache[group.itemIdentifier] = group
-        return group;
+        return group
     }
     
     let gridSizeMenu: NSMenuItem = {
@@ -197,7 +191,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         item.label = NSLocalizedString("View Mode", comment:"Toolbar, view mode selector label")
         
         itemCache[item.itemIdentifier] = item
-        return item;
+        return item
     }
     
     let viewModeMenu: NSMenuItem = {
@@ -244,7 +238,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         item.label = NSLocalizedString("Category", comment:"Toolbar, category selector label")
         
         itemCache[item.itemIdentifier] = item
-        return item;
+        return item
     }
     
     let categoryMenu: NSMenuItem = {
@@ -306,11 +300,11 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         toolbar.searchField = searchField
         
         let item = NSToolbarItem(itemIdentifier: .oeSearch)
-        item.view = searchField;
+        item.view = searchField
         item.label = NSLocalizedString("Search", comment:"Toolbar, search field label")
         
         itemCache[item.itemIdentifier] = item
-        return item;
+        return item
     }
     
     @available(macOS 11.0, *)
@@ -329,7 +323,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         item.label = NSLocalizedString("Search", comment:"Toolbar, search field label")
         
         itemCache[item.itemIdentifier] = item
-        return item;
+        return item
     }
     
     // MARK: - Add
@@ -358,7 +352,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         item.menuFormRepresentation = addMenu
         
         itemCache[item.itemIdentifier] = item
-        return item;
+        return item
     }
     
     let addMenu: NSMenu = {
@@ -373,7 +367,7 @@ class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         
         let menu = NSMenu()
         menu.items = [addToLibrary,
-                      NSMenuItem.separator(),
+                      .separator(),
                       newCollection]
         
         return menu

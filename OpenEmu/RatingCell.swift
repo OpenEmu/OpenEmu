@@ -29,7 +29,7 @@ class RatingCell: NSCell {
     
     override func draw(withFrame cellFrame: NSRect, in controlView: NSView) {
         
-        let color = isHighlighted ? NSColor.white : NSColor.controlAccentColor
+        let color: NSColor = isHighlighted ? .white : .controlAccentColor
         let image = NSImage(named: "list_rating")?.withTintColor(color)
         let rating = objectValue as? CGFloat ?? 0
         
@@ -75,7 +75,7 @@ class RatingCell: NSCell {
         
         let minRatingX = (frame.size.width - 55) / 2
         let posX = point.x - frame.origin.x - minRatingX
-        let stepWidth = CGFloat(11)
+        let stepWidth: CGFloat = 11
         
         return Int(max(0, min((posX / stepWidth) + 1, 5)))
     }

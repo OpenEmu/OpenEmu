@@ -29,27 +29,27 @@ extension NSImageView {
         guard
             let imageSize = image?.size,
             let frameRect = cell?.drawingRect(forBounds: bounds)
-            else { return NSZeroSize }
+        else { return .zero }
         
         let frameSize = frameRect.size
-        var ratio = NSZeroSize
+        var ratio = NSSize.zero
         let ratioX = frameSize.width / imageSize.width
         let ratioY = frameSize.height / imageSize.height
         
         switch imageScaling {
         case .scaleProportionallyDown:
-            let scale = min(min(ratioX, ratioY), 1.0)
+            let scale = min(min(ratioX, ratioY), 1)
             ratio = NSSize(width: scale, height: scale)
             
         case .scaleProportionallyUpOrDown:
-            let scale = min(ratioX, ratioY);
+            let scale = min(ratioX, ratioY)
             ratio = NSSize(width: scale, height: scale)
             
         case .scaleAxesIndependently:
             ratio = NSSize(width: ratioX, height: ratioY)
             
         default:
-            ratio = NSSize(width: 1.0, height: 1.0)
+            ratio = NSSize(width: 1, height: 1)
         }
         
         return ratio
@@ -62,21 +62,21 @@ extension NSImageView {
         guard
             let imageSize = image?.size,
             let frameRect = cell?.drawingRect(forBounds: bounds)
-            else { return NSZeroRect }
-
+            else { return .zero }
+        
         let frameSize = frameRect.size
         let ratio     = imageRatio
         
-        let scaledSize = NSSize(width: imageSize.width * ratio.width, height: imageSize.height * ratio.height);
+        let scaledSize = NSSize(width: imageSize.width * ratio.width, height: imageSize.height * ratio.height)
         
-        let Xmin = CGFloat(0.0);
-        let Xmax = frameSize.width - scaledSize.width;
-        let verticalCenter = (frameSize.width - scaledSize.width) / 2;
-        let Ymin = CGFloat(0.0);
-        let Ymax = frameSize.height - scaledSize.height;
-        let horizontalCenter = (frameSize.height - scaledSize.height) / 2;
+        let Xmin: CGFloat = 0
+        let Xmax = frameSize.width - scaledSize.width
+        let verticalCenter = (frameSize.width - scaledSize.width) / 2
+        let Ymin: CGFloat = 0
+        let Ymax = frameSize.height - scaledSize.height
+        let horizontalCenter = (frameSize.height - scaledSize.height) / 2
         
-        var scaledRect = NSZeroRect
+        var scaledRect = NSRect.zero
         switch imageAlignment {
         case .alignCenter:
             scaledRect = NSRect(x: verticalCenter, y: horizontalCenter, width: scaledSize.width, height: scaledSize.height)

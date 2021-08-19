@@ -51,7 +51,7 @@ final class HUDBarButton: HoverButton {
                                    y: frame.size.height/2 - img.size.height/2,
                                width: img.size.width,
                               height: img.size.height)
-            imageRect = backingAlignedRect(imageRect, options:.alignAllEdgesNearest)
+            imageRect = backingAlignedRect(imageRect, options: .alignAllEdgesNearest)
             
             img.draw(in: imageRect)
         }

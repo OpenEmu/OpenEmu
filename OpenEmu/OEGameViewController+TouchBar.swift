@@ -26,26 +26,26 @@
 
 import Cocoa
 
-fileprivate enum GameplaySegments: Int {
+private enum GameplaySegments: Int {
     case pauseGameplay = 0
     case restartSystem = 1
 }
 
-fileprivate enum SaveStatesSegments: Int {
+private enum SaveStatesSegments: Int {
     case quickSave = 0
     case quickLoad = 1
 }
 
-fileprivate enum VolumeSegments: Int {
+private enum VolumeSegments: Int {
     case down = 0
     case up   = 1
 }
 
-fileprivate extension NSTouchBar.CustomizationIdentifier {
+private extension NSTouchBar.CustomizationIdentifier {
     static let touchBar = "org.openemu.GameViewControllerTouchBar"
 }
 
-fileprivate extension NSTouchBarItem.Identifier {
+private extension NSTouchBarItem.Identifier {
     static let stop = NSTouchBarItem.Identifier("org.openemu.GameViewControllerTouchBar.stop")
     static let gameplay = NSTouchBarItem.Identifier("org.openemu.GameViewControllerTouchBar.gameplay")
     static let saveStates = NSTouchBarItem.Identifier("saveStateControls")
@@ -104,7 +104,7 @@ extension OEGameViewController: NSTouchBarDelegate {
             let segmentImages = [NSImage(named: NSImage.touchBarPauseTemplateName)!,
                                  NSImage(named: NSImage.touchBarRefreshTemplateName)!]
             
-            let segmentedControl = NSSegmentedControl(images: segmentImages, trackingMode: .momentary, target: nil, action: #selector(OEGameViewController.gameplayControlsTouched(_:)))
+            let segmentedControl = NSSegmentedControl(images: segmentImages, trackingMode: .momentary, target: nil, action: #selector(gameplayControlsTouched(_:)))
             
             segmentedControl.segmentStyle = .separated
             
@@ -113,7 +113,7 @@ extension OEGameViewController: NSTouchBarDelegate {
             return item
             
         case .saveStates:
-
+            
             guard supportsSaveStates else {
                 return nil
             }
@@ -124,7 +124,7 @@ extension OEGameViewController: NSTouchBarDelegate {
             let segmentImages = [#imageLiteral(resourceName: "quick_save_touch_bar_template"),
                                  #imageLiteral(resourceName: "quick_load_touch_bar_template")]
             
-            let segmentedControl = NSSegmentedControl(images: segmentImages, trackingMode: .momentary, target: nil, action: #selector(OEGameViewController.saveStatesControlsTouched(_:)))
+            let segmentedControl = NSSegmentedControl(images: segmentImages, trackingMode: .momentary, target: nil, action: #selector(saveStatesControlsTouched(_:)))
             
             segmentedControl.segmentStyle = .separated
             
@@ -140,7 +140,7 @@ extension OEGameViewController: NSTouchBarDelegate {
             let segmentImages = [NSImage(named: NSImage.touchBarVolumeDownTemplateName)!,
                                  NSImage(named: NSImage.touchBarVolumeUpTemplateName)!]
             
-            let segmentedControl = NSSegmentedControl(images: segmentImages, trackingMode: .momentary, target: nil, action: #selector(OEGameViewController.volumeTouched(_:)))
+            let segmentedControl = NSSegmentedControl(images: segmentImages, trackingMode: .momentary, target: nil, action: #selector(volumeTouched(_:)))
             
             segmentedControl.segmentStyle = .separated
             
@@ -160,7 +160,7 @@ extension OEGameViewController: NSTouchBarDelegate {
             
             let imageName: NSImage.Name = document.gameWindowController.window!.isFullScreen ? NSImage.touchBarExitFullScreenTemplateName : NSImage.touchBarEnterFullScreenTemplateName
             let image = NSImage(named: imageName)!
-            let button = NSButton(image: image, target: nil, action: #selector(OEGameViewController.fullScreenTouched(_:)))
+            let button = NSButton(image: image, target: nil, action: #selector(fullScreenTouched(_:)))
             
             item.view = button
             

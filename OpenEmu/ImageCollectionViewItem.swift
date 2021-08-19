@@ -84,8 +84,8 @@ class ImageCollectionViewItem: NSCollectionViewItem {
             
             let sel = CALayer()
             sel.borderColor = NSColor.selectedContentBackgroundColor.cgColor
-            sel.borderWidth = 4.0
-            sel.cornerRadius = 3.0
+            sel.borderWidth = 4
+            sel.cornerRadius = 3
             
             selectionLayer = sel
             layer.addSublayer(sel)

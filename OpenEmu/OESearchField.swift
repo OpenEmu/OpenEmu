@@ -57,14 +57,12 @@ final class OESearchField: NSSearchField {
             return
         } else {
             
-            if (window != nil) {
-                
+            if window != nil {
                 NotificationCenter.default.removeObserver(self, name: NSWindow.didBecomeMainNotification, object: window)
                 NotificationCenter.default.removeObserver(self, name: NSWindow.didResignMainNotification, object: window)
             }
             
-            if (newWindow != nil) {
-                
+            if newWindow != nil {
                 NotificationCenter.default.addObserver(self, selector: #selector(windowDidBecomeMain), name: NSWindow.didBecomeMainNotification, object: newWindow)
                 NotificationCenter.default.addObserver(self, selector: #selector(windowDidResignMain), name: NSWindow.didResignMainNotification, object: newWindow)
             }

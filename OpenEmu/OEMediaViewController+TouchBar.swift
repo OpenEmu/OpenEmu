@@ -26,12 +26,12 @@
 
 import Cocoa
 
-fileprivate extension NSTouchBar.CustomizationIdentifier {
+private extension NSTouchBar.CustomizationIdentifier {
     static let saveStatesTouchBar = "org.openemu.OEMediaViewController.saveStatesTouchBar"
     static let screenshotsTouchBar = "org.openemu.OEMediaViewController.screenshotsTouchBar"
 }
 
-fileprivate extension NSTouchBarItem.Identifier {
+private extension NSTouchBarItem.Identifier {
     
     // Save States
     static let deleteSaveState = NSTouchBarItem.Identifier("org.openemu.OEMediaViewController.saveStatesTouchbar.delete")

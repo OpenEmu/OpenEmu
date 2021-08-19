@@ -42,7 +42,7 @@ final class ControlsKeyButton: NSButton {
         image?.draw(in: dirtyRect)
         
         let p = NSPoint(x: bounds.origin.x + 4, y: bounds.origin.y + (isFlipped ? 4 : 6))
-        title.draw(at: p, withAttributes: isWood ? ControlsKeyButton.attributesWood : ControlsKeyButton.attributes)
+        title.draw(at: p, withAttributes: isWood ? Self.attributesWood : Self.attributes)
     }
     
     private static let attributes: [NSAttributedString.Key : Any]? = {

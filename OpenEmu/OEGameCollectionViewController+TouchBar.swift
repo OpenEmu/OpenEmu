@@ -26,11 +26,11 @@
 
 import Cocoa
 
-fileprivate extension NSTouchBar.CustomizationIdentifier {
+private extension NSTouchBar.CustomizationIdentifier {
     static let touchBar = "org.openemu.OEGameCollectionViewController.play"
 }
 
-fileprivate extension NSTouchBarItem.Identifier {
+private extension NSTouchBarItem.Identifier {
     static let delete = NSTouchBarItem.Identifier("org.openemu.OEGameCollectionViewController.delete")
     static let play = NSTouchBarItem.Identifier("org.openemu.OEGameCollectionViewController.play")
 }
@@ -95,7 +95,7 @@ extension OEGameCollectionViewController: NSTouchBarDelegate {
     }
 }
 
-fileprivate class GamesTouchBar: NSTouchBar {
+private class GamesTouchBar: NSTouchBar {
     
     weak var gameCollectionViewController: OEGameCollectionViewController? {
         didSet {
@@ -124,7 +124,7 @@ fileprivate class GamesTouchBar: NSTouchBar {
             let button = deleteItem.view as! NSButton
             button.isEnabled = !gameCollectionViewController.selectionIndexes.isEmpty
         }
-            
+        
         if let playItem = item(forIdentifier: .play) as? NSCustomTouchBarItem {
             let button = playItem.view as! NSButton
             button.isEnabled = gameCollectionViewController.selectionIndexes.count == 1

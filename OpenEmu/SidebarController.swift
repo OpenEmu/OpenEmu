@@ -85,6 +85,7 @@ class SidebarController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         sidebarView.register(NSNib(nibNamed: "SidebarHeaderView", bundle: nil), forIdentifier: .headerView)
         sidebarView.register(NSNib(nibNamed: "SidebarItemView", bundle: nil), forIdentifier: .itemView)
         
@@ -354,12 +355,6 @@ extension SidebarController: NSOutlineViewDelegate {
 }
 
 // MARK: - DataSource
-
-extension NSUserInterfaceItemIdentifier: ExpressibleByStringLiteral {
-    public init(stringLiteral: String) {
-        self.init(stringLiteral)
-    }
-}
 
 extension SidebarController: NSOutlineViewDataSource {
     
@@ -640,7 +635,7 @@ extension SidebarController: NSMenuDelegate {
                 menuItem.tag = index
                 menu.addItem(menuItem)
                 
-                menu.addItem(NSMenuItem.separator())
+                menu.addItem(.separator())
             }
             
             menuItem = NSMenuItem()

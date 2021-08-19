@@ -59,7 +59,7 @@ final class ControlsPopUpButtonCell: NSPopUpButtonCell {
         
         if !titleRect.isEmpty {
             titleRect.origin.y -= 3
-            let attributedTitle = NSAttributedString(string: title, attributes: ControlsPopUpButtonCell.attributes)
+            let attributedTitle = NSAttributedString(string: title, attributes: Self.attributes)
             drawTitle(attributedTitle, withFrame: titleRect, in: controlView)
         }
         if !imageRect.isEmpty,

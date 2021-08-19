@@ -35,13 +35,13 @@ class TextButton: HoverButton {
     
     private var arrowImage: NSImage? {
         if isHighlighted {
-            return NSImage(named: "arrow_right")?.withTintColor(NSColor.tertiaryLabelColor)
+            return NSImage(named: "arrow_right")?.withTintColor(.tertiaryLabelColor)
         }
         else if isHovering {
-            return NSImage(named: "arrow_right")?.withTintColor(NSColor.labelColor)
+            return NSImage(named: "arrow_right")?.withTintColor(.labelColor)
         }
         else {
-            return NSImage(named: "arrow_right")?.withTintColor(NSColor.secondaryLabelColor)
+            return NSImage(named: "arrow_right")?.withTintColor(.secondaryLabelColor)
         }
     }
     
@@ -68,7 +68,7 @@ class TextButton: HoverButton {
         
         let font = self.font ?? .systemFont(ofSize: NSFont.systemFontSize)
         let color = textColor ?? .labelColor
-        let hoverColor = textColorHover ?? NSColor.labelColor.withSystemEffect(.rollover)
+        let hoverColor = textColorHover ?? .labelColor.withSystemEffect(.rollover)
         
         var attributes: [NSAttributedString.Key : Any] =
                                           [.font: font,

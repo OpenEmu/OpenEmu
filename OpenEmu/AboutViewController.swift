@@ -44,7 +44,7 @@ class AboutViewController: NSViewController {
         websiteLink.textColor = color
         websiteLink.textColorHover = hoverColor
         
-        shadow.shadowColor = NSColor.black.withAlphaComponent(0.4)
+        shadow.shadowColor = .black.withAlphaComponent(0.4)
         
         gitHubLink.font = .boldSystemFont(ofSize: 11)
         gitHubLink.textShadow = shadow

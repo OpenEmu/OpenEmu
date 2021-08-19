@@ -32,11 +32,11 @@ final class GlossButton: NSButton {
     
     private let subImageRectBlack    = NSRect(x: 0, y: 138, width: 103, height: 23)
     private let subImageRectPressed  = NSRect(x: 0, y: 115, width: 103, height: 23)
-    private let subImageRectBlackAlt = NSRect(x: 0, y: 92, width: 103, height: 23)
-    private let subImageRectBlue     = NSRect(x: 0, y: 69, width: 103, height: 23)
-    private let subImageRectBlueAlt  = NSRect(x: 0, y: 46, width: 103, height: 23)
-    private let subImageRectGreen    = NSRect(x: 0, y: 23, width: 103, height: 23)
-    private let subImageRectGreenAlt = NSRect(x: 0, y: 0, width: 103, height: 23)
+    private let subImageRectBlackAlt = NSRect(x: 0, y:  92, width: 103, height: 23)
+    private let subImageRectBlue     = NSRect(x: 0, y:  69, width: 103, height: 23)
+    private let subImageRectBlueAlt  = NSRect(x: 0, y:  46, width: 103, height: 23)
+    private let subImageRectGreen    = NSRect(x: 0, y:  23, width: 103, height: 23)
+    private let subImageRectGreenAlt = NSRect(x: 0, y:   0, width: 103, height: 23)
     
     private static let attributes: [NSAttributedString.Key : Any] = {
         
@@ -65,7 +65,7 @@ final class GlossButton: NSButton {
         let color = NSColor(white: 0.03, alpha: 1)
         
         let shadow = NSShadow()
-        shadow.shadowColor = NSColor.white.withAlphaComponent(0.4)
+        shadow.shadowColor = .white.withAlphaComponent(0.4)
         shadow.shadowOffset = NSMakeSize(0, -1)
         
         let style = NSMutableParagraphStyle()
@@ -114,7 +114,7 @@ final class GlossButton: NSButton {
         
         NSImage(named: "gloss_button_")?.subImage(from: bgSubImageRect).draw(in: dirtyRect)
         
-        attributedTitle = NSAttributedString(string: title, attributes: isHighlighted ? GlossButton.attributesPressed : GlossButton.attributes)
+        attributedTitle = NSAttributedString(string: title, attributes: isHighlighted ? Self.attributesPressed : Self.attributes)
         
         super.draw(dirtyRect)
     }
@@ -122,14 +122,12 @@ final class GlossButton: NSButton {
     override func viewWillMove(toWindow newWindow: NSWindow?) {
         super.viewWillMove(toWindow: newWindow)
         
-        if (window != nil) {
-            
+        if window != nil {
             NotificationCenter.default.removeObserver(self, name: NSWindow.didBecomeMainNotification, object: window)
             NotificationCenter.default.removeObserver(self, name: NSWindow.didResignMainNotification, object: window)
         }
         
-        if (newWindow != nil) {
-            
+        if newWindow != nil {
             NotificationCenter.default.addObserver(self, selector: #selector(windowKeyChanged), name: NSWindow.didBecomeMainNotification, object: newWindow)
             NotificationCenter.default.addObserver(self, selector: #selector(windowKeyChanged), name: NSWindow.didResignMainNotification, object: newWindow)
         }

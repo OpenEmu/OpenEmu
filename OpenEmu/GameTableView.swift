@@ -29,19 +29,19 @@ protocol GameTableViewMenuSource {
 }
 
 extension NSUserInterfaceItemIdentifier {
-    static let gameTableViewTitleColumn = NSUserInterfaceItemIdentifier.titleColumn
+    static let gameTableViewTitleColumn  = NSUserInterfaceItemIdentifier.titleColumn
     static let gameTableViewRatingColumn = NSUserInterfaceItemIdentifier.ratingColumn
 }
 
 private extension NSUserInterfaceItemIdentifier {
-    static let statusColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewStatus")
-    static let titleColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewTitle")
-    static let ratingColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewRating")
-    static let lastPlayedColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewLastPlayed")
-    static let systemColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewConsoleName")
-    static let saveStateCountColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewSaveStateCount")
-    static let playCountColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewPlayCount")
-    static let playTimeColumn = NSUserInterfaceItemIdentifier(rawValue: "listViewPlayTime")
+    static let statusColumn         = NSUserInterfaceItemIdentifier("listViewStatus")
+    static let titleColumn          = NSUserInterfaceItemIdentifier("listViewTitle")
+    static let ratingColumn         = NSUserInterfaceItemIdentifier("listViewRating")
+    static let lastPlayedColumn     = NSUserInterfaceItemIdentifier("listViewLastPlayed")
+    static let systemColumn         = NSUserInterfaceItemIdentifier("listViewConsoleName")
+    static let saveStateCountColumn = NSUserInterfaceItemIdentifier("listViewSaveStateCount")
+    static let playCountColumn      = NSUserInterfaceItemIdentifier("listViewPlayCount")
+    static let playTimeColumn       = NSUserInterfaceItemIdentifier("listViewPlayTime")
 }
 
 @objc(OEGameTableView)

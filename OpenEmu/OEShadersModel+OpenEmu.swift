@@ -26,8 +26,7 @@ import Foundation
 
 extension OEShadersModel {
     @objc
-    public static var shared : OEShadersModel = {
+    public static var shared: OEShadersModel = {
         OEShadersModel(store: .standard, bundle: .main)
     }()
 }
-

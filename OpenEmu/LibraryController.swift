@@ -54,7 +54,7 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
         }
     }
     
-    override var nibName: NSNib.Name? { NSNib.Name("OELibraryController") }
+    override var nibName: NSNib.Name? { "OELibraryController" }
     
     @objc weak var delegate: LibraryControllerDelegate?
     @IBOutlet var toolbar: LibraryToolbar?
@@ -303,9 +303,7 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
     // MARK: - Categories
     
     @objc var currentSubviewController: NSViewController? {
-        get {
-            return self.tabView.selectedTabViewItem?.viewController
-        }
+        return tabView.selectedTabViewItem?.viewController
     }
     
     private func switchCategoryFromToolbar() {
@@ -447,9 +445,9 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
     }()
 }
 
-extension NSUserInterfaceItemIdentifier {
-    static let savestatesViewController = Self("org.openemu.category.savestates")
-    static let screenshotsViewController = Self("org.openemu.category.screenshots")
+private extension NSUserInterfaceItemIdentifier {
+    static let savestatesViewController = NSUserInterfaceItemIdentifier("org.openemu.category.savestates")
+    static let screenshotsViewController = NSUserInterfaceItemIdentifier("org.openemu.category.screenshots")
 }
 
 extension Key {

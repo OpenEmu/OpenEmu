@@ -28,7 +28,7 @@ extension OEAlert {
     
     @objc static let OERemoveGameFromCollectionAlertSuppressionKey = "removeGamesFromCollectionWithoutConfirmation"
     @objc static let OERemoveGameFromLibraryAlertSuppressionKey = "removeGamesFromLibraryWithoutConfirmation"
-    @objc static let OERemoveCollectionAlertSuppressionKey = "removeCollectionWithoutConfirmation";
+    @objc static let OERemoveCollectionAlertSuppressionKey = "removeCollectionWithoutConfirmation"
     @objc static let OELoadAutoSaveAlertSuppressionKey = "loadAutosaveDialogChoice"
     @objc static let OEDeleteGameAlertSuppressionKey = "removeStatesWithoutConfirmation"
     @objc static let OESaveGameAlertSuppressionKey = "saveGameWithoutConfirmation"
@@ -36,7 +36,7 @@ extension OEAlert {
     @objc static let OEResetSystemAlertSuppressionKey = "resetSystemWithoutConfirmation"
     @objc static let OEStopEmulationAlertSuppressionKey = "stopEmulationWithoutConfirmation"
     @objc static let OERemoveGameFilesFromLibraryAlertSuppressionKey = "trashFilesDialogChoice"
-    @objc static let OEAutoSwitchCoreAlertSuppressionKey = "changeCoreWhenLoadingStateWitoutConfirmation";
+    @objc static let OEAutoSwitchCoreAlertSuppressionKey = "changeCoreWhenLoadingStateWitoutConfirmation"
     @objc static let OEGameCoreGlitchesSuppressionKey = "OEGameCoreGlitches"
     @objc static let OERenameSpecialSaveStateAlertSuppressionKey = "OERenameSpecialSaveStateAlertSuppressionKey"
     @objc static let OEDeleteScreenshotAlertSuppressionKey = "OEDeleteScreenshotAlertSuppressionKey"

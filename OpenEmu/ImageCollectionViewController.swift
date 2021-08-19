@@ -50,13 +50,11 @@ class ImageCollectionViewController: NSViewController {
     
     override var representedObject: Any? {
         didSet {
-            let _ = self.view
+            _ = self.view
         }
     }
     
-    override var nibName: NSNib.Name? {
-        return NSNib.Name("ImageCollectionViewController")
-    }
+    override var nibName: NSNib.Name? { "ImageCollectionViewController" }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,7 +147,7 @@ class ImageCollectionViewController: NSViewController {
         let nonOverlappingFrame = NSIntersectionRect(viewFrame, view.window!.contentLayoutRect)
         blankSlateView.frame = view.convert(nonOverlappingFrame, from: nil)
         
-        validateToolbarItems();
+        validateToolbarItems()
         restoreSelectionFromDefaults()
     }
     
@@ -326,9 +324,9 @@ class ImageCollectionViewController: NSViewController {
     }
 }
 
-extension NSUserInterfaceItemIdentifier {
-    static let imageCollectionViewItemIdentifier        = NSUserInterfaceItemIdentifier(rawValue: "ImageCollectionViewItem")
-    static let imageCollectionHeaderViewItemIdentifier  = NSUserInterfaceItemIdentifier(rawValue: "ImageCollectionHeaderView")
+private extension NSUserInterfaceItemIdentifier {
+    static let imageCollectionViewItem       = NSUserInterfaceItemIdentifier("ImageCollectionViewItem")
+    static let imageCollectionHeaderViewItem = NSUserInterfaceItemIdentifier("ImageCollectionHeaderView")
 }
 
 extension ImageCollectionViewController: NSCollectionViewDataSource {
@@ -350,7 +348,7 @@ extension ImageCollectionViewController: NSCollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-        let itemView = collectionView.makeItem(withIdentifier: .imageCollectionViewItemIdentifier, for: indexPath) as! ImageCollectionViewItem
+        let itemView = collectionView.makeItem(withIdentifier: .imageCollectionViewItem, for: indexPath) as! ImageCollectionViewItem
         dataSourceDelegate.loadItemView(itemView, at: indexPath)
         return itemView
     }
@@ -362,7 +360,7 @@ extension ImageCollectionViewController: NSCollectionViewDataSource {
         
         precondition(kind == NSCollectionView.elementKindSectionHeader, "only headers are supported")
         
-        let view = collectionView.makeSupplementaryView(ofKind: kind, withIdentifier: .imageCollectionHeaderViewItemIdentifier, for: indexPath)
+        let view = collectionView.makeSupplementaryView(ofKind: kind, withIdentifier: .imageCollectionHeaderViewItem, for: indexPath)
         let headerView = view as! ImageCollectionHeaderView
         
         dataSourceDelegate.loadHeaderView(headerView, at: indexPath)

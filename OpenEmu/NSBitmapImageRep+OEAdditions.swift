@@ -24,7 +24,7 @@
 
 import Cocoa
 
-@objc extension NSBitmapImageRep {
+extension NSBitmapImageRep {
     /// Returns the image resized to the specified dimensions.
     /// - Parameter sz: A size specifying the new dimensions of the image
     ///

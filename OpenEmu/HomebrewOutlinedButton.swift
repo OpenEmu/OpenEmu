@@ -41,7 +41,7 @@ final class HomebrewOutlinedButton: NSButton {
         
         NSGraphicsContext.current?.restoreGraphicsState()
         
-        title.draw(in: frame.insetBy(dx: 0, dy: -0.5), withAttributes: HomebrewOutlinedButton.attributes)
+        title.draw(in: frame.insetBy(dx: 0, dy: -0.5), withAttributes: Self.attributes)
     }
     
     private static let attributes: [NSAttributedString.Key : Any] = {

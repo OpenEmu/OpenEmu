@@ -245,7 +245,7 @@ class PreferencesTabViewController: NSTabViewController {
         }
         
         let contentSize = (selectedItem.viewController! as! OEPreferencePane).viewSize
-        let newWindowSize = window.frameRect(forContentRect: NSRect(origin: NSPoint.zero, size: contentSize)).size
+        let newWindowSize = window.frameRect(forContentRect: NSRect(origin: .zero, size: contentSize)).size
         
         var frame = window.frame
         frame.origin.y += frame.height

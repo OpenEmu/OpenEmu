@@ -172,11 +172,11 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
 
 // MARK: - Touch Bar
 
-fileprivate extension NSTouchBar.CustomizationIdentifier {
+private extension NSTouchBar.CustomizationIdentifier {
     static let screenshotsTouchBar = "org.openemu.ScreenshotViewController.screenshotsTouchBar"
 }
 
-fileprivate extension NSTouchBarItem.Identifier {
+private extension NSTouchBarItem.Identifier {
     static let deleteScreenshot = NSTouchBarItem.Identifier("org.openemu.ScreenshotViewController.screenshotsTouchBar.delete")
     static let showScreenshotInFinder = NSTouchBarItem.Identifier("org.openemu.ScreenshotViewController.screenshotsTouchBar.showInFinder")
     static let shareScreenshot = NSTouchBarItem.Identifier("org.openemu.ScreenshotViewController.screenshotsTouchBar.share")
@@ -184,7 +184,7 @@ fileprivate extension NSTouchBarItem.Identifier {
 
 extension ScreenshotViewController {
     
-    open override func makeTouchBar() -> NSTouchBar? {
+    override func makeTouchBar() -> NSTouchBar? {
         
         let touchBar = NSTouchBar()
         
@@ -226,7 +226,7 @@ extension ScreenshotViewController {
 
 extension ScreenshotViewController: NSTouchBarDelegate {
     
-    public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
+    func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
         
         switch identifier {
         

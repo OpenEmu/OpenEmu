@@ -162,18 +162,18 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
 
 // MARK: - Touch Bar
 
-fileprivate extension NSTouchBar.CustomizationIdentifier {
+private extension NSTouchBar.CustomizationIdentifier {
     static let saveStatesTouchBar = "org.openemu.SaveStateViewController.saveStatesTouchBar"
 }
 
-fileprivate extension NSTouchBarItem.Identifier {
+private extension NSTouchBarItem.Identifier {
     static let deleteSaveState = NSTouchBarItem.Identifier("org.openemu.SaveStateViewController.saveStatesTouchbar.delete")
     static let resumeSaveState = NSTouchBarItem.Identifier("org.openemu.SaveStateViewController.saveStatesTouchbar.resume")
 }
 
 extension SaveStateViewController {
     
-    open override func makeTouchBar() -> NSTouchBar? {
+    override func makeTouchBar() -> NSTouchBar? {
         
         let touchBar = NSTouchBar()
         
@@ -209,7 +209,7 @@ extension SaveStateViewController {
 
 extension SaveStateViewController: NSTouchBarDelegate {
     
-    public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
+    func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
         
         switch identifier {
         

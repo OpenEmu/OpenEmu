@@ -238,13 +238,13 @@ extension ShaderParametersViewController: NSOutlineViewDataSource {
     }
 }
 
-extension NSUserInterfaceItemIdentifier {
+private extension NSUserInterfaceItemIdentifier {
     static let checkBoxType = NSUserInterfaceItemIdentifier("CheckBox")
     static let sliderType   = NSUserInterfaceItemIdentifier("Slider")
     static let groupType    = NSUserInterfaceItemIdentifier("Group")
 }
 
-fileprivate extension OEShaderParamValue {
+private extension OEShaderParamValue {
     var cellType: NSUserInterfaceItemIdentifier {
         minimum.doubleValue == 0.0 && maximum.doubleValue == 1.0 && step.doubleValue == 1.0
             ? .checkBoxType

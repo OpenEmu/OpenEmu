@@ -37,9 +37,9 @@ class ThreePartImage: NSImage {
     
     convenience init(imageParts: [NSImage?], vertical: Bool) {
         
-        let start  = imageParts[0]?.size ?? NSSize.zero
-        let center = imageParts[1]?.size ?? NSSize.zero
-        let end    = imageParts[2]?.size ?? NSSize.zero
+        let start  = imageParts[0]?.size ?? .zero
+        let center = imageParts[1]?.size ?? .zero
+        let end    = imageParts[2]?.size ?? .zero
         
         var size = NSSize.zero
         if vertical {
@@ -103,15 +103,15 @@ class NinePartImage: NSImage {
     
     convenience init(imageParts: [NSImage?]) {
         
-        let topLeft      = imageParts[0]?.size ?? NSZeroSize
-        let topCenter    = imageParts[1]?.size ?? NSZeroSize
-        let topRight     = imageParts[2]?.size ?? NSZeroSize
-        let leftEdge     = imageParts[3]?.size ?? NSZeroSize
-        let centerFill   = imageParts[4]?.size ?? NSZeroSize
-        let rightEdge    = imageParts[5]?.size ?? NSZeroSize
-        let bottomLeft   = imageParts[6]?.size ?? NSZeroSize
-        let bottomCenter = imageParts[7]?.size ?? NSZeroSize
-        let bottomRight  = imageParts[8]?.size ?? NSZeroSize
+        let topLeft      = imageParts[0]?.size ?? .zero
+        let topCenter    = imageParts[1]?.size ?? .zero
+        let topRight     = imageParts[2]?.size ?? .zero
+        let leftEdge     = imageParts[3]?.size ?? .zero
+        let centerFill   = imageParts[4]?.size ?? .zero
+        let rightEdge    = imageParts[5]?.size ?? .zero
+        let bottomLeft   = imageParts[6]?.size ?? .zero
+        let bottomCenter = imageParts[7]?.size ?? .zero
+        let bottomRight  = imageParts[8]?.size ?? .zero
         
         let width1  = topLeft.width + topCenter.width + topRight.width
         let width2  = leftEdge.width + centerFill.width + rightEdge.width
@@ -179,20 +179,20 @@ extension NSImage {
     
     @objc(subImageFromRect:)
     func subImage(from rect: NSRect) -> NSImage {
-        if rect.origin == NSZeroPoint && rect.size == self.size {
+        if rect.origin == .zero && rect.size == self.size {
             return self.copy() as! NSImage
         }
         
         let newImage = NSImage(size: rect.size)
-        let flippedRect = NSMakeRect(rect.origin.x, (self.size.height-(rect.origin.y+rect.size.height)), rect.size.width, rect.size.height)
+        let flippedRect = NSRect(x: rect.origin.x, y: (self.size.height-(rect.origin.y+rect.size.height)), width: rect.size.width, height: rect.size.height)
         for representation in self.representations {
             if representation.pixelsWide == 0 && representation.pixelsHigh == 0 {
                 continue
             }
             let cgrep = representation.cgImage(forProposedRect: nil, context: nil, hints: nil)
-            let xscale = CGFloat(representation.pixelsHigh) / representation.size.height;
-            let yscale = CGFloat(representation.pixelsWide) / representation.size.width;
-            if let croppedrep = cgrep?.cropping(to: CGRect(x:flippedRect.origin.x * xscale, y:flippedRect.origin.y * yscale, width:flippedRect.size.width * xscale, height:flippedRect.size.height * yscale)) {
+            let xscale = CGFloat(representation.pixelsHigh) / representation.size.height
+            let yscale = CGFloat(representation.pixelsWide) / representation.size.width
+            if let croppedrep = cgrep?.cropping(to: CGRect(x: flippedRect.origin.x * xscale, y: flippedRect.origin.y * yscale, width: flippedRect.size.width * xscale, height: flippedRect.size.height * yscale)) {
                 let newrep = NSBitmapImageRep(cgImage: croppedrep)
                 newrep._appearanceName = representation._appearanceName
                 newrep.size = rect.size
@@ -206,7 +206,7 @@ extension NSImage {
                     from: rect,
                     operation: .sourceOver,
                     fraction: 1)
-
+                
                 return true
             }
         }
@@ -252,7 +252,7 @@ extension NSImage {
                 
             default:
                 NSLog("Unable to parse NSRect from part: \(part)")
-                rect = NSZeroRect
+                rect = .zero
             }
             
             if !rect.isEmpty {

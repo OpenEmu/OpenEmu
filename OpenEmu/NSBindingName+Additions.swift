@@ -24,8 +24,8 @@
 
 import Foundation
 
-extension NSBindingName {
-    public static let backgroundControllerPlay  = NSBindingName(rawValue: "backgroundControllerPlay")
-    public static let logHIDEvents              = NSBindingName(rawValue: "logHIDEvents")
-    public static let logKeyboardEvents         = NSBindingName(rawValue: "logKeyboardEvents")
+public extension NSBindingName {
+    static let backgroundControllerPlay = NSBindingName("backgroundControllerPlay")
+    static let logHIDEvents             = NSBindingName("logHIDEvents")
+    static let logKeyboardEvents        = NSBindingName("logKeyboardEvents")
 }

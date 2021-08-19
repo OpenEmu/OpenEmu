@@ -215,7 +215,7 @@ public enum AppMover {
     }
 }
 
-fileprivate extension URL {
+private extension URL {
     
     var representsApplicationBundle: Bool {
         pathExtension == "app"
@@ -231,7 +231,7 @@ fileprivate extension URL {
     
 }
 
-fileprivate extension Bundle {
+private extension Bundle {
     var isTranslocated: Bool {
         return bundlePath.contains("/AppTranslocation/")
     }

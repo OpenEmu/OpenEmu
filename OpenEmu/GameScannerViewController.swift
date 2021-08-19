@@ -64,9 +64,7 @@ class GameScannerViewController: NSViewController {
         notificationCenter.addObserver(self, selector: #selector(hideGameScannerView(animated:)), name: GameScannerViewController.OEGameScannerHideNotification, object: nil)
     }
     
-    override var nibName: NSNib.Name? {
-        return "OEGameScanner"
-    }
+    override var nibName: NSNib.Name? { "OEGameScanner" }
     
     override func awakeFromNib() {
         
@@ -136,7 +134,7 @@ class GameScannerViewController: NSViewController {
         
         menu.addItem(withTitle: NSLocalizedString("Don't Import Selected", comment: ""), action: nil, keyEquivalent: "")
         
-        menu.addItem(NSMenuItem.separator())
+        menu.addItem(.separator())
         
         for item in menuItems {
             menu.addItem(item)
@@ -572,13 +570,13 @@ extension GameScannerViewController: OEROMImporterDelegate {
                 if itemsAlreadyInDatabase == nil {
                     itemsAlreadyInDatabase = NSLocalizedString("Already in library:", comment:"")
                 }
-                itemsAlreadyInDatabase! += "\n• " + String.init(format: NSLocalizedString("\"%@\" in %@", comment:"Import error description: file already imported (first item: filename, second item: system library name)"), failedFilename, failedItem.romLocation!)
+                itemsAlreadyInDatabase! += "\n• " + String(format: NSLocalizedString("\"%@\" in %@", comment:"Import error description: file already imported (first item: filename, second item: system library name)"), failedFilename, failedItem.romLocation!)
 
             } else if error.domain == OEImportErrorDomainFatal && error.code == OEImportErrorCode.alreadyInDatabaseFileUnreachable.rawValue {
                 if itemsAlreadyInDatabaseFileUnreachable == nil {
                     itemsAlreadyInDatabaseFileUnreachable = NSLocalizedString("Already in library, but manually deleted or unreachable:", comment:"")
                 }
-                itemsAlreadyInDatabaseFileUnreachable! += "\n• " + String.init(format: NSLocalizedString("\"%@\" in %@", comment:"Import error description: file already imported (first item: filename, second item: system library name)"), failedFilename, failedItem.romLocation!)
+                itemsAlreadyInDatabaseFileUnreachable! += "\n• " + String(format: NSLocalizedString("\"%@\" in %@", comment:"Import error description: file already imported (first item: filename, second item: system library name)"), failedFilename, failedItem.romLocation!)
 
             } else if error.domain == OEImportErrorDomainFatal && error.code == OEImportErrorCode.noSystem.rawValue {
                 if itemsNoSystem == nil {
@@ -613,7 +611,7 @@ extension GameScannerViewController: OEROMImporterDelegate {
                         itemsDiscDescriptorMissingFiles = NSLocalizedString("Missing referenced file:", comment:"")
                     }
                     let missingFilename = (underlyingError.userInfo[NSFilePathErrorKey] as! NSString).lastPathComponent
-                    let notFoundMsg = String.init(format: NSLocalizedString("NOT FOUND: \"%@\"", comment:"Import error description: referenced file not found"), missingFilename)
+                    let notFoundMsg = String(format: NSLocalizedString("NOT FOUND: \"%@\"", comment:"Import error description: referenced file not found"), missingFilename)
                     itemsDiscDescriptorMissingFiles! += "\n• \"\(failedFilename)\"\n   - \(notFoundMsg)"
                 }
 

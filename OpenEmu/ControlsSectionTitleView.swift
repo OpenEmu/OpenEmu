@@ -64,7 +64,7 @@ final class ControlsSectionTitleView: NSView {
         return textField
     }()
     
-    private lazy var string = NSAttributedString(string: stringValue, attributes: ControlsSectionTitleView.attributes)
+    private lazy var string = NSAttributedString(string: stringValue, attributes: Self.attributes)
     
     @objc var stringValue = ""
     

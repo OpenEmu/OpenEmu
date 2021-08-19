@@ -44,12 +44,12 @@ extension NSColor {
                           CGFloat((colorRGB & 0x0000FF) >>  0) / 255, // b
                           CGFloat(1)]                                 // a
         
-        self.init(colorSpace: NSColorSpace.deviceRGB, components: components, count: 4)
+        self.init(colorSpace: .deviceRGB, components: components, count: 4)
     }
     
     @objc func toString() -> String? {
         
-        let rgbColor = usingColorSpace(NSColorSpace.deviceRGB)
+        let rgbColor = usingColorSpace(.deviceRGB)
         let result = String(format: "#%02x%02x%02x", Int(rgbColor!.redComponent * 255), Int(rgbColor!.greenComponent * 255), Int(rgbColor!.blueComponent * 255))
         
         return result
