@@ -303,6 +303,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
             }
         }];
         *outError = blockError;
+        return NO;
     }
     
     _gameCoreManager = [self _newGameCoreManagerWithCorePlugin:_corePlugin];
