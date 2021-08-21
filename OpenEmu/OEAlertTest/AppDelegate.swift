@@ -75,7 +75,7 @@ class AppDelegate: NSObject, NSApplicationDelegate
     @objc var currentStatus = AlertStatus()
     var nextStatuses = [AlertStatus]()
     
-    var alert = OEAlert(messageText: "", defaultButton: "", alternateButton: "")
+    var alert = OEAlert()
 
 
     func applicationWillFinishLaunching(_ aNotification: Notification)
@@ -100,17 +100,17 @@ class AppDelegate: NSObject, NSApplicationDelegate
 
     @IBAction func runModal(_ sender: Any?)
     {
-        alert = OEAlert(messageText: "", defaultButton: "", alternateButton: "")
+        alert = OEAlert()
         updateAlert()
         if !nextStatuses.isEmpty {
             alert.setDefaultButtonAction(#selector(alertButtonPressed(_:)), andTarget: self)
         }
         if testBgProgressUpdateCheckbox.state == .on {
-            alert.performBlock {
+            alert.performBlockInModalSession {
                 DispatchQueue.global(qos:.background).async {
                     while self.alert.result.rawValue == 0 {
                         usleep(100000)
-                        self.alert.performBlock {
+                        self.alert.performBlockInModalSession {
                             self.alert.progress = self.alert.progress + 0.1
                             if self.alert.progress >= 0.95 {
                                 self.alert.progress = 0.0

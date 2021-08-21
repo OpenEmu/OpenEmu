@@ -27,7 +27,7 @@
 #import "OEDBSystem+CoreDataProperties.h"
 @import OpenEmuKit;
 #import "OELibraryDatabase.h"
-#import "OEAlert.h"
+#import "OpenEmu-Swift.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 

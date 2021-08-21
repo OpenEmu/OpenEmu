@@ -323,7 +323,7 @@ extension MainWindowController: LibraryControllerDelegate {
                     let alert = OEAlert()
                     alert.messageText = NSLocalizedString("Downloading core list...", comment: "")
                     alert.defaultButtonTitle = NSLocalizedString("Cancel", comment: "")
-                    alert.performBlock {
+                    alert.performBlockInModalSession {
                         OECoreUpdater.shared.checkForNewCores { error in
                             alert.close(withResult: .alertSecondButtonReturn)
                         }

@@ -31,7 +31,7 @@
 #import "OECoreDownload.h"
 @import OpenEmuKit;
 
-#import "OEAlert.h"
+#import "OpenEmu-Swift.h"
 
 #import "OEDBGame+CoreDataProperties.h"
 #import "OEDBSystem+CoreDataProperties.h"
@@ -108,7 +108,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
     _coreList =
     [[_coresDict allValues] sortedArrayUsingComparator:
-     ^ NSComparisonResult (id obj1, id obj2)
+     ^ NSComparisonResult (OECoreDownload *obj1, OECoreDownload *obj2)
      {
          return [[obj1 name] localizedCaseInsensitiveCompare:[obj2 name]];
      }];
@@ -263,7 +263,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
         {
             // Sort by core name alphabetically to match our automatic Core Picker behavior
             validPlugins = [validPlugins sortedArrayUsingComparator:
-                            ^ NSComparisonResult (id obj1, id obj2)
+                            ^ NSComparisonResult (OECoreDownload *obj1, OECoreDownload *obj2)
                             {
                                 return [[obj1 name] compare:[obj2 name]];
                             }];

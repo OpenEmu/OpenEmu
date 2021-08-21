@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2021, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,9 +22,38 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef SwiftBridging_h
-#define SwiftBridging_h
+import Foundation
 
-#include "OEAlert.h"
-
-#endif /* SwiftBridging_h */
+final class InputLimitFormatter: Formatter {
+    
+    var limit: UInt!
+    
+    init(limit: UInt) {
+        super.init()
+        self.limit = limit
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func string(for obj: Any?) -> String? {
+        
+        if obj is NSAttributedString {
+            return (obj as? NSAttributedString)?.string
+        }
+        
+        return obj as? String
+    }
+    
+    override func getObjectValue(_ obj: AutoreleasingUnsafeMutablePointer<AnyObject?>?, for string: String, errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool {
+        
+        obj?.pointee = string as AnyObject
+        return true
+    }
+    
+    override func isPartialStringValid(_ partialString: String, newEditingString newString: AutoreleasingUnsafeMutablePointer<NSString?>?, errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool {
+        
+        return partialString.count <= limit
+    }
+}
