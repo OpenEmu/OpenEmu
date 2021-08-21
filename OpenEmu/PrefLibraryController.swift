@@ -22,6 +22,8 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import Cocoa
+
 @objc(OEPrefLibraryController)
 final class PrefLibraryController: NSViewController {
     
@@ -46,7 +48,7 @@ final class PrefLibraryController: NSViewController {
         librariesView.removeFromSuperview()
         librariesView = scrollView
         
-        scrollView.borderType = .lineBorder
+        scrollView.borderType = .bezelBorder
         NSLayoutConstraint.activate([
             scrollView.widthAnchor.constraint(equalToConstant: size.width),
             scrollView.heightAnchor.constraint(equalToConstant: size.height)
