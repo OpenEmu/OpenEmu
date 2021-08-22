@@ -50,6 +50,8 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
 {
     OESystemPlugin *selectedPlugin;
     OEHIDEvent     *readingEvent;
+    mach_timebase_info_data_t timebaseInfo;
+    uint64_t       readingEventTime;
     NSMutableSet   *ignoredEvents;
     id _eventMonitor;
 }
@@ -81,6 +83,8 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+    mach_timebase_info(&timebaseInfo);
+    readingEventTime = 0;
 
     // We're using CFSet here because NSSet is confused by the changing state of OEHIDEvents
     CFSetCallBacks callbacks = kCFTypeSetCallBacks;
@@ -689,12 +693,14 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     if([anEvent type] == OEHIDEventTypeKeyboard && ![self isKeyboardEventSelected])
         return NO;
 
-    // No event currently read, if it's not off state, store it and read it
-    if(readingEvent == nil)
+    // No event currently read or 100ms have passed, if it's not off state, store it and read it
+    uint64_t elapsed = (mach_absolute_time() - readingEventTime) * timebaseInfo.numer / timebaseInfo.denom;
+    if(readingEvent == nil || elapsed > 100000000)
     {
         // The event is not ignored but it's off, ignore it anyway
         if([anEvent hasOffState]) return NO;
 
+        readingEventTime = mach_absolute_time();
         readingEvent = anEvent;
         return YES;
     }
