@@ -32,9 +32,9 @@ final class HomebrewBlankSlateView: BlankSlateView {
         addLeftHeadline(NSLocalizedString("Homebrew Games", comment: ""))
         addInformationalText(NSLocalizedString("Check out some excellent homebrew games.", comment: ""))
         
-        if representedObject is String {
+        if let representedObject = representedObject as? String {
             
-            setupBox(text: representedObject as! String, imageView: BlankSlateSpinnerView())
+            setupBox(text: representedObject, imageView: BlankSlateSpinnerView())
         }
         else if representedObject is Error {
             

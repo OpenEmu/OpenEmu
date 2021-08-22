@@ -118,9 +118,9 @@ final class HomebrewViewController: NSViewController {
             if let nsErr = error as? CocoaError, nsErr.code == .userCancelled {
                 return
             }
-            if error == nil && destination != nil {
+            if error == nil, let destination = destination {
                 do {
-                    try parseFile(at: destination!)
+                    try parseFile(at: destination)
                     displayResults()
                 } catch {
                     displayError(error)
