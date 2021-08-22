@@ -140,7 +140,7 @@ class BlankSlateView: NSView {
             
             representedSystemPlugin = system.plugin
         }
-        else if let collection = representedObject as? OEDBCollection {
+        else if let collection = representedObject as? OEGameCollectionViewItem {
             
             representedCollectionName = collection.collectionViewName
         }
@@ -301,6 +301,7 @@ class BlankSlateView: NSView {
         }
     }
     
+    // TODO: Use a different wording for smart collections, as games cannot be added manually.
     private func setupView(collectionName: String) {
         setupDragAndDropBox()
         addLeftHeadline(NSLocalizedString("Collections", comment: ""))
