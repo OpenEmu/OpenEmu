@@ -115,7 +115,7 @@ final class HomebrewViewController: NSViewController {
             if currentDownload == blockDL {
                 currentDownload = nil
             }
-            if (error as NSError?)?.domain == NSCocoaErrorDomain && (error as NSError?)?.code == NSUserCancelledError {
+            if let nsErr = error as? CocoaError, nsErr.code == .userCancelled {
                 return
             }
             if error == nil && destination != nil {
