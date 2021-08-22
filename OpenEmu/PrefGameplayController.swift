@@ -105,15 +105,13 @@ final class PrefGameplayController: NSViewController {
     }
 }
 
-// MARK: - OEPreferencePane
+// MARK: - PreferencePane
 
-extension PrefGameplayController: OEPreferencePane {
+extension PrefGameplayController: PreferencePane {
     
-    var icon: NSImage { NSImage(named: "gameplay_tab_icon")! }
+    var icon: NSImage? { NSImage(named: "gameplay_tab_icon") }
     
     var panelTitle: String { "Gameplay" }
-    
-    var localizedPanelTitle: String { NSLocalizedString(panelTitle, comment: "Preferences: Gameplay Toolbar item") }
     
     var viewSize: NSSize { view.fittingSize }
 }

@@ -156,15 +156,13 @@ extension PrefCoresController: NSTableViewDelegate {
     }
 }
 
-// MARK: - OEPreferencePane
+// MARK: - PreferencePane
 
-extension PrefCoresController: OEPreferencePane {
+extension PrefCoresController: PreferencePane {
     
-    var icon: NSImage { NSImage(named: "cores_tab_icon")! }
+    var icon: NSImage? { NSImage(named: "cores_tab_icon") }
     
     var panelTitle: String { "Cores" }
-    
-    var localizedPanelTitle: String { NSLocalizedString(panelTitle, comment: "Preferences: Cores Toolbar item") }
     
     var viewSize: NSSize { view.fittingSize }
 }

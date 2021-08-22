@@ -155,15 +155,13 @@ final class PrefLibraryController: NSViewController {
     }
 }
 
-// MARK: - OEPreferencePane
+// MARK: - PreferencePane
 
-extension PrefLibraryController: OEPreferencePane {
+extension PrefLibraryController: PreferencePane {
     
-    var icon: NSImage { NSImage(named: "library_tab_icon")! }
+    var icon: NSImage? { NSImage(named: "library_tab_icon") }
     
     var panelTitle: String { "Library" }
-    
-    var localizedPanelTitle: String { NSLocalizedString(panelTitle, comment: "Preferences: Library Toolbar item") }
     
     var viewSize: NSSize { view.fittingSize }
 }

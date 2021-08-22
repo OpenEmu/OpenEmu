@@ -528,15 +528,13 @@ final class PrefDebugController: NSViewController {
     }
 }
 
-// MARK: - OEPreferencePane
+// MARK: - PreferencePane
 
-extension PrefDebugController: OEPreferencePane {
+extension PrefDebugController: PreferencePane {
     
-    var icon: NSImage { NSImage(named: "debug_tab_icon")! }
+    var icon: NSImage? { NSImage(named: "debug_tab_icon") }
     
     var panelTitle: String { "Secrets" }
-    
-    var localizedPanelTitle: String { NSLocalizedString(panelTitle, comment: "Preferences: Debug Toolbar Item") }
     
     var viewSize: NSSize { NSSize(width: fittingWidth, height: 500) }
 }

@@ -245,15 +245,13 @@ extension PrefBiosController: NSTableViewDelegate {
     }
 }
 
-// MARK: - OEPreferencePane
+// MARK: - PreferencePane
 
-extension PrefBiosController: OEPreferencePane {
+extension PrefBiosController: PreferencePane {
     
-    var icon: NSImage { NSImage(named: "bios_tab_icon")! }
+    var icon: NSImage? { NSImage(named: "bios_tab_icon") }
     
     var panelTitle: String { "System Files" }
-    
-    var localizedPanelTitle: String { NSLocalizedString(panelTitle, comment: "Preferences: Bios Toolbar Item") }
     
     var viewSize: NSSize { view.fittingSize }
 }

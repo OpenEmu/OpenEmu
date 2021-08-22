@@ -487,6 +487,7 @@
 		8F80217E24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */; };
 		8F80218124F45E9800DC82E3 /* HUDSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217F24F45E9800DC82E3 /* HUDSliderCell.swift */; };
 		8F80218224F45E9800DC82E3 /* HUDSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80218024F45E9800DC82E3 /* HUDSlider.swift */; };
+		8F8DB27B26D2A69E003CF106 /* PreferencePane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439B6813B932C5005C0CC8 /* PreferencePane.swift */; };
 		8F94B44D25566FE00058AA94 /* NSShadow+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */; };
 		8F94DEC1250EC701003A1F33 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94DEC0250EC701003A1F33 /* ThumbnailProvider.swift */; };
 		8F94DED4250ED838003A1F33 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94DED3250ED838003A1F33 /* PreviewViewController.swift */; };
@@ -1498,7 +1499,7 @@
 		53439AE213B92E59005C0CC8 /* OETableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableView.m; sourceTree = "<group>"; };
 		53439B0513B92EEC005C0CC8 /* OEGridViewFieldEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewFieldEditor.h; sourceTree = "<group>"; };
 		53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewFieldEditor.m; sourceTree = "<group>"; };
-		53439B6813B932C5005C0CC8 /* OEPreferencePane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferencePane.h; sourceTree = "<group>"; };
+		53439B6813B932C5005C0CC8 /* PreferencePane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencePane.swift; sourceTree = "<group>"; };
 		53439B6D13B932DB005C0CC8 /* PrefLibraryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefLibraryController.swift; sourceTree = "<group>"; };
 		53439B7013B932ED005C0CC8 /* PrefGameplayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefGameplayController.swift; sourceTree = "<group>"; };
 		53439B7213B932FA005C0CC8 /* OEPrefControlsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefControlsController.h; sourceTree = "<group>"; };
@@ -3223,7 +3224,7 @@
 			isa = PBXGroup;
 			children = (
 				53439B3313B930A9005C0CC8 /* Controls */,
-				53439B6813B932C5005C0CC8 /* OEPreferencePane.h */,
+				53439B6813B932C5005C0CC8 /* PreferencePane.swift */,
 				5A79F7941C15F542003124D5 /* PreferencesWindowController.swift */,
 				051DDCB423E5D74400325147 /* AvailableLibrariesViewController.swift */,
 				53439B6D13B932DB005C0CC8 /* PrefLibraryController.swift */,
@@ -6770,6 +6771,7 @@
 				C69DCD010FE994A5009AE5A6 /* OEPluginDocument.m in Sources */,
 				05A002D823DE539F007F0DB7 /* SidebarItemView.swift in Sources */,
 				05A002D423DE1006007F0DB7 /* UserDefaults+OEAdditions.swift in Sources */,
+				8F8DB27B26D2A69E003CF106 /* PreferencePane.swift in Sources */,
 				1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */,
 				53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */,
 				5A575DFD1E92D23600491B0D /* Cheats.swift in Sources */,

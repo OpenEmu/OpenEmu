@@ -24,7 +24,6 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @import Cocoa;
-#import "OEPreferencePane.h"
 
 @class OEBackgroundGradientView;
 @class OEControlsButtonSetupView;
@@ -36,7 +35,7 @@
 @class OESystemBindings;
 @class OEPlayerBindings;
 
-@interface OEPrefControlsController : NSViewController <OEPreferencePane>
+@interface OEPrefControlsController : NSViewController
 
 @property(nonatomic, readonly) OESystemController    *currentSystemController;
 @property(nonatomic, readonly) OESystemBindings      *currentSystemBindings;

@@ -755,32 +755,6 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 }
 
 #pragma mark -
-#pragma mark OEPreferencePane Protocol
-
-- (NSImage *)icon
-{
-    return [NSImage imageNamed:@"controls_tab_icon"];
-}
-
-- (NSString *)panelTitle
-{
-    return @"Controls";
-}
-
-- (NSString *)localizedPanelTitle
-{
-    return NSLocalizedString([self panelTitle], @"Preferences: Controls Toolbar Item");
-}
-
-- (NSSize)viewSize
-{
-    if([NSUserDefaults.standardUserDefaults integerForKey:OEControlsPrefsAppearancePreferenceKey] == OEControlsPrefsAppearancePreferenceValueWood)
-        return NSMakeSize(755, 450);
-    else
-        return NSMakeSize(760, 450);
-}
-
-#pragma mark -
 
 - (void)preparePaneWithNotification:(NSNotification *)notification
 {

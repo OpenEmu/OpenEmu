@@ -146,8 +146,6 @@ extension PreferencesWindowController: NSWindowDelegate {
 
 class PreferencesTabViewController: NSTabViewController {
     
-    typealias PreferencesViewController = (NSViewController & OEPreferencePane)
-    
     /// Used to track when viewDidLoad has completed so that the default pane index selection of 0 doesn't get recorded in tabView(_:, didSelectTabViewItem:).
     fileprivate var viewDidLoadFinished = false
     
@@ -158,7 +156,7 @@ class PreferencesTabViewController: NSTabViewController {
         tabStyle = .toolbar
         
         // The collection of preference panes to add.
-        var preferencePanes: [PreferencesViewController] = [
+        var preferencePanes: [PreferencePane] = [
             PrefLibraryController(),
             PrefGameplayController(),
             OEPrefControlsController(),
@@ -223,13 +221,13 @@ class PreferencesTabViewController: NSTabViewController {
     
     // MARK: -
     
-    func addTabViewItem(with pane: PreferencesViewController) {
+    func addTabViewItem(with pane: PreferencePane) {
         
         let item = NSTabViewItem(viewController: pane)
         
         item.image = pane.icon
         item.identifier = pane.panelTitle
-        item.label = pane.localizedPanelTitle
+        item.label = NSLocalizedString(pane.panelTitle, comment: "")
         
         addTabViewItem(item)
     }
@@ -244,7 +242,7 @@ class PreferencesTabViewController: NSTabViewController {
             return
         }
         
-        let contentSize = (selectedItem.viewController! as! OEPreferencePane).viewSize
+        let contentSize = (selectedItem.viewController! as! PreferencePane).viewSize
         let newWindowSize = window.frameRect(forContentRect: NSRect(origin: .zero, size: contentSize)).size
         
         var frame = window.frame
