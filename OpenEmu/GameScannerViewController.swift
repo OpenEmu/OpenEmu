@@ -538,7 +538,7 @@ extension GameScannerViewController: OEROMImporterDelegate {
 
                 // Track item that failed import
                 //if item.exitStatus == OEImportExitStatus.errorFatal {
-                if (error as NSError).domain == OEImportErrorDomainFatal || (error as NSError).domain == OEDiscDescriptorErrorDomain || (error as NSError).domain == OECUESheetErrorDomain || (error as NSError).domain == OEDreamcastGDIErrorDomain {
+                if (error as NSError).domain == OEImportErrorDomainFatal || error is OEDiscDescriptorErrors || error is OECUESheetErrors || error is OEDreamcastGDIErrors {
 
                     itemsFailedImport.append(item)
                 }
@@ -563,7 +563,7 @@ extension GameScannerViewController: OEROMImporterDelegate {
 
         // Build messages for failed items
         for failedItem in itemsFailedImport {
-            let error = (failedItem.error! as NSError)
+            let error = failedItem.error! as NSError
             let failedFilename = failedItem.url.lastPathComponent
 
             if error.domain == OEImportErrorDomainFatal && error.code == OEImportErrorCode.alreadyInDatabase.rawValue {
@@ -596,44 +596,49 @@ extension GameScannerViewController: OEROMImporterDelegate {
                 }
                 itemsEmptyFile! += "\n• \"\(failedFilename)\""
 
-            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorErrors.unreadableFileError.rawValue {
-                if itemsDiscDescriptorUnreadableFile == nil {
-                    itemsDiscDescriptorUnreadableFile = NSLocalizedString("Unexpected error:", comment:"")
-                }
-                let underlyingError = error.userInfo[NSUnderlyingErrorKey] as! NSError
-                itemsDiscDescriptorUnreadableFile! += "\n• \"\(failedFilename)\""
-                itemsDiscDescriptorUnreadableFile! += "\n\n\(underlyingError)"
-
-            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorErrors.missingFilesError.rawValue {
-                let underlyingError = error.userInfo[NSUnderlyingErrorKey] as! NSError
-                if underlyingError.code == CocoaError.fileReadNoSuchFile.rawValue {
-                    if itemsDiscDescriptorMissingFiles == nil {
-                        itemsDiscDescriptorMissingFiles = NSLocalizedString("Missing referenced file:", comment:"")
+            } else if let error2 = error as? OEDiscDescriptorErrors {
+                switch error2.code {
+                case .unreadableFileError:
+                    if itemsDiscDescriptorUnreadableFile == nil {
+                        itemsDiscDescriptorUnreadableFile = NSLocalizedString("Unexpected error:", comment:"")
                     }
-                    let missingFilename = (underlyingError.userInfo[NSFilePathErrorKey] as! NSString).lastPathComponent
-                    let notFoundMsg = String(format: NSLocalizedString("NOT FOUND: \"%@\"", comment:"Import error description: referenced file not found"), missingFilename)
-                    itemsDiscDescriptorMissingFiles! += "\n• \"\(failedFilename)\"\n   - \(notFoundMsg)"
+                    let underlyingError = error2.userInfo[NSUnderlyingErrorKey] as! NSError
+                    itemsDiscDescriptorUnreadableFile! += "\n• \"\(failedFilename)\""
+                    itemsDiscDescriptorUnreadableFile! += "\n\n\(underlyingError)"
+                    
+                case .missingFilesError:
+                    if let underlyingError = error2.userInfo[NSUnderlyingErrorKey] as? CocoaError, underlyingError.code == .fileReadNoSuchFile {
+                        if itemsDiscDescriptorMissingFiles == nil {
+                            itemsDiscDescriptorMissingFiles = NSLocalizedString("Missing referenced file:", comment:"")
+                        }
+                        let missingFilename = (underlyingError.userInfo[NSFilePathErrorKey] as! NSString).lastPathComponent
+                        let notFoundMsg = String(format: NSLocalizedString("NOT FOUND: \"%@\"", comment:"Import error description: referenced file not found"), missingFilename)
+                        itemsDiscDescriptorMissingFiles! += "\n• \"\(failedFilename)\"\n   - \(notFoundMsg)"
+                    }
+
+                case .notPlainTextFileError:
+                    if itemsDiscDescriptorNotPlainTextFile == nil {
+                        itemsDiscDescriptorNotPlainTextFile = NSLocalizedString("Not plain text:", comment:"")
+                    }
+                    itemsDiscDescriptorNotPlainTextFile! += "\n• \"\(failedFilename)\""
+                    
+                case .noPermissionReadFileError:
+                    if itemsDiscDescriptorNoPermissionReadFile == nil {
+                        itemsDiscDescriptorNoPermissionReadFile = NSLocalizedString("No permission to open:", comment:"")
+                    }
+                    itemsDiscDescriptorNoPermissionReadFile! += "\n• \"\(failedFilename)\""
+
+                @unknown default:
+                    continue
                 }
 
-            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorErrors.notPlainTextFileError.rawValue {
-                if itemsDiscDescriptorNotPlainTextFile == nil {
-                    itemsDiscDescriptorNotPlainTextFile = NSLocalizedString("Not plain text:", comment:"")
-                }
-                itemsDiscDescriptorNotPlainTextFile! += "\n• \"\(failedFilename)\""
-
-            } else if error.domain == OEDiscDescriptorErrorDomain && error.code == OEDiscDescriptorErrors.noPermissionReadFileError.rawValue {
-                if itemsDiscDescriptorNoPermissionReadFile == nil {
-                    itemsDiscDescriptorNoPermissionReadFile = NSLocalizedString("No permission to open:", comment:"")
-                }
-                itemsDiscDescriptorNoPermissionReadFile! += "\n• \"\(failedFilename)\""
-
-            } else if error.domain == OECUESheetErrorDomain {
+            } else if error is OECUESheetErrors {
                 if itemsCueSheetInvalidFileFormat == nil {
                     itemsCueSheetInvalidFileFormat = NSLocalizedString("Invalid cue sheet format:", comment:"")
                 }
                 itemsCueSheetInvalidFileFormat! += "\n• \"\(failedFilename)\""
 
-            } else if error.domain == OEDreamcastGDIErrorDomain {
+            } else if error is OEDreamcastGDIErrors {
                 if itemsDreamcastGDIInvalidFileFormat == nil {
                     itemsDreamcastGDIInvalidFileFormat = NSLocalizedString("Invalid gdi format:", comment:"")
                 }
