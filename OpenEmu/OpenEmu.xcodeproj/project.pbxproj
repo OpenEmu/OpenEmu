@@ -403,7 +403,7 @@
 		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
 		83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */; };
 		83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83DEF7C3196C403400C7DF57 /* ControlLabels.strings */; };
-		83E89274197471F8004D4489 /* OEHomebrewCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E89273197471F8004D4489 /* OEHomebrewCoverView.m */; };
+		83E89274197471F8004D4489 /* HomebrewCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E89273197471F8004D4489 /* HomebrewCoverView.swift */; };
 		83F444FD196CA24B007E8C63 /* HomebrewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F444FC196CA24B007E8C63 /* HomebrewViewController.swift */; };
 		83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */; };
 		83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DBAE18C0E2470029199C /* OEFileManager.m */; };
@@ -1716,8 +1716,7 @@
 		83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.1 to 1.2.xcmappingmodel"; sourceTree = "<group>"; };
 		83DEF7C2196C403400C7DF57 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ControlLabels.strings; sourceTree = "<group>"; };
 		83DEF7C4196C403700C7DF57 /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ControlLabels.strings; sourceTree = "<group>"; };
-		83E89272197471F8004D4489 /* OEHomebrewCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHomebrewCoverView.h; sourceTree = "<group>"; };
-		83E89273197471F8004D4489 /* OEHomebrewCoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHomebrewCoverView.m; sourceTree = "<group>"; };
+		83E89273197471F8004D4489 /* HomebrewCoverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewCoverView.swift; sourceTree = "<group>"; };
 		83E8927C197490B3004D4489 /* DisabledScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisabledScrollView.swift; sourceTree = "<group>"; };
 		83F3E31E19B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83F3E31F19B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -3656,8 +3655,7 @@
 			children = (
 				83F444FC196CA24B007E8C63 /* HomebrewViewController.swift */,
 				83C748CB196DF34D0090BC91 /* OEHomebrewViewController.xib */,
-				83E89272197471F8004D4489 /* OEHomebrewCoverView.h */,
-				83E89273197471F8004D4489 /* OEHomebrewCoverView.m */,
+				83E89273197471F8004D4489 /* HomebrewCoverView.swift */,
 				834B6F2D1A3B453000CA6A26 /* HomebrewBlankSlateView.swift */,
 				8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */,
 			);
@@ -6922,7 +6920,7 @@
 				5A3DB1731D8CA752009445EC /* BackgroundGradientView.swift in Sources */,
 				94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.swift in Sources */,
 				94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */,
-				83E89274197471F8004D4489 /* OEHomebrewCoverView.m in Sources */,
+				83E89274197471F8004D4489 /* HomebrewCoverView.swift in Sources */,
 				0544B69823D16D0C00F63D61 /* ImageCollectionDataSource.swift in Sources */,
 				5A9606D61C0A7C9D0089B494 /* NSWindow+FullScreen.swift in Sources */,
 				83AB259917A6A432009C80BC /* ControlsSectionTitleView.swift in Sources */,

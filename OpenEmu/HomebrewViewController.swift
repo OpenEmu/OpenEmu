@@ -308,7 +308,7 @@ extension HomebrewViewController: NSTableViewDelegate {
             for (index, game) in games.enumerated() {
                 let container = subview?.subviews[index]
                 
-                if let artworkView = container?.subviews[0] as? OEHomebrewCoverView {
+                if let artworkView = container?.subviews[0] as? HomebrewCoverView {
                     artworkView.urls = game.images
                     artworkView.target = self
                     artworkView.doubleAction = #selector(launchGame(_:))
@@ -357,7 +357,7 @@ extension HomebrewViewController: NSTableViewDelegate {
                 developer.textColorHover = NSColor(from: "#9c2a32")
             }
             
-            if let imagesView = subviews[4] as? OEHomebrewCoverView {
+            if let imagesView = subviews[4] as? HomebrewCoverView {
                 imagesView.urls = game.images
                 imagesView.target = self
                 imagesView.doubleAction = #selector(launchGame(_:))
