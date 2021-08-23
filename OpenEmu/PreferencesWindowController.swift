@@ -84,7 +84,7 @@ class PreferencesWindowController: NSWindowController {
         selectPaneWithTabViewIdentifier(identifier)
         
         // If selected, the controls preference pane performs additional work using the notification.
-        if let controlsPane = preferencesTabViewController.tabView.selectedTabViewItem?.viewController as? OEPrefControlsController {
+        if let controlsPane = preferencesTabViewController.tabView.selectedTabViewItem?.viewController as? PrefControlsController {
             controlsPane.preparePane(with: notification)
         }
     }
@@ -159,7 +159,7 @@ class PreferencesTabViewController: NSTabViewController {
         var preferencePanes: [PreferencePane] = [
             PrefLibraryController(),
             PrefGameplayController(),
-            OEPrefControlsController(),
+            PrefControlsController(),
             PrefCoresController(),
             PrefBiosController()
         ]

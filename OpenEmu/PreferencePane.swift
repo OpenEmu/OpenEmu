@@ -29,19 +29,3 @@ protocol PreferencePane: NSViewController {
     var panelTitle: String { get }
     var viewSize: NSSize { get }
 }
-
-
-@objc extension OEPrefControlsController: PreferencePane {
-    
-    var icon: NSImage? { NSImage(named: "controls_tab_icon") }
-    
-    var panelTitle: String { "Controls" }
-    
-    var viewSize: NSSize {
-        if UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue {
-            return NSSize(width: 755, height: 450)
-        } else {
-            return NSSize(width: 760, height: 450)
-        }
-    }
-}

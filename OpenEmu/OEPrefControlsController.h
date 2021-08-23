@@ -23,53 +23,9 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 @import Cocoa;
 
-@class OEBackgroundGradientView;
-@class OEControlsButtonSetupView;
-@class OESystemPlugin;
-@class OESystemController;
-@class OEControllerImageView;
-@class OEHIDEvent;
-
-@class OESystemBindings;
-@class OEPlayerBindings;
-
-@interface OEPrefControlsController : NSViewController
-
-@property(nonatomic, readonly) OESystemController    *currentSystemController;
-@property(nonatomic, readonly) OESystemBindings      *currentSystemBindings;
-@property(nonatomic, readonly) OEPlayerBindings      *currentPlayerBindings;
-
-#pragma mark -
-@property(strong) OEControllerImageView              *controllerView;
-@property(weak)   IBOutlet NSView                    *controllerContainerView;
-
-@property(weak)   IBOutlet NSPopUpButton             *consolesPopupButton;
-@property(weak)   IBOutlet NSPopUpButton             *playerPopupButton;
-@property(weak)   IBOutlet NSPopUpButton             *inputPopupButton;
-
-@property(weak)   IBOutlet OEBackgroundGradientView  *gradientOverlay;
-@property(weak)   IBOutlet NSVisualEffectView        *veView;
-@property(weak)   IBOutlet NSView                    *controlsContainer;
-
-@property(weak)   IBOutlet OEControlsButtonSetupView *controlsSetupView;
-
-#pragma mark -
-#pragma UI Methods
-
-@property(nonatomic, copy) NSString   *selectedKey;
-@property(nonatomic)       NSUInteger  selectedPlayer;
-
-- (BOOL)isKeyboardEventSelected;
-- (void)registerEvent:(OEHIDEvent *)anEvent;
-
-- (void)preparePaneWithNotification:(NSNotification *)notification;
-
-- (IBAction)changeSystem:(id)sender;
-- (IBAction)changePlayer:(id)sender;
-- (IBAction)changeInputDevice:(id)sender;
-- (IBAction)changeInputControl:(id)sender;
-- (IBAction)searchForWiimote:(id)sender;
-
+@interface OEPrefControlsControllerObjC : NSViewController
+@property NSMutableSet *ignoredEvents;
 @end

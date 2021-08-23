@@ -487,6 +487,7 @@
 		8F80217E24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */; };
 		8F80218124F45E9800DC82E3 /* HUDSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217F24F45E9800DC82E3 /* HUDSliderCell.swift */; };
 		8F80218224F45E9800DC82E3 /* HUDSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80218024F45E9800DC82E3 /* HUDSlider.swift */; };
+		8F8BD0EA26D3473400B70BF0 /* PrefControlsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8BD0E926D3473400B70BF0 /* PrefControlsController.swift */; };
 		8F8DB27B26D2A69E003CF106 /* PreferencePane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439B6813B932C5005C0CC8 /* PreferencePane.swift */; };
 		8F94B44D25566FE00058AA94 /* NSShadow+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */; };
 		8F94DEC1250EC701003A1F33 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94DEC0250EC701003A1F33 /* ThumbnailProvider.swift */; };
@@ -1804,6 +1805,7 @@
 		8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsPopUpButtonCell.swift; sourceTree = "<group>"; };
 		8F80217F24F45E9800DC82E3 /* HUDSliderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDSliderCell.swift; sourceTree = "<group>"; };
 		8F80218024F45E9800DC82E3 /* HUDSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDSlider.swift; sourceTree = "<group>"; };
+		8F8BD0E926D3473400B70BF0 /* PrefControlsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefControlsController.swift; sourceTree = "<group>"; };
 		8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSShadow+OEAdditions.swift"; sourceTree = "<group>"; };
 		8F94DEBA250EC701003A1F33 /* OpenEmuQLThumbnail.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OpenEmuQLThumbnail.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F94DEC0250EC701003A1F33 /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
@@ -3229,6 +3231,7 @@
 				83495DD319A38F31009DB6E5 /* PrefBiosController.swift */,
 				53439B7213B932FA005C0CC8 /* OEPrefControlsController.h */,
 				53439B7313B932FA005C0CC8 /* OEPrefControlsController.m */,
+				8F8BD0E926D3473400B70BF0 /* PrefControlsController.swift */,
 				01E2A2F223E60F7D00194150 /* PrefCoresController.swift */,
 				83753F1614F537C400D708A7 /* PrefDebugController.swift */,
 			);
@@ -6821,6 +6824,7 @@
 				5A9606DE1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift in Sources */,
 				83C68ED114483579000F720A /* OEAlert.m in Sources */,
 				832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */,
+				8F8BD0EA26D3473400B70BF0 /* PrefControlsController.swift in Sources */,
 				8301557B1456BF7A0093D681 /* GameViewController.swift in Sources */,
 				83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */,
 				83BABBEE1458978B0097F6B2 /* SetupAssistantTableView.swift in Sources */,
