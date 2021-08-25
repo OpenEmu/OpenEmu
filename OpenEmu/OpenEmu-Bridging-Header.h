@@ -40,6 +40,7 @@
 #import "OEDownload.h"
 #import "OEFSWatcher.h"
 #import "OEAppearance.h"
+#import "OESetupAssistantQCOpenGLLayer.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <OpenEmuKit/OpenEmuKit.h>

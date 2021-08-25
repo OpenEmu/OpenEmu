@@ -386,7 +386,7 @@
 		83955CB5165D939100572B34 /* BlankSlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB4165D939100572B34 /* BlankSlateView.swift */; };
 		8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */; };
 		83A9758A184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A97589184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift */; };
-		83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AAC32814581699005ADD16 /* OESetupAssistantBackgroundView.m */; };
+		83AAC32914581699005ADD16 /* SetupAssistantBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAC32814581699005ADD16 /* SetupAssistantBackgroundView.swift */; };
 		83AB259917A6A432009C80BC /* ControlsSectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AB259817A6A432009C80BC /* ControlsSectionTitleView.swift */; };
 		83B04E411968610F00CB985E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3D1968610F00CB985E /* InfoPlist.strings */; };
 		83B04E421968610F00CB985E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3F1968610F00CB985E /* Localizable.strings */; };
@@ -1691,8 +1691,7 @@
 		839A38EE196AAFD7001A119A /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		83A8CD8D1709E1EE00F5D145 /* OEDatabase 0.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.5.xcdatamodel"; sourceTree = "<group>"; };
 		83A97589184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupAssistantScrollBorderView.swift; sourceTree = "<group>"; };
-		83AAC32714581699005ADD16 /* OESetupAssistantBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantBackgroundView.h; sourceTree = "<group>"; };
-		83AAC32814581699005ADD16 /* OESetupAssistantBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantBackgroundView.m; sourceTree = "<group>"; };
+		83AAC32814581699005ADD16 /* SetupAssistantBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupAssistantBackgroundView.swift; sourceTree = "<group>"; };
 		83AB259817A6A432009C80BC /* ControlsSectionTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsSectionTitleView.swift; sourceTree = "<group>"; };
 		83B04E3E1968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83B04E401968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
@@ -3619,8 +3618,7 @@
 			isa = PBXGroup;
 			children = (
 				8FDCE3962520022700277BFA /* GlossCheckboxCell.swift */,
-				83AAC32714581699005ADD16 /* OESetupAssistantBackgroundView.h */,
-				83AAC32814581699005ADD16 /* OESetupAssistantBackgroundView.m */,
+				83AAC32814581699005ADD16 /* SetupAssistantBackgroundView.swift */,
 				83BABBED1458978B0097F6B2 /* SetupAssistantTableView.swift */,
 				83A97589184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift */,
 			);
@@ -6825,7 +6823,7 @@
 				832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */,
 				8F8BD0EA26D3473400B70BF0 /* PrefControlsController.swift in Sources */,
 				8301557B1456BF7A0093D681 /* GameViewController.swift in Sources */,
-				83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */,
+				83AAC32914581699005ADD16 /* SetupAssistantBackgroundView.swift in Sources */,
 				83BABBEE1458978B0097F6B2 /* SetupAssistantTableView.swift in Sources */,
 				8F4A69732547F84500DFE092 /* GameControlsBarView.swift in Sources */,
 				8F3062DB251A897F00BDFF1F /* OESearchField.swift in Sources */,
