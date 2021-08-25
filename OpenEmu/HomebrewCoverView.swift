@@ -29,7 +29,7 @@ final class HomebrewCoverView: NSView {
     
     private static let imageDidLoadNotification = Notification.Name("OEURLImagesViewImageDidLoad")
     
-    var target: Any?
+    weak var target: AnyObject?
     var doubleAction: Selector?
     
     var urls: [URL]? {
@@ -100,7 +100,7 @@ final class HomebrewCoverView: NSView {
         let numberOfImages = CGFloat(urls?.count ?? 0)
         
         let width = numberOfImages*itemWidth + (numberOfImages-1)*itemSpace
-        let minX = midX - width / 2
+        let minX = midX - width/2
         return NSRect(x: minX, y: 1, width: width, height: itemWidth)
     }
     
@@ -127,7 +127,7 @@ final class HomebrewCoverView: NSView {
         rect.size.height -= pageSelectorHeight
         
         // keep original aspect ratio
-        if aspectRatio < bounds.width / bounds.height {
+        if aspectRatio < bounds.width/bounds.height {
             rect.size.width = rect.height * aspectRatio
         } else {
             rect.size.height = rect.width / aspectRatio
@@ -211,7 +211,7 @@ final class HomebrewCoverView: NSView {
             let x = location.x - trackingRect.minX
             let index = x / (itemWidth+itemSpace)
             
-            if x > index * (itemWidth+itemSpace)-itemSpace + itemWidth {
+            if x > index.rounded(.down) * (itemWidth+itemSpace)-itemSpace + itemWidth {
                 return
             }
             
@@ -270,9 +270,7 @@ final class HomebrewCoverView: NSView {
     }
     
     private func fetchImage(_ index: Int) {
-        guard let url = urls?[index] as NSURL? else {
-            return
-        }
+        guard let url = urls?[index] as NSURL? else { return }
         
         Self.lock.lock()
         if Self.cache.object(forKey: url) == nil && Self.loading[url] == nil {
