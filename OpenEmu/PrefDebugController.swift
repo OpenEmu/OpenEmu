@@ -85,7 +85,7 @@ final class PrefDebugController: NSViewController {
         Checkbox(key: ControllerImageView.drawControllerMaskKey, label: "Draw button mask above image"),
         Checkbox(key: "logsHIDEvents", label: "Log HID Events"),
         Checkbox(key: "logsHIDEventsNoKeyboard", label: "Log Keyboard Events"),
-        Checkbox(key: "OEShowAllGlobalKeys", label: "Show all special keys"),
+        Checkbox(key: OEPrefControlsShowAllGlobalKeys, label: "Show all special keys"),
         Popover(key: OEControlsPrefsAppearancePreferenceKey, label: "Appearance:", action: #selector(changeControlsPrefsAppearance(_:)), options: [
             Option(label: "Wood", value: OEControlsPrefsAppearancePreferenceValue.wood.rawValue),
             Option(label: "Vibrant", value: OEControlsPrefsAppearancePreferenceValue.lumberjack.rawValue),
