@@ -8,11 +8,6 @@
 
 #import "OELibraryDatabase.h"
 #import "OELibraryMigrator.h"
-
-#import "OEPrefControlsController.h"
-
-#import "OECollectionViewController.h"
-
 #import "OEDatabase+CoreDataModel.h"
 #import "OEDBGame.h"
 #import "OEDBCollection.h"
@@ -21,6 +16,7 @@
 #import "OEGameDocument.h"
 #import "OEMainWindowController.h"
 #import "OEPopoutGameWindowController.h"
+#import "OECollectionViewController.h"
 #import "OEGameCollectionViewController.h"
 #import "OEMediaViewController.h"
 #import "OEGameControlsBar.h"

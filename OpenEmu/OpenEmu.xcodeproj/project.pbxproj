@@ -2657,18 +2657,14 @@
 		01E2A2F123E6027900194150 /* Custom Controls */ = {
 			isa = PBXGroup;
 			children = (
+				05D50C3023CEA34000733BA2 /* Available Libraries */,
 				8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */,
+				5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */,
 				8337F38D1726B3600068DD90 /* BackgroundImageView.swift */,
 				5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */,
 				83E8927C197490B3004D4489 /* DisabledScrollView.swift */,
-				8F7AE8892546802A00B837A8 /* InsetScrollView.swift */,
-				8F2F92A92519A9E700699691 /* GameScannerButton.swift */,
-				8F957B4125227175008A9BC9 /* GlossButton.swift */,
 				8FAF069A251FB02700EDB247 /* HoverButton.swift */,
-				8F714FD724F85CEA006AF031 /* HUDBarButton.swift */,
-				8F762538255C4CAA00A1246D /* HUDButton.swift */,
-				8F80218024F45E9800DC82E3 /* HUDSlider.swift */,
-				8F80217F24F45E9800DC82E3 /* HUDSliderCell.swift */,
+				8F7AE8892546802A00B837A8 /* InsetScrollView.swift */,
 				8FEC1B9F24F7D37700DBBF72 /* TextButton.swift */,
 			);
 			name = "Custom Controls";
@@ -2686,14 +2682,6 @@
 			path = "Other Assets";
 			sourceTree = "<group>";
 		};
-		051A6F3923CFEFDD007B7C4F /* Main Window V2 */ = {
-			isa = PBXGroup;
-			children = (
-				05E789A223D0085F000E14EE /* Library */,
-			);
-			name = "Main Window V2";
-			sourceTree = "<group>";
-		};
 		05410EEF22F7535A00303424 /* Cell Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -2704,7 +2692,7 @@
 			name = "Cell Views";
 			sourceTree = "<group>";
 		};
-		0544B68423D1415900F63D61 /* Collection View */ = {
+		0544B68423D1415900F63D61 /* Collection View V2 */ = {
 			isa = PBXGroup;
 			children = (
 				0544B6A423D16DC400F63D61 /* Media View */,
@@ -2718,7 +2706,7 @@
 				0544B68C23D16D0C00F63D61 /* ImageCollectionViewItem.swift */,
 				0544B68E23D16D0C00F63D61 /* ImageCollectionViewItem.xib */,
 			);
-			name = "Collection View";
+			name = "Collection View V2";
 			sourceTree = "<group>";
 		};
 		0544B69A23D16D2500F63D61 /* Grid View */ = {
@@ -2766,29 +2754,24 @@
 			children = (
 				0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */,
 				0519A89E25AA4CD800D71C21 /* ShaderControl.swift */,
-				05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */,
-				05888F3925A0373300286232 /* ShaderParametersViewController.swift */,
 				055BE6E925CDE8DD000189CC /* ShaderPreset.swift */,
+				05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */,
+				8F7BFC9723E653E100B1F6C8 /* ShaderParameters.xib */,
+				05888F3925A0373300286232 /* ShaderParametersViewController.swift */,
+				05888F7325A111B000286232 /* ShaderParametersViewController.xib */,
+				05410EEF22F7535A00303424 /* Cell Views */,
 			);
 			name = Shaders;
 			sourceTree = "<group>";
 		};
-		057130B8259A8885001CB13A /* AppMover */ = {
+		05D50C3023CEA34000733BA2 /* Available Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				0571307E259A8859001CB13A /* AppMover.swift */,
-			);
-			name = AppMover;
-			sourceTree = "<group>";
-		};
-		05D50C3023CEA34000733BA2 /* Modern UI */ = {
-			isa = PBXGroup;
-			children = (
-				05B753A123330EB60063BD73 /* Main.storyboard */,
+				051DDCB423E5D74400325147 /* AvailableLibrariesViewController.swift */,
 				051DDCB623E5D9E400325147 /* AvailableLibrariesViewController.xib */,
 				051DDCB823E5E50100325147 /* AvailableLibrariesCollectionViewItem.xib */,
 			);
-			name = "Modern UI";
+			name = "Available Libraries";
 			sourceTree = "<group>";
 		};
 		05DB72A22532681B0098459D /* OpenEmuTests */ = {
@@ -2798,14 +2781,6 @@
 				05DB72A52532681B0098459D /* Info.plist */,
 			);
 			path = OpenEmuTests;
-			sourceTree = "<group>";
-		};
-		05E789A223D0085F000E14EE /* Library */ = {
-			isa = PBXGroup;
-			children = (
-				0544B68423D1415900F63D61 /* Collection View */,
-			);
-			name = Library;
 			sourceTree = "<group>";
 		};
 		081A461F1B9572C400565444 /* Pokemon mini */ = {
@@ -2879,13 +2854,11 @@
 		14F6A92A168184550071386D /* Game Document */ = {
 			isa = PBXGroup;
 			children = (
-				8F7625B0255C53D200A1246D /* OEHUDBar.h */,
-				8F4A69722547F84500DFE092 /* GameControlsBarView.swift */,
-				8FA2379225626C1B00D24E83 /* HUDControlsBarView.swift */,
-				53439B7813B933B8005C0CC8 /* OEGameControlsBar.h */,
-				53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */,
+				8FA8B34F26DDC4650037C8D0 /* HUD Bar */,
+				05E789A623D01B16000E14EE /* GameDocumentController.swift */,
 				2A37F4AEFDCFA73011CA2CEA /* OEGameDocument.h */,
 				2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */,
+				0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */,
 				8301557A1456BF7A0093D681 /* GameViewController.swift */,
 				5A46AC401DC66D8300771B3B /* GameViewController+TouchBar.swift */,
 				14F6A924168180CF0071386D /* OEPopoutGameWindowController.h */,
@@ -2986,25 +2959,6 @@
 			path = OpenEmuHelperApp;
 			sourceTree = "<group>";
 		};
-		1BEF34721168F8210090F72B /* XIBs */ = {
-			isa = PBXGroup;
-			children = (
-				8382D22C13C5C55200906221 /* Preferences */,
-				832D29421451ACF200BDF950 /* MainWindow.xib */,
-				010EDCA21CE628490020417C /* LibraryController.xib */,
-				8F40EB7D1C1072B100683055 /* OECollectionViewController.xib */,
-				8F5074751C10BCEC00F52B83 /* LibraryGamesViewController.xib */,
-				8F99F815256BF358007B83E1 /* SidebarController.xib */,
-				8F071F381C25534E007B76DA /* Preferences.xib */,
-				8F40EB811C1072B200683055 /* GameScanner.xib */,
-				8F40EB841C1072B300683055 /* OESetupAssistant.xib */,
-				8F7BFC9723E653E100B1F6C8 /* ShaderParameters.xib */,
-				05888F7325A111B000286232 /* ShaderParametersViewController.xib */,
-				05410EEF22F7535A00303424 /* Cell Views */,
-			);
-			name = XIBs;
-			sourceTree = "<group>";
-		};
 		1BEF34741168F8640090F72B /* PLists */ = {
 			isa = PBXGroup;
 			children = (
@@ -3018,32 +2972,32 @@
 		1BEF34751168F88A0090F72B /* Additions */ = {
 			isa = PBXGroup;
 			children = (
-				5A9606E91C0BD2BD0089B494 /* DLog.swift */,
 				5A2CE895206EA5E900790F89 /* NSArray+OEAdditions.h */,
 				5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.m */,
 				5A9606DD1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift */,
+				05E789AA23D0256D000E14EE /* NSBindingName+Additions.swift */,
 				052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */,
 				EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.swift */,
+				8FBAE9EA254BD7FA00446C3B /* NSControl+i18n.swift */,
 				C67DBF4117DBE859006AF087 /* NSDocument+OEAdditions.h */,
 				C67DBF4217DBE859006AF087 /* NSDocument+OEAdditions.m */,
+				5AC349301D89E4EB0089B26F /* NSDocumentController+Additions.swift */,
 				83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */,
 				83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */,
 				5A9606E71C0BCD350089B494 /* NSImage+DrawingAdditions.swift */,
+				01D6F3D125269F1400E8404B /* NSImageRep+ApplePrivate.h */,
 				0544B6A223D16D6300F63D61 /* NSImageView+OEAdditions.swift */,
 				5A9606D11C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift */,
 				5A9606D31C0A63740089B494 /* NSMutableDictionary+Pop.swift */,
+				8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */,
 				5A9606E31C0BA85F0089B494 /* NSURL+LibraryAdditions.swift */,
 				5A886E571BF43AC900775123 /* NSWindow+Image.swift */,
 				5A9606D51C0A7C9D0089B494 /* NSWindow+FullScreen.swift */,
-				83F7DBAD18C0E2470029199C /* OEFileManager.h */,
-				83F7DBAE18C0E2470029199C /* OEFileManager.m */,
 				8FAD320125B31FB000323020 /* URL+OEAdditions.swift */,
 				05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */,
-				8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */,
-				01D6F3D125269F1400E8404B /* NSImageRep+ApplePrivate.h */,
-				8FBAE9EA254BD7FA00446C3B /* NSControl+i18n.swift */,
 				8F419A0125B6C7AE00A7F0BE /* OEAppearance.h */,
 				8F419A0225B6C7AE00A7F0BE /* OEAppearance.m */,
+				0544B6AB23D16E7A00F63D61 /* OEResponder.h */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -3099,7 +3053,7 @@
 			isa = PBXGroup;
 			children = (
 				5AECA14A1BE1D26700C3B4E2 /* Swift Bridging Header */,
-				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				2A37F4ABFDCFA73011CA2CEA /* Sources */,
 				C67118201363687A0034379A /* System Plugins */,
 				1BEF2A621168265D0090F72B /* Helper App (Remote Layer) */,
 				0547FE1524E86D9F005C1FFC /* broker */,
@@ -3119,13 +3073,28 @@
 			tabWidth = 4;
 			usesTabs = 0;
 		};
-		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
+		2A37F4ABFDCFA73011CA2CEA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				828E64D00E84656900B1860B /* OpenEmuCore */,
+				5A438A1A1D89AEB60061A47C /* OpenEmuApplication.swift */,
+				5A3DB1B01D8E6806009445EC /* AppDelegate.swift */,
+				53439A8913B92BF6005C0CC8 /* Library Database */,
+				836BC9541853811800B6AF26 /* GameInfo */,
+				53439A8813B92BF4005C0CC8 /* Main Window */,
+				53439A8713B92BEF005C0CC8 /* Preferences */,
+				53439A8613B92BEB005C0CC8 /* Alert */,
+				1E2F3DB810DEAB370019AA84 /* Migration */,
+				82DE498810263A09007184EB /* Downloader */,
+				0557CB1322A750260037175F /* Shaders */,
+				01E2A2F123E6027900194150 /* Custom Controls */,
+				83B6E444143E1BBD00BCDB7A /* Utilities */,
+				14CB5DA516FE1F6600342817 /* Audio Devices */,
+				14F6A92A168184550071386D /* Game Document */,
+				C69DCCFF0FE994A5009AE5A6 /* OEPluginDocument.h */,
+				C69DCD000FE994A5009AE5A6 /* OEPluginDocument.m */,
 				1BEF34751168F88A0090F72B /* Additions */,
 			);
-			name = Classes;
+			name = Sources;
 			sourceTree = "<group>";
 		};
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
@@ -3149,9 +3118,7 @@
 				1BEF34741168F8640090F72B /* PLists */,
 				556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */,
 				01E7214A2523E798002CA16F /* Other Assets */,
-				05D50C3023CEA34000733BA2 /* Modern UI */,
 				8F7F17BC24EE0A7A00D23C2D /* Localization */,
-				1BEF34721168F8210090F72B /* XIBs */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -3221,13 +3188,20 @@
 				53439B3313B930A9005C0CC8 /* Controls */,
 				53439B6813B932C5005C0CC8 /* PreferencePane.swift */,
 				5A79F7941C15F542003124D5 /* PreferencesWindowController.swift */,
-				051DDCB423E5D74400325147 /* AvailableLibrariesViewController.swift */,
+				8F071F381C25534E007B76DA /* Preferences.xib */,
 				53439B6D13B932DB005C0CC8 /* PrefLibraryController.swift */,
+				8F40EB7C1C1072B100683055 /* PrefLibraryController.xib */,
 				53439B7013B932ED005C0CC8 /* PrefGameplayController.swift */,
-				83495DD319A38F31009DB6E5 /* PrefBiosController.swift */,
+				8F40EB7B1C1072B100683055 /* PrefGameplayController.xib */,
 				8F8BD0E926D3473400B70BF0 /* PrefControlsController.swift */,
+				8F40EB791C1072B100683055 /* PrefControlsController.xib */,
+				8F76285D255C835A00A1246D /* PrefControlsController2.xib */,
 				01E2A2F223E60F7D00194150 /* PrefCoresController.swift */,
+				8F40EB7A1C1072B100683055 /* PrefCoresController.xib */,
+				83495DD319A38F31009DB6E5 /* PrefBiosController.swift */,
+				83495DD719A38F3D009DB6E5 /* PrefBiosController.xib */,
 				83753F1614F537C400D708A7 /* PrefDebugController.swift */,
+				83753F1914F5383F00D708A7 /* PrefDebugController.xib */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -3235,10 +3209,13 @@
 		53439A8813B92BF4005C0CC8 /* Main Window */ = {
 			isa = PBXGroup;
 			children = (
-				832D293E1451A68700BDF950 /* OEMainWindowController.h */,
-				832D293F1451A68700BDF950 /* OEMainWindowController.m */,
 				832D29441451B0CA00BDF950 /* Library */,
 				832D29461451B0F200BDF950 /* Setup Assistant */,
+				05B753A123330EB60063BD73 /* Main.storyboard */,
+				05644A4723331EA90033576F /* AboutViewController.swift */,
+				832D293E1451A68700BDF950 /* OEMainWindowController.h */,
+				832D293F1451A68700BDF950 /* OEMainWindowController.m */,
+				832D29421451ACF200BDF950 /* MainWindow.xib */,
 			);
 			name = "Main Window";
 			sourceTree = "<group>";
@@ -3304,14 +3281,15 @@
 		53439AA713B92CD4005C0CC8 /* Collection View */ = {
 			isa = PBXGroup;
 			children = (
+				53439AAE13B92CFE005C0CC8 /* Grid View */,
+				53439AAD13B92CFC005C0CC8 /* List View */,
 				53439AA813B92CE5005C0CC8 /* OECollectionViewController.h */,
 				53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */,
+				8F40EB7D1C1072B100683055 /* OECollectionViewController.xib */,
+				8363A43C193CC1BF00F18425 /* OECollectionViewItemProtocol.h */,
 				94A4E994179FAB9E00AD8C7D /* OEMediaViewController.h */,
 				94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */,
 				5A6C157B1DC96C3700839986 /* OEMediaViewController+TouchBar.swift */,
-				8363A43C193CC1BF00F18425 /* OECollectionViewItemProtocol.h */,
-				53439AAE13B92CFE005C0CC8 /* Grid View */,
-				53439AAD13B92CFC005C0CC8 /* List View */,
 				830CB916186878D6006EAE5A /* OEArrayController.h */,
 				830CB917186878D6006EAE5A /* OEArrayController.m */,
 			);
@@ -3355,7 +3333,6 @@
 			isa = PBXGroup;
 			children = (
 				5A3DB1681D8C93C3009445EC /* PreferencesControlsBox.swift */,
-				5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */,
 				8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */,
 				8396CC5514068DA90096F791 /* ControlsKeyButton.swift */,
 				83D9991E146F40DA004409DC /* ControlsKeySeparatorView.swift */,
@@ -3399,47 +3376,6 @@
 			path = GameGear;
 			sourceTree = "<group>";
 		};
-		828E64D00E84656900B1860B /* OpenEmuCore */ = {
-			isa = PBXGroup;
-			children = (
-				0544B6AB23D16E7A00F63D61 /* OEResponder.h */,
-				5A438A1A1D89AEB60061A47C /* OpenEmuApplication.swift */,
-				5A3DB1B01D8E6806009445EC /* AppDelegate.swift */,
-				05E789A623D01B16000E14EE /* GameDocumentController.swift */,
-				05644A4723331EA90033576F /* AboutViewController.swift */,
-				5AC349301D89E4EB0089B26F /* NSDocumentController+Additions.swift */,
-				05E789AA23D0256D000E14EE /* NSBindingName+Additions.swift */,
-				5A44301A1D93380600E54F1D /* OEBuildInfo.h */,
-				5A44301B1D93380600E54F1D /* OEBuildInfo.m */,
-				53439A8913B92BF6005C0CC8 /* Library Database */,
-				836BC9541853811800B6AF26 /* GameInfo */,
-				051A6F3923CFEFDD007B7C4F /* Main Window V2 */,
-				53439A8813B92BF4005C0CC8 /* Main Window */,
-				53439A8713B92BEF005C0CC8 /* Preferences */,
-				53439A8613B92BEB005C0CC8 /* Alert */,
-				1E2F3DB810DEAB370019AA84 /* Migration */,
-				82DE498810263A09007184EB /* Downloader */,
-				0557CB1322A750260037175F /* Shaders */,
-				829165DA0E85F9A400493FD8 /* Graphics */,
-				01E2A2F123E6027900194150 /* Custom Controls */,
-				83B6E444143E1BBD00BCDB7A /* Utilities */,
-				057130B8259A8885001CB13A /* AppMover */,
-				14CB5DA516FE1F6600342817 /* Audio Devices */,
-				14F6A92A168184550071386D /* Game Document */,
-				C69DCCFF0FE994A5009AE5A6 /* OEPluginDocument.h */,
-				C69DCD000FE994A5009AE5A6 /* OEPluginDocument.m */,
-			);
-			name = OpenEmuCore;
-			sourceTree = "<group>";
-		};
-		829165DA0E85F9A400493FD8 /* Graphics */ = {
-			isa = PBXGroup;
-			children = (
-				0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */,
-			);
-			name = Graphics;
-			sourceTree = "<group>";
-		};
 		82DE498810263A09007184EB /* Downloader */ = {
 			isa = PBXGroup;
 			children = (
@@ -3462,7 +3398,10 @@
 				5A6E80A61DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift */,
 				8306CD3D1BD3DB180025BC6C /* OEGameCollectionViewItemProtocol.h */,
 				5AFD06BC2058893B00DFE765 /* GameScannerViewController.swift */,
+				8F40EB811C1072B200683055 /* GameScanner.xib */,
+				8F2F92A92519A9E700699691 /* GameScannerButton.swift */,
 				8306CD0E1BD3AC180025BC6C /* LibraryGamesViewController.swift */,
+				8F5074751C10BCEC00F52B83 /* LibraryGamesViewController.xib */,
 			);
 			name = "Games Library";
 			sourceTree = "<group>";
@@ -3473,6 +3412,7 @@
 				8306CD181BD3AC3D0025BC6C /* OESidebarController.m */,
 				8306CD1F1BD3AC3D0025BC6C /* OESidebarItem.h */,
 				0544B68823D14E6300F63D61 /* SidebarController.swift */,
+				8F99F815256BF358007B83E1 /* SidebarController.xib */,
 				05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */,
 				05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */,
 				05A002D723DE539F007F0DB7 /* SidebarItemView.swift */,
@@ -3486,13 +3426,15 @@
 			isa = PBXGroup;
 			children = (
 				53439AA713B92CD4005C0CC8 /* Collection View */,
-				83F444FA196CA207007E8C63 /* Homebrew */,
+				0544B68423D1415900F63D61 /* Collection View V2 */,
 				8306CD0C1BD3ABFD0025BC6C /* Games Library */,
 				83955CB9165DAE7900572B34 /* Blank Slate View */,
+				83F444FA196CA207007E8C63 /* Homebrew */,
 				0544B68223D1355400F63D61 /* LibraryController.swift */,
-				8F3062DA251A897E00BDFF1F /* OESearchField.swift */,
-				012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */,
+				010EDCA21CE628490020417C /* LibraryController.xib */,
 				5A9606DB1C0A84BC0089B494 /* LibraryToolbar.swift */,
+				012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */,
+				8F3062DA251A897E00BDFF1F /* OESearchField.swift */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -3504,6 +3446,7 @@
 				83AAC32514581469005ADD16 /* Controls */,
 				1B47F103142F01E700EBC55B /* OESetupAssistant.h */,
 				1B47F104142F01E700EBC55B /* OESetupAssistant.m */,
+				8F40EB841C1072B300683055 /* OESetupAssistant.xib */,
 			);
 			name = "Setup Assistant";
 			sourceTree = "<group>";
@@ -3586,20 +3529,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		8382D22C13C5C55200906221 /* Preferences */ = {
-			isa = PBXGroup;
-			children = (
-				83495DD719A38F3D009DB6E5 /* PrefBiosController.xib */,
-				8F40EB791C1072B100683055 /* PrefControlsController.xib */,
-				8F76285D255C835A00A1246D /* PrefControlsController2.xib */,
-				8F40EB7A1C1072B100683055 /* PrefCoresController.xib */,
-				83753F1914F5383F00D708A7 /* PrefDebugController.xib */,
-				8F40EB7B1C1072B100683055 /* PrefGameplayController.xib */,
-				8F40EB7C1C1072B100683055 /* PrefLibraryController.xib */,
-			);
-			name = Preferences;
-			sourceTree = "<group>";
-		};
 		83955CB9165DAE7900572B34 /* Blank Slate View */ = {
 			isa = PBXGroup;
 			children = (
@@ -3612,10 +3541,11 @@
 		83AAC32514581469005ADD16 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
+				8F957B4125227175008A9BC9 /* GlossButton.swift */,
 				8FDCE3962520022700277BFA /* GlossCheckboxCell.swift */,
 				83AAC32814581699005ADD16 /* SetupAssistantBackgroundView.swift */,
-				83BABBED1458978B0097F6B2 /* SetupAssistantTableView.swift */,
 				83A97589184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift */,
+				83BABBED1458978B0097F6B2 /* SetupAssistantTableView.swift */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -3623,6 +3553,12 @@
 		83B6E444143E1BBD00BCDB7A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				0571307E259A8859001CB13A /* AppMover.swift */,
+				5A9606E91C0BD2BD0089B494 /* DLog.swift */,
+				5A44301A1D93380600E54F1D /* OEBuildInfo.h */,
+				5A44301B1D93380600E54F1D /* OEBuildInfo.m */,
+				83F7DBAD18C0E2470029199C /* OEFileManager.h */,
+				83F7DBAE18C0E2470029199C /* OEFileManager.m */,
 				836291FC1515F30700192116 /* OEFSWatcher.h */,
 				836291FD1515F30700192116 /* OEFSWatcher.m */,
 				05B2E05923693A7500644C58 /* OELogging.h */,
@@ -3647,8 +3583,8 @@
 			children = (
 				83F444FC196CA24B007E8C63 /* HomebrewViewController.swift */,
 				83C748CB196DF34D0090BC91 /* HomebrewViewController.xib */,
-				83E89273197471F8004D4489 /* HomebrewCoverView.swift */,
 				834B6F2D1A3B453000CA6A26 /* HomebrewBlankSlateView.swift */,
+				83E89273197471F8004D4489 /* HomebrewCoverView.swift */,
 				8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */,
 			);
 			name = Homebrew;
@@ -3764,6 +3700,22 @@
 				8F94DED9250ED838003A1F33 /* OpenEmuQLPreview.entitlements */,
 			);
 			path = OpenEmuQLPreview;
+			sourceTree = "<group>";
+		};
+		8FA8B34F26DDC4650037C8D0 /* HUD Bar */ = {
+			isa = PBXGroup;
+			children = (
+				8F7625B0255C53D200A1246D /* OEHUDBar.h */,
+				53439B7813B933B8005C0CC8 /* OEGameControlsBar.h */,
+				53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */,
+				8F4A69722547F84500DFE092 /* GameControlsBarView.swift */,
+				8FA2379225626C1B00D24E83 /* HUDControlsBarView.swift */,
+				8F714FD724F85CEA006AF031 /* HUDBarButton.swift */,
+				8F762538255C4CAA00A1246D /* HUDButton.swift */,
+				8F80218024F45E9800DC82E3 /* HUDSlider.swift */,
+				8F80217F24F45E9800DC82E3 /* HUDSliderCell.swift */,
+			);
+			name = "HUD Bar";
 			sourceTree = "<group>";
 		};
 		9405538617A34C6B009B505D /* PC Engine CD */ = {
