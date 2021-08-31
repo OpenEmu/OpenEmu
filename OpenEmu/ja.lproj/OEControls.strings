@@ -85,11 +85,6 @@
 "Reset All" = "Reset All";  // TODO
 
 
-/* Library Database Migration (OEMigrationWindowController.xib) */
-
-"Cancel and Quit" = "キャンセルして停止";
-
-
 /* Sidebar Header (OESidebarHeaderView.xib) */
 
 "Edit" = "編集";

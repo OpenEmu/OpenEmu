@@ -25,7 +25,6 @@
  */
 
 #import "OELibraryMigrator.h"
-#import "OEMigrationWindowController.h"
 #import "OELibraryDatabase.h"
 #import "OEDBScreenshot.h"
 #import "ALIterativeMigrator.h"

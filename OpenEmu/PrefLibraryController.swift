@@ -136,7 +136,6 @@ final class PrefLibraryController: NSViewController {
             OEAlert.OERemoveCollectionAlertSuppressionKey,
             OEAlert.OERemoveGameFromCollectionAlertSuppressionKey,
             OEAlert.OERemoveGameFromLibraryAlertSuppressionKey,
-            OEAlert.OERemoveGameFilesFromLibraryAlertSuppressionKey,
             OEAlert.OERenameSpecialSaveStateAlertSuppressionKey,
             OEAlert.OELoadAutoSaveAlertSuppressionKey,
             OEAlert.OEDownloadRomWarningSuppressionKey,

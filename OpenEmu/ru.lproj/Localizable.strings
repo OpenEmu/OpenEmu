@@ -251,8 +251,6 @@
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Объединяйте многострочные чит-коды при помощи символа '+', например: 000-000+111-111";
 
-"Keep Files" = "Хранить файлы";
-
 "Keyboard" = "Клавиатура";
 
 "Learn More" = "Подробнее"; // Missing BIOS files modal, Wiimote modal
@@ -274,10 +272,6 @@
 "Missing Core" = "Ядро не найдено";
 
 "Missing referenced file:" = "Отсутствует файл по ссылке:";
-
-"Move selected game to Trash, or keep it in the Library folder?" = "Переместить выбранную игру в корзину или оставить в папке библиотеки?";
-
-"Move selected games to Trash, or keep them in the Library folder?" = "Переместить выбранные игры в корзину или оставить в папке библиотеки?";
 
 "Move to Trash" = "Переместить в корзину";
 

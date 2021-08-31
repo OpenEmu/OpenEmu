@@ -251,8 +251,6 @@
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Verbinde mehrzeilige Cheats mit „+“, z. B. 0000+1111";
 
-"Keep Files" = "Dateien behalten";
-
 "Keyboard" = "Tastatur";
 
 "Learn More" = "Mehr erfahren";
@@ -274,10 +272,6 @@
 "Missing Core" = "Kern fehlt";
 
 "Missing referenced file:" = "Referenzierte Datei fehlt:";
-
-"Move selected game to Trash, or keep it in the Library folder?" = "Ausgewähltes Spiel in den Papierkorb legen oder im Spieleordner behalten?";
-
-"Move selected games to Trash, or keep them in the Library folder?" = "Ausgewählte Spiele in den Papierkorb legen oder im Spieleordner behalten?";
 
 "Move to Trash" = "In den Papierkorb legen";
 

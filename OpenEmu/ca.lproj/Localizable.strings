@@ -251,8 +251,6 @@
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Uneix els trucs multilínia amb '+' p. ex. 000-000+111-111";
 
-"Keep Files" = "Conserva els fitxers";
-
 "Keyboard" = "Teclat";
 
 "Learn More" = "Més informació";
@@ -274,10 +272,6 @@
 "Missing Core" = "Falta el nucli";
 
 "Missing referenced file:" = "Missing referenced file:";  // TODO
-
-"Move selected game to Trash, or keep it in the Library folder?" = "Voleu moure el joc seleccionat a la paperera, o conservar-lo a la carpeta de la biblioteca?";
-
-"Move selected games to Trash, or keep them in the Library folder?" = "Voleu moure els jocs seleccionats a la paperera, o conservar-los a la carpeta de la biblioteca?";
 
 "Move to Trash" = "Mou a la paperera";
 

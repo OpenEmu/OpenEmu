@@ -251,8 +251,6 @@
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "使用“+”连接多条金手指，如 000-000+111-111";
 
-"Keep Files" = "保留文件";
-
 "Keyboard" = "键盘";
 
 "Learn More" = "了解更多";
@@ -274,10 +272,6 @@
 "Missing Core" = "缺少核心";
 
 "Missing referenced file:" = "Missing referenced file:";  // TODO
-
-"Move selected game to Trash, or keep it in the Library folder?" = "要把选择的游戏扔到废纸篓还是留在库文件夹里？";
-
-"Move selected games to Trash, or keep them in the Library folder?" = "要把选择的游戏扔到废纸篓还是留在库文件夹里？";
 
 "Move to Trash" = "扔到废纸篓";
 

@@ -251,8 +251,6 @@
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Joindre les codes multilignes avec « + » ex. 000-000+111-111";
 
-"Keep Files" = "Conserver";
-
 "Keyboard" = "Clavier";
 
 "Learn More" = "En savoir plus";
@@ -274,10 +272,6 @@
 "Missing Core" = "Cœur manquant";
 
 "Missing referenced file:" = "Missing referenced file:";  // TODO
-
-"Move selected game to Trash, or keep it in the Library folder?" = "Placer le jeu dans la corbeille, ou le conserver dans le dossier de la bibliothèque ?";
-
-"Move selected games to Trash, or keep them in the Library folder?" = "Placer les jeux dans la corbeille, ou les conserver dans le dossier de la bibliothèque ?";
 
 "Move to Trash" = "Dans la corbeille";
 

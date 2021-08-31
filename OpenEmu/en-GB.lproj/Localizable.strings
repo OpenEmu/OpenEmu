@@ -1,10 +1,6 @@
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder." = "Consolidating will copy all the selected games into the OpenEmu Library folder.";
 
-"Move selected game to Trash, or keep it in the Library folder?" = "Move selected game to the Bin or keep it in the Library folder?";
-
-"Move selected games to Trash, or keep them in the Library folder?" = "Move selected games to the Bin or keep them in the Library folder?";
-
 "Move to Trash" = "Move to the Bin";
 
 "Only files in the OpenEmu Library folder will be moved to the Trash." = "Only files in the OpenEmu Library folder will be moved to the Bin.";

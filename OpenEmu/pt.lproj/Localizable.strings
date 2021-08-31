@@ -251,8 +251,6 @@
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Join multi-line cheats with '+' e.g. 000-000+111-111";
 
-"Keep Files" = "Manter Arquivos";
-
 "Keyboard" = "Teclado";
 
 "Learn More" = "Saiba Mais";
@@ -274,10 +272,6 @@
 "Missing Core" = "Núcleo Não Encontrado";
 
 "Missing referenced file:" = "Missing referenced file:";  // TODO
-
-"Move selected game to Trash, or keep it in the Library folder?" = "Move selected game to Trash, or keep it in the Library folder?";
-
-"Move selected games to Trash, or keep them in the Library folder?" = "Mover jogos selecionados para a Lixeira ou mantê-los na pasta da Biblioteca?";
 
 "Move to Trash" = "Mover para a Lixeira";
 

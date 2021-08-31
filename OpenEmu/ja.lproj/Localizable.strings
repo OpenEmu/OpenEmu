@@ -251,8 +251,6 @@
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "チートコードを複数追加する場合は'+'で追加します。例 000-000+111-111";
 
-"Keep Files" = "ファイルを保持";
-
 "Keyboard" = "キーボード";
 
 "Learn More" = "詳細を確認";
@@ -274,10 +272,6 @@
 "Missing Core" = "コアがありません";
 
 "Missing referenced file:" = "Missing referenced file:";  // TODO
-
-"Move selected game to Trash, or keep it in the Library folder?" = "選択したゲームをゴミ箱へ移動します。ライブラリフォルダに残しますか？";
-
-"Move selected games to Trash, or keep them in the Library folder?" = "選択したゲームをゴミ箱へ移動します。ライブラリフォルダに残しますか？";
 
 "Move to Trash" = "ゴミ箱へ移動";
 

@@ -35,7 +35,6 @@ extension OEAlert {
     @objc static let OEChangeCoreAlertSuppressionKey = "changeCoreWithoutConfirmation"
     @objc static let OEResetSystemAlertSuppressionKey = "resetSystemWithoutConfirmation"
     @objc static let OEStopEmulationAlertSuppressionKey = "stopEmulationWithoutConfirmation"
-    @objc static let OERemoveGameFilesFromLibraryAlertSuppressionKey = "trashFilesDialogChoice"
     @objc static let OEAutoSwitchCoreAlertSuppressionKey = "changeCoreWhenLoadingStateWitoutConfirmation"
     @objc static let OEGameCoreGlitchesSuppressionKey = "OEGameCoreGlitches"
     @objc static let OERenameSpecialSaveStateAlertSuppressionKey = "OERenameSpecialSaveStateAlertSuppressionKey"
@@ -159,21 +158,6 @@ extension OEAlert {
         return alert
     }
     
-    @objc(removeGameFilesFromLibraryAlert:)
-    final class func removeGameFilesFromLibrary(multipleGames: Bool) -> OEAlert {
-        
-        let alert = OEAlert()
-        alert.messageText = multipleGames ? NSLocalizedString("Move selected games to Trash, or keep them in the Library folder?", comment: "") : NSLocalizedString("Move selected game to Trash, or keep it in the Library folder?", comment: "")
-        alert.informativeText = NSLocalizedString("Only files in the OpenEmu Library folder will be moved to the Trash.", comment: "")
-        alert.defaultButtonTitle = NSLocalizedString("Move to Trash", comment: "")
-        alert.alternateButtonTitle = NSLocalizedString("Keep Files", comment: "")
-        alert.showSuppressionButton(forUDKey: OERemoveGameFilesFromLibraryAlertSuppressionKey)
-        alert.suppressOnDefaultReturnOnly = false
-        
-        return alert
-    }
-    
-    @objc(removeCollectionAlertWithName:)
     final class func removeCollection(name: String) -> OEAlert {
         
         let alert = OEAlert()

@@ -85,11 +85,6 @@
 "Reset All" = "Reimposta Tutte";
 
 
-/* Library Database Migration (OEMigrationWindowController.xib) */
-
-"Cancel and Quit" = "Annulla ed esci";
-
-
 /* OESidebarHeaderView.xib */
 
 "Edit" = "Modifica";

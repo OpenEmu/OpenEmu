@@ -430,8 +430,6 @@ static NSString * const OEGameTableSortDescriptorsKey = @"OEGameTableSortDescrip
             BOOL deleteFiles = NO;
             if(romsAreInRomsFolder)
             {
-                //NSUInteger alertReturn = [[OEAlert removeGameFilesFromLibraryAlert:multipleGames] runModal];
-                //deleteFiles = (alertReturn == NSAlertFirstButtonReturn);
                 deleteFiles = YES;
             }
 
