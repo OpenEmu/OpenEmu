@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEROMImporter (Private)
 
-- (NSData *)dataForOperationQueue:(NSArray<__kindof NSOperation *> *)queue;
+- (nullable NSData *)dataForOperationQueue:(NSArray<__kindof NSOperation *> *)queue;
 - (NSArray<OEImportOperation *> *)operationQueueFromData:(NSData *)data;
 
 @end

@@ -218,12 +218,12 @@ static NSString * OE_localizedStringFromElapsedTime(NSTimeInterval);
     self.rating = number;
 }
 
-- (NSNumber *)listViewSaveStateCount
+- (nullable NSNumber *)listViewSaveStateCount
 {
     return (self.saveStateCount.unsignedIntegerValue > 0 ? self.saveStateCount : nil);
 }
 
-- (NSNumber *)listViewPlayCount
+- (nullable NSNumber *)listViewPlayCount
 {
     return (self.playCount.unsignedIntegerValue > 0 ? self.playCount : nil);
 }
