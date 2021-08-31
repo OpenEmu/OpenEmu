@@ -25,7 +25,7 @@
 import Cocoa
 
 @objc(OELibraryController)
-class LibraryController: NSTabViewController, NSMenuItemValidation {
+final class LibraryController: NSTabViewController, NSMenuItemValidation {
     
     enum DefaultKeys: String {
         case lastCategory = "OELibraryLastCategoryKey"
@@ -54,7 +54,7 @@ class LibraryController: NSTabViewController, NSMenuItemValidation {
         }
     }
     
-    override var nibName: NSNib.Name? { "OELibraryController" }
+    override var nibName: NSNib.Name? { "LibraryController" }
     
     @objc weak var delegate: LibraryControllerDelegate?
     @IBOutlet var toolbar: LibraryToolbar?

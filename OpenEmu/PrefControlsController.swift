@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEPrefControlsController)
 final class PrefControlsController: OEPrefControlsControllerObjC {
     
     private let lastControlsPluginIdentifierKey = "lastControlsPlugin"
@@ -116,9 +115,9 @@ final class PrefControlsController: OEPrefControlsControllerObjC {
     
     override var nibName: NSNib.Name? {
         if UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue {
-            return "OEPrefControlsController"
+            return "PrefControlsController"
         } else {
-            return "OEPrefControlsController2"
+            return "PrefControlsController2"
         }
     }
     

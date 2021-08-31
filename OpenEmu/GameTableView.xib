@@ -37,7 +37,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="NQc-Rt-oNu" customClass="OECenteredTextFieldCell">
+                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="NQc-Rt-oNu" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -50,7 +50,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <customCell key="dataCell" alignment="left" id="bb6-rJ-o5i" customClass="OERatingCell">
+                                <customCell key="dataCell" alignment="left" id="bb6-rJ-o5i" customClass="RatingCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                 </customCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="listViewRating"/>
@@ -61,7 +61,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" placeholderString="" id="pJ2-yL-bFr" customClass="OECenteredTextFieldCell">
+                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" placeholderString="" id="pJ2-yL-bFr" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -74,7 +74,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="0oL-L9-04C" customClass="OECenteredTextFieldCell">
+                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="0oL-L9-04C" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -87,7 +87,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="KTb-MF-sTX" customClass="OECenteredTextFieldCell">
+                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="KTb-MF-sTX" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -100,7 +100,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="fnu-Ho-CBO" customClass="OECenteredTextFieldCell">
+                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="fnu-Ho-CBO" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -113,7 +113,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="BWl-ex-U8L" customClass="OECenteredTextFieldCell">
+                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="BWl-ex-U8L" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEControlsLabel)
 class ControlsLabel: NSTextField {
     
     required init?(coder: NSCoder) {
@@ -73,7 +72,6 @@ class ControlsLabel: NSTextField {
 }
 
 
-@objc(OEControlsKeyHeadline)
 final class ControlsKeyHeadline: ControlsLabel {
     
     override func setupAttributes() {
@@ -85,7 +83,6 @@ final class ControlsKeyHeadline: ControlsLabel {
     }
 }
 
-@objc(OEControlsKeyLabel)
 final class ControlsKeyLabel: ControlsLabel {
     
     override func setupAttributes() {

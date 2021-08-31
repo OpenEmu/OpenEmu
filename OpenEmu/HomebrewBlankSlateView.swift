@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEHomebrewBlankSlateView)
 final class HomebrewBlankSlateView: BlankSlateView {
     
     override func setupViewForRepresentedObject() {

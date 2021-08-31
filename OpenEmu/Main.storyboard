@@ -117,7 +117,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <button focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cm1-gR-GtS" customClass="OETextButton">
+                            <button focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cm1-gR-GtS" customClass="TextButton" customModule="OpenEmu" customModuleProvider="target">
                                 <rect key="frame" x="127" y="138" width="147" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="bevel" title="openemu.org" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="50H-ys-sAp">
@@ -128,7 +128,7 @@
                                     <action selector="openWeblink:" target="Slx-nK-pNK" id="kMH-s6-Aa0"/>
                                 </connections>
                             </button>
-                            <button focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9lc-1E-ygn" customClass="OETextButton">
+                            <button focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9lc-1E-ygn" customClass="TextButton" customModule="OpenEmu" customModuleProvider="target">
                                 <rect key="frame" x="113" y="17" width="176" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="bevel" title="github.com/openemu" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="y9C-BZ-tbY">
@@ -927,7 +927,7 @@ DQ
                     </connections>
                 </application>
                 <customObject id="-1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <customObject id="805" userLabel="OEApplicationDelegate" customClass="OEApplicationDelegate">
+                <customObject id="805" userLabel="OEApplicationDelegate" customClass="AppDelegate" customModule="OpenEmu" customModuleProvider="target">
                     <connections>
                         <outlet property="fileMenu" destination="980" id="1224"/>
                         <outlet property="localizationGuideMenuItem" destination="Dye-Hd-BVp" id="Ccr-IB-JH8"/>

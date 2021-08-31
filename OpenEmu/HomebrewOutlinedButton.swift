@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEHomebrewOutlinedButton)
 final class HomebrewOutlinedButton: NSButton {
     
     override func draw(_ dirtyRect: NSRect) {

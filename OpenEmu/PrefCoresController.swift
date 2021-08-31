@@ -36,14 +36,11 @@ private extension NSUserInterfaceItemIdentifier {
     static let installProgressCell = NSUserInterfaceItemIdentifier("installProgressCell")
 }
 
-@objc(OEPrefCoresController)
-class PrefCoresController: NSViewController {
+final class PrefCoresController: NSViewController {
     
     @IBOutlet var coresTableView: NSTableView!
     
     var coreListObservation: NSKeyValueObservation?
-    
-    override var nibName: NSNib.Name? { "OEPrefCoresController" }
     
     override func viewDidLoad() {
         super.viewDidLoad()

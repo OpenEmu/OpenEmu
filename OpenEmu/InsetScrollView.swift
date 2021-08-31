@@ -24,8 +24,7 @@
 
 import Cocoa
 
-@objc(OEInsetScrollView)
-class InsetScrollView: NSScrollView {
+final class InsetScrollView: NSScrollView {
     
     override func awakeFromNib() {
         super.awakeFromNib()

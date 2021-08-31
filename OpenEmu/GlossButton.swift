@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEGlossButton)
 final class GlossButton: NSButton {
     
     private var subImageRect         = NSRect.zero

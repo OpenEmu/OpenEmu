@@ -25,10 +25,9 @@
 import Cocoa
 
 @IBDesignable
-@objc
-class OEGameLayerNotificationView: NSImageView {
+final class OEGameLayerNotificationView: NSImageView {
     
-    @objc static let OEShowNotificationsKey = "OEShowNotifications"
+    static let OEShowNotificationsKey = "OEShowNotifications"
     
     public var disableNotifications: Bool = false
     

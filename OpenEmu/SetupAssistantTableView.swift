@@ -24,8 +24,7 @@
 
 import Cocoa
 
-@objc(OESetupAssistantTableView)
-class SetupAssistantTableView: NSTableView, NSTableViewDataSource {
+final class SetupAssistantTableView: NSTableView, NSTableViewDataSource {
     
     override init(frame: NSRect) {
         super.init(frame: frame)

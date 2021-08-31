@@ -24,8 +24,7 @@
 
 import Cocoa
 
-@objc(OEBackgroundImageView)
-class BackgroundImageView: NSView {
+final class BackgroundImageView: NSView {
     
     @IBInspectable var background: NSImage?
     @IBInspectable var image: NSImage?

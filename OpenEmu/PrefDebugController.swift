@@ -25,7 +25,6 @@
 import Cocoa
 
 @objcMembers
-@objc(OEPrefDebugController)
 final class PrefDebugController: NSViewController {
     
     @IBOutlet var contentView: NSGridView!

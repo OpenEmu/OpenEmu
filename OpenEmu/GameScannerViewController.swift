@@ -24,8 +24,7 @@
 
 import Foundation
 
-@objc(OEGameScannerViewController)
-class GameScannerViewController: NSViewController {
+final class GameScannerViewController: NSViewController {
 
     @objc public static let OEGameScannerToggleNotification = Notification.Name("OEGameScannerToggleNotification")
     private static let importGuideURL = URL(string: "https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-Importing")!
@@ -47,7 +46,7 @@ class GameScannerViewController: NSViewController {
     private var itemsRequiringAttention = [OEImportOperation]()
     private var itemsFailedImport = [OEImportOperation]()
     private var isScanningDirectory = false
-    private var isGameScannerVisible = true // The game scanner view is already visible in OELibraryGamesViewController.xib.
+    private var isGameScannerVisible = true // The game scanner view is already visible in SidebarController.xib.
     
     private var importer: OEROMImporter { return OELibraryDatabase.default!.importer }
     
@@ -62,7 +61,7 @@ class GameScannerViewController: NSViewController {
         notificationCenter.addObserver(self, selector: #selector(toggleGameScannerView), name: GameScannerViewController.OEGameScannerToggleNotification, object: nil)
     }
     
-    override var nibName: NSNib.Name? { "OEGameScanner" }
+    override var nibName: NSNib.Name? { "GameScanner" }
     
     override func awakeFromNib() {
         

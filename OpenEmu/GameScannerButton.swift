@@ -24,10 +24,9 @@
 
 import Cocoa
 
-@objc(OEGameScannerButton)
 final class GameScannerButton: HoverButton {
     
-    @objc var icon: String = ""
+    var icon: String = ""
     
     private var iconImage: NSImage? {
         

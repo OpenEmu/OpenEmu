@@ -24,8 +24,7 @@
 
 import Cocoa
 
-@objc
-class SaveStateViewController: ImageCollectionViewController, LibrarySubviewControllerSaveStateSelection {
+final class SaveStateViewController: ImageCollectionViewController, LibrarySubviewControllerSaveStateSelection {
     var supportsQuickLook: Bool { false }
     
     override var representedObject: Any? {

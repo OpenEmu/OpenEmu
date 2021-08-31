@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEControlsSectionTitleView)
 final class ControlsSectionTitleView: NSView {
     
     private lazy var topColor = NSColor(deviceRed: 85/255, green: 45/255, blue: 0, alpha: 1)
@@ -66,9 +65,9 @@ final class ControlsSectionTitleView: NSView {
     
     private lazy var string = NSAttributedString(string: stringValue, attributes: Self.attributes)
     
-    @objc var stringValue = ""
+    var stringValue = ""
     
-    @objc var pinned = false {
+    var pinned = false {
         didSet {
             if isWood {
                 needsDisplay = true

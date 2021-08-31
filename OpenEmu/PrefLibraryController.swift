@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEPrefLibraryController)
 final class PrefLibraryController: NSViewController {
     
     @IBOutlet var availableLibrariesViewController: AvailableLibrariesViewController!

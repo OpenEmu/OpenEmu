@@ -95,7 +95,7 @@ enum : OEFSMEventLabel
 @property(nonatomic, weak) IBOutlet NSView *welcomeView;
 @property(nonatomic, weak) IBOutlet NSView *coreSelectionView;
 @property(nonatomic, weak) IBOutlet NSView *lastStepView;
-@property(nonatomic, weak) IBOutlet OESetupAssistantTableView *installCoreTableView;
+@property(nonatomic, weak) IBOutlet NSTableView *installCoreTableView;
 
 - (IBAction)processFSMButtonAction:(id)sender;
 

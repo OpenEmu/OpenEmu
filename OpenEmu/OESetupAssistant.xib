@@ -72,7 +72,7 @@
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="296">
                     <rect key="frame" x="164" y="102" width="504" height="335"/>
                     <subviews>
-                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="298" customClass="OEBackgroundImageView">
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="298" customClass="BackgroundImageView" customModule="OpenEmu" customModuleProvider="target">
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
                             <subviews>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="315">
@@ -127,7 +127,7 @@
                                 <userDefinedRuntimeAttribute type="image" keyPath="background" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="300" customClass="OEGlossButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="300" customClass="GlossButton" customModule="OpenEmu" customModuleProvider="target">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="301">
@@ -169,7 +169,7 @@
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="294">
                     <rect key="frame" x="164" y="102" width="504" height="335"/>
                     <subviews>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="249" customClass="OEGlossButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="249" customClass="GlossButton" customModule="OpenEmu" customModuleProvider="target">
                             <rect key="frame" x="21" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="250">
@@ -187,7 +187,7 @@
                                 <action selector="processFSMButtonAction:" target="-2" id="582"/>
                             </connections>
                         </button>
-                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="239" customClass="OEBackgroundImageView">
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="239" customClass="BackgroundImageView" customModule="OpenEmu" customModuleProvider="target">
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
                             <subviews>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="326">
@@ -216,7 +216,7 @@
                                         <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                                     </userDefinedRuntimeAttributes>
                                 </textField>
-                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="A5g-3z-11R" customClass="OESetupAssistantScrollBorderView">
+                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="A5g-3z-11R" customClass="SetupAssistantScrollBorderView" customModule="OpenEmu" customModuleProvider="target">
                                     <rect key="frame" x="20" y="23" width="416" height="121"/>
                                     <subviews>
                                         <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="25" horizontalPageScroll="10" verticalLineScroll="25" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="282">
@@ -225,7 +225,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="412" height="117"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="23" id="286" customClass="OESetupAssistantTableView">
+                                                    <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="23" id="286" customClass="SetupAssistantTableView" customModule="OpenEmu" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="412" height="117"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
@@ -237,7 +237,7 @@
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
-                                                                <buttonCell key="dataCell" type="check" bezelStyle="regularSquare" imagePosition="only" alignment="left" inset="2" id="293" customClass="OEGlossCheckboxCell">
+                                                                <buttonCell key="dataCell" type="check" bezelStyle="regularSquare" imagePosition="only" alignment="left" inset="2" id="293" customClass="GlossCheckboxCell" customModule="OpenEmu" customModuleProvider="target">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -248,7 +248,7 @@
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
-                                                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="292" customClass="OECenteredTextFieldCell">
+                                                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="292" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                                                     <font key="font" metaFont="systemBold" size="12"/>
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -260,7 +260,7 @@
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
-                                                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="289" customClass="OECenteredTextFieldCell">
+                                                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="289" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -308,7 +308,7 @@
                                 <userDefinedRuntimeAttribute type="image" keyPath="background" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="245" customClass="OEGlossButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="245" customClass="GlossButton" customModule="OpenEmu" customModuleProvider="target">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="246">
@@ -350,11 +350,11 @@
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="395">
                     <rect key="frame" x="164" y="102" width="504" height="335"/>
                     <subviews>
-                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="397" customClass="OEBackgroundImageView">
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="397" customClass="BackgroundImageView" customModule="OpenEmu" customModuleProvider="target">
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
                             <subviews>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="400">
-                                    <rect key="frame" x="17" y="220" width="61" height="16"/>
+                                    <rect key="frame" x="17" y="220" width="62" height="16"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Let’s Go!" id="401">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -403,7 +403,7 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                 <userDefinedRuntimeAttribute type="image" keyPath="background" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="396" customClass="OEGlossButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="396" customClass="GlossButton" customModule="OpenEmu" customModuleProvider="target">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="smallSquare" title="Go" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="404">
@@ -421,7 +421,7 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                 <action selector="processFSMButtonAction:" target="-2" id="587"/>
                             </connections>
                         </button>
-                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="412" customClass="OEGlossButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="412" customClass="GlossButton" customModule="OpenEmu" customModuleProvider="target">
                             <rect key="frame" x="20" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="413">

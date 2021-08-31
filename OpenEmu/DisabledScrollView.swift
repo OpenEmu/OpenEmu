@@ -24,8 +24,7 @@
 
 import Cocoa
 
-@objc(OEDisabledScrollView)
-class DisabledScrollView: NSScrollView {
+final class DisabledScrollView: NSScrollView {
     
     override func scrollWheel(with event: NSEvent) {
         nextResponder?.scrollWheel(with: event)

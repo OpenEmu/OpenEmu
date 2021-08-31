@@ -22,7 +22,6 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-@objc(OEControlsKeyButton)
 final class ControlsKeyButton: NSButton {
     
     let isWood = UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue
@@ -66,7 +65,7 @@ final class ControlsKeyButton: NSButton {
     
     // MARK: - Accessibility
     
-    @objc var label: String = ""
+    var label: String = ""
     
     override var title: String {
         didSet {

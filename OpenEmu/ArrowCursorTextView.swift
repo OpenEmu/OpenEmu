@@ -24,8 +24,7 @@
 
 import Cocoa
 
-@objc(OEArrowCursorTextView)
-class ArrowCursorTextView: NSTextView {
+final class ArrowCursorTextView: NSTextView {
     
     // Disables parent implementation of -updateTrackingAreas to prevent it from updating the cursor.
     override func updateTrackingAreas() {

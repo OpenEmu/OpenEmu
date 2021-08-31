@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEControlsKeySeparatorView)
 final class ControlsKeySeparatorView: NSView {
     
     private let topColor = NSColor(red: 85/255, green: 45/255, blue: 0, alpha: 1)

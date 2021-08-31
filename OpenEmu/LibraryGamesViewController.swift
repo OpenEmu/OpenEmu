@@ -28,8 +28,7 @@ extension NSNotification.Name {
     static let OELibrarySplitViewResetSidebar = NSNotification.Name("OELibrarySplitViewResetSidebar")
 }
 
-@objc(OELibraryGamesViewController)
-class LibraryGamesViewController: NSSplitViewController {
+final class LibraryGamesViewController: NSSplitViewController {
     
     private let OESkipDiscGuideMessageKey = "OESkipDiscGuideMessageKey"
     private lazy var discGuideMessageSystemIDs: [String?] = []

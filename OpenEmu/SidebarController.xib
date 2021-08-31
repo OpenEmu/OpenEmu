@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="OESidebarController">
+        <customObject id="-2" userLabel="File's Owner" customClass="SidebarController" customModule="OpenEmu" customModuleProvider="target">
             <connections>
                 <outlet property="gameScannerViewController" destination="juh-5x-f5U" id="lNb-43-pvO"/>
                 <outlet property="sidebarView" destination="Evu-SM-BeR" id="vF6-Ws-Arl"/>
@@ -19,7 +19,7 @@
             <rect key="frame" x="0.0" y="0.0" width="200" height="500"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView autoresizesSubviews="NO" focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="JYU-Tk-u7m" customClass="OEInsetScrollView">
+                <scrollView autoresizesSubviews="NO" focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="JYU-Tk-u7m" customClass="InsetScrollView" customModule="OpenEmu" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="103" width="200" height="397"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" drawsBackground="NO" id="MQJ-cq-QCT">
@@ -87,7 +87,7 @@
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                         </textField>
-                        <button translatesAutoresizingMaskIntoConstraints="NO" id="Nvs-ey-EH6" customClass="OEGameScannerButton">
+                        <button translatesAutoresizingMaskIntoConstraints="NO" id="Nvs-ey-EH6" customClass="GameScannerButton" customModule="OpenEmu" customModuleProvider="target">
                             <rect key="frame" x="166" y="24" width="26" height="26"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="26" id="CFR-jn-zSg"/>
@@ -139,7 +139,7 @@
             </subviews>
             <point key="canvasLocation" x="-212" y="121"/>
         </view>
-        <viewController id="juh-5x-f5U" customClass="OEGameScannerViewController">
+        <viewController id="juh-5x-f5U" customClass="GameScannerViewController" customModule="OpenEmu" customModuleProvider="target">
             <connections>
                 <outlet property="fixButton" destination="vaP-Xa-Oni" id="Ro8-XB-pIU"/>
                 <outlet property="headlineLabel" destination="YLv-AD-2L2" id="Jvd-JE-D46"/>

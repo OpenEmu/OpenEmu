@@ -25,7 +25,6 @@
 import Cocoa
 import OpenEmuKit
 
-@objc(OEShaderParametersWindowController)
 final class ShaderParametersWindowController: NSWindowController {
     @objc var control: ShaderControl
     

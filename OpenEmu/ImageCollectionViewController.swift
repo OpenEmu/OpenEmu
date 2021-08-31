@@ -24,10 +24,9 @@
 
 import Cocoa
 
-@objc
 class ImageCollectionViewController: NSViewController {
     
-    @objc var database: OELibraryDatabase!
+    var database: OELibraryDatabase!
     
     @IBOutlet weak var collectionView: CollectionView!
     @IBOutlet weak var flowLayout: NSCollectionViewFlowLayout!

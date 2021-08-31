@@ -34,8 +34,7 @@ public extension NSToolbarItem.Identifier {
     static let oeAdd      = NSToolbarItem.Identifier("OEToolbarAddItem")
 }
 
-@objc(OELibraryToolbarDelegate)
-class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
+final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     var itemCache = [NSToolbarItem.Identifier: NSToolbarItem]()
     
     @IBOutlet weak var toolbarOwner: AnyObject?

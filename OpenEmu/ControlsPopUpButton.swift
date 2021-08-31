@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEControlsPopUpButton)
 final class ControlsPopUpButton: NSPopUpButton {
     
     private var cachedIntrinsicWidth: CGFloat = 0

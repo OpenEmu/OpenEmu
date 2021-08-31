@@ -24,8 +24,7 @@
 
 import Cocoa
 
-@objc(OESidebarHeaderView)
-class SidebarHeaderView: NSTableCellView {
+final class SidebarHeaderView: NSTableCellView {
     
     @IBOutlet var button: NSButton!
     

@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEHUDSlider)
 final class HUDSlider: NSSlider {
     
     override var isFlipped: Bool {

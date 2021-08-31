@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEHomebrewCoverView)
 final class HomebrewCoverView: NSView {
     
     private static let imageDidLoadNotification = Notification.Name("OEURLImagesViewImageDidLoad")

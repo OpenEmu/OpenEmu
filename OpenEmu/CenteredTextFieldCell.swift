@@ -24,8 +24,7 @@
 
 import Cocoa
 
-@objc(OECenteredTextFieldCell)
-class CenteredTextFieldCell: NSTextFieldCell {
+final class CenteredTextFieldCell: NSTextFieldCell {
     
     override func titleRect(forBounds rect: NSRect) -> NSRect {
         var titleRect = super.titleRect(forBounds: rect)

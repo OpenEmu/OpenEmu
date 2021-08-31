@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindowController">
+        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindowController" customModule="OpenEmu" customModuleProvider="target">
             <connections>
                 <outlet property="window" destination="36" id="40"/>
             </connections>

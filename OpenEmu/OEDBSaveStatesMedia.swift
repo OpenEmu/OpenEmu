@@ -27,8 +27,8 @@ import Foundation
 @objc(OEDBSavedGamesMedia)
 final class OEDBSaveStatesMedia: NSObject, OECollectionViewItem {
     
-    @objc static let showsAutoSavesKey = "OEDBSavedGamesMediaShowsAutoSaves"
-    @objc static let showsQuickSavesKey = "OEDBSavedGamesMediaShowsQuickSaves"
+    static let showsAutoSavesKey = "OEDBSavedGamesMediaShowsAutoSaves"
+    static let showsQuickSavesKey = "OEDBSavedGamesMediaShowsQuickSaves"
     
     @objc(sharedDBSavedGamesMedia)
     static let shared = OEDBSaveStatesMedia()

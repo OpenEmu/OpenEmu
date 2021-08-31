@@ -26,7 +26,6 @@
 
 import Cocoa
 
-@objc(OEPreferencesControlsBox)
 final class PreferencesControlsBox: NSView {
     
     lazy var lineColor = NSColor(deviceRed: 0.45, green: 0.24, blue: 0, alpha: 1)

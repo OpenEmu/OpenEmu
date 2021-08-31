@@ -37,8 +37,7 @@ private extension NSUserInterfaceItemIdentifier {
     static let itemView   = NSUserInterfaceItemIdentifier("SidebarItemView")
 }
 
-@objc(OESidebarController)
-class SidebarController: NSViewController {
+final class SidebarController: NSViewController {
     
     @IBOutlet var sidebarView: NSOutlineView!
     @IBOutlet var gameScannerViewController: GameScannerViewController!

@@ -32,7 +32,6 @@ private extension NSUserInterfaceItemIdentifier {
     static let fileCell = NSUserInterfaceItemIdentifier("FileCell")
 }
 
-@objc(OEPrefBiosController)
 final class PrefBiosController: NSViewController {
     
     @IBOutlet var tableView: NSTableView!

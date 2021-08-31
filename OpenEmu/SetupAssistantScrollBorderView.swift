@@ -24,8 +24,7 @@
 
 import Cocoa
 
-@objc(OESetupAssistantScrollBorderView)
-class SetupAssistantScrollBorderView: NSView {
+final class SetupAssistantScrollBorderView: NSView {
     
     override var isOpaque: Bool {
         return false

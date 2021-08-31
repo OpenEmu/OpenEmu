@@ -24,14 +24,13 @@
 
 import Cocoa
 
-@objc(OETextButton)
 class TextButton: HoverButton {
     
-    @objc var textColor: NSColor?
-    @objc var textColorHover: NSColor?
-    @objc var textShadow: NSShadow?
+    var textColor: NSColor?
+    var textColorHover: NSColor?
+    var textShadow: NSShadow?
     
-    @objc var showArrow: Bool = false
+    var showArrow: Bool = false
     
     private var arrowImage: NSImage? {
         if isHighlighted {

@@ -25,8 +25,6 @@
 import Cocoa
 import QuartzCore
 
-@objc(OEControllerImageView)
-@objcMembers
 final class ControllerImageView: NSView {
     
     static let drawControllerMaskKey = "drawControllerMask"

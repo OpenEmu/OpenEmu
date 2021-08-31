@@ -25,7 +25,7 @@
 import Cocoa
 
 @objc(OEGameControlsBarView)
-class GameControlsBarView: NSView, OEHUDBarView {
+final class GameControlsBarView: NSView, OEHUDBarView {
     
     @objc private(set) var slider: NSSlider?
     @objc private(set) var fullScreenButton: NSButton?

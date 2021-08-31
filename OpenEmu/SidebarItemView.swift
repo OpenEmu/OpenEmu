@@ -24,6 +24,5 @@
 
 import Cocoa
 
-@objc(OESidebarItemView)
-class SidebarItemView: NSTableCellView {
+final class SidebarItemView: NSTableCellView {
 }

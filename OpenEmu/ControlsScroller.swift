@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEControlsScroller)
 final class ControlsScroller: NSScroller {
     
     lazy var knobImage  = NSImage(named: "wood_knob_vertical")

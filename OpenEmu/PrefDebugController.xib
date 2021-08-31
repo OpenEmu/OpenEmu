@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="OEPrefDebugController">
+        <customObject id="-2" userLabel="File's Owner" customClass="PrefDebugController" customModule="OpenEmu" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="9SQ-qI-b1W" id="vKD-Eg-G38"/>
                 <outlet property="view" destination="3" id="atR-mO-pSm"/>

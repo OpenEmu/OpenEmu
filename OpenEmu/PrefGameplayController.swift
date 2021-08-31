@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEPrefGameplayController)
 final class PrefGameplayController: NSViewController {
     
     @IBOutlet var globalDefaultShaderSelection: NSPopUpButton!

@@ -24,8 +24,6 @@
 
 import Cocoa
 
-@objc(OEControlsButtonSetupView)
-@objcMembers
 final class ControlsButtonSetupView: NSView {
     
     static let controlsButtonHighlightRollsOver = "ButtonHighlightRollsOver"
@@ -34,7 +32,7 @@ final class ControlsButtonSetupView: NSView {
     var action: Selector?
     
     /// An object which support KVC/KVO for all OEGenericControlNamesKey of the current system
-    var bindingsProvider: AnyObject?
+    @objc var bindingsProvider: AnyObject?
     
     private var sections: [Section]!
     private var orderedKeys: [String]!
@@ -176,7 +174,6 @@ final class ControlsButtonSetupView: NSView {
         }, context: nil)
     }
     
-    @objc(layoutSubviews:)
     func layoutSubviews(animated: Bool = false) {
         
         let animator = animated ? animator() : self

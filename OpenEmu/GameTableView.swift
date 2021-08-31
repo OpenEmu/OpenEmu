@@ -45,7 +45,7 @@ private extension NSUserInterfaceItemIdentifier {
 }
 
 @objc(OEGameTableView)
-class GameTableView: OETableView {
+final class GameTableView: OETableView {
     
     let headerStateKey = "OEGameTableColumnsHiddenState"
     
@@ -155,8 +155,7 @@ class GameTableView: OETableView {
     }
 }
 
-@objc(OEGameTableHeaderView)
-class GameTableHeaderView: NSTableHeaderView {
+final class GameTableHeaderView: NSTableHeaderView {
     override func menu(for event: NSEvent) -> NSMenu? {
         window?.makeFirstResponder(self)
         

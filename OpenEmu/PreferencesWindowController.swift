@@ -27,15 +27,14 @@
 import Cocoa
 
 @objc(OEPreferencesWindowController)
-@objcMembers
-class PreferencesWindowController: NSWindowController {
+final class PreferencesWindowController: NSWindowController {
     
     static let debugModeKey = "debug"
     static let selectedPreferencesTabKey = "selectedPreferencesTab"
     
-    static let openPaneNotificationName = Notification.Name("OEPrefOpenPane")
-    static let userInfoPanelNameKey = "panelName"
-    static let userInfoSystemIdentifierKey = "systemIdentifier"
+    @objc static let openPaneNotificationName = Notification.Name("OEPrefOpenPane")
+    @objc static let userInfoPanelNameKey = "panelName"
+    @objc static let userInfoSystemIdentifierKey = "systemIdentifier"
     
     static let toolbarItemIdentiftierDebug = "OEToolBarItemIdentifierDebug"
     static let toolbarItemIdentifierSeparator = "OEToolbarItemIdentifierSeparator"
@@ -72,7 +71,6 @@ class PreferencesWindowController: NSWindowController {
     
     // MARK: -
     
-    @objc(showWindowWithNotification:)
     func showWindow(with notification: Notification) {
         
         showWindow(nil)
@@ -144,7 +142,7 @@ extension PreferencesWindowController: NSWindowDelegate {
     }
 }
 
-class PreferencesTabViewController: NSTabViewController {
+final class PreferencesTabViewController: NSTabViewController {
     
     /// Used to track when viewDidLoad has completed so that the default pane index selection of 0 doesn't get recorded in tabView(_:, didSelectTabViewItem:).
     fileprivate var viewDidLoadFinished = false

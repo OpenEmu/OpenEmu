@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="OEHomebrewViewController">
+        <customObject id="-2" userLabel="File's Owner" customClass="HomebrewViewController" customModule="OpenEmu" customModuleProvider="target">
             <connections>
                 <outlet property="tableView" destination="KhY-cL-moa" id="T9h-Z8-To4"/>
                 <outlet property="view" destination="uxN-df-boz" id="cEb-AE-HUQ"/>
@@ -60,7 +60,7 @@
                                                             <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="9ep-5G-g9M"/>
                                                         </connections>
                                                     </textField>
-                                                    <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="ss5-rY-sYe" customClass="OEHomebrewOutlinedButton">
+                                                    <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="ss5-rY-sYe" customClass="HomebrewOutlinedButton" customModule="OpenEmu" customModuleProvider="target">
                                                         <rect key="frame" x="285" y="149" width="58" height="19"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="17" id="gvH-Zu-Hp0"/>
@@ -70,7 +70,7 @@
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                     </button>
-                                                    <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="rix-Tm-zJs" customClass="OEHomebrewOutlinedButton">
+                                                    <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="rix-Tm-zJs" customClass="HomebrewOutlinedButton" customModule="OpenEmu" customModuleProvider="target">
                                                         <rect key="frame" x="348" y="149" width="40" height="19"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="17" id="rk8-vn-0aF"/>
@@ -88,14 +88,14 @@
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="awI-1D-r5I" customClass="OEHomebrewCoverView">
+                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="awI-1D-r5I" customClass="HomebrewCoverView" customModule="OpenEmu" customModuleProvider="target">
                                                         <rect key="frame" x="36" y="23" width="240" height="185"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="185" id="8JY-j1-Z3N"/>
                                                             <constraint firstAttribute="width" constant="240" id="y03-XI-7JS"/>
                                                         </constraints>
                                                     </customView>
-                                                    <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="5kk-p4-hJg" customClass="OETextButton">
+                                                    <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="5kk-p4-hJg" customClass="TextButton" customModule="OpenEmu" customModuleProvider="target">
                                                         <rect key="frame" x="284" y="172" width="128" height="18"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="18" id="rPC-sg-MLL"/>
@@ -167,7 +167,7 @@
                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="RVu-F3-nDj" userLabel="Featured Left">
                                                                     <rect key="frame" x="2" y="1" width="242" height="220"/>
                                                                     <subviews>
-                                                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hbl-cX-W2X" customClass="OEHomebrewCoverView">
+                                                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hbl-cX-W2X" customClass="HomebrewCoverView" customModule="OpenEmu" customModuleProvider="target">
                                                                             <rect key="frame" x="2" y="33" width="240" height="185"/>
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         </customView>
@@ -192,7 +192,7 @@
                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="fWt-jo-lSb" userLabel="Featured Center">
                                                                     <rect key="frame" x="253" y="1" width="242" height="220"/>
                                                                     <subviews>
-                                                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8In-DY-9QG" customClass="OEHomebrewCoverView">
+                                                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8In-DY-9QG" customClass="HomebrewCoverView" customModule="OpenEmu" customModuleProvider="target">
                                                                             <rect key="frame" x="2" y="33" width="240" height="185"/>
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         </customView>
@@ -217,7 +217,7 @@
                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="sN5-rM-I3f" userLabel="Featured Right">
                                                                     <rect key="frame" x="504" y="1" width="242" height="220"/>
                                                                     <subviews>
-                                                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LeL-8G-gVy" customClass="OEHomebrewCoverView">
+                                                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LeL-8G-gVy" customClass="HomebrewCoverView" customModule="OpenEmu" customModuleProvider="target">
                                                                             <rect key="frame" x="2" y="33" width="240" height="185"/>
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         </customView>

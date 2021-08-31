@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEHUDSliderCell)
 final class HUDSliderCell: NSSliderCell {
     
     let trackImage = NSImage(named: "HUD/hud_slider_track")

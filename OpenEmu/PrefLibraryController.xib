@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="OEPrefLibraryController">
+        <customObject id="-2" userLabel="File's Owner" customClass="PrefLibraryController" customModule="OpenEmu" customModuleProvider="target">
             <connections>
                 <outlet property="availableLibrariesViewController" destination="3wi-9o-3qK" id="1hd-mR-TTJ"/>
                 <outlet property="librariesView" destination="Cx7-H9-Kv5" id="YXN-PY-aCi"/>
@@ -236,7 +236,7 @@
             </constraints>
             <point key="canvasLocation" x="217" y="80"/>
         </view>
-        <viewController id="3wi-9o-3qK" customClass="OEAvailableLibrariesViewController"/>
+        <viewController id="3wi-9o-3qK" customClass="AvailableLibrariesViewController" customModule="OpenEmu" customModuleProvider="target"/>
         <userDefaultsController id="36"/>
     </objects>
 </document>

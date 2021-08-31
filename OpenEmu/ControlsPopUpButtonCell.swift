@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEControlsPopUpButtonCell)
 final class ControlsPopUpButtonCell: NSPopUpButtonCell {
     
     override func drawBorderAndBackground(withFrame cellFrame: NSRect, in controlView: NSView) {
@@ -83,7 +82,6 @@ final class ControlsPopUpButtonCell: NSPopUpButtonCell {
     }()
 }
 
-@objc(OEControlsPopUpButtonCell2)
 final class ControlsPopUpButtonCell2: NSPopUpButtonCell {
     
     override func drawImage(_ image: NSImage, withFrame frame: NSRect, in controlView: NSView) {

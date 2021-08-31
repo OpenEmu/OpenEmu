@@ -54,7 +54,7 @@
             </scroller>
             <point key="canvasLocation" x="64" y="537.5"/>
         </scrollView>
-        <customView id="ipW-DC-E2x" customClass="OEBlankSlateView">
+        <customView id="ipW-DC-E2x" customClass="BlankSlateView" customModule="OpenEmu" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="163" height="96"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <point key="canvasLocation" x="65" y="833"/>

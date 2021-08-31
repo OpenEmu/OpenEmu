@@ -17,7 +17,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView id="109" customClass="OEBlankSlateView">
+        <customView id="109" customClass="BlankSlateView" customModule="OpenEmu" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <point key="canvasLocation" x="-252" y="120"/>
@@ -26,7 +26,7 @@
             <rect key="frame" x="0.0" y="0.0" width="643" height="510"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="light" translatesAutoresizingMaskIntoConstraints="NO" id="92" userLabel="GridView" customClass="OEInsetScrollView">
+                <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="light" translatesAutoresizingMaskIntoConstraints="NO" id="92" userLabel="GridView" customClass="InsetScrollView" customModule="OpenEmu" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="643" height="510"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="wnb-pq-eE8">
@@ -57,14 +57,14 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <point key="canvasLocation" x="-188.5" y="527"/>
         </customView>
-        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" id="UCW-dx-p1F" customClass="OEInsetScrollView">
+        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" id="UCW-dx-p1F" customClass="InsetScrollView" customModule="OpenEmu" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="735" height="290"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="vft-3Z-KAS">
                 <rect key="frame" x="0.0" y="0.0" width="735" height="290"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="libraryGamesTable" headerView="H7O-is-mGk" id="7W7-OC-R11" customClass="OEGameTableView">
+                    <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="libraryGamesTable" headerView="H7O-is-mGk" id="7W7-OC-R11" customClass="GameTableView" customModule="OpenEmu" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="922" height="230"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <size key="intercellSpacing" width="3" height="2"/>
@@ -85,7 +85,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="22" customClass="OECenteredTextFieldCell">
+                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="22" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -98,7 +98,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <customCell key="dataCell" alignment="left" id="23" customClass="OERatingCell">
+                                <customCell key="dataCell" alignment="left" id="23" customClass="RatingCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                 </customCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="listViewRating"/>
@@ -109,7 +109,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" placeholderString="" id="24" customClass="OECenteredTextFieldCell">
+                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" placeholderString="" id="24" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -122,7 +122,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="25" customClass="OECenteredTextFieldCell">
+                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="25" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -135,7 +135,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="104" customClass="OECenteredTextFieldCell">
+                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="104" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -148,7 +148,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="106" customClass="OECenteredTextFieldCell">
+                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="106" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -161,7 +161,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="108" customClass="OECenteredTextFieldCell">
+                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" id="108" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
                                     <font key="font" metaFont="label" size="11"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -183,7 +183,7 @@
                 <rect key="frame" x="224" y="17" width="15" height="102"/>
                 <autoresizingMask key="autoresizingMask"/>
             </scroller>
-            <tableHeaderView key="headerView" wantsLayer="YES" id="H7O-is-mGk" customClass="OEGameTableHeaderView">
+            <tableHeaderView key="headerView" wantsLayer="YES" id="H7O-is-mGk" customClass="GameTableHeaderView" customModule="OpenEmu" customModuleProvider="target">
                 <rect key="frame" x="0.0" y="0.0" width="922" height="23"/>
                 <autoresizingMask key="autoresizingMask"/>
             </tableHeaderView>

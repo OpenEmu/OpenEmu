@@ -28,8 +28,7 @@ private extension NSUserInterfaceItemIdentifier {
     static let availableLibrariesCollectionViewItem = NSUserInterfaceItemIdentifier("AvailableLibrariesCollectionViewItem")
 }
 
-@objc(OEAvailableLibrariesViewController)
-class AvailableLibrariesViewController: NSViewController {
+final class AvailableLibrariesViewController: NSViewController {
     
     var data: [Model] = []
     
@@ -37,7 +36,7 @@ class AvailableLibrariesViewController: NSViewController {
     
     private var observerToken: NSObjectProtocol?
     
-    @objc var isEnableObservers: Bool = false {
+    var isEnableObservers: Bool = false {
         didSet {
             if isEnableObservers {
                 OEPlugin.addObserver(self, forKeyPath: #keyPath(OEPlugin.allPlugins), options: [.old, .new], context: nil)

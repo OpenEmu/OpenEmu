@@ -24,8 +24,7 @@
 
 import Cocoa
 
-@objc
-class ScreenshotViewController: ImageCollectionViewController {
+final class ScreenshotViewController: ImageCollectionViewController {
     override var representedObject: Any? {
         willSet {
             precondition(newValue == nil || newValue is OEDBScreenshotsMedia, "unexpected object")

@@ -25,7 +25,7 @@
 import Cocoa
 
 @objc(OERatingCell)
-class RatingCell: NSCell {
+final class RatingCell: NSCell {
     
     override func draw(withFrame cellFrame: NSRect, in controlView: NSView) {
         

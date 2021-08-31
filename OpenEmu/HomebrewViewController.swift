@@ -31,7 +31,6 @@ private extension NSUserInterfaceItemIdentifier {
     static let dummyView   = NSUserInterfaceItemIdentifier("DummyView")
 }
 
-@objc(OEHomebrewViewController)
 final class HomebrewViewController: NSViewController {
     
     private let homebrewGamesURL = URL(string: "https://raw.githubusercontent.com/OpenEmu/OpenEmu-Update/master/games.xml")!

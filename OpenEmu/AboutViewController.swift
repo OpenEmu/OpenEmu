@@ -24,8 +24,7 @@
 
 import Cocoa
 
-@objcMembers
-class AboutViewController: NSViewController {
+final class AboutViewController: NSViewController {
     
     @IBOutlet weak var websiteLink: TextButton!
     @IBOutlet weak var gitHubLink: TextButton!
@@ -52,15 +51,15 @@ class AboutViewController: NSViewController {
         gitHubLink.textColorHover = hoverColor
     }
     
-    dynamic var appVersion: String {
+    @objc dynamic var appVersion: String {
         return Bundle.main.infoDictionary!["CFBundleVersion"] as! String
     }
     
-    dynamic var buildVersion: String {
+    @objc dynamic var buildVersion: String {
         return OEBuildInfo.buildVersion
     }
     
-    dynamic lazy var specialThanks: NSAttributedString = {
+    @objc dynamic lazy var specialThanks: NSAttributedString = {
         let msg = NSLocalizedString("Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub.", comment: "Special thanks message (about window).")
         let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paragraphStyle.alignment = .center

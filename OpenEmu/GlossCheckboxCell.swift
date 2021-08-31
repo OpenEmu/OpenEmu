@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEGlossCheckboxCell)
 final class GlossCheckboxCell: NSButtonCell {
     
     private func subImageRect() -> NSRect {

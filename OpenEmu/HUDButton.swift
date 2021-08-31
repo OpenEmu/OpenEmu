@@ -24,22 +24,21 @@
 
 import Cocoa
 
-@objc(OEHUDButton)
 final class HUDButton: HoverButton {
     
-    @objc var imageName: String? {
+    var imageName: String? {
         didSet {
             needsDisplay = true
         }
     }
     
-    @objc var alternateImageName: String? {
+    var alternateImageName: String? {
         didSet {
             needsDisplay = true
         }
     }
     
-    @objc var backgroundColor: NSColor? {
+    var backgroundColor: NSColor? {
         didSet {
             if backgroundColor == .black {
                 backgroundSubImageRect = NSRect(x: 0, y: 69, width: 51, height: 23)

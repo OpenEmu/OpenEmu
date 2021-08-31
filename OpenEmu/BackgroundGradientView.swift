@@ -26,17 +26,15 @@
 
 import Cocoa
 
-@objc(OEBackgroundGradientView)
-@objcMembers
-class BackgroundGradientView: NSView {
+final class BackgroundGradientView: NSView {
     
-    var topColor: NSColor? {
+    @IBInspectable var topColor: NSColor? {
         didSet {
             needsDisplay = true
         }
     }
     
-    var bottomColor: NSColor? {
+    @IBInspectable var bottomColor: NSColor? {
         didSet {
             needsDisplay = true
         }

@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="OEGameScannerViewController">
+        <customObject id="-2" userLabel="File's Owner" customClass="GameScannerViewController" customModule="OpenEmu" customModuleProvider="target">
             <connections>
                 <outlet property="actionPopUpButton" destination="130" id="140"/>
                 <outlet property="applyButton" destination="138" id="JNs-4C-Wr6"/>
