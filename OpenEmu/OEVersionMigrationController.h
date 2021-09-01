@@ -25,7 +25,7 @@
  */
 
 @import Cocoa;
-#import "SUVersionComparisonProtocol.h"
+@import Sparkle.SUVersionComparisonProtocol;
 
 #define OEVersionMigrationErrorDomain @"OEVersionMigrationErrorDomain"
 #define OEVersionMigrationFailureErrorsKey @"OEVersionMigrationFailureErrorsKey"

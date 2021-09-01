@@ -25,7 +25,7 @@
  */
 
 #import "OEVersionMigrationController.h"
-#import <Sparkle/SUStandardVersionComparator.h>
+@import Sparkle.SUStandardVersionComparator;
 #import <objc/message.h>
 
 #import "OEDBImageMigrationPolicy.h"
