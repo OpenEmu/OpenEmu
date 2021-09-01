@@ -24,7 +24,7 @@
 
 import Cocoa
 
-final class PrefControlsController: OEPrefControlsControllerObjC {
+final class PrefControlsController: NSViewController {
     
     private let lastControlsPluginIdentifierKey = "lastControlsPlugin"
     private let lastControlsPlayerKey = "lastControlsPlayer"
@@ -78,7 +78,7 @@ final class PrefControlsController: OEPrefControlsControllerObjC {
     
     private var selectedPlugin: OESystemPlugin?
     private var readingEvent: OEHIDEvent?
-//    private var ignoredEvents
+    private var ignoredEvents = makeOEHIDEventSet()
     private var eventMonitor: Any?
     
     var currentSystemController: OESystemController? {
@@ -743,4 +743,37 @@ extension PrefControlsController: PreferencePane {
             return NSSize(width: 760, height: 450)
         }
     }
+}
+
+fileprivate func makeOEHIDEventSet() -> NSMutableSet {
+    let eqCb: CFSetEqualCallBack = { (pa: UnsafeRawPointer?, pb: UnsafeRawPointer?) -> DarwinBoolean in
+        guard
+            let a = pa,
+            let b = pb
+        else { return false }
+        
+        let v1 = Unmanaged<OEHIDEvent>.fromOpaque(a).takeUnretainedValue()
+        let v2 = Unmanaged<OEHIDEvent>.fromOpaque(b).takeUnretainedValue()
+        
+        return DarwinBoolean(v1.isUsageEqual(to: v2))
+    }
+    
+    let hashCb: CFSetHashCallBack = { (pa: UnsafeRawPointer?) -> CFHashCode in
+        guard
+            let a = pa
+        else { return 0 }
+        
+        let v = Unmanaged<OEHIDEvent>
+            .fromOpaque(a)
+            .takeUnretainedValue()
+        
+        return v.controlIdentifier
+    }
+    
+    var cb = kCFTypeSetCallBacks
+    cb.equal = eqCb
+    cb.hash = hashCb
+    
+    // We're using CFSet here because NSSet is confused by the changing state of OEHIDEvents
+    return CFSetCreateMutable(kCFAllocatorDefault, 0, &cb)
 }
