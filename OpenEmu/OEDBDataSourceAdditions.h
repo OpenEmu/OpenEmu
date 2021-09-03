@@ -30,7 +30,6 @@
 #import "OEDBSystem+CoreDataProperties.h"
 
 #import "OECoverGridDataSourceItem.h"
-#import "OESidebarItem.h"
 #import "OEListViewDataSourceItem.h"
 
 #import "OEGameCollectionViewItemProtocol.h"
@@ -39,9 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEDBGame (DataSourceAdditions) <OECoverGridDataSourceItem, OEListViewDataSourceItem>
 + (NSImage *)artworkPlaceholderWithAspectRatio:(CGFloat)ratio;
-@end
-
-@interface OEDBSystem (DataSourceAdditions) <OESidebarItem> 
 @end
 
 #pragma mark - Implementation of items that can be presented by OEGameCollectionView

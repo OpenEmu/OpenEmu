@@ -258,52 +258,6 @@ NSString * OE_localizedStringFromElapsedTime(NSTimeInterval timeInterval)
 
 @end
 
-#pragma mark -
-
-@implementation OEDBSystem (DataSourceAdditions)
-
-- (nullable NSString*)viewControllerClassName
-{
-    return @"OEGameCollectionViewController";
-}
-
-- (nullable NSString *)sidebarID
-{
-    return self.systemIdentifier;
-}
-
-- (nullable NSImage *)sidebarIcon
-{
-    return self.icon;
-}
-
-- (NSString *)sidebarName
-{
-    return self.name;
-}
-
-- (BOOL)isSelectableInSidebar
-{
-    return YES;
-}
-
-- (BOOL)isEditableInSidebar
-{
-    return NO;
-}
-
-- (BOOL)isGroupHeaderInSidebar
-{
-    return NO;
-}
-
-- (BOOL)hasSubCollections
-{
-    return NO;
-}
-
-@end
-
 #pragma mark - Implementation of items that can be presented by OEGameCollectionView
 
 @implementation OEDBSystem (OECollectionViewItemAdditions)

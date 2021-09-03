@@ -495,6 +495,7 @@
 		8FA2379325626C1B00D24E83 /* HUDControlsBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA2379225626C1B00D24E83 /* HUDControlsBarView.swift */; };
 		8FAD320225B31FB100323020 /* URL+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAD320125B31FB000323020 /* URL+OEAdditions.swift */; };
 		8FAF08D8251FB65D00EDB247 /* HoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF069A251FB02700EDB247 /* HoverButton.swift */; };
+		8FB8A29526E296BD00F2B626 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD1F1BD3AC3D0025BC6C /* SidebarItem.swift */; };
 		8FBAE60C254BA0D300446C3B /* OEControls.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FBAE60E254BA0D300446C3B /* OEControls.strings */; };
 		8FBAE9EB254BD7FA00446C3B /* NSControl+i18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBAE9EA254BD7FA00446C3B /* NSControl+i18n.swift */; };
 		8FD78305243A8AD300861B7A /* Debug.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FD78307243A8AD300861B7A /* Debug.strings */; };
@@ -1596,7 +1597,7 @@
 		8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewCellIndicationLayer.m; sourceTree = "<group>"; };
 		8306CD0E1BD3AC180025BC6C /* LibraryGamesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryGamesViewController.swift; sourceTree = "<group>"; };
 		8306CD181BD3AC3D0025BC6C /* OESidebarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarController.m; sourceTree = "<group>"; };
-		8306CD1F1BD3AC3D0025BC6C /* OESidebarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarItem.h; sourceTree = "<group>"; };
+		8306CD1F1BD3AC3D0025BC6C /* SidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
 		8306CD211BD3AC3D0025BC6C /* SidebarOutlineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarOutlineView.swift; sourceTree = "<group>"; };
 		8306CD3B1BD3DB180025BC6C /* OEGameCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCollectionViewController.h; sourceTree = "<group>"; };
 		8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCollectionViewController.m; sourceTree = "<group>"; };
@@ -3393,14 +3394,14 @@
 		8306CD121BD3AC1B0025BC6C /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
-				8306CD181BD3AC3D0025BC6C /* OESidebarController.m */,
-				8306CD1F1BD3AC3D0025BC6C /* OESidebarItem.h */,
+				8306CD1F1BD3AC3D0025BC6C /* SidebarItem.swift */,
 				0544B68823D14E6300F63D61 /* SidebarController.swift */,
 				8F99F815256BF358007B83E1 /* SidebarController.xib */,
 				05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */,
 				05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */,
 				05A002D723DE539F007F0DB7 /* SidebarItemView.swift */,
 				05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */,
+				8306CD181BD3AC3D0025BC6C /* OESidebarController.m */,
 				8306CD211BD3AC3D0025BC6C /* SidebarOutlineView.swift */,
 			);
 			name = Sidebar;
@@ -6752,6 +6753,7 @@
 				83AAC32914581699005ADD16 /* SetupAssistantBackgroundView.swift in Sources */,
 				83BABBEE1458978B0097F6B2 /* SetupAssistantTableView.swift in Sources */,
 				8F4A69732547F84500DFE092 /* GameControlsBarView.swift in Sources */,
+				8FB8A29526E296BD00F2B626 /* SidebarItem.swift in Sources */,
 				8F3062DB251A897F00BDFF1F /* OESearchField.swift in Sources */,
 				8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */,
 				839310BC147802380020058E /* OECoreDownload.m in Sources */,

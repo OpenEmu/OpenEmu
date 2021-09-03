@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2021, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,29 +22,29 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import Foundation
+import Cocoa
 
-final class OEDBAllGamesCollection: NSObject, SidebarItem, OEGameCollectionViewItem {
-    
-    @objc(sharedDBAllGamesCollection)
-    static let shared = OEDBAllGamesCollection()
-    
-    // MARK: - SidebarItem
-    
-    let sidebarIcon = NSImage(named: "collection_smart")
-    let sidebarName = NSLocalizedString("All Games", comment: "")
-    let sidebarID: String? = "OEDBAllGamesCollection"
-    
-    let isEditableInSidebar = false
-    let hasSubCollections = false
-    
-    // MARK: - OEGameCollectionViewItem
-    
-    var collectionViewName: String { sidebarName }
-    
-    let shouldShowSystemColumnInListView = true
-    
-    let fetchPredicate = NSPredicate(value: true)
-    let fetchLimit = 0
-    let fetchSortDescriptors = [NSSortDescriptor]()
+@objc(OESidebarItem)
+protocol SidebarItem: NSObjectProtocol {
+    var sidebarIcon: NSImage? { get }
+    var sidebarName: String { get }
+    var sidebarID: String? { get }
+    var isEditableInSidebar: Bool { get }
+    var hasSubCollections: Bool { get }
+}
+
+extension OEDBSystem: SidebarItem {
+    var sidebarIcon: NSImage? { icon }
+    var sidebarName: String { name }
+    var sidebarID: String? { systemIdentifier }
+    var isEditableInSidebar: Bool { false }
+    var hasSubCollections: Bool { false }
+}
+
+extension OEDBCollection: SidebarItem {
+    var sidebarIcon: NSImage? { NSImage(named: "collection_simple") }
+    var sidebarName: String { name ?? "" }
+    var sidebarID: String? { permanentIDURI.absoluteString }
+    var isEditableInSidebar: Bool { true }
+    var hasSubCollections: Bool { false }
 }

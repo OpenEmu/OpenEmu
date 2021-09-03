@@ -60,7 +60,7 @@ final class SidebarController: NSViewController {
     @UserDefault(.lastSidebarSelection, defaultValue: "")
     var lastSidebarSelection: String
     
-    var lastSidebarSelectionItem: OESidebarItem? {
+    var lastSidebarSelectionItem: SidebarItem? {
         systems.first(where: { $0.sidebarID == lastSidebarSelection }) ?? collections.first(where: { $0.sidebarID == lastSidebarSelection})
     }
     
@@ -71,13 +71,13 @@ final class SidebarController: NSViewController {
                          autosaveName: .sidebarCollectionsItem)
     ]
     
-    var systems: [OESidebarItem] = []
-    var collections: [OESidebarItem] = []
+    var systems: [SidebarItem] = []
+    var collections: [SidebarItem] = []
     
-    var selectedSidebarItem: OESidebarItem? {
+    var selectedSidebarItem: SidebarItem? {
         let item = sidebarView.item(atRow: sidebarView.selectedRow)
-        precondition(item == nil || item is OESidebarItem, "All sidebar items must confirm to OESidebarItem")
-        return item as? OESidebarItem
+        precondition(item == nil || item is SidebarItem, "All sidebar items must confirm to SidebarItem")
+        return item as? SidebarItem
     }
     
     private var tokens = [NSObjectProtocol]()
@@ -168,9 +168,7 @@ final class SidebarController: NSViewController {
     
     // MARK: - Actions
     
-    func selectItem(_ item: OESidebarItem) {
-        guard item.isSelectableInSidebar else { return }
-        
+    func selectItem(_ item: SidebarItem) {
         let index = sidebarView.row(forItem: item)
         guard index > -1 else { return }
         
@@ -179,9 +177,7 @@ final class SidebarController: NSViewController {
         }
     }
     
-    func startEditingItem(_ item: OESidebarItem) {
-        guard item.isSelectableInSidebar else { return }
-        
+    func startEditingItem(_ item: SidebarItem) {
         let index = sidebarView.row(forItem: item)
         guard index > -1 else { return }
         
@@ -204,7 +200,7 @@ final class SidebarController: NSViewController {
     }
     
     func renameItem(at index: Int) {
-        guard let item = sidebarView.item(atRow: index) as? OESidebarItem else { return }
+        guard let item = sidebarView.item(atRow: index) as? SidebarItem else { return }
         
         selectItem(item)
         startEditingItem(item)
@@ -316,14 +312,14 @@ final class SidebarController: NSViewController {
     override func keyDown(with event: NSEvent) {
         if event.keyCode == 51 || event.keyCode == 117,
            let index = sidebarView.selectedRowIndexes.first,
-           let item = sidebarView.item(atRow: index) as? OESidebarItem,
+           let item = sidebarView.item(atRow: index) as? SidebarItem,
            item.isEditableInSidebar {
             
             removeItem(at: index)
         }
         else if event.keyCode == kVK_Return,
                 let index = sidebarView.selectedRowIndexes.first,
-                let item = sidebarView.item(atRow: index) as? OESidebarItem,
+                let item = sidebarView.item(atRow: index) as? SidebarItem,
                 item.isEditableInSidebar {
             
             renameItem(at: index)
@@ -394,11 +390,11 @@ extension SidebarController: NSOutlineViewDataSource {
     }
     
     func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
-        (item as? OESidebarItem)?.sidebarName
+        (item as? SidebarItem)?.sidebarName
     }
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        guard let item = item as? OESidebarItem else { return nil }
+        guard let item = item as? SidebarItem else { return nil }
         
         var view: NSTableCellView?
         
@@ -511,7 +507,7 @@ extension SidebarController: NSOutlineViewDataSource {
         
         guard let types = info.draggingPasteboard.types,
               types.contains(.game) || types.contains(.fileURL),
-              item is OESidebarItem else {
+              item is SidebarItem else {
             return []
         }
         
@@ -534,7 +530,7 @@ extension SidebarController: NSOutlineViewDataSource {
         }
         
         // Allow drop on regular collections
-        if type(of: item as! OESidebarItem) === OEDBCollection.self {
+        if type(of: item as! SidebarItem) === OEDBCollection.self {
             return .copy
         }
         
@@ -570,7 +566,7 @@ extension SidebarController: NSMenuDelegate {
         let index = sidebarView.clickedRow
         
         guard index != -1,
-              let item = sidebarView.item(atRow: index) as? OESidebarItem,
+              let item = sidebarView.item(atRow: index) as? SidebarItem,
               !(item is SidebarGroupItem)
         else { return }
         
@@ -645,7 +641,7 @@ extension SidebarController: NSMenuDelegate {
     }
 }
 
-class SidebarGroupItem: NSObject, OESidebarItem {
+class SidebarGroupItem: NSObject, SidebarItem {
     
     enum AutosaveName: String {
         case sidebarConsolesItem, sidebarCollectionsItem
@@ -662,7 +658,6 @@ class SidebarGroupItem: NSObject, OESidebarItem {
     let sidebarIcon: NSImage? = nil
     lazy var sidebarName = name
     let sidebarID: String? = nil
-    let isSelectableInSidebar = false
     let isEditableInSidebar = false
     let hasSubCollections = false
 }

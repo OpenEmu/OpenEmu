@@ -48,48 +48,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [self mutableSetValueForKeyPath:@"games"];
 }
 
-#pragma mark - Sidebar Item Protocol
-
-- (nullable NSString *)viewControllerClassName
-{
-    return @"OEGameCollectionViewController";
-}
-
-- (nullable NSString *)sidebarID
-{
-    return self.permanentIDURI.absoluteString;
-}
-
-- (nullable NSImage *)sidebarIcon
-{
-    return [NSImage imageNamed:@"collection_simple"];
-}
-
-- (NSString *)sidebarName
-{
-    return [self valueForKey:@"name"];
-}
-
-- (BOOL)isSelectableInSidebar
-{
-    return YES;
-}
-
-- (BOOL)isEditableInSidebar
-{
-    return YES;
-}
-
-- (BOOL)isGroupHeaderInSidebar
-{
-    return NO;
-}
-
-- (BOOL)hasSubCollections
-{
-    return NO;
-}
-
 #pragma mark - OEGameCollectionView item
 
 - (nullable NSString *)collectionViewName

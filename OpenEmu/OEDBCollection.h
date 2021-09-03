@@ -27,14 +27,13 @@
 @import Cocoa;
 #import "OEDBItem.h"
 
-#import "OESidebarItem.h"
 #import "OEGameCollectionViewItemProtocol.h"
 
 @class OEDBGame;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OEDBCollection : OEDBItem <OESidebarItem, OEGameCollectionViewItemProtocol>
+@interface OEDBCollection : OEDBItem <OEGameCollectionViewItemProtocol>
 
 #pragma mark - Data Model Properties
 
