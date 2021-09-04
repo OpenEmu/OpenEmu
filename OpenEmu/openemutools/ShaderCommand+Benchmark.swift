@@ -22,113 +22,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import Foundation
 import ArgumentParser
-import OpenEmuShaders
-import OpenEmuKit
-import CoreGraphics
 import Metal
-
-extension OpenEmuTools {
-    struct Shader: ParsableCommand {
-        static var configuration = CommandConfiguration(
-            abstract: "Commands for working with shader effects.",
-            subcommands: [
-                Thumbnail.self,
-                DumpMetalSource.self,
-                Benchmark.self,
-                // Preset.self,
-            ]
-        )
-    }
-}
-
-extension OpenEmuTools.Shader {
-    struct Thumbnail: ParsableCommand {
-        static var configuration = CommandConfiguration(
-            abstract: "Generate thumbnail images of shaders.",
-            discussion: """
-This command generates a thumbnail image of a shader using a source image.
-"""
-        )
-        
-        @Option
-        var shaderPath: String
-        
-        @Option
-        var imagePath: String
-        
-        @Option
-        var outputScale: Int = 3
-        
-        func run() throws {
-            guard
-                let dev = MTLCreateSystemDefaultDevice()
-            else {
-                print("error: unable to create default Metal device")
-                throw ExitCode.failure
-            }
-            
-            let options = ShaderCompilerOptions.makeOptions()
-            let fi = OEFilterChain(device: dev)
-            try fi.setShaderFrom(URL(fileURLWithPath: shaderPath), options: options)
-            
-            guard let ctx = CGContext.make(URL(fileURLWithPath: imagePath))
-            else {
-                print("unable to load image \(imagePath)")
-                throw ExitCode.failure
-            }
-            
-            let imgSize = CGSize(width: ctx.width, height: ctx.height)
-            fi.setSourceRect(CGRect(x: 0, y: 0, width: ctx.width, height: ctx.height), aspect: imgSize)
-            fi.drawableSize = imgSize.applying(.init(scaleX: CGFloat(outputScale), y: CGFloat(outputScale)))
-            
-            let buf = fi.newBuffer(with: .bgra8Unorm, height: UInt(ctx.height), bytesPerRow: UInt(ctx.bytesPerRow))
-            buf.contents.copyMemory(from: ctx.data!, byteCount: ctx.height * ctx.bytesPerRow)
-            
-            let outRep = fi.captureOutputImage()
-            let data = outRep.representation(using: .png, properties: [:])
-            
-            FileHandle.standardOutput.write(data!)
-        }
-    }
-}
-
-extension OpenEmuTools.Shader {
-    struct DumpMetalSource: ParsableCommand {
-        static var configuration = CommandConfiguration(abstract: "Dump Metal source for a shader.")
-        
-        @Option
-        var shaderPath: String
-        
-        @Argument
-        var passes: [Int] = []
-        
-        func run() throws {
-            let shaderURL = URL(fileURLWithPath: shaderPath).absoluteURL
-            let shader: SlangShader
-            do {
-                shader = try SlangShader(fromURL: shaderURL)
-            } catch {
-                print("Failed to load shader: \(error.localizedDescription)")
-                throw ExitCode.failure
-            }
-            
-            let options = ShaderCompilerOptions()
-            options.isCacheDisabled = true
-            let compiler = OEShaderPassCompiler(shaderModel: shader)
-            
-            for pass in passes {
-                let (vert, frag) = try compiler.buildPass(pass, options: options, passSemantics: nil)
-                let p = shader.passes[pass]
-                
-                print("\(p.url.path)")
-                print(vert)
-                print(frag)
-            }
-        }
-    }
-}
+import OpenEmuShaders
 
 extension OpenEmuTools.Shader {
     struct Benchmark: ParsableCommand {
@@ -214,19 +110,6 @@ extension OpenEmuTools.Shader {
             
             let perFrameMs = (end / Double(count)) * 1000
             print("\tTime per Frame: \(perFrameMs, color: .white, style: [.bold]) ms")
-        }
-    }
-}
-
-extension OpenEmuTools.Shader {
-    struct Preset: ParsableCommand {
-        static var configuration = CommandConfiguration(abstract: "Preset command.")
-        
-        func run() throws {
-            let enc = JSONEncoder()
-            let ps = ShaderPreset(id: UUID(), shader: "Foo", name: "Bar", parameters: ["BOOL_PARAM": .boolean(false), "DOUBLE_PARAM": .double(5.3)])
-            let s = try enc.encode(ps)
-            print("\(String(bytes: s, encoding: .utf8)!)")
         }
     }
 }

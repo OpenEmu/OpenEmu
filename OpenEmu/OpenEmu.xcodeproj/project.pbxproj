@@ -182,6 +182,10 @@
 		0547FD9D24E7769E005C1FFC /* OpenEmuKit.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 0533EA5C24CDF9070095146E /* OpenEmuKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0547FDDC24E86166005C1FFC /* OpenEmuHelperApp in Copy Auxilliary Executables */ = {isa = PBXBuildFile; fileRef = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */; };
 		0547FE2024E86D9F005C1FFC /* broker.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = 0547FE1424E86D9F005C1FFC /* broker.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		05484D7426E2FCC700E39EB1 /* ShaderCommand+Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05484D7326E2FCC700E39EB1 /* ShaderCommand+Thumbnail.swift */; };
+		05484D7626E2FD0A00E39EB1 /* ShaderCommand+DumpMetalSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05484D7526E2FD0A00E39EB1 /* ShaderCommand+DumpMetalSource.swift */; };
+		05484D7826E2FD5900E39EB1 /* ShaderCommand+Benchmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05484D7726E2FD5900E39EB1 /* ShaderCommand+Benchmark.swift */; };
+		05484D7A26E2FDAE00E39EB1 /* ShaderCommand+Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05484D7926E2FDAE00E39EB1 /* ShaderCommand+Preset.swift */; };
 		054A736225B009D300F2F3D6 /* OpenEmuTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054A736125B009D300F2F3D6 /* OpenEmuTools.swift */; };
 		054A739F25B009FD00F2F3D6 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C317112E1300E868A8 /* OpenEmuBase.framework */; };
 		054A73A125B009FD00F2F3D6 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
@@ -189,7 +193,7 @@
 		054A73A525B009FD00F2F3D6 /* OpenEmuShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F5BAE8228662C5004D713C /* OpenEmuShaders.framework */; };
 		054A73E125B00A6600F2F3D6 /* openemutools in Copy Auxilliary Executables */ = {isa = PBXBuildFile; fileRef = 054A735F25B009D200F2F3D6 /* openemutools */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		054A74C825B0137500F2F3D6 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 054A74C725B0137500F2F3D6 /* ArgumentParser */; };
-		054A757525B1160100F2F3D6 /* ShaderCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054A757425B1160100F2F3D6 /* ShaderCommands.swift */; };
+		054A757525B1160100F2F3D6 /* ShaderCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054A757425B1160100F2F3D6 /* ShaderCommand.swift */; };
 		054A75B025B141C200F2F3D6 /* Chalk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054A75AF25B141C200F2F3D6 /* Chalk.swift */; };
 		054C71A525F579DB00A41F2A /* ShaderPresetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054C71A425F579DB00A41F2A /* ShaderPresetsView.swift */; };
 		0557CB1B22A781B60037175F /* OEShadersModel+OpenEmu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */; };
@@ -1369,9 +1373,13 @@
 		0544B6AE23D1780C00F63D61 /* GameTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameTableView.xib; sourceTree = "<group>"; };
 		0547FE1424E86D9F005C1FFC /* broker.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = broker.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
 		0547FE1C24E86D9F005C1FFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		05484D7326E2FCC700E39EB1 /* ShaderCommand+Thumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShaderCommand+Thumbnail.swift"; sourceTree = "<group>"; };
+		05484D7526E2FD0A00E39EB1 /* ShaderCommand+DumpMetalSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShaderCommand+DumpMetalSource.swift"; sourceTree = "<group>"; };
+		05484D7726E2FD5900E39EB1 /* ShaderCommand+Benchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShaderCommand+Benchmark.swift"; sourceTree = "<group>"; };
+		05484D7926E2FDAE00E39EB1 /* ShaderCommand+Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShaderCommand+Preset.swift"; sourceTree = "<group>"; };
 		054A735F25B009D200F2F3D6 /* openemutools */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = openemutools; sourceTree = BUILT_PRODUCTS_DIR; };
 		054A736125B009D300F2F3D6 /* OpenEmuTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenEmuTools.swift; sourceTree = "<group>"; };
-		054A757425B1160100F2F3D6 /* ShaderCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderCommands.swift; sourceTree = "<group>"; };
+		054A757425B1160100F2F3D6 /* ShaderCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderCommand.swift; sourceTree = "<group>"; };
 		054A75AF25B141C200F2F3D6 /* Chalk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chalk.swift; sourceTree = "<group>"; };
 		0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEShadersModel+OpenEmu.swift"; sourceTree = "<group>"; };
 		055BE6E925CDE8DD000189CC /* ShaderPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderPreset.swift; sourceTree = "<group>"; };
@@ -2733,13 +2741,33 @@
 			path = broker;
 			sourceTree = "<group>";
 		};
-		054A736025B009D300F2F3D6 /* openemutools */ = {
+		05484D7B26E2FDFB00E39EB1 /* Shader Command */ = {
+			isa = PBXGroup;
+			children = (
+				054A757425B1160100F2F3D6 /* ShaderCommand.swift */,
+				05484D7726E2FD5900E39EB1 /* ShaderCommand+Benchmark.swift */,
+				05484D7526E2FD0A00E39EB1 /* ShaderCommand+DumpMetalSource.swift */,
+				05484D7926E2FDAE00E39EB1 /* ShaderCommand+Preset.swift */,
+				05484D7326E2FCC700E39EB1 /* ShaderCommand+Thumbnail.swift */,
+			);
+			name = "Shader Command";
+			sourceTree = "<group>";
+		};
+		05484D7D26E2FE9500E39EB1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				054A75AF25B141C200F2F3D6 /* Chalk.swift */,
-				054A736125B009D300F2F3D6 /* OpenEmuTools.swift */,
-				054A757425B1160100F2F3D6 /* ShaderCommands.swift */,
 				057848C725C2532E00A842E7 /* CGContext.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		054A736025B009D300F2F3D6 /* openemutools */ = {
+			isa = PBXGroup;
+			children = (
+				05484D7B26E2FDFB00E39EB1 /* Shader Command */,
+				05484D7D26E2FE9500E39EB1 /* Utilities */,
+				054A736125B009D300F2F3D6 /* OpenEmuTools.swift */,
 				051C102D2616659200341CB9 /* Info.plist */,
 			);
 			path = openemutools;
@@ -6561,10 +6589,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05484D7626E2FD0A00E39EB1 /* ShaderCommand+DumpMetalSource.swift in Sources */,
 				054A75B025B141C200F2F3D6 /* Chalk.swift in Sources */,
 				057848C825C2532E00A842E7 /* CGContext.swift in Sources */,
 				055BE6EB25CDE8FF000189CC /* ShaderPreset.swift in Sources */,
-				054A757525B1160100F2F3D6 /* ShaderCommands.swift in Sources */,
+				05484D7A26E2FDAE00E39EB1 /* ShaderCommand+Preset.swift in Sources */,
+				05484D7826E2FD5900E39EB1 /* ShaderCommand+Benchmark.swift in Sources */,
+				05484D7426E2FCC700E39EB1 /* ShaderCommand+Thumbnail.swift in Sources */,
+				054A757525B1160100F2F3D6 /* ShaderCommand.swift in Sources */,
 				054A736225B009D300F2F3D6 /* OpenEmuTools.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
