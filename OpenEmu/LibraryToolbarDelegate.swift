@@ -110,38 +110,26 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
             return item
         }
         
-        let slider = NSSlider(value: 1.0, minValue: 0.5, maxValue: 2.5, target: toolbarOwner, action: #selector(LibraryController.changeGridSize(_:)))
-        slider.controlSize = .small
-        slider.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        let slider = GridSizeSlider()
+        slider.target = toolbarOwner
+        slider.slider.action = #selector(LibraryController.changeGridSize(_:))
+        slider.minButton.action = #selector(LibraryController.decreaseGridSize(_:))
+        slider.maxButton.action = #selector(LibraryController.increaseGridSize(_:))
         
-        let decreaseButton = NSButton(image: NSImage(named: "grid_slider_min")!, target: toolbarOwner, action: #selector(LibraryController.decreaseGridSize(_:)))
-        decreaseButton.isBordered = false
-        decreaseButton.toolTip = NSLocalizedString("Decrease Grid Size", comment:"Toolbar, tooltip")
+        slider.minButton.toolTip = NSLocalizedString("Decrease Grid Size", comment:"Toolbar, tooltip")
+        slider.maxButton.toolTip = NSLocalizedString("Increase Grid Size", comment:"Toolbar, tooltip")
         
-        let increaseButton = NSButton(image: NSImage(named: "grid_slider_max")!, target: toolbarOwner, action: #selector(LibraryController.increaseGridSize(_:)))
-        increaseButton.isBordered = false
-        increaseButton.toolTip = NSLocalizedString("Increase Grid Size", comment:"Toolbar, tooltip")
+        toolbar.gridSizeSlider = slider.slider
+        toolbar.decreaseGridSizeButton = slider.minButton
+        toolbar.increaseGridSizeButton = slider.maxButton
         
-        toolbar.gridSizeSlider = slider
-        toolbar.decreaseGridSizeButton = decreaseButton
-        toolbar.increaseGridSizeButton = increaseButton
-        
-        let item = NSToolbarItem()
+        let item = NSToolbarItem(itemIdentifier: .oeGridSize)
         item.view = slider
+        item.label = NSLocalizedString("Grid Size", comment:"Toolbar, grid size slider label")
+        item.menuFormRepresentation = gridSizeMenu
         
-        let minHint = NSToolbarItem()
-        minHint.view = decreaseButton
-        
-        let maxHint = NSToolbarItem()
-        maxHint.view = increaseButton
-        
-        let group = NSToolbarItemGroup(itemIdentifier: .oeGridSize)
-        group.subitems = [minHint, item, maxHint]
-        group.label = NSLocalizedString("Grid Size", comment:"Toolbar, grid size slider label")
-        group.menuFormRepresentation = gridSizeMenu
-        
-        itemCache[group.itemIdentifier] = group
-        return group
+        itemCache[item.itemIdentifier] = item
+        return item
     }
     
     let gridSizeMenu: NSMenuItem = {
