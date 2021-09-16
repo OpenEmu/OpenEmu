@@ -35,7 +35,6 @@ public extension NSToolbarItem.Identifier {
 }
 
 final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
-    var itemCache = [NSToolbarItem.Identifier: NSToolbarItem]()
     
     @IBOutlet weak var toolbarOwner: AnyObject?
     
@@ -49,7 +48,6 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     }
     
     func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        cacheItems(toolbar: toolbar as! LibraryToolbar)
         if #available(macOS 11.0, *) {
             return [.oeViewMode,
                     .oeCategory,
@@ -68,47 +66,31 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         return []
     }
     
-    func cacheItems(toolbar: LibraryToolbar) {
-        gridSizeToolbarItem(toolbar: toolbar)
-        viewModeToolbarItem(toolbar: toolbar)
-        categoryToolbarItem(toolbar: toolbar)
-        if #available(macOS 11.0, *) {
-            searchToolbarItem11(toolbar: toolbar)
-        } else {
-            searchToolbarItem(toolbar: toolbar)
-        }
-        addToolbarItem(toolbar: toolbar)
-    }
-    
     func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
         
         switch itemIdentifier {
         case .oeGridSize:
-            return gridSizeToolbarItem(toolbar: toolbar as! LibraryToolbar)
+            return gridSizeToolbarItem
         case .oeViewMode:
-            return viewModeToolbarItem(toolbar: toolbar as! LibraryToolbar)
+            return viewModeToolbarItem
         case .oeCategory:
-            return categoryToolbarItem(toolbar: toolbar as! LibraryToolbar)
+            return categoryToolbarItem
         case .oeSearch:
             if #available(macOS 11.0, *) {
-                return searchToolbarItem11(toolbar: toolbar as! LibraryToolbar)
+                return searchToolbarItem11
             } else {
-                return searchToolbarItem(toolbar: toolbar as! LibraryToolbar)
+                return searchToolbarItem
             }
         case .oeAdd:
-            return addToolbarItem(toolbar: toolbar as! LibraryToolbar)
+            return addToolbarItem
         default:
-            return NSToolbarItem(itemIdentifier: itemIdentifier)
+            return nil
         }
     }
     
     // MARK: - Grid Size
     
-    @discardableResult
-    func gridSizeToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
-        if let item = itemCache[.oeGridSize] {
-            return item
-        }
+    private(set) lazy var gridSizeToolbarItem: NSToolbarItem = {
         
         let slider = GridSizeSlider()
         slider.target = toolbarOwner
@@ -119,20 +101,15 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         slider.minButton.toolTip = NSLocalizedString("Decrease Grid Size", comment:"Toolbar, tooltip")
         slider.maxButton.toolTip = NSLocalizedString("Increase Grid Size", comment:"Toolbar, tooltip")
         
-        toolbar.gridSizeSlider = slider.slider
-        toolbar.decreaseGridSizeButton = slider.minButton
-        toolbar.increaseGridSizeButton = slider.maxButton
-        
         let item = NSToolbarItem(itemIdentifier: .oeGridSize)
         item.view = slider
         item.label = NSLocalizedString("Grid Size", comment:"Toolbar, grid size slider label")
         item.menuFormRepresentation = gridSizeMenu
         
-        itemCache[item.itemIdentifier] = item
         return item
-    }
+    }()
     
-    let gridSizeMenu: NSMenuItem = {
+    private lazy var gridSizeMenu: NSMenuItem = {
         
         let decrease = NSMenuItem()
         decrease.title = NSLocalizedString("Decrease Grid Size", comment: "")
@@ -154,11 +131,7 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     
     // MARK: - View Mode
     
-    @discardableResult
-    func viewModeToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
-        if let item = itemCache[.oeViewMode] {
-            return item
-        }
+    private(set) lazy var viewModeToolbarItem: NSToolbarItem = {
         
         let images = [NSImage(named: NSImage.iconViewTemplateName)!,
                       NSImage(named: NSImage.listViewTemplateName)!]
@@ -169,19 +142,16 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         segmControl.setWidth(26, forSegment: 0)
         segmControl.setWidth(26, forSegment: 1)
         
-        toolbar.viewModeSelector = segmControl
-        
         let item = NSToolbarItem(itemIdentifier: .oeViewMode)
         item.view = segmControl
         item.visibilityPriority = .low
         item.menuFormRepresentation = viewModeMenu
         item.label = NSLocalizedString("View Mode", comment:"Toolbar, view mode selector label")
         
-        itemCache[item.itemIdentifier] = item
         return item
-    }
+    }()
     
-    let viewModeMenu: NSMenuItem = {
+    private lazy var viewModeMenu: NSMenuItem = {
         
         let gridView = NSMenuItem()
         gridView.title = NSLocalizedString("as Grid", tableName: "MainMenu", comment: "")
@@ -203,11 +173,7 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     
     // MARK: - Category
     
-    @discardableResult
-    func categoryToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
-        if let item = itemCache[.oeCategory] {
-            return item
-        }
+    private(set) lazy var categoryToolbarItem: NSToolbarItem = {
         
         let titles = [NSLocalizedString("Toolbar: Library", value: "Library", comment: "toolbar, category label"),
                       NSLocalizedString("Toolbar: Save States", value: "Save States", comment: "toolbar, category label"),
@@ -216,19 +182,16 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         
         let segmControl = NSSegmentedControl(labels: titles, trackingMode: .selectOne, target: toolbarOwner, action: #selector(LibraryController.switchCategory(_:)))
         
-        toolbar.categorySelector = segmControl
-        
         let item = NSToolbarItem(itemIdentifier: .oeCategory)
         item.view = segmControl
         item.visibilityPriority = .high
         item.menuFormRepresentation = categoryMenu
         item.label = NSLocalizedString("Category", comment:"Toolbar, category selector label")
         
-        itemCache[item.itemIdentifier] = item
         return item
-    }
+    }()
     
-    let categoryMenu: NSMenuItem = {
+    private lazy var categoryMenu: NSMenuItem = {
         
         let library = NSMenuItem()
         library.title = NSLocalizedString("Toolbar: Library", value: "Library", comment: "")
@@ -262,72 +225,48 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     
     // MARK: - Search
     
-    lazy var searchField: OESearchField = {
+    private(set) lazy var searchField: OESearchField = {
         let searchField = OESearchField()
         searchField.lineBreakMode = .byClipping
         searchField.usesSingleLineMode = true
         searchField.cell?.isScrollable = true
         searchField.sendsWholeSearchString = false
         searchField.sendsSearchStringImmediately = true
-        searchField.font = .systemFont(ofSize: 13.0)
+        searchField.font = .systemFont(ofSize: 13)
         searchField.action = #selector(LibraryController.search(_:))
         searchField.target = toolbarOwner
         searchField.widthAnchor.constraint(lessThanOrEqualToConstant: 166).isActive = true
         return searchField
     }()
     
-    @discardableResult
-    func searchToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
-        if let item = itemCache[.oeSearch] {
-            return item
-        }
-        
-        let searchField = self.searchField
-        
-        toolbar.searchField = searchField
+    private(set) lazy var searchToolbarItem: NSToolbarItem = {
         
         let item = NSToolbarItem(itemIdentifier: .oeSearch)
         item.view = searchField
         item.label = NSLocalizedString("Search", comment:"Toolbar, search field label")
         
-        itemCache[item.itemIdentifier] = item
         return item
-    }
+    }()
     
     @available(macOS 11.0, *)
-    @discardableResult
-    func searchToolbarItem11(toolbar: LibraryToolbar) -> NSSearchToolbarItem {
-        if let item = itemCache[.oeSearch] {
-            return item as! NSSearchToolbarItem
-        }
-        
-        let searchField = self.searchField
-        
-        toolbar.searchField = searchField
+    private(set) lazy var searchToolbarItem11: NSSearchToolbarItem = {
         
         let item = NSSearchToolbarItem(itemIdentifier: .oeSearch)
         item.searchField = searchField
         item.label = NSLocalizedString("Search", comment:"Toolbar, search field label")
         
-        itemCache[item.itemIdentifier] = item
         return item
-    }
+    }()
     
     // MARK: - Add
     
-    @discardableResult
-    func addToolbarItem(toolbar: LibraryToolbar) -> NSToolbarItem {
-        if let item = itemCache[.oeAdd] {
-            return item
-        }
+    private(set) lazy var addToolbarItem: NSToolbarItem = {
         
         let images = [NSImage(named: NSImage.addTemplateName)!]
         
-        let segmControl = NSSegmentedControl(images: images, trackingMode: .momentary, target: toolbar, action: nil)
+        let segmControl = NSSegmentedControl(images: images, trackingMode: .momentary, target: nil, action: nil)
         segmControl.setWidth(28, forSegment: 0)
         segmControl.setMenu(addMenu, forSegment: 0)
-        
-        toolbar.addButton = segmControl
         
         let item = NSToolbarItem(itemIdentifier: .oeAdd)
         item.view = segmControl
@@ -338,11 +277,10 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         addMenu.submenu = self.addMenu
         item.menuFormRepresentation = addMenu
         
-        itemCache[item.itemIdentifier] = item
         return item
-    }
+    }()
     
-    let addMenu: NSMenu = {
+    private lazy var addMenu: NSMenu = {
         
         let addToLibrary = NSMenuItem()
         addToLibrary.title = NSLocalizedString("Add to Library…", comment: "")

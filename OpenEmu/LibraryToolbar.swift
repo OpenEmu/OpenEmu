@@ -27,14 +27,34 @@
 import Cocoa
 
 @objc(OELibraryToolbar)
-class LibraryToolbar: NSToolbar {
-    @IBOutlet weak var categorySelector: NSSegmentedControl!
-    @IBOutlet weak var viewModeSelector: NSSegmentedControl!
-    @IBOutlet weak var addButton: NSSegmentedControl!
-    @IBOutlet weak var gridSizeSlider: NSSlider!
-    @IBOutlet weak var decreaseGridSizeButton: NSButton!
-    @IBOutlet weak var increaseGridSizeButton: NSButton!
-    @IBOutlet weak var searchField: NSSearchField!
+@objcMembers
+final class LibraryToolbar: NSToolbar {
+    
+    private var del: LibraryToolbarDelegate {
+        delegate as! LibraryToolbarDelegate
+    }
+    
+    var categorySelector: NSSegmentedControl {
+        del.categoryToolbarItem.view as! NSSegmentedControl
+    }
+    var viewModeSelector: NSSegmentedControl {
+        del.viewModeToolbarItem.view as! NSSegmentedControl
+    }
+    var addButton: NSSegmentedControl {
+        del.addToolbarItem.view as! NSSegmentedControl
+    }
+    var gridSizeSlider: NSSlider! {
+        (del.gridSizeToolbarItem.view as! GridSizeSlider).slider
+    }
+    var decreaseGridSizeButton: NSButton! {
+        (del.gridSizeToolbarItem.view as! GridSizeSlider).minButton
+    }
+    var increaseGridSizeButton: NSButton! {
+        (del.gridSizeToolbarItem.view as! GridSizeSlider).maxButton
+    }
+    var searchField: NSSearchField! {
+        del.searchField
+    }
     
     @objc func _allowsSizeMode(_ mode: NSToolbar.SizeMode) -> Bool {
         return mode != .small
