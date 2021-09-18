@@ -80,6 +80,8 @@ class ShaderParametersViewController: NSViewController {
     
     override func viewWillAppear() {
         super.viewWillAppear()
+        
+        shaderControl.helper.setEffectsMode(.displayAlways)
 
         shaderObserver = shaderControl.observe(\.shader) { [weak self] (ctl, value) in
             guard let self = self else { return }
@@ -91,6 +93,7 @@ class ShaderParametersViewController: NSViewController {
     
     override func viewWillDisappear() {
         shaderObserver = nil
+        shaderControl.helper.setEffectsMode(.reflectPaused)
     }
     
     private var _groups: [OEShaderParamGroupValue]?
