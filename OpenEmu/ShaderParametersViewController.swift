@@ -30,6 +30,7 @@ class ShaderParametersViewController: NSViewController {
     var shaderObserver: NSObjectProtocol?
     
     @IBOutlet var outlineView: NSOutlineView?
+    @IBOutlet var shaderListPopUpButton: NSPopUpButton!
     private var noParametersLabel: NSTextField!
     
     public init(shaderControl: ShaderControl) {
@@ -57,10 +58,19 @@ class ShaderParametersViewController: NSViewController {
         }
         
         noParametersLabel.isHidden = !(params?.isEmpty ?? true)
+        
+        for item in shaderListPopUpButton.menu?.items ?? [] {
+            if item.title == shader.name {
+                shaderListPopUpButton.select(item)
+                break
+            }
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadShaderMenu()
         
         noParametersLabel = NSTextField(labelWithString: NSLocalizedString("No parameters available.", comment: ""))
         view.addSubview(noParametersLabel)
@@ -88,6 +98,37 @@ class ShaderParametersViewController: NSViewController {
         outlineView.register(NSNib(nibNamed: "SliderCell", bundle: nil), forIdentifier: .sliderType)
         outlineView.register(NSNib(nibNamed: "GroupCell", bundle: nil), forIdentifier: .groupType)
         outlineView.register(NSNib(nibNamed: "CheckboxCell", bundle: nil), forIdentifier: .checkBoxType)
+    }
+    
+    private func loadShaderMenu() {
+        
+        let shaderMenu = NSMenu()
+        
+        let systemShaders = OEShadersModel.shared.systemShaderNames.sorted { $0.caseInsensitiveCompare($1) == .orderedAscending }
+        
+        systemShaders.forEach { shaderName in
+            shaderMenu.addItem(withTitle: shaderName, action: #selector(GameViewController.selectShader(_:)), keyEquivalent: "")
+        }
+        
+        let customShaders = OEShadersModel.shared.customShaderNames.sorted { $0.caseInsensitiveCompare($1) == .orderedAscending }
+        
+        if customShaders.count > 0 {
+            shaderMenu.addItem(.separator())
+            
+            customShaders.forEach { shaderName in
+                shaderMenu.addItem(withTitle: shaderName, action: #selector(GameViewController.selectShader(_:)), keyEquivalent: "")
+            }
+        }
+        
+        shaderListPopUpButton.menu = shaderMenu
+        
+        let selectedShader = UserDefaults.standard.string(forKey: String(format: OEGameSystemVideoShaderKeyFormat, shaderControl.systemIdentifier)) ?? UserDefaults.standard.string(forKey: OEGameDefaultVideoShaderKey) ?? ""
+        
+        if shaderListPopUpButton.item(withTitle: selectedShader) != nil {
+            shaderListPopUpButton.selectItem(withTitle: selectedShader)
+        } else {
+            shaderListPopUpButton.selectItem(withTitle: OEShadersModel.shared.defaultShader.name)
+        }
     }
     
     override func viewWillAppear() {
