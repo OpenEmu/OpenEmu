@@ -30,6 +30,7 @@ class ShaderParametersViewController: NSViewController {
     var shaderObserver: NSObjectProtocol?
     
     @IBOutlet var outlineView: NSOutlineView?
+    private var noParametersLabel: NSTextField!
     
     public init(shaderControl: ShaderControl) {
         self.shaderControl = shaderControl
@@ -54,10 +55,21 @@ class ShaderParametersViewController: NSViewController {
                 }
             }
         }
+        
+        noParametersLabel.isHidden = !(params?.isEmpty ?? true)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        noParametersLabel = NSTextField(labelWithString: NSLocalizedString("No parameters available.", comment: ""))
+        view.addSubview(noParametersLabel)
+        noParametersLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            noParametersLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noParametersLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
         
         guard let outlineView = outlineView else { preconditionFailure("outlineView is required") }
         
