@@ -27,12 +27,12 @@ import OpenEmuShaders
 
 extension OpenEmuTools.Shader {
     struct DumpMetalSource: ParsableCommand {
-        static var configuration = CommandConfiguration(abstract: "Dump Metal source for a shader.")
-        
-        @Option
-        var shaderPath: String
+        static var configuration = CommandConfiguration(abstract: "Dump the transformed Metal source for a shader.")
         
         @Argument
+        var shaderPath: String
+        
+        @Argument(help: "Specify the passes to dump. Omit to dump all passes.")
         var passes: [Int] = []
         
         func run() throws {
@@ -49,7 +49,14 @@ extension OpenEmuTools.Shader {
             options.isCacheDisabled = true
             let compiler = OEShaderPassCompiler(shaderModel: shader)
             
-            for pass in passes {
+            let p: AnySequence<Int>
+            if passes.isEmpty {
+                p = AnySequence(shader.passes.indices)
+            } else {
+                p = AnySequence(passes)
+            }
+            
+            for pass in p {
                 let (vert, frag) = try compiler.buildPass(pass, options: options, passSemantics: nil)
                 let p = shader.passes[pass]
                 

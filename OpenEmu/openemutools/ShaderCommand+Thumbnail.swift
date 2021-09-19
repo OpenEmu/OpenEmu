@@ -33,11 +33,11 @@ extension OpenEmuTools.Shader {
         static var configuration = CommandConfiguration(
             abstract: "Generate thumbnail images of shaders.",
             discussion: """
-This command generates a thumbnail image of a shader using a source image.
+This command generates a thumbnail image of a shader using a user-specified source image.
 """
         )
         
-        @Option
+        @Argument
         var shaderPath: String
         
         @Option
