@@ -96,10 +96,10 @@ class ShaderParametersViewController: NSViewController {
         shaderControl.helper.setEffectsMode(.reflectPaused)
     }
     
-    private var _groups: [OEShaderParamGroupValue]?
+    private var _groups: [ShaderParamGroupValue]?
     private var _paramsKVO: [NSKeyValueObservation]?
     
-    @objc var groups: [OEShaderParamGroupValue]? {
+    @objc var groups: [ShaderParamGroupValue]? {
         set {
             willChangeValue(for: \.groups)
             
@@ -117,7 +117,7 @@ class ShaderParametersViewController: NSViewController {
         get { _groups }
     }
     
-    @objc dynamic var params: [OEShaderParamValue]? {
+    @objc dynamic var params: [ShaderParamValue]? {
         didSet {
             _paramsKVO = params?.map {
                 $0.observe(\.value) { [weak self] (param, change) in
@@ -143,7 +143,7 @@ class ShaderParametersViewController: NSViewController {
 
 extension ShaderParametersViewController: NSOutlineViewDelegate {
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        if let param = item as? OEShaderParamValue {
+        if let param = item as? ShaderParamValue {
             guard let cellView = outlineView.makeView(withIdentifier: param.cellType, owner: self) else { return nil }
             switch param.cellType {
             case .checkBoxType:
@@ -188,7 +188,7 @@ extension ShaderParametersViewController: NSOutlineViewDelegate {
             return cellView
         }
         
-        if let group = item as? OEShaderParamGroupValue {
+        if let group = item as? ShaderParamGroupValue {
             guard let cellView = outlineView.makeView(withIdentifier: .groupType, owner: self) as? NSTableCellView else { return nil }
             cellView.textField?.stringValue = group.desc
             return cellView
@@ -206,7 +206,7 @@ extension ShaderParametersViewController: NSOutlineViewDataSource {
             return params?.count ?? 0
         }
 
-        if let group = item as? OEShaderParamGroupValue {
+        if let group = item as? ShaderParamGroupValue {
             return group.parameters.count
         }
 
@@ -223,7 +223,7 @@ extension ShaderParametersViewController: NSOutlineViewDataSource {
             return params[index]
         }
 
-        if let group = item as? OEShaderParamGroupValue {
+        if let group = item as? ShaderParamGroupValue {
             return group.parameters[index]
         }
         
@@ -237,7 +237,7 @@ extension ShaderParametersViewController: NSOutlineViewDataSource {
             return false
         }
         
-        return item is OEShaderParamGroupValue
+        return item is ShaderParamGroupValue
     }
 }
 
@@ -247,7 +247,7 @@ private extension NSUserInterfaceItemIdentifier {
     static let groupType    = NSUserInterfaceItemIdentifier("Group")
 }
 
-private extension OEShaderParamValue {
+private extension ShaderParamValue {
     var cellType: NSUserInterfaceItemIdentifier {
         minimum.doubleValue == 0.0 && maximum.doubleValue == 1.0 && step.doubleValue == 1.0
             ? .checkBoxType
