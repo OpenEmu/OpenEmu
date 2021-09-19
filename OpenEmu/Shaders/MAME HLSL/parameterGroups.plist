@@ -57,6 +57,7 @@
 			<string>conversiongain_y</string>
 			<string>conversiongain_z</string>
 			<string>humbaralpha</string>
+			<string>humbar_hertz_rate</string>
 			<string>shadowalpha</string>
 			<string>shadowcount_x</string>
 			<string>shadowcount_y</string>
@@ -218,7 +219,6 @@
 			<string>vignette_amount</string>
 			<string>reflection_amount</string>
 			<string>jitter</string>
-			<string>humbar_hertz_rate</string>
 			<string>prescale</string>
 			<string>scanline_crawl</string>
 			<string>noise_amt</string>
