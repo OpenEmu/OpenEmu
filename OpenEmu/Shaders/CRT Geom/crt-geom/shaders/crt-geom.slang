@@ -17,32 +17,37 @@ layout(push_constant) uniform Push
 	float SHARPER;
 	float scanline_weight;
 	float CURVATURE;
-	float interlace_detect;
+   float interlace_detect;
    float lum;
-   float xsize, ysize;
+   float invert_aspect;
+   float vertical_scanlines;
+   float xsize;
+   float ysize;
 } registers;
 
 layout(std140, set = 0, binding = 0) uniform UBO
 {
     mat4 MVP;
 	vec4 OutputSize;
-	vec4 SourceSize;
+   vec4 SourceSize;
 } global;
 
 #pragma parameter CRTgamma "CRTGeom Target Gamma" 2.4 0.1 5.0 0.1
 #pragma parameter monitorgamma "CRTGeom Monitor Gamma" 2.2 0.1 5.0 0.1
 #pragma parameter d "CRTGeom Distance" 1.5 0.1 3.0 0.1
 #pragma parameter CURVATURE "CRTGeom Curvature Toggle" 1.0 0.0 1.0 1.0
+#pragma parameter invert_aspect "CRTGeom Curvature Aspect Inversion" 0.0 0.0 1.0 1.0
 #pragma parameter R "CRTGeom Curvature Radius" 2.0 0.1 10.0 0.1
 #pragma parameter cornersize "CRTGeom Corner Size" 0.03 0.001 1.0 0.005
 #pragma parameter cornersmooth "CRTGeom Corner Smoothness" 1000.0 80.0 2000.0 100.0
 #pragma parameter x_tilt "CRTGeom Horizontal Tilt" 0.0 -0.5 0.5 0.05
 #pragma parameter y_tilt "CRTGeom Vertical Tilt" 0.0 -0.5 0.5 0.05
-#pragma parameter overscan_x "CRTGeom Horiz. Overscan %" 100.0 -125.0 125.0 1.0
-#pragma parameter overscan_y "CRTGeom Vert. Overscan %" 100.0 -125.0 125.0 1.0
+#pragma parameter overscan_x "CRTGeom Horiz. Overscan %" 100.0 -125.0 125.0 0.5
+#pragma parameter overscan_y "CRTGeom Vert. Overscan %" 100.0 -125.0 125.0 0.5
 #pragma parameter DOTMASK "CRTGeom Dot Mask Strength" 0.3 0.0 1.0 0.05
 #pragma parameter SHARPER "CRTGeom Sharpness" 1.0 1.0 3.0 1.0
 #pragma parameter scanline_weight "CRTGeom Scanline Weight" 0.3 0.1 0.5 0.05
+#pragma parameter vertical_scanlines "CRTGeom Vertical Scanlines" 0.0 0.0 1.0 1.0
 #pragma parameter lum "CRTGeom Luminance" 0.0 0.0 1.0 0.01
 #pragma parameter interlace_detect "CRTGeom Interlacing Simulation" 1.0 0.0 1.0 1.0
 
@@ -96,7 +101,7 @@ vec4 SourceSize = vec4(width.x, height.x, width.y, height.y);
 #endif
 
 // aspect ratio
-vec2 aspect     = vec2(1.0,  0.75);
+vec2 aspect     = vec2(registers.invert_aspect > 0.5 ? (0.75, 1.0) : (1.0, 0.75));
 vec2 overscan   = vec2(1.01, 1.01);
 
 #pragma stage vertex
@@ -172,15 +177,29 @@ void main()
     sinangle    = sin(vec2(registers.x_tilt, registers.y_tilt));
     cosangle    = cos(vec2(registers.x_tilt, registers.y_tilt));
     stretch     = maxscale();
-    TextureSize = vec2(registers.SHARPER * SourceSize.x, SourceSize.y);
 
-    ilfac = vec2(1.0, clamp(floor(SourceSize.y/200.0),  1.0, 2.0));
+    if(registers.vertical_scanlines < 0.5)
+    {
+       TextureSize = vec2(registers.SHARPER * SourceSize.x, SourceSize.y);
 
-    // The size of one texel, in texture-coordinates.
-    one = ilfac / TextureSize;
+       ilfac = vec2(1.0, clamp(floor(SourceSize.y/(registers.interlace_detect > 0.5 ? 200.0 : 1000)),  1.0, 2.0));
 
-    // Resulting X pixel-coordinate of the pixel we're drawing.
-    mod_factor = vTexCoord.x * SourceSize.x * global.OutputSize.x / SourceSize.x;
+       // The size of one texel, in texture-coordinates.
+       one = ilfac / TextureSize;
+
+       // Resulting X pixel-coordinate of the pixel we're drawing.
+       mod_factor = vTexCoord.x * SourceSize.x * global.OutputSize.x / SourceSize.x;
+    }else{
+       TextureSize = vec2(SourceSize.x, registers.SHARPER * SourceSize.y);
+
+       ilfac = vec2(clamp(floor(SourceSize.x/(registers.interlace_detect > 0.5 ? 200.0 : 1000)),  1.0, 2.0), 1.0);
+
+       // The size of one texel, in texture-coordinates.
+       one = ilfac / TextureSize;
+
+       // Resulting X pixel-coordinate of the pixel we're drawing.
+       mod_factor = vTexCoord.y * SourceSize.y * global.OutputSize.y / SourceSize.y;
+    }
 }
 
 #pragma stage fragment
@@ -198,8 +217,16 @@ layout(set = 0, binding = 2) uniform sampler2D Source;
 float intersect(vec2 xy)
 {
     float A = dot(xy,xy) + registers.d*registers.d;
-    float B = 2.0*(registers.R*(dot(xy,sinangle) - registers.d*cosangle.x*cosangle.y) - registers.d*registers.d);
-    float C = registers.d*registers.d + 2.0*registers.R*registers.d*cosangle.x*cosangle.y;
+    float B, C;
+
+    if(registers.vertical_scanlines < 0.5)
+    {
+       B = 2.0*(registers.R*(dot(xy,sinangle) - registers.d*cosangle.x*cosangle.y) - registers.d*registers.d);
+       C = registers.d*registers.d + 2.0*registers.R*registers.d*cosangle.x*cosangle.y;
+    }else{
+       B = 2.0*(registers.R*(dot(xy,sinangle) - registers.d*cosangle.y*cosangle.x) - registers.d*registers.d);
+       C = registers.d*registers.d + 2.0*registers.R*registers.d*cosangle.y*cosangle.x;
+    }
 
     return (-B-sqrt(B*B - 4.0*A*C))/(2.0*A);
 }
@@ -227,22 +254,40 @@ vec2 fwtrans(vec2 uv)
     float r = FIX(sqrt(dot(uv, uv)));
     uv *= sin(r/registers.R)/r;
     float x = 1.0 - cos(r/registers.R);
-    float D = registers.d/registers.R + x*cosangle.x*cosangle.y + dot(uv,sinangle);
+    float D;
+
+    if(registers.vertical_scanlines < 0.5)
+      D = registers.d/registers.R + x*cosangle.x*cosangle.y + dot(uv,sinangle);
+    else
+      D = registers.d/registers.R + x*cosangle.y*cosangle.x + dot(uv,sinangle);
 
     return registers.d*(uv*cosangle - x*sinangle)/D;
 }
 
 vec3 maxscale()
 {
-    vec2 c = bkwtrans(-registers.R * sinangle / (1.0 + registers.R/registers.d*cosangle.x*cosangle.y));
-    vec2 a = vec2(0.5, 0.5)*aspect;
+   if(registers.vertical_scanlines < 0.5)
+   {
+       vec2 c = bkwtrans(-registers.R * sinangle / (1.0 + registers.R/registers.d*cosangle.x*cosangle.y));
+       vec2 a = vec2(0.5, 0.5)*aspect;
 
-    vec2 lo = vec2(fwtrans(vec2(-a.x,  c.y)).x,
-                   fwtrans(vec2( c.x, -a.y)).y)/aspect;
-    vec2 hi = vec2(fwtrans(vec2(+a.x,  c.y)).x,
-                   fwtrans(vec2( c.x, +a.y)).y)/aspect;
+       vec2 lo = vec2(fwtrans(vec2(-a.x,  c.y)).x,
+                      fwtrans(vec2( c.x, -a.y)).y)/aspect;
+       vec2 hi = vec2(fwtrans(vec2(+a.x,  c.y)).x,
+                      fwtrans(vec2( c.x, +a.y)).y)/aspect;
 
-    return vec3((hi+lo)*aspect*0.5,max(hi.x-lo.x, hi.y-lo.y));
+       return vec3((hi+lo)*aspect*0.5,max(hi.x-lo.x, hi.y-lo.y));
+   }else{
+       vec2 c = bkwtrans(-registers.R * sinangle / (1.0 + registers.R/registers.d*cosangle.y*cosangle.x));
+       vec2 a = vec2(0.5, 0.5)*aspect;
+
+       vec2 lo = vec2(fwtrans(vec2(-a.y,  c.x)).y,
+                      fwtrans(vec2( c.y, -a.x)).x)/aspect;
+       vec2 hi = vec2(fwtrans(vec2(+a.y,  c.x)).y,
+                      fwtrans(vec2( c.y, +a.x)).x)/aspect;
+
+       return vec3((hi+lo)*aspect*0.5,max(hi.y-lo.y, hi.x-lo.x));
+   }
 }
 
 // Calculate the influence of a scanline on the current pixel.
@@ -263,15 +308,17 @@ vec4 scanlineWeights(float distance, vec4 color)
     // independent of its width. That is, for a narrower beam
     // "weights" should have a higher peak at the center of the
     // scanline than for a wider beam.
-#ifdef USEGAUSSIAN
-    vec4 wid = 0.3 + 0.1 * pow(color, vec4(3.0));
-    vec4 weights = vec4(distance / wid);
-    return (registers.lum + 0.4) * exp(-weights * weights) / wid;
-#else
-    vec4 wid = 2.0 + 2.0 * pow(color, vec4(4.0));
-    vec4 weights = vec4(distance / registers.scanline_weight);
-    return (registers.lum + 1.4) * exp(-pow(weights * inversesqrt(0.5 * wid), wid)) / (0.6 + 0.2 * wid);
-#endif
+    #ifdef USEGAUSSIAN
+        vec4 wid = 0.3 + 0.1 * pow(color, vec4(3.0));
+        vec4 weights = vec4(distance / wid);
+
+        return (registers.lum + 0.4) * exp(-weights * weights) / wid;
+    #else
+        vec4 wid = 2.0 + 2.0 * pow(color, vec4(4.0));
+        vec4 weights = vec4(distance / registers.scanline_weight);
+
+        return (registers.lum + 1.4) * exp(-pow(weights * inversesqrt(0.5 * wid), wid)) / (0.6 + 0.2 * wid);
+    #endif
 }
 
 vec2 transform(vec2 coord)
@@ -290,7 +337,10 @@ float corner(vec2 coord)
     coord = (cdist - min(coord, cdist));
     float dist = sqrt(dot(coord, coord));
 
-    return clamp((cdist.x - dist)*registers.cornersmooth, 0.0, 1.0);
+    if(registers.vertical_scanlines < 0.5)
+      return clamp((cdist.x - dist)*registers.cornersmooth, 0.0, 1.0);
+    else
+      return clamp((cdist.y - dist)*registers.cornersmooth, 0.0, 1.0);
 }
 
 void main()
@@ -319,16 +369,19 @@ void main()
     // Texture coordinates of the texel containing the active pixel.
 	vec2 xy;
 	if (registers.CURVATURE > 0.5)
-    xy = transform(vTexCoord);
+      xy = transform(vTexCoord);
 	else
-	xy = vTexCoord;
+      xy = vTexCoord;
 
     float cval = corner(xy);
 
     // Of all the pixels that are mapped onto the texel we are
     // currently rendering, which pixel are we currently rendering?
-
-    vec2 ilvec = vec2(0.0, ilfac.y * registers.interlace_detect > 1.5 ? mod(float(registers.FrameCount), 2.0) : 0.0);
+   vec2 ilvec;
+   if(registers.vertical_scanlines < 0.5)
+      ilvec = vec2(0.0, ilfac.y * registers.interlace_detect > 1.5 ? mod(float(registers.FrameCount), 2.0) : 0.0);
+   else
+      ilvec = vec2(ilfac.x * registers.interlace_detect > 1.5 ? mod(float(registers.FrameCount), 2.0) : 0.0, 0.0);
 
     vec2 ratio_scale = (xy * TextureSize - vec2(0.5, 0.5) + ilvec) / ilfac;
     vec2 uv_ratio = fract(ratio_scale);
@@ -339,7 +392,11 @@ void main()
     // Calculate Lanczos scaling coefficients describing the effect
     // of various neighbour texels in a scanline on the current
     // pixel.
-    vec4 coeffs = PI * vec4(1.0 + uv_ratio.x, uv_ratio.x, 1.0 - uv_ratio.x, 2.0 - uv_ratio.x);
+    vec4 coeffs;
+    if(registers.vertical_scanlines < 0.5)
+      coeffs = PI * vec4(1.0 + uv_ratio.x, uv_ratio.x, 1.0 - uv_ratio.x, 2.0 - uv_ratio.x);
+    else
+      coeffs = PI * vec4(1.0 + uv_ratio.y, uv_ratio.y, 1.0 - uv_ratio.y, 2.0 - uv_ratio.y);
 
     // Prevent division by zero.
     coeffs = FIX(coeffs);
@@ -353,24 +410,47 @@ void main()
     // Calculate the effective colour of the current and next
     // scanlines at the horizontal location of the current pixel,
     // using the Lanczos coefficients above.
-    vec4 col = clamp(
-        mat4(
-            TEX2D(xy + vec2(-one.x, 0.0)),
-            TEX2D(xy),
-            TEX2D(xy + vec2(one.x, 0.0)),
-            TEX2D(xy + vec2(2.0 * one.x, 0.0))
-        ) * coeffs,
-        0.0, 1.0
-    );
-    vec4 col2 = clamp(
-        mat4(
-            TEX2D(xy + vec2(-one.x, one.y)),
-            TEX2D(xy + vec2(0.0, one.y)),
-            TEX2D(xy + one),
-            TEX2D(xy + vec2(2.0 * one.x, one.y))
-        ) * coeffs,
-        0.0, 1.0
-    );
+    vec4 col, col2;
+    if(registers.vertical_scanlines < 0.5)
+    {
+       col = clamp(
+           mat4(
+               TEX2D(xy + vec2(-one.x, 0.0)),
+               TEX2D(xy),
+               TEX2D(xy + vec2(one.x, 0.0)),
+               TEX2D(xy + vec2(2.0 * one.x, 0.0))
+           ) * coeffs,
+           0.0, 1.0
+       );
+       col2 = clamp(
+           mat4(
+               TEX2D(xy + vec2(-one.x, one.y)),
+               TEX2D(xy + vec2(0.0, one.y)),
+               TEX2D(xy + one),
+               TEX2D(xy + vec2(2.0 * one.x, one.y))
+           ) * coeffs,
+           0.0, 1.0
+       );
+    }else{
+       col = clamp(
+           mat4(
+               TEX2D(xy + vec2(0.0, -one.y)),
+               TEX2D(xy),
+               TEX2D(xy + vec2(0.0, one.y)),
+               TEX2D(xy + vec2(0.0, 2.0 * one.y))
+           ) * coeffs,
+           0.0, 1.0
+       );
+       col2 = clamp(
+           mat4(
+               TEX2D(xy + vec2(one.x, -one.y)),
+               TEX2D(xy + vec2(one.x, 0.0)),
+               TEX2D(xy + one),
+               TEX2D(xy + vec2(one.x, 2.0 * one.y))
+           ) * coeffs,
+           0.0, 1.0
+       );
+    }
 
 #ifndef LINEAR_PROCESSING
     col  = pow(col , vec4(registers.CRTgamma));
@@ -379,18 +459,35 @@ void main()
 
     // Calculate the influence of the current and next scanlines on
     // the current pixel.
-    vec4 weights  = scanlineWeights(uv_ratio.y, col);
-    vec4 weights2 = scanlineWeights(1.0 - uv_ratio.y, col2);
+    vec4 weights, weights2;
+    if(registers.vertical_scanlines < 0.5)
+    {
+       weights  = scanlineWeights(uv_ratio.y, col);
+       weights2 = scanlineWeights(1.0 - uv_ratio.y, col2);
 
-#ifdef OVERSAMPLE
-    float filter_ = fwidth(ratio_scale.y);
-    uv_ratio.y    = uv_ratio.y + 1.0/3.0*filter_;
-    weights       = (weights  + scanlineWeights(uv_ratio.y, col))/3.0;
-    weights2      = (weights2 + scanlineWeights(abs(1.0 - uv_ratio.y), col2))/3.0;
-    uv_ratio.y    = uv_ratio.y - 2.0/3.0*filter_;
-    weights       = weights  + scanlineWeights(abs(uv_ratio.y), col)/3.0;
-    weights2      = weights2 + scanlineWeights(abs(1.0 - uv_ratio.y), col2)/3.0;
-#endif
+   #ifdef OVERSAMPLE
+       float filter_ = fwidth(ratio_scale.y);
+       uv_ratio.y    = uv_ratio.y + 1.0/3.0*filter_;
+       weights       = (weights  + scanlineWeights(uv_ratio.y, col))/3.0;
+       weights2      = (weights2 + scanlineWeights(abs(1.0 - uv_ratio.y), col2))/3.0;
+       uv_ratio.y    = uv_ratio.y - 2.0/3.0*filter_;
+       weights       = weights  + scanlineWeights(abs(uv_ratio.y), col)/3.0;
+       weights2      = weights2 + scanlineWeights(abs(1.0 - uv_ratio.y), col2)/3.0;
+   #endif
+    }else{
+       weights  = scanlineWeights(uv_ratio.x, col);
+       weights2 = scanlineWeights(1.0 - uv_ratio.x, col2);
+
+   #ifdef OVERSAMPLE
+       float filter_ = fwidth(ratio_scale.x);
+       uv_ratio.x    = uv_ratio.x + 1.0/3.0*filter_;
+       weights       = (weights  + scanlineWeights(uv_ratio.x, col))/3.0;
+       weights2      = (weights2 + scanlineWeights(abs(1.0 - uv_ratio.x), col2))/3.0;
+       uv_ratio.x    = uv_ratio.x - 2.0/3.0*filter_;
+       weights       = weights  + scanlineWeights(abs(uv_ratio.x), col)/3.0;
+       weights2      = weights2 + scanlineWeights(abs(1.0 - uv_ratio.x), col2)/3.0;
+   #endif
+    }
 
     vec3 mul_res  = (col * weights + col2 * weights2).rgb * vec3(cval);
 
