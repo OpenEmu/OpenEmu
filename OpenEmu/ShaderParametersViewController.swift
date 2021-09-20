@@ -29,7 +29,7 @@ class ShaderParametersViewController: NSViewController {
     let shaderControl: ShaderControl
     var shaderObserver: NSObjectProtocol?
     
-    @IBOutlet var outlineView: NSOutlineView?
+    @IBOutlet var outlineView: NSOutlineView!
     @IBOutlet var shaderListPopUpButton: NSPopUpButton!
     private var noParametersLabel: NSTextField!
     
@@ -77,11 +77,9 @@ class ShaderParametersViewController: NSViewController {
         noParametersLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            noParametersLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            noParametersLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            noParametersLabel.centerXAnchor.constraint(equalTo: outlineView.centerXAnchor),
+            noParametersLabel.centerYAnchor.constraint(equalTo: outlineView.centerYAnchor),
         ])
-        
-        guard let outlineView = outlineView else { preconditionFailure("outlineView is required") }
         
         outlineView.delegate = self
         outlineView.dataSource = self

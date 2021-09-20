@@ -20,13 +20,13 @@
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xM9-YK-ttg">
-                    <rect key="frame" x="0.0" y="39" width="339" height="341"/>
+                    <rect key="frame" x="0.0" y="46" width="339" height="334"/>
                     <clipView key="contentView" drawsBackground="NO" id="o1m-Rh-4tX">
-                        <rect key="frame" x="0.0" y="0.0" width="339" height="341"/>
+                        <rect key="frame" x="0.0" y="0.0" width="339" height="334"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" usesAutomaticRowHeights="YES" viewBased="YES" indentationPerLevel="16" outlineTableColumn="WGV-x2-CcC" id="N0M-kh-BHs">
-                                <rect key="frame" x="0.0" y="0.0" width="339" height="341"/>
+                                <rect key="frame" x="0.0" y="0.0" width="339" height="334"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <size key="intercellSpacing" width="2" height="3"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -58,6 +58,9 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
+                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="SCi-6S-Y7J">
+                    <rect key="frame" x="14" y="43" width="311" height="5"/>
+                </box>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VhF-3a-dpM">
                     <rect key="frame" x="231" y="5" width="95" height="33"/>
                     <constraints>
@@ -92,16 +95,19 @@
                 </popUpButton>
             </subviews>
             <constraints>
+                <constraint firstItem="SCi-6S-Y7J" firstAttribute="leading" secondItem="GVp-fv-v3P" secondAttribute="leading" constant="14" id="2hc-pE-Rn1"/>
                 <constraint firstItem="vxM-9B-cWi" firstAttribute="leading" secondItem="GVp-fv-v3P" secondAttribute="leading" constant="20" id="EUv-8d-fJK"/>
                 <constraint firstAttribute="trailing" secondItem="xM9-YK-ttg" secondAttribute="trailing" id="JTU-66-cRj"/>
                 <constraint firstAttribute="trailing" secondItem="VhF-3a-dpM" secondAttribute="trailing" constant="20" id="KHd-ps-O0h"/>
                 <constraint firstItem="VhF-3a-dpM" firstAttribute="height" secondItem="vxM-9B-cWi" secondAttribute="height" id="MTV-1p-r6i"/>
                 <constraint firstItem="VhF-3a-dpM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vxM-9B-cWi" secondAttribute="trailing" constant="20" id="N7h-fu-QAe"/>
-                <constraint firstItem="VhF-3a-dpM" firstAttribute="top" secondItem="xM9-YK-ttg" secondAttribute="bottom" constant="6" id="cbz-91-urZ"/>
+                <constraint firstAttribute="trailing" secondItem="SCi-6S-Y7J" secondAttribute="trailing" constant="14" id="d0G-a3-H6T"/>
+                <constraint firstItem="VhF-3a-dpM" firstAttribute="top" secondItem="SCi-6S-Y7J" secondAttribute="bottom" constant="12" id="fnH-pg-3k3"/>
                 <constraint firstAttribute="bottom" secondItem="vxM-9B-cWi" secondAttribute="bottom" constant="12" id="iUD-g6-jhv"/>
                 <constraint firstItem="xM9-YK-ttg" firstAttribute="leading" secondItem="GVp-fv-v3P" secondAttribute="leading" id="iyC-bG-FJ3"/>
                 <constraint firstAttribute="bottom" secondItem="VhF-3a-dpM" secondAttribute="bottom" constant="12" id="oPv-GB-2Gd"/>
                 <constraint firstItem="xM9-YK-ttg" firstAttribute="top" secondItem="GVp-fv-v3P" secondAttribute="top" id="tr7-Dh-Am6"/>
+                <constraint firstItem="SCi-6S-Y7J" firstAttribute="top" secondItem="xM9-YK-ttg" secondAttribute="bottom" id="wby-Mk-CQ9"/>
             </constraints>
             <point key="canvasLocation" x="12" y="-237"/>
         </view>
