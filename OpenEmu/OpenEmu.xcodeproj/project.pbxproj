@@ -2778,11 +2778,11 @@
 			children = (
 				0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */,
 				0519A89E25AA4CD800D71C21 /* ShaderControl.swift */,
-				055BE6E925CDE8DD000189CC /* ShaderPreset.swift */,
 				05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */,
 				8F7BFC9723E653E100B1F6C8 /* ShaderParameters.xib */,
 				05888F3925A0373300286232 /* ShaderParametersViewController.swift */,
 				05888F7325A111B000286232 /* ShaderParametersViewController.xib */,
+				055BE6E925CDE8DD000189CC /* ShaderPreset.swift */,
 				05410EEF22F7535A00303424 /* Cell Views */,
 			);
 			name = Shaders;
@@ -5786,6 +5786,7 @@
 			targets = (
 				8D15AC270486D014006FF6A4 /* OpenEmu */,
 				1BEF2A9311682A530090F72B /* OpenEmuHelperApp */,
+				054A735E25B009D200F2F3D6 /* openemutools */,
 				0547FE1324E86D9F005C1FFC /* broker */,
 				8F94DEB9250EC701003A1F33 /* OpenEmuQLThumbnail */,
 				8F94DECE250ED838003A1F33 /* OpenEmuQLPreview */,
@@ -5843,7 +5844,6 @@
 				015BFEB325266DFC0025139F /* OEControlLabelsGenerator */,
 				05DB72A02532681B0098459D /* OpenEmuTests */,
 				012148042537C6D6007F3C84 /* OESystemPluginPostInstall */,
-				054A735E25B009D200F2F3D6 /* openemutools */,
 			);
 		};
 /* End PBXProject section */
@@ -9769,8 +9769,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 		8F44DEB326DFD07200893A18 /* XCRemoteSwiftPackageReference "Sparkle" */ = {

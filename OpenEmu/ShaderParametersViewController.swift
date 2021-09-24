@@ -24,6 +24,8 @@
 
 import Foundation
 import OpenEmuShaders
+import AppKit
+import OpenEmuKit
 
 class ShaderParametersViewController: NSViewController {
     let shaderControl: ShaderControl
@@ -66,7 +68,7 @@ class ShaderParametersViewController: NSViewController {
             }
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -120,7 +122,7 @@ class ShaderParametersViewController: NSViewController {
         
         shaderListPopUpButton.menu = shaderMenu
         
-        let selectedShader = UserDefaults.standard.string(forKey: String(format: OEGameSystemVideoShaderKeyFormat, shaderControl.systemIdentifier)) ?? UserDefaults.standard.string(forKey: OEGameDefaultVideoShaderKey) ?? ""
+        let selectedShader = OEShadersModel.shared.shaderName(forSystem: shaderControl.systemIdentifier)
         
         if shaderListPopUpButton.item(withTitle: selectedShader) != nil {
             shaderListPopUpButton.selectItem(withTitle: selectedShader)
@@ -162,7 +164,7 @@ class ShaderParametersViewController: NSViewController {
             
             params = _groups?.flatMap { $0.parameters }
             
-            outlineView?.reloadData()
+            outlineView.reloadData()
         }
         
         get { _groups }

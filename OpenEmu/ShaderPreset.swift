@@ -23,56 +23,147 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Foundation
+import OpenEmuKit
 
-enum ShaderValue: Equatable, Hashable {
-    case boolean(Bool)
-    case double(Double)
-}
-
-extension ShaderValue: Encodable {
-    
-    enum CodingKeys: String, CodingKey {
-        case valueType
-        case associatedValue
-    }
-    
-    enum CodingError: Error {
-        case unknownValue
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-        case .boolean(let v):
-            try container.encode(0, forKey: .valueType)
-            try container.encode(v, forKey: .associatedValue)
-        case .double(let v):
-            try container.encode(1, forKey: .valueType)
-            try container.encode(v, forKey: .associatedValue)
-        }
-    }
-}
-
-extension ShaderValue: Decodable {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let valueType = try container.decode(Int.self, forKey: .valueType)
-        switch valueType {
-        case 0:
-            let v = try container.decode(Bool.self, forKey: .associatedValue)
-            self = .boolean(v)
-        case 1:
-            let v = try container.decode(Double.self, forKey: .associatedValue)
-            self = .double(v)
-        default:
-            throw CodingError.unknownValue
-        }
-    }
-}
-
-struct ShaderPreset: Codable, Hashable, Identifiable {
+struct ShaderPreset: Hashable, Identifiable {
     public let id: UUID
+    public let name: String
     public let shader: String
-    public var name: String
-    public var parameters: [String: ShaderValue]
+    public var parameters: [String: Double]
+    
+//    static func makeFrom(params: [ShaderParamValue]) -> ShaderPreset {
+//        ShaderPreset(
+//            id: UUID(),
+//            shader: nil,
+//            parameters: Dictionary(uniqueKeysWithValues: params.compactMap { pv in
+//                pv.isInitial ? nil : (pv.name, pv.value.doubleValue)
+//            })
+//        )
+//    }
+    
+    static func makeFrom(shader: String, params: [ShaderParamValue]) -> ShaderPreset {
+        ShaderPreset(
+            id: UUID(),
+            name: "Unnamed",
+            shader: shader,
+            parameters: Dictionary(uniqueKeysWithValues: params.compactMap { pv in
+                pv.isInitial ? nil : (pv.name, pv.value.doubleValue)
+            })
+        )
+    }
+}
+
+struct ShaderPresetTextWriter {
+    struct Options: OptionSet {
+        let rawValue: Int
+        
+        static let shader   = Options(rawValue: 1 << 0)
+        static let hash     = Options(rawValue: 1 << 1)
+        
+        static let all: Options = [.shader, .hash]
+    }
+    
+    func write(preset c: ShaderPreset, options: Options = .all) -> String {
+        var s = ""
+        if options.contains(.shader) {
+            s.append("\"\(c.shader)\":")
+        }
+        
+        // Sort the keys for a consistent output
+        var first = true
+        for key in c.parameters.keys.sorted() {
+            if !first {
+                s.append(";")
+            }
+            s.append("\(key)=\(c.parameters[key]!)")
+            first = false
+        }
+        return s
+    }
+}
+
+enum ShaderPresetReadError: Swift.Error {
+    
+}
+
+/// Coding Errors
+public enum ShaderPresetCodingError: Error {
+    /// type or statement is not supported
+    case unsupported
+    /// required key is missing
+    case missing
+    case state
+    /// statement is malformed
+    case malformed
+}
+
+struct ShaderPresetTextReader {
+    enum State {
+        case key, value
+    }
+    
+    func read(line: String) throws -> ShaderPreset {
+        var header  = [String]()
+        var params  = [String: Double]()
+        
+        var iter = line.makeIterator()
+    outer:
+        while let ch = iter.next() {
+            
+            switch ch {
+            case "\"":
+                // quoted string
+                var s = ""
+                while let ch = iter.next() {
+                    if ch == "\"" {
+                        header.append(s)
+                        continue outer
+                    }
+                    s.append(ch)
+                }
+                throw ShaderPresetCodingError.malformed
+            case ":":
+                // parameters section
+                var state: State = .key
+                var key = ""
+                var current = ""
+                while let ch = iter.next() {
+                    if ch == "=" {
+                        if state == .key {
+                            key     = current
+                            current = ""
+                            state   = .value
+                            continue
+                        }
+                        throw ShaderPresetCodingError.malformed
+                    }
+                    
+                    if ch == ";" {
+                        if state == .value {
+                            state = .key
+                            params[key] = Double(current)
+                            key = ""
+                            current = ""
+                            continue
+                        }
+                        throw ShaderPresetCodingError.malformed
+                    }
+                    
+                    current.append(ch)
+                }
+                
+                if state == .value {
+                    params[key] = Double(current)
+                } else {
+                    throw ShaderPresetCodingError.malformed
+                }
+            default:
+                throw ShaderPresetCodingError.malformed
+            }
+        }
+        
+        let shader = header.count > 0 ? header[0] : ""
+        
+        return ShaderPreset(id: UUID(), name: "Unnamed", shader: shader, parameters: params)
+    }
 }

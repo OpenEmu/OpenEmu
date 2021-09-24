@@ -146,6 +146,8 @@
 		<string>scanline</string>
 		<key>parameters</key>
 		<array>
+			<string>scanline_crawl</string>
+			<string>jitter</string>
 			<string>scanlinealpha</string>
 			<string>scanlinescale</string>
 			<string>scanlineheight</string>
@@ -218,9 +220,7 @@
 			<string>smooth_border_amount</string>
 			<string>vignette_amount</string>
 			<string>reflection_amount</string>
-			<string>jitter</string>
 			<string>prescale</string>
-			<string>scanline_crawl</string>
 			<string>noise_amt</string>
 		</array>
 	</dict>

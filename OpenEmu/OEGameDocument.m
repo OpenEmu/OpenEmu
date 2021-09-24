@@ -50,8 +50,6 @@
 #import "OpenEmu-Swift.h"
 
 NSString *const OEGameVolumeKey = @"volume";
-NSString *const OEGameDefaultVideoShaderKey = @"videoShader";
-NSString *const OEGameSystemVideoShaderKeyFormat = @"videoShader.%@";
 NSString *const OEGameCoreDisplayModeKeyFormat = @"displayMode.%@";
 NSString *const OEBackgroundPauseKey = @"backgroundPause";
 NSString *const OEBackgroundControllerPlayKey = @"backgroundControllerPlay";

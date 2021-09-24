@@ -22,25 +22,4 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import ArgumentParser
 import Foundation
-
-extension OpenEmuTools.Shader {
-    struct Preset: ParsableCommand {
-        static var configuration = CommandConfiguration(abstract: "Preset command.")
-        
-        func run() throws {
-            let ps = ShaderPreset(id: UUID(), name: "Bar", shader: "CRT Geom", parameters: ["BOOL_PARAM": 1, "DOUBLE_PARAM": 5.3])
-            
-            let wr = ShaderPresetTextWriter()
-            let s = wr.write(preset: ps)
-            print(s)
-
-            do {
-                let dec = ShaderPresetTextReader()
-                let ps2 = try dec.read(line: s)
-                dump(ps2)
-            }
-        }
-    }
-}

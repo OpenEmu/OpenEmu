@@ -23,6 +23,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
+import OpenEmuKit
 
 final class PrefGameplayController: NSViewController {
     
@@ -71,16 +72,7 @@ final class PrefGameplayController: NSViewController {
         
         globalDefaultShaderSelection.menu = globalShaderMenu
         
-        var selectedShaderName = UserDefaults.standard.string(forKey: OEGameDefaultVideoShaderKey)!
-        
-        // Set to default shader if the current one is not available (ie. deleted)
-        if !systemShaders.contains(selectedShaderName) &&
-           !customShaders.contains(selectedShaderName) {
-            
-            let defaulShaderName = OEShadersModel.shared.defaultShader.name
-            selectedShaderName = defaulShaderName
-            UserDefaults.standard.set(defaulShaderName, forKey: OEGameDefaultVideoShaderKey)
-        }
+        let selectedShaderName = OEShadersModel.shared.defaultShaderName
         
         if globalDefaultShaderSelection.item(withTitle: selectedShaderName) != nil {
             globalDefaultShaderSelection.selectItem(withTitle: selectedShaderName)
@@ -92,15 +84,11 @@ final class PrefGameplayController: NSViewController {
     @IBAction func changeGlobalDefaultShader(_ sender: Any?) {
         guard let context = OELibraryDatabase.default?.mainThreadContext else { return }
         
-        let shaderName = globalDefaultShaderSelection.selectedItem?.title
+        guard let shaderName = globalDefaultShaderSelection.selectedItem?.title else { return }
+        
         let allSystemIdentifiers = OEDBSystem.allSystemIdentifiers(in: context)
-        
-        allSystemIdentifiers.forEach { systemID in
-            let key = String(format: OEGameSystemVideoShaderKeyFormat, systemID)
-            UserDefaults.standard.removeObject(forKey: key)
-        }
-        
-        UserDefaults.standard.set(shaderName, forKey: OEGameDefaultVideoShaderKey)
+        allSystemIdentifiers.forEach(OEShadersModel.shared.resetShader(forSystem:))
+        OEShadersModel.shared.defaultShaderName = shaderName
     }
 }
 

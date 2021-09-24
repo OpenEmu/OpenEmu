@@ -27,8 +27,6 @@
 @import Cocoa;
 
 extern NSString *const OEGameVolumeKey;
-extern NSString *const OEGameDefaultVideoShaderKey;
-extern NSString *const OEGameSystemVideoShaderKeyFormat;
 extern NSString *const OEGameCoreDisplayModeKeyFormat;
 extern NSString *const OEBackgroundPauseKey;
 extern NSString *const OEBackgroundControllerPlayKey;

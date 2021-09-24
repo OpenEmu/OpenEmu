@@ -558,13 +558,8 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [shaderMenu addItem:item];
     [shaderMenu addItem:[NSMenuItem separatorItem]];
 
-    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
-    NSString *selectedShader = ([defaults objectForKey:[NSString stringWithFormat:OEGameSystemVideoShaderKeyFormat, systemIdentifier]]
-                                ? : [defaults objectForKey:OEGameDefaultVideoShaderKey]);
-
-    // Select the Default Shader if the current is not available (ie. deleted)
-    if(![_sortedSystemShaders containsObject:selectedShader] && ![_sortedCustomShaders containsObject:selectedShader])
-        selectedShader = [defaults objectForKey:OEGameDefaultVideoShaderKey];
+    // selectedShader is guaranteed to exist
+    NSString *selectedShader = [OEShadersModel.shared shaderNameForSystem: systemIdentifier];
 
     // add system shaders first
     for(NSString *shaderName in _sortedSystemShaders)

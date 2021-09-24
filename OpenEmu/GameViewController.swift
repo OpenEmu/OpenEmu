@@ -232,10 +232,10 @@ final class GameViewController: NSViewController {
             }
         }
         
-        UserDefaults.standard.set(shaderName, forKey: String(format: OEGameSystemVideoShaderKeyFormat, document.systemIdentifier))
+        OEShadersModel.shared.setShaderName(shaderName, forSystem: document.systemIdentifier)
     }
     
-    func didLoadShader(_ shader: OEShadersModel.OEShaderModel) {
+    func didLoadShader(_ shader: OEShaderModel) {
         shaderControl.shader = shader
     }
     

@@ -30,7 +30,7 @@ public class ShaderControl: NSObject {
     let helper: OEGameCoreHelper
     @objc public let systemIdentifier: String
 
-    @objc public dynamic var shader: OEShadersModel.OEShaderModel?
+    @objc public dynamic var shader: OEShaderModel?
     
     @objc public init(systemIdentifier: String, helper: OEGameCoreHelper) {
         self.systemIdentifier = systemIdentifier
