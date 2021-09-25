@@ -23,6 +23,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
+import Carbon.HIToolbox.Events
 
 protocol CollectionViewExtendedDelegate {
     var supportsQuickLook: Bool { get }

@@ -25,6 +25,7 @@
  */
 
 import Foundation
+import OpenEmuKit.OECorePlugin
 
 /// Detects and imports BIOS files.
 @objc(OEBIOSFile)

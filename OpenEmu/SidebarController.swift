@@ -23,6 +23,8 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
+import Carbon.HIToolbox.Events
+import OpenEmuKit.OECorePlugin
 
 extension NSPasteboard.PasteboardType {
     static let game = NSPasteboard.PasteboardType("org.openemu.game")

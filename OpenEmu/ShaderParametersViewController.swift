@@ -22,12 +22,11 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import Foundation
+import Cocoa
 import OpenEmuShaders
-import AppKit
 import OpenEmuKit
 
-class ShaderParametersViewController: NSViewController {
+final class ShaderParametersViewController: NSViewController {
     let shaderControl: ShaderControl
     var shaderObserver: NSObjectProtocol?
     

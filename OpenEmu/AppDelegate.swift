@@ -26,6 +26,8 @@
 
 import Cocoa
 import os
+import OpenEmuSystem
+import OpenEmuKit
 
 private var appearancePrefChangedKVOContext = 0
 

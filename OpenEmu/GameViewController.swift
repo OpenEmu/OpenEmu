@@ -23,6 +23,8 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
+import OpenEmuBase.OEGeometry
+import OpenEmuKit
 
 // TODO: Messages to remote layer:
 // - Change bounds

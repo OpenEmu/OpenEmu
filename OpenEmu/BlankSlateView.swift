@@ -23,6 +23,8 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
+import OpenEmuKit.OECorePlugin
+import OpenEmuKit.OESystemPlugin
 
 @objc(OEBlankSlateView)
 class BlankSlateView: NSView {

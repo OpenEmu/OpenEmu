@@ -23,6 +23,8 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
+import OpenEmuSystem
+import OpenEmuKit
 
 @objcMembers
 final class PrefDebugController: NSViewController {
