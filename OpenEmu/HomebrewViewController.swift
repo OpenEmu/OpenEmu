@@ -262,8 +262,7 @@ final class HomebrewViewController: NSViewController {
         let game = rom?.game
         game?.save()
         
-        let target = NSApp.target(forAction: #selector(LibraryController.start(game:)))
-        (target as AnyObject).start(game)
+        NSApp.sendAction(#selector(MainWindowController.startGame(_:)), to: nil, from: game)
     }
     
     private func rowOfView(_ view: NSView) -> Int {
