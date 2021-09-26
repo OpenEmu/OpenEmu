@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,7 +17,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView id="109" customClass="BlankSlateView" customModule="OpenEmu" customModuleProvider="target">
+        <customView id="109" customClass="OEBlankSlateView">
             <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <point key="canvasLocation" x="-252" y="120"/>
@@ -31,7 +31,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="wnb-pq-eE8">
                         <rect key="frame" x="0.0" y="0.0" width="643" height="510"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="95" customClass="OEGridView">
                                 <rect key="frame" x="0.0" y="0.0" width="613" height="510"/>
@@ -64,8 +64,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="735" height="290"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="libraryGamesTable" headerView="H7O-is-mGk" id="7W7-OC-R11" customClass="GameTableView" customModule="OpenEmu" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="922" height="230"/>
+                    <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="libraryGamesTable" headerView="H7O-is-mGk" id="7W7-OC-R11" customClass="OEGameTableView">
+                        <rect key="frame" x="0.0" y="0.0" width="951" height="230"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <size key="intercellSpacing" width="3" height="2"/>
                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -98,7 +98,7 @@
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
-                                <customCell key="dataCell" alignment="left" id="23" customClass="RatingCell" customModule="OpenEmu" customModuleProvider="target">
+                                <customCell key="dataCell" alignment="left" id="23" customClass="OERatingCell">
                                     <font key="font" metaFont="label" size="11"/>
                                 </customCell>
                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="listViewRating"/>
@@ -184,7 +184,7 @@
                 <autoresizingMask key="autoresizingMask"/>
             </scroller>
             <tableHeaderView key="headerView" wantsLayer="YES" id="H7O-is-mGk" customClass="GameTableHeaderView" customModule="OpenEmu" customModuleProvider="target">
-                <rect key="frame" x="0.0" y="0.0" width="922" height="23"/>
+                <rect key="frame" x="0.0" y="0.0" width="951" height="23"/>
                 <autoresizingMask key="autoresizingMask"/>
             </tableHeaderView>
             <point key="canvasLocation" x="833" y="-147"/>

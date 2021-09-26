@@ -927,7 +927,7 @@ DQ
                     </connections>
                 </application>
                 <customObject id="-1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <customObject id="805" userLabel="OEApplicationDelegate" customClass="AppDelegate" customModule="OpenEmu" customModuleProvider="target">
+                <customObject id="805" userLabel="OEApplicationDelegate" customClass="OEApplicationDelegate">
                     <connections>
                         <outlet property="fileMenu" destination="980" id="1224"/>
                         <outlet property="localizationGuideMenuItem" destination="Dye-Hd-BVp" id="Ccr-IB-JH8"/>
