@@ -45,9 +45,7 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
         
         set {
             selectedTabViewItemIndex = newValue.rawValue
-            if let toolbar = toolbar {
-                toolbar.categorySelector.selectedSegment = newValue.rawValue
-            }
+            toolbar.categorySelector.selectedSegment = newValue.rawValue
             
             UserDefaults.standard.set(newValue.rawValue, forKey: DefaultKeys.lastCategory.rawValue)
         }
@@ -56,16 +54,32 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
     override var nibName: NSNib.Name? { "LibraryController" }
     
     @objc weak var delegate: LibraryControllerDelegate?
-    @IBOutlet var toolbar: LibraryToolbar?
+    lazy var toolbar: LibraryToolbar = {
+        let toolbar = LibraryToolbar(identifier: "OELibraryToolbar")
+        toolbar.delegate = toolbarDelegate
+        toolbar.displayMode = .iconOnly
+        toolbar.centeredItemIdentifier = .oeCategory
+        toolbar.allowsUserCustomization = true
+        toolbar.autosavesConfiguration = true
+        if #available(macOS 10.15, *) {} else {
+            // avoids a crash on 10.14. (f0e12e8)
+            // TODO: remove when 10.14 support goes away
+            toolbar.allowsUserCustomization = false
+        }
+        return toolbar
+    }()
+    private lazy var toolbarDelegate: LibraryToolbarDelegate = {
+        let toolbarDelegate = LibraryToolbarDelegate()
+        toolbarDelegate.toolbarOwner = self
+        return toolbarDelegate
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //set initial zoom value
-        if let toolbar = toolbar {
-            let zoomValue = UserDefaults.standard.float(forKey: OELastGridSizeKey)
-            toolbar.gridSizeSlider.floatValue = zoomValue
-        }
+        let zoomValue = UserDefaults.standard.float(forKey: OELastGridSizeKey)
+        toolbar.gridSizeSlider.floatValue = zoomValue
         
         tabView.autoresizingMask = [.width, .height]
         tabView.tabViewType = .noTabsNoBorder
@@ -139,9 +153,8 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
     
     override func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
         super.tabView(tabView, didSelect: tabViewItem)
-        if let toolbar = toolbar {
-            toolbar.categorySelector.selectedSegment = selectedTabViewItemIndex
-        }
+        
+        toolbar.categorySelector.selectedSegment = selectedTabViewItemIndex
         view.window?.makeFirstResponder(tabViewItem?.view)
     }
     
@@ -205,15 +218,13 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
     override func viewDidAppear() {
         super.viewDidAppear()
         
-        if let toolbar = toolbar {
-            toolbar.categorySelector.selectedSegment = selectedCatagory.rawValue
-        }
+        toolbar.categorySelector.selectedSegment = selectedCatagory.rawValue
     }
     
     override func viewWillDisappear() {
         super.viewWillAppear()
         
-        if let container = toolbar?.searchField.superview {
+        if let container = toolbar.searchField.superview {
             container.autoresizingMask = .width
         }
     }
@@ -227,7 +238,7 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
     }
     
     @IBAction func switchToView(_ sender: Any?) {
-        switch toolbar?.viewModeSelector.selectedSegment {
+        switch toolbar.viewModeSelector.selectedSegment {
         case 0:
             switchToGridView(sender)
         case 1:
@@ -262,7 +273,7 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
     }
     
     override func magnify(with event: NSEvent) {
-        guard let toolbar = toolbar, toolbar.gridSizeSlider.isEnabled else { return }
+        guard toolbar.gridSizeSlider.isEnabled else { return }
         
         if let ctl = tabView.selectedTabViewItem?.viewController, !ctl.responds(to: #selector(changeGridSize(_:))) {
             return
@@ -296,7 +307,7 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
     // MARK: - Edit Menu
     
     @IBAction func find(_ sender: Any?) {
-        view.window?.makeFirstResponder(toolbar?.searchField)
+        view.window?.makeFirstResponder(toolbar.searchField)
     }
     
     // MARK: - Categories
@@ -307,7 +318,7 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
     
     private func switchCategoryFromToolbar() {
         guard
-            let category = Category(rawValue: toolbar!.categorySelector.selectedSegment)
+            let category = Category(rawValue: toolbar.categorySelector.selectedSegment)
         else { return }
         
         if category == selectedCatagory {
@@ -343,27 +354,25 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
         }
         
         if sel == #selector(find(_:)) {
-            return toolbar?.searchField.isEnabled ?? false
+            return toolbar.searchField.isEnabled
         }
         
         if sel == #selector(switchCategoryFromMenu(_:)) {
-            menuItem.state = (toolbar!.categorySelector.selectedSegment == menuItem.tag - 100) ? .on : .off
+            menuItem.state = (toolbar.categorySelector.selectedSegment == menuItem.tag - 100) ? .on : .off
         }
         
         if sel == #selector(decreaseGridSize(_:)) || sel == #selector(increaseGridSize(_:)) {
-            return self.toolbar?.gridSizeSlider.isEnabled ?? false
+            return self.toolbar.gridSizeSlider.isEnabled
         }
         
-        if let viewModeSelector = toolbar?.viewModeSelector {
-            if sel == #selector(switchToGridView(_:)) {
-                menuItem.state = viewModeSelector.selectedSegment == 0 ? .on : .off
-                return viewModeSelector.isEnabled
-            }
-            
-            if sel == #selector(switchToListView(_:)) {
-                menuItem.state = viewModeSelector.selectedSegment == 1 ? .on : .off
-                return viewModeSelector.isEnabled
-            }
+        if sel == #selector(switchToGridView(_:)) {
+            menuItem.state = toolbar.viewModeSelector.selectedSegment == 0 ? .on : .off
+            return toolbar.viewModeSelector.isEnabled
+        }
+        
+        if sel == #selector(switchToListView(_:)) {
+            menuItem.state = toolbar.viewModeSelector.selectedSegment == 1 ? .on : .off
+            return toolbar.viewModeSelector.isEnabled
         }
         
         return true

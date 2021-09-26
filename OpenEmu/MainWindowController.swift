@@ -68,42 +68,22 @@ final class MainWindowController: NSWindowController {
             _currentContentController?.viewDidDisappear()
             
             // Adjust visual properties of the window.
-            
-            // HACK: toolbar.allowsUserCustomization = false prevents re-enabling the toolbar
-            // by right clicking on the title bar.
-            // The correct fix would be to set window.toolbar to nil, but because the
-            // toolbar is instantiated from InterfaceBuilder setting the toolbar to nil
-            // also deallocates the toolbar...
-            // Changing the toolbar to be instantiated in code causes the items to
-            // be loaded too late, and it would require basically a rewrite of the
-            // toolbar handling code... :/
-            // TODO: fix toolbar handling code to remove the hack
-            
             var overlapsTitleBar = false
             if newController == gameDocument?.gameViewController {
-                window.toolbar?.isVisible = false
-                window.toolbar?.allowsUserCustomization = false
+                window.toolbar = nil
                 window.titleVisibility = .visible
                 window.titlebarAppearsTransparent = false
                 overlapsTitleBar = false
             }
             else if newController == libraryController {
-                window.toolbar?.isVisible = true
-                if #available(macOS 10.15, *) {
-                    window.toolbar?.allowsUserCustomization = true
-                } else {
-                    // avoids a crash on 10.14.
-                    // TODO: remove when 10.14 support goes away
-                    window.toolbar?.allowsUserCustomization = false
-                }
+                window.toolbar = libraryController.toolbar
                 window.titleVisibility = .hidden
                 window.titlebarAppearsTransparent = false
                 window.styleMask.insert(.closable)
                 overlapsTitleBar = true
             }
             else if newController is OESetupAssistant {
-                window.toolbar?.isVisible = false
-                window.toolbar?.allowsUserCustomization = false
+                window.toolbar = nil
                 window.titleVisibility = .hidden
                 window.titlebarAppearsTransparent = true
                 window.styleMask.remove(.closable)
@@ -176,7 +156,6 @@ final class MainWindowController: NSWindowController {
         _ = libraryController.view
         
         window?.toolbar = libraryController.toolbar
-        window?.toolbar?.centeredItemIdentifier = .oeCategory
         if #available(macOS 11.0, *) {
             window?.toolbarStyle = .unified
             window?.titlebarSeparatorStyle = .line
@@ -534,7 +513,6 @@ extension MainWindowController: NSWindowDelegate {
                 
                 let exitFullScreen = self.shouldExitFullScreenWhenGameFinishes && self.window?.isFullScreen ?? false
                 if exitFullScreen {
-                    self.window?.toolbar?.isVisible = true
                     self.window?.toggleFullScreen(self)
                     self.shouldExitFullScreenWhenGameFinishes = false
                 }

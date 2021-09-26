@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LibraryController" customModule="OpenEmu" customModuleProvider="target">
             <connections>
-                <outlet property="toolbar" destination="386-1H-9HX" id="nDj-TB-Hw2"/>
                 <outlet property="view" destination="616" id="df8-ab-p2v"/>
             </connections>
         </customObject>
@@ -19,18 +18,5 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <point key="canvasLocation" x="-156" y="492"/>
         </customView>
-        <toolbar implicitIdentifier="647CF7A7-A628-4038-A1D8-26746C7CC43D" explicitIdentifier="OELibraryToolbar" prefersToBeShown="NO" displayMode="iconOnly" sizeMode="regular" id="386-1H-9HX" customClass="LibraryToolbar" customModule="OpenEmu" customModuleProvider="target">
-            <allowedToolbarItems/>
-            <defaultToolbarItems/>
-            <connections>
-                <outlet property="delegate" destination="crM-0o-1hP" id="i1v-uw-dTG"/>
-            </connections>
-            <point key="canvasLocation" x="-897.5" y="-78"/>
-        </toolbar>
-        <customObject id="crM-0o-1hP" customClass="LibraryToolbarDelegate" customModule="OpenEmu" customModuleProvider="target">
-            <connections>
-                <outlet property="toolbarOwner" destination="-2" id="FwQ-CN-F6h"/>
-            </connections>
-        </customObject>
     </objects>
 </document>

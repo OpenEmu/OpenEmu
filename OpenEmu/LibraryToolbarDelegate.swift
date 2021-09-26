@@ -36,7 +36,7 @@ public extension NSToolbarItem.Identifier {
 
 final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     
-    @IBOutlet weak var toolbarOwner: AnyObject?
+    weak var toolbarOwner: AnyObject?
     
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         return [.flexibleSpace,
