@@ -230,6 +230,7 @@ extension PrefBiosController: NSTableViewDelegate {
             fileNameField?.toolTip = "MD5: \(md5)"
             
             availabilityIndicator?.image = image
+            availabilityIndicator?.contentTintColor = available ? .systemGreen : .systemOrange
             
             return fileCell
         }
