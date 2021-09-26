@@ -30,7 +30,6 @@
 #import "OEAudioDeviceManager.h"
 #import "NSImageRep+ApplePrivate.h"
 #import "OETableView.h"
-#import "OEHUDBar.h"
 #import "OELogging.h"
 #import "OEDownload.h"
 #import "OEFSWatcher.h"

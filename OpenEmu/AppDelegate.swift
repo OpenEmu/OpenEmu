@@ -143,7 +143,7 @@ class AppDelegate: NSObject {
             OEForcePopoutGameWindowKey: true,
             OEPopoutGameWindowIntegerScalingOnlyKey: true,
             OEAppearancePreferenceKey: OEAppearancePreferenceValue.dark.rawValue,
-            OEHUDBarAppearancePreferenceKey: OEHUDBarAppearancePreferenceValue.dark.rawValue,
+            OEHUDBarAppearancePreferenceKey: OEHUDBarAppearancePreferenceValue.vibrant.rawValue,
             OEControlsPrefsAppearancePreferenceKey: OEControlsPrefsAppearancePreferenceValue.wood.rawValue,
             ])
         

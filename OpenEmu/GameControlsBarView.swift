@@ -25,11 +25,19 @@
 import Cocoa
 
 @objc(OEGameControlsBarView)
-final class GameControlsBarView: NSView, OEHUDBarView {
+final class GameControlsBarView: NSView {
     
     @objc private(set) var slider: NSSlider?
     @objc private(set) var fullScreenButton: NSButton?
     @objc private(set) var pauseButton: NSButton?
+    
+    let barAppearance: OEHUDBarAppearancePreferenceValue = {
+        if UserDefaults.standard.integer(forKey: OEHUDBarAppearancePreferenceKey) == OEHUDBarAppearancePreferenceValue.vibrant.rawValue {
+            return .vibrant
+        } else {
+            return .dark
+        }
+    }()
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -41,13 +49,23 @@ final class GameControlsBarView: NSView, OEHUDBarView {
         wantsLayer = true
         canDrawConcurrently = true
         canDrawSubviewsIntoLayer = true
+        
+        setupControls()
+    }
+    
+    override func draw(_ dirtyRect: NSRect) {
+        if barAppearance == .dark {
+            NSImage(named: "hud_bar")?.draw(in: bounds)
+        } else {
+            super.draw(dirtyRect)
+        }
     }
     
     @objc func stopEmulation(_ sender: Any?) {
         window?.parent?.performClose(self)
     }
     
-    @objc func setupControls() {
+    private func setupControls() {
         
         let stop = HUDBarButton()
         stop.image = NSImage(named: "hud_power")
@@ -173,8 +191,9 @@ final class GameControlsBarView: NSView, OEHUDBarView {
         
         
         // MARK: Y axis
+        let constant: CGFloat = barAppearance == .vibrant ? 0 : -2
         for view in subviews {
-            constraints.append(view.centerYAnchor.constraint(equalTo: centerYAnchor))
+            constraints.append(view.centerYAnchor.constraint(equalTo: centerYAnchor, constant: constant))
         }
         
         NSLayoutConstraint.activate(constraints)

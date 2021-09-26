@@ -478,15 +478,12 @@
 		8F58592F24F4340D009B8502 /* HomebrewOutlinedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */; };
 		8F65E76526F3988500471DC4 /* GridSizeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F65E76426F3988500471DC4 /* GridSizeSlider.swift */; };
 		8F714FD824F85CEA006AF031 /* HUDBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F714FD724F85CEA006AF031 /* HUDBarButton.swift */; };
-		8F762539255C4CAA00A1246D /* HUDButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F762538255C4CAA00A1246D /* HUDButton.swift */; };
 		8F76285E255C835D00A1246D /* PrefControlsController2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F76285D255C835A00A1246D /* PrefControlsController2.xib */; };
 		8F7AE88A2546802A00B837A8 /* InsetScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7AE8892546802A00B837A8 /* InsetScrollView.swift */; };
 		8F7BFC9623E653E100B1F6C8 /* ShaderParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F7BFC9723E653E100B1F6C8 /* ShaderParameters.xib */; };
 		8F80217A24F45E4800DC82E3 /* ControlsScroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217924F45E4800DC82E3 /* ControlsScroller.swift */; };
 		8F80217C24F45E6700DC82E3 /* ControlsPopUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217B24F45E6600DC82E3 /* ControlsPopUpButton.swift */; };
 		8F80217E24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */; };
-		8F80218124F45E9800DC82E3 /* HUDSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217F24F45E9800DC82E3 /* HUDSliderCell.swift */; };
-		8F80218224F45E9800DC82E3 /* HUDSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80218024F45E9800DC82E3 /* HUDSlider.swift */; };
 		8F8BD0EA26D3473400B70BF0 /* PrefControlsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8BD0E926D3473400B70BF0 /* PrefControlsController.swift */; };
 		8F8DB27B26D2A69E003CF106 /* PreferencePane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439B6813B932C5005C0CC8 /* PreferencePane.swift */; };
 		8F94B44D25566FE00058AA94 /* NSShadow+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */; };
@@ -494,7 +491,6 @@
 		8F94DED4250ED838003A1F33 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94DED3250ED838003A1F33 /* PreviewViewController.swift */; };
 		8F957B4225227175008A9BC9 /* GlossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F957B4125227175008A9BC9 /* GlossButton.swift */; };
 		8F99F816256BF358007B83E1 /* SidebarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F99F815256BF358007B83E1 /* SidebarController.xib */; };
-		8FA2379325626C1B00D24E83 /* HUDControlsBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA2379225626C1B00D24E83 /* HUDControlsBarView.swift */; };
 		8FAD320225B31FB100323020 /* URL+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAD320125B31FB000323020 /* URL+OEAdditions.swift */; };
 		8FAF08D8251FB65D00EDB247 /* HoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF069A251FB02700EDB247 /* HoverButton.swift */; };
 		8FB8A29526E296BD00F2B626 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD1F1BD3AC3D0025BC6C /* SidebarItem.swift */; };
@@ -1790,16 +1786,12 @@
 		8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewOutlinedButton.swift; sourceTree = "<group>"; };
 		8F65E76426F3988500471DC4 /* GridSizeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridSizeSlider.swift; sourceTree = "<group>"; };
 		8F714FD724F85CEA006AF031 /* HUDBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDBarButton.swift; sourceTree = "<group>"; };
-		8F762538255C4CAA00A1246D /* HUDButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDButton.swift; sourceTree = "<group>"; };
-		8F7625B0255C53D200A1246D /* OEHUDBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDBar.h; sourceTree = "<group>"; };
 		8F76285D255C835A00A1246D /* PrefControlsController2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefControlsController2.xib; sourceTree = "<group>"; };
 		8F7AE8892546802A00B837A8 /* InsetScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsetScrollView.swift; sourceTree = "<group>"; };
 		8F7BFC9723E653E100B1F6C8 /* ShaderParameters.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaderParameters.xib; sourceTree = "<group>"; };
 		8F80217924F45E4800DC82E3 /* ControlsScroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsScroller.swift; sourceTree = "<group>"; };
 		8F80217B24F45E6600DC82E3 /* ControlsPopUpButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsPopUpButton.swift; sourceTree = "<group>"; };
 		8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsPopUpButtonCell.swift; sourceTree = "<group>"; };
-		8F80217F24F45E9800DC82E3 /* HUDSliderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDSliderCell.swift; sourceTree = "<group>"; };
-		8F80218024F45E9800DC82E3 /* HUDSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDSlider.swift; sourceTree = "<group>"; };
 		8F8BD0E926D3473400B70BF0 /* PrefControlsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefControlsController.swift; sourceTree = "<group>"; };
 		8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSShadow+OEAdditions.swift"; sourceTree = "<group>"; };
 		8F94DEBA250EC701003A1F33 /* OpenEmuQLThumbnail.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OpenEmuQLThumbnail.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1812,7 +1804,6 @@
 		8F94DED9250ED838003A1F33 /* OpenEmuQLPreview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OpenEmuQLPreview.entitlements; sourceTree = "<group>"; };
 		8F957B4125227175008A9BC9 /* GlossButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlossButton.swift; sourceTree = "<group>"; };
 		8F99F815256BF358007B83E1 /* SidebarController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SidebarController.xib; sourceTree = "<group>"; };
-		8FA2379225626C1B00D24E83 /* HUDControlsBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDControlsBarView.swift; sourceTree = "<group>"; };
 		8FAD320125B31FB000323020 /* URL+OEAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+OEAdditions.swift"; sourceTree = "<group>"; };
 		8FAF069A251FB02700EDB247 /* HoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverButton.swift; sourceTree = "<group>"; };
 		8FBAE647254BA0DF00446C3B /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OEControls.strings; sourceTree = "<group>"; };
@@ -3702,15 +3693,10 @@
 		8FA8B34F26DDC4650037C8D0 /* HUD Bar */ = {
 			isa = PBXGroup;
 			children = (
-				8F7625B0255C53D200A1246D /* OEHUDBar.h */,
 				53439B7813B933B8005C0CC8 /* OEGameControlsBar.h */,
 				53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */,
 				8F4A69722547F84500DFE092 /* GameControlsBarView.swift */,
-				8FA2379225626C1B00D24E83 /* HUDControlsBarView.swift */,
 				8F714FD724F85CEA006AF031 /* HUDBarButton.swift */,
-				8F762538255C4CAA00A1246D /* HUDButton.swift */,
-				8F80218024F45E9800DC82E3 /* HUDSlider.swift */,
-				8F80217F24F45E9800DC82E3 /* HUDSliderCell.swift */,
 			);
 			name = "HUD Bar";
 			sourceTree = "<group>";
@@ -6746,7 +6732,6 @@
 				8F58592F24F4340D009B8502 /* HomebrewOutlinedButton.swift in Sources */,
 				5A9606D21C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift in Sources */,
 				5AFD06BD2058893B00DFE765 /* GameScannerViewController.swift in Sources */,
-				8F762539255C4CAA00A1246D /* HUDButton.swift in Sources */,
 				8370D3E11A8D2A7600313F87 /* ArrowCursorTextView.swift in Sources */,
 				53439B0713B92EEC005C0CC8 /* OEGridViewFieldEditor.m in Sources */,
 				83F444FD196CA24B007E8C63 /* HomebrewViewController.swift in Sources */,
@@ -6799,7 +6784,6 @@
 				EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.swift in Sources */,
 				EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */,
 				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,
-				8F80218224F45E9800DC82E3 /* HUDSlider.swift in Sources */,
 				83BC345E1516456000F05A2B /* OEAlert+Additions.swift in Sources */,
 				C68A54E61516AD3C001053F2 /* OEDatabase.xcdatamodeld in Sources */,
 				8F4198B025B68B7500A7F0BE /* OELibraryDatabase+Maintenance.m in Sources */,
@@ -6843,10 +6827,8 @@
 				8F419A3C25B6C81600A7F0BE /* PrefDebugController.swift in Sources */,
 				5A6C157C1DC96C3700839986 /* OEMediaViewController+TouchBar.swift in Sources */,
 				5AC349331D89EB7B0089B26F /* GameIntegralScalingDelegate.swift in Sources */,
-				8F80218124F45E9800DC82E3 /* HUDSliderCell.swift in Sources */,
 				0544B6AA23D16DDC00F63D61 /* SaveStateViewController.swift in Sources */,
 				8FEC1BA024F7D37700DBBF72 /* TextButton.swift in Sources */,
-				8FA2379325626C1B00D24E83 /* HUDControlsBarView.swift in Sources */,
 				83CB0C7A1A3F000700409FB2 /* BlankSlateSpinnerView.swift in Sources */,
 				5A6E80A71DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift in Sources */,
 				14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */,

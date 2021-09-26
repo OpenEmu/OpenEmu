@@ -33,7 +33,6 @@
 #import "OEPopoutGameWindowController.h"
 
 #import "OEDBSaveState.h"
-#import "OEHUDBar.h"
 
 #import "OEAudioDeviceManager.h"
 
@@ -56,7 +55,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 @property          BOOL cheatsLoaded;
 
 @property (unsafe_unretained) OEGameViewController *gameViewController;
-@property (strong) NSView<OEHUDBarView> *controlsView;
+@property (strong) OEGameControlsBarView *controlsView;
 @property (strong, nonatomic) NSDate *lastMouseMovement;
 @end
 
@@ -124,15 +123,15 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             self.alphaValue = 0.0;
         }
         
-        NSView<OEHUDBarView> *barView;
-        
+        NSRect barRect;
         if(useNew)
-            barView = [[OEGameControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 442, 42)];
+            barRect = NSMakeRect(0, 0, 442, 42);
         else
-            barView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 481, 45)];
+            barRect = NSMakeRect(0, 0, 442, 45);
+        
+        OEGameControlsBarView *barView = [[OEGameControlsBarView alloc] initWithFrame:barRect];
         
         [self.contentView addSubview:barView];
-        [barView setupControls];
         
         __weak __auto_type weakSelf = self;
         _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskMouseMoved handler:^NSEvent*(NSEvent* e)
@@ -782,7 +781,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)reflectVolume:(CGFloat)volume
 {
-    NSView<OEHUDBarView> *view   = self.contentView.subviews.lastObject;
+    OEGameControlsBarView *view   = self.contentView.subviews.lastObject;
     NSSlider             *slider = view.slider;
 
     [slider animator].doubleValue = volume;
@@ -790,7 +789,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)reflectEmulationRunning:(BOOL)isEmulationRunning
 {
-    NSView<OEHUDBarView> *view        = self.contentView.subviews.lastObject;
+    OEGameControlsBarView *view        = self.contentView.subviews.lastObject;
     NSButton             *pauseButton = view.pauseButton;
     pauseButton.state = !isEmulationRunning;
 
@@ -805,14 +804,14 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)gameWindowDidEnterFullScreen:(NSNotification *)notification;
 {
-    NSView<OEHUDBarView> *view = self.contentView.subviews.lastObject;
+    OEGameControlsBarView *view = self.contentView.subviews.lastObject;
     view.fullScreenButton.state = NSControlStateValueOn;
     [self _performMouseMoved:nil];  // Show HUD because fullscreen animation makes the cursor appear
 }
 
 - (void)gameWindowWillExitFullScreen:(NSNotification *)notification;
 {
-    NSView<OEHUDBarView> *view = self.contentView.subviews.lastObject;
+    OEGameControlsBarView *view = self.contentView.subviews.lastObject;
     view.fullScreenButton.state = NSControlStateValueOff;
 }
 
@@ -850,7 +849,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [nc addObserver:self selector:@selector(gameWindowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:gameWindow];
         [nc addObserver:self selector:@selector(gameWindowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:gameWindow];
 
-        NSView<OEHUDBarView> *view = self.contentView.subviews.lastObject;
+        OEGameControlsBarView *view = self.contentView.subviews.lastObject;
         view.fullScreenButton.state = gameWindow.isFullScreen ? NSControlStateValueOn : NSControlStateValueOff;
     }
 }
