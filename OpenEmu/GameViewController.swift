@@ -229,13 +229,8 @@ final class GameViewController: NSViewController {
     
     // MARK: - OEGameCoreOwner Methods
     
-    var remoteContextID: CAContextID {
-        set {
-            gameView.remoteContextID = newValue
-        }
-        get {
-            return gameView.remoteContextID
-        }
+    func setRemoteContextID(_ contextID: OEContextID) {
+        gameView.remoteContextID = contextID
     }
     
     func setScreenSize(_ newScreenSize: OEIntSize, aspectSize newAspectSize: OEIntSize) {

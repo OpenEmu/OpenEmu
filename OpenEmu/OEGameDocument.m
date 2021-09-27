@@ -2099,7 +2099,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     [_gameViewController setDisplayModes:displayModes];
 }
 
-- (void)setRemoteContextID:(NSUInteger)contextID
+- (void)setRemoteContextID:(OEContextID)contextID
 {
     [_gameViewController setRemoteContextID:contextID];
 }
