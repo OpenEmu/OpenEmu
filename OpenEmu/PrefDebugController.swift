@@ -36,7 +36,7 @@ final class PrefDebugController: NSViewController {
     private static let keyDescriptions: [Any] = [
         Group(label: "General"),
         Checkbox(key: PreferencesWindowController.debugModeKey, label: "Debug Mode"),
-        Checkbox(key: OESetupAssistantHasFinishedKey, label: "Setup Assistant has finished"),
+        Checkbox(key: SetupAssistant.hasFinishedKey, label: "Setup Assistant has finished"),
         Popover(key: OERegionKey, label: "Region:", action: #selector(changeRegion(_:)), options: [
             Option(label: "Auto (region)", value: -1),
             Option(label: "North America", value: 0),

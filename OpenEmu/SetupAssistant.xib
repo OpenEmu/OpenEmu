@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="OESetupAssistant">
+        <customObject id="-2" userLabel="File's Owner" customClass="SetupAssistant" customModule="OpenEmu" customModuleProvider="target">
             <connections>
                 <outlet property="coreListDownloadProgress" destination="PNc-hQ-xPv" id="geG-0t-iZl"/>
                 <outlet property="coreListDownloadView" destination="7Ca-z2-XWe" id="Bcb-GD-7mW"/>
@@ -136,13 +136,10 @@
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button_blue"/>
-                                <userDefinedRuntimeAttribute type="number" keyPath="OEFSMEventNumber">
-                                    <integer key="value" value="2"/>
-                                </userDefinedRuntimeAttribute>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                             </userDefinedRuntimeAttributes>
                             <connections>
-                                <action selector="processFSMButtonAction:" target="-2" id="580"/>
+                                <action selector="nextEvent:" target="-2" id="UE6-nW-434"/>
                             </connections>
                         </button>
                     </subviews>
@@ -178,13 +175,10 @@
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button"/>
-                                <userDefinedRuntimeAttribute type="number" keyPath="OEFSMEventNumber">
-                                    <integer key="value" value="1"/>
-                                </userDefinedRuntimeAttribute>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                             </userDefinedRuntimeAttributes>
                             <connections>
-                                <action selector="processFSMButtonAction:" target="-2" id="582"/>
+                                <action selector="backEvent:" target="-2" id="MA8-F9-Izg"/>
                             </connections>
                         </button>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="239" customClass="BackgroundImageView" customModule="OpenEmu" customModuleProvider="target">
@@ -317,13 +311,10 @@
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button_blue"/>
-                                <userDefinedRuntimeAttribute type="number" keyPath="OEFSMEventNumber">
-                                    <integer key="value" value="2"/>
-                                </userDefinedRuntimeAttribute>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                             </userDefinedRuntimeAttributes>
                             <connections>
-                                <action selector="processFSMButtonAction:" target="-2" id="581"/>
+                                <action selector="nextEvent:" target="-2" id="C4D-2e-O6q"/>
                             </connections>
                         </button>
                     </subviews>
@@ -412,13 +403,10 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button_green"/>
-                                <userDefinedRuntimeAttribute type="number" keyPath="OEFSMEventNumber">
-                                    <integer key="value" value="2"/>
-                                </userDefinedRuntimeAttribute>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                             </userDefinedRuntimeAttributes>
                             <connections>
-                                <action selector="processFSMButtonAction:" target="-2" id="587"/>
+                                <action selector="nextEvent:" target="-2" id="gHq-GH-thV"/>
                             </connections>
                         </button>
                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="412" customClass="GlossButton" customModule="OpenEmu" customModuleProvider="target">
@@ -430,13 +418,10 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button"/>
-                                <userDefinedRuntimeAttribute type="number" keyPath="OEFSMEventNumber">
-                                    <integer key="value" value="1"/>
-                                </userDefinedRuntimeAttribute>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                             </userDefinedRuntimeAttributes>
                             <connections>
-                                <action selector="processFSMButtonAction:" target="-2" id="586"/>
+                                <action selector="backEvent:" target="-2" id="DmF-60-UR2"/>
                             </connections>
                         </button>
                     </subviews>

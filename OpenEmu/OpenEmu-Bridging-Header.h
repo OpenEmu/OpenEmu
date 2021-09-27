@@ -23,7 +23,6 @@
 #import "OEROMImporter.h"
 #import "OEVersionMigrationController.h"
 #import "OECoreUpdater.h"
-#import "OESetupAssistant.h"
 #import "OEAlert.h"
 #import "NSDocument+OEAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
@@ -35,3 +34,4 @@
 #import "OEFSWatcher.h"
 #import "OEAppearance.h"
 #import "OESetupAssistantQCOpenGLLayer.h"
+#import "OEFiniteStateMachine.h"

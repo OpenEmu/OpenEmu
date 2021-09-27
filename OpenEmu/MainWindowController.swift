@@ -82,7 +82,7 @@ final class MainWindowController: NSWindowController {
                 window.styleMask.insert(.closable)
                 overlapsTitleBar = true
             }
-            else if newController is OESetupAssistant {
+            else if newController is SetupAssistant {
                 window.toolbar = nil
                 window.titleVisibility = .hidden
                 window.titlebarAppearsTransparent = true
@@ -172,8 +172,8 @@ final class MainWindowController: NSWindowController {
     }
     
     private func setUpCurrentContentController() {
-        if !UserDefaults.standard.bool(forKey: OESetupAssistantHasFinishedKey) {
-            let setupAssistant = OESetupAssistant()
+        if !UserDefaults.standard.bool(forKey: SetupAssistant.hasFinishedKey) {
+            let setupAssistant = SetupAssistant()
             setupAssistant.completionBlock = {
                 self.currentContentController = self.libraryController
                 

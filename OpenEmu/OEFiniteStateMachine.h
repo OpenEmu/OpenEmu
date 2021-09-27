@@ -26,8 +26,17 @@
 
 @import Foundation;
 
-typedef NSUInteger OEFSMStateLabel;
-typedef NSUInteger OEFSMEventLabel;
+typedef NS_ENUM(NSUInteger, OEFSMStateLabel) {
+    OEFSMVideoIntroState,
+    OEFSMWelcomeState,
+    OEFSMCoreSelectionState,
+    OEFSMLastScreenState,
+    OEFSMEndState,
+};
+typedef NS_ENUM(NSUInteger, OEFSMEventLabel) {
+    OEFSMBackEvent                 = 1,
+    OEFSMNextEvent                 = 2,
+};
 
 @interface OEFiniteStateMachine : NSObject
 

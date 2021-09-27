@@ -900,7 +900,7 @@ extension AppDelegate: NSMenuDelegate {
     
     func application(_ sender: NSApplication, openFiles filenames: [String]) {
         
-        guard UserDefaults.standard.bool(forKey: OESetupAssistantHasFinishedKey) else {
+        guard UserDefaults.standard.bool(forKey: SetupAssistant.hasFinishedKey) else {
             NSApp.reply(toOpenOrPrint: .cancel)
             return
         }
