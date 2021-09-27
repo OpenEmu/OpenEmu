@@ -32,7 +32,7 @@ extern NSString *const OEGameControlsBarFadeOutDelayKey;
 extern NSString *const OEGameControlsBarShowsAudioOutput;
 
 @class OEGameViewController;
-@interface OEGameControlsBar : NSWindow <NSMenuDelegate>
+@interface OEGameControlsBar : NSWindow
 
 - (id)initWithGameViewController:(OEGameViewController*)controller;
 
@@ -43,10 +43,9 @@ extern NSString *const OEGameControlsBarShowsAudioOutput;
 
 - (void)repositionOnGameWindow;
 
-- (void)showOptionsMenu:(id)sender;
-- (void)showSaveMenu:(id)sender;
+@property(readonly) NSMenu *optionsMenu;
+@property(readonly) NSMenu *saveMenu;
 
-@property(nonatomic) CGFloat volume;
 @property(readwrite) BOOL canShow;
 
 #pragma mark - Updating UI States

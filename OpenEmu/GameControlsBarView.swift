@@ -27,13 +27,11 @@ import Cocoa
 @objc(OEGameControlsBarView)
 final class GameControlsBarView: NSView {
     
-    @objc private(set) var slider: NSSlider?
-    @objc private(set) var fullScreenButton: NSButton?
-    @objc private(set) var pauseButton: NSButton?
-    private var savesButton: NSButton?
-    private var optionsButton: NSButton?
+    private var slider: NSSlider!
+    private var fullScreenButton: NSButton!
+    private var pauseButton: NSButton!
     
-    let barAppearance: OEHUDBarAppearancePreferenceValue = {
+    private let barAppearance: OEHUDBarAppearancePreferenceValue = {
         if UserDefaults.standard.integer(forKey: OEHUDBarAppearancePreferenceKey) == OEHUDBarAppearancePreferenceValue.vibrant.rawValue {
             return .vibrant
         } else {
@@ -61,15 +59,6 @@ final class GameControlsBarView: NSView {
         } else {
             super.draw(dirtyRect)
         }
-    }
-    
-    @objc func stopEmulation(_ sender: Any?) {
-        window?.parent?.performClose(self)
-    }
-    
-    override func viewWillMove(toWindow newWindow: NSWindow?) {
-        savesButton?.target = newWindow
-        optionsButton?.target = newWindow
     }
     
     private func setupControls() {
@@ -102,20 +91,18 @@ final class GameControlsBarView: NSView {
         
         let saves = HUDBarButton()
         saves.image = NSImage(named: "hud_save")
-        saves.target = window
-        saves.action = #selector(OEGameControlsBar.showSaveMenu(_:))
+        saves.target = self
+        saves.action = #selector(showSaveMenu(_:))
         saves.toolTip = NSLocalizedString("Create or Load Save State", comment: "HUD bar, tooltip")
         addSubview(saves)
-        savesButton = saves
         
         
         let options = HUDBarButton()
         options.image = NSImage(named: "hud_options")
-        options.target = window
-        options.action = #selector(OEGameControlsBar.showOptionsMenu(_:))
+        options.target = self
+        options.action = #selector(showOptionsMenu(_:))
         options.toolTip = NSLocalizedString("Options", comment: "HUD bar, tooltip")
         addSubview(options)
-        optionsButton = options
         
         
         let volumeDown = HUDBarButton()
@@ -206,5 +193,55 @@ final class GameControlsBarView: NSView {
         }
         
         NSLayoutConstraint.activate(constraints)
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func stopEmulation(_ sender: Any?) {
+        window?.parent?.performClose(self)
+    }
+    
+    @objc private func showSaveMenu(_ sender: NSButton) {
+        if let menu = (window as? OEGameControlsBar)?.saveMenu {
+            let targetRect = sender.bounds.insetBy(dx: -2, dy: 1)
+            let menuPosition = NSPoint(x: targetRect.minX, y: targetRect.maxY)
+            menu.popUp(positioning: nil, at: menuPosition, in: sender)
+        }
+    }
+    
+    @objc private func showOptionsMenu(_ sender: NSButton) {
+        if let menu = (window as? OEGameControlsBar)?.optionsMenu {
+            let targetRect = sender.bounds.insetBy(dx: -2, dy: 1)
+            let menuPosition = NSPoint(x: targetRect.minX, y: targetRect.maxY)
+            menu.popUp(positioning: nil, at: menuPosition, in: sender)
+        }
+    }
+}
+
+@objc
+extension GameControlsBarView {
+    
+    // MARK: - UI State
+    
+    func reflectEmulationPaused(_ isPaused: Bool) {
+        if isPaused {
+            pauseButton.state = .on
+            pauseButton.toolTip = NSLocalizedString("Resume Game", comment: "HUD bar, tooltip")
+        } else {
+            pauseButton.state = .off
+            pauseButton.toolTip = NSLocalizedString("Pause Game", comment: "HUD bar, tooltip")
+        }
+    }
+    
+    func reflectFullScreen(_ isFullScreen: Bool) {
+        if isFullScreen {
+            fullScreenButton.state = .on
+        } else {
+            fullScreenButton.state = .off
+        }
+    }
+    
+    func reflectVolume(_ volume: Float) {
+        slider.animator().floatValue = volume
     }
 }

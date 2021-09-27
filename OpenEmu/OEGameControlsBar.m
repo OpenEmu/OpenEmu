@@ -51,7 +51,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 @property (strong) id eventMonitor;
 @property (strong) NSTimer *fadeTimer;
 @property (strong) NSMutableArray *cheats;
-@property          NSMutableSet *openMenus;
 @property          BOOL cheatsLoaded;
 
 @property (unsafe_unretained) OEGameViewController *gameViewController;
@@ -146,7 +145,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                                  [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:e waitUntilDone:NO];
                              return e;
                          }];
-        _openMenus = [NSMutableSet set];
         _controlsView = barView;
 
         [NSCursor setHiddenUntilMouseMoves:YES];
@@ -287,7 +285,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (BOOL)canFadeOut
 {
-    return _openMenus.count==0 && !NSPointInRect(self.mouseLocationOutsideOfEventStream, [self bounds]);
+    return !NSPointInRect(self.mouseLocationOutsideOfEventStream, [self bounds]);
 }
 
 - (void)repositionOnGameWindow
@@ -367,7 +365,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 }
 
 #pragma mark - Menus
-- (void)showOptionsMenu:(id)sender
+- (NSMenu *)optionsMenu
 {
     NSMenu *menu = [NSMenu new];
 
@@ -658,22 +656,16 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         }
     }
 
-    menu.delegate = self;
-
-    // Display menu.
-    NSRect targetRect = NSInsetRect([sender bounds], -2.0, 1.0);
-    NSPoint menuPosition = NSMakePoint(NSMinX(targetRect), NSMaxY(targetRect));
-    [menu popUpMenuPositioningItem:nil atLocation:menuPosition inView:sender];
+    return menu;
 }
 
-- (void)showSaveMenu:(id)sender
+- (NSMenu *)saveMenu
 {
     NSMenu *menu = [NSMenu new];
     menu.autoenablesItems = NO;
 
     NSMenuItem *newSaveItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game…", @"") action:@selector(saveState:) keyEquivalent:@""];
     newSaveItem.enabled = self.gameViewController.supportsSaveStates;
-    menu.delegate = self;
     [menu addItem:newSaveItem];
 
     OEDBRom *rom = self.gameViewController.document.rom;
@@ -754,49 +746,19 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         }
     }
 
-    // Display menu.
-    NSRect targetRect = NSInsetRect([sender bounds], -2.0, 1.0);
-    NSPoint menuPosition = NSMakePoint(NSMinX(targetRect), NSMaxY(targetRect));
-    [menu popUpMenuPositioningItem:nil atLocation:menuPosition inView:sender];
-}
-
-#pragma mark - OEMenuDelegate Implementation
-- (void)menuWillOpen:(NSMenu *)menu
-{
-    [_openMenus addObject:menu];
-}
-
-- (void)menuDidClose:(NSMenu *)menu
-{
-    [_openMenus removeObject:menu];
-}
-
-- (void)setVolume:(CGFloat)value
-{
-    _volume = value;
-    [self reflectVolume:value];
+    return menu;
 }
 
 #pragma mark - Updating UI States
 
 - (void)reflectVolume:(CGFloat)volume
 {
-    OEGameControlsBarView *view   = self.contentView.subviews.lastObject;
-    NSSlider             *slider = view.slider;
-
-    [slider animator].doubleValue = volume;
+    [self.controlsView reflectVolume:volume];
 }
 
 - (void)reflectEmulationRunning:(BOOL)isEmulationRunning
 {
-    OEGameControlsBarView *view        = self.contentView.subviews.lastObject;
-    NSButton             *pauseButton = view.pauseButton;
-    pauseButton.state = !isEmulationRunning;
-
-    if(isEmulationRunning)
-        pauseButton.toolTip = NSLocalizedString(@"Pause Game", @"HUD bar tooltip");
-    else
-        pauseButton.toolTip = NSLocalizedString(@"Resume Game", @"HUD bar tooltip");
+    [self.controlsView reflectEmulationPaused:!isEmulationRunning];
 
     if(isEmulationRunning && !_cheatsLoaded)
         [self OE_loadCheats];
@@ -804,15 +766,13 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)gameWindowDidEnterFullScreen:(NSNotification *)notification;
 {
-    OEGameControlsBarView *view = self.contentView.subviews.lastObject;
-    view.fullScreenButton.state = NSControlStateValueOn;
+    [self.controlsView reflectFullScreen:YES];
     [self _performMouseMoved:nil];  // Show HUD because fullscreen animation makes the cursor appear
 }
 
 - (void)gameWindowWillExitFullScreen:(NSNotification *)notification;
 {
-    OEGameControlsBarView *view = self.contentView.subviews.lastObject;
-    view.fullScreenButton.state = NSControlStateValueOff;
+    [self.controlsView reflectFullScreen:NO];
 }
 
 - (void)setGameWindow:(NSWindow *)gameWindow
@@ -834,13 +794,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [gameWindow addChildWindow:self ordered:NSWindowAbove];
     }
 
-    // if there is no new window we should close all menus
-    if(gameWindow == nil)
-    {
-        id openOEMenus = [_openMenus valueForKey:@"oeMenu"];
-        [openOEMenus makeObjectsPerformSelector:@selector(cancelTrackingWithoutAnimation)];
-    }
-
     _gameWindow = gameWindow;
 
     // register notifications and update state of the fullscreen button
@@ -849,8 +802,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [nc addObserver:self selector:@selector(gameWindowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:gameWindow];
         [nc addObserver:self selector:@selector(gameWindowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:gameWindow];
 
-        OEGameControlsBarView *view = self.contentView.subviews.lastObject;
-        view.fullScreenButton.state = gameWindow.isFullScreen ? NSControlStateValueOn : NSControlStateValueOff;
+        [self.controlsView reflectFullScreen:gameWindow.isFullScreen];
     }
 }
 
