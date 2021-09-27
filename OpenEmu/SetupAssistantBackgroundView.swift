@@ -37,7 +37,7 @@ final class SetupAssistantBackgroundView: NSView {
     }
     
     private func commonInit() {
-        let backgroundAnimation = OESetupAssistantQCOpenGLLayer()
+        let backgroundAnimation = SetupAssistantQCOpenGLLayer()
         backgroundAnimation.frame = bounds
         backgroundAnimation.autoresizingMask = [.layerWidthSizable, .layerHeightSizable]
         backgroundAnimation.isAsynchronous = true
@@ -50,6 +50,6 @@ final class SetupAssistantBackgroundView: NSView {
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
         
-        (layer as? OESetupAssistantQCOpenGLLayer)?.containingWindow = window
+        (layer as? SetupAssistantQCOpenGLLayer)?.containingWindow = window
     }
 }

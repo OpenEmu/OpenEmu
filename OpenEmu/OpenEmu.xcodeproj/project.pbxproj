@@ -234,7 +234,7 @@
 		14F8750D1649377E002AE3B8 /* OEFiniteStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F8750C1649377E002AE3B8 /* OEFiniteStateMachine.m */; };
 		1B32151514DDD49E00C5B50A /* OpenEmu.dae in Resources */ = {isa = PBXBuildFile; fileRef = 1B32151214DDD06500C5B50A /* OpenEmu.dae */; };
 		1B32151614DDD49E00C5B50A /* OpenEmuText.dae in Resources */ = {isa = PBXBuildFile; fileRef = 1B32151314DDD06500C5B50A /* OpenEmuText.dae */; };
-		1B6DA4A914DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */; };
+		1B6DA4A914DDE6A40067F7F6 /* SetupAssistantQCOpenGLLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DA4A814DDE6A40067F7F6 /* SetupAssistantQCOpenGLLayer.swift */; };
 		1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */; };
 		1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */; };
 		277CBA3719DE54200059A2C1 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
@@ -1438,8 +1438,7 @@
 		1B32151214DDD06500C5B50A /* OpenEmu.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OpenEmu.dae; path = "Setup Assistant Resources/OpenEmu.dae"; sourceTree = "<group>"; };
 		1B32151314DDD06500C5B50A /* OpenEmuText.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OpenEmuText.dae; path = "Setup Assistant Resources/OpenEmuText.dae"; sourceTree = "<group>"; };
 		1B47F104142F01E700EBC55B /* SetupAssistant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupAssistant.swift; sourceTree = "<group>"; };
-		1B6DA4A714DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantQCOpenGLLayer.h; sourceTree = "<group>"; };
-		1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantQCOpenGLLayer.m; sourceTree = "<group>"; };
+		1B6DA4A814DDE6A40067F7F6 /* SetupAssistantQCOpenGLLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupAssistantQCOpenGLLayer.swift; sourceTree = "<group>"; };
 		1BEF2A9411682A530090F72B /* OpenEmuHelperApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenEmuHelperApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E2F3DB910DEAB4C0019AA84 /* OEVersionMigrationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVersionMigrationController.h; sourceTree = "<group>"; };
 		1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVersionMigrationController.m; sourceTree = "<group>"; };
@@ -2952,8 +2951,7 @@
 		1B71CAB714DF77CE00513A46 /* Helper Classes */ = {
 			isa = PBXGroup;
 			children = (
-				1B6DA4A714DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.h */,
-				1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */,
+				1B6DA4A814DDE6A40067F7F6 /* SetupAssistantQCOpenGLLayer.swift */,
 				14F8750B1649377E002AE3B8 /* OEFiniteStateMachine.h */,
 				14F8750C1649377E002AE3B8 /* OEFiniteStateMachine.m */,
 			);
@@ -6773,7 +6771,7 @@
 				83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */,
 				EF2FDBEB14CFFE06002A64F2 /* ControlsKeyButton.swift in Sources */,
 				EF2FDBED14CFFE1B002A64F2 /* ControlsKeySeparatorView.swift in Sources */,
-				1B6DA4A914DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m in Sources */,
+				1B6DA4A914DDE6A40067F7F6 /* SetupAssistantQCOpenGLLayer.swift in Sources */,
 				83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */,
 				5A2CE89A206EA61B00790F89 /* NSArray+OEAdditions.m in Sources */,
 				83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */,
