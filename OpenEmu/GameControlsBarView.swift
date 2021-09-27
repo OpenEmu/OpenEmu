@@ -30,6 +30,8 @@ final class GameControlsBarView: NSView {
     @objc private(set) var slider: NSSlider?
     @objc private(set) var fullScreenButton: NSButton?
     @objc private(set) var pauseButton: NSButton?
+    private var savesButton: NSButton?
+    private var optionsButton: NSButton?
     
     let barAppearance: OEHUDBarAppearancePreferenceValue = {
         if UserDefaults.standard.integer(forKey: OEHUDBarAppearancePreferenceKey) == OEHUDBarAppearancePreferenceValue.vibrant.rawValue {
@@ -63,6 +65,11 @@ final class GameControlsBarView: NSView {
     
     @objc func stopEmulation(_ sender: Any?) {
         window?.parent?.performClose(self)
+    }
+    
+    override func viewWillMove(toWindow newWindow: NSWindow?) {
+        savesButton?.target = newWindow
+        optionsButton?.target = newWindow
     }
     
     private func setupControls() {
@@ -99,6 +106,7 @@ final class GameControlsBarView: NSView {
         saves.action = #selector(OEGameControlsBar.showSaveMenu(_:))
         saves.toolTip = NSLocalizedString("Create or Load Save State", comment: "HUD bar, tooltip")
         addSubview(saves)
+        savesButton = saves
         
         
         let options = HUDBarButton()
@@ -107,6 +115,7 @@ final class GameControlsBarView: NSView {
         options.action = #selector(OEGameControlsBar.showOptionsMenu(_:))
         options.toolTip = NSLocalizedString("Options", comment: "HUD bar, tooltip")
         addSubview(options)
+        optionsButton = options
         
         
         let volumeDown = HUDBarButton()
