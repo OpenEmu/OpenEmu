@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="ShaderParametersViewController" customModule="OpenEmu" customModuleProvider="target">
             <connections>
                 <outlet property="outlineView" destination="N0M-kh-BHs" id="jhU-sB-6fO"/>
-                <outlet property="shaderListPopUpButton" destination="vxM-9B-cWi" id="iHr-Fn-f76"/>
+                <outlet property="shaderListPopUpButton" destination="u66-9B-Dkw" id="aNo-kS-ffG"/>
                 <outlet property="view" destination="GVp-fv-v3P" id="Ok9-AX-xnu"/>
             </connections>
         </customObject>
@@ -78,32 +78,13 @@
                         <action selector="resetAll:" target="-2" id="gsr-rV-97K"/>
                     </connections>
                 </button>
-                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vxM-9B-cWi">
-                    <rect key="frame" x="17" y="8" width="76" height="26"/>
-                    <constraints>
-                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="120" id="4nf-IB-Yoz"/>
-                    </constraints>
-                    <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="iWu-c1-IGh" id="qRA-6m-deS">
-                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="menu"/>
-                        <menu key="menu" id="Oub-WA-Sk6">
-                            <items>
-                                <menuItem title="Item 1" state="on" id="iWu-c1-IGh"/>
-                            </items>
-                        </menu>
-                    </popUpButtonCell>
-                </popUpButton>
             </subviews>
             <constraints>
                 <constraint firstItem="SCi-6S-Y7J" firstAttribute="leading" secondItem="GVp-fv-v3P" secondAttribute="leading" constant="14" id="2hc-pE-Rn1"/>
-                <constraint firstItem="vxM-9B-cWi" firstAttribute="leading" secondItem="GVp-fv-v3P" secondAttribute="leading" constant="20" id="EUv-8d-fJK"/>
                 <constraint firstAttribute="trailing" secondItem="xM9-YK-ttg" secondAttribute="trailing" id="JTU-66-cRj"/>
                 <constraint firstAttribute="trailing" secondItem="VhF-3a-dpM" secondAttribute="trailing" constant="20" id="KHd-ps-O0h"/>
-                <constraint firstItem="VhF-3a-dpM" firstAttribute="height" secondItem="vxM-9B-cWi" secondAttribute="height" id="MTV-1p-r6i"/>
-                <constraint firstItem="VhF-3a-dpM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vxM-9B-cWi" secondAttribute="trailing" constant="20" id="N7h-fu-QAe"/>
                 <constraint firstAttribute="trailing" secondItem="SCi-6S-Y7J" secondAttribute="trailing" constant="14" id="d0G-a3-H6T"/>
                 <constraint firstItem="VhF-3a-dpM" firstAttribute="top" secondItem="SCi-6S-Y7J" secondAttribute="bottom" constant="12" id="fnH-pg-3k3"/>
-                <constraint firstAttribute="bottom" secondItem="vxM-9B-cWi" secondAttribute="bottom" constant="12" id="iUD-g6-jhv"/>
                 <constraint firstItem="xM9-YK-ttg" firstAttribute="leading" secondItem="GVp-fv-v3P" secondAttribute="leading" id="iyC-bG-FJ3"/>
                 <constraint firstAttribute="bottom" secondItem="VhF-3a-dpM" secondAttribute="bottom" constant="12" id="oPv-GB-2Gd"/>
                 <constraint firstItem="xM9-YK-ttg" firstAttribute="top" secondItem="GVp-fv-v3P" secondAttribute="top" id="tr7-Dh-Am6"/>
@@ -111,5 +92,21 @@
             </constraints>
             <point key="canvasLocation" x="12" y="-237"/>
         </view>
+        <popUpButton id="u66-9B-Dkw">
+            <rect key="frame" x="0.0" y="0.0" width="58" height="16"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <popUpButtonCell key="cell" type="bevel" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" selectedItem="LES-pU-IcW" id="zAe-B9-blO">
+                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                <font key="font" metaFont="menu"/>
+                <menu key="menu" id="I9o-ZJ-HPq">
+                    <items>
+                        <menuItem title="Item 1" state="on" id="LES-pU-IcW"/>
+                        <menuItem title="Item 2" id="9zq-7y-inm"/>
+                        <menuItem title="Item 3" id="QBn-NS-oto"/>
+                    </items>
+                </menu>
+            </popUpButtonCell>
+            <point key="canvasLocation" x="-126" y="-469"/>
+        </popUpButton>
     </objects>
 </document>

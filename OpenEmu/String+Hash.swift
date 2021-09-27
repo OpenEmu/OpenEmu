@@ -23,37 +23,50 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Foundation
-import OpenEmuKit
+import CommonCrypto
 
-@objc
-public class ShaderControl: NSObject {
-    let helper: OEGameCoreHelper
-    @objc public let systemIdentifier: String
-
-    @objc public dynamic var shader: OEShaderModel?
-    
-    @objc public init(systemIdentifier: String, helper: OEGameCoreHelper) {
-        self.systemIdentifier = systemIdentifier
-        self.helper = helper
-    }
-    
-    public func set(value: CGFloat, forParameter name: String) {
-        helper.setShaderParameterValue(value, forKey: name)
-    }
-    
-    public func changeChander(_ shader: OEShaderModel) {
-        let params = shader.parameters(forIdentifier: systemIdentifier)
-        
-        helper.setShaderURL(shader.url, parameters: params as [String: NSNumber]?) { success, error in
-            if success {
-                self.shader = shader
+enum Crypto {
+    struct MD5 {
+        static func digest<T: StringProtocol>(string: T) -> String {
+            var digest = [UInt8](repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
+            string.withFastUTF8IfAvailable {
+                _ = CC_MD5($0.baseAddress, CC_LONG($0.count), &digest)
             }
-            else if let error = error {
-                let alert = NSAlert(error: error)
-                alert.runModal()
+            var res = ""
+            for byte in digest {
+                res.append(String(format:"%02x", UInt8(byte)))
             }
+            return res
         }
-        
-        OEShadersModel.shared.setShaderName(shader.name, forSystem: systemIdentifier)
+    }
+    
+    struct SHA256 {
+        static func digest<T: StringProtocol>(string: T) -> String {
+            var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+            string.withFastUTF8IfAvailable {
+                _ = CC_SHA256($0.baseAddress, CC_LONG($0.count), &digest)
+            }
+            var res = ""
+            for byte in digest {
+                res.append(String(format:"%02x", UInt8(byte)))
+            }
+            return res
+        }
+    }
+}
+
+fileprivate extension StringProtocol {
+    var isUTF8ContiguousStorageAvailable: Bool {
+        utf8.withContiguousStorageIfAvailable { _ in 0 } != .none
+    }
+    
+    func withFastUTF8IfAvailable<R>(
+        _ f: (UnsafeBufferPointer<UInt8>) throws -> R
+    ) rethrows -> R? {
+        if isUTF8ContiguousStorageAvailable {
+            return try utf8.withContiguousStorageIfAvailable(f)
+        }
+        var s = String(self)
+        return try s.withUTF8(f)
     }
 }

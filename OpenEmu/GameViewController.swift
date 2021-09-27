@@ -217,28 +217,10 @@ final class GameViewController: NSViewController {
     // MARK: - HUD Bar Actions
     
     func selectShader(_ sender: NSMenuItem) {
-        
         let shaderName = sender.title
-        
         if let shader = OEShadersModel.shared.shader(withName: shaderName) {
-            let params = shader.parameters(forIdentifier: document.systemIdentifier)
-            
-            document.setShaderURL(shader.url, parameters: params as [String: NSNumber]?) { success, error in
-                if success {
-                    self.didLoadShader(shader)
-                }
-                else if let error = error {
-                    let alert = NSAlert(error: error)
-                    alert.runModal()
-                }
-            }
+            shaderControl.changeChander(shader)
         }
-        
-        OEShadersModel.shared.setShaderName(shaderName, forSystem: document.systemIdentifier)
-    }
-    
-    func didLoadShader(_ shader: OEShaderModel) {
-        shaderControl.shader = shader
     }
     
     func configureShader(_ sender: Any?) {

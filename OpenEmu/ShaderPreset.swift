@@ -31,16 +31,6 @@ struct ShaderPreset: Hashable, Identifiable {
     public let shader: String
     public var parameters: [String: Double]
     
-//    static func makeFrom(params: [ShaderParamValue]) -> ShaderPreset {
-//        ShaderPreset(
-//            id: UUID(),
-//            shader: nil,
-//            parameters: Dictionary(uniqueKeysWithValues: params.compactMap { pv in
-//                pv.isInitial ? nil : (pv.name, pv.value.doubleValue)
-//            })
-//        )
-//    }
-    
     static func makeFrom(shader: String, params: [ShaderParamValue]) -> ShaderPreset {
         ShaderPreset(
             id: UUID(),
@@ -82,18 +72,8 @@ struct ShaderPresetTextWriter {
     }
 }
 
-enum ShaderPresetReadError: Swift.Error {
-    
-}
-
-/// Coding Errors
-public enum ShaderPresetCodingError: Error {
-    /// type or statement is not supported
-    case unsupported
-    /// required key is missing
-    case missing
-    case state
-    /// statement is malformed
+public enum ShaderPresetReadError: Error {
+    /// Preset is malformed
     case malformed
 }
 
@@ -121,7 +101,7 @@ struct ShaderPresetTextReader {
                     }
                     s.append(ch)
                 }
-                throw ShaderPresetCodingError.malformed
+                throw ShaderPresetReadError.malformed
             case ":":
                 // parameters section
                 var state: State = .key
@@ -135,7 +115,7 @@ struct ShaderPresetTextReader {
                             state   = .value
                             continue
                         }
-                        throw ShaderPresetCodingError.malformed
+                        throw ShaderPresetReadError.malformed
                     }
                     
                     if ch == ";" {
@@ -146,7 +126,7 @@ struct ShaderPresetTextReader {
                             current = ""
                             continue
                         }
-                        throw ShaderPresetCodingError.malformed
+                        throw ShaderPresetReadError.malformed
                     }
                     
                     current.append(ch)
@@ -155,10 +135,10 @@ struct ShaderPresetTextReader {
                 if state == .value {
                     params[key] = Double(current)
                 } else {
-                    throw ShaderPresetCodingError.malformed
+                    throw ShaderPresetReadError.malformed
                 }
             default:
-                throw ShaderPresetCodingError.malformed
+                throw ShaderPresetReadError.malformed
             }
         }
         

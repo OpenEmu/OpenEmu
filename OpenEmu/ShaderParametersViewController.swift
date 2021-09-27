@@ -141,6 +141,7 @@ final class ShaderParametersViewController: NSViewController {
         }
 
         loadShader()
+        configureToolbar()
     }
     
     override func viewWillDisappear() {
@@ -191,6 +192,59 @@ final class ShaderParametersViewController: NSViewController {
     @IBAction func resetAll(_ sender: Any?) {
         params?.forEach { $0.value = $0.initial }
     }
+    
+    lazy var toolbar: NSToolbar = {
+        let tb = NSToolbar(identifier: .shaderParametersToolbar)
+        tb.delegate = self
+        
+        tb.allowsUserCustomization = false
+        tb.autosavesConfiguration = true
+        tb.displayMode = .default
+        
+        return tb
+    }()
+    
+    func configureToolbar() {
+        guard let window = view.window else { return }
+        window.toolbar = toolbar
+        if #available(macOS 11.0, *) {
+            window.toolbarStyle = .unified
+        }
+    }
+}
+
+extension ShaderParametersViewController: NSToolbarDelegate {
+    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        [.shaderPicker]
+    }
+    
+    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        [.shaderPicker]
+    }
+    
+    func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
+        let isBordered = true
+        
+        switch itemIdentifier {
+        case .shaderPicker:
+            let tbi = NSToolbarItem(itemIdentifier: .shaderPicker)
+            if #available(macOS 10.15, *) {
+                tbi.isBordered = isBordered
+            }
+            tbi.view = shaderListPopUpButton
+            return tbi
+        default:
+            return nil
+        }
+    }
+}
+
+extension NSToolbar.Identifier {
+    static let shaderParametersToolbar = Self.init("ShaderParametersToolbar")
+}
+
+extension NSToolbarItem.Identifier {
+    static let shaderPicker = Self.init(rawValue: "ShaderPickerItem")
 }
 
 extension ShaderParametersViewController: NSOutlineViewDelegate {
@@ -306,3 +360,80 @@ private extension ShaderParamValue {
             : .sliderType
     }
 }
+
+// MARK: - Copy / Paste support
+
+extension ShaderParametersViewController: NSMenuItemValidation {
+    
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        switch menuItem.action {
+        case #selector(paste(_:)):
+            return paramsFromClipboard() != nil
+        default:
+            return true
+        }
+    }
+    
+    func paramsFromClipboard() -> String? {
+        let pb = NSPasteboard.general
+        guard pb.availableType(from: [.string]) != nil
+        else { return nil }
+        
+        guard let text = pb.string(forType: .string)
+        else { return nil }
+        
+        let parts = text.split(separator: "@")
+        if parts.count != 2 {
+            return nil
+        }
+        
+        return Crypto.MD5.digest(string: parts[0]).hasSuffix(parts[1])
+            ? String(parts[0])
+            : nil
+    }
+    
+    func paramsToClipboard(_ text: String) {
+        let pb = NSPasteboard.general
+        pb.clearContents()
+        pb.declareTypes([.string], owner: nil)
+        pb.setString("\(text)@\(Crypto.MD5.digest(string: text).suffix(3))", forType: .string)
+    }
+    
+    @IBAction func copy(_ sender: Any) {
+        guard
+            let name   = shaderControl.shader?.name,
+            let params = params
+        else { return }
+        
+        let preset = ShaderPreset.makeFrom(shader: name, params: params)
+        let text   = ShaderPresetTextWriter().write(preset: preset)
+        paramsToClipboard(text)
+    }
+
+    @IBAction func paste(_ sender: Any) {
+        guard
+            let text   = paramsFromClipboard(),
+            let preset = try? ShaderPresetTextReader().read(line: text),
+            !preset.shader.isEmpty
+        else { return }
+        
+        if let params = params, preset.shader == shaderControl.shader?.name {
+            // If the selected shader is the same as what the user pasted, update the values
+            // to avoid rebuilding the entire view.
+            params.forEach { param in
+                if let val = preset.parameters[param.name] {
+                    param.value = NSNumber(value: val)
+                } else {
+                    param.value = param.initial
+                }
+            }
+        } else {
+            let params = ShaderPresetTextWriter().write(preset: preset, options: [])
+            OEShadersModel.shared.write(parameters: params, forShader: preset.shader, identifier: shaderControl.systemIdentifier)
+            if let shader = OEShadersModel.shared.shader(withName: preset.shader) {
+                shaderControl.changeChander(shader)
+            }
+        }
+    }
+}
+
