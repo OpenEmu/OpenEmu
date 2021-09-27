@@ -241,6 +241,10 @@ extension ShaderParametersViewController: NSToolbarDelegate {
             }
             tbi.visibilityPriority = .low
             tbi.view = shaderListPopUpButton
+            let mi = NSMenuItem()
+            mi.title = NSLocalizedString("Select Shader", comment: "")
+            mi.submenu = shaderListPopUpButton.menu
+            tbi.menuFormRepresentation = mi
             return tbi
         default:
             return nil
