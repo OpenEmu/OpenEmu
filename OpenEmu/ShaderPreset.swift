@@ -47,10 +47,9 @@ struct ShaderPresetTextWriter {
     struct Options: OptionSet {
         let rawValue: Int
         
-        static let shader   = Options(rawValue: 1 << 0)
-        static let hash     = Options(rawValue: 1 << 1)
+        static let shader = Options(rawValue: 1 << 0)
         
-        static let all: Options = [.shader, .hash]
+        static let all: Options = [.shader]
     }
     
     func write(preset c: ShaderPreset, options: Options = .all) -> String {
