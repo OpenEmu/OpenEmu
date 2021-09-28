@@ -443,7 +443,7 @@ extension ShaderParametersViewController: NSMenuItemValidation {
             let params = ShaderPresetTextWriter().write(preset: preset, options: [])
             OEShadersModel.shared.write(parameters: params, forShader: preset.shader, identifier: shaderControl.systemIdentifier)
             if let shader = OEShadersModel.shared.shader(withName: preset.shader) {
-                shaderControl.changeChander(shader)
+                shaderControl.changeShader(shader)
             }
         }
     }

@@ -219,7 +219,7 @@ final class GameViewController: NSViewController {
     func selectShader(_ sender: NSMenuItem) {
         let shaderName = sender.title
         if let shader = OEShadersModel.shared.shader(withName: shaderName) {
-            shaderControl.changeChander(shader)
+            shaderControl.changeShader(shader)
         }
     }
     

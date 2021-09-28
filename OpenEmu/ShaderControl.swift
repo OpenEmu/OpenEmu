@@ -41,7 +41,7 @@ public class ShaderControl: NSObject {
         helper.setShaderParameterValue(value, forKey: name)
     }
     
-    public func changeChander(_ shader: OEShaderModel) {
+    public func changeShader(_ shader: OEShaderModel) {
         let params = shader.parameters(forIdentifier: systemIdentifier)
         
         helper.setShaderURL(shader.url, parameters: params as [String: NSNumber]?) { success, error in
