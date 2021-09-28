@@ -198,8 +198,9 @@ final class ShaderParametersViewController: NSViewController {
         tb.delegate = self
         
         tb.allowsUserCustomization = false
-        tb.autosavesConfiguration = true
+        tb.autosavesConfiguration = false
         tb.displayMode = .default
+        tb.sizeMode = .small
         
         return tb
     }()
@@ -210,27 +211,37 @@ final class ShaderParametersViewController: NSViewController {
         if #available(macOS 11.0, *) {
             window.toolbarStyle = .unified
         }
+        window.titleVisibility = .hidden
     }
 }
 
 extension ShaderParametersViewController: NSToolbarDelegate {
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [.shaderPicker]
+        [.title, .flexibleSpace, .shaderPicker]
     }
     
     func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [.shaderPicker]
+        [.title, .flexibleSpace, .shaderPicker]
     }
     
     func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
         let isBordered = true
         
         switch itemIdentifier {
+        case .title:
+            let tbi = NSToolbarItem(itemIdentifier: .title)
+            if #available(macOS 10.15, *) {
+                tbi.isBordered = isBordered
+            }
+            let label = NSTextField(labelWithString: "Parameters")
+            tbi.view = label
+            return tbi
         case .shaderPicker:
             let tbi = NSToolbarItem(itemIdentifier: .shaderPicker)
             if #available(macOS 10.15, *) {
                 tbi.isBordered = isBordered
             }
+            tbi.visibilityPriority = .low
             tbi.view = shaderListPopUpButton
             return tbi
         default:
@@ -244,6 +255,7 @@ extension NSToolbar.Identifier {
 }
 
 extension NSToolbarItem.Identifier {
+    static let title = Self.init(rawValue: "TitleItem")
     static let shaderPicker = Self.init(rawValue: "ShaderPickerItem")
 }
 
