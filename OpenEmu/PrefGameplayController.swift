@@ -36,7 +36,7 @@ final class PrefGameplayController: NSViewController {
         
         loadShaderMenu()
         
-        token = NotificationCenter.default.addObserver(forName: OEShadersModel.shaderModelCustomShadersDidChange, object: nil, queue: .main) { [weak self] _ in
+        token = NotificationCenter.default.addObserver(forName: .shaderModelCustomShadersDidChange, object: nil, queue: .main) { [weak self] _ in
             guard let self = self else { return }
             
             self.loadShaderMenu()
