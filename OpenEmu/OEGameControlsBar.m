@@ -383,36 +383,104 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     // Setup Cheats Menu
     if(self.gameViewController.supportsCheats)
     {
-        NSMenu *cheatsMenu = [NSMenu new];
-        cheatsMenu.title = NSLocalizedString(@"Select Cheat", @"");
         item = [NSMenuItem new];
         item.title = NSLocalizedString(@"Select Cheat", @"");
+        item.submenu = [self cheatsMenu];
         [menu addItem:item];
-        item.submenu = cheatsMenu;
-
-        NSMenuItem *addCheatMenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Add Cheat…", @"")
-                                                                  action:@selector(addCheat:)
-                                                           keyEquivalent:@""];
-        addCheatMenuItem.representedObject = _cheats;
-        [cheatsMenu addItem:addCheatMenuItem];
-
-        if(_cheats.count != 0)
-            [cheatsMenu addItem:[NSMenuItem separatorItem]];
-
-        for(NSDictionary *cheatObject in _cheats)
-        {
-            NSString *description = [cheatObject objectForKey:@"description"];
-            BOOL enabled          = [[cheatObject objectForKey:@"enabled"] boolValue];
-
-            NSMenuItem *cheatsMenuItem = [[NSMenuItem alloc] initWithTitle:description action:@selector(setCheat:) keyEquivalent:@""];
-            cheatsMenuItem.representedObject = cheatObject;
-            cheatsMenuItem.state = enabled ? NSControlStateValueOn : NSControlStateValueOff;
-
-            [cheatsMenu addItem:cheatsMenuItem];
-        }
     }
 
     // Setup Core selection menu
+    NSMenu *coresMenu = [self coresMenu];
+    if(coresMenu)
+    {
+        item = [NSMenuItem new];
+        item.title = NSLocalizedString(@"Select Core", @"");
+        item.submenu = coresMenu;
+        [menu addItem:item];
+    }
+
+    // Setup Disc selection Menu
+    if(self.gameViewController.supportsMultipleDiscs)
+    {
+        NSUInteger maxDiscs = self.gameViewController.discCount;
+        item = [NSMenuItem new];
+        item.title = NSLocalizedString(@"Select Disc", @"");
+        item.submenu = [self discsMenu];
+        item.enabled = maxDiscs > 1 ? YES : NO;
+        [menu addItem:item];
+    }
+
+    // Setup Change Display Mode Menu
+    if(self.gameViewController.supportsDisplayModeChange && self.gameViewController.displayModes.count > 0)
+    {
+        item = [NSMenuItem new];
+        item.title = NSLocalizedString(@"Select Display Mode", @"");
+        item.submenu = [self displayMenu];
+        [menu addItem:item];
+    }
+
+    // Setup Video Shader Menu
+    item = [NSMenuItem new];
+    item.title = NSLocalizedString(@"Select Shader", @"");
+    item.submenu = [self shaderMenu];
+    [menu addItem:item];
+
+    // Setup integral scaling
+    NSMenu *scaleMenu = [self scaleMenu];
+    item = [NSMenuItem new];
+    item.title = NSLocalizedString(@"Select Scale", @"");
+    if(scaleMenu)
+        item.submenu = scaleMenu;
+    else
+        item.enabled = NO;
+    [menu addItem:item];
+
+    if([NSUserDefaults.standardUserDefaults boolForKey:OEGameControlsBarShowsAudioOutput])
+    {
+        // Setup audio output
+        NSMenu *audioOutputMenu = [self audioOutputMenu];
+        item = [NSMenuItem new];
+        item.title = NSLocalizedString(@"Select Audio Output Device", @"");
+        if(audioOutputMenu)
+            item.submenu = audioOutputMenu;
+        else
+            item.enabled = NO;
+        [menu addItem:item];
+    }
+
+    return menu;
+}
+
+- (NSMenu *)cheatsMenu
+{
+    NSMenu *cheatsMenu = [NSMenu new];
+
+    NSMenuItem *addCheatMenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Add Cheat…", @"")
+                                                              action:@selector(addCheat:)
+                                                       keyEquivalent:@""];
+    addCheatMenuItem.representedObject = _cheats;
+    [cheatsMenu addItem:addCheatMenuItem];
+
+    if(_cheats.count != 0)
+        [cheatsMenu addItem:[NSMenuItem separatorItem]];
+
+    for(NSDictionary *cheatObject in _cheats)
+    {
+        NSString *description = [cheatObject objectForKey:@"description"];
+        BOOL enabled          = [[cheatObject objectForKey:@"enabled"] boolValue];
+
+        NSMenuItem *cheatsMenuItem = [[NSMenuItem alloc] initWithTitle:description action:@selector(setCheat:) keyEquivalent:@""];
+        cheatsMenuItem.representedObject = cheatObject;
+        cheatsMenuItem.state = enabled ? NSControlStateValueOn : NSControlStateValueOff;
+
+        [cheatsMenu addItem:cheatsMenuItem];
+    }
+    
+    return cheatsMenu;
+}
+
+- (nullable NSMenu *)coresMenu
+{
     NSMenu *coresMenu = [NSMenu new];
     coresMenu.title = NSLocalizedString(@"Select Core", @"");
 
@@ -435,127 +503,126 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             [coresMenu addItem:coreItem];
         }
 
-        item = [NSMenuItem new];
-        item.title = NSLocalizedString(@"Select Core", @"");
-        item.submenu = coresMenu;
         if(coresMenu.itemArray.count > 1)
-            [menu addItem:item];
+            return coresMenu;
+        else
+            return nil;
     }
+    else
+        return nil;
+}
 
-    // Setup Disc selection Menu
-    if(self.gameViewController.supportsMultipleDiscs)
+- (NSMenu *)discsMenu
+{
+    NSUInteger maxDiscs = self.gameViewController.discCount;
+
+    NSMenu *discsMenu = [NSMenu new];
+    NSMenuItem *item = [NSMenuItem new];
+    item.title = NSLocalizedString(@"Select Disc", @"");
+    item.submenu = discsMenu;
+    item.enabled = maxDiscs > 1 ? YES : NO;
+
+    for(unsigned int disc = 1; disc <= maxDiscs; disc++)
     {
-        NSUInteger maxDiscs = self.gameViewController.discCount;
+        NSString *discTitle  = [NSString stringWithFormat:NSLocalizedString(@"Disc %u", @"Disc selection menu item title"), disc];
+        NSMenuItem *discsMenuItem = [[NSMenuItem alloc] initWithTitle:discTitle action:@selector(setDisc:) keyEquivalent:@""];
+        [discsMenuItem setRepresentedObject:@(disc)];
 
-        NSMenu *discsMenu = [NSMenu new];
-        discsMenu.title = NSLocalizedString(@"Select Disc", @"");
-        item = [NSMenuItem new];
-        item.title = NSLocalizedString(@"Select Disc", @"");
-        [menu addItem:item];
-        item.submenu = discsMenu;
-        item.enabled = maxDiscs > 1 ? YES : NO;
+        [discsMenu addItem:discsMenuItem];
+    }
+    
+    return discsMenu;
+}
 
-        for(unsigned int disc = 1; disc <= maxDiscs; disc++)
+- (NSMenu *)displayMenu
+{
+    NSMenu *displayMenu = [NSMenu new];
+    displayMenu.autoenablesItems = NO;
+
+    NSString *mode;
+    BOOL selected, enabled;
+    NSInteger indentationLevel;
+
+    for (NSDictionary *modeDict in self.gameViewController.displayModes)
+    {
+        if (modeDict[OEGameCoreDisplayModeSeparatorItemKey])
         {
-            NSString *discTitle  = [NSString stringWithFormat:NSLocalizedString(@"Disc %u", @"Disc selection menu item title"), disc];
-            NSMenuItem *discsMenuItem = [[NSMenuItem alloc] initWithTitle:discTitle action:@selector(setDisc:) keyEquivalent:@""];
-            [discsMenuItem setRepresentedObject:@(disc)];
-
-            [discsMenu addItem:discsMenuItem];
+            [displayMenu addItem:[NSMenuItem separatorItem]];
+            continue;
         }
-    }
 
-    // Setup Change Display Mode Menu
-    if(self.gameViewController.supportsDisplayModeChange && self.gameViewController.displayModes.count > 0)
-    {
-        NSMenu *displayMenu = [NSMenu new];
-        displayMenu.autoenablesItems = NO;
-        displayMenu.title = NSLocalizedString(@"Select Display Mode", @"");
-        item = [NSMenuItem new];
-        item.title = displayMenu.title;
-        [menu addItem:item];
-        item.submenu = displayMenu;
+        mode             =  modeDict[OEGameCoreDisplayModeNameKey] ?:
+                            modeDict[OEGameCoreDisplayModeLabelKey];
+        selected         = [modeDict[OEGameCoreDisplayModeStateKey] boolValue];
+        enabled          =  modeDict[OEGameCoreDisplayModeLabelKey] ? NO : YES;
+        indentationLevel = [modeDict[OEGameCoreDisplayModeIndentationLevelKey] integerValue] ?: 0;
 
-        NSString *mode;
-        BOOL selected, enabled;
-        NSInteger indentationLevel;
-
-        for (NSDictionary *modeDict in self.gameViewController.displayModes)
+        // Submenu group
+        if (modeDict[OEGameCoreDisplayModeGroupNameKey])
         {
-            if (modeDict[OEGameCoreDisplayModeSeparatorItemKey])
+            // Setup Submenu
+            NSMenu *displaySubmenu = [NSMenu new];
+            displaySubmenu.autoenablesItems = NO;
+            displaySubmenu.title = modeDict[OEGameCoreDisplayModeGroupNameKey];
+            NSMenuItem *item = [NSMenuItem new];
+            item.title = displaySubmenu.title;
+            [displayMenu addItem:item];
+            item.submenu = displaySubmenu;
+
+            // Submenu items
+            for (NSDictionary *subModeDict in modeDict[OEGameCoreDisplayModeGroupItemsKey])
             {
-                [displayMenu addItem:[NSMenuItem separatorItem]];
-                continue;
-            }
+                // Disallow deeper submenus
+                if (subModeDict[OEGameCoreDisplayModeGroupNameKey])
+                    continue;
 
-            mode             =  modeDict[OEGameCoreDisplayModeNameKey] ?:
-                                modeDict[OEGameCoreDisplayModeLabelKey];
-            selected         = [modeDict[OEGameCoreDisplayModeStateKey] boolValue];
-            enabled          =  modeDict[OEGameCoreDisplayModeLabelKey] ? NO : YES;
-            indentationLevel = [modeDict[OEGameCoreDisplayModeIndentationLevelKey] integerValue] ?: 0;
-
-            // Submenu group
-            if (modeDict[OEGameCoreDisplayModeGroupNameKey])
-            {
-                // Setup Submenu
-                NSMenu *displaySubmenu = [NSMenu new];
-                displaySubmenu.autoenablesItems = NO;
-                displaySubmenu.title = modeDict[OEGameCoreDisplayModeGroupNameKey];
-                item = [NSMenuItem new];
-                item.title = displaySubmenu.title;
-                [displayMenu addItem:item];
-                item.submenu = displaySubmenu;
-
-                // Submenu items
-                for (NSDictionary *subModeDict in modeDict[OEGameCoreDisplayModeGroupItemsKey])
+                if (subModeDict[OEGameCoreDisplayModeSeparatorItemKey])
                 {
-                    // Disallow deeper submenus
-                    if (subModeDict[OEGameCoreDisplayModeGroupNameKey])
-                        continue;
-
-                    if (subModeDict[OEGameCoreDisplayModeSeparatorItemKey])
-                    {
-                        [displaySubmenu addItem:[NSMenuItem separatorItem]];
-                        continue;
-                    }
-
-                    mode             =  subModeDict[OEGameCoreDisplayModeNameKey] ?:
-                                        subModeDict[OEGameCoreDisplayModeLabelKey];
-                    selected         = [subModeDict[OEGameCoreDisplayModeStateKey] boolValue];
-                    enabled          =  subModeDict[OEGameCoreDisplayModeLabelKey] ? NO : YES;
-                    indentationLevel = [subModeDict[OEGameCoreDisplayModeIndentationLevelKey] integerValue] ?: 0;
-
-                    NSMenuItem *displaySubmenuItem = [[NSMenuItem alloc] initWithTitle:mode action:@selector(changeDisplayMode:) keyEquivalent:@""];
-                    displaySubmenuItem.representedObject = subModeDict;
-                    displaySubmenuItem.state = selected ? NSControlStateValueOn : NSControlStateValueOff;
-                    displaySubmenuItem.enabled = enabled;
-                    displaySubmenuItem.indentationLevel = indentationLevel;
-                    [displaySubmenu addItem:displaySubmenuItem];
+                    [displaySubmenu addItem:[NSMenuItem separatorItem]];
+                    continue;
                 }
 
-                continue;
+                mode             =  subModeDict[OEGameCoreDisplayModeNameKey] ?:
+                                    subModeDict[OEGameCoreDisplayModeLabelKey];
+                selected         = [subModeDict[OEGameCoreDisplayModeStateKey] boolValue];
+                enabled          =  subModeDict[OEGameCoreDisplayModeLabelKey] ? NO : YES;
+                indentationLevel = [subModeDict[OEGameCoreDisplayModeIndentationLevelKey] integerValue] ?: 0;
+
+                NSMenuItem *displaySubmenuItem = [[NSMenuItem alloc] initWithTitle:mode action:@selector(changeDisplayMode:) keyEquivalent:@""];
+                displaySubmenuItem.representedObject = subModeDict;
+                displaySubmenuItem.state = selected ? NSControlStateValueOn : NSControlStateValueOff;
+                displaySubmenuItem.enabled = enabled;
+                displaySubmenuItem.indentationLevel = indentationLevel;
+                [displaySubmenu addItem:displaySubmenuItem];
             }
 
-            NSMenuItem *displayMenuItem = [[NSMenuItem alloc] initWithTitle:mode action:@selector(changeDisplayMode:) keyEquivalent:@""];
-            displayMenuItem.representedObject = modeDict;
-            displayMenuItem.state = selected ? NSControlStateValueOn : NSControlStateValueOff;
-            displayMenuItem.enabled = enabled;
-            displayMenuItem.indentationLevel = indentationLevel;
-            [displayMenu addItem:displayMenuItem];
+            continue;
         }
-    }
 
-    // Setup Video Shader Menu
+        NSMenuItem *displayMenuItem = [[NSMenuItem alloc] initWithTitle:mode action:@selector(changeDisplayMode:) keyEquivalent:@""];
+        displayMenuItem.representedObject = modeDict;
+        displayMenuItem.state = selected ? NSControlStateValueOn : NSControlStateValueOff;
+        displayMenuItem.enabled = enabled;
+        displayMenuItem.indentationLevel = indentationLevel;
+        [displayMenu addItem:displayMenuItem];
+    }
+    
+    return displayMenu;
+}
+
+- (NSMenu *)shaderMenu
+{
     NSMenu *shaderMenu = [NSMenu new];
 
     // Configure shader
-    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Configure Shader…", @"")
+    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Configure Shader…", @"")
                                       action:@selector(configureShader:)
                                keyEquivalent:@""];
     [shaderMenu addItem:item];
     [shaderMenu addItem:[NSMenuItem separatorItem]];
 
     // selectedShader is guaranteed to exist
+    NSString *systemIdentifier = self.gameViewController.systemIdentifier;
     NSString *selectedShader = [OEShadersModel.shared shaderNameForSystem: systemIdentifier];
 
     // add system shaders first
@@ -581,24 +648,18 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         }
     }
 
-    item = [NSMenuItem new];
-    item.title = NSLocalizedString(@"Select Shader", @"");
-    [menu addItem:item];
-    item.submenu = shaderMenu;
+    return shaderMenu;
+}
 
-    // Setup integral scaling
+- (nullable NSMenu *)scaleMenu
+{
     id<OEGameIntegralScalingDelegate> integralScalingDelegate = self.gameViewController.integralScalingDelegate;
     const BOOL hasSubmenu = integralScalingDelegate.shouldAllowIntegralScaling && [integralScalingDelegate respondsToSelector:@selector(maximumIntegralScale)];
 
-    NSMenu *scaleMenu = [NSMenu new];
-    scaleMenu.title = NSLocalizedString(@"Select Scale", @"");
-    item = [NSMenuItem new];
-    item.title = scaleMenu.title;
-    [menu addItem:item];
-    item.submenu = scaleMenu;
-
     if(hasSubmenu)
     {
+        NSMenu *scaleMenu = [NSMenu new];
+
         unsigned int maxScale = integralScalingDelegate.maximumIntegralScale;
         unsigned int currentScale = integralScalingDelegate.currentIntegralScale;
 
@@ -620,43 +681,39 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             scaleItem.state = (currentScale == 0 ? NSControlStateValueOn : NSControlStateValueOff);
             [scaleMenu addItem:scaleItem];
         }
+        
+        return scaleMenu;
     }
     else
-        item.enabled = NO;
+        return nil;
+}
 
-    if([NSUserDefaults.standardUserDefaults boolForKey:OEGameControlsBarShowsAudioOutput])
-    {
-        // Setup audio output
-        NSMenu *audioOutputMenu = [NSMenu new];
-        audioOutputMenu.title = NSLocalizedString(@"Select Audio Output Device", @"");
-        item = [NSMenuItem new];
-        item.title = audioOutputMenu.title;
-        [menu addItem:item];
-        item.submenu = audioOutputMenu;
+- (nullable NSMenu *)audioOutputMenu
+{
+    NSMenu *audioOutputMenu = [NSMenu new];
 
-        NSPredicate *outputPredicate = [NSPredicate predicateWithBlock:^BOOL(OEAudioDevice *device, NSDictionary *bindings) {
-            return device.numberOfOutputChannels > 0;
-        }];
-        NSArray *audioOutputDevices = [OEAudioDeviceManager.sharedAudioDeviceManager.audioDevices filteredArrayUsingPredicate:outputPredicate];
-        if(audioOutputDevices.count == 0) {
-            item.enabled = NO;
-        } else {
-            NSMenuItem *deviceItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"System Default", @"Default audio device setting") action:@selector(changeAudioOutputDevice:) keyEquivalent:@""];
-            deviceItem.representedObject = nil;
+    NSPredicate *outputPredicate = [NSPredicate predicateWithBlock:^BOOL(OEAudioDevice *device, NSDictionary *bindings) {
+        return device.numberOfOutputChannels > 0;
+    }];
+    NSArray *audioOutputDevices = [OEAudioDeviceManager.sharedAudioDeviceManager.audioDevices filteredArrayUsingPredicate:outputPredicate];
+    if(audioOutputDevices.count == 0) {
+        return nil;
+    } else {
+        NSMenuItem *deviceItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"System Default", @"Default audio device setting") action:@selector(changeAudioOutputDevice:) keyEquivalent:@""];
+        deviceItem.representedObject = nil;
+        [audioOutputMenu addItem:deviceItem];
+        
+        [audioOutputMenu addItem:[NSMenuItem separatorItem]];
+        
+        for(OEAudioDevice *device in audioOutputDevices)
+        {
+            deviceItem = [[NSMenuItem alloc] initWithTitle:device.deviceName action:@selector(changeAudioOutputDevice:) keyEquivalent:@""];
+            deviceItem.representedObject = device;
             [audioOutputMenu addItem:deviceItem];
-            
-            [audioOutputMenu addItem:[NSMenuItem separatorItem]];
-            
-            for(OEAudioDevice *device in audioOutputDevices)
-            {
-                deviceItem = [[NSMenuItem alloc] initWithTitle:device.deviceName action:@selector(changeAudioOutputDevice:) keyEquivalent:@""];
-                deviceItem.representedObject = device;
-                [audioOutputMenu addItem:deviceItem];
-            }
         }
     }
-
-    return menu;
+    
+    return audioOutputMenu;
 }
 
 - (NSMenu *)saveMenu
