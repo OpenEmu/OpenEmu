@@ -25,7 +25,6 @@
  */
 
 #import "OECollectionViewController.h"
-#import "OEGameControlsBar.h"
 #import "OEGameDocument.h"
 
 #import "OEROMImporter.h"

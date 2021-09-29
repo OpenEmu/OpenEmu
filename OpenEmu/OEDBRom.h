@@ -53,10 +53,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 // returns save states ordered by timestamp
 - (nullable NSArray <OEDBSaveState *> *)normalSaveStatesByTimestampAscending:(BOOL)sortByTimestampAscending;
-- (nullable NSArray <OEDBSaveState *> *)normalSaveStates;
+@property(readonly, nullable) NSArray<OEDBSaveState *> *normalSaveStates;
 
-- (nullable OEDBSaveState *)autosaveState;
-- (nullable NSArray <OEDBSaveState *> *)quickSaveStates;
+@property(readonly, nullable) OEDBSaveState *autosaveState;
+@property(readonly, nullable) NSArray<OEDBSaveState *> *quickSaveStates;
 
 - (nullable OEDBSaveState *)quickSaveStateInSlot:(NSInteger)num;
 - (nullable OEDBSaveState *)saveStateWithName:(NSString *)string;

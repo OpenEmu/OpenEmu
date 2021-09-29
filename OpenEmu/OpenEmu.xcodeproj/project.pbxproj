@@ -262,7 +262,6 @@
 		53439AE713B92E59005C0CC8 /* OETableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AE213B92E59005C0CC8 /* OETableView.m */; };
 		53439B6E13B932DB005C0CC8 /* PrefLibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439B6D13B932DB005C0CC8 /* PrefLibraryController.swift */; };
 		53439B7113B932ED005C0CC8 /* PrefGameplayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7013B932ED005C0CC8 /* PrefGameplayController.swift */; };
-		53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */; };
 		556CEBF01BCE173B00F00EAA /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; };
 		55BE80432542A3DC00E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE80422542A3DC00E3841E /* Images.xcassets */; };
 		55BE80B52542A51600E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE80B42542A51600E3841E /* Images.xcassets */; };
@@ -1494,8 +1493,6 @@
 		53439B6813B932C5005C0CC8 /* PreferencePane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencePane.swift; sourceTree = "<group>"; };
 		53439B6D13B932DB005C0CC8 /* PrefLibraryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefLibraryController.swift; sourceTree = "<group>"; };
 		53439B7013B932ED005C0CC8 /* PrefGameplayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefGameplayController.swift; sourceTree = "<group>"; };
-		53439B7813B933B8005C0CC8 /* OEGameControlsBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameControlsBar.h; sourceTree = "<group>"; };
-		53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameControlsBar.m; sourceTree = "<group>"; };
 		556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Graphics.xcassets; sourceTree = "<group>"; };
 		55BE80422542A3DC00E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		55BE80B42542A51600E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -3679,8 +3676,6 @@
 		8FA8B34F26DDC4650037C8D0 /* HUD Bar */ = {
 			isa = PBXGroup;
 			children = (
-				53439B7813B933B8005C0CC8 /* OEGameControlsBar.h */,
-				53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */,
 				8FEA676F270373450034CFCE /* GameControlsBar.swift */,
 				8F4A69722547F84500DFE092 /* GameControlsBarView.swift */,
 				8F714FD724F85CEA006AF031 /* HUDBarButton.swift */,
@@ -6726,7 +6721,6 @@
 				53439B6E13B932DB005C0CC8 /* PrefLibraryController.swift in Sources */,
 				0557CB1B22A781B60037175F /* OEShadersModel+OpenEmu.swift in Sources */,
 				53439B7113B932ED005C0CC8 /* PrefGameplayController.swift in Sources */,
-				53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */,
 				0544B69E23D16D3100F63D61 /* CollectionView.swift in Sources */,
 				5A46AC411DC66D8300771B3B /* GameViewController+TouchBar.swift in Sources */,
 				051DDCB523E5D74400325147 /* AvailableLibrariesViewController.swift in Sources */,

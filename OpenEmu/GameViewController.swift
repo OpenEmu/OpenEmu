@@ -48,7 +48,7 @@ final class GameViewController: NSViewController {
     private(set) var gameView: OEGameLayerView!
     private var notificationView: OEGameLayerNotificationView!
     
-    var controlsWindow: OEGameControlsBar!
+    var controlsWindow: GameControlsBar!
     weak var document: OEGameDocument!
     weak var integralScalingDelegate: GameIntegralScalingDelegate?
     
@@ -71,7 +71,7 @@ final class GameViewController: NSViewController {
         
         defaultScreenSize = defaultSize
         
-        controlsWindow = OEGameControlsBar(gameViewController: self)
+        controlsWindow = GameControlsBar(gameViewController: self)
         controlsWindow.isReleasedWhenClosed = false
         
         shaderControl = ShaderControl(systemIdentifier: document.systemIdentifier,
@@ -210,7 +210,7 @@ final class GameViewController: NSViewController {
         sender.state = sender.state == .off ? .on : .off
         controlsWindow.canShow = sender.state == .off
         if sender.state == .on {
-            controlsWindow.hide(animated: false)
+            controlsWindow.hide()
         }
     }
     

@@ -18,7 +18,6 @@
 #import "OECollectionViewController.h"
 #import "OEGameCollectionViewController.h"
 #import "OEMediaViewController.h"
-#import "OEGameControlsBar.h"
 #import "OEGameInfoHelper.h"
 #import "OEROMImporter.h"
 #import "OEVersionMigrationController.h"

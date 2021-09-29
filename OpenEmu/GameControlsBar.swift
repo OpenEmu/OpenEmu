@@ -23,26 +23,149 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
+import OpenEmuBase
+import OpenEmuSystem
 import OpenEmuKit
 
-extension OEGameControlsBar {
+final class GameControlsBar: NSWindow {
     
-    private static let fadeOutDelayKey = "fadeoutdelay"
     static let showsAutoSaveStateKey = "HUDBarShowAutosaveState"
     static let showsQuickSaveStateKey = "HUDBarShowQuicksaveState"
     static let showsAudioOutputKey = "HUDBarShowAudioOutput"
+    private static let fadeOutDelayKey = "fadeoutdelay"
+    private static let initializeDefaults: Void = {
+        UserDefaults.standard.register(defaults: [
+            // Time until hud controls bar fades out
+            fadeOutDelayKey : 1.5,
+            showsAutoSaveStateKey : false,
+            showsQuickSaveStateKey : false,
+            showsAudioOutputKey : false,
+        ])
+    }()
     
+    @objc var canShow = true
+    private var eventMonitor: Any?
+    private var fadeTimer: Timer?
+    private var cheats: [[String : Any]]?
+    private var cheatsLoaded = false
+    private var controlsView: GameControlsBarView!
+    weak var gameViewController: GameViewController!
+    private var lastGameWindowFrame = NSRect.zero
+    private var lastMouseMovement: Date! {
+        willSet {
+            if fadeTimer == nil {
+                let interval = TimeInterval(UserDefaults.standard.double(forKey: Self.fadeOutDelayKey))
+                fadeTimer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
+            }
+        }
+    }
     
-    open
+    var gameWindow: NSWindow? {
+        willSet {
+            // un-register notifications for parent window
+            let nc = NotificationCenter.default
+            if parent != nil {
+                nc.removeObserver(self, name: NSWindow.didEnterFullScreenNotification, object: gameWindow)
+                nc.removeObserver(self, name: NSWindow.willExitFullScreenNotification, object: gameWindow)
+                nc.removeObserver(self, name: NSWindow.didChangeScreenNotification, object: gameWindow)
+            }
+            // remove from parent window if there was one, and attach to to the new game window
+            if (gameWindow == nil || parent != nil) && newValue != parent {
+                parent?.removeChildWindow(self)
+                newValue?.addChildWindow(self, ordered: .above)
+            }
+        }
+        didSet {
+            // register notifications and update state of the fullscreen button
+            let nc = NotificationCenter.default
+            if let gameWindow = gameWindow {
+                nc.addObserver(self, selector: #selector(gameWindowDidEnterFullScreen(_:)), name: NSWindow.didEnterFullScreenNotification, object: gameWindow)
+                nc.addObserver(self, selector: #selector(gameWindowWillExitFullScreen(_:)), name: NSWindow.willExitFullScreenNotification, object: gameWindow)
+                
+                controlsView.reflectFullScreen(gameWindow.isFullScreen)
+            }
+        }
+    }
+    
+    convenience init(gameViewController controller: GameViewController) {
+        let useNew = UserDefaults.standard.integer(forKey: OEHUDBarAppearancePreferenceKey) == OEHUDBarAppearancePreferenceValue.vibrant.rawValue
+        
+        var barRect: NSRect
+        if useNew {
+            barRect = NSRect(x: 0, y: 0, width: 442, height: 42)
+        } else {
+            barRect = NSRect(x: 0, y: 0, width: 442, height: 45)
+        }
+        
+        self.init(contentRect: barRect, styleMask: useNew ? .titled : .borderless, backing: .buffered, defer: true)
+        
+        isMovableByWindowBackground = true
+        animationBehavior = .none
+        
+        gameViewController = controller
+        
+        if useNew {
+            titlebarAppearsTransparent = true
+            titleVisibility = .hidden
+            styleMask.insert(.fullSizeContentView)
+            appearance = NSAppearance(named: .vibrantDark)
+            
+            let veView = NSVisualEffectView()
+            veView.material = .hudWindow
+            veView.state = .active
+            contentView = veView
+        } else {
+            backgroundColor = .clear
+        }
+        alphaValue = 0
+        
+        let barView = GameControlsBarView(frame: barRect)
+        contentView?.addSubview(barView)
+        controlsView = barView
+        
+        eventMonitor = NSEvent.addLocalMonitorForEvents(matching: .mouseMoved) { [weak self] event in
+            if NSApp.isActive, let self = self, let gameWindow = self.gameWindow, gameWindow.isMainWindow {
+                self.performSelector(onMainThread: #selector(self.mouseMoved(with:)), with: event, waitUntilDone: false)
+            }
+            return event
+        }
+        
+        NSCursor.setHiddenUntilMouseMoves(true)
+        
+        let nc = NotificationCenter.default
+        // Show HUD when switching back from other applications
+        nc.addObserver(self, selector: #selector(mouseMoved(with:)), name: NSApplication.didBecomeActiveNotification, object: nil)
+        nc.addObserver(self, selector: #selector(willMove(_:)), name: NSWindow.willMoveNotification, object: self)
+        nc.addObserver(self, selector: #selector(didMove(_:)), name: NSWindow.didMoveNotification, object: self)
+        
+        Self.initializeDefaults
+    }
+    
+    deinit {
+        fadeTimer?.invalidate()
+        fadeTimer = nil
+        gameViewController = nil
+        
+        if let eventMonitor = eventMonitor {
+            NSEvent.removeMonitor(eventMonitor)
+        }
+        
+        gameWindow = nil
+    }
+    
     override var canBecomeKey: Bool {
         return false
     }
     
-    open
     override var canBecomeMain: Bool {
         return false
     }
     
+    private var bounds: NSRect {
+        var bounds = frame
+        bounds.origin = NSPoint(x: 0, y: 0)
+        return bounds
+    }
     
     // MARK: - Cheats
     
@@ -58,6 +181,148 @@ extension OEGameControlsBar {
         }
     }
     
+    // MARK: - Manage Visibility
+    
+    func show() {
+        if canShow {
+            animator().alphaValue = 1
+        }
+    }
+    
+    @objc(hideAnimated:)
+    func hide(animated: Bool = true) {
+        NSCursor.setHiddenUntilMouseMoves(true)
+        
+        // only hide if 'docked' to game window (aka on the same screen)
+        if parent != nil {
+            if animated {
+                animator().alphaValue = 0
+            } else {
+                alphaValue = 0
+            }
+        }
+        
+        fadeTimer?.invalidate()
+        fadeTimer = nil
+    }
+    
+    override func mouseMoved(with event: NSEvent) {
+        performMouseMoved()
+    }
+    
+    private func performMouseMoved() {
+        guard let gameWindow = gameWindow else { return }
+        
+        let gameView = gameViewController.view
+        let viewFrame = gameView.frame
+        let mouseLoc = NSEvent.mouseLocation
+        
+        let viewFrameOnScreen = gameWindow.convertToScreen(viewFrame)
+        if !viewFrameOnScreen.contains(mouseLoc) {
+            return
+        }
+        
+        if alphaValue == 0 {
+            lastMouseMovement = Date()
+            show()
+        }
+        
+        lastMouseMovement = Date()
+    }
+    
+    @objc private func timerDidFire(_ timer: Timer) {
+        let interval = TimeInterval(UserDefaults.standard.double(forKey: Self.fadeOutDelayKey))
+        let hideDate = lastMouseMovement.addingTimeInterval(interval)
+        
+        if hideDate.timeIntervalSinceNow <= 0 {
+            if canFadeOut {
+                fadeTimer?.invalidate()
+                fadeTimer = nil
+                
+                hide()
+            } else {
+                let interval = TimeInterval(UserDefaults.standard.double(forKey: Self.fadeOutDelayKey))
+                let nextTime = Date(timeIntervalSinceNow: interval)
+                
+                fadeTimer?.fireDate = nextTime
+            }
+        } else {
+            fadeTimer?.fireDate = hideDate
+        }
+    }
+    
+    private var canFadeOut: Bool {
+        return !bounds.contains(mouseLocationOutsideOfEventStream)
+    }
+    
+    func repositionOnGameWindow() {
+        guard let gameWindow = gameWindow, parent != nil else { return }
+        
+        let controlsMargin: CGFloat = 19
+        let gameView = gameViewController.view
+        let gameViewFrame = gameView.frame
+        let gameViewFrameInWindow = gameView.convert(gameViewFrame, to: nil)
+        var origin = gameWindow.convertToScreen(gameViewFrameInWindow).origin
+        
+        origin.x += (gameViewFrame.width - frame.width) / 2
+        
+        // If the controls bar fits, it sits over the window
+        if gameViewFrame.width >= frame.width {
+            origin.y += controlsMargin
+        } else {
+            // Otherwise, it sits below the window
+            origin.y -= (frame.height + controlsMargin)
+            
+            // Unless below the window means it being off-screen, in which case it sits above the window
+            if origin.y < gameWindow.screen!.visibleFrame.minY {
+                origin.y = gameWindow.frame.maxY + controlsMargin
+            }
+        }
+        
+        setFrameOrigin(origin)
+    }
+    
+    // MARK: -
+    
+    @objc private func willMove(_ notification: Notification) {
+        if let parentWindow = parent {
+            lastGameWindowFrame = parentWindow.frame
+        }
+    }
+    
+    @objc private func didMove(_ notification: Notification) {
+        var userMoved = false
+        if let parentWindow = parent {
+            userMoved = parentWindow.frame.equalTo(lastGameWindowFrame)
+        } else {
+            userMoved = true
+        }
+        adjustWindowAttachment(userMoved)
+    }
+    
+    private func adjustWindowAttachment(_ userMovesGameWindow: Bool) {
+        let barScreen = screen
+        let gameScreen = gameWindow?.screen
+        let screensDiffer = barScreen != gameScreen
+        
+        if userMovesGameWindow && screensDiffer && parent != nil && barScreen != nil {
+            let frame = frame
+            orderOut(nil)
+            setFrame(.zero, display: false)
+            setFrame(frame, display: false)
+            orderFront(self)
+        }
+        else if !screensDiffer && parent == nil {
+            // attach to window and center the controls bar
+            gameWindow?.addChildWindow(self, ordered: .above)
+            repositionOnGameWindow()
+        }
+    }
+    
+    override func mouseUp(with event: NSEvent) {
+        super.mouseUp(with: event)
+        adjustWindowAttachment(false)
+    }
     
     // MARK: - Updating UI States
     
@@ -76,7 +341,7 @@ extension OEGameControlsBar {
     @objc private func gameWindowDidEnterFullScreen(_ notification: Notification) {
         controlsView.reflectFullScreen(true)
         // Show HUD because fullscreen animation makes the cursor appear
-        performMouseMoved(nil)
+        performMouseMoved()
     }
     
     @objc private func gameWindowWillExitFullScreen(_ notification: Notification) {
@@ -311,7 +576,7 @@ extension OEGameControlsBar {
         
         // add system shaders first
         let sortedSystemShaders = OEShadersModel.shared.sortedSystemShaderNames
-        sortedSystemShaders.forEach { shaderName in
+        for shaderName in sortedSystemShaders {
             let item = NSMenuItem(title: shaderName, action: #selector(GameViewController.selectShader(_:)), keyEquivalent: "")
             
             if shaderName == selectedShader {
@@ -326,7 +591,7 @@ extension OEGameControlsBar {
         if !sortedCustomShaders.isEmpty {
             menu.addItem(.separator())
             
-            sortedCustomShaders.forEach { shaderName in
+            for shaderName in sortedCustomShaders { 
                 let item = NSMenuItem(title: shaderName, action: #selector(GameViewController.selectShader(_:)), keyEquivalent: "")
                 
                 if shaderName == selectedShader {
@@ -402,11 +667,11 @@ extension OEGameControlsBar {
         var saveStates = rom.normalSaveStates(byTimestampAscending: true) ?? []
         
         if includeQuickSaveState && !useQuickSaveSlots, let quickSaveState = rom.quickSaveState(inSlot: 0) {
-            saveStates = [quickSaveState] + saveStates
+            saveStates.insert(quickSaveState, at: 0)
         }
         
-        if includeAutoSaveState, let autosaveState = rom.autosaveState() {
-            saveStates = [autosaveState] + saveStates
+        if includeAutoSaveState, let autosaveState = rom.autosaveState {
+            saveStates.insert(autosaveState, at: 0)
         }
         
         if !saveStates.isEmpty || (includeQuickSaveState && useQuickSaveSlots) {
@@ -417,8 +682,8 @@ extension OEGameControlsBar {
             menu.addItem(item)
             
             item = NSMenuItem(title: NSLocalizedString("Delete", comment: ""), action: nil, keyEquivalent: "")
-            item.isAlternate = true
             item.isEnabled = false
+            item.isAlternate = true
             item.keyEquivalentModifierMask = .option
             menu.addItem(item)
             
@@ -448,14 +713,14 @@ extension OEGameControlsBar {
                 let itemTitle = saveState.displayName ?? saveState.timestamp?.description ?? ""
                 
                 var item = NSMenuItem(title: itemTitle, action: #selector(OEGlobalEventsHandler.loadState(_:)), keyEquivalent: "")
-                item.indentationLevel = 1
                 item.representedObject = saveState
+                item.indentationLevel = 1
                 menu.addItem(item)
                 
                 item = NSMenuItem(title: itemTitle, action: #selector(OEGameDocument.deleteSaveState(_:)), keyEquivalent: "")
+                item.representedObject = saveState
                 item.isAlternate = true
                 item.keyEquivalentModifierMask = .option
-                item.representedObject = saveState
                 item.indentationLevel = 1
                 menu.addItem(item)
             }

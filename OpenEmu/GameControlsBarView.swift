@@ -24,7 +24,6 @@
 
 import Cocoa
 
-@objc(OEGameControlsBarView)
 final class GameControlsBarView: NSView {
     
     private var slider: NSSlider!
@@ -202,7 +201,7 @@ final class GameControlsBarView: NSView {
     }
     
     @objc private func showSaveMenu(_ sender: NSButton) {
-        if let menu = (window as? OEGameControlsBar)?.saveMenu {
+        if let menu = (window as? GameControlsBar)?.saveMenu {
             let targetRect = sender.bounds.insetBy(dx: -2, dy: 1)
             let menuPosition = NSPoint(x: targetRect.minX, y: targetRect.maxY)
             menu.popUp(positioning: nil, at: menuPosition, in: sender)
@@ -210,16 +209,12 @@ final class GameControlsBarView: NSView {
     }
     
     @objc private func showOptionsMenu(_ sender: NSButton) {
-        if let menu = (window as? OEGameControlsBar)?.optionsMenu {
+        if let menu = (window as? GameControlsBar)?.optionsMenu {
             let targetRect = sender.bounds.insetBy(dx: -2, dy: 1)
             let menuPosition = NSPoint(x: targetRect.minX, y: targetRect.maxY)
             menu.popUp(positioning: nil, at: menuPosition, in: sender)
         }
     }
-}
-
-@objc
-extension GameControlsBarView {
     
     // MARK: - UI State
     
