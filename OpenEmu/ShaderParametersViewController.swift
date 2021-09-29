@@ -103,15 +103,13 @@ final class ShaderParametersViewController: NSViewController {
         
         let shaderMenu = NSMenu()
         
-        let systemShaders = OEShadersModel.shared.systemShaderNames.sorted { $0.caseInsensitiveCompare($1) == .orderedAscending }
-        
+        let systemShaders = OEShadersModel.shared.sortedSystemShaderNames
         systemShaders.forEach { shaderName in
             shaderMenu.addItem(withTitle: shaderName, action: #selector(GameViewController.selectShader(_:)), keyEquivalent: "")
         }
         
-        let customShaders = OEShadersModel.shared.customShaderNames.sorted { $0.caseInsensitiveCompare($1) == .orderedAscending }
-        
-        if customShaders.count > 0 {
+        let customShaders = OEShadersModel.shared.sortedCustomShaderNames
+        if !customShaders.isEmpty {
             shaderMenu.addItem(.separator())
             
             customShaders.forEach { shaderName in

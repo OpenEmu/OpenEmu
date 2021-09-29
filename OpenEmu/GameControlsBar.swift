@@ -310,7 +310,8 @@ extension OEGameControlsBar {
         let selectedShader = OEShadersModel.shared.shaderName(forSystem: systemIdentifier)
         
         // add system shaders first
-        for shaderName in sortedSystemShaders {
+        let sortedSystemShaders = OEShadersModel.shared.sortedSystemShaderNames
+        sortedSystemShaders.forEach { shaderName in
             let item = NSMenuItem(title: shaderName, action: #selector(GameViewController.selectShader(_:)), keyEquivalent: "")
             
             if shaderName == selectedShader {
@@ -320,10 +321,12 @@ extension OEGameControlsBar {
             menu.addItem(item)
         }
         
+        // add custom shaders
+        let sortedCustomShaders = OEShadersModel.shared.sortedCustomShaderNames
         if !sortedCustomShaders.isEmpty {
             menu.addItem(.separator())
             
-            for shaderName in sortedCustomShaders {
+            sortedCustomShaders.forEach { shaderName in
                 let item = NSMenuItem(title: shaderName, action: #selector(GameViewController.selectShader(_:)), keyEquivalent: "")
                 
                 if shaderName == selectedShader {

@@ -60,8 +60,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 @implementation OEGameControlsBar
 {
-//    NSArray<NSString *> *_sortedSystemShaders;
-//    NSArray<NSString *> *_sortedCustomShaders;
     NSRect _lastGameWindowFrame;
 }
 
@@ -146,9 +144,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [nc addObserver:self selector:@selector(mouseMoved:) name:NSApplicationDidBecomeActiveNotification object:nil];
         [nc addObserver:self selector:@selector(willMove:) name:NSWindowWillMoveNotification object:self];
         [nc addObserver:self selector:@selector(didMove:) name:NSWindowDidMoveNotification object:self];
-
-        _sortedSystemShaders = [OEShadersModel.shared.systemShaderNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-        _sortedCustomShaders = [OEShadersModel.shared.customShaderNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     }
     return self;
 }

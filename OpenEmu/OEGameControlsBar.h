@@ -53,8 +53,6 @@ extern NSString *const OEGameControlsBarShowsAudioOutput;
 @property (strong) OEGameControlsBarView *controlsView;
 @property (strong) NSArray<NSDictionary *> *cheats;
 @property          BOOL cheatsLoaded;
-@property NSArray<NSString *> *sortedSystemShaders;
-@property NSArray<NSString *> *sortedCustomShaders;
 - (void)_performMouseMoved:(NSEvent *)theEvent NS_SWIFT_NAME(performMouseMoved(_:));
 @end
 

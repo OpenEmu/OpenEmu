@@ -54,15 +54,13 @@ final class PrefGameplayController: NSViewController {
         
         let globalShaderMenu = NSMenu()
         
-        let systemShaders = OEShadersModel.shared.systemShaderNames.sorted { $0.lowercased() < $1.lowercased() }
-        
+        let systemShaders = OEShadersModel.shared.sortedSystemShaderNames
         systemShaders.forEach { shaderName in
             globalShaderMenu.addItem(withTitle: shaderName, action: nil, keyEquivalent: "")
         }
         
-        let customShaders = OEShadersModel.shared.customShaderNames.sorted { $0.lowercased() < $1.lowercased() }
-        
-        if customShaders.count > 0 {
+        let customShaders = OEShadersModel.shared.sortedCustomShaderNames
+        if !customShaders.isEmpty {
             globalShaderMenu.addItem(.separator())
             
             customShaders.forEach { shaderName in
