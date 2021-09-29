@@ -1057,7 +1057,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 
 - (void)volumeUp:(id)sender;
 {
-    CGFloat volume = [self volume];
+    float volume = [self volume];
     volume += 0.1;
     if(volume > 1.0) volume = 1.0;
     [self setVolume:volume asDefault:YES];
@@ -1065,7 +1065,7 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 
 - (void)volumeDown:(id)sender;
 {
-    CGFloat volume = [self volume];
+    float volume = [self volume];
     volume -= 0.1;
     if(volume < 0.0) volume = 0.0;
     [self setVolume:volume asDefault:YES];

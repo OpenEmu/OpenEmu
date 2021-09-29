@@ -198,7 +198,7 @@ final class GameViewController: NSViewController {
         document.takeScreenshot(sender)
     }
     
-    func reflectVolume(_ volume: CGFloat) {
+    func reflectVolume(_ volume: Float) {
         controlsWindow.reflectVolume(volume)
     }
     

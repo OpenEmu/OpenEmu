@@ -32,6 +32,7 @@ extern NSString *const OEGameControlsBarFadeOutDelayKey;
 extern NSString *const OEGameControlsBarShowsAudioOutput;
 
 @class OEGameViewController;
+@class OEGameControlsBarView;
 @interface OEGameControlsBar : NSWindow
 
 - (id)initWithGameViewController:(OEGameViewController*)controller;
@@ -43,16 +44,17 @@ extern NSString *const OEGameControlsBarShowsAudioOutput;
 
 - (void)repositionOnGameWindow;
 
-@property(readonly) NSMenu *optionsMenu;
-@property(readonly) NSMenu *saveMenu;
-
 @property(readwrite) BOOL canShow;
-
-#pragma mark - Updating UI States
-- (void)reflectVolume:(CGFloat)volume;
-- (void)reflectEmulationRunning:(BOOL)isEmulationRunning;
 
 @property(readonly, unsafe_unretained) OEGameViewController *gameViewController;
 @property (nonatomic, strong) NSWindow *gameWindow;
+
+
+@property (strong) OEGameControlsBarView *controlsView;
+@property (strong) NSArray<NSDictionary *> *cheats;
+@property          BOOL cheatsLoaded;
+@property NSArray<NSString *> *sortedSystemShaders;
+@property NSArray<NSString *> *sortedCustomShaders;
+- (void)_performMouseMoved:(NSEvent *)theEvent NS_SWIFT_NAME(performMouseMoved(_:));
 @end
 

@@ -37,7 +37,7 @@
 
 @property(class, readonly) OEAudioDeviceManager *sharedAudioDeviceManager;
 
-@property(readonly) NSArray       *audioDevices;
+@property(readonly) NSArray<OEAudioDevice *> *audioDevices;
 @property(readonly) OEAudioDevice *defaultInputDevice;
 @property(readonly) OEAudioDevice *defaultOutputDevice;
 @property(readonly) OEAudioDevice *defaultSystemOutputDevice;
