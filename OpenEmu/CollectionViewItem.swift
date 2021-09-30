@@ -53,6 +53,9 @@ class CollectionViewItem: NSCollectionViewItem {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        imageURL = nil
+        imageView?.image = nil
+        textField?.stringValue = ""
         selectionLayer?.removeFromSuperlayer()
         selectionLayer = nil
     }
@@ -83,6 +86,7 @@ class CollectionViewItem: NSCollectionViewItem {
             
             selectionLayer = sel
             layer.addSublayer(sel)
+            view.needsLayout = true
         } else if let sel = selectionLayer, (!isSelected || highlightState == .forDeselection) {
             sel.removeFromSuperlayer()
             selectionLayer = nil

@@ -24,76 +24,13 @@
 
 import Cocoa
 
-class ImageCollectionViewItem: NSCollectionViewItem {
-    
-    var selectionLayer: CALayer?
+class ImageCollectionViewItem: CollectionViewItem {
     
     @IBOutlet var subtitleField: NSTextField?
     
-    var imageURL: URL?
-    
-    override var highlightState: NSCollectionViewItem.HighlightState {
-        didSet {
-            if oldValue != highlightState {
-                self.updateHighlightState()
-            }
-        }
-    }
-    
-    override var isSelected: Bool {
-        didSet {
-            if oldValue != isSelected {
-                self.updateHighlightState()
-            }
-        }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.wantsLayer = true
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageURL = nil
-        imageView?.image = nil
-        textField?.stringValue = ""
         subtitleField?.stringValue = ""
-        selectionLayer?.removeFromSuperlayer()
-        selectionLayer = nil
-    }
-    
-    override func viewDidLayout() {
-        super.viewDidLayout()
-        
-        if let layer = selectionLayer, let imageView = imageView {
-            var rect = imageView.croppedBounds
-            rect = view.convert(rect, from: imageView)
-            
-            CATransaction.begin()
-            defer { CATransaction.commit() }
-            CATransaction.setDisableActions(true)
-            
-            layer.frame = rect.insetBy(dx: -6, dy: -6)
-        }
-    }
-    
-    func updateHighlightState() {
-        if (isSelected || highlightState == .forSelection) && selectionLayer == nil {
-            guard let layer = view.layer else { return }
-            
-            let sel = CALayer()
-            sel.borderColor = NSColor.selectedContentBackgroundColor.cgColor
-            sel.borderWidth = 4
-            sel.cornerRadius = 3
-            
-            selectionLayer = sel
-            layer.addSublayer(sel)
-            view.needsLayout = true
-        } else if let sel = selectionLayer, (!isSelected || highlightState == .forDeselection) {
-            sel.removeFromSuperlayer()
-            selectionLayer = nil
-        }
     }
 }
 
