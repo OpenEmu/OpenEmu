@@ -27,7 +27,6 @@
 #import "OEGridView.h"
 
 #import "OEGridGameCell.h"
-#import "OEGridViewFieldEditor.h"
 #import "OECoverGridDataSourceItem.h"
 
 #import "OpenEmu-Swift.h"
