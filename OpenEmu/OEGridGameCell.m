@@ -9,7 +9,6 @@
 #import "OEGridGameCell.h"
 
 #import "OECoverGridDataSourceItem.h"
-#import "OEGridViewCellIndicationLayer.h"
 
 #import "IKImageBrowserCell.h"
 
