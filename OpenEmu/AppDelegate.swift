@@ -142,10 +142,10 @@ class AppDelegate: NSObject {
             OEDBSaveStatesMedia.showsQuickSavesKey: true,
             OEForcePopoutGameWindowKey: true,
             OEPopoutGameWindowIntegerScalingOnlyKey: true,
-            OEAppearancePreferenceKey: OEAppearancePreferenceValue.dark.rawValue,
-            OEHUDBarAppearancePreferenceKey: OEHUDBarAppearancePreferenceValue.vibrant.rawValue,
-            OEControlsPrefsAppearancePreferenceKey: OEControlsPrefsAppearancePreferenceValue.wood.rawValue,
-            ])
+            OEAppearance.Application.key: OEAppearance.Application.dark.rawValue,
+            OEAppearance.HUDBar.key: OEAppearance.HUDBar.vibrant.rawValue,
+            OEAppearance.ControlsPrefs.key: OEAppearance.ControlsPrefs.wood.rawValue,
+        ])
         
         #if !DEBUG_PRINT
             UserDefaults.standard.removeObject(forKey: OEGameCoreManagerModePreferenceKey)
@@ -168,7 +168,7 @@ class AppDelegate: NSObject {
     }
     
     deinit {
-        OECorePlugin.self.removeObserver(self, forKeyPath: "values.".appending(OEAppearancePreferenceKey), context: &appearancePrefChangedKVOContext)
+        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.\(OEAppearance.Application.key)", context: &appearancePrefChangedKVOContext)
     }
     
     // MARK: - Library Database
@@ -518,7 +518,7 @@ class AppDelegate: NSObject {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
         if context == &appearancePrefChangedKVOContext {
-            let pref = OEAppearancePreferenceValue(rawValue: UserDefaults.standard.integer(forKey: OEAppearancePreferenceKey))
+            let pref = OEAppearance.Application(rawValue: UserDefaults.standard.integer(forKey: OEAppearance.Application.key))
             switch pref {
                 case .dark:
                     NSApp.appearance = NSAppearance(named: .darkAqua)
@@ -756,7 +756,7 @@ extension AppDelegate: NSMenuDelegate {
         }
         AppMover.moveIfNecessary()
         
-        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.".appending(OEAppearancePreferenceKey), options: [.initial], context: &appearancePrefChangedKVOContext)
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.\(OEAppearance.Application.key)", options: [.initial], context: &appearancePrefChangedKVOContext)
         
         NotificationCenter.default.addObserver(self, selector: #selector(removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter), name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
     }

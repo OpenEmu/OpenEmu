@@ -24,7 +24,7 @@
 
 final class ControlsKeyButton: NSButton {
     
-    let isWood = UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue
+    private let isWood = UserDefaults.standard.integer(forKey: OEAppearance.ControlsPrefs.key) == OEAppearance.ControlsPrefs.wood.rawValue
     
     override var isFlipped: Bool {
         return false

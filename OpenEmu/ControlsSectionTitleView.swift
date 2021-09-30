@@ -30,8 +30,8 @@ final class ControlsSectionTitleView: NSView {
     private lazy var bottomColor = NSColor(deviceRed: 1, green: 1, blue: 0, alpha: 0.2)
     private let leftGap: CGFloat = 16
     
-    private let isWood = UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue
-    private let isWoodVibrant = UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.woodVibrant.rawValue
+    private let isWood = UserDefaults.standard.integer(forKey: OEAppearance.ControlsPrefs.key) == OEAppearance.ControlsPrefs.wood.rawValue
+    private let isWoodVibrant = UserDefaults.standard.integer(forKey: OEAppearance.ControlsPrefs.key) == OEAppearance.ControlsPrefs.woodVibrant.rawValue
     
     private lazy var veView: NSVisualEffectView = {
         let veView = NSVisualEffectView()

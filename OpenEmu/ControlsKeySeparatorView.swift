@@ -39,7 +39,7 @@ final class ControlsKeySeparatorView: NSView {
         lineRect.size.height = 1
         lineRect.origin.y = bounds.size.height/2
         
-        if UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue {
+        if UserDefaults.standard.integer(forKey: OEAppearance.ControlsPrefs.key) == OEAppearance.ControlsPrefs.wood.rawValue {
             
             topColor.setFill()
             lineRect.fill()

@@ -30,8 +30,8 @@ final class GameControlsBarView: NSView {
     private var fullScreenButton: NSButton!
     private var pauseButton: NSButton!
     
-    private let barAppearance: OEHUDBarAppearancePreferenceValue = {
-        if UserDefaults.standard.integer(forKey: OEHUDBarAppearancePreferenceKey) == OEHUDBarAppearancePreferenceValue.vibrant.rawValue {
+    private let barAppearance: OEAppearance.HUDBar = {
+        if UserDefaults.standard.integer(forKey: OEAppearance.HUDBar.key) == OEAppearance.HUDBar.vibrant.rawValue {
             return .vibrant
         } else {
             return .dark

@@ -459,7 +459,7 @@
 		8F2F92AA2519A9E700699691 /* GameScannerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2F92A92519A9E700699691 /* GameScannerButton.swift */; };
 		8F3062DB251A897F00BDFF1F /* OESearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3062DA251A897E00BDFF1F /* OESearchField.swift */; };
 		8F4198B025B68B7500A7F0BE /* OELibraryDatabase+Maintenance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4198AF25B68B7500A7F0BE /* OELibraryDatabase+Maintenance.m */; };
-		8F419A0325B6C7AE00A7F0BE /* OEAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F419A0225B6C7AE00A7F0BE /* OEAppearance.m */; };
+		8F419A0325B6C7AE00A7F0BE /* OEAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F419A0225B6C7AE00A7F0BE /* OEAppearance.swift */; };
 		8F419A3C25B6C81600A7F0BE /* PrefDebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83753F1614F537C400D708A7 /* PrefDebugController.swift */; };
 		8F44DEB526DFD07200893A18 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 8F44DEB426DFD07200893A18 /* Sparkle */; };
 		8F4A69732547F84500DFE092 /* GameControlsBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4A69722547F84500DFE092 /* GameControlsBarView.swift */; };
@@ -1761,8 +1761,7 @@
 		8F40EB811C1072B200683055 /* GameScanner.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameScanner.xib; sourceTree = "<group>"; };
 		8F40EB841C1072B300683055 /* SetupAssistant.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetupAssistant.xib; sourceTree = "<group>"; };
 		8F4198AF25B68B7500A7F0BE /* OELibraryDatabase+Maintenance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "OELibraryDatabase+Maintenance.m"; sourceTree = "<group>"; };
-		8F419A0125B6C7AE00A7F0BE /* OEAppearance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEAppearance.h; sourceTree = "<group>"; };
-		8F419A0225B6C7AE00A7F0BE /* OEAppearance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEAppearance.m; sourceTree = "<group>"; };
+		8F419A0225B6C7AE00A7F0BE /* OEAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEAppearance.swift; sourceTree = "<group>"; };
 		8F4A69722547F84500DFE092 /* GameControlsBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameControlsBarView.swift; sourceTree = "<group>"; };
 		8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		8F4BDF7C1CE4AB34007DCB86 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -2991,8 +2990,6 @@
 				5A9606D51C0A7C9D0089B494 /* NSWindow+FullScreen.swift */,
 				8FAD320125B31FB000323020 /* URL+OEAdditions.swift */,
 				05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */,
-				8F419A0125B6C7AE00A7F0BE /* OEAppearance.h */,
-				8F419A0225B6C7AE00A7F0BE /* OEAppearance.m */,
 				0544B6AB23D16E7A00F63D61 /* OEResponder.h */,
 			);
 			name = Additions;
@@ -3532,6 +3529,7 @@
 			children = (
 				0571307E259A8859001CB13A /* AppMover.swift */,
 				5A9606E91C0BD2BD0089B494 /* DLog.swift */,
+				8F419A0225B6C7AE00A7F0BE /* OEAppearance.swift */,
 				5A44301A1D93380600E54F1D /* OEBuildInfo.h */,
 				5A44301B1D93380600E54F1D /* OEBuildInfo.m */,
 				83F7DBAD18C0E2470029199C /* OEFileManager.h */,
@@ -6799,7 +6797,7 @@
 				05E789AB23D0256D000E14EE /* NSBindingName+Additions.swift in Sources */,
 				0544B6A923D16DDC00F63D61 /* ScreenshotViewController.swift in Sources */,
 				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,
-				8F419A0325B6C7AE00A7F0BE /* OEAppearance.m in Sources */,
+				8F419A0325B6C7AE00A7F0BE /* OEAppearance.swift in Sources */,
 				5A575DFB1E92B6CE00491B0D /* BIOSFile.swift in Sources */,
 				83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */,
 				83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */,

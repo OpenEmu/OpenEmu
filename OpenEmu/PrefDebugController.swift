@@ -48,10 +48,10 @@ final class PrefDebugController: NSViewController {
             Option(label: "XPC", value: OEXPCGameCoreManager.className()),
             Option(label: "Background Thread", value: OEThreadGameCoreManager.className()),
         ]),
-        Popover(key: OEAppearancePreferenceKey, label: "Appearance:", action: #selector(changeAppAppearance(_:)), options: [
-            Option(label: "System", value: OEAppearancePreferenceValue.system.rawValue),
-            Option(label: "Dark (default)", value: OEAppearancePreferenceValue.dark.rawValue),
-            Option(label: "Light", value: OEAppearancePreferenceValue.light.rawValue),
+        Popover(key: OEAppearance.Application.key, label: "Appearance:", action: #selector(changeAppAppearance(_:)), options: [
+            Option(label: "System", value: OEAppearance.Application.system.rawValue),
+            Option(label: "Dark (default)", value: OEAppearance.Application.dark.rawValue),
+            Option(label: "Light", value: OEAppearance.Application.light.rawValue),
         ]),
         "-",
         
@@ -74,9 +74,9 @@ final class PrefDebugController: NSViewController {
         Checkbox(key: OETakeNativeScreenshots, label: "Take screenshots in native size"),
         Checkbox(key: OEScreenshotAspectRatioCorrectionDisabled, label: "Disable aspect ratio correction in screenshots"),
         Checkbox(key: OEPopoutGameWindowTreatScaleFactorAsPixels, label: "Change scale menu unit from points to pixels"),
-        Popover(key: OEHUDBarAppearancePreferenceKey, label: "Appearance:", action: #selector(changeHUDBarAppearance(_:)), options: [
-            Option(label: "Vibrant", value: OEHUDBarAppearancePreferenceValue.vibrant.rawValue),
-            Option(label: "Dark", value: OEHUDBarAppearancePreferenceValue.dark.rawValue),
+        Popover(key: OEAppearance.HUDBar.key, label: "Appearance:", action: #selector(changeHUDBarAppearance(_:)), options: [
+            Option(label: "Vibrant", value: OEAppearance.HUDBar.vibrant.rawValue),
+            Option(label: "Dark", value: OEAppearance.HUDBar.dark.rawValue),
         ]),
         ColorWell(key: OEGameViewBackgroundColorKey, label: "Game View Background color:"),
         "-",
@@ -87,10 +87,10 @@ final class PrefDebugController: NSViewController {
         Checkbox(key: "logsHIDEvents", label: "Log HID Events"),
         Checkbox(key: "logsHIDEventsNoKeyboard", label: "Log Keyboard Events"),
         Checkbox(key: OEPrefControlsShowAllGlobalKeys, label: "Show all special keys"),
-        Popover(key: OEControlsPrefsAppearancePreferenceKey, label: "Appearance:", action: #selector(changeControlsPrefsAppearance(_:)), options: [
-            Option(label: "Wood", value: OEControlsPrefsAppearancePreferenceValue.wood.rawValue),
-            Option(label: "Vibrant", value: OEControlsPrefsAppearancePreferenceValue.lumberjack.rawValue),
-            Option(label: "Vibrant Wood", value: OEControlsPrefsAppearancePreferenceValue.woodVibrant.rawValue),
+        Popover(key: OEAppearance.ControlsPrefs.key, label: "Appearance:", action: #selector(changeControlsPrefsAppearance(_:)), options: [
+            Option(label: "Wood", value: OEAppearance.ControlsPrefs.wood.rawValue),
+            Option(label: "Vibrant", value: OEAppearance.ControlsPrefs.vibrant.rawValue),
+            Option(label: "Vibrant Wood", value: OEAppearance.ControlsPrefs.woodVibrant.rawValue),
         ]),
         NumericTextField(key: "OESystemResponderADCThreshold", label: "Threshold for analog controls bound to buttons:", numberFormatter: NumericTextField.NF(allowsFloats: true, minimum: NSNumber(value: 0.01), maximum: NSNumber(value: 0.99), numberStyle: .decimal)),
         "-",
@@ -356,17 +356,17 @@ final class PrefDebugController: NSViewController {
     
     func changeAppAppearance(_ sender: NSPopUpButton) {
         let selectedItem = sender.selectedItem
-        UserDefaults.standard.set(selectedItem?.representedObject, forKey: OEAppearancePreferenceKey)
+        UserDefaults.standard.set(selectedItem?.representedObject, forKey: OEAppearance.Application.key)
     }
     
     func changeHUDBarAppearance(_ sender: NSPopUpButton) {
         let selectedItem = sender.selectedItem
-        UserDefaults.standard.set(selectedItem?.representedObject, forKey: OEHUDBarAppearancePreferenceKey)
+        UserDefaults.standard.set(selectedItem?.representedObject, forKey: OEAppearance.HUDBar.key)
     }
     
     func changeControlsPrefsAppearance(_ sender: NSPopUpButton) {
         let selectedItem = sender.selectedItem
-        UserDefaults.standard.set(selectedItem?.representedObject, forKey: OEControlsPrefsAppearancePreferenceKey)
+        UserDefaults.standard.set(selectedItem?.representedObject, forKey: OEAppearance.ControlsPrefs.key)
         
         let alert = OEAlert()
         alert.messageText = NSLocalizedString("You need to restart the application to commit the change", comment: "")

@@ -22,8 +22,20 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "OEAppearance.h"
-
-NSString * const OEAppearancePreferenceKey = @"OEAppearance";
-NSString * const OEHUDBarAppearancePreferenceKey = @"OEHUDBarAppearance";
-NSString * const OEControlsPrefsAppearancePreferenceKey = @"OEControlsPrefsAppearance";
+struct OEAppearance {
+    
+    enum Application: Int {
+        case system, dark, light
+        static var key = "OEAppearance"
+    }
+    
+    enum HUDBar: Int {
+        case vibrant, dark
+        static var key = "OEHUDBarAppearance"
+    }
+    
+    enum ControlsPrefs: Int {
+        case wood, vibrant, woodVibrant
+        static var key = "OEControlsPrefsAppearance"
+    }
+}
