@@ -80,12 +80,15 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
         }
     }
     
-    @objc func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        if let sel = menuItem.action, sel == #selector(showInFinder(_:)) || sel == #selector(delete(_:)) {
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        switch menuItem.action {
+        case #selector(copy(_:)),
+             #selector(delete(_:)),
+             #selector(showInFinder(_:)):
             return collectionView.selectionIndexPaths.count > 0
+        default:
+            return true
         }
-        
-        return true
     }
     
     func collectionView(_ collectionView: CollectionView, menuForItemsAt indexPaths: Set<IndexPath>) -> NSMenu? {
@@ -120,15 +123,29 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
         return menu
     }
     
+    @IBAction func copy(_ sender: Any?) {
+        copySelectedItems(sender)
+    }
+    
+    @IBAction func copySelectedItems(_ sender: Any?) {
+        let items = dataSource.items(at: collectionView.selectionIndexPaths)
+        guard !items.isEmpty else { return }
+        
+        let fileURLs = items.map { $0.url.absoluteURL as NSURL }
+        
+        let pboard = NSPasteboard.general
+        pboard.clearContents()
+        pboard.declareTypes([.fileURL], owner: nil)
+        pboard.writeObjects(fileURLs)
+    }
+    
     @IBAction override func delete(_ sender: Any?) {
         deleteSelectedItems(sender)
     }
     
     @IBAction func deleteSelectedItems(_ sender: Any?) {
         let items = dataSource.items(at: collectionView.selectionIndexPaths)
-        if items.count == 0 {
-            return
-        }
+        guard !items.isEmpty else { return }
         
         var alert: OEAlert
         if items.count == 1 {
