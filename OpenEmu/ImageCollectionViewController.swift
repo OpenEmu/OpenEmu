@@ -129,6 +129,20 @@ class ImageCollectionViewController: NSViewController {
         reloadData()
     }
     
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        // Fixes mismatch between collectionViewContentSize and the collection view’s frame size
+        // after adding (or removing) items while another category is selected,
+        // which would cause the bottom area to be clipped (or empty).
+        // TODO: Maybe there’s a better way to fix this?
+        if var contentSize = collectionView.collectionViewLayout?.collectionViewContentSize {
+            contentSize.height = contentSize.height.rounded(.awayFromZero)
+            if collectionView.frame.size != contentSize {
+                collectionView.setFrameSize(contentSize)
+            }
+        }
+    }
+    
     override func viewDidAppear() {
         super.viewDidAppear()
         
