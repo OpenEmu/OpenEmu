@@ -259,15 +259,17 @@ final class GameViewController: NSViewController {
 extension GameViewController: NSMenuItemValidation {
     
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        let action = menuItem.action
-        if action == #selector(toggleControlsVisibility(_:)) {
+        switch menuItem.action {
+        case #selector(toggleControlsVisibility(_:)) :
             if controlsWindow.canShow {
                 menuItem.state = .off
             } else {
                 menuItem.state = .on
             }
+            return true
+        default:
+            return true
         }
-        return true
     }
 }
 

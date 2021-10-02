@@ -339,43 +339,31 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
     
     // MARK: - Validation
     
-    @objc func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        guard let sel = menuItem.action else { return false }
-        
-        if sel == #selector(newCollectionFolder(_:)) { return false }
-        
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let currentSubviewController = tabView.selectedTabViewItem?.viewController else { return false }
-        
-        if sel == #selector(startSelectedGame(_:)) {
+        switch menuItem.action {
+        case #selector(startSelectedGame(_:)):
             if let ctl = currentSubviewController as? LibrarySubviewControllerGameSelection {
                 return !ctl.selectedGames.isEmpty
             }
             return false
-        }
-        
-        if sel == #selector(find(_:)) {
+        case #selector(find(_:)):
             return toolbar.searchField.isEnabled
-        }
-        
-        if sel == #selector(switchCategoryFromMenu(_:)) {
+        case #selector(switchCategoryFromMenu(_:)):
             menuItem.state = (toolbar.categorySelector.selectedSegment == menuItem.tag - 100) ? .on : .off
-        }
-        
-        if sel == #selector(decreaseGridSize(_:)) || sel == #selector(increaseGridSize(_:)) {
+            return true
+        case #selector(decreaseGridSize(_:)),
+             #selector(increaseGridSize(_:)):
             return self.toolbar.gridSizeSlider.isEnabled
-        }
-        
-        if sel == #selector(switchToGridView(_:)) {
+        case #selector(switchToGridView(_:)):
             menuItem.state = toolbar.viewModeSelector.selectedSegment == 0 ? .on : .off
             return toolbar.viewModeSelector.isEnabled
-        }
-        
-        if sel == #selector(switchToListView(_:)) {
+        case #selector(switchToListView(_:)):
             menuItem.state = toolbar.viewModeSelector.selectedSegment == 1 ? .on : .off
             return toolbar.viewModeSelector.isEnabled
+        default:
+            return true
         }
-        
-        return true
     }
     
     // MARK: - Import

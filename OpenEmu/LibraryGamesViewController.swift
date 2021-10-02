@@ -228,20 +228,18 @@ extension LibraryGamesViewController: LibrarySubviewControllerGameSelection {
 extension LibraryGamesViewController: NSMenuItemValidation {
     
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        
         let isGridView = collectionController.selectedViewTag == .gridViewTag
         let isBlankSlate = collectionController.shouldShowBlankSlate()
-        let sel = menuItem.action
         
-        if sel == #selector(switchToGridView) {
+        switch menuItem.action {
+        case #selector(switchToGridView):
             menuItem.state = isGridView ? .on : .off
             return !isBlankSlate
-        }
-        else if sel == #selector(switchToListView) {
+        case #selector(switchToListView) :
             menuItem.state = !isGridView ? .on : .off
             return !isBlankSlate
+        default:
+            return true
         }
-        
-        return true
     }
 }
