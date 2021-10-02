@@ -57,7 +57,7 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 @class OEDBSaveState;
 @class OEGameViewController;
 @class OESystemPlugin;
-@class OEEvent;
+@class OEGameCoreManager;
 @protocol OEGameCoreHelper;
 
 @interface OEGameDocument : NSDocument
@@ -113,25 +113,25 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 - (IBAction)addCheat:(id)sender;
 - (IBAction)setCheat:(id)sender;
 - (IBAction)toggleCheat:(id)sender;
-- (BOOL)supportsCheats;
+@property(readonly) BOOL supportsCheats;
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 
 #pragma mark - Discs
 - (IBAction)setDisc:(id)sender;
-- (BOOL)supportsMultipleDiscs;
+@property(readonly) BOOL supportsMultipleDiscs;
 
 #pragma mark - File Insertion
 - (IBAction)insertFile:(id)sender;
-- (BOOL)supportsFileInsertion;
+@property(readonly) BOOL supportsFileInsertion;
 
 #pragma mark - Display Mode
 - (void)changeDisplayMode:(id)sender;
-- (BOOL)supportsDisplayModeChange;
+@property(readonly) BOOL supportsDisplayModeChange;
 - (IBAction)nextDisplayMode:(id)sender;
 - (IBAction)lastDisplayMode:(id)sender;
 
 #pragma mark - Saving States
-- (BOOL)supportsSaveStates;
+@property(readonly) BOOL supportsSaveStates;
 - (void)quickSave:(id)sender;
 - (void)quickLoad:(id)sender;
 
@@ -141,12 +141,34 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 #pragma mark - Full Screen
 - (void)toggleFullScreen:(id)sender;
 
-#pragma mark - OEGameViewController Methods
 
-- (void)setOutputBounds:(NSRect)bounds;
-- (void)didReceiveMouseEvent:(OEEvent *)event;
-- (void)updateBackingScaleFactor:(CGFloat)newScaleFactor;
-- (void)updateBounds:(CGRect)newBounds;
-- (void)setShaderURL:(NSURL *)url parameters:(NSDictionary<NSString *, NSNumber *> *)parameters completionHandler:(void (^)(BOOL success, NSError * error))block;
+
+#pragma mark - Private
+
+typedef NS_ENUM(NSUInteger, OEEmulationStatus)
+{
+    /// The current OEGameCoreManager has not been instantiated yet,
+    /// or it has been deallocated because emulation has terminated
+    OEEmulationStatusNotSetup,
+    /// The OEGameCoreManager is ready, but the emulation was not started for
+    /// the first time yet
+    OEEmulationStatusSetup,
+    /// The emulation has been requested to start
+    OEEmulationStatusStarting,
+    ///
+    OEEmulationStatusPlaying,
+    ///
+    OEEmulationStatusPaused,
+    /// After emulation stops, but before OEGameCoreManager is deallocated
+    OEEmulationStatusTerminating,
+};
+
+- (void)loadState:(id)sender;
+- (void)saveState:(id)sender;
+
+@property OEEmulationStatus  emulationStatus;
+@property OEGameCoreManager *gameCoreManager;
+@property BOOL               isMuted;
+@property BOOL               coreDidTerminateSuddenly;
 
 @end

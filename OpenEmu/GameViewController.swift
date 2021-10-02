@@ -57,8 +57,8 @@ final class GameViewController: NSViewController {
     
     private var token: NSObjectProtocol?
     
-    var displayModes: [[String: AnyObject]] = []
-    var discCount = 0
+    var displayModes: [[String: Any]] = []
+    var discCount: UInt = 0
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -167,23 +167,23 @@ final class GameViewController: NSViewController {
     // MARK: - Controlling Emulation
     
     var supportsCheats: Bool {
-        return document.supportsCheats()
+        return document.supportsCheats
     }
     
     var supportsSaveStates: Bool {
-        return document.supportsSaveStates()
+        return document.supportsSaveStates
     }
     
     var supportsMultipleDiscs: Bool {
-        return document.supportsMultipleDiscs()
+        return document.supportsMultipleDiscs
     }
     
     var supportsFileInsertion: Bool {
-        return document.supportsFileInsertion()
+        return document.supportsFileInsertion
     }
     
     var supportsDisplayModeChange: Bool {
-        return document.supportsDisplayModeChange()
+        return document.supportsDisplayModeChange
     }
     
     var coreIdentifier: String {

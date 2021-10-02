@@ -490,6 +490,7 @@
 		8FB8A29526E296BD00F2B626 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD1F1BD3AC3D0025BC6C /* SidebarItem.swift */; };
 		8FBAE60C254BA0D300446C3B /* OEControls.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FBAE60E254BA0D300446C3B /* OEControls.strings */; };
 		8FBAE9EB254BD7FA00446C3B /* NSControl+i18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBAE9EA254BD7FA00446C3B /* NSControl+i18n.swift */; };
+		8FC3CC692708BD4200747DC2 /* OEGameDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC3CC682708BD4200747DC2 /* OEGameDocument.swift */; };
 		8FD78305243A8AD300861B7A /* Debug.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FD78307243A8AD300861B7A /* Debug.strings */; };
 		8FD905771AA2927100FA7662 /* PrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F40EB791C1072B100683055 /* PrefControlsController.xib */; };
 		8FDCCAD8270632AC00CBF2E3 /* OEGridViewFieldEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDCCAD7270632AC00CBF2E3 /* OEGridViewFieldEditor.swift */; };
@@ -1808,6 +1809,7 @@
 		8FBAEAD6254BE76100446C3B /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OEControls.strings; sourceTree = "<group>"; };
 		8FBAEAD7254BE76300446C3B /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/OEControls.strings"; sourceTree = "<group>"; };
 		8FBAEAD8254BE76600446C3B /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OEControls.strings"; sourceTree = "<group>"; };
+		8FC3CC682708BD4200747DC2 /* OEGameDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEGameDocument.swift; sourceTree = "<group>"; };
 		8FCCCE5724E7087800223181 /* en-GB */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Debug.strings"; sourceTree = "<group>"; };
 		8FCCCE5824E7087A00223181 /* ca */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Debug.strings; sourceTree = "<group>"; };
 		8FCCCE5924E7087E00223181 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Debug.strings; sourceTree = "<group>"; };
@@ -2858,6 +2860,7 @@
 				05E789A623D01B16000E14EE /* GameDocumentController.swift */,
 				2A37F4AEFDCFA73011CA2CEA /* OEGameDocument.h */,
 				2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */,
+				8FC3CC682708BD4200747DC2 /* OEGameDocument.swift */,
 				0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */,
 				8301557A1456BF7A0093D681 /* GameViewController.swift */,
 				5A46AC401DC66D8300771B3B /* GameViewController+TouchBar.swift */,
@@ -6824,6 +6827,7 @@
 				834B6F2E1A3B453000CA6A26 /* HomebrewBlankSlateView.swift in Sources */,
 				5A9606E41C0BA85F0089B494 /* NSURL+LibraryAdditions.swift in Sources */,
 				5A3BB0391D964A4500E10F27 /* CenteredTextFieldCell.swift in Sources */,
+				8FC3CC692708BD4200747DC2 /* OEGameDocument.swift in Sources */,
 				0544B6A323D16D6300F63D61 /* NSImageView+OEAdditions.swift in Sources */,
 				14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */,
 				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,

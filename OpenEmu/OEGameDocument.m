@@ -66,38 +66,20 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 // - (void)document:(NSDocument *)doc shouldClose:(BOOL)shouldClose  contextInfo:(void  *)contextInfo
 #define CAN_CLOSE_REPLY ((void(*)(id, SEL, NSDocument *, BOOL, void *))objc_msgSend)
 
-typedef NS_ENUM(NSUInteger, OEEmulationStatus)
+@interface OEGameDocument ()
 {
-    /// The current OEGameCoreManager has not been instantiated yet,
-    /// or it has been deallocated because emulation has terminated
-    OEEmulationStatusNotSetup,
-    /// The OEGameCoreManager is ready, but the emulation was not started for
-    /// the first time yet
-    OEEmulationStatusSetup,
-    /// The emulation has been requested to start
-    OEEmulationStatusStarting,
-    ///
-    OEEmulationStatusPlaying,
-    ///
-    OEEmulationStatusPaused,
-    /// After emulation stops, but before OEGameCoreManager is deallocated
-    OEEmulationStatusTerminating,
-};
-
-@interface OEGameDocument () <OEGameCoreOwner, OESystemBindingsObserver>
-{
-    OEGameCoreManager  *_gameCoreManager;
+//    OEGameCoreManager  *_gameCoreManager;
     
     IOPMAssertionID     _displaySleepAssertionID;
     
-    OEEmulationStatus   _emulationStatus;
+//    OEEmulationStatus   _emulationStatus;
     OEDBSaveState      *_saveStateForGameStart;
     NSDate             *_lastPlayStartDate;
     NSString           *_lastSelectedDisplayModeOption;
-    BOOL                _isMuted;
+//    BOOL                _isMuted;
     BOOL                _pausedByGoingToBackground;
     BOOL                _isTerminatingEmulation;
-    BOOL                _coreDidTerminateSuddenly;
+//    BOOL                _coreDidTerminateSuddenly;
     /// Indicates whether the document is currently moving from the main window into a separate popout window.
     BOOL                _isUndocking;
     
@@ -482,11 +464,6 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     }
 }
 
-- (void)setOutputBounds:(NSRect)bounds
-{
-    [_gameCoreManager setOutputBounds:bounds];
-}
-
 #pragma mark - Device Notifications
 - (void)OE_addDeviceNotificationObservers
 {
@@ -689,46 +666,6 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
         return [self OE_setupDocumentWithSaveState:state error:outError];
     else
         return [self OE_setupDocumentWithROM:[game defaultROM] usingCorePlugin:nil error:outError];
-}
-
-#pragma mark - Menu Items
-
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
-{
-    SEL action = [menuItem action];
-    if(action == @selector(quickLoad:))
-    {
-        NSInteger slot = [menuItem representedObject] ? [[menuItem representedObject] integerValue] : [menuItem tag];
-        return [[self rom] quickSaveStateInSlot:slot]!=nil;
-    }
-    else if(action == @selector(quickSave:))
-    {
-        if(![self supportsSaveStates])
-            return NO;
-    }
-    else if(action == @selector(toggleEmulationPaused:))
-    {
-        if(_emulationStatus == OEEmulationStatusPaused)
-        {
-            [menuItem setTitle:NSLocalizedString(@"Resume Game", @"")];
-            return YES;
-        }
-        
-        [menuItem setTitle:NSLocalizedString(@"Pause Game", @"")];
-        return _emulationStatus == OEEmulationStatusPlaying;
-    }
-    else if(action == @selector(nextDisplayMode:))
-    {
-        if(![self supportsDisplayModeChange])
-            return NO;
-    }
-    else if(action == @selector(lastDisplayMode:))
-    {
-        if(![self supportsDisplayModeChange])
-            return NO;
-    }
-
-    return YES;
 }
 
 #pragma mark - Control Emulation
@@ -1033,14 +970,6 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
         [self setVolume:[[sender representedObject] floatValue] asDefault:YES];
     else
         DLog(@"Invalid argument passed: %@", sender);
-}
-
-- (void)toggleAudioMute
-{
-    if(_isMuted)
-        [self unmute:self];
-    else
-        [self mute:self];
 }
 
 - (IBAction)mute:(id)sender;
@@ -1691,12 +1620,6 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     return pauseNeeded;
 }
 
-- (void)saveState
-{
-    [NSApp sendAction:@selector(saveState:) to:nil from:nil];
-    //[self saveState:nil];
-}
-
 - (void)saveState:(id)sender
 {
     if(![self supportsSaveStates])
@@ -1731,11 +1654,6 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     }
     
     if(didPauseEmulation) [self setEmulationPaused:NO];
-}
-
-- (void)quickSave
-{
-    [self quickSave:nil];
 }
 
 - (void)quickSave:(id)sender;
@@ -1844,12 +1762,6 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 
 #pragma mark - Loading States
 
-- (void)loadState
-{
-    FIXME("This replaces a call from OESystemResponder which used to pass self, but passing OESystemResponder would yield the same result in -loadState: so I do not know whether this ever worked in this case.");
-    [self loadState:nil];
-}
-
 - (void)loadState:(id)sender;
 {
     // calling pauseGame here because it might need some time to execute
@@ -1867,11 +1779,6 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     }
     
     [self OE_loadState:state];
-}
-
-- (void)quickLoad
-{
-    [self quickLoad:nil];
 }
 
 - (void)quickLoad:(id)sender;
@@ -1970,146 +1877,6 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     OEAlert *alert = [OEAlert deleteStateAlertWithStateName:stateName];
     
     if([alert runModal] == NSAlertFirstButtonReturn) [state deleteAndRemoveFiles];
-}
-
-#pragma mark - Methods called by OEGameViewController
-
-- (void)didReceiveMouseEvent:(OEEvent *)event;
-{
-    [_gameCoreManager handleMouseEvent:event];
-}
-
-- (void)updateBounds:(CGRect)newBounds
-{
-    [_gameCoreManager setOutputBounds:newBounds];
-}
-
-- (void)updateBackingScaleFactor:(CGFloat)newScaleFactor {
-    [_gameCoreManager setBackingScaleFactor:newScaleFactor];
-}
-
-- (void)setShaderURL:(NSURL *)url parameters:(NSDictionary<NSString *, NSNumber *> *)parameters completionHandler:(void (^)(BOOL success, NSError * _Nullable error))block
-{
-    [_gameCoreManager setShaderURL:url parameters:parameters completionHandler:block];
-}
-
-#pragma mark - OESystemBindingsObserver
-
-- (void)systemBindings:(OESystemBindings *)sender didSetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber
-{
-    [_gameCoreManager systemBindingsDidSetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
-}
-
-- (void)systemBindings:(OESystemBindings *)sender didUnsetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber
-{
-    [_gameCoreManager systemBindingsDidUnsetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
-}
-
-#pragma mark - OEGameCoreOwner
-
-- (void)toggleFullScreen
-{
-    [self toggleFullScreen:self];
-}
-
-- (void)takeScreenshot
-{
-    [self takeScreenshot:self];
-}
-
-- (void)volumeUp
-{
-    [self volumeUp:self];
-}
-
-- (void)volumeDown
-{
-    [self volumeDown:self];
-}
-
-- (void)stopEmulation
-{
-    [self stopEmulation:self];
-}
-
-- (void)resetEmulation
-{
-    [self resetEmulation:self];
-}
-
-- (void)toggleEmulationPaused
-{
-    [self toggleEmulationPaused:self];
-}
-
-- (void)fastForwardGameplay:(BOOL)enable
-{
-    if(_emulationStatus != OEEmulationStatusPlaying) return;
-    
-    [self.gameViewController showFastForwardNotification:enable];
-}
-
-- (void)rewindGameplay:(BOOL)enable
-{
-    if(_emulationStatus != OEEmulationStatusPlaying) return;
-
-    [self.gameViewController showRewindNotification:enable];
-}
-
-- (void)stepGameplayFrameForward
-{
-    if(_emulationStatus == OEEmulationStatusPlaying)
-        [self toggleEmulationPaused:self];
-
-    if(_emulationStatus == OEEmulationStatusPaused)
-        [self.gameViewController showStepForwardNotification];
-}
-
-- (void)stepGameplayFrameBackward
-{
-    if(_emulationStatus == OEEmulationStatusPlaying)
-        [self toggleEmulationPaused:self];
-
-    if(_emulationStatus == OEEmulationStatusPaused)
-        [self.gameViewController showStepBackwardNotification];
-}
-
-- (void)nextDisplayMode
-{
-    [self nextDisplayMode:self];
-}
-
-- (void)lastDisplayMode
-{
-    [self lastDisplayMode:self];
-}
-
-- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize
-{
-    [_gameViewController setScreenSize:newScreenSize aspectSize:newAspectSize];
-}
-
-- (void)setDiscCount:(NSUInteger)discCount
-{
-    [_gameViewController setDiscCount:discCount];
-}
-
-- (void)setDisplayModes:(NSArray <NSDictionary <NSString *, id> *> *)displayModes
-{
-    [_gameViewController setDisplayModes:displayModes];
-}
-
-- (void)setRemoteContextID:(OEContextID)contextID
-{
-    [_gameViewController setRemoteContextID:contextID];
-}
-
-- (void)gameCoreDidTerminate
-{
-    if (!(_emulationStatus == OEEmulationStatusStarting || _emulationStatus == OEEmulationStatusPaused))
-        return;
-    _coreDidTerminateSuddenly = YES;
-    [self stopEmulation:self];
 }
 
 @end
