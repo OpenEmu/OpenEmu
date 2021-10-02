@@ -385,8 +385,8 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 - (void)startInstall
 {
     self.alert.messageText = NSLocalizedString(@"Downloading and Installing Core…", @"");
-    self.alert.informativeText = nil;
-    self.alert.defaultButtonTitle = nil;
+    self.alert.informativeText = @"";
+    self.alert.defaultButtonTitle = @"";
     [self.alert setAlternateButtonAction:@selector(cancelInstall) andTarget:self];
     self.alert.showsProgressbar = YES;
     self.alert.progress = 0.0;
@@ -398,7 +398,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
         self.alert.messageText = NSLocalizedString(@"Error!", @"");
         self.alert.informativeText = NSLocalizedString(@"The core could not be downloaded. Try installing it from the Cores preferences.", @"");
         self.alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
-        self.alert.alternateButtonTitle = nil;
+        self.alert.alternateButtonTitle = @"";
         [self.alert setDefaultButtonAction:@selector(buttonAction:) andTarget:self.alert];
         self.alert.showsProgressbar = NO;
         
