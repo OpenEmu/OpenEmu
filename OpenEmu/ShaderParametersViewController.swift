@@ -124,7 +124,7 @@ final class ShaderParametersViewController: NSViewController {
         if shaderListPopUpButton.item(withTitle: selectedShader) != nil {
             shaderListPopUpButton.selectItem(withTitle: selectedShader)
         } else {
-            shaderListPopUpButton.selectItem(withTitle: OEShadersModel.shared.defaultShader.name)
+            shaderListPopUpButton.selectItem(withTitle: OEShadersModel.shared.defaultShaderName)
         }
     }
     
@@ -378,7 +378,8 @@ extension ShaderParametersViewController: NSMenuItemValidation {
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         switch menuItem.action {
         case #selector(paste(_:)):
-            return paramsFromClipboard() != nil
+            guard let text = paramsFromClipboard() else { return false }
+            return ShaderPresetTextReader.isSignedAndValid(text: text)
         default:
             return true
         }
@@ -392,21 +393,14 @@ extension ShaderParametersViewController: NSMenuItemValidation {
         guard let text = pb.string(forType: .string)
         else { return nil }
         
-        let parts = text.split(separator: "@")
-        if parts.count != 2 {
-            return nil
-        }
-        
-        return Crypto.MD5.digest(string: parts[0]).hasSuffix(parts[1])
-            ? String(parts[0])
-            : nil
+        return text
     }
     
     func paramsToClipboard(_ text: String) {
         let pb = NSPasteboard.general
         pb.clearContents()
         pb.declareTypes([.string], owner: nil)
-        pb.setString("\(text)@\(Crypto.MD5.digest(string: text).suffix(3))", forType: .string)
+        pb.setString(text, forType: .string)
     }
     
     @IBAction func copy(_ sender: Any) {
@@ -416,14 +410,16 @@ extension ShaderParametersViewController: NSMenuItemValidation {
         else { return }
         
         let preset = ShaderPreset.makeFrom(shader: name, params: params)
-        let text   = ShaderPresetTextWriter().write(preset: preset)
+        guard
+            let text = try? ShaderPresetTextWriter().write(preset: preset, options: [.shader, .sign])
+        else { return }
         paramsToClipboard(text)
     }
 
     @IBAction func paste(_ sender: Any) {
         guard
             let text   = paramsFromClipboard(),
-            let preset = try? ShaderPresetTextReader().read(line: text),
+            let preset = try? ShaderPresetTextReader().read(text: text),
             !preset.shader.isEmpty
         else { return }
         
@@ -438,7 +434,10 @@ extension ShaderParametersViewController: NSMenuItemValidation {
                 }
             }
         } else {
-            let params = ShaderPresetTextWriter().write(preset: preset, options: [])
+            guard
+                let params = try? ShaderPresetTextWriter().write(preset: preset, options: [])
+            else { return }
+            
             OEShadersModel.shared.write(parameters: params, forShader: preset.shader, identifier: shaderControl.systemIdentifier)
             if let shader = OEShadersModel.shared.shader(withName: preset.shader) {
                 shaderControl.changeShader(shader)

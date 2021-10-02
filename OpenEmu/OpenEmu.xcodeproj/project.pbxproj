@@ -156,7 +156,6 @@
 		052B92D3226EE5FA00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
 		052B92D4226EE66C00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
 		052EA5BC2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */; };
-		0530420326FFF8AE00B3EC46 /* String+Hash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0530420026FFDE5300B3EC46 /* String+Hash.swift */; };
 		05410EF122F7538B00303424 /* SliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF022F7538B00303424 /* SliderCell.xib */; };
 		05410EF322F756BD00303424 /* GroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF222F756BD00303424 /* GroupCell.xib */; };
 		05410EF522F7573D00303424 /* CheckboxCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF422F7573D00303424 /* CheckboxCell.xib */; };
@@ -197,8 +196,6 @@
 		054A757525B1160100F2F3D6 /* ShaderCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054A757425B1160100F2F3D6 /* ShaderCommand.swift */; };
 		054A75B025B141C200F2F3D6 /* Chalk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054A75AF25B141C200F2F3D6 /* Chalk.swift */; };
 		0557CB1B22A781B60037175F /* OEShadersModel+OpenEmu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */; };
-		055BE6EA25CDE8DD000189CC /* ShaderPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055BE6E925CDE8DD000189CC /* ShaderPreset.swift */; };
-		055BE6EB25CDE8FF000189CC /* ShaderPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055BE6E925CDE8DD000189CC /* ShaderPreset.swift */; };
 		05644A4823331EA90033576F /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05644A4723331EA90033576F /* AboutViewController.swift */; };
 		0570B85725449E4C008EC8A6 /* ImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B68A23D16D0B00F63D61 /* ImageCollectionViewController.swift */; };
 		0571307F259A8859001CB13A /* AppMover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0571307E259A8859001CB13A /* AppMover.swift */; };
@@ -1343,7 +1340,6 @@
 		051DDCB823E5E50100325147 /* AvailableLibrariesCollectionViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AvailableLibrariesCollectionViewItem.xib; sourceTree = "<group>"; };
 		052B92D2226EE5FA00701431 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBitmapImageRep+OEAdditions.swift"; sourceTree = "<group>"; };
-		0530420026FFDE5300B3EC46 /* String+Hash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Hash.swift"; sourceTree = "<group>"; };
 		0533EA5C24CDF9070095146E /* OpenEmuKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OpenEmuKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		05410EF022F7538B00303424 /* SliderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SliderCell.xib; sourceTree = "<group>"; };
 		05410EF222F756BD00303424 /* GroupCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupCell.xib; sourceTree = "<group>"; };
@@ -1378,7 +1374,6 @@
 		054A757425B1160100F2F3D6 /* ShaderCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderCommand.swift; sourceTree = "<group>"; };
 		054A75AF25B141C200F2F3D6 /* Chalk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chalk.swift; sourceTree = "<group>"; };
 		0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEShadersModel+OpenEmu.swift"; sourceTree = "<group>"; };
-		055BE6E925CDE8DD000189CC /* ShaderPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderPreset.swift; sourceTree = "<group>"; };
 		05644A06233312C60033576F /* ca */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		05644A08233312E20033576F /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		05644A0A233312E70033576F /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/MainMenu.strings"; sourceTree = "<group>"; };
@@ -2767,7 +2762,6 @@
 				8F7BFC9723E653E100B1F6C8 /* ShaderParameters.xib */,
 				05888F3925A0373300286232 /* ShaderParametersViewController.swift */,
 				05888F7325A111B000286232 /* ShaderParametersViewController.xib */,
-				055BE6E925CDE8DD000189CC /* ShaderPreset.swift */,
 				05410EEF22F7535A00303424 /* Cell Views */,
 			);
 			name = Shaders;
@@ -3006,7 +3000,6 @@
 				8F419A0125B6C7AE00A7F0BE /* OEAppearance.h */,
 				8F419A0225B6C7AE00A7F0BE /* OEAppearance.m */,
 				0544B6AB23D16E7A00F63D61 /* OEResponder.h */,
-				0530420026FFDE5300B3EC46 /* String+Hash.swift */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -6567,7 +6560,6 @@
 				05484D7626E2FD0A00E39EB1 /* ShaderCommand+DumpMetalSource.swift in Sources */,
 				054A75B025B141C200F2F3D6 /* Chalk.swift in Sources */,
 				057848C825C2532E00A842E7 /* CGContext.swift in Sources */,
-				055BE6EB25CDE8FF000189CC /* ShaderPreset.swift in Sources */,
 				05484D7A26E2FDAE00E39EB1 /* ShaderCommand+Preset.swift in Sources */,
 				05484D7826E2FD5900E39EB1 /* ShaderCommand+Benchmark.swift in Sources */,
 				05484D7426E2FCC700E39EB1 /* ShaderCommand+Thumbnail.swift in Sources */,
@@ -6736,7 +6728,6 @@
 				83F444FD196CA24B007E8C63 /* HomebrewViewController.swift in Sources */,
 				830CB918186878D6006EAE5A /* OEArrayController.m in Sources */,
 				53439B6E13B932DB005C0CC8 /* PrefLibraryController.swift in Sources */,
-				055BE6EA25CDE8DD000189CC /* ShaderPreset.swift in Sources */,
 				0557CB1B22A781B60037175F /* OEShadersModel+OpenEmu.swift in Sources */,
 				53439B7113B932ED005C0CC8 /* PrefGameplayController.swift in Sources */,
 				53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */,
@@ -6750,7 +6741,6 @@
 				83199722142741790068C865 /* OEROMImporter.m in Sources */,
 				83507247142F6029005D9033 /* ControllerImageView.swift in Sources */,
 				8FE1BF1E2586C64200A2818A /* OELibraryDatabase+Moving.m in Sources */,
-				0530420326FFF8AE00B3EC46 /* String+Hash.swift in Sources */,
 				012FE6591CE51D4100716960 /* LibraryToolbarDelegate.swift in Sources */,
 				83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */,
 				5A9606DE1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift in Sources */,
