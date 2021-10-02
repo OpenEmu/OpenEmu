@@ -15,17 +15,17 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="uxN-df-boz">
-            <rect key="frame" x="0.0" y="0.0" width="837" height="645"/>
+            <rect key="frame" x="0.0" y="0.0" width="837" height="545"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="230" horizontalPageScroll="10" verticalLineScroll="230" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bDj-Fj-QyG">
-                    <rect key="frame" x="0.0" y="0.0" width="837" height="645"/>
+                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="230" horizontalPageScroll="10" verticalLineScroll="230" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bDj-Fj-QyG" customClass="InsetScrollView" customModule="OpenEmu" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="837" height="545"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="RGw-Kn-YDx">
-                        <rect key="frame" x="0.0" y="0.0" width="837" height="645"/>
+                        <rect key="frame" x="0.0" y="0.0" width="837" height="545"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="230" rowSizeStyle="automatic" usesAutomaticRowHeights="YES" viewBased="YES" floatsGroupRows="NO" id="KhY-cL-moa">
-                                <rect key="frame" x="0.0" y="0.0" width="837" height="645"/>
+                                <rect key="frame" x="0.0" y="0.0" width="837" height="545"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -282,6 +282,7 @@
                             </tableView>
                         </subviews>
                     </clipView>
+                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
                     <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="wx5-R2-aHS">
                         <rect key="frame" x="0.0" y="371" width="480" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>

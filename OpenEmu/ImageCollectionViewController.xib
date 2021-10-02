@@ -21,7 +21,7 @@
             <point key="canvasLocation" x="65" y="246"/>
         </customView>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="d28-O9-LD1">
+        <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="d28-O9-LD1" customClass="InsetScrollView" customModule="OpenEmu" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="400" height="357"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <clipView key="contentView" id="btG-C4-DRG">
@@ -44,12 +44,13 @@
                     </collectionView>
                 </subviews>
             </clipView>
+            <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
             <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="L3a-PR-GMF">
                 <rect key="frame" x="-100" y="-100" width="233" height="15"/>
                 <autoresizingMask key="autoresizingMask"/>
             </scroller>
-            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="y44-Ea-XY1">
-                <rect key="frame" x="383" y="1" width="16" height="335"/>
+            <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="y44-Ea-XY1">
+                <rect key="frame" x="384" y="37" width="16" height="320"/>
                 <autoresizingMask key="autoresizingMask"/>
             </scroller>
             <point key="canvasLocation" x="64" y="537.5"/>
