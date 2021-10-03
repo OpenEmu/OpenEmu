@@ -8,18 +8,17 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="ImageCollectionViewController" customModule="OpenEmu" customModuleProvider="target">
             <connections>
-                <outlet property="blankSlateView" destination="ipW-DC-E2x" id="7Ic-n3-Zsm"/>
                 <outlet property="collectionView" destination="z2P-1K-PXA" id="IzT-Hy-IFD"/>
                 <outlet property="flowLayout" destination="Z0G-bd-ZRg" id="EaR-9c-1xM"/>
                 <outlet property="view" destination="omC-VH-llA" id="teQ-Uw-oY2"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customView id="omC-VH-llA">
+        <view id="omC-VH-llA">
             <rect key="frame" x="0.0" y="0.0" width="163" height="96"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <point key="canvasLocation" x="65" y="246"/>
-        </customView>
+        </view>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="d28-O9-LD1" customClass="InsetScrollView" customModule="OpenEmu" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="400" height="357"/>
@@ -55,10 +54,5 @@
             </scroller>
             <point key="canvasLocation" x="64" y="537.5"/>
         </scrollView>
-        <customView id="ipW-DC-E2x" customClass="OEBlankSlateView">
-            <rect key="frame" x="0.0" y="0.0" width="163" height="96"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <point key="canvasLocation" x="65" y="833"/>
-        </customView>
     </objects>
 </document>
