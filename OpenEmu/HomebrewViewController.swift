@@ -166,6 +166,12 @@ final class HomebrewViewController: NSViewController {
     }
     
     private func displayError(_ error: Error?) {
+        guard view.window != nil else {
+            // User switched to another category. No need to display the error
+            // because changing back to Homebrew brings up the spinner again.
+            return
+        }
+        
         let blankSlate = HomebrewBlankSlateView(frame: view.bounds)
         blankSlate.representedObject = error
         displayBlankSlate(blankSlate)
@@ -176,21 +182,20 @@ final class HomebrewViewController: NSViewController {
     }
     
     private func displayBlankSlate(_ newBlankSlate: HomebrewBlankSlateView?) {
+        guard blankSlate != newBlankSlate else { return }
         
         // Determine if we are about to replace the current first responder or one of its superviews
         let firstResponder = view.window?.firstResponder
-        let makeFirstResponder = (firstResponder is NSView) && (firstResponder as! NSView).isDescendant(of: view)
+        let makeFirstResponder = (firstResponder as? NSView)?.isDescendant(of: view) ?? false
         
-        if blankSlate != newBlankSlate {
-            blankSlate?.removeFromSuperview()
-        }
+        blankSlate?.removeFromSuperview()
         
         blankSlate = newBlankSlate
         
-        if blankSlate != nil {
-            blankSlate!.frame = NSRect(origin: .zero, size: view.window!.contentLayoutRect.size)
-            blankSlate!.autoresizingMask = [.height, .width]
-            view.addSubview(blankSlate!)
+        if let blankSlate = blankSlate, let window = view.window {
+            blankSlate.frame = NSRect(origin: .zero, size: window.contentLayoutRect.size)
+            blankSlate.autoresizingMask = [.height, .width]
+            view.addSubview(blankSlate)
             
             tableView.isHidden = true
         }
