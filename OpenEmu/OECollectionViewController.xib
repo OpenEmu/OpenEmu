@@ -26,12 +26,12 @@
             <rect key="frame" x="0.0" y="0.0" width="643" height="510"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="light" translatesAutoresizingMaskIntoConstraints="NO" id="92" userLabel="GridView" customClass="InsetScrollView" customModule="OpenEmu" customModuleProvider="target">
+                <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="92" userLabel="GridView" customClass="InsetScrollView" customModule="OpenEmu" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="643" height="510"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="wnb-pq-eE8">
                         <rect key="frame" x="0.0" y="0.0" width="643" height="510"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="95" customClass="OEGridView">
                                 <rect key="frame" x="0.0" y="0.0" width="613" height="510"/>
@@ -172,7 +172,6 @@
                         </tableColumns>
                     </tableView>
                 </subviews>
-                <nil key="backgroundColor"/>
             </clipView>
             <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
             <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="6nI-Fu-se9">
