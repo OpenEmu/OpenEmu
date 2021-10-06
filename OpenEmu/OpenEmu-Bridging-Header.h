@@ -11,6 +11,7 @@
 #import "OEDatabase+CoreDataModel.h"
 #import "OEDBGame.h"
 #import "OEDBCollection.h"
+#import "OEDBSmartCollection.h"
 #import "OEDBDataSourceAdditions.h"
 
 #import "OEGameDocument.h"

@@ -41,7 +41,7 @@ class ImageCollectionViewController: NSViewController {
         return view.superview != nil
     }
     
-    private var toolbar: LibraryToolbar? {
+    var toolbar: LibraryToolbar? {
         view.window?.toolbar as? LibraryToolbar
     }
     
@@ -82,7 +82,7 @@ class ImageCollectionViewController: NSViewController {
         reloadData()
     }
     
-    private func validateToolbarItems() {
+    func validateToolbarItems() {
         guard let toolbar = toolbar else { return }
         
         toolbar.viewModeSelector.isEnabled = false

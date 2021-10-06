@@ -29,6 +29,7 @@ protocol GameTableViewMenuSource {
 }
 
 extension NSUserInterfaceItemIdentifier {
+    static let gameTableViewStatusColumn = NSUserInterfaceItemIdentifier.statusColumn
     static let gameTableViewTitleColumn  = NSUserInterfaceItemIdentifier.titleColumn
     static let gameTableViewRatingColumn = NSUserInterfaceItemIdentifier.ratingColumn
 }
