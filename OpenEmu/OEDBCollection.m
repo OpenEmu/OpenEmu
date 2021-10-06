@@ -30,11 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation OEDBCollection
 
-+ (NSString*)entityName
-{
-    return @"Collection";
-}
-
 #pragma mark - Data Model Properties
 
 @dynamic name;
@@ -46,43 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSMutableSet <OEDBGame *> *)mutableGames;
 {
     return [self mutableSetValueForKeyPath:@"games"];
-}
-
-#pragma mark - OEGameCollectionView item
-
-- (nullable NSString *)collectionViewName
-{
-    return [self valueForKey:@"name"];
-}
-
-- (BOOL)isCollectionEditable
-{
-    return YES;
-}
-
-- (NSArray * _Nullable)items
-{
-    return nil;
-}
-
-- (NSPredicate *)fetchPredicate
-{
-    return [NSPredicate predicateWithFormat:@"ANY collections == %@", self];
-}
-
-- (NSInteger)fetchLimit
-{
-    return 0;
-}
-
-- (NSArray <NSSortDescriptor *> *)fetchSortDescriptors
-{
-    return @[];
-}
-
-- (BOOL)shouldShowSystemColumnInListView
-{
-    return YES;
 }
 
 @end

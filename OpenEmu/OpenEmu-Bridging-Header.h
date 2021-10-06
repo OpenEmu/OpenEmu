@@ -13,7 +13,11 @@
 #import "OEDBGame.h"
 #import "OEDBCollection.h"
 #import "OEDBSmartCollection.h"
-#import "OEDBDataSourceAdditions.h"
+#import "OEDBCollectionFolder.h"
+#import "OEDBGame+DataSourceAdditions.h"
+
+#import "OECollectionViewItemProtocol.h"
+#import "OEGameCollectionViewItemProtocol.h"
 
 #import "OEGameDocument.h"
 #import "OEPopoutGameWindowController.h"

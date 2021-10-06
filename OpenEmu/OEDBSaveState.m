@@ -273,11 +273,6 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     return result;
 }
 
-+ (NSString *)entityName
-{
-    return @"SaveState";
-}
-
 #pragma mark - Private Helpers
 
 + (NSString *)OE_stringByRemovingTrailingSlash:(NSString *)string
@@ -558,21 +553,6 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
         [self writeToDisk];
 }
 
-#pragma mark - NSPasteboardWriting
-- (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard
-{
-    return @[ (NSString *)kUTTypeFileURL ];
-}
-
-- (nullable id)pasteboardPropertyListForType:(NSString *)type
-{
-    if([type isEqualToString:(NSString *)kUTTypeFileURL])
-    {
-        return [self.URL.absoluteURL pasteboardPropertyListForType:type];
-    }
-
-    return nil;
-}
 
 #pragma mark - Data Accessors
 

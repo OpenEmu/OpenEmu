@@ -26,10 +26,6 @@ import Cocoa
 import Carbon.HIToolbox.Events
 import OpenEmuKit.OECorePlugin
 
-extension NSPasteboard.PasteboardType {
-    static let game = NSPasteboard.PasteboardType("org.openemu.game")
-}
-
 extension NSNotification.Name {
     static let OESidebarSelectionDidChange = NSNotification.Name("OESidebarSelectionDidChange")
 }

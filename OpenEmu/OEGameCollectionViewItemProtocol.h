@@ -27,7 +27,7 @@
 @import Foundation;
 #import "OECollectionViewItemProtocol.h"
 
-NS_SWIFT_NAME(OEGameCollectionViewItem)
+NS_SWIFT_NAME(GameCollectionViewItemProtocol)
 @protocol OEGameCollectionViewItemProtocol <OECollectionViewItemProtocol>
 @property (readonly) NSString* collectionViewName;
 @property (readonly) BOOL shouldShowSystemColumnInListView;

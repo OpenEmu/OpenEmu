@@ -353,16 +353,6 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     [self.managedObjectContext deleteObject:self];
 }
 
-+ (NSString *)entityName
-{
-    return @"Game";
-}
-
-+ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context
-{
-    return [NSEntityDescription entityForName:self.entityName inManagedObjectContext:context];
-}
-
 - (void)prepareForDeletion
 {
     [self.boxImage delete];
@@ -371,29 +361,6 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     _romDownload = nil;
 }
 
-#pragma mark - NSPasteboardWriting
-
-- (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard
-{
-    return @[ OEPasteboardTypeGame, (NSString *)kUTTypeFileURL ];
-}
-
-- (nullable id)pasteboardPropertyListForType:(NSString *)type
-{
-    if(type == OEPasteboardTypeGame)
-    {
-        return self.permanentIDURI.absoluteString;
-    }
-    else if([type isEqualToString:(NSString *)kUTTypeFileURL])
-    {
-        OEDBRom *rom = self.defaultROM;
-        NSURL *url = rom.URL.absoluteURL;
-        return [url pasteboardPropertyListForType:(NSString *)kUTTypeFileURL];
-    }
-
-    DLog(@"Unkown type %@", type);
-    return nil;
-}
 
 #pragma mark - NSPasteboardReading
 
@@ -426,19 +393,9 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     return [self mutableSetValueForKey:@"roms"];
 }
 
-- (nullable NSMutableSet <NSManagedObject *> *)mutableGenres
-{
-    return [self mutableSetValueForKey:@"genres"];
-}
-
 - (nullable NSMutableSet <OEDBCollection *> *)mutableCollections
 {
     return [self mutableSetValueForKeyPath:@"collections"];
-}
-
-- (nullable NSMutableSet <NSManagedObject *> *)mutableCredits
-{
-    return [self mutableSetValueForKeyPath:@"credits"];
 }
 
 - (nullable NSString *)displayName

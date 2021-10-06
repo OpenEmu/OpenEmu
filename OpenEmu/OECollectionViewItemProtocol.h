@@ -26,7 +26,7 @@
 
 @import Foundation;
 
-NS_SWIFT_NAME(OECollectionViewItem)
+NS_SWIFT_NAME(CollectionViewItemProtocol)
 @protocol OECollectionViewItemProtocol <NSObject>
 @optional
 @property (readonly) BOOL isCollectionEditable;

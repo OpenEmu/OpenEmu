@@ -178,7 +178,7 @@ final class LibraryGamesViewController: NSSplitViewController {
     @objc func updateCollectionContentsFromSidebar() {
         
         let selectedItem = sidebarController.selectedSidebarItem
-        collectionController.representedObject = selectedItem as? OECollectionViewItem
+        collectionController.representedObject = selectedItem as? GameCollectionViewItemProtocol
         
         // For empty collections of disc-based games, display an alert to compel the user to read the disc-importing guide.
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {

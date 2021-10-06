@@ -24,16 +24,14 @@
 
 import Foundation
 
-@objc(OEDBSavedGamesMedia)
-final class OEDBSaveStatesMedia: NSObject, OECollectionViewItem {
+final class OEDBSaveStatesMedia: NSObject, CollectionViewItemProtocol {
     
     static let showsAutoSavesKey = "OEDBSavedGamesMediaShowsAutoSaves"
     static let showsQuickSavesKey = "OEDBSavedGamesMediaShowsQuickSaves"
     
-    @objc(sharedDBSavedGamesMedia)
     static let shared = OEDBSaveStatesMedia()
     
-    // MARK: - OECollectionViewItem
+    // MARK: - CollectionViewItemProtocol
     
     var baseFilterPredicate: NSPredicate {
         

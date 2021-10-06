@@ -267,16 +267,6 @@
 
 #pragma mark - Core Data utilities
 
-+ (NSString *)entityName
-{
-    return @"Image";
-}
-
-+ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context
-{
-    return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
-}
-
 - (void)prepareForDeletion
 {
     if(self.managedObjectContext.parentContext == nil)

@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2021, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -24,27 +24,32 @@
 
 import Cocoa
 
-final class OEDBAllGamesCollection: NSObject, SidebarItem, GameCollectionViewItemProtocol {
+@objc
+extension OEDBCollection {
     
-    @objc(sharedDBAllGamesCollection)
-    static let shared = OEDBAllGamesCollection()
+    open override class var entityName: String { "Collection" }
+}
+
+// MARK: - SidebarItem
+
+extension OEDBCollection: SidebarItem {
+    var sidebarIcon: NSImage? { NSImage(named: "collection_simple") }
+    var sidebarName: String { name ?? "" }
+    var sidebarID: String? { permanentIDURI.absoluteString }
+    var isEditableInSidebar: Bool { true }
+    var hasSubCollections: Bool { false }
+}
+
+// MARK: - GameCollectionViewItemProtocol
+
+extension OEDBCollection: GameCollectionViewItemProtocol {
+    public var collectionViewName: String? { name }
+    public var isCollectionEditable: Bool { true }
+    public var shouldShowSystemColumnInListView: Bool { true }
     
-    // MARK: - SidebarItem
-    
-    let sidebarIcon = NSImage(named: "collection_smart")
-    let sidebarName = NSLocalizedString("All Games", comment: "")
-    let sidebarID: String? = "OEDBAllGamesCollection"
-    
-    let isEditableInSidebar = false
-    let hasSubCollections = false
-    
-    // MARK: - GameCollectionViewItemProtocol
-    
-    var collectionViewName: String { sidebarName }
-    
-    let shouldShowSystemColumnInListView = true
-    
-    let fetchPredicate = NSPredicate(value: true)
-    let fetchLimit = 0
-    let fetchSortDescriptors = [NSSortDescriptor]()
+    public var fetchPredicate: NSPredicate? {
+        NSPredicate(format: "ANY collections == %@", self)
+    }
+    public var fetchLimit: Int { 0 }
+    public var fetchSortDescriptors: [NSSortDescriptor]? { [] }
 }

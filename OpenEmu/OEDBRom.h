@@ -83,13 +83,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag;
 
-+ (NSString *)entityName;
-+ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
-
 #pragma mark - Data Model Relationships
 
 @property(nonatomic, readonly, nullable) NSMutableSet    *mutableSaveStates;
-@property(nonatomic, retain)   NSManagedObject *tosec;
 @end
 
 NS_ASSUME_NONNULL_END

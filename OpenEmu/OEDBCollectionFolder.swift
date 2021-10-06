@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2021, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -24,27 +24,23 @@
 
 import Cocoa
 
-final class OEDBAllGamesCollection: NSObject, SidebarItem, GameCollectionViewItemProtocol {
+@objc
+extension OEDBCollectionFolder {
     
-    @objc(sharedDBAllGamesCollection)
-    static let shared = OEDBAllGamesCollection()
+    open override class var entityName: String { "CollectionFolder" }
     
     // MARK: - SidebarItem
     
-    let sidebarIcon = NSImage(named: "collection_smart")
-    let sidebarName = NSLocalizedString("All Games", comment: "")
-    let sidebarID: String? = "OEDBAllGamesCollection"
-    
-    let isEditableInSidebar = false
-    let hasSubCollections = false
+    override var sidebarIcon: NSImage? { nil }
+    override var hasSubCollections: Bool { true }
     
     // MARK: - GameCollectionViewItemProtocol
     
-    var collectionViewName: String { sidebarName }
+    public override var collectionViewName: String? { name }
+    public override var isCollectionEditable: Bool { true }
+    public override var shouldShowSystemColumnInListView: Bool { false }
     
-    let shouldShowSystemColumnInListView = true
-    
-    let fetchPredicate = NSPredicate(value: true)
-    let fetchLimit = 0
-    let fetchSortDescriptors = [NSSortDescriptor]()
+    public override var fetchPredicate: NSPredicate? {
+        NSPredicate(value: false)
+    }
 }

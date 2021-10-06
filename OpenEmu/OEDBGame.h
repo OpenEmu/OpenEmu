@@ -46,7 +46,7 @@ extern NSString *const OEDisplayGameTitle;
 extern NSString *const OEGameArtworkFormatKey;
 extern NSString *const OEGameArtworkPropertiesKey;
 
-@interface OEDBGame: OEDBItem <NSPasteboardWriting, NSPasteboardReading>
+@interface OEDBGame: OEDBItem <NSPasteboardReading>
 
 #pragma mark - Creating and Obtaining OEDBGames
 
@@ -87,11 +87,6 @@ extern NSString *const OEGameArtworkPropertiesKey;
 
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)keepSaveStates;
 
-#pragma mark - Core Data utilities
-
-+ (NSString *)entityName;
-+ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
-
 #pragma mark - Data Model Properties
 
 @property(nonatomic, retain, nullable)   NSString *displayName;
@@ -100,9 +95,7 @@ extern NSString *const OEGameArtworkPropertiesKey;
 #pragma mark - Data Model Relationships
 
 @property(nonatomic, readonly, nullable) NSMutableSet <OEDBRom *>         *mutableRoms;
-@property(nonatomic, readonly, nullable) NSMutableSet <NSManagedObject *> *mutableGenres;
 @property(nonatomic, readonly, nullable) NSMutableSet <OEDBCollection *>  *mutableCollections;
-@property(nonatomic, readonly, nullable) NSMutableSet <NSManagedObject *> *mutableCredits;
 @end
 
 NS_ASSUME_NONNULL_END

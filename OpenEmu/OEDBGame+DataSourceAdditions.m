@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEDBDataSourceAdditions.h"
+#import "OEDBGame+DataSourceAdditions.h"
 #import "OEDBImage.h"
 #import "OEDBRom.h"
 #import "OEGameDocument.h"
@@ -256,40 +256,6 @@ NSString * OE_localizedStringFromElapsedTime(NSTimeInterval timeInterval)
     return [dcf stringFromTimeInterval:timeInterval];
 }
 
-@end
-
-#pragma mark - Implementation of items that can be presented by OEGameCollectionView
-
-@implementation OEDBSystem (OECollectionViewItemAdditions)
-
-- (NSString *)collectionViewName
-{
-    return self.name;
-}
-
-- (BOOL)isCollectionEditable
-{
-    return YES;
-}
-
-- (NSPredicate *)fetchPredicate
-{
-    return [NSPredicate predicateWithFormat:@"system == %@", self];
-}
-
-- (BOOL)shouldShowSystemColumnInListView
-{
-    return NO;
-}
-
-- (NSInteger)fetchLimit
-{
-    return 0;
-}
-- (NSArray<NSSortDescriptor *> *)fetchSortDescriptors
-{
-    return @[];
-}
 @end
 
 NS_ASSUME_NONNULL_END

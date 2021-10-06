@@ -24,12 +24,11 @@
 
 import Foundation
 
-final class OEDBScreenshotsMedia: NSObject, OECollectionViewItem {
+final class OEDBScreenshotsMedia: NSObject, CollectionViewItemProtocol {
     
-    @objc(sharedDBScreenshotsMedia)
     static let shared = OEDBScreenshotsMedia()
     
-    // MARK: - OECollectionViewItem
+    // MARK: - CollectionViewItemProtocol
     
     let collectionSupportsQuickLook = true
 }

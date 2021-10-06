@@ -30,45 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation OEDBCollectionFolder
 
-+ (NSString *)entityName
-{
-    return @"CollectionFolder";
-}
-
-#pragma mark - SidebarItem Protocol
-
-- (nullable NSImage *)sidebarIcon
-{
-    return nil;
-}
-
-- (BOOL)hasSubCollections
-{
-    return YES;
-}
-
-#pragma mark - Game Collection View Item
-
-- (nullable NSString *)collectionViewName
-{
-    return [self valueForKey:@"name"];
-}
-
-- (BOOL)isCollectionEditable
-{
-    return YES;
-}
-
-- (NSPredicate *)fetchPredicate
-{
-    return [NSPredicate predicateWithValue:NO];
-}
-
-- (BOOL)shouldShowSystemColumnInListView
-{
-    return NO;
-}
-
 @end
 
 NS_ASSUME_NONNULL_END

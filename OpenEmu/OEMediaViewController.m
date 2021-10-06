@@ -63,8 +63,6 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 @property (strong) NSArray *items;
 @property (strong) NSArray *searchKeys;
 
-@property (readwrite) BOOL saveStateMode;
-
 @property BOOL shouldShowBlankSlate;
 @property (strong) NSPredicate *searchPredicate;
 @property (copy, nullable) NSString *currentSearchTerm;
@@ -263,7 +261,6 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     [super setRepresentedObject:representedObject];
     
     if (representedObject) {
-        self.saveStateMode = [representedObject isKindOfClass:[OEDBSavedGamesMedia class]];
         [self reloadData];
     }
 }

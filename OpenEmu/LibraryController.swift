@@ -112,6 +112,7 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
             } else {
                 let ctrl = OEMediaViewController()
                 ctrl.database = self.database
+                ctrl.saveStateMode = true
                 ctrl.representedObject = OEDBSaveStatesMedia.shared
                 let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.savestatesViewController)
                 item.viewController = ctrl
@@ -180,6 +181,7 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
             do {
                 let ctrl = OEMediaViewController()
                 ctrl.database = database
+                ctrl.saveStateMode = true
                 ctrl.representedObject = OEDBSaveStatesMedia.shared
                 let item = NSTabViewItem(identifier: NSUserInterfaceItemIdentifier.savestatesViewController)
                 item.viewController = ctrl

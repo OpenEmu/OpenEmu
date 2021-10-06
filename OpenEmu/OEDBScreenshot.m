@@ -55,34 +55,6 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
     return screenshot;
 }
 
-+ (NSString *)entityName
-{
-    return @"Screenshot";
-}
-
-#pragma mark - NSPasteboardWriting
-
-- (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard
-{
-    return @[(NSString*)kUTTypeFileURL, (NSString*)kUTTypeImage];
-}
-
-- (nullable id)pasteboardPropertyListForType:(NSString *)type
-{
-    NSURL *url = self.URL.absoluteURL;
-    if([type isEqualToString:(NSString*)kUTTypeFileURL])
-    {
-        return [url pasteboardPropertyListForType:type];
-    }
-    else if([type isEqualToString:(NSString *)kUTTypeImage])
-    {
-        NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
-        return [image pasteboardPropertyListForType:type];
-    }
-
-    return nil;
-}
-
 #pragma mark - Core Data Properties
 
 - (void)setURL:(NSURL *)url
@@ -136,22 +108,6 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
         self.URL = targetURL;
     }
 }
-
-
-#pragma mark - QLPreviewItem
-
-
-- (NSURL *)previewItemURL
-{
-    return [self URL];
-}
-
-
-- (NSString *)previewItemTitle
-{
-    return [self name];
-}
-
 
 @end
 

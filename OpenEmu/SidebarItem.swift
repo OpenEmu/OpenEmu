@@ -32,19 +32,3 @@ protocol SidebarItem: NSObjectProtocol {
     var isEditableInSidebar: Bool { get }
     var hasSubCollections: Bool { get }
 }
-
-extension OEDBSystem: SidebarItem {
-    var sidebarIcon: NSImage? { icon }
-    var sidebarName: String { name }
-    var sidebarID: String? { systemIdentifier }
-    var isEditableInSidebar: Bool { false }
-    var hasSubCollections: Bool { false }
-}
-
-extension OEDBCollection: SidebarItem {
-    var sidebarIcon: NSImage? { NSImage(named: "collection_simple") }
-    var sidebarName: String { name ?? "" }
-    var sidebarID: String? { permanentIDURI.absoluteString }
-    var isEditableInSidebar: Bool { true }
-    var hasSubCollections: Bool { false }
-}

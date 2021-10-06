@@ -47,9 +47,6 @@ typedef NS_ENUM(NSUInteger, OEBitmapImageFileType)
 
 #pragma mark - Core Data utilities
 
-+ (NSString *)entityName;
-+ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
-
 @property(readonly) NSImage *image;
 @property(readonly) NSString *UUID;
 @property(nullable, readonly) NSURL *imageURL;

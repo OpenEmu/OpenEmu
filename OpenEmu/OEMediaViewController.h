@@ -34,7 +34,7 @@ extern NSNotificationName const OEMediaViewControllerDidSetSelectionIndexesNotif
 
 @interface OEMediaViewController : OECollectionViewController <NSMenuItemValidation>
 
-@property (readonly) BOOL saveStateMode;
+@property BOOL saveStateMode;
 
 @property (readonly) NSArray <OEDBSaveState *> *selectedSaveStates;
 @property (readonly) NSArray <OEDBScreenshot *> *selectedScreenshots;

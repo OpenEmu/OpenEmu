@@ -44,9 +44,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @dynamic URL;
 
-// Data Model Relationships
-@dynamic tosec;
-
 #pragma mark -
 
 + (nullable instancetype)romWithURL:(nullable NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError **)outError
@@ -369,16 +366,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     [self.managedObjectContext deleteObject:self];
-}
-
-+ (NSString *)entityName
-{
-    return @"ROM";
-}
-
-+ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context
-{
-    return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
 
 - (nullable NSMutableSet <OEDBSaveState *> *)mutableSaveStates

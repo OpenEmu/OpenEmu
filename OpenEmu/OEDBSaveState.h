@@ -46,7 +46,7 @@ extern NSString *const OESaveStateQuicksaveName;
 
 extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 
-@interface OEDBSaveState : OEDBItem <NSPasteboardWriting>
+@interface OEDBSaveState : OEDBItem
 
 + (nullable instancetype)updateOrCreateStateWithURL:(NSURL *)stateURL inContext:(NSManagedObjectContext *)context;
 

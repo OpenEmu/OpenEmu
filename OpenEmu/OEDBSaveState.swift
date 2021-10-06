@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2021, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -24,27 +24,24 @@
 
 import Cocoa
 
-final class OEDBAllGamesCollection: NSObject, SidebarItem, GameCollectionViewItemProtocol {
+@objc
+extension OEDBSaveState {
     
-    @objc(sharedDBAllGamesCollection)
-    static let shared = OEDBAllGamesCollection()
+    open override class var entityName: String { "SaveState" }
+}
+
+// MARK: - NSPasteboardWriting
+
+extension OEDBSaveState: NSPasteboardWriting {
     
-    // MARK: - SidebarItem
+    public func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
+        return [.fileURL]
+    }
     
-    let sidebarIcon = NSImage(named: "collection_smart")
-    let sidebarName = NSLocalizedString("All Games", comment: "")
-    let sidebarID: String? = "OEDBAllGamesCollection"
-    
-    let isEditableInSidebar = false
-    let hasSubCollections = false
-    
-    // MARK: - GameCollectionViewItemProtocol
-    
-    var collectionViewName: String { sidebarName }
-    
-    let shouldShowSystemColumnInListView = true
-    
-    let fetchPredicate = NSPredicate(value: true)
-    let fetchLimit = 0
-    let fetchSortDescriptors = [NSSortDescriptor]()
+    public func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
+        if type == .fileURL {
+            return (url.absoluteURL as NSURL).pasteboardPropertyList(forType: type)
+        }
+        return nil
+    }
 }

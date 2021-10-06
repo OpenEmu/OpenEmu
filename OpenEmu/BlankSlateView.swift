@@ -142,7 +142,7 @@ class BlankSlateView: NSView {
             
             representedSystemPlugin = system.plugin
         }
-        else if let collection = representedObject as? OEGameCollectionViewItem {
+        else if let collection = representedObject as? GameCollectionViewItemProtocol {
             
             representedCollectionName = collection.collectionViewName
         }

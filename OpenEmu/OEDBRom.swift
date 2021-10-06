@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2021, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -24,27 +24,8 @@
 
 import Cocoa
 
-final class OEDBAllGamesCollection: NSObject, SidebarItem, GameCollectionViewItemProtocol {
+@objc
+extension OEDBRom {
     
-    @objc(sharedDBAllGamesCollection)
-    static let shared = OEDBAllGamesCollection()
-    
-    // MARK: - SidebarItem
-    
-    let sidebarIcon = NSImage(named: "collection_smart")
-    let sidebarName = NSLocalizedString("All Games", comment: "")
-    let sidebarID: String? = "OEDBAllGamesCollection"
-    
-    let isEditableInSidebar = false
-    let hasSubCollections = false
-    
-    // MARK: - GameCollectionViewItemProtocol
-    
-    var collectionViewName: String { sidebarName }
-    
-    let shouldShowSystemColumnInListView = true
-    
-    let fetchPredicate = NSPredicate(value: true)
-    let fetchLimit = 0
-    let fetchSortDescriptors = [NSSortDescriptor]()
+    open override class var entityName: String { "ROM" }
 }

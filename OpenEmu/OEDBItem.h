@@ -48,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(class, readonly) NSString *entityName;
 @property(readonly) NSString *entityName;
++ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
 - (BOOL)save;
 - (void)delete;

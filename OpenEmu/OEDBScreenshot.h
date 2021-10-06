@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const OEDBScreenshotImportRequired;
 
-@interface OEDBScreenshot: OEDBItem <NSPasteboardWriting, QLPreviewItem>
+@interface OEDBScreenshot: OEDBItem
 
 + (nullable instancetype)createObjectInContext:(NSManagedObjectContext *)context forROM:(OEDBRom *)rom withFile:(NSURL *)fileURL;
 - (void)updateFile;

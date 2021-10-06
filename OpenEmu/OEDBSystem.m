@@ -281,18 +281,6 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
     return 1.365385;
 }
 
-#pragma mark - Core Data utilities
-
-+ (NSString *)entityName
-{
-    return @"System";
-}
-
-+ (NSEntityDescription *)entityDescriptioninContext:(NSManagedObjectContext *)context
-{
-    return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
-}
-
 #pragma mark - Data Model Properties
 
 - (void)setEnabled:(nullable NSNumber *)enabled

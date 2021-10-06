@@ -33,7 +33,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OEDBCollection : OEDBItem <OEGameCollectionViewItemProtocol>
+@interface OEDBCollection : OEDBItem
 
 #pragma mark - Data Model Properties
 

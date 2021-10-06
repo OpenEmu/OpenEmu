@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2021, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -24,27 +24,51 @@
 
 import Cocoa
 
-final class OEDBAllGamesCollection: NSObject, SidebarItem, GameCollectionViewItemProtocol {
-    
-    @objc(sharedDBAllGamesCollection)
-    static let shared = OEDBAllGamesCollection()
-    
-    // MARK: - SidebarItem
-    
-    let sidebarIcon = NSImage(named: "collection_smart")
-    let sidebarName = NSLocalizedString("All Games", comment: "")
-    let sidebarID: String? = "OEDBAllGamesCollection"
-    
-    let isEditableInSidebar = false
-    let hasSubCollections = false
-    
-    // MARK: - GameCollectionViewItemProtocol
-    
-    var collectionViewName: String { sidebarName }
-    
-    let shouldShowSystemColumnInListView = true
-    
-    let fetchPredicate = NSPredicate(value: true)
-    let fetchLimit = 0
-    let fetchSortDescriptors = [NSSortDescriptor]()
+extension NSPasteboard.PasteboardType {
+    static let game = NSPasteboard.PasteboardType("org.openemu.game")
 }
+
+@objc
+extension OEDBGame {
+    
+    open override class var entityName: String { "Game" }
+}
+
+// MARK: - NSPasteboardWriting
+
+extension OEDBGame: NSPasteboardWriting {
+    
+    public func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
+        return [.game, .fileURL]
+    }
+    
+    public func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
+        switch type {
+        case .game:
+            return permanentIDURI.absoluteString
+        case .fileURL:
+            let url = defaultROM.url?.absoluteURL as NSURL?
+            return url?.pasteboardPropertyList(forType: .fileURL)
+        default:
+            return nil
+        }
+    }
+}
+
+// MARK: - NSPasteboardReading
+/*
+extension OEDBGame: NSPasteboardReading {
+    
+    public static func readableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
+        return [.game]
+    }
+    
+    public static func readingOptions(forType type: NSPasteboard.PasteboardType, pasteboard: NSPasteboard) -> NSPasteboard.ReadingOptions {
+        return .asString
+    }
+    
+    public required init?(pasteboardPropertyList propertyList: Any, ofType type: NSPasteboard.PasteboardType) {
+        
+    }
+}
+*/

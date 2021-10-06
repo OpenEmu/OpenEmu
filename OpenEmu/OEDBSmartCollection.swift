@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2021, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -24,27 +24,40 @@
 
 import Cocoa
 
-final class OEDBAllGamesCollection: NSObject, SidebarItem, GameCollectionViewItemProtocol {
+@objc
+extension OEDBSmartCollection {
     
-    @objc(sharedDBAllGamesCollection)
-    static let shared = OEDBAllGamesCollection()
+    open override class var entityName: String { "SmartCollection" }
+    
+    private var isRecentlyAddedCollection: Bool {
+        return name == "Recently Added"
+    }
     
     // MARK: - SidebarItem
     
-    let sidebarIcon = NSImage(named: "collection_smart")
-    let sidebarName = NSLocalizedString("All Games", comment: "")
-    let sidebarID: String? = "OEDBAllGamesCollection"
-    
-    let isEditableInSidebar = false
-    let hasSubCollections = false
+    override var sidebarIcon: NSImage? { NSImage(named: "collection_smart") }
+    override var sidebarName: String {
+        isRecentlyAddedCollection ? NSLocalizedString("Recently Added", comment: "Smart Collection Name")
+                                  : name ?? ""
+    }
+    override var isEditableInSidebar: Bool { false }
     
     // MARK: - GameCollectionViewItemProtocol
     
-    var collectionViewName: String { sidebarName }
+    public override var collectionViewName: String? {
+        isRecentlyAddedCollection ? NSLocalizedString("Recently Added", comment: "Smart Collection Name")
+                                  : name
+    }
+    public override var isCollectionEditable: Bool { false }
+    public override var shouldShowSystemColumnInListView: Bool { true }
     
-    let shouldShowSystemColumnInListView = true
-    
-    let fetchPredicate = NSPredicate(value: true)
-    let fetchLimit = 0
-    let fetchSortDescriptors = [NSSortDescriptor]()
+    public override var fetchPredicate: NSPredicate? {
+        isRecentlyAddedCollection ? NSPredicate(value: true)
+                                  : NSPredicate(value: false)
+    }
+    public override var fetchLimit: Int { 30 }
+    public override var fetchSortDescriptors: [NSSortDescriptor]? {
+        isRecentlyAddedCollection ? [NSSortDescriptor(key: "importDate", ascending: false)]
+                                  : []
+    }
 }
