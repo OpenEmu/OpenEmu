@@ -8,6 +8,7 @@
 
 #import "OELibraryDatabase.h"
 #import "OELibraryMigrator.h"
+#import "ALIterativeMigrator.h"
 #import "OEDatabase+CoreDataModel.h"
 #import "OEDBGame.h"
 #import "OEDBCollection.h"
