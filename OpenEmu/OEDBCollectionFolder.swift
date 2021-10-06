@@ -25,9 +25,9 @@
 import Cocoa
 
 @objc
-extension OEDBCollectionFolder {
+class OEDBCollectionFolder: OEDBCollection {
     
-    open override class var entityName: String { "CollectionFolder" }
+    override class var entityName: String { "CollectionFolder" }
     
     // MARK: - SidebarItem
     

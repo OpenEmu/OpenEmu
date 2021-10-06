@@ -30,7 +30,6 @@
 #import "OELibraryDatabase.h"
 #import "OEDBRom.h"
 #import "OEDBGame.h"
-#import "OEDBCollection.h"
 #import "OEDBSystem.h"
 @import OpenEmuKit;
 

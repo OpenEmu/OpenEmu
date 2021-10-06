@@ -244,7 +244,7 @@ final class SidebarController: NSViewController {
         
         newCollection.games = Set(games)
         if games.count == 1 {
-            newCollection.name = games.first?.displayName
+            newCollection.name = games.first!.displayName ?? ""
         }
         newCollection.save()
         
@@ -254,8 +254,7 @@ final class SidebarController: NSViewController {
     }
     
     func duplicateCollection(_ originalCollection: OEDBCollection) {
-        guard let originalName = originalCollection.name else { return }
-        
+        let originalName = originalCollection.name
         let duplicateName = String.localizedStringWithFormat(NSLocalizedString("%@ copy", comment: "Duplicated collection name"), originalName)
         let duplicateCollection = database!.addNewCollection(duplicateName)
         duplicateCollection.games = originalCollection.games
@@ -485,7 +484,7 @@ extension SidebarController: NSOutlineViewDataSource {
             
             // just add to collection
             let games = pboard.readObjects(forClasses: [OEDBGame.self], options: nil) as! [OEDBGame]
-            collection.mutableGames?.addObjects(from: games)
+            collection.games.formUnion(games)
             collection.save()
         }
         else {

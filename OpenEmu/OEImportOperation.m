@@ -35,7 +35,6 @@
 #import "OELibraryDatabase.h"
 #import "OEDBGame.h"
 #import "OEDBRom.h"
-#import "OEDBCollection.h"
 #import "OEDBSaveState.h"
 #import "OEDBSystem+CoreDataProperties.h"
 

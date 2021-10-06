@@ -10,10 +10,8 @@
 #import "OELibraryMigrator.h"
 #import "ALIterativeMigrator.h"
 #import "OEDatabase+CoreDataModel.h"
+#import "OEDBItem.h"
 #import "OEDBGame.h"
-#import "OEDBCollection.h"
-#import "OEDBSmartCollection.h"
-#import "OEDBCollectionFolder.h"
 #import "OEDBGame+DataSourceAdditions.h"
 
 #import "OECollectionViewItemProtocol.h"

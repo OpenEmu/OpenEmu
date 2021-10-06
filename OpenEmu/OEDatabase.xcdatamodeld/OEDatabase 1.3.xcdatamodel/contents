@@ -4,10 +4,10 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="folder" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="CollectionFolder" inverseName="subcollections" inverseEntity="CollectionFolder" indexed="YES" syncable="YES"/>
     </entity>
-    <entity name="Collection" representedClassName="OEDBCollection" parentEntity="AbstractCollection" syncable="YES">
+    <entity name="Collection" representedClassName=".OEDBCollection" parentEntity="AbstractCollection" syncable="YES">
         <relationship name="games" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Game" inverseName="collections" inverseEntity="Game" indexed="YES" syncable="YES"/>
     </entity>
-    <entity name="CollectionFolder" representedClassName="OEDBCollectionFolder" parentEntity="AbstractCollection" syncable="YES">
+    <entity name="CollectionFolder" representedClassName=".OEDBCollectionFolder" parentEntity="AbstractCollection" syncable="YES">
         <relationship name="subcollections" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AbstractCollection" inverseName="folder" inverseEntity="AbstractCollection" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="Contributor" representedClassName="NSManagedObject" syncable="YES">
@@ -82,7 +82,7 @@
         <attribute name="userDescription" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="rom" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ROM" inverseName="screenShots" inverseEntity="ROM" syncable="YES"/>
     </entity>
-    <entity name="SmartCollection" representedClassName="OEDBSmartCollection" parentEntity="AbstractCollection" syncable="YES"/>
+    <entity name="SmartCollection" representedClassName=".OEDBSmartCollection" parentEntity="AbstractCollection" syncable="YES"/>
     <entity name="System" representedClassName="OEDBSystem" syncable="YES" codeGenerationType="category">
         <attribute name="enabled" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="lastLocalizedName" optional="YES" attributeType="String" syncable="YES"/>

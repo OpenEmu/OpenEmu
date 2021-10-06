@@ -25,9 +25,9 @@
 import Cocoa
 
 @objc
-extension OEDBSmartCollection {
+class OEDBSmartCollection: OEDBCollection {
     
-    open override class var entityName: String { "SmartCollection" }
+    override class var entityName: String { "SmartCollection" }
     
     private var isRecentlyAddedCollection: Bool {
         return name == "Recently Added"
@@ -38,7 +38,7 @@ extension OEDBSmartCollection {
     override var sidebarIcon: NSImage? { NSImage(named: "collection_smart") }
     override var sidebarName: String {
         isRecentlyAddedCollection ? NSLocalizedString("Recently Added", comment: "Smart Collection Name")
-                                  : name ?? ""
+                                  : name
     }
     override var isEditableInSidebar: Bool { false }
     

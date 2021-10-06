@@ -25,16 +25,27 @@
 import Cocoa
 
 @objc
-extension OEDBCollection {
+class OEDBCollection: OEDBItem {
     
-    open override class var entityName: String { "Collection" }
+    // MARK: - CoreDataProperties
+    
+    @NSManaged var name: String
+    @NSManaged var games: Set<OEDBGame>
+    
+    // MARK: - Data Model Relationships
+    
+    @objc var mutableGames: NSMutableSet {
+        mutableSetValue(forKeyPath: #keyPath(games))
+    }
+    
+    override class var entityName: String { "Collection" }
 }
 
 // MARK: - SidebarItem
 
 extension OEDBCollection: SidebarItem {
     var sidebarIcon: NSImage? { NSImage(named: "collection_simple") }
-    var sidebarName: String { name ?? "" }
+    var sidebarName: String { name }
     var sidebarID: String? { permanentIDURI.absoluteString }
     var isEditableInSidebar: Bool { true }
     var hasSubCollections: Bool { false }

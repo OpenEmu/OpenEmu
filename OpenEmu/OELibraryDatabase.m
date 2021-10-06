@@ -43,10 +43,6 @@
 #import <OpenEmuBase/OpenEmuBase.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
-#import "OEDBCollection.h"
-#import "OEDBSmartCollection.h"
-#import "OEDBCollectionFolder.h"
-
 #import "OEGameInfoHelper.h"
 
 #import "OpenEmu-Swift.h"

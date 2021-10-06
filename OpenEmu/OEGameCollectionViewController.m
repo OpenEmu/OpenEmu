@@ -34,8 +34,6 @@
 #import "OEDBRom.h"
 #import "OEDBSystem.h"
 #import "OEDBSaveState.h"
-#import "OEDBCollection.h"
-#import "OEDBSmartCollection.h"
 
 #import "OEROMImporter.h"
 
