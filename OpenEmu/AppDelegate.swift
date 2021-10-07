@@ -458,6 +458,11 @@ class AppDelegate: NSObject {
     }
     
     fileprivate func showInputMonitoringPermissionsAlert() {
+        #if DEBUG
+        if UserDefaults.standard.bool(forKey: "pleaseDoNotAnnoyMeWithThePermissionsAlertEveryTimeIRunThisAppFromXcode") {
+            return
+        }
+        #endif
         let alert = OEAlert()
         alert.messageText = NSLocalizedString("OpenEmu requires additional permissions", comment:"Headline for Input Monitoring permissions")
         alert.informativeText = NSLocalizedString("OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues.", comment:"Message for Input Monitoring permissions")
