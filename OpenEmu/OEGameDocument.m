@@ -42,7 +42,6 @@
 #import "OEDBScreenshot.h"
 
 #import <objc/message.h>
-#import <IOKit/pwr_mgt/IOPMLib.h>
 
 #import "OpenEmu-Swift.h"
 
@@ -70,18 +69,18 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 {
 //    OEGameCoreManager  *_gameCoreManager;
     
-    IOPMAssertionID     _displaySleepAssertionID;
+//    IOPMAssertionID     _displaySleepAssertionID;
     
 //    OEEmulationStatus   _emulationStatus;
     OEDBSaveState      *_saveStateForGameStart;
     NSDate             *_lastPlayStartDate;
     NSString           *_lastSelectedDisplayModeOption;
 //    BOOL                _isMuted;
-    BOOL                _pausedByGoingToBackground;
+//    BOOL                _pausedByGoingToBackground;
     BOOL                _isTerminatingEmulation;
 //    BOOL                _coreDidTerminateSuddenly;
     /// Indicates whether the document is currently moving from the main window into a separate popout window.
-    BOOL                _isUndocking;
+//    BOOL                _isUndocking;
     
     // track if ROM was decompressed
     NSString           *_romPath;
@@ -89,7 +88,6 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 }
 
 @property OEGameViewController *gameViewController;
-@property NSViewController *viewController;
 
 @end
 
@@ -138,15 +136,8 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     return [NSString stringWithFormat:@"<%@ %p, ROM: '%@', System: '%@', Core: '%@'>", [self class], self, [[[self rom] game] displayName], [_systemPlugin systemIdentifier], [_corePlugin bundleIdentifier]];
 }
 
-- (NSString *)coreIdentifier;
-{
-    return [[_gameCoreManager plugin] bundleIdentifier];
-}
-
-- (NSString *)systemIdentifier;
-{
-    return [_systemPlugin systemIdentifier];
-}
+//- (NSString *)coreIdentifier;
+//- (NSString *)systemIdentifier;
 
 - (BOOL)OE_setupDocumentWithSaveState:(OEDBSaveState *)saveState error:(NSError **)outError
 {
@@ -289,11 +280,6 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     return _gameCoreManager != nil;
 }
 
-- (id<OEGameCoreHelper>)gameCoreHelper
-{
-    return (id<OEGameCoreHelper>)_gameCoreManager;
-}
-
 - (void)OE_setupGameCoreManagerUsingCorePlugin:(OECorePlugin *)core completionHandler:(void(^)(void))completionHandler
 {
     NSAssert(core != [_gameCoreManager plugin], @"Do not attempt to run a new core using the same plug-in as the current one.");
@@ -427,139 +413,25 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     }
 }
 
-- (void)OE_addObserversForWindowController:(NSWindowController *)windowController
-{
-    NSWindow *window = [windowController window];
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    
-    [center addObserver:self selector:@selector(windowDidBecomeMain:) name:NSWindowDidBecomeMainNotification object:window];
-    [center addObserver:self selector:@selector(windowDidResignMain:) name:NSWindowDidResignMainNotification object:window];
-}
-
-- (void)OE_removeObserversForWindowController:(NSWindowController *)windowController
-{
-    NSWindow *window = [windowController window];
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    
-    [center removeObserver:self name:NSWindowDidBecomeMainNotification object:window];
-    [center removeObserver:self name:NSWindowDidResignMainNotification object:window];
-}
-
-- (void)windowDidResignMain:(NSNotification *)notification
-{
-    BOOL backgroundPause = [[NSUserDefaults standardUserDefaults] boolForKey:OEBackgroundPauseKey];
-    if(backgroundPause && _emulationStatus == OEEmulationStatusPlaying)
-    {
-        [self setEmulationPaused:YES];
-        _pausedByGoingToBackground = YES;
-    }
-}
-
-- (void)windowDidBecomeMain:(NSNotification *)notification
-{
-    if(_pausedByGoingToBackground)
-    {
-        [self setEmulationPaused:NO];
-        _pausedByGoingToBackground = NO;
-    }
-}
+//- (void)OE_addObserversForWindowController:(NSWindowController *)windowController
+//- (void)OE_removeObserversForWindowController:(NSWindowController *)windowController
+//- (void)windowDidResignMain:(NSNotification *)notification
+//- (void)windowDidBecomeMain:(NSNotification *)notification
 
 #pragma mark - Device Notifications
-- (void)OE_addDeviceNotificationObservers
-{
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(OE_didReceiveLowBatteryWarningNotification:) name:OEDeviceHandlerDidReceiveLowBatteryWarningNotification object:nil];
-    [nc addObserver:self selector:@selector(OE_deviceDidDisconnectNotification:) name:OEDeviceManagerDidRemoveDeviceHandlerNotification object:nil];
-}
+//- (void)OE_addDeviceNotificationObservers
+//- (void)OE_removeDeviceNotificationObservers
+//- (void)OE_didReceiveLowBatteryWarningNotification:(NSNotification *)notification
+//- (void)OE_deviceDidDisconnectNotification:(NSNotification *)notification
 
-- (void)OE_removeDeviceNotificationObservers
-{
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self name:OEDeviceHandlerDidReceiveLowBatteryWarningNotification object:nil];
-    [nc removeObserver:self name:OEDeviceManagerDidRemoveDeviceHandlerNotification object:nil];
-}
+//- (void)showInSeparateWindowInFullScreen:(BOOL)fullScreen;
 
-- (void)OE_didReceiveLowBatteryWarningNotification:(NSNotification *)notification
-{
-    BOOL isRunning = ![self isEmulationPaused];
-    [self setEmulationPaused:YES];
-    
-    OEDeviceHandler *devHandler = [notification object];
-    NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"The battery in device number %lu, %@, is low. Please charge or replace the battery.", @"Low battery alert detail message."), devHandler.deviceNumber, devHandler.deviceDescription.name];
-    OEAlert *alert = [[OEAlert alloc] init];
-    alert.messageText = NSLocalizedString(@"Low Controller Battery", @"Device battery level is low.");
-    alert.informativeText = lowBatteryString;
-    alert.defaultButtonTitle = NSLocalizedString(@"Resume", nil);
-    [alert runModal];
-    
-    if(isRunning) [self setEmulationPaused:NO];
-}
-
-- (void)OE_deviceDidDisconnectNotification:(NSNotification *)notification
-{
-    BOOL isRunning = ![self isEmulationPaused];
-    [self setEmulationPaused:YES];
-    
-    OEDeviceHandler *devHandler = [[notification userInfo] objectForKey:OEDeviceManagerDeviceHandlerUserInfoKey];
-    NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"Device number %lu, %@, has disconnected.", @"Device disconnection detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
-    OEAlert *alert = [[OEAlert alloc] init];
-    alert.messageText = NSLocalizedString(@"Device Disconnected", @"A controller device has disconnected.");
-    alert.informativeText = lowBatteryString;
-    alert.defaultButtonTitle = NSLocalizedString(@"Resume", @"Resume game after battery warning button label");
-    [alert runModal];
-    
-    if(isRunning) [self setEmulationPaused:NO];
-}
-
-- (void)showInSeparateWindowInFullScreen:(BOOL)fullScreen;
-{
-    _isUndocking = YES;
-    NSWindow *window = [[NSWindow alloc]
-            initWithContentRect:NSZeroRect
-            styleMask:NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
-                NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable
-            backing:NSBackingStoreBuffered defer:YES];
-    OEPopoutGameWindowController *windowController =
-            [[OEPopoutGameWindowController alloc] initWithWindow:window];
-    
-    [windowController setWindowFullScreen:fullScreen];
-    [self setGameWindowController:windowController];
-    [self showWindows];
-    
-    [self setEmulationPaused:NO];
-    _isUndocking = NO;
-}
-
-- (NSString *)displayName
-{
-    // If we do not have a title yet, return an empty string instead of [super displayName].
-    // The latter uses Cocoa document architecture and relies on documents having URLs,
-    // including untitled (new) documents.
-    NSString *displayName = [[[self rom] game] displayName];
-#if DEBUG_PRINT
-    displayName = [displayName stringByAppendingString:@" (DEBUG BUILD)"];
-#endif
-    
-    return displayName ? : @"";
-}
+//- (NSString *)displayName
 
 #pragma mark - Display Sleep Handling
 
-- (void)enableOSSleep
-{
-    if(_displaySleepAssertionID == kIOPMNullAssertionID) return;
-    
-    IOPMAssertionRelease(_displaySleepAssertionID);
-    _displaySleepAssertionID = kIOPMNullAssertionID;
-}
-
-- (void)disableOSSleep
-{
-    if(_displaySleepAssertionID != kIOPMNullAssertionID) return;
-    
-    IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep,
-                                kIOPMAssertionLevelOn, CFSTR("OpenEmu playing game"), &_displaySleepAssertionID);
-}
+//- (void)enableOSSleep
+//- (void)disableOSSleep
 
 #pragma mark - NSDocument Stuff
 
@@ -856,10 +728,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     [[NSNotificationCenter defaultCenter] postNotificationName:[OEPreferencesWindowController openPaneNotificationName] object:nil userInfo:userInfo];
 }
 
-- (void)toggleFullScreen:(id)sender
-{
-    [[[self gameWindowController] window] toggleFullScreen:sender];
-}
+//- (void)toggleFullScreen:(id)sender
 
 - (void)takeScreenshot:(id)sender
 {
@@ -929,76 +798,14 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 #pragma mark - Volume
 
-- (IBAction)changeAudioOutputDevice:(id)sender
-{
-    OEAudioDevice *device = nil;
-    
-    if([sender isKindOfClass:[OEAudioDevice class]])
-        device = sender;
-    else if ([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] isKindOfClass:[OEAudioDevice class]])
-        device = [sender representedObject];
-    
-    if(device == nil)
-    {
-        [_gameCoreManager setAudioOutputDeviceID:0];
-    }
-    else
-    {
-        [_gameCoreManager setAudioOutputDeviceID:[device deviceID]];
-    }
-}
-
-- (float)volume
-{
-    return [[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey];
-}
-
-- (void)setVolume:(float)volume asDefault:(BOOL)defaultFlag
-{
-    [_gameCoreManager setVolume:volume];
-    [[self gameViewController] reflectVolume:volume];
-    
-    if(defaultFlag)
-        [[NSUserDefaults standardUserDefaults] setValue:@(volume) forKey:OEGameVolumeKey];
-}
-
-- (IBAction)changeVolume:(id)sender;
-{
-    if([sender respondsToSelector:@selector(floatValue)])
-        [self setVolume:[sender floatValue] asDefault:YES];
-    else if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] respondsToSelector:@selector(floatValue)])
-        [self setVolume:[[sender representedObject] floatValue] asDefault:YES];
-    else
-        DLog(@"Invalid argument passed: %@", sender);
-}
-
-- (IBAction)mute:(id)sender;
-{
-    _isMuted = YES;
-    [self setVolume:0.0 asDefault:NO];
-}
-
-- (IBAction)unmute:(id)sender;
-{
-    _isMuted = NO;
-    [self setVolume:[self volume] asDefault:NO];
-}
-
-- (void)volumeUp:(id)sender;
-{
-    float volume = [self volume];
-    volume += 0.1;
-    if(volume > 1.0) volume = 1.0;
-    [self setVolume:volume asDefault:YES];
-}
-
-- (void)volumeDown:(id)sender;
-{
-    float volume = [self volume];
-    volume -= 0.1;
-    if(volume < 0.0) volume = 0.0;
-    [self setVolume:volume asDefault:YES];
-}
+//- (IBAction)changeAudioOutputDevice:(id)sender
+//- (float)volume
+//- (void)setVolume:(float)volume asDefault:(BOOL)defaultFlag
+//- (IBAction)changeVolume:(id)sender;
+//- (IBAction)mute:(id)sender;
+//- (IBAction)unmute:(id)sender;
+//- (void)volumeUp:(id)sender;
+//- (void)volumeDown:(id)sender;
 
 #pragma mark - Controlling Emulation
 - (IBAction)performClose:(id)sender
@@ -1052,19 +859,8 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     return YES;
 }
 
-+ (BOOL)autosavesInPlace
-{
-    return NO;
-}
-
-/// Returns YES if emulation is running or paused to prevent OpenEmu from quitting without warning/saving if the user attempts to quit the app during gameplay;
-/// returns NO while undocking to prevent an ‘unsaved’ indicator from appearing inside the new popout window’s close button.
-- (BOOL)isDocumentEdited
-{
-    if (_isUndocking)
-        return NO;
-    return _emulationStatus == OEEmulationStatusPlaying || _emulationStatus == OEEmulationStatusPaused;
-}
+//+ (BOOL)autosavesInPlace
+//- (BOOL)isDocumentEdited
 
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
 {

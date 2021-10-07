@@ -23,8 +23,234 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
+import IOKit.pwr_mgt
 import OpenEmuKit
 
+@objc
+extension OEGameDocument {
+    
+    var coreIdentifier: String! {
+        return gameCoreManager.plugin?.bundleIdentifier
+    }
+    
+    var systemIdentifier: String! {
+        return systemPlugin.systemIdentifier
+    }
+    
+    var gameCoreHelper: OEGameCoreHelper! {
+        return gameCoreManager
+    }
+    
+    open
+    override var displayName: String! {
+        get {
+            // If we do not have a title yet, return an empty string instead of super.displayName.
+            // The latter uses Cocoa document architecture and relies on documents having URLs,
+            // including untitled (new) documents.
+            var displayName = rom.game?.displayName ?? ""
+            #if DEBUG
+            displayName = displayName + " (DEBUG BUILD)"
+            #endif
+            return displayName
+        }
+        set {
+            super.displayName = newValue
+        }
+    }
+    
+    /// Returns `true` if emulation is running or paused to prevent OpenEmu from quitting without warning/saving if the user attempts to quit the app during gameplay;
+    /// returns `false` while undocking to prevent an ‘unsaved’ indicator from appearing inside the new popout window’s close button.
+    open
+    override var isDocumentEdited: Bool {
+        if isUndocking {
+            return false
+        }
+        return emulationStatus == .playing || emulationStatus == .paused
+    }
+    
+    // MARK: - Game Window
+    
+    func showInSeparateWindow(inFullScreen fullScreen: Bool) {
+        isUndocking = true
+        let window = NSWindow(contentRect: .zero,
+                              styleMask: [.titled, .closable, .miniaturizable, .resizable],
+                              backing: .buffered,
+                              defer: true)
+        let windowController = OEPopoutGameWindowController(window: window)
+        windowController.isWindowFullScreen = fullScreen
+        gameWindowController = windowController
+        showWindows()
+        
+        isEmulationPaused = false
+        isUndocking = false
+    }
+    
+    func toggleFullScreen(_ sender: Any?) {
+        gameWindowController.window?.toggleFullScreen(sender)
+    }
+    
+    @objc(OE_addObserversForWindowController:)
+    /*private*/func addObservers(for windowController: NSWindowController) {
+        let window = windowController.window
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(windowDidBecomeMain(_:)), name: NSWindow.didBecomeMainNotification, object: window)
+        nc.addObserver(self, selector: #selector(windowDidResignMain(_:)), name: NSWindow.didResignMainNotification, object: window)
+    }
+    
+    @objc(OE_removeObserversForWindowController:)
+    /*private*/func removeObservers(for windowController: NSWindowController) {
+        let window = windowController.window
+        let nc = NotificationCenter.default
+        nc.removeObserver(self, name: NSWindow.didBecomeMainNotification, object: window)
+        nc.removeObserver(self, name: NSWindow.didResignMainNotification, object: window)
+    }
+    
+    @objc private func windowDidResignMain(_ notification: Notification) {
+        let backgroundPause = UserDefaults.standard.bool(forKey: OEBackgroundPauseKey)
+        if backgroundPause && emulationStatus == .playing {
+            isEmulationPaused = true
+            pausedByGoingToBackground = true
+        }
+    }
+    
+    @objc private func windowDidBecomeMain(_ notification: Notification) {
+        if pausedByGoingToBackground {
+            isEmulationPaused = false
+            pausedByGoingToBackground = false
+        }
+    }
+    
+    // MARK: - Device Notifications
+    
+    private func addDeviceNotificationObservers() {
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(didReceiveLowBatteryWarning(_:)), name: .OEDeviceHandlerDidReceiveLowBatteryWarning, object: nil)
+        nc.addObserver(self, selector: #selector(deviceDidDisconnect(_:)), name: .OEDeviceManagerDidRemoveDeviceHandler, object: nil)
+    }
+    
+    private func removeDeviceNotificationObservers() {
+        let nc = NotificationCenter.default
+        nc.removeObserver(self, name: .OEDeviceHandlerDidReceiveLowBatteryWarning, object: nil)
+        nc.removeObserver(self, name: .OEDeviceManagerDidRemoveDeviceHandler, object: nil)
+    }
+    
+    @objc private func didReceiveLowBatteryWarning(_ notification: Notification) {
+        let isRunning = !isEmulationPaused
+        isEmulationPaused = true
+        
+        let devHandler = notification.object as? OEDeviceHandler
+        let message = String(format: NSLocalizedString("The battery in device number %lu, %@, is low. Please charge or replace the battery.", comment: "Low battery alert detail message."), devHandler?.deviceNumber ?? 0, devHandler?.deviceDescription?.name ?? "")
+        let alert = OEAlert()
+        alert.messageText = NSLocalizedString("Low Controller Battery", comment: "Device battery level is low.")
+        alert.informativeText = message
+        alert.defaultButtonTitle = NSLocalizedString("Resume", comment: "")
+        alert.runModal()
+        
+        if isRunning {
+            isEmulationPaused = false
+        }
+    }
+    
+    @objc private func deviceDidDisconnect(_ notification: Notification) {
+        let isRunning = !isEmulationPaused
+        isEmulationPaused = true
+        
+        let devHandler = notification.userInfo?[OEDeviceManagerDeviceHandlerUserInfoKey] as? OEDeviceHandler
+        let message = String(format: NSLocalizedString("Device number %lu, %@, has disconnected.", comment: "Device disconnection detail message."), devHandler?.deviceNumber ?? 0, devHandler?.deviceDescription?.name ?? "")
+        let alert = OEAlert()
+        alert.messageText = NSLocalizedString("Device Disconnected", comment: "A controller device has disconnected.")
+        alert.informativeText = message
+        alert.defaultButtonTitle = NSLocalizedString("Resume", comment: "Resume game after battery warning button label")
+        alert.runModal()
+        
+        if isRunning {
+            isEmulationPaused = false
+        }
+    }
+    
+    // MARK: - Display Sleep Handling
+    
+    /*private*/func enableOSSleep() {
+        if displaySleepAssertionID == kIOPMNullAssertionID { return }
+        IOPMAssertionRelease(displaySleepAssertionID)
+        displaySleepAssertionID = IOPMAssertionID(kIOPMNullAssertionID)
+    }
+    
+    /*private*/func disableOSSleep() {
+        if displaySleepAssertionID != kIOPMNullAssertionID { return }
+        IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep as CFString, IOPMAssertionLevel(kIOPMAssertionLevelOn), "OpenEmu playing game" as CFString, &displaySleepAssertionID)
+    }
+    
+    // MARK: - Volume/Audio
+    
+    /// expects `sender` or `sender.representedObject` to be an `OEAudioDevice` object
+    @IBAction func changeAudioOutputDevice(_ sender: AnyObject) {
+        var device: OEAudioDevice?
+        if let sender = sender as? OEAudioDevice {
+            device = sender
+        } else if let obj = sender.representedObject as? OEAudioDevice {
+            device = obj
+        } else {
+            assertionFailure("Invalid argument passed: \(String(describing: sender))")
+            return
+        }
+        
+        if let device = device {
+            gameCoreManager.setAudioOutputDeviceID(device.deviceID)
+        } else {
+            gameCoreManager.setAudioOutputDeviceID(0)
+        }
+    }
+    
+    var volume: Float {
+        return UserDefaults.standard.float(forKey: OEGameVolumeKey)
+    }
+    
+    func setVolume(_ volume: Float, asDefault defaultFlag: Bool) {
+        gameCoreManager.setVolume(volume)
+        gameViewController.reflectVolume(volume)
+        
+        if defaultFlag {
+            UserDefaults.standard.set(volume, forKey: OEGameVolumeKey)
+        }
+    }
+    
+    @IBAction func changeVolume(_ sender: AnyObject) {
+        if let sender = sender as? NSSlider {
+            setVolume(sender.floatValue, asDefault: true)
+        } else {
+            assertionFailure("Invalid argument passed: \(String(describing: sender))")
+        }
+    }
+    
+    @IBAction func mute(_ sender: Any?) {
+        isMuted = true
+        setVolume(0, asDefault: false)
+    }
+    
+    @IBAction func unmute(_ sender: Any?) {
+        isMuted = false
+        setVolume(volume, asDefault: false)
+    }
+    
+    func volumeDown(_ sender: Any?) {
+        var volume = volume
+        volume -= 0.1
+        if volume < 0 {
+            volume = 0
+        }
+        setVolume(volume, asDefault: true)
+    }
+    
+    func volumeUp(_ sender: Any?) {
+        var volume = volume
+        volume += 0.1
+        if volume > 1 {
+            volume = 1
+        }
+        setVolume(volume, asDefault: true)
+    }
+}
 
 // MARK: -  NSMenuItemValidation
 

@@ -25,6 +25,7 @@
  */
 
 @import Cocoa;
+@import IOKit.pwr_mgt;
 
 extern NSString *const OEGameVolumeKey;
 extern NSString *const OEGameCoreDisplayModeKeyFormat;
@@ -67,18 +68,13 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
 
 - (void)setupGameWithCompletionHandler:(void(^)(BOOL success, NSError *error))handler;
-- (void)showInSeparateWindowInFullScreen:(BOOL)fullScreen;
 
 @property(readonly) OEDBRom *rom;
 @property(readonly) NSURL   *romFileURL;
 @property(readonly) OECorePlugin *corePlugin;
 @property(readonly) OESystemPlugin *systemPlugin;
-@property(readonly) id<OEGameCoreHelper> gameCoreHelper;
 
 @property(readonly) OEGameViewController *gameViewController;
-
-@property(readonly) NSString *coreIdentifier;
-@property(readonly) NSString *systemIdentifier;
 
 @property(nonatomic) NSWindowController *gameWindowController;
 
@@ -89,15 +85,6 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 
 #pragma mark - Actions
 - (IBAction)editControls:(id)sender;
-
-#pragma mark - Volume
-@property (readonly) float volume;
-- (IBAction)changeAudioOutputDevice:(id)sender;
-- (IBAction)changeVolume:(id)sender;
-- (IBAction)mute:(id)sender;
-- (IBAction)unmute:(id)sender;
-- (void)volumeDown:(id)sender;
-- (void)volumeUp:(id)sender;
 
 #pragma mark - Controlling Emulation
 - (void)switchCore:(id)sender;
@@ -138,10 +125,6 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 #pragma mark - Deleting States
 - (IBAction)deleteSaveState:(id)sender;
 
-#pragma mark - Full Screen
-- (void)toggleFullScreen:(id)sender;
-
-
 
 #pragma mark - Private
 
@@ -168,7 +151,10 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
 
 @property OEEmulationStatus  emulationStatus;
 @property OEGameCoreManager *gameCoreManager;
+@property IOPMAssertionID    displaySleepAssertionID;
 @property BOOL               isMuted;
+@property BOOL               pausedByGoingToBackground;
 @property BOOL               coreDidTerminateSuddenly;
+@property BOOL               isUndocking;
 
 @end
