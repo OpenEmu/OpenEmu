@@ -75,7 +75,7 @@
         <attribute name="userDescription" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="rom" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="ROM" inverseName="saveStates" inverseEntity="ROM" indexed="YES" syncable="YES"/>
     </entity>
-    <entity name="Screenshot" representedClassName="OEDBScreenshot" syncable="YES" codeGenerationType="category">
+    <entity name="Screenshot" representedClassName=".OEDBScreenshot" syncable="YES">
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>

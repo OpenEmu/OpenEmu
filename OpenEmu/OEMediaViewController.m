@@ -33,7 +33,6 @@
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBSystem+CoreDataProperties.h"
-#import "OEDBScreenshot+CoreDataProperties.h"
 
 #import "OEGridView.h"
 

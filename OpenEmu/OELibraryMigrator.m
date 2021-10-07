@@ -26,7 +26,6 @@
 
 #import "OELibraryMigrator.h"
 #import "OELibraryDatabase.h"
-#import "OEDBScreenshot.h"
 #import "ALIterativeMigrator.h"
 
 #import "OpenEmu-Swift.h"
@@ -82,7 +81,7 @@ NSString *const OEMigrationErrorDomain = @"OEMigrationErrorDomain";
     NSString *sourceVersion = versions.lastObject;
     if([sourceVersion compare:@"1.3"] == NSOrderedAscending)
     {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OEDBScreenshotImportRequired];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OEDBScreenshot.importRequiredKey];
     }
 
     DLog(@"Migration Done");

@@ -33,7 +33,6 @@
 #import "OEDBGame.h"
 #import "OEDBImage.h"
 #import "OEDBRom.h"
-#import "OEDBScreenshot+CoreDataProperties.h"
 
 #import "OpenEmu-Swift.h"
 
@@ -118,7 +117,7 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
         [self OE_runImageMigration];
     }
 
-    if([userDefaults boolForKey:OEDBScreenshotImportRequired])
+    if([userDefaults boolForKey:OEDBScreenshot.importRequiredKey])
     {
         [self OE_importScreenshots];
     }
@@ -210,7 +209,7 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
 
     [[database mainThreadContext] save:nil];
 
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:OEDBScreenshotImportRequired];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:OEDBScreenshot.importRequiredKey];
 }
 
 - (void)OE_importScreenShotsFromDirectory:(NSURL*)directory

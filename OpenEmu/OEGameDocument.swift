@@ -1140,7 +1140,7 @@ final class OEGameDocument: NSDocument {
         do {
             try imageData.write(to: temporaryURL, options: .atomic)
             if let context = rom.managedObjectContext {
-                let screenshot = OEDBScreenshot.createObject(in: context, for: rom, withFile: temporaryURL)
+                let screenshot = OEDBScreenshot.createObject(in: context, for: rom, with: temporaryURL)
                 screenshot?.save()
                 gameViewController.showScreenShotNotification()
             }

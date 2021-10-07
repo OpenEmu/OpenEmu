@@ -25,21 +25,103 @@
 import Cocoa
 
 @objc
-extension OEDBScreenshot {
+@objcMembers
+final class OEDBScreenshot: OEDBItem {
     
-    open override class var entityName: String { "Screenshot" }
+    static let importRequiredKey = "OEDBScreenshotImportRequired"
+    
+    // MARK: - CoreDataProperties
+    
+    @NSManaged var location: String
+    @NSManaged var name: String?
+    @NSManaged var timestamp: Date?
+    // @NSManaged var userDescription: String?
+    @NSManaged var rom: OEDBRom?
+    
+    @objc(URL)
+    var url: URL {
+        get {
+            let screenshotDirectory = libraryDatabase.screenshotFolderURL
+            return URL(string: location, relativeTo: screenshotDirectory)!
+        }
+        set {
+            let screenshotDirectory = libraryDatabase.screenshotFolderURL
+            location = (newValue as NSURL).url(relativeTo: screenshotDirectory)!.relativeString
+        }
+    }
+    
+    var screenshotURL: URL {
+        return url
+    }
+    
+    // MARK: -
+    
+    override class var entityName: String { "Screenshot" }
+    
+    // MARK: -
+    
+    @objc(createObjectInContext:forROM:withFile:)
+    class func createObject(in context: NSManagedObjectContext, for rom: OEDBRom, with url: URL) -> Self? {
+        
+        if let isReachable = try? url.checkResourceIsReachable(),
+           isReachable {
+            let name = url.deletingPathExtension().lastPathComponent
+            let screenshot = OEDBScreenshot.createObject(in: context)
+            screenshot.url = url
+            screenshot.rom = rom
+            screenshot.timestamp = Date()
+            screenshot.name = name
+            
+            screenshot.updateFile()
+            screenshot.save()
+            return screenshot as? Self
+        }
+        
+        return nil
+    }
+    
+    override func prepareForDeletion() {
+        try? FileManager.default.trashItem(at: url, resultingItemURL: nil)
+    }
+    
+    func updateFile() {
+        let database = libraryDatabase
+        let screenshotDirectory = database.screenshotFolderURL
+        let fileName = NSURL.validFilename(from: name ?? "")
+        let fileExtension = "png"
+        var targetURL = screenshotDirectory.appendingPathComponent("\(fileName).\(fileExtension)").standardizedFileURL
+        let sourceURL = url
+        
+        if targetURL == sourceURL {
+            return
+        }
+        
+        if let isReachable = try? targetURL.checkResourceIsReachable(),
+           isReachable {
+            targetURL = (targetURL as NSURL).uniqueURL { triesCount in
+                return screenshotDirectory.appendingPathComponent("\(fileName) \(triesCount).\(fileExtension)") as NSURL
+            } as URL
+        }
+        
+        do {
+            try FileManager.default.moveItem(at: sourceURL, to: targetURL)
+            url = targetURL
+        } catch {
+            DLog("\(error)")
+        }
+    }
 }
 
 // MARK: - NSPasteboardWriting
 
 extension OEDBScreenshot: NSPasteboardWriting {
     
-    public func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
+    func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
         return [.fileURL, kUTTypeImage as NSPasteboard.PasteboardType]
     }
     
-    public func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
-        guard let url = url.absoluteURL else { return nil }
+    func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
+        let url = url.absoluteURL
         if type == .fileURL {
             return (url as NSURL).pasteboardPropertyList(forType: type)
         } else if type.rawValue == kUTTypeImage as String {
@@ -54,11 +136,11 @@ extension OEDBScreenshot: NSPasteboardWriting {
 
 extension OEDBScreenshot: QLPreviewItem {
     
-    public var previewItemURL: URL! {
-        return url as URL
+    var previewItemURL: URL! {
+        return url
     }
     
-    public var previewItemTitle: String! {
+    var previewItemTitle: String! {
         return name
     }
 }

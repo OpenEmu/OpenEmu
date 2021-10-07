@@ -63,7 +63,7 @@ final class LibraryMigrator: NSObject {
             
             let sourceVersion = versions.last
             if sourceVersion?.compare("1.3") == .orderedAscending {
-                UserDefaults.standard.set(true, forKey: OEDBScreenshotImportRequired)
+                UserDefaults.standard.set(true, forKey: OEDBScreenshot.importRequiredKey)
             }
         }
         
