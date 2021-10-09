@@ -33,7 +33,7 @@ class ImageCollectionViewController: NSViewController {
     @IBOutlet weak var blankSlateView: BlankSlateView!
     
     var shouldShowBlankSlate = false
-    var searchKeys = ["rom.game.gameTitle", "rom.game.name", "rom.game.system.lastLocalizedName", "name", "userDescription"]
+    var searchKeys = ["rom.game.gameTitle", "rom.game.name", "rom.game.system.lastLocalizedName", "name"]
     var currentSearchTerm = ""
     var itemSize = CGSize(width: 168, height: 143)
     
@@ -253,18 +253,18 @@ class ImageCollectionViewController: NSViewController {
             (
                 "Everything",
                 "Search field filter selection title",
-                ["rom.game.gameTitle", "rom.game.name", "rom.game.system.lastLocalizedName", "name", "userDescription"]
+                ["rom.game.gameTitle", "rom.game.name", "rom.game.system.lastLocalizedName", "name"]
             ),
             (
                 "Name",
                 "Search field filter selection title",
                 ["name"]
             ),
-            (
-                "Description",
-                "Search field filter selection title",
-                ["userDescription"]
-            ),
+//            (
+//                "Description",
+//                "Search field filter selection title",
+//                ["userDescription"]
+//            ),
             (
                 "Game Name",
                 "",

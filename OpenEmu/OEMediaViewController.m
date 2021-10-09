@@ -79,7 +79,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     if (self)
     {
         _searchPredicate = [NSPredicate predicateWithValue:YES];
-        _searchKeys = @[@"rom.game.gameTitle", @"rom.game.name", @"rom.game.system.lastLocalizedName", @"name", @"userDescription"];
+        _searchKeys = @[@"rom.game.gameTitle", @"rom.game.name", @"rom.game.system.lastLocalizedName", @"name"];
     }
     return self;
 }
@@ -118,7 +118,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         // Clear any previously applied search filter.
         self.currentSearchTerm = nil;
         _searchPredicate = [NSPredicate predicateWithValue:YES];
-        _searchKeys = @[@"rom.game.gameTitle", @"rom.game.name", @"rom.game.system.lastLocalizedName", @"name", @"userDescription"];
+        _searchKeys = @[@"rom.game.gameTitle", @"rom.game.name", @"rom.game.system.lastLocalizedName", @"name"];
         [self reloadData];
     }
 }
@@ -212,19 +212,19 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Everything", @"Search field filter selection title")
                                       action:@selector(searchScopeDidChange:) keyEquivalent:@""];
     [item setState:NSControlStateValueOn];
-    [item setRepresentedObject:@[@"rom.game.gameTitle", @"rom.game.name", @"rom.game.system.lastLocalizedName", @"name", @"userDescription"]];
+    [item setRepresentedObject:@[@"rom.game.gameTitle", @"rom.game.name", @"rom.game.system.lastLocalizedName", @"name"]];
     [menu addItem:item];
 
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Name", @"Search field filter selection title")
                                       action:@selector(searchScopeDidChange:) keyEquivalent:@""];
     [item setRepresentedObject:@[@"name"]];
     [menu addItem:item];
-
+/*
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Description", @"Search field filter selection title")
                                       action:@selector(searchScopeDidChange:) keyEquivalent:@""];
     [item setRepresentedObject:@[@"userDescription"]];
     [menu addItem:item];
-
+*/
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Game Name", @"")
                                       action:@selector(searchScopeDidChange:) keyEquivalent:@""];
     [item setRepresentedObject:@[@"rom.game.gameTitle", @"rom.game.name"]];
