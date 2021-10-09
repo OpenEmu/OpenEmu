@@ -25,4 +25,27 @@
 import Cocoa
 
 final class SidebarItemView: NSTableCellView {
+    
+    override func viewWillMove(toWindow newWindow: NSWindow?) {
+        super.viewWillMove(toWindow: newWindow)
+        
+        if window != nil {
+            NotificationCenter.default.removeObserver(self, name: NSWindow.didBecomeMainNotification, object: window)
+            NotificationCenter.default.removeObserver(self, name: NSWindow.didResignMainNotification, object: window)
+        }
+        
+        if newWindow != nil {
+            NotificationCenter.default.addObserver(self, selector: #selector(mainWindowChanged), name: NSWindow.didBecomeMainNotification, object: newWindow)
+            NotificationCenter.default.addObserver(self, selector: #selector(mainWindowChanged), name: NSWindow.didResignMainNotification, object: newWindow)
+        }
+    }
+    
+    @objc func mainWindowChanged() {
+        if window?.isMainWindow == true {
+            imageView?.alphaValue = 1
+        } else {
+            imageView?.alphaValue = 0.5
+        }
+        imageView?.needsDisplay = true
+    }
 }
