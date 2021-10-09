@@ -393,7 +393,7 @@ extension ShaderParametersViewController: NSMenuItemValidation {
         guard let text = pb.string(forType: .string)
         else { return nil }
         
-        return text
+        return text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     func paramsToClipboard(_ text: String) {
