@@ -78,53 +78,17 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 
 @property(nonatomic) NSWindowController *gameWindowController;
 
-@property(getter=isEmulationPaused) BOOL emulationPaused;
-
 @property(nonatomic) BOOL handleEvents;
 @property(nonatomic) BOOL handleKeyboardEvents;
 
-#pragma mark - Actions
-- (IBAction)editControls:(id)sender;
-
 #pragma mark - Controlling Emulation
-- (void)switchCore:(id)sender;
-- (void)toggleEmulationPaused:(id)sender;
-- (void)resetEmulation:(id)sender;
-- (IBAction)stopEmulation:(id)sender;
 - (IBAction)takeScreenshot:(id)sender;
-
-/*! Return a filtered screenshot of the currently running core */
-- (NSImage *)screenshot;
-
-#pragma mark - Cheats
-- (IBAction)addCheat:(id)sender;
-- (IBAction)setCheat:(id)sender;
-- (IBAction)toggleCheat:(id)sender;
-@property(readonly) BOOL supportsCheats;
-- (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
-
-#pragma mark - Discs
-- (IBAction)setDisc:(id)sender;
-@property(readonly) BOOL supportsMultipleDiscs;
 
 #pragma mark - File Insertion
 - (IBAction)insertFile:(id)sender;
-@property(readonly) BOOL supportsFileInsertion;
 
 #pragma mark - Display Mode
 - (void)changeDisplayMode:(id)sender;
-@property(readonly) BOOL supportsDisplayModeChange;
-- (IBAction)nextDisplayMode:(id)sender;
-- (IBAction)lastDisplayMode:(id)sender;
-
-#pragma mark - Saving States
-@property(readonly) BOOL supportsSaveStates;
-- (void)quickSave:(id)sender;
-- (void)quickLoad:(id)sender;
-
-#pragma mark - Deleting States
-- (IBAction)deleteSaveState:(id)sender;
-
 
 #pragma mark - Private
 
@@ -146,12 +110,15 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     OEEmulationStatusTerminating,
 };
 
-- (void)loadState:(id)sender;
-- (void)saveState:(id)sender;
+- (void)OE_setupGameCoreManagerUsingCorePlugin:(OECorePlugin *)core completionHandler:(void(^)(void))completionHandler NS_SWIFT_NAME(setupGameCoreManager(using:completionHandler:));
+- (void)OE_changeDisplayModeWithDirectionReversed:(BOOL)flag NS_SWIFT_NAME(changeDisplayMode(directionReversed:));
+- (void)OE_saveStateWithName:(NSString *)stateName completionHandler:(void(^)(void))handler NS_SWIFT_NAME(saveState(name:completionHandler:));
+- (void)OE_loadState:(OEDBSaveState *)state NS_SWIFT_NAME(loadState(state:));
 
 @property OEEmulationStatus  emulationStatus;
 @property OEGameCoreManager *gameCoreManager;
 @property IOPMAssertionID    displaySleepAssertionID;
+@property(nullable) NSDate  *lastPlayStartDate;
 @property BOOL               isMuted;
 @property BOOL               pausedByGoingToBackground;
 @property BOOL               coreDidTerminateSuddenly;

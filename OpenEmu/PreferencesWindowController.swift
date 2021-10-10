@@ -26,15 +26,14 @@
 
 import Cocoa
 
-@objc(OEPreferencesWindowController)
 final class PreferencesWindowController: NSWindowController {
     
     static let debugModeKey = "debug"
     static let selectedPreferencesTabKey = "selectedPreferencesTab"
     
-    @objc static let openPaneNotificationName = Notification.Name("OEPrefOpenPane")
-    @objc static let userInfoPanelNameKey = "panelName"
-    @objc static let userInfoSystemIdentifierKey = "systemIdentifier"
+    static let openPaneNotificationName = Notification.Name("OEPrefOpenPane")
+    static let userInfoPanelNameKey = "panelName"
+    static let userInfoSystemIdentifierKey = "systemIdentifier"
     
     static let toolbarItemIdentiftierDebug = "OEToolBarItemIdentifierDebug"
     static let toolbarItemIdentifierSeparator = "OEToolbarItemIdentifierSeparator"

@@ -46,7 +46,7 @@ final class GameControlsBar: NSWindow {
     @objc var canShow = true
     private var eventMonitor: Any?
     private var fadeTimer: Timer?
-    private var cheats: [[String : Any]]?
+    private var cheats: NSMutableArray? //[[String : Any]]
     private var cheatsLoaded = false
     private var controlsView: GameControlsBarView!
     weak var gameViewController: GameViewController!
@@ -171,12 +171,12 @@ final class GameControlsBar: NSWindow {
     
     private func loadCheats() {
         // In order to load cheats, we need the game core to be running and, consequently, the ROM to be set.
-        // We use -reflectEmulationRunning:, which we receive from GameViewController when the emulation
+        // We use reflectEmulationRunning(_:), which we receive from GameViewController when the emulation
         // starts or resumes
         if gameViewController.supportsCheats,
            let md5Hash = gameViewController.document.rom.md5Hash {
             let cheatsXML = Cheats(md5Hash: md5Hash)
-            cheats = cheatsXML.allCheats
+            cheats = NSMutableArray(array: cheatsXML.allCheats)
             cheatsLoaded = true
         }
     }
@@ -435,14 +435,14 @@ final class GameControlsBar: NSWindow {
         item.representedObject = cheats
         menu.addItem(item)
         
-        if let cheats = cheats, !cheats.isEmpty {
+        if let cheats = cheats as? [NSMutableDictionary], !cheats.isEmpty {
             menu.addItem(.separator())
             
             for cheat in cheats {
                 let description = cheat["description"] as? String ?? ""
                 let enabled = cheat["enabled"] as? Bool ?? false
                 
-                let item = NSMenuItem(title: description, action: #selector(OEGameDocument.setCheat(_:)), keyEquivalent: "")
+                let item = NSMenuItem(title: description, action: #selector(OEGameDocument.toggleCheat(_:)), keyEquivalent: "")
                 item.representedObject = cheat
                 item.state = enabled ? .on : .off
                 

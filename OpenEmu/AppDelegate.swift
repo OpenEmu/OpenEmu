@@ -698,8 +698,8 @@ extension AppDelegate: NSMenuDelegate {
                 saveItem.keyEquivalent = keyEquivalent
                 saveItem.keyEquivalentModifierMask = [.command]
                 
-                loadItem.representedObject = keyEquivalent
-                saveItem.representedObject = keyEquivalent
+                loadItem.representedObject = i
+                saveItem.representedObject = i
                 
                 loadMenu.addItem(loadItem)
                 saveMenu.addItem(saveItem)

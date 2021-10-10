@@ -73,11 +73,10 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     
 //    OEEmulationStatus   _emulationStatus;
     OEDBSaveState      *_saveStateForGameStart;
-    NSDate             *_lastPlayStartDate;
+//    NSDate             *_lastPlayStartDate;
     NSString           *_lastSelectedDisplayModeOption;
 //    BOOL                _isMuted;
 //    BOOL                _pausedByGoingToBackground;
-    BOOL                _isTerminatingEmulation;
 //    BOOL                _coreDidTerminateSuddenly;
     /// Indicates whether the document is currently moving from the main window into a separate popout window.
 //    BOOL                _isUndocking;
@@ -615,51 +614,9 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     }];
 }
 
-- (void)OE_startEmulation
-{
-    if(_emulationStatus != OEEmulationStatusSetup)
-        return;
-    
-    _emulationStatus = OEEmulationStatusStarting;
-    [_gameCoreManager startEmulationWithCompletionHandler:
-     ^{
-         self->_emulationStatus = OEEmulationStatusPlaying;
-     }];
-    
-    [[self gameViewController] reflectEmulationPaused:NO];
-}
-
-- (BOOL)isEmulationPaused
-{
-    return _emulationStatus != OEEmulationStatusPlaying;
-}
-
-- (void)setEmulationPaused:(BOOL)pauseEmulation
-{
-    if(_emulationStatus == OEEmulationStatusSetup)
-    {
-        if(!pauseEmulation) [self OE_startEmulation];
-        return;
-    }
-    
-    if(pauseEmulation)
-    {
-        [self enableOSSleep];
-        _emulationStatus = OEEmulationStatusPaused;
-        [[self rom] addTimeIntervalToPlayTime:ABS([_lastPlayStartDate timeIntervalSinceNow])];
-        _lastPlayStartDate = nil;
-    }
-    else
-    {
-        [self disableOSSleep];
-        [[self rom] markAsPlayedNow];
-        _lastPlayStartDate = [NSDate date];
-        _emulationStatus = OEEmulationStatusPlaying;
-    }
-    
-    [_gameCoreManager setPauseEmulation:pauseEmulation];
-    [[self gameViewController] reflectEmulationPaused:pauseEmulation];
-}
+//- (void)OE_startEmulation
+//- (BOOL)isEmulationPaused
+//- (void)setEmulationPaused:(BOOL)pauseEmulation
 
 - (void)setHandleEvents:(BOOL)handleEvents
 {
@@ -679,55 +636,8 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     _gameCoreManager.handleKeyboardEvents = handleKeyboardEvents;
 }
 
-// switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation
-- (void)switchCore:(id)sender;
-{
-    OECorePlugin *plugin;
-    if([sender isKindOfClass:[OECorePlugin class]])
-        plugin = sender;
-    else if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] isKindOfClass:[OECorePlugin class]])
-        plugin = [sender representedObject];
-    else
-    {
-        DLog(@"Invalid argument passed: %@", sender);
-        return;
-    }
-    
-    if([[plugin bundleIdentifier] isEqual:[[_gameCoreManager plugin] bundleIdentifier]]) return;
-    
-    [self setEmulationPaused:YES];
-    
-    OEAlert *alert = [[OEAlert alloc] init];
-    alert.messageText = NSLocalizedString(@"If you change the core you current progress will be lost and save states will not work anymore.", @"");
-    alert.defaultButtonTitle = NSLocalizedString(@"Change Core", @"");
-    alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
-    [alert showSuppressionButtonForUDKey:OEAlert.OEAutoSwitchCoreAlertSuppressionKey];
-    
-    [alert setCallbackHandler:
-     ^(OEAlert *alert, NSModalResponse result)
-     {
-         if(result != NSAlertFirstButtonReturn)
-             return;
-         
-         [self OE_setupGameCoreManagerUsingCorePlugin:plugin completionHandler:
-          ^{
-              [self OE_startEmulation];
-          }];
-     }];
-    
-    [alert runModal];
-}
-
-- (IBAction)editControls:(id)sender
-{
-    NSDictionary *userInfo = @{
-                               [OEPreferencesWindowController userInfoPanelNameKey] : @"Controls",
-                               [OEPreferencesWindowController userInfoSystemIdentifierKey] : self.systemIdentifier,
-                               };
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:[OEPreferencesWindowController openPaneNotificationName] object:nil userInfo:userInfo];
-}
-
+//- (void)switchCore:(id)sender;
+//- (IBAction)editControls:(id)sender
 //- (void)toggleFullScreen:(id)sender
 
 - (void)takeScreenshot:(id)sender
@@ -789,12 +699,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     }
 }
 
-- (NSImage *)screenshot {
-    NSBitmapImageRep *rep = [_gameCoreManager captureOutputImage];
-    NSImage *screenshot = [[NSImage alloc] initWithSize:rep.size];
-    [screenshot addRepresentation:rep];
-    return screenshot;
-}
+//- (NSImage *)screenshot
 
 #pragma mark - Volume
 
@@ -808,56 +713,11 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 //- (void)volumeDown:(id)sender;
 
 #pragma mark - Controlling Emulation
-- (IBAction)performClose:(id)sender
-{
-    [self stopEmulation:sender];
-}
-
-- (IBAction)stopEmulation:(id)sender;
-{
-    // we can't just close the document here because proper shutdown is implemented in
-    // method -canCloseDocumentWithDelegate:shouldCloseSelector:contextInfo:
-    for (NSWindowController *wc in self.windowControllers) {
-        [wc.window performClose:sender];
-    }
-}
-
-- (void)toggleEmulationPaused:(id)sender;
-{
-    [self setEmulationPaused:![self isEmulationPaused]];
-}
-
-- (void)resetEmulation:(id)sender;
-{
-    if([[OEAlert resetSystemAlert] runModal] == NSAlertFirstButtonReturn)
-    {
-        [_gameCoreManager resetEmulationWithCompletionHandler:
-         ^{
-             [self setEmulationPaused:NO];
-         }];
-    }
-}
-
-- (BOOL)shouldTerminateEmulation
-{
-    if (_coreDidTerminateSuddenly)
-        return YES;
-        
-    [self enableOSSleep];
-    [self setEmulationPaused:YES];
-    
-    //[[self controlsWindow] setCanShow:NO];
-    
-    if([[OEAlert stopEmulationAlert] runModal] != NSAlertFirstButtonReturn)
-    {
-        //[[self controlsWindow] setCanShow:YES];
-        [self disableOSSleep];
-        [self setEmulationPaused:NO];
-        return NO;
-    }
-    
-    return YES;
-}
+//- (IBAction)performClose:(id)sender
+//- (IBAction)stopEmulation:(id)sender;
+//- (void)toggleEmulationPaused:(id)sender;
+//- (void)resetEmulation:(id)sender;
+//- (BOOL)shouldTerminateEmulation
 
 //+ (BOOL)autosavesInPlace
 //- (BOOL)isDocumentEdited
@@ -1055,106 +915,20 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 #pragma mark - Cheats
 
-- (BOOL)supportsCheats
-{
-    return [[[_gameCoreManager plugin] controller] supportsCheatCodeForSystemIdentifier:[_systemPlugin systemIdentifier]];
-}
-
-- (IBAction)addCheat:(id)sender;
-{
-    OEAlert *alert = [[OEAlert alloc] init];
-    
-    alert.otherInputLabelText = NSLocalizedString(@"Title:", @"");
-    alert.showsOtherInputField = YES;
-    alert.otherInputPlaceholderText = NSLocalizedString(@"Cheat Description", @"");
-    
-    alert.inputLabelText = NSLocalizedString(@"Code:", @"");
-    alert.showsInputField = YES;
-    alert.inputPlaceholderText = NSLocalizedString(@"Join multi-line cheats with '+' e.g. 000-000+111-111", @"");
-    
-    alert.defaultButtonTitle = NSLocalizedString(@"Add Cheat", @"");
-    alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
-    
-    alert.showsSuppressionButton = YES;
-    alert.suppressionLabelText = NSLocalizedString(@"Enable now", @"Cheats button label");
-    
-    alert.inputLimit = 1000;
-    
-    if([alert runModal] == NSAlertFirstButtonReturn)
-    {
-        NSNumber *enabled;
-        if (alert.suppressionButtonState)
-        {
-            enabled = @YES;
-            [self setCheat:[alert stringValue] withType:@"Unknown" enabled:[enabled boolValue]];
-        }
-        else
-        {
-            enabled = @NO;
-        }
-        
-        TODO("decide how to handle setting a cheat type from the modal and save added cheats to file");
-        [[sender representedObject] addObject:[@{
-                                                 @"code" : [alert stringValue],
-                                                 @"type" : @"Unknown",
-                                                 @"description" : [alert otherStringValue],
-                                                 @"enabled" : enabled,
-                                                 } mutableCopy]];
-    }
-}
-
-- (IBAction)setCheat:(id)sender;
-{
-    NSString *code, *type;
-    BOOL enabled;
-    code = [[sender representedObject] objectForKey:@"code"];
-    type = [[sender representedObject] objectForKey:@"type"];
-    enabled = [[[sender representedObject] objectForKey:@"enabled"] boolValue];
-    
-    if (enabled) {
-        [[sender representedObject] setObject:@NO forKey:@"enabled"];
-        enabled = NO;
-    }
-    else {
-        [[sender representedObject] setObject:@YES forKey:@"enabled"];
-        enabled = YES;
-    }
-    
-    [self setCheat:code withType:type enabled:enabled];
-}
-
-- (IBAction)toggleCheat:(id)sender;
-{
-    NSString *code = [[sender representedObject] objectForKey:@"code"];
-    NSString *type = [[sender representedObject] objectForKey:@"type"];
-    BOOL enabled = ![[[sender representedObject] objectForKey:@"enabled"] boolValue];
-    [[sender representedObject] setObject:@(enabled) forKey:@"enabled"];
-    [self setCheat:code withType:type enabled:enabled];
-}
-
-- (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
-{
-    [_gameCoreManager setCheat:cheatCode withType:type enabled:enabled];
-}
+//- (BOOL)supportsCheats
+//- (IBAction)addCheat:(id)sender;
+//- (IBAction)setCheat:(id)sender;
+//- (IBAction)toggleCheat:(id)sender;
+//- (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 
 #pragma mark - Discs
 
-- (BOOL)supportsMultipleDiscs
-{
-    return [[[_gameCoreManager plugin] controller] supportsMultipleDiscsForSystemIdentifier:[_systemPlugin systemIdentifier]];
-}
-
-- (IBAction)setDisc:(id)sender;
-{
-    [_gameCoreManager setDisc:[[sender representedObject] unsignedIntegerValue]];
-}
+//- (BOOL)supportsMultipleDiscs
+//- (IBAction)setDisc:(id)sender;
 
 #pragma mark - File Insertion
 
-- (BOOL)supportsFileInsertion
-{
-    return [[[_gameCoreManager plugin] controller] supportsFileInsertionForSystemIdentifier:[_systemPlugin systemIdentifier]];
-}
+//- (BOOL)supportsFileInsertion
 
 - (IBAction)insertFile:(id)sender;
 {
@@ -1211,10 +985,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 #pragma mark - Display Mode
 
-- (BOOL)supportsDisplayModeChange
-{
-    return [[[_gameCoreManager plugin] controller] supportsDisplayModeChangeForSystemIdentifier:[_systemPlugin systemIdentifier]];
-}
+//- (BOOL)supportsDisplayModeChange
 
 - (void)changeDisplayMode:(id)sender
 {
@@ -1390,85 +1161,15 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     }
 }
 
-- (IBAction)nextDisplayMode:(id)sender
-{
-    [self OE_changeDisplayModeWithDirectionReversed:NO];
-}
-
-- (IBAction)lastDisplayMode:(id)sender
-{
-    [self OE_changeDisplayModeWithDirectionReversed:YES];
-}
+//- (IBAction)nextDisplayMode:(id)sender
+//- (IBAction)lastDisplayMode:(id)sender
 
 #pragma mark - Saving States
 
-- (BOOL)supportsSaveStates
-{
-    return ![[[_gameCoreManager plugin] controller] saveStatesNotSupportedForSystemIdentifier:[_systemPlugin systemIdentifier]];
-}
-
-- (BOOL)OE_pauseEmulationIfNeeded
-{
-    BOOL pauseNeeded = _emulationStatus == OEEmulationStatusPlaying;
-    
-    if(pauseNeeded) [self setEmulationPaused:YES];
-    
-    return pauseNeeded;
-}
-
-- (void)saveState:(id)sender
-{
-    if(![self supportsSaveStates])
-        return;
-    
-    BOOL didPauseEmulation = [self OE_pauseEmulationIfNeeded];
-    
-    NSInteger   saveGameNo    = [[self rom] saveStateCount] + 1;
-    NSDate *date = [NSDate date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.timeZone = [NSTimeZone localTimeZone];
-    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss ZZZ";
-    
-    NSString *format = NSLocalizedString(@"Save-Game-%ld %@", @"default save state name");
-    NSString    *proposedName = [NSString stringWithFormat:format, saveGameNo, [formatter stringFromDate:date]];
-    OEAlert  *alert        = [OEAlert saveGameAlertWithProposedName:proposedName];
-    
-    [alert performBlockInModalSession:^{
-        NSRect parentFrame = self.gameViewController.view.window.frame;
-        NSSize alertSize = alert.window.frame.size;
-        CGFloat alertX = (parentFrame.size.width - alertSize.width) / 2.0 + parentFrame.origin.x;
-        CGFloat alertY = (parentFrame.size.height - alertSize.height) / 2.0 + parentFrame.origin.y;
-        [alert.window setFrameOrigin:NSMakePoint(alertX, alertY)];
-    }];
-
-    if ([alert runModal] == NSAlertFirstButtonReturn) {
-        if ([[alert stringValue] isEqual: @""]) {
-            [self OE_saveStateWithName:proposedName completionHandler:nil];
-        } else {
-            [self OE_saveStateWithName:[alert stringValue] completionHandler:nil];
-        }
-    }
-    
-    if(didPauseEmulation) [self setEmulationPaused:NO];
-}
-
-- (void)quickSave:(id)sender;
-{
-    NSInteger slot = 0;
-    if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] respondsToSelector:@selector(intValue)])
-        slot = [[sender representedObject] integerValue];
-    else if([sender respondsToSelector:@selector(tag)])
-        slot = [sender tag];
-    
-    NSString *name = [OEDBSaveState nameOfQuickSaveInSlot:slot];
-    BOOL didPauseEmulation = [self OE_pauseEmulationIfNeeded];
-    
-    [self OE_saveStateWithName:name completionHandler:
-     ^{
-         if(didPauseEmulation) [self setEmulationPaused:NO];
-         [[self gameViewController] showQuickSaveNotification];
-     }];
-}
+//- (BOOL)supportsSaveStates
+//- (BOOL)OE_pauseEmulationIfNeeded
+//- (void)saveState:(id)sender
+//- (void)quickSave:(id)sender;
 
 - (void)OE_saveStateWithName:(NSString *)stateName completionHandler:(void(^)(void))handler
 {
@@ -1558,36 +1259,8 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 #pragma mark - Loading States
 
-- (void)loadState:(id)sender;
-{
-    // calling pauseGame here because it might need some time to execute
-    [self OE_pauseEmulationIfNeeded];
-    
-    OEDBSaveState *state = nil;
-    if([sender isKindOfClass:[OEDBSaveState class]])
-        state = sender;
-    else if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] isKindOfClass:[OEDBSaveState class]])
-        state = [sender representedObject];
-    else
-    {
-        DLog(@"Invalid argument passed: %@", sender);
-        return;
-    }
-    
-    [self OE_loadState:state];
-}
-
-- (void)quickLoad:(id)sender;
-{
-    NSInteger slot = 0;
-    if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] respondsToSelector:@selector(intValue)])
-        slot = [[sender representedObject] integerValue];
-    else if([sender respondsToSelector:@selector(tag)])
-        slot = [sender tag];
-    
-    OEDBSaveState *quicksaveState = [[self rom] quickSaveStateInSlot:slot];
-    if(quicksaveState!= nil) [self loadState:quicksaveState];
-}
+//- (void)loadState:(id)sender;
+//- (void)quickLoad:(id)sender;
 
 - (void)OE_loadState:(OEDBSaveState *)state
 {
@@ -1655,24 +1328,6 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 #pragma mark - Deleting States
 
-// delete save state expects sender or [sender representedObject] to be an OEDBSaveState object and prompts the user for confirmation
-- (IBAction)deleteSaveState:(id)sender;
-{
-    OEDBSaveState *state;
-    if([sender isKindOfClass:[OEDBSaveState class]])
-        state = sender;
-    else if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] isKindOfClass:[OEDBSaveState class]])
-        state = [sender representedObject];
-    else
-    {
-        DLog(@"Invalid argument passed: %@", sender);
-        return;
-    }
-    
-    NSString *stateName = [state name];
-    OEAlert *alert = [OEAlert deleteStateAlertWithStateName:stateName];
-    
-    if([alert runModal] == NSAlertFirstButtonReturn) [state deleteAndRemoveFiles];
-}
+//- (IBAction)deleteSaveState:(id)sender;
 
 @end

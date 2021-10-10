@@ -181,11 +181,167 @@ extension OEGameDocument {
         IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep as CFString, IOPMAssertionLevel(kIOPMAssertionLevelOn), "OpenEmu playing game" as CFString, &displaySleepAssertionID)
     }
     
+    // MARK: - Controlling Emulation
+    
+    @objc(OE_startEmulation)
+    /*private*/func startEmulation() {
+        if emulationStatus != .setup {
+            return
+        }
+        
+        emulationStatus = .starting
+        gameCoreManager.startEmulation() {
+            self.emulationStatus = .playing
+        }
+        
+        gameViewController.reflectEmulationPaused(false)
+    }
+    
+    @objc(emulationPaused)
+    var isEmulationPaused: Bool {
+        @objc(isEmulationPaused)
+        get {
+            return emulationStatus != .playing
+        }
+        @objc(setEmulationPaused:)
+        set(pauseEmulation) {
+            if emulationStatus == .setup {
+                if !pauseEmulation {
+                    startEmulation()
+                    return
+                }
+            }
+            if pauseEmulation {
+                enableOSSleep()
+                emulationStatus = .paused
+                if let lastPlayStartDate = lastPlayStartDate {
+                    rom.addTimeInterval(toPlayTime: abs(lastPlayStartDate.timeIntervalSinceNow))
+                    self.lastPlayStartDate = nil
+                }
+            } else {
+                disableOSSleep()
+                rom.markAsPlayedNow()
+                lastPlayStartDate = Date()
+                emulationStatus = .playing
+            }
+            
+            gameCoreManager.setPauseEmulation(pauseEmulation)
+            gameViewController.reflectEmulationPaused(pauseEmulation)
+        }
+    }
+    
+    @IBAction func performClose(_ sender: Any?) {
+        stopEmulation(sender)
+    }
+    
+    @IBAction func stopEmulation(_ sender: Any?) {
+        // we can't just close the document here because proper shutdown is implemented in
+        // method canClose(withDelegate:shouldClose:contextInfo:)
+        windowControllers.forEach { $0.window?.performClose(sender) }
+    }
+    
+    @objc func toggleEmulationPaused(_ sender: Any?) {
+        isEmulationPaused.toggle()
+    }
+    
+    @objc func resetEmulation(_ sender: Any?) {
+        if OEAlert.resetSystem().runModal() == .alertFirstButtonReturn {
+            gameCoreManager.resetEmulation() {
+                self.isEmulationPaused = false
+            }
+        }
+    }
+    
+    /*private*/var shouldTerminateEmulation: Bool {
+        if coreDidTerminateSuddenly {
+            return true
+        }
+        
+        enableOSSleep()
+        isEmulationPaused = true
+        
+        if OEAlert.stopEmulation().runModal() != .alertFirstButtonReturn {
+            disableOSSleep()
+            isEmulationPaused = false
+            return false
+        }
+        
+        return true
+    }
+    
+    @objc(OE_pauseEmulationIfNeeded)
+    @discardableResult
+    /*private*/func pauseEmulationIfNeeded() -> Bool {
+        let pauseNeeded = emulationStatus == .playing
+        
+        if pauseNeeded {
+            isEmulationPaused = true
+        }
+        
+        return pauseNeeded
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func editControls(_ sender: Any?) {
+        let userInfo = [
+            PreferencesWindowController.userInfoPanelNameKey: "Controls",
+            PreferencesWindowController.userInfoSystemIdentifierKey: systemIdentifier ?? "",
+        ]
+        
+        NotificationCenter.default.post(Notification(name: PreferencesWindowController.openPaneNotificationName, userInfo: userInfo))
+    }
+    
+    /// expects `sender` or `sender.representedObject` to be an `OECorePlugin` object and prompts the user for confirmation
+    @objc func switchCore(_ sender: AnyObject) {
+        let plugin: OECorePlugin
+        if let sender = sender as? OECorePlugin {
+            plugin = sender
+        } else if let obj = sender.representedObject as? OECorePlugin {
+            plugin = obj
+        } else {
+            DLog("Invalid argument passed: \(String(describing: sender))")
+            return
+        }
+        
+        if plugin.bundleIdentifier == gameCoreManager.plugin?.bundleIdentifier {
+            return
+        }
+        
+        isEmulationPaused = true
+        
+        let alert = OEAlert()
+        alert.messageText = NSLocalizedString("If you change the core you current progress will be lost and save states will not work anymore.", comment: "")
+        alert.defaultButtonTitle = NSLocalizedString("Change Core", comment: "")
+        alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
+        alert.showSuppressionButton(forUDKey: OEAlert.OEAutoSwitchCoreAlertSuppressionKey)
+        
+        alert.callbackHandler = { alert, result in
+            if result != .alertFirstButtonReturn {
+                return
+            }
+            
+            self.setupGameCoreManager(using: plugin) {
+                self.startEmulation()
+            }
+        }
+        
+        alert.runModal()
+    }
+    
+    /// Returns a filtered screenshot of the currently running core.
+    @objc func screenshot() -> NSImage {
+        let rep = gameCoreManager.captureOutputImage()
+        let screenshot = NSImage(size: rep.size)
+        screenshot.addRepresentation(rep)
+        return screenshot
+    }
+    
     // MARK: - Volume/Audio
     
     /// expects `sender` or `sender.representedObject` to be an `OEAudioDevice` object
     @IBAction func changeAudioOutputDevice(_ sender: AnyObject) {
-        var device: OEAudioDevice?
+        let device: OEAudioDevice?
         if let sender = sender as? OEAudioDevice {
             device = sender
         } else if let obj = sender.representedObject as? OEAudioDevice {
@@ -250,6 +406,212 @@ extension OEGameDocument {
         }
         setVolume(volume, asDefault: true)
     }
+    
+    // MARK: - Cheats
+    
+    var supportsCheats: Bool {
+        return gameCoreManager.plugin?.controller.supportsCheatCode(forSystemIdentifier: systemPlugin.systemIdentifier) == true
+    }
+    
+    @IBAction func addCheat(_ sender: AnyObject) {
+        let alert = OEAlert()
+        
+        alert.otherInputLabelText = NSLocalizedString("Title:", comment: "")
+        alert.showsOtherInputField = true
+        alert.otherInputPlaceholderText = NSLocalizedString("Cheat Description", comment: "")
+        
+        alert.inputLabelText = NSLocalizedString("Code:", comment: "")
+        alert.showsInputField = true
+        alert.inputPlaceholderText = NSLocalizedString("Join multi-line cheats with '+' e.g. 000-000+111-111", comment: "")
+        
+        alert.defaultButtonTitle = NSLocalizedString("Add Cheat", comment: "")
+        alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
+        
+        alert.showsSuppressionButton = true
+        alert.suppressionLabelText = NSLocalizedString("Enable now", comment: "Cheats button label")
+        
+        alert.inputLimit = 1000
+        
+        if alert.runModal() == .alertFirstButtonReturn {
+            var enabled: Bool
+            if alert.suppressionButtonState {
+                enabled = true
+                setCheat(alert.stringValue, withType: "Unknown", enabled: enabled)
+            } else {
+                enabled = false
+            }
+            
+            //TODO: decide how to handle setting a cheat type from the modal and save added cheats to file
+            (sender.representedObject as? NSMutableArray)?.add([
+                "code": alert.stringValue,
+                "type": "Unknown",
+                "description": alert.otherStringValue,
+                "enabled": enabled
+            ] as NSMutableDictionary)
+        }
+    }
+    
+    @IBAction func toggleCheat(_ sender: AnyObject) {
+        guard let dict = sender.representedObject as? [String : Any],
+              let code = dict["code"] as? String,
+              let type = dict["type"] as? String,
+              var enabled = dict["enabled"] as? Bool
+        else { return }
+        
+        enabled.toggle()
+        (sender.representedObject as? NSMutableDictionary)?.setValue(enabled, forKey: "enabled")
+        setCheat(code, withType: type, enabled: enabled)
+    }
+    
+    func setCheat(_ cheatCode: String, withType type: String, enabled: Bool) {
+        gameCoreManager.setCheat(cheatCode, withType: type, enabled: enabled)
+    }
+    
+    // MARK: - Discs
+    
+    var supportsMultipleDiscs: Bool {
+        return gameCoreManager.plugin?.controller.supportsMultipleDiscs(forSystemIdentifier: systemPlugin.systemIdentifier) == true
+    }
+    
+    @IBAction func setDisc(_ sender: AnyObject) {
+        if let sender = sender.representedObject as? UInt {
+            gameCoreManager.setDisc(sender)
+        }
+    }
+    
+    // MARK: - File Insertion
+    
+    var supportsFileInsertion: Bool {
+        return gameCoreManager.plugin?.controller.supportsFileInsertion(forSystemIdentifier: systemPlugin.systemIdentifier) == true
+    }
+    
+    // MARK: - Display Mode
+    
+    var supportsDisplayModeChange: Bool {
+        return gameCoreManager.plugin?.controller.supportsDisplayModeChange(forSystemIdentifier: systemPlugin.systemIdentifier) == true
+    }
+    
+    @IBAction func nextDisplayMode(_ sender: Any?) {
+        changeDisplayMode(directionReversed: false)
+    }
+    
+    @IBAction func lastDisplayMode(_ sender: Any?) {
+        changeDisplayMode(directionReversed: true)
+    }
+    
+    // MARK: - Saving States
+    
+    var supportsSaveStates: Bool {
+        return gameCoreManager.plugin?.controller.saveStatesNotSupported(forSystemIdentifier: systemPlugin.systemIdentifier) == false
+    }
+    
+    @objc private func saveState(_ sender: Any?) {
+        if !supportsSaveStates {
+            return
+        }
+        
+        let didPauseEmulation = pauseEmulationIfNeeded()
+        
+        let saveGameNo = rom.saveStateCount + 1
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.timeZone = NSTimeZone.local
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ"
+        
+        let format = NSLocalizedString("Save-Game-%ld %@", comment: "default save state name")
+        let proposedName = String(format: format, saveGameNo, formatter.string(from: date))
+        let alert = OEAlert.saveGame(proposedName: proposedName)
+        
+        alert.performBlockInModalSession {
+            let parentFrame = self.gameViewController.view.window?.frame ?? .zero
+            let alertSize = alert.window.frame.size
+            let alertX = (parentFrame.width - alertSize.width) / 2 + parentFrame.origin.x
+            let alertY = (parentFrame.height - alertSize.height) / 2 + parentFrame.origin.y
+            alert.window.setFrameOrigin(NSPoint(x: alertX, y: alertY))
+        }
+        
+        if alert.runModal() == .alertFirstButtonReturn {
+            if alert.stringValue == "" {
+                saveState(name: proposedName, completionHandler: nil)
+            } else {
+                saveState(name: alert.stringValue, completionHandler: nil)
+            }
+        }
+        
+        if didPauseEmulation {
+            isEmulationPaused = false
+        }
+    }
+    
+    @objc func quickSave(_ sender: AnyObject?) {
+        var slot = 0
+        if let obj = sender?.representedObject as? Int {
+            slot = obj
+        }
+        
+        let name = OEDBSaveState.nameOfQuickSave(inSlot: slot)
+        let didPauseEmulation = pauseEmulationIfNeeded()
+        
+        saveState(name: name) {
+            if didPauseEmulation {
+                self.isEmulationPaused = false
+            }
+            self.gameViewController.showQuickSaveNotification()
+        }
+    }
+    
+    // MARK: - Loading States
+    
+    /// expects `sender` or `sender.representedObject` to be an `OEDBSaveState` object
+    @objc private func loadState(_ sender: AnyObject?) {
+        // calling pauseGame here because it might need some time to execute
+        pauseEmulationIfNeeded()
+        
+        let state: OEDBSaveState
+        if let sender = sender as? OEDBSaveState {
+            state = sender
+        } else if let obj = sender?.representedObject as? OEDBSaveState {
+            state = obj
+        } else {
+            DLog("Invalid argument passed: \(String(describing: sender))")
+            return
+        }
+        
+        loadState(state: state)
+    }
+    
+    @objc func quickLoad(_ sender: AnyObject?) {
+        var slot = 0
+        if let obj = sender?.representedObject as? Int {
+            slot = obj
+        }
+        let quicksaveState = rom.quickSaveState(inSlot: slot)
+        if let quicksaveState = quicksaveState {
+            loadState(quicksaveState)
+        }
+    }
+    
+    // MARK: - Deleting States
+    
+    /// expects `sender` or `sender.representedObject` to be an `OEDBSaveState` object and prompts the user for confirmation
+    @IBAction func deleteSaveState(_ sender: AnyObject) {
+        let state: OEDBSaveState
+        if let sender = sender as? OEDBSaveState {
+            state = sender
+        } else if let obj = sender.representedObject as? OEDBSaveState {
+            state = obj
+        } else {
+            DLog("Invalid argument passed: \(String(describing: sender))")
+            return
+        }
+        
+        let stateName = state.name ?? ""
+        let alert = OEAlert.deleteSaveState(name: stateName)
+        
+        if alert.runModal() == .alertFirstButtonReturn {
+            state.deleteAndRemoveFiles()
+        }
+    }
 }
 
 // MARK: -  NSMenuItemValidation
@@ -272,9 +634,8 @@ extension OEGameDocument {
                 menuItem.title = NSLocalizedString("Pause Game", comment: "")
                 return emulationStatus == .playing
             }
-        case #selector(nextDisplayMode(_:)):
-            return supportsDisplayModeChange
-        case #selector(lastDisplayMode(_:)):
+        case #selector(nextDisplayMode(_:)),
+             #selector(lastDisplayMode(_:)):
             return supportsDisplayModeChange
         default:
             return true
