@@ -30,18 +30,18 @@ final class SidebarItemView: NSTableCellView {
         super.viewWillMove(toWindow: newWindow)
         
         if window != nil {
-            NotificationCenter.default.removeObserver(self, name: NSWindow.didBecomeMainNotification, object: window)
-            NotificationCenter.default.removeObserver(self, name: NSWindow.didResignMainNotification, object: window)
+            NotificationCenter.default.removeObserver(self, name: NSWindow.didBecomeKeyNotification, object: window)
+            NotificationCenter.default.removeObserver(self, name: NSWindow.didResignKeyNotification, object: window)
         }
         
         if newWindow != nil {
-            NotificationCenter.default.addObserver(self, selector: #selector(mainWindowChanged), name: NSWindow.didBecomeMainNotification, object: newWindow)
-            NotificationCenter.default.addObserver(self, selector: #selector(mainWindowChanged), name: NSWindow.didResignMainNotification, object: newWindow)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyWindowChanged), name: NSWindow.didBecomeKeyNotification, object: newWindow)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyWindowChanged), name: NSWindow.didResignKeyNotification, object: newWindow)
         }
     }
     
-    @objc func mainWindowChanged() {
-        if window?.isMainWindow == true {
+    @objc func keyWindowChanged() {
+        if window?.isKeyWindow == true {
             imageView?.alphaValue = 1
         } else {
             imageView?.alphaValue = 0.5
