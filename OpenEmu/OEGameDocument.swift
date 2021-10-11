@@ -140,7 +140,7 @@ final class OEGameDocument: NSDocument {
     @objc //OEPopoutGameWindowController
     private(set) var gameViewController: GameViewController!
     
-    private(set) var cheats: [NSMutableDictionary]?
+    private(set) var cheats: [Cheat] = []
     private(set) var discCount: UInt = 0
     private(set) var displayModes: [[String: Any]] = []
     
@@ -1273,7 +1273,7 @@ final class OEGameDocument: NSDocument {
         }
     }
     
-    @IBAction func addCheat(_ sender: AnyObject) {
+    @IBAction func addCheat(_ sender: Any?) {
         let alert = OEAlert()
         
         alert.otherInputLabelText = NSLocalizedString("Title:", comment: "")
@@ -1293,38 +1293,29 @@ final class OEGameDocument: NSDocument {
         alert.inputLimit = 1000
         
         if alert.runModal() == .alertFirstButtonReturn {
-            var enabled: Bool
+            let cheat = Cheat(code: alert.stringValue, type: "Unknown", name: alert.otherStringValue)
+            
             if alert.suppressionButtonState {
-                enabled = true
-                setCheat(alert.stringValue, withType: "Unknown", enabled: enabled)
-            } else {
-                enabled = false
+                cheat.isEnabled = true
+                setCheat(cheat)
             }
             
             //TODO: decide how to handle setting a cheat type from the modal and save added cheats to file
-            cheats?.append([
-                "code": alert.stringValue,
-                "type": "Unknown",
-                "description": alert.otherStringValue,
-                "enabled": enabled
-            ] as NSMutableDictionary)
+            cheats.append(cheat)
         }
     }
     
+    /// expects `sender.representedObject` to be a `Cheat` object
     @IBAction func toggleCheat(_ sender: AnyObject) {
-        guard let dict = sender.representedObject as? [String : Any],
-              let code = dict["code"] as? String,
-              let type = dict["type"] as? String,
-              var enabled = dict["enabled"] as? Bool
+        guard let cheat = sender.representedObject as? Cheat
         else { return }
         
-        enabled.toggle()
-        (sender.representedObject as? NSMutableDictionary)?.setValue(enabled, forKey: "enabled")
-        setCheat(code, withType: type, enabled: enabled)
+        cheat.isEnabled.toggle()
+        setCheat(cheat)
     }
     
-    func setCheat(_ cheatCode: String, withType type: String, enabled: Bool) {
-        gameCoreManager?.setCheat(cheatCode, withType: type, enabled: enabled)
+    func setCheat(_ cheat: Cheat) {
+        gameCoreManager?.setCheat(cheat.code, withType: cheat.type, enabled: cheat.isEnabled)
     }
     
     // MARK: - Discs

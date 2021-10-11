@@ -420,16 +420,14 @@ final class GameControlsBar: NSWindow {
         let item = NSMenuItem(title: NSLocalizedString("Add Cheat…", comment: ""), action: #selector(OEGameDocument.addCheat(_:)), keyEquivalent: "")
         menu.addItem(item)
         
-        if let cheats = gameViewController.document.cheats, !cheats.isEmpty {
+        let cheats = gameViewController.document.cheats
+        if !cheats.isEmpty {
             menu.addItem(.separator())
             
             for cheat in cheats {
-                let description = cheat["description"] as? String ?? ""
-                let enabled = cheat["enabled"] as? Bool ?? false
-                
-                let item = NSMenuItem(title: description, action: #selector(OEGameDocument.toggleCheat(_:)), keyEquivalent: "")
+                let item = NSMenuItem(title: cheat.name, action: #selector(OEGameDocument.toggleCheat(_:)), keyEquivalent: "")
                 item.representedObject = cheat
-                item.state = enabled ? .on : .off
+                item.state = cheat.isEnabled ? .on : .off
                 
                 menu.addItem(item)
             }

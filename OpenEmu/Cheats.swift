@@ -48,7 +48,7 @@ import Foundation
 
 final class Cheats: NSObject {
     
-    private(set) var allCheats = [NSMutableDictionary]() //[[String : Any]]
+    private(set) var allCheats: [Cheat] = []
     private var didFindMD5Hash = false
     private let md5Hash: String
     
@@ -90,12 +90,13 @@ extension Cheats: XMLParserDelegate {
         // Parse cheats where MD5 hash was found.
         } else if didFindMD5Hash && elementName == "cheat" {
             
-            allCheats.append([
-                "code": attributeDict["code"]!,
-                "type": attributeDict["type"]!,
-                "description": attributeDict["description"]!,
-                "enabled": false
-            ] as NSMutableDictionary)
+            if let code = attributeDict["code"],
+               let type = attributeDict["type"],
+               let name = attributeDict["description"]
+            {
+                let cheat = Cheat(code: code, type: type, name: name)
+                allCheats.append(cheat)
+            }
         }
     }
     
@@ -105,5 +106,18 @@ extension Cheats: XMLParserDelegate {
         if didFindMD5Hash && elementName == "cheats" {
             parser.abortParsing()
         }
+    }
+}
+
+final class Cheat: Codable {
+    let code: String
+    let type: String
+    var name: String
+    var isEnabled = false
+    
+    init(code: String, type: String, name: String) {
+        self.code = code
+        self.type = type
+        self.name = name
     }
 }
