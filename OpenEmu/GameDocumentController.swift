@@ -128,7 +128,7 @@ class GameDocumentController: NSDocumentController {
         
         addDocument(document)
         
-        document.setupGame { success, error in
+        document.setUpGame { success, error in
             
             if success {
                 

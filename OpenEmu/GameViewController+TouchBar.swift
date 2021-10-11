@@ -158,7 +158,7 @@ extension GameViewController: NSTouchBarDelegate {
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Toggle Fullscreen", comment: "")
             
-            let imageName: NSImage.Name = document.gameWindowController.window!.isFullScreen ? NSImage.touchBarExitFullScreenTemplateName : NSImage.touchBarEnterFullScreenTemplateName
+            let imageName: NSImage.Name = document.gameWindowController!.window!.isFullScreen ? NSImage.touchBarExitFullScreenTemplateName : NSImage.touchBarEnterFullScreenTemplateName
             let image = NSImage(named: imageName)!
             let button = NSButton(image: image, target: nil, action: #selector(fullScreenTouched(_:)))
             
@@ -238,7 +238,7 @@ extension GameViewController: NSTouchBarDelegate {
         let item = touchBar!.item(forIdentifier: .toggleFullScreen)!
         let button = item.view! as! NSButton
         
-        let imageName: NSImage.Name = document.gameWindowController.window!.isFullScreen ? NSImage.touchBarExitFullScreenTemplateName : NSImage.touchBarEnterFullScreenTemplateName
+        let imageName: NSImage.Name = document.gameWindowController!.window!.isFullScreen ? NSImage.touchBarExitFullScreenTemplateName : NSImage.touchBarEnterFullScreenTemplateName
         button.image = NSImage(named: imageName)!
     }
 }

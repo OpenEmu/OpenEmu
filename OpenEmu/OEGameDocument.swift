@@ -24,10 +24,32 @@
 
 import Cocoa
 import IOKit.pwr_mgt
+import OpenEmuBase
+import OpenEmuSystem
 import OpenEmuKit
+
+let OEGameVolumeKey = "volume"
+let OEGameCoreDisplayModeKeyFormat = "displayMode.%@"
+let OEBackgroundPauseKey = "backgroundPause"
+let OEBackgroundControllerPlayKey = "backgroundControllerPlay"
+let OETakeNativeScreenshots = "takeNativeScreenshots"
+
+let OEScreenshotFileFormatKey = "screenshotFormat"
+let OEScreenshotPropertiesKey = "screenshotProperties"
+let OEScreenshotAspectRatioCorrectionDisabled = "disableScreenshotAspectRatioCorrection"
+
+let OEGameCoreManagerModePreferenceKey = "OEGameCoreManagerModePreference"
 
 @objc
 extension OEGameDocument {
+    
+    @nonobjc
+    private static let initializeDefaults: Void = {
+        UserDefaults.standard.register(defaults: [
+            OEScreenshotFileFormatKey : NSBitmapImageRep.FileType.png.rawValue,
+            OEScreenshotPropertiesKey : [NSBitmapImageRep.PropertyKey : Any](),
+        ])
+    }()
     
     var coreIdentifier: String! {
         return gameCoreManager.plugin?.bundleIdentifier
@@ -39,6 +61,65 @@ extension OEGameDocument {
     
     var gameCoreHelper: OEGameCoreHelper! {
         return gameCoreManager
+    }
+    
+//    private var _gameWindowController: NSWindowController?
+    var gameWindowController: NSWindowController? {
+        get {
+            return _gameWindowController
+        }
+        set {
+            if _gameWindowController == newValue {
+                return
+            }
+            
+            if let gameWindowController = _gameWindowController {
+                removeObservers(for: gameWindowController)
+                removeWindowController(gameWindowController)
+            }
+            
+            _gameWindowController = newValue
+            
+            if let gameWindowController = _gameWindowController {
+                addWindowController(gameWindowController)
+                addObservers(for: gameWindowController)
+            }
+        }
+    }
+    
+    var handleEvents: Bool {
+        get {
+            _handleEvents
+        }
+        set {
+            if _handleEvents == newValue {
+                return
+            }
+            
+            _handleEvents = newValue
+            gameCoreManager.setHandleEvents(newValue)
+        }
+    }
+    
+    var handleKeyboardEvents: Bool {
+        get {
+            _handleKeyboardEvents
+        }
+        set {
+            if _handleKeyboardEvents == newValue {
+                return
+            }
+            
+            _handleKeyboardEvents = newValue
+            gameCoreManager.setHandleKeyboardEvents(newValue)
+        }
+    }
+    
+//    deinit {
+    func oe_deinit() {
+        if let url = romFileURL, url != rom.url {
+            try? FileManager.default.removeItem(at: url)
+        }
     }
     
     open
@@ -68,6 +149,241 @@ extension OEGameDocument {
         return emulationStatus == .playing || emulationStatus == .paused
     }
     
+    // MARK: - Setup
+    
+    @objc(setupGameWithCompletionHandler:)
+    func setUpGame(completionHandler handler: @escaping (_ success: Bool, _ error: Error?) -> Void) {
+        if !checkRequiredFiles() {
+            handler(false, nil)
+            return
+        }
+        
+        checkGlitches()
+        if checkDeprecatedCore() {
+            handler(false, nil)
+            return
+        }
+        
+        if emulationStatus != .notSetup {
+            handler(false, nil)
+            return
+        }
+        
+        gameCoreManager.loadROM(completionHandler: {
+            self.gameCoreManager.setupEmulation() { result in
+                self.gameViewController.setScreenSize(result.screenSize, aspectSize: result.aspectSize)
+                
+                DLog("SETUP DONE.")
+                self.emulationStatus = .setup
+                
+                // TODO: #567 and #568 need to be fixed first
+                //self.addDeviceNotificationObservers()
+                
+                self.disableOSSleep()
+                self.rom.incrementPlayCount()
+                self.rom.markAsPlayedNow()
+                self.lastPlayStartDate = Date()
+                
+                if self.saveStateForGameStart != nil {
+                    self.loadState(state: self.saveStateForGameStart!)
+                    self.saveStateForGameStart = nil
+                }
+                
+                // set initial volume
+                self.setVolume(self.volume, asDefault: false)
+                
+                OEBindingsController.default.systemBindings(for: self.systemPlugin.controller).add(self)
+                
+                self.gameCoreManager.setHandleEvents(self.handleEvents)
+                self.gameCoreManager.setHandleKeyboardEvents(self.handleKeyboardEvents)
+                
+                handler(true, nil)
+            }
+        }, errorHandler: { error in
+            self.emulationStatus = .notSetup
+            if self.romDecompressed {
+                try? FileManager.default.removeItem(atPath: self.romPath)
+            }
+            OEBindingsController.default.systemBindings(for: self.systemPlugin.controller).remove(self)
+            self.gameCoreManager = nil
+            self.stopEmulation(self)
+            
+            if ((error as NSError).domain == NSCocoaErrorDomain) && NSXPCConnectionErrorMinimum <= (error as NSError).code && (error as NSError).code <= NSXPCConnectionErrorMaximum {
+                let rootError = error as NSError
+                let error = NSError(domain: OEGameDocumentErrorDomain,
+                                    code: OEGameDocumentErrorCodes.gameCoreCrashedError.rawValue,
+                                    userInfo: [
+                                        "corePlugin": self.corePlugin as Any,
+                                        "systemIdentifier": self.systemIdentifier as Any,
+                                        NSUnderlyingErrorKey: rootError
+                ])
+                handler(false, error)
+                return
+            }
+            
+            // TODO: the setup completion handler shouldn't be the place where non-setup-related errors are handled!
+            handler(false, error)
+        })
+    }
+    
+    private func setUpGameCoreManager(using core: OECorePlugin, completionHandler: @escaping () -> Void) {
+        assert(core != gameCoreManager.plugin, "Do not attempt to run a new core using the same plug-in as the current one.")
+        
+        emulationStatus = .notSetup
+        gameCoreManager.stopEmulation() {
+            OEBindingsController.default.systemBindings(for: self.systemPlugin.controller).remove(self)
+            
+            self.gameCoreManager = self.newGameCoreManager(with: core)
+            self.setUpGame { success, error in
+                if !success {
+                    if let error = error {
+                        self.presentError(error)
+                    }
+                    return
+                }
+                
+                completionHandler()
+            }
+        }
+    }
+    
+    private func checkRequiredFiles() -> Bool {
+        // Check current system plugin for OERequiredFiles and core plugin for OEGameCoreRequiresFiles opt-in
+        if gameCoreManager.plugin?.controller.requiresFiles(forSystemIdentifier: systemPlugin.systemIdentifier) == false {
+            return true
+        }
+        
+        if let validRequiredFiles = gameCoreManager.plugin?.controller.requiredFiles(forSystemIdentifier: systemPlugin.systemIdentifier) {
+            return BIOSFile.requiredFilesAvailable(forSystemIdentifier: validRequiredFiles)
+        } else {
+            return true
+        }
+    }
+    
+    @discardableResult
+    private func checkGlitches() -> Bool {
+        let OEGameCoreGlitchesKey = OEAlert.OEGameCoreGlitchesSuppressionKey
+        let coreName = gameCoreManager.plugin?.controller.pluginName ?? ""
+        let systemIdentifier = systemPlugin.systemIdentifier ?? ""
+        let systemKey = "\(coreName).\(systemIdentifier)"
+        let defaults = UserDefaults.standard
+        
+        let glitchInfo = defaults.object(forKey: OEGameCoreGlitchesKey) as? [String : Bool] ?? [:]
+        let showAlert = !(glitchInfo[systemKey] ?? false)
+        
+        if (gameCoreManager.plugin?.controller.hasGlitches(forSystemIdentifier: systemPlugin.systemIdentifier) ?? false) && showAlert {
+            
+            let message = String(format: NSLocalizedString("The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", comment: ""), coreName, coreName)
+            let alert = OEAlert()
+            alert.messageText = NSLocalizedString("Warning", comment: "")
+            alert.informativeText = message
+            alert.defaultButtonTitle = NSLocalizedString("OK", comment: "")
+            alert.showsSuppressionButton = true
+            alert.suppressionLabelText = NSLocalizedString("Do not show me again", comment: "Alert suppression label")
+            
+            if alert.runModal() == .alertFirstButtonReturn && alert.suppressionButtonState {
+                var systemKeyGlitchInfo: [String : Bool] = [:]
+                for (key, value) in glitchInfo {
+                    systemKeyGlitchInfo[key] = value
+                    
+                }
+                systemKeyGlitchInfo[systemKey] = true
+                
+                defaults.set(systemKeyGlitchInfo, forKey: OEGameCoreGlitchesKey)
+            }
+            
+            return true
+        }
+        return false
+    }
+    
+    private func checkDeprecatedCore() -> Bool {
+        guard gameCoreManager.plugin?.isDeprecated == true else {
+            return false
+        }
+        
+        let coreName = gameCoreManager.plugin?.controller.pluginName ?? ""
+        let systemIdentifier = systemPlugin.systemIdentifier ?? ""
+        
+        let removalDate = gameCoreManager.plugin?.infoDictionary?[OEGameCoreSupportDeadlineKey] as? Date
+        var deadlineInMoreThanOneMonth = false
+        let oneMonth: TimeInterval = 30 * 24 * 60 * 60
+        if removalDate == nil || removalDate!.timeIntervalSinceNow > oneMonth {
+            deadlineInMoreThanOneMonth = true
+        }
+        
+        let replacements = gameCoreManager.plugin?.infoDictionary?[OEGameCoreSuggestedReplacement] as? [String : String]
+        let replacement = replacements?[systemIdentifier]
+        var replacementName: String?
+        var download: OECoreDownload?
+        
+        if let replacement = replacement {
+            if let plugin = OECorePlugin(bundleIdentifier: replacement) {
+                replacementName = plugin.controller.pluginName
+            } else {
+                let repl = OECoreUpdater.shared.coreList.firstIndex(where: { $0.bundleIdentifier.caseInsensitiveCompare(replacement) == .orderedSame })
+                if let repl = repl {
+                    download = OECoreUpdater.shared.coreList[repl]
+                    replacementName = download?.name
+                }
+            }
+        }
+        
+        let title: String
+        if deadlineInMoreThanOneMonth {
+            title = String(format: NSLocalizedString("The %@ core plugin is deprecated", comment: "Message title (removal far away)"), coreName)
+        } else {
+            title = String(format: NSLocalizedString("The %@ core plugin is deprecated, and will be removed soon", comment: "Message title (removal happening soon)"), coreName)
+        }
+        
+        var infoMsg: String
+        if deadlineInMoreThanOneMonth {
+            infoMsg = NSLocalizedString("This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working.", comment: "Message info, part 1 (removal far away)")
+        } else {
+            infoMsg = NSLocalizedString("In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working.", comment: "Message info, part 1 (removal happening soon)")
+        }
+        
+        if let replacementName = replacementName {
+            infoMsg += "\n\n"
+            infoMsg += String(format: NSLocalizedString("We suggest you switch to the %@ core plugin as soon as possible.", comment: "Message info, part 2 (shown only if the replacement plugin is available)"), replacementName)
+        }
+        
+        let alert = NSAlert()
+        alert.messageText = title
+        alert.informativeText = infoMsg
+        
+        if let download = download, gameWindowController == nil {
+            let defaults = UserDefaults.standard
+            let prefKey = "defaultCore." + systemIdentifier
+            let currentCore = defaults.string(forKey: prefKey)
+            let deprecatedIsDefault = currentCore == gameCoreManager.plugin?.bundleIdentifier
+            
+            if deprecatedIsDefault {
+                alert.addButton(withTitle: String(format: NSLocalizedString("Install %@ and Set as Default", comment: ""), replacementName!))
+            } else {
+                alert.addButton(withTitle: String(format: NSLocalizedString("Install %@", comment: ""), replacementName!))
+            }
+            alert.addButton(withTitle: NSLocalizedString("Ignore", comment: ""))
+            
+            if alert.runModal() != .alertFirstButtonReturn {
+                return false
+            }
+            
+            OECoreUpdater.shared.installCore(with: download) { plugin, error in
+                if deprecatedIsDefault {
+                    defaults.set(plugin.bundleIdentifier, forKey: prefKey)
+                }
+            }
+            
+            return true
+        } else {
+            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+            alert.runModal()
+        }
+        
+        return false
+    }
+    
     // MARK: - Game Window
     
     func showInSeparateWindow(inFullScreen fullScreen: Bool) {
@@ -86,19 +402,17 @@ extension OEGameDocument {
     }
     
     func toggleFullScreen(_ sender: Any?) {
-        gameWindowController.window?.toggleFullScreen(sender)
+        gameWindowController?.window?.toggleFullScreen(sender)
     }
     
-    @objc(OE_addObserversForWindowController:)
-    /*private*/func addObservers(for windowController: NSWindowController) {
+    private func addObservers(for windowController: NSWindowController) {
         let window = windowController.window
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(windowDidBecomeMain(_:)), name: NSWindow.didBecomeMainNotification, object: window)
         nc.addObserver(self, selector: #selector(windowDidResignMain(_:)), name: NSWindow.didResignMainNotification, object: window)
     }
     
-    @objc(OE_removeObserversForWindowController:)
-    /*private*/func removeObservers(for windowController: NSWindowController) {
+    private func removeObservers(for windowController: NSWindowController) {
         let window = windowController.window
         let nc = NotificationCenter.default
         nc.removeObserver(self, name: NSWindow.didBecomeMainNotification, object: window)
@@ -321,7 +635,7 @@ extension OEGameDocument {
                 return
             }
             
-            self.setupGameCoreManager(using: plugin) {
+            self.setUpGameCoreManager(using: plugin) {
                 self.startEmulation()
             }
         }
@@ -330,11 +644,62 @@ extension OEGameDocument {
     }
     
     /// Returns a filtered screenshot of the currently running core.
-    @objc func screenshot() -> NSImage {
+    func screenshot() -> NSImage {
         let rep = gameCoreManager.captureOutputImage()
         let screenshot = NSImage(size: rep.size)
         screenshot.addRepresentation(rep)
         return screenshot
+    }
+    
+    @objc func takeScreenshot(_ sender: Any?) {
+        let defaults = UserDefaults.standard
+        let type = NSBitmapImageRep.FileType(rawValue: UInt(defaults.integer(forKey: OEScreenshotFileFormatKey)))!
+        let properties = defaults.dictionary(forKey: OEScreenshotPropertiesKey) as! [NSBitmapImageRep.PropertyKey : Any]
+        let takeNativeScreenshots = defaults.bool(forKey: OETakeNativeScreenshots)
+        let disableAspectRatioFix = defaults.bool(forKey: OEScreenshotAspectRatioCorrectionDisabled)
+        
+        if takeNativeScreenshots || (((sender as? NSMenuItem)?.tag == 1)) {
+            gameCoreManager.captureSourceImage() { image in
+                var image = image
+                if !disableAspectRatioFix {
+                    let newSize = self.gameViewController.defaultScreenSize
+                    image = image.resized(newSize) ?? image
+                }
+                if let imageData = image.representation(using: type, properties: properties) {
+                    self.writeScreenshotImageData(imageData)
+                }
+            }
+        } else {
+            gameCoreManager.captureOutputImage() { image in
+                if let imageData = image.representation(using: type, properties: properties) {
+                    self.writeScreenshotImageData(imageData)
+                }
+            }
+        }
+    }
+    
+    private func writeScreenshotImageData(_ imageData: Data) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH.mm.ss"
+        let timeStamp = dateFormatter.string(from: Date())
+        
+        // Replace forward slashes in the game title with underscores because forward slashes aren't allowed in filenames.
+        var displayName = rom?.game?.displayName ?? ""
+        displayName = displayName.replacingOccurrences(of: "/", with: "_")
+        
+        let fileName = "\(displayName) \(timeStamp).png"
+        let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+        
+        do {
+            try imageData.write(to: temporaryURL, options: .atomic)
+            if let context = rom.managedObjectContext {
+                let screenshot = OEDBScreenshot.createObject(in: context, for: rom, withFile: temporaryURL)
+                screenshot?.save()
+                gameViewController.showScreenShotNotification()
+            }
+        } catch {
+            NSLog("Could not save screenshot at URL: \(temporaryURL), with error: \(error)")
+        }
     }
     
     // MARK: - Volume/Audio
@@ -485,6 +850,57 @@ extension OEGameDocument {
         return gameCoreManager.plugin?.controller.supportsFileInsertion(forSystemIdentifier: systemPlugin.systemIdentifier) == true
     }
     
+    @IBAction func insertFile(_ sender: AnyObject?) {
+        var archivedExtensions: [String] = []
+        // The Archived Game document type lists all supported archive extensions, e.g. zip
+        let bundleInfo = Bundle.main.infoDictionary
+        let docTypes = bundleInfo?["CFBundleDocumentTypes"] as? [[String : Any]]
+        for docType in docTypes ?? [] {
+            if docType["CFBundleTypeName"] as? String == "Archived Game" {
+                if let extensions = docType["CFBundleTypeExtensions"] as? [String] {
+                    archivedExtensions.append(contentsOf: extensions)
+                }
+                break
+            }
+        }
+        
+        let validExtensions = archivedExtensions + systemPlugin.supportedTypeExtensions() as! [String]
+        
+        let system = rom.game!.system!
+        let systemFolder = OELibraryDatabase.default!.romsFolderURL(for: system)
+        // Seemed to need this to get NSOpenPanel to restrict to this directory on open for some reason
+        let romsFolderURL = URL(fileURLWithPath: systemFolder.path, isDirectory: true)
+        
+        let panel = NSOpenPanel()
+        panel.allowsMultipleSelection = false
+        panel.directoryURL = romsFolderURL
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.canCreateDirectories = false
+        panel.allowedFileTypes = validExtensions
+        
+        panel.beginSheetModal(for: gameWindowController!.window!) { result in
+            guard
+                result == .OK,
+                let url = panel.url
+            else { return }
+            
+            let path = decompressedPathForRomAtPath(url.path)
+            let fileURL = URL(fileURLWithPath: path)
+            
+            self.gameCoreManager.insertFile(at: fileURL) { success, error in
+                if !success {
+                    if let error = error {
+                        self.presentError(error)
+                    }
+                    return
+                }
+                
+                self.isEmulationPaused = false
+            }
+        }
+    }
+    
     // MARK: - Display Mode
     
     var supportsDisplayModeChange: Bool {
@@ -588,6 +1004,61 @@ extension OEGameDocument {
         let quicksaveState = rom.quickSaveState(inSlot: slot)
         if let quicksaveState = quicksaveState {
             loadState(quicksaveState)
+        }
+    }
+    
+    private func loadState(state: OEDBSaveState) {
+        if state.rom != rom {
+            DLog("Invalid save state for current rom")
+            return
+        }
+        
+        let loadState: (() -> Void) = {
+            self.gameCoreManager.loadStateFromFile(
+                atPath: state.dataFileURL.path) { success, error in
+                if !success {
+                    if let error = error {
+                        self.presentError(error)
+                    }
+                    return
+                }
+                
+                self.isEmulationPaused = false
+            }
+        }
+        
+        if self.gameCoreManager.plugin?.bundleIdentifier == state.coreIdentifier {
+            loadState()
+            return
+        }
+        
+        let runWithCore: ((OECorePlugin?, Error?) -> Void) = { plugin, error in
+            if let plugin = plugin {
+                self.setUpGameCoreManager(using: plugin) {
+                    loadState()
+                }
+            } else {
+                if let error = error {
+                    self.presentError(error)
+                }
+                return
+            }
+        }
+        
+        let alert = OEAlert()
+        alert.messageText = NSLocalizedString("This save state was created with a different core. Do you want to switch to that core now?", comment: "")
+        alert.defaultButtonTitle = NSLocalizedString("Change Core", comment: "")
+        alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
+        alert.showSuppressionButton(forUDKey: OEAlert.OEAutoSwitchCoreAlertSuppressionKey)
+        
+        if alert.runModal() == .alertFirstButtonReturn {
+            if let core = OECorePlugin(bundleIdentifier: state.coreIdentifier) {
+                runWithCore(core, nil)
+            } else {
+                OECoreUpdater.shared.installCore(for: state, withCompletionHandler: runWithCore)
+            }
+        } else {
+            startEmulation()
         }
     }
     

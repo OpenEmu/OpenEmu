@@ -27,17 +27,6 @@
 @import Cocoa;
 @import IOKit.pwr_mgt;
 
-extern NSString *const OEGameVolumeKey;
-extern NSString *const OEGameCoreDisplayModeKeyFormat;
-extern NSString *const OEBackgroundPauseKey;
-extern NSString *const OEBackgroundControllerPlayKey;
-extern NSString *const OETakeNativeScreenshots;
-
-extern NSString *const OEScreenshotFileFormatKey;
-extern NSString *const OEScreenshotPropertiesKey;
-extern NSString *const OEScreenshotAspectRatioCorrectionDisabled;
-
-extern NSString *const OEGameCoreManagerModePreferenceKey;
 extern NSString *const OEGameDocumentErrorDomain;
 
 typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
@@ -59,15 +48,12 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 @class OEGameViewController;
 @class OESystemPlugin;
 @class OEGameCoreManager;
-@protocol OEGameCoreHelper;
 
 @interface OEGameDocument : NSDocument
 
 - (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin *)core error:(NSError **)outError;
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core error:(NSError **)outError;
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
-
-- (void)setupGameWithCompletionHandler:(void(^)(BOOL success, NSError *error))handler;
 
 @property(readonly) OEDBRom *rom;
 @property(readonly) NSURL   *romFileURL;
@@ -76,16 +62,10 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 
 @property(readonly) OEGameViewController *gameViewController;
 
-@property(nonatomic) NSWindowController *gameWindowController;
+@property(nonatomic) NSWindowController *_gameWindowController;
 
-@property(nonatomic) BOOL handleEvents;
-@property(nonatomic) BOOL handleKeyboardEvents;
-
-#pragma mark - Controlling Emulation
-- (IBAction)takeScreenshot:(id)sender;
-
-#pragma mark - File Insertion
-- (IBAction)insertFile:(id)sender;
+@property(nonatomic) BOOL _handleEvents;
+@property(nonatomic) BOOL _handleKeyboardEvents;
 
 #pragma mark - Display Mode
 - (void)changeDisplayMode:(id)sender;
@@ -110,18 +90,27 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     OEEmulationStatusTerminating,
 };
 
-- (void)OE_setupGameCoreManagerUsingCorePlugin:(OECorePlugin *)core completionHandler:(void(^)(void))completionHandler NS_SWIFT_NAME(setupGameCoreManager(using:completionHandler:));
+- (OEGameCoreManager *)_newGameCoreManagerWithCorePlugin:(OECorePlugin *)corePlugin NS_SWIFT_NAME(newGameCoreManager(with:));
 - (void)OE_changeDisplayModeWithDirectionReversed:(BOOL)flag NS_SWIFT_NAME(changeDisplayMode(directionReversed:));
 - (void)OE_saveStateWithName:(NSString *)stateName completionHandler:(void(^)(void))handler NS_SWIFT_NAME(saveState(name:completionHandler:));
-- (void)OE_loadState:(OEDBSaveState *)state NS_SWIFT_NAME(loadState(state:));
 
-@property OEEmulationStatus  emulationStatus;
-@property OEGameCoreManager *gameCoreManager;
-@property IOPMAssertionID    displaySleepAssertionID;
-@property(nullable) NSDate  *lastPlayStartDate;
-@property BOOL               isMuted;
-@property BOOL               pausedByGoingToBackground;
-@property BOOL               coreDidTerminateSuddenly;
-@property BOOL               isUndocking;
+// former ivars
+@property OEGameCoreManager  *gameCoreManager;
+
+@property IOPMAssertionID     displaySleepAssertionID;
+
+@property OEEmulationStatus   emulationStatus;
+@property OEDBSaveState      *saveStateForGameStart;
+@property NSDate             *lastPlayStartDate;
+@property NSString           *lastSelectedDisplayModeOption;
+@property BOOL                isMuted;
+@property BOOL                pausedByGoingToBackground;
+@property BOOL                coreDidTerminateSuddenly;
+/// Indicates whether the document is currently moving from the main window into a separate popout window.
+@property BOOL                isUndocking;
+
+// track if ROM was decompressed
+@property NSString           *romPath;
+@property BOOL                romDecompressed;
 
 @end
