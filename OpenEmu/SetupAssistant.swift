@@ -23,8 +23,13 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
+import Finite
 
 final class SetupAssistant: NSViewController {
+    
+    private enum State: Int {
+        case videoIntro, welcome, coreSelection, lastScreen, end
+    }
     
     static let hasFinishedKey = "setupAssistantFinished"
     private static let videoIntroductionDuration: TimeInterval = 10
@@ -49,7 +54,14 @@ final class SetupAssistant: NSViewController {
         viewTransition.duration = 1
         return viewTransition
     }()
-    private let fsm = OEFiniteStateMachine()
+    private var fsm = StateMachine<State>(initial: .videoIntro) { c in
+        c.allow(from: .videoIntro, to: .welcome)
+        c.allow(from: .welcome , to: [.videoIntro, .coreSelection])
+        c.allow(from: .coreSelection, to: [.welcome, .lastScreen])
+        c.allow(from: .lastScreen, to: [.coreSelection, .end])
+        c.allow(from: .end, to: .lastScreen)
+    }
+    
     private let startTimeOfSetupAssistant = Date()
     
     override func viewDidLoad() {
@@ -60,31 +72,32 @@ final class SetupAssistant: NSViewController {
         replaceView.wantsLayer = true
         replaceView.animations = ["subviews" : viewTransition]
         
-        setupFiniteStateMachine()
-        fsm.start()
+        setUpFiniteStateMachine()
     }
     
     @IBAction private func backEvent(_ sender: Any?) {
-        fsm.processEvent(.backEvent)
+        if let state = State(rawValue: fsm.state.rawValue-1) {
+            try? fsm.transition(to: state)
+        }
     }
     
     @IBAction private func nextEvent(_ sender: Any?) {
-        fsm.processEvent(.nextEvent)
+        if let state = State(rawValue: fsm.state.rawValue+1) {
+            try? fsm.transition(to: state)
+        }
     }
     
-    private func setupFiniteStateMachine() {
-        fsm.setActionsQueue(.main)
+    private func setUpFiniteStateMachine() {
         
         // Video introduction
         
-        fsm.addState(.videoIntroState)
-        fsm.addTransition(from: .videoIntroState, to: .welcomeState, event: .nextEvent) { [unowned self] in
+        fsm.onTransitions(from: .videoIntro, to: .welcome) { [unowned self] in
             dissolveToView(welcomeView)
         }
         
         // Welcome screen
         
-        fsm.addState(.welcomeState, entry: { [unowned self] in
+        fsm.onTransitions(from: .videoIntro, to: .welcome) { [unowned self] in
             // Note: we are not worrying about a core being removed from the core list
             let knownCores = coresToDownload.compactMap { $0.core }
             for core in OECoreUpdater.shared.coreList {
@@ -105,14 +118,14 @@ final class SetupAssistant: NSViewController {
                     }
                 }
             }
-        })
-        fsm.addTransition(from: .welcomeState, to: .coreSelectionState, event: .nextEvent) { [unowned self] in
+        }
+        fsm.onTransitions(from: .welcome, to: .coreSelection) { [unowned self] in
             goForwardToView(coreSelectionView)
         }
         
         // Core selection screen
         
-        fsm.addState(.coreSelectionState, exit: { [unowned self] in
+        fsm.onTransitions(from: .coreSelection, to: .lastScreen) { [unowned self] in
             // Note: if the user selected a few cores and clicked next, we start downloading them.
             //       if the user goes back to the core selection screen, they shouldn't really deselect because
             //       once the download started, we don't cancel or remove it
@@ -122,33 +135,30 @@ final class SetupAssistant: NSViewController {
                     coreInfo.isDownloadRequested = true
                 }
             }
-            
-        })
-        fsm.addTransition(from: .coreSelectionState, to: .welcomeState, event: .backEvent) { [unowned self] in
+        }
+        fsm.onTransitions(from: .coreSelection, to: .welcome) { [unowned self] in
             goBackToView(welcomeView)
         }
-        fsm.addTransition(from: .coreSelectionState, to: .lastScreenState, event: .nextEvent) { [unowned self] in
+        fsm.onTransitions(from: .coreSelection, to: .lastScreen) { [unowned self] in
             goForwardToView(lastStepView)
         }
         
         // Last screen
         
-        fsm.addState(.lastScreenState)
-        fsm.addTransition(from: .lastScreenState, to: .coreSelectionState, event: .backEvent) { [unowned self] in
+        fsm.onTransitions(from: .lastScreen, to: .coreSelection) { [unowned self] in
             goBackToView(coreSelectionView)
         }
-        fsm.addTransition(from: .lastScreenState, to: .endState, event: .nextEvent, action: nil)
         
         // This is the end, beautiful friend
         
-        fsm.addState(.endState, entry: { [unowned self] in
+        fsm.onTransitions(from: .lastScreen, to: .end) { [unowned self] in
             // Mark setup done
             UserDefaults.standard.set(true, forKey: Self.hasFinishedKey)
             
             if let completionBlock = completionBlock {
                 completionBlock()
             }
-        })
+        }
     }
     
     private func attemptInitialCoreListUpdate() {
@@ -167,7 +177,7 @@ final class SetupAssistant: NSViewController {
             let deltaT = Date().timeIntervalSince(startTimeOfSetupAssistant)
             let timeLeft = TimeInterval(max(0, Self.videoIntroductionDuration - deltaT))
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + timeLeft * TimeInterval(NSEC_PER_SEC) / TimeInterval(NSEC_PER_SEC), execute: {
-                self.fsm.processEvent(.nextEvent)
+                self.nextEvent(nil)
             })
             return
         }

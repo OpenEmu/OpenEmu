@@ -228,7 +228,6 @@
 		141554211442B7B100A01683 /* OEN64SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 141554201442B7B100A01683 /* OEN64SystemResponder.m */; };
 		14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14CB5DA916FE1F8300342817 /* OEAudioDeviceManager.m */; };
 		14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F6A925168180CF0071386D /* OEPopoutGameWindowController.m */; };
-		14F8750D1649377E002AE3B8 /* OEFiniteStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F8750C1649377E002AE3B8 /* OEFiniteStateMachine.m */; };
 		1B32151514DDD49E00C5B50A /* OpenEmu.dae in Resources */ = {isa = PBXBuildFile; fileRef = 1B32151214DDD06500C5B50A /* OpenEmu.dae */; };
 		1B32151614DDD49E00C5B50A /* OpenEmuText.dae in Resources */ = {isa = PBXBuildFile; fileRef = 1B32151314DDD06500C5B50A /* OpenEmuText.dae */; };
 		1B6DA4A914DDE6A40067F7F6 /* SetupAssistantQCOpenGLLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DA4A814DDE6A40067F7F6 /* SetupAssistantQCOpenGLLayer.swift */; };
@@ -458,6 +457,7 @@
 		8F071F391C25534E007B76DA /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F381C25534E007B76DA /* Preferences.xib */; };
 		8F071F3B1C255362007B76DA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F3A1C255362007B76DA /* Credits.rtf */; };
 		8F0D804724ED76C4001BD8E2 /* ControlsLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */; };
+		8F2543FA2714C274003FC137 /* Finite in Frameworks */ = {isa = PBXBuildFile; productRef = 8F2543F92714C274003FC137 /* Finite */; };
 		8F2F92AA2519A9E700699691 /* GameScannerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2F92A92519A9E700699691 /* GameScannerButton.swift */; };
 		8F3062DB251A897F00BDFF1F /* OESearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3062DA251A897E00BDFF1F /* OESearchField.swift */; };
 		8F4198B025B68B7500A7F0BE /* OELibraryDatabase+Maintenance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4198AF25B68B7500A7F0BE /* OELibraryDatabase+Maintenance.m */; };
@@ -1428,8 +1428,6 @@
 		14CB5DA916FE1F8300342817 /* OEAudioDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAudioDeviceManager.m; sourceTree = "<group>"; };
 		14F6A924168180CF0071386D /* OEPopoutGameWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPopoutGameWindowController.h; sourceTree = "<group>"; };
 		14F6A925168180CF0071386D /* OEPopoutGameWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPopoutGameWindowController.m; sourceTree = "<group>"; };
-		14F8750B1649377E002AE3B8 /* OEFiniteStateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFiniteStateMachine.h; sourceTree = "<group>"; };
-		14F8750C1649377E002AE3B8 /* OEFiniteStateMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFiniteStateMachine.m; sourceTree = "<group>"; };
 		1B32151114DDD06500C5B50A /* OE Startup.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = "OE Startup.qtz"; path = "Setup Assistant Resources/OE Startup.qtz"; sourceTree = "<group>"; };
 		1B32151214DDD06500C5B50A /* OpenEmu.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OpenEmu.dae; path = "Setup Assistant Resources/OpenEmu.dae"; sourceTree = "<group>"; };
 		1B32151314DDD06500C5B50A /* OpenEmuText.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OpenEmuText.dae; path = "Setup Assistant Resources/OpenEmuText.dae"; sourceTree = "<group>"; };
@@ -2331,6 +2329,7 @@
 				C6D120C617112E1300E868A8 /* OpenEmuSystem.framework in Frameworks */,
 				8F4BDF7B1CE4AB25007DCB86 /* libz.tbd in Frameworks */,
 				8F44DEB526DFD07200893A18 /* Sparkle in Frameworks */,
+				8F2543FA2714C274003FC137 /* Finite in Frameworks */,
 				0547FD9C24E7769E005C1FFC /* OpenEmuKit.framework in Frameworks */,
 				82DE4B63102655DA007184EB /* UniversalDetector.framework in Frameworks */,
 				82DE4B62102655D5007184EB /* XADMaster.framework in Frameworks */,
@@ -2945,8 +2944,6 @@
 			isa = PBXGroup;
 			children = (
 				1B6DA4A814DDE6A40067F7F6 /* SetupAssistantQCOpenGLLayer.swift */,
-				14F8750B1649377E002AE3B8 /* OEFiniteStateMachine.h */,
-				14F8750C1649377E002AE3B8 /* OEFiniteStateMachine.m */,
 			);
 			name = "Helper Classes";
 			sourceTree = "<group>";
@@ -4928,6 +4925,7 @@
 			name = OpenEmu;
 			packageProductDependencies = (
 				8F44DEB426DFD07200893A18 /* Sparkle */,
+				8F2543F92714C274003FC137 /* Finite */,
 			);
 			productInstallPath = "$(HOME)/Applications";
 			productName = OpenEmu;
@@ -5746,6 +5744,7 @@
 			packageReferences = (
 				054A74C625B0137500F2F3D6 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
 				8F44DEB326DFD07200893A18 /* XCRemoteSwiftPackageReference "Sparkle" */,
+				8F2543F82714C273003FC137 /* XCRemoteSwiftPackageReference "Finite" */,
 			);
 			projectDirPath = "";
 			projectRoot = "";
@@ -6806,7 +6805,6 @@
 				836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */,
 				0544B6A923D16DDC00F63D61 /* ScreenshotViewController.swift in Sources */,
 				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,
-				14F8750D1649377E002AE3B8 /* OEFiniteStateMachine.m in Sources */,
 				8F419A0325B6C7AE00A7F0BE /* OEAppearance.m in Sources */,
 				5A575DFB1E92B6CE00491B0D /* BIOSFile.swift in Sources */,
 				83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */,
@@ -9732,6 +9730,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		8F2543F82714C273003FC137 /* XCRemoteSwiftPackageReference "Finite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vknabel/Finite.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		8F44DEB326DFD07200893A18 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sparkle-project/Sparkle";
@@ -9747,6 +9753,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 054A74C625B0137500F2F3D6 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
 			productName = ArgumentParser;
+		};
+		8F2543F92714C274003FC137 /* Finite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F2543F82714C273003FC137 /* XCRemoteSwiftPackageReference "Finite" */;
+			productName = Finite;
 		};
 		8F44DEB426DFD07200893A18 /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;
