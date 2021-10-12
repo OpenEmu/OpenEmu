@@ -154,7 +154,9 @@ class GameDocumentController: NSDocumentController {
                 self.setUpGameDocument(document, display: true, fullScreen: fullScreen, completionHandler: nil)
             }
             
-            if let error = error as? OEGameDocumentErrorCodes, error.code == OEGameDocumentErrorCodes.importRequiredError  {
+            if let error = error as NSError?,
+               error.domain == OEGameDocument.Errors.errorDomain,
+               error.code == OEGameDocument.Errors.importRequired.errorCode {
                 completionHandler(nil, false, nil)
                 return
             }
@@ -165,7 +167,7 @@ class GameDocumentController: NSDocumentController {
         }
     }
     
-    override func openGameDocument(with game: OEDBGame?, display displayDocument: Bool, fullScreen: Bool, completionHandler: @escaping (OEGameDocument?, Error?) -> Void) {
+    override func openGameDocument(with game: OEDBGame, display displayDocument: Bool, fullScreen: Bool, completionHandler: @escaping (OEGameDocument?, Error?) -> Void) {
         do {
             let document = try OEGameDocument(game: game, core: nil)
             setUpGameDocument(document, display: displayDocument, fullScreen: fullScreen, completionHandler: completionHandler)

@@ -447,7 +447,6 @@
 		87FBC0A61C07996B00AECF5A /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0A51C07996B00AECF5A /* Controller-Mappings.plist */; };
 		87FBC0A81C07A22700AECF5A /* Atari 8bit.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87FBC08E1C0790B400AECF5A /* Atari 8bit.oesystemplugin */; };
 		8CBD3AA217D23AA80022399B /* OEGridGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CBD3AA117D23AA80022399B /* OEGridGameCell.m */; };
-		8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8F057160254E7EA5003B36FD /* MainMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F057162254E7EA5003B36FD /* MainMenu.strings */; };
 		8F071F391C25534E007B76DA /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F381C25534E007B76DA /* Preferences.xib */; };
 		8F071F3B1C255362007B76DA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F3A1C255362007B76DA /* Credits.rtf */; };
@@ -1449,8 +1448,6 @@
 		277CBA5819DE55210059A2C1 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		277CBA5B19DE553C0059A2C1 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		277CBA5C19DE553C0059A2C1 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
-		2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameDocument.m; sourceTree = "<group>"; };
-		2A37F4AEFDCFA73011CA2CEA /* OEGameDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameDocument.h; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmu_Prefix.pch; sourceTree = "<group>"; };
 		3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OESaveStateQLPlugin.qlgenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateThumbnailForURL.m; sourceTree = "<group>"; };
@@ -2862,8 +2859,6 @@
 			children = (
 				8FA8B34F26DDC4650037C8D0 /* HUD Bar */,
 				05E789A623D01B16000E14EE /* GameDocumentController.swift */,
-				2A37F4AEFDCFA73011CA2CEA /* OEGameDocument.h */,
-				2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */,
 				8FC3CC682708BD4200747DC2 /* OEGameDocument.swift */,
 				0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */,
 				8301557A1456BF7A0093D681 /* GameViewController.swift */,
@@ -6686,7 +6681,6 @@
 				C6252DC814E7A38000350A13 /* ControlsButtonSetupView.swift in Sources */,
 				83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */,
 				0586AB22231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift in Sources */,
-				8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */,
 				0544B69923D16D0C00F63D61 /* ImageCollectionHeaderView.swift in Sources */,
 				83495DD419A38F31009DB6E5 /* PrefBiosController.swift in Sources */,
 				0544B69423D16D0C00F63D61 /* ImageCollectionViewItem.swift in Sources */,

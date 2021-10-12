@@ -25,7 +25,7 @@
 			<key>LSHandlerRank</key>
 			<string>Alternate</string>
 			<key>NSDocumentClass</key>
-			<string>OEGameDocument</string>
+			<string>OpenEmu.OEGameDocument</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -46,7 +46,7 @@
 			<key>LSTypeIsPackage</key>
 			<true/>
 			<key>NSDocumentClass</key>
-			<string>OEGameDocument</string>
+			<string>OpenEmu.OEGameDocument</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>

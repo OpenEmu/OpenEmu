@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, OEImportExitStatus)  {
 
 extern NSString * const OEImportManualSystems;
 
-typedef void (^OEImportItemCompletionBlock)(NSManagedObjectID*);
+typedef void (^OEImportItemCompletionBlock)(NSManagedObjectID * _Nullable);
 
 @interface OEImportOperation: NSOperation <NSObject, NSSecureCoding, NSCopying>
 

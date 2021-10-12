@@ -32,7 +32,6 @@ private extension NSUserInterfaceItemIdentifier {
     static let mainWindow = NSUserInterfaceItemIdentifier("LibraryWindow")
 }
 
-@objc(OEMainWindowController)
 final class MainWindowController: NSWindowController {
     
     private var gameDocument: OEGameDocument?
@@ -266,7 +265,9 @@ extension MainWindowController: LibraryControllerDelegate {
             self.isLaunchingGame = false
             if document == nil {
                 
-                if let error = error as? OEGameDocumentErrorCodes, error.code == .fileDoesNotExistError, let game = game {
+                if let error = error as? OEGameDocument.Errors,
+                   case OEGameDocument.Errors.fileDoesNotExist = error,
+                   let game = game {
                     game.status = OEDBGameStatus.alert.rawValue as NSNumber
                     game.save()
                     
@@ -297,7 +298,9 @@ extension MainWindowController: LibraryControllerDelegate {
                     }
                 }
                 // FIXME: make it possible to locate missing rom files when the game is started from a savestate
-                else if let error = error as? OEGameDocumentErrorCodes, error.code == .fileDoesNotExistError && game == nil {
+                else if let error = error as? OEGameDocument.Errors,
+                        case OEGameDocument.Errors.fileDoesNotExist = error,
+                        game == nil {
                     var messageText = NSLocalizedString("The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", comment: "")
                     
                     let regex = try? NSRegularExpression(pattern: "[\"'“„« ]+%@[\"'”“» ]+[ を]?", options: .caseInsensitive)
@@ -318,7 +321,9 @@ extension MainWindowController: LibraryControllerDelegate {
                     alert.defaultButtonTitle = NSLocalizedString("OK", comment: "")
                     alert.runModal()
                 }
-                else if let error = error as? OEGameDocumentErrorCodes, error.code == .noCoreError && !retry {
+                else if let error = error as? OEGameDocument.Errors,
+                        case OEGameDocument.Errors.noCore = error,
+                        !retry {
                     // Try downloading the core list before bailing out definitively
                     let alert = OEAlert()
                     alert.messageText = NSLocalizedString("Downloading core list...", comment: "")
@@ -339,11 +344,11 @@ extension MainWindowController: LibraryControllerDelegate {
                         self.openGameDocument(with: game, saveState: state, secondAttempt: true, disableAutoReload: false)
                     }
                 }
-                else if let error = error as? OEGameDocumentErrorCodes, error.code == .gameCoreCrashedError {
+                else if let error = error as? OEGameDocument.Errors,
+                        case OEGameDocument.Errors.gameCoreCrashed(let core, let systemIdentifier, _) = error {
                     // TODO: the setup completion handler shouldn't be the place where non-setup-related errors are handled!
-                    let core = error.userInfo["corePlugin"] as? OECorePlugin
-                    let coreName = core?.displayName ?? ""
-                    let glitchy = core?.controller.hasGlitches(forSystemIdentifier: error.userInfo["systemIdentifier"] as? String) ?? false
+                    let coreName = core.displayName ?? ""
+                    let glitchy = core.controller.hasGlitches(forSystemIdentifier: systemIdentifier) 
                     
                     let alert = OEAlert()
                     if openWithSaveState {
@@ -418,7 +423,7 @@ extension MainWindowController: LibraryControllerDelegate {
         if openWithSaveState {
             NSDocumentController.shared.openGameDocument(with: state!, display: openInSeparateWindow, fullScreen: fullScreen, completionHandler: openDocument)
         } else {
-            NSDocumentController.shared.openGameDocument(with: game, display: openInSeparateWindow, fullScreen: fullScreen, completionHandler: openDocument)
+            NSDocumentController.shared.openGameDocument(with: game!, display: openInSeparateWindow, fullScreen: fullScreen, completionHandler: openDocument)
         }
     }
 }

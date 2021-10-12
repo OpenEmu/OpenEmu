@@ -166,7 +166,7 @@ func computeCommonExtensions(appBundle: Bundle, systemPlugins: [Bundle]) -> Set<
 func systemDocuments(typeName: String, extensions: [String]) -> [[String : Any]]
 {
     let template: [String : Any] = [
-        "NSDocumentClass": "OEGameDocument",
+        "NSDocumentClass": "OpenEmu.OEGameDocument",
         "CFBundleTypeRole": "Viewer",
         "CFBundleTypeName": typeName
     ]

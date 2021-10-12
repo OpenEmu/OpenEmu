@@ -41,15 +41,112 @@ let OEScreenshotAspectRatioCorrectionDisabled = "disableScreenshotAspectRatioCor
 let OEGameCoreManagerModePreferenceKey = "OEGameCoreManagerModePreference"
 
 @objc
-extension OEGameDocument {
+final class OEGameDocument: NSDocument {
     
-    @nonobjc
+    private enum EmulationStatus: UInt {
+        /// The current `OEGameCoreManager` has not been instantiated yet,
+        /// or it has been deallocated because emulation has terminated
+        case notSetup
+        /// The `OEGameCoreManager` is ready, but the emulation was not started for
+        /// the first time yet
+        case setup
+        /// The emulation has been requested to start
+        case starting
+        ///
+        case playing
+        ///
+        case paused
+        /// After emulation stops, but before `OEGameCoreManager` is deallocated
+        case terminating
+    }
+    
+    enum Errors: LocalizedError, CustomNSError {
+        case fileDoesNotExist
+        case noCore
+        case noCoreForSystem
+        case noCoreForSaveState
+        case importRequired
+        case couldNotLoadROM
+        case gameCoreCrashed(OECorePlugin, String?, NSError)
+        case invalidSaveState
+        
+        var errorDescription: String? {
+            if case .fileDoesNotExist = self {
+                return NSLocalizedString("The file you selected doesn't exist", comment: "Inexistent file error reason.")
+            } else if case .noCore = self {
+                return NSLocalizedString("OpenEmu could not find a Core to launch the game", comment: "No Core error reason.")
+            } else {
+                return nil
+            }
+        }
+        
+        var recoverySuggestion: String? {
+            if case .fileDoesNotExist = self {
+                return NSLocalizedString("Choose a valid file.", comment: "Inexistent file error recovery suggestion.")
+            } else if case .noCore = self {
+                return NSLocalizedString("Make sure your internet connection is active and download a suitable core.", comment: "No Core error recovery suggestion.")
+            } else {
+                return nil
+            }
+        }
+        
+        static var errorDomain: String { "org.openemu.OpenEmu.OEGameDocument" }
+        
+        var errorCode: Int {
+            switch self {
+            case .fileDoesNotExist:
+                return 1
+            case .noCore:
+                return 2
+            case .noCoreForSystem:
+                return 7
+            case .noCoreForSaveState:
+                return 8
+            case .importRequired:
+                return 9
+            case .couldNotLoadROM:
+                return 10
+            case .gameCoreCrashed(_, _, _):
+                return 11
+            case .invalidSaveState:
+                return 12
+            }
+        }
+    }
+    
     private static let initializeDefaults: Void = {
         UserDefaults.standard.register(defaults: [
             OEScreenshotFileFormatKey : NSBitmapImageRep.FileType.png.rawValue,
             OEScreenshotPropertiesKey : [NSBitmapImageRep.PropertyKey : Any](),
         ])
     }()
+    
+    @objc //OEPopoutGameWindowController
+    private(set) var rom: OEDBRom!
+    private(set) var romFileURL: URL!
+    private(set) var corePlugin: OECorePlugin!
+    private(set) var systemPlugin: OESystemPlugin!
+    
+    @objc //OEPopoutGameWindowController
+    private(set) var gameViewController: GameViewController!
+    
+    private var gameCoreManager: OEGameCoreManager!
+    
+    private var displaySleepAssertionID: IOPMAssertionID = 0
+    
+    private var emulationStatus: EmulationStatus = .notSetup
+    private var saveStateForGameStart: OEDBSaveState?
+    private var lastPlayStartDate: Date?
+    private var lastSelectedDisplayModeOption: String?
+    private var isMuted = false
+    private var pausedByGoingToBackground = false
+    private var coreDidTerminateSuddenly = false
+    /// Indicates whether the document is currently moving from the main window into a separate popout window.
+    private var isUndocking = false
+    
+    private var romPath: String?
+    /// Track if ROM was decompressed.
+    private var romDecompressed = false
     
     var coreIdentifier: String! {
         return gameCoreManager.plugin?.bundleIdentifier
@@ -63,7 +160,7 @@ extension OEGameDocument {
         return gameCoreManager
     }
     
-//    private var _gameWindowController: NSWindowController?
+    private var _gameWindowController: NSWindowController?
     var gameWindowController: NSWindowController? {
         get {
             return _gameWindowController
@@ -87,10 +184,10 @@ extension OEGameDocument {
         }
     }
     
-//    private var _handleEvents = false
+    private var _handleEvents = false
     var handleEvents: Bool {
         get {
-            _handleEvents
+            return _handleEvents
         }
         set {
             if _handleEvents == newValue {
@@ -102,10 +199,10 @@ extension OEGameDocument {
         }
     }
     
-//    private var _handleKeyboardEvents = false
+    private var _handleKeyboardEvents = false
     var handleKeyboardEvents: Bool {
         get {
-            _handleKeyboardEvents
+            return _handleKeyboardEvents
         }
         set {
             if _handleKeyboardEvents == newValue {
@@ -117,8 +214,153 @@ extension OEGameDocument {
         }
     }
     
-//    deinit {
-    func oe_deinit() {
+    convenience init(rom: OEDBRom, core: OECorePlugin?) throws {
+        self.init()
+        do {
+            try setUpDocument(with: rom, using: core)
+        } catch {
+            throw error
+        }
+    }
+    
+    convenience init(game: OEDBGame, core: OECorePlugin?) throws {
+        self.init()
+        do {
+            try setUpDocument(with: game.defaultROM, using: core)
+        } catch {
+            throw error
+        }
+    }
+    
+    convenience init(saveState state: OEDBSaveState) throws {
+        self.init()
+        do {
+            try setUpDocument(with: state)
+        } catch {
+            throw error
+        }
+    }
+    
+    private func setUpDocument(with saveState: OEDBSaveState) throws {
+        do {
+            try setUpDocument(with: saveState.rom!, using: OECorePlugin(bundleIdentifier: saveState.coreIdentifier))
+            saveStateForGameStart = saveState
+        } catch {
+            throw error
+        }
+    }
+    
+    private func setUpDocument(with rom: OEDBRom, using core: OECorePlugin?) throws {
+        Self.initializeDefaults
+        
+        var fileURL = rom.url
+        
+        // Check if local file is available
+        let isReachable = try? fileURL?.checkResourceIsReachable()
+        if isReachable != true {
+            fileURL = nil
+            let sourceURL = rom.sourceURL
+            
+            // try to fallback on external source
+            if let sourceURL = sourceURL {
+                let name = (rom.fileName != nil) ? rom.fileName! : (sourceURL.lastPathComponent as NSString).deletingPathExtension
+                
+                if OEAlert.romDownloadRequired(name: name).runModal() == .alertFirstButtonReturn {
+                    
+                    var destination: URL?
+                    var error: NSError?
+                    
+                    let alert = OEAlert()
+                    alert.messageText = String(format: NSLocalizedString("Downloading %@…", comment: "Downloading rom message text"), name)
+                    alert.defaultButtonTitle = NSLocalizedString("Cancel", comment: "")
+                    alert.showsProgressbar = true
+                    alert.progress = -1
+                    
+                    alert.performBlockInModalSession {
+                        let download = OEDownload(url: sourceURL)
+                        download?.progressHandler = { progress in
+                            alert.progress = Double(progress)
+                            return true
+                        }
+                        
+                        download?.completionHandler = { dst, err in
+                            destination = dst
+                            if let err = err {
+                                error = err as NSError
+                            }
+                            alert.close(withResult: .alertSecondButtonReturn)
+                        }
+                        
+                        download?.start()
+                    }
+                    
+                    if alert.runModal() == .alertFirstButtonReturn || error?.code == NSUserCancelledError {
+                        // User canceld
+                        let error = NSError(domain: NSCocoaErrorDomain, code: NSUserCancelledError, userInfo: nil)
+                        throw error
+                    }
+                    else {
+                        if error != nil || destination == nil {
+                            throw error!
+                        }
+                        
+                        fileURL = destination
+                        // make sure that rom's fileName is set
+                        if rom.fileName == nil {
+                            rom.fileName = destination?.lastPathComponent
+                            rom.save()
+                        }
+                    }
+                }
+                else {
+                    // User canceld
+                    let error = NSError(domain: NSCocoaErrorDomain, code: NSUserCancelledError, userInfo: nil)
+                    throw error
+                }
+            }
+            
+            // check if we have recovered
+            let isReachable = try? fileURL?.checkResourceIsReachable()
+            if fileURL == nil || isReachable != true {
+                DLog("File does not exist")
+                throw Errors.fileDoesNotExist
+            }
+        }
+        
+        self.rom = rom
+        romFileURL = fileURL
+        corePlugin = core
+        systemPlugin = rom.game?.system?.plugin
+        
+        if corePlugin == nil {
+            corePlugin = try? self.core(forSystem: systemPlugin)
+        }
+        
+        if corePlugin == nil {
+            
+            var nsError: NSError?
+            OECoreUpdater.shared.installCore(for: rom.game!) { plugin, error in
+                if error == nil,
+                   let plugin = plugin {
+                    self.corePlugin = plugin
+                }
+                else if let error = error as NSError?,
+                        error.domain == NSCocoaErrorDomain,
+                        error.code == NSUserCancelledError {
+                    nsError = error
+                }
+            }
+            
+            if let error = nsError {
+                throw error
+            }
+        }
+        
+        gameCoreManager = newGameCoreManager(with: corePlugin)
+        gameViewController = GameViewController(document: self)
+    }
+    
+    deinit {
         if let url = romFileURL, url != rom.url {
             try? FileManager.default.removeItem(at: url)
         }
@@ -126,12 +368,10 @@ extension OEGameDocument {
     
     // MARK: - NSDocument
     
-    open
     override var description: String {
         return "<\(Self.self) \(Unmanaged.passUnretained(self).toOpaque()), ROM: '\(rom?.game?.displayName ?? "nil")', System: '\(systemPlugin?.systemIdentifier ?? "nil")', Core: '\(corePlugin?.bundleIdentifier ?? "nil")'>"
     }
     
-    open
     override var displayName: String! {
         get {
             // If we do not have a title yet, return an empty string instead of super.displayName.
@@ -150,7 +390,6 @@ extension OEGameDocument {
     
     /// Returns `true` if emulation is running or paused to prevent OpenEmu from quitting without warning/saving if the user attempts to quit the app during gameplay;
     /// returns `false` while undocking to prevent an ‘unsaved’ indicator from appearing inside the new popout window’s close button.
-    open
     override var isDocumentEdited: Bool {
         if isUndocking {
             return false
@@ -158,13 +397,105 @@ extension OEGameDocument {
         return emulationStatus == .playing || emulationStatus == .paused
     }
     
-    open
     override func data(ofType typeName: String) throws -> Data {
         DLog("\(typeName)")
         throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
     }
     
-    open
+    override func read(from url: URL, ofType typeName: String) throws {
+        DLog("\(url)")
+        DLog("\(typeName)")
+        
+        if typeName == "org.openemu.savestate" {
+            let context = OELibraryDatabase.default!.mainThreadContext
+            guard let state = OEDBSaveState.updateOrCreateState(with: url, in: context) else {
+                // TODO: Specify failure reason and add recovery suggestion
+                DLog("Save state is invalid")
+                throw Errors.invalidSaveState
+            }
+            
+            do {
+                try setUpDocument(with: state)
+            } catch {
+                throw error
+            }
+            
+            return
+        }
+        
+        if !FileManager.default.fileExists(atPath: url.path) {
+            DLog("File does not exist")
+            throw Errors.fileDoesNotExist
+        }
+        
+        if !url.isFileURL {
+            // TODO: Handle URLs, by downloading to temp folder
+            DLog("URLs that are not file urls are currently not supported!")
+            return
+        }
+        
+        let game: OEDBGame
+        do {
+            game = try OEDBGame(url: url, in: OELibraryDatabase.default!)
+        } catch {
+            // Could not find game in database. Try to import the file
+            let importer = OELibraryDatabase.default!.importer
+            let completion: OEImportItemCompletionBlock = { romID in
+                guard let romID = romID else {
+                    // import probably failed
+                    return
+                }
+                
+                let fileName = (url.lastPathComponent as NSString).deletingPathExtension
+                let informativeText = String(format: NSLocalizedString("The game '%@' was imported.", comment: ""), fileName)
+                
+                let alert = OEAlert()
+                alert.messageText = NSLocalizedString("Your game finished importing, do you want to play it now?", comment: "")
+                alert.informativeText = informativeText
+                alert.defaultButtonTitle = NSLocalizedString("Play Game", comment: "")
+                alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
+                
+                if alert.runModal() == .alertFirstButtonReturn {
+                    let context = OELibraryDatabase.default!.mainThreadContext
+                    let rom = OEDBRom.object(with: romID, in: context)
+                    
+                    // Ugly hack to start imported games in main window
+                    let mainWindowController = (NSApp.delegate as! AppDelegate).mainWindowController
+                    if !mainWindowController.mainWindowRunsGame {
+                        mainWindowController.startGame(rom.game)
+                    } else {
+                        if let url = rom.url {
+                            NSDocumentController.shared.openDocument(withContentsOf: url, display: false) { document, documentWasAlreadyOpen, error in
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if importer.importItem(at: url, withCompletionHandler: completion) {
+                throw Errors.importRequired
+            }
+            
+            throw error
+        }
+        
+        if let state = game.autosaveForLastPlayedRom,
+           OEAlert.loadAutoSaveGame().runModal() == .alertFirstButtonReturn {
+            do {
+                try setUpDocument(with: state)
+            } catch {
+                throw error
+            }
+        } else {
+            do {
+                // TODO: Load rom that was just imported instead of the default one
+                try setUpDocument(with: game.defaultROM, using: nil)
+            } catch {
+                throw error
+            }
+        }
+    }
+    
     override func canClose(withDelegate delegate: Any, shouldClose shouldCloseSelector: Selector?, contextInfo: UnsafeMutableRawPointer?) {
         if emulationStatus == .notSetup || emulationStatus == .terminating {
             super.canClose(withDelegate: delegate, shouldClose: shouldCloseSelector, contextInfo: contextInfo)
@@ -213,23 +544,17 @@ extension OEGameDocument {
     
     // MARK: - Setup
     
-    @objc(setupGameWithCompletionHandler:)
     func setUpGame(completionHandler handler: @escaping (_ success: Bool, _ error: Error?) -> Void) {
-        if !checkRequiredFiles() {
+        guard
+            emulationStatus == .notSetup,
+            checkRequiredFiles(),
+            !checkDeprecatedCore()
+        else {
             handler(false, nil)
             return
         }
         
         checkGlitches()
-        if checkDeprecatedCore() {
-            handler(false, nil)
-            return
-        }
-        
-        if emulationStatus != .notSetup {
-            handler(false, nil)
-            return
-        }
         
         gameCoreManager.loadROM(completionHandler: {
             self.gameCoreManager.setupEmulation() { result in
@@ -275,13 +600,7 @@ extension OEGameDocument {
             if rootError.domain == NSCocoaErrorDomain,
                rootError.code >= NSXPCConnectionErrorMinimum,
                rootError.code <= NSXPCConnectionErrorMaximum {
-                let error = NSError(domain: OEGameDocumentErrorDomain,
-                                    code: OEGameDocumentErrorCodes.gameCoreCrashedError.rawValue,
-                                    userInfo: [
-                                        "corePlugin": self.corePlugin as Any,
-                                        "systemIdentifier": self.systemIdentifier as Any,
-                                        NSUnderlyingErrorKey: rootError
-                                    ])
+                let error = Errors.gameCoreCrashed(self.corePlugin, self.systemIdentifier, rootError)
                 handler(false, error)
                 return
             }
@@ -312,8 +631,7 @@ extension OEGameDocument {
         }
     }
     
-    @objc(_newGameCoreManagerWithCorePlugin:)
-    /*private*/func newGameCoreManager(with corePlugin: OECorePlugin) -> OEGameCoreManager {
+    private func newGameCoreManager(with corePlugin: OECorePlugin) -> OEGameCoreManager {
         self.corePlugin = corePlugin
         
         var path = romFileURL.path
@@ -356,18 +674,12 @@ extension OEGameDocument {
         }
     }
     
-    @objc(OE_coreForSystem:error:)
-    /*private*/func core(forSystem system: OESystemPlugin) throws -> OECorePlugin {
+    private func core(forSystem system: OESystemPlugin) throws -> OECorePlugin {
         let systemIdentifier = system.systemIdentifier!
         var validPlugins = OECorePlugin.corePlugins(forSystemIdentifier: systemIdentifier)!
         
         if validPlugins.isEmpty {
-            throw NSError(domain: OEGameDocumentErrorDomain,
-                          code: OEGameDocumentErrorCodes.noCoreError.rawValue,
-                          userInfo: [
-                            NSLocalizedFailureReasonErrorKey: NSLocalizedString("OpenEmu could not find a Core to launch the game", comment: "No Core error reason."),
-                            NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString("Make sure your internet connection is active and download a suitable core.", comment: "No Core error recovery suggestion.")
-                          ])
+            throw Errors.noCore
         }
         else if validPlugins.count == 1 {
             return validPlugins.first!
@@ -620,21 +932,20 @@ extension OEGameDocument {
     
     // MARK: - Display Sleep Handling
     
-    /*private*/func enableOSSleep() {
+    private func enableOSSleep() {
         if displaySleepAssertionID == kIOPMNullAssertionID { return }
         IOPMAssertionRelease(displaySleepAssertionID)
         displaySleepAssertionID = IOPMAssertionID(kIOPMNullAssertionID)
     }
     
-    /*private*/func disableOSSleep() {
+    private func disableOSSleep() {
         if displaySleepAssertionID != kIOPMNullAssertionID { return }
         IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep as CFString, IOPMAssertionLevel(kIOPMAssertionLevelOn), "OpenEmu playing game" as CFString, &displaySleepAssertionID)
     }
     
     // MARK: - Controlling Emulation
     
-    @objc(OE_startEmulation)
-    /*private*/func startEmulation() {
+    private func startEmulation() {
         if emulationStatus != .setup {
             return
         }
@@ -647,7 +958,7 @@ extension OEGameDocument {
         gameViewController.reflectEmulationPaused(false)
     }
     
-    @objc(emulationPaused)
+    @objc(emulationPaused) //OEPopoutGameWindowController
     var isEmulationPaused: Bool {
         @objc(isEmulationPaused)
         get {
@@ -702,7 +1013,7 @@ extension OEGameDocument {
         }
     }
     
-    /*private*/var shouldTerminateEmulation: Bool {
+    private var shouldTerminateEmulation: Bool {
         if coreDidTerminateSuddenly {
             return true
         }
@@ -719,9 +1030,8 @@ extension OEGameDocument {
         return true
     }
     
-    @objc(OE_pauseEmulationIfNeeded)
     @discardableResult
-    /*private*/func pauseEmulationIfNeeded() -> Bool {
+    private func pauseEmulationIfNeeded() -> Bool {
         let pauseNeeded = emulationStatus == .playing
         
         if pauseNeeded {
@@ -780,6 +1090,7 @@ extension OEGameDocument {
     }
     
     /// Returns a filtered screenshot of the currently running core.
+    @objc //OEPopoutGameWindowController
     func screenshot() -> NSImage {
         let rep = gameCoreManager.captureOutputImage()
         let screenshot = NSImage(size: rep.size)
@@ -1287,7 +1598,7 @@ extension OEGameDocument {
     private func saveState(name stateName: String, completionHandler handler: (() -> Void)? = nil) {
         guard
             supportsSaveStates,
-            emulationStatus.rawValue > OEEmulationStatus.starting.rawValue,
+            emulationStatus.rawValue > EmulationStatus.starting.rawValue,
             let rom = rom
         else {
             handler?()
@@ -1463,7 +1774,6 @@ extension OEGameDocument {
 
 extension OEGameDocument {
     
-    open
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         switch menuItem.action {
         case #selector(quickLoad(_:)):
@@ -1513,12 +1823,10 @@ extension OEGameDocument {
 
 extension OEGameDocument: OESystemBindingsObserver {
     
-    public
     func systemBindings(_ sender: OESystemBindings, didSetEvent event: OEHIDEvent, forBinding bindingDescription: OEBindingDescription, playerNumber: UInt) {
         gameCoreManager.systemBindingsDidSetEvent(event, forBinding: bindingDescription, playerNumber: playerNumber)
     }
     
-    public
     func systemBindings(_ sender: OESystemBindings, didUnsetEvent event: OEHIDEvent, forBinding bindingDescription: OEBindingDescription, playerNumber: UInt) {
         gameCoreManager.systemBindingsDidUnsetEvent(event, forBinding: bindingDescription, playerNumber: playerNumber)
     }
@@ -1528,34 +1836,28 @@ extension OEGameDocument: OESystemBindingsObserver {
 
 extension OEGameDocument: OEGameCoreOwner {
     
-    public
     func saveState() {
         NSApp.sendAction(#selector(saveState(_:)), to: nil, from: nil)
         //saveState(nil)
     }
     
-    public
     func loadState() {
         // FIXME: This replaces a call from OESystemResponder which used to pass self, but passing OESystemResponder would yield the same result in -loadState: so I do not know whether this ever worked in this case. (6eeda41)
         loadState(nil)
     }
     
-    public
     func quickSave() {
         quickSave(nil)
     }
     
-    public
     func quickLoad() {
         quickLoad(nil)
     }
     
-    public
     func toggleFullScreen() {
         toggleFullScreen(self)
     }
     
-    public
     func toggleAudioMute() {
         if isMuted {
             unmute(self)
@@ -1564,49 +1866,40 @@ extension OEGameDocument: OEGameCoreOwner {
         }
     }
     
-    public
     func volumeDown() {
         volumeDown(self)
     }
     
-    public
     func volumeUp() {
         volumeUp(self)
     }
     
-    public
     func stopEmulation() {
         stopEmulation(self)
     }
     
-    public
     func resetEmulation() {
         resetEmulation(self)
     }
     
-    public
     func toggleEmulationPaused() {
         toggleEmulationPaused(self)
     }
     
-    public
     func takeScreenshot() {
         takeScreenshot(self)
     }
     
-    public
     func fastForwardGameplay(_ enable: Bool) {
         if emulationStatus != .playing { return }
         gameViewController.showFastForwardNotification(enable)
     }
     
-    public
     func rewindGameplay(_ enable: Bool) {
         if emulationStatus != .playing { return }
         gameViewController.showRewindNotification(enable)
     }
     
-    public
     func stepGameplayFrameForward() {
         if emulationStatus == .playing {
             toggleEmulationPaused(self)
@@ -1616,7 +1909,6 @@ extension OEGameDocument: OEGameCoreOwner {
         }
     }
     
-    public
     func stepGameplayFrameBackward() {
         if emulationStatus == .playing {
             toggleEmulationPaused(self)
@@ -1626,36 +1918,30 @@ extension OEGameDocument: OEGameCoreOwner {
         }
     }
     
-    public
     func nextDisplayMode() {
         nextDisplayMode(self)
     }
     
-    public
     func lastDisplayMode() {
         lastDisplayMode(self)
     }
     
-    public
     func setScreenSize(_ newScreenSize: OEIntSize, aspectSize newAspectSize: OEIntSize) {
         gameViewController.setScreenSize(newScreenSize, aspectSize: newAspectSize)
     }
     
-    public func setDiscCount(_ discCount: UInt) {
+    func setDiscCount(_ discCount: UInt) {
         gameViewController.discCount = discCount
     }
     
-    public
     func setDisplayModes(_ displayModes: [[String : Any]]) {
         gameViewController.displayModes = displayModes
     }
     
-    public
     func setRemoteContextID(_ contextID: OEContextID) {
         gameViewController.setRemoteContextID(contextID)
     }
     
-    public
     func gameCoreDidTerminate() {
         if !(emulationStatus == .starting || emulationStatus == .paused) {
             return

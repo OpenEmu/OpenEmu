@@ -17,7 +17,6 @@
 #import "OECollectionViewItemProtocol.h"
 #import "OEGameCollectionViewItemProtocol.h"
 
-#import "OEGameDocument.h"
 #import "OEPopoutGameWindowController.h"
 #import "OECollectionViewController.h"
 #import "OEGameCollectionViewController.h"

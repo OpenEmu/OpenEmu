@@ -44,7 +44,7 @@ extension NSDocumentController {
     }
     
     @objc(openGameDocumentWithGame:display:fullScreen:completionHandler:)
-    func openGameDocument(with game: OEDBGame?, display displayDocument: Bool, fullScreen: Bool, completionHandler: @escaping (OEGameDocument?, Error?) -> Void) {
+    func openGameDocument(with game: OEDBGame, display displayDocument: Bool, fullScreen: Bool, completionHandler: @escaping (OEGameDocument?, Error?) -> Void) {
         fatalError("Method must be implemented by a subclass.")
     }
     

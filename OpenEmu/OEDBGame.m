@@ -235,7 +235,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     return sortedByLastPlayed.lastObject.lastPlayed;
 }
 
-- (OEDBSaveState *)autosaveForLastPlayedRom
+- (nullable OEDBSaveState *)autosaveForLastPlayedRom
 {
     NSArray <OEDBRom *> *roms = self.roms.allObjects;
     
