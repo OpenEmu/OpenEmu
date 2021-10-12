@@ -32,5 +32,4 @@
 #import "OETableView.h"
 #import "OELogging.h"
 #import "OEDownload.h"
-#import "OEFSWatcher.h"
 #import "OEUtilities.h"

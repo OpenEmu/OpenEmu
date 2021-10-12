@@ -35,7 +35,6 @@
 #import "OEDBImage.h"
 #import "OELogging.h"
 
-#import "OEFSWatcher.h"
 #import "OEROMImporter.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
@@ -54,7 +53,6 @@ NSNotificationName const OELibraryLocationDidChangeNotification = @"OELibraryLoc
 
 NSString *const OEDatabasePathKey            = @"databasePath";
 NSString *const OEDefaultDatabasePathKey     = @"defaultDatabasePath";
-NSString *const OESaveStateLastFSEventIDKey  = @"lastSaveStateEventID";
 
 NSString *const OELibraryDatabaseUserInfoKey = @"OELibraryDatabase";
 NSString *const OESaveStateFolderURLKey      = @"saveStateFolder";
@@ -83,7 +81,6 @@ const NSInteger OpenVGDBSyncBatchSize = 5;
 
 @property(readonly) NSManagedObjectModel *managedObjectModel;
 
-@property(strong, nullable) OEFSWatcher *saveStateWatcher;
 @property(copy) NSURL *databaseURL;
 
 @end
@@ -91,7 +88,7 @@ const NSInteger OpenVGDBSyncBatchSize = 5;
 static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
 @implementation OELibraryDatabase
-@synthesize persistentStoreCoordinator = _persistentStoreCoordinator, databaseURL, importer, saveStateWatcher;
+@synthesize persistentStoreCoordinator = _persistentStoreCoordinator, databaseURL, importer;
 
 #pragma mark -
 
@@ -130,7 +127,6 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     [defaultDatabase OE_createInitialItemsIfNeeded];
     
     [[NSUserDefaults standardUserDefaults] setObject:defaultDatabase.databaseURL.path.stringByAbbreviatingWithTildeInPath forKey:OEDatabasePathKey];
-    [defaultDatabase OE_setupStateWatcher];
 
     OEROMImporter *romImporter = [[OEROMImporter alloc] initWithDatabase:defaultDatabase];
     [romImporter loadQueue];
@@ -241,8 +237,6 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
         NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
         [defaultCenter addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
         [defaultCenter addObserver:self selector:@selector(managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
-
-        [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:OESaveStateFolderURLKey options:0 context:nil];
     }
 
     return self;
@@ -251,8 +245,6 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
 - (void)dealloc
 {
     os_log_debug(OE_LOG_LIBRARY, "Destroying library database");
-    [self OE_removeStateWatcher];
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:OESaveStateFolderURLKey];
 }
 
 - (void)awakeFromNib
@@ -263,7 +255,6 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [self OE_removeStateWatcher];
     [self.importer saveQueue];
 
 
@@ -274,21 +265,6 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
         os_log_error(OE_LOG_LIBRARY, "Could not save databse: %{public}@", error);
 
         [NSApp presentError:error];
-    }
-}
-- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSString*, id> *)change context:(nullable void *)context
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
-    if(object==defaults && [keyPath isEqualToString:OESaveStateFolderURLKey])
-    {
-        NSString *path = self.stateFolderURL.path;
-
-        [self OE_removeStateWatcher];
-        [defaults removeObjectForKey:OESaveStateLastFSEventIDKey];
-        
-        [self OE_setupStateWatcher];
-        [self.saveStateWatcher callbackBlock](path, kFSEventStreamEventFlagItemIsDir);
     }
 }
 
@@ -363,73 +339,6 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
 #pragma mark - Save State Handling
 
-- (void)OE_setupStateWatcher
-{
-    NSString *stateFolderPath = self.stateFolderURL.path;
-    __block __unsafe_unretained OEFSBlock recFsBlock;
-    __block OEFSBlock fsBlock = [^(NSString *path, FSEventStreamEventFlags flags) {
-        NSManagedObjectContext *context = self.makeChildContext;
-        context.name = @"stateWatcher";
-        if(flags & kFSEventStreamEventFlagItemIsDir)
-        {
-            NSFileManager *fileManager = [NSFileManager defaultManager];
-            NSURL   *url   = [NSURL fileURLWithPath:path];
-            NSError *error = nil;
-
-            if([url checkResourceIsReachableAndReturnError:nil])
-            {
-                if([url.pathExtension isEqualTo:OESaveStateSuffix])
-                {
-                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.2 * NSEC_PER_SEC);
-                    dispatch_after(popTime, dispatch_get_main_queue(), ^{
-                        [OEDBSaveState updateOrCreateStateWithURL:url inContext:context];
-                    });
-                }
-                else
-                {
-                    NSArray *contents = [fileManager contentsOfDirectoryAtPath:path error:&error];
-                    for(NSString *subpath in contents)
-                    {
-                        recFsBlock([path stringByAppendingPathComponent:subpath], flags);
-                    };
-                }
-            }
-            else
-            {
-                NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"SaveState"];
-                NSPredicate    *predicate    = [NSPredicate predicateWithFormat:@"location BEGINSWITH[cd] %@", url.absoluteString];
-                fetchRequest.predicate = predicate;
-                NSArray *result = [context executeFetchRequest:fetchRequest error:&error];
-                if(error)
-                {
-                    os_log_error(OE_LOG_LIBRARY, "executing fetch request failed: %{public}@", error);
-                }
-                for(OEDBSaveState *state in result)
-                {
-                    [state delete];
-                }
-            }
-        }
-        [context save:nil];
-        [context.parentContext save:nil];
-    } copy];
-
-    recFsBlock = fsBlock;
-
-    OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:OESaveStateLastFSEventIDKey forPath:stateFolderPath withBlock:fsBlock];
-    watcher.delay = 1.0;
-    watcher.streamFlags = kFSEventStreamCreateFlagUseCFTypes|kFSEventStreamCreateFlagIgnoreSelf|kFSEventStreamCreateFlagFileEvents;
-
-    self.saveStateWatcher = watcher;
-    [self.saveStateWatcher startWatching];
-}
-
-- (void)OE_removeStateWatcher
-{
-    os_log_debug(OE_LOG_LIBRARY, "OE_removeStateWatcher");
-    [self.saveStateWatcher stopWatching];
-    self.saveStateWatcher = nil;
-}
 
 #pragma mark - CoreData Stuff
 
