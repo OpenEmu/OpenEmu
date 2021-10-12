@@ -38,7 +38,6 @@ final class PrefBiosController: NSViewController {
     @IBOutlet var tableView: NSTableView!
     
     private var items: [AnyHashable]?
-    private var fileSystemWatcher: OEFSWatcher!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,18 +49,12 @@ final class PrefBiosController: NSViewController {
         
         tableView.registerForDraggedTypes([.fileURL])
         
-        fileSystemWatcher = OEFSWatcher(forPath: BIOSFile.biosPath) { path, flags in
-            self.reloadData()
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: .didImportBIOSFile, object: nil)
         
         OECorePlugin.addObserver(self, forKeyPath: #keyPath(OECorePlugin.allPlugins), context: &PrefBiosCoreListKVOContext)
     }
     
     deinit {
-        if fileSystemWatcher != nil {
-            fileSystemWatcher.stopWatching()
-        }
-        
         OECorePlugin.removeObserver(self, forKeyPath: #keyPath(OECorePlugin.allPlugins), context: &PrefBiosCoreListKVOContext)
     }
     
@@ -77,17 +70,10 @@ final class PrefBiosController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         
-        fileSystemWatcher.startWatching()
         reloadData()
     }
     
-    override func viewDidDisappear() {
-        super.viewDidDisappear()
-        
-        fileSystemWatcher.stopWatching()
-    }
-    
-    private func reloadData() {
+    @objc private func reloadData() {
         
         guard let cores = OECorePlugin.allPlugins as? [OECorePlugin] else { return }
         var items: [AnyHashable] = []

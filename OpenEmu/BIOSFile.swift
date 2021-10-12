@@ -27,6 +27,11 @@
 import Foundation
 import OpenEmuKit.OECorePlugin
 
+extension Notification.Name {
+    /// Posted whenever a new BIOS file was successfully imported.
+    static let didImportBIOSFile = Notification.Name("OEDidImportBIOSFile")
+}
+
 /// Detects and imports BIOS files.
 @objc(OEBIOSFile)
 @objcMembers
@@ -163,6 +168,7 @@ class BIOSFile: NSObject {
                     DLog("\(error)")
                 }
                 
+                NotificationCenter.default.post(Notification(name: .didImportBIOSFile))
                 return true
             }
         }
