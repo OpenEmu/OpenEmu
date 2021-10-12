@@ -79,6 +79,29 @@ class BIOSFile: NSObject {
         }
     }
     
+    /// Moves a BIOS file with the specified file name to the trash.
+    /// - Parameter fileName: File name of the BIOS file to be deleted.
+    /// - Returns: Returns `true` if a BIOS file with the given name was found and successfully moved to the trash.
+    @discardableResult
+    static func deleteBIOSFile(withFileName fileName: String) -> Bool {
+        
+        let destinationURL = URL(fileURLWithPath: Self.biosPath).appendingPathComponent(fileName)
+        
+        let isReachable = (try? destinationURL.checkResourceIsReachable()) ?? false
+        if isReachable {
+            DLog("Deleting \(destinationURL)")
+            do {
+                try FileManager.default.trashItem(at: destinationURL, resultingItemURL: nil)
+                return true
+            } catch {
+                DLog("\(error)")
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+    
     /// Check if all files required by the current core plug-in are available.
     /// - Parameter systemIdentifier: Array of dictionaries describing the files. The following dictionary keys are used:
     ///     * "Name"

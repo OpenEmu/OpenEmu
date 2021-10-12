@@ -49,6 +49,11 @@ final class PrefBiosController: NSViewController {
         
         tableView.registerForDraggedTypes([.fileURL])
         
+        let menu = NSMenu()
+        menu.autoenablesItems = false
+        menu.delegate = self
+        tableView.menu = menu
+        
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: .didImportBIOSFile, object: nil)
         
         OECorePlugin.addObserver(self, forKeyPath: #keyPath(OECorePlugin.allPlugins), context: &PrefBiosCoreListKVOContext)
@@ -98,6 +103,16 @@ final class PrefBiosController: NSViewController {
     
     private func importBIOSFile(_ url: URL) -> Bool {
         return BIOSFile.checkIfBIOSFileAndImport(at: url)
+    }
+    
+    @objc private func deleteBIOSFile(_ sender: Any?) {
+        guard
+            let file = items?[tableView.clickedRow - 1] as? [String : Any],
+            let fileName = file["Name"] as? String
+        else { return }
+            
+        BIOSFile.deleteBIOSFile(withFileName: fileName)
+        reloadData()
     }
 }
 
@@ -229,6 +244,26 @@ extension PrefBiosController: NSTableViewDelegate {
         }
         
         return items?[row - 1] is OECorePlugin
+    }
+}
+
+extension PrefBiosController: NSMenuDelegate {
+    
+    func menuNeedsUpdate(_ menu: NSMenu) {
+        menu.removeAllItems()
+        guard
+            tableView.clickedRow >= 1,
+            !tableView(tableView, isGroupRow: tableView.clickedRow)
+        else { return }
+        
+        if let file = items?[tableView.clickedRow - 1] as? [String : Any] {
+            let available = BIOSFile.isBIOSFileAvailable(withFileInfo: file)
+            let item = NSMenuItem()
+            item.title = NSLocalizedString("Delete", comment: "")
+            item.action = #selector(deleteBIOSFile(_:))
+            item.isEnabled = available ? true : false
+            menu.addItem(item)
+        }
     }
 }
 
