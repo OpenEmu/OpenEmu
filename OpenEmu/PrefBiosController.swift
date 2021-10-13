@@ -237,6 +237,16 @@ extension PrefBiosController: NSTableViewDelegate {
         }
     }
     
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        if row == 0 {
+            return 60
+        } else if self.tableView(tableView, isGroupRow: row) {
+            return 18
+        } else {
+            return 54
+        }
+    }
+    
     func tableView(_ tableView: NSTableView, isGroupRow row: Int) -> Bool {
         
         if row == 0 {
