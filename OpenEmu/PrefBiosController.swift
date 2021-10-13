@@ -38,6 +38,7 @@ final class PrefBiosController: NSViewController {
     @IBOutlet var tableView: NSTableView!
     
     private var items: [AnyHashable]?
+    private var token: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,12 +55,20 @@ final class PrefBiosController: NSViewController {
         menu.delegate = self
         tableView.menu = menu
         
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: .didImportBIOSFile, object: nil)
+        token = NotificationCenter.default.addObserver(forName: .didImportBIOSFile, object: nil, queue: .main) { [weak self] notification in
+            self?.biosFileWasImported(notification)
+        }
         
         OECorePlugin.addObserver(self, forKeyPath: #keyPath(OECorePlugin.allPlugins), context: &PrefBiosCoreListKVOContext)
+        
+        reloadData()
     }
     
     deinit {
+        if let token = token {
+            NotificationCenter.default.removeObserver(token)
+            self.token = nil
+        }
         OECorePlugin.removeObserver(self, forKeyPath: #keyPath(OECorePlugin.allPlugins), context: &PrefBiosCoreListKVOContext)
     }
     
@@ -72,13 +81,7 @@ final class PrefBiosController: NSViewController {
         }
     }
     
-    override func viewWillAppear() {
-        super.viewWillAppear()
-        
-        reloadData()
-    }
-    
-    @objc private func reloadData() {
+    private func reloadData() {
         
         guard let cores = OECorePlugin.allPlugins as? [OECorePlugin] else { return }
         var items: [AnyHashable] = []
@@ -111,8 +114,31 @@ final class PrefBiosController: NSViewController {
             let fileName = file["Name"] as? String
         else { return }
             
-        BIOSFile.deleteBIOSFile(withFileName: fileName)
-        reloadData()
+        if BIOSFile.deleteBIOSFile(withFileName: fileName),
+           let view = tableView.view(atColumn: 0, row: tableView.clickedRow, makeIfNecessary: false),
+           view.identifier == .fileCell,
+           let availabilityIndicator = view.viewWithTag(3) as? NSImageView {
+            availabilityIndicator.image = NSImage(named: "bios_missing")
+            availabilityIndicator.contentTintColor = .systemOrange
+        }
+    }
+    
+    @objc private func biosFileWasImported(_ notification: Notification) {
+        let md5 = notification.userInfo?["MD5"] as! String
+        for (index, item) in (items ?? []).enumerated() {
+            guard
+                let file = item as? [String : Any],
+                let fileMD5 = file["MD5"] as? String,
+                fileMD5.caseInsensitiveCompare(md5) == .orderedSame,
+                let view = tableView.view(atColumn: 0, row: index + 1, makeIfNecessary: false),
+                view.identifier == .fileCell,
+                let availabilityIndicator = view.viewWithTag(3) as? NSImageView
+            else { continue }
+            
+            availabilityIndicator.image = NSImage(named: "bios_found")
+            availabilityIndicator.contentTintColor = .systemGreen
+            break
+        }
     }
 }
 
@@ -155,8 +181,6 @@ extension PrefBiosController: NSTableViewDataSource {
         recCheckURL = checkURL
         
         (files as NSArray).enumerateObjects(checkURL)
-        
-        reloadData()
         
         return importedSomething
     }

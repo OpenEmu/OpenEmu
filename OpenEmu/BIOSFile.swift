@@ -29,6 +29,8 @@ import OpenEmuKit.OECorePlugin
 
 extension Notification.Name {
     /// Posted whenever a new BIOS file was successfully imported.
+    ///
+    /// The userInfo dictionary contains the following keys: `Description`, `Name`, `MD5` and `Size`
     static let didImportBIOSFile = Notification.Name("OEDidImportBIOSFile")
 }
 
@@ -191,7 +193,7 @@ class BIOSFile: NSObject {
                     DLog("\(error)")
                 }
                 
-                NotificationCenter.default.post(Notification(name: .didImportBIOSFile))
+                NotificationCenter.default.post(Notification(name: .didImportBIOSFile, userInfo: validFile))
                 return true
             }
         }
