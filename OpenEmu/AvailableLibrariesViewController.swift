@@ -182,6 +182,9 @@ class AvailableLibrariesCollectionViewItem: NSCollectionViewItem {
             else { return }
         
         let system = OEDBSystem(forPluginIdentifier: si, in: context)
-        system.toggleEnabledAndPresentError()
+        if !system.toggleEnabledAndPresentError() {
+            // reload, as the system is still enabled but the checkbox is now unchecked
+            collectionView?.reloadData()
+        }
     }
 }
