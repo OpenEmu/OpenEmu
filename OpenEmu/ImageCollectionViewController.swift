@@ -117,6 +117,9 @@ class ImageCollectionViewController: NSViewController {
         DispatchQueue.main.async {
             self.scheduleUpdateViews()
         }
+        if view.window == nil {
+            collectionViewFrameSizeMightBeIncorrect = true
+        }
     }
     
     func scheduleUpdateViews() {
@@ -129,17 +132,21 @@ class ImageCollectionViewController: NSViewController {
         reloadData()
     }
     
+    private var collectionViewFrameSizeMightBeIncorrect = false
+    
     override func viewWillAppear() {
         super.viewWillAppear()
-        // Fixes mismatch between collectionViewContentSize and the collection view’s frame size
-        // after adding (or removing) items while another category is selected,
-        // which would cause the bottom area to be clipped (or empty).
-        // TODO: Maybe there’s a better way to fix this?
-        if var contentSize = collectionView.collectionViewLayout?.collectionViewContentSize {
-            contentSize.height = contentSize.height.rounded(.awayFromZero)
-            if collectionView.frame.size != contentSize {
-                collectionView.setFrameSize(contentSize)
+        // Fixes mismatch between collectionViewContentSize and the collection view’s frame size.
+        // If adding (or removing) items while another category is selected changes the number
+        // of rows, the bottom area was clipped (or empty) because the size/height did not update.
+        // _resizeToFitContentAndClipView() is called before viewWillAppear(), but is
+        // "[…] returning without resize, due to empty clipView.bounds".
+        if collectionViewFrameSizeMightBeIncorrect {
+            let selector = #selector(NSCollectionView._resizeToFitContentAndClipView)
+            if collectionView.responds(to: selector) {
+                collectionView.perform(selector)
             }
+            collectionViewFrameSizeMightBeIncorrect = false
         }
     }
     

@@ -27,7 +27,7 @@
 #import "NSDocument+OEAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 #import "OEAudioDeviceManager.h"
-#import "NSImageRep+ApplePrivate.h"
+#import "AppKit+ApplePrivate.h"
 #import "OETableView.h"
 #import "OELogging.h"
 #import "OEDownload.h"

@@ -1332,7 +1332,7 @@
 		01B035531C090E9900BA80E2 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		01B035541C090E9900BA80E2 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		01B035551C090E9A00BA80E2 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ControlLabels.strings; sourceTree = "<group>"; };
-		01D6F3D125269F1400E8404B /* NSImageRep+ApplePrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSImageRep+ApplePrivate.h"; sourceTree = "<group>"; };
+		01D6F3D125269F1400E8404B /* AppKit+ApplePrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppKit+ApplePrivate.h"; sourceTree = "<group>"; };
 		01E2A2F223E60F7D00194150 /* PrefCoresController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefCoresController.swift; sourceTree = "<group>"; };
 		0519A89E25AA4CD800D71C21 /* ShaderControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderControl.swift; sourceTree = "<group>"; };
 		051C102D2616659200341CB9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2984,7 +2984,7 @@
 				83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */,
 				83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */,
 				5A9606E71C0BCD350089B494 /* NSImage+DrawingAdditions.swift */,
-				01D6F3D125269F1400E8404B /* NSImageRep+ApplePrivate.h */,
+				01D6F3D125269F1400E8404B /* AppKit+ApplePrivate.h */,
 				0544B6A223D16D6300F63D61 /* NSImageView+OEAdditions.swift */,
 				5A9606D11C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift */,
 				5A9606D31C0A63740089B494 /* NSMutableDictionary+Pop.swift */,

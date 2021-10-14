@@ -32,4 +32,8 @@
 
 @end
 
+@interface NSCollectionView (ApplePrivate)
 
+- (void) _resizeToFitContentAndClipView;
+
+@end
