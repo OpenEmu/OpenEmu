@@ -33,7 +33,7 @@ final class ControlsSectionTitleView: NSView {
     private let isWood = UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue
     private let isWoodVibrant = UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.woodVibrant.rawValue
     
-    private lazy var visualEffectView: NSVisualEffectView = {
+    private lazy var veView: NSVisualEffectView = {
         let veView = NSVisualEffectView()
         
         if isWoodVibrant {
@@ -44,16 +44,16 @@ final class ControlsSectionTitleView: NSView {
         return veView
     }()
     
-    private lazy var imageView: NSImageView = {
-        let imageView = NSImageView()
-        
-        if isWoodVibrant {
-            imageView.image = NSImage(named: "controls_background")
-        } else {
-            imageView.image = NSImage(named: "controls_bg")
-        }
-        imageView.imageScaling = .scaleAxesIndependently
-        return imageView
+    private lazy var box: NSBox = {
+        let box = NSBox()
+        box.titlePosition = .noTitle
+        return box
+    }()
+    
+    private lazy var separator: NSBox = {
+        let box = NSBox()
+        box.boxType = .separator
+        return box
     }()
     
     private lazy var textField: NSTextField = {
@@ -65,7 +65,13 @@ final class ControlsSectionTitleView: NSView {
     
     private lazy var string = NSAttributedString(string: stringValue, attributes: Self.attributes)
     
-    var stringValue = ""
+    var stringValue = "" {
+        didSet {
+            if !isWood {
+                textField.stringValue = stringValue
+            }
+        }
+    }
     
     var pinned = false {
         didSet {
@@ -83,25 +89,49 @@ final class ControlsSectionTitleView: NSView {
         super.init(frame: frameRect)
         
         if !isWood {
-            if isWoodVibrant {
-                addSubview(imageView)
-                addSubview(visualEffectView)
-            } else {
-                addSubview(visualEffectView)
-                addSubview(imageView)
-            }
+            addSubview(veView)
+            
+            veView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                veView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 1),
+                veView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                veView.topAnchor.constraint(equalTo: topAnchor),
+                veView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            ])
+            
+            addSubview(box)
+            
+            box.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                box.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -6),
+                box.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 6),
+                box.topAnchor.constraint(equalTo: topAnchor, constant: -6),
+                box.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 6),
+            ])
+            
+            box.addSubview(separator)
+            
+            separator.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                separator.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
+                separator.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -9),
+                separator.bottomAnchor.constraint(equalTo: bottomAnchor),
+                separator.heightAnchor.constraint(equalToConstant: 1),
+            ])
+            
             addSubview(textField)
+            
+            textField.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                textField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftGap),
+                textField.centerYAnchor.constraint(equalTo: centerYAnchor),
+            ])
         }
     }
     
     override func draw(_ dirtyRect: NSRect) {
-        
         guard isWood else {
-            visualEffectView.frame = bounds
-            imageView.frame = bounds
-            textField.stringValue = stringValue
-            textField.frame = titleRect
-            return
+            return super.draw(dirtyRect)
         }
         
         NSColor.clear.setFill()
@@ -155,15 +185,6 @@ final class ControlsSectionTitleView: NSView {
     }
     
     private var titleRect: NSRect {
-        
-        guard isWood else {
-            var rect = bounds
-            
-            rect.origin.y -= (rect.size.height-textField.attributedStringValue.size().height)/2
-            rect.origin.x += leftGap
-            
-            return backingAlignedRect(rect, options: .alignAllEdgesNearest)
-        }
         
         var rect = bounds
         

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,7 +12,6 @@
                 <outlet property="controllerContainerView" destination="103" id="119"/>
                 <outlet property="controlsContainer" destination="112" id="115"/>
                 <outlet property="controlsSetupView" destination="112" id="117"/>
-                <outlet property="gradientOverlay" destination="4" id="43"/>
                 <outlet property="inputPopupButton" destination="9" id="44"/>
                 <outlet property="playerPopupButton" destination="8" id="45"/>
                 <outlet property="veView" destination="I6g-pL-hLm" id="SK3-lg-mh3"/>
@@ -25,141 +24,182 @@
             <rect key="frame" x="0.0" y="0.0" width="760" height="450"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <customView wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="BackgroundImageView" customModule="OpenEmu" customModuleProvider="target">
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lKD-EX-QDV">
                     <rect key="frame" x="0.0" y="0.0" width="500" height="450"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="image" keyPath="background" value="controls_shadow"/>
-                    </userDefinedRuntimeAttributes>
-                </customView>
-                <visualEffectView fixedFrame="YES" blendingMode="behindWindow" material="sidebar" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="I6g-pL-hLm">
-                    <rect key="frame" x="500" y="0.0" width="260" height="450"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                    <subviews>
-                        <box horizontalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="DwP-z5-SEX">
-                            <rect key="frame" x="-2" y="0.0" width="5" height="450"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        </box>
-                    </subviews>
-                </visualEffectView>
-                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7">
-                    <rect key="frame" x="513" y="413" width="236" height="26"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="SYSTEM" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="38" id="30" customClass="ControlsPopUpButtonCell2" customModule="OpenEmu" customModuleProvider="target">
-                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="menu"/>
-                        <menu key="menu" id="31">
-                            <items>
-                                <menuItem title="SYSTEM" state="on" id="38">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                            </items>
-                        </menu>
-                    </popUpButtonCell>
-                    <connections>
-                        <action selector="changeSystem:" target="-2" id="48"/>
-                    </connections>
-                </popUpButton>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="116" customClass="PreferencesControlsBox" customModule="OpenEmu" customModuleProvider="target">
-                    <rect key="frame" x="515" y="14" width="231" height="390"/>
-                    <subviews>
-                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8">
-                            <rect key="frame" x="12" y="352" width="208" height="25"/>
-                            <popUpButtonCell key="cell" type="push" title="PLAYER" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="29" id="24">
-                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="menu"/>
-                                <menu key="menu" id="25">
-                                    <items>
-                                        <menuItem title="PLAYER" state="on" id="29">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </popUpButtonCell>
-                            <connections>
-                                <action selector="changePlayer:" target="-2" id="47"/>
-                            </connections>
-                        </popUpButton>
-                        <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="111">
-                            <rect key="frame" x="1" y="49" width="229" height="292"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <clipView key="contentView" drawsBackground="NO" id="P60-Lp-yJ1">
-                                <rect key="frame" x="0.0" y="0.0" width="229" height="292"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="112" customClass="ControlsButtonSetupView" customModule="OpenEmu" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="319" height="293"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
-                                    </view>
-                                </subviews>
-                            </clipView>
-                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="113">
-                                <rect key="frame" x="-100" y="-100" width="506" height="15"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </scroller>
-                            <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="114">
-                                <rect key="frame" x="213" y="0.0" width="16" height="292"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </scroller>
-                        </scrollView>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="10">
-                            <rect key="frame" x="12" y="16" width="39" height="16"/>
-                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Input:" id="11">
-                                <font key="font" metaFont="system"/>
-                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            </textFieldCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
-                            </userDefinedRuntimeAttributes>
-                        </textField>
-                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9">
-                            <rect key="frame" x="53" y="8" width="167" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="26" id="lww-pM-fVv"/>
-                            </constraints>
-                            <popUpButtonCell key="cell" type="push" title="DEVICE" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="16" id="12">
-                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="menu"/>
-                                <menu key="menu" id="13">
-                                    <items>
-                                        <menuItem title="DEVICE" state="on" id="16">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </popUpButtonCell>
-                            <connections>
-                                <action selector="changeInputDevice:" target="-2" id="46"/>
-                            </connections>
-                        </popUpButton>
-                    </subviews>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="8" secondAttribute="trailing" constant="14" id="12O-Pm-c1r"/>
-                        <constraint firstAttribute="height" constant="390" id="9qc-Go-0bA"/>
-                        <constraint firstItem="8" firstAttribute="leading" secondItem="116" secondAttribute="leading" constant="14" id="Co8-cB-cWZ"/>
-                        <constraint firstAttribute="bottom" secondItem="10" secondAttribute="bottom" constant="16" id="EM4-9a-lMZ"/>
-                        <constraint firstAttribute="width" constant="231" id="bfL-Bu-ul2"/>
-                        <constraint firstItem="9" firstAttribute="leading" secondItem="10" secondAttribute="trailing" constant="6" id="d9B-BZ-2rc"/>
-                        <constraint firstItem="8" firstAttribute="top" secondItem="116" secondAttribute="top" constant="14" id="hhy-cw-ifu"/>
-                        <constraint firstAttribute="bottom" secondItem="9" secondAttribute="bottom" constant="11" id="vxF-le-4kx"/>
-                        <constraint firstItem="10" firstAttribute="leading" secondItem="116" secondAttribute="leading" constant="14" id="wnN-kC-1Mc"/>
-                        <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="14" id="xEF-f6-hej"/>
+                        <constraint firstAttribute="width" priority="750" constant="500" id="EgJ-HE-wrq"/>
                     </constraints>
-                </customView>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="controls_shadow" id="yx0-xn-xNL"/>
+                </imageView>
                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="103">
                     <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES" heightSizable="YES"/>
                 </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="SdG-k8-Iue">
+                    <rect key="frame" x="500" y="0.0" width="260" height="450"/>
+                    <subviews>
+                        <visualEffectView fixedFrame="YES" blendingMode="behindWindow" material="sidebar" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="I6g-pL-hLm">
+                            <rect key="frame" x="0.0" y="0.0" width="260" height="450"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <subviews>
+                                <box horizontalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="DwP-z5-SEX">
+                                    <rect key="frame" x="-2" y="0.0" width="5" height="450"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                </box>
+                            </subviews>
+                        </visualEffectView>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7">
+                            <rect key="frame" x="11" y="412" width="239" height="25"/>
+                            <popUpButtonCell key="cell" type="push" title="SYSTEM" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="38" id="30">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="31">
+                                    <items>
+                                        <menuItem title="SYSTEM" state="on" id="38">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                            <connections>
+                                <action selector="changeSystem:" target="-2" id="48"/>
+                            </connections>
+                        </popUpButton>
+                        <box title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="etN-Fb-f1F">
+                            <rect key="frame" x="11" y="10" width="238" height="394"/>
+                            <view key="contentView" id="2lL-Qf-ie1">
+                                <rect key="frame" x="3" y="3" width="232" height="388"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </view>
+                        </box>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="116">
+                            <rect key="frame" x="14" y="14" width="232" height="388"/>
+                            <subviews>
+                                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8">
+                                    <rect key="frame" x="11" y="350" width="211" height="25"/>
+                                    <popUpButtonCell key="cell" type="push" title="PLAYER" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="29" id="24">
+                                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="menu"/>
+                                        <menu key="menu" id="25">
+                                            <items>
+                                                <menuItem title="PLAYER" state="on" id="29">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                </menuItem>
+                                            </items>
+                                        </menu>
+                                    </popUpButtonCell>
+                                    <connections>
+                                        <action selector="changePlayer:" target="-2" id="47"/>
+                                    </connections>
+                                </popUpButton>
+                                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="JKE-LN-Xnb">
+                                    <rect key="frame" x="12" y="337" width="208" height="5"/>
+                                </box>
+                                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="111">
+                                    <rect key="frame" x="0.0" y="43" width="232" height="296"/>
+                                    <clipView key="contentView" drawsBackground="NO" id="P60-Lp-yJ1">
+                                        <rect key="frame" x="0.0" y="0.0" width="232" height="296"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="112" customClass="ControlsButtonSetupView" customModule="OpenEmu" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="232" height="296"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            </view>
+                                        </subviews>
+                                    </clipView>
+                                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="113">
+                                        <rect key="frame" x="-100" y="-100" width="506" height="15"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </scroller>
+                                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="114">
+                                        <rect key="frame" x="216" y="0.0" width="16" height="296"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </scroller>
+                                </scrollView>
+                                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9oU-t4-VuO">
+                                    <rect key="frame" x="12" y="40" width="208" height="5"/>
+                                </box>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="10">
+                                    <rect key="frame" x="12" y="14" width="39" height="16"/>
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Input:" id="11">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
+                                </textField>
+                                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9">
+                                    <rect key="frame" x="52" y="7" width="170" height="25"/>
+                                    <popUpButtonCell key="cell" type="push" title="DEVICE" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="16" id="12">
+                                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="menu"/>
+                                        <menu key="menu" id="13">
+                                            <items>
+                                                <menuItem title="DEVICE" state="on" id="16">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                </menuItem>
+                                            </items>
+                                        </menu>
+                                    </popUpButtonCell>
+                                    <connections>
+                                        <action selector="changeInputDevice:" target="-2" id="46"/>
+                                    </connections>
+                                </popUpButton>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="8" secondAttribute="trailing" constant="14" id="12O-Pm-c1r"/>
+                                <constraint firstItem="9oU-t4-VuO" firstAttribute="leading" secondItem="116" secondAttribute="leading" constant="12" id="1cU-35-dQM"/>
+                                <constraint firstItem="111" firstAttribute="top" secondItem="JKE-LN-Xnb" secondAttribute="bottom" id="4BM-2P-JBD"/>
+                                <constraint firstAttribute="trailing" secondItem="111" secondAttribute="trailing" id="4N2-cN-fw4"/>
+                                <constraint firstItem="9oU-t4-VuO" firstAttribute="top" secondItem="111" secondAttribute="bottom" id="5aL-yl-tqw"/>
+                                <constraint firstItem="8" firstAttribute="leading" secondItem="116" secondAttribute="leading" constant="14" id="Co8-cB-cWZ"/>
+                                <constraint firstAttribute="trailing" secondItem="JKE-LN-Xnb" secondAttribute="trailing" constant="12" id="LjP-T3-NYk"/>
+                                <constraint firstItem="9" firstAttribute="top" secondItem="9oU-t4-VuO" secondAttribute="bottom" constant="11" id="PaF-dg-hyY"/>
+                                <constraint firstAttribute="trailing" secondItem="9oU-t4-VuO" secondAttribute="trailing" constant="12" id="Vb1-NO-OBI"/>
+                                <constraint firstItem="JKE-LN-Xnb" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="14" id="ac7-J6-Edm"/>
+                                <constraint firstItem="9" firstAttribute="leading" secondItem="10" secondAttribute="trailing" constant="6" id="d9B-BZ-2rc"/>
+                                <constraint firstItem="JKE-LN-Xnb" firstAttribute="leading" secondItem="116" secondAttribute="leading" constant="12" id="dJ9-BO-djw"/>
+                                <constraint firstItem="8" firstAttribute="top" secondItem="116" secondAttribute="top" constant="14" id="hhy-cw-ifu"/>
+                                <constraint firstItem="9" firstAttribute="firstBaseline" secondItem="10" secondAttribute="firstBaseline" id="kng-l2-KGZ"/>
+                                <constraint firstItem="111" firstAttribute="leading" secondItem="116" secondAttribute="leading" id="tR3-zC-4c6"/>
+                                <constraint firstAttribute="bottom" secondItem="9" secondAttribute="bottom" constant="11" id="vxF-le-4kx"/>
+                                <constraint firstItem="10" firstAttribute="leading" secondItem="116" secondAttribute="leading" constant="14" id="wnN-kC-1Mc"/>
+                                <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="14" id="xEF-f6-hej"/>
+                            </constraints>
+                        </customView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="7" firstAttribute="top" secondItem="SdG-k8-Iue" secondAttribute="top" constant="14" id="2ZT-6Y-NTl"/>
+                        <constraint firstAttribute="height" priority="750" constant="450" id="6Rc-G3-4Af"/>
+                        <constraint firstItem="116" firstAttribute="top" secondItem="etN-Fb-f1F" secondAttribute="top" id="Lk9-LM-DKc"/>
+                        <constraint firstAttribute="bottom" secondItem="116" secondAttribute="bottom" constant="14" id="PZG-zE-Nad"/>
+                        <constraint firstItem="116" firstAttribute="bottom" secondItem="etN-Fb-f1F" secondAttribute="bottom" id="Ro9-CV-ifm"/>
+                        <constraint firstAttribute="trailing" secondItem="116" secondAttribute="trailing" constant="14" id="WQa-pM-nj4"/>
+                        <constraint firstItem="116" firstAttribute="trailing" secondItem="etN-Fb-f1F" secondAttribute="trailing" id="Wje-sO-uqW"/>
+                        <constraint firstItem="116" firstAttribute="leading" secondItem="etN-Fb-f1F" secondAttribute="leading" id="a9a-9v-rh2"/>
+                        <constraint firstItem="116" firstAttribute="trailing" secondItem="7" secondAttribute="trailing" id="fFy-cD-v1B"/>
+                        <constraint firstItem="116" firstAttribute="leading" secondItem="7" secondAttribute="leading" id="kJh-wk-8gd"/>
+                        <constraint firstItem="116" firstAttribute="leading" secondItem="SdG-k8-Iue" secondAttribute="leading" constant="14" id="ljD-R2-RiC"/>
+                        <constraint firstItem="116" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="14" id="lmA-iR-zVI"/>
+                        <constraint firstAttribute="width" priority="750" constant="260" id="yrI-Ud-ITe"/>
+                    </constraints>
+                </customView>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="116" secondAttribute="bottom" constant="14" id="2zq-xu-yuK"/>
-                <constraint firstAttribute="trailing" secondItem="116" secondAttribute="trailing" constant="14" id="axl-wZ-16j"/>
+                <constraint firstAttribute="bottom" secondItem="SdG-k8-Iue" secondAttribute="bottom" id="8zM-co-Moy"/>
+                <constraint firstItem="lKD-EX-QDV" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="CW3-lP-ldZ"/>
+                <constraint firstItem="SdG-k8-Iue" firstAttribute="leading" secondItem="lKD-EX-QDV" secondAttribute="trailing" id="Ea5-JL-59s"/>
+                <constraint firstItem="lKD-EX-QDV" firstAttribute="top" secondItem="3" secondAttribute="top" id="GWx-yu-hK6"/>
+                <constraint firstItem="SdG-k8-Iue" firstAttribute="top" secondItem="3" secondAttribute="top" id="LjZ-32-bFq"/>
+                <constraint firstAttribute="trailing" secondItem="SdG-k8-Iue" secondAttribute="trailing" id="Rvl-pt-Ccf"/>
+                <constraint firstAttribute="bottom" secondItem="lKD-EX-QDV" secondAttribute="bottom" id="j9n-yx-ZaG"/>
             </constraints>
             <userDefinedRuntimeAttributes>
                 <userDefinedRuntimeAttribute type="image" keyPath="image" value="controls_background"/>
             </userDefinedRuntimeAttributes>
-            <point key="canvasLocation" x="-212" y="121"/>
+            <point key="canvasLocation" x="-212" y="120"/>
         </view>
     </objects>
     <resources>

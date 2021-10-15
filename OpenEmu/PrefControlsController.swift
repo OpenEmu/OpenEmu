@@ -743,7 +743,7 @@ extension PrefControlsController: PreferencePane {
         if UserDefaults.standard.integer(forKey: OEControlsPrefsAppearancePreferenceKey) == OEControlsPrefsAppearancePreferenceValue.wood.rawValue {
             return NSSize(width: 755, height: 450)
         } else {
-            return NSSize(width: 760, height: 450)
+            return view.fittingSize
         }
     }
 }

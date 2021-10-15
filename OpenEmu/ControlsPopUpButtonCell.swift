@@ -35,7 +35,7 @@ final class ControlsPopUpButtonCell: NSPopUpButtonCell {
     }
     
     override func titleRect(forBounds cellFrame: NSRect) -> NSRect {
-        if #available(macOS 10.16, *) {
+        if #available(macOS 11.0, *) {
             return super.titleRect(forBounds: cellFrame)
         }
         var titleRect = super.titleRect(forBounds: cellFrame)
@@ -44,7 +44,7 @@ final class ControlsPopUpButtonCell: NSPopUpButtonCell {
     }
     
     override func imageRect(forBounds rect: NSRect) -> NSRect {
-        if #available(macOS 10.16, *) {
+        if #available(macOS 11.0, *) {
             var imageRect = super.imageRect(forBounds: rect)
             imageRect.origin.y -= 1
             return imageRect
@@ -80,37 +80,4 @@ final class ControlsPopUpButtonCell: NSPopUpButtonCell {
         
         return attributes
     }()
-}
-
-final class ControlsPopUpButtonCell2: NSPopUpButtonCell {
-    
-    override func drawImage(_ image: NSImage, withFrame frame: NSRect, in controlView: NSView) {
-        image.draw(in: frame)
-    }
-    
-    override func titleRect(forBounds cellFrame: NSRect) -> NSRect {
-        if #available(macOS 10.16, *) {
-            return super.titleRect(forBounds: cellFrame)
-        }
-        var titleRect = super.titleRect(forBounds: cellFrame)
-        titleRect.origin.y -= 2
-        return titleRect
-    }
-    
-    override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
-        if #available(macOS 10.16, *) {
-            return super.drawInterior(withFrame: cellFrame, in: controlView)
-        }
-        var titleRect = self.titleRect(forBounds: cellFrame)
-        titleRect.origin.y += 2
-        let imageRect = self.imageRect(forBounds: cellFrame)
-        
-        if !titleRect.isEmpty {
-            drawTitle(attributedTitle, withFrame: titleRect, in: controlView)
-        }
-        if !imageRect.isEmpty,
-           let image = image {
-            drawImage(image, withFrame: imageRect, in: controlView)
-        }
-    }
 }
