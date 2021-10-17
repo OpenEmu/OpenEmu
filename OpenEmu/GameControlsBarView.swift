@@ -143,7 +143,8 @@ final class GameControlsBarView: NSView {
         fullScreen.alternateImage = NSImage(named: "hud_fullscreen_exit")
         fullScreen.backgroundColor = .black
         fullScreen.setButtonType(.pushOnPushOff)
-        fullScreen.action = #selector(NSWindow.toggleFullScreen(_:))
+        fullScreen.target = self
+        fullScreen.action = #selector(toggleFullScreen(_:))
         fullScreen.toolTip = NSLocalizedString("Toggle Fullscreen", comment: "HUD bar, tooltip")
         addSubview(fullScreen)
         fullScreenButton = fullScreen
@@ -198,6 +199,10 @@ final class GameControlsBarView: NSView {
     
     @objc private func stopEmulation(_ sender: Any?) {
         window?.parent?.performClose(self)
+    }
+    
+    @objc private func toggleFullScreen(_ sender: Any?) {
+        window?.parent?.toggleFullScreen(sender)
     }
     
     @objc private func showSaveMenu(_ sender: NSButton) {
