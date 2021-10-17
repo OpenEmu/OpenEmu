@@ -224,7 +224,7 @@ final class GameScannerViewController: NSViewController {
                 }
                 
                 togglePauseButton.isEnabled = true
-                togglePauseButton.icon = "game_scanner_pause"
+                togglePauseButton.icon = .pause
                 
             case .stopped:
                 
@@ -234,9 +234,9 @@ final class GameScannerViewController: NSViewController {
                 status = NSLocalizedString("Done", comment: "")
                 
                 togglePauseButton.isEnabled = !itemsRequiringAttention.isEmpty
-                togglePauseButton.icon = itemsRequiringAttention.isEmpty ? "game_scanner_pause" : "game_scanner_cancel"
+                togglePauseButton.icon = itemsRequiringAttention.isEmpty ? .pause : .cancel
                 
-            default:
+            case .paused:
                 
                 progressIndicator.stopAnimation(self)
                 progressIndicator.isIndeterminate = true
@@ -244,7 +244,7 @@ final class GameScannerViewController: NSViewController {
                 status = NSLocalizedString("Scanner Paused", comment: "")
                 
                 togglePauseButton.isEnabled = true
-                togglePauseButton.icon = "game_scanner_continue"
+                togglePauseButton.icon = .continue
             }
             
             let shouldHideFixButton: Bool
@@ -353,7 +353,7 @@ final class GameScannerViewController: NSViewController {
     
     @IBAction func buttonAction(_ sender: Any?) {
         
-        if !itemsRequiringAttention.isEmpty {
+        if NSEvent.modifierFlags.contains(.option) || importer.status == .stopped && !itemsRequiringAttention.isEmpty {
             
             importer.pause()
             

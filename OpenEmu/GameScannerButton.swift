@@ -26,21 +26,74 @@ import Cocoa
 
 final class GameScannerButton: HoverButton {
     
-    var icon: String = ""
-    
-    private var iconImage: NSImage? {
+    enum Icon {
+        case cancel, `continue`, pause
         
+        fileprivate var image: NSImage {
+            switch self {
+            case .cancel:
+                return NSImage(named: "game_scanner_cancel")!
+            case .continue:
+                return NSImage(named: "game_scanner_continue")!
+            case .pause:
+                return NSImage(named: "game_scanner_pause")!
+            }
+        }
+    }
+    
+    private var _icon: Icon = .cancel
+    var icon: Icon {
+        get {
+            if NSEvent.modifierFlags.contains(.option) {
+                return .cancel
+            } else {
+                return _icon
+            }
+        }
+        set {
+            _icon = newValue
+            needsDisplay = true
+        }
+    }
+    
+    private var iconImage: NSImage {
         if isHighlighted {
-            return NSImage(named: icon)?.withTintColor(.labelColor.withSystemEffect(.pressed))
+            return icon.image.withTintColor(.labelColor.withSystemEffect(.pressed))
         }
         else if isHovering && isEnabled {
-            return NSImage(named: icon)?.withTintColor(.labelColor.withSystemEffect(.rollover))
+            return icon.image.withTintColor(.labelColor.withSystemEffect(.rollover))
         }
-        else if window?.isMainWindow == false {
-            return NSImage(named: icon)?.withTintColor(.labelColor.withSystemEffect(.disabled))
+        else if let window = window, !window.isMainWindow {
+            return icon.image.withTintColor(.labelColor.withSystemEffect(.disabled))
         }
         else {
-            return NSImage(named: icon)?.withTintColor(.labelColor)
+            return icon.image.withTintColor(.labelColor)
+        }
+    }
+    
+    private var eventMonitor: Any?
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        eventMonitor = NSEvent.addLocalMonitorForEvents(matching: [.flagsChanged]) { [weak self] event in
+            self?.needsDisplay = true
+            return event
+        }
+    }
+    
+    deinit {
+        if let eventMonitor = eventMonitor {
+            NSEvent.removeMonitor(eventMonitor)
+            self.eventMonitor = nil
         }
     }
     
