@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -210,93 +210,90 @@
                                         <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                                     </userDefinedRuntimeAttributes>
                                 </textField>
-                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="A5g-3z-11R" customClass="SetupAssistantScrollBorderView" customModule="OpenEmu" customModuleProvider="target">
+                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="A5g-3z-11R">
                                     <rect key="frame" x="20" y="23" width="416" height="121"/>
-                                    <subviews>
-                                        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="25" horizontalPageScroll="10" verticalLineScroll="25" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="282">
-                                            <rect key="frame" x="2" y="2" width="412" height="117"/>
-                                            <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="tgZ-8g-LXB">
+                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="installer_scrollview_box" id="oJR-xg-3Gv"/>
+                                </imageView>
+                                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="25" horizontalPageScroll="10" verticalLineScroll="25" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="282">
+                                    <rect key="frame" x="22" y="25" width="412" height="117"/>
+                                    <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="tgZ-8g-LXB">
+                                        <rect key="frame" x="0.0" y="0.0" width="412" height="117"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="23" id="286" customClass="SetupAssistantTableView" customModule="OpenEmu" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="412" height="117"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <subviews>
-                                                    <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="23" id="286" customClass="SetupAssistantTableView" customModule="OpenEmu" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="412" height="117"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        <size key="intercellSpacing" width="3" height="2"/>
-                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
-                                                        <tableColumns>
-                                                            <tableColumn identifier="enabled" width="40" minWidth="40" maxWidth="1000" id="287">
-                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                    <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                                    <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                                                </tableHeaderCell>
-                                                                <buttonCell key="dataCell" type="check" bezelStyle="regularSquare" imagePosition="only" alignment="left" inset="2" id="293" customClass="GlossCheckboxCell" customModule="OpenEmu" customModuleProvider="target">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                                            </tableColumn>
-                                                            <tableColumn identifier="emulatorName" width="152" minWidth="40" maxWidth="1000" id="291">
-                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                    <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                                    <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                                                </tableHeaderCell>
-                                                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="292" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
-                                                                    <font key="font" metaFont="systemBold" size="12"/>
-                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                </textFieldCell>
-                                                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                                            </tableColumn>
-                                                            <tableColumn identifier="emulatorSystem" width="202" minWidth="40" maxWidth="1000" id="288">
-                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                    <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                                    <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                                                </tableHeaderCell>
-                                                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="289" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
-                                                                    <font key="font" metaFont="smallSystem"/>
-                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                </textFieldCell>
-                                                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                                            </tableColumn>
-                                                        </tableColumns>
-                                                        <connections>
-                                                            <outlet property="dataSource" destination="-2" id="574"/>
-                                                            <outlet property="delegate" destination="-2" id="575"/>
-                                                        </connections>
-                                                    </tableView>
-                                                </subviews>
-                                                <nil key="backgroundColor"/>
-                                            </clipView>
-                                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="285">
-                                                <rect key="frame" x="0.0" y="101" width="412" height="16"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                            </scroller>
-                                            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="283">
-                                                <rect key="frame" x="397" y="0.0" width="15" height="95"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                            </scroller>
-                                        </scrollView>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="282" secondAttribute="trailing" constant="2" id="EgS-2t-k2m"/>
-                                        <constraint firstAttribute="bottom" secondItem="282" secondAttribute="bottom" constant="2" id="dzB-dZ-rNc"/>
-                                        <constraint firstItem="282" firstAttribute="top" secondItem="A5g-3z-11R" secondAttribute="top" constant="2" id="pdd-kh-Gai"/>
-                                        <constraint firstItem="282" firstAttribute="leading" secondItem="A5g-3z-11R" secondAttribute="leading" constant="2" id="xrR-zn-cW4"/>
-                                    </constraints>
-                                </customView>
+                                                <size key="intercellSpacing" width="3" height="2"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                                <tableColumns>
+                                                    <tableColumn identifier="enabled" width="40" minWidth="40" maxWidth="1000" id="287">
+                                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                        </tableHeaderCell>
+                                                        <buttonCell key="dataCell" type="check" bezelStyle="regularSquare" imagePosition="only" alignment="left" inset="2" id="293" customClass="GlossCheckboxCell" customModule="OpenEmu" customModuleProvider="target">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    </tableColumn>
+                                                    <tableColumn identifier="emulatorName" width="152" minWidth="40" maxWidth="1000" id="291">
+                                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                        </tableHeaderCell>
+                                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="292" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
+                                                            <font key="font" metaFont="systemBold" size="12"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    </tableColumn>
+                                                    <tableColumn identifier="emulatorSystem" width="202" minWidth="40" maxWidth="1000" id="288">
+                                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                        </tableHeaderCell>
+                                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="289" customClass="CenteredTextFieldCell" customModule="OpenEmu" customModuleProvider="target">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    </tableColumn>
+                                                </tableColumns>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="-2" id="574"/>
+                                                    <outlet property="delegate" destination="-2" id="575"/>
+                                                </connections>
+                                            </tableView>
+                                        </subviews>
+                                        <nil key="backgroundColor"/>
+                                    </clipView>
+                                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="285">
+                                        <rect key="frame" x="0.0" y="105" width="412" height="16"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </scroller>
+                                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="283">
+                                        <rect key="frame" x="397" y="0.0" width="15" height="95"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </scroller>
+                                </scrollView>
                             </subviews>
                             <constraints>
                                 <constraint firstItem="A5g-3z-11R" firstAttribute="leading" secondItem="239" secondAttribute="leading" constant="20" id="2VM-XG-dcj"/>
                                 <constraint firstAttribute="bottom" secondItem="A5g-3z-11R" secondAttribute="bottom" constant="23" id="AE1-4B-SHu"/>
                                 <constraint firstItem="326" firstAttribute="leading" secondItem="239" secondAttribute="leading" constant="19" id="Aez-ep-oYz"/>
+                                <constraint firstItem="A5g-3z-11R" firstAttribute="trailing" secondItem="282" secondAttribute="trailing" constant="2" id="EgS-2t-k2m"/>
                                 <constraint firstAttribute="trailing" secondItem="A5g-3z-11R" secondAttribute="trailing" constant="26" id="LpJ-bi-Wc3"/>
                                 <constraint firstItem="326" firstAttribute="top" secondItem="239" secondAttribute="top" constant="20" id="b2q-4P-0vS"/>
                                 <constraint firstItem="327" firstAttribute="top" secondItem="326" secondAttribute="bottom" constant="8" id="cc8-MX-eUz"/>
+                                <constraint firstItem="A5g-3z-11R" firstAttribute="bottom" secondItem="282" secondAttribute="bottom" constant="2" id="dzB-dZ-rNc"/>
                                 <constraint firstItem="A5g-3z-11R" firstAttribute="top" secondItem="327" secondAttribute="bottom" constant="12" id="eHI-hY-dtC"/>
+                                <constraint firstItem="282" firstAttribute="top" secondItem="A5g-3z-11R" secondAttribute="top" constant="2" id="pdd-kh-Gai"/>
                                 <constraint firstItem="327" firstAttribute="leading" secondItem="239" secondAttribute="leading" constant="19" id="xKa-7D-jsP"/>
+                                <constraint firstItem="282" firstAttribute="leading" secondItem="A5g-3z-11R" secondAttribute="leading" constant="2" id="xrR-zn-cW4"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="image" keyPath="background" value="installer_dark_inset_box"/>
@@ -444,5 +441,6 @@ Remember you can change both your keyboard and gamepad controls for yourself and
     </objects>
     <resources>
         <image name="installer_dark_inset_box" width="33" height="33"/>
+        <image name="installer_scrollview_box" width="11" height="11"/>
     </resources>
 </document>

@@ -379,7 +379,6 @@
 		839310BC147802380020058E /* OECoreDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 839310BB147802380020058E /* OECoreDownload.m */; };
 		83955CB5165D939100572B34 /* BlankSlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB4165D939100572B34 /* BlankSlateView.swift */; };
 		8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */; };
-		83A9758A184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A97589184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift */; };
 		83AAC32914581699005ADD16 /* SetupAssistantBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AAC32814581699005ADD16 /* SetupAssistantBackgroundView.swift */; };
 		83AB259917A6A432009C80BC /* ControlsSectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AB259817A6A432009C80BC /* ControlsSectionTitleView.swift */; };
 		83B04E411968610F00CB985E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3D1968610F00CB985E /* InfoPlist.strings */; };
@@ -1671,7 +1670,6 @@
 		839A38ED196AAFD7001A119A /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A38EE196AAFD7001A119A /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		83A8CD8D1709E1EE00F5D145 /* OEDatabase 0.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.5.xcdatamodel"; sourceTree = "<group>"; };
-		83A97589184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupAssistantScrollBorderView.swift; sourceTree = "<group>"; };
 		83AAC32814581699005ADD16 /* SetupAssistantBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupAssistantBackgroundView.swift; sourceTree = "<group>"; };
 		83AB259817A6A432009C80BC /* ControlsSectionTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsSectionTitleView.swift; sourceTree = "<group>"; };
 		83B04E3E1968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3526,7 +3524,6 @@
 				8F957B4125227175008A9BC9 /* GlossButton.swift */,
 				8FDCE3962520022700277BFA /* GlossCheckboxCell.swift */,
 				83AAC32814581699005ADD16 /* SetupAssistantBackgroundView.swift */,
-				83A97589184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift */,
 				83BABBED1458978B0097F6B2 /* SetupAssistantTableView.swift */,
 			);
 			name = Controls;
@@ -6774,7 +6771,6 @@
 				C68A54E61516AD3C001053F2 /* OEDatabase.xcdatamodeld in Sources */,
 				8F4198B025B68B7500A7F0BE /* OELibraryDatabase+Maintenance.m in Sources */,
 				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,
-				83A9758A184F5EEE00C90DF4 /* SetupAssistantScrollBorderView.swift in Sources */,
 				8356AEF215DA703100AA6B44 /* OEImportOperation.m in Sources */,
 				8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */,
 				8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */,
