@@ -8,9 +8,9 @@
 
 /* Group Labels */
 
-"-" = "-";   // TODO
+"-" = "-";
 
-"3D Control Pad" = "3D Control Pad";   // TODO
+"3D Control Pad" = "3D Control Pad";
 
 "Analog" = "Analógico";
 
@@ -141,7 +141,7 @@
 
 "Mode" = "Modo";
 
-"Mode Switch" = "Mode Switch";   // TODO
+"Mode Switch" = "Selector de modo";
 
 "Option" = "Option";
 

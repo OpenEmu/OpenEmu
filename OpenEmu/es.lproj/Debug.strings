@@ -21,7 +21,7 @@
 
 "Show quicksave states in save state category" = "Mostrar guardado rápido de estados en categoría de estado guardado";
 
-"Toggle game scanner view" = "Mostrar/Ocultar vista de análisis de juego"; //TODO
+"Toggle game scanner view" = "Cambiar a vista de análisis de juego";
 
 "HUD Bar / Gameplay" = "Barra HUD / Modo de juego";
 
@@ -55,7 +55,7 @@
 
 "Set default save states directory" = "Establecer carpeta predeterminada de estados guardados";
 
-"Cleanup autosave state" = "Limpiar estados guardados automaticos";
+"Cleanup autosave state" = "Limpiar estados guardados automáticos";
 
 "Cleanup Save States" = "Limpiar estados guardados";
 
