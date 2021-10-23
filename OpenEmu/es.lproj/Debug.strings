@@ -13,8 +13,6 @@
 
 "Reset main window size" = "Restablecer tamaño de ventana principal";
 
-"Download missing artwork on the fly" = "Descargar carátula no encontrada al instante";
-
 "Show game titles instead of rom names" = "Mostrar títulos de juegos en lugar de nombres de roms";
 
 "Manually choose system on import" = "Elegir sistema manualmente al importar";
@@ -23,15 +21,9 @@
 
 "Show quicksave states in save state category" = "Mostrar guardado rápido de estados en categoría de estado guardado";
 
-"Show game scanner view" = "Mostrar vista de análisis de juego";
-
-"Hide game scanner view" = "Ocultar vista de análisis de juego";
+"Toggle game scanner view" = "Cambiar a vista de análisis de juego";
 
 "HUD Bar / Gameplay" = "Barra HUD / Modo de juego";
-
-"Can delete save states" = "Poder eliminar estados guardados";
-
-"Show options button" = "Mostrar botón opciones";
 
 "Show notifications during gameplay" = "Mostrar notificaciones durante modo de juego";
 
@@ -51,12 +43,6 @@
 
 "Controls Setup" = "Configuración de mandos";
 
-"WiiRemote support (requires relaunch)" = "Compatible WiiRemote (necesita reiniciar)";
-
-"Clicking on image selects button" = "Al hacer clic sobre la imagen marca botón";
-
-"Clicking outside image deselects button" = "Al hacer clic fuera de la imagen desmarca botón";
-
 "Select first field after setting the last" = "Seleccionar primer campo después de configurar el último";
 
 "Draw button mask above image" = "Dibujar máscara sobre imagen del botón";
@@ -65,21 +51,17 @@
 
 "Log Keyboard Events" = "Registro de eventos de teclado";
 
-"Show all global keys" = "Mostrar todas las teclas genéricas";
+"Show all special keys" = "Mostrar todas las teclas especiales";
 
 "Set default save states directory" = "Establecer carpeta predeterminada de estados guardados";
 
-"Choose save states directory…" = "Elegir carpeta de estados guardados…";
-
-"Cleanup autosave state" = "Limpiar estados guardados automaticos";
+"Cleanup autosave state" = "Limpiar estados guardados automáticos";
 
 "Cleanup Save States" = "Limpiar estados guardados";
 
 "OpenVGDB" = "OpenVGDB";
 
 "Update OpenVGDB" = "Actualizar OpenVGDB";
-
-"Cancel OpenVGDB Update" = "Cancelar actualizar OpenVGDB";
 
 "Database Actions" = "Opciones de base de datos";
 

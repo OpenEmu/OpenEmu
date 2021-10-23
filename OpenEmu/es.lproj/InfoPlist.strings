@@ -1,12 +1,12 @@
 
-"Archived Game" = "Archived Game";
+"Archived Game" = "Archived Game";  //TODO
 
-"OpenEmu Core Plugin" = "OpenEmu Core Plugin";
+"OpenEmu Core Plugin" = "Complemento de núcleo de OpenEmu";
 
-"OpenEmu Save State" = "OpenEmu Save State";
+"OpenEmu Save State" = "Estado guardado de OpenEmu";
 
-"OpenEmu System Plugin" = "OpenEmu System Plugin";
+"OpenEmu System Plugin" = "Complemento de sistema de OpenEmu";
 
-"OpenEmu Shader" = "OpenEmu Shader";
+"OpenEmu Shader" = "OpenEmu Shader";  //TODO
 
-"%@ Game" = "%@ Game";  // TODO // Used in OESystemPluginPostInstall to dynamically generate localized file type names
+"%@ Game" = "Juego %@";

@@ -1,7 +1,7 @@
 
 "%@ copy" = "Copia de %@";
 
-"%@ could not be enabled because its plugin was not found." = "%@ no se ha podido activar porque el plugin no se encontró.";
+"%@ could not be enabled because its plugin was not found." = "%@ no se ha podido activar porque el complemento no se encontró.";
 
 "%@ games will appear here. Check out %@ on how to add disc-based games." = "Los juegos de  %@ aparecerán aquí. Consulte %@ sobre como añadir juegos basados en disco.";
 
@@ -99,7 +99,7 @@
 
 "Consolidate" = "Consolidar";
 
-"Consolidating files failed." = "Consolidating files failed."; // TODO
+"Consolidating files failed." = "Error al consolidar archivos.";
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder." = "Consolidar copiará todos los juegos seleccionados en la carpeta biblioteca de OpenEmu.";
 
@@ -109,7 +109,7 @@
 
 "Controls" = "Mandos";
 
-"Copying artwork failed!" = "¡Falló al copiar carátula!";
+"Copying artwork failed!" = "¡Error al copiar carátula!";
 
 "Copying Artwork Files…" = "Copiando archivos de carátulas…";
 
@@ -117,7 +117,7 @@
 
 "Copying ROM Files…" = "Copiando archivos ROM…";
 
-"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+"Copying ROM files failed!" = "¡Error al copiar archivos de ROM!";
 
 "Core Provided By…" = "Núcleo proporcionado por…";
 
@@ -127,7 +127,7 @@
 
 "Could not move library data!" = "¡No ha podido mover los datos de la biblioteca!";
 
-"Couldn't load %@ plugin" = "No ha podido cargar el plugin %@";
+"Couldn't load %@ plugin" = "No ha podido cargar el complemento %@";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Cree una selección personal de juegos. Para añadir a la colección, seleccione un juego de su biblioteca de consolas y arrástrelo a ’%@’ en la izquierda.";
 
@@ -247,11 +247,9 @@
 
 "Invalid cue sheet format:" = "Formato de hoja cue no válido:";
 
-"Invalid gdi format:" = "Invalid gdi format:";  // TODO
+"Invalid gdi format:" = "Formato gdi no válido:";
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Añadir varias líneas de trucos con '+' e.j. 000-000+111-111";
-
-"Keep Files" = "Mantener archivos";
 
 "Keyboard" = "Teclado";
 
@@ -273,15 +271,11 @@
 
 "Missing Core" = "Núcleo no encontrado";
 
-"Missing referenced file:" = "Missing referenced file:";  // TODO
-
-"Move selected game to Trash, or keep it in the Library folder?" = "¿Mover el juego seleccionado a la papelera, o mantenerlo en la carpeta de la biblioteca?";
-
-"Move selected games to Trash, or keep them in the Library folder?" = "¿Mover los juegos seleccionados a la papelera, o mantenerlos en la carpeta de la biblioteca?";
+"Missing referenced file:" = "Archivo referenciado no encontrado:";
 
 "Move to Trash" = "Mover a la papelera";
 
-"Moving Library…" = "Moving Library…";  // TODO
+"Moving Library…" = "Moviendo biblioteca…";
 
 "Must not be compressed:" = "No debe estar comprimido:";
 
@@ -303,7 +297,7 @@
 
 "No Internet Connection" = "No hay conexión a internet";
 
-"No permission to open:" = "No permission to open:";  // TODO
+"No permission to open:" = "No tiene permiso para abrir:";
 
 "No Save States available" = "No hay estados guardados disponibles";
 
@@ -315,7 +309,7 @@
 
 "None" = "Ninguna";
 
-"Not plain text:" = "Not plain text:";  // TODO
+"Not plain text:" = "No es texto plano:";
 
 "OK" = "Aceptar";
 
@@ -373,9 +367,9 @@
 
 "Remove Collection" = "Eliminar colección";
 
-"Remove Game" = "Remove Game";  // TODO
+"Remove Game" = "Borrar juego";
 
-"Remove Games" = "Remove Games";  // TODO
+"Remove Games" = "Borrar juegos";
 
 "Rename \"%@\"" = "Renombrar \"%@\"";
 
@@ -479,7 +473,7 @@
 
 "The OpenEmu Library could not be found." = "La biblioteca de OpenEmu no se ha podido encontrar.";
 
-"The System plugin could not be found!" = "¡El plugin de sistema no se ha podido encontrar!";
+"The System plugin could not be found!" = "¡El complemento de sistema no se ha podido encontrar!";
 
 "this guide" = "esta guía";
 
@@ -497,7 +491,7 @@
 
 "Trash downloaded Files" = "Desechar archivos descargados";
 
-"Unexpected error:" = "Unexpected error:";  // TODO
+"Unexpected error:" = "Error inesperado:";
 
 "Unmute Audio" = "No silenciar audio";
 
@@ -559,15 +553,15 @@
 
 "Quit OpenEmu" = "Salir de OpenEmu";
 
-"The %@ core plugin is deprecated" = "El plugin del núcleo %@ está obsoleto";
+"The %@ core plugin is deprecated" = "El complemento del núcleo %@ está obsoleto";
 
-"The %@ core plugin is deprecated, and will be removed soon" = "El plugin del núcleo %@ está obsoleto, y será borrado pronto";
+"The %@ core plugin is deprecated, and will be removed soon" = "El complemento del núcleo %@ está obsoleto, y será borrado pronto";
 
-"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "Este plugin del núcleo no estará disponible en el futuro. Una vez borrado, cualquier estado guardado creado con él dejará de funcionar.";
+"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "Este complemento del núcleo no estará disponible en el futuro. Una vez borrado, cualquier estado guardado creado con él dejará de funcionar.";
 
-"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "En unos días, este plugin del núcleo va a ser automáticamente borrado. Una vez borrado, cualquier estado guardado creado con él dejará de funcionar.";
+"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "En unos días, este complemento del núcleo va a ser automáticamente borrado. Una vez borrado, cualquier estado guardado creado con él dejará de funcionar.";
 
-"We suggest you switch to the %@ core plugin as soon as possible." = "Le sugerimos cambiar al plugin del núcleo %@ lo antes posible.";
+"We suggest you switch to the %@ core complemento as soon as possible." = "Le sugerimos cambiar al plugin del núcleo %@ lo antes posible.";
 
 "This plugin is currently unsupported" = "This plugin is currently unsupported";  // TODO
 
@@ -607,13 +601,13 @@
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "Los binarios de compresión ECM no se pueden importar. Por favor lea la guía de importación de disco.";
 
-"Files failed to import." = "Files failed to import.";  // TODO
+"Files failed to import." = "Error al importar archivos.";
 
 "\"%@\" in %@" = "\"%1$@\" en %2$@";
 
-"NOT FOUND: \"%@\"" = "NOT FOUND: \"%@\"";  // Import error description: referenced file not found  // TODO
+"NOT FOUND: \"%@\"" = "NO ENCONTRADO: \"%@\"";
 
-"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access.";  // TODO
+"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Elija el menú Apple  > Preferencias del Sistema, haga clic en Seguridad y privacidad después seleccione la pestaña Privacidad. Elimine el permiso de Archivos y carpetas existentes para OpenEmu, si existe, y en cambio otorgue Acceso total al disco.";
 
 "Decrease Grid Size" = "Disminuir tamaño de cuadrícula";
 
@@ -627,20 +621,20 @@
 
 "Not assigned" = "Not assigned"; // TODO, Controls preferences, accessibility title (key is not mapped, “empty”)
 
-"OpenEmu could not download required data from the internet" = "OpenEmu could not download required data from the internet";  // TODO // Setup Assistant
+"OpenEmu could not download required data from the internet" = "OpenEmu no puede descargar datos necesarios desde internet";
 
-"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again.";  // TODO // Setup Assistant
+"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "Ha ocurrido un error al preparar el asistente de configuración. (%@) Asegúrese de estar conectado a internet y vuelva a intentarlo.";
 
-"Retry" = "Retry";  // TODO
+"Retry" = "Volver a intentar";
 
-"Downloading core list..." = "Downloading core list...";  // TODO
+"Downloading core list..." = "Descargando listado de núcleo...";
 
-"The %@ core has quit unexpectedly" = "The %@ core has quit unexpectedly";  // TODO
+"The %@ core has quit unexpectedly" = "El núcleo %@ ha cerrado inesperadamente";
 
-"<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed." = "<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English  // TODO
+"<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed." = "<b>Si y solo si este problema persiste</b>, por favor envíe comentario incluyendo:<br><br><ul><li>El modelo de Mac que está usando <b>y</b> la versión de macOS que ha instalado<ul><li>Esta información se encuentra en  > Acerca de este Mac</li></ul></li><li>El <b>nombre exacto</b> del juego que estaba jugando</li><li>El informe de fallos de OpenEmuHelperApp<ul><li>Abra Console.app, haga clic en \"Crash Reports\" o \"User Reports\" en la barra lateral, luego busque el último documento con OpenEmuHelperApp en el nombre</ul></li></li></ul><br><b>¡Busque siempre un comentario similar anteriormente informado por otros usuarios!</b><br>Si se omite cualquiera de esta información, o si un comentario similar ya ha sido publicado, su informe de problema se puede cerrar.";
 
-"The %@ core has quit unexpectedly after loading a save state" = "The %@ core has quit unexpectedly after loading a save state";  // TODO
+"The %@ core has quit unexpectedly after loading a save state" = "El núcleo %@ ha cerrado inesperadamente después de cargar un estado guardado";
 
-"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?";  // TODO
+"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "A veces puede ocurrir un fallo al cargar un estado guardado debido a incompatibilidades entre diferentes versiones del mismo núcleo. ¿Desea abrir el juego sin cargar un estado guardado?";
 
-"Reopen without loading state" = "Reopen without loading state";  // TODO
+"Reopen without loading state" = "Volver a abrir sin cargar estado";

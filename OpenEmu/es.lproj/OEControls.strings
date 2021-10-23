@@ -1,9 +1,9 @@
 
 /* Preferences: Library (OEPrefLibraryController.xib) */
 
-"Change…" = "Cambiar…";
+"Move..." = "Mover...";
 
-"Reset" = "Restaurar";
+"Move to Default Location" = "Mover a ubicación por defecto";
 
 "Organization Methods:" = "Métodos de organización:";
 
@@ -17,7 +17,7 @@
 
 "Reset all dialog warnings:" = "Restaurar todos los diálogos de advertencia:";
 
-"Reset Warnings" = "Restaurar";
+"Reset Warnings" = "Restaurar advertencias";
 
 
 /* Preferences: Gameplay (OEPrefGameplayController.xib) */
@@ -61,7 +61,7 @@
 
 "Welcome to OpenEmu!" = "¡Bienvenido a OpenEmu!";
 
-"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "El emocionante mundo de los videojuegos está a su alcance. Para ayudarle a empezar, nos gustaría hacerle unas rápidas preguntas que le guiarán a continuación…\n\n• Asegúrese que está ejecutando los plugins de los sistemas adecuados (núcleos).";
+"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "El emocionante mundo de los videojuegos está a su alcance. Para ayudarle a empezar, nos gustaría hacerle unas rápidas preguntas que le guiarán a continuación…\n\n• Asegúrese que está ejecutando los complementos de los sistemas adecuados (núcleos).";
 
 "Click on the ‘Next’ button to begin!" = "¡Haga clic en el botón ‘Siguiente’ para comenzar!";
 
@@ -71,7 +71,7 @@
 
 "Let’s Go!" = "¡Vamos!";
 
-"Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time." = "¡Excelente! ¡Ahora está todo configurado y listo para los juegos!\n\nRecuerde que puede modificar tanto su teclado y los controles del gamepad como los de otros jugadores a través de las preferencias en cualquier momento.";
+"Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time." = "¡Excelente! ¡Ahora está todo configurado y listo para los juegos!\n\nRecuerde que puede modificar tanto su teclado y los controles de los mandos como los de otros jugadores a través de las preferencias en cualquier momento.";
 
 "Click the ‘Go’ button to begin your adventure." = "Haga clic en el botón ‘Continuar’ para comenzar su aventura.";
 
@@ -83,11 +83,6 @@
 /* Shader Parameters (ShaderParameters.xib) */
 
 "Reset All" = "Restablecer todo";
-
-
-/* Library Database Migration (OEMigrationWindowController.xib) */
-
-"Cancel and Quit" = "Cancelar y salir";
 
 
 /* Sidebar Header (OESidebarHeaderView.xib) */
