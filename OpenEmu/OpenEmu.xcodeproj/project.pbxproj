@@ -364,7 +364,6 @@
 		83633447195D798600470AB8 /* OEDBScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 83633446195D798600470AB8 /* OEDBScreenshot.m */; };
 		8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363A439193CBAFA00F18425 /* OEGridMediaItemCell.m */; };
 		836AEA711975BFE100B86935 /* OEGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA701975BFE100B86935 /* OEGridCell.m */; };
-		836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */; };
 		836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9591853817500B6AF26 /* OEGameInfoHelper.m */; };
 		8370D3E11A8D2A7600313F87 /* ArrowCursorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */; };
 		83753F1A14F5383F00D708A7 /* PrefDebugController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83753F1914F5383F00D708A7 /* PrefDebugController.xib */; };
@@ -484,6 +483,7 @@
 		8F94DED4250ED838003A1F33 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94DED3250ED838003A1F33 /* PreviewViewController.swift */; };
 		8F957B4225227175008A9BC9 /* GlossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F957B4125227175008A9BC9 /* GlossButton.swift */; };
 		8F99F816256BF358007B83E1 /* SidebarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F99F815256BF358007B83E1 /* SidebarController.xib */; };
+		8FA87C5A2725F25500B65986 /* SQLiteDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9561853815A00B6AF26 /* SQLiteDatabase.swift */; };
 		8FAD320225B31FB100323020 /* URL+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAD320125B31FB000323020 /* URL+OEAdditions.swift */; };
 		8FAF08D8251FB65D00EDB247 /* HoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF069A251FB02700EDB247 /* HoverButton.swift */; };
 		8FB8A29526E296BD00F2B626 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD1F1BD3AC3D0025BC6C /* SidebarItem.swift */; };
@@ -1635,8 +1635,7 @@
 		8363A440193CF41200F18425 /* IKOpenGLRoundedRectRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKOpenGLRoundedRectRenderer.h; sourceTree = "<group>"; };
 		836AEA6F1975BFE100B86935 /* OEGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridCell.h; sourceTree = "<group>"; };
 		836AEA701975BFE100B86935 /* OEGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridCell.m; sourceTree = "<group>"; };
-		836BC9551853815A00B6AF26 /* OESQLiteDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESQLiteDatabase.h; sourceTree = "<group>"; };
-		836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESQLiteDatabase.m; sourceTree = "<group>"; };
+		836BC9561853815A00B6AF26 /* SQLiteDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
 		836BC9581853817500B6AF26 /* OEGameInfoHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameInfoHelper.h; sourceTree = "<group>"; };
 		836BC9591853817500B6AF26 /* OEGameInfoHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameInfoHelper.m; sourceTree = "<group>"; };
 		8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowCursorTextView.swift; sourceTree = "<group>"; };
@@ -3466,8 +3465,7 @@
 			children = (
 				836BC9581853817500B6AF26 /* OEGameInfoHelper.h */,
 				836BC9591853817500B6AF26 /* OEGameInfoHelper.m */,
-				836BC9551853815A00B6AF26 /* OESQLiteDatabase.h */,
-				836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */,
+				836BC9561853815A00B6AF26 /* SQLiteDatabase.swift */,
 			);
 			name = GameInfo;
 			sourceTree = "<group>";
@@ -6789,6 +6787,7 @@
 				5AC349311D89E4EB0089B26F /* NSDocumentController+Additions.swift in Sources */,
 				832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */,
 				836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */,
+				8FA87C5A2725F25500B65986 /* SQLiteDatabase.swift in Sources */,
 				0544B68923D14E6300F63D61 /* SidebarController.swift in Sources */,
 				83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */,
 				5A79F7951C15F542003124D5 /* PreferencesWindowController.swift in Sources */,
@@ -6798,7 +6797,6 @@
 				05E789A723D01B16000E14EE /* GameDocumentController.swift in Sources */,
 				5A886E581BF43AC900775123 /* NSWindow+Image.swift in Sources */,
 				05E789AB23D0256D000E14EE /* NSBindingName+Additions.swift in Sources */,
-				836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */,
 				0544B6A923D16DDC00F63D61 /* ScreenshotViewController.swift in Sources */,
 				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,
 				8F419A0325B6C7AE00A7F0BE /* OEAppearance.m in Sources */,
