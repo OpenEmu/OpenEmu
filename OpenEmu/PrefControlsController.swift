@@ -117,7 +117,7 @@ final class PrefControlsController: NSViewController {
     // MARK: - ViewController Overrides
     
     override var nibName: NSNib.Name? {
-        if UserDefaults.standard.integer(forKey: OEAppearance.ControlsPrefs.key) == OEAppearance.ControlsPrefs.wood.rawValue {
+        if OEAppearance.controlsPrefs == .wood {
             return "PrefControlsController"
         } else {
             return "PrefControlsController2"
@@ -152,13 +152,13 @@ final class PrefControlsController: NSViewController {
         changeSystem(consolesPopupButton)
         CATransaction.commit()
         
-        if UserDefaults.standard.integer(forKey: OEAppearance.ControlsPrefs.key) == OEAppearance.ControlsPrefs.wood.rawValue {
+        if OEAppearance.controlsPrefs == .wood {
             gradientOverlay.topColor = NSColor(deviceWhite: 0, alpha: 0.3)
             gradientOverlay.bottomColor = NSColor(deviceWhite: 0, alpha: 0)
             
             controlsContainer.enclosingScrollView?.appearance = NSAppearance(named: .aqua)
         }
-        else if UserDefaults.standard.integer(forKey: OEAppearance.ControlsPrefs.key) == OEAppearance.ControlsPrefs.woodVibrant.rawValue {
+        else if OEAppearance.controlsPrefs == .woodVibrant {
             veView.blendingMode = .withinWindow
             veView.state = .active
         }
@@ -740,7 +740,7 @@ extension PrefControlsController: PreferencePane {
     var panelTitle: String { "Controls" }
     
     var viewSize: NSSize {
-        if UserDefaults.standard.integer(forKey: OEAppearance.ControlsPrefs.key) == OEAppearance.ControlsPrefs.wood.rawValue {
+        if OEAppearance.controlsPrefs == .wood {
             return NSSize(width: 755, height: 450)
         } else {
             return view.fittingSize

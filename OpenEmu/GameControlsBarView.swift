@@ -30,14 +30,6 @@ final class GameControlsBarView: NSView {
     private var fullScreenButton: NSButton!
     private var pauseButton: NSButton!
     
-    private let barAppearance: OEAppearance.HUDBar = {
-        if UserDefaults.standard.integer(forKey: OEAppearance.HUDBar.key) == OEAppearance.HUDBar.vibrant.rawValue {
-            return .vibrant
-        } else {
-            return .dark
-        }
-    }()
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -53,7 +45,7 @@ final class GameControlsBarView: NSView {
     }
     
     override func draw(_ dirtyRect: NSRect) {
-        if barAppearance == .dark {
+        if OEAppearance.hudBar == .dark {
             NSImage(named: "hud_bar")?.draw(in: bounds)
         } else {
             super.draw(dirtyRect)
@@ -187,7 +179,7 @@ final class GameControlsBarView: NSView {
         
         
         // MARK: Y axis
-        let constant: CGFloat = barAppearance == .vibrant ? 0 : -2
+        let constant: CGFloat = OEAppearance.hudBar == .vibrant ? 0 : -2
         for view in subviews {
             constraints.append(view.centerYAnchor.constraint(equalTo: centerYAnchor, constant: constant))
         }

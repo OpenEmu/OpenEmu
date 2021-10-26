@@ -88,7 +88,7 @@ final class GameControlsBar: NSWindow {
     }
     
     convenience init(gameViewController controller: GameViewController) {
-        let useNew = UserDefaults.standard.integer(forKey: OEAppearance.HUDBar.key) == OEAppearance.HUDBar.vibrant.rawValue
+        let useNew = OEAppearance.hudBar == .vibrant
         
         var barRect: NSRect
         if useNew {

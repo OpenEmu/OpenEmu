@@ -36,7 +36,7 @@ class ControlsLabel: NSTextField {
         commonInit()
     }
     
-    let isWood = UserDefaults.standard.integer(forKey: OEAppearance.ControlsPrefs.key) == OEAppearance.ControlsPrefs.wood.rawValue
+    let isWood = OEAppearance.controlsPrefs == .wood
     
     private func commonInit() {
         
@@ -60,14 +60,13 @@ class ControlsLabel: NSTextField {
     }
     
     override func draw(_ dirtyRect: NSRect) {
-        
         guard isWood else { return super.draw(dirtyRect) }
         
         let attributedString = attributedStringValue.mutableCopy() as! NSMutableAttributedString
         attributedString.addAttributes([.shadow : NSShadow.oeControls], range: NSRange(location: 0, length: attributedString.length))
         attributedStringValue = attributedString
         
-        return super.draw(dirtyRect)
+        super.draw(dirtyRect)
     }
 }
 

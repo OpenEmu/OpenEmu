@@ -22,7 +22,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-struct OEAppearance {
+enum OEAppearance {
     
     enum Application: Int {
         case system, dark, light
@@ -37,5 +37,17 @@ struct OEAppearance {
     enum ControlsPrefs: Int {
         case wood, vibrant, woodVibrant
         static var key = "OEControlsPrefsAppearance"
+    }
+    
+    static var application: Application {
+        Application(rawValue: UserDefaults.standard.integer(forKey: Application.key)) ?? .dark
+    }
+    
+    static var hudBar: HUDBar {
+        HUDBar(rawValue: UserDefaults.standard.integer(forKey: HUDBar.key)) ?? .vibrant
+    }
+    
+    static var controlsPrefs: ControlsPrefs {
+        ControlsPrefs(rawValue: UserDefaults.standard.integer(forKey: ControlsPrefs.key)) ?? .wood
     }
 }

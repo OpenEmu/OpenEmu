@@ -518,8 +518,7 @@ class AppDelegate: NSObject {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
         if context == &appearancePrefChangedKVOContext {
-            let pref = OEAppearance.Application(rawValue: UserDefaults.standard.integer(forKey: OEAppearance.Application.key))
-            switch pref {
+            switch OEAppearance.application {
                 case .dark:
                     NSApp.appearance = NSAppearance(named: .darkAqua)
                 case .light:
