@@ -310,7 +310,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     if(download != nil)
     {
         NSString *coreName = [download name];
-        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"To launch the save state %@ you will need to install the '%@' Core", @""), [state name], coreName];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"To launch the save state %@ you will need to install the '%@' Core", @""), [state displayName], coreName];
         [self installCoreWithDownload:download message:message completionHandler:handler];
     }
     else
