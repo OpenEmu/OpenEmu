@@ -53,7 +53,11 @@ final class SQLiteDatabase: NSObject {
     
     @objc(executeQuery:error:)
     func executeQuery(_ sql: String) throws -> [NSMutableDictionary] {
+        #if swift(>=5.5)
         lazy var result = [NSMutableDictionary]()
+        #else
+        var result = [NSMutableDictionary]()
+        #endif
         
         try DispatchQueue(label: "org.openemu.OpenEmu.SQLiteDatabase").sync {
             var stmt: OpaquePointer?
