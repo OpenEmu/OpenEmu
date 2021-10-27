@@ -87,6 +87,7 @@ extension OEGameDocument {
         }
     }
     
+//    private var _handleEvents = false
     var handleEvents: Bool {
         get {
             _handleEvents
@@ -97,10 +98,11 @@ extension OEGameDocument {
             }
             
             _handleEvents = newValue
-            gameCoreManager.setHandleEvents(newValue)
+            gameCoreManager?.setHandleEvents(newValue)
         }
     }
     
+//    private var _handleKeyboardEvents = false
     var handleKeyboardEvents: Bool {
         get {
             _handleKeyboardEvents
@@ -111,7 +113,7 @@ extension OEGameDocument {
             }
             
             _handleKeyboardEvents = newValue
-            gameCoreManager.setHandleKeyboardEvents(newValue)
+            gameCoreManager?.setHandleKeyboardEvents(newValue)
         }
     }
     
@@ -122,6 +124,13 @@ extension OEGameDocument {
         }
     }
     
+    // MARK: - NSDocument
+    
+    open
+    override var description: String {
+        return "<\(Self.self) \(Unmanaged.passUnretained(self).toOpaque()), ROM: '\(rom?.game?.displayName ?? "nil")', System: '\(systemPlugin?.systemIdentifier ?? "nil")', Core: '\(corePlugin?.bundleIdentifier ?? "nil")'>"
+    }
+    
     open
     override var displayName: String! {
         get {
@@ -130,7 +139,7 @@ extension OEGameDocument {
             // including untitled (new) documents.
             var displayName = rom.game?.displayName ?? ""
             #if DEBUG
-            displayName = displayName + " (DEBUG BUILD)"
+            displayName.append(" (DEBUG BUILD)")
             #endif
             return displayName
         }
@@ -147,6 +156,59 @@ extension OEGameDocument {
             return false
         }
         return emulationStatus == .playing || emulationStatus == .paused
+    }
+    
+    open
+    override func data(ofType typeName: String) throws -> Data {
+        DLog("\(typeName)")
+        throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+    }
+    
+    open
+    override func canClose(withDelegate delegate: Any, shouldClose shouldCloseSelector: Selector?, contextInfo: UnsafeMutableRawPointer?) {
+        if emulationStatus == .notSetup || emulationStatus == .terminating {
+            super.canClose(withDelegate: delegate, shouldClose: shouldCloseSelector, contextInfo: contextInfo)
+            return
+        }
+        
+        pauseEmulationIfNeeded()
+        
+        if !shouldTerminateEmulation {
+            let shouldClose = {
+                guard let shouldCloseSelector = shouldCloseSelector else { return }
+                let Class: AnyClass = type(of: delegate as AnyObject)
+                let method = class_getMethodImplementation(Class, shouldCloseSelector)
+                
+                typealias Signature = @convention(c) (Any, Selector, AnyObject, Bool, UnsafeMutableRawPointer?) -> Void
+                let function = unsafeBitCast(method, to: Signature.self)
+                
+                function(delegate, shouldCloseSelector, self, false, contextInfo)
+            }
+            shouldClose()
+            return
+        }
+        
+        saveState(name: OESaveStateAutosaveName) {
+            self.emulationStatus = .terminating
+            // TODO: #567 and #568 need to be fixed first
+            //removeDeviceNotificationObservers()
+            
+            self.gameCoreManager.stopEmulation() {
+                DLog("Emulation stopped")
+                OEBindingsController.default.systemBindings(for: self.systemPlugin.controller).remove(self)
+                
+                self.emulationStatus = .notSetup
+                
+                self.gameCoreManager = nil
+                
+                if let lastPlayStartDate = self.lastPlayStartDate {
+                    self.rom.addTimeInterval(toPlayTime: abs(lastPlayStartDate.timeIntervalSinceNow))
+                }
+                self.lastPlayStartDate = nil
+                
+                super.canClose(withDelegate: delegate, shouldClose: shouldCloseSelector, contextInfo: contextInfo)
+            }
+        }
     }
     
     // MARK: - Setup
@@ -184,8 +246,8 @@ extension OEGameDocument {
                 self.rom.markAsPlayedNow()
                 self.lastPlayStartDate = Date()
                 
-                if self.saveStateForGameStart != nil {
-                    self.loadState(state: self.saveStateForGameStart!)
+                if let saveStateForGameStart = self.saveStateForGameStart {
+                    self.loadState(state: saveStateForGameStart)
                     self.saveStateForGameStart = nil
                 }
                 
@@ -201,22 +263,25 @@ extension OEGameDocument {
             }
         }, errorHandler: { error in
             self.emulationStatus = .notSetup
-            if self.romDecompressed {
-                try? FileManager.default.removeItem(atPath: self.romPath)
+            if self.romDecompressed,
+               let romPath = self.romPath {
+                try? FileManager.default.removeItem(atPath: romPath)
             }
             OEBindingsController.default.systemBindings(for: self.systemPlugin.controller).remove(self)
             self.gameCoreManager = nil
             self.stopEmulation(self)
             
-            if ((error as NSError).domain == NSCocoaErrorDomain) && NSXPCConnectionErrorMinimum <= (error as NSError).code && (error as NSError).code <= NSXPCConnectionErrorMaximum {
-                let rootError = error as NSError
+            let rootError = error as NSError
+            if rootError.domain == NSCocoaErrorDomain,
+               rootError.code >= NSXPCConnectionErrorMinimum,
+               rootError.code <= NSXPCConnectionErrorMaximum {
                 let error = NSError(domain: OEGameDocumentErrorDomain,
                                     code: OEGameDocumentErrorCodes.gameCoreCrashedError.rawValue,
                                     userInfo: [
                                         "corePlugin": self.corePlugin as Any,
                                         "systemIdentifier": self.systemIdentifier as Any,
                                         NSUnderlyingErrorKey: rootError
-                ])
+                                    ])
                 handler(false, error)
                 return
             }
@@ -243,6 +308,78 @@ extension OEGameDocument {
                 }
                 
                 completionHandler()
+            }
+        }
+    }
+    
+    @objc(_newGameCoreManagerWithCorePlugin:)
+    /*private*/func newGameCoreManager(with corePlugin: OECorePlugin) -> OEGameCoreManager {
+        self.corePlugin = corePlugin
+        
+        var path = romFileURL.path
+        let lastDisplayModeInfo = UserDefaults.standard.object(forKey: String(format: OEGameCoreDisplayModeKeyFormat, corePlugin.bundleIdentifier)) as? [String : Any]
+        // if file is in an archive append :entryIndex to path, so the core manager can figure out which entry to load
+        if let index = rom.archiveFileIndex as? Int {
+            path.append(":\(index)")
+        }
+        
+        // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
+        let ext = URL(fileURLWithPath: path).pathExtension.lowercased()
+        if systemPlugin.systemIdentifier != "openemu.system.arcade",
+           ext != "md", ext != "nds", ext != "iso" {
+            var romDecompressed = ObjCBool(romDecompressed)
+            path = OEDecompressFileInArchiveAtPathWithHash(path, rom.md5, &romDecompressed)
+            self.romDecompressed = romDecompressed.boolValue
+            romPath = path
+        }
+        
+        let shader = OEShadersModel.shared.shader(forSystem: systemIdentifier)!
+        let params = shader.parameters(forIdentifier: systemPlugin.systemIdentifier) ?? [:]
+        
+        let info = OEGameStartupInfo(romPath: path,
+                                     romMD5: rom.md5 ?? "",
+                                     romHeader: rom.header ?? "",
+                                     romSerial: rom.serial ?? "",
+                                     systemRegion: OELocalizationHelper.shared.regionName,
+                                     displayModeInfo: lastDisplayModeInfo,
+                                     shader: shader.url,
+                                     shaderParameters: params as [String : NSNumber],
+                                     corePluginPath: corePlugin.path,
+                                     systemPluginPath: systemPlugin.path)
+        
+        if let managerClassName = UserDefaults.standard.string(forKey: OEGameCoreManagerModePreferenceKey),
+           let managerClass = NSClassFromString(managerClassName),
+           managerClass == OEThreadGameCoreManager.self {
+            return OEThreadGameCoreManager(startupInfo: info, corePlugin: corePlugin, systemPlugin: systemPlugin, gameCoreOwner: self)
+        } else {
+            return OEXPCGameCoreManager(startupInfo: info, corePlugin: corePlugin, systemPlugin: systemPlugin, gameCoreOwner: self)
+        }
+    }
+    
+    @objc(OE_coreForSystem:error:)
+    /*private*/func core(forSystem system: OESystemPlugin) throws -> OECorePlugin {
+        let systemIdentifier = system.systemIdentifier!
+        var validPlugins = OECorePlugin.corePlugins(forSystemIdentifier: systemIdentifier)!
+        
+        if validPlugins.isEmpty {
+            throw NSError(domain: OEGameDocumentErrorDomain,
+                          code: OEGameDocumentErrorCodes.noCoreError.rawValue,
+                          userInfo: [
+                            NSLocalizedFailureReasonErrorKey: NSLocalizedString("OpenEmu could not find a Core to launch the game", comment: "No Core error reason."),
+                            NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString("Make sure your internet connection is active and download a suitable core.", comment: "No Core error recovery suggestion.")
+                          ])
+        }
+        else if validPlugins.count == 1 {
+            return validPlugins.first!
+        }
+        else {
+            let defaults = UserDefaults.standard
+            if let coreIdentifier = defaults.string(forKey: "defaultCore.\(systemIdentifier)"),
+               let core = OECorePlugin(bundleIdentifier: coreIdentifier) {
+                return core
+            } else {
+                validPlugins.sort { $0.displayName.caseInsensitiveCompare($1.displayName) == .orderedAscending }
+                return validPlugins.first!
             }
         }
     }
@@ -285,7 +422,6 @@ extension OEGameDocument {
                 var systemKeyGlitchInfo: [String : Bool] = [:]
                 for (key, value) in glitchInfo {
                     systemKeyGlitchInfo[key] = value
-                    
                 }
                 systemKeyGlitchInfo[systemKey] = true
                 
@@ -539,7 +675,7 @@ extension OEGameDocument {
                 emulationStatus = .playing
             }
             
-            gameCoreManager.setPauseEmulation(pauseEmulation)
+            gameCoreManager?.setPauseEmulation(pauseEmulation)
             gameViewController.reflectEmulationPaused(pauseEmulation)
         }
     }
@@ -658,7 +794,7 @@ extension OEGameDocument {
         let takeNativeScreenshots = defaults.bool(forKey: OETakeNativeScreenshots)
         let disableAspectRatioFix = defaults.bool(forKey: OEScreenshotAspectRatioCorrectionDisabled)
         
-        if takeNativeScreenshots || (((sender as? NSMenuItem)?.tag == 1)) {
+        if takeNativeScreenshots || ((sender as? NSMenuItem)?.tag == 1) {
             gameCoreManager.captureSourceImage() { image in
                 var image = image
                 if !disableAspectRatioFix {
@@ -712,7 +848,6 @@ extension OEGameDocument {
         } else if let obj = sender.representedObject as? OEAudioDevice {
             device = obj
         } else {
-            assertionFailure("Invalid argument passed: \(String(describing: sender))")
             return
         }
         
@@ -915,6 +1050,179 @@ extension OEGameDocument {
         changeDisplayMode(directionReversed: true)
     }
     
+    /// expects `sender` or `sender.representedObject` to be a `Dictionary<String, Any>` object
+    @IBAction func changeDisplayMode(_ sender: Any) {
+        let fromMenu: Bool
+        let modeDict: [String : Any]
+        if let obj = (sender as AnyObject).representedObject as? [String : Any] {
+            fromMenu = true
+            modeDict = obj
+        } else if let sender = sender as? [String : Any] {
+            fromMenu = false
+            modeDict = sender
+        } else {
+            return
+        }
+        
+        let isSelected   = modeDict[OEGameCoreDisplayModeStateKey] as? Bool ?? false
+        let isToggleable = modeDict[OEGameCoreDisplayModeAllowsToggleKey] as? Bool ?? false
+        let isPrefSaveDisallowed = modeDict[OEGameCoreDisplayModeDisallowPrefSaveKey] as? Bool ?? false
+        let isManual     = modeDict[OEGameCoreDisplayModeManualOnlyKey] as? Bool ?? false
+        
+        // Mutually exclusive option is already selected, do nothing
+        if isSelected && !isToggleable {
+            return
+        }
+        
+        let displayModeKeyForCore = String(format: OEGameCoreDisplayModeKeyFormat, corePlugin.bundleIdentifier)
+        let prefKey  = modeDict[OEGameCoreDisplayModePrefKeyNameKey] as? String ?? ""
+        let prefVal  = modeDict[OEGameCoreDisplayModePrefValueNameKey] as? String ?? ""
+        let modeName = modeDict[OEGameCoreDisplayModeNameKey] as? String ?? ""
+        let defaults = UserDefaults.standard
+        var displayModeInfo: [String : Any]
+        
+        // Copy existing prefs
+        displayModeInfo = defaults.dictionaryRepresentation()[displayModeKeyForCore] as? [String : Any] ?? [:]
+        
+        // Mutually exclusive option is unselected
+        if !isToggleable {
+            displayModeInfo[prefKey] = !prefVal.isEmpty ? prefVal : modeName
+            if fromMenu && !isManual {
+                lastSelectedDisplayModeOption = modeName
+            }
+        }
+        // Toggleable option, swap YES/NO
+        else if isToggleable {
+            displayModeInfo[prefKey] = !isSelected
+        }
+        
+        if !isPrefSaveDisallowed {
+            defaults.set(displayModeInfo, forKey: displayModeKeyForCore)
+        }
+        
+        gameCoreManager.changeDisplay(withMode: modeName)
+    }
+    
+    private func changeDisplayMode(directionReversed reverse: Bool) {
+        var availableOptions: [[String : Any]] = []
+        var mode: String
+        var isToggleable: Bool
+        var isSelected: Bool
+        var isManual: Bool
+        
+        for optionsDict in gameViewController.displayModes {
+            mode         = optionsDict[OEGameCoreDisplayModeNameKey] as? String ?? ""
+            isToggleable = optionsDict[OEGameCoreDisplayModeAllowsToggleKey] as? Bool ?? false
+            isSelected   = optionsDict[OEGameCoreDisplayModeStateKey] as? Bool ?? false
+            isManual     = optionsDict[OEGameCoreDisplayModeManualOnlyKey] as? Bool ?? false
+            
+            if optionsDict[OEGameCoreDisplayModeSeparatorItemKey] != nil ||
+                optionsDict[OEGameCoreDisplayModeLabelKey] != nil ||
+                isManual {
+                continue
+            }
+            else if !mode.isEmpty && !isToggleable {
+                availableOptions.append(optionsDict)
+                
+                // There may be multiple, but just take the first selected and start from the top
+                if lastSelectedDisplayModeOption == nil && isSelected {
+                    lastSelectedDisplayModeOption = mode
+                }
+            }
+            else if optionsDict[OEGameCoreDisplayModeGroupNameKey] != nil {
+                // Submenu Items
+                for subOptionsDict in optionsDict[OEGameCoreDisplayModeGroupItemsKey] as? [[String : Any]] ?? [] {
+                    mode         = subOptionsDict[OEGameCoreDisplayModeNameKey] as? String ?? ""
+                    isToggleable = subOptionsDict[OEGameCoreDisplayModeAllowsToggleKey] as? Bool ?? false
+                    isSelected   = subOptionsDict[OEGameCoreDisplayModeStateKey] as? Bool ?? false
+                    isManual     = subOptionsDict[OEGameCoreDisplayModeManualOnlyKey] as? Bool ?? false
+                    
+                    if subOptionsDict[OEGameCoreDisplayModeSeparatorItemKey] != nil ||
+                        subOptionsDict[OEGameCoreDisplayModeLabelKey] != nil ||
+                        isManual {
+                        continue
+                    }
+                    else if !mode.isEmpty && !isToggleable {
+                        availableOptions.append(subOptionsDict)
+                        
+                        if lastSelectedDisplayModeOption == nil && isSelected {
+                            lastSelectedDisplayModeOption = mode
+                        }
+                    }
+                }
+                
+                continue
+            }
+        }
+        
+        // Reverse
+        if reverse {
+            availableOptions.reverse()
+        }
+        
+        // If there are multiple mutually-exclusive groups of modes we want to enumerate
+        // all the combinations.
+        
+        // List of pref keys used by each group of mutually exclusive modes
+        var prefKeys: [String] = []
+        // Index of the currently selected mode for each group
+        var prefKeyToSelected: [String : Int] = [:]
+        // Indexes of the modes that are part of the same group
+        var prefKeyToOptions: [String : NSMutableIndexSet] = [:]
+        
+        var i = 0
+        for optionsDict in availableOptions {
+            let prefKey = optionsDict[OEGameCoreDisplayModePrefKeyNameKey] as? String ?? ""
+            let name = optionsDict[OEGameCoreDisplayModeNameKey] as? String ?? ""
+            
+            if name == lastSelectedDisplayModeOption {
+                // Put the group of the last mode manually selected by the user in front of the list
+                // This way the options of this group will be cycled through first
+                if let index = prefKeys.firstIndex(of: prefKey) {
+                    prefKeys.remove(at: index)
+                }
+                prefKeys.insert(prefKey, at: 0)
+            }
+            else if !prefKeys.contains(prefKey) {
+                // Prioritize cycling all other modes in the order that they appear
+                prefKeys.append(prefKey)
+            }
+            
+            if optionsDict[OEGameCoreDisplayModeStateKey] as? Bool ?? false {
+                prefKeyToSelected[prefKey] = i
+            }
+            
+            var optionsIndexes = prefKeyToOptions[prefKey]
+            if optionsIndexes == nil {
+                optionsIndexes = NSMutableIndexSet()
+                prefKeyToOptions[prefKey] = optionsIndexes
+            }
+            optionsIndexes?.add(i)
+            
+            i += 1
+        }
+        
+        for prefKey in prefKeys {
+            let current = prefKeyToSelected[prefKey]!
+            let options = prefKeyToOptions[prefKey]!
+            
+            var carry = false
+            var next = options.indexGreaterThanIndex(current)
+            if next == NSNotFound {
+                // Finished cycling through this mode; advance to the next one
+                carry = true
+                next = options.firstIndex
+            }
+            
+            let nextMode = availableOptions[next]
+            changeDisplayMode(nextMode)
+            
+            if !carry {
+                break
+            }
+        }
+    }
+    
     // MARK: - Saving States
     
     var supportsSaveStates: Bool {
@@ -976,6 +1284,73 @@ extension OEGameDocument {
         }
     }
     
+    private func saveState(name stateName: String, completionHandler handler: (() -> Void)? = nil) {
+        guard
+            supportsSaveStates,
+            emulationStatus.rawValue > OEEmulationStatus.starting.rawValue,
+            let rom = rom
+        else {
+            handler?()
+            return
+        }
+        
+        let temporaryDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory())
+        var temporaryStateFileURL = URL(string: UUID().uuidString, relativeTo: temporaryDirectoryURL)!
+        let core = gameCoreManager.plugin!
+        
+        temporaryStateFileURL = (temporaryStateFileURL as NSURL).uniqueURL { triesCount in
+            return NSURL(string: UUID().uuidString, relativeTo: temporaryDirectoryURL)!
+        } as URL
+        
+        gameCoreManager.saveStateToFile(atPath: temporaryStateFileURL.path) { success, error in
+            if !success {
+                NSLog("Could not create save state file at url: \(temporaryStateFileURL)")
+                
+                handler?()
+                return
+            }
+            
+            var state: OEDBSaveState!
+            if stateName.hasPrefix(OESaveStateSpecialNamePrefix) {
+                state = rom.saveState(withName: stateName)
+                state?.coreIdentifier = core.bundleIdentifier
+                state?.coreVersion = core.version
+            }
+            
+            if state == nil {
+                let context = OELibraryDatabase.default!.mainThreadContext
+                state = OEDBSaveState.createSaveStateNamed(stateName, for: rom, core: core, withFile: temporaryStateFileURL, in: context)
+            } else {
+                state.replaceFile(withFile: temporaryStateFileURL)
+                state.timestamp = Date()
+            }
+            
+            state.save()
+            let mainContext = state?.managedObjectContext
+            mainContext?.perform {
+                try? mainContext?.save()
+            }
+            
+            let defaults = UserDefaults.standard
+            let type = NSBitmapImageRep.FileType(rawValue: UInt(defaults.integer(forKey: OEScreenshotFileFormatKey)))!
+            let properties = defaults.dictionary(forKey: OEScreenshotPropertiesKey) as! [NSBitmapImageRep.PropertyKey : Any]
+            
+            self.gameCoreManager.captureSourceImage() { image in
+                let newSize = self.gameViewController.defaultScreenSize
+                let image = image.resized(newSize) ?? image
+                let convertedData = image.representation(using: type, properties: properties)
+                DispatchQueue.main.async {
+                    do {
+                        try convertedData?.write(to: state.screenshotURL, options: .atomic)
+                    } catch {
+                        NSLog("Could not create screenshot at url: \(state.screenshotURL) with error: \(error)")
+                    }
+                    handler?()
+                }
+            }
+        }
+    }
+    
     // MARK: - Loading States
     
     /// expects `sender` or `sender.representedObject` to be an `OEDBSaveState` object
@@ -1014,8 +1389,7 @@ extension OEGameDocument {
         }
         
         let loadState: (() -> Void) = {
-            self.gameCoreManager.loadStateFromFile(
-                atPath: state.dataFileURL.path) { success, error in
+            self.gameCoreManager.loadStateFromFile(atPath: state.dataFileURL.path) { success, error in
                 if !success {
                     if let error = error {
                         self.presentError(error)
@@ -1027,7 +1401,7 @@ extension OEGameDocument {
             }
         }
         
-        if self.gameCoreManager.plugin?.bundleIdentifier == state.coreIdentifier {
+        if gameCoreManager.plugin?.bundleIdentifier == state.coreIdentifier {
             loadState()
             return
         }
@@ -1085,7 +1459,7 @@ extension OEGameDocument {
     }
 }
 
-// MARK: -  NSMenuItemValidation
+// MARK: - NSMenuItemValidation
 
 extension OEGameDocument {
     

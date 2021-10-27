@@ -55,20 +55,17 @@ typedef NS_ERROR_ENUM(OEGameDocumentErrorDomain, OEGameDocumentErrorCodes)
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core error:(NSError **)outError;
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
 
-@property(readonly) OEDBRom *rom;
-@property(readonly) NSURL   *romFileURL;
-@property(readonly) OECorePlugin *corePlugin;
-@property(readonly) OESystemPlugin *systemPlugin;
+@property(/*readonly*/) OEDBRom *rom;
+@property(/*readonly*/) NSURL   *romFileURL;
+@property(/*readonly*/) OECorePlugin *corePlugin;
+@property(/*readonly*/) OESystemPlugin *systemPlugin;
 
-@property(readonly) OEGameViewController *gameViewController;
+@property(/*readonly*/) OEGameViewController *gameViewController;
 
 @property(nonatomic) NSWindowController *_gameWindowController;
 
 @property(nonatomic) BOOL _handleEvents;
 @property(nonatomic) BOOL _handleKeyboardEvents;
-
-#pragma mark - Display Mode
-- (void)changeDisplayMode:(id)sender;
 
 #pragma mark - Private
 
@@ -89,10 +86,6 @@ typedef NS_ENUM(NSUInteger, OEEmulationStatus)
     /// After emulation stops, but before OEGameCoreManager is deallocated
     OEEmulationStatusTerminating,
 };
-
-- (OEGameCoreManager *)_newGameCoreManagerWithCorePlugin:(OECorePlugin *)corePlugin NS_SWIFT_NAME(newGameCoreManager(with:));
-- (void)OE_changeDisplayModeWithDirectionReversed:(BOOL)flag NS_SWIFT_NAME(changeDisplayMode(directionReversed:));
-- (void)OE_saveStateWithName:(NSString *)stateName completionHandler:(void(^)(void))handler NS_SWIFT_NAME(saveState(name:completionHandler:));
 
 // former ivars
 @property OEGameCoreManager  *gameCoreManager;

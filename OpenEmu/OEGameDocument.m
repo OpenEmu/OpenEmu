@@ -58,7 +58,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 // Helper to call a method with this signature:
 // - (void)document:(NSDocument *)doc shouldClose:(BOOL)shouldClose  contextInfo:(void  *)contextInfo
-#define CAN_CLOSE_REPLY ((void(*)(id, SEL, NSDocument *, BOOL, void *))objc_msgSend)
+//#define CAN_CLOSE_REPLY ((void(*)(id, SEL, NSDocument *, BOOL, void *))objc_msgSend)
 
 @implementation OEGameDocument
 
@@ -100,10 +100,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     return self;
 }
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<%@ %p, ROM: '%@', System: '%@', Core: '%@'>", [self class], self, [[[self rom] game] displayName], [_systemPlugin systemIdentifier], [_corePlugin bundleIdentifier]];
-}
+//- (NSString *)description
 
 //- (NSString *)coreIdentifier;
 //- (NSString *)systemIdentifier;
@@ -250,88 +247,8 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 }
 
 //- (void)OE_setupGameCoreManagerUsingCorePlugin:(OECorePlugin *)core completionHandler:(void(^)(void))completionHandler
-
-- (OEGameCoreManager *)_newGameCoreManagerWithCorePlugin:(OECorePlugin *)corePlugin
-{
-    if(corePlugin == nil)
-        return nil;
-    
-    NSString *managerClassName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameCoreManagerModePreferenceKey];
-    
-    Class managerClass = NSClassFromString(managerClassName);
-    if(managerClass != [OEThreadGameCoreManager class])
-        managerClass = [OEXPCGameCoreManager class];
-    
-    _corePlugin = corePlugin;
-    
-    NSString *path = [[self romFileURL] path];
-    NSDictionary <NSString *, id> *lastDisplayModeInfo = ([NSUserDefaults.standardUserDefaults objectForKey:[NSString stringWithFormat:OEGameCoreDisplayModeKeyFormat, _corePlugin.bundleIdentifier]]
-                                ? : nil);
-     // if file is in an archive append :entryIndex to path, so the core manager can figure out which entry to load
-    if([[self rom] archiveFileIndex] != nil)
-        path = [path stringByAppendingFormat:@":%d",[[[self rom] archiveFileIndex] intValue]];
-    
-    // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
-    NSString *extension = path.pathExtension.lowercaseString;
-    if(![_systemPlugin.systemIdentifier isEqualToString:@"openemu.system.arcade"] && ![extension isEqualToString:@"md"] && ![extension isEqualToString:@"nds"] && ![extension isEqualToString:@"iso"]) {
-        path = OEDecompressFileInArchiveAtPathWithHash(path, self.rom.md5, &_romDecompressed);
-        _romPath = path;
-    }
-    
-    OEShaderModel *shader = [OEShadersModel.shared shaderForSystem:self.systemIdentifier];
-    NSDictionary<NSString *, NSNumber *> *params = [shader parametersForIdentifier:_systemPlugin.systemIdentifier];
-
-    
-    OEGameStartupInfo *info = [[OEGameStartupInfo alloc] initWithROMPath:path
-                                                                  romMD5:self.rom.md5
-                                                               romHeader:self.rom.header
-                                                               romSerial:self.rom.serial
-                                                            systemRegion:OELocalizationHelper.sharedHelper.regionName
-                                                         displayModeInfo:lastDisplayModeInfo
-                                                                  shader:shader.url
-                                                        shaderParameters:params
-                                                          corePluginPath:_corePlugin.path
-                                                        systemPluginPath:_systemPlugin.path];
-
-    return [[managerClass alloc] initWithStartupInfo:info corePlugin:_corePlugin systemPlugin:_systemPlugin gameCoreOwner:self];
-}
-
-- (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError
-{
-    OECorePlugin *chosenCore = nil;
-    NSArray *validPlugins = [OECorePlugin corePluginsForSystemIdentifier:[self systemIdentifier]];
-    
-    if([validPlugins count] == 0 && outError != nil)
-    {
-        *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                        code:OENoCoreError
-                                    userInfo: @{
-                                                NSLocalizedFailureReasonErrorKey : NSLocalizedString(@"OpenEmu could not find a Core to launch the game", @"No Core error reason."),
-                                                NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(@"Make sure your internet connection is active and download a suitable core.", @"No Core error recovery suggestion."),
-                                                }];
-        chosenCore = nil;
-    }
-    else if([validPlugins count] == 1)
-        chosenCore = [validPlugins lastObject];
-    else
-    {
-        NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *coreIdentifier = [standardUserDefaults valueForKey:UDSystemCoreMappingKeyForSystemIdentifier([self systemIdentifier])];
-        chosenCore = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
-        if(chosenCore == nil)
-        {
-            validPlugins = [validPlugins sortedArrayUsingComparator:
-                            ^ NSComparisonResult (id obj1, id obj2)
-                            {
-                                return [[obj1 displayName] caseInsensitiveCompare:[obj2 displayName]];
-                            }];
-            
-            chosenCore = [validPlugins objectAtIndex:0];
-        }
-    }
-    
-    return chosenCore;
-}
+//- (OEGameCoreManager *)_newGameCoreManagerWithCorePlugin:(OECorePlugin *)corePlugin
+//- (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError
 
 - (void)dealloc
 {
@@ -363,14 +280,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 #pragma mark - NSDocument Stuff
 
-- (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
-{
-    DLog(@"%@", typeName);
-    
-    if(outError != NULL)
-        *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
-    return nil;
-}
+//- (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
@@ -504,42 +414,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 //+ (BOOL)autosavesInPlace
 //- (BOOL)isDocumentEdited
 
-- (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
-{
-    if(_emulationStatus == OEEmulationStatusNotSetup || _emulationStatus == OEEmulationStatusTerminating)
-    {
-        [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
-        return;
-    }
-    
-    [self OE_pauseEmulationIfNeeded];
-    
-    if(![self shouldTerminateEmulation])
-    {
-        CAN_CLOSE_REPLY(delegate, shouldCloseSelector, self, NO, contextInfo);
-        return;
-    }
-    
-    [self OE_saveStateWithName:OESaveStateAutosaveName completionHandler:^{
-        self->_emulationStatus = OEEmulationStatusTerminating;
-        // TODO: #567 and #568 need to be fixed first
-        //[self OE_removeDeviceNotificationObservers];
-
-        [self->_gameCoreManager stopEmulationWithCompletionHandler:^{
-            DLog(@"Emulation stopped");
-            [[[OEBindingsController defaultBindingsController] systemBindingsForSystemController:self->_systemPlugin.controller] removeBindingsObserver:self];
-
-            self->_emulationStatus = OEEmulationStatusNotSetup;
-
-            self->_gameCoreManager = nil;
-
-            [[self rom] addTimeIntervalToPlayTime:ABS([self->_lastPlayStartDate timeIntervalSinceNow])];
-            self->_lastPlayStartDate = nil;
-
-            [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
-        }];
-    }];
-}
+//- (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
 
 //- (BOOL)OE_checkRequiredFiles
 //- (BOOL)OE_checkGlitches
@@ -566,181 +441,8 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 #pragma mark - Display Mode
 
 //- (BOOL)supportsDisplayModeChange
-
-- (void)changeDisplayMode:(id)sender
-{
-    BOOL fromMenu;
-    NSDictionary <NSString *, id> *modeDict;
-    if ([sender respondsToSelector:@selector(representedObject)])
-    {
-        fromMenu = YES;
-        modeDict = [sender representedObject];
-    }
-    else if ([sender isKindOfClass:[NSDictionary class]])
-    {
-        fromMenu = NO;
-        modeDict = sender;
-    }
-    else
-        return;
-
-    BOOL isSelected   = [modeDict[OEGameCoreDisplayModeStateKey] boolValue];
-    BOOL isToggleable = [modeDict[OEGameCoreDisplayModeAllowsToggleKey] boolValue];
-    BOOL isPrefSaveDisallowed = [modeDict[OEGameCoreDisplayModeDisallowPrefSaveKey] boolValue];
-    BOOL isManual     = [modeDict[OEGameCoreDisplayModeManualOnlyKey] boolValue];
-
-    // Mutually exclusive option is already selected, do nothing
-    if (isSelected && !isToggleable)
-        return;
-
-    NSString *displayModeKeyForCore = [NSString stringWithFormat:OEGameCoreDisplayModeKeyFormat, _corePlugin.bundleIdentifier];
-    NSString *prefKey  = modeDict[OEGameCoreDisplayModePrefKeyNameKey];
-    NSString *prefVal  = modeDict[OEGameCoreDisplayModePrefValueNameKey];
-    NSString *modeName = modeDict[OEGameCoreDisplayModeNameKey];
-    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
-    NSMutableDictionary <NSString *, id> *displayModeInfo = [NSMutableDictionary dictionary];
-
-    // Copy existing prefs
-    if ([defaults.dictionaryRepresentation[displayModeKeyForCore] isKindOfClass:[NSDictionary class]])
-        displayModeInfo = [defaults.dictionaryRepresentation[displayModeKeyForCore] mutableCopy];
-
-    // Mutually exclusive option is unselected
-    if (!isToggleable)
-    {
-        displayModeInfo[prefKey] = prefVal ?: modeName;
-        if (fromMenu && !isManual)
-            _lastSelectedDisplayModeOption = modeName;
-    }
-    // Toggleable option, swap YES/NO
-    else if (isToggleable)
-        displayModeInfo[prefKey] = @(!isSelected);
-
-    if (!isPrefSaveDisallowed)
-        [defaults setObject:displayModeInfo forKey:displayModeKeyForCore];
-
-    [_gameCoreManager changeDisplayWithMode:modeName];
-}
-
-- (void)OE_changeDisplayModeWithDirectionReversed:(BOOL)flag
-{
-    NSMutableArray <NSDictionary <NSString *, id> *> *availableOptions = [NSMutableArray array];
-    NSString *mode;
-    BOOL isToggleable, isSelected, isManual;
-
-    for (NSDictionary *optionsDict in self.gameViewController.displayModes)
-    {
-        mode         = optionsDict[OEGameCoreDisplayModeNameKey];
-        isToggleable = [optionsDict[OEGameCoreDisplayModeAllowsToggleKey] boolValue];
-        isSelected   = [optionsDict[OEGameCoreDisplayModeStateKey] boolValue];
-        isManual     = [optionsDict[OEGameCoreDisplayModeManualOnlyKey] boolValue];
-
-        if (optionsDict[OEGameCoreDisplayModeSeparatorItemKey] || optionsDict[OEGameCoreDisplayModeLabelKey] || isManual)
-        {
-            continue;
-        }
-        else if (mode && !isToggleable)
-        {
-            [availableOptions addObject:optionsDict];
-
-            // There may be multiple, but just take the first selected and start from the top
-            if (_lastSelectedDisplayModeOption == nil && isSelected)
-                _lastSelectedDisplayModeOption = mode;
-        }
-        else if (optionsDict[OEGameCoreDisplayModeGroupNameKey])
-        {
-            // Submenu Items
-            for (NSDictionary *subOptionsDict in optionsDict[OEGameCoreDisplayModeGroupItemsKey])
-            {
-                mode         = subOptionsDict[OEGameCoreDisplayModeNameKey];
-                isToggleable = [subOptionsDict[OEGameCoreDisplayModeAllowsToggleKey] boolValue];
-                isSelected   = [subOptionsDict[OEGameCoreDisplayModeStateKey] boolValue];
-                isManual     = [subOptionsDict[OEGameCoreDisplayModeManualOnlyKey] boolValue];
-
-                if (subOptionsDict[OEGameCoreDisplayModeSeparatorItemKey] || subOptionsDict[OEGameCoreDisplayModeLabelKey] || isManual)
-                {
-                    continue;
-                }
-                else if (mode && !isToggleable)
-                {
-                    [availableOptions addObject:subOptionsDict];
-
-                    if (_lastSelectedDisplayModeOption == nil && isSelected)
-                        _lastSelectedDisplayModeOption = mode;
-                }
-            }
-
-            continue;
-        }
-    }
-
-    // Reverse
-    if (flag)
-        availableOptions = [[availableOptions reverseObjectEnumerator].allObjects mutableCopy];
-        
-    // If there are multiple mutually-exclusive groups of modes we want to enumerate
-    // all the combinations.
-    
-    // List of pref keys used by each group of mutually exclusive modes
-    NSMutableArray <NSString *> *prefKeys = [NSMutableArray array];
-    // Index of the currently selected mode for each group
-    NSMutableDictionary <NSString *, NSNumber *> *prefKeyToSelected = [NSMutableDictionary dictionary];
-    // Indexes of the modes that are part of the same group
-    NSMutableDictionary <NSString *, NSMutableIndexSet *> *prefKeyToOptions = [NSMutableDictionary dictionary];
-    
-    NSInteger i = 0;
-    for (NSDictionary *optionsDict in availableOptions)
-    {
-        NSString *prefKey = optionsDict[OEGameCoreDisplayModePrefKeyNameKey];
-        NSString *name = optionsDict[OEGameCoreDisplayModeNameKey];
-        
-        if ([name isEqual:_lastSelectedDisplayModeOption])
-        {
-            // Put the group of the last mode manually selected by the user in front of the list
-            // This way the options of this group will be cycled through first
-            [prefKeys removeObject:prefKey];
-            [prefKeys insertObject:prefKey atIndex:0];
-        }
-        else if (![prefKeys containsObject:prefKey])
-        {
-            // Prioritize cycling all other modes in the order that they appear
-            [prefKeys addObject:prefKey];
-        }
-            
-        if ([optionsDict[OEGameCoreDisplayModeStateKey] isEqual:@(YES)])
-            prefKeyToSelected[prefKey] = @(i);
-        
-        NSMutableIndexSet *optionsIdxes = prefKeyToOptions[prefKey];
-        if (!optionsIdxes)
-        {
-            optionsIdxes = [NSMutableIndexSet indexSet];
-            prefKeyToOptions[prefKey] = optionsIdxes;
-        }
-        [optionsIdxes addIndex:i];
-        
-        i++;
-    }
-    
-    for (NSString *prefKey in prefKeys)
-    {
-        NSInteger current = [prefKeyToSelected[prefKey] integerValue];
-        NSIndexSet *options = prefKeyToOptions[prefKey];
-        
-        BOOL carry = NO;
-        NSInteger next = [options indexGreaterThanIndex:current];
-        if (next == NSNotFound)
-        {
-            // Finished cycling through this mode; advance to the next one
-            carry = YES;
-            next = [options firstIndex];
-        }
-        
-        NSDictionary *nextMode = [availableOptions objectAtIndex:next];
-        [self changeDisplayMode:nextMode];
-        
-        if (!carry) break;
-    }
-}
-
+//- (void)changeDisplayMode:(id)sender
+//- (void)OE_changeDisplayModeWithDirectionReversed:(BOOL)flag
 //- (IBAction)nextDisplayMode:(id)sender
 //- (IBAction)lastDisplayMode:(id)sender
 
@@ -750,92 +452,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 //- (BOOL)OE_pauseEmulationIfNeeded
 //- (void)saveState:(id)sender
 //- (void)quickSave:(id)sender;
-
-- (void)OE_saveStateWithName:(NSString *)stateName completionHandler:(void(^)(void))handler
-{
-    if(![self supportsSaveStates])
-    {
-        if(handler)
-            handler();
-        return;
-    }
-
-    if(_emulationStatus <= OEEmulationStatusStarting || [self rom] == nil)
-    {
-        if(handler)
-            handler();
-        return;
-    }
-    
-    NSString *temporaryDirectoryPath = NSTemporaryDirectory();
-    NSURL    *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
-    NSURL    *temporaryStateFileURL  = [NSURL URLWithString:NSUUID.UUID.UUIDString relativeToURL:temporaryDirectoryURL];
-    OECorePlugin *core = [_gameCoreManager plugin];
-    
-    temporaryStateFileURL =
-    [temporaryStateFileURL uniqueURLUsingBlock:
-     ^ NSURL *(NSInteger triesCount)
-     {
-         return [NSURL URLWithString:NSUUID.UUID.UUIDString relativeToURL:temporaryDirectoryURL];
-     }];
-    
-    [_gameCoreManager saveStateToFileAtPath:[temporaryStateFileURL path] completionHandler:
-     ^(BOOL success, NSError *error)
-     {
-         if(!success)
-         {
-             NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
-             
-             if(handler != nil) handler();
-             return;
-         }
-         
-         OEDBSaveState *state;
-         if([stateName hasPrefix:OESaveStateSpecialNamePrefix])
-         {
-             state = [[self rom] saveStateWithName:stateName];
-             
-             NSString *coreIdentifier = [core bundleIdentifier];
-             NSString *coreVersion = [core version];
-             [state setCoreIdentifier:coreIdentifier];
-             [state setCoreVersion:coreVersion];
-         }
-         
-         if(state == nil)
-         {
-             NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
-             state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:core withFile:temporaryStateFileURL inContext:context];
-         }
-         else
-         {
-             [state replaceStateFileWithFile:temporaryStateFileURL];
-             [state setTimestamp:[NSDate date]];
-         }
-         
-         [state save];
-         NSManagedObjectContext *mainContext = [state managedObjectContext];
-         [mainContext performBlock:^{
-             [mainContext save:nil];
-         }];
-         
-         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-         NSBitmapImageFileType type = [standardUserDefaults integerForKey:OEScreenshotFileFormatKey];
-         NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEScreenshotPropertiesKey];
-         
-         [self->_gameCoreManager captureSourceImageWithCompletionHandler:^(NSBitmapImageRep *image) {
-             NSSize newSize = self->_gameViewController.defaultScreenSize;
-             image = [image resized:newSize];
-             __block NSData *convertedData = [image representationUsingType:type properties:properties];
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 __autoreleasing NSError *saveError = nil;
-                 if([state screenshotURL] == nil || ![convertedData writeToURL:[state screenshotURL] options:NSDataWritingAtomic error:&saveError])
-                     NSLog(@"Could not create screenshot at url: %@ with error: %@", [state screenshotURL], saveError);
-                 
-                 if(handler != nil) handler();
-             });
-         }];
-     }];
-}
+//- (void)OE_saveStateWithName:(NSString *)stateName completionHandler:(void(^)(void))handler
 
 #pragma mark - Loading States
 

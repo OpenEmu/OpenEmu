@@ -84,7 +84,8 @@ import Foundation
         return true
     }
     
-    func uniqueURLUsingBlock(_ block: (Int) -> NSURL) -> NSURL {
+    @objc(uniqueURLUsingBlock:)
+    func uniqueURL(_ block: (Int) -> NSURL) -> NSURL {
         
         var result = self
         var triesCount = 1
