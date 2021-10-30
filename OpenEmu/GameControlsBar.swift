@@ -63,8 +63,8 @@ final class GameControlsBar: NSWindow {
     var gameWindow: NSWindow? {
         willSet {
             // un-register notifications for parent window
-            let nc = NotificationCenter.default
             if parent != nil {
+                let nc = NotificationCenter.default
                 nc.removeObserver(self, name: NSWindow.didEnterFullScreenNotification, object: gameWindow)
                 nc.removeObserver(self, name: NSWindow.willExitFullScreenNotification, object: gameWindow)
                 nc.removeObserver(self, name: NSWindow.didChangeScreenNotification, object: gameWindow)
@@ -77,8 +77,8 @@ final class GameControlsBar: NSWindow {
         }
         didSet {
             // register notifications and update state of the fullscreen button
-            let nc = NotificationCenter.default
             if let gameWindow = gameWindow {
+                let nc = NotificationCenter.default
                 nc.addObserver(self, selector: #selector(gameWindowDidEnterFullScreen(_:)), name: NSWindow.didEnterFullScreenNotification, object: gameWindow)
                 nc.addObserver(self, selector: #selector(gameWindowWillExitFullScreen(_:)), name: NSWindow.willExitFullScreenNotification, object: gameWindow)
                 
@@ -591,7 +591,7 @@ final class GameControlsBar: NSWindow {
         if !sortedCustomShaders.isEmpty {
             menu.addItem(.separator())
             
-            for shaderName in sortedCustomShaders { 
+            for shaderName in sortedCustomShaders {
                 let item = NSMenuItem(title: shaderName, action: #selector(GameViewController.selectShader(_:)), keyEquivalent: "")
                 
                 if shaderName == selectedShader {
@@ -619,6 +619,13 @@ final class GameControlsBar: NSWindow {
             let item = NSMenuItem(title: title, action: #selector(OEPopoutGameWindowController.changeIntegralScale(_:)), keyEquivalent: "")
             item.representedObject = scale
             item.state = scale == currentScale ? .on : .off
+            menu.addItem(item)
+        }
+        
+        if gameWindow?.isFullScreen ?? false {
+            let item = NSMenuItem(title: NSLocalizedString("Fill Screen", comment: "Integral scale menu item title"), action: #selector(OEPopoutGameWindowController.changeIntegralScale), keyEquivalent: "")
+            item.representedObject = 0
+            item.state = currentScale == 0 ? .on : .off
             menu.addItem(item)
         }
         
