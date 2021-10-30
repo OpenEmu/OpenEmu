@@ -132,32 +132,12 @@ final class ControlsButtonSetupView: NSView {
             
             addSubview(section.header)
             
-            let groups = section.groups
-            for group in groups {
-                
-                var i = 0
-                while i < group.count {
-                    if i == -1 { i += 2 }
-                    
-                    let item = group[i]
-                    addSubview(item)
-                    
-                    // handle headline cell
-                    if item is ControlsKeyHeadline {
-                        i -= 1
-                        continue
+            for group in section.groups {
+                for row in group {
+                    addSubview(row.0)
+                    if let view = row.1 {
+                        addSubview(view)
                     }
-                    
-                    // handle separator
-                    if item is ControlsKeySeparatorView {
-                        i -= 1
-                        continue
-                    }
-                    
-                    // handle buttons + label
-                    let label = group[i + 1]
-                    addSubview(label)
-                    i += 2
                 }
             }
         }
@@ -175,22 +155,16 @@ final class ControlsButtonSetupView: NSView {
         }, context: nil)
     }
     
-    func layoutSubviews(animated: Bool = false) {
-        
-        let animator = animated ? animator() : self
-        
-        if animated {
-            CATransaction.begin()
-        }
+    func layoutSubviews() {
         
         let rightGap: CGFloat = 14 + ((NSScroller.preferredScrollerStyle == .legacy) ? 14 : 0)
         
         // determine required height
-        var frame = self.frame
-        let viewHeight = self.viewHeight
+        var frame = frame
+        let viewHeight = viewHeight
         if frame.height != viewHeight {
             frame.size.height = viewHeight > minimumFrameHeight ? viewHeight : minimumFrameHeight
-            animator.frame = frame
+            self.frame = frame
         }
         
         var y = frame.height
@@ -207,48 +181,45 @@ final class ControlsButtonSetupView: NSView {
             y -= headerFrame.size.height + topGap
             
             for group in groups {
-                var i = 0
-                while i < group.count {
-                    if i == -1 { i += 2 }
+                for row in group {
                     
-                    let item = group[i]
-                    
-                    // handle headline cell
-                    if item is ControlsKeyHeadline {
-                        i -= 1
+                    // handle headline
+                    if let view = row.0 as? ControlsKeyHeadline {
                         
                         let headlineFrame = NSRect(x: leftGap, y: y - itemHeight, width: width - leftGap - rightGap, height: itemHeight)
-                        item.frame = headlineFrame.integral
+                        view.frame = headlineFrame.integral
                         y -= itemHeight + verticalItemSpacing
                         
                         continue
                     }
                     
                     // handle separator
-                    if item is ControlsKeySeparatorView {
-                        i -= 1
+                    if let view = row.0 as? ControlsKeySeparatorView {
                         
                         let seperatorLineRect = NSRect(x: leftGap, y: y - itemHeight, width: width - leftGap - rightGap, height: itemHeight)
-                        item.frame = seperatorLineRect.integral
+                        view.frame = seperatorLineRect.integral
                         y -= itemHeight + verticalItemSpacing
                         
                         continue
                     }
                     
+                    guard let button = row.0 as? ControlsKeyButton,
+                          let label = row.1 as? ControlsKeyLabel
+                    else { continue }
+                    
                     // handle buttons + label
                     let buttonRect = NSRect(x: width - buttonWidth, y: y - itemHeight, width: buttonWidth - rightGap, height: itemHeight)
-                    item.frame = buttonRect.integral
+                    button.frame = buttonRect.integral
                     
-                    let label = group[i + 1]
                     var labelRect = NSIntegralRect(NSRect(x: leftGap, y: buttonRect.origin.y + buttonRect.size.height / 2 + 1, width: width - leftGap - labelButtonSpacing - buttonWidth, height: 100000))
                     
-                    var labelFitSize = (label as? NSTextField)?.cell?.cellSize(forBounds: labelRect) ?? .zero
+                    var labelFitSize = label.cell?.cellSize(forBounds: labelRect) ?? .zero
                     if labelFitSize.height > 30 {
                         // If the label size returned is too tall, enlarge the
                         // label to attempt fitting in 2 lines anyway
                         labelRect.origin.x -= 5
                         labelRect.size.width += 5
-                        labelFitSize = (label as? NSTextField)?.cell?.cellSize(forBounds: labelRect) ?? .zero
+                        labelFitSize = label.cell?.cellSize(forBounds: labelRect) ?? .zero
                     }
                     labelRect.origin.y -= labelFitSize.height / 2
                     labelRect.size.height = labelFitSize.height
@@ -256,7 +227,6 @@ final class ControlsButtonSetupView: NSView {
                     label.frame = labelRect
                     
                     y -= itemHeight + verticalItemSpacing
-                    i += 2
                 }
             }
             
@@ -265,10 +235,6 @@ final class ControlsButtonSetupView: NSView {
         }
         
         layoutSectionHeadings(nil)
-        
-        if animated {
-            CATransaction.commit()
-        }
     }
     
     private var viewHeight: CGFloat {
@@ -389,8 +355,8 @@ final class ControlsButtonSetupView: NSView {
         let button = keyToButtonMap[key]
         for section in sections {
             for group in section.groups {
-                for element in group {
-                    if element == button {
+                for row in group {
+                    if row.0 == button {
                         return section
                     }
                 }
@@ -418,15 +384,15 @@ final class ControlsButtonSetupView: NSView {
 
 private struct Section {
     var numberOfRows: Int
-    var groups: [[NSView]]
+    var groups: [[(NSView, NSView?)]]
     var header: ControlsSectionTitleView
 }
 
 private class ControlsSetupViewParser {
     
     private var target: ControlsButtonSetupView
-    private var elementGroups = [[NSView]]()
-    private var currentGroup: [NSView]?
+    private var elementGroups = [[(NSView, NSView?)]]()
+    private var currentGroup: [(NSView, NSView?)]?
     private var numberOfRows = 0
     
     var sections = [Section]()
@@ -478,7 +444,7 @@ private class ControlsSetupViewParser {
                 )
             )
             
-            elementGroups = [[NSView]]()
+            elementGroups = [[(NSView, NSView?)]]()
             currentGroup = nil
             numberOfRows = 0
             
@@ -495,30 +461,28 @@ private class ControlsSetupViewParser {
         orderedKeys.append(name)
         keyToButtonMap[name] = button
         
-        currentGroup?.append(button)
-        
         let labelField = ControlsKeyLabel()
         labelField.stringValue = label
         
-        currentGroup?.append(labelField)
+        currentGroup?.append((button, labelField))
     }
     
     private func addGroupLabel(_ label: String) {
         let labelField = ControlsKeyHeadline()
         labelField.stringValue = label
-        currentGroup?.append(labelField)
+        currentGroup?.append((labelField, nil))
     }
     
     private func addRowSeperator() {
         let view = ControlsKeySeparatorView()
-        currentGroup?.append(view)
+        currentGroup?.append((view, nil))
     }
     
     private func addGroup() {
         if let currentGroup = currentGroup {
             elementGroups.append(currentGroup)
         }
-        currentGroup = [NSView]()
+        currentGroup = [(NSView, NSView?)]()
     }
     
     private func createSectionHeading(name: String) -> ControlsSectionTitleView {
