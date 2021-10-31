@@ -341,7 +341,7 @@
 		8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy SaveState QL Generator */ = {isa = PBXBuildFile; fileRef = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		830CB918186878D6006EAE5A /* OEArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 830CB917186878D6006EAE5A /* OEArrayController.m */; };
 		8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A98B155410EF00DF13B5 /* OEDBItem.m */; };
-		83199722142741790068C865 /* OEROMImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* OEROMImporter.m */; };
+		83199722142741790068C865 /* ROMImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* ROMImporter.swift */; };
 		8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8328D9E413C75CAE0026D2A7 /* OEDBImage.m */; };
 		832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */; };
 		832D29401451A68700BDF950 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832D293F1451A68700BDF950 /* MainWindowController.swift */; };
@@ -1408,7 +1408,6 @@
 		05DB72A12532681B0098459D /* OpenEmuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenEmuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		05DB72A32532681B0098459D /* OEROMImporterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEROMImporterTests.m; sourceTree = "<group>"; };
 		05DB72A52532681B0098459D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		05DB735325326AED0098459D /* OEROMImporter+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OEROMImporter+Private.h"; sourceTree = "<group>"; };
 		05E4400A22991527009E6D27 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		05E789A623D01B16000E14EE /* GameDocumentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDocumentController.swift; sourceTree = "<group>"; };
 		05E789AA23D0256D000E14EE /* NSBindingName+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBindingName+Additions.swift"; sourceTree = "<group>"; };
@@ -1593,8 +1592,7 @@
 		830CB917186878D6006EAE5A /* OEArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEArrayController.m; sourceTree = "<group>"; };
 		8314A98A155410EF00DF13B5 /* OEDBItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBItem.h; sourceTree = "<group>"; };
 		8314A98B155410EF00DF13B5 /* OEDBItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBItem.m; sourceTree = "<group>"; };
-		83199720142741790068C865 /* OEROMImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEROMImporter.h; sourceTree = "<group>"; };
-		83199721142741790068C865 /* OEROMImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEROMImporter.m; sourceTree = "<group>"; };
+		83199721142741790068C865 /* ROMImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ROMImporter.swift; sourceTree = "<group>"; };
 		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBImage.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImage.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.0.xcdatamodel"; sourceTree = "<group>"; };
@@ -3209,9 +3207,7 @@
 				53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */,
 				8FE1BF1D2586C64200A2818A /* OELibraryDatabase+Moving.m */,
 				8F4198AF25B68B7500A7F0BE /* OELibraryDatabase+Maintenance.m */,
-				83199720142741790068C865 /* OEROMImporter.h */,
-				05DB735325326AED0098459D /* OEROMImporter+Private.h */,
-				83199721142741790068C865 /* OEROMImporter.m */,
+				83199721142741790068C865 /* ROMImporter.swift */,
 				8356AEF015DA703100AA6B44 /* OEImportOperation.h */,
 				8356AEF115DA703100AA6B44 /* OEImportOperation.m */,
 				53439A8D13B92C56005C0CC8 /* Items */,
@@ -6725,7 +6721,7 @@
 				836AEA711975BFE100B86935 /* OEGridCell.m in Sources */,
 				05644A4823331EA90033576F /* AboutViewController.swift in Sources */,
 				5A9606E81C0BCD350089B494 /* NSImage+DrawingAdditions.swift in Sources */,
-				83199722142741790068C865 /* OEROMImporter.m in Sources */,
+				83199722142741790068C865 /* ROMImporter.swift in Sources */,
 				83507247142F6029005D9033 /* ControllerImageView.swift in Sources */,
 				8FE5DC08270DC0AB00878DFF /* OEDBCollectionFolder.swift in Sources */,
 				8FE1BF1E2586C64200A2818A /* OELibraryDatabase+Moving.m in Sources */,

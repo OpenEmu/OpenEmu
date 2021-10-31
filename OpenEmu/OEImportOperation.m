@@ -27,7 +27,6 @@
 #import "OEImportOperation.h"
 @import OpenEmuKit;
 
-#import "OEROMImporter.h"
 #import <XADMaster/XADArchive.h>
 
 #import "NSFileManager+OEHashingAdditions.h"
@@ -43,6 +42,15 @@
 #import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+#pragma mark - User Default Keys
+NSString *const OECopyToLibraryKey         = @"copyToLibrary";
+NSString *const OEAutomaticallyGetInfoKey  = @"automaticallyGetInfo";
+
+#pragma mark - Error Codes
+NSString *const OEImportErrorDomainFatal      = @"OEImportFatalDomain";
+NSString *const OEImportErrorDomainResolvable = @"OEImportResolvableDomain";
+NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
 NSString * const OEImportManualSystems = @"OEImportManualSystems";
 

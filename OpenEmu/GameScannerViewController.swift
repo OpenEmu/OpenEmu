@@ -49,7 +49,7 @@ final class GameScannerViewController: NSViewController {
     private var isScanningDirectory = false
     private var isGameScannerVisible = true // The game scanner view is already visible in SidebarController.xib.
     
-    private var importer: OEROMImporter { return OELibraryDatabase.default!.importer }
+    private var importer: ROMImporter { return OELibraryDatabase.default!.importer }
     
     required init?(coder: NSCoder) {
         
@@ -480,9 +480,9 @@ extension GameScannerViewController: NSTableViewDelegate {
 
 // MARK: - OEROMImporterDelegate
 
-extension GameScannerViewController: OEROMImporterDelegate {
+extension GameScannerViewController: ROMImporterDelegate {
     
-    func romImporterDidStart(_ importer: OEROMImporter) {
+    func romImporterDidStart(_ importer: ROMImporter) {
         
         DLog("")
         
@@ -496,17 +496,17 @@ extension GameScannerViewController: OEROMImporterDelegate {
         }
     }
     
-    func romImporterDidCancel(_ importer: OEROMImporter) {
+    func romImporterDidCancel(_ importer: ROMImporter) {
         DLog("")
         updateProgress()
     }
     
-    func romImporterDidPause(_ importer: OEROMImporter) {
+    func romImporterDidPause(_ importer: ROMImporter) {
         DLog("")
         updateProgress()
     }
     
-    func romImporterDidFinish(_ importer: OEROMImporter) {
+    func romImporterDidFinish(_ importer: ROMImporter) {
         
         DLog("")
         
@@ -523,13 +523,13 @@ extension GameScannerViewController: OEROMImporterDelegate {
         }
     }
     
-    func romImporterChangedItemCount(_ importer: OEROMImporter) {
+    func romImporterChangedItemCount(_ importer: ROMImporter) {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
             self.updateProgress()
         }
     }
     
-    func romImporter(_ importer: OEROMImporter, stoppedProcessingItem item: OEImportOperation) {
+    func romImporter(_ importer: ROMImporter, stoppedProcessingItem item: OEImportOperation) {
 
         if let error = item.error {
             

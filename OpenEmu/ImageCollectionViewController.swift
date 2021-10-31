@@ -507,7 +507,7 @@ extension ImageCollectionViewController: NSCollectionViewDelegate {
         if pboard.canReadObject(forClasses: [NSURL.self], options: nil) {
             guard let files = pboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] else { return false }
             let romImporter = database.importer
-            romImporter.importItems(at: files, intoCollectionWith: nil)
+            romImporter.importItems(at: files)
             return true
         }
         return false
@@ -552,7 +552,7 @@ extension ImageCollectionViewController: BlankSlateViewDelegate {
         if pboard.canReadObject(forClasses: [NSURL.self], options: nil) {
             guard let files = pboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] else { return false }
             let romImporter = database.importer
-            romImporter.importItems(at: files, intoCollectionWith: nil)
+            romImporter.importItems(at: files)
             return true
         }
         return false

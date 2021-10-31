@@ -381,7 +381,7 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
         
         openPanel.beginSheetModal(for: win) { result in
             if result == .OK {
-                self.database.importer.importItems(atURLs: openPanel.urls)
+                self.database.importer.importItems(at: openPanel.urls)
             }
         }
     }

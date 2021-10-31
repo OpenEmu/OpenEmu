@@ -35,8 +35,6 @@
 #import "OEDBSystem.h"
 #import "OEDBSaveState.h"
 
-#import "OEROMImporter.h"
-
 #import "OpenEmu-Swift.h"
 
 NSNotificationName const OEGameCollectionViewControllerDidSetSelectionIndexesNotification = @"OEGameCollectionViewControllerDidSetSelectionIndexesNotification";
@@ -875,7 +873,7 @@ static NSString * const OEGameTableSortDescriptorsKey = @"OEGameTableSortDescrip
         NSArray *files = [draggingPasteboard readObjectsForClasses:@[[NSURL class]] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
         OEROMImporter *romImporter = self.database.importer;
         OEDBCollection *collection = [representedObject isKindOfClass:[OEDBCollection class]] ? (OEDBCollection *)representedObject : nil;
-        [romImporter importItemsAtURLs:files intoCollectionWithID:[collection permanentID]];
+        [romImporter importItemsAtURLs:files intoCollectionWithID:[collection permanentID] withCompletionHandler:nil];
     }
     else if (draggingOperation == IKImageBrowserDropNone)
     {
@@ -1025,7 +1023,7 @@ static NSString * const OEGameTableSortDescriptorsKey = @"OEGameTableSortDescrip
     NSArray *files = [pboard readObjectsForClasses:@[[NSURL class]] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
     OEROMImporter *romImporter = self.database.importer;
     OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? (OEDBCollection*)[self representedObject] : nil;
-    [romImporter importItemsAtURLs:files intoCollectionWithID:[collection permanentID]];
+    [romImporter importItemsAtURLs:files intoCollectionWithID:[collection permanentID] withCompletionHandler:nil];
 
     return YES;
 }

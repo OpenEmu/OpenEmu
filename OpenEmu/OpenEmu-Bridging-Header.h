@@ -22,7 +22,7 @@
 #import "OEGameCollectionViewController.h"
 #import "OEMediaViewController.h"
 #import "OEGameInfoHelper.h"
-#import "OEROMImporter.h"
+#import "OEImportOperation.h"
 #import "OEVersionMigrationController.h"
 #import "OECoreUpdater.h"
 #import "NSDocument+OEAdditions.h"

@@ -35,8 +35,6 @@
 #import "OEDBSystem+CoreDataProperties.h"
 #import "OEDBScreenshot+CoreDataProperties.h"
 
-#import "OEROMImporter.h"
-
 #import "OEGridView.h"
 
 #import "OpenEmu-Swift.h"
@@ -760,7 +758,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     {
         NSArray *files = [draggingPasteboard readObjectsForClasses:@[[NSURL class]] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
         OEROMImporter *romImporter = self.database.importer;
-        [romImporter importItemsAtURLs:files intoCollectionWithID:nil];
+        [romImporter importItemsAtURLs:files intoCollectionWithID:nil withCompletionHandler:nil];
     }
     else if (draggingOperation == IKImageBrowserDropNone)
     {

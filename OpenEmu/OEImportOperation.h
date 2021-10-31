@@ -30,6 +30,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class OEROMImporter;
 
+#pragma mark - User Default Keys
+extern NSString *const OECopyToLibraryKey;
+extern NSString *const OEAutomaticallyGetInfoKey;
+
+#pragma mark - Error Codes
+extern NSString *const OEImportErrorDomainFatal;
+extern NSString *const OEImportErrorDomainResolvable;
+extern NSString *const OEImportErrorDomainSuccess;
+
+typedef NS_ENUM(NSInteger, OEImportErrorCode) {
+    OEImportErrorCodeAlreadyInDatabase     = -1,
+    OEImportErrorCodeMultipleSystems       = 2,
+    OEImportErrorCodeNoSystem              = 3,
+    OEImportErrorCodeInvalidFile           = 4,
+    OEImportErrorCodeAdditionalFiles       = 5,
+    OEImportErrorCodeNoHash                = 6,
+    OEImportErrorCodeNoGame                = 7,
+    OEImportErrorCodeDisallowArchivedFile  = 8,
+    OEImportErrorCodeEmptyFile             = 9,
+    OEImportErrorCodeAlreadyInDatabaseFileUnreachable = 10,
+};
+
 typedef NS_ENUM(NSInteger, OEImportExitStatus)  {
     OEImportExitNone,
     OEImportExitErrorResolvable,

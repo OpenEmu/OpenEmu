@@ -35,8 +35,6 @@
 #import "OEDBImage.h"
 #import "OELogging.h"
 
-#import "OEROMImporter.h"
-
 #import "NSFileManager+OEHashingAdditions.h"
 
 #import <OpenEmuBase/OpenEmuBase.h>

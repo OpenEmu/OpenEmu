@@ -26,8 +26,6 @@
 
 #import "OECollectionViewController.h"
 
-#import "OEROMImporter.h"
-
 #import "OEListViewDataSourceItem.h"
 
 #import "OECoverGridDataSourceItem.h"
@@ -439,7 +437,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     NSArray<NSURL*> *files = [pboard readObjectsForClasses:@[[NSURL class]] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
     OEROMImporter *romImporter = self.database.importer;
     OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? (OEDBCollection *)[self representedObject] : nil;
-    [romImporter importItemsAtURLs:files intoCollectionWithID:[collection permanentID]];
+    [romImporter importItemsAtURLs:files intoCollectionWithID:[collection permanentID] withCompletionHandler:nil];
 
     return YES;
 }

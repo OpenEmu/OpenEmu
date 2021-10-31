@@ -128,6 +128,7 @@ class AppDelegate: NSObject {
         UserDefaults.standard.register(defaults: [
             OEDefaultDatabasePathKey: path,
             OEDatabasePathKey: path,
+            OECopyToLibraryKey: true,
             OEAutomaticallyGetInfoKey: true,
             OEShadersModel.Preferences.global.key: "Pixellate",
             OEGameVolumeKey: 0.5,
@@ -902,7 +903,7 @@ extension AppDelegate: NSMenuDelegate {
         return false
     }
     
-    func application(_ sender: NSApplication, openFiles filenames: [String]) {
+    func application(_ application: NSApplication, open urls: [URL]) {
         
         guard UserDefaults.standard.bool(forKey: SetupAssistant.hasFinishedKey) else {
             NSApp.reply(toOpenOrPrint: .cancel)
@@ -911,9 +912,9 @@ extension AppDelegate: NSMenuDelegate {
         
         let block: StartupQueueClosure = {
             
-            if filenames.count == 1 {
+            if urls.count == 1 {
                 
-                let url = URL(fileURLWithPath: filenames.last!)
+                let url = urls.first!
                 self.documentController.openDocument(withContentsOf: url, display: true) { (document, documentWasAlreadyOpen, error) in
                     if error != nil {
                         self.documentController.presentError(error!)
@@ -925,7 +926,7 @@ extension AppDelegate: NSMenuDelegate {
                 
                 let reply: NSApplication.DelegateReply
                 let importer = OELibraryDatabase.default!.importer
-                if importer.importItems(atPaths: filenames) {
+                if importer.importItems(at: urls) {
                     reply = .success
                 } else {
                     reply = .failure
