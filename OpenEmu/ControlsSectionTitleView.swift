@@ -56,20 +56,14 @@ final class ControlsSectionTitleView: NSView {
         return box
     }()
     
-    private lazy var textField: NSTextField = {
-        let textField = NSTextField(labelWithString: "")
-        textField.font = .systemFont(ofSize: 12, weight: .medium)
-        textField.textColor = .labelColor
-        return textField
-    }()
+    private let textField = ControlsLabel()
     
-    private lazy var string = NSAttributedString(string: stringValue, attributes: Self.attributes)
-    
-    var stringValue = "" {
-        didSet {
-            if !isWood {
-                textField.stringValue = stringValue
-            }
+    var stringValue: String {
+        get {
+            return textField.stringValue
+        }
+        set {
+            textField.stringValue = newValue
         }
     }
     
@@ -118,15 +112,15 @@ final class ControlsSectionTitleView: NSView {
                 separator.bottomAnchor.constraint(equalTo: bottomAnchor),
                 separator.heightAnchor.constraint(equalToConstant: 1),
             ])
-            
-            addSubview(textField)
-            
-            textField.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                textField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftGap),
-                textField.centerYAnchor.constraint(equalTo: centerYAnchor),
-            ])
         }
+        
+        addSubview(textField)
+        
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            textField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftGap),
+            textField.centerYAnchor.constraint(equalTo: centerYAnchor),
+        ])
     }
     
     override func draw(_ dirtyRect: NSRect) {
@@ -169,9 +163,6 @@ final class ControlsSectionTitleView: NSView {
             lineRect.fill(using: .sourceOver)
         }
         
-        // draw title
-        string.draw(in: titleRect)
-        
         // draw top line if the view is not pinned
         if !pinned {
             topColor.setFill()
@@ -183,24 +174,4 @@ final class ControlsSectionTitleView: NSView {
             lineRect.fill(using: .sourceOver)
          }
     }
-    
-    private var titleRect: NSRect {
-        
-        var rect = bounds
-        
-        rect.origin.y -= (rect.size.height-string.size().height)/2
-        rect.origin.x += leftGap
-        
-        return backingAlignedRect(rect, options: .alignAllEdgesNearest)
-    }
-    
-    private static let attributes: [NSAttributedString.Key : Any]? = {
-        
-        let attributes: [NSAttributedString.Key : Any] =
-                                          [.font: NSFont.boldSystemFont(ofSize: 11),
-                                .foregroundColor: NSColor.black,
-                                         .shadow: NSShadow.oeControls]
-        
-        return attributes
-    }()
 }
