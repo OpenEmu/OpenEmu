@@ -78,7 +78,7 @@ final class ControlsKeyButton: NSButton {
     }
     
     override func accessibilityTitle() -> String? {
-        guard title == "" else {
+        guard title.isEmpty else {
             return super.accessibilityTitle()
         }
         let announcement = NSLocalizedString("Not assigned", comment: "Controls preferences, accessibility title (key is not mapped, “empty”)")

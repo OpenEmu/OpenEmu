@@ -53,8 +53,8 @@ final class ControlsPopUpButtonCell: NSPopUpButtonCell {
     }
     
     override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
-        var titleRect = self.titleRect(forBounds: cellFrame)
-        let imageRect = self.imageRect(forBounds: cellFrame)
+        var titleRect = titleRect(forBounds: cellFrame)
+        let imageRect = imageRect(forBounds: cellFrame)
         
         if !titleRect.isEmpty {
             titleRect.origin.y -= 3

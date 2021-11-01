@@ -26,8 +26,7 @@ import Cocoa
 
 final class GlossCheckboxCell: NSButtonCell {
     
-    private func subImageRect() -> NSRect {
-        
+    private var subImageRect: NSRect {
         if state == .on {
             if isHighlighted {
                 return NSRect(x: 16, y: 16, width: 16, height: 16)
@@ -56,7 +55,7 @@ final class GlossCheckboxCell: NSButtonCell {
     }
     
     override func drawImage(_ image: NSImage, withFrame frame: NSRect, in controlView: NSView) {
-        let image = NSImage(named: "gloss_checkbox")?.subImage(from: subImageRect())
+        let image = NSImage(named: "gloss_checkbox")?.subImage(from: subImageRect)
         image?.draw(in: frame)
     }
 }

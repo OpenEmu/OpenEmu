@@ -24,13 +24,12 @@
 
 import Cocoa
 
-final class LibraryMigrator: NSObject {
+final class LibraryMigrator {
     
     private var storeURL: URL
     
     init(storeURL: URL) {
         self.storeURL = storeURL.appendingPathComponent(OEDatabaseFileName)
-        super.init()
     }
     
     func runMigration() throws {
@@ -51,14 +50,14 @@ final class LibraryMigrator: NSObject {
         
         do {
             try ALIterativeMigrator.iterativeMigrateURL(storeURL, ofType: NSSQLiteStoreType, to: destinationModel, orderedModelNames: modelNames)
-        } catch {
-            DLog("Error migrating to latest model: \(error)\n \((error as NSError).userInfo)")
+        } catch let error as NSError {
+            DLog("Error migrating to latest model: \(error)\n \(error.userInfo)")
             throw error
         }
         
-        let sourceMetadata = try? NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL)
+        let sourceMetadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL)
         
-        if var versions = sourceMetadata?[NSStoreModelVersionIdentifiersKey] as? [String] {
+        if var versions = sourceMetadata[NSStoreModelVersionIdentifiersKey] as? [String] {
             versions.sort { $0.caseInsensitiveCompare($1) == .orderedAscending }
             
             let sourceVersion = versions.last

@@ -87,7 +87,7 @@ final class GameControlsBar: NSWindow {
         }
     }
     
-    convenience init(gameViewController controller: GameViewController) {
+    init(gameViewController controller: GameViewController) {
         let useNew = OEAppearance.hudBar == .vibrant
         
         var barRect: NSRect
@@ -97,7 +97,7 @@ final class GameControlsBar: NSWindow {
             barRect = NSRect(x: 0, y: 0, width: 442, height: 45)
         }
         
-        self.init(contentRect: barRect, styleMask: useNew ? .titled : .borderless, backing: .buffered, defer: true)
+        super.init(contentRect: barRect, styleMask: useNew ? .titled : .borderless, backing: .buffered, defer: true)
         
         isMovableByWindowBackground = true
         animationBehavior = .none
@@ -636,8 +636,9 @@ final class GameControlsBar: NSWindow {
         
         let audioOutputDevices = OEAudioDeviceManager.shared.audioDevices.filter { $0.numberOfOutputChannels > 0 }
         
-        guard !audioOutputDevices.isEmpty
-        else { return nil }
+        if audioOutputDevices.isEmpty {
+            return nil
+        }
         
         let item = NSMenuItem(title: NSLocalizedString("System Default", comment: "Default audio device setting"), action: #selector(OEGameDocument.changeAudioOutputDeviceToSystemDefault(_:)), keyEquivalent: "")
         menu.addItem(item)

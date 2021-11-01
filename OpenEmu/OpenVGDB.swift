@@ -197,11 +197,7 @@ final class OpenVGDB: NSObject {
     
     func executeQuery(_ sql: String) throws -> [[String : Any]] {
         guard let database = database else { return [] }
-        do {
-            return try database.executeQuery(sql)
-        } catch {
-            throw error
-        }
+        return try database.executeQuery(sql)
     }
 }
 

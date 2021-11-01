@@ -79,7 +79,7 @@ final class GlossButton: NSButton {
         return attributes
     }()
     
-    @objc var themeKey: String? {
+    @IBInspectable var themeKey: String? {
         didSet {
             if themeKey == "gloss_button" {
                 subImageRect = subImageRectBlack

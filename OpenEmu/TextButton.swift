@@ -57,10 +57,10 @@ class TextButton: HoverButton {
     private func commonInit() {
         bezelStyle = .shadowlessSquare
         isBordered = false
-        setupAttributes()
+        setUpAttributes()
     }
     
-    func setupAttributes() {
+    func setUpAttributes() {
     }
     
     private var attributes: [NSAttributedString.Key : Any] {

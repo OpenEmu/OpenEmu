@@ -41,7 +41,7 @@ final class GameControlsBarView: NSView {
         canDrawConcurrently = true
         canDrawSubviewsIntoLayer = true
         
-        setupControls()
+        setUpControls()
     }
     
     override func draw(_ dirtyRect: NSRect) {
@@ -52,7 +52,7 @@ final class GameControlsBarView: NSView {
         }
     }
     
-    private func setupControls() {
+    private func setUpControls() {
         
         let stop = HUDBarButton()
         stop.image = NSImage(named: "hud_power")

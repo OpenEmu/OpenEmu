@@ -56,7 +56,7 @@ final class SetupAssistant: NSViewController {
     }()
     private var fsm = StateMachine<State>(initial: .videoIntro) { c in
         c.allow(from: .videoIntro, to: .welcome)
-        c.allow(from: .welcome , to: [.videoIntro, .coreSelection])
+        c.allow(from: .welcome, to: [.videoIntro, .coreSelection])
         c.allow(from: .coreSelection, to: [.welcome, .lastScreen])
         c.allow(from: .lastScreen, to: [.coreSelection, .end])
         c.allow(from: .end, to: .lastScreen)
@@ -99,7 +99,7 @@ final class SetupAssistant: NSViewController {
         
         fsm.onTransitions(from: .videoIntro, to: .welcome) { [unowned self] in
             // Note: we are not worrying about a core being removed from the core list
-            let knownCores = coresToDownload.compactMap { $0.core }
+            let knownCores = coresToDownload.compactMap(\.core)
             for core in CoreUpdater.shared.coreList {
                 if !knownCores.contains(core) {
                     coresToDownload.append(SetupCoreInfo(core: core))
@@ -175,10 +175,10 @@ final class SetupAssistant: NSViewController {
             coreListDownloadView.isHidden = true
             
             let deltaT = Date().timeIntervalSince(startTimeOfSetupAssistant)
-            let timeLeft = TimeInterval(max(0, Self.videoIntroductionDuration - deltaT))
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + timeLeft * TimeInterval(NSEC_PER_SEC) / TimeInterval(NSEC_PER_SEC), execute: {
+            let timeLeft = Int(max(0, Self.videoIntroductionDuration - deltaT))
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(timeLeft)) {
                 self.nextEvent(nil)
-            })
+            }
             return
         }
         
@@ -215,7 +215,7 @@ final class SetupAssistant: NSViewController {
         
         view.frame = replaceView.frame
         
-        if replaceView.subviews.count == 0 {
+        if replaceView.subviews.isEmpty {
             replaceView.animator().addSubview(view)
         } else if let oldView = replaceView.subviews.first {
             replaceView.animator().replaceSubview(oldView, with: view)
@@ -285,7 +285,7 @@ private extension NSUserInterfaceItemIdentifier {
     static let coreSystem = NSUserInterfaceItemIdentifier("emulatorSystem")
 }
 
-private class SetupCoreInfo: NSObject {
+private class SetupCoreInfo {
     weak var core: CoreDownload!
     var isSelected = true
     var isDownloadRequested = false

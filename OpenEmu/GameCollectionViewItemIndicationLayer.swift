@@ -51,7 +51,7 @@ final class GameCollectionViewItemIndicationLayer: CALayer {
             spinnerValues.append(-1 * (.pi * 2) * Double(step) / Double(stepCount))
         }
         
-        var animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
         animation.calculationMode = .discrete
         animation.duration = 1
         animation.repeatCount = .greatestFiniteMagnitude
@@ -61,7 +61,7 @@ final class GameCollectionViewItemIndicationLayer: CALayer {
         return animation
     }()
     
-    var _type: OEGridViewCellIndicationType = .none
+    private var _type: OEGridViewCellIndicationType = .none
     var type: OEGridViewCellIndicationType {
         get {
             return _type

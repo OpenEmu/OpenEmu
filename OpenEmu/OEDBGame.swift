@@ -491,7 +491,7 @@ extension OEDBGame {
         return cache
     }()
     
-    class func artworkPlaceholder(aspectRatio ratio: CGFloat) -> NSImage {
+    private class func artworkPlaceholder(aspectRatio ratio: CGFloat) -> NSImage {
         let key = "\(ratio)" as NSString
         if let image = artworkPlaceholderCache.object(forKey: key) {
             return image

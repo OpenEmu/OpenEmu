@@ -26,7 +26,7 @@ import Cocoa
 
 final class ControlsScroller: NSScroller {
     
-    lazy var knobImage  = NSImage(named: "wood_knob_vertical")
+    lazy var knobImage = NSImage(named: "wood_knob_vertical")
     
     override class var isCompatibleWithOverlayScrollers: Bool {
         return true

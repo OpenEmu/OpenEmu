@@ -196,9 +196,9 @@ final class MainWindowController: NSWindowController {
         
         let negateOptions = [NSBindingOption.valueTransformerName: NSValueTransformerName.negateBooleanTransformerName]
         
-        showLibraryNames?.bind(.enabled, to: self, withKeyPath: "mainWindowRunsGame", options: negateOptions)
-        showRomNames?.bind(.enabled, to: self, withKeyPath: "mainWindowRunsGame", options: negateOptions)
-        undockGameWindow?.bind(.enabled, to: self, withKeyPath: "mainWindowRunsGame", options: [:])
+        showLibraryNames?.bind(.enabled, to: self, withKeyPath: #keyPath(mainWindowRunsGame), options: negateOptions)
+        showRomNames?.bind(.enabled, to: self, withKeyPath: #keyPath(mainWindowRunsGame), options: negateOptions)
+        undockGameWindow?.bind(.enabled, to: self, withKeyPath: #keyPath(mainWindowRunsGame), options: [:])
     }
     
     // MARK: - Actions
@@ -314,7 +314,7 @@ extension MainWindowController: LibraryControllerDelegate {
                         messageText = (messageText as NSString).substring(to: range.location + 1)
                     }
                     
-                    messageText = messageText + NSLocalizedString(" Start the game from the library view if you want to locate it.", comment: "")
+                    messageText += NSLocalizedString(" Start the game from the library view if you want to locate it.", comment: "")
                     
                     let alert = OEAlert()
                     alert.messageText = messageText
@@ -348,7 +348,7 @@ extension MainWindowController: LibraryControllerDelegate {
                         case OEGameDocument.Errors.gameCoreCrashed(let core, let systemIdentifier, _) = error {
                     // TODO: the setup completion handler shouldn't be the place where non-setup-related errors are handled!
                     let coreName = core.displayName ?? ""
-                    let glitchy = core.controller.hasGlitches(forSystemIdentifier: systemIdentifier) 
+                    let glitchy = core.controller.hasGlitches(forSystemIdentifier: systemIdentifier)
                     
                     let alert = OEAlert()
                     if openWithSaveState {

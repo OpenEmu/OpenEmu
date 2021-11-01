@@ -85,7 +85,7 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
         tabView.tabViewType = .noTabsNoBorder
         tabStyle = .unspecified
         transitionOptions = []
-        setupTabViews()
+        setUpTabViews()
         // HACK: force NIB to load, so GameScannerViewController is initialized
         _ = tabViewItems[0].view
         
@@ -159,7 +159,7 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
         view.window?.makeFirstResponder(tabViewItem?.view)
     }
     
-    private func setupTabViews() {
+    private func setUpTabViews() {
         do {
             let ctrl = LibraryGamesViewController()
             ctrl.database = database

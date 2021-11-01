@@ -189,7 +189,7 @@ final class SidebarController: NSViewController {
               item.name != sender.stringValue
         else { return }
         
-        if  !sender.stringValue.isEmpty {
+        if !sender.stringValue.isEmpty {
             item.name = sender.stringValue
             item.save()
         }

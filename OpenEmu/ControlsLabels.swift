@@ -53,10 +53,10 @@ class ControlsLabel: NSTextField {
             font = .systemFont(ofSize: 11)
         }
         
-        setupAttributes()
+        setUpAttributes()
     }
     
-    func setupAttributes() {
+    func setUpAttributes() {
     }
     
     override func draw(_ dirtyRect: NSRect) {
@@ -73,7 +73,7 @@ class ControlsLabel: NSTextField {
 
 final class ControlsKeyHeadline: ControlsLabel {
     
-    override func setupAttributes() {
+    override func setUpAttributes() {
         if isWood {
             font = .boldSystemFont(ofSize: 11.5)
         } else {
@@ -84,7 +84,7 @@ final class ControlsKeyHeadline: ControlsLabel {
 
 final class ControlsKeyLabel: ControlsLabel {
     
-    override func setupAttributes() {
+    override func setUpAttributes() {
         alignment = .right
     }
 }

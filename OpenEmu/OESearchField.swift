@@ -30,8 +30,7 @@ final class OESearchField: NSSearchField {
     // Force redraw of the search glyph after changing the menu to make sure the chevron is displayed.
     override var searchMenuTemplate: NSMenu? {
         didSet {
-            let cell = self.cell as! NSSearchFieldCell
-            cell.resetSearchButtonCell()
+            (cell as? NSSearchFieldCell)?.resetSearchButtonCell()
         }
     }
     

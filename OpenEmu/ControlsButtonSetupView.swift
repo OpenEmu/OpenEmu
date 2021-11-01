@@ -87,14 +87,14 @@ final class ControlsButtonSetupView: NSView {
         orderedKeys = parser.orderedKeys
         for (key, button) in keyToButtonMap {
             button.bind(
-                NSBindingName("title"),
+                .title,
                 to: self,
                 withKeyPath: "bindingsProvider.\(key)",
                 options: [.nullPlaceholder: ""]
             )
         }
         
-        setupSubviews()
+        setUpSubviews()
         layoutSubviews()
     }
     
@@ -124,7 +124,7 @@ final class ControlsButtonSetupView: NSView {
     
     private var sectionTitleHeight: CGFloat = 25
     
-    func setupSubviews() {
+    func setUpSubviews() {
         // remove all subviews if any
         subviews.forEach { $0.removeFromSuperview() }
         
@@ -211,7 +211,7 @@ final class ControlsButtonSetupView: NSView {
                     let buttonRect = NSRect(x: width - buttonWidth, y: y - itemHeight, width: buttonWidth - rightGap, height: itemHeight)
                     button.frame = buttonRect.integral
                     
-                    var labelRect = NSIntegralRect(NSRect(x: leftGap, y: buttonRect.origin.y + buttonRect.size.height / 2 + 1, width: width - leftGap - labelButtonSpacing - buttonWidth, height: 100000))
+                    var labelRect = NSRect(x: leftGap, y: buttonRect.origin.y + buttonRect.size.height / 2 + 1, width: width - leftGap - labelButtonSpacing - buttonWidth, height: 100000).integral
                     
                     var labelFitSize = label.cell?.cellSize(forBounds: labelRect) ?? .zero
                     if labelFitSize.height > 30 {
@@ -291,12 +291,12 @@ final class ControlsButtonSetupView: NSView {
                 minY = visibleSectionRect.maxY
                 
                 if minY >= visibleRect.maxY - sectionTitleHeight - 1 {
-                    sectionHeader.pinned = true
+                    sectionHeader.isPinned = true
                 } else {
-                    sectionHeader.pinned = false
+                    sectionHeader.isPinned = false
                 }
             } else {
-                sectionHeader.pinned = false
+                sectionHeader.isPinned = false
             }
             i -= 1
         }

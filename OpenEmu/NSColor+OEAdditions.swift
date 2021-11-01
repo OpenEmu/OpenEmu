@@ -49,8 +49,11 @@ extension NSColor {
     
     var hexString: String? {
         
-        let rgbColor = usingColorSpace(.deviceRGB)
-        let result = String(format: "#%02x%02x%02x", Int(rgbColor!.redComponent * 255), Int(rgbColor!.greenComponent * 255), Int(rgbColor!.blueComponent * 255))
+        guard let rgbColor = usingColorSpace(.deviceRGB) else {
+            return nil
+        }
+        
+        let result = String(format: "#%02x%02x%02x", Int(rgbColor.redComponent * 255), Int(rgbColor.greenComponent * 255), Int(rgbColor.blueComponent * 255))
         
         return result
     }

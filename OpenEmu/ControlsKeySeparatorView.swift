@@ -29,10 +29,6 @@ final class ControlsKeySeparatorView: NSView {
     private let topColor = NSColor(red: 85/255, green: 45/255, blue: 0, alpha: 1)
     private let bottomColor = NSColor(red: 1, green: 1, blue: 0, alpha: 0.2)
     
-    override var isOpaque: Bool {
-        return false
-    }
-    
     override func draw(_ dirtyRect: NSRect) {
         
         var lineRect = bounds

@@ -31,7 +31,7 @@ final class RatingCell: NSCell {
         
         let color: NSColor = isHighlighted ? .white : .controlAccentColor
         let image = NSImage(named: "list_rating")?.withTintColor(color)
-        let rating = objectValue as? CGFloat ?? 0
+        let rating = objectValue as? Int ?? 0
         
         var sourceRect = NSRect(x: 0, y: 55 - rating * 11, width: 55, height: 11)
         if isHighlighted {
@@ -53,8 +53,8 @@ final class RatingCell: NSCell {
         return true
     }
     
-    override func continueTracking(last lastPoint: NSPoint, current pos: NSPoint, in controlView: NSView) -> Bool {
-        updateRating(with: pos, in: controlView as! NSTableView)
+    override func continueTracking(last lastPoint: NSPoint, current currentPoint: NSPoint, in controlView: NSView) -> Bool {
+        updateRating(with: currentPoint, in: controlView as! NSTableView)
         return true
     }
     
@@ -66,12 +66,12 @@ final class RatingCell: NSCell {
         objectValue = rating(for: point, in: view)
     }
     
-    func rating(for point: NSPoint, in view: NSTableView) -> Int {
+    func rating(for point: NSPoint, in tableView: NSTableView) -> Int {
         
-        let row = view.row(at: point)
-        let column = view.column(at: point)
+        let row = tableView.row(at: point)
+        let column = tableView.column(at: point)
         
-        let frame = view.frameOfCell(atColumn: column, row: row)
+        let frame = tableView.frameOfCell(atColumn: column, row: row)
         
         let minRatingX = (frame.size.width - 55) / 2
         let posX = point.x - frame.origin.x - minRatingX

@@ -107,7 +107,7 @@ final class OEGameDocument: NSDocument {
                 return 9
             case .couldNotLoadROM:
                 return 10
-            case .gameCoreCrashed(_, _, _):
+            case .gameCoreCrashed:
                 return 11
             case .invalidSaveState:
                 return 12
@@ -217,8 +217,8 @@ final class OEGameDocument: NSDocument {
         }
     }
     
-    convenience init(rom: OEDBRom, core: OECorePlugin?) throws {
-        self.init()
+    init(rom: OEDBRom, core: OECorePlugin?) throws {
+        super.init()
         do {
             try setUpDocument(with: rom, using: core)
         } catch {
@@ -226,8 +226,8 @@ final class OEGameDocument: NSDocument {
         }
     }
     
-    convenience init(game: OEDBGame, core: OECorePlugin?) throws {
-        self.init()
+    init(game: OEDBGame, core: OECorePlugin?) throws {
+        super.init()
         do {
             try setUpDocument(with: game.defaultROM, using: core)
         } catch {
@@ -235,8 +235,8 @@ final class OEGameDocument: NSDocument {
         }
     }
     
-    convenience init(saveState state: OEDBSaveState) throws {
-        self.init()
+    init(saveState state: OEDBSaveState) throws {
+        super.init()
         do {
             try setUpDocument(with: state)
         } catch {
@@ -299,7 +299,7 @@ final class OEGameDocument: NSDocument {
                     
                     if alert.runModal() == .alertFirstButtonReturn || error?.code == NSUserCancelledError {
                         // User canceld
-                        let error = NSError(domain: NSCocoaErrorDomain, code: NSUserCancelledError, userInfo: nil)
+                        let error = NSError(domain: NSCocoaErrorDomain, code: NSUserCancelledError)
                         throw error
                     }
                     else {
@@ -317,7 +317,7 @@ final class OEGameDocument: NSDocument {
                 }
                 else {
                     // User canceld
-                    let error = NSError(domain: NSCocoaErrorDomain, code: NSUserCancelledError, userInfo: nil)
+                    let error = NSError(domain: NSCocoaErrorDomain, code: NSUserCancelledError)
                     throw error
                 }
             }
@@ -382,7 +382,7 @@ final class OEGameDocument: NSDocument {
             // including untitled (new) documents.
             var displayName = rom.game?.displayName ?? ""
             #if DEBUG
-            displayName.append(" (DEBUG BUILD)")
+            displayName += " (DEBUG BUILD)"
             #endif
             return displayName
         }
@@ -402,7 +402,7 @@ final class OEGameDocument: NSDocument {
     
     override func data(ofType typeName: String) throws -> Data {
         DLog("\(typeName)")
-        throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+        throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr)
     }
     
     override func read(from url: URL, ofType typeName: String) throws {
@@ -652,7 +652,7 @@ final class OEGameDocument: NSDocument {
         let lastDisplayModeInfo = UserDefaults.standard.object(forKey: String(format: OEGameCoreDisplayModeKeyFormat, corePlugin.bundleIdentifier)) as? [String : Any]
         // if file is in an archive append :entryIndex to path, so the core manager can figure out which entry to load
         if let index = rom.archiveFileIndex as? Int {
-            path.append(":\(index)")
+            path += ":\(index)"
         }
         
         // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
@@ -1592,10 +1592,10 @@ final class OEGameDocument: NSDocument {
         }
         
         if alert.runModal() == .alertFirstButtonReturn {
-            if alert.stringValue == "" {
-                saveState(name: proposedName, completionHandler: nil)
+            if alert.stringValue.isEmpty {
+                saveState(name: proposedName)
             } else {
-                saveState(name: alert.stringValue, completionHandler: nil)
+                saveState(name: alert.stringValue)
             }
         }
         

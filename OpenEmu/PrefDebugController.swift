@@ -26,7 +26,6 @@ import Cocoa
 import OpenEmuSystem
 import OpenEmuKit
 
-@objcMembers
 final class PrefDebugController: NSViewController {
     
     @IBOutlet var contentView: NSGridView!
@@ -53,7 +52,8 @@ final class PrefDebugController: NSViewController {
             Option(label: "Dark (default)", value: OEAppearance.Application.dark.rawValue),
             Option(label: "Light", value: OEAppearance.Application.light.rawValue),
         ]),
-        "-",
+        
+        Separator(),
         
         Group(label: "Library Window"),
         Checkbox(key: OEImportManualSystems, label: "Manually choose system on import"),
@@ -63,7 +63,8 @@ final class PrefDebugController: NSViewController {
         Checkbox(key: Key.useNewScreenshotsViewController.rawValue, label: "Use new screenshots view"),
         Button(label: "Reset main window size", action: #selector(resetMainWindow(_:))),
         Button(label: "Toggle game scanner view", action: #selector(toggleGameScannerView(_:))),
-        "-",
+        
+        Separator(),
         
         Group(label: "HUD Bar / Gameplay"),
         Checkbox(key: OEGameLayerNotificationView.OEShowNotificationsKey, label: "Show notifications during gameplay"),
@@ -79,7 +80,8 @@ final class PrefDebugController: NSViewController {
             Option(label: "Dark", value: OEAppearance.HUDBar.dark.rawValue),
         ]),
         ColorWell(key: OEGameViewBackgroundColorKey, label: "Game View Background color:"),
-        "-",
+        
+        Separator(),
         
         Group(label: "Controls Setup"),
         Checkbox(key: ControlsButtonSetupView.controlsButtonHighlightRollsOver, label: "Select first field after setting the last"),
@@ -92,24 +94,28 @@ final class PrefDebugController: NSViewController {
             Option(label: "Vibrant", value: OEAppearance.ControlsPrefs.vibrant.rawValue),
             Option(label: "Vibrant Wood", value: OEAppearance.ControlsPrefs.woodVibrant.rawValue),
         ]),
-        NumericTextField(key: "OESystemResponderADCThreshold", label: "Threshold for analog controls bound to buttons:", numberFormatter: NumericTextField.NF(allowsFloats: true, minimum: NSNumber(value: 0.01), maximum: NSNumber(value: 0.99), numberStyle: .decimal)),
-        "-",
+        NumericTextField(key: "OESystemResponderADCThreshold", label: "Threshold for analog controls bound to buttons:", numberFormatter: NumericTextField.NF(allowsFloats: true, minimum: 0.01, maximum: 0.99, numberStyle: .decimal)),
+        
+        Separator(),
         
         Group(label: "Save States"),
         Button(label: "Set default save states directory", action: #selector(restoreSaveStatesDirectory(_:))),
         Button(label: "Cleanup autosave state", action: #selector(cleanupAutoSaveStates(_:))),
         Button(label: "Cleanup Save States", action: #selector(cleanupSaveStates(_:))),
-        "-",
+        
+        Separator(),
         
         Group(label: "Shaders"),
         Button(label: "Clear shader cache", action: #selector(clearShaderCache(_:))),
         Button(label: "Download additional shaders", action: #selector(downloadShaders(_:))),
         Button(label: "Reveal user shader folder", action: #selector(openUserShaderFolder(_:))),
-        "-",
+        
+        Separator(),
         
         Group(label: "OpenVGDB"),
         Button(label: "Update OpenVGDB", action: #selector(updateOpenVGDB(_:))),
-        "-",
+        
+        Separator(),
         
         Group(label: "Database Actions"),
         Button(label: "Delete useless image objects", action: #selector(removeUselessImages(_:))),
@@ -127,10 +133,10 @@ final class PrefDebugController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupGridView()
+        setUpGridView()
     }
     
-    private func setupGridView() {
+    private func setUpGridView() {
         
         let gridView = NSGridView(numberOfColumns: 2, rows: 0)
         gridView.column(at: 0).xPlacement = .trailing
@@ -173,13 +179,12 @@ final class PrefDebugController: NSViewController {
             let checkbox = NSButton(checkboxWithTitle: label, target: nil, action: nil)
             checkbox.title = label
             
-            var options: [NSBindingOption : Any] = [.continuouslyUpdatesValue: NSNumber(value: true)]
+            var options: [NSBindingOption : Any] = [.continuouslyUpdatesValue: true as NSNumber]
             if negated {
                 options[.valueTransformerName] = NSValueTransformerName.negateBooleanTransformerName
             }
             
-            let keyPath = "values.\(key)"
-            checkbox.bind(NSBindingName("value"), to: NSUserDefaultsController.shared, withKeyPath: keyPath, options: options)
+            checkbox.bind(.value, to: NSUserDefaultsController.shared, withKeyPath: "values.\(key)", options: options)
             
             if let originalValue = defaultDefaults[key] as? NSNumber {
                 let origbool = originalValue.boolValue != negated
@@ -261,7 +266,7 @@ final class PrefDebugController: NSViewController {
                 popup.addItem(withTitle: NSLocalizedString(option.label, tableName: "Debug", comment: ""))
                 popup.item(at: index)?.representedObject = option.value
             }
-            setupSelectedItem(for: popup, item: item)
+            setUpSelectedItem(for: popup, item: item)
             popup.sizeToFit()
             
             gridView.addRow(with: [labelField, popup])
@@ -282,8 +287,7 @@ final class PrefDebugController: NSViewController {
             
             let inputField = NSTextField(string: "")
             inputField.formatter = numberFormatter
-            let keyPath = "values.\(key)"
-            inputField.bind(.value, to: NSUserDefaultsController.shared, withKeyPath: keyPath, options: nil)
+            inputField.bind(.value, to: NSUserDefaultsController.shared, withKeyPath: "values.\(key)", options: nil)
             
             let validRangeFormat = NSLocalizedString("Range: %@ to %@", tableName: "Debug", comment: "Range indicator tooltip for numeric text boxes in the Debug Preferences")
             let min = numberFormatter.string(from: nf.minimum) ?? ""
@@ -300,7 +304,7 @@ final class PrefDebugController: NSViewController {
             gridView.addRow(with: [labelField, inputField])
             inputField.widthAnchor.constraint(equalToConstant: 70).isActive = true
         }
-        else if item as? String == "-" {
+        else if item is Separator {
             let separator = NSBox()
             separator.boxType = .separator
             
@@ -311,7 +315,7 @@ final class PrefDebugController: NSViewController {
         }
     }
     
-    private func setupSelectedItem(for button: NSPopUpButton, item: Popover) {
+    private func setUpSelectedItem(for button: NSPopUpButton, item: Popover) {
         
         let key = item.key
         
@@ -333,8 +337,11 @@ final class PrefDebugController: NSViewController {
             }
         }
     }
-    
-    // MARK: - Actions
+}
+
+// MARK: - Actions
+
+@objc private extension PrefDebugController {
     
     func changeRegion(_ sender: NSPopUpButton) {
         let item = sender.selectedItem
@@ -519,9 +526,14 @@ final class PrefDebugController: NSViewController {
     func sanityCheck(_ sender: Any?) {
         OELibraryDatabase.default?.sanityCheck()
     }
+}
+
+// MARK: - Structs
+
+private extension PrefDebugController {
     
-    // MARK: - Structs
-    
+    struct Separator {
+    }
     struct Group {
         let label: String
     }

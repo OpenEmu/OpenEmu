@@ -24,10 +24,10 @@
 
 import Cocoa
 
-final class SetupAssistantTableView: NSTableView, NSTableViewDataSource {
+final class SetupAssistantTableView: NSTableView {
     
-    override init(frame: NSRect) {
-        super.init(frame: frame)
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
         commonInit()
     }
     
@@ -36,7 +36,7 @@ final class SetupAssistantTableView: NSTableView, NSTableViewDataSource {
         commonInit()
     }
     
-    func commonInit() {
+    private func commonInit() {
         rowHeight = 23
         backgroundColor = .clear
     }
@@ -44,27 +44,23 @@ final class SetupAssistantTableView: NSTableView, NSTableViewDataSource {
     // MARK: - Drawing
     
     override func highlightSelection(inClipRect clipRect: NSRect) {
+        guard let window = window else { return }
         
-        guard window != nil else {
-            return
-        }
+        let isActive = window.isMainWindow && window.firstResponder == self
         
-        let isActive = window!.isMainWindow && window!.firstResponder == self
-        
-        var fillColor: NSColor?
+        let fillColor: NSColor
         if isActive {
             fillColor = NSColor(red: 27/255, green: 49/255, blue: 139/255, alpha: 0.5)
         } else {
             fillColor = NSColor(white: 0.55, alpha: 0.5)
         }
         
-        fillColor?.setFill()
+        fillColor.setFill()
         
-        let selectedRows = selectedRowIndexes as NSIndexSet
-        selectedRows.enumerate({ [self] idx, stop in
-            let frame = rect(ofRow: idx)
+        for index in selectedRowIndexes {
+            let frame = rect(ofRow: index)
             frame.fill()
-        })
+        }
     }
     
     override func drawBackground(inClipRect clipRect: NSRect) {
@@ -72,9 +68,9 @@ final class SetupAssistantTableView: NSTableView, NSTableViewDataSource {
         let rowBackground = NSColor(white: 0, alpha: 0.1)
         let alternateRowBackground = NSColor(white: 1, alpha: 0.01)
         
-        rowBackground.setFill()
+        let rowHeight = rowHeight + intercellSpacing.height
         
-        let rowHeight = self.rowHeight + intercellSpacing.height
+        rowBackground.setFill()
         
         var i = 0
         while i < Int(bounds.maxY) {

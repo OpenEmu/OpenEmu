@@ -38,7 +38,7 @@ final class PrefControlsController: NSViewController {
     private var _selectedKey: String?
     var selectedKey: String? {
         get {
-           return _selectedKey
+            return _selectedKey
         }
         set {
             _selectedKey = (selectedKey != newValue) ? newValue : nil
@@ -250,7 +250,7 @@ final class PrefControlsController: NSViewController {
         
         consolesPopupButton.selectItem(at: 0)
         for item in consolesPopupButton.itemArray {
-            if item.representedObject  as? String == selectedSystemIdentifier {
+            if item.representedObject as? String == selectedSystemIdentifier {
                 consolesPopupButton.select(item)
                 break
             }
@@ -324,7 +324,7 @@ final class PrefControlsController: NSViewController {
     
     private func addControllers(to inputMenu: NSMenu) {
         var controllers = OEDeviceManager.shared.controllerDeviceHandlers
-        if controllers.count == 0 {
+        if controllers.isEmpty {
             inputMenu.addItem(withTitle: NSLocalizedString("No available controllers", comment: "Menu item indicating that no controllers is plugged in"), action: nil, keyEquivalent: "").isEnabled = false
             return
         }
@@ -686,6 +686,7 @@ final class PrefControlsController: NSViewController {
             register(event)
         }
     }
+    
     override func hidKeyUp(_ event: OEHIDEvent) {
         shouldRegister(event)
     }

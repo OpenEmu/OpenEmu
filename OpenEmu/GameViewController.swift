@@ -115,9 +115,9 @@ final class GameViewController: NSViewController {
         shaderWindowController.close()
         shaderWindowController = nil
         
-        if token != nil {
-            NotificationCenter.default.removeObserver(token!)
-            token = nil
+        if let token = token {
+            NotificationCenter.default.removeObserver(token)
+            self.token = nil
         }
     }
     
@@ -232,7 +232,6 @@ final class GameViewController: NSViewController {
     }
     
     func setScreenSize(_ newScreenSize: OEIntSize, aspectSize newAspectSize: OEIntSize) {
-        
         screenSize = newScreenSize
         aspectSize = newAspectSize
         // Should never happen
@@ -258,7 +257,7 @@ extension GameViewController: NSMenuItemValidation {
     
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         switch menuItem.action {
-        case #selector(toggleControlsVisibility(_:)) :
+        case #selector(toggleControlsVisibility(_:)):
             if controlsWindow.canShow {
                 menuItem.state = .off
             } else {

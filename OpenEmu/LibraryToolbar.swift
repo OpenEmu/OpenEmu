@@ -43,16 +43,16 @@ final class LibraryToolbar: NSToolbar {
     var addButton: NSSegmentedControl {
         del.addToolbarItem.view as! NSSegmentedControl
     }
-    var gridSizeSlider: NSSlider! {
+    var gridSizeSlider: NSSlider {
         (del.gridSizeToolbarItem.view as! GridSizeSlider).slider
     }
-    var decreaseGridSizeButton: NSButton! {
+    var decreaseGridSizeButton: NSButton {
         (del.gridSizeToolbarItem.view as! GridSizeSlider).minButton
     }
-    var increaseGridSizeButton: NSButton! {
+    var increaseGridSizeButton: NSButton {
         (del.gridSizeToolbarItem.view as! GridSizeSlider).maxButton
     }
-    var searchField: NSSearchField! {
+    var searchField: NSSearchField {
         del.searchField
     }
     

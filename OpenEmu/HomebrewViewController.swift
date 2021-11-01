@@ -39,8 +39,8 @@ final class HomebrewViewController: NSViewController {
     private var blankSlate: HomebrewBlankSlateView?
     var database: OELibraryDatabase?
     private var currentDownload: Download?
-    private var games: [HomebrewGame]!
-    private var headerIndices: [Int]!
+    private var games: [HomebrewGame] = []
+    private var headerIndices: [Int] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +65,7 @@ final class HomebrewViewController: NSViewController {
         validateToolbarItems()
         
         // Fetch games if we haven't already, this allows reloading if an error occured, by switching to a different library view and then back to homebrew
-        if games == nil || games.count == 0 {
+        if games.isEmpty {
             updateGames()
         }
     }
@@ -138,9 +138,9 @@ final class HomebrewViewController: NSViewController {
         let document: XMLDocument
         do {
             document = try XMLDocument(contentsOf: url, options: [])
-        }
-        catch {
-            return DLog("\(String(describing: error))")
+        } catch {
+            DLog("\(error)")
+            throw error
         }
         
         var allHeaderIndices = [Int]()
@@ -250,7 +250,7 @@ final class HomebrewViewController: NSViewController {
             
             rom = OEDBRom(entity: romDescription, insertInto: context)
             rom!.sourceURL = url
-            rom!.archiveFileIndex = NSNumber(value: fileIndex)
+            rom!.archiveFileIndex = fileIndex as NSNumber
             rom!.md5 = md5.lowercased()
             
             let game = OEDBGame(entity: gameDescription, insertInto: context)
@@ -378,7 +378,7 @@ extension HomebrewViewController: NSTableViewDelegate {
 extension HomebrewViewController: NSTableViewDataSource {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return games?.count ?? 0 // -3 for featured games which share a row, +1 for the shared row, + 2 for headers
+        return games.count // -3 for featured games which share a row, +1 for the shared row, + 2 for headers
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {

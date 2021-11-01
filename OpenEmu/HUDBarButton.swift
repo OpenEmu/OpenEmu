@@ -26,7 +26,11 @@ import Cocoa
 
 final class HUDBarButton: HoverButton {
     
-    @objc var backgroundColor = NSColor.clear
+    enum BackgroundColor {
+        case black, red
+    }
+    
+    var backgroundColor: BackgroundColor?
     
     override func draw(_ dirtyRect: NSRect) {
         
@@ -40,7 +44,7 @@ final class HUDBarButton: HoverButton {
         
         NSImage(named: backgroundImageName)?.draw(in: dirtyRect)
         
-        if var img = state == .on && alternateImage != nil ? alternateImage : image {
+        if var img = (state == .on && alternateImage != nil) ? alternateImage : image {
             if isHighlighted || !isHovering {
                 img = img.withTintColor(.labelColor)
             } else {

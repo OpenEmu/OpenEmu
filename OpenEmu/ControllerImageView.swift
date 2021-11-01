@@ -108,9 +108,9 @@ final class ControllerImageView: NSView {
         ringAnimation.delegate = self
         
         animations = [
-            "ringAlpha": ringAnimation,
-            "ringPosition": ringAnimation,
-            "overlayAlpha": overlayAnimation,
+            #keyPath(ringAlpha): ringAnimation,
+            #keyPath(ringPosition): ringAnimation,
+            #keyPath(overlayAlpha): overlayAnimation,
         ]
     }
     

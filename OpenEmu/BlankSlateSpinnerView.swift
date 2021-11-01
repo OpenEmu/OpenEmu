@@ -25,7 +25,7 @@
 import Cocoa
 import QuartzCore
 
-final class BlankSlateSpinnerView: NSView, CALayerDelegate, NSViewLayerContentScaleDelegate {
+final class BlankSlateSpinnerView: NSView, CALayerDelegate {
     
     private var spinnerLayer: CALayer?
     
@@ -33,8 +33,8 @@ final class BlankSlateSpinnerView: NSView, CALayerDelegate, NSViewLayerContentSc
         fatalError("init(coder:) has not been implemented")
     }
     
-    override init(frame: NSRect) {
-        super.init(frame: frame)
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
         wantsLayer = true
     }
     
@@ -57,8 +57,7 @@ final class BlankSlateSpinnerView: NSView, CALayerDelegate, NSViewLayerContentSc
     
     // MARK: - Animation
     
-    private var spinnerAnimation: CAAnimation {
-        
+    private var spinnerAnimation: CAKeyframeAnimation {
         let stepCount = 12
         var spinnerValues = [Double]()
         spinnerValues.reserveCapacity(stepCount)
@@ -69,22 +68,22 @@ final class BlankSlateSpinnerView: NSView, CALayerDelegate, NSViewLayerContentSc
         
         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
         animation.calculationMode = .discrete
-        animation.duration = 1.0
-        animation.repeatCount = .infinity
+        animation.duration = 1
+        animation.repeatCount = .greatestFiniteMagnitude
         animation.isRemovedOnCompletion = false
         animation.values = spinnerValues
         
         return animation
     }
     
-    // MARK: - Layer Delegate
+    // MARK: - CALayer Delegate
     
     func layoutSublayers(of layer: CALayer) {
-        if layer == self.layer, spinnerLayer != nil {
-            spinnerLayer!.frame = layer.bounds
-            spinnerLayer!.frame.size.height = 124
-            spinnerLayer!.frame.origin.y -= (spinnerLayer!.frame.height - layer.frame.height) / 2
-            spinnerLayer!.contents = NSImage(named: "blank_slate_spinner")?.withTintColor(NSColor(named: "blank_slate_box_text")!)
+        if layer == self.layer, let spinnerLayer = spinnerLayer {
+            spinnerLayer.frame = layer.bounds
+            spinnerLayer.frame.size.height = 124
+            spinnerLayer.frame.origin.y -= (spinnerLayer.frame.height - layer.frame.height) / 2
+            spinnerLayer.contents = NSImage(named: "blank_slate_spinner")?.withTintColor(NSColor(named: "blank_slate_box_text")!)
         }
     }
     

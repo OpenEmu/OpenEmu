@@ -67,7 +67,7 @@ final class ControlsSectionTitleView: NSView {
         }
     }
     
-    var pinned = false {
+    var isPinned = false {
         didSet {
             if isWood {
                 needsDisplay = true
@@ -164,7 +164,7 @@ final class ControlsSectionTitleView: NSView {
         }
         
         // draw top line if the view is not pinned
-        if !pinned {
+        if !isPinned {
             topColor.setFill()
             lineRect.origin.y = bounds.size.height-1
             lineRect.fill()
@@ -172,6 +172,6 @@ final class ControlsSectionTitleView: NSView {
             bottomColor.setFill()
             lineRect.origin.y = bounds.size.height-2
             lineRect.fill(using: .sourceOver)
-         }
+        }
     }
 }

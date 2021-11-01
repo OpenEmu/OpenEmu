@@ -30,7 +30,7 @@ extension NSNotification.Name {
 
 final class LibraryGamesViewController: NSSplitViewController {
     
-    private let OESkipDiscGuideMessageKey = "OESkipDiscGuideMessageKey"
+    private static let skipDiscGuideMessageKey = "OESkipDiscGuideMessageKey"
     private lazy var discGuideMessageSystemIDs: [String?] = []
     
     private let sidebarMinWidth: CGFloat = 105
@@ -53,7 +53,7 @@ final class LibraryGamesViewController: NSSplitViewController {
         sidebarController = SidebarController()
         collectionController = OEGameCollectionViewController()
         
-        setupSplitView()
+        setUpSplitView()
         assignDatabase()
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateCollectionContentsFromSidebar), name: .OESidebarSelectionDidChange, object: sidebarController)
@@ -62,7 +62,7 @@ final class LibraryGamesViewController: NSSplitViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         
-        setupSplitViewAutosave()
+        setUpSplitViewAutosave()
         updateCollectionContentsFromSidebar()
         
         view.needsDisplay = true
@@ -93,7 +93,7 @@ final class LibraryGamesViewController: NSSplitViewController {
     
     // MARK: - Split View
     
-    private func setupSplitView() {
+    private func setUpSplitView() {
         
         splitView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -114,7 +114,7 @@ final class LibraryGamesViewController: NSSplitViewController {
         addSplitViewItem(collectionItem)
     }
     
-    private func setupSplitViewAutosave() {
+    private func setUpSplitViewAutosave() {
         
         if splitView.autosaveName != nil && !(splitView.autosaveName == "") {
             return
@@ -181,6 +181,7 @@ final class LibraryGamesViewController: NSSplitViewController {
         collectionController.representedObject = selectedItem as? GameCollectionViewItemProtocol
         
         // For empty collections of disc-based games, display an alert to compel the user to read the disc-importing guide.
+        // Delay disc alert by 200 ms to allow navigating past disc-based systems with arrow keys in the sidebar without triggering the alert.
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
             guard self.sidebarController.selectedSidebarItem === selectedItem else { return }
             
@@ -188,7 +189,7 @@ final class LibraryGamesViewController: NSSplitViewController {
                system.plugin?.supportsDiscsWithDescriptorFile ?? false,
                system.games.isEmpty,
                !self.discGuideMessageSystemIDs.contains(system.systemIdentifier),
-               !UserDefaults.standard.bool(forKey: self.OESkipDiscGuideMessageKey),
+               !UserDefaults.standard.bool(forKey: Self.skipDiscGuideMessageKey),
                let window = self.view.window {
                 
                 let alert = NSAlert()
@@ -235,7 +236,7 @@ extension LibraryGamesViewController: NSMenuItemValidation {
         case #selector(switchToGridView):
             menuItem.state = isGridView ? .on : .off
             return !isBlankSlate
-        case #selector(switchToListView) :
+        case #selector(switchToListView):
             menuItem.state = !isGridView ? .on : .off
             return !isBlankSlate
         default:

@@ -113,7 +113,7 @@ final class HomebrewCoverView: NSView {
     }
     
     private func rect(for image: NSImage) -> NSRect {
-        let bounds = self.bounds
+        let bounds = bounds
         let imageSize = image.size
         let aspectRatio = imageSize.width/imageSize.height
         

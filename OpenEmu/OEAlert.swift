@@ -28,7 +28,7 @@ typealias OEAlertCompletionHandler = (OEAlert, NSApplication.ModalResponse) -> V
 
 @objc
 @objcMembers
-class OEAlert: NSObject {
+final class OEAlert: NSObject {
     
     private let TopInset: CGFloat = 16
     private let BottomInset: CGFloat = 18
@@ -672,7 +672,7 @@ class OEAlert: NSObject {
     private func layoutHeadlineUnderAnchor(_ lastAnchor: NSLayoutYAxisAnchor, leading effectiveLeadingAnchor: NSLayoutXAxisAnchor) -> NSLayoutYAxisAnchor {
         let contentView = window.contentView!
         
-        headlineLabel.setContentHuggingPriority(NSLayoutConstraint.Priority(NSLayoutConstraint.Priority.defaultHigh.rawValue + 1), for: .vertical)
+        headlineLabel.setContentHuggingPriority(.defaultHigh+1, for: .vertical)
         contentView.addSubview(headlineLabel)
         NSLayoutConstraint.activate([
             headlineLabel.topAnchor.constraint(equalTo: lastAnchor, constant: TopInset),
@@ -798,7 +798,6 @@ class OEAlert: NSObject {
             ])
         } else if showsSuppressionButton {
             buttonStackView.setCustomSpacing(OtherButtonSpacing, after: suppressionButton)
-            
         }
         
         return buttonStackView.bottomAnchor

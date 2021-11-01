@@ -236,11 +236,8 @@ class BlankSlateView: NSView {
         containerView?.addSubview(textView)
         
         // Get core plugins that can handle the system
-        let pluginFilter = NSPredicate(block: { evaluatedPlugin, bindings in
-            return (evaluatedPlugin as! OECorePlugin).systemIdentifiers.contains(plugin.systemIdentifier)
-        })
+        let pluginsForSystem = OECorePlugin.allPlugins.filter { $0.systemIdentifiers.contains(plugin.systemIdentifier) }
         
-        let pluginsForSystem = (OECorePlugin.allPlugins as NSArray).filtered(using: pluginFilter)
         let extraspace = CGFloat(max(0, pluginsForSystem.count - 2))
         
         let coreIconRect = NSRect(x: CoreX,
@@ -269,8 +266,6 @@ class BlankSlateView: NSView {
         
         for (idx, core) in pluginsForSystem.enumerated() {
             
-            guard let core = core as? OECorePlugin else { continue }
-            
             let projectURL = core.infoDictionary["OEProjectURL"] as? String
             let name = core.displayName ?? ""
             
@@ -281,7 +276,7 @@ class BlankSlateView: NSView {
                           height: 20)
             
             if #available(macOS 11.0, *) {
-                frame.origin.x += 2;
+                frame.origin.x += 2
             }
             
             let gotoButton = TextButton(frame: frame)
@@ -421,9 +416,10 @@ extension BlankSlateView: CALayerDelegate {
     
     func layoutSublayers(of layer: CALayer) {
         CATransaction.begin()
+        defer { CATransaction.commit() }
         CATransaction.setDisableActions(true)
         
-        let bounds = self.bounds
+        let bounds = bounds
         let contentLayoutRect = window!.contentLayoutRect
         
         for layer in layer.sublayers ?? [] {
@@ -438,8 +434,6 @@ extension BlankSlateView: CALayerDelegate {
                 layer.frame = bounds
             }
         }
-        
-        CATransaction.commit()
     }
 }
 

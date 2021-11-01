@@ -37,7 +37,7 @@ final class PrefBiosController: NSViewController {
     
     @IBOutlet var tableView: NSTableView!
     
-    private var items: [AnyHashable]?
+    private var items: [AnyHashable] = []
     private var token: NSObjectProtocol?
     
     override func viewDidLoad() {
@@ -82,7 +82,6 @@ final class PrefBiosController: NSViewController {
     }
     
     private func reloadData() {
-        
         var items: [AnyHashable] = []
         
         for core in OECorePlugin.allPlugins {
@@ -109,7 +108,7 @@ final class PrefBiosController: NSViewController {
     
     @objc private func deleteBIOSFile(_ sender: Any?) {
         guard
-            let file = items?[tableView.clickedRow - 1] as? [String : Any],
+            let file = items[tableView.clickedRow - 1] as? [String : Any],
             let fileName = file["Name"] as? String
         else { return }
             
@@ -124,7 +123,7 @@ final class PrefBiosController: NSViewController {
     
     @objc private func biosFileWasImported(_ notification: Notification) {
         let md5 = notification.userInfo?["MD5"] as! String
-        for (index, item) in (items ?? []).enumerated() {
+        for (index, item) in items.enumerated() {
             guard
                 let file = item as? [String : Any],
                 let fileMD5 = file["MD5"] as? String,
@@ -146,8 +145,6 @@ final class PrefBiosController: NSViewController {
 extension PrefBiosController: NSTableViewDataSource {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
-        guard let items = items else { return 0 }
-        
         return items.count + 1
     }
     
@@ -189,10 +186,10 @@ extension PrefBiosController: NSTableViewDataSource {
 
 extension PrefBiosController: NSTableViewDelegate {
     
-    func tableView(_ view: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
         if row == 0 {
-            let groupCell = view.makeView(withIdentifier: .infoCell, owner: self) as? NSTableCellView
+            let groupCell = tableView.makeView(withIdentifier: .infoCell, owner: self) as? NSTableCellView
             let textField = groupCell?.textField
             
             let parStyle = NSMutableParagraphStyle()
@@ -222,10 +219,10 @@ extension PrefBiosController: NSTableViewDelegate {
             return groupCell
         }
         
-        let item = items?[row-1]
-        if tableView(view, isGroupRow: row) {
+        let item = items[row - 1]
+        if self.tableView(tableView, isGroupRow: row) {
             let core = item as? OECorePlugin
-            let groupCell = view.makeView(withIdentifier: .coreCell, owner: self) as? NSTableCellView
+            let groupCell = tableView.makeView(withIdentifier: .coreCell, owner: self) as? NSTableCellView
             groupCell?.textField?.stringValue = core?.name ?? ""
             return groupCell
         }
@@ -276,7 +273,7 @@ extension PrefBiosController: NSTableViewDelegate {
             return false
         }
         
-        return items?[row - 1] is OECorePlugin
+        return items[row - 1] is OECorePlugin
     }
 }
 
@@ -289,7 +286,7 @@ extension PrefBiosController: NSMenuDelegate {
             !tableView(tableView, isGroupRow: tableView.clickedRow)
         else { return }
         
-        if let file = items?[tableView.clickedRow - 1] as? [String : Any] {
+        if let file = items[tableView.clickedRow - 1] as? [String : Any] {
             let available = BIOSFile.isBIOSFileAvailable(withFileInfo: file)
             let item = NSMenuItem()
             item.title = NSLocalizedString("Delete", comment: "")

@@ -44,9 +44,9 @@ final class PrefGameplayController: NSViewController {
     }
     
     deinit {
-        if token != nil {
-            NotificationCenter.default.removeObserver(token!)
-            token = nil
+        if let token = token {
+            NotificationCenter.default.removeObserver(token)
+            self.token = nil
         }
     }
     
