@@ -87,6 +87,9 @@ final class GameScannerViewController: NSViewController {
         
         issuesView.menu = menu
         
+        statusLabel.font = .monospacedDigitSystemFont(ofSize: 11, weight: .regular)
+        fixButton.font = .monospacedDigitSystemFont(ofSize: 11, weight: .bold)
+        
         layOutSidebarViews(withVisibleGameScanner: false, animated: false)
         
         itemsRequiringAttention = []
