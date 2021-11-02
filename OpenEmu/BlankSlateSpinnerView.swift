@@ -38,6 +38,10 @@ final class BlankSlateSpinnerView: NSView, CALayerDelegate {
         wantsLayer = true
     }
     
+    override var intrinsicContentSize: NSSize {
+        NSSize(width: 124, height: 124)
+    }
+    
     override func makeBackingLayer() -> CALayer {
         
         let rootLayer = CALayer()

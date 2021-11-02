@@ -26,27 +26,19 @@ import Cocoa
 
 final class HomebrewBlankSlateView: BlankSlateView {
     
-    override func setupViewForRepresentedObject() {
+    override func setUpViewForRepresentedObject() {
         
-        addLeftHeadline(NSLocalizedString("Homebrew Games", comment: ""))
+        headline = NSLocalizedString("Homebrew Games", comment: "")
         
         if let representedObject = representedObject as? String {
-            
-            setupBox(text: representedObject, imageView: BlankSlateSpinnerView())
-            
-            addInformationalText(NSLocalizedString("Check out some excellent homebrew games.", comment: ""))
+            isLoading = true
+            boxText = representedObject
+            informationalText = NSLocalizedString("Check out some excellent homebrew games.", comment: "")
         }
         else if let error = representedObject as? Error {
-            
-            let warningImageView = NSImageView()
-            warningImageView.image = NSImage(named: "blank_slate_warning")
-            warningImageView.imageScaling = .scaleNone
-            warningImageView.imageAlignment = .alignTop
-            warningImageView.unregisterDraggedTypes()
-            
-            setupBox(text: NSLocalizedString("No Internet Connection", comment: "Homebrew Blank Slate View Error Info"), imageView: warningImageView)
-            
-            addInformationalText(error.localizedDescription)
+            boxImage = NSImage(named: "blank_slate_warning")
+            boxText = NSLocalizedString("No Internet Connection", comment: "Homebrew Blank Slate View Error Info")
+            informationalText = error.localizedDescription
         }
         else {
             DLog("Unknown Represented Object!")

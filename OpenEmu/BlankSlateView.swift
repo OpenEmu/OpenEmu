@@ -29,29 +29,171 @@ import OpenEmuKit.OESystemPlugin
 @objc(OEBlankSlateView)
 class BlankSlateView: NSView {
     
-    private let ContainerWidth: CGFloat = 427
-    private let ContainerHeight: CGFloat = 418
+    private enum Layout {
+        static let containerSize = NSSize(width: 427, height: 418)
+        
+        static let boxImageToTop: CGFloat = 52 // distance between box image top and container top
+        static let boxTextToTop: CGFloat = 202 // distance between box text top and container top
+        static let headlineToTop: CGFloat = 327 // distance between headline top and container top
+        static let bottomTextToTop: CGFloat = 357 // distance between bottom text top and container top
+        static let bottomTextHeight: CGFloat = 67 // height of bottom text
+    }
     
-    private let BoxHeight: CGFloat = 261 // height of box
-    private let BoxImageToTop: CGFloat = 52 // image top to view top distance
-    private let BoxImageToBottom: CGFloat = 70 // image bottom to view bottom distance
-    private let BoxTextToTop: CGFloat = 202 // distance of box top to text
+    @objc // OECollectionViewController
+    weak var delegate: BlankSlateViewDelegate?
     
-    private let HeadlineHeight: CGFloat = 41 // height of headline
-    private let HeadlineToTop: CGFloat = 337 // space between headline and view top
+    @objc // OECollectionViewController
+    var representedObject: Any? {
+        didSet {
+            guard representedObject != nil else { return }
+            
+            clearContainerView()
+            setUpViewForRepresentedObject()
+        }
+    }
     
-    private let BottomTextHeight: CGFloat = 67 // height of instructional text
-    private let BottomTextTop: CGFloat = 357
-    
-    private let CoreToTop: CGFloat = 357 // space between core icon and view top
-    private let CoreX: CGFloat = 263 // x coordinate of core icon
-    
-    private let RightColumnX: CGFloat = 310
-    
-    private var containerView: NSView?
-    @objc weak var delegate: BlankSlateViewDelegate?
-    private lazy var dragIndicationLayer = CALayer()
+    private let containerView = NSView()
+    private let dragIndicationLayer = CALayer()
     private lazy var lastDragOperation: NSDragOperation = []
+    
+    lazy var isLoading = false {
+        didSet {
+            if isLoading {
+                boxImageView.removeFromSuperview()
+                containerView.addSubview(spinnerView)
+                NSLayoutConstraint.activate([
+                    spinnerView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.boxImageToTop),
+                    spinnerView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+                ])
+            } else {
+                spinnerView.removeFromSuperview()
+            }
+        }
+    }
+    
+    var boxImage: NSImage? {
+        get {
+            return boxImageView.image
+        }
+        set {
+            boxImageView.image = newValue
+            containerView.addSubview(boxImageView)
+            
+            NSLayoutConstraint.activate([
+                boxImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.boxImageToTop),
+                boxImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            ])
+        }
+    }
+    
+    var boxText: String {
+        get {
+            return boxLabel.stringValue
+        }
+        set {
+            boxLabel.stringValue = newValue
+            containerView.addSubview(boxLabel)
+            
+            NSLayoutConstraint.activate([
+                boxLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.boxTextToTop),
+                boxLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            ])
+        }
+    }
+    
+    var headline: String {
+        get {
+            return headlineLabel.stringValue
+        }
+        set {
+            headlineLabel.stringValue = newValue
+            containerView.addSubview(headlineLabel)
+            
+            NSLayoutConstraint.activate([
+                headlineLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+                headlineLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.headlineToTop),
+            ])
+        }
+    }
+    
+    var informationalText: String {
+        get {
+            return informationalTextView.string
+        }
+        set {
+            informationalTextView.string = newValue
+            containerView.addSubview(informationalTextView)
+            
+            NSLayoutConstraint.activate([
+                informationalTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: -4),
+                informationalTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+                informationalTextView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.bottomTextToTop),
+                informationalTextView.heightAnchor.constraint(equalToConstant: Layout.bottomTextHeight),
+            ])
+        }
+    }
+    
+    // MARK: - Views
+    
+    private lazy var spinnerView: BlankSlateSpinnerView = {
+        let spinnerView = BlankSlateSpinnerView()
+        spinnerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return spinnerView
+    }()
+    
+    private lazy var boxBorderImageView: NSImageView = {
+        let boxBorderImageView = NSImageView()
+        boxBorderImageView.image = NSImage(named: "blank_slate_box")
+        boxBorderImageView.unregisterDraggedTypes()
+        boxBorderImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return boxBorderImageView
+    }()
+    
+    private lazy var boxImageView: NSImageView = {
+        let boxImageView = NSImageView()
+        boxImageView.imageScaling = .scaleNone
+        boxImageView.imageAlignment = .alignTop
+        boxImageView.unregisterDraggedTypes()
+        boxImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return boxImageView
+    }()
+    
+    private lazy var boxLabel: NSTextField = {
+        let boxLabel = NSTextField(labelWithString: "")
+        boxLabel.font = .systemFont(ofSize: 24)
+        boxLabel.textColor = NSColor(named: "blank_slate_box_text")
+        boxLabel.alignment = .center
+        boxLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        return boxLabel
+    }()
+    
+    private lazy var headlineLabel: NSTextField = {
+        let headlineLabel = NSTextField(labelWithString: "")
+        headlineLabel.font = .systemFont(ofSize: 20, weight: .medium)
+        headlineLabel.textColor = .secondaryLabelColor
+        headlineLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        return headlineLabel
+    }()
+    
+    private lazy var informationalTextView: NSTextView = {
+        let textView = NSTextView()
+        textView.drawsBackground = false
+        textView.isEditable = false
+        textView.isSelectable = false
+        textView.font = .systemFont(ofSize: 12)
+        textView.textColor = .labelColor
+        textView.textContainerInset = .zero
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return textView
+    }()
+    
+    // MARK: -
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -64,7 +206,7 @@ class BlankSlateView: NSView {
     }
     
     private func commonInit() {
-        
+        // Set up drag indication layer
         let layer = CALayer()
         layer.delegate = self
         self.layer = layer
@@ -82,6 +224,17 @@ class BlankSlateView: NSView {
         dragIndicationLayer.isHidden = true
         
         layer.addSublayer(dragIndicationLayer)
+        
+        // Set up container view
+        addSubview(containerView)
+        
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            containerView.widthAnchor.constraint(equalToConstant: Layout.containerSize.width),
+            containerView.heightAnchor.constraint(equalToConstant: Layout.containerSize.height),
+            containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
+        ])
     }
     
     override func viewDidChangeEffectiveAppearance() {
@@ -95,111 +248,83 @@ class BlankSlateView: NSView {
         }
     }
     
-    private var representedSystemPlugin: OESystemPlugin? {
-        didSet {
-            guard representedSystemPlugin != nil else { return }
-            representedCollectionName = nil
-            setupView(systemPlugin: representedSystemPlugin!)
-        }
-    }
-    
-    private var representedCollectionName: String? {
-        didSet {
-            guard representedCollectionName != nil else { return }
-            representedSystemPlugin = nil
-            setupView(collectionName: representedCollectionName!)
-        }
-    }
-    
-    @objc var representedObject: Any? {
-        didSet {
-            guard representedObject != nil else { return }
-            
-            let containerSize = NSSize(width: ContainerWidth, height: ContainerHeight)
-            
-            let containerFrame = NSRect(x: ceil((bounds.width - containerSize.width) / 2),
-                                        y: ceil((bounds.height - containerSize.height) / 2),
-                                    width: containerSize.width,
-                                   height: containerSize.height)
-            
-            let container = NSView(frame: containerFrame)
-            container.autoresizingMask = [.minXMargin, .maxXMargin, .minYMargin, .maxYMargin]
-            
-            containerView = container
-            
-            setupViewForRepresentedObject()
-            
-            // Remove current blank slate subview
-            subviews.last?.removeFromSuperview()
-            
-            addSubview(container)
-        }
-    }
-    
-    func setupViewForRepresentedObject() {
+    private func clearContainerView() {
+        containerView.subviews.forEach { $0.removeFromSuperview() }
         
-        if let system = representedObject as? OEDBSystem {
+        containerView.addSubview(boxBorderImageView)
+        
+        NSLayoutConstraint.activate([
+            boxBorderImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            boxBorderImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            boxBorderImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            boxBorderImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+        ])
+    }
+    
+    func setUpViewForRepresentedObject() {
+        
+        if let system = representedObject as? OEDBSystem,
+           let plugin = system.plugin {
             
-            representedSystemPlugin = system.plugin
+            boxImage = NSImage(named: "blank_slate_arrow")
+            boxText = NSLocalizedString("Drag & Drop Games Here", comment: "Blank Slate DnD Here")
+            
+            headline = plugin.systemName
+            
+            setUpView(systemPlugin: plugin)
         }
         else if let collection = representedObject as? GameCollectionViewItemProtocol {
             
-            representedCollectionName = collection.collectionViewName
-        }
-        else if representedObject is OEDBSaveStatesMedia ||
-                representedObject is OEDBScreenshotsMedia {
+            boxImage = NSImage(named: "blank_slate_arrow")
+            boxText = NSLocalizedString("Drag & Drop Games Here", comment: "Blank Slate DnD Here")
             
-            setupRepresentedMediaType()
-        }
-        else {
-            DLog("Unknown represented object: \(String(describing: representedObject))")
-        }
-    }
-    
-    private func setupRepresentedMediaType() {
-        representedSystemPlugin = nil
-        representedCollectionName = nil
-        
-        if representedObject is OEDBScreenshotsMedia {
-            
-            let imageView = makeImageView(withImageNamed: "blank_slate_camera")
-            setupBox(text: NSLocalizedString("No Screenshots Found", comment: "No screen shots found"), imageView: imageView)
-            
-            addLeftHeadline(NSLocalizedString("Screenshots", comment: ""))
-            
-            let text = NSLocalizedString("Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game.", comment: "")
-            addInformationalText(text)
+            headline = NSLocalizedString("Collections", comment: "")
+            // TODO: Use a different wording for smart collections, as games cannot be added manually.
+            informationalText = .localizedStringWithFormat(NSLocalizedString("Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar.", comment: ""), collection.collectionViewName)
         }
         else if representedObject is OEDBSaveStatesMedia {
             
-            let imageView = makeImageView(withImageNamed: "blank_slate_arrow")
-            setupBox(text: NSLocalizedString("Drag & Drop Save States Here", comment: "Blank Slate DnD Save States Here"), imageView: imageView)
+            boxImage = NSImage(named: "blank_slate_arrow")
+            boxText = NSLocalizedString("Drag & Drop Save States Here", comment: "Blank Slate DnD Save States Here")
             
-            addLeftHeadline(NSLocalizedString("Save States", comment: ""))
+            headline = NSLocalizedString("Save States", comment: "")
+            informationalText = NSLocalizedString("With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves.", comment: "")
+        }
+        else if representedObject is OEDBScreenshotsMedia {
             
-            let text = NSLocalizedString("With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves.", comment: "")
-            addInformationalText(text)
+            boxImage = NSImage(named: "blank_slate_camera")
+            boxText = NSLocalizedString("No Screenshots Found", comment: "No screen shots found")
+            
+            headline = NSLocalizedString("Screenshots", comment: "")
+            informationalText = NSLocalizedString("Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game.", comment: "")
+        }
+        else {
+            assertionFailure("Unknown represented object: \(String(describing: representedObject))")
         }
     }
     
-    private func setupView(systemPlugin plugin: OESystemPlugin) {
-        guard let containerFrame = containerView?.frame else { return }
+    private func setUpView(systemPlugin plugin: OESystemPlugin) {
+        let hStack = NSStackView()
+        hStack.orientation = .horizontal
+        hStack.alignment = .top
         
-        setupDragAndDropBox()
-        addLeftHeadline(plugin.systemName)
+        containerView.addSubview(hStack)
         
-        let rect = NSRect(x: 0,
-                          y: containerFrame.height - BottomTextHeight - BottomTextTop,
-                      width: containerFrame.width / 12 * 7,
-                     height: BottomTextHeight)
+        hStack.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            hStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: -4),
+            hStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            hStack.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Layout.bottomTextToTop),
+            hStack.heightAnchor.constraint(equalToConstant: Layout.bottomTextHeight),
+        ])
         
-        let textView = ArrowCursorTextView(frame: rect.insetBy(dx: -4, dy: 0))
+        let textView = ArrowCursorTextView()
         
         let text: String
         if plugin.supportsDiscsWithDescriptorFile {
-            text = String(format: NSLocalizedString("%@ games will appear here. Check out %@ on how to add disc-based games.", comment: ""), plugin.systemName, NSLocalizedString("this guide", comment: ""))
+            text = .localizedStringWithFormat(NSLocalizedString("%@ games will appear here. Check out %@ on how to add disc-based games.", comment: ""), plugin.systemName, NSLocalizedString("this guide", comment: ""))
         } else {
-            text = String(format: NSLocalizedString("%@ games you add to OpenEmu will appear in this Console Library", comment: ""), plugin.systemName)
+            text = .localizedStringWithFormat(NSLocalizedString("%@ games you add to OpenEmu will appear in this Console Library", comment: ""), plugin.systemName)
         }
         
         textView.drawsBackground = false
@@ -233,57 +358,43 @@ class BlankSlateView: NSView {
         linkAttributes[.cursor] = NSCursor.pointingHand
         textView.linkTextAttributes = linkAttributes
         
-        containerView?.addSubview(textView)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.widthAnchor.constraint(equalToConstant: Layout.containerSize.width / 8 * 5).isActive = true
+        
+        hStack.addArrangedSubview(textView)
+        
+        let coreIconView = NSImageView()
+        coreIconView.image = NSImage(named: "blank_slate_core_icon")
+        coreIconView.unregisterDraggedTypes()
+        
+        hStack.addArrangedSubview(coreIconView)
+        
+        let vStack = NSStackView()
+        vStack.orientation = .vertical
+        vStack.alignment = .leading
+        
+        hStack.addArrangedSubview(vStack)
+        
+        let coreSuppliedByLabel = NSTextField(labelWithString: NSLocalizedString("Core Provided By…", comment: ""))
+        coreSuppliedByLabel.font = .systemFont(ofSize: 12)
+        coreSuppliedByLabel.textColor = .labelColor
+        
+        vStack.addArrangedSubview(coreSuppliedByLabel)
+        vStack.setCustomSpacing(2, after: coreSuppliedByLabel)
         
         // Get core plugins that can handle the system
         let pluginsForSystem = OECorePlugin.allPlugins.filter { $0.systemIdentifiers.contains(plugin.systemIdentifier) }
         
-        let extraspace = CGFloat(max(0, pluginsForSystem.count - 2))
-        
-        let coreIconRect = NSRect(x: CoreX,
-                                  y: containerFrame.height - 40 - CoreToTop + 16 * extraspace,
-                              width: 40,
-                             height: 40)
-        
-        let coreIconView = NSImageView(frame: coreIconRect)
-        coreIconView.image = NSImage(named: "blank_slate_core_icon")
-        
-        containerView?.addSubview(coreIconView)
-        
-        coreIconView.unregisterDraggedTypes()
-        
-        let labelRect = NSRect(x: RightColumnX,
-                               y: containerFrame.height - 16 - BottomTextTop + 16 * extraspace,
-                           width: containerFrame.width,
-                          height: 16)
-        
-        let coreSuppliedByLabel = NSTextField(labelWithString: NSLocalizedString("Core Provided By…", comment: ""))
-        coreSuppliedByLabel.frame = labelRect
-        coreSuppliedByLabel.font = .systemFont(ofSize: 12)
-        coreSuppliedByLabel.textColor = .labelColor
-        
-        containerView?.addSubview(coreSuppliedByLabel)
-        
-        for (idx, core) in pluginsForSystem.enumerated() {
-            
+        for core in pluginsForSystem {
             let projectURL = core.infoDictionary["OEProjectURL"] as? String
             let name = core.displayName ?? ""
             
             // Create weblink button for current core
-            var frame = NSRect(x: RightColumnX,
-                               y: containerFrame.height - 2 * 16 - BottomTextTop - 16 * CGFloat(idx) - 2 + 16 * extraspace + 4,
-                           width: containerFrame.width - RightColumnX,
-                          height: 20)
             
-            if #available(macOS 11.0, *) {
-                frame.origin.x += 2
-            }
-            
-            let gotoButton = TextButton(frame: frame)
-            gotoButton.autoresizingMask = .width
+            let gotoButton = TextButton()
             gotoButton.alignment = .left
             gotoButton.target = self
-            gotoButton.action = #selector(gotoProjectURL(_:))
+            gotoButton.action = #selector(openProjectURL(_:))
             gotoButton.title = name
             gotoButton.toolTip = .localizedStringWithFormat(NSLocalizedString("Takes you to the %@ project website", comment: "Weblink tooltip"), name)
             gotoButton.cell?.representedObject = projectURL
@@ -292,119 +403,19 @@ class BlankSlateView: NSView {
             gotoButton.textColorHover = .labelColor.withSystemEffect(.rollover)
             gotoButton.showArrow = true
             
-            gotoButton.sizeToFit()
+            gotoButton.translatesAutoresizingMaskIntoConstraints = false
+            gotoButton.heightAnchor.constraint(equalToConstant: 12).isActive = true
             
-            containerView?.addSubview(gotoButton)
+            vStack.addArrangedSubview(gotoButton)
+            vStack.setCustomSpacing(3, after: gotoButton)
         }
-    }
-    
-    // TODO: Use a different wording for smart collections, as games cannot be added manually.
-    private func setupView(collectionName: String) {
-        setupDragAndDropBox()
-        addLeftHeadline(NSLocalizedString("Collections", comment: ""))
-        
-        let text = String.localizedStringWithFormat(NSLocalizedString("Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar.", comment: ""), collectionName)
-        addInformationalText(text)
-    }
-    
-    func setupBox(text: String, imageView: NSView) {
-        guard let containerFrame = containerView?.frame else { return }
-        
-        let boxImageRect = NSRect(x: 0,
-                                  y: containerFrame.height - BoxHeight,
-                              width: containerFrame.width,
-                             height: BoxHeight)
-        
-        let boxImageView = NSImageView(frame: boxImageRect)
-        boxImageView.image = NSImage(named: "blank_slate_box")
-        
-        containerView?.addSubview(boxImageView)
-        
-        boxImageView.unregisterDraggedTypes()
-        
-        let height = BoxHeight - BoxImageToBottom - BoxImageToTop
-        let width: CGFloat = 300
-        imageView.frame = NSRect(x: round(containerFrame.width - width) / 2,
-                                 y: containerFrame.height - height - BoxImageToTop,
-                             width: width,
-                            height: height)
-        
-        containerView?.addSubview(imageView)
-        
-        let color = NSColor(named: "blank_slate_box_text")
-        
-        let dragAndDropHereRect = NSRect(x: 0,
-                                         y: containerFrame.height - 30 - BoxTextToTop,
-                                     width: containerFrame.width,
-                                    height: 31)
-        
-        let dragAndDropHereField = NSTextField(labelWithString: text)
-        dragAndDropHereField.frame = dragAndDropHereRect
-        dragAndDropHereField.font = .systemFont(ofSize: 24)
-        dragAndDropHereField.textColor = color
-        dragAndDropHereField.alignment = .center
-        
-        containerView?.addSubview(dragAndDropHereField)
-    }
-    
-    private func setupDragAndDropBox() {
-        let imageView = makeImageView(withImageNamed: "blank_slate_arrow")
-        setupBox(text: NSLocalizedString("Drag & Drop Games Here", comment: "Blank Slate DnD Here"), imageView: imageView)
-    }
-    
-    func addLeftHeadline(_ text: String) {
-        guard let containerFrame = containerView?.frame else { return }
-        
-        let headlineFrame = NSRect(x: -1,
-                                   y: containerFrame.height - 30 - HeadlineToTop,
-                               width: containerFrame.width,
-                              height: HeadlineHeight)
-        
-        let headlineField = NSTextField(labelWithString: text)
-        headlineField.frame = headlineFrame
-        headlineField.font = .systemFont(ofSize: 20, weight: .medium)
-        headlineField.textColor = .secondaryLabelColor
-        
-        containerView?.addSubview(headlineField)
-    }
-    
-    func addInformationalText(_ text: String) {
-        guard let containerFrame = containerView?.frame else { return }
-        
-        var rect = NSRect(x: 0,
-                          y: 0,
-                      width: containerFrame.width,
-                     height: BottomTextHeight)
-        rect.origin.y = containerFrame.height - rect.height - BottomTextTop
-        
-        let textView = NSTextView(frame: rect.insetBy(dx: -4, dy: 0))
-        textView.string = text
-        textView.drawsBackground = false
-        textView.isEditable = false
-        textView.isSelectable = false
-        textView.font = .systemFont(ofSize: 12)
-        textView.textColor = .labelColor
-        textView.textContainerInset = NSSize(width: 0, height: 0)
-        
-        containerView?.addSubview(textView)
-    }
-    
-    private func makeImageView(withImageNamed imageName: String) -> NSImageView {
-        
-        let imageView = NSImageView(frame: .zero)
-        imageView.image = NSImage(named: imageName)
-        imageView.imageScaling = .scaleNone
-        imageView.imageAlignment = .alignTop
-        imageView.unregisterDraggedTypes()
-        
-        return imageView
     }
     
     // MARK: - Actions
     
-    @objc func gotoProjectURL(_ sender: NSButton) {
-        let urlString = sender.cell?.representedObject as? String ?? ""
-        if let url = URL(string: urlString) {
+    @objc func openProjectURL(_ sender: NSButton) {
+        if let urlString = sender.cell?.representedObject as? String,
+           let url = URL(string: urlString) {
             NSWorkspace.shared.open(url)
         }
     }
@@ -495,7 +506,7 @@ extension BlankSlateView {
 
 @objc(OEBlankSlateViewDelegate)
 protocol BlankSlateViewDelegate: NSObjectProtocol {
-    @objc optional func blankSlateView(_ gridView: BlankSlateView, validateDrop sender: NSDraggingInfo) -> NSDragOperation
-    @objc optional func blankSlateView(_ gridView: BlankSlateView, draggingUpdated sender: NSDraggingInfo) -> NSDragOperation
-    @objc optional func blankSlateView(_ gridView: BlankSlateView, acceptDrop sender: NSDraggingInfo) -> Bool
+    @objc optional func blankSlateView(_ blankSlateView: BlankSlateView, validateDrop sender: NSDraggingInfo) -> NSDragOperation
+    @objc optional func blankSlateView(_ blankSlateView: BlankSlateView, draggingUpdated sender: NSDraggingInfo) -> NSDragOperation
+    @objc optional func blankSlateView(_ blankSlateView: BlankSlateView, acceptDrop sender: NSDraggingInfo) -> Bool
 }
