@@ -277,13 +277,13 @@ final class OEGameDocument: NSDocument {
                     alert.progress = -1
                     
                     alert.performBlockInModalSession {
-                        let download = OEDownload(url: sourceURL)
-                        download?.progressHandler = { progress in
+                        let download = Download(url: sourceURL)
+                        download.progressHandler = { progress in
                             alert.progress = Double(progress)
                             return true
                         }
                         
-                        download?.completionHandler = { dst, err in
+                        download.completionHandler = { dst, err in
                             destination = dst
                             if let err = err {
                                 error = err as NSError
@@ -291,7 +291,7 @@ final class OEGameDocument: NSDocument {
                             alert.close(withResult: .alertSecondButtonReturn)
                         }
                         
-                        download?.start()
+                        download.start()
                     }
                     
                     if alert.runModal() == .alertFirstButtonReturn || error?.code == NSUserCancelledError {
@@ -763,7 +763,7 @@ final class OEGameDocument: NSDocument {
         let replacements = gameCoreManager.plugin?.infoDictionary?[OEGameCoreSuggestedReplacement] as? [String : String]
         let replacement = replacements?[systemIdentifier]
         var replacementName: String?
-        var download: OECoreDownload?
+        var download: CoreDownload?
         
         if let replacement = replacement {
             if let plugin = OECorePlugin(bundleIdentifier: replacement) {

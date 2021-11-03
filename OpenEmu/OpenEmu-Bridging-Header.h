@@ -31,5 +31,4 @@
 #import "AppKit+ApplePrivate.h"
 #import "OETableView.h"
 #import "OELogging.h"
-#import "OEDownload.h"
 #import "OEUtilities.h"

@@ -38,7 +38,7 @@ final class HomebrewViewController: NSViewController {
     @IBOutlet var tableView: NSTableView!
     private var blankSlate: HomebrewBlankSlateView?
     var database: OELibraryDatabase?
-    private var currentDownload: OEDownload?
+    private var currentDownload: Download?
     private var games: [HomebrewGame]!
     private var headerIndices: [Int]!
     
@@ -108,9 +108,9 @@ final class HomebrewViewController: NSViewController {
         // Cancel last download
         currentDownload?.cancel()
         
-        let download = OEDownload(url: homebrewGamesURL)
+        let download = Download(url: homebrewGamesURL)
         weak var blockDL = download
-        download?.completionHandler = { [self] destination, error in
+        download.completionHandler = { [self] destination, error in
             if currentDownload == blockDL {
                 currentDownload = nil
             }
@@ -130,7 +130,7 @@ final class HomebrewViewController: NSViewController {
             }
         }
         currentDownload = download
-        download?.start()
+        download.start()
     }
     
     private func parseFile(at url: URL) throws {

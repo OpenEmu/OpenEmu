@@ -25,7 +25,6 @@
  */
 
 @import Foundation;
-#import "OECoreDownload.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,8 +37,9 @@ typedef NS_ERROR_ENUM(OECoreUpdaterErrorDomain, OECoreUpdaterErrorCode)
 
 @class OEAlert;
 @class OEDBGame, OEDBSaveState;
+@class OECoreDownload, OECorePlugin;
 
-@interface OECoreUpdater : NSObject <OECoreDownloadDelegate>
+@interface OECoreUpdater : NSObject
 
 @property(class, readonly) OECoreUpdater *sharedUpdater;
 

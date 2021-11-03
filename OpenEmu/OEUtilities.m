@@ -185,6 +185,22 @@ NSString *OEDecompressFileInArchiveAtPathWithHash(NSString *aPath, NSString * __
     return tmpPath;
 }
 
+NSString *OEDecompressFileInArchiveAtPathToDirectory(NSString *path, NSString *directory)
+{
+    XADArchive *archive = nil;
+    @try {
+        archive = [XADArchive archiveForFile:path];
+    }
+    @catch (NSException *exc)
+    {
+        archive = nil;
+    }
+    
+    NSString *fileName = [archive nameOfEntry:0];
+    [archive extractTo:directory];
+    
+    return fileName;
+}
 
 NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath)
 {

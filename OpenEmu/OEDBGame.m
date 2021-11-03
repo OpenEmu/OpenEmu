@@ -33,9 +33,10 @@
 #import "OEDBImage.h"
 
 #import "OEGameInfoHelper.h"
-#import "OEDownload.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
+
+#import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

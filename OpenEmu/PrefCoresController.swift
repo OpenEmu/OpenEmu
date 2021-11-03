@@ -76,7 +76,7 @@ final class PrefCoresController: NSViewController {
         OECoreUpdater.shared.installCoreInBackgroundUserInitiated(coreDownload(row))
     }
     
-    private func coreDownload(_ row: Int) -> OECoreDownload {
+    private func coreDownload(_ row: Int) -> CoreDownload {
         return OECoreUpdater.shared.coreList[row]
     }
 }

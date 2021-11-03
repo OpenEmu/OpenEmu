@@ -131,7 +131,7 @@ final class SetupAssistant: NSViewController {
             //       once the download started, we don't cancel or remove it
             for coreInfo in coresToDownload {
                 if coreInfo.isSelected && !coreInfo.isDownloadRequested {
-                    coreInfo.core.start(self)
+                    coreInfo.core.start()
                     coreInfo.isDownloadRequested = true
                 }
             }
@@ -286,12 +286,12 @@ private extension NSUserInterfaceItemIdentifier {
 }
 
 private class SetupCoreInfo: NSObject {
-    weak var core: OECoreDownload!
+    weak var core: CoreDownload!
     var isSelected = true
     var isDownloadRequested = false
     var isDefaultCore = false
     
-    init(core: OECoreDownload) {
+    init(core: CoreDownload) {
         self.core = core
     }
 }

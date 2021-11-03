@@ -28,7 +28,6 @@
 
 #import <Sparkle/Sparkle.h>
 
-#import "OECoreDownload.h"
 @import OpenEmuKit;
 
 #import "OpenEmu-Swift.h"
@@ -39,7 +38,7 @@
 
 NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
-@interface OECoreUpdater () <NSFileManagerDelegate, SUUpdaterDelegate>
+@interface OECoreUpdater () <NSFileManagerDelegate, SUUpdaterDelegate, CoreDownloadDelegate>
 {
     NSMutableDictionary<NSString *, OECoreDownload *> *_coresDict;
     BOOL autoInstall;
@@ -374,7 +373,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
 - (void)cancelInstall
 {
-    [[self coreDownload] cancelDownload:self];
+    [[self coreDownload] cancelDownload];
     [self setCompletionHandler:nil];
     [self setCoreDownload:nil];
     [[self alert] closeWithResult:NSAlertSecondButtonReturn];
@@ -407,7 +406,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
     [self setCoreDownload:pluginDL];
     if([[self coreDownload] appcastItem] != nil)
-        [[self coreDownload] startDownload:self];
+        [[self coreDownload] startDownload];
 }
 
 - (void)failInstallWithError:(NSError*)error
@@ -445,11 +444,11 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     } else {
         [_pendingUserInitiatedDownloads addObject:download];
     }
-    [download startDownload:self];
+    [download startDownload];
 }
 
 #pragma mark -
-#pragma mark OEDownload delegate
+#pragma mark OECoreDownload delegate
 
 static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProgressContext;
 
@@ -505,7 +504,7 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
         [download setDelegate:self];
 
         if(autoInstall)
-            [download startDownload:nil];
+            [download startDownload];
 
         break;
     }
@@ -549,7 +548,7 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
              *stop = YES;
 
              if(obj == [self coreDownload])
-                 [[self coreDownload] startDownload:self];
+                 [[self coreDownload] startDownload];
          }
      }];
 
