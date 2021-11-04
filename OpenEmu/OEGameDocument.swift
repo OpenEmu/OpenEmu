@@ -685,13 +685,13 @@ final class OEGameDocument: NSDocument {
         let preset = ShaderControl.currentPreset(forSystemPlugin: systemPlugin)
         let params = preset.parameters
         
-        let info = OEGameStartupInfo(romPath: path,
+        let info = OEGameStartupInfo(romURL: URL(fileURLWithPath: path),
                                      romMD5: rom.md5 ?? "",
                                      romHeader: rom.header ?? "",
                                      romSerial: rom.serial ?? "",
                                      systemRegion: OELocalizationHelper.shared.regionName,
                                      displayModeInfo: lastDisplayModeInfo,
-                                     shader: preset.shader.url,
+                                     shaderURL: preset.shader.url,
                                      shaderParameters: params,
                                      corePluginURL: corePlugin.url,
                                      systemPluginURL: systemPlugin.url)
@@ -1655,7 +1655,7 @@ final class OEGameDocument: NSDocument {
             return NSURL(string: UUID().uuidString, relativeTo: temporaryDirectoryURL)!
         } as URL
         
-        gameCoreManager.saveStateToFile(atPath: temporaryStateFileURL.path) { success, error in
+        gameCoreManager.saveStateToFile(at: temporaryStateFileURL) { success, error in
             if !success {
                 NSLog("Could not create save state file at url: \(temporaryStateFileURL)")
                 
@@ -1742,7 +1742,7 @@ final class OEGameDocument: NSDocument {
         }
         
         let loadState: (() -> Void) = {
-            self.gameCoreManager.loadStateFromFile(atPath: state.dataFileURL.path) { success, error in
+            self.gameCoreManager.loadStateFromFile(at: state.dataFileURL) { success, error in
                 if !success {
                     if let error = error {
                         self.presentError(error)
