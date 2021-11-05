@@ -28,35 +28,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString * const OEOpenVGDBVersionKey;
-extern NSString * const OEOpenVGDBUpdateCheckKey;
-extern NSString * const OEOpenVGDBUpdateIntervalKey;
+@interface OEArchiveHelper : NSObject
 
-extern NSNotificationName const OEGameInfoHelperWillUpdateNotification;
-extern NSNotificationName const OEGameInfoHelperDidChangeUpdateProgressNotification;
-extern NSNotificationName const OEGameInfoHelperDidUpdateNotification;
-
-@interface OEGameInfoHelper : NSObject
-
-@property(class, readonly) OEGameInfoHelper *sharedHelper;
-
-@property (readonly) CGFloat downloadProgress;
-@property (nullable, copy) NSString *downloadVersion;
-@property (readonly, getter=isUpdating) BOOL updating;
-
-- (NSDictionary * _Nullable)gameInfoWithDictionary:(NSDictionary *)gameInfo;
-
-- (BOOL)hashlessROMCheckForSystem:(NSString *)system;
-- (BOOL)headerROMCheckForSystem:(NSString *)system;
-- (BOOL)serialROMCheckForSystem:(NSString *)system;
-- (int)sizeOfROMHeaderForSystem:(NSString *)system;
-
-// Checks for updates and passes URL of new release and version if any newer DB is found.
-- (void)checkForUpdatesWithHandler:(void (^)(NSURL * _Nullable newURL, NSString * _Nullable newVersion))handler;
-- (void)installVersion:(NSString *)versionTag withDownloadURL:(NSURL *)url;
-- (void)cancelUpdate;
-
-- (id)executeQuery:(NSString *)sql error:(NSError **)error;
++ (nullable NSURL *)urlOfExtractedFile:(NSURL *)url archiveFileIndex:(NSNumber *)archiveFileIndex;
 
 @end
 

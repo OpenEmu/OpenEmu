@@ -25,14 +25,12 @@
 import Foundation
 import SQLite3
 
-@objc(OESQLiteDatabase)
-final class SQLiteDatabase: NSObject {
+final class SQLiteDatabase {
     
     private static let SQLiteErrorDomain = "OESQLiteErrorDomain"
     
     private var connection: OpaquePointer?
     
-    @objc(initWithURL:error:)
     init(url: URL) throws {
         let file = (url as NSURL).fileSystemRepresentation
         let sqlErr = sqlite3_open(file, &connection)
@@ -52,11 +50,11 @@ final class SQLiteDatabase: NSObject {
     }
     
     @objc(executeQuery:error:)
-    func executeQuery(_ sql: String) throws -> [NSMutableDictionary] {
+    func executeQuery(_ sql: String) throws -> [[String : Any]] {
         #if swift(>=5.5)
-        lazy var result = [NSMutableDictionary]()
+        lazy var result: [[String : Any]] = []
         #else
-        var result = [NSMutableDictionary]()
+        var result: [[String : Any]] = []
         #endif
         
         try DispatchQueue(label: "org.openemu.OpenEmu.SQLiteDatabase").sync {
@@ -73,7 +71,7 @@ final class SQLiteDatabase: NSObject {
             
             while sqlite3_step(stmt) == SQLITE_ROW {
                 let columnCount = sqlite3_column_count(stmt)
-                let dict = NSMutableDictionary(capacity: Int(columnCount))
+                var dict = [String : Any](minimumCapacity: Int(columnCount))
                 
                 for column in 0..<columnCount {
                     if let cName = sqlite3_column_name(stmt, column),

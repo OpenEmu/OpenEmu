@@ -40,8 +40,6 @@
 #import <OpenEmuBase/OpenEmuBase.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
-#import "OEGameInfoHelper.h"
-
 #import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN

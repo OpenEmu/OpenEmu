@@ -56,9 +56,9 @@ final class GameScannerViewController: NSViewController {
         super.init(coder: coder)
         
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperWillUpdate(_:)), name: .OEGameInfoHelperWillUpdate, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidChangeUpdateProgress(_:)), name: .OEGameInfoHelperDidChangeUpdateProgress, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidUpdate(_:)), name: .OEGameInfoHelperDidUpdate, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperWillUpdate(_:)), name: .GameInfoHelperWillUpdate, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidChangeUpdateProgress(_:)), name: .GameInfoHelperDidChangeUpdateProgress, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(gameInfoHelperDidUpdate(_:)), name: .GameInfoHelperDidUpdate, object: nil)
         notificationCenter.addObserver(self, selector: #selector(toggleGameScannerView), name: GameScannerViewController.OEGameScannerToggleNotification, object: nil)
     }
     
@@ -97,7 +97,7 @@ final class GameScannerViewController: NSViewController {
         importer.delegate = self
         
         // Show game scanner if importer is running already or game info is downloading.
-        if importer.status == .running || OEGameInfoHelper.shared.isUpdating {
+        if importer.status == .running || OpenVGDB.shared.isUpdating {
             updateProgress()
             showGameScannerView(animated: true)
         }
@@ -182,11 +182,11 @@ final class GameScannerViewController: NSViewController {
         
         headlineLabel.stringValue = NSLocalizedString("Game Scanner", comment: "")
         
-        let infoHelper = OEGameInfoHelper.shared
-        if infoHelper.isUpdating {
+        let helper = OpenVGDB.shared
+        if helper.isUpdating {
             
             progressIndicator.minValue = 0
-            progressIndicator.doubleValue = Double(infoHelper.downloadProgress)
+            progressIndicator.doubleValue = helper.downloadProgress
             progressIndicator.maxValue = 1
             progressIndicator.isIndeterminate = false
             progressIndicator.startAnimation(self)
@@ -511,7 +511,7 @@ extension GameScannerViewController: ROMImporterDelegate {
         DLog("")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-            if self.importer.totalNumberOfItems == self.importer.numberOfProcessedItems && !OEGameInfoHelper.shared.isUpdating {
+            if self.importer.totalNumberOfItems == self.importer.numberOfProcessedItems && !OpenVGDB.shared.isUpdating {
                 self.hideGameScannerView(animated: true)
             }
         }

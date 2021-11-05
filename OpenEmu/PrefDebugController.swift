@@ -407,13 +407,13 @@ final class PrefDebugController: NSViewController {
         DLog("Removing OpenVGDB update check date and version from user defaults to force update.")
         
         let defaults = UserDefaults.standard
-        defaults.removeObject(forKey: OEOpenVGDBUpdateCheckKey)
-        defaults.removeObject(forKey: OEOpenVGDBVersionKey)
+        defaults.removeObject(forKey: OpenVGDB.updateCheckKey)
+        defaults.removeObject(forKey: OpenVGDB.versionKey)
         
-        let helper = OEGameInfoHelper.shared
+        let helper = OpenVGDB.shared
         helper.checkForUpdates { url, version in
             if let url = url, let version = version {
-                helper.installVersion(version, withDownloadURL: url)
+                helper.install(with: url, version: version)
             }
         }
     }

@@ -32,8 +32,6 @@
 #import "OEDBRom+CoreDataProperties.h"
 #import "OEDBImage.h"
 
-#import "OEGameInfoHelper.h"
-
 #import "NSFileManager+OEHashingAdditions.h"
 
 #import "OpenEmu-Swift.h"
