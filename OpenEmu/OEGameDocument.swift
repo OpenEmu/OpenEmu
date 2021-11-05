@@ -154,9 +154,8 @@ final class OEGameDocument: NSDocument {
     /// Indicates whether the document is currently moving from the main window into a separate popout window.
     private var isUndocking = false
     
-    private var romPath: String?
-    /// Track if ROM was decompressed.
-    private var romDecompressed = false
+    /// Non-nil if ROM was decompressed.
+    private var decompressedROMFileURL: URL?
     
     var coreIdentifier: String! {
         return gameCoreManager.plugin?.bundleIdentifier
@@ -620,9 +619,8 @@ final class OEGameDocument: NSDocument {
             }
         }, errorHandler: { error in
             self.emulationStatus = .notSetup
-            if self.romDecompressed,
-               let romPath = self.romPath {
-                try? FileManager.default.removeItem(atPath: romPath)
+            if let url = self.decompressedROMFileURL {
+                try? FileManager.default.removeItem(at: url)
             }
             OEBindingsController.default.systemBindings(for: self.systemPlugin.controller).remove(self)
             self.gameCoreManager = nil
@@ -666,26 +664,23 @@ final class OEGameDocument: NSDocument {
     private func newGameCoreManager(with corePlugin: OECorePlugin) -> GameCoreManager {
         self.corePlugin = corePlugin
         
-        var path = romFileURL.path
         let lastDisplayModeInfo = UserDefaults.standard.object(forKey: String(format: OEGameCoreDisplayModeKeyFormat, corePlugin.bundleIdentifier)) as? [String : Any]
         
-        let index = rom.archiveFileIndex as? Int ?? 0
-        
-        // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
-        let ext = romFileURL.pathExtension.lowercased()
+        // Never extract arcade roms
         if systemPlugin.systemIdentifier != "openemu.system.arcade",
-           ext != "md", ext != "nds", ext != "iso" {
-            var romDecompressed = ObjCBool(romDecompressed)
-            let decomprDst = ArchiveHelper.decompressFileInArchive(at: romFileURL, atIndex: index, withHash: rom.md5, didDecompress: &romDecompressed)
-            path = decomprDst?.path ?? romFileURL.path
-            self.romDecompressed = romDecompressed.boolValue
-            romPath = path
+           let index = rom.archiveFileIndex as? Int
+        {
+            var didDecompress = ObjCBool(false)
+            let decomprDst = ArchiveHelper.decompressFileInArchive(at: romFileURL, atIndex: index, withHash: rom.md5, didDecompress: &didDecompress)
+            if didDecompress.boolValue {
+                decompressedROMFileURL = decomprDst
+            }
         }
         
         let preset = ShaderControl.currentPreset(forSystemPlugin: systemPlugin)
         let params = preset.parameters
         
-        let info = OEGameStartupInfo(romURL: URL(fileURLWithPath: path),
+        let info = OEGameStartupInfo(romURL: decompressedROMFileURL ?? romFileURL,
                                      romMD5: rom.md5 ?? "",
                                      romHeader: rom.header ?? "",
                                      romSerial: rom.serial ?? "",
