@@ -155,7 +155,7 @@ extension CoreDownload: URLSessionDownloadDelegate {
         }
         
         if hasUpdate {
-            let infoPlistURL = URL(fileURLWithPath: plugin.bundle.bundlePath).appendingPathComponent("Contents/Info.plist")
+            let infoPlistURL = plugin.bundle.bundleURL.appendingPathComponent("Contents/Info.plist")
             let infoPlist = NSDictionary(contentsOf: infoPlistURL)
             
             version = infoPlist?["CFBundleVersion"] as? String ?? ""
