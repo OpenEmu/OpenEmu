@@ -212,7 +212,6 @@
 		05B753A023330EB60063BD73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B753A123330EB60063BD73 /* Main.storyboard */; };
 		05D828D324E9849200BB975E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D828D224E9849200BB975E /* main.swift */; };
 		05D828D724E989B600BB975E /* OpenEmuKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0533EA5C24CDF9070095146E /* OpenEmuKit.framework */; };
-		05DB72A42532681B0098459D /* OEROMImporterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 05DB72A32532681B0098459D /* OEROMImporterTests.m */; };
 		05E4400B22991527009E6D27 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = 05E4400A22991527009E6D27 /* Shaders */; };
 		05E789A723D01B16000E14EE /* GameDocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E789A623D01B16000E14EE /* GameDocumentController.swift */; };
 		05E789AB23D0256D000E14EE /* NSBindingName+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E789AA23D0256D000E14EE /* NSBindingName+Additions.swift */; };
@@ -474,6 +473,8 @@
 		8F812C4426D5454B00E89C42 /* OEDBScreenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F812C4326D5454B00E89C42 /* OEDBScreenshot.swift */; };
 		8F8BD0EA26D3473400B70BF0 /* PrefControlsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8BD0E926D3473400B70BF0 /* PrefControlsController.swift */; };
 		8F8DB27B26D2A69E003CF106 /* PreferencePane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439B6813B932C5005C0CC8 /* PreferencePane.swift */; };
+		8F93FDDA27374F2000B59F3E /* GameInfoHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F93FDD927374F2000B59F3E /* GameInfoHelperTests.swift */; };
+		8F93FDE02737506900B59F3E /* ROMImporterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F93FDDF2737506900B59F3E /* ROMImporterTests.swift */; };
 		8F94B44D25566FE00058AA94 /* NSShadow+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */; };
 		8F94DEC1250EC701003A1F33 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94DEC0250EC701003A1F33 /* ThumbnailProvider.swift */; };
 		8F94DED4250ED838003A1F33 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94DED3250ED838003A1F33 /* PreviewViewController.swift */; };
@@ -1408,7 +1409,6 @@
 		05B753A123330EB60063BD73 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		05D828D224E9849200BB975E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		05DB72A12532681B0098459D /* OpenEmuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenEmuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		05DB72A32532681B0098459D /* OEROMImporterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEROMImporterTests.m; sourceTree = "<group>"; };
 		05DB72A52532681B0098459D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05E4400A22991527009E6D27 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		05E789A623D01B16000E14EE /* GameDocumentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDocumentController.swift; sourceTree = "<group>"; };
@@ -1770,6 +1770,9 @@
 		8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsPopUpButtonCell.swift; sourceTree = "<group>"; };
 		8F812C4326D5454B00E89C42 /* OEDBScreenshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEDBScreenshot.swift; sourceTree = "<group>"; };
 		8F8BD0E926D3473400B70BF0 /* PrefControlsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefControlsController.swift; sourceTree = "<group>"; };
+		8F93FDD827374F1F00B59F3E /* OpenEmuTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenEmuTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		8F93FDD927374F2000B59F3E /* GameInfoHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameInfoHelperTests.swift; sourceTree = "<group>"; };
+		8F93FDDF2737506900B59F3E /* ROMImporterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROMImporterTests.swift; sourceTree = "<group>"; };
 		8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSShadow+OEAdditions.swift"; sourceTree = "<group>"; };
 		8F94DEBA250EC701003A1F33 /* OpenEmuQLThumbnail.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OpenEmuQLThumbnail.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F94DEC0250EC701003A1F33 /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
@@ -2777,8 +2780,10 @@
 		05DB72A22532681B0098459D /* OpenEmuTests */ = {
 			isa = PBXGroup;
 			children = (
-				05DB72A32532681B0098459D /* OEROMImporterTests.m */,
+				8F93FDD927374F2000B59F3E /* GameInfoHelperTests.swift */,
+				8F93FDDF2737506900B59F3E /* ROMImporterTests.swift */,
 				05DB72A52532681B0098459D /* Info.plist */,
+				8F93FDD827374F1F00B59F3E /* OpenEmuTests-Bridging-Header.h */,
 			);
 			path = OpenEmuTests;
 			sourceTree = "<group>";
@@ -6561,7 +6566,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05DB72A42532681B0098459D /* OEROMImporterTests.m in Sources */,
+				8F93FDE02737506900B59F3E /* ROMImporterTests.swift in Sources */,
+				8F93FDDA27374F2000B59F3E /* GameInfoHelperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7859,6 +7865,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -7878,6 +7885,9 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.OpenEmuTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "OpenEmuTests/OpenEmuTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenEmu.app/Contents/MacOS/OpenEmu";
 			};
 			name = Debug;
@@ -7889,6 +7899,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -7906,6 +7917,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.OpenEmuTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "OpenEmuTests/OpenEmuTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenEmu.app/Contents/MacOS/OpenEmu";
 			};
 			name = Release;

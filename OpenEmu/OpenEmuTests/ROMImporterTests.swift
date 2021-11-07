@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2021, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,48 +22,45 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import <XCTest/XCTest.h>
-#import "OEROMImporter+Private.h"
+import XCTest
+@testable import OpenEmu
 
-@interface OEROMImporterTests : XCTestCase
-
-@end
-
-@implementation OEROMImporterTests
-
-- (void)testArchiveUnarchiveOperationQueue {
-    OEROMImporter *ri = [[OEROMImporter alloc] init];
+class ROMImporterTests: XCTestCase {
     
-    NSData *data = nil;
-    {
-        NSMutableArray<OEImportOperation *> *ops = [NSMutableArray new];
+    func testArchiveUnarchiveOperationQueue() {
+        let ri = ROMImporter(database: OELibraryDatabase.default!)
         
-        OEImportOperation *op = nil;
-#define ADD_OP(ARG1, ARG2) \
-        op = [OEImportOperation new]; \
-        op.URL = [NSURL URLWithString:@ ARG1]; \
-        op.sourceURL = [NSURL URLWithString:@ ARG2]; \
-        [ops addObject:op];
+        var data: Data!
+        do {
+            var ops: [OEImportOperation] = []
+            var op: OEImportOperation
+            
+            op = OEImportOperation()
+            op.url = URL(string: "file://url/op1")!
+            op.sourceURL = URL(string: "file://source/op1")!
+            ops.append(op)
+            
+            op = OEImportOperation()
+            op.url = URL(string: "file://url/op2")!
+            op.sourceURL = URL(string: "file://source/op2")!
+            ops.append(op)
+            
+            data = ri._data(forOperationQueue: ops)
+            XCTAssertNotNil(data)
+        }
         
-        ADD_OP("file://url/op1", "file://source/op1");
-        ADD_OP("file://url/op2", "file://source/op2");
-        
-        data = [ri dataForOperationQueue:ops];
-        XCTAssertNotNil(data);
-    }
-    
-    {
-        NSArray<OEImportOperation *> *ops = [ri operationQueueFromData:data];
-        XCTAssertEqual(2, ops.count);
-        OEImportOperation *op = nil;
-        
-        op = ops[0];
-        XCTAssertEqualObjects(op.URL.absoluteString, @"file://url/op1");
-        XCTAssertEqualObjects(op.sourceURL.absoluteString, @"file://source/op1");
-        op = ops[1];
-        XCTAssertEqualObjects(op.URL.absoluteString, @"file://url/op2");
-        XCTAssertEqualObjects(op.sourceURL.absoluteString, @"file://source/op2");
+        do {
+            let ops: [OEImportOperation]! = ri._operationQueue(from: data)
+            XCTAssertEqual(2, ops.count)
+            var op: OEImportOperation
+            
+            op = ops[0]
+            XCTAssertEqual(op.url.absoluteString, "file://url/op1")
+            XCTAssertEqual(op.sourceURL.absoluteString, "file://source/op1")
+            
+            op = ops[1]
+            XCTAssertEqual(op.url.absoluteString, "file://url/op2")
+            XCTAssertEqual(op.sourceURL.absoluteString, "file://source/op2")
+        }
     }
 }
-
-@end

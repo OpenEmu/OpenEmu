@@ -112,7 +112,7 @@ final class ROMImporter: NSObject {
         return true
     }
     
-    private func data(forOperationQueue queue: [Operation]) -> Data? {
+    fileprivate func data(forOperationQueue queue: [Operation]) -> Data? {
         // only pick OEImportOperations
         let operations = queue.filter { operation in
             if let operation = operation as? OEImportOperation {
@@ -127,10 +127,10 @@ final class ROMImporter: NSObject {
         return nil
     }
     
-    private func operationQueue(from data: Data) -> [OEImportOperation] {
+    fileprivate func operationQueue(from data: Data) -> [OEImportOperation]? {
         let classes = [NSArray.self, OEImportOperation.self]
         let operations = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: classes, from: data) as? [OEImportOperation]
-        return operations ?? []
+        return operations
     }
     
     @objc
@@ -144,8 +144,8 @@ final class ROMImporter: NSObject {
         // remove file if reading was successfull
         try? FileManager.default.removeItem(at: url)
         
-        let operations = operationQueue(from: queueData)
-        if !operations.isEmpty {
+        if let operations = operationQueue(from: queueData),
+           !operations.isEmpty {
             numberOfProcessedItems = 0
             totalNumberOfItems = operations.count
             operationQueue.addOperations(operations, waitUntilFinished: false)
@@ -349,3 +349,16 @@ final class ROMImporter: NSObject {
     @objc optional func romImporter(_ importer: ROMImporter, changedProcessingPhaseOfItem item: OEImportOperation)
     @objc optional func romImporter(_ importer: ROMImporter, stoppedProcessingItem item: OEImportOperation)
 }
+
+#if DEBUG
+extension ROMImporter {
+    
+    func _data(forOperationQueue queue: [Operation]) -> Data? {
+        return data(forOperationQueue: queue)
+    }
+    
+    func _operationQueue(from data: Data) -> [OEImportOperation]? {
+        return operationQueue(from: data)
+    }
+}
+#endif
