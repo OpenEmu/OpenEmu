@@ -255,7 +255,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     return nil;
 }
 
-- (void)imageBrowserSelectionDidChange:(IKImageBrowserView *)aBrowser
+- (void)imageBrowserSelectionDidChange:(OEGridView *)aBrowser
 {
     [self setSelectionIndexes:[aBrowser selectionIndexes]];
 }
@@ -442,12 +442,12 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     return YES;
 }
 #pragma mark - Data Sources
-- (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *)aBrowser
+- (NSUInteger)numberOfItemsInImageBrowser:(OEGridView *)aBrowser
 {
     return 0;
 }
 
-- (NSUInteger)numberOfGroupsInImageBrowser:(IKImageBrowserView *)aBrowser
+- (NSUInteger)numberOfGroupsInImageBrowser:(OEGridView *)aBrowser
 {
     return 0;
 }
@@ -470,7 +470,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     return @"";
 }
 
-- (void)imageBrowser:(IKImageBrowserView *)aBrowser removeItemsAtIndexes:(NSIndexSet *)indexes
+- (void)imageBrowser:(OEGridView *)aBrowser removeItemsAtIndexes:(NSIndexSet *)indexes
 {
     [self deleteSelectedItems:aBrowser];
 }

@@ -96,7 +96,7 @@
 - (void)setContainerSize:(struct CGSize)arg1;
 - (void)invalidate;
 - (void)layoutDidChange;
-@property IKImageBrowserView *parent;
+//@property IKImageBrowserView *parent;
 - (void)dealloc;
 - (id)init;
 

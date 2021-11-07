@@ -831,12 +831,12 @@ static NSString * const OEGameTableSortDescriptorsKey = @"OEGameTableSortDescrip
 }
 
 #pragma mark - GridView DataSource
-- (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *)aBrowser
+- (NSUInteger)numberOfItemsInImageBrowser:(OEGridView *)aBrowser
 {
     return [[gamesController arrangedObjects] count];
 }
 
-- (id)imageBrowser:(IKImageBrowserView *)aBrowser itemAtIndex:(NSUInteger)index
+- (id)imageBrowser:(OEGridView *)aBrowser itemAtIndex:(NSUInteger)index
 {
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
@@ -846,7 +846,7 @@ static NSString * const OEGameTableSortDescriptorsKey = @"OEGameTableSortDescrip
     return [self menuForItemsAtIndexes:indexes];
 }
 #pragma mark - GridView Delegate
-- (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
+- (void)imageBrowser:(OEGridView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
 {
     [NSApp sendAction:@selector(startSelectedGame:) to:nil from:self];
 }

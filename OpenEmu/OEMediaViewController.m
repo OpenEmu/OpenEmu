@@ -304,7 +304,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     [NSNotificationCenter.defaultCenter postNotificationName:OEMediaViewControllerDidSetSelectionIndexesNotification object:self];
 }
 
-- (void)imageBrowserSelectionDidChange:(IKImageBrowserView *)aBrowser
+- (void)imageBrowserSelectionDidChange:(OEGridView *)aBrowser
 {
     [super imageBrowserSelectionDidChange:aBrowser];
     
@@ -654,17 +654,17 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     }
 }
 #pragma mark - GridView DataSource
-- (NSUInteger)numberOfGroupsInImageBrowser:(IKImageBrowserView *)aBrowser
+- (NSUInteger)numberOfGroupsInImageBrowser:(OEGridView *)aBrowser
 {
     return [_groupRanges count];
 }
 
-- (id)imageBrowser:(IKImageBrowserView *)aBrowser itemAtIndex:(NSUInteger)index
+- (id)imageBrowser:(OEGridView *)aBrowser itemAtIndex:(NSUInteger)index
 {
     return [OESavedGamesDataWrapper wrapperWithItem:[[self items] objectAtIndex:index]];
 }
 
-- (NSDictionary*)imageBrowser:(IKImageBrowserView *)aBrowser groupAtIndex:(NSUInteger)index
+- (NSDictionary*)imageBrowser:(OEGridView *)aBrowser groupAtIndex:(NSUInteger)index
 {
     NSValue  *groupRange = [[self groupRanges] objectAtIndex:index];
     NSRange range = [groupRange rangeValue];
@@ -680,7 +680,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
              };
 }
 
-- (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *)aBrowser
+- (NSUInteger)numberOfItemsInImageBrowser:(OEGridView *)aBrowser
 {
     return [[self items] count];
 }
@@ -725,7 +725,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     [item save];
 }
 
-- (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
+- (void)imageBrowser:(OEGridView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
 {
     id item = self.items[index];
 
