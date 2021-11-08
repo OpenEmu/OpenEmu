@@ -40,6 +40,6 @@ extension ImageCollectionViewItem: QLPreviewItem {
     }
     
     var previewItemTitle: String! {
-        return imageURL?.lastPathComponent
+        return textField?.stringValue
     }
 }
