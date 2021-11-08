@@ -26,8 +26,6 @@ import Foundation
 import OpenEmuKit
 import Sparkle
 
-@objc(OECoreDownload)
-@objcMembers
 final class CoreDownload: NSObject {
     
     weak var delegate: CoreDownloadDelegate?
@@ -42,7 +40,7 @@ final class CoreDownload: NSObject {
     var canBeInstalled = false
     
     private(set) var isDownloading = false
-    private(set) dynamic var progress: Double = 0
+    @objc private(set) dynamic var progress: Double = 0
     
     var appcast: SUAppcast?
     var appcastItem: SUAppcastItem?
@@ -54,7 +52,6 @@ final class CoreDownload: NSObject {
         updateProperties(with: plugin)
     }
     
-    @objc(startDownload)
     func start() {
         guard let appcastItem = appcastItem, !isDownloading else { return }
         
@@ -74,7 +71,6 @@ final class CoreDownload: NSObject {
         delegate?.coreDownloadDidStart(self)
     }
     
-    @objc(cancelDownload)
     func cancel() {
         DLog("Cancelling core download (\(downloadSession?.sessionDescription ?? "")")
         downloadSession?.invalidateAndCancel()

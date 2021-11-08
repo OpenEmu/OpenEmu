@@ -339,7 +339,7 @@ final class OEGameDocument: NSDocument {
         if corePlugin == nil {
             
             var nsError: NSError?
-            OECoreUpdater.shared.installCore(for: rom.game!) { plugin, error in
+            CoreUpdater.shared.installCore(for: rom.game!) { plugin, error in
                 if error == nil,
                    let plugin = plugin {
                     self.corePlugin = plugin
@@ -769,9 +769,9 @@ final class OEGameDocument: NSDocument {
             if let plugin = OECorePlugin(bundleIdentifier: replacement) {
                 replacementName = plugin.controller.pluginName
             } else {
-                let repl = OECoreUpdater.shared.coreList.firstIndex(where: { $0.bundleIdentifier.caseInsensitiveCompare(replacement) == .orderedSame })
+                let repl = CoreUpdater.shared.coreList.firstIndex(where: { $0.bundleIdentifier.caseInsensitiveCompare(replacement) == .orderedSame })
                 if let repl = repl {
-                    download = OECoreUpdater.shared.coreList[repl]
+                    download = CoreUpdater.shared.coreList[repl]
                     replacementName = download?.name
                 }
             }
@@ -817,8 +817,9 @@ final class OEGameDocument: NSDocument {
                 return false
             }
             
-            OECoreUpdater.shared.installCore(with: download) { plugin, error in
-                if deprecatedIsDefault {
+            CoreUpdater.shared.installCore(with: download) { plugin, error in
+                if deprecatedIsDefault,
+                   let plugin = plugin {
                     defaults.set(plugin.bundleIdentifier, forKey: prefKey)
                 }
             }
@@ -1740,7 +1741,7 @@ final class OEGameDocument: NSDocument {
             if let core = OECorePlugin(bundleIdentifier: state.coreIdentifier) {
                 runWithCore(core, nil)
             } else {
-                OECoreUpdater.shared.installCore(for: state, withCompletionHandler: runWithCore)
+                CoreUpdater.shared.installCore(for: state, withCompletionHandler: runWithCore)
             }
         } else {
             startEmulation()

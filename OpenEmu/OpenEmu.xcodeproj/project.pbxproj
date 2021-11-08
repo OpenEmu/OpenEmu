@@ -360,7 +360,6 @@
 		836AEA711975BFE100B86935 /* OEGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA701975BFE100B86935 /* OEGridCell.m */; };
 		8370D3E11A8D2A7600313F87 /* ArrowCursorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */; };
 		83753F1A14F5383F00D708A7 /* PrefDebugController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83753F1914F5383F00D708A7 /* PrefDebugController.xib */; };
-		8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */; };
 		837820BD19081A090043593F /* OELibraryMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820BC19081A090043593F /* OELibraryMigrator.m */; };
 		837964F11A614ACD00A8DE5C /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 837964EA1A614ACD00A8DE5C /* Controller-Mappings.plist */; };
 		837964F21A614ACD00A8DE5C /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 837964EB1A614ACD00A8DE5C /* Controller-Preferences.plist */; };
@@ -474,6 +473,7 @@
 		8F8DB27B26D2A69E003CF106 /* PreferencePane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439B6813B932C5005C0CC8 /* PreferencePane.swift */; };
 		8F93FDDA27374F2000B59F3E /* GameInfoHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F93FDD927374F2000B59F3E /* GameInfoHelperTests.swift */; };
 		8F93FDE02737506900B59F3E /* ROMImporterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F93FDDF2737506900B59F3E /* ROMImporterTests.swift */; };
+		8F9410C0273A0167004C47CC /* CoreUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8375E14E1477FC0D0018DA1F /* CoreUpdater.swift */; };
 		8F94B44D25566FE00058AA94 /* NSShadow+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94B44C25566FE00058AA94 /* NSShadow+OEAdditions.swift */; };
 		8F94DEC1250EC701003A1F33 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94DEC0250EC701003A1F33 /* ThumbnailProvider.swift */; };
 		8F94DED4250ED838003A1F33 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94DED3250ED838003A1F33 /* PreviewViewController.swift */; };
@@ -1632,8 +1632,7 @@
 		8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowCursorTextView.swift; sourceTree = "<group>"; };
 		83753F1614F537C400D708A7 /* PrefDebugController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefDebugController.swift; sourceTree = "<group>"; };
 		83753F1914F5383F00D708A7 /* PrefDebugController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefDebugController.xib; sourceTree = "<group>"; };
-		8375E14D1477FC0D0018DA1F /* OECoreUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreUpdater.h; sourceTree = "<group>"; };
-		8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreUpdater.m; sourceTree = "<group>"; };
+		8375E14E1477FC0D0018DA1F /* CoreUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreUpdater.swift; sourceTree = "<group>"; };
 		837820B71907FADB0043593F /* IKRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKRenderer.h; sourceTree = "<group>"; };
 		837820B81907FB2D0043593F /* IKImageWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageWrapper.h; sourceTree = "<group>"; };
 		837820BA1907FB6E0043593F /* IKImageBrowserView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserView.h; sourceTree = "<group>"; };
@@ -3360,8 +3359,7 @@
 			isa = PBXGroup;
 			children = (
 				83CACEC7196D6D1300999E70 /* Download.swift */,
-				8375E14D1477FC0D0018DA1F /* OECoreUpdater.h */,
-				8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */,
+				8375E14E1477FC0D0018DA1F /* CoreUpdater.swift */,
 				839310BB147802380020058E /* CoreDownload.swift */,
 			);
 			name = Downloader;
@@ -6742,7 +6740,6 @@
 				8F3062DB251A897F00BDFF1F /* OESearchField.swift in Sources */,
 				8FEA6770270373460034CFCE /* GameControlsBar.swift in Sources */,
 				8FDCCADA27063FDE00CBF2E3 /* GameCollectionViewItemIndicationLayer.swift in Sources */,
-				8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */,
 				839310BC147802380020058E /* CoreDownload.swift in Sources */,
 				5A3DB1B11D8E6806009445EC /* AppDelegate.swift in Sources */,
 				83CA87B41961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel in Sources */,
@@ -6831,6 +6828,7 @@
 				8337F38E1726B3600068DD90 /* BackgroundImageView.swift in Sources */,
 				94A4E98D179F9A4D00AD8C7D /* OEDBSaveStatesMedia.swift in Sources */,
 				5A3DB1731D8CA752009445EC /* BackgroundGradientView.swift in Sources */,
+				8F9410C0273A0167004C47CC /* CoreUpdater.swift in Sources */,
 				94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.swift in Sources */,
 				94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */,
 				8F4AEAC1273594E6005C6246 /* OpenVGDB.swift in Sources */,

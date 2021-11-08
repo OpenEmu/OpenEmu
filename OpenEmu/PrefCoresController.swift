@@ -45,12 +45,12 @@ final class PrefCoresController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        coreListObservation = OECoreUpdater.shared.observe(\OECoreUpdater.coreList) {
+        coreListObservation = CoreUpdater.shared.observe(\CoreUpdater.coreList) {
             object, _ in
             self.coresTableView.reloadData()
         }
-        OECoreUpdater.shared.checkForNewCores(completionHandler: nil)   // TODO: check error from completion handler
-        OECoreUpdater.shared.checkForUpdates()
+        CoreUpdater.shared.checkForNewCores()   // TODO: check error from completion handler
+        CoreUpdater.shared.checkForUpdates()
         
         for column in coresTableView.tableColumns {
             switch column.identifier {
@@ -73,11 +73,11 @@ final class PrefCoresController: NSViewController {
     }
     
     private func updateOrInstallItem(_ row: Int) {
-        OECoreUpdater.shared.installCoreInBackgroundUserInitiated(coreDownload(row))
+        CoreUpdater.shared.installCoreInBackgroundUserInitiated(coreDownload(row))
     }
     
     private func coreDownload(_ row: Int) -> CoreDownload {
-        return OECoreUpdater.shared.coreList[row]
+        return CoreUpdater.shared.coreList[row]
     }
 }
 
@@ -86,7 +86,7 @@ final class PrefCoresController: NSViewController {
 extension PrefCoresController: NSTableViewDataSource {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return OECoreUpdater.shared.coreList.count
+        return CoreUpdater.shared.coreList.count
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {

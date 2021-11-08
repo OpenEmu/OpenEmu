@@ -536,7 +536,7 @@ class AppDelegate: NSObject {
     
     @objc(migrationForceUpdateCores:)
     func migrationForceUpdateCores() throws {
-        OECoreUpdater.shared.checkForUpdatesAndInstall()
+        CoreUpdater.shared.checkForUpdatesAndInstall()
     }
     
     @objc(migrationRemoveCoreDefaults:)
@@ -825,7 +825,7 @@ extension AppDelegate: NSMenuDelegate {
         loadPlugins()
         removeIncompatibleSaveStates()
         
-        OECoreUpdater.shared.checkForUpdatesAndInstall()
+        CoreUpdater.shared.checkForUpdatesAndInstall()
         
         if !restoreWindow {
             _ = mainWindowController.window
@@ -854,7 +854,7 @@ extension AppDelegate: NSMenuDelegate {
             mainWindowController.showWindow(nil)
         }
         
-        OECoreUpdater.shared.checkForNewCores(completionHandler: nil)   // TODO: check error from completion handler
+        CoreUpdater.shared.checkForNewCores()   // TODO: check error from completion handler
         
         let userDefaultsController = NSUserDefaultsController.shared
         bind(.logHIDEvents, to: userDefaultsController, withKeyPath: "values.logsHIDEvents", options: nil)

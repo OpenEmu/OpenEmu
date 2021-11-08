@@ -24,7 +24,6 @@
 #import "OEArchiveHelper.h"
 #import "OEImportOperation.h"
 #import "OEVersionMigrationController.h"
-#import "OECoreUpdater.h"
 #import "NSDocument+OEAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 #import "OEAudioDeviceManager.h"

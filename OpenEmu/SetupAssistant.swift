@@ -100,7 +100,7 @@ final class SetupAssistant: NSViewController {
         fsm.onTransitions(from: .videoIntro, to: .welcome) { [unowned self] in
             // Note: we are not worrying about a core being removed from the core list
             let knownCores = coresToDownload.compactMap { $0.core }
-            for core in OECoreUpdater.shared.coreList {
+            for core in CoreUpdater.shared.coreList {
                 if !knownCores.contains(core) {
                     coresToDownload.append(SetupCoreInfo(core: core))
                 }
@@ -163,7 +163,7 @@ final class SetupAssistant: NSViewController {
     
     private func attemptInitialCoreListUpdate() {
         coreListDownloadProgress.startAnimation(nil)
-        OECoreUpdater.shared.checkForNewCores { error in
+        CoreUpdater.shared.checkForNewCores { error in
             self.initialCoreListUpdateDidComplete(error: error)
         }
     }
