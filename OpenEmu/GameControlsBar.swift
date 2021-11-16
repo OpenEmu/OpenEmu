@@ -668,7 +668,7 @@ final class GameControlsBar: NSWindow {
         
         let includeAutoSaveState = UserDefaults.standard.bool(forKey: Self.showsAutoSaveStateKey)
         let includeQuickSaveState = UserDefaults.standard.bool(forKey: Self.showsQuickSaveStateKey)
-        let useQuickSaveSlots = UserDefaults.standard.bool(forKey: OESaveStateUseQuickSaveSlotsKey)
+        let useQuickSaveSlots = UserDefaults.standard.bool(forKey: OEDBSaveState.useQuickSaveSlotsKey)
         var saveStates = rom.normalSaveStates(byTimestampAscending: true) ?? []
         
         if includeQuickSaveState && !useQuickSaveSlots, let quickSaveState = rom.quickSaveState(inSlot: 0) {
@@ -715,7 +715,7 @@ final class GameControlsBar: NSWindow {
             
             // Add 'normal' save states
             for saveState in saveStates {
-                let itemTitle = saveState.displayName ?? saveState.timestamp?.description ?? ""
+                let itemTitle = saveState.displayName
                 
                 var item = NSMenuItem(title: itemTitle, action: #selector(OEGlobalEventsHandler.loadState(_:)), keyEquivalent: "")
                 item.representedObject = saveState

@@ -252,10 +252,10 @@ final class CoreUpdater: NSObject {
     
     func installCore(for state: OEDBSaveState, withCompletionHandler handler: @escaping (_ plugin: OECorePlugin?, _ error: Error?) -> Void) {
         
-        let coreID = state.coreIdentifier?.lowercased() ?? ""
+        let coreID = state.coreIdentifier.lowercased()
         if let download = coresDict[coreID] {
             let coreName = download.name
-            let message = String(format: NSLocalizedString("To launch the save state %@ you will need to install the '%@' Core", comment: ""), state.displayName ?? "", coreName)
+            let message = String(format: NSLocalizedString("To launch the save state %@ you will need to install the '%@' Core", comment: ""), state.displayName, coreName)
             installCore(with: download, message: message, completionHandler: handler)
         } else {
             // TODO: create proper error saying that no core is available for the state

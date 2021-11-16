@@ -67,7 +67,7 @@ final class PrefDebugController: NSViewController {
         
         Group(label: "HUD Bar / Gameplay"),
         Checkbox(key: OEGameLayerNotificationView.OEShowNotificationsKey, label: "Show notifications during gameplay"),
-        Checkbox(key: OESaveStateUseQuickSaveSlotsKey, label: "Use quicksave slots"),
+        Checkbox(key: OEDBSaveState.useQuickSaveSlotsKey, label: "Use quicksave slots"),
         Checkbox(key: GameControlsBar.showsQuickSaveStateKey, label: "Show quicksave in menu"),
         Checkbox(key: GameControlsBar.showsAutoSaveStateKey, label: "Show autosave in menu"),
         Checkbox(key: GameControlsBar.showsAudioOutputKey, label: "Show audio output device in menu"),

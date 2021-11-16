@@ -34,7 +34,6 @@
 @import OpenEmuKit;
 #import "OEDBGame.h"
 #import "OEDBRom.h"
-#import "OEDBSaveState.h"
 
 #import "OELibraryDatabase.h"
 #import "OEArrayController.h"

@@ -519,7 +519,7 @@ final class OEGameDocument: NSDocument {
             return
         }
         
-        saveState(name: OESaveStateAutosaveName) {
+        saveState(name: OEDBSaveState.autosaveName) {
             self.emulationStatus = .terminating
             // TODO: #567 and #568 need to be fixed first
             //removeDeviceNotificationObservers()
@@ -1640,7 +1640,7 @@ final class OEGameDocument: NSDocument {
             }
             
             var state: OEDBSaveState!
-            if stateName.hasPrefix(OESaveStateSpecialNamePrefix) {
+            if stateName.hasPrefix(OEDBSaveState.specialNamePrefix) {
                 state = rom.saveState(withName: stateName)
                 state?.coreIdentifier = core.bundleIdentifier
                 state?.coreVersion = core.version
@@ -1648,9 +1648,9 @@ final class OEGameDocument: NSDocument {
             
             if state == nil {
                 let context = OELibraryDatabase.default!.mainThreadContext
-                state = OEDBSaveState.createSaveStateNamed(stateName, for: rom, core: core, withFile: temporaryStateFileURL, in: context)
+                state = OEDBSaveState.createSaveState(named: stateName, for: rom, core: core, withFile: temporaryStateFileURL, in: context)
             } else {
-                state.replaceFile(withFile: temporaryStateFileURL)
+                state.replaceStateFileWithFile(at: temporaryStateFileURL)
                 state.timestamp = Date()
             }
             
@@ -1779,7 +1779,7 @@ final class OEGameDocument: NSDocument {
             return
         }
         
-        let stateName = state.name ?? ""
+        let stateName = state.name
         let alert = OEAlert.deleteSaveState(name: stateName)
         
         if alert.runModal() == .alertFirstButtonReturn {

@@ -34,7 +34,6 @@
 #import "OELibraryDatabase.h"
 #import "OEDBGame.h"
 #import "OEDBRom.h"
-#import "OEDBSaveState.h"
 #import "OEDBSystem+CoreDataProperties.h"
 
 #import "OELogging.h"
@@ -263,7 +262,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 {
     NSString *pathExtension = url.pathExtension.lowercaseString;
 
-    if([pathExtension isEqualToString:OESaveStateSuffix])
+    if([pathExtension isEqualToString:OEDBSaveState.bundleExtension])
     {
         OELibraryDatabase *db = [OELibraryDatabase defaultDatabase];
         [OEDBSaveState createSaveStateByImportingBundleURL:url intoContext:db.mainThreadContext copy:YES];

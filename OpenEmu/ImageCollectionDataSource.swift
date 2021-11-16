@@ -58,13 +58,13 @@ class ImagesDataSource<Model: OEDBItem>: ImageDataSourceDelegate {
     }()
     
     private let gameKeyPath: KeyPath<Model, OEDBGame?>
-    private let titleKeyPath: KeyPath<Model, String?>
+    private let titleKeyPath: KeyPath<Model, String>
     private let timestampKeyPath: KeyPath<Model, Date?>
     private let imageURLKeyPath: KeyPath<Model, URL>
     private let sortDescriptors: [NSSortDescriptor]
     
     init(gameKeyPath: KeyPath<Model, OEDBGame?>,
-         titleKeyPath: KeyPath<Model, String?>,
+         titleKeyPath: KeyPath<Model, String>,
          timestampKeyPath: KeyPath<Model, Date?>,
          imageURLKeyPath: KeyPath<Model, URL>,
          sortDescriptors: [NSSortDescriptor],
@@ -98,7 +98,7 @@ class ImagesDataSource<Model: OEDBItem>: ImageDataSourceDelegate {
             view.imageView?.image = img
             view.view.needsLayout = true
         }
-        view.textField?.stringValue = item[keyPath: titleKeyPath] ?? ""
+        view.textField?.stringValue = item[keyPath: titleKeyPath]
         if let ts = item[keyPath: timestampKeyPath] {
             view.subtitleField?.stringValue = formatter.string(from: ts)
         }

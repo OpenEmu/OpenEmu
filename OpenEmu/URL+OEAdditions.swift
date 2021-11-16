@@ -40,4 +40,18 @@ extension URL {
         
         return resourceValues.isDirectory! && !resourceValues.isPackage!
     }
+    
+    func url(relativeTo url: URL) -> URL? {
+        
+        let selfAbsoluteString = standardized.absoluteString
+        let urlAbsoluteString = url.standardized.absoluteString
+        
+        let range = (selfAbsoluteString as NSString).range(of: urlAbsoluteString)
+        
+        if range.location != NSNotFound && range.location == 0 {
+            return URL(string: (selfAbsoluteString as NSString).substring(from: range.length))
+        } else {
+            return standardized
+        }
+    }
 }

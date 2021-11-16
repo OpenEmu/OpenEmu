@@ -396,9 +396,9 @@ class AppDelegate: NSObject {
         let currentDesmumeCoreVersion = OECorePlugin(bundleIdentifier: "org.openemu.desmume")?.version
         let incompatibleSaveStates = (OEDBSaveState.allObjects(in: context) as! [OEDBSaveState]).filter {
             ($0.coreIdentifier == "org.openemu.CrabEmu" &&
-                ($0.location!.contains("GameGear/") ||
-                 $0.location!.contains("SegaMasterSystem/") ||
-                 $0.location!.contains("SG-1000/"))) ||
+                ($0.location.contains("GameGear/") ||
+                 $0.location.contains("SegaMasterSystem/") ||
+                 $0.location.contains("SG-1000/"))) ||
             ($0.coreIdentifier == "org.openemu.desmume" && currentDesmumeCoreVersion == "0.9.12" &&
                 ($0.coreVersion == "0.9.10" ||
                  $0.coreVersion == "0.9.10.1" ||
@@ -670,7 +670,7 @@ extension AppDelegate: NSMenuDelegate {
         let currentLoadItem = controlsMenu.item(withTag: loadItemTag)!
         let currentSaveItem = controlsMenu.item(withTag: saveItemTag)!
         
-        let useSlots = UserDefaults.standard.bool(forKey: OESaveStateUseQuickSaveSlotsKey)
+        let useSlots = UserDefaults.standard.bool(forKey: OEDBSaveState.useQuickSaveSlotsKey)
         
         let newLoadItem: NSMenuItem
         let newSaveItem: NSMenuItem

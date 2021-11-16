@@ -30,7 +30,6 @@
 #import "OEDBGame.h"
 #import "OEDBImage.h"
 #import "OEDBRom.h"
-#import "OEDBSaveState.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEAlert.h"
@@ -51,7 +50,7 @@
         
         NSSortDescriptor *timeStampSort = [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO];
         NSArray *roms = [[rom saveStates] sortedArrayUsingDescriptors:@[timeStampSort]];
-        NSPredicate *autosaveFilter = [NSPredicate predicateWithFormat:@"name BEGINSWITH %@", OESaveStateAutosaveName];
+        NSPredicate *autosaveFilter = [NSPredicate predicateWithFormat:@"name BEGINSWITH %@", OEDBSaveState.autosaveName];
         NSArray *autosaves = [roms filteredArrayUsingPredicate:autosaveFilter];
         OEDBSaveState *autosave = nil;
         
@@ -94,7 +93,7 @@
     NSDirectoryEnumerator *enumerator = [fm enumeratorAtURL:statesFolder includingPropertiesForKeys:nil options:0 errorHandler:nil];
     for (NSURL *url in enumerator)
     {
-        if([[url pathExtension] isEqualToString:OESaveStateSuffix])
+        if([[url pathExtension] isEqualToString:OEDBSaveState.bundleExtension])
             [OEDBSaveState createSaveStateByImportingBundleURL:url intoContext:context];
     }
 

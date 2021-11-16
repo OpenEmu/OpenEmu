@@ -33,7 +33,6 @@
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBSystem.h"
-#import "OEDBSaveState.h"
 
 #import "OpenEmu-Swift.h"
 

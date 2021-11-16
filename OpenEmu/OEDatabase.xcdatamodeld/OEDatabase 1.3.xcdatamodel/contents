@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11542" systemVersion="16B2555" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="1.3">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20G224" minimumToolsVersion="Xcode 8.0" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="1.3">
     <entity name="AbstractCollection" representedClassName="NSManagedObject" isAbstract="YES" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="folder" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="CollectionFolder" inverseName="subcollections" inverseEntity="CollectionFolder" indexed="YES" syncable="YES"/>
@@ -66,7 +66,7 @@
         <relationship name="saveStates" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SaveState" inverseName="rom" inverseEntity="SaveState" indexed="YES" syncable="YES"/>
         <relationship name="screenShots" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Screenshot" inverseName="rom" inverseEntity="Screenshot" syncable="YES"/>
     </entity>
-    <entity name="SaveState" representedClassName="OEDBSaveState" syncable="YES" codeGenerationType="category">
+    <entity name="SaveState" representedClassName=".OEDBSaveState" syncable="YES">
         <attribute name="coreIdentifier" attributeType="String" syncable="YES"/>
         <attribute name="coreVersion" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>

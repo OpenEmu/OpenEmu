@@ -156,7 +156,7 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
         
         var alert: OEAlert
         if items.count == 1 {
-            alert = .deleteScreenshot(name: items.first!.name!)
+            alert = .deleteScreenshot(name: items.first!.name)
         } else {
             alert = .deleteScreenshots(count: items.count)
         }

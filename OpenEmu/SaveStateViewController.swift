@@ -62,7 +62,7 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
     func collectionView(_ collectionView: CollectionView, setTitle title: String, forItemAt indexPath: IndexPath) {
         guard let item = dataSource.item(at: indexPath), !title.isEmpty, title != item.displayName  else { return }
         
-        if title.hasPrefix(OESaveStateSpecialNamePrefix) {
+        if title.hasPrefix(OEDBSaveState.specialNamePrefix) {
             return
         }
         
@@ -149,7 +149,7 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
         
         var alert: OEAlert
         if items.count == 1 {
-            alert = .deleteSaveState(name: items.first!.name!)
+            alert = .deleteSaveState(name: items.first!.name)
         } else {
             alert = .deleteSaveStates(count: items.count)
         }

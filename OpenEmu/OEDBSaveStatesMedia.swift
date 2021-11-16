@@ -39,11 +39,11 @@ final class OEDBSaveStatesMedia: NSObject, CollectionViewItemProtocol {
         let defaults = UserDefaults.standard
         
         if !defaults.bool(forKey: Self.showsAutoSavesKey) {
-            subpredicates.append(NSPredicate(format: "name != %@", OESaveStateAutosaveName))
+            subpredicates.append(NSPredicate(format: "name != %@", OEDBSaveState.autosaveName))
         }
         
         if !defaults.bool(forKey: Self.showsQuickSavesKey) {
-            subpredicates.append(NSPredicate(format: "NOT(name BEGINSWITH %@)", OESaveStateQuicksaveName))
+            subpredicates.append(NSPredicate(format: "NOT(name BEGINSWITH %@)", OEDBSaveState.quicksaveName))
         }
         
         return NSCompoundPredicate(andPredicateWithSubpredicates: subpredicates)

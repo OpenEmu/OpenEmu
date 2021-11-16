@@ -26,7 +26,6 @@
 
 #import "OEDBRom.h"
 #import "OEDBGame.h"
-#import "OEDBSaveState.h"
 
 #import "OELibraryDatabase.h"
 
@@ -172,14 +171,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable OEDBSaveState *)autosaveState
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", OESaveStateAutosaveName];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", OEDBSaveState.autosaveName];
 
     return [self.saveStates filteredSetUsingPredicate:predicate].anyObject;
 }
 
 - (nullable NSArray *)quickSaveStates
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", OESaveStateQuicksaveName];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", OEDBSaveState.quicksaveName];
     
     return [self.saveStates filteredSetUsingPredicate:predicate].allObjects;
 }

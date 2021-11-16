@@ -29,7 +29,6 @@
 #import "OEGridMediaItemCell.h"
 
 #import "OELibraryDatabase.h"
-#import "OEDBSaveState.h"
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBSystem+CoreDataProperties.h"
@@ -690,7 +689,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         return;
 
     // ignore users who are trying to manually create auto or quick saves
-    if([title rangeOfString:OESaveStateSpecialNamePrefix].location == 0)
+    if([title rangeOfString:OEDBSaveState.specialNamePrefix].location == 0)
         return;
 
     id item = [[self items] objectAtIndex:index];

@@ -33,7 +33,7 @@ final class OEDBScreenshot: OEDBItem {
     // MARK: - CoreDataProperties
     
     @NSManaged var location: String
-    @NSManaged var name: String?
+    @NSManaged var name: String
     @NSManaged var timestamp: Date?
     // @NSManaged var userDescription: String?
     @NSManaged var rom: OEDBRom?
@@ -46,7 +46,7 @@ final class OEDBScreenshot: OEDBItem {
         }
         set {
             let screenshotDirectory = libraryDatabase.screenshotFolderURL
-            location = (newValue as NSURL).url(relativeTo: screenshotDirectory)!.relativeString
+            location = newValue.url(relativeTo: screenshotDirectory)!.relativeString
         }
     }
     
@@ -61,7 +61,7 @@ final class OEDBScreenshot: OEDBItem {
     // MARK: -
     
     @objc(createObjectInContext:forROM:withFile:)
-    class func createObject(in context: NSManagedObjectContext, for rom: OEDBRom, with url: URL) -> Self? {
+    class func createObject(in context: NSManagedObjectContext, for rom: OEDBRom, with url: URL) -> OEDBScreenshot? {
         
         if let isReachable = try? url.checkResourceIsReachable(),
            isReachable {
@@ -74,7 +74,7 @@ final class OEDBScreenshot: OEDBItem {
             
             screenshot.updateFile()
             screenshot.save()
-            return screenshot as? Self
+            return screenshot
         }
         
         return nil
@@ -87,7 +87,7 @@ final class OEDBScreenshot: OEDBItem {
     func updateFile() {
         let database = libraryDatabase
         let screenshotDirectory = database.screenshotFolderURL
-        let fileName = NSURL.validFilename(from: name ?? "")
+        let fileName = NSURL.validFilename(from: name)
         let fileExtension = "png"
         var targetURL = screenshotDirectory.appendingPathComponent("\(fileName).\(fileExtension)").standardizedFileURL
         let sourceURL = url

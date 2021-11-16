@@ -385,7 +385,6 @@
 		83CA87B41961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */; };
 		83CACEC8196D6D1300999E70 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CACEC7196D6D1300999E70 /* Download.swift */; };
 		83CB0C7A1A3F000700409FB2 /* BlankSlateSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CB0C791A3F000700409FB2 /* BlankSlateSpinnerView.swift */; };
-		83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */; };
 		83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */; };
 		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
 		83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */; };
@@ -1678,8 +1677,6 @@
 		83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.2 to 1.3.xcmappingmodel"; sourceTree = "<group>"; };
 		83CACEC7196D6D1300999E70 /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		83CB0C791A3F000700409FB2 /* BlankSlateSpinnerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlankSlateSpinnerView.swift; sourceTree = "<group>"; };
-		83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveState.h; sourceTree = "<group>"; };
-		83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveState.m; sourceTree = "<group>"; };
 		83D175B918FF218200E5ED34 /* OEDatabase 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.2.xcdatamodel"; sourceTree = "<group>"; };
 		83D33BD41AEB9ABE0085753B /* ALIterativeMigrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALIterativeMigrator.h; sourceTree = "<group>"; };
 		83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALIterativeMigrator.m; sourceTree = "<group>"; };
@@ -3246,8 +3243,6 @@
 				838AC27E14434EED00AC74C3 /* OEDBRom.h */,
 				838AC27F14434EED00AC74C3 /* OEDBRom.m */,
 				8FEE03E026D556610087CB51 /* OEDBRom.swift */,
-				83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */,
-				83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */,
 				8FEE03D626D555E80087CB51 /* OEDBSaveState.swift */,
 				8F812C4326D5454B00E89C42 /* OEDBScreenshot.swift */,
 				53439AA013B92C9D005C0CC8 /* OEDBSystem.h */,
@@ -6741,7 +6736,6 @@
 				8FE5DC08270DC0AB00878DFF /* OEDBCollectionFolder.swift in Sources */,
 				8FE1BF1E2586C64200A2818A /* OELibraryDatabase+Moving.m in Sources */,
 				012FE6591CE51D4100716960 /* LibraryToolbarDelegate.swift in Sources */,
-				83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */,
 				5A9606DE1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift in Sources */,
 				83C68ED114483579000F720A /* OEAlert.swift in Sources */,
 				832D29401451A68700BDF950 /* MainWindowController.swift in Sources */,
@@ -9800,8 +9794,8 @@
 		C68A54E41516AD3C001053F2 /* OEDatabase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				83D175B918FF218200E5ED34 /* OEDatabase 1.2.xcdatamodel */,
 				8393FD33195D71B50021D3D9 /* OEDatabase 1.3.xcdatamodel */,
+				83D175B918FF218200E5ED34 /* OEDatabase 1.2.xcdatamodel */,
 				942388B218922E2E0030A325 /* OEDatabase 1.1.xcdatamodel */,
 				832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */,
 				83A8CD8D1709E1EE00F5D145 /* OEDatabase 0.5.xcdatamodel */,
