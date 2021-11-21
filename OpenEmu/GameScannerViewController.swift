@@ -122,9 +122,9 @@ final class GameScannerViewController: NSViewController {
         let menu = NSMenu()
         
         let context = OELibraryDatabase.default!.mainThreadContext
-        let menuItems: [NSMenuItem] = systemIDs.map { systemID in
+        let menuItems: [NSMenuItem] = systemIDs.compactMap { systemID in
             
-            let system = OEDBSystem(forPluginIdentifier: systemID, in: context)
+            guard let system = OEDBSystem.system(for: systemID, in: context) else { return nil }
             let menuItem = NSMenuItem(title: system.name, action: nil, keyEquivalent: "")
             menuItem.image = system.icon
             menuItem.representedObject = systemID

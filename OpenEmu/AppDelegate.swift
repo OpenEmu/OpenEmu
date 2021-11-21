@@ -378,7 +378,7 @@ class AppDelegate: NSObject {
         
         let context = library.mainThreadContext
         for plugin in OESystemPlugin.allPlugins {
-            _ = OEDBSystem(for: plugin, in: context)
+            _ = OEDBSystem.system(for: plugin, in: context)
         }
         
         library.disableSystemsWithoutPlugin()
@@ -563,7 +563,7 @@ class AppDelegate: NSObject {
             let library = OELibraryDatabase.default
         else { return }
         
-        _ = OEDBSystem(for: plugin, in: library.mainThreadContext)
+        _ = OEDBSystem.system(for: plugin, in: library.mainThreadContext)
     }
     
     // MARK: - Debug

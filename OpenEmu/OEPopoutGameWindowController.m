@@ -30,7 +30,6 @@
 
 #import "OEDBRom.h"
 #import "OEDBGame.h"
-#import "OEDBSystem+CoreDataProperties.h"
 
 @import QuartzCore;
 

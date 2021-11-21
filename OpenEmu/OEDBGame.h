@@ -96,6 +96,10 @@ extern NSString *const OEGameArtworkPropertiesKey;
 
 @property(nonatomic, readonly, nullable) NSMutableSet <OEDBRom *>         *mutableRoms;
 @property(nonatomic, readonly, nullable) NSMutableSet <OEDBCollection *>  *mutableCollections;
+
+#pragma mark - Debug
+
+- (void)dumpWithPrefix:(NSString *)prefix NS_SWIFT_NAME(dump(prefix:));
 @end
 
 NS_ASSUME_NONNULL_END

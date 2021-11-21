@@ -258,7 +258,7 @@ final class HomebrewViewController: NSViewController {
             let game = OEDBGame(entity: gameDescription, insertInto: context)
             game.roms = Set<OEDBRom>([rom!])
             game.name = name
-            game.system = OEDBSystem(forPluginIdentifier: systemIdentifier, in: context)
+            game.system = OEDBSystem.system(for: systemIdentifier, in: context)
             if let imageURL = homebrewGame.images?.first {
                 game.setBoxImage(url: imageURL)
             }
@@ -402,9 +402,9 @@ extension HomebrewViewController: NSTableViewDataSource {
             
             let context = OELibraryDatabase.default!.mainThreadContext
             
-            let system = OEDBSystem(forPluginIdentifier: identifier, in: context)
+            let system = OEDBSystem.system(for: identifier, in: context)
             
-            return system.lastLocalizedName
+            return system?.lastLocalizedName
         }
         
         return games[row]
@@ -461,14 +461,6 @@ private struct HomebrewGame {
     }
     
     var systemShortName: String {
-        let identifier = systemIdentifier
-        let context = OELibraryDatabase.default!.mainThreadContext
-        
-        let system = OEDBSystem(forPluginIdentifier: identifier, in: context)
-        if let shortname = system.shortname {
-            return shortname
-        } else {
-            return identifier.components(separatedBy: ".").last?.uppercased() ?? ""
-        }
+        return systemIdentifier.components(separatedBy: ".").last?.uppercased() ?? ""
     }
 }

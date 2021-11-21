@@ -83,7 +83,7 @@
         <relationship name="rom" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ROM" inverseName="screenShots" inverseEntity="ROM" syncable="YES"/>
     </entity>
     <entity name="SmartCollection" representedClassName=".OEDBSmartCollection" parentEntity="AbstractCollection" syncable="YES"/>
-    <entity name="System" representedClassName="OEDBSystem" syncable="YES" codeGenerationType="category">
+    <entity name="System" representedClassName=".OEDBSystem" syncable="YES">
         <attribute name="enabled" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="lastLocalizedName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="shortname" optional="YES" attributeType="String" syncable="YES"/>

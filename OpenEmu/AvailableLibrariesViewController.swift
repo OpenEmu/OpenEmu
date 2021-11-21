@@ -89,15 +89,15 @@ final class AvailableLibrariesViewController: NSViewController {
     
     func loadData() {
         guard
-            let context = OELibraryDatabase.default?.mainThreadContext,
-            let systems = OEDBSystem.allSystems(in: context)
+            let context = OELibraryDatabase.default?.mainThreadContext
             else { return }
+        let systems = OEDBSystem.allSystems(in: context)
         let identifiers: [String] = OECorePlugin.allPlugins.flatMap { $0.systemIdentifiers }
         
         var data = [Model]()
         
         for system in systems {
-            let isMissingCore = !identifiers.contains(system.systemIdentifier ?? "")
+            let isMissingCore = !identifiers.contains(system.systemIdentifier)
             data.append(Model(system: system, isMissingCore: isMissingCore))
         }
         
@@ -130,7 +130,7 @@ final class AvailableLibrariesViewController: NSViewController {
         }
         
         var isEnabled: Bool {
-            system.enabled?.boolValue ?? false
+            system.isEnabled
         }
         
         var isMissingPlugin: Bool {
@@ -172,12 +172,12 @@ class AvailableLibrariesCollectionViewItem: NSCollectionViewItem {
     @IBAction func toggleSystem(_ sender: Any?) {
         guard
             let data = data,
-            let si   = data.system.systemIdentifier,
             let context = OELibraryDatabase.default?.mainThreadContext
             else { return }
         
-        let system = OEDBSystem(forPluginIdentifier: si, in: context)
-        if !system.toggleEnabledAndPresentError() {
+        let si = data.system.systemIdentifier
+        if let system = OEDBSystem.system(for: si, in: context),
+           !system.toggleEnabledAndPresentError() {
             // reload, as the system is still enabled but the checkbox is now unchecked
             collectionView?.reloadData()
         }

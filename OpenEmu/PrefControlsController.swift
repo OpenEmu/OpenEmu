@@ -268,12 +268,12 @@ final class PrefControlsController: NSViewController {
     // MARK: - UI Setup
     
     private func rebuildSystemsMenu() {
-        guard let context = OELibraryDatabase.default?.mainThreadContext,
-              let enabledSystems = OEDBSystem.enabledSystems(in: context)
+        guard let context = OELibraryDatabase.default?.mainThreadContext
         else { return }
         
         let consolesMenu = NSMenu()
         
+        let enabledSystems = OEDBSystem.enabledSystems(in: context)
         for system in enabledSystems {
             if let plugin = system.plugin {
                 let item = NSMenuItem(title: plugin.systemName, action: #selector(changeSystem(_:)), keyEquivalent: "")

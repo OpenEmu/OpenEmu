@@ -34,7 +34,6 @@
 #import "OELibraryDatabase.h"
 #import "OEDBGame.h"
 #import "OEDBRom.h"
-#import "OEDBSystem+CoreDataProperties.h"
 
 #import "OELogging.h"
 
@@ -462,7 +461,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     NSArray <OEDBSystem *> *enabledSystems = [OEDBSystem enabledSystemsInContext:context];
     NSMutableSet <NSString *> *enabledExtensions = [NSMutableSet set];
     OEDBSystem *arcadeSystem = [OEDBSystem systemForPluginIdentifier:@"openemu.system.arcade" inContext:context];
-    BOOL isArcadeEnabled = arcadeSystem.enabled.boolValue;
+    BOOL isArcadeEnabled = arcadeSystem.isEnabled;
 
     // Get extensions from all enabled systems.
     for (OEDBSystem *system in enabledSystems) {
@@ -772,7 +771,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     else if([[NSUserDefaults standardUserDefaults] boolForKey:OEImportManualSystems])
         validSystems = [OEDBSystem allSystemsInContext:context];
     else
-        validSystems = [OEDBSystem systemsForFile:self.file inContext:context error:&error];
+        validSystems = [OEDBSystem systemsForFile:self.file inContext:context];
 
     if (validSystems == nil) {
         DLog(@"Error while looking for a valid system: %@", error);

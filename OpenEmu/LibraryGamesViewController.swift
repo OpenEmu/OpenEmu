@@ -186,7 +186,7 @@ final class LibraryGamesViewController: NSSplitViewController {
             
             if let system = selectedItem as? OEDBSystem,
                system.plugin?.supportsDiscsWithDescriptorFile ?? false,
-               system.games?.count == 0,
+               system.games.isEmpty,
                !self.discGuideMessageSystemIDs.contains(system.systemIdentifier),
                !UserDefaults.standard.bool(forKey: self.OESkipDiscGuideMessageKey),
                let window = self.view.window {

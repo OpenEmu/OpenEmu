@@ -159,7 +159,7 @@ final class SidebarController: NSViewController {
             sidebarView.abortEditing()
         }
         
-        systems     = OEDBSystem.enabledSystems(in: database.mainThreadContext) ?? []
+        systems     = OEDBSystem.enabledSystems(in: database.mainThreadContext)
         collections = database.collections
         sidebarView.reloadData()
     }
@@ -295,7 +295,7 @@ final class SidebarController: NSViewController {
         
         let userInfo = [
             PreferencesWindowController.userInfoPanelNameKey: "Controls",
-            PreferencesWindowController.userInfoSystemIdentifierKey: system.systemIdentifier ?? "",
+            PreferencesWindowController.userInfoSystemIdentifierKey: system.systemIdentifier,
         ]
         
         NotificationCenter.default.post(Notification(name: PreferencesWindowController.openPaneNotificationName, userInfo: userInfo))
@@ -592,7 +592,7 @@ extension SidebarController: NSMenuDelegate {
             if let cores = OECorePlugin.corePlugins(forSystemIdentifier: item.systemIdentifier),
                cores.count > 1 {
                 
-                let systemIdentifier = item.systemIdentifier!
+                let systemIdentifier = item.systemIdentifier
                 let defaultCoreKey = "defaultCore.\(systemIdentifier)"
                 let defaultCoreIdentifier = UserDefaults.standard.object(forKey: defaultCoreKey) as? String
                 
@@ -602,7 +602,7 @@ extension SidebarController: NSMenuDelegate {
                 
                 cores.forEach { core in
                     let coreName = core.displayName
-                    let systemIdentifier = item.systemIdentifier!
+                    let systemIdentifier = item.systemIdentifier
                     let coreIdentifier = core.bundleIdentifier
                     
                     let item = NSMenuItem()

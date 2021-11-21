@@ -28,7 +28,6 @@
 
 @import OpenEmuKit;
 
-#import "OEDBSystem+CoreDataProperties.h"
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBImage.h"
@@ -328,7 +327,7 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     for(OEDBSystem *aSystem in allSystems)
     {
         if(aSystem.plugin) continue;
-        aSystem.enabled = @(NO);
+        aSystem.enabled = NO;
     }
 }
 
