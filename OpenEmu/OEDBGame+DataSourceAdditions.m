@@ -25,7 +25,6 @@
  */
 
 #import "OEDBGame+DataSourceAdditions.h"
-#import "OEDBImage.h"
 #import "OEDBRom.h"
 #import "NSArray+OEAdditions.h"
 @import Quartz;

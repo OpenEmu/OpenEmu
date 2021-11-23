@@ -343,7 +343,6 @@
 		830CB918186878D6006EAE5A /* OEArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 830CB917186878D6006EAE5A /* OEArrayController.m */; };
 		8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A98B155410EF00DF13B5 /* OEDBItem.m */; };
 		83199722142741790068C865 /* ROMImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* ROMImporter.swift */; };
-		8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8328D9E413C75CAE0026D2A7 /* OEDBImage.m */; };
 		832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */; };
 		832D29401451A68700BDF950 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832D293F1451A68700BDF950 /* MainWindowController.swift */; };
 		832D29431451ACF200BDF950 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832D29421451ACF200BDF950 /* MainWindow.xib */; };
@@ -1596,8 +1595,6 @@
 		8314A98A155410EF00DF13B5 /* OEDBItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBItem.h; sourceTree = "<group>"; };
 		8314A98B155410EF00DF13B5 /* OEDBItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBItem.m; sourceTree = "<group>"; };
 		83199721142741790068C865 /* ROMImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ROMImporter.swift; sourceTree = "<group>"; };
-		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBImage.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImage.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.0.xcdatamodel"; sourceTree = "<group>"; };
 		832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.0 Beta 4 to 1.0.xcmappingmodel"; sourceTree = "<group>"; };
 		832D293F1451A68700BDF950 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
@@ -3234,8 +3231,6 @@
 				53439A8E13B92C68005C0CC8 /* OEDBGame+DataSourceAdditions.h */,
 				53439A8F13B92C68005C0CC8 /* OEDBGame+DataSourceAdditions.m */,
 				8FEE03DA26D5560B0087CB51 /* OEDBGame.swift */,
-				8328D9E313C75CAE0026D2A7 /* OEDBImage.h */,
-				8328D9E413C75CAE0026D2A7 /* OEDBImage.m */,
 				8FEE03DE26D556290087CB51 /* OEDBImage.swift */,
 				838AC27E14434EED00AC74C3 /* OEDBRom.h */,
 				838AC27F14434EED00AC74C3 /* OEDBRom.m */,
@@ -6823,7 +6818,6 @@
 				8FC3CC692708BD4200747DC2 /* OEGameDocument.swift in Sources */,
 				0544B6A323D16D6300F63D61 /* NSImageView+OEAdditions.swift in Sources */,
 				14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */,
-				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,
 				8FEE03DF26D556290087CB51 /* OEDBImage.swift in Sources */,
 				0544B69723D16D0C00F63D61 /* ImageCacheService.swift in Sources */,
 				837820BD19081A090043593F /* OELibraryMigrator.m in Sources */,

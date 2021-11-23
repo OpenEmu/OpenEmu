@@ -28,7 +28,6 @@
 #import "OELibraryDatabase.h"
 
 #import "OEDBGame.h"
-#import "OEDBImage.h"
 #import "OEDBRom.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
@@ -246,7 +245,7 @@
     for(OEDBImage *image in result)
     {
         // make sure we only delete image files that can be downloaded automatically!
-        if(![image localFilesAvailable])
+        if(![image isLocalImageAvailable])
         {
             @autoreleasepool {
                 NSDictionary *newInfo = [OEDBImage prepareImageWithURLString:[image source]];

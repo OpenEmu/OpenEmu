@@ -43,8 +43,6 @@ typedef NS_ENUM(int16_t, OEDBGameStatus)
 
 extern NSString *const OEPasteboardTypeGame;
 extern NSString *const OEDisplayGameTitle;
-extern NSString *const OEGameArtworkFormatKey;
-extern NSString *const OEGameArtworkPropertiesKey;
 
 @interface OEDBGame: OEDBItem <NSPasteboardReading>
 

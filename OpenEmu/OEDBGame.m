@@ -29,7 +29,6 @@
 #import "OELibraryDatabase.h"
 
 #import "OEDBRom+CoreDataProperties.h"
-#import "OEDBImage.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
 
@@ -40,9 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 NSString *const OEPasteboardTypeGame = @"org.openemu.game";
 NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
-NSString *const OEGameArtworkFormatKey = @"artworkFormat";
-NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
-
 @interface OEDBGame ()
 @property(nullable) OEDownload *romDownload;
 @end
@@ -50,19 +46,6 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 @implementation OEDBGame
 @synthesize romDownload=_romDownload;
 @dynamic displayName;
-
-+ (void)initialize
-{
-     if (self == [OEDBGame class])
-     {
-         [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-                                                                   OEGameArtworkFormatKey : @(NSBitmapImageFileTypeJPEG),
-                                                                   OEGameArtworkPropertiesKey : @{
-                                                                           NSImageCompressionFactor : @(0.9)
-                                                                           }
-                                                                   }];
-     }
-}
 
 #pragma mark - Creating and Obtaining OEDBGames
 

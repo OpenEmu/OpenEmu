@@ -39,7 +39,7 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="games" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="genres" inverseEntity="Game" indexed="YES" syncable="YES"/>
     </entity>
-    <entity name="Image" representedClassName="OEDBImage" syncable="YES" codeGenerationType="category">
+    <entity name="Image" representedClassName=".OEDBImage" syncable="YES">
         <attribute name="format" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="height" optional="YES" attributeType="Float" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="relativePath" optional="YES" attributeType="String" syncable="YES"/>

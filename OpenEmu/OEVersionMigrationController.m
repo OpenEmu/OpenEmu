@@ -31,7 +31,6 @@
 #import "OEDBImageMigrationPolicy.h"
 #import "OELibraryDatabase.h"
 #import "OEDBGame.h"
-#import "OEDBImage.h"
 #import "OEDBRom.h"
 
 #import "OpenEmu-Swift.h"
@@ -142,8 +141,8 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
     void (^block)(void) = ^{
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        OEBitmapImageFileType format = [userDefaults integerForKey:OEGameArtworkFormatKey];
-        NSDictionary     *attributes = [userDefaults dictionaryForKey:OEGameArtworkPropertiesKey];
+        NSBitmapImageFileType format = OEDBImage.gameArtworkFormat;
+        NSDictionary     *attributes = OEDBImage.gameArtworkProperties;
 
         OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
         NSFetchRequest    *request  = [NSFetchRequest fetchRequestWithEntityName:[OEDBImage entityName]];

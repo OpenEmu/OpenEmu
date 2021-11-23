@@ -30,7 +30,6 @@
 
 #import "OEDBGame.h"
 #import "OEDBRom.h"
-#import "OEDBImage.h"
 #import "OELogging.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
