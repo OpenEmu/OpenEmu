@@ -728,7 +728,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     id item = self.items[index];
 
-    if ([item isKindOfClass:[OEDBSaveState class]]) {
+    if ([item isKindOfClass:[OEDBSaveState class]] && self.selectedSaveStates.count == 1) {
         
         [NSApp sendAction:@selector(startSaveState:) to:nil from:self];
         

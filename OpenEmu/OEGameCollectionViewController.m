@@ -848,7 +848,10 @@ static NSString * const OEGameTableSortDescriptorsKey = @"OEGameTableSortDescrip
 #pragma mark - GridView Delegate
 - (void)imageBrowser:(OEGridView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
 {
-    [NSApp sendAction:@selector(startSelectedGame:) to:nil from:self];
+    if(self.selectedGames.count == 1)
+    {
+        [NSApp sendAction:@selector(startSelectedGame:) to:nil from:self];
+    }
 }
 
 #pragma mark - GridView DraggingDestinationDelegate
