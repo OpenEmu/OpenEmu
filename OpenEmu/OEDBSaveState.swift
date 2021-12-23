@@ -398,12 +398,16 @@ final class OEDBSaveState: OEDBItem {
         }
         
         // Make sure the rom file is available
-        let rom: OEDBRom
+        let rom: OEDBRom?
         do {
-            rom = try OEDBRom(md5HashString: romMD5, in: managedObjectContext!)
+            rom = try OEDBRom.rom(withMD5HashString: romMD5, in: managedObjectContext!)
         } catch {
             DLog("Could not find ROM with MD5 hash \(romMD5)")
             DLog("\(error)")
+            return false
+        }
+        
+        guard let rom = rom else {
             return false
         }
         

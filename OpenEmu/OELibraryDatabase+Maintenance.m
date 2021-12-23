@@ -28,7 +28,6 @@
 #import "OELibraryDatabase.h"
 
 #import "OEDBGame.h"
-#import "OEDBRom.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEAlert.h"

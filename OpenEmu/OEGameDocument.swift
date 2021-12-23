@@ -533,7 +533,7 @@ final class OEGameDocument: NSDocument {
                 self.gameCoreManager = nil
                 
                 if let lastPlayStartDate = self.lastPlayStartDate {
-                    self.rom.addTimeInterval(toPlayTime: abs(lastPlayStartDate.timeIntervalSinceNow))
+                    self.rom.addTimeIntervalToPlayTime(abs(lastPlayStartDate.timeIntervalSinceNow))
                 }
                 self.lastPlayStartDate = nil
                 
@@ -993,7 +993,7 @@ final class OEGameDocument: NSDocument {
                 enableOSSleep()
                 emulationStatus = .paused
                 if let lastPlayStartDate = lastPlayStartDate {
-                    rom.addTimeInterval(toPlayTime: abs(lastPlayStartDate.timeIntervalSinceNow))
+                    rom.addTimeIntervalToPlayTime(abs(lastPlayStartDate.timeIntervalSinceNow))
                     self.lastPlayStartDate = nil
                 }
             } else {

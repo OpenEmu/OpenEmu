@@ -54,4 +54,20 @@ extension URL {
             return standardized
         }
     }
+    
+    func isSubpath(of url: URL) -> Bool {
+        
+        let parentPathComponents = url.standardized.pathComponents
+        let ownPathComponents = standardized.pathComponents
+        
+        let ownPathCount = ownPathComponents.count
+        
+        for i in 0..<parentPathComponents.count {
+            if i >= ownPathCount || parentPathComponents[i] != ownPathComponents[i] {
+                return false
+            }
+        }
+        
+        return true
+    }
 }

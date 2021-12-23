@@ -384,7 +384,6 @@
 		83CACEC8196D6D1300999E70 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CACEC7196D6D1300999E70 /* Download.swift */; };
 		83CB0C7A1A3F000700409FB2 /* BlankSlateSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CB0C791A3F000700409FB2 /* BlankSlateSpinnerView.swift */; };
 		83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */; };
-		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
 		83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */; };
 		83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83DEF7C3196C403400C7DF57 /* ControlLabels.strings */; };
 		83E89274197471F8004D4489 /* HomebrewCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E89273197471F8004D4489 /* HomebrewCoverView.swift */; };
@@ -1645,8 +1644,6 @@
 		837964EE1A614ACD00A8DE5C /* OESVSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESVSystemResponder.m; sourceTree = "<group>"; };
 		837964EF1A614ACD00A8DE5C /* OESVSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESVSystemResponderClient.h; sourceTree = "<group>"; };
 		837964F01A614ACD00A8DE5C /* Supervision-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Supervision-Info.plist"; sourceTree = "<group>"; };
-		838AC27E14434EED00AC74C3 /* OEDBRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBRom.h; sourceTree = "<group>"; };
-		838AC27F14434EED00AC74C3 /* OEDBRom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBRom.m; sourceTree = "<group>"; };
 		839310BB147802380020058E /* CoreDownload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDownload.swift; sourceTree = "<group>"; };
 		8393FD33195D71B50021D3D9 /* OEDatabase 1.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.3.xcdatamodel"; sourceTree = "<group>"; };
 		83955CB4165D939100572B34 /* BlankSlateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlankSlateView.swift; sourceTree = "<group>"; };
@@ -3232,8 +3229,6 @@
 				53439A8F13B92C68005C0CC8 /* OEDBGame+DataSourceAdditions.m */,
 				8FEE03DA26D5560B0087CB51 /* OEDBGame.swift */,
 				8FEE03DE26D556290087CB51 /* OEDBImage.swift */,
-				838AC27E14434EED00AC74C3 /* OEDBRom.h */,
-				838AC27F14434EED00AC74C3 /* OEDBRom.m */,
 				8FEE03E026D556610087CB51 /* OEDBRom.swift */,
 				8FEE03D626D555E80087CB51 /* OEDBSaveState.swift */,
 				8F812C4326D5454B00E89C42 /* OEDBScreenshot.swift */,
@@ -6669,7 +6664,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6252DC814E7A38000350A13 /* ControlsButtonSetupView.swift in Sources */,
-				83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */,
 				0586AB22231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift in Sources */,
 				0544B69923D16D0C00F63D61 /* ImageCollectionHeaderView.swift in Sources */,
 				83495DD419A38F31009DB6E5 /* PrefBiosController.swift in Sources */,

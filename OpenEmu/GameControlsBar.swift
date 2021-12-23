@@ -669,7 +669,7 @@ final class GameControlsBar: NSWindow {
         let includeAutoSaveState = UserDefaults.standard.bool(forKey: Self.showsAutoSaveStateKey)
         let includeQuickSaveState = UserDefaults.standard.bool(forKey: Self.showsQuickSaveStateKey)
         let useQuickSaveSlots = UserDefaults.standard.bool(forKey: OEDBSaveState.useQuickSaveSlotsKey)
-        var saveStates = rom.normalSaveStates(byTimestampAscending: true) ?? []
+        var saveStates = rom.normalSaveStatesByTimestamp(ascending: true)
         
         if includeQuickSaveState && !useQuickSaveSlots, let quickSaveState = rom.quickSaveState(inSlot: 0) {
             saveStates.insert(quickSaveState, at: 0)

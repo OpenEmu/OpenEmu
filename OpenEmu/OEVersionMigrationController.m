@@ -31,7 +31,6 @@
 #import "OEDBImageMigrationPolicy.h"
 #import "OELibraryDatabase.h"
 #import "OEDBGame.h"
-#import "OEDBRom.h"
 
 #import "OpenEmu-Swift.h"
 

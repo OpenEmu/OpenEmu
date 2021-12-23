@@ -47,7 +47,7 @@
         <attribute name="width" optional="YES" attributeType="Float" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="Box" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="boxImage" inverseEntity="Game" indexed="YES" syncable="YES"/>
     </entity>
-    <entity name="ROM" representedClassName="OEDBRom" syncable="YES" codeGenerationType="category">
+    <entity name="ROM" representedClassName=".OEDBRom" syncable="YES">
         <attribute name="archiveFileIndex" optional="YES" attributeType="Integer 16" minValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="crc32" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>

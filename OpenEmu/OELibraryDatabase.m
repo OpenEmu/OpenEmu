@@ -29,7 +29,6 @@
 @import OpenEmuKit;
 
 #import "OEDBGame.h"
-#import "OEDBRom.h"
 #import "OELogging.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
