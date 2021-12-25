@@ -33,14 +33,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(int16_t, OEDBGameStatus)
-{
-    OEDBGameStatusOK,
-    OEDBGameStatusDownloading,
-    OEDBGameStatusAlert,
-    OEDBGameStatusProcessing,
-};
-
 extern NSString *const OEPasteboardTypeGame;
 extern NSString *const OEDisplayGameTitle;
 
@@ -70,7 +62,7 @@ extern NSString *const OEDisplayGameTitle;
 #pragma mark - Accessors
 
 @property(readonly) OEDBRom       *defaultROM;
-@property(readonly) NSDate        *lastPlayed;
+@property(readonly, nullable) NSDate        *lastPlayed;
 @property(readonly, nullable) OEDBSaveState *autosaveForLastPlayedRom;
 @property(readonly) NSNumber      *saveStateCount;
 @property(readonly) NSNumber      *playCount;
@@ -90,14 +82,6 @@ extern NSString *const OEDisplayGameTitle;
 @property(nonatomic, retain, nullable)   NSString *displayName;
 @property(nonatomic, readonly, nullable) NSString *cleanDisplayName;
 
-#pragma mark - Data Model Relationships
-
-@property(nonatomic, readonly, nullable) NSMutableSet <OEDBRom *>         *mutableRoms;
-@property(nonatomic, readonly, nullable) NSMutableSet <OEDBCollection *>  *mutableCollections;
-
-#pragma mark - Debug
-
-- (void)dumpWithPrefix:(NSString *)prefix NS_SWIFT_NAME(dump(prefix:));
 @end
 
 NS_ASSUME_NONNULL_END

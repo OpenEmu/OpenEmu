@@ -24,8 +24,6 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEDBGame+CoreDataProperties.h"
-
 #import "OELibraryDatabase.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
@@ -104,7 +102,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     }
     
     if(!urlReachable)
-        game.status = @(OEDBGameStatusAlert);
+        game.status = OEDBGameStatusAlert;
 
     return game;
 }
@@ -114,9 +112,9 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 - (void)requestCoverDownload
 {
-    if([self.status isEqualTo:@(OEDBGameStatusAlert)] || [self.status isEqualTo:@(OEDBGameStatusOK)])
+    if(self.status == OEDBGameStatusAlert || self.status == OEDBGameStatusOK)
     {
-        self.status = @(OEDBGameStatusProcessing);
+        self.status = OEDBGameStatusProcessing;
         [self save];
         [self.libraryDatabase startOpenVGDBSync];
     }
@@ -124,18 +122,18 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 - (void)cancelCoverDownload
 {
-    if([self.status isEqualTo:@(OEDBGameStatusProcessing)])
+    if(self.status == OEDBGameStatusProcessing)
     {
-        self.status = @(OEDBGameStatusOK);
+        self.status = OEDBGameStatusOK;
         [self save];
     }
 }
 
 - (void)requestInfoSync
 {
-    if([self.status isEqualTo:@(OEDBGameStatusAlert)] || [self.status isEqualTo:@(OEDBGameStatusOK)])
+    if(self.status == OEDBGameStatusAlert || self.status == OEDBGameStatusOK)
     {
-        self.status = @(OEDBGameStatusProcessing);
+        self.status = OEDBGameStatusProcessing;
         [self save];
         [self.libraryDatabase startOpenVGDBSync];
     }
@@ -146,7 +144,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 - (void)requestROMDownload
 {
     if(_romDownload != nil) return;
-    self.status = @(OEDBGameStatusDownloading);
+    self.status = OEDBGameStatusDownloading;
 
     OEDBRom *rom = self.defaultROM;
     NSString *source = rom.source;
@@ -184,7 +182,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
             [rom save];
         }
 
-        blockSelf.status = @(OEDBGameStatusOK);
+        blockSelf.status = OEDBGameStatusOK;
         blockSelf.romDownload = nil;
         [blockSelf save];
     };
@@ -195,12 +193,12 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 {
     [_romDownload cancelDownload];
     _romDownload = nil;
-    self.status = @(OEDBGameStatusOK);
+    self.status = OEDBGameStatusOK;
     [self save];
 }
 
 #pragma mark - Accessors
-- (NSDate *)lastPlayed
+- (nullable NSDate *)lastPlayed
 {
     NSArray <OEDBRom *> *roms = self.roms.allObjects;
     
@@ -267,13 +265,13 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
         }
     }
 
-    if([self.status isEqualTo:@(OEDBGameStatusDownloading)] || [self.status isEqualTo:@(OEDBGameStatusProcessing)])
+    if(self.status == OEDBGameStatusDownloading || self.status == OEDBGameStatusProcessing)
        return result;
 
     if(!result)
-       self.status = @(OEDBGameStatusAlert);
-    else if([self.status intValue] == OEDBGameStatusAlert)
-        self.status = @(OEDBGameStatusOK);
+       self.status = OEDBGameStatusAlert;
+    else if(self.status == OEDBGameStatusAlert)
+        self.status = OEDBGameStatusOK;
     
     return result;
 }
@@ -315,8 +313,8 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 - (void)awakeFromFetch
 {
-    if([self.status isEqualTo:@(OEDBGameStatusDownloading)])
-        self.status = @(OEDBGameStatusOK);
+    if(self.status == OEDBGameStatusDownloading)
+        self.status = OEDBGameStatusOK;
 }
 
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
@@ -366,16 +364,6 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 }
 
 #pragma mark - Data Model Relationships
-
-- (nullable NSMutableSet <OEDBRom *> *)mutableRoms
-{
-    return [self mutableSetValueForKey:@"roms"];
-}
-
-- (nullable NSMutableSet <OEDBCollection *> *)mutableCollections
-{
-    return [self mutableSetValueForKeyPath:@"collections"];
-}
 
 - (nullable NSString *)displayName
 {
@@ -427,38 +415,6 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     }
     
     return  displayName;
-}
-
-#pragma mark - Debug
-
-- (void)dump
-{
-    [self dumpWithPrefix:@"---"];
-}
-
-- (void)dumpWithPrefix:(NSString *)prefix
-{
-    NSString *subPrefix = [prefix stringByAppendingString:@"-----"];
-    NSLog(@"%@ Beginning of game dump", prefix);
-
-    NSLog(@"%@ Game name is %@", prefix, self.name);
-    NSLog(@"%@ title is %@", prefix, self.gameTitle);
-    NSLog(@"%@ rating is %@", prefix, self.rating);
-    NSLog(@"%@ description is %@", prefix, self.gameDescription);
-    NSLog(@"%@ import date is %@", prefix, self.importDate);
-    NSLog(@"%@ last info sync is %@", prefix, self.lastInfoSync);
-    NSLog(@"%@ last played is %@", prefix, self.lastPlayed);
-    NSLog(@"%@ status is %@", prefix, self.status);
-
-    NSLog(@"%@ Number of ROMs for this game is %lu", prefix, (unsigned long)self.roms.count);
-
-    for(id rom in self.roms)
-    {
-        if([rom respondsToSelector:@selector(dumpWithPrefix:)]) [rom dumpWithPrefix:subPrefix];
-        else NSLog(@"%@ ROM is %@", subPrefix, rom);
-    }
-
-    NSLog(@"%@ End of game dump\n\n", prefix);
 }
 
 @end

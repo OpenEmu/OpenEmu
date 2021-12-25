@@ -30,7 +30,6 @@
 #import "OEAlert.h"
 
 #import "OELibraryDatabase.h"
-#import "OEDBGame.h"
 
 #import "OpenEmu-Swift.h"
 
@@ -641,9 +640,9 @@ static NSString * const OEGameTableSortDescriptorsKey = @"OEGameTableSortDescrip
         }
         [menu addItem:[NSMenuItem separatorItem]];
 
-        if([[game status] isEqualTo:@(OEDBGameStatusOK)])
+        if(game.status == OEDBGameStatusOK)
             [menu addItemWithTitle:NSLocalizedString(@"Download Cover Art", @"") action:@selector(downloadCoverArt:) keyEquivalent:@""];
-        if([[game status] isEqualTo:@(OEDBGameStatusProcessing)])
+        if(game.status == OEDBGameStatusProcessing)
             [menu addItemWithTitle:NSLocalizedString(@"Cancel Cover Art Download", @"") action:@selector(cancelCoverArtDownload:) keyEquivalent:@""];
 
         [menu addItemWithTitle:NSLocalizedString(@"Add Cover Art from File…", @"") action:@selector(addCoverArtFromFile:) keyEquivalent:@""];

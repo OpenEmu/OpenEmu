@@ -268,16 +268,16 @@ extension MainWindowController: LibraryControllerDelegate {
                 if let error = error as? OEGameDocument.Errors,
                    case OEGameDocument.Errors.fileDoesNotExist = error,
                    let game = game {
-                    game.status = OEDBGameStatus.alert.rawValue as NSNumber
+                    game.status = .alert
                     game.save()
                     
-                    let messageText = String(format: NSLocalizedString("The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", comment: ""), game.name ?? "")
+                    let messageText = String(format: NSLocalizedString("The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", comment: ""), game.name)
                     let alert = OEAlert()
                     alert.messageText = messageText
                     alert.defaultButtonTitle = NSLocalizedString("Locate…", comment: "")
                     alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
                     if alert.runModal() == .alertFirstButtonReturn {
-                        let missingRom = game.roms?.first
+                        let missingRom = game.roms.first
                         let originalURL = missingRom?.url
                         let fileType = originalURL?.pathExtension
                         
@@ -395,8 +395,8 @@ extension MainWindowController: LibraryControllerDelegate {
                 
                 return
             }
-            else if game?.status?.int16Value == OEDBGameStatus.alert.rawValue {
-                game?.status = OEDBGameStatus.OK.rawValue as NSNumber
+            else if game?.status == .alert {
+                game?.status = .ok
                 game?.save()
             }
             

@@ -20,7 +20,7 @@
         <relationship name="contributor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Contributor" inverseName="jobs" inverseEntity="Contributor" indexed="YES" syncable="YES"/>
         <relationship name="project" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="credits" inverseEntity="Game" indexed="YES" syncable="YES"/>
     </entity>
-    <entity name="Game" representedClassName="OEDBGame" syncable="YES" codeGenerationType="category">
+    <entity name="Game" representedClassName="OEDBGame" syncable="YES">
         <attribute name="gameDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gameTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="importDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>

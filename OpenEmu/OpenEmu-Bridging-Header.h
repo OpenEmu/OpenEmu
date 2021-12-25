@@ -9,11 +9,11 @@
 #import "OELibraryDatabase.h"
 #import "OELibraryMigrator.h"
 #import "ALIterativeMigrator.h"
-#import "OEDatabase+CoreDataModel.h"
 #import "OEDBItem.h"
 #import "OEDBGame.h"
-#import "OEDBGame+DataSourceAdditions.h"
 
+#import "OECoverGridDataSourceItem.h"
+#import "OEListViewDataSourceItem.h"
 #import "OECollectionViewItemProtocol.h"
 #import "OEGameCollectionViewItemProtocol.h"
 

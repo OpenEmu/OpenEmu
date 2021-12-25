@@ -251,7 +251,6 @@
 		3DB744C71BD8BACD00C23E74 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744851BD8B9DE00C23E74 /* Keyboard-Mappings.plist */; };
 		3DB744CE1BD8BB0B00C23E74 /* PlayStation 2.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3DB744BA1BD8BA9E00C23E74 /* PlayStation 2.oesystemplugin */; };
 		53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */; };
-		53439A9013B92C68005C0CC8 /* OEDBGame+DataSourceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8F13B92C68005C0CC8 /* OEDBGame+DataSourceAdditions.m */; };
 		53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9313B92C97005C0CC8 /* OEDBAllGamesCollection.swift */; };
 		53439AA213B92C9D005C0CC8 /* OEDBGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9F13B92C9D005C0CC8 /* OEDBGame.m */; };
 		53439AAB13B92CE6005C0CC8 /* OECollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */; };
@@ -1473,8 +1472,6 @@
 		3E3511CF1C35DA920063E8CA /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/ControlLabels.strings; sourceTree = "<group>"; };
 		53439A8A13B92C4A005C0CC8 /* OELibraryDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryDatabase.h; sourceTree = "<group>"; };
 		53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryDatabase.m; sourceTree = "<group>"; };
-		53439A8E13B92C68005C0CC8 /* OEDBGame+DataSourceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEDBGame+DataSourceAdditions.h"; sourceTree = "<group>"; };
-		53439A8F13B92C68005C0CC8 /* OEDBGame+DataSourceAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEDBGame+DataSourceAdditions.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		53439A9313B92C97005C0CC8 /* OEDBAllGamesCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEDBAllGamesCollection.swift; sourceTree = "<group>"; };
 		53439A9E13B92C9D005C0CC8 /* OEDBGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBGame.h; sourceTree = "<group>"; };
 		53439A9F13B92C9D005C0CC8 /* OEDBGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBGame.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -3225,8 +3222,6 @@
 				8314A98B155410EF00DF13B5 /* OEDBItem.m */,
 				53439A9E13B92C9D005C0CC8 /* OEDBGame.h */,
 				53439A9F13B92C9D005C0CC8 /* OEDBGame.m */,
-				53439A8E13B92C68005C0CC8 /* OEDBGame+DataSourceAdditions.h */,
-				53439A8F13B92C68005C0CC8 /* OEDBGame+DataSourceAdditions.m */,
 				8FEE03DA26D5560B0087CB51 /* OEDBGame.swift */,
 				8FEE03DE26D556290087CB51 /* OEDBImage.swift */,
 				8FEE03E026D556610087CB51 /* OEDBRom.swift */,
@@ -6675,7 +6670,6 @@
 				1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */,
 				53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */,
 				5A575DFD1E92D23600491B0D /* Cheats.swift in Sources */,
-				53439A9013B92C68005C0CC8 /* OEDBGame+DataSourceAdditions.m in Sources */,
 				53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.swift in Sources */,
 				8FEE03E126D556610087CB51 /* OEDBRom.swift in Sources */,
 				83CACEC8196D6D1300999E70 /* Download.swift in Sources */,

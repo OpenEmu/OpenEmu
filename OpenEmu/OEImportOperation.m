@@ -32,7 +32,6 @@
 #import "NSFileManager+OEHashingAdditions.h"
 
 #import "OELibraryDatabase.h"
-#import "OEDBGame.h"
 
 #import "OELogging.h"
 
@@ -413,7 +412,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             }
 
             // start sync thread
-            if(rom.game.status.intValue == OEDBGameStatusProcessing)
+            if(rom.game.status == OEDBGameStatusProcessing)
             {
                 OELibraryDatabase *database = self.importer.database;
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)),dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -1018,7 +1017,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
         if([[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey])
         {
-            game.status = @(OEDBGameStatusProcessing);
+            game.status = OEDBGameStatusProcessing;
         }
 
         self.rom = rom;
