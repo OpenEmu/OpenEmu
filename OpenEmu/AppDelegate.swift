@@ -133,7 +133,7 @@ class AppDelegate: NSObject {
             OEGameVolumeKey: 0.5,
             "defaultCore.openemu.system.nes": "org.openemu.Nestopia",
             "defaultCore.openemu.system.snes": "org.openemu.SNES9x",
-            OEDisplayGameTitle: true,
+            OEDBGame.displayGameTitleKey: true,
             OEBackgroundPauseKey: true,
             OEBackgroundControllerPlayKey: true,
             "logsHIDEvents": false,

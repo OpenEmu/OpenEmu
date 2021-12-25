@@ -24,8 +24,6 @@
 
 import Foundation
 
-@objc(OEDownload)
-@objcMembers
 class Download: NSObject {
     
     var progressHandler: ((Double) -> Bool)?
@@ -47,13 +45,11 @@ class Download: NSObject {
     private var downloadSession: URLSession?
     private var waitSemaphore = DispatchSemaphore(value: 0)
     
-    @objc(initWithURL:)
     init(url: URL) {
         self.url = url
         super.init()
     }
     
-    @objc(startDownload)
     func start() {
         assert(downloadSession == nil, "There shouldn't be a previous download session.")
         
@@ -75,7 +71,6 @@ class Download: NSObject {
         destination = nil
     }
     
-    @objc(cancelDownload)
     func cancel() {
         DLog("Cancelling download (\(downloadSession?.sessionDescription ?? ""))")
         downloadSession?.invalidateAndCancel()

@@ -107,7 +107,7 @@ class ImagesDataSource<Model: OEDBItem>: ImageDataSourceDelegate {
     func loadHeaderView(_ view: ImageCollectionHeaderView, at indexPath: IndexPath) {
         let item = items[indexPath.section].first!
         if let game = item[keyPath: gameKeyPath] {
-            view.sectionTitle.stringValue = game.displayName!
+            view.sectionTitle.stringValue = game.displayName
             view.imageCount.stringValue = game.system!.name
         }
         else {

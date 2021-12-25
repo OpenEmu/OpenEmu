@@ -242,7 +242,7 @@ final class CoreUpdater: NSObject {
             }
             
             let coreName = download.name
-            let message = String(format: NSLocalizedString("OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@", comment: ""), coreName, game.displayName ?? "")
+            let message = String(format: NSLocalizedString("OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@", comment: ""), coreName, game.displayName)
             installCore(with: download, message: message, completionHandler: handler)
         }
         else {

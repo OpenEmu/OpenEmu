@@ -142,6 +142,11 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
++ (instancetype)itemWithURI:(NSURL *)objectURI inContext:(NSManagedObjectContext*)context
+{
+    return [self objectWithURI:objectURI inContext:context];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

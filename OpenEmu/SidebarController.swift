@@ -244,7 +244,7 @@ final class SidebarController: NSViewController {
         
         newCollection.games = Set(games)
         if games.count == 1 {
-            newCollection.name = games.first!.displayName ?? ""
+            newCollection.name = games.first!.displayName
         }
         newCollection.save()
         

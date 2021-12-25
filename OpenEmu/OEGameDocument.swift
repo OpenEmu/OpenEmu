@@ -436,7 +436,7 @@ final class OEGameDocument: NSDocument {
         
         let game: OEDBGame
         do {
-            game = try OEDBGame(url: url, in: OELibraryDatabase.default!)
+            game = try OEDBGame.game(withURL: url, in: OELibraryDatabase.default!)!
         } catch {
             // Could not find game in database. Try to import the file
             let importer = OELibraryDatabase.default!.importer

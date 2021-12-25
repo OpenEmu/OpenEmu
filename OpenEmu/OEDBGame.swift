@@ -33,20 +33,21 @@ extension OEDBGame {
     @objc var mutableCollections: NSMutableSet {
         mutableSetValue(forKeyPath: #keyPath(collections))
     }
-    // OEDBGame
-    @objc var mutableRoms: NSMutableSet {
-        mutableSetValue(forKeyPath: #keyPath(roms))
-    }
 }
 
 @objc
-extension OEDBGame {
+@objcMembers
+final class OEDBGame: OEDBItem {
     
     @objc(OEDBGameStatus)
     enum Status: Int16 {
         @objc(OEDBGameStatusOK) case ok
         case downloading, alert, processing
     }
+    
+    static let displayGameTitleKey = "displayGameTitle"
+    
+    private var romDownload: Download?
     
     // MARK: - CoreDataProperties
     
@@ -80,18 +81,344 @@ extension OEDBGame {
     
     // MARK: -
     
-    open override class var entityName: String { "Game" }
+    override class var entityName: String { "Game" }
+    
+    // MARK: -
+    
+    @objc(createGameWithName:andSystem:inDatabase:)
+    class func createGame(withName name: String, andSystem system: OEDBSystem, in database: OELibraryDatabase) -> OEDBGame {
+        let context = database.mainThreadContext
+        
+        var game: OEDBGame!
+        context.performAndWait {
+            game = OEDBGame.createObject(in: context)
+            game.name = name
+            game.importDate = Date()
+            game.system = system
+        }
+        
+        return game
+    }
+    
+    /// Returns the game from the default database that represents the file at `url`.
+    @nonobjc
+    class func game(withURL url: URL) throws -> OEDBGame? {
+        guard let database = OELibraryDatabase.default else { return nil }
+        return try OEDBGame.game(withURL: url, in: database)
+    }
+    
+    /// Returns the game from the specified `database` that represents the file at `url`
+    @nonobjc
+    class func game(withURL url: URL, in database: OELibraryDatabase) throws -> OEDBGame? {
+        var err: Error?
+        
+        let url = url.standardizedFileURL
+        var urlReachable = false
+        do {
+            urlReachable = try url.checkResourceIsReachable()
+        } catch {
+            err = error
+        }
+        
+        // TODO: FIX
+        var game: OEDBGame?
+        let context = database.mainThreadContext
+        
+        do {
+            if let rom = try OEDBRom.rom(with: url, in: context) {
+                game = rom.game
+            }
+        } catch {
+            err = error
+        }
+        
+        if game == nil && urlReachable {
+            do {
+                var md5: NSString?
+                try FileManager.default.hashFile(at: url, md5: &md5)
+                if let md5 = md5 as String?,
+                   let rom = try OEDBRom.rom(withMD5HashString: md5, in: context) {
+                    game = rom.game
+                }
+            } catch {
+                err = error
+            }
+        }
+        
+        if !urlReachable {
+            game?.status = .alert
+        }
+        
+        if let error = err {
+            throw error
+        } else {
+            return game
+        }
+    }
+    
+    // MARK: - Accessors
+    
+    var lastPlayed: Date? {
+        return roms.sorted {
+            guard let d1 = $0.lastPlayed,
+                  let d2 = $1.lastPlayed
+            else { return false }
+            return d1.compare(d2) == .orderedDescending
+        }.first?.lastPlayed
+    }
+    
+    var autosaveForLastPlayedRom: OEDBSaveState? {
+        return roms.sorted {
+            guard let d1 = $0.lastPlayed,
+                  let d2 = $1.lastPlayed
+            else { return false }
+            return d1.compare(d2) == .orderedDescending
+        }.first?.autosaveState
+    }
+    
+    var saveStateCount: Int {
+        var count = 0
+        for rom in roms {
+            count += rom.saveStateCount
+        }
+        return count
+    }
+    
+    var defaultROM: OEDBRom {
+        // TODO: If multiple roms are available we should select one based on version/revision and language
+        return roms.first!
+    }
+    
+    var playCount: UInt {
+        var count: UInt = 0
+        for rom in roms {
+            count += rom.playCount?.uintValue ?? 0
+        }
+        return count
+    }
+    
+    var playTime: TimeInterval {
+        var time: TimeInterval = 0
+        for rom in roms {
+            time += rom.playTime?.doubleValue ?? 0
+        }
+        return time
+    }
+    
+    var displayName: String {
+        get {
+            if UserDefaults.standard.bool(forKey: OEDBGame.displayGameTitleKey) {
+                return gameTitle ?? name
+            } else {
+                return name
+            }
+        }
+        set {
+            if UserDefaults.standard.bool(forKey: OEDBGame.displayGameTitleKey) {
+                if gameTitle != nil {
+                    gameTitle = newValue
+                } else {
+                    name = newValue
+                }
+            } else {
+                name = newValue
+            }
+        }
+    }
+    
+    var cleanDisplayName: String {
+        let articlesDictionary = [
+            "A "   : 2,
+            "An "  : 3,
+            "Das " : 4,
+            "Der " : 4,
+            // "Die " : 4, // Biased since some English titles start with Die
+            "Gli " : 4,
+            "L'"   : 2,
+            "La "  : 3,
+            "Las " : 4,
+            "Le "  : 3,
+            "Les " : 4,
+            "Los " : 4,
+            "The " : 4,
+            "Un "  : 3,
+        ]
+        
+        for (key, nmbr) in articlesDictionary {
+            if displayName.hasPrefix(key) {
+                return String(displayName.dropFirst(nmbr))
+            }
+        }
+        
+        return displayName
+    }
+    
+    var filesAvailable: Bool {
+        var result = true
+        for rom in roms {
+            if !rom.filesAvailable {
+                result = false
+                break
+            }
+        }
+        
+        if status == .downloading || status == .processing {
+            return result
+        }
+        
+        if !result {
+            status = .alert
+        } else if status == .alert {
+            status = .ok
+        }
+        
+        return result
+    }
+    
+    // MARK: - Cover Art Database Sync / Info Lookup
+    
+    func requestCoverDownload() {
+        if status == .alert || status == .ok {
+            status = .processing
+            save()
+            libraryDatabase.startOpenVGDBSync()
+        }
+    }
+    
+    func cancelCoverDownload() {
+        if status == .processing {
+            status = .ok
+            save()
+        }
+    }
+    
+    func requestInfoSync() {
+        if status == .alert || status == .ok {
+            status = .processing
+            save()
+            libraryDatabase.startOpenVGDBSync()
+        }
+    }
+    
+    // MARK: - ROM Downloading
+    
+    func requestROMDownload() {
+        guard romDownload == nil else { return }
+        
+        status = .downloading
+        
+        let rom = defaultROM
+        guard let source = rom.source,
+              let url = URL(string: source)
+        else {
+            DLog("Invalid URL to download!")
+            return
+        }
+        
+        let romDownload = Download(url: url)
+        self.romDownload = romDownload
+        romDownload.completionHandler = { url, error in
+            if let url = url, error == nil {
+                DLog("Downloaded to \(url)")
+                rom.url = url
+                
+                let result: Bool
+                do {
+                    try result = rom.consolidateFiles()
+                } catch {
+                    DLog("\(error)")
+                    result = false
+                }
+                if !result {
+                    rom.url = nil
+                }
+                rom.save()
+            }
+            else {
+                DLog("ROM download failed!")
+                if let error = error {
+                    DLog("\(error)")
+                }
+            }
+            
+            self.status = .ok
+            self.romDownload = nil
+            self.save()
+        }
+        
+        romDownload.start()
+    }
+    
+    func cancelROMDownload() {
+        romDownload?.cancel()
+        romDownload = nil
+        status = .ok
+        save()
+    }
+    
+    // MARK: -
+    
+    @objc(setBoxImageByImage:)
+    func setBoxImage(image: NSImage) {
+        let dictionary = OEDBImage.prepareImage(with: image)
+        let context = managedObjectContext
+        context?.performAndWait {
+            if let currentImage = boxImage {
+                context?.delete(currentImage)
+            }
+            
+            boxImage = OEDBImage.createImage(with: dictionary)
+        }
+    }
+    
+    @objc(setBoxImageByURL:)
+    func setBoxImage(url: URL) {
+        let url = url.standardizedFileURL.absoluteURL
+        let dictionary = OEDBImage.prepareImage(with: url)
+        let context = managedObjectContext
+        context?.performAndWait {
+            if let currentImage = boxImage {
+                context?.delete(currentImage)
+            }
+            
+            boxImage = OEDBImage.createImage(with: dictionary)
+        }
+    }
+    
+    // MARK: -
+    
+    override func awakeFromFetch() {
+        if status == .downloading {
+            status = .ok
+        }
+    }
+    
+    override func prepareForDeletion() {
+        boxImage?.delete()
+        
+        romDownload?.cancel()
+        romDownload = nil
+    }
+    
+    @objc(deleteByMovingFile:keepSaveStates:)
+    func delete(moveToTrash: Bool, keepSaveStates statesFlag: Bool) {
+        while let rom = roms.first {
+            rom.delete(moveToTrash: moveToTrash, keepSaveStates: statesFlag)
+            roms.remove(rom)
+        }
+        managedObjectContext?.delete(self)
+    }
 }
 
 // MARK: - NSPasteboardWriting
 
 extension OEDBGame: NSPasteboardWriting {
     
-    public func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
+    func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
         return [.game, .fileURL]
     }
     
-    public func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
+    func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
         switch type {
         case .game:
             return permanentIDURI.absoluteString
@@ -105,44 +432,45 @@ extension OEDBGame: NSPasteboardWriting {
 }
 
 // MARK: - NSPasteboardReading
-/*
+
 extension OEDBGame: NSPasteboardReading {
     
-    public static func readableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
+    static func readableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
         return [.game]
     }
     
-    public static func readingOptions(forType type: NSPasteboard.PasteboardType, pasteboard: NSPasteboard) -> NSPasteboard.ReadingOptions {
+    static func readingOptions(forType type: NSPasteboard.PasteboardType, pasteboard: NSPasteboard) -> NSPasteboard.ReadingOptions {
         return .asString
     }
     
-    public required init?(pasteboardPropertyList propertyList: Any, ofType type: NSPasteboard.PasteboardType) {
-        
+    convenience init?(pasteboardPropertyList propertyList: Any, ofType type: NSPasteboard.PasteboardType) {
+        if type == .game,
+           let context = OELibraryDatabase.default?.mainThreadContext,
+           let propertyList = propertyList as? String,
+           let uri = URL(string: propertyList) {
+            self.init(uri: uri, in: context)
+        }
+        return nil
     }
 }
-*/
 
 // MARK: - OECoverGridDataSourceItem
 
 extension OEDBGame: OECoverGridDataSourceItem {
     
-    public
     func gridStatus() -> Int {
         return Int(status.rawValue)
     }
     
-    public
     func gridRating() -> UInt {
         return rating?.uintValue ?? 0
     }
     
-    public
     func setGridRating(_ newRating: UInt) {
         rating = newRating as NSNumber
         try? managedObjectContext?.save()
     }
     
-    public
     func setGridTitle(_ title: String!) {
         displayName = title
         try? managedObjectContext?.save()
@@ -163,7 +491,7 @@ extension OEDBGame {
         return cache
     }()
     
-    private static func artworkPlaceholder(aspectRatio ratio: CGFloat) -> NSImage {
+    class func artworkPlaceholder(aspectRatio ratio: CGFloat) -> NSImage {
         let key = "\(ratio)" as NSString
         if let image = artworkPlaceholderCache.object(forKey: key) {
             return image
@@ -176,7 +504,6 @@ extension OEDBGame {
         }
     }
     
-    open
     override func imageUID() -> String! {
         if let image = boxImage, image.isLocalImageAvailable, image.relativePath != nil {
             return image.uuid
@@ -185,7 +512,6 @@ extension OEDBGame {
         }
     }
     
-    open
     override func imageRepresentationType() -> String! {
         if let image = boxImage, image.isLocalImageAvailable, image.relativePath != nil {
             return IKImageBrowserNSURLRepresentationType
@@ -194,7 +520,6 @@ extension OEDBGame {
         }
     }
     
-    open
     override func imageRepresentation() -> Any! {
         if let image = boxImage, image.isLocalImageAvailable, image.relativePath != nil {
             return image.imageURL
@@ -203,12 +528,10 @@ extension OEDBGame {
         }
     }
     
-    open
     override func imageTitle() -> String! {
         return displayName
     }
     
-    open
     override func imageSubtitle() -> String! {
         return nil
     }
@@ -218,7 +541,6 @@ extension OEDBGame {
 
 extension OEDBGame: OEListViewDataSourceItem {
     
-    public
     func listViewStatus() -> String! {
         if hasOpenDocument {
             return "list_indicator_playing"
@@ -231,17 +553,14 @@ extension OEDBGame: OEListViewDataSourceItem {
         }
     }
     
-    public
     func listViewRating() -> NSNumber! {
         return rating
     }
     
-    public
     func listViewTitle() -> String! {
         return displayName
     }
     
-    public
     func listViewLastPlayed() -> String! {
         if let lastPlayed = lastPlayed {
             return Self.listViewDateFormatter.string(from: lastPlayed)
@@ -250,33 +569,27 @@ extension OEDBGame: OEListViewDataSourceItem {
         }
     }
     
-    public
     func listViewConsoleName() -> String! {
         return NSLocalizedString(system?.name ?? "", comment: "")
     }
     
-    public
     func listViewSaveStateCount() -> NSNumber! {
-        return saveStateCount.uintValue > 0 ? saveStateCount : nil
+        return saveStateCount > 0 ? saveStateCount as NSNumber : nil
     }
     
-    public
     func listViewPlayCount() -> NSNumber! {
-        return playCount.uintValue > 0 ? playCount : nil
+        return playCount > 0 ? playCount as NSNumber : nil
     }
     
-    public
     func listViewPlayTime() -> String! {
-        return playTime.doubleValue > 0 ? localizedStringFromElapsedTime(playTime.doubleValue) : ""
+        return playTime > 0 ? localizedStringFromElapsedTime(playTime) : ""
     }
     
-    public
     func setListViewRating(_ newRating: NSNumber!) {
         rating = newRating as NSNumber
         try? managedObjectContext?.save()
     }
     
-    public
     func setListViewTitle(_ title: String!) {
         displayName = title
     }
@@ -324,7 +637,7 @@ extension OEDBGame {
         NSLog("\(prefix) title is \(gameTitle ?? "nil")")
         NSLog("\(prefix) rating is \(rating?.description ?? "nil")")
         NSLog("\(prefix) description is \(gameDescription ?? "nil")")
-        NSLog("\(prefix) import date is \(importDate?.description  ?? "nil")")
+        NSLog("\(prefix) import date is \(importDate?.description ?? "nil")")
         NSLog("\(prefix) last info sync is \(lastInfoSync?.description ?? "nil")")
         NSLog("\(prefix) last played is \(lastPlayed?.description ?? "nil")")
         NSLog("\(prefix) status is \(status)")

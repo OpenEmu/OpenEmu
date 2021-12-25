@@ -106,7 +106,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObserver:self
-                  forKeyPath:OEDisplayGameTitle
+                  forKeyPath:OEDBGame.displayGameTitleKey
                      context:OEUserDefaultsDisplayGameTitleKVOContext];
 }
 
@@ -160,7 +160,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     [standardUserDefaults addObserver:self
-                           forKeyPath:OEDisplayGameTitle
+                           forKeyPath:OEDBGame.displayGameTitleKey
                               options:0
                               context:OEUserDefaultsDisplayGameTitleKVOContext];
     
