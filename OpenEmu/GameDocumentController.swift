@@ -137,11 +137,10 @@ class GameDocumentController: NSDocumentController {
                 }
                 
                 completionHandler?(document, nil)
-                
+                NotificationCenter.default.post(name: .OEGameDocumentSetupDidFinish, object: nil)
             } else {
                 completionHandler?(nil, error as NSError?)
             }
-            NotificationCenter.default.post(name: .OEGameDocumentSetupDidFinish, object: nil)
         }
     }
     
