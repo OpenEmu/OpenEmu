@@ -31,7 +31,7 @@ extension OpenEmuTools.Shader {
         static var configuration = CommandConfiguration(abstract: "Preset command.")
         
         func run() throws {
-            let ps = ShaderPreset(id: "Bar", shader: "CRT Geom", parameters: ["BOOL_PARAM": 1, "DOUBLE_PARAM": 5.3])
+            let ps = ShaderPreset(name: "Bar", shader: "CRT Geom", parameters: ["BOOL_PARAM": 1, "DOUBLE_PARAM": 5.3])
             
             let wr = ShaderPresetTextWriter()
             let s = try wr.write(preset: ps)

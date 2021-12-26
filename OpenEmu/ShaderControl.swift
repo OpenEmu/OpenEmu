@@ -30,7 +30,7 @@ public class ShaderControl: NSObject {
     let helper: OEGameCoreHelper
     @objc public let systemIdentifier: String
 
-    @objc public dynamic var shader: OEShaderModel?
+    @objc public dynamic var shader: OESystemShaderModel?
     
     @objc public init(systemIdentifier: String, helper: OEGameCoreHelper) {
         self.systemIdentifier = systemIdentifier
@@ -42,11 +42,13 @@ public class ShaderControl: NSObject {
     }
     
     public func changeShader(_ shader: OEShaderModel) {
-        let params = shader.parameters(forIdentifier: systemIdentifier)
+        let systemShader = OESystemShadersModel.shared.shader(withShader: shader, forSystem: systemIdentifier)
+        
+        let params = systemShader.parameters
         
         helper.setShaderURL(shader.url, parameters: params as [String: NSNumber]?) { success, error in
             if success {
-                self.shader = shader
+                self.shader = systemShader
             }
             else if let error = error {
                 let alert = NSAlert(error: error)
@@ -54,6 +56,6 @@ public class ShaderControl: NSObject {
             }
         }
         
-        OEShadersModel.shared.setShaderName(shader.name, forSystem: systemIdentifier)
+        OESystemShadersModel.shared.setShaderName(shader.name, forSystem: systemIdentifier)
     }
 }

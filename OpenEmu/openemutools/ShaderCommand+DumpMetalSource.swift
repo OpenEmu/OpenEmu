@@ -67,3 +67,27 @@ extension OpenEmuTools.Shader {
         }
     }
 }
+
+extension OpenEmuTools.Shader {
+    struct Parameters: ParsableCommand {
+        static var configuration = CommandConfiguration(abstract: "Parameters command.")
+        
+        @Argument
+        var shaderPath: String
+        
+        func run() throws {
+            let shaderURL = URL(fileURLWithPath: shaderPath).absoluteURL
+            let shader: SlangShader
+            do {
+                shader = try SlangShader(fromURL: shaderURL)
+            } catch {
+                print("Failed to load shader: \(error.localizedDescription)")
+                throw ExitCode.failure
+            }
+            
+            shader.parameters.forEach { param in
+                print("\(param.name) (\(param.desc)")
+            }
+        }
+    }
+}

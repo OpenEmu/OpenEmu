@@ -32,7 +32,8 @@ extension OpenEmuTools {
                 Thumbnail.self,
                 DumpMetalSource.self,
                 Benchmark.self,
-                // Preset.self,
+                Preset.self,
+                Parameters.self,
             ]
         )
     }

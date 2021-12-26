@@ -76,7 +76,7 @@ final class GameViewController: NSViewController {
         
         shaderControl = ShaderControl(systemIdentifier: document.systemIdentifier,
                                       helper: document.gameCoreHelper)
-        shaderControl.shader = OEShadersModel.shared.shader(forSystem: document.systemIdentifier)
+        shaderControl.shader = OESystemShadersModel.shared.shader(forSystem: document.systemIdentifier)
         shaderWindowController = ShaderParametersWindowController(control: shaderControl)
         
         scaledView = OEScaledGameLayerView(frame: NSRect(origin: .zero, size: NSSize(width: 1, height: 1)))

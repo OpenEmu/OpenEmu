@@ -28,6 +28,25 @@ import OpenEmuKit
 extension OEShadersModel {
     @objc
     public static var shared: OEShadersModel = {
-        OEShadersModel(store: .standard, bundle: .main)
+        .init(store: .standard, bundle: .main)
+    }()
+}
+
+extension OESystemShadersModel {
+    @objc
+    public static var shared: OESystemShadersModel = {
+        .init(store: .standard, shaders: .shared)
+    }()
+}
+
+extension ShaderPresetModel {
+    public static var shared: ShaderPresetModel = {
+        .init(store: UserDefaults.standard, shaders: .shared)
+    }()
+}
+
+extension SystemShaderPresetModel {
+    public static var shared: SystemShaderPresetModel = {
+        .init(store: .standard, presets: .shared, shaders: .shared)
     }()
 }

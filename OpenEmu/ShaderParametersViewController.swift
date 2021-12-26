@@ -46,10 +46,10 @@ final class ShaderParametersViewController: NSViewController {
     func loadShader() {
         guard let shader = shaderControl.shader else { return }
         
-        self.groups = shader.readGroups()
+        self.groups = shader.shader.readGroups()
 
         // update with existing user preferences
-        if let user = shader.parameters(forIdentifier: shaderControl.systemIdentifier),
+        if let user = shader.parameters,
            let params = self.params {
             params.forEach { param in
                 if let val = user[param.name] {
@@ -61,7 +61,7 @@ final class ShaderParametersViewController: NSViewController {
         noParametersLabel.isHidden = !(params?.isEmpty ?? true)
         
         for item in shaderListPopUpButton.menu?.items ?? [] {
-            if item.title == shader.name {
+            if item.title == shader.shader.name {
                 shaderListPopUpButton.select(item)
                 break
             }
@@ -119,7 +119,7 @@ final class ShaderParametersViewController: NSViewController {
         
         shaderListPopUpButton.menu = shaderMenu
         
-        let selectedShader = OEShadersModel.shared.shaderName(forSystem: shaderControl.systemIdentifier)
+        let selectedShader = OESystemShadersModel.shared.shaderName(forSystem: shaderControl.systemIdentifier)
         
         if shaderListPopUpButton.item(withTitle: selectedShader) != nil {
             shaderListPopUpButton.selectItem(withTitle: selectedShader)
@@ -181,7 +181,7 @@ final class ShaderParametersViewController: NSViewController {
                         let params = self.params
                     else { return }
 
-                    shader.write(parameters: params, identifier: self.shaderControl.systemIdentifier)
+                    shader.write(parameters: params)
                 }
             }
         }
@@ -409,7 +409,7 @@ extension ShaderParametersViewController: NSMenuItemValidation {
     
     @IBAction func copy(_ sender: Any) {
         guard
-            let name   = shaderControl.shader?.name,
+            let name   = shaderControl.shader?.shader.name,
             let params = params
         else { return }
         
@@ -427,12 +427,12 @@ extension ShaderParametersViewController: NSMenuItemValidation {
             !preset.shader.isEmpty
         else { return }
         
-        if let params = params, preset.shader == shaderControl.shader?.name {
+        if let params = params, preset.shader == shaderControl.shader?.shader.name {
             // If the selected shader is the same as what the user pasted, update the values
             // to avoid rebuilding the entire view.
             params.forEach { param in
                 if let val = preset.parameters[param.name] {
-                    param.value = NSNumber(value: val)
+                    param.value = val as NSNumber
                 } else {
                     param.value = param.initial
                 }
@@ -442,7 +442,7 @@ extension ShaderParametersViewController: NSMenuItemValidation {
                 let params = try? ShaderPresetTextWriter().write(preset: preset, options: [])
             else { return }
             
-            OEShadersModel.shared.write(parameters: params, forShader: preset.shader, identifier: shaderControl.systemIdentifier)
+            OESystemShadersModel.shared.write(parameters: params, forShader: preset.shader, identifier: shaderControl.systemIdentifier)
             if let shader = OEShadersModel.shared.shader(withName: preset.shader) {
                 shaderControl.changeShader(shader)
             }

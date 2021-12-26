@@ -130,7 +130,6 @@ class AppDelegate: NSObject {
             OEDatabasePathKey: path,
             OECopyToLibraryKey: true,
             OEAutomaticallyGetInfoKey: true,
-            OEShadersModel.Preferences.global.key: "Pixellate",
             OEGameVolumeKey: 0.5,
             "defaultCore.openemu.system.nes": "org.openemu.Nestopia",
             "defaultCore.openemu.system.snes": "org.openemu.SNES9x",

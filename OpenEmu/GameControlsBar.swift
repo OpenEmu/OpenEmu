@@ -572,7 +572,7 @@ final class GameControlsBar: NSWindow {
         menu.addItem(.separator())
         
         let systemIdentifier = gameViewController.systemIdentifier
-        let selectedShader = OEShadersModel.shared.shaderName(forSystem: systemIdentifier)
+        let selectedShader = OESystemShadersModel.shared.shaderName(forSystem: systemIdentifier)
         
         // add system shaders first
         let sortedSystemShaders = OEShadersModel.shared.sortedSystemShaderNames
