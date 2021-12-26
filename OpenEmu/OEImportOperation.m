@@ -52,6 +52,27 @@ NSString *const OEImportErrorDomainFatal      = @"OEImportFatalDomain";
 NSString *const OEImportErrorDomainResolvable = @"OEImportResolvableDomain";
 NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
+/**
+ Specifies the result of an alternative import operation that is tried before queueing.
+ */
+typedef NS_ENUM(NSUInteger, ImportResult) {
+    /**
+     The operation was handled by this request.
+     */
+    ImportResultHandled,
+    
+    /**
+     The operation was not handled by this request.
+     */
+    ImportResultNotHandled,
+    
+    /**
+     The operation was unsuccessful.
+     */
+    ImportResultFailed,
+};
+
+
 NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
 @interface OEImportOperation ()
@@ -94,14 +115,27 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         return nil;
     }
 
-    // Import .oeshaderplugin
-    if ([self OE_isShaderAtURL:url]) {
+    // Try to import .oeshaderplugin
+    switch ([self OE_tryShaderAtURL:url])
+    {
+    case ImportResultHandled:
         return nil;
+    case ImportResultFailed:
+        return nil;
+    case ImportResultNotHandled:
+        break;
     }
 
     // Check for PlayStation .sbi subchannel data files and copy them directly (not going through importer queue)
-    if([self OE_isSBIFileAtURL:url])
+    switch ([self OE_trySBIFileAtURL:url])
+    {
+    case ImportResultHandled:
         return nil;
+    case ImportResultFailed:
+        return nil;
+    case ImportResultNotHandled:
+        break;
+    }
 
     // Ignore text files that are .md
     if([self OE_isTextFileAtURL:url])
@@ -118,7 +152,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     return item;
 }
 
-+ (BOOL)OE_isShaderAtURL:(NSURL *)url
++ (ImportResult)OE_tryShaderAtURL:(NSURL *)url
 {
     NSString *pathExtension = url.pathExtension.lowercaseString;
     if([pathExtension isEqualToString:@"oeshaderplugin"])
@@ -134,7 +168,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         if ([OEShadersModel.shared.systemShaderNames containsObject:filename]) {
             // ignore customer shaders with the same name
             os_log_error(OE_LOG_IMPORT, "Custom shader name '%{public}@' collides with system shader", filename);
-            return NO;
+            return ImportResultNotHandled;
         }
         
         if ([fileManager fileExistsAtPath:destination]) {
@@ -142,14 +176,14 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             if (![fileManager removeItemAtPath:destination error:&error])
             {
                 os_log_error(OE_LOG_IMPORT, "Could not remove existing directory '%{public}@' before copying shader: %{public}@", destination, error.localizedDescription);
-                return NO;
+                return ImportResultNotHandled;
             }
         }
         
         if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:destination] withIntermediateDirectories:YES attributes:nil error:&error])
         {
             os_log_error(OE_LOG_IMPORT, "Could not create directory '%{public}@' before copying shader: %{public}@", destination, error.localizedDescription);
-            return NO;
+            return ImportResultNotHandled;
         }
         
         @try {
@@ -158,16 +192,16 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             [OEShadersModel.shared reload];
         } @catch (NSException *e) {
             os_log_error(OE_LOG_IMPORT, "Error extracting shader plugin: %{public}@", e.reason);
-            return NO;
+            return ImportResultNotHandled;
         }
         
-        return YES;
+        return ImportResultHandled;
     }
-    return NO;
     
+    return ImportResultNotHandled;
 }
 
-+ (BOOL)OE_isSBIFileAtURL:(NSURL*)url
++ (ImportResult)OE_trySBIFileAtURL:(NSURL*)url
 {
     NSUserDefaults *standardUserDefaults = NSUserDefaults.standardUserDefaults;
     BOOL copyToLibrary = [standardUserDefaults boolForKey:OECopyToLibraryKey];
@@ -184,7 +218,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         BOOL bytesFound = [sbiHeaderBuffer isEqualToData:expectedSBIHeader];
 
         if(!bytesFound)
-            return NO;
+            return ImportResultNotHandled; // TODO: This should return an error and present it to the user
 
         DLog(@"File seems to be a SBI file at %@", url);
 
@@ -210,17 +244,19 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             DLog(@"Could not create directory before copying SBI file at %@", url);
             DLog(@"%@", error);
             error = nil;
+            // TODO: This should return an error and present it to the user
         }
 
         if(![fileManager copyItemAtURL:url toURL:destination error:&error])
         {
             DLog(@"Could not copy SBI file %@ to %@", url, destination);
             DLog(@"%@", error);
+            // TODO: This should return an error and present it to the user
         }
 
-        return YES;
+        return ImportResultHandled;
     }
-    return NO;
+    return ImportResultNotHandled;
 }
 
 + (void)OE_tryImportSaveStateAtURL:(NSURL*)url
