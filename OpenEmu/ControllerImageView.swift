@@ -149,6 +149,9 @@ final class ControllerImageView: NSView {
     }
     
     private func setHighlightPoint(_ point: CGPoint, animated: Bool) {
+        let reduceMotion = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        let animated = reduceMotion ? false : animated
+        
         if animated && !Thread.isMainThread {
             performSelector(onMainThread: #selector(animatedSetHighlightPointOnMainThread(value:)), with: NSValue(point: point), waitUntilDone: false)
             return

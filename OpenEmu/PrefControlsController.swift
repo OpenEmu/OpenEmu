@@ -389,6 +389,8 @@ final class PrefControlsController: NSViewController {
         inTransition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         inTransition.duration = 0.35
         
+        let reduceMotion = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        
         CATransaction.begin()
         CATransaction.setCompletionBlock {
             if self.controllerView != nil {
@@ -399,11 +401,15 @@ final class PrefControlsController: NSViewController {
             self.controllerView = newControllerView
             
             self.controllerContainerView.setFrameOrigin(.zero)
-            imageViewLayer?.add(inTransition, forKey: "animatePosition")
+            if !reduceMotion {
+                imageViewLayer?.add(inTransition, forKey: "animatePosition")
+            }
         }
         
         controllerContainerView.setFrameOrigin(NSPoint(x: 0, y: 450))
-        imageViewLayer?.add(outTransition, forKey: "animatePosition")
+        if !reduceMotion {
+            imageViewLayer?.add(outTransition, forKey: "animatePosition")
+        }
         
         CATransaction.commit()
         

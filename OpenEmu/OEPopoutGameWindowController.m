@@ -449,7 +449,10 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         if(NSMinX(newWindowFrame) < NSMinX(screenFrame) || NSMaxX(newWindowFrame) > NSMaxX(screenFrame))
             newWindowFrame.origin.x = NSMinX(screenFrame) + ((screenFrame.size.width - newWindowFrame.size.width) / 2);
 
-        [[[self window] animator] setFrame:newWindowFrame display:YES];
+        if(NSWorkspace.sharedWorkspace.accessibilityDisplayShouldReduceMotion)
+            [self.window setFrame:newWindowFrame display:YES];
+        else
+            [self.window.animator setFrame:newWindowFrame display:YES];
     }
     else /* _fullScreenStatus == _OEPopoutGameWindowFullScreenStatusFullScreen */
     {

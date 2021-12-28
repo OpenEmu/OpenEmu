@@ -153,7 +153,8 @@ final class GameScannerViewController: NSViewController {
         sourceListFrame.origin.y = gameScannerFrame.maxY
         sourceListFrame.size.height = sourceListScrollView.superview!.frame.height - sourceListFrame.minY
         
-        if animated {
+        let reduceMotion = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        if animated && !reduceMotion {
             
             NSAnimationContext.beginGrouping()
             

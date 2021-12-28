@@ -247,7 +247,8 @@ final class PreferencesTabViewController: NSTabViewController {
         frame.origin.y -= newWindowSize.height
         frame.size = newWindowSize
         
-        if animated {
+        let reduceMotion = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        if animated && !reduceMotion {
             window.animator().setFrame(frame, display: false)
         } else {
             window.setFrame(frame, display: false)
