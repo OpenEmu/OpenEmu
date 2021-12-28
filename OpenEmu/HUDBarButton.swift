@@ -54,6 +54,29 @@ final class HUDBarButton: HoverButton {
             imageRect = backingAlignedRect(imageRect, options: .alignAllEdgesNearest)
             
             img.draw(in: imageRect)
+            
+            // draw a border if 'Increase contrast' accessibility setting is enabled
+            if NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast {
+                
+                NSGraphicsContext.current?.saveGraphicsState()
+                
+                NSColor.secondaryLabelColor.setStroke()
+                
+                let rect = bounds.insetBy(dx: 1, dy: 1)
+                
+                let r: CGFloat
+                if #available(macOS 11, *) {
+                    r = 5
+                } else {
+                    r = 3
+                }
+                
+                let bezierPath = NSBezierPath(roundedRect: rect, xRadius: r, yRadius: r)
+                bezierPath.lineWidth = 1
+                bezierPath.stroke()
+                
+                NSGraphicsContext.current?.restoreGraphicsState()
+            }
         }
     }
 }
