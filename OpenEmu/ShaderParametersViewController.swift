@@ -174,7 +174,7 @@ final class ShaderParametersViewController: NSViewController {
                 $0.observe(\.value) { [weak self] (param, change) in
                     guard let self = self else { return }
 
-                    self.shaderControl.set(value: CGFloat(param.value.doubleValue), forParameter: param.name)
+                    self.shaderControl.setValue(CGFloat(param.value.doubleValue), forParameter: param.name)
 
                     guard
                         let shader = self.shaderControl.shader,
@@ -413,7 +413,7 @@ extension ShaderParametersViewController: NSMenuItemValidation {
             let params = params
         else { return }
         
-        let preset = ShaderPreset.makeFrom(shader: name, params: params)
+        let preset = ShaderPresetData.makeFrom(shader: name, params: params)
         guard
             let text = try? ShaderPresetTextWriter().write(preset: preset, options: [.shader, .sign])
         else { return }
@@ -442,8 +442,8 @@ extension ShaderParametersViewController: NSMenuItemValidation {
                 let params = try? ShaderPresetTextWriter().write(preset: preset, options: [])
             else { return }
             
-            OESystemShadersModel.shared.write(parameters: params, forShader: preset.shader, identifier: shaderControl.systemIdentifier)
             if let shader = OEShadersModel.shared.shader(withName: preset.shader) {
+                OESystemShadersModel.shared.write(parameters: params, forShader: preset.shader, identifier: shaderControl.systemIdentifier)
                 shaderControl.changeShader(shader)
             }
         }

@@ -25,8 +25,7 @@
 import Foundation
 import OpenEmuKit
 
-@objc
-public class ShaderControl: NSObject {
+@objc public class ShaderControl: NSObject {
     let helper: OEGameCoreHelper
     @objc public let systemIdentifier: String
 
@@ -37,25 +36,23 @@ public class ShaderControl: NSObject {
         self.helper = helper
     }
     
-    public func set(value: CGFloat, forParameter name: String) {
+    public func setValue(_ value: CGFloat, forParameter name: String) {
         helper.setShaderParameterValue(value, forKey: name)
     }
     
     public func changeShader(_ shader: OEShaderModel) {
         let systemShader = OESystemShadersModel.shared.shader(withShader: shader, forSystem: systemIdentifier)
         
-        let params = systemShader.parameters
+        let params = systemShader.parameters as [String: NSNumber]?
         
-        helper.setShaderURL(shader.url, parameters: params as [String: NSNumber]?) { success, error in
-            if success {
-                self.shader = systemShader
-            }
-            else if let error = error {
+        helper.setShaderURL(shader.url, parameters: params) { error in
+            if let error = error {
                 let alert = NSAlert(error: error)
                 alert.runModal()
+                return
             }
+            self.shader = systemShader
+            OESystemShadersModel.shared.setShader(shader, forSystem: self.systemIdentifier)
         }
-        
-        OESystemShadersModel.shared.setShaderName(shader.name, forSystem: systemIdentifier)
     }
 }
