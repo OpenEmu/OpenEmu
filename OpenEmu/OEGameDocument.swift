@@ -1154,7 +1154,7 @@ final class OEGameDocument: NSDocument {
     
     /// expects `sender` or `sender.representedObject` to be an `OEAudioDevice` object
     @IBAction func changeAudioOutputDevice(_ sender: AnyObject) {
-        let device: OEAudioDevice?
+        let device: OEAudioDevice
         if let sender = sender as? OEAudioDevice {
             device = sender
         } else if let obj = sender.representedObject as? OEAudioDevice {
@@ -1163,11 +1163,7 @@ final class OEGameDocument: NSDocument {
             return
         }
         
-        if let device = device {
-            gameCoreManager.setAudioOutputDeviceID(device.deviceID)
-        } else {
-            gameCoreManager.setAudioOutputDeviceID(0)
-        }
+        gameCoreManager.setAudioOutputDeviceID(device.deviceID)
     }
     
     var volume: Float {
