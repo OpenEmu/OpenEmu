@@ -651,8 +651,8 @@ final class OEGameDocument: NSDocument {
             romPath = path
         }
         
-        let shader = OESystemShadersModel.shared.shader(forSystem: systemIdentifier)
-        let params = shader.parameters ?? [:]
+        let preset = ShaderControl.currentPreset(forSystemPlugin: systemPlugin)
+        let params = preset.parameters
         
         let info = OEGameStartupInfo(romPath: path,
                                      romMD5: rom.md5 ?? "",
@@ -660,7 +660,7 @@ final class OEGameDocument: NSDocument {
                                      romSerial: rom.serial ?? "",
                                      systemRegion: OELocalizationHelper.shared.regionName,
                                      displayModeInfo: lastDisplayModeInfo,
-                                     shader: shader.shader.url,
+                                     shader: preset.shader.url,
                                      shaderParameters: params as [String : NSNumber],
                                      corePluginPath: corePlugin.path,
                                      systemPluginPath: systemPlugin.path)

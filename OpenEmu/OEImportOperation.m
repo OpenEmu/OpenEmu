@@ -165,7 +165,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         NSString      *shadersPath = [NSString pathWithComponents:@[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES).lastObject, @"OpenEmu", @"Shaders"]];
         NSString      *destination = [shadersPath stringByAppendingPathComponent:filename];
         
-        if ([OEShadersModel.shared.systemShaderNames containsObject:filename]) {
+        if ([OEShaderStore.shared.systemShaderNames containsObject:filename]) {
             // ignore customer shaders with the same name
             os_log_error(OE_LOG_IMPORT, "Custom shader name '%{public}@' collides with system shader", filename);
             return ImportResultNotHandled;
@@ -189,7 +189,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         @try {
             XADArchive *archive = [XADArchive archiveForFile:url.path];
             [archive extractTo:destination];
-            [OEShadersModel.shared reload];
+            [OEShaderStore.shared reload];
         } @catch (NSException *e) {
             os_log_error(OE_LOG_IMPORT, "Error extracting shader plugin: %{public}@", e.reason);
             return ImportResultNotHandled;

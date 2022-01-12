@@ -54,12 +54,12 @@ final class PrefGameplayController: NSViewController {
         
         let globalShaderMenu = NSMenu()
         
-        let systemShaders = OEShadersModel.shared.sortedSystemShaderNames
+        let systemShaders = OEShaderStore.shared.sortedSystemShaderNames
         systemShaders.forEach { shaderName in
             globalShaderMenu.addItem(withTitle: shaderName, action: nil, keyEquivalent: "")
         }
         
-        let customShaders = OEShadersModel.shared.sortedCustomShaderNames
+        let customShaders = OEShaderStore.shared.sortedCustomShaderNames
         if !customShaders.isEmpty {
             globalShaderMenu.addItem(.separator())
             
@@ -70,7 +70,7 @@ final class PrefGameplayController: NSViewController {
         
         globalDefaultShaderSelection.menu = globalShaderMenu
         
-        let selectedShaderName = OEShadersModel.shared.defaultShaderName
+        let selectedShaderName = OEShaderStore.shared.defaultShaderName
         
         if globalDefaultShaderSelection.item(withTitle: selectedShaderName) != nil {
             globalDefaultShaderSelection.selectItem(withTitle: selectedShaderName)
@@ -85,8 +85,8 @@ final class PrefGameplayController: NSViewController {
         guard let shaderName = globalDefaultShaderSelection.selectedItem?.title else { return }
         
         let allSystemIdentifiers = OEDBSystem.allSystemIdentifiers(in: context)
-        allSystemIdentifiers.forEach(OESystemShadersModel.shared.resetShader(forSystem:))
-        OEShadersModel.shared.defaultShaderName = shaderName
+        allSystemIdentifiers.forEach(OESystemShaderStore.shared.resetShader(forSystem:))
+        OEShaderStore.shared.defaultShaderName = shaderName
     }
 }
 

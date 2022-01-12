@@ -571,11 +571,10 @@ final class GameControlsBar: NSWindow {
         menu.addItem(item)
         menu.addItem(.separator())
         
-        let systemIdentifier = gameViewController.systemIdentifier
-        let selectedShader = OESystemShadersModel.shared.shaderName(forSystem: systemIdentifier)
+        let selectedShader = gameViewController.shaderControl.preset.shader.name
         
         // add system shaders first
-        let sortedSystemShaders = OEShadersModel.shared.sortedSystemShaderNames
+        let sortedSystemShaders = OEShaderStore.shared.sortedSystemShaderNames
         for shaderName in sortedSystemShaders {
             let item = NSMenuItem(title: shaderName, action: #selector(GameViewController.selectShader(_:)), keyEquivalent: "")
             
@@ -587,7 +586,7 @@ final class GameControlsBar: NSWindow {
         }
         
         // add custom shaders
-        let sortedCustomShaders = OEShadersModel.shared.sortedCustomShaderNames
+        let sortedCustomShaders = OEShaderStore.shared.sortedCustomShaderNames
         if !sortedCustomShaders.isEmpty {
             menu.addItem(.separator())
             

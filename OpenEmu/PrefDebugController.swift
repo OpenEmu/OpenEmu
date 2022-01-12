@@ -421,13 +421,13 @@ final class PrefDebugController: NSViewController {
     // MARK: - Shaders
     
     func clearShaderCache(_ sender: Any?) {
-        if let url = OEShadersModel.shared.shadersCachePath {
+        if let url = OEShaderStore.shared.shadersCachePath {
             try? FileManager.default.removeItem(at: url)
         }
     }
     
     func openUserShaderFolder(_ sender: Any?) {
-        if let url = OEShadersModel.shared.userShadersPath {
+        if let url = OEShaderStore.shared.userShadersPath {
             NSWorkspace.shared.open(url)
         }
     }

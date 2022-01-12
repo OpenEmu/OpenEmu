@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1230"
+   LastUpgradeVersion = "1320"
    version = "1.8">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -106,7 +106,6 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      enableGPUFrameCaptureMode = "3"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
@@ -125,6 +124,11 @@
          </CommandLineArgument>
       </CommandLineArguments>
       <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "OS_ACTIVITY_MODE"
+            value = "disable"
+            isEnabled = "NO">
+         </EnvironmentVariable>
          <EnvironmentVariable
             key = "CA_DEBUG_TRANSACTIONS"
             value = "1"

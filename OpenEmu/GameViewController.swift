@@ -52,7 +52,7 @@ final class GameViewController: NSViewController {
     weak var document: OEGameDocument!
     weak var integralScalingDelegate: GameIntegralScalingDelegate?
     
-    private var shaderControl: ShaderControl!
+    var shaderControl: ShaderControl!
     private var shaderWindowController: ShaderParametersWindowController!
     
     private var token: NSObjectProtocol?
@@ -73,10 +73,8 @@ final class GameViewController: NSViewController {
         
         controlsWindow = GameControlsBar(gameViewController: self)
         controlsWindow.isReleasedWhenClosed = false
-        
-        shaderControl = ShaderControl(systemIdentifier: document.systemIdentifier,
+        shaderControl = ShaderControl(systemPlugin: document.systemPlugin,
                                       helper: document.gameCoreHelper)
-        shaderControl.shader = OESystemShadersModel.shared.shader(forSystem: document.systemIdentifier)
         shaderWindowController = ShaderParametersWindowController(control: shaderControl)
         
         scaledView = OEScaledGameLayerView(frame: NSRect(origin: .zero, size: NSSize(width: 1, height: 1)))
@@ -167,31 +165,31 @@ final class GameViewController: NSViewController {
     // MARK: - Controlling Emulation
     
     var supportsCheats: Bool {
-        return document.supportsCheats
+        document.supportsCheats
     }
     
     var supportsSaveStates: Bool {
-        return document.supportsSaveStates
+        document.supportsSaveStates
     }
     
     var supportsMultipleDiscs: Bool {
-        return document.supportsMultipleDiscs
+        document.supportsMultipleDiscs
     }
     
     var supportsFileInsertion: Bool {
-        return document.supportsFileInsertion
+        document.supportsFileInsertion
     }
     
     var supportsDisplayModeChange: Bool {
-        return document.supportsDisplayModeChange
+        document.supportsDisplayModeChange
     }
     
     var coreIdentifier: String {
-        return document.coreIdentifier
+        document.coreIdentifier
     }
     
     var systemIdentifier: String {
-        return document.systemIdentifier
+        document.systemIdentifier
     }
     
     @IBAction func takeScreenshot(_ sender: Any?) {
@@ -218,7 +216,7 @@ final class GameViewController: NSViewController {
     
     func selectShader(_ sender: NSMenuItem) {
         let shaderName = sender.title
-        if let shader = OEShadersModel.shared.shader(withName: shaderName) {
+        if let shader = OEShaderStore.shared.shader(withName: shaderName) {
             shaderControl.changeShader(shader)
         }
     }

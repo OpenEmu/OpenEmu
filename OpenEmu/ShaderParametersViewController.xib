@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="ShaderParametersViewController" customModule="OpenEmu" customModuleProvider="target">
             <connections>
+                <outlet property="accessoryView" destination="zsF-ee-qWZ" id="QHZ-fm-STl"/>
                 <outlet property="outlineView" destination="N0M-kh-BHs" id="jhU-sB-6fO"/>
+                <outlet property="presetList" destination="hkE-qg-OMf" id="1aA-ho-Pue"/>
                 <outlet property="shaderListPopUpButton" destination="u66-9B-Dkw" id="aNo-kS-ffG"/>
                 <outlet property="view" destination="GVp-fv-v3P" id="Ok9-AX-xnu"/>
             </connections>
@@ -93,20 +95,86 @@
             <point key="canvasLocation" x="12" y="-237"/>
         </view>
         <popUpButton id="u66-9B-Dkw">
-            <rect key="frame" x="0.0" y="0.0" width="58" height="16"/>
+            <rect key="frame" x="0.0" y="0.0" width="100" height="16"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <popUpButtonCell key="cell" type="bevel" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" selectedItem="LES-pU-IcW" id="zAe-B9-blO">
+            <popUpButtonCell key="cell" type="bevel" title="Pixellate" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" selectedItem="QBn-NS-oto" id="zAe-B9-blO">
                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                 <font key="font" metaFont="menu"/>
                 <menu key="menu" id="I9o-ZJ-HPq">
                     <items>
-                        <menuItem title="Item 1" state="on" id="LES-pU-IcW"/>
-                        <menuItem title="Item 2" id="9zq-7y-inm"/>
-                        <menuItem title="Item 3" id="QBn-NS-oto"/>
+                        <menuItem title="CRT Geom" id="LES-pU-IcW"/>
+                        <menuItem title="MAME HLSL" id="9zq-7y-inm"/>
+                        <menuItem title="Pixellate" state="on" id="QBn-NS-oto"/>
                     </items>
                 </menu>
             </popUpButtonCell>
-            <point key="canvasLocation" x="-126" y="-469"/>
+            <point key="canvasLocation" x="-111" y="-535"/>
         </popUpButton>
+        <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zsF-ee-qWZ">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="28"/>
+            <subviews>
+                <popUpButton horizontalHuggingPriority="249" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="hkE-qg-OMf">
+                    <rect key="frame" x="6" y="2" width="258" height="22"/>
+                    <popUpButtonCell key="cell" type="push" title="Unnamed 1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="60N-fo-jdY" id="w2V-R7-830">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                        <menu key="menu" id="BKn-st-ufn">
+                            <items>
+                                <menuItem title="Unnamed 1" state="on" id="60N-fo-jdY"/>
+                                <menuItem title="Item 2" id="7vY-Y7-HZA"/>
+                                <menuItem title="Item 3" id="fgk-tU-WNf"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                </popUpButton>
+                <button verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="EN8-yA-kRd">
+                    <rect key="frame" x="262" y="-1" width="89" height="27"/>
+                    <buttonCell key="cell" type="push" title="New Preset" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yuZ-mE-Gwy">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="newPreset:" target="-2" id="BCc-HI-MJf"/>
+                    </connections>
+                </button>
+                <popUpButton verticalHuggingPriority="750" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="AAM-g9-ARm">
+                    <rect key="frame" x="349" y="2" width="45" height="22"/>
+                    <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" imagePosition="only" alignment="center" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="border" inset="2" pullsDown="YES" altersStateOfSelectedItem="NO" selectedItem="H4B-Jh-0HF" id="NE3-tJ-RD4">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                        <menu key="menu" id="Cke-Tc-muW">
+                            <items>
+                                <menuItem title="Item 1" state="on" image="NSActionTemplate" hidden="YES" id="H4B-Jh-0HF"/>
+                                <menuItem title="Copy" id="Qpe-Zh-7En">
+                                    <connections>
+                                        <action selector="copy:" target="-1" id="JEz-MU-axc"/>
+                                    </connections>
+                                </menuItem>
+                                <menuItem title="Paste" id="FmJ-LT-KTs">
+                                    <connections>
+                                        <action selector="paste:" target="-1" id="vJ0-JJ-miz"/>
+                                    </connections>
+                                </menuItem>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                </popUpButton>
+            </subviews>
+            <edgeInsets key="edgeInsets" left="10" right="10" top="0.0" bottom="0.0"/>
+            <visibilityPriorities>
+                <integer value="1000"/>
+                <integer value="1000"/>
+                <integer value="1000"/>
+            </visibilityPriorities>
+            <customSpacing>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+                <real value="3.4028234663852886e+38"/>
+            </customSpacing>
+            <point key="canvasLocation" x="-19" y="-657"/>
+        </stackView>
     </objects>
+    <resources>
+        <image name="NSActionTemplate" width="15" height="15"/>
+    </resources>
 </document>

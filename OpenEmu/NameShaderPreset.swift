@@ -1,4 +1,4 @@
-// Copyright (c) 2019, OpenEmu Team
+// Copyright (c) 2022, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,37 +22,45 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import Foundation
+import Cocoa
 import OpenEmuKit
 
-extension OEShaderStore {
-    @objc
-    public static var shared: OEShaderStore = {
-        .init(store: .standard, bundle: .main)
-    }()
+protocol NameShaderPresetDelegate {
+    func setPresetName(_ name: String)
+    func cancelSetPresetName()
 }
 
-extension OESystemShaderStore {
-    @objc
-    public static var shared: OESystemShaderStore = {
-        .init(store: .standard, shaders: .shared)
-    }()
-}
-
-extension UserDefaultsPresetStorage {
-    public static var shared: UserDefaultsPresetStorage = {
-        .init(store: .standard)
-    }()
-}
-
-extension ShaderPresetStore {
-    public static var shared: ShaderPresetStore = {
-        .init(store: UserDefaultsPresetStorage.shared, shaders: .shared)
-    }()
-}
-
-extension SystemShaderPresetStore {
-    public static var shared: SystemShaderPresetStore = {
-        .init(store: .standard, presets: .shared, shaders: .shared)
-    }()
+class NameShaderPreset: NSViewController, NSControlTextEditingDelegate {
+    
+    @IBOutlet weak var textField: NSTextField!
+    @IBOutlet weak var warning: NSTextField!
+    
+    @objc dynamic var isTextValid: Bool = false
+    @objc dynamic var validationMessage: String = ""
+    
+    @IBAction func save(_ sender: Any?) {
+        if isTextValid && textField.stringValue.count > 0 {
+            if let delegate = presentingViewController as? NameShaderPresetDelegate {
+                delegate.setPresetName(textField.stringValue)
+            }
+            presentingViewController?.dismiss(self)
+        }
+    }
+    
+    @IBAction override func cancelOperation(_ sender: Any?) {
+        presentingViewController?.dismiss(self)
+        if let delegate = presentingViewController as? NameShaderPresetDelegate {
+            delegate.cancelSetPresetName()
+        }
+    }
+    
+    @objc func controlTextDidChange(_ obj: Notification) {
+        if ShaderPresetStore.shared.exists(byName: textField.stringValue) {
+            isTextValid = false
+            validationMessage = NSLocalizedString("Duplicate preset name", comment: "label: User has specified a duplicate name for a preset")
+        } else {
+            isTextValid = true
+            validationMessage = ""
+        }
+    }
 }

@@ -153,6 +153,8 @@
 		051DDCB523E5D74400325147 /* AvailableLibrariesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051DDCB423E5D74400325147 /* AvailableLibrariesViewController.swift */; };
 		051DDCB723E5D9E400325147 /* AvailableLibrariesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 051DDCB623E5D9E400325147 /* AvailableLibrariesViewController.xib */; };
 		051DDCB923E5E50100325147 /* AvailableLibrariesCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 051DDCB823E5E50100325147 /* AvailableLibrariesCollectionViewItem.xib */; };
+		05201D7E2782501E0028CBE0 /* NameShaderPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05201D7C2782501E0028CBE0 /* NameShaderPreset.swift */; };
+		05201D7F2782501E0028CBE0 /* NameShaderPreset.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05201D7D2782501E0028CBE0 /* NameShaderPreset.xib */; };
 		052B92D3226EE5FA00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
 		052B92D4226EE66C00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
 		052EA5BC2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */; };
@@ -1344,6 +1346,8 @@
 		051DDCB423E5D74400325147 /* AvailableLibrariesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableLibrariesViewController.swift; sourceTree = "<group>"; };
 		051DDCB623E5D9E400325147 /* AvailableLibrariesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AvailableLibrariesViewController.xib; sourceTree = "<group>"; };
 		051DDCB823E5E50100325147 /* AvailableLibrariesCollectionViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AvailableLibrariesCollectionViewItem.xib; sourceTree = "<group>"; };
+		05201D7C2782501E0028CBE0 /* NameShaderPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameShaderPreset.swift; sourceTree = "<group>"; };
+		05201D7D2782501E0028CBE0 /* NameShaderPreset.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NameShaderPreset.xib; sourceTree = "<group>"; };
 		052B92D2226EE5FA00701431 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBitmapImageRep+OEAdditions.swift"; sourceTree = "<group>"; };
 		0533EA5C24CDF9070095146E /* OpenEmuKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OpenEmuKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2752,6 +2756,8 @@
 		0557CB1322A750260037175F /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				05201D7C2782501E0028CBE0 /* NameShaderPreset.swift */,
+				05201D7D2782501E0028CBE0 /* NameShaderPreset.xib */,
 				0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */,
 				0519A89E25AA4CD800D71C21 /* ShaderControl.swift */,
 				05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */,
@@ -5508,7 +5514,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1230;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					011FD36125267910006D7C05 = {
 						CreatedOnToolsVersion = 11.3.1;
@@ -5967,6 +5973,7 @@
 				83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */,
 				05410EF122F7538B00303424 /* SliderCell.xib in Resources */,
 				83B04E421968610F00CB985E /* Localizable.strings in Resources */,
+				05201D7F2782501E0028CBE0 /* NameShaderPreset.xib in Resources */,
 				051DDCB723E5D9E400325147 /* AvailableLibrariesViewController.xib in Resources */,
 				87191CC61F6F5524006D2EE3 /* dsa_pub.pem in Resources */,
 				83FE9642196859B100DD8DB9 /* PrefCoresController.xib in Resources */,
@@ -6690,6 +6697,7 @@
 				8306CD101BD3AC180025BC6C /* LibraryGamesViewController.swift in Sources */,
 				8F94B44D25566FE00058AA94 /* NSShadow+OEAdditions.swift in Sources */,
 				0544B6A023D16D3100F63D61 /* CollectionViewItem.swift in Sources */,
+				05201D7E2782501E0028CBE0 /* NameShaderPreset.swift in Sources */,
 				8F80217E24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift in Sources */,
 				5A9606DC1C0A84BC0089B494 /* LibraryToolbar.swift in Sources */,
 				8FEA676C270252860034CFCE /* SetupAssistant.swift in Sources */,
