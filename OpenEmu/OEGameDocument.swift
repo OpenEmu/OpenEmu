@@ -1061,7 +1061,7 @@ final class OEGameDocument: NSDocument {
         } else if let obj = sender.representedObject as? OECorePlugin {
             plugin = obj
         } else {
-            DLog("Invalid argument passed: \(String(describing: sender))")
+            assertionFailure("Invalid argument passed: \(String(describing: sender))")
             return
         }
         
@@ -1160,10 +1160,15 @@ final class OEGameDocument: NSDocument {
         } else if let obj = sender.representedObject as? OEAudioDevice {
             device = obj
         } else {
+            assertionFailure("Invalid argument passed: \(String(describing: sender))")
             return
         }
         
         gameCoreManager.setAudioOutputDeviceID(device.deviceID)
+    }
+    
+    @IBAction func changeAudioOutputDeviceToSystemDefault(_ sender: Any?) {
+        gameCoreManager.setAudioOutputDeviceID(0)
     }
     
     var volume: Float {
@@ -1672,7 +1677,7 @@ final class OEGameDocument: NSDocument {
         } else if let obj = sender?.representedObject as? OEDBSaveState {
             state = obj
         } else {
-            DLog("Invalid argument passed: \(String(describing: sender))")
+            assertionFailure("Invalid argument passed: \(String(describing: sender))")
             return
         }
         
@@ -1754,7 +1759,7 @@ final class OEGameDocument: NSDocument {
         } else if let obj = sender.representedObject as? OEDBSaveState {
             state = obj
         } else {
-            DLog("Invalid argument passed: \(String(describing: sender))")
+            assertionFailure("Invalid argument passed: \(String(describing: sender))")
             return
         }
         

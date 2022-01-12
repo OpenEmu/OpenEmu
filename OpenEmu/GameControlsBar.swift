@@ -639,8 +639,7 @@ final class GameControlsBar: NSWindow {
         guard !audioOutputDevices.isEmpty
         else { return nil }
         
-        let item = NSMenuItem(title: NSLocalizedString("System Default", comment: "Default audio device setting"), action: #selector(OEGameDocument.changeAudioOutputDevice(_:)), keyEquivalent: "")
-        item.representedObject = nil
+        let item = NSMenuItem(title: NSLocalizedString("System Default", comment: "Default audio device setting"), action: #selector(OEGameDocument.changeAudioOutputDeviceToSystemDefault(_:)), keyEquivalent: "")
         menu.addItem(item)
         
         menu.addItem(.separator())
