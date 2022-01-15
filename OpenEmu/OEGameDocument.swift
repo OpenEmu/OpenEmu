@@ -1243,7 +1243,7 @@ final class OEGameDocument: NSDocument {
         alert.showsSuppressionButton = true
         alert.suppressionLabelText = NSLocalizedString("Enable now", comment: "Cheats button label")
         
-        alert.inputLimit = 1000
+        alert.inputLimit = 1350
         
         if alert.runModal() == .alertFirstButtonReturn {
             var enabled: Bool
