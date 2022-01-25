@@ -41,6 +41,7 @@ extension OEAlert {
     @objc static let OEDeleteScreenshotAlertSuppressionKey = "OEDeleteScreenshotAlertSuppressionKey"
     @objc static let OEDeleteSaveStateAlertSuppressionKey = "OEDeleteSaveStateAlertSuppressionKey"
     @objc static let OEDownloadRomWarningSuppressionKey = "OEDownloadRomWarningSuppressionKey"
+    @objc static let OEDeleteShaderPresetAlertSuppressionKey = "OEDeleteShaderPresetAlertSuppressionKey"
     
     
     final class func quitApplication() -> OEAlert {
@@ -118,6 +119,17 @@ extension OEAlert {
         alert.defaultButtonTitle = NSLocalizedString("Delete Screenshot", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
         alert.showSuppressionButton(forUDKey: OEDeleteScreenshotAlertSuppressionKey)
+        
+        return alert
+    }
+    
+    final class func deleteShaderPreset(name: String) -> OEAlert {
+        
+        let alert = OEAlert()
+        alert.messageText = .localizedStringWithFormat(NSLocalizedString("Are you sure you want to delete the shader preset called '%@'?", comment: ""), name)
+        alert.defaultButtonTitle = NSLocalizedString("Delete Shader Preset", comment: "")
+        alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
+        alert.showSuppressionButton(forUDKey: OEDeleteShaderPresetAlertSuppressionKey)
         
         return alert
     }

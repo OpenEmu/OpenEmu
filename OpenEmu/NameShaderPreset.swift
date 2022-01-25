@@ -38,6 +38,15 @@ class NameShaderPreset: NSViewController, NSControlTextEditingDelegate {
     @objc dynamic var isTextValid: Bool = false
     @objc dynamic var validationMessage: String = ""
     
+    var existingName: String? // set if a preset is being renamed
+    
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        if let name = existingName {
+            textField.stringValue = name
+        }
+    }
+    
     @IBAction func save(_ sender: Any?) {
         if isTextValid && textField.stringValue.count > 0 {
             if let delegate = presentingViewController as? NameShaderPresetDelegate {
@@ -55,7 +64,7 @@ class NameShaderPreset: NSViewController, NSControlTextEditingDelegate {
     }
     
     @objc func controlTextDidChange(_ obj: Notification) {
-        if ShaderPresetStore.shared.exists(byName: textField.stringValue) {
+        if ShaderPresetStore.shared.exists(byName: textField.stringValue) && textField.stringValue != existingName {
             isTextValid = false
             validationMessage = NSLocalizedString("Duplicate preset name", comment: "label: User has specified a duplicate name for a preset")
         } else {

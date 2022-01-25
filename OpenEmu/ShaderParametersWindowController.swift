@@ -26,9 +26,9 @@ import Cocoa
 import OpenEmuKit
 
 final class ShaderParametersWindowController: NSWindowController {
-    @objc var control: ShaderControl
+    var control: ShaderControl
     
-    @objc public init(control: ShaderControl) {
+    public init(control: ShaderControl) {
         self.control = control
         super.init(window: nil)
     }
@@ -37,14 +37,12 @@ final class ShaderParametersWindowController: NSWindowController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override var windowNibName: NSNib.Name? {
-        "ShaderParameters"
-    }
+    override var windowNibName: NSNib.Name? { "ShaderParameters" }
     
     override func windowDidLoad() {
         super.windowDidLoad()
         
-        window?.title = NSLocalizedString("Shader Parameters", comment: "Shader parameters window title")
+        window?.title = NSLocalizedString("Shader Parameters", comment: "Window title: Shader parameters customisation window")
         
         let oc = ShaderParametersViewController(shaderControl: control)
         self.contentViewController = oc

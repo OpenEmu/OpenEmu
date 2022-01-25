@@ -25,15 +25,33 @@
 import Foundation
 import OpenEmuKit
 
+extension Notification.Name {
+    
+    // The notification raised whenenever the preset changes for a ShaderControl object.
+    public static let shaderControlPresetDidChange = NSNotification.Name("shaderControlPresetDidChange")
+}
+
 /// An object that mediates access to shaders and presets in OpenEmuKit and provides
 /// logic specific to OpenEmu.
 ///
 /// Specific logic includes providing a transition from ``OESystemShaderModel`` to ``ShaderPreset``.
-@objc public class ShaderControl: NSObject {
+public class ShaderControl: NSObject {
     
-    @objc public let systemPlugin: OESystemPlugin
-    @objc public var systemIdentifier: String { systemPlugin.systemIdentifier }
-    @objc public dynamic var preset: ShaderPreset
+    enum Errors: Error, LocalizedError {
+        case deleteDefault
+        
+        var errorDescription: String? {
+            switch self {
+            case .deleteDefault:
+                return NSLocalizedString("Unable to delete default shader preset", comment: "error: Occurs when attempting to delete the default shader preset")
+            }
+        }
+    }
+    
+    public let systemPlugin: OESystemPlugin
+    public var systemIdentifier: String { systemPlugin.systemIdentifier }
+    @objc dynamic public private(set) var preset: ShaderPreset
+    @objc dynamic public private(set) var presets: [ShaderPreset]
     
     private var systemShader: OESystemShaderModel? { preset.systemShader }
     let helper: OEGameCoreHelper
@@ -42,8 +60,12 @@ import OpenEmuKit
         self.systemPlugin   = systemPlugin
         self.helper         = helper
         self.preset         = Self.currentPreset(forSystemPlugin: systemPlugin)
+        self.presets        = Self.shaderPresets(byShader: preset.shader.name, systemPlugin: systemPlugin, sortedByName: true)
     }
     
+    /// Returns the preset that is assigned to the specified system plugin.
+    /// - Parameter systemPlugin: The ``OESystemPlugin`` to locate the preset for.
+    /// - Returns: The shader preset assigned to the system plugin.
     public static func currentPreset(forSystemPlugin systemPlugin: OESystemPlugin) -> ShaderPreset {
         if let preset = SystemShaderPresetStore.shared.findPresetForSystem(systemPlugin.systemIdentifier) {
             return preset
@@ -52,30 +74,74 @@ import OpenEmuKit
         return presetForSystemShader(shader, systemPlugin)
     }
     
-    /// Returns an array of shader presets for the selected shader.
-    public func shaderPresets(byShader name: String, sortedByName sort: Bool = false) -> [ShaderPreset] {
+    /// Returns an array of shader presets for the specified shader.
+    static func shaderPresets(byShader name: String, systemPlugin: OESystemPlugin, sortedByName sort: Bool = false) -> [ShaderPreset] {
         guard let shader = OEShaderStore.shared.shader(withName: name) else { return [] }
-        let systemShader = OESystemShaderStore.shared.shader(withShader: shader, forSystem: systemIdentifier)
+        let systemShader = OESystemShaderStore.shared.shader(withShader: shader, forSystem: systemPlugin.systemIdentifier)
         var presets = ShaderPresetStore.shared.findPresets(byShader: name)
         presets.append(Self.presetForSystemShader(systemShader, systemPlugin)) // add default system shader
         if sort {
-            presets.sort { $0.name > $1.name }
+            presets.sort { $0.name.localizedCompare($1.name) == .orderedAscending }
         }
+        
         return presets
     }
     
-    /// Updates the parameters for the current preset.
+    /// Updates the parameters for the current ``preset``.
     ///
     /// - Warning:
     /// This is a warning
     /// - Parameter params: An array of replacement parameters.
     public func writeParameters(_ params: [ShaderParamValue]) {
-        if preset.isLegacy {
+        preset.parameters = Dictionary(changedParams: params)
+        if preset.isDefault {
             systemShader?.write(parameters: params)
         } else {
-            preset.parameters = Dictionary(changedParams: params)
             try? ShaderPresetStore.shared.savePreset(preset)
         }
+    }
+    
+    public func savePreset(_ preset: ShaderPreset) throws {
+        try ShaderPresetStore.shared.savePreset(preset)
+        if self.preset.shader.name == preset.shader.name {
+            presets = Self.shaderPresets(byShader: preset.shader.name, systemPlugin: systemPlugin, sortedByName: true)
+        }
+    }
+    
+    public func deletePreset(_ preset: ShaderPreset, completion handler: @escaping (Error?) -> Void) {
+        guard !preset.isDefault else {
+            handler(Errors.deleteDefault)
+            return
+        }
+        
+        func completeDelete(error: Error?) {
+            defer { handler(error) }
+
+            if error == nil {
+                if let i = presets.firstIndex(of: preset) {
+                    var presets = presets
+                    presets.remove(at: i)
+                    self.presets = presets
+                }
+            }
+        }
+        
+        ShaderPresetStore.shared.removePreset(preset)
+        
+        if self.preset.id != preset.id {
+            return completeDelete(error: nil)
+        }
+        
+        // Select an alternate preset
+        let newPreset: ShaderPreset
+        if let p = presets.first {
+            newPreset = p
+        } else {
+            let shader = OESystemShaderStore.shared.shader(forSystem: systemPlugin.systemIdentifier)
+            newPreset = Self.presetForSystemShader(shader, systemPlugin)
+        }
+        
+        changePreset(newPreset, completionHandler: completeDelete(error:))
     }
     
     public func setValue(_ value: CGFloat, forParameter name: String) {
@@ -90,27 +156,48 @@ import OpenEmuKit
         changePreset(preset)
     }
     
-    public func changePreset(_ preset: ShaderPreset) {
+    @available(macOS 10.15, *)
+    public func changePreset(_ preset: ShaderPreset) async throws {
+        try await withCheckedThrowingContinuation { (cont: CheckedContinuation<Void, Error>) in
+            changePreset(preset) { error in
+                if let error = error {
+                    cont.resume(throwing: error)
+                } else {
+                    cont.resume()
+                }
+            }
+        }
+    }
+    
+    public func changePreset(_ preset: ShaderPreset, completionHandler handler: ((Error?) -> Void)? = nil) {
         let params = preset.parameters as [String: NSNumber]?
         let shader = preset.shader
         
         helper.setShaderURL(shader.url, parameters: params) { error in
             if let error = error {
-                let alert = NSAlert(error: error)
-                alert.runModal()
+                handler?(error)
                 return
             }
+            
+            let changedShader = preset.shader.name != self.preset.shader.name
             
             self.preset = preset
             
             // Alternates between
-            if preset.isLegacy {
+            if preset.isDefault {
                 OESystemShaderStore.shared.setShader(shader, forSystem: self.systemIdentifier)
                 SystemShaderPresetStore.shared.resetPresetForSystem(self.systemIdentifier)
             } else {
                 SystemShaderPresetStore.shared.setPreset(preset, forSystem: self.systemIdentifier)
                 OESystemShaderStore.shared.resetShader(forSystem: self.systemIdentifier)
             }
+            
+            if changedShader {
+                self.presets = Self.shaderPresets(byShader: preset.shader.name, systemPlugin: self.systemPlugin, sortedByName: true)
+            }
+            
+            handler?(nil)
+            NotificationCenter.default.post(name: .shaderControlPresetDidChange, object: self)
         }
     }
     
@@ -121,10 +208,10 @@ import OpenEmuKit
 }
 
 extension ShaderPreset {
-    static let legacyID = "legacy-shader"
+    static let defaultID = "default-shader"
     static let associationKey = UnsafeRawPointer(UnsafeMutablePointer<UInt64>.allocate(capacity: 1))
     
-    var isLegacy: Bool { id == Self.legacyID }
+    var isDefault: Bool { id == Self.defaultID }
     
     var systemShader: OESystemShaderModel? {
         get {
@@ -139,7 +226,7 @@ extension ShaderPreset {
         self.init(name: name,
                   shader: systemShader.shader,
                   parameters: systemShader.parameters,
-                  id: Self.legacyID)
+                  id: Self.defaultID)
         self.systemShader = systemShader
     }
 }

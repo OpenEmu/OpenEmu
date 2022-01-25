@@ -29,6 +29,7 @@ import OpenEmuKit
 final class ShaderParametersViewController: NSViewController {
     let shaderControl: ShaderControl
     var shaderObserver: NSObjectProtocol?
+    var presetsObserver: NSObjectProtocol?
     var currentShaderName: String?
     
     @IBOutlet var outlineView: NSOutlineView!
@@ -58,8 +59,12 @@ final class ShaderParametersViewController: NSViewController {
     func loadPreset() {
         let preset = shaderControl.preset
         
+        if #available(macOS 10.15, *) {
+            presetList.selectItem(withTitle: preset.name)
+        }
+        
         if currentShaderName == preset.shader.name {
-            // don't do a full refresh, as we're only changing presets
+            // The parameters are the same when changing between presets
             if let params = self.params {
                 params.forEach { param in
                     if let val = preset.parameters[param.name] {
@@ -93,10 +98,6 @@ final class ShaderParametersViewController: NSViewController {
                 shaderListPopUpButton.select(item)
                 break
             }
-        }
-        
-        if #available(macOS 10.15, *) {
-            configurePresetsView()
         }
     }
 
@@ -166,16 +167,25 @@ final class ShaderParametersViewController: NSViewController {
         shaderControl.helper.setEffectsMode(.displayAlways)
 
         shaderObserver = shaderControl.observe(\.preset) { [weak self] (_, val) in
-            guard let self = self else { return }
-            self.loadPreset()
+            self?.loadPreset()
+        }
+        
+        if #available(macOS 10.15, *) {
+            presetsObserver = shaderControl.observe(\.presets) { [weak self] (_, _) in
+                self?.loadPresetListForCurrentShader()
+            }
         }
 
         loadPreset()
         configureToolbar()
+        if #available(macOS 10.15, *) {
+            configurePresetsView()
+        }
     }
     
     override func viewWillDisappear() {
-        shaderObserver = nil
+        shaderObserver  = nil
+        presetsObserver = nil
         shaderControl.helper.setEffectsMode(.reflectPaused)
     }
     
@@ -264,7 +274,7 @@ extension ShaderParametersViewController: NSToolbarDelegate {
             if #available(macOS 10.15, *) {
                 tbi.isBordered = isBordered
             }
-            let label = NSTextField(labelWithString: "Parameters")
+            let label = NSTextField(labelWithString: NSLocalizedString("Parameters", comment: "Window title: Shader parameters customisation window"))
             tbi.view = label
             return tbi
         case .shaderPicker:
@@ -275,7 +285,7 @@ extension ShaderParametersViewController: NSToolbarDelegate {
             tbi.visibilityPriority = .low
             tbi.view = shaderListPopUpButton
             let mi = NSMenuItem()
-            mi.title = NSLocalizedString("Select Shader", comment: "")
+            mi.title = NSLocalizedString("Select Shader", comment: "Menu: Show a list of shaders the user may choose from")
             mi.submenu = shaderListPopUpButton.menu
             tbi.menuFormRepresentation = mi
             return tbi
@@ -408,19 +418,32 @@ private extension ShaderParamValue {
     }
 }
 
-// MARK: - Copy / Paste support
+// MARK: Menu validation
 
 extension ShaderParametersViewController: NSMenuItemValidation {
-    
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         switch menuItem.action {
         case #selector(paste(_:)):
             guard let text = paramsFromClipboard() else { return false }
             return ShaderPresetTextReader.isSignedAndValid(text: text)
+            
+        case #selector(renamePreset(_:)), #selector(delete(_:)):
+            if #available(macOS 10.15, *) {
+                return !shaderControl.preset.isDefault
+            }
+            return false
+            
         default:
-            return true
+            break
         }
+        
+        return true
     }
+}
+
+// MARK: - Copy / Paste support
+
+extension ShaderParametersViewController {
     
     func paramsFromClipboard() -> String? {
         let pb = NSPasteboard.general
@@ -480,8 +503,37 @@ extension ShaderParametersViewController: NSMenuItemValidation {
     }
 }
 
+// MARK: - Preset Actions
+
+extension ShaderParametersViewController {
+    @IBAction func renamePreset(_ sender: Any?) {
+        guard #available(macOS 10.15, *) else { return }
+        
+        let nameShader = NameShaderPreset()
+        nameShader.title = NSLocalizedString("Rename Shader Preset", comment: "Window title: Used to rename an existing shader preset")
+        nameShader.existingName = shaderControl.preset.name
+        state = .renamePreset
+        presentAsModalWindow(nameShader)
+    }
+    
+    override func delete(_ sender: Any?) {
+        guard #available(macOS 10.15, *) else { return }
+        
+        let alert: OEAlert = .deleteShaderPreset(name: shaderControl.preset.name)
+        guard alert.runModal() == .alertFirstButtonReturn else { return }
+        
+        shaderControl.deletePreset(shaderControl.preset) { error in
+            if let error = error {
+                NSApp.presentError(error)
+            }
+        }
+    }
+}
+
+// MARK: - Manage Presets
+
 @available(macOS 10.15, *)
-extension ShaderParametersViewController: NameShaderPresetDelegate {
+extension ShaderParametersViewController: NameShaderPresetDelegate, NSMenuItemValidation {
     
     func configurePresetsView() {
         if avc == nil {
@@ -494,27 +546,20 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
     }
     
     func loadPresetListForCurrentShader() {
-        let preset  = shaderControl.preset
-        if presetList.titleOfSelectedItem == preset.name {
-            // user selected a new preset
-            return
-        }
-        
-        let presets = shaderControl.shaderPresets(byShader: preset.shader.name, sortedByName: true)
         let menu = NSMenu()
-        for preset in presets {
+        for preset in shaderControl.presets {
             let item = menu.addItem(withTitle: preset.name, action: #selector(selectPreset(_:)), keyEquivalent: "")
             item.representedObject = preset
         }
         presetList.menu = menu
-        presetList.selectItem(withTitle: preset.name)
+        presetList.selectItem(withTitle: shaderControl.preset.name)
     }
     
     @IBAction func newPreset(_ sender: Any?) {
-        let newShader = NameShaderPreset()
-        newShader.title = NSLocalizedString("New Shader Preset", comment: "Window title for creating a new shader preset")
+        let nameShader = NameShaderPreset()
+        nameShader.title = NSLocalizedString("New Shader Preset", comment: "Window title: Used to specify the name of a new shader preset")
         state = .newPreset
-        presentAsModalWindow(newShader)
+        presentAsModalWindow(nameShader)
     }
     
     @IBAction func selectPreset(_ sender: Any?) {
@@ -522,18 +567,33 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
             let item = sender as? NSMenuItem,
             let preset = item.representedObject as? ShaderPreset
         else { return }
-        shaderControl.changePreset(preset)
+        changePresetWithError(preset)
     }
+    
+    private func changePresetWithError(_ preset: ShaderPreset) {
+        Task {
+            do {
+                try await shaderControl.changePreset(preset)
+            } catch {
+                NSApp.presentError(error)
+            }
+        }
+    }
+    
+    // MARK: - NameShaderPresetDelegate
     
     func setPresetName(_ name: String) {
         switch state {
         case .newPreset:
             let old = shaderControl.preset
             let new = ShaderPreset(name: name, shader: old.shader, parameters: old.parameters)
-            if let _ = try? ShaderPresetStore.shared.savePreset(new) {
-                shaderControl.changePreset(new)
+            if let _ = try? shaderControl.savePreset(new) {
+                changePresetWithError(new)
             }
         case .renamePreset:
+            let preset = shaderControl.preset
+            preset.name = name
+            try? shaderControl.savePreset(preset)
             break
         case .none:
             return
@@ -541,6 +601,6 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
     }
     
     func cancelSetPresetName() {
-        
+        state = .none
     }
 }

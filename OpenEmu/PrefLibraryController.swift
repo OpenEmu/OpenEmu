@@ -145,6 +145,7 @@ final class PrefLibraryController: NSViewController {
             OEAlert.OEChangeCoreAlertSuppressionKey,
             OEAlert.OEAutoSwitchCoreAlertSuppressionKey,
             OEAlert.OEGameCoreGlitchesSuppressionKey,
+            OEAlert.OEDeleteShaderPresetAlertSuppressionKey,
         ]
         
         keysToRemove.forEach { key in
