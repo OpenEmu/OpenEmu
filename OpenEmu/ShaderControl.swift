@@ -26,7 +26,6 @@ import Foundation
 import OpenEmuKit
 
 extension Notification.Name {
-    
     // The notification raised whenenever the preset changes for a ShaderControl object.
     public static let shaderControlPresetDidChange = NSNotification.Name("shaderControlPresetDidChange")
 }
@@ -89,9 +88,7 @@ public class ShaderControl: NSObject {
     
     /// Updates the parameters for the current ``preset``.
     ///
-    /// - Warning:
-    /// This is a warning
-    /// - Parameter params: An array of replacement parameters.
+    /// - Parameter params: An array of replacement parameter values.
     public func writeParameters(_ params: [ShaderParamValue]) {
         preset.parameters = Dictionary(changedParams: params)
         if preset.isDefault {

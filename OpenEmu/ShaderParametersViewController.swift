@@ -66,13 +66,7 @@ final class ShaderParametersViewController: NSViewController {
         if currentShaderName == preset.shader.name {
             // The parameters are the same when changing between presets
             if let params = self.params {
-                params.forEach { param in
-                    if let val = preset.parameters[param.name] {
-                        param.value = val as NSNumber
-                    } else {
-                        param.reset()
-                    }
-                }
+                params.apply(parameters: preset.parameters)
                 return
             }
         }
@@ -83,12 +77,7 @@ final class ShaderParametersViewController: NSViewController {
 
         // update with existing user preferences
         if let params = params {
-            let user = preset.parameters
-            params.forEach { param in
-                if let val = user[param.name] {
-                    param.value = NSNumber(value: val)
-                }
-            }
+            params.apply(parameters: preset.parameters)
         }
         
         noParametersLabel.isHidden = !(params?.isEmpty ?? true)
@@ -166,8 +155,10 @@ final class ShaderParametersViewController: NSViewController {
         
         shaderControl.helper.setEffectsMode(.displayAlways)
 
-        shaderObserver = shaderControl.observe(\.preset) { [weak self] (_, val) in
-            self?.loadPreset()
+        shaderObserver = shaderControl.observe(\.preset) { [weak self] (_, _) in
+            guard let self = self else { return }
+            self.undoManager?.removeAllActions(withTarget: self)
+            self.loadPreset()
         }
         
         if #available(macOS 10.15, *) {
@@ -231,7 +222,18 @@ final class ShaderParametersViewController: NSViewController {
     }
     
     @IBAction func resetAll(_ sender: Any?) {
-        params?.forEach(ShaderParamValue.reset(_:))
+        guard let params = params else {
+            return
+        }
+
+        let changed = Dictionary(changedParams: params)
+        undoManager?.registerUndo(withTarget: self) { vc in
+            vc.params?.apply(parameters: changed)
+        }
+        
+        params.forEach(ShaderParamValue.reset(_:))
+        
+        undoManager?.setActionName(NSLocalizedString("Reset parameters", comment: "undo action: Reset shader parameters"))
     }
     
     lazy var toolbar: NSToolbar = {
@@ -483,13 +485,12 @@ extension ShaderParametersViewController {
         if let params = params, preset.shader == shaderControl.preset.shader.name {
             // If the selected shader is the same as what the user pasted, update the values
             // to avoid rebuilding the entire view.
-            params.forEach { param in
-                if let val = preset.parameters[param.name] {
-                    param.value = val as NSNumber
-                } else {
-                    param.reset()
-                }
+            let changed = Dictionary(changedParams: params)
+            undoManager?.registerUndo(withTarget: self) { vc in
+                vc.params?.apply(parameters: changed)
             }
+            params.apply(parameters: preset.parameters)
+            undoManager?.setActionName(NSLocalizedString("Paste paramaters", comment: "undo: Paste parameter values"))
         } else {
             guard
                 let params = try? ShaderPresetTextWriter().write(preset: preset, options: [])
@@ -602,5 +603,17 @@ extension ShaderParametersViewController: NameShaderPresetDelegate, NSMenuItemVa
     
     func cancelSetPresetName() {
         state = .none
+    }
+}
+
+extension Array where Array.Element == ShaderParamValue {
+    func apply(parameters: [String: Double]) {
+        for param in self {
+            if let val = parameters[param.name] {
+                param.value = val as NSNumber
+            } else {
+                param.reset()
+            }
+        }
     }
 }
