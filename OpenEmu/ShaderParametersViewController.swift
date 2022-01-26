@@ -533,8 +533,10 @@ extension ShaderParametersViewController {
 
 // MARK: - Manage Presets
 
+#if swift(>=5.5)
 @available(macOS 10.15, *)
-extension ShaderParametersViewController: NameShaderPresetDelegate, NSMenuItemValidation {
+#endif
+extension ShaderParametersViewController: NameShaderPresetDelegate {
     
     func configurePresetsView() {
         if avc == nil {
@@ -572,6 +574,7 @@ extension ShaderParametersViewController: NameShaderPresetDelegate, NSMenuItemVa
     }
     
     private func changePresetWithError(_ preset: ShaderPreset) {
+        #if swift(>=5.5)
         Task {
             do {
                 try await shaderControl.changePreset(preset)
@@ -579,6 +582,7 @@ extension ShaderParametersViewController: NameShaderPresetDelegate, NSMenuItemVa
                 NSApp.presentError(error)
             }
         }
+        #endif
     }
     
     // MARK: - NameShaderPresetDelegate
