@@ -533,9 +533,7 @@ extension ShaderParametersViewController {
 
 // MARK: - Manage Presets
 
-#if swift(>=5.5)
 @available(macOS 10.15, *)
-#endif
 extension ShaderParametersViewController: NameShaderPresetDelegate {
     
     func configurePresetsView() {
@@ -587,6 +585,7 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
     
     // MARK: - NameShaderPresetDelegate
     
+    #if swift(>=5.5)
     func setPresetName(_ name: String) {
         switch state {
         case .newPreset:
@@ -608,7 +607,15 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
     func cancelSetPresetName() {
         state = .none
     }
+    #endif
 }
+
+#if swift(<5.5)
+extension ShaderParametersViewController {
+    func setPresetName(_ name: String) {}
+    func cancelSetPresetName() {}
+}
+#endif
 
 extension Array where Array.Element == ShaderParamValue {
     func apply(parameters: [String: Double]) {
