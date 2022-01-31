@@ -6507,8 +6507,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Define BUILD_VERSION with git revision and build configuration\ngitBundle=`which git`\ngitLastTag=`${gitBundle} describe --abbrev=0 --tags`\ngitNumCommitsToLastTag=`${gitBundle} rev-list --count ${gitLastTag}`\ngitNumCommitsSinceLastTag=`${gitBundle} rev-list --count ${gitLastTag}..`\ngitCommitSha=`${gitBundle} rev-parse --short HEAD`\nbundleConfiguration=\"$CONFIGURATION\"\nbuildRef=\"${gitNumCommitsToLastTag}.${gitNumCommitsSinceLastTag}-g${gitCommitSha}-${bundleConfiguration}\"\n\nlongBuildRef=`${gitBundle} rev-parse --verify HEAD`\n\necho \"#define BUILD_VERSION @\\\"$buildRef\\\"\" > OEBuildVersion.h\necho \"#define LONG_BUILD_VERSION @\\\"$longBuildRef\\\"\" >> OEBuildVersion.h\n";
+			shellPath = /bin/bash;
+			shellScript = "# Define BUILD_VERSION with git revision and build configuration\ngitBundle=`which git`\ngitLastTag=`${gitBundle} describe --abbrev=0 --tags`\ngitNumCommitsToLastTag=`${gitBundle} rev-list --count ${gitLastTag}`\ngitNumCommitsSinceLastTag=`${gitBundle} rev-list --count ${gitLastTag}..`\ngitCommitSha=`${gitBundle} rev-parse --short HEAD`\nbundleConfiguration=\"$CONFIGURATION\"\nbuildRef=\"${gitNumCommitsToLastTag}.${gitNumCommitsSinceLastTag}-g${gitCommitSha}-${bundleConfiguration}\"\n\nlongBuildRef=`${gitBundle} rev-parse --verify HEAD`\n\ncontent=$(cat <<EOF\n#define BUILD_VERSION @\"$buildRef\"\n#define LONG_BUILD_VERSION @\"$longBuildRef\"\nEOF\n)\n\nif ! [[ -f OEBuildVersion.h ]] || ! cmp -s <(echo \"$content\") OEBuildVersion.h; then\n    echo \"$content\" > OEBuildVersion.h\nfi\n# echo \"#define BUILD_VERSION @\\\"$buildRef\\\"\" > OEBuildVersion.h\n# echo \"#define LONG_BUILD_VERSION @\\\"$longBuildRef\\\"\" >> OEBuildVersion.h\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
