@@ -24,7 +24,6 @@
 
 import Foundation
 import OpenEmuKit
-import Sparkle
 
 final class CoreDownload: NSObject {
     
@@ -42,8 +41,7 @@ final class CoreDownload: NSObject {
     private(set) var isDownloading = false
     @objc private(set) dynamic var progress: Double = 0
     
-    var appcast: SUAppcast?
-    var appcastItem: SUAppcastItem?
+    var appcastItem: CoreAppcastItem?
     
     private var downloadSession: URLSession?
     

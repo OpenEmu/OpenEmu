@@ -143,16 +143,22 @@ final class CoreUpdater: NSObject {
                         download.systemIdentifiers = systemIdentifiers
                         download.canBeInstalled = true
                         
-                        let appcast = SUAppcast()
-                        download.appcast = appcast
+                        let appcast = CoreAppcast(url: appcastURL)
                         
                         DispatchQueue.main.async {
-                            appcast.fetch(from: appcastURL, inBackground: true) { error in
-                                if let error = error {
-                                    NSLog("\(error)")
-                                } else {
-                                    self.appcastDidFinishLoading(appcast)
+                            do {
+                                try appcast.fetch {
+                                    download.appcastItem = appcast.items.first { $0.isSupported }
+                                    download.delegate = self
+                                    
+                                    if download == self.coreDownload {
+                                        download.start()
+                                    }
+                                    
+                                    self.updateCoreList()
                                 }
+                            } catch {
+                                NSLog("\(error)")
                             }
                         }
                         
@@ -416,7 +422,7 @@ extension CoreUpdater: SUUpdaterDelegate {
             let coreID = plugin.bundleIdentifier.lowercased()
             let download = coresDict[coreID]
             download?.hasUpdate = true
-            download?.appcastItem = item
+            download?.appcastItem = CoreAppcastItem(url: item.fileURL, version: item.versionString, minOSVersion: item.minimumSystemVersion)
             download?.delegate = self
             
             if autoInstall {
@@ -430,55 +436,58 @@ extension CoreUpdater: SUUpdaterDelegate {
     }
 }
 
-// MARK: - SUAppcast Delegate
+private final class CoreAppcast {
+    
+    let url: URL
+    var items: [CoreAppcastItem] = []
+    
+    init(url: URL) {
+        self.url = url
+    }
+    
+    func fetch(completionHandler handler: (() -> Void)? = nil) throws {
+        
+        let items: [XMLElement]
+        do {
+            let appcast = try XMLDocument(contentsOf: url, options: [])
+            items = try appcast.nodes(forXPath: "/rss/channel/item") as! [XMLElement]
+        } catch {
+            throw error
+        }
+        
+        for item in items {
+            if let enclosure = item.elements(forName: "enclosure").first,
+               let fileURL = enclosure.attribute(forName: "url")?.stringValue,
+               let url = URL(string: fileURL),
+               let version = enclosure.attribute(forName: "sparkle:version")?.stringValue,
+               let minOSVersion = item.elements(forName: "sparkle:minimumSystemVersion").first?.stringValue
+            {
+                self.items.append(CoreAppcastItem(url: url, version: version, minOSVersion: minOSVersion))
+            }
+        }
+        
+        handler?()
+    }
+}
 
-extension CoreUpdater {
+struct CoreAppcastItem {
     
-    func appcastDidFinishLoading(_ appcast: SUAppcast) {
-        
-        for core in coresDict.values {
-            // This runs when the core is not installed at all. Since
-            // Sparkle's update checking logic is all in the SUUpdater,
-            // which is tied to an existing bundle (which doesn't exist,
-            // since it hasn't been installed yet), it's necessary to
-            // reproduce the operating system version requirement check
-            // here. There is no existing version to check against. This
-            // code assumes that the newest versions are always ordered
-            // first. As a result, maximum system version checks are not
-            // implemented.
-            if core.appcast == appcast {
-                let osVersion = ProcessInfo.processInfo.operatingSystemVersion
-                let osVersionString = "\(osVersion.majorVersion).\(osVersion.minorVersion).\(osVersion.patchVersion)"
-                for item in appcast.items as? [SUAppcastItem] ?? [] {
-                    if item.minimumSystemVersion == nil ||
-                        item.minimumSystemVersion == "" ||
-                        SUStandardVersionComparator.default().compareVersion(item.minimumSystemVersion, toVersion: osVersionString) != .orderedDescending
-                    {
-                        core.appcastItem = item
-                        break
-                    }
-                }
-                
-                core.delegate = self
-                
-                if core == coreDownload {
-                    coreDownload?.start()
-                }
-            }
-        }
-        
-        updateCoreList()
+    var version: String
+    var fileURL: URL
+    var minimumSystemVersion: String
+    
+    init(url: URL, version: String, minOSVersion: String) {
+        fileURL = url
+        self.version = version
+        minimumSystemVersion = minOSVersion
     }
     
-    func appcast(_ appcast: SUAppcast, failedToLoadWithError error: Error?) {
-        // Appcast couldn't load, remove it
-        for core in coresDict.values {
-            if core.appcast == appcast {
-                core.appcast = nil
-                break
-            }
-        }
-        
-        updateCoreList()
+    var isSupported: Bool {
+        return SUStandardVersionComparator.default().compareVersion(minimumSystemVersion, toVersion: Self.osVersionString) != .orderedDescending
     }
+    
+    private static let osVersionString: String = {
+        let osVersion = ProcessInfo.processInfo.operatingSystemVersion
+        return "\(osVersion.majorVersion).\(osVersion.minorVersion).\(osVersion.patchVersion)"
+    }()
 }
