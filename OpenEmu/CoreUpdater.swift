@@ -98,7 +98,7 @@ final class CoreUpdater: NSObject {
                let url = URL(string: fileURL),
                let version = enclosure.attribute(forName: "sparkle:version")?.stringValue,
                let minOSVersion = item.elements(forName: "sparkle:minimumSystemVersion").first?.stringValue,
-               SUStandardVersionComparator.default().compareVersion(version, toVersion: plugin.version) == .orderedDescending
+               SUStandardVersionComparator.default.compareVersion(version, toVersion: plugin.version) == .orderedDescending
             {
                 let item = CoreAppcastItem(url: url, version: version, minOSVersion: minOSVersion)
                 if item.isSupported {
@@ -493,7 +493,7 @@ struct CoreAppcastItem {
     }
     
     var isSupported: Bool {
-        return SUStandardVersionComparator.default().compareVersion(minimumSystemVersion, toVersion: Self.osVersionString) != .orderedDescending
+        return SUStandardVersionComparator.default.compareVersion(minimumSystemVersion, toVersion: Self.osVersionString) != .orderedDescending
     }
     
     private static let osVersionString: String = {

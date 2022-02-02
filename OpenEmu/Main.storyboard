@@ -934,7 +934,7 @@ DQ
                     </connections>
                 </customObject>
                 <userDefaultsController id="1212"/>
-                <customObject id="1179" userLabel="SUUpdater" customClass="SUUpdater"/>
+                <customObject id="1179" userLabel="Sparkle" customClass="SPUStandardUpdaterController"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
         </scene>
