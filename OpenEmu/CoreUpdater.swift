@@ -24,7 +24,7 @@
 
 import Foundation
 import OpenEmuKit
-import Sparkle
+import Sparkle.SUStandardVersionComparator
 
 final class CoreUpdater: NSObject {
     
@@ -76,18 +76,38 @@ final class CoreUpdater: NSObject {
         for plugin in OECorePlugin.allPlugins {
             
             if let appcastURLString = plugin.infoDictionary["SUFeedURL"] as? String,
-               let updater = SUUpdater(for: plugin.bundle) {
-                updater.delegate = self
-                updater.feedURL = URL(string: appcastURLString)
-                
-                // Core updates are silently installed on launch, so ensure there is no annoying update prompt from Sparkle
-                updater.automaticallyChecksForUpdates = true
-                updater.automaticallyDownloadsUpdates = true
-                
-                updater.resetUpdateCycle()
-                updater.checkForUpdateInformation()
+               let feedURL = URL(string: appcastURLString),
+               let item = try? checkForUpdateInformation(url: feedURL, plugin: plugin) {
+                updaterDidFindValidUpdate(for: plugin, item: item)
             }
         }
+    }
+    
+    private func checkForUpdateInformation(url: URL, plugin: OEPlugin) throws -> CoreAppcastItem? {
+        let items: [XMLElement]
+        do {
+            let appcast = try XMLDocument(contentsOf: url, options: [])
+            items = try appcast.nodes(forXPath: "/rss/channel/item") as! [XMLElement]
+        } catch {
+            throw error
+        }
+        
+        for item in items {
+            if let enclosure = item.elements(forName: "enclosure").first,
+               let fileURL = enclosure.attribute(forName: "url")?.stringValue,
+               let url = URL(string: fileURL),
+               let version = enclosure.attribute(forName: "sparkle:version")?.stringValue,
+               let minOSVersion = item.elements(forName: "sparkle:minimumSystemVersion").first?.stringValue,
+               SUStandardVersionComparator.default().compareVersion(version, toVersion: plugin.version) == .orderedDescending
+            {
+                let item = CoreAppcastItem(url: url, version: version, minOSVersion: minOSVersion)
+                if item.isSupported {
+                    return item
+                }
+            }
+        }
+        
+        return nil
     }
     
     func checkForUpdatesAndInstall() {
@@ -408,28 +428,18 @@ extension CoreUpdater: CoreDownloadDelegate {
     }
 }
 
-// MARK: - SUUpdater Delegate
-
-extension CoreUpdater: SUUpdaterDelegate {
+extension CoreUpdater {
     
-    func updater(_ updater: SUUpdater, didFindValidUpdate item: SUAppcastItem) {
+    private func updaterDidFindValidUpdate(for plugin: OECorePlugin, item: CoreAppcastItem) {
         
-        for plugin in OECorePlugin.allPlugins {
-            guard updater == SUUpdater(for: plugin.bundle) else {
-                continue
-            }
-            
-            let coreID = plugin.bundleIdentifier.lowercased()
-            let download = coresDict[coreID]
-            download?.hasUpdate = true
-            download?.appcastItem = CoreAppcastItem(url: item.fileURL, version: item.versionString, minOSVersion: item.minimumSystemVersion)
-            download?.delegate = self
-            
-            if autoInstall {
-                download?.start()
-            }
-            
-            break
+        let coreID = plugin.bundleIdentifier.lowercased()
+        let download = coresDict[coreID]
+        download?.hasUpdate = true
+        download?.appcastItem = item
+        download?.delegate = self
+        
+        if autoInstall {
+            download?.start()
         }
         
         updateCoreList()
