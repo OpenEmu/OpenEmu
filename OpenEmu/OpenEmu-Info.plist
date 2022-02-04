@@ -129,7 +129,7 @@
 		<true/>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2009–2020 OpenEmu Team. All rights reserved.</string>
+	<string>Copyright © 2009–2022 OpenEmu Team. All rights reserved.</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
@@ -140,6 +140,13 @@
 	<string>~/Library/Application Support/OpenEmu/Cores/</string>
 	<key>OECoreListURL</key>
 	<string>https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores.xml</string>
+	<key>OpenEmuKit</key>
+	<dict>
+		<key>XPCBrokerServiceName</key>
+		<string>org.openemu.broker</string>
+		<key>XPCHelperExecutableName</key>
+		<string>OpenEmuHelperApp</string>
+	</dict>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedURL</key>
@@ -166,12 +173,5 @@
 			</dict>
 		</dict>
 	</array>
-	<key>OpenEmuKit</key>
-	<dict>
-		<key>XPCBrokerServiceName</key>
-		<string>org.openemu.broker</string>
-		<key>XPCHelperExecutableName</key>
-		<string>OpenEmuHelperApp</string>
-	</dict>
 </dict>
 </plist>
