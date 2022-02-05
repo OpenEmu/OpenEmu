@@ -103,6 +103,7 @@ final class PrefDebugController: NSViewController {
         
         Group(label: "Shaders"),
         Button(label: "Clear shader cache", action: #selector(clearShaderCache(_:))),
+        Button(label: "Download additional shaders", action: #selector(downloadShaders(_:))),
         Button(label: "Reveal user shader folder", action: #selector(openUserShaderFolder(_:))),
         "-",
         
@@ -424,6 +425,41 @@ final class PrefDebugController: NSViewController {
         if let url = OEShaderStore.shared.shadersCachePath {
             try? FileManager.default.removeItem(at: url)
         }
+    }
+    
+    func downloadShaders(_ sender: Any?) {
+        let downloadURL = URL(string: "https://github.com/OpenEmu/slang-shaders/releases/download/")!
+        let releasesURL = URL(string: "https://api.github.com/repos/OpenEmu/slang-shaders/releases?page=1&per_page=1")!
+        
+        var request = URLRequest(url: releasesURL, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)
+        request.setValue("OpenEmu", forHTTPHeaderField: "User-Agent")
+        
+        let task = URLSession.shared.dataTask(with: request) { result, response, error in
+            
+            if let result = result,
+               let releases = try? JSONSerialization.jsonObject(with: result, options: .allowFragments) as? [AnyHashable],
+               let release = releases.first as? [AnyHashable : Any],
+               let tagName = release["tag_name"] as? String {
+                let url = downloadURL.appendingPathComponent("\(tagName)/Shaders.zip")
+                
+                DispatchQueue.main.async {
+                    let request = URLRequest(url: url)
+                    let downloadSession = URLSession(configuration: .default)
+                    let downloadTask = downloadSession.downloadTask(with: request) { location, response, error in
+                        
+                        if let location = location,
+                           let userShadersPath = OEShaderStore.shared.userShadersPath {
+                            
+                            OEDecompressFileInArchiveAtPathToDirectory(location.path, userShadersPath.path)
+                        }
+                    }
+                    
+                    downloadTask.resume()
+                }
+            }
+        }
+        
+        task.resume()
     }
     
     func openUserShaderFolder(_ sender: Any?) {
