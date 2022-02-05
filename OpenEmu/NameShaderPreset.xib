@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20034" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20034"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -10,7 +10,8 @@
             <connections>
                 <outlet property="textField" destination="e80-qw-Yds" id="rE1-08-1va"/>
                 <outlet property="view" destination="qkC-gc-EeI" id="Kjp-hz-gzl"/>
-                <outlet property="warning" destination="q9v-fX-a1t" id="7Rg-OE-sK8"/>
+                <outlet property="warning" destination="Wgc-KG-Kfc" id="yvm-Sc-UON"/>
+                <outlet property="warningView" destination="Ake-B9-kf7" id="yeo-rW-MPg"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -19,33 +20,37 @@
             <rect key="frame" x="0.0" y="0.0" width="460" height="113"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aFy-ke-yTf">
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="e80-qw-Yds">
                     <rect key="frame" x="20" y="72" width="420" height="21"/>
-                    <subviews>
-                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="e80-qw-Yds">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="21"/>
-                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Enter name of preset" drawsBackground="YES" id="5yx-oG-ROp">
-                                <font key="font" usesAppearanceFont="YES"/>
-                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Enter name of preset" drawsBackground="YES" id="5yx-oG-ROp">
+                        <font key="font" usesAppearanceFont="YES"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <outlet property="delegate" destination="-2" id="lct-8L-tX4"/>
+                    </connections>
+                </textField>
+                <stackView hidden="YES" orientation="horizontal" alignment="centerY" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" translatesAutoresizingMaskIntoConstraints="NO" id="Ake-B9-kf7">
+                    <rect key="frame" x="20" y="48" width="420" height="14"/>
+                    <beginningViews>
+                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zBo-v5-FbF">
+                            <rect key="frame" x="0.0" y="0.5" width="17.5" height="15"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="exclamationmark.triangle.fill" catalog="system" id="rQ8-mc-cH5"/>
+                            <color key="contentTintColor" name="systemYellowColor" catalog="System" colorSpace="catalog"/>
+                        </imageView>
+                        <textField horizontalHuggingPriority="252" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wgc-KG-Kfc">
+                            <rect key="frame" x="19" y="0.0" width="33" height="14"/>
+                            <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Label" id="717-E0-kAX">
+                                <font key="font" metaFont="smallSystem"/>
+                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                             <connections>
-                                <outlet property="delegate" destination="-2" id="lct-8L-tX4"/>
+                                <binding destination="-2" name="value" keyPath="self.validationMessage" id="43n-Np-0eO"/>
                             </connections>
                         </textField>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q9v-fX-a1t">
-                            <rect key="frame" x="399" y="2" width="23" height="16"/>
-                            <textFieldCell key="cell" lineBreakMode="clipping" title="⚠️" id="9dm-q0-nbK">
-                                <font key="font" usesAppearanceFont="YES"/>
-                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                            </textFieldCell>
-                            <connections>
-                                <binding destination="-2" name="hidden" keyPath="self.isTextValid" id="dRG-90-le6"/>
-                                <binding destination="-2" name="toolTip" keyPath="self.validationMessage" id="A9f-lv-Wa8"/>
-                            </connections>
-                        </textField>
-                    </subviews>
+                    </beginningViews>
                     <visibilityPriorities>
                         <integer value="1000"/>
                         <integer value="1000"/>
@@ -54,6 +59,9 @@
                         <real value="3.4028234663852886e+38"/>
                         <real value="3.4028234663852886e+38"/>
                     </customSpacing>
+                    <connections>
+                        <binding destination="-2" name="hidden" keyPath="self.isTextValid" id="h9N-iI-xP6"/>
+                    </connections>
                 </stackView>
                 <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PDV-aS-NIU">
                     <rect key="frame" x="320" y="20" width="120" height="20"/>
@@ -97,15 +105,20 @@ DQ
                 </stackView>
             </subviews>
             <constraints>
-                <constraint firstItem="aFy-ke-yTf" firstAttribute="top" secondItem="qkC-gc-EeI" secondAttribute="top" constant="20" symbolic="YES" id="9G3-fP-mdj"/>
                 <constraint firstAttribute="bottom" secondItem="PDV-aS-NIU" secondAttribute="bottom" constant="20" symbolic="YES" id="9GZ-dn-zr9"/>
-                <constraint firstItem="aFy-ke-yTf" firstAttribute="leading" secondItem="qkC-gc-EeI" secondAttribute="leading" constant="20" symbolic="YES" id="Q6Q-z9-Zvg"/>
+                <constraint firstItem="e80-qw-Yds" firstAttribute="leading" secondItem="qkC-gc-EeI" secondAttribute="leading" constant="20" symbolic="YES" id="XkY-KJ-N7z"/>
+                <constraint firstAttribute="trailing" secondItem="Ake-B9-kf7" secondAttribute="trailing" constant="20" symbolic="YES" id="Y60-xC-USy"/>
+                <constraint firstItem="Ake-B9-kf7" firstAttribute="top" secondItem="e80-qw-Yds" secondAttribute="bottom" constant="10" id="fYV-dP-eSx"/>
                 <constraint firstAttribute="trailing" secondItem="PDV-aS-NIU" secondAttribute="trailing" constant="20" symbolic="YES" id="hOF-c9-ceA"/>
-                <constraint firstItem="PDV-aS-NIU" firstAttribute="top" relation="greaterThanOrEqual" secondItem="aFy-ke-yTf" secondAttribute="bottom" constant="32" id="s1I-Tg-wRe"/>
-                <constraint firstAttribute="trailing" secondItem="aFy-ke-yTf" secondAttribute="trailing" constant="20" symbolic="YES" id="uU5-W5-jXD"/>
+                <constraint firstAttribute="trailing" secondItem="e80-qw-Yds" secondAttribute="trailing" constant="20" symbolic="YES" id="l3E-KO-7zk"/>
+                <constraint firstItem="e80-qw-Yds" firstAttribute="top" secondItem="qkC-gc-EeI" secondAttribute="top" constant="20" symbolic="YES" id="lz0-WE-vGb"/>
+                <constraint firstItem="Ake-B9-kf7" firstAttribute="leading" secondItem="qkC-gc-EeI" secondAttribute="leading" constant="20" symbolic="YES" id="vpE-nP-mtr"/>
             </constraints>
             <point key="canvasLocation" x="-234" y="-253.5"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="bTF-7U-evr"/>
     </objects>
+    <resources>
+        <image name="exclamationmark.triangle.fill" catalog="system" width="17" height="15"/>
+    </resources>
 </document>

@@ -205,6 +205,7 @@
 		0586AB22231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */; };
 		05888F3A25A0373300286232 /* ShaderParametersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05888F3925A0373300286232 /* ShaderParametersViewController.swift */; };
 		05888F7425A111B000286232 /* ShaderParametersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05888F7325A111B000286232 /* ShaderParametersViewController.xib */; };
+		058B557D27AF240A00EE0E47 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 058B557C27AF240A00EE0E47 /* OrderedCollections */; };
 		059ECCC22524030D00DCA0F6 /* ShaderParametersWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */; };
 		05A002D423DE1006007F0DB7 /* UserDefaults+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */; };
 		05A002D623DE5389007F0DB7 /* SidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */; };
@@ -1401,6 +1402,7 @@
 		0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEGameLayerNotificationView.swift; sourceTree = "<group>"; };
 		05888F3925A0373300286232 /* ShaderParametersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderParametersViewController.swift; sourceTree = "<group>"; };
 		05888F7325A111B000286232 /* ShaderParametersViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaderParametersViewController.xib; sourceTree = "<group>"; };
+		058A4DE427A76EBE00BFCF7C /* OEBuildVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBuildVersion.h; sourceTree = "<group>"; };
 		05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+OEAdditions.swift"; sourceTree = "<group>"; };
 		05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarHeaderView.swift; sourceTree = "<group>"; };
 		05A002D723DE539F007F0DB7 /* SidebarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItemView.swift; sourceTree = "<group>"; };
@@ -2326,6 +2328,7 @@
 			files = (
 				05F5BAED228662D3004D713C /* OpenEmuShaders.framework in Frameworks */,
 				052B92D4226EE66C00701431 /* libc++.tbd in Frameworks */,
+				058B557D27AF240A00EE0E47 /* OrderedCollections in Frameworks */,
 				8F4BDF7D1CE4AB34007DCB86 /* libsqlite3.tbd in Frameworks */,
 				C6D120C517112E1300E868A8 /* OpenEmuBase.framework in Frameworks */,
 				C6D120C617112E1300E868A8 /* OpenEmuSystem.framework in Frameworks */,
@@ -3536,6 +3539,7 @@
 				8F419A0225B6C7AE00A7F0BE /* OEAppearance.swift */,
 				836BC9581853817500B6AF26 /* OEArchiveHelper.h */,
 				836BC9591853817500B6AF26 /* OEArchiveHelper.m */,
+				058A4DE427A76EBE00BFCF7C /* OEBuildVersion.h */,
 				5A44301A1D93380600E54F1D /* OEBuildInfo.h */,
 				5A44301B1D93380600E54F1D /* OEBuildInfo.m */,
 				83F7DBAD18C0E2470029199C /* OEFileManager.h */,
@@ -4923,6 +4927,7 @@
 			packageProductDependencies = (
 				8F44DEB426DFD07200893A18 /* Sparkle */,
 				8F2543F92714C274003FC137 /* Finite */,
+				058B557C27AF240A00EE0E47 /* OrderedCollections */,
 			);
 			productInstallPath = "$(HOME)/Applications";
 			productName = OpenEmu;
@@ -5742,6 +5747,7 @@
 				054A74C625B0137500F2F3D6 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
 				8F44DEB326DFD07200893A18 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				8F2543F82714C273003FC137 /* XCRemoteSwiftPackageReference "Finite" */,
+				058B557B27AF240A00EE0E47 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			projectDirPath = "";
 			projectRoot = "";
@@ -6508,7 +6514,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "# Define BUILD_VERSION with git revision and build configuration\ngitBundle=`which git`\ngitLastTag=`${gitBundle} describe --abbrev=0 --tags`\ngitNumCommitsToLastTag=`${gitBundle} rev-list --count ${gitLastTag}`\ngitNumCommitsSinceLastTag=`${gitBundle} rev-list --count ${gitLastTag}..`\ngitCommitSha=`${gitBundle} rev-parse --short HEAD`\nbundleConfiguration=\"$CONFIGURATION\"\nbuildRef=\"${gitNumCommitsToLastTag}.${gitNumCommitsSinceLastTag}-g${gitCommitSha}-${bundleConfiguration}\"\n\nlongBuildRef=`${gitBundle} rev-parse --verify HEAD`\n\ncontent=$(cat <<EOF\n#define BUILD_VERSION @\"$buildRef\"\n#define LONG_BUILD_VERSION @\"$longBuildRef\"\nEOF\n)\n\nif ! [[ -f OEBuildVersion.h ]] || ! cmp -s <(echo \"$content\") OEBuildVersion.h; then\n    echo \"$content\" > OEBuildVersion.h\nfi\n# echo \"#define BUILD_VERSION @\\\"$buildRef\\\"\" > OEBuildVersion.h\n# echo \"#define LONG_BUILD_VERSION @\\\"$longBuildRef\\\"\" >> OEBuildVersion.h\n";
+			shellScript = "# Define BUILD_VERSION with git revision and build configuration\ngitBundle=`which git`\ngitLastTag=`${gitBundle} describe --abbrev=0 --tags`\ngitNumCommitsToLastTag=`${gitBundle} rev-list --count ${gitLastTag}`\ngitNumCommitsSinceLastTag=`${gitBundle} rev-list --count ${gitLastTag}..`\ngitCommitSha=`${gitBundle} rev-parse --short HEAD`\nbundleConfiguration=\"$CONFIGURATION\"\nbuildRef=\"${gitNumCommitsToLastTag}.${gitNumCommitsSinceLastTag}-g${gitCommitSha}-${bundleConfiguration}\"\n\nlongBuildRef=`${gitBundle} rev-parse --verify HEAD`\n\ncontent=$(cat <<EOF\n#define BUILD_VERSION @\"$buildRef\"\n#define LONG_BUILD_VERSION @\"$longBuildRef\"\nEOF\n)\n\nif ! [[ -f OEBuildVersion.h ]] || ! cmp -s <(echo \"$content\") OEBuildVersion.h; then\n    echo \"$content\" > OEBuildVersion.h\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -9741,6 +9747,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		058B557B27AF240A00EE0E47 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		8F2543F82714C273003FC137 /* XCRemoteSwiftPackageReference "Finite" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/vknabel/Finite.git";
@@ -9764,6 +9778,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 054A74C625B0137500F2F3D6 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
 			productName = ArgumentParser;
+		};
+		058B557C27AF240A00EE0E47 /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 058B557B27AF240A00EE0E47 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
 		};
 		8F2543F92714C274003FC137 /* Finite */ = {
 			isa = XCSwiftPackageProductDependency;

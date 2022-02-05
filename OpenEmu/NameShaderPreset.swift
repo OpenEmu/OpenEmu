@@ -34,8 +34,9 @@ class NameShaderPreset: NSViewController, NSControlTextEditingDelegate {
     
     @IBOutlet weak var textField: NSTextField!
     @IBOutlet weak var warning: NSTextField!
+    @IBOutlet weak var warningView: NSView!
     
-    @objc dynamic var isTextValid: Bool = false
+    @objc dynamic var isTextValid: Bool = true
     @objc dynamic var validationMessage: String = ""
     
     var existingName: String? // set if a preset is being renamed
@@ -45,6 +46,7 @@ class NameShaderPreset: NSViewController, NSControlTextEditingDelegate {
         if let name = existingName {
             textField.stringValue = name
         }
+        validateView()
     }
     
     @IBAction func save(_ sender: Any?) {
@@ -64,9 +66,13 @@ class NameShaderPreset: NSViewController, NSControlTextEditingDelegate {
     }
     
     @objc func controlTextDidChange(_ obj: Notification) {
-        if ShaderPresetStore.shared.exists(byName: textField.stringValue) && textField.stringValue != existingName {
+        validateView()
+    }
+    
+    func validateView() {
+        if textField.stringValue.isEmpty {
             isTextValid = false
-            validationMessage = NSLocalizedString("Duplicate preset name", comment: "label: User has specified a duplicate name for a preset")
+            validationMessage = NSLocalizedString("A name is required", comment: "warning: Displayed when user enters an zero-length shader preset name")
         } else {
             isTextValid = true
             validationMessage = ""

@@ -68,9 +68,9 @@ func regionalizedSystemName(plugin: Bundle, languageCode lcode: String) -> Strin
 
 func toGameFileName(systemName name: String, appBundle app: Bundle, localization loc: String) -> String
 {
-    let locBundle = Bundle.init(url: app.url(forResource: loc, withExtension: "lproj")!)!
+    let locBundle = Bundle(url: app.url(forResource: loc, withExtension: "lproj")!)!
     let format = locBundle.localizedString(forKey: "%@ Game", value: "%@ Game", table: "InfoPlist")
-    return String.init(format: format, name)
+    return String(format: format, name)
 }
 
 
@@ -84,7 +84,7 @@ func readLocalizedInfoPlistStrings(appBundle: Bundle) -> [String: [String: Strin
         }
         let plist = appBundle.resourceURL!.appendingPathComponent(localization + ".lproj/InfoPlist.strings")
         do {
-            let data = try Data.init(contentsOf: plist)
+            let data = try Data(contentsOf: plist)
             var strings = try PropertyListSerialization.propertyList(from: data, options: .mutableContainers, format: nil) as! [String: String]
             strings.removeValue(forKey: "%@ Game")
             res[localization] = strings
@@ -98,7 +98,7 @@ func readLocalizedInfoPlistStrings(appBundle: Bundle) -> [String: [String: Strin
 
 func escape(string: String) -> String
 {
-    return String.init(string.flatMap { (c) -> [Character] in
+    return String(string.flatMap { (c) -> [Character] in
         switch c {
             case "\n":
                 return ["\\", "n"]
@@ -143,8 +143,8 @@ func writeLocalizedInfoPlistStrings(appBundle: Bundle, strings dict: [String: [S
 
 func computeCommonExtensions(appBundle: Bundle, systemPlugins: [Bundle]) -> Set<String>
 {
-    var allSeenExts = Set<String>.init()
-    var multiSystemExts = Set<String>.init()
+    var allSeenExts = Set<String>()
+    var multiSystemExts = Set<String>()
     
     for plugin in systemPlugins {
         let allExts = plugin.object(forInfoDictionaryKey: "OEFileSuffixes") as! [String]
@@ -229,7 +229,7 @@ func updateInfoPlist(appBundle: Bundle, systemPlugins: [Bundle])
     
     // Generate one type for all extensions that are used by multiple systems
     let multiSysTypeName = toGameFileName(systemName: "OpenEmu", appBundle: appBundle, localization: "en")
-    newTypes += systemDocuments(typeName: multiSysTypeName, extensions: Array<String>.init(multiSystemExts))
+    newTypes += systemDocuments(typeName: multiSysTypeName, extensions: Array<String>(multiSystemExts))
     for (localization, var strings) in localizations {
         strings[multiSysTypeName] = toGameFileName(systemName: "OpenEmu", appBundle: appBundle, localization: localization)
         localizations[localization] = strings
@@ -263,11 +263,9 @@ if CommandLine.arguments.count != 2 {
     exit(1)
 }
 let appPath = CommandLine.arguments[1]
-let appBundle = Bundle.init(path: appPath)!
+let appBundle = Bundle(path: appPath)!
 let pluginsDir = appBundle.builtInPlugInsURL!.appendingPathComponent("Systems", isDirectory: true)
 let pluginURLs = try! FileManager.default.contentsOfDirectory(at: pluginsDir, includingPropertiesForKeys: nil, options: [.skipsPackageDescendants, .skipsHiddenFiles, .skipsSubdirectoryDescendants])
-let plugins = pluginURLs.map { (url: URL) -> Bundle in
-    Bundle.init(url: url)!
-}
+let plugins = pluginURLs.compactMap(Bundle.init(url:))
 updateInfoPlist(appBundle: appBundle, systemPlugins: plugins)
 

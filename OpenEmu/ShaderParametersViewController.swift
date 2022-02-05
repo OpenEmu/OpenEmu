@@ -25,6 +25,7 @@
 import Cocoa
 import OpenEmuShaders
 import OpenEmuKit
+import OrderedCollections
 
 final class ShaderParametersViewController: NSViewController {
     let shaderControl: ShaderControl
@@ -40,6 +41,7 @@ final class ShaderParametersViewController: NSViewController {
     var avc: NSTitlebarAccessoryViewController!
     @IBOutlet var accessoryView: NSView!
     @IBOutlet var presetList: NSPopUpButton!
+    var presetToNameMap = [ShaderPreset: String]()
     
     enum State {
         case none, newPreset, renamePreset
@@ -60,7 +62,7 @@ final class ShaderParametersViewController: NSViewController {
         let preset = shaderControl.preset
         
         if #available(macOS 10.15, *) {
-            presetList.selectItem(withTitle: preset.name)
+            selectPresetInList(preset)
         }
         
         if currentShaderName == preset.shader.name {
@@ -73,23 +75,27 @@ final class ShaderParametersViewController: NSViewController {
         
         currentShaderName = preset.shader.name
         
+        // Assigning groups will also build params
         groups = preset.shader.readGroups()
-
-        // update with existing user preferences
-        if let params = params {
+        
+        if let params = params, !params.isEmpty {
+            avc.isHidden = false
+            noParametersLabel.isHidden = true
+            // update with existing user preferences
             params.apply(parameters: preset.parameters)
-        }
-        
-        noParametersLabel.isHidden = !(params?.isEmpty ?? true)
-        
-        for item in shaderListPopUpButton.menu?.items ?? [] {
-            if item.title == preset.shader.name {
-                shaderListPopUpButton.select(item)
-                break
+            
+            for item in shaderListPopUpButton.menu?.items ?? [] {
+                if item.title == preset.shader.name {
+                    shaderListPopUpButton.select(item)
+                    break
+                }
             }
+        } else {
+            avc.isHidden = true
+            noParametersLabel.isHidden = false
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -154,7 +160,7 @@ final class ShaderParametersViewController: NSViewController {
         super.viewWillAppear()
         
         shaderControl.helper.setEffectsMode(.displayAlways)
-
+        
         shaderObserver = shaderControl.observe(\.preset) { [weak self] (_, _) in
             guard let self = self else { return }
             self.undoManager?.removeAllActions(withTarget: self)
@@ -166,12 +172,12 @@ final class ShaderParametersViewController: NSViewController {
                 self?.loadPresetListForCurrentShader()
             }
         }
-
-        loadPreset()
-        configureToolbar()
+        
         if #available(macOS 10.15, *) {
             configurePresetsView()
         }
+        loadPreset()
+        configureToolbar()
     }
     
     override func viewWillDisappear() {
@@ -206,7 +212,7 @@ final class ShaderParametersViewController: NSViewController {
             _paramsKVO = params?.map {
                 $0.observe(\.value) { [weak self] (param, _) in
                     guard let self = self else { return }
-
+                    
                     self.shaderControl.setValue(CGFloat(param.value.doubleValue), forParameter: param.name)
                     
                     Self.cancelPreviousPerformRequests(withTarget: self, selector: #selector(Self.save(_:)), object: self)
@@ -225,7 +231,7 @@ final class ShaderParametersViewController: NSViewController {
         guard let params = params else {
             return
         }
-
+        
         let changed = Dictionary(changedParams: params)
         undoManager?.registerUndo(withTarget: self) { vc in
             vc.params?.apply(parameters: changed)
@@ -366,15 +372,15 @@ extension ShaderParametersViewController: NSOutlineViewDelegate {
 extension ShaderParametersViewController: NSOutlineViewDataSource {
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         guard let groups = _groups else { return 0 }
-
+        
         if groups.count == 1 {
             return params?.count ?? 0
         }
-
+        
         if let group = item as? ShaderParamGroupValue {
             return group.parameters.count
         }
-
+        
         return groups.count
     }
     
@@ -383,11 +389,11 @@ extension ShaderParametersViewController: NSOutlineViewDataSource {
             let groups = _groups,
             let params = params
         else { preconditionFailure("expected groups and parameters") }
-
+        
         if groups.count == 1 {
             return params[index]
         }
-
+        
         if let group = item as? ShaderParamGroupValue {
             return group.parameters[index]
         }
@@ -397,7 +403,7 @@ extension ShaderParametersViewController: NSOutlineViewDataSource {
     
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         guard let groups = _groups else { preconditionFailure("expected groups") }
-
+        
         if groups.count == 1 {
             return false
         }
@@ -415,8 +421,8 @@ private extension NSUserInterfaceItemIdentifier {
 private extension ShaderParamValue {
     var cellType: NSUserInterfaceItemIdentifier {
         minimum.doubleValue == 0.0 && maximum.doubleValue == 1.0 && step.doubleValue == 1.0
-            ? .checkBoxType
-            : .sliderType
+        ? .checkBoxType
+        : .sliderType
     }
 }
 
@@ -474,7 +480,7 @@ extension ShaderParametersViewController {
         else { return }
         paramsToClipboard(text)
     }
-
+    
     @IBAction func paste(_ sender: Any) {
         guard
             let text   = paramsFromClipboard(),
@@ -535,7 +541,7 @@ extension ShaderParametersViewController {
 
 @available(macOS 10.15, *)
 extension ShaderParametersViewController: NameShaderPresetDelegate {
-    
+
     func configurePresetsView() {
         if avc == nil {
             avc = NSTitlebarAccessoryViewController()
@@ -546,14 +552,55 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
         loadPresetListForCurrentShader()
     }
     
+    static var dateFormat: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .medium
+        formatter.timeZone  = .current
+        return formatter
+    }()
+    
+    func makePresetNameMapping() -> ([ShaderPreset: String], OrderedDictionary<String, ShaderPreset>) {
+        // Sorted by name and then createdAt
+        let presets = shaderControl.presets.sorted()
+        
+        var presetToNameMap = [ShaderPreset: String](minimumCapacity: presets.count)
+        var nameToPresetMap = OrderedDictionary<String, ShaderPreset>(minimumCapacity: presets.count)
+        
+        let grouped = OrderedDictionary<String, [ShaderPreset]>(grouping: presets) { $0.name }
+        for (k, v) in grouped {
+            if v.count == 1 {
+                // only one preset with this name, so use, as-is
+                nameToPresetMap[k] = v[0]
+                presetToNameMap[v[0]] = k
+            } else {
+                for p in v {
+                    let name = "\(p.name) (\(Self.dateFormat.string(from: p.createdAt)))"
+                    nameToPresetMap[name] = p
+                    presetToNameMap[p] = name
+                }
+            }
+        }
+        return (presetToNameMap, nameToPresetMap)
+    }
+    
     func loadPresetListForCurrentShader() {
+        let (presetToNameMap, nameToPresetMap) = makePresetNameMapping()
+        self.presetToNameMap = presetToNameMap
+        
         let menu = NSMenu()
-        for preset in shaderControl.presets {
-            let item = menu.addItem(withTitle: preset.name, action: #selector(selectPreset(_:)), keyEquivalent: "")
+        for (name, preset) in nameToPresetMap {
+            let item = menu.addItem(withTitle: name, action: #selector(selectPreset(_:)), keyEquivalent: "")
             item.representedObject = preset
         }
         presetList.menu = menu
-        presetList.selectItem(withTitle: shaderControl.preset.name)
+        selectPresetInList(shaderControl.preset)
+    }
+    
+    func selectPresetInList(_ preset: ShaderPreset) {
+        if let name = presetToNameMap[preset] {
+            presetList.selectItem(withTitle: name)
+        }
     }
     
     @IBAction func newPreset(_ sender: Any?) {
@@ -572,7 +619,6 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
     }
     
     private func changePresetWithError(_ preset: ShaderPreset) {
-        #if swift(>=5.5)
         Task {
             do {
                 try await shaderControl.changePreset(preset)
@@ -580,7 +626,6 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
                 NSApp.presentError(error)
             }
         }
-        #endif
     }
     
     // MARK: - NameShaderPresetDelegate

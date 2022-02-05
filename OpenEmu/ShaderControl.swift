@@ -59,7 +59,7 @@ public class ShaderControl: NSObject {
         self.systemPlugin   = systemPlugin
         self.helper         = helper
         self.preset         = Self.currentPreset(forSystemPlugin: systemPlugin)
-        self.presets        = Self.shaderPresets(byShader: preset.shader.name, systemPlugin: systemPlugin, sortedByName: true)
+        self.presets        = Self.shaderPresets(byShader: preset.shader.name, systemPlugin: systemPlugin)
     }
     
     /// Returns the preset that is assigned to the specified system plugin.
@@ -74,14 +74,11 @@ public class ShaderControl: NSObject {
     }
     
     /// Returns an array of shader presets for the specified shader.
-    static func shaderPresets(byShader name: String, systemPlugin: OESystemPlugin, sortedByName sort: Bool = false) -> [ShaderPreset] {
+    static func shaderPresets(byShader name: String, systemPlugin: OESystemPlugin) -> [ShaderPreset] {
         guard let shader = OEShaderStore.shared.shader(withName: name) else { return [] }
         let systemShader = OESystemShaderStore.shared.shader(withShader: shader, forSystem: systemPlugin.systemIdentifier)
         var presets = ShaderPresetStore.shared.findPresets(byShader: name)
         presets.append(Self.presetForSystemShader(systemShader, systemPlugin)) // add default system shader
-        if sort {
-            presets.sort { $0.name.localizedCompare($1.name) == .orderedAscending }
-        }
         
         return presets
     }
@@ -101,7 +98,7 @@ public class ShaderControl: NSObject {
     public func savePreset(_ preset: ShaderPreset) throws {
         try ShaderPresetStore.shared.savePreset(preset)
         if self.preset.shader.name == preset.shader.name {
-            presets = Self.shaderPresets(byShader: preset.shader.name, systemPlugin: systemPlugin, sortedByName: true)
+            presets = Self.shaderPresets(byShader: preset.shader.name, systemPlugin: systemPlugin)
         }
     }
     
@@ -192,7 +189,7 @@ public class ShaderControl: NSObject {
             }
             
             if changedShader {
-                self.presets = Self.shaderPresets(byShader: preset.shader.name, systemPlugin: self.systemPlugin, sortedByName: true)
+                self.presets = Self.shaderPresets(byShader: preset.shader.name, systemPlugin: self.systemPlugin)
             }
             
             handler?(nil)
