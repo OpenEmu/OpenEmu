@@ -619,6 +619,7 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
     }
     
     private func changePresetWithError(_ preset: ShaderPreset) {
+        #if swift(>=5.5)
         Task {
             do {
                 try await shaderControl.changePreset(preset)
@@ -626,6 +627,7 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
                 NSApp.presentError(error)
             }
         }
+        #endif
     }
     
     // MARK: - NameShaderPresetDelegate
