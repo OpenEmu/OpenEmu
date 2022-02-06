@@ -586,7 +586,7 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
                 presetToNameMap[v[0]] = k
             } else {
                 for p in v {
-                    let name = "\(p.name) (\(Self.dateFormat.string(from: p.createdAt)))"
+                    let name = "\(p.name)\"(\(Self.dateFormat.string(from: p.createdAt)))"
                     nameToPresetMap[name] = p
                     presetToNameMap[p] = name
                 }
@@ -600,7 +600,23 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
         
         let menu = NSMenu()
         for (name, preset) in nameToPresetMap {
-            let item = menu.addItem(withTitle: name, action: #selector(selectPreset(_:)), keyEquivalent: "")
+            let item = NSMenuItem()
+            menu.addItem(item)
+            
+            let components = name.split(separator: "\"")
+            if components.count == 2 {
+                // color the date addendum differently to make it clear that it is not part of the name
+                let title = "\(components[0]) \(components[1])"
+                let attributedString = NSMutableAttributedString(string: title)
+                
+                let dateRange = (title as NSString).range(of: String(components[1]))
+                attributedString.addAttribute(.foregroundColor, value: NSColor.secondaryLabelColor, range: dateRange)
+                
+                item.attributedTitle = attributedString
+            }
+            
+            item.title = name
+            item.action = #selector(selectPreset(_:))
             item.representedObject = preset
         }
         presetList.menu = menu
