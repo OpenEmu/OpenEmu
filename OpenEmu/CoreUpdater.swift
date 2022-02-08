@@ -50,7 +50,7 @@ final class CoreUpdater: NSObject {
     override init() {
         super.init()
         
-        for plugin in OECorePlugin.allPlugins as! [OECorePlugin] {
+        for plugin in OECorePlugin.allPlugins {
             let download = CoreDownload(plugin: plugin)
             let bundleID = plugin.bundleIdentifier.lowercased()
             coresDict[bundleID] = download
@@ -73,7 +73,7 @@ final class CoreUpdater: NSObject {
             return
         }
         
-        for plugin in OECorePlugin.allPlugins as! [OECorePlugin] {
+        for plugin in OECorePlugin.allPlugins {
             
             if let appcastURLString = plugin.infoDictionary["SUFeedURL"] as? String,
                let updater = SUUpdater(for: plugin.bundle) {
@@ -408,7 +408,7 @@ extension CoreUpdater: SUUpdaterDelegate {
     
     func updater(_ updater: SUUpdater, didFindValidUpdate item: SUAppcastItem) {
         
-        for plugin in OECorePlugin.allPlugins as! [OECorePlugin] {
+        for plugin in OECorePlugin.allPlugins {
             guard updater == SUUpdater(for: plugin.bundle) else {
                 continue
             }

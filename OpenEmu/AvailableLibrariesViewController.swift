@@ -92,12 +92,7 @@ final class AvailableLibrariesViewController: NSViewController {
             let context = OELibraryDatabase.default?.mainThreadContext,
             let systems = OEDBSystem.allSystems(in: context)
             else { return }
-        let identifiers: [String]
-        if let plugins = OECorePlugin.allPlugins as? [OECorePlugin] {
-            identifiers = plugins.flatMap { $0.systemIdentifiers }
-        } else {
-            identifiers = []
-        }
+        let identifiers: [String] = OECorePlugin.allPlugins.flatMap { $0.systemIdentifiers }
         
         var data = [Model]()
         

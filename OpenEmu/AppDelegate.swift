@@ -370,14 +370,14 @@ class AppDelegate: NSObject {
         OEPlugin.registerPluginClass(OESystemPlugin.self)
         
         // Register all system controllers with the bindings controller.
-        for plugin in OESystemPlugin.allPlugins as! [OESystemPlugin] {
+        for plugin in OESystemPlugin.allPlugins {
             OEBindingsController.register(plugin.controller)
         }
         
         let library = OELibraryDatabase.default!
         
         let context = library.mainThreadContext
-        for plugin in OESystemPlugin.allPlugins as! [OESystemPlugin] {
+        for plugin in OESystemPlugin.allPlugins {
             _ = OEDBSystem(for: plugin, in: context)
         }
         

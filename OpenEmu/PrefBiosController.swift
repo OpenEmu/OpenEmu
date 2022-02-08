@@ -83,10 +83,9 @@ final class PrefBiosController: NSViewController {
     
     private func reloadData() {
         
-        guard let cores = OECorePlugin.allPlugins as? [OECorePlugin] else { return }
         var items: [AnyHashable] = []
         
-        for core in cores {
+        for core in OECorePlugin.allPlugins {
             guard
                 core.requiredFiles != nil
             else { continue }

@@ -424,12 +424,7 @@ final class PrefControlsController: NSViewController {
         
         var newPlugin = OESystemPlugin(forIdentifier: systemIdentifier)
         if newPlugin == nil {
-            let allPlugins = OESystemPlugin.allPlugins
-            if allPlugins?.count ?? 0 > 0 {
-                if let plugin = allPlugins?.first as? OESystemPlugin {
-                    newPlugin = plugin
-                }
-            }
+            newPlugin = OESystemPlugin.allPlugins.first
         }
         
         if selectedPlugin != nil && newPlugin == selectedPlugin {
