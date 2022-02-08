@@ -42,6 +42,7 @@ final class ShaderParametersViewController: NSViewController {
     @IBOutlet var accessoryView: NSView!
     @IBOutlet var presetList: NSPopUpButton!
     var presetToNameMap = [ShaderPreset: String]()
+    var nameToPresetMap = OrderedDictionary<String, ShaderPreset>()
     
     enum State {
         case none, newPreset, renamePreset
@@ -523,17 +524,27 @@ extension ShaderParametersViewController {
         presentAsModalWindow(nameShader)
     }
     
-    override func delete(_ sender: Any?) {
+    @IBAction override func delete(_ sender: Any?) {
+#if swift(>=5.5)
         guard #available(macOS 10.15, *) else { return }
         
         let alert: OEAlert = .deleteShaderPreset(name: shaderControl.preset.name)
         guard alert.runModal() == .alertFirstButtonReturn else { return }
         
-        shaderControl.deletePreset(shaderControl.preset) { error in
-            if let error = error {
+        let currentId = shaderControl.preset.id
+        guard let newPreset = nameToPresetMap.values.first(where: { $0.id != currentId })
+        else { return }
+        
+        Task {
+            do {
+                let oldPreset = self.shaderControl.preset
+                try await self.shaderControl.changePreset(newPreset)
+                try self.shaderControl.deletePreset(oldPreset)
+            } catch {
                 NSApp.presentError(error)
             }
         }
+#endif
     }
 }
 
@@ -585,8 +596,7 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
     }
     
     func loadPresetListForCurrentShader() {
-        let (presetToNameMap, nameToPresetMap) = makePresetNameMapping()
-        self.presetToNameMap = presetToNameMap
+        (presetToNameMap, nameToPresetMap) = makePresetNameMapping()
         
         let menu = NSMenu()
         for (name, preset) in nameToPresetMap {

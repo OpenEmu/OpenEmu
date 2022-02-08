@@ -38,11 +38,14 @@ public class ShaderControl: NSObject {
     
     enum Errors: Error, LocalizedError {
         case deleteDefault
+        case deleteCurrent
         
         var errorDescription: String? {
             switch self {
             case .deleteDefault:
                 return NSLocalizedString("Unable to delete default shader preset", comment: "error: Occurs when attempting to delete the default shader preset")
+            case .deleteCurrent:
+                return NSLocalizedString("Unable to delete the active shader", comment: "error: Occurs when attempting to delete the currently selected shader")
             }
         }
     }
@@ -102,40 +105,17 @@ public class ShaderControl: NSObject {
         }
     }
     
-    public func deletePreset(_ preset: ShaderPreset, completion handler: @escaping (Error?) -> Void) {
-        guard !preset.isDefault else {
-            handler(Errors.deleteDefault)
-            return
-        }
-        
-        func completeDelete(error: Error?) {
-            defer { handler(error) }
-
-            if error == nil {
-                if let i = presets.firstIndex(of: preset) {
-                    var presets = presets
-                    presets.remove(at: i)
-                    self.presets = presets
-                }
-            }
-        }
+    public func deletePreset(_ preset: ShaderPreset) throws {
+        guard !preset.isDefault else { throw Errors.deleteDefault }
+        guard self.preset.id != preset.id else { throw Errors.deleteCurrent }
         
         ShaderPresetStore.shared.removePreset(preset)
         
-        if self.preset.id != preset.id {
-            return completeDelete(error: nil)
+        var presets = presets
+        if let i = presets.firstIndex(of: preset) {
+            presets.remove(at: i)
+            self.presets = presets
         }
-        
-        // Select an alternate preset
-        let newPreset: ShaderPreset
-        if let p = presets.first {
-            newPreset = p
-        } else {
-            let shader = OESystemShaderStore.shared.shader(forSystem: systemPlugin.systemIdentifier)
-            newPreset = Self.presetForSystemShader(shader, systemPlugin)
-        }
-        
-        changePreset(newPreset, completionHandler: completeDelete(error:))
     }
     
     public func setValue(_ value: CGFloat, forParameter name: String) {
