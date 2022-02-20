@@ -290,6 +290,17 @@ final class SidebarController: NSViewController {
         UserDefaults.standard.set(coreIdentifier, forKey: defaultCoreKey)
     }
     
+    @objc func editControls(_ sender: NSMenuItem) {
+        guard let system = sender.representedObject as? OEDBSystem else { return }
+        
+        let userInfo = [
+            PreferencesWindowController.userInfoPanelNameKey: "Controls",
+            PreferencesWindowController.userInfoSystemIdentifierKey: system.systemIdentifier ?? "",
+        ]
+        
+        NotificationCenter.default.post(Notification(name: PreferencesWindowController.openPaneNotificationName, userInfo: userInfo))
+    }
+    
     @IBAction func selectSystems(_ sender: Any?) {
         guard let v = sender as? NSView else { return }
         
@@ -556,6 +567,7 @@ extension SidebarController: NSOutlineViewDataSource {
 // MARK: - NSMenuDelegate
 
 extension SidebarController: NSMenuDelegate {
+    
     func menuNeedsUpdate(_ menu: NSMenu) {
         
         menu.removeAllItems()
@@ -570,6 +582,12 @@ extension SidebarController: NSMenuDelegate {
         var menuItem: NSMenuItem
         
         if let item = item as? OEDBSystem {
+            
+            menuItem = NSMenuItem()
+            menuItem.title = NSLocalizedString("Edit Game Controls…", comment: "")
+            menuItem.action = #selector(editControls(_:))
+            menuItem.representedObject = item
+            menu.addItem(menuItem)
             
             if let cores = OECorePlugin.corePlugins(forSystemIdentifier: item.systemIdentifier),
                cores.count > 1 {
