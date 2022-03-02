@@ -1690,7 +1690,7 @@ final class OEGameDocument: NSDocument {
         let state: OEDBSaveState
         if let sender = sender as? OEDBSaveState {
             state = sender
-        } else if let obj = sender?.representedObject as? OEDBSaveState {
+        } else if let obj = (sender?.representedObject as AnyObject?) as? OEDBSaveState {
             state = obj
         } else {
             assertionFailure("Invalid argument passed: \(String(describing: sender))")
@@ -1772,7 +1772,7 @@ final class OEGameDocument: NSDocument {
         let state: OEDBSaveState
         if let sender = sender as? OEDBSaveState {
             state = sender
-        } else if let obj = sender.representedObject as? OEDBSaveState {
+        } else if let obj = (sender.representedObject as AnyObject?) as? OEDBSaveState {
             state = obj
         } else {
             assertionFailure("Invalid argument passed: \(String(describing: sender))")

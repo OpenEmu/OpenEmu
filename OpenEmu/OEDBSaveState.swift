@@ -107,8 +107,8 @@ final class OEDBSaveState: OEDBItem {
     
     // MARK: -
     
-    override class func createObject(in context: NSManagedObjectContext) -> OEDBSaveState {
-        let result = super.createObject(in: context) as! OEDBSaveState
+    override class func createObject(in context: NSManagedObjectContext) -> Self {
+        let result = super.createObject(in: context)
         result.timestamp = Date()
         return result
     }
