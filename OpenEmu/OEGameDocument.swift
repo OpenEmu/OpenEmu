@@ -547,6 +547,7 @@ final class OEGameDocument: NSDocument {
     func setUpGame(completionHandler handler: @escaping (_ success: Bool, _ error: Error?) -> Void) {
         guard
             emulationStatus == .notSetup,
+            checkLoadableController(),
             checkRequiredFiles(),
             !checkDeprecatedCore()
         else {
@@ -707,6 +708,17 @@ final class OEGameDocument: NSDocument {
         } else {
             return true
         }
+    }
+    
+    /// Check current system plugin for OpenEmu is the correct architecture and returns `false` if it can't be loaded.
+    private func checkLoadableController() -> Bool {
+        guard let gameCorePlugin = gameCoreManager.plugin else {
+            // Punt it down to `checkRequiredFiles()`
+            return true
+        }
+        
+        //TODO: throw an error to setUpGame(completionHandler:) handler with why bundle loading failed
+        return gameCorePlugin.controller != nil
     }
     
     @discardableResult
