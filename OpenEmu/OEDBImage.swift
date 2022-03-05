@@ -24,6 +24,19 @@
 
 import Cocoa
 
+extension OEDBImage {
+    
+    // OELibraryDatabase
+    @objc(createImageWithDictionary:)
+    class func _createImage(with dictionary: [String : Any]?) -> OEDBImage? {
+        guard let dictionary = dictionary else {
+            return nil
+        }
+        
+        return createImage(with: dictionary)
+    }
+}
+
 @objc
 @objcMembers
 final class OEDBImage: OEDBItem {
@@ -125,13 +138,8 @@ final class OEDBImage: OEDBItem {
         return result
     }
     
-    @objc(createImageWithDictionary:)
-    class func createImage(with dictionary: [String : Any]?) -> OEDBImage? {
+    class func createImage(with dictionary: [String : Any]) -> OEDBImage {
         assert(Thread.isMainThread, "Only call on main thread!")
-        guard let dictionary = dictionary else {
-            return nil
-        }
-
         return createImage(with: dictionary, in: OELibraryDatabase.default!.mainThreadContext)
     }
     
