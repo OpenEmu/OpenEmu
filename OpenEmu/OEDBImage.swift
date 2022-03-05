@@ -126,8 +126,12 @@ final class OEDBImage: OEDBItem {
     }
     
     @objc(createImageWithDictionary:)
-    class func createImage(with dictionary: [String : Any]) -> OEDBImage {
+    class func createImage(with dictionary: [String : Any]?) -> OEDBImage? {
         assert(Thread.isMainThread, "Only call on main thread!")
+        guard let dictionary = dictionary else {
+            return nil
+        }
+
         return createImage(with: dictionary, in: OELibraryDatabase.default!.mainThreadContext)
     }
     
