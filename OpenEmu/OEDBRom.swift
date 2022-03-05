@@ -312,6 +312,7 @@ final class OEDBRom: OEDBItem {
     }
     
     @nonobjc
+    @discardableResult
     func consolidateFiles() throws -> Bool {
         guard
             var url = url,
