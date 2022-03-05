@@ -345,7 +345,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 - (nullable id)initWithPasteboardPropertyList:(id)propertyList ofType:(NSString *)type
 {
-    if(type == OEPasteboardTypeGame)
+    if([type isEqualToString:OEPasteboardTypeGame])
     {
         OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
         NSManagedObjectContext *context = database.mainThreadContext;
