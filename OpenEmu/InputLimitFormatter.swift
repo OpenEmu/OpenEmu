@@ -26,11 +26,11 @@ import Foundation
 
 final class InputLimitFormatter: Formatter {
     
-    var limit: UInt!
+    var limit: UInt
     
     init(limit: UInt) {
-        super.init()
         self.limit = limit
+        super.init()
     }
     
     required init?(coder: NSCoder) {
