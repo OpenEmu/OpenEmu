@@ -343,7 +343,7 @@ final class OEDBRom: OEDBItem {
         
         if let isReachable = try? url.checkResourceIsReachable(),
            isReachable,
-           url.isSubpath(of: romsFolderURL) {
+           !url.isSubpath(of: romsFolderURL) {
             var romFileLocked = false
             if let attributes = try? url.resourceValues(forKeys: [.isUserImmutableKey]),
                let immutable = attributes.isUserImmutable,
