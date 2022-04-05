@@ -243,10 +243,8 @@ final class HomebrewViewController: NSViewController {
         let name = homebrewGame.name
         
         let context = database!.mainThreadContext
-        var rom: OEDBRom?
-        do {
-            rom = try OEDBRom.rom(withMD5HashString: md5, in: context)
-        } catch {
+        var rom = try? OEDBRom.rom(withMD5HashString: md5, in: context)
+        if rom == nil {
             let romDescription = OEDBRom.entityDescription(in: context)
             let gameDescription = OEDBGame.entityDescription(in: context)
             
