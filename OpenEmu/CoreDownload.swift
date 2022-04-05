@@ -61,7 +61,7 @@ final class CoreDownload: NSObject {
         
         let downloadTask = downloadSession.downloadTask(with: appcastItem.fileURL)
         
-        DLog("Starting core download (\(downloadSession.sessionDescription ?? "")")
+        DLog("Starting core download (\(downloadSession.sessionDescription ?? ""))")
         
         downloadTask.resume()
         
@@ -70,7 +70,7 @@ final class CoreDownload: NSObject {
     }
     
     func cancel() {
-        DLog("Cancelling core download (\(downloadSession?.sessionDescription ?? "")")
+        DLog("Cancelling core download (\(downloadSession?.sessionDescription ?? ""))")
         downloadSession?.invalidateAndCancel()
     }
     
@@ -125,7 +125,7 @@ extension CoreDownload: URLSessionDownloadDelegate {
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         
-        DLog("Core download (\(session.sessionDescription ?? "") did finish downloading temporary data.")
+        DLog("Core download (\(session.sessionDescription ?? "")) did finish downloading temporary data.")
         
         let urls = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
         let baseURL: URL

@@ -67,7 +67,7 @@ class Download: NSObject {
         
         let downloadTask = downloadSession.downloadTask(with: request)
         
-        DLog("Starting download (\(downloadSession.sessionDescription ?? "")")
+        DLog("Starting download (\(downloadSession.sessionDescription ?? ""))")
         
         downloadTask.resume()
         
@@ -77,7 +77,7 @@ class Download: NSObject {
     
     @objc(cancelDownload)
     func cancel() {
-        DLog("Cancelling download (\(downloadSession?.sessionDescription ?? "")")
+        DLog("Cancelling download (\(downloadSession?.sessionDescription ?? ""))")
         downloadSession?.invalidateAndCancel()
     }
     
@@ -124,7 +124,7 @@ extension Download: URLSessionDownloadDelegate {
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         
-        DLog("Download (\(session.sessionDescription ?? "") did finish downloading temporary data.")
+        DLog("Download (\(session.sessionDescription ?? "")) did finish downloading temporary data.")
         
         let temporaryDirectory = FileManager.default.temporaryDirectory
             .appendingPathComponent("org.openemu.OpenEmu", isDirectory: true)

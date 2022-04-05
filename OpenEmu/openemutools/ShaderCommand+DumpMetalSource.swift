@@ -86,7 +86,7 @@ extension OpenEmuTools.Shader {
             }
             
             shader.parameters.forEach { param in
-                print("\(param.name) (\(param.desc)")
+                print("\(param.name) (\(param.desc))")
             }
         }
     }

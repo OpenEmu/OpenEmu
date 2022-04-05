@@ -152,7 +152,7 @@ final class OEDBSaveState: OEDBItem {
         // Check url extension
         let fileExtension = bundleURL.pathExtension.lowercased()
         if fileExtension != Self.bundleExtension {
-            DLog("SaveState \(bundleURL) has wrong extension (\(fileExtension)")
+            DLog("SaveState \(bundleURL) has wrong extension (\(fileExtension))")
             return nil
         }
         
