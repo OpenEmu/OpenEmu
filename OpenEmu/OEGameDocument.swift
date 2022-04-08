@@ -69,6 +69,7 @@ final class OEGameDocument: NSDocument {
         case couldNotLoadROM
         case gameCoreCrashed(OECorePlugin, String?, NSError)
         case invalidSaveState
+        case libraryDatabaseUnavailable
         
         var errorDescription: String? {
             if case .fileDoesNotExist = self {
@@ -110,6 +111,8 @@ final class OEGameDocument: NSDocument {
                 return 11
             case .invalidSaveState:
                 return 12
+            case .libraryDatabaseUnavailable:
+                return 13
             }
         }
     }
@@ -406,8 +409,13 @@ final class OEGameDocument: NSDocument {
         DLog("\(url)")
         DLog("\(typeName)")
         
+        guard let libraryDB = OELibraryDatabase.default else {
+            // FIXME: If a file is opened from Finder or dragged on the dock icon while OpenEmu is not already running, we reach this point before the library database is available and opening the file fails (regression from a commit after 70ac442/2.3.3)
+            throw Errors.libraryDatabaseUnavailable
+        }
+        
         if typeName == "org.openemu.savestate" {
-            let context = OELibraryDatabase.default!.mainThreadContext
+            let context = libraryDB.mainThreadContext
             guard let state = OEDBSaveState.updateOrCreateState(with: url, in: context) else {
                 // TODO: Specify failure reason and add recovery suggestion
                 DLog("Save state is invalid")
@@ -436,10 +444,10 @@ final class OEGameDocument: NSDocument {
         
         let game: OEDBGame
         do {
-            game = try OEDBGame.game(withURL: url, in: OELibraryDatabase.default!)!
+            game = try OEDBGame.game(withURL: url, in: libraryDB)!
         } catch {
             // Could not find game in database. Try to import the file
-            let importer = OELibraryDatabase.default!.importer
+            let importer = libraryDB.importer
             let completion: OEImportItemCompletionBlock = { romID in
                 guard let romID = romID else {
                     // import probably failed
@@ -456,7 +464,7 @@ final class OEGameDocument: NSDocument {
                 alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
                 
                 if alert.runModal() == .alertFirstButtonReturn {
-                    let context = OELibraryDatabase.default!.mainThreadContext
+                    let context = libraryDB.mainThreadContext
                     let rom = OEDBRom.object(with: romID, in: context)
                     
                     // Ugly hack to start imported games in main window
