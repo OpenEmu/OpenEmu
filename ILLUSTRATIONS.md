@@ -10,7 +10,7 @@ OpenEmu has detailed controller illustrations in OpenEmu > Preferences… > Cont
 |Atari 5200             |Ricky Romero               |[@RickyRomero][RickyRomero]                 |
 |Atari 7800             |Salvo Zummo                |[@noisymemories][noisymemories]             |
 |Atari Lynx             |Salvo Zummo                |[@noisymemories][noisymemories]             |
-|ColecoVision           |David Schroeder            |[@medgno][medgno]                           |
+|ColecoVision           |Kate Schroeder             |[@medgno][medgno]                           |
 |Dreamcast              |Craig Erskine              |[@qrayg][qrayg]                             |
 |Famicom Disk System    |David McLeod               |[@Mucx][Mucx]                               |
 |Game Boy               |David McLeod               |[@Mucx][Mucx]                               |
