@@ -349,7 +349,6 @@
 		833ADC4D196B078E00217D9A /* OECollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F40EB7D1C1072B100683055 /* OECollectionViewController.xib */; };
 		83495DD419A38F31009DB6E5 /* PrefBiosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83495DD319A38F31009DB6E5 /* PrefBiosController.swift */; };
 		83495DD819A38F3D009DB6E5 /* PrefBiosController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83495DD719A38F3D009DB6E5 /* PrefBiosController.xib */; };
-		834B6F2E1A3B453000CA6A26 /* HomebrewBlankSlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834B6F2D1A3B453000CA6A26 /* HomebrewBlankSlateView.swift */; };
 		83507247142F6029005D9033 /* ControllerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* ControllerImageView.swift */; };
 		8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB1F15FF5CB10026E326 /* OEDBRomMigrationPolicy.m */; };
 		8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB2215FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m */; };
@@ -1596,7 +1595,6 @@
 		833ADC4B196B058000217D9A /* N64-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "N64-Info.plist"; sourceTree = "<group>"; };
 		83495DD319A38F31009DB6E5 /* PrefBiosController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefBiosController.swift; sourceTree = "<group>"; };
 		83495DD719A38F3D009DB6E5 /* PrefBiosController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefBiosController.xib; sourceTree = "<group>"; };
-		834B6F2D1A3B453000CA6A26 /* HomebrewBlankSlateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewBlankSlateView.swift; sourceTree = "<group>"; };
 		83507246142F6029005D9033 /* ControllerImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerImageView.swift; sourceTree = "<group>"; };
 		8352C0F0197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8352C0F1197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
@@ -3534,7 +3532,6 @@
 			children = (
 				83F444FC196CA24B007E8C63 /* HomebrewViewController.swift */,
 				83C748CB196DF34D0090BC91 /* HomebrewViewController.xib */,
-				834B6F2D1A3B453000CA6A26 /* HomebrewBlankSlateView.swift */,
 				83E89273197471F8004D4489 /* HomebrewCoverView.swift */,
 				8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */,
 			);
@@ -6792,7 +6789,6 @@
 				0519A89F25AA4CD800D71C21 /* ShaderControl.swift in Sources */,
 				0544B6AF23D1780C00F63D61 /* GameTableView.swift in Sources */,
 				8FAF08D8251FB65D00EDB247 /* HoverButton.swift in Sources */,
-				834B6F2E1A3B453000CA6A26 /* HomebrewBlankSlateView.swift in Sources */,
 				5A9606E41C0BA85F0089B494 /* NSURL+LibraryAdditions.swift in Sources */,
 				5A3BB0391D964A4500E10F27 /* CenteredTextFieldCell.swift in Sources */,
 				8FC3CC692708BD4200747DC2 /* OEGameDocument.swift in Sources */,

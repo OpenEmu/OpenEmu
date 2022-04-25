@@ -36,7 +36,7 @@ final class HomebrewViewController: NSViewController {
     private let homebrewGamesURL = URL(string: "https://raw.githubusercontent.com/OpenEmu/OpenEmu-Update/master/games.xml")!
     
     @IBOutlet var tableView: NSTableView!
-    private var blankSlate: HomebrewBlankSlateView?
+    private var blankSlate: BlankSlateView?
     var database: OELibraryDatabase?
     private var currentDownload: Download?
     private var games: [HomebrewGame] = []
@@ -160,8 +160,8 @@ final class HomebrewViewController: NSViewController {
     // MARK: - View Management
     
     private func displayUpdate() {
-        let blankSlate = HomebrewBlankSlateView(frame: view.bounds)
-        blankSlate.representedObject = NSLocalizedString("Fetching Games…", comment: "Homebrew Blank Slate View Updating Info")
+        let blankSlate = BlankSlateView()
+        blankSlate.representedObject = BlankSlateView.Mode.homebrewLoading
         displayBlankSlate(blankSlate)
     }
     
@@ -172,8 +172,8 @@ final class HomebrewViewController: NSViewController {
             return
         }
         
-        let blankSlate = HomebrewBlankSlateView(frame: view.bounds)
-        blankSlate.representedObject = error
+        let blankSlate = BlankSlateView()
+        blankSlate.representedObject = BlankSlateView.Mode.homebrewError(error)
         displayBlankSlate(blankSlate)
     }
     
@@ -181,7 +181,7 @@ final class HomebrewViewController: NSViewController {
         displayBlankSlate(nil)
     }
     
-    private func displayBlankSlate(_ newBlankSlate: HomebrewBlankSlateView?) {
+    private func displayBlankSlate(_ newBlankSlate: BlankSlateView?) {
         guard blankSlate != newBlankSlate else { return }
         
         // Determine if we are about to replace the current first responder or one of its superviews

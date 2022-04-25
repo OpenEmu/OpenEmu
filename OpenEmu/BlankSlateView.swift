@@ -29,6 +29,11 @@ import OpenEmuKit.OESystemPlugin
 @objc(OEBlankSlateView)
 class BlankSlateView: NSView {
     
+    enum Mode {
+        case homebrewLoading
+        case homebrewError(Error?)
+    }
+    
     private enum Layout {
         static let containerSize = NSSize(width: 427, height: 418)
         
@@ -56,7 +61,7 @@ class BlankSlateView: NSView {
     private let dragIndicationLayer = CALayer()
     private lazy var lastDragOperation: NSDragOperation = []
     
-    lazy var isLoading = false {
+    private lazy var isLoading = false {
         didSet {
             if isLoading {
                 boxImageView.removeFromSuperview()
@@ -71,7 +76,7 @@ class BlankSlateView: NSView {
         }
     }
     
-    var boxImage: NSImage? {
+    private var boxImage: NSImage? {
         get {
             return boxImageView.image
         }
@@ -86,7 +91,7 @@ class BlankSlateView: NSView {
         }
     }
     
-    var boxText: String {
+    private var boxText: String {
         get {
             return boxLabel.stringValue
         }
@@ -101,7 +106,7 @@ class BlankSlateView: NSView {
         }
     }
     
-    var headline: String {
+    private var headline: String {
         get {
             return headlineLabel.stringValue
         }
@@ -116,7 +121,7 @@ class BlankSlateView: NSView {
         }
     }
     
-    var informationalText: String {
+    private var informationalText: String {
         get {
             return informationalTextView.string
         }
@@ -261,7 +266,7 @@ class BlankSlateView: NSView {
         ])
     }
     
-    func setUpViewForRepresentedObject() {
+    private func setUpViewForRepresentedObject() {
         
         if let system = representedObject as? OEDBSystem,
            let plugin = system.plugin {
@@ -297,6 +302,23 @@ class BlankSlateView: NSView {
             
             headline = NSLocalizedString("Screenshots", comment: "")
             informationalText = NSLocalizedString("Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game.", comment: "")
+        }
+        else if let representedObject = representedObject as? Mode {
+            
+            switch representedObject {
+            case .homebrewLoading:
+                isLoading = true
+                boxText = NSLocalizedString("Fetching Games…", comment: "Homebrew Blank Slate View Updating Info")
+                
+                headline = NSLocalizedString("Homebrew Games", comment: "")
+                informationalText = NSLocalizedString("Check out some excellent homebrew games.", comment: "")
+            case let .homebrewError(error):
+                boxImage = NSImage(named: "blank_slate_warning")
+                boxText = NSLocalizedString("No Internet Connection", comment: "Homebrew Blank Slate View Error Info")
+                
+                headline = NSLocalizedString("Homebrew Games", comment: "")
+                informationalText = error?.localizedDescription ?? ""
+            }
         }
         else {
             assertionFailure("Unknown represented object: \(String(describing: representedObject))")
