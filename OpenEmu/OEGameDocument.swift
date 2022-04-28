@@ -1044,11 +1044,16 @@ final class OEGameDocument: NSDocument {
         }
         
         enableOSSleep()
-        isEmulationPaused = true
+        let emulationPaused = isEmulationPaused
+        if !emulationPaused {
+            isEmulationPaused = true
+        }
         
         if OEAlert.stopEmulation().runModal() != .alertFirstButtonReturn {
             disableOSSleep()
-            isEmulationPaused = false
+            if !emulationPaused {
+                isEmulationPaused = false
+            }
             return false
         }
         
