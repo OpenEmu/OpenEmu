@@ -270,12 +270,11 @@ final class OEDBRom: OEDBItem {
     
     @objc(deleteByMovingFile:keepSaveStates:)
     func delete(moveToTrash: Bool, keepSaveStates statesFlag: Bool) {
-        guard
-            let url = url,
-            let romsFolderURL = libraryDatabase.romsFolderURL
-        else { return }
         
-        if moveToTrash && url.isSubpath(of: romsFolderURL) {
+        if moveToTrash,
+           let url = url,
+           let romsFolderURL = libraryDatabase.romsFolderURL,
+           url.isSubpath(of: romsFolderURL) {
             var count = 1
             if archiveFileIndex != nil,
                let location = location {
