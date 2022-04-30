@@ -510,8 +510,6 @@ final class OEGameDocument: NSDocument {
             return
         }
         
-        pauseEmulationIfNeeded()
-        
         if !shouldTerminateEmulation {
             let shouldClose = {
                 guard let shouldCloseSelector = shouldCloseSelector else { return }
@@ -1043,15 +1041,10 @@ final class OEGameDocument: NSDocument {
             return true
         }
         
-        enableOSSleep()
-        let emulationPaused = isEmulationPaused
-        if !emulationPaused {
-            isEmulationPaused = true
-        }
+        let didPauseEmulation = pauseEmulationIfNeeded()
         
         if OEAlert.stopEmulation().runModal() != .alertFirstButtonReturn {
-            disableOSSleep()
-            if !emulationPaused {
+            if didPauseEmulation {
                 isEmulationPaused = false
             }
             return false
