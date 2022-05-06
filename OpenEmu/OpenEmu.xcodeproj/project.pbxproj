@@ -483,6 +483,7 @@
 		8FBAE9EB254BD7FA00446C3B /* NSControl+i18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBAE9EA254BD7FA00446C3B /* NSControl+i18n.swift */; };
 		8FBD79192736A17B00E455FC /* GameInfoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD79182736A17B00E455FC /* GameInfoHelper.swift */; };
 		8FBD791A2736C63D00E455FC /* OEArchiveHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9591853817500B6AF26 /* OEArchiveHelper.m */; };
+		8FC080272825914E00F18E15 /* OELibraryDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC080262825914E00F18E15 /* OELibraryDatabase.swift */; };
 		8FC3CC692708BD4200747DC2 /* OEGameDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC3CC682708BD4200747DC2 /* OEGameDocument.swift */; };
 		8FD78305243A8AD300861B7A /* Debug.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FD78307243A8AD300861B7A /* Debug.strings */; };
 		8FD905771AA2927100FA7662 /* PrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F40EB791C1072B100683055 /* PrefControlsController.xib */; };
@@ -1781,6 +1782,7 @@
 		8FBAEAD7254BE76300446C3B /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/OEControls.strings"; sourceTree = "<group>"; };
 		8FBAEAD8254BE76600446C3B /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OEControls.strings"; sourceTree = "<group>"; };
 		8FBD79182736A17B00E455FC /* GameInfoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameInfoHelper.swift; sourceTree = "<group>"; };
+		8FC080262825914E00F18E15 /* OELibraryDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OELibraryDatabase.swift; sourceTree = "<group>"; };
 		8FC3CC682708BD4200747DC2 /* OEGameDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEGameDocument.swift; sourceTree = "<group>"; };
 		8FCCCE5724E7087800223181 /* en-GB */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Debug.strings"; sourceTree = "<group>"; };
 		8FCCCE5824E7087A00223181 /* ca */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Debug.strings; sourceTree = "<group>"; };
@@ -3194,6 +3196,7 @@
 				8353EB1D15FF5C9B0026E326 /* Migration */,
 				53439A8A13B92C4A005C0CC8 /* OELibraryDatabase.h */,
 				53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */,
+				8FC080262825914E00F18E15 /* OELibraryDatabase.swift */,
 				8FE1BF1D2586C64200A2818A /* OELibraryDatabase+Moving.m */,
 				8F4198AF25B68B7500A7F0BE /* OELibraryDatabase+Maintenance.swift */,
 				83199721142741790068C865 /* ROMImporter.swift */,
@@ -6710,6 +6713,7 @@
 				8FB8A29526E296BD00F2B626 /* SidebarItem.swift in Sources */,
 				8F3062DB251A897F00BDFF1F /* OESearchField.swift in Sources */,
 				8FEA6770270373460034CFCE /* GameControlsBar.swift in Sources */,
+				8FC080272825914E00F18E15 /* OELibraryDatabase.swift in Sources */,
 				8FDCCADA27063FDE00CBF2E3 /* GameCollectionViewItemIndicationLayer.swift in Sources */,
 				839310BC147802380020058E /* CoreDownload.swift in Sources */,
 				5A3DB1B11D8E6806009445EC /* AppDelegate.swift in Sources */,

@@ -597,7 +597,8 @@ extension AppDelegate: NSMenuDelegate {
             return 0
         }
         
-        guard let lastPlayedInfo = database.lastPlayedRomsBySystem, lastPlayedInfo.count > 0 else {
+        let lastPlayedInfo = database.lastPlayedRomsBySystem
+        if lastPlayedInfo.isEmpty {
             cachedLastPlayedInfo.removeAll()
             return 1
         }

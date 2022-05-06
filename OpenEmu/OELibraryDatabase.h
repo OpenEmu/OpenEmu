@@ -69,35 +69,9 @@ extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 
 @property(strong) OEROMImporter *importer;
 
-#pragma mark - Administration
-
-- (void)disableSystemsWithoutPlugin;
-
-#pragma mark - Database queries
-
-@property(readonly) NSArray<id<OESidebarItem>> *collections;
-- (NSArray *)romsForPredicate:(NSPredicate *)predicate;
-@property(readonly, nullable) NSArray <OEDBRom *> *lastPlayedRoms;
-@property(readonly, nullable) NSDictionary <NSString *, NSArray <OEDBRom *> *> *lastPlayedRomsBySystem;
-
-#pragma mark - Database Collection editing
-
-- (OEDBCollection *)addNewCollection:(nullable NSString *)name;
-- (OEDBSmartCollection *)addNewSmartCollection:(nullable NSString *)name;
-- (OEDBCollectionFolder *)addNewCollectionFolder:(nullable NSString *)name;
-
 #pragma mark - Database Folders
 
-@property(readonly) NSURL *databaseFolderURL;
 @property (nullable) NSURL *romsFolderURL;
-@property(readonly) NSURL *unsortedRomsFolderURL;
-- (NSURL *)romsFolderURLForSystem:(OEDBSystem *)system;
-@property(readonly) NSURL *stateFolderURL;
-- (NSURL *)stateFolderURLForSystem:(OEDBSystem *)system;
-- (NSURL *)stateFolderURLForROM:(OEDBRom *)rom;
-@property(readonly) NSURL *screenshotFolderURL;
-@property(readonly) NSURL *coverFolderURL;
-@property(readonly) NSURL *importQueueURL;
 
 #pragma mark - OpenVGDB Sync
 
@@ -105,10 +79,6 @@ extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 
 // Exposed for library migration
 @property(strong, nullable) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
-#pragma mark - Debug
-
-- (void)dump;
 
 @end
 
