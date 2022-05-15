@@ -25,6 +25,7 @@
 import ArgumentParser
 import Metal
 import OpenEmuShaders
+import QuartzCore
 
 extension OpenEmuTools.Shader {
     struct Benchmark: ParsableCommand {

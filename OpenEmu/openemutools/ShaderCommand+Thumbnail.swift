@@ -71,10 +71,13 @@ This command generates a thumbnail image of a shader using a user-specified sour
             let buf = fi.newBuffer(with: .bgra8Unorm, height: UInt(ctx.height), bytesPerRow: UInt(ctx.bytesPerRow))
             buf.contents.copyMemory(from: ctx.data!, byteCount: ctx.height * ctx.bytesPerRow)
             
-            let outRep = fi.captureOutputImage()
-            let data = outRep.representation(using: .png, properties: [:])
-            
-            FileHandle.standardOutput.write(data!)
+            let outRep = fi.createCGImageFromOutput()
+            let data = NSMutableData()
+            if let dest = CGImageDestinationCreateWithData(data, kUTTypePNG, 1, nil) {
+                CGImageDestinationAddImage(dest, outRep, nil)
+                CGImageDestinationFinalize(dest)
+                FileHandle.standardOutput.write(data as Data)
+            }
         }
     }
 }
