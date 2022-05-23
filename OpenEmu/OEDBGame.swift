@@ -134,10 +134,8 @@ final class OEDBGame: OEDBItem {
         
         if game == nil && urlReachable {
             do {
-                var md5: NSString?
-                try FileManager.default.hashFile(at: url, md5: &md5)
-                if let md5 = md5 as String?,
-                   let rom = try OEDBRom.rom(withMD5HashString: md5, in: context) {
+                let md5 = try FileManager.default.hashFile(at: url)
+                if let rom = try OEDBRom.rom(withMD5HashString: md5, in: context) {
                     game = rom.game
                 }
             } catch {

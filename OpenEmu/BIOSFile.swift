@@ -61,8 +61,7 @@ class BIOSFile: NSObject {
         let isReachable = (try? destinationURL.checkResourceIsReachable()) ?? false
         
         do {
-            var md5: NSString!
-            try FileManager.default.hashFile(at: destinationURL, md5: &md5)
+            let md5 = try FileManager.default.hashFile(at: destinationURL)
             
             if isReachable {
                 
@@ -151,9 +150,8 @@ class BIOSFile: NSObject {
     @objc(checkIfBIOSFileAndImportAtURL:)
     static func checkIfBIOSFileAndImport(at url: URL) -> Bool {
         do {
-            var md5: NSString!
-            try FileManager.default.hashFile(at: url, md5: &md5)
-            return checkIfBIOSFileAndImport(at: url, withMD5: md5 as String)
+            let md5 = try FileManager.default.hashFile(at: url)
+            return checkIfBIOSFileAndImport(at: url, withMD5: md5)
         } catch {
             return false
         }

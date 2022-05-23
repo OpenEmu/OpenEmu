@@ -170,16 +170,16 @@ final class OEDBRom: OEDBItem {
             return
         }
         
-        var md5Hash: NSString?
+        var md5Hash: String
         do {
-            try FileManager.default.hashFile(at: url, md5: &md5Hash)
+            md5Hash = try FileManager.default.hashFile(at: url)
         } catch {
             // TODO: mark self as file missing
             DLog("\(error)")
             return
         }
         
-        md5 = md5Hash?.lowercased
+        md5 = md5Hash.lowercased()
     }
     
     // MARK: -

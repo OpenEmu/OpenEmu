@@ -28,8 +28,6 @@
 @import OpenEmuKit;
 @import XADMaster.XADArchive;
 
-#import "NSFileManager+OEHashingAdditions.h"
-
 #import "OELibraryDatabase.h"
 
 #import "OELogging.h"

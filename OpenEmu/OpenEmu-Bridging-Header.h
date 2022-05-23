@@ -24,7 +24,6 @@
 #import "OEImportOperation.h"
 #import "OEVersionMigrationController.h"
 #import "NSDocument+OEAdditions.h"
-#import "NSFileManager+OEHashingAdditions.h"
 #import "OEAudioDeviceManager.h"
 #import "AppKit+ApplePrivate.h"
 #import "OETableView.h"

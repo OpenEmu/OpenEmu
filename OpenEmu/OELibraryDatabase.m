@@ -30,8 +30,6 @@
 
 #import "OELogging.h"
 
-#import "NSFileManager+OEHashingAdditions.h"
-
 #import <OpenEmuBase/OpenEmuBase.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 

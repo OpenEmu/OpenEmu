@@ -337,7 +337,7 @@
 		8301557B1456BF7A0093D681 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8301557A1456BF7A0093D681 /* GameViewController.swift */; };
 		8306CD101BD3AC180025BC6C /* LibraryGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD0E1BD3AC180025BC6C /* LibraryGamesViewController.swift */; };
 		8306CD3E1BD3DB180025BC6C /* OEGameCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */; };
-		83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */; };
+		83096F0314E98FC000F7EBC2 /* FileManager+Hashing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* FileManager+Hashing.swift */; };
 		8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy SaveState QL Generator */ = {isa = PBXBuildFile; fileRef = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A98B155410EF00DF13B5 /* OEDBItem.m */; };
 		83199722142741790068C865 /* ROMImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* ROMImporter.swift */; };
@@ -1581,8 +1581,7 @@
 		8306CD3B1BD3DB180025BC6C /* OEGameCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCollectionViewController.h; sourceTree = "<group>"; };
 		8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCollectionViewController.m; sourceTree = "<group>"; };
 		8306CD3D1BD3DB180025BC6C /* OEGameCollectionViewItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCollectionViewItemProtocol.h; sourceTree = "<group>"; };
-		83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+OEHashingAdditions.h"; sourceTree = "<group>"; };
-		83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+OEHashingAdditions.m"; sourceTree = "<group>"; };
+		83096F0214E98FC000F7EBC2 /* FileManager+Hashing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileManager+Hashing.swift"; sourceTree = "<group>"; };
 		8314A98A155410EF00DF13B5 /* OEDBItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBItem.h; sourceTree = "<group>"; };
 		8314A98B155410EF00DF13B5 /* OEDBItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBItem.m; sourceTree = "<group>"; };
 		83199721142741790068C865 /* ROMImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ROMImporter.swift; sourceTree = "<group>"; };
@@ -2967,8 +2966,7 @@
 				C67DBF4117DBE859006AF087 /* NSDocument+OEAdditions.h */,
 				C67DBF4217DBE859006AF087 /* NSDocument+OEAdditions.m */,
 				5AC349301D89E4EB0089B26F /* NSDocumentController+Additions.swift */,
-				83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */,
-				83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */,
+				83096F0214E98FC000F7EBC2 /* FileManager+Hashing.swift */,
 				5A9606E71C0BCD350089B494 /* NSImage+DrawingAdditions.swift */,
 				01D6F3D125269F1400E8404B /* AppKit+ApplePrivate.h */,
 				0544B6A223D16D6300F63D61 /* NSImageView+OEAdditions.swift */,
@@ -6724,7 +6722,7 @@
 				83F4DE1314DFF9C200A82E36 /* InputLimitFormatter.swift in Sources */,
 				0559044F23C0E4C9007C46FA /* ArrayController.swift in Sources */,
 				5A2CE89A206EA61B00790F89 /* NSArray+OEAdditions.m in Sources */,
-				83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */,
+				83096F0314E98FC000F7EBC2 /* FileManager+Hashing.swift in Sources */,
 				83955CB5165D939100572B34 /* BlankSlateView.swift in Sources */,
 				8FBAE9EB254BD7FA00446C3B /* NSControl+i18n.swift in Sources */,
 				0547FD9924E773F0005C1FFC /* OELogging.m in Sources */,

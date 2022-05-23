@@ -29,7 +29,6 @@
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEAlert.h"
-#import "NSFileManager+OEHashingAdditions.h"
 
 #import "OpenEmu-Swift.h"
 
@@ -109,8 +108,8 @@
            && [[lastState coreIdentifier] isEqualToString:[saveState coreIdentifier]])
         {
             NSString *currentHash = nil, *previousHash;
-            [[NSFileManager defaultManager] hashFileAtURL:[saveState dataFileURL] headerSize:0 md5:&currentHash error:nil];
-            [[NSFileManager defaultManager] hashFileAtURL:[lastState dataFileURL] headerSize:0 md5:&previousHash error:nil];
+            [[NSFileManager defaultManager] hashFileAtURL:[saveState dataFileURL] md5:&currentHash error:nil];
+            [[NSFileManager defaultManager] hashFileAtURL:[lastState dataFileURL] md5:&previousHash error:nil];
 
             if([currentHash isEqualToString:previousHash])
             {
