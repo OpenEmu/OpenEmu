@@ -27,7 +27,8 @@
  either expressed or implied, of the FreeBSD Project.
 */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
+@import CoreData;
 
 /**
  * Iteratively migrates a persistent Core Data store along a series of ordered

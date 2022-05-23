@@ -26,8 +26,6 @@
 
 #import "OEPopoutGameWindowController.h"
 
-#import "OEUtilities.h"
-
 @import QuartzCore;
 
 #import "OpenEmu-Swift.h"

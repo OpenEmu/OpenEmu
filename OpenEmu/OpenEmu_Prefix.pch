@@ -28,53 +28,14 @@
 // Prefix header for all source files of the 'OpenEmu' target in the 'OpenEmu' project
 //
 
-#ifdef __OBJC__
-#import <Cocoa/Cocoa.h>
-
-#if __has_feature(objc_arc)
-#import <OpenEmuBase/OpenEmuBase.h>
-#import <OpenEmuSystem/OpenEmuSystem.h>
-#import "OEUtilities.h"
-#endif
-
-#if __has_feature(objc_bool)
-#undef YES
-#undef NO
-#define YES __objc_yes
-#define NO __objc_no
-#endif
+#define OECoreDataMainThreadAssertion() NSAssert([NSThread isMainThread], @"Only call on main thread!")
 
 #pragma mark Debug Logging
 
 #ifdef DEBUG_PRINT
 #define DLog(format, ...) NSLog(@"%@:%d: %s: " format, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __FUNCTION__, ##__VA_ARGS__)
-#define DLogDeprecated()  NSLog(@"%s is deprecated.", __FUNCTION__)
 #else
 #ifndef DLog
 #define DLog(format, ...) do {} while (0)
-#define DLogDeprecated() do {} while (0)
 #endif
-#endif
-
-#define LogResponderChain(__RESPONDER__) {                                                              \
-    NSResponder *responder = __RESPONDER__;                                                             \
-    NSMutableString* responderChain = [[NSMutableString alloc] initWithFormat:@"%@", responder];        \
-    while ((responder = [responder nextResponder])) {                                                   \
-            [responderChain appendString:@" -> "];                                                      \
-        [responderChain appendFormat:@"%@", responder];                                                 \
-    }                                                                                                   \
-    NSLog(@"Responder Chain: %@", responderChain);                                                                       \
-}
-
-#define LogLayersInViewHierarchy(__VIEW__) { \
-if(![__VIEW__ isKindOfClass:[NSView class]]) return;\
-NSView *view = __VIEW__;                                                             \
-NSMutableString* viewHierachy = [[NSMutableString alloc] initWithFormat:@"%@ %@ %@", view, [view wantsLayer] ? @"wants layer" : @"", [view layer] ? @"has layer" : @""];        \
-while ((view = [view superview])) {                                                   \
-[viewHierachy appendString:@" -> "];                                                      \
-[viewHierachy appendFormat:@"%@ %@ %@", view, [view wantsLayer] ? @"wants layer" : @"", [view layer] ? @"has layer" : @""];                                                 \
-}                                                                                                   \
-NSLog(@"View Hierarchy: %@", viewHierachy);                                                                       \
-}
-
 #endif
