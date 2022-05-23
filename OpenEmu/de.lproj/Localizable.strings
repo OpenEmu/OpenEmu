@@ -571,9 +571,13 @@
 
 "Ignore" = "Ignorieren";
 
-"OpenEmu requires additional permissions" = "OpenEmu benötigt zusätzliche Rechte";
+"ALERT_INPUT_MONITORING_HEADLINE" = "OpenEmu benötigt zusätzliche Rechte";
 
-"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu benötigt Input-Monitoring-Rechte, damit die Tastatur als Eingabegerät verwendet werden kann.\n\nDas Aus-/Abwählen der Berechtigung kann dabei helfen, Tastatureingabeprobleme zu beheben.";
+"ALERT_INPUT_MONITORING_PART1" = "OpenEmu benötigt Input-Monitoring-Rechte, damit die Tastatur als Eingabegerät verwendet werden kann.";
+
+"ALERT_INPUT_MONITORING_PART2" = "Das Aus-/Abwählen der Berechtigung kann dabei helfen, Tastatureingabeprobleme zu beheben.";
+
+"ALERT_INPUT_MONITORING_PART2_MONTEREY" = "Das Entfernen und erneute Erteilen der Berechtigung kann dabei helfen, Tastatureingabeprobleme zu beheben.";
 
 "Open System Preferences" = "Systemeinstellungen öffnen";
 

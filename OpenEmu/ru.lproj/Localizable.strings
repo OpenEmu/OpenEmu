@@ -571,9 +571,13 @@
 
 "Ignore" = "Игнорировать";
 
-"OpenEmu requires additional permissions" = "OpenEmu требуются дополнительные разрешения";  // Headline for Input Monitoring permissions
+"ALERT_INPUT_MONITORING_HEADLINE" = "OpenEmu требуются дополнительные разрешения";
 
-"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "OpenEmu необходим доступ к отслеживанию ввода для использования клавиатуры в качестве устройства ввода.\n\nВключение этого доступа может также исправить проблемы с вводом с клавиатуры.";  // "Message for Input Monitoring permissions"
+"ALERT_INPUT_MONITORING_PART1" = "OpenEmu необходим доступ к отслеживанию ввода для использования клавиатуры в качестве устройства ввода.";
+
+"ALERT_INPUT_MONITORING_PART2" = "Включение этого доступа может также исправить проблемы с вводом с клавиатуры.";
+
+"ALERT_INPUT_MONITORING_PART2_MONTEREY" = "Removing and re-granting the permission may also resolve keyboard input issues."; // TODO
 
 "Open System Preferences" = "Открыть Системные настройки";
 

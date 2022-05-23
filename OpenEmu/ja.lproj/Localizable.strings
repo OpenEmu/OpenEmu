@@ -571,9 +571,13 @@
 
 "Ignore" = "無視";
 
-"OpenEmu requires additional permissions" = "OpenEmu requires additional permissions";  // Headline for Input Monitoring permissions // TODO
+"ALERT_INPUT_MONITORING_HEADLINE" = "OpenEmu requires additional permissions"; // TODO
 
-"OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues." = "キーボードを入力デバイスとして使用するには、OpenEmu に入力監視の権限を許可する必要があります。";  // "Message for Input Monitoring permissions" // TODO
+"ALERT_INPUT_MONITORING_PART1" = "キーボードを入力デバイスとして使用するには、OpenEmu に入力監視の権限を許可する必要があります。";
+
+"ALERT_INPUT_MONITORING_PART2" = "Toggling the permission may also resolve keyboard input issues."; // TODO
+
+"ALERT_INPUT_MONITORING_PART2_MONTEREY" = "Removing and re-granting the permission may also resolve keyboard input issues."; // TODO
 
 "Open System Preferences" = "Open System Preferences";  // TODO
 

@@ -463,8 +463,15 @@ class AppDelegate: NSObject {
         }
         #endif
         let alert = OEAlert()
-        alert.messageText = NSLocalizedString("OpenEmu requires additional permissions", comment:"Headline for Input Monitoring permissions")
-        alert.informativeText = NSLocalizedString("OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device.\n\nToggling the permission may also resolve keyboard input issues.", comment:"Message for Input Monitoring permissions")
+        alert.messageText = NSLocalizedString("ALERT_INPUT_MONITORING_HEADLINE", comment:"Headline for Input Monitoring permissions")
+        var informativeText = NSLocalizedString("ALERT_INPUT_MONITORING_PART1", comment:"Message for Input Monitoring permissions")
+        informativeText += "\n\n"
+        if #available(macOS 12.0, *) {
+            informativeText += NSLocalizedString("ALERT_INPUT_MONITORING_PART2_MONTEREY", comment:"Message for Input Monitoring permissions")
+        } else {
+            informativeText += NSLocalizedString("ALERT_INPUT_MONITORING_PART2", comment:"Message for Input Monitoring permissions")
+        }
+        alert.informativeText = informativeText
         alert.defaultButtonTitle = NSLocalizedString("Open System Preferences", comment:"")
         alert.alternateButtonTitle = NSLocalizedString("Ignore", comment: "")
 
