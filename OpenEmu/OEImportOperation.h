@@ -26,7 +26,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@import Foundation;
+@import Cocoa;
 
 @class OEROMImporter;
 
