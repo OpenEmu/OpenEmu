@@ -107,17 +107,6 @@
 			name = "Build SystemPlugins";
 			productName = "Build SystemPlugins";
 		};
-		9479664E15EDE645004316AB /* Update Build Version */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 9479665115EDE646004316AB /* Build configuration list for PBXAggregateTarget "Update Build Version" */;
-			buildPhases = (
-				9479665315EDE64C004316AB /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = "Update Build Version";
-			productName = "Update Build Version";
-		};
 		94EBBCD7183F422500743756 /* Build & Copy Experimental & Alpha SystemPlugins */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 94EBBCF4183F422500743756 /* Build configuration list for PBXAggregateTarget "Build & Copy Experimental & Alpha SystemPlugins" */;
@@ -308,7 +297,6 @@
 		5A3DB1731D8CA752009445EC /* BackgroundGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */; };
 		5A3DB1B11D8E6806009445EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1B01D8E6806009445EC /* AppDelegate.swift */; };
 		5A438A1B1D89AEB60061A47C /* OpenEmuApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A438A1A1D89AEB60061A47C /* OpenEmuApplication.swift */; };
-		5A44301C1D93380600E54F1D /* OEBuildInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A44301B1D93380600E54F1D /* OEBuildInfo.m */; };
 		5A46AC411DC66D8300771B3B /* GameViewController+TouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A46AC401DC66D8300771B3B /* GameViewController+TouchBar.swift */; };
 		5A575DFB1E92B6CE00491B0D /* BIOSFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A575DFA1E92B6CE00491B0D /* BIOSFile.swift */; };
 		5A575DFD1E92D23600491B0D /* Cheats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A575DFC1E92D23600491B0D /* Cheats.swift */; };
@@ -1134,13 +1122,6 @@
 			remoteGlobalIDString = 94A224A21707543600098DA0;
 			remoteInfo = "Atari 2600";
 		};
-		9479665415EDE6B3004316AB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9479664E15EDE645004316AB;
-			remoteInfo = "Update Build Version";
-		};
 		94CEB29817A8D4F0005A2107 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1397,7 +1378,6 @@
 		0586AB21231A1E9A00BCDA6B /* OEGameLayerNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEGameLayerNotificationView.swift; sourceTree = "<group>"; };
 		05888F3925A0373300286232 /* ShaderParametersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderParametersViewController.swift; sourceTree = "<group>"; };
 		05888F7325A111B000286232 /* ShaderParametersViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaderParametersViewController.xib; sourceTree = "<group>"; };
-		058A4DE427A76EBE00BFCF7C /* OEBuildVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBuildVersion.h; sourceTree = "<group>"; };
 		05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+OEAdditions.swift"; sourceTree = "<group>"; };
 		05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarHeaderView.swift; sourceTree = "<group>"; };
 		05A002D723DE539F007F0DB7 /* SidebarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItemView.swift; sourceTree = "<group>"; };
@@ -1533,8 +1513,6 @@
 		5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundGradientView.swift; sourceTree = "<group>"; };
 		5A3DB1B01D8E6806009445EC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A438A1A1D89AEB60061A47C /* OpenEmuApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenEmuApplication.swift; sourceTree = "<group>"; };
-		5A44301A1D93380600E54F1D /* OEBuildInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBuildInfo.h; sourceTree = "<group>"; };
-		5A44301B1D93380600E54F1D /* OEBuildInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBuildInfo.m; sourceTree = "<group>"; };
 		5A46AC401DC66D8300771B3B /* GameViewController+TouchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GameViewController+TouchBar.swift"; sourceTree = "<group>"; };
 		5A575DFA1E92B6CE00491B0D /* BIOSFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BIOSFile.swift; sourceTree = "<group>"; };
 		5A575DFC1E92D23600491B0D /* Cheats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cheats.swift; sourceTree = "<group>"; };
@@ -3504,9 +3482,6 @@
 				8F580206283AFE5E0021465F /* ArchiveHelper.swift */,
 				5A9606E91C0BD2BD0089B494 /* Logging.swift */,
 				8F419A0225B6C7AE00A7F0BE /* OEAppearance.swift */,
-				058A4DE427A76EBE00BFCF7C /* OEBuildVersion.h */,
-				5A44301A1D93380600E54F1D /* OEBuildInfo.h */,
-				5A44301B1D93380600E54F1D /* OEBuildInfo.m */,
 				83F7DBAD18C0E2470029199C /* OEFileManager.h */,
 				83F7DBAE18C0E2470029199C /* OEFileManager.m */,
 			);
@@ -4870,13 +4845,13 @@
 				0547FE1F24E86D9F005C1FFC /* Embed XPC Services */,
 				8F94DEC7250EC701003A1F33 /* Embed App Extensions */,
 				0121480D2537D48C007F3C84 /* Update Info.plist File Types */,
+				8FA5FB93283C5E7D00CC11A8 /* Update Info.plist Build Version */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				012148242537D7F2007F3C84 /* PBXTargetDependency */,
 				8309A781166CE6360013AD4A /* PBXTargetDependency */,
-				9479665515EDE6B3004316AB /* PBXTargetDependency */,
 				3DAA589A14464890001C09A8 /* PBXTargetDependency */,
 				1B6A25021430F8FB009F1CE1 /* PBXTargetDependency */,
 				0547FE1E24E86D9F005C1FFC /* PBXTargetDependency */,
@@ -5478,7 +5453,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1230;
+				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					011FD36125267910006D7C05 = {
@@ -5605,9 +5580,6 @@
 						ProvisioningStyle = Manual;
 					};
 					946B9461178289BA00A212AC = {
-						ProvisioningStyle = Manual;
-					};
-					9479664E15EDE645004316AB = {
 						ProvisioningStyle = Manual;
 					};
 					94A224321707537F00098DA0 = {
@@ -5767,7 +5739,6 @@
 				011FD36125267910006D7C05 /* Build Experimental SystemPlugins */,
 				94EBBCD7183F422500743756 /* Build & Copy Experimental & Alpha SystemPlugins */,
 				01607FC525388361006FCBC8 /* Build & Copy Experimental SystemPlugins */,
-				9479664E15EDE645004316AB /* Update Build Version */,
 				016F22DB23F19F5F00181842 /* OEAlertTest */,
 				015BFEB325266DFC0025139F /* OEControlLabelsGenerator */,
 				05DB72A02532681B0098459D /* OpenEmuTests */,
@@ -6463,18 +6434,24 @@
 			shellPath = /bin/sh;
 			shellScript = "rm -rf \"$USER_LIBRARY_DIR/Frameworks/OpenEmuBase.framework\"\ncp -R \"$BUILT_PRODUCTS_DIR/OpenEmuBase.framework\" \"$USER_LIBRARY_DIR/Frameworks/OpenEmuBase.framework\"\n";
 		};
-		9479665315EDE64C004316AB /* ShellScript */ = {
+		8FA5FB93283C5E7D00CC11A8 /* Update Info.plist Build Version */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/OpenEmu.app/Contents/Info.plist",
+			);
+			name = "Update Info.plist Build Version";
+			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "# Define BUILD_VERSION with git revision and build configuration\ngitBundle=`which git`\ngitLastTag=`${gitBundle} describe --abbrev=0 --tags`\ngitNumCommitsToLastTag=`${gitBundle} rev-list --count ${gitLastTag}`\ngitNumCommitsSinceLastTag=`${gitBundle} rev-list --count ${gitLastTag}..`\ngitCommitSha=`${gitBundle} rev-parse --short HEAD`\nbundleConfiguration=\"$CONFIGURATION\"\nbuildRef=\"${gitNumCommitsToLastTag}.${gitNumCommitsSinceLastTag}-g${gitCommitSha}-${bundleConfiguration}\"\n\nlongBuildRef=`${gitBundle} rev-parse --verify HEAD`\n\ncontent=$(cat <<EOF\n#define BUILD_VERSION @\"$buildRef\"\n#define LONG_BUILD_VERSION @\"$longBuildRef\"\nEOF\n)\n\nif ! [[ -f OEBuildVersion.h ]] || ! cmp -s <(echo \"$content\") OEBuildVersion.h; then\n    echo \"$content\" > OEBuildVersion.h\nfi\n";
+			shellPath = /bin/sh;
+			shellScript = "# Define OEBuildVersion with git revision and build configuration\ngitBundle=`which git`\ngitLastTag=`${gitBundle} describe --abbrev=0 --tags`\ngitNumCommitsToLastTag=`${gitBundle} rev-list --count ${gitLastTag}`\ngitNumCommitsSinceLastTag=`${gitBundle} rev-list --count ${gitLastTag}..`\ngitCommitSha=`${gitBundle} rev-parse --short HEAD`\nbundleConfiguration=\"$CONFIGURATION\"\nbuildRef=\"${gitNumCommitsToLastTag}.${gitNumCommitsSinceLastTag}-g${gitCommitSha}-${bundleConfiguration}\"\n\nlongBuildRef=`${gitBundle} rev-parse --verify HEAD`\n\ninfoplistFile=\"${BUILT_PRODUCTS_DIR}/OpenEmu.app/Contents/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :OEBuildVersion $buildRef\" \"$infoplistFile\"\n/usr/libexec/PlistBuddy -c \"Set :OELongBuildVersion $longBuildRef\" \"$infoplistFile\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -6750,7 +6727,6 @@
 				01E2A2F323E60F7E00194150 /* PrefCoresController.swift in Sources */,
 				8FBD79192736A17B00E455FC /* GameInfoHelper.swift in Sources */,
 				5A438A1B1D89AEB60061A47C /* OpenEmuApplication.swift in Sources */,
-				5A44301C1D93380600E54F1D /* OEBuildInfo.m in Sources */,
 				8F2F92AA2519A9E700699691 /* GameScannerButton.swift in Sources */,
 				8F80217C24F45E6700DC82E3 /* ControlsPopUpButton.swift in Sources */,
 				5AC349311D89E4EB0089B26F /* NSDocumentController+Additions.swift in Sources */,
@@ -7387,11 +7363,6 @@
 			isa = PBXTargetDependency;
 			target = 94A224A21707543600098DA0 /* Atari 2600 */;
 			targetProxy = 946C7ABE19EE4B70000F9466 /* PBXContainerItemProxy */;
-		};
-		9479665515EDE6B3004316AB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9479664E15EDE645004316AB /* Update Build Version */;
-			targetProxy = 9479665415EDE6B3004316AB /* PBXContainerItemProxy */;
 		};
 		94CEB29917A8D4F0005A2107 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -8479,20 +8450,6 @@
 			};
 			name = Release;
 		};
-		9479664F15EDE645004316AB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		9479665015EDE645004316AB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		94A2243D1707537F00098DA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -9461,15 +9418,6 @@
 			buildConfigurations = (
 				946B946B178289BB00A212AC /* Debug */,
 				946B946C178289BB00A212AC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9479665115EDE646004316AB /* Build configuration list for PBXAggregateTarget "Update Build Version" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9479664F15EDE645004316AB /* Debug */,
-				9479665015EDE645004316AB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

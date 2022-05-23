@@ -136,10 +136,14 @@
 	<string>OEApplication</string>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
+	<key>OEBuildVersion</key>
+	<string></string>
 	<key>OEBundlePath</key>
 	<string>~/Library/Application Support/OpenEmu/Cores/</string>
 	<key>OECoreListURL</key>
 	<string>https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores.xml</string>
+	<key>OELongBuildVersion</key>
+	<string></string>
 	<key>OpenEmuKit</key>
 	<dict>
 		<key>XPCBrokerServiceName</key>

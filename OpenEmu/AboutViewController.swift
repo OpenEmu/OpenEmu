@@ -56,7 +56,7 @@ final class AboutViewController: NSViewController {
     }
     
     @objc dynamic var buildVersion: String {
-        return OEBuildInfo.buildVersion
+        return Bundle.main.infoDictionary!["OEBuildVersion"] as? String ?? ""
     }
     
     @objc dynamic lazy var specialThanks: NSAttributedString = {
