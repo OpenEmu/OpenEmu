@@ -26,8 +26,7 @@
 
 #import "OEImportOperation.h"
 @import OpenEmuKit;
-
-#import <XADMaster/XADArchive.h>
+@import XADMaster.XADArchive;
 
 #import "NSFileManager+OEHashingAdditions.h"
 
