@@ -230,7 +230,7 @@ extension OpenVGDB: URLSessionDownloadDelegate {
         let url = databaseFileURL
         let databaseFolder = url.deletingLastPathComponent()
         
-        OEDecompressFileInArchiveAtPathToDirectory(location.path, databaseFolder.path)
+        ArchiveHelper.decompressFileInArchive(at: location, toDirectory: databaseFolder)
         
         DLog("OpenVGDB extracted to database folder.")
         

@@ -36,15 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define BOOL_STR(value) ((value) ? "YES" : "NO")
 
 #define OECoreDataMainThreadAssertion() NSAssert([NSThread isMainThread], @"Only call on main thread!")
-// output must be at least 2*len+1 bytes
-void tohex(const unsigned char *input, size_t len, char *output);
 void OEPrintFirstResponderChain(void);
 NSArray *OENextRespondersFromResponder(NSResponder *responder);
-
-NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath);
-NSString *decompressedPathForRomAtPath(NSString *aPath);
-NSString *OETemporaryDirectoryForDecompressionOfFileWithHash(NSString *aPath, NSString * __nullable hash);
-NSString *OEDecompressFileInArchiveAtPathWithHash(NSString *aPath, NSString * __nullable hash, BOOL * __nullable success);
-NSString *OEDecompressFileInArchiveAtPathToDirectory(NSString *path, NSString *directory);
 
 NS_ASSUME_NONNULL_END

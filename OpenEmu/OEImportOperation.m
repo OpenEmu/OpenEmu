@@ -560,8 +560,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     if(self.exploreArchives == NO) return;
     DLog();
     NSURL *url = self.URL;
-    NSString *path = url.path;
-    NSString *extension = path.pathExtension.lowercaseString;
+    NSString *extension = url.pathExtension.lowercaseString;
 
     // nds and some isos might be recognized as compressed archives by XADArchive
     // but we don't ever want to extract anything from those files
@@ -572,7 +571,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     XADArchive *archive = nil;
     @try
     {
-        archive = [XADArchive archiveForFile:path];
+        archive = [XADArchive archiveForFile:url.path];
     }
     @catch(NSException *e)
     {
@@ -607,11 +606,11 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
                 continue;
             }
 
-            NSString *folder = temporaryDirectoryForDecompressionOfPath(path);
+            NSString *folder = [OEArchiveHelper temporaryDirectoryForDecompressionOfFileAtURL:url].path;
             NSString *name   = [archive nameOfEntry:i];
-            if (name.pathExtension.length == 0 && path.pathExtension.length > 0) {
+            if (name.pathExtension.length == 0 && url.pathExtension.length > 0) {
                 // this won't do. Re-add the archive's extension in case it's .smc or the like
-                name = [name stringByAppendingPathExtension:path.pathExtension];
+                name = [name stringByAppendingPathExtension:url.pathExtension];
             }
 
             self.fileName = name;

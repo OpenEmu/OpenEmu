@@ -461,7 +461,7 @@ final class PrefDebugController: NSViewController {
                                 .appendingPathComponent("org.openemu.OpenEmu", isDirectory: true)
                                 .appendingPathComponent(UUID().uuidString, isDirectory: true)
                             
-                            OEDecompressFileInArchiveAtPathToDirectory(location.path, tmpDir.path)
+                            ArchiveHelper.decompressFileInArchive(at: location, toDirectory: tmpDir)
                             
                             let urls = try? FileManager.default.contentsOfDirectory(at: tmpDir, includingPropertiesForKeys: nil)
                             for url in urls ?? [] {

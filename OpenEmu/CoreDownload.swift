@@ -138,7 +138,9 @@ extension CoreDownload: URLSessionDownloadDelegate {
         coresFolder.appendPathComponent("OpenEmu", isDirectory: true)
         coresFolder.appendPathComponent("Cores", isDirectory: true)
         
-        let fileName = OEDecompressFileInArchiveAtPathToDirectory(location.path, coresFolder.path)
+        guard
+            let fileName = ArchiveHelper.decompressFileInArchive(at: location, toDirectory: coresFolder)
+        else { return }
         
         let fullPluginPath = coresFolder.appendingPathComponent(fileName).path
         

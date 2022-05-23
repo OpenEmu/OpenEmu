@@ -648,17 +648,16 @@ final class OEGameDocument: NSDocument {
         
         var path = romFileURL.path
         let lastDisplayModeInfo = UserDefaults.standard.object(forKey: String(format: OEGameCoreDisplayModeKeyFormat, corePlugin.bundleIdentifier)) as? [String : Any]
-        // if file is in an archive append :entryIndex to path, so the core manager can figure out which entry to load
-        if let index = rom.archiveFileIndex as? Int {
-            path += ":\(index)"
-        }
+        
+        let index = rom.archiveFileIndex as? Int ?? 0
         
         // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
-        let ext = URL(fileURLWithPath: path).pathExtension.lowercased()
+        let ext = romFileURL.pathExtension.lowercased()
         if systemPlugin.systemIdentifier != "openemu.system.arcade",
            ext != "md", ext != "nds", ext != "iso" {
             var romDecompressed = ObjCBool(romDecompressed)
-            path = OEDecompressFileInArchiveAtPathWithHash(path, rom.md5, &romDecompressed)
+            let decomprDst = ArchiveHelper.decompressFileInArchive(at: romFileURL, atIndex: index, withHash: rom.md5, didDecompress: &romDecompressed)
+            path = decomprDst?.path ?? romFileURL.path
             self.romDecompressed = romDecompressed.boolValue
             romPath = path
         }
@@ -1355,8 +1354,7 @@ final class OEGameDocument: NSDocument {
                 let url = panel.url
             else { return }
             
-            let path = decompressedPathForRomAtPath(url.path)
-            let fileURL = URL(fileURLWithPath: path)
+            let fileURL = ArchiveHelper.decompressFileInArchive(at: url) ?? url
             
             self.gameCoreManager.insertFile(at: fileURL) { success, error in
                 if !success {

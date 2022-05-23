@@ -455,6 +455,7 @@
 		8F4BDF7D1CE4AB34007DCB86 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7C1CE4AB34007DCB86 /* libsqlite3.tbd */; };
 		8F4BDF801CE4ACC6007DCB86 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */; };
 		8F5074741C10BCEC00F52B83 /* LibraryGamesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5074751C10BCEC00F52B83 /* LibraryGamesViewController.xib */; };
+		8F580207283AFE5E0021465F /* ArchiveHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F580206283AFE5E0021465F /* ArchiveHelper.swift */; };
 		8F58592F24F4340D009B8502 /* HomebrewOutlinedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */; };
 		8F65E76526F3988500471DC4 /* GridSizeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F65E76426F3988500471DC4 /* GridSizeSlider.swift */; };
 		8F714FD824F85CEA006AF031 /* HUDBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F714FD724F85CEA006AF031 /* HUDBarButton.swift */; };
@@ -482,8 +483,8 @@
 		8FBAE60C254BA0D300446C3B /* OEControls.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FBAE60E254BA0D300446C3B /* OEControls.strings */; };
 		8FBAE9EB254BD7FA00446C3B /* NSControl+i18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBAE9EA254BD7FA00446C3B /* NSControl+i18n.swift */; };
 		8FBD79192736A17B00E455FC /* GameInfoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD79182736A17B00E455FC /* GameInfoHelper.swift */; };
-		8FBD791A2736C63D00E455FC /* OEArchiveHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9591853817500B6AF26 /* OEArchiveHelper.m */; };
 		8FC080272825914E00F18E15 /* OELibraryDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC080262825914E00F18E15 /* OELibraryDatabase.swift */; };
+		8FBD791A2736C63D00E455FC /* XADArchive+OE.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9591853817500B6AF26 /* XADArchive+OE.m */; };
 		8FC3CC692708BD4200747DC2 /* OEGameDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC3CC682708BD4200747DC2 /* OEGameDocument.swift */; };
 		8FD78305243A8AD300861B7A /* Debug.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FD78307243A8AD300861B7A /* Debug.strings */; };
 		8FD905771AA2927100FA7662 /* PrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F40EB791C1072B100683055 /* PrefControlsController.xib */; };
@@ -1616,8 +1617,8 @@
 		836AEA6F1975BFE100B86935 /* OEGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridCell.h; sourceTree = "<group>"; };
 		836AEA701975BFE100B86935 /* OEGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridCell.m; sourceTree = "<group>"; };
 		836BC9561853815A00B6AF26 /* SQLiteDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
-		836BC9581853817500B6AF26 /* OEArchiveHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArchiveHelper.h; sourceTree = "<group>"; };
-		836BC9591853817500B6AF26 /* OEArchiveHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEArchiveHelper.m; sourceTree = "<group>"; };
+		836BC9581853817500B6AF26 /* XADArchive+OE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XADArchive+OE.h"; sourceTree = "<group>"; };
+		836BC9591853817500B6AF26 /* XADArchive+OE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XADArchive+OE.m"; sourceTree = "<group>"; };
 		8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowCursorTextView.swift; sourceTree = "<group>"; };
 		83753F1614F537C400D708A7 /* PrefDebugController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefDebugController.swift; sourceTree = "<group>"; };
 		83753F1914F5383F00D708A7 /* PrefDebugController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefDebugController.xib; sourceTree = "<group>"; };
@@ -1740,6 +1741,7 @@
 		8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		8F4BDF7C1CE4AB34007DCB86 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		8F5074751C10BCEC00F52B83 /* LibraryGamesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LibraryGamesViewController.xib; sourceTree = "<group>"; };
+		8F580206283AFE5E0021465F /* ArchiveHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveHelper.swift; sourceTree = "<group>"; };
 		8F58592E24F4340D009B8502 /* HomebrewOutlinedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomebrewOutlinedButton.swift; sourceTree = "<group>"; };
 		8F65E76426F3988500471DC4 /* GridSizeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridSizeSlider.swift; sourceTree = "<group>"; };
 		8F714FD724F85CEA006AF031 /* HUDBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDBarButton.swift; sourceTree = "<group>"; };
@@ -2981,6 +2983,8 @@
 				8FAD320125B31FB000323020 /* URL+OEAdditions.swift */,
 				05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */,
 				0544B6AB23D16E7A00F63D61 /* OEResponder.h */,
+				836BC9581853817500B6AF26 /* XADArchive+OE.h */,
+				836BC9591853817500B6AF26 /* XADArchive+OE.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -3502,10 +3506,9 @@
 			isa = PBXGroup;
 			children = (
 				0571307E259A8859001CB13A /* AppMover.swift */,
+				8F580206283AFE5E0021465F /* ArchiveHelper.swift */,
 				5A9606E91C0BD2BD0089B494 /* DLog.swift */,
 				8F419A0225B6C7AE00A7F0BE /* OEAppearance.swift */,
-				836BC9581853817500B6AF26 /* OEArchiveHelper.h */,
-				836BC9591853817500B6AF26 /* OEArchiveHelper.m */,
 				058A4DE427A76EBE00BFCF7C /* OEBuildVersion.h */,
 				5A44301A1D93380600E54F1D /* OEBuildInfo.h */,
 				5A44301B1D93380600E54F1D /* OEBuildInfo.m */,
@@ -6746,6 +6749,7 @@
 				8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */,
 				8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */,
 				8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */,
+				8F580207283AFE5E0021465F /* ArchiveHelper.swift in Sources */,
 				8FEE03DD26D5561A0087CB51 /* OEDBSystem.swift in Sources */,
 				0544B68323D1355500F63D61 /* LibraryController.swift in Sources */,
 				8353EB7D15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel in Sources */,
@@ -6776,7 +6780,7 @@
 				8F419A0325B6C7AE00A7F0BE /* OEAppearance.swift in Sources */,
 				5A575DFB1E92B6CE00491B0D /* BIOSFile.swift in Sources */,
 				83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */,
-				8FBD791A2736C63D00E455FC /* OEArchiveHelper.m in Sources */,
+				8FBD791A2736C63D00E455FC /* XADArchive+OE.m in Sources */,
 				83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */,
 				8F419A3C25B6C81600A7F0BE /* PrefDebugController.swift in Sources */,
 				5A6C157C1DC96C3700839986 /* OEMediaViewController+TouchBar.swift in Sources */,

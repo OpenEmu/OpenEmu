@@ -103,8 +103,8 @@ final class GameInfoHelper: NSObject {
                 
                 var removeFile = false
                 var romURL: URL
-                if let archiveFileIndex = archiveFileIndex,
-                   let archiveURL = OEArchiveHelper.url(ofExtractedFile: url, archiveFileIndex: archiveFileIndex) {
+                if let archiveFileIndex = archiveFileIndex as? Int,
+                   let archiveURL = ArchiveHelper.decompressFileInArchive(at: url, atIndex: archiveFileIndex) {
                     romURL = archiveURL
                     removeFile = true
                 } else {
