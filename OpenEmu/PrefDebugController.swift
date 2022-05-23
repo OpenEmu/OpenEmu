@@ -447,7 +447,7 @@ final class PrefDebugController: NSViewController {
                let releases = try? JSONSerialization.jsonObject(with: result, options: .allowFragments) as? [AnyHashable],
                let release = releases.first as? [AnyHashable : Any],
                let tagName = release["tag_name"] as? String {
-                let url = downloadURL.appendingPathComponent("\(tagName)/Shaders.zip")
+                let url = downloadURL.appendingPathComponent("\(tagName)/Shaders-\(tagName).zip")
                 
                 DispatchQueue.main.async {
                     let request = URLRequest(url: url)
@@ -455,9 +455,22 @@ final class PrefDebugController: NSViewController {
                     let downloadTask = downloadSession.downloadTask(with: request) { location, response, error in
                         
                         if let location = location,
-                           let userShadersPath = OEShaderStore.shared.userShadersPath {
+                           let importer = OELibraryDatabase.default?.importer {
                             
-                            OEDecompressFileInArchiveAtPathToDirectory(location.path, userShadersPath.path)
+                            let tmpDir = FileManager.default.temporaryDirectory
+                                .appendingPathComponent("org.openemu.OpenEmu", isDirectory: true)
+                                .appendingPathComponent(UUID().uuidString, isDirectory: true)
+                            
+                            OEDecompressFileInArchiveAtPathToDirectory(location.path, tmpDir.path)
+                            
+                            let urls = try? FileManager.default.contentsOfDirectory(at: tmpDir, includingPropertiesForKeys: nil)
+                            for url in urls ?? [] {
+                                if let op = OEImportOperation(url: url, in: importer) {
+                                    importer.addOperation(op)
+                                }
+                            }
+                            
+                            importer.start()
                         }
                     }
                     
