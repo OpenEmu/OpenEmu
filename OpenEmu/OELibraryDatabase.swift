@@ -26,7 +26,224 @@ import Cocoa
 import OSLog
 
 @objc
-extension OELibraryDatabase {
+@objcMembers
+class OELibraryDatabase: OELibraryDatabaseObjC {
+    
+    enum Errors: LocalizedError {
+        case folderNotFound
+        case noModelToGenerateStoreFrom
+        
+        var errorDescription: String? {
+            switch self {
+            case .folderNotFound:
+                return NSLocalizedString("The OpenEmu Library could not be found.", comment: "")
+            case .noModelToGenerateStoreFrom:
+                return NSLocalizedString("No model to generate a store from.", comment: "")
+            }
+        }
+    }
+    
+    @objc(defaultDatabase)
+    private(set) static var `default`: OELibraryDatabase?
+    
+    private var databaseURL: URL
+    
+    private var _writerContext: NSManagedObjectContext?
+    var writerContext: NSManagedObjectContext {
+        _writerContext!
+    }
+    private var _mainThreadContext: NSManagedObjectContext?
+    var mainThreadContext: NSManagedObjectContext {
+        _mainThreadContext!
+    }
+    
+    private(set) lazy var importer = ROMImporter(database: self)
+    
+    // Exposed for library migration
+    var persistentStoreCoordinator: NSPersistentStoreCoordinator?
+    
+    private lazy var managedObjectModel: NSManagedObjectModel? = {
+        let modelURL = Bundle.main.url(forResource: "OEDatabase", withExtension: "momd")!
+        if let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL) {
+            return managedObjectModel
+        } else {
+            return nil
+        }
+    }()
+    
+    private var undoManager: UndoManager? {
+        nil //mainThreadContext.undoManager
+    }
+    
+    // MARK: -
+    
+    init(url: URL) {
+        databaseURL = url
+        super.init()
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(applicationWillTerminate), name: NSApplication.willTerminateNotification, object: NSApp)
+        nc.addObserver(self, selector: #selector(managedObjectContextDidSave), name: .NSManagedObjectContextDidSave, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        
+        os_log(.debug, log: OE_LOG_LIBRARY, "Destroying library database")
+    }
+    
+    @objc func applicationWillTerminate(_ notification: Notification) {
+        importer.saveQueue()
+        
+        do {
+            try writerContext.save()
+        } catch {
+            os_log(.error, log: OE_LOG_LIBRARY, "Could not save database: %{public}@", error as NSError)
+            NSApp.presentError(error)
+        }
+    }
+    
+    @objc func managedObjectContextDidSave(_ notification: Notification) {
+        guard let context = notification.object as? NSManagedObjectContext else { return }
+        if context == mainThreadContext {
+            // Write changes to disk (in background)
+            let writerContext = writerContext
+            writerContext.perform {
+                try? writerContext.save()
+            }
+        }
+        else if context == writerContext,
+                context.userInfo[OEManagedObjectContextHasDirectChangesKey] as? Bool == true
+        {
+            context.userInfo[OEManagedObjectContextHasDirectChangesKey] = false
+            let mainThreadContext = mainThreadContext
+            mainThreadContext.perform {
+                mainThreadContext.mergeChanges(fromContextDidSave: notification)
+                try? mainThreadContext.save()
+            }
+        }
+    }
+    
+    // MARK: -
+    
+    static func load(from url: URL) throws {
+        os_log(.info, log: OE_LOG_LIBRARY, "Load library database from: '%@'", url.path)
+        
+        var isDir = ObjCBool(false)
+        if !FileManager.default.fileExists(atPath: url.path, isDirectory: &isDir) || !isDir.boolValue {
+            os_log(.error, log: OE_LOG_LIBRARY, "Library database folder not found")
+            throw Errors.folderNotFound
+        }
+        
+        let defaultDB = OELibraryDatabase(url: url)
+        `default` = defaultDB
+        
+        do {
+            try defaultDB.loadPersistantStore()
+        } catch {
+            `default` = nil
+            throw error
+        }
+        defaultDB.loadManagedObjectContext()
+        defaultDB.createInitialItemsIfNeeded()
+        
+        let path = (defaultDB.databaseURL.path as NSString).abbreviatingWithTildeInPath
+        UserDefaults.standard.set(path, forKey: OEDatabasePathKey)
+        
+        let romImporter = defaultDB.importer
+        romImporter.loadQueue()
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(2)) {
+            defaultDB.startOpenVGDBSync()
+            romImporter.start()
+        }
+    }
+    
+    private func loadPersistantStore() throws {
+        guard let mom = managedObjectModel else {
+            os_log(.error, log: OE_LOG_LIBRARY, "No model to generate a store from")
+            throw Errors.noModelToGenerateStoreFrom
+        }
+        let coordinator = NSPersistentStoreCoordinator(managedObjectModel: mom)
+        persistentStoreCoordinator = coordinator
+        
+        let url = databaseURL.appendingPathComponent(OEDatabaseFileName, isDirectory: false)
+        
+        let options = [
+            NSMigratePersistentStoresAutomaticallyOption : false,
+            NSInferMappingModelAutomaticallyOption       : false,
+        ]
+        
+        do {
+            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
+        } catch {
+            persistentStoreCoordinator = nil
+            throw error
+        }
+        
+        os_log(.debug, log: OE_LOG_LIBRARY, "ROMs folder URL: %{public}@", romsFolderURL?.path ?? "nil")
+    }
+    
+    private func loadManagedObjectContext() {
+        // Setup a private managed object context
+        let writerContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        writerContext.name = "OELibraryDatabase.writer"
+        writerContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+        writerContext.retainsRegisteredObjects = true
+        writerContext.persistentStoreCoordinator = persistentStoreCoordinator
+        writerContext.userInfo[OELibraryDatabaseUserInfoKey] = self
+        writerContext.userInfo["name"] = "main"
+        writerContext.undoManager = nil
+        _writerContext = writerContext
+        
+        // Setup a moc for use on main thread
+        let mainThreadContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        mainThreadContext.parent = writerContext
+        mainThreadContext.name = "OELibraryDatabase.mainThread"
+        mainThreadContext.userInfo[OELibraryDatabaseUserInfoKey] = self
+        mainThreadContext.userInfo["name"] = "UI"
+        mainThreadContext.undoManager = nil
+        _mainThreadContext = mainThreadContext
+        
+        // remeber last location as database path
+        let path = (databaseURL.path as NSString).abbreviatingWithTildeInPath
+        UserDefaults.standard.set(path, forKey: OEDatabasePathKey)
+    }
+    
+    private func createInitialItemsIfNeeded() {
+        let context = mainThreadContext
+        
+        let smartCollections = OEDBSmartCollection.allObjects(in: context)
+        if !smartCollections.isEmpty {
+            return
+        }
+        
+        let recentlyAdded = OEDBSmartCollection.createObject(in: context)
+        recentlyAdded.name = "Recently Added"
+        recentlyAdded.save()
+    }
+    
+    // MARK: - Creating child contexts
+    
+    func makeChildContext() -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        context.parent = mainThreadContext
+        context.undoManager = nil
+        context.mergePolicy = mainThreadContext.mergePolicy
+        context.userInfo[OELibraryDatabaseUserInfoKey] = self
+        
+        return context
+    }
+    
+    func makeWriterChildContext() -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        context.parent = writerContext
+        context.undoManager = nil
+        context.mergePolicy = writerContext.mergePolicy
+        context.userInfo[OELibraryDatabaseUserInfoKey] = self
+        
+        return context
+    }
     
     // MARK: - Administration
     
@@ -210,6 +427,51 @@ extension OELibraryDatabase {
         let libraryFolderPath = UserDefaults.standard.string(forKey: OEDatabasePathKey)!
         let path = (libraryFolderPath as NSString).expandingTildeInPath
         return URL(fileURLWithPath: path, isDirectory: true)
+    }
+    
+    var romsFolderURL: URL? {
+        if let persistentStore = persistentStoreCoordinator?.persistentStores.last,
+           let metadata = persistentStoreCoordinator?.metadata(for: persistentStore),
+           let urlString = metadata[OELibraryRomsFolderURLKey] as? String
+        {
+            if !urlString.contains("file://") {
+                return URL(string: urlString, relativeTo: databaseFolderURL)
+            } else {
+                return URL(string: urlString)
+            }
+        } else {
+            let result = databaseFolderURL.appendingPathComponent("roms", isDirectory: true)
+            try? FileManager.default.createDirectory(at: result, withIntermediateDirectories: true)
+            setRomsFolderURL(result)
+            
+            return result
+        }
+    }
+    
+    func setRomsFolderURL(_ url: URL) {
+        guard let persistentStore = persistentStoreCoordinator?.persistentStores.last,
+              var metadata = persistentStore.metadata
+        else { return }
+        
+        let databaseFolderURL = databaseFolderURL
+        
+        if url.isSubpath(of: databaseFolderURL) {
+            let urlString = (url.absoluteString as NSString).substring(from: (databaseFolderURL.absoluteString as NSString).length)
+            metadata[OELibraryRomsFolderURLKey] = "./" + urlString
+        } else {
+            metadata[OELibraryRomsFolderURLKey] = url.absoluteString
+        }
+        
+        // Using the instance method sets the metadata for the current store in memory, while
+        // using the class method writes to disk immediately. Calling both seems redundant
+        // but is the only way I found that works.
+        //
+        // Also see discussion at http://www.cocoabuilder.com/archive/cocoa/295041-setting-not-saving-nspersistentdocument-metadata-changes-file-modification-date.html
+        persistentStoreCoordinator?.setMetadata(metadata, for: persistentStore)
+        try? NSPersistentStoreCoordinator.setMetadata(metadata, forPersistentStoreOfType: persistentStore.type, at: persistentStore.url!)
+        writerContext.perform {
+            try? self.writerContext.save()
+        }
     }
     
     var unsortedRomsFolderURL: URL {

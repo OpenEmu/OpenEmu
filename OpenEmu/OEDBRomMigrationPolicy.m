@@ -33,8 +33,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *const OELibraryRomsFolderURLKey;
-
 @implementation OEDBRomMigrationPolicy
 
 - (BOOL)createDestinationInstancesForSourceInstance:(NSManagedObject *)oldObject entityMapping:(NSEntityMapping *)mapping manager:(NSMigrationManager *)manager error:(NSError **)error

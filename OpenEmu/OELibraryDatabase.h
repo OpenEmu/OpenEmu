@@ -27,19 +27,7 @@
 @import Foundation;
 @import CoreData;
 
-@class OEDBRom;
-@class OEDBGame;
-@class OEDBSystem;
-@class OEDBCollection;
-@class OEDBSmartCollection;
-@class OEDBCollectionFolder;
-@class OEROMImporter;
-@protocol OESidebarItem;
-
 NS_ASSUME_NONNULL_BEGIN
-
-extern const int OELibraryErrorCodeFolderNotFound;
-extern const int OELibraryErrorCodeFileInFolderNotFound;
 
 #define OEDatabaseFileName @"Library.storedata"
 
@@ -48,43 +36,19 @@ extern NSNotificationName const OELibraryLocationDidChangeNotification;
 
 extern NSString *const OEDatabasePathKey;
 extern NSString *const OEDefaultDatabasePathKey;
-extern NSString *const OESaveStateLastFSEventIDKey;
 extern NSString *const OELibraryDatabaseUserInfoKey;
 extern NSString *const OESaveStateFolderURLKey;
 extern NSString *const OEScreenshotFolderURLKey;
-
+extern NSString *const OELibraryRomsFolderURLKey;
 extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 
-@interface OELibraryDatabase: NSObject
-
-@property(class, readonly, nullable) OELibraryDatabase *defaultDatabase;
-
-+ (BOOL)loadFromURL:(NSURL *)libraryURL error:(NSError **)error;
-
-@property(readonly) NSManagedObjectContext *writerContext;
-@property(readonly) NSManagedObjectContext *mainThreadContext;
-
-- (NSManagedObjectContext *)makeChildContext;
-- (NSManagedObjectContext *)makeWriterChildContext;
-
-@property(strong) OEROMImporter *importer;
-
-#pragma mark - Database Folders
-
-@property (nullable) NSURL *romsFolderURL;
-
-#pragma mark - OpenVGDB Sync
+@interface OELibraryDatabaseObjC: NSObject
 
 - (void)startOpenVGDBSync;
 
-// Exposed for library migration
-@property(strong, nullable) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
 @end
 
-#pragma mark - Moving
-
-@interface OELibraryDatabase (Moving)
+@interface OELibraryDatabaseObjC (Moving)
 
 - (void)moveGameLibraryToLocation:(NSURL*)newParentLocation NS_SWIFT_NAME(move(to:));
 
