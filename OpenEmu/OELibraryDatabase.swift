@@ -483,7 +483,6 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
         return result
     }
     
-    @objc(romsFolderURLForSystem:) // OEImportOperation
     func romsFolderURL(for system: OEDBSystem) -> URL {
         let result = romsFolderURL!.appendingPathComponent(system.name, isDirectory: true)
         try? FileManager.default.createDirectory(at: result, withIntermediateDirectories: true)

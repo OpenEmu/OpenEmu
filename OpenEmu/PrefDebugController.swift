@@ -465,7 +465,7 @@ final class PrefDebugController: NSViewController {
                             
                             let urls = try? FileManager.default.contentsOfDirectory(at: tmpDir, includingPropertiesForKeys: nil)
                             for url in urls ?? [] {
-                                if let op = OEImportOperation(url: url, in: importer) {
+                                if let op = ImportOperation(url: url, in: importer) {
                                     importer.addOperation(op)
                                 }
                             }

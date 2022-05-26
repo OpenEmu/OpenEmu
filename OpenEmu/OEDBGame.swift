@@ -28,13 +28,6 @@ extension NSPasteboard.PasteboardType {
     static let game = NSPasteboard.PasteboardType("org.openemu.game")
 }
 
-extension OEDBGame {
-    // OEImportOperation
-    @objc var mutableCollections: NSMutableSet {
-        mutableSetValue(forKeyPath: #keyPath(collections))
-    }
-}
-
 @objc
 @objcMembers
 final class OEDBGame: OEDBItem {

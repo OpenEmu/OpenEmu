@@ -113,9 +113,9 @@ final class ROMImporter: NSObject {
     }
     
     fileprivate func data(forOperationQueue queue: [Operation]) -> Data? {
-        // only pick OEImportOperations
+        // only pick ImportOperations
         let operations = queue.filter { operation in
-            if let operation = operation as? OEImportOperation {
+            if let operation = operation as? ImportOperation {
                 return !operation.isFinished && !operation.isCancelled
             } else {
                 return false
@@ -127,9 +127,9 @@ final class ROMImporter: NSObject {
         return nil
     }
     
-    fileprivate func operationQueue(from data: Data) -> [OEImportOperation]? {
-        let classes = [NSArray.self, OEImportOperation.self]
-        let operations = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: classes, from: data) as? [OEImportOperation]
+    fileprivate func operationQueue(from data: Data) -> [ImportOperation]? {
+        let classes = [NSArray.self, ImportOperation.self]
+        let operations = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: classes, from: data) as? [ImportOperation]
         return operations
     }
     
@@ -158,11 +158,11 @@ final class ROMImporter: NSObject {
     
     @objc(importItemsAtURL:intoCollectionWithID:withCompletionHandler:)
     @discardableResult
-    func importItem(at url: URL, intoCollectionWith collectionID: NSManagedObjectID? = nil, withCompletionHandler handler: OEImportItemCompletionBlock? = nil) -> Bool {
+    func importItem(at url: URL, intoCollectionWith collectionID: NSManagedObjectID? = nil, withCompletionHandler handler: ImportItemCompletionBlock? = nil) -> Bool {
         
         // check operation queue for items that have already import the same url
         let item = operationQueue.operations.first { item in
-            if let item = item as? OEImportOperation,
+            if let item = item as? ImportOperation,
                item.url == url {
                 return true
             } else {
@@ -170,7 +170,7 @@ final class ROMImporter: NSObject {
             }
         }
         if item == nil,
-           let item = OEImportOperation(url: url, in: self) {
+           let item = ImportOperation(url: url, in: self) {
             item.completionHandler = handler
             item.collectionID = collectionID
             
@@ -182,7 +182,7 @@ final class ROMImporter: NSObject {
     
     @objc(importItemsAtURLs:intoCollectionWithID:withCompletionHandler:)
     @discardableResult
-    func importItems(at urls: [URL], intoCollectionWith collectionID: NSManagedObjectID? = nil, withCompletionHandler handler: OEImportItemCompletionBlock? = nil) -> Bool {
+    func importItems(at urls: [URL], intoCollectionWith collectionID: NSManagedObjectID? = nil, withCompletionHandler handler: ImportItemCompletionBlock? = nil) -> Bool {
         
         var success = false
         for url in urls {
@@ -194,7 +194,7 @@ final class ROMImporter: NSObject {
     // MARK: -
     
     @objc
-    func addOperation(_ operation: OEImportOperation) {
+    func addOperation(_ operation: ImportOperation) {
         if operation.completionBlock == nil {
             operation.completionBlock = completionHandler(for: operation)
         }
@@ -207,8 +207,8 @@ final class ROMImporter: NSObject {
         delegateResponds(to: #selector(ROMImporterDelegate.romImporterChangedItemCount(_:)), block: { self.delegate?.romImporterChangedItemCount?(self) })
     }
     
-    func rescheduleOperation(_ operation: OEImportOperation) {
-        let copy = operation.copy() as! OEImportOperation
+    func rescheduleOperation(_ operation: ImportOperation) {
+        let copy = operation.copy() as! ImportOperation
         copy.completionBlock = completionHandler(for: copy)
         
         operationQueue.addOperation(copy)
@@ -216,7 +216,7 @@ final class ROMImporter: NSObject {
         numberOfProcessedItems -= 1
     }
     
-    private func completionHandler(for operation: OEImportOperation) -> () -> Void {
+    private func completionHandler(for operation: ImportOperation) -> () -> Void {
         let importer = self
         return {
             let state = operation.exitStatus
@@ -345,9 +345,9 @@ final class ROMImporter: NSObject {
     @objc optional func romImporterDidPause(_ importer: ROMImporter)
     @objc optional func romImporterDidFinish(_ importer: ROMImporter)
     @objc optional func romImporterChangedItemCount(_ importer: ROMImporter)
-    @objc optional func romImporter(_ importer: ROMImporter, startedProcessingItem item: OEImportOperation)
-    @objc optional func romImporter(_ importer: ROMImporter, changedProcessingPhaseOfItem item: OEImportOperation)
-    @objc optional func romImporter(_ importer: ROMImporter, stoppedProcessingItem item: OEImportOperation)
+    @objc optional func romImporter(_ importer: ROMImporter, startedProcessingItem item: ImportOperation)
+    @objc optional func romImporter(_ importer: ROMImporter, changedProcessingPhaseOfItem item: ImportOperation)
+    @objc optional func romImporter(_ importer: ROMImporter, stoppedProcessingItem item: ImportOperation)
 }
 
 #if DEBUG
@@ -357,7 +357,7 @@ extension ROMImporter {
         return data(forOperationQueue: queue)
     }
     
-    func _operationQueue(from data: Data) -> [OEImportOperation]? {
+    func _operationQueue(from data: Data) -> [ImportOperation]? {
         return operationQueue(from: data)
     }
 }

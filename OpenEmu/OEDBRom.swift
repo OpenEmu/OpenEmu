@@ -37,17 +37,6 @@ extension OEDBRom {
             return false
         }
     }
-    
-    // OEImportOperation
-    @objc(romWithMD5HashString:inContext:error:)
-    class func _rom(withMD5HashString md5Hash: String, in context: NSManagedObjectContext, error: NSErrorPointer) -> OEDBRom? {
-        do {
-            return try rom(withMD5HashString: md5Hash, in: context)
-        } catch let err as NSError {
-            error?.pointee = err
-            return nil
-        }
-    }
 }
 
 @objc

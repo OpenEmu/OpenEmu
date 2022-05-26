@@ -353,7 +353,7 @@
 		8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB1F15FF5CB10026E326 /* OEDBRomMigrationPolicy.m */; };
 		8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB2215FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m */; };
 		8353EB7D15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */; };
-		8356AEF215DA703100AA6B44 /* OEImportOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8356AEF115DA703100AA6B44 /* OEImportOperation.m */; };
+		8356AEF215DA703100AA6B44 /* ImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8356AEF115DA703100AA6B44 /* ImportOperation.swift */; };
 		8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363A439193CBAFA00F18425 /* OEGridMediaItemCell.m */; };
 		836AEA711975BFE100B86935 /* OEGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA701975BFE100B86935 /* OEGridCell.m */; };
 		8370D3E11A8D2A7600313F87 /* ArrowCursorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */; };
@@ -483,8 +483,8 @@
 		8FBAE60C254BA0D300446C3B /* OEControls.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FBAE60E254BA0D300446C3B /* OEControls.strings */; };
 		8FBAE9EB254BD7FA00446C3B /* NSControl+i18n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBAE9EA254BD7FA00446C3B /* NSControl+i18n.swift */; };
 		8FBD79192736A17B00E455FC /* GameInfoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD79182736A17B00E455FC /* GameInfoHelper.swift */; };
-		8FC080272825914E00F18E15 /* OELibraryDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC080262825914E00F18E15 /* OELibraryDatabase.swift */; };
 		8FBD791A2736C63D00E455FC /* XADArchive+OE.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9591853817500B6AF26 /* XADArchive+OE.m */; };
+		8FC080272825914E00F18E15 /* OELibraryDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC080262825914E00F18E15 /* OELibraryDatabase.swift */; };
 		8FC3CC692708BD4200747DC2 /* OEGameDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC3CC682708BD4200747DC2 /* OEGameDocument.swift */; };
 		8FD78305243A8AD300861B7A /* Debug.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FD78307243A8AD300861B7A /* Debug.strings */; };
 		8FD905771AA2927100FA7662 /* PrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F40EB791C1072B100683055 /* PrefControlsController.xib */; };
@@ -1605,8 +1605,7 @@
 		8353EB2115FF609F0026E326 /* OEDBSaveStateMigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveStateMigrationPolicy.h; sourceTree = "<group>"; };
 		8353EB2215FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveStateMigrationPolicy.m; sourceTree = "<group>"; };
 		8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.0 Beta to 0.2.xcmappingmodel"; sourceTree = "<group>"; };
-		8356AEF015DA703100AA6B44 /* OEImportOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEImportOperation.h; sourceTree = "<group>"; };
-		8356AEF115DA703100AA6B44 /* OEImportOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEImportOperation.m; sourceTree = "<group>"; };
+		8356AEF115DA703100AA6B44 /* ImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportOperation.swift; sourceTree = "<group>"; };
 		8363A3CC193C81F800F18425 /* IKImageBrowserGridGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserGridGroup.h; sourceTree = "<group>"; };
 		8363A438193CBAFA00F18425 /* OEGridMediaItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridMediaItemCell.h; sourceTree = "<group>"; };
 		8363A439193CBAFA00F18425 /* OEGridMediaItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridMediaItemCell.m; sourceTree = "<group>"; };
@@ -3201,8 +3200,7 @@
 				8FE1BF1D2586C64200A2818A /* OELibraryDatabase+Moving.m */,
 				8F4198AF25B68B7500A7F0BE /* OELibraryDatabase+Maintenance.swift */,
 				83199721142741790068C865 /* ROMImporter.swift */,
-				8356AEF015DA703100AA6B44 /* OEImportOperation.h */,
-				8356AEF115DA703100AA6B44 /* OEImportOperation.m */,
+				8356AEF115DA703100AA6B44 /* ImportOperation.swift */,
 				53439A8D13B92C56005C0CC8 /* Items */,
 				83C09355166787BC00E52265 /* Utilities */,
 			);
@@ -6738,7 +6736,7 @@
 				8F4198B025B68B7500A7F0BE /* OELibraryDatabase+Maintenance.swift in Sources */,
 				8FEE03D726D555E80087CB51 /* OEDBSaveState.swift in Sources */,
 				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,
-				8356AEF215DA703100AA6B44 /* OEImportOperation.m in Sources */,
+				8356AEF215DA703100AA6B44 /* ImportOperation.swift in Sources */,
 				8FEE03DB26D5560B0087CB51 /* OEDBGame.swift in Sources */,
 				8FE5DC0A270DC0B800878DFF /* OEDBSmartCollection.swift in Sources */,
 				8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */,

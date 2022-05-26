@@ -26,12 +26,6 @@ import Foundation
 import CryptoKit
 import OpenEmuKit // Crypto.SHA1
 
-@objc class OEArchiveHelper: NSObject { // OEImportOperation
-    @objc static func temporaryDirectoryForDecompressionOfFileAtURL(_ url: URL) -> URL? {
-        return ArchiveHelper.temporaryDirectoryForDecompressionOfFile(at: url)
-    }
-}
-
 enum ArchiveHelper {
     
     @available(macOS 10.15, *)

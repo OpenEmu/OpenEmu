@@ -448,7 +448,7 @@ final class OEGameDocument: NSDocument {
         } catch {
             // Could not find game in database. Try to import the file
             let importer = libraryDB.importer
-            let completion: OEImportItemCompletionBlock = { romID in
+            let completion: ImportItemCompletionBlock = { romID in
                 guard let romID = romID else {
                     // import probably failed
                     return

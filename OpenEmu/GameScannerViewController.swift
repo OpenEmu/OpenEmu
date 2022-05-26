@@ -44,8 +44,8 @@ final class GameScannerViewController: NSViewController {
     
     @IBOutlet private weak var sourceListScrollView: NSScrollView!
     
-    private var itemsRequiringAttention = [OEImportOperation]()
-    private var itemsFailedImport = [OEImportOperation]()
+    private var itemsRequiringAttention = [ImportOperation]()
+    private var itemsFailedImport = [ImportOperation]()
     private var isScanningDirectory = false
     private var isGameScannerVisible = true // The game scanner view is already visible in SidebarController.xib.
     
@@ -530,7 +530,7 @@ extension GameScannerViewController: ROMImporterDelegate {
         }
     }
     
-    func romImporter(_ importer: ROMImporter, stoppedProcessingItem item: OEImportOperation) {
+    func romImporter(_ importer: ROMImporter, stoppedProcessingItem item: ImportOperation) {
 
         if let error = item.error {
             
@@ -545,7 +545,7 @@ extension GameScannerViewController: ROMImporterDelegate {
                 os_log(.debug, log: OE_LOG_IMPORT, "Import error: %{public}@", error.localizedDescription)
 
                 // Track item that failed import
-                //if item.exitStatus == OEImportExitStatus.errorFatal {
+                //if item.exitStatus == .errorFatal {
                 if (error as NSError).domain == OEImportErrorDomainFatal || error is OEDiscDescriptorErrors || error is OECUESheetErrors || error is OEDreamcastGDIErrors {
 
                     itemsFailedImport.append(item)

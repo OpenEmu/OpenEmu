@@ -32,15 +32,15 @@ class ROMImporterTests: XCTestCase {
         
         var data: Data!
         do {
-            var ops: [OEImportOperation] = []
-            var op: OEImportOperation
+            var ops: [ImportOperation] = []
+            var op: ImportOperation
             
-            op = OEImportOperation()
+            op = ImportOperation()
             op.url = URL(string: "file://url/op1")!
             op.sourceURL = URL(string: "file://source/op1")!
             ops.append(op)
             
-            op = OEImportOperation()
+            op = ImportOperation()
             op.url = URL(string: "file://url/op2")!
             op.sourceURL = URL(string: "file://source/op2")!
             ops.append(op)
@@ -50,9 +50,9 @@ class ROMImporterTests: XCTestCase {
         }
         
         do {
-            let ops: [OEImportOperation]! = ri._operationQueue(from: data)
+            let ops: [ImportOperation]! = ri._operationQueue(from: data)
             XCTAssertEqual(2, ops.count)
-            var op: OEImportOperation
+            var op: ImportOperation
             
             op = ops[0]
             XCTAssertEqual(op.url.absoluteString, "file://url/op1")

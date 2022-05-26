@@ -30,18 +30,6 @@ import CommonCrypto
 
 extension FileManager {
     
-    @discardableResult
-    @objc(hashFileAtURL:md5:error:) // OEImportOperation, OELibraryDatabase+Maintenance
-    func _hashFileAtURL(_ url: URL, md5: UnsafeMutablePointer<NSString>, error: NSErrorPointer) -> Bool {
-        do {
-            md5.pointee = try hashFile(at: url, headerSize: 0) as NSString
-        } catch let err as NSError {
-            error?.pointee = err
-            return false
-        }
-        return true
-    }
-    
     func hashFile(at url: URL, headerSize: Int = 0) throws -> String {
         guard #available(macOS 10.15.4, *) else {
             return try legacyHashFile(at: url, headerSize: headerSize)
