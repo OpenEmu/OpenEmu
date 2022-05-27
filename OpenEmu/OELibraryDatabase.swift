@@ -23,7 +23,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
-import OSLog
 
 @objc
 @objcMembers
@@ -89,7 +88,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
     deinit {
         NotificationCenter.default.removeObserver(self)
         
-        os_log(.debug, log: OE_LOG_LIBRARY, "Destroying library database")
+        os_log(.debug, log: .library, "Destroying library database")
     }
     
     @objc func applicationWillTerminate(_ notification: Notification) {
@@ -98,7 +97,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
         do {
             try writerContext.save()
         } catch {
-            os_log(.error, log: OE_LOG_LIBRARY, "Could not save database: %{public}@", error as NSError)
+            os_log(.error, log: .library, "Could not save database: %{public}@", error as NSError)
             NSApp.presentError(error)
         }
     }
@@ -127,11 +126,11 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
     // MARK: -
     
     static func load(from url: URL) throws {
-        os_log(.info, log: OE_LOG_LIBRARY, "Load library database from: '%@'", url.path)
+        os_log(.info, log: .library, "Load library database from '%{public}@'", url.path)
         
         var isDir = ObjCBool(false)
         if !FileManager.default.fileExists(atPath: url.path, isDirectory: &isDir) || !isDir.boolValue {
-            os_log(.error, log: OE_LOG_LIBRARY, "Library database folder not found")
+            os_log(.error, log: .library, "Library database folder not found")
             throw Errors.folderNotFound
         }
         
@@ -161,7 +160,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
     
     private func loadPersistantStore() throws {
         guard let mom = managedObjectModel else {
-            os_log(.error, log: OE_LOG_LIBRARY, "No model to generate a store from")
+            os_log(.error, log: .library, "No model to generate a store from")
             throw Errors.noModelToGenerateStoreFrom
         }
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: mom)
@@ -181,7 +180,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
             throw error
         }
         
-        os_log(.debug, log: OE_LOG_LIBRARY, "ROMs folder URL: %{public}@", romsFolderURL?.path ?? "nil")
+        os_log(.debug, log: .library, "ROMs folder URL: %{public}@", romsFolderURL?.path ?? "nil")
     }
     
     private func loadManagedObjectContext() {
@@ -291,7 +290,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
             do {
                 result = try context.fetch(fetchRequest) as? [OEDBRom]
             } catch {
-                os_log(.error, log: OE_LOG_LIBRARY, "Error executing fetch request to get rom by md5: %{public}@", error as NSError)
+                os_log(.error, log: .library, "Error executing fetch request to get rom by md5: %{public}@", error as NSError)
                 return
             }
         }
@@ -572,30 +571,30 @@ extension OELibraryDatabase {
     @available(macOS 11.0, *)
     func dump(prefix: String = "***") {
         let subPrefix = prefix + "-----"
-        os_log(.debug, log: OE_LOG_LIBRARY, "\(prefix) Beginning of database dump")
+        os_log(.debug, log: .library, "\(prefix) Beginning of database dump")
         
-        os_log(.debug, log: OE_LOG_LIBRARY, "\(prefix) Database folder is \(self.databaseFolderURL.path)")
-        os_log(.debug, log: OE_LOG_LIBRARY, "\(prefix) Number of collections is \(self.collections.count)")
+        os_log(.debug, log: .library, "\(prefix) Database folder is \(self.databaseFolderURL.path)")
+        os_log(.debug, log: .library, "\(prefix) Number of collections is \(self.collections.count)")
         
         for collection in collections {
             //collection.dump(prefix: subPrefix)
-            os_log(.debug, log: OE_LOG_LIBRARY, "\(subPrefix) Collection is \(collection.description)")
+            os_log(.debug, log: .library, "\(subPrefix) Collection is \(collection.description)")
         }
         
-        os_log(.debug, log: OE_LOG_LIBRARY, "\(prefix)")
+        os_log(.debug, log: .library, "\(prefix)")
         let systemCount = OEDBSystem.systemCount(in: mainThreadContext)
-        os_log(.debug, log: OE_LOG_LIBRARY, "\(prefix) Number of systems is \(systemCount)")
+        os_log(.debug, log: .library, "\(prefix) Number of systems is \(systemCount)")
         for system in OEDBSystem.allSystems(in: mainThreadContext) {
             system.dump(prefix: subPrefix)
         }
         
-        os_log(.debug, log: OE_LOG_LIBRARY, "\(prefix)")
-        os_log(.debug, log: OE_LOG_LIBRARY, "\(prefix) ALL ROMs")
+        os_log(.debug, log: .library, "\(prefix)")
+        os_log(.debug, log: .library, "\(prefix) ALL ROMs")
         for rom in allROMsForDump() {
             rom.dump(prefix: subPrefix)
         }
         
-        os_log(.debug, log: OE_LOG_LIBRARY, "\(prefix) end of database dump")
+        os_log(.debug, log: .library, "\(prefix) end of database dump")
     }
     
     func allROMsForDump() -> [OEDBRom] {

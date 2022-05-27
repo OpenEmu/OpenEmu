@@ -25,7 +25,6 @@
  */
 
 import Cocoa
-import os
 import OpenEmuSystem
 import OpenEmuKit
 
@@ -76,7 +75,7 @@ class AppDelegate: NSObject {
             if logHIDEvents {
                 hidEventsMonitor = OEDeviceManager.shared.addGlobalEventMonitorHandler { handler, event in
                     if event.type != .keyboard {
-                        os_log(.info, log: OE_LOG_EVENT_HID, "%{public}@", event)
+                        os_log(.info, log: .event_hid, "%{public}@", event)
                     }
                     return true
                 }
@@ -96,7 +95,7 @@ class AppDelegate: NSObject {
             if logKeyboardEvents {
                 keyboardEventsMonitor = OEDeviceManager.shared.addGlobalEventMonitorHandler { handler, event in
                     if event.type == .keyboard {
-                        os_log(.info, log: OE_LOG_EVENT_KEYBOARD, "%{public}@", event)
+                        os_log(.info, log: .event_keyboard, "%{public}@", event)
                     }
                     return true
                 }
@@ -427,7 +426,7 @@ class AppDelegate: NSObject {
         
         if !incompatibleSaveStates.isEmpty {
             
-            os_log(.info, log: OE_LOG_DEFAULT, "Removing %d incompatible save states(s).", incompatibleSaveStates.count)
+            os_log(.info, log: .default, "Removing %d incompatible save states(s).", incompatibleSaveStates.count)
             
             for saveState in incompatibleSaveStates {
                 saveState.deleteAndRemoveFiles()
@@ -569,7 +568,7 @@ class AppDelegate: NSObject {
     // MARK: - Debug
     
     @IBAction func OEDebug_logResponderChain(_ sender: AnyObject?) {
-        os_log(.info, log: OE_LOG_DEFAULT, "NSApp.KeyWindow: %{public}@", String(describing: NSApp.keyWindow))
+        os_log(.info, log: .default, "NSApp.KeyWindow: %{public}@", String(describing: NSApp.keyWindow))
         
         if let keyWindow = NSApp.keyWindow {
             
@@ -583,7 +582,7 @@ class AppDelegate: NSObject {
             
             let output = responderChain.reduce("Responder Chain: ") { $0 + " -> \($1)" }
             
-            os_log(.info, log: OE_LOG_DEFAULT, "%{public}@", output)
+            os_log(.info, log: .default, "%{public}@", output)
         }
     }
 }

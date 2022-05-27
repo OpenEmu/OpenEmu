@@ -542,7 +542,7 @@ extension GameScannerViewController: ROMImporterDelegate {
                 showGameScannerView(animated: true)
                 
             } else {
-                os_log(.debug, log: OE_LOG_IMPORT, "Import error: %{public}@", error.localizedDescription)
+                os_log(.debug, log: .import, "Import error: %{public}@", error.localizedDescription)
 
                 // Track item that failed import
                 //if item.exitStatus == .errorFatal {

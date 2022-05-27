@@ -240,7 +240,7 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
             return .notHandled
         }
        
-        os_log(.info, log: OE_LOG_IMPORT, "File seems to be a shader plugin at %{public}@", url.path);
+        os_log(.info, log: .import, "File seems to be a shader plugin at %{public}@", url.path);
             
         let fileManager = FileManager.default
         let filename = (url.lastPathComponent as NSString).deletingPathExtension
@@ -251,7 +251,7 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
             
         if OEShaderStore.shared.systemShaderNames.contains(filename) {
             // ignore customer shaders with the same name
-            os_log(.error, log: OE_LOG_IMPORT, "Custom shader name '%{public}@' collides with system shader", filename)
+            os_log(.error, log: .import, "Custom shader name '%{public}@' collides with system shader", filename)
             return .notHandled
         }
         
@@ -260,7 +260,7 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
             do {
                 try fileManager.removeItem(at: destination)
             } catch {
-                os_log(.error, log: OE_LOG_IMPORT, "Could not remove existing directory '%{public}@' before copying shader: %{public}@", destination.path, error.localizedDescription)
+                os_log(.error, log: .import, "Could not remove existing directory '%{public}@' before copying shader: %{public}@", destination.path, error.localizedDescription)
                 return .notHandled
             }
         }
@@ -268,7 +268,7 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
         do {
             try fileManager.createDirectory(at: destination, withIntermediateDirectories: true, attributes: nil)
         } catch {
-            os_log(.error, log: OE_LOG_IMPORT, "Could not create directory '%{public}@' before copying shader: %{public}@", destination.path, error.localizedDescription)
+            os_log(.error, log: .import, "Could not create directory '%{public}@' before copying shader: %{public}@", destination.path, error.localizedDescription)
             return .notHandled
         }
         
@@ -276,7 +276,7 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
            archive.extract(to: destination.path) {
             OEShaderStore.shared.reload()
         } else {
-            os_log(.error, log: OE_LOG_IMPORT, "Error extracting shader plugin: %{public}@", url.path)
+            os_log(.error, log: .import, "Error extracting shader plugin: %{public}@", url.path)
             return .notHandled
         }
         

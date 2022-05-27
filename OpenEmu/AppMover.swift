@@ -94,7 +94,7 @@ public enum AppMover {
             return
         }
         if needAuth {
-            os_log(.info, log: OE_LOG_DEFAULT, "The destination is not writable; prompting for permissions")
+            os_log(.info, log: .default, "The destination is not writable; prompting for permissions")
             
             switch authorizedInstall(from: srcUrl, to: dstUrl) {
             case .canceled:
@@ -116,7 +116,7 @@ public enum AppMover {
                 }
                 try fm.copyItem(at: srcUrl, to: dstUrl)
             } catch {
-                os_log(.error, log: OE_LOG_DEFAULT, "Failed to move application bundle { error = %{public}@ }", error.localizedDescription)
+                os_log(.error, log: .default, "Failed to move application bundle { error = %{public}@ }", error.localizedDescription)
                 return
             }
         }
@@ -158,7 +158,7 @@ public enum AppMover {
             
             if let errNum = error[NSAppleScript.errorNumber] as? Int16,
                let errStr = error[NSAppleScript.errorMessage] as? String {
-                os_log(.error, log: OE_LOG_DEFAULT, "Executing the authorizedInstall AppleScript failed with an error. { errorNumber = %d, errorMessage = %{public}@",
+                os_log(.error, log: .default, "Executing the authorizedInstall AppleScript failed with an error. { errorNumber = %d, errorMessage = %{public}@",
                        errNum, errStr)
             }
             
