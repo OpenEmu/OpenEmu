@@ -29,7 +29,7 @@ extension OELibraryDatabase {
     func cleanupAutoSaveStates() {
         let context = mainThreadContext
         
-        let allRoms = OEDBRom.allObjects(in: context) as! [OEDBRom]
+        let allRoms = context.allObjects(ofType: OEDBRom.self)
         
         for rom in allRoms {
             let states = rom.saveStates.sorted {
@@ -64,7 +64,7 @@ extension OELibraryDatabase {
         guard let database = OELibraryDatabase.default else { return }
         let context = mainThreadContext
         
-        var allSaveStates = OEDBSaveState.allObjects(in: context) as! [OEDBSaveState]
+        var allSaveStates = context.allObjects(ofType: OEDBSaveState.self)
         
         // remove invalid save states
         allSaveStates.forEach { $0.deleteAndRemoveFilesIfInvalid() }
@@ -86,12 +86,12 @@ extension OELibraryDatabase {
         }
         
         // remove invalid save states, again
-        allSaveStates = OEDBSaveState.allObjects(in: context) as! [OEDBSaveState]
+        allSaveStates = context.allObjects(ofType: OEDBSaveState.self)
         allSaveStates.forEach { $0.deleteAndRemoveFilesIfInvalid() }
         try? context.save()
         
         // remove duplicates
-        allSaveStates = OEDBSaveState.allObjects(in: context) as! [OEDBSaveState]
+        allSaveStates = context.allObjects(ofType: OEDBSaveState.self)
         allSaveStates = (allSaveStates as NSArray).sortedArray(using: [
             NSSortDescriptor(key: "rom.md5", ascending: true),
             NSSortDescriptor(key: "coreIdentifier", ascending: true),
@@ -120,7 +120,7 @@ extension OELibraryDatabase {
         try? context.save()
         
         // move to default location
-        allSaveStates = OEDBSaveState.allObjects(in: context) as! [OEDBSaveState]
+        allSaveStates = context.allObjects(ofType: OEDBSaveState.self)
         for saveState in allSaveStates {
             if !saveState.moveToDefaultLocation() {
                 NSLog("SaveState is still corrupt!")
@@ -288,7 +288,7 @@ extension OELibraryDatabase {
     func cleanupHashes() {
         let context = mainThreadContext
         
-        let allRoms = OEDBRom.allObjects(in: context) as! [OEDBRom]
+        let allRoms = context.allObjects(ofType: OEDBRom.self)
         
         for rom in allRoms {
             rom.md5 = rom.md5?.lowercased()
@@ -300,7 +300,7 @@ extension OELibraryDatabase {
     func removeDuplicatedRoms() {
         let context = mainThreadContext
         
-        var allRoms = OEDBRom.allObjects(in: context) as! [OEDBRom]
+        var allRoms = context.allObjects(ofType: OEDBRom.self)
         allRoms.sort {
             guard let s1 = $0.md5,
                   let s2 = $1.md5
@@ -355,7 +355,7 @@ extension OELibraryDatabase {
         
         NSLog("= START SANITY CHECK =")
         
-        var allRoms = OEDBRom.allObjects(in: context) as! [OEDBRom]
+        var allRoms = context.allObjects(ofType: OEDBRom.self)
         
         // Look for roms without games
         counts.0 = 0
@@ -421,7 +421,7 @@ extension OELibraryDatabase {
         }
         
         // Look for games without roms
-        let allGames = OEDBGame.allObjects(in: context) as! [OEDBGame]
+        let allGames = context.allObjects(ofType: OEDBGame.self)
         
         counts.0 = 0
         for game in allGames {
@@ -436,7 +436,7 @@ extension OELibraryDatabase {
         
         
         // Look for save states without rom
-        let allStates = OEDBSaveState.allObjects(in: context) as! [OEDBSaveState]
+        let allStates = context.allObjects(ofType: OEDBSaveState.self)
         counts.0 = 0
         counts.1 = 0
         for state in allStates {
@@ -456,7 +456,7 @@ extension OELibraryDatabase {
         
         
         // Look for images without game
-        let allImages = OEDBImage.allObjects(in: context) as! [OEDBImage]
+        let allImages = context.allObjects(ofType: OEDBImage.self)
         counts.0 = 0
         for image in allImages {
             if image.Box == nil {

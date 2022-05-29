@@ -9,7 +9,6 @@
 #import "OELibraryDatabase.h"
 #import "OELibraryMigrator.h"
 #import "ALIterativeMigrator.h"
-#import "OEDBItem.h"
 
 #import "OECoverGridDataSourceItem.h"
 #import "OEListViewDataSourceItem.h"

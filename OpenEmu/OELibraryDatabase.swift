@@ -240,7 +240,7 @@ final class OELibraryDatabase: NSObject {
     private func createInitialItemsIfNeeded() {
         let context = mainThreadContext
         
-        let smartCollections = OEDBSmartCollection.allObjects(in: context)
+        let smartCollections = context.allObjects(ofType: OEDBSmartCollection.self)
         if !smartCollections.isEmpty {
             return
         }
@@ -295,11 +295,11 @@ final class OELibraryDatabase: NSObject {
         let allGamesCollections = OEDBAllGamesCollection.shared
         collectionsArray.append(allGamesCollections)
         
-        let smartCollections = OEDBSmartCollection.allObjects(in: context, sortBy: [sortDescriptor], error: nil)
-        collectionsArray.append(contentsOf: smartCollections as! [OEDBSmartCollection])
+        let smartCollections = context.allObjects(ofType: OEDBSmartCollection.self, sortedBy: [sortDescriptor])
+        collectionsArray.append(contentsOf: smartCollections)
         
-        let collections = OEDBCollection.allObjects(in: context, sortBy: [sortDescriptor], error: nil)
-        collectionsArray.append(contentsOf: collections as! [OEDBCollection])
+        let collections = context.allObjects(ofType: OEDBCollection.self, sortedBy: [sortDescriptor])
+        collectionsArray.append(contentsOf: collections)
         
         return collectionsArray
     }

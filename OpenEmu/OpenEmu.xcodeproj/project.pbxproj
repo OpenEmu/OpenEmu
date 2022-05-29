@@ -303,7 +303,7 @@
 		8306CD3E1BD3DB180025BC6C /* OEGameCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */; };
 		83096F0314E98FC000F7EBC2 /* FileManager+Hashing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* FileManager+Hashing.swift */; };
 		8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy SaveState QL Generator */ = {isa = PBXBuildFile; fileRef = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A98B155410EF00DF13B5 /* OEDBItem.m */; };
+		8314A98C155410EF00DF13B5 /* OEDBItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314A98B155410EF00DF13B5 /* OEDBItem.swift */; };
 		83199722142741790068C865 /* ROMImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* ROMImporter.swift */; };
 		832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */; };
 		832D29401451A68700BDF950 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832D293F1451A68700BDF950 /* MainWindowController.swift */; };
@@ -1505,8 +1505,7 @@
 		8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCollectionViewController.m; sourceTree = "<group>"; };
 		8306CD3D1BD3DB180025BC6C /* OEGameCollectionViewItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCollectionViewItemProtocol.h; sourceTree = "<group>"; };
 		83096F0214E98FC000F7EBC2 /* FileManager+Hashing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileManager+Hashing.swift"; sourceTree = "<group>"; };
-		8314A98A155410EF00DF13B5 /* OEDBItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBItem.h; sourceTree = "<group>"; };
-		8314A98B155410EF00DF13B5 /* OEDBItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBItem.m; sourceTree = "<group>"; };
+		8314A98B155410EF00DF13B5 /* OEDBItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEDBItem.swift; sourceTree = "<group>"; };
 		83199721142741790068C865 /* ROMImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ROMImporter.swift; sourceTree = "<group>"; };
 		832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.0.xcdatamodel"; sourceTree = "<group>"; };
 		832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.0 Beta 4 to 1.0.xcmappingmodel"; sourceTree = "<group>"; };
@@ -3069,8 +3068,7 @@
 			children = (
 				53439A9113B92C6B005C0CC8 /* Collections */,
 				94A4E988179F9A3F00AD8C7D /* Media */,
-				8314A98A155410EF00DF13B5 /* OEDBItem.h */,
-				8314A98B155410EF00DF13B5 /* OEDBItem.m */,
+				8314A98B155410EF00DF13B5 /* OEDBItem.swift */,
 				8FEE03DA26D5560B0087CB51 /* OEDBGame.swift */,
 				8FEE03DE26D556290087CB51 /* OEDBImage.swift */,
 				8FEE03E026D556610087CB51 /* OEDBRom.swift */,
@@ -6393,7 +6391,7 @@
 				C68A54E61516AD3C001053F2 /* OEDatabase.xcdatamodeld in Sources */,
 				8F4198B025B68B7500A7F0BE /* OELibraryDatabase+Maintenance.swift in Sources */,
 				8FEE03D726D555E80087CB51 /* OEDBSaveState.swift in Sources */,
-				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,
+				8314A98C155410EF00DF13B5 /* OEDBItem.swift in Sources */,
 				8356AEF215DA703100AA6B44 /* ImportOperation.swift in Sources */,
 				8FEE03DB26D5560B0087CB51 /* OEDBGame.swift in Sources */,
 				8FE5DC0A270DC0B800878DFF /* OEDBSmartCollection.swift in Sources */,
