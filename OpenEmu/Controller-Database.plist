@@ -708,6 +708,22 @@
 				<key>OEControllerProductID</key>
 				<integer>4</integer>
 			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>SteelSeries Stratus Duo via receiver</string>
+				<key>OEControllerVendorID</key>
+				<integer>4152</integer>
+				<key>OEControllerProductID</key>
+				<integer>5168</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>SteelSeries Stratus Duo via cable</string>
+				<key>OEControllerVendorID</key>
+				<integer>4152</integer>
+				<key>OEControllerProductID</key>
+				<integer>5169</integer>
+			</dict>
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
@@ -3063,6 +3079,14 @@
 			</dict>
 			<dict>
 				<key>OEControllerDeviceName</key>
+				<string>SteelSeries Nimbus via cable</string>
+				<key>OEControllerVendorID</key>
+				<integer>4152</integer>
+				<key>OEControllerProductID</key>
+				<integer>5152</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
 				<string>SteelSeries Stratus XL</string>
 				<key>OEControllerVendorID</key>
 				<integer>273</integer>
@@ -3315,7 +3339,7 @@
 				<key>OEControllerDeviceName</key>
 				<string>Nintendo Switch Pro Controller</string>
 				<key>OEControllerVendorID</key>
-				<real>1406</real>
+				<integer>1406</integer>
 				<key>OEControllerProductID</key>
 				<integer>8201</integer>
 			</dict>
@@ -3900,7 +3924,7 @@
 				<key>OEControllerProductName</key>
 				<string>Retro Bit Bluetooth Controller</string>
 				<key>OEControllerVendorID</key>
-				<real>1118</real>
+				<integer>1118</integer>
 				<key>OEControllerProductID</key>
 				<integer>736</integer>
 				<key>OEControllerRequiresNameMatch</key>
