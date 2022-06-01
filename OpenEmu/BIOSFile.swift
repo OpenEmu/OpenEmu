@@ -35,28 +35,24 @@ extension Notification.Name {
 }
 
 /// Detects and imports BIOS files.
-@objc(OEBIOSFile)
-@objcMembers
-class BIOSFile: NSObject {
+enum BIOSFile {
     
-    static let biosPath = NSString.path(withComponents:
-        [NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).last!,
-         "OpenEmu",
-         "BIOS"])
+    static let biosFolderURL = FileManager.default.urls(for: .applicationSupportDirectory,
+                                                        in: .userDomainMask).first!
+                                .appendingPathComponent("OpenEmu", isDirectory: true)
+                                .appendingPathComponent("BIOS", isDirectory: true)
     
     // MARK: - File Handling
     
     /// Determine if BIOS file exists and has correct MD5 hash.
     /// - Parameter fileInfo: Dictionary containing "Name" and "MD5" keys.
-    /// - Returns: `True` if file exists with correct MD5.
-    @objc(isBIOSFileAvailable:)
+    /// - Returns: Returns `true` if file exists with correct MD5.
     static func isBIOSFileAvailable(withFileInfo fileInfo: [String: Any]) -> Bool {
         
         let biosSystemFilename = fileInfo["Name"] as! String
         let biosSystemMD5 = fileInfo["MD5"] as! String
         
-        let destination = (BIOSFile.biosPath as NSString).appendingPathComponent(biosSystemFilename)
-        let destinationURL = URL(fileURLWithPath: destination)
+        let destinationURL = biosFolderURL.appendingPathComponent(biosSystemFilename, isDirectory: false)
         
         let isReachable = (try? destinationURL.checkResourceIsReachable()) ?? false
         
@@ -86,7 +82,7 @@ class BIOSFile: NSObject {
     @discardableResult
     static func deleteBIOSFile(withFileName fileName: String) -> Bool {
         
-        let destinationURL = URL(fileURLWithPath: Self.biosPath).appendingPathComponent(fileName)
+        let destinationURL = biosFolderURL.appendingPathComponent(fileName, isDirectory: false)
         
         let isReachable = (try? destinationURL.checkResourceIsReachable()) ?? false
         if isReachable {
@@ -109,7 +105,6 @@ class BIOSFile: NSObject {
     ///     * "Description"
     ///     * "Optional"
     /// - Returns: Returns `true` if all required files exist. Otherwise, returns `false` and displays a user alert.
-    @objc(allRequiredFilesAvailableForSystemIdentifier:)
     static func requiredFilesAvailable(forSystemIdentifier systemIdentifier: [[String: Any]]) -> Bool {
         
         var missingFileStatus = false
@@ -147,7 +142,6 @@ class BIOSFile: NSObject {
     /// Determine if the file at the given URL is a BIOS file and, if so, copy it to the BIOS folder.
     /// - Parameter url: URL of the file.
     /// - Returns: Returns `true` if the file is a BIOS file and was copied successfully.
-    @objc(checkIfBIOSFileAndImportAtURL:)
     static func checkIfBIOSFileAndImport(at url: URL) -> Bool {
         do {
             let md5 = try FileManager.default.hashFile(at: url)
@@ -161,7 +155,6 @@ class BIOSFile: NSObject {
     /// - Parameter url: The URL of the file.
     /// - Parameter md5: The MD5 hash of the file.
     /// - Returns: Returns `true` if the file is a BIOS file, the MD5 hash matched, and the file was copied successfully.
-    @objc(checkIfBIOSFileAndImportAtURL:withMD5:)
     static func checkIfBIOSFileAndImport(at url: URL, withMD5 md5: String) -> Bool {
         
         let fileManager = FileManager.default
@@ -172,13 +165,12 @@ class BIOSFile: NSObject {
             let biosSystemFilename = validFile["Name"] as! String
             let biosSystemFileMD5 = validFile["MD5"] as! String
             
-            let destination = (BIOSFile.biosPath as NSString).appendingPathComponent(biosSystemFilename)
-            let destinationURL = URL(fileURLWithPath: destination)
+            let destinationURL = biosFolderURL.appendingPathComponent(biosSystemFilename, isDirectory: false)
             
             if md5.caseInsensitiveCompare(biosSystemFileMD5) == .orderedSame {
                 
                 do {
-                    try fileManager.createDirectory(at: URL(fileURLWithPath: BIOSFile.biosPath), withIntermediateDirectories: true, attributes: nil)
+                    try fileManager.createDirectory(at: biosFolderURL, withIntermediateDirectories: true)
                 } catch {
                     DLog("Could not create directory before copying bios at \(url)")
                     DLog("\(error)")

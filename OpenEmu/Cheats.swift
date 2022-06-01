@@ -46,7 +46,7 @@ import Foundation
      </systems>
 */
 
-class Cheats: NSObject, XMLParserDelegate {
+final class Cheats: NSObject {
     
     private(set) var allCheats = [NSMutableDictionary]() //[[String : Any]]
     private var didFindMD5Hash = false
@@ -65,17 +65,20 @@ class Cheats: NSObject, XMLParserDelegate {
         
         // TODO: Read cheats database from server instead of bundling with the app for easy updating.
         let cheatsDatabaseFilename = "cheats-database.xml"
-        let cheatsDatabasePath = (Bundle.main.resourcePath! as NSString).appendingPathComponent(cheatsDatabaseFilename)
+        let cheatsDatabaseURL = Bundle.main.resourceURL!.appendingPathComponent(cheatsDatabaseFilename, isDirectory: false)
         
-        let xml = try! Data(contentsOf: URL(fileURLWithPath: cheatsDatabasePath))
+        let xml = try! Data(contentsOf: cheatsDatabaseURL)
         
         let parser = XMLParser(data: xml)
         parser.delegate = self
         
         parser.parse()
     }
-    
-    // MARK: - XMLParserDelegate
+}
+
+// MARK: - XMLParserDelegate
+
+extension Cheats: XMLParserDelegate {
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         
