@@ -32,9 +32,6 @@
 
 #import "OpenEmu-Swift.h"
 
-// Swift: NSPasteboard.PasteboardType.game
-NSString *const OEPasteboardTypeGame = @"org.openemu.game";
-
 NSNotificationName const OEGameCollectionViewControllerDidSetSelectionIndexesNotification = @"OEGameCollectionViewControllerDidSetSelectionIndexesNotification";
 
 static NSArray *OE_defaultSortDescriptors;

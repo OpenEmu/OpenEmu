@@ -30,7 +30,7 @@ extension NSPasteboard.PasteboardType {
 
 @objc
 @objcMembers
-final class OEDBGame: OEDBItem {
+final class OEDBGame: OEDBGameObjC {
     
     @objc(OEDBGameStatus)
     enum Status: Int16 {
@@ -423,7 +423,7 @@ extension OEDBGame: NSPasteboardWriting {
 }
 
 // MARK: - NSPasteboardReading
-
+/*
 extension OEDBGame: NSPasteboardReading {
     
     static func readableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
@@ -439,12 +439,12 @@ extension OEDBGame: NSPasteboardReading {
            let context = OELibraryDatabase.default?.mainThreadContext,
            let propertyList = propertyList as? String,
            let uri = URL(string: propertyList) {
-            self.init(uri: uri, in: context)
+            
         }
         return nil
     }
 }
-
+*/
 // MARK: - OECoverGridDataSourceItem
 
 extension OEDBGame: OECoverGridDataSourceItem {

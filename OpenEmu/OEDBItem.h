@@ -53,8 +53,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)save;
 - (void)delete;
 
-+ (instancetype)itemWithURI:(NSURL *)objectURI inContext:(NSManagedObjectContext*)context;
-
 @end
 
 NS_ASSUME_NONNULL_END
