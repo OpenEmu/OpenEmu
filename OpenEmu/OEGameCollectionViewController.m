@@ -28,8 +28,6 @@
 
 #import "OEAlert.h"
 
-#import "OELibraryDatabase.h"
-
 #import "OpenEmu-Swift.h"
 
 NSNotificationName const OEGameCollectionViewControllerDidSetSelectionIndexesNotification = @"OEGameCollectionViewControllerDidSetSelectionIndexesNotification";
@@ -576,7 +574,7 @@ static NSString * const OEGameTableSortDescriptorsKey = @"OEGameTableSortDescrip
                 [context save:nil];
                 NSManagedObjectContext *writerContext = [context parentContext];
                 [writerContext performBlock:^{
-                    [[writerContext userInfo] setObject:@(YES) forKey:OEManagedObjectContextHasDirectChangesKey];
+                    [[writerContext userInfo] setObject:@(YES) forKey:OELibraryDatabase.managedObjectContextHasDirectChangesUserInfoKey];
                     [writerContext save:nil];
                 }];
                 

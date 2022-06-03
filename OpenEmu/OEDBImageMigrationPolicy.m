@@ -25,7 +25,7 @@
  */
 
 #import "OEDBImageMigrationPolicy.h"
-#import "OELibraryDatabase.h"
+#import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -95,7 +95,7 @@ NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
 - (NSURL *)coverFolderURL
 {
     NSUserDefaults *standardDefaults  = [NSUserDefaults standardUserDefaults];
-    NSString       *libraryFolderPath = [[standardDefaults stringForKey:OEDatabasePathKey] stringByExpandingTildeInPath];
+    NSString       *libraryFolderPath = [[standardDefaults stringForKey:OELibraryDatabase.databasePathKey] stringByExpandingTildeInPath];
     NSString       *coverFolderPath   = [libraryFolderPath stringByAppendingPathComponent:@"Artwork/"];
 
     NSURL *baseURL = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];

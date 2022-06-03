@@ -24,9 +24,20 @@
 
 import Cocoa
 
+@objc extension OELibraryDatabase {
+    static var locationDidChangeNotification: NSString {
+        return Notification.Name.libraryLocationDidChange as NSString
+    }
+}
+
+extension Notification.Name {
+    static let libraryDidLoad = Notification.Name("OELibraryDidLoadNotificationName")
+    static let libraryLocationDidChange = Notification.Name("OELibraryLocationDidChangeNotificationName")
+}
+
 @objc
 @objcMembers
-class OELibraryDatabase: OELibraryDatabaseObjC {
+final class OELibraryDatabase: NSObject {
     
     enum Errors: LocalizedError {
         case folderNotFound
@@ -41,6 +52,20 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
             }
         }
     }
+    
+    static let databaseFileExtension = "storedata"
+    static let databaseFileName = "Library.\(databaseFileExtension)"
+    
+    static let databasePathKey = "databasePath"
+    static let defaultDatabasePathKey = "defaultDatabasePath"
+    
+    static let saveStateFolderURLKey = "saveStateFolder"
+    static let screenshotFolderURLKey = "screenshotFolder"
+    
+    static let libraryRomsFolderURLKey = "romsFolderURL"
+    
+    static let libraryDatabaseUserInfoKey = "OELibraryDatabase"
+    static let managedObjectContextHasDirectChangesUserInfoKey = "hasDirectChanges"
     
     @objc(defaultDatabase)
     private(set) static var `default`: OELibraryDatabase?
@@ -73,6 +98,9 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
     private var undoManager: UndoManager? {
         nil //mainThreadContext.undoManager
     }
+    
+    private static let openVGDBSyncBatchSize = 5
+    private lazy var syncThread: Thread = makeSyncThread()
     
     // MARK: -
     
@@ -112,9 +140,9 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
             }
         }
         else if context == writerContext,
-                context.userInfo[OEManagedObjectContextHasDirectChangesKey] as? Bool == true
+                context.userInfo[Self.managedObjectContextHasDirectChangesUserInfoKey] as? Bool == true
         {
-            context.userInfo[OEManagedObjectContextHasDirectChangesKey] = false
+            context.userInfo[Self.managedObjectContextHasDirectChangesUserInfoKey] = false
             let mainThreadContext = mainThreadContext
             mainThreadContext.perform {
                 mainThreadContext.mergeChanges(fromContextDidSave: notification)
@@ -147,7 +175,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
         defaultDB.createInitialItemsIfNeeded()
         
         let path = (defaultDB.databaseURL.path as NSString).abbreviatingWithTildeInPath
-        UserDefaults.standard.set(path, forKey: OEDatabasePathKey)
+        UserDefaults.standard.set(path, forKey: Self.databasePathKey)
         
         let romImporter = defaultDB.importer
         romImporter.loadQueue()
@@ -166,7 +194,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: mom)
         persistentStoreCoordinator = coordinator
         
-        let url = databaseURL.appendingPathComponent(OEDatabaseFileName, isDirectory: false)
+        let url = databaseURL.appendingPathComponent(Self.databaseFileName, isDirectory: false)
         
         let options = [
             NSMigratePersistentStoresAutomaticallyOption : false,
@@ -188,7 +216,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
         writerContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
         writerContext.retainsRegisteredObjects = true
         writerContext.persistentStoreCoordinator = persistentStoreCoordinator
-        writerContext.userInfo[OELibraryDatabaseUserInfoKey] = self
+        writerContext.userInfo[Self.libraryDatabaseUserInfoKey] = self
         writerContext.userInfo["name"] = "main"
         writerContext.undoManager = nil
         _writerContext = writerContext
@@ -197,14 +225,14 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
         let mainThreadContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         mainThreadContext.parent = writerContext
         mainThreadContext.name = "OELibraryDatabase.mainThread"
-        mainThreadContext.userInfo[OELibraryDatabaseUserInfoKey] = self
+        mainThreadContext.userInfo[Self.libraryDatabaseUserInfoKey] = self
         mainThreadContext.userInfo["name"] = "UI"
         mainThreadContext.undoManager = nil
         _mainThreadContext = mainThreadContext
         
         // remeber last location as database path
         let path = (databaseURL.path as NSString).abbreviatingWithTildeInPath
-        UserDefaults.standard.set(path, forKey: OEDatabasePathKey)
+        UserDefaults.standard.set(path, forKey: Self.databasePathKey)
         
         os_log(.debug, log: .library, "ROMs folder URL: %{public}@", romsFolderURL?.path ?? "nil")
     }
@@ -229,7 +257,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
         context.parent = mainThreadContext
         context.undoManager = nil
         context.mergePolicy = mainThreadContext.mergePolicy
-        context.userInfo[OELibraryDatabaseUserInfoKey] = self
+        context.userInfo[Self.libraryDatabaseUserInfoKey] = self
         
         return context
     }
@@ -239,7 +267,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
         context.parent = writerContext
         context.undoManager = nil
         context.mergePolicy = writerContext.mergePolicy
-        context.userInfo[OELibraryDatabaseUserInfoKey] = self
+        context.userInfo[Self.libraryDatabaseUserInfoKey] = self
         
         return context
     }
@@ -423,7 +451,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
     // MARK: - Folders
     
     var databaseFolderURL: URL {
-        let libraryFolderPath = UserDefaults.standard.string(forKey: OEDatabasePathKey)!
+        let libraryFolderPath = UserDefaults.standard.string(forKey: Self.databasePathKey)!
         let path = (libraryFolderPath as NSString).expandingTildeInPath
         return URL(fileURLWithPath: path, isDirectory: true)
     }
@@ -431,7 +459,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
     var romsFolderURL: URL? {
         if let persistentStore = persistentStoreCoordinator?.persistentStores.last,
            let metadata = persistentStoreCoordinator?.metadata(for: persistentStore),
-           let urlString = metadata[OELibraryRomsFolderURLKey] as? String
+           let urlString = metadata[Self.libraryRomsFolderURLKey] as? String
         {
             if !urlString.contains("file://") {
                 return URL(string: urlString, relativeTo: databaseFolderURL)
@@ -456,9 +484,9 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
         
         if url.isSubpath(of: databaseFolderURL) {
             let urlString = (url.absoluteString as NSString).substring(from: (databaseFolderURL.absoluteString as NSString).length)
-            metadata[OELibraryRomsFolderURLKey] = "./" + urlString
+            metadata[Self.libraryRomsFolderURLKey] = "./" + urlString
         } else {
-            metadata[OELibraryRomsFolderURLKey] = url.absoluteString
+            metadata[Self.libraryRomsFolderURLKey] = url.absoluteString
         }
         
         // Using the instance method sets the metadata for the current store in memory, while
@@ -490,7 +518,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
     }
     
     var stateFolderURL: URL {
-        if let urlString = UserDefaults.standard.string(forKey: OESaveStateFolderURLKey),
+        if let urlString = UserDefaults.standard.string(forKey: Self.saveStateFolderURLKey),
            let url = URL(string: urlString)
         {
             return url
@@ -534,7 +562,7 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
     }
     
     var screenshotFolderURL: URL {
-        if let urlString = UserDefaults.standard.string(forKey: OEScreenshotFolderURLKey),
+        if let urlString = UserDefaults.standard.string(forKey: Self.screenshotFolderURLKey),
            let url = URL(string: urlString)
         {
             return url
@@ -560,6 +588,155 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
     
     var importQueueURL: URL {
         return databaseFolderURL.appendingPathComponent("Import Queue.db", isDirectory: false)
+    }
+    
+    // MARK: - OpenVGDB Sync
+    
+    func startOpenVGDBSync() {
+        objc_sync_enter(syncThread)
+        defer { objc_sync_exit(syncThread) }
+        
+        if syncThread.isFinished {
+            syncThread = makeSyncThread()
+        }
+    }
+    
+    private func makeSyncThread() -> Thread {
+        let syncThread = Thread(block: { [weak self] in self?.openVGDBSyncThreadMain() })
+        syncThread.name = "OEVGDBSync"
+        syncThread.qualityOfService = .utility
+        syncThread.start()
+        
+        return syncThread
+    }
+    
+    @objc private func openVGDBSyncThreadMain() {
+        let romKeys = [#keyPath(OEDBRom.md5), #keyPath(OEDBRom.url), #keyPath(OEDBRom.header), #keyPath(OEDBRom.serial), #keyPath(OEDBRom.archiveFileIndex)]
+        let gameKeys = [#keyPath(OEDBGame.permanentID)]
+        let systemKeys = [#keyPath(OEDBSystem.systemIdentifier)]
+        
+        let request = OEDBGame.fetchRequest()
+        let predicate = NSPredicate(format: "status == %d", OEDBGame.Status.processing.rawValue)
+        request.fetchLimit = Self.openVGDBSyncBatchSize
+        request.predicate = predicate
+        
+        let context = mainThreadContext
+        
+        var count = 0
+        context.performAndWait {
+            count = (try? context.count(for: request)) ?? 0
+        }
+        
+        while count != 0 {
+            var games: [[String : Any]] = []
+            
+            context.performAndWait {
+                let gamesObjects = (try? context.fetch(request)) as? [OEDBGame] ?? []
+                for game in gamesObjects {
+                    guard let rom = game.defaultROM,
+                          let system = game.system
+                    else { continue }
+                    
+                    let gameInfo = game.dictionaryWithValues(forKeys: gameKeys)
+                    let romInfo = rom.dictionaryWithValues(forKeys: romKeys)
+                    let systemInfo = system.dictionaryWithValues(forKeys: systemKeys)
+                    
+                    var info = gameInfo
+                    info.merge(romInfo) { (old, _) in return old }
+                    info.merge(systemInfo) { (old, _) in return old }
+                    
+                    games.append(info)
+                }
+            }
+            
+            for i in 0 ..< games.count {
+                let gameInfo = games[i]
+                
+                var result = GameInfoHelper.shared.gameInfo(withDictionary: gameInfo)
+                
+                // Trim the gameTitle for imported m3u's so they look nice
+                if let resultGameTitle = result["gameTitle"] as? NSString,
+                   let gameInfoURL = gameInfo[#keyPath(OEDBRom.url)] as? URL,
+                   gameInfoURL.pathExtension.lowercased() == "m3u"
+                {
+                    // RegEx pattern match the parentheses e.g. " (Disc 1)" and update dictionary with trimmed gameTitle string
+                    let newGameTitle = resultGameTitle.replacingOccurrences(of: "\\ \\(Disc.*\\)", with: "", options: .regularExpression, range: NSRange(location: 0, length: resultGameTitle.length))
+                    
+                    result["gameTitle"] = newGameTitle
+                }
+                
+                let objectID = gameInfo[#keyPath(OEDBGame.permanentID)] as! NSManagedObjectID
+                var dict: [String : Any] = ["objectID" : objectID, #keyPath(OEDBGame.status) : OEDBGame.Status.ok.rawValue]
+                
+                if !result.isEmpty {
+                    dict.merge(result) { (old, _) in return old }
+                }
+                
+                if let boxImageURL = dict["boxImageURL"] as? String,
+                   let image = OEDBImage.prepareImage(withURLString: boxImageURL) {
+                    dict["image"] = image
+                }
+                
+                Thread.sleep(forTimeInterval: 0.5)
+                
+                games[i] = dict
+            }
+            
+            var previousBoxImages: [NSManagedObjectID] = []
+            
+            context.performAndWait {
+                for i in 0 ..< games.count {
+                    var gameInfo = games[i]
+                    let objectID = gameInfo.removeValue(forKey: "objectID") as! NSManagedObjectID
+                    let imageDictionary = gameInfo.removeValue(forKey: "image") as? [String : Any]
+                    
+                    let md5 = gameInfo.removeValue(forKey: "md5") as? String
+                    let serial = gameInfo.removeValue(forKey: "serial") as? String
+                    let header = gameInfo.removeValue(forKey: "header") as? String
+                    
+                    gameInfo.removeValue(forKey: "boxImageURL")
+                    
+                    let game = OEDBGame.object(with: objectID, in: context)
+                    game?.setValuesForKeys(gameInfo)
+                    
+                    if let imageDictionary = imageDictionary,
+                       let game = game {
+                        let image = OEDBImage.createImage(with: imageDictionary)
+                        if let previousImage = game.boxImage {
+                            previousBoxImages.append(previousImage.permanentID)
+                        }
+                        game.boxImage = image
+                    }
+                    
+                    guard let rom = game?.defaultROM else { continue }
+                    
+                    if rom.md5 == nil,
+                       let md5 = md5 {
+                        rom.md5 = md5.lowercased()
+                    }
+                    if rom.serial == nil,
+                       let serial = serial {
+                        rom.md5 = serial
+                    }
+                    if rom.header == nil,
+                       let header = header {
+                        rom.header = header
+                    }
+                }
+                
+                try? context.save()
+                count = (try? context.count(for: request)) ?? 0
+            }
+            
+            context.perform {
+                for objectID in previousBoxImages {
+                    if let item = OEDBImage.object(with: objectID, in: context) {
+                        context.delete(item)
+                    }
+                }
+                try? context.save()
+            }
+        }
     }
 }
 

@@ -25,8 +25,6 @@
  */
 
 #import "OEDBSaveStateMigrationPolicy.h"
-#import "OELibraryDatabase.h"
-
 #import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -88,8 +86,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSURL *)stateFolderURL
 {
-    if([[NSUserDefaults standardUserDefaults] objectForKey:OESaveStateFolderURLKey])
-        return [[NSUserDefaults standardUserDefaults] URLForKey:OESaveStateFolderURLKey];
+    if([[NSUserDefaults standardUserDefaults] objectForKey:OELibraryDatabase.saveStateFolderURLKey])
+        return [[NSUserDefaults standardUserDefaults] URLForKey:OELibraryDatabase.saveStateFolderURLKey];
 
     NSString *saveStateFolderName = @"Save States";
     NSURL    *result = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];

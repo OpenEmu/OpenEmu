@@ -76,7 +76,7 @@ class ImageCollectionViewController: NSViewController {
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(libraryLocationDidChange(_:)),
-                                               name: .OELibraryLocationDidChange,
+                                               name: .libraryLocationDidChange,
                                                object: nil)
         
         reloadData()

@@ -25,8 +25,6 @@
  */
 
 #import "OEDBItem.h"
-#import "OELibraryDatabase.h"
-
 #import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN

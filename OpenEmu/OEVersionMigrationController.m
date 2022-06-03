@@ -29,8 +29,6 @@
 #import <objc/message.h>
 
 #import "OEDBImageMigrationPolicy.h"
-#import "OELibraryDatabase.h"
-
 #import "OpenEmu-Swift.h"
 
 @interface _OEMigrator : NSObject

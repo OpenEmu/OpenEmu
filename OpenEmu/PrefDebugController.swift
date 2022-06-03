@@ -500,7 +500,7 @@ final class PrefDebugController: NSViewController {
     // MARK: - Save States
     
     func restoreSaveStatesDirectory(_ sender: Any?) {
-        UserDefaults.standard.removeObject(forKey: OESaveStateFolderURLKey)
+        UserDefaults.standard.removeObject(forKey: OELibraryDatabase.saveStateFolderURLKey)
     }
     
     func cleanupAutoSaveStates(_ sender: Any?) {

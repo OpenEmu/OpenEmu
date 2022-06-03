@@ -25,9 +25,7 @@
  */
 
 #import "OELibraryMigrator.h"
-#import "OELibraryDatabase.h"
 #import "ALIterativeMigrator.h"
-
 #import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -44,7 +42,7 @@ NSString *const OEMigrationErrorDomain = @"OEMigrationErrorDomain";
 {
     self = [super init];
     if (self) {
-        NSURL *storeURL = [url URLByAppendingPathComponent:OEDatabaseFileName];
+        NSURL *storeURL = [url URLByAppendingPathComponent:OELibraryDatabase.databaseFileName];
         _storeURL = storeURL;
     }
     return self;

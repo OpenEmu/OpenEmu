@@ -175,9 +175,9 @@ final class OEDBGame: OEDBGameObjC {
         return count
     }
     
-    var defaultROM: OEDBRom {
+    var defaultROM: OEDBRom? {
         // TODO: If multiple roms are available we should select one based on version/revision and language
-        return roms.first!
+        return roms.first
     }
     
     var playCount: UInt {
@@ -298,8 +298,8 @@ final class OEDBGame: OEDBGameObjC {
         
         status = .downloading
         
-        let rom = defaultROM
-        guard let source = rom.source,
+        guard let rom = defaultROM,
+              let source = rom.source,
               let url = URL(string: source)
         else {
             DLog("Invalid URL to download!")
@@ -414,7 +414,7 @@ extension OEDBGame: NSPasteboardWriting {
         case .game:
             return permanentIDURI.absoluteString
         case .fileURL:
-            let url = defaultROM.url?.absoluteURL as NSURL?
+            let url = defaultROM?.url?.absoluteURL as NSURL?
             return url?.pasteboardPropertyList(forType: .fileURL)
         default:
             return nil

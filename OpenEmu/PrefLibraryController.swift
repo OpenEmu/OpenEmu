@@ -62,10 +62,7 @@ final class PrefLibraryController: NSViewController {
     
     @IBAction func resetLibraryFolder(_ sender: Any?) {
         
-        let defaultDatabasePath = (UserDefaults.standard.string(forKey: OEDefaultDatabasePathKey)! as NSString).expandingTildeInPath
-        let location = URL(fileURLWithPath: defaultDatabasePath, isDirectory: true).deletingLastPathComponent()
-        
-        OELibraryDatabase.default?.move(to: location)
+        OELibraryDatabase.default?.moveGameLibraryToDefaultLocation()
         
         pathField.url = OELibraryDatabase.default?.databaseFolderURL
         showResetLocationButtonIfNeeded()
@@ -109,7 +106,7 @@ final class PrefLibraryController: NSViewController {
             if result == .OK, let url = openPanel.url {
                 // give the openpanel some time to fade out
                 DispatchQueue.main.async {
-                    OELibraryDatabase.default?.move(to: url)
+                    OELibraryDatabase.default?.moveGameLibrary(to: url)
                     self.pathField.url = OELibraryDatabase.default?.databaseFolderURL
                     self.showResetLocationButtonIfNeeded()
                 }
@@ -119,7 +116,7 @@ final class PrefLibraryController: NSViewController {
     
     private func showResetLocationButtonIfNeeded() {
         
-        let defaultDatabasePath = (UserDefaults.standard.string(forKey: OEDefaultDatabasePathKey)! as NSString).expandingTildeInPath
+        let defaultDatabasePath = (UserDefaults.standard.string(forKey: OELibraryDatabase.defaultDatabasePathKey)! as NSString).expandingTildeInPath
         let defaultLocation = URL(fileURLWithPath: defaultDatabasePath, isDirectory: true)
         
         let currentLocation = OELibraryDatabase.default?.databaseFolderURL

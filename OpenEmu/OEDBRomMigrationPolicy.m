@@ -26,8 +26,6 @@
 
 #import "OEDBRomMigrationPolicy.h"
 @import XADMaster.XADArchive;
-#import "OELibraryDatabase.h"
-
 #import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -131,9 +129,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSURL *databaseFolderURL = persistentStore.URL.URLByDeletingLastPathComponent;
     NSURL *result = nil;
-    if(metadata[OELibraryRomsFolderURLKey])
+    if(metadata[OELibraryDatabase.libraryRomsFolderURLKey])
     {
-        NSString *urlString = metadata[OELibraryRomsFolderURLKey];
+        NSString *urlString = metadata[OELibraryDatabase.libraryRomsFolderURLKey];
         if(![urlString containsString:@"file://"])
              result = [NSURL URLWithString:urlString relativeToURL:databaseFolderURL];
         else result = [NSURL URLWithString:urlString];

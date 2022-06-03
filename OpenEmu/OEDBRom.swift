@@ -71,7 +71,7 @@ final class OEDBRom: OEDBItem {
     
     @nonobjc
     class func rom(with url: URL, in context: NSManagedObjectContext) throws -> OEDBRom? {
-        guard let library = context.userInfo[OELibraryDatabaseUserInfoKey] as? OELibraryDatabase,
+        guard let library = context.userInfo[OELibraryDatabase.libraryDatabaseUserInfoKey] as? OELibraryDatabase,
               let romFolderURL = library.romsFolderURL,
               let url = url.url(relativeTo: romFolderURL)
         else { return nil }

@@ -25,17 +25,14 @@
 import Foundation
 import OpenEmuSystem
 
-@objc(OEGameInfoHelper)
-final class GameInfoHelper: NSObject {
+final class GameInfoHelper {
     
-    @objc(sharedHelper)
     static let shared = GameInfoHelper()
     
     var database: OpenVGDB? {
         return OpenVGDB.shared.isAvailable ? OpenVGDB.shared : nil
     }
     
-    @objc
     func gameInfo(withDictionary gameInfo: [String : Any]) -> [String : Any] {
         
         DispatchQueue(label: "org.openemu.OpenEmu.GameInfoHelper").sync {

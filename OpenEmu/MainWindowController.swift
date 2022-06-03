@@ -177,7 +177,7 @@ final class MainWindowController: NSWindowController {
                 self.currentContentController = self.libraryController
                 
                 // FIXME: Hack, reloads sidebar to make systems show up
-                NotificationCenter.default.post(name: .OELibraryLocationDidChange, object: nil)
+                NotificationCenter.default.post(name: .libraryLocationDidChange, object: nil)
             }
             
             window?.center()
@@ -517,7 +517,7 @@ extension MainWindowController: NSWindowRestoration {
             appDelegate.restoreWindow = true
             
             let completionHandlerCopy = completionHandler
-            let observerOfLibraryDidLoad = NotificationCenter.default.addObserver(forName: .OELibraryDidLoadNotificationName, object: nil, queue: .main) { _ in
+            let observerOfLibraryDidLoad = NotificationCenter.default.addObserver(forName: .libraryDidLoad, object: nil, queue: .main) { _ in
                 let mainWindowController = self.init(windowNibName: "MainWindow")
                 appDelegate.mainWindowController = mainWindowController
                 let mainWindow = mainWindowController.window

@@ -235,7 +235,7 @@ final class OEGameDocument: NSDocument {
     init(game: OEDBGame, core: OECorePlugin?) throws {
         super.init()
         do {
-            try setUpDocument(with: game.defaultROM, using: core)
+            try setUpDocument(with: game.defaultROM!, using: core)
         } catch {
             throw error
         }
@@ -506,7 +506,7 @@ final class OEGameDocument: NSDocument {
         } else {
             do {
                 // TODO: Load rom that was just imported instead of the default one
-                try setUpDocument(with: game.defaultROM, using: nil)
+                try setUpDocument(with: game.defaultROM!, using: nil)
             } catch {
                 throw error
             }

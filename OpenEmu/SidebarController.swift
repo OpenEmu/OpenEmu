@@ -100,7 +100,7 @@ final class SidebarController: NSViewController {
                 
                 self.reloadDataAndPreserveSelection()
             },
-            NotificationCenter.default.addObserver(forName: .OELibraryLocationDidChange, object: nil, queue: .main) { [weak self] _ in
+            NotificationCenter.default.addObserver(forName: .libraryLocationDidChange, object: nil, queue: .main) { [weak self] _ in
                 guard let self = self else { return }
                 
                 self.reloadData()

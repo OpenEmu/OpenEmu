@@ -32,8 +32,6 @@
 
 @import OpenEmuKit;
 
-#import "OELibraryDatabase.h"
-
 #import "OEGridGameCell.h"
 
 #import "OpenEmu-Swift.h"
@@ -169,7 +167,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
     [notificationCenter addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
     
-    [notificationCenter addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotification object:nil];
+    [notificationCenter addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryDatabase.locationDidChangeNotification object:nil];
 }
 
 - (void)viewDidAppear

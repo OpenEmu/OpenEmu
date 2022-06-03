@@ -25,32 +25,12 @@
  */
 
 @import Foundation;
-@import CoreData;
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define OEDatabaseFileName @"Library.storedata"
-
-extern NSNotificationName const OELibraryDidLoadNotificationName;
-extern NSNotificationName const OELibraryLocationDidChangeNotification;
-
-extern NSString *const OEDatabasePathKey;
-extern NSString *const OEDefaultDatabasePathKey;
-extern NSString *const OELibraryDatabaseUserInfoKey;
-extern NSString *const OESaveStateFolderURLKey;
-extern NSString *const OEScreenshotFolderURLKey;
-extern NSString *const OELibraryRomsFolderURLKey;
-extern NSString *const OEManagedObjectContextHasDirectChangesKey;
-
 @interface OELibraryDatabaseObjC: NSObject
 
-- (void)startOpenVGDBSync;
-
-@end
-
-@interface OELibraryDatabaseObjC (Moving)
-
-- (void)moveGameLibraryToLocation:(NSURL*)newParentLocation NS_SWIFT_NAME(move(to:));
++ (void)moveGameLibraryToLocation:(NSURL*)newParentLocation NS_SWIFT_NAME(move(to:));
 
 @end
 

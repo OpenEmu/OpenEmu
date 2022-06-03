@@ -125,8 +125,8 @@ class AppDelegate: NSObject {
         
         // Register defaults.
         UserDefaults.standard.register(defaults: [
-            OEDefaultDatabasePathKey: path,
-            OEDatabasePathKey: path,
+            OELibraryDatabase.defaultDatabasePathKey: path,
+            OELibraryDatabase.databasePathKey: path,
             OECopyToLibraryKey: true,
             OEAutomaticallyGetInfoKey: true,
             OEGameVolumeKey: 0.5,
@@ -176,9 +176,9 @@ class AppDelegate: NSObject {
         
         let defaults = UserDefaults.standard
         
-        let defaultDatabasePath = (defaults.string(forKey: OEDefaultDatabasePathKey)! as NSString).expandingTildeInPath
+        let defaultDatabasePath = (defaults.string(forKey: OELibraryDatabase.defaultDatabasePathKey)! as NSString).expandingTildeInPath
         let databasePath: String
-        if let databasePathDefault = defaults.string(forKey: OEDatabasePathKey) {
+        if let databasePathDefault = defaults.string(forKey: OELibraryDatabase.databasePathKey) {
             databasePath = (databasePathDefault as NSString).expandingTildeInPath
         } else {
             databasePath = defaultDatabasePath
@@ -210,7 +210,7 @@ class AppDelegate: NSObject {
             assert(OELibraryDatabase.default != nil, "No database available!")
             
             DispatchQueue.main.async {
-                NotificationCenter.default.post(name: .OELibraryDidLoadNotificationName, object: OELibraryDatabase.default!)
+                NotificationCenter.default.post(name: .libraryDidLoad, object: OELibraryDatabase.default!)
             }
             
         } catch let error as NSError {
@@ -276,7 +276,7 @@ class AppDelegate: NSObject {
             let openPanel = NSOpenPanel()
             
             openPanel.canChooseFiles = true
-            openPanel.allowedFileTypes = [(OEDatabaseFileName as NSString).pathExtension]
+            openPanel.allowedFileTypes = [OELibraryDatabase.databaseFileExtension]
             openPanel.canChooseDirectories = true
             openPanel.allowsMultipleSelection = false
             
@@ -788,7 +788,7 @@ extension AppDelegate: NSMenuDelegate {
         
         let notificationCenter = NotificationCenter.default
         
-        notificationCenter.addObserver(self, selector: #selector(libraryDatabaseDidLoad), name: .OELibraryDidLoadNotificationName, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(libraryDatabaseDidLoad), name: .libraryDidLoad, object: nil)
         notificationCenter.addObserver(self, selector: #selector(openPreferencePane), name: PreferencesWindowController.openPaneNotificationName, object: nil)
         
         notificationCenter.addObserver(self, selector: #selector(didRepairBindings), name: .OEBindingsRepaired, object: nil)

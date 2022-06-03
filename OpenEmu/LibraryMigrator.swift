@@ -29,7 +29,7 @@ final class LibraryMigrator {
     private var storeURL: URL
     
     init(storeURL: URL) {
-        self.storeURL = storeURL.appendingPathComponent(OEDatabaseFileName)
+        self.storeURL = storeURL.appendingPathComponent(OELibraryDatabase.databaseFileName)
     }
     
     func runMigration() throws {

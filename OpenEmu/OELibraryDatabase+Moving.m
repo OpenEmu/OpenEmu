@@ -24,15 +24,13 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OELibraryDatabase.h"
-
 #import "OEFileManager.h"
 
 #import "OpenEmu-Swift.h"
 
-@implementation OELibraryDatabase (Moving)
+@implementation OELibraryDatabaseObjC
 
-- (void)moveGameLibraryToLocation:(NSURL*)newParentLocation
++ (void)moveGameLibraryToLocation:(NSURL*)newParentLocation
 {
     OELibraryDatabase *library = [OELibraryDatabase defaultDatabase];
     
@@ -87,12 +85,12 @@
     NSURL *artworkURL    = [currentLocation URLByAppendingPathComponent:@"Artwork" isDirectory:YES];
     NSURL *newArtworkURL = [newLocation URLByAppendingPathComponent:@"Artwork" isDirectory:YES];
     
-    NSURL *currentStoreURL = [currentLocation URLByAppendingPathComponent:OEDatabaseFileName];
-    NSURL *newStoreURL     = [newLocation URLByAppendingPathComponent:OEDatabaseFileName];
+    NSURL *currentStoreURL = [currentLocation URLByAppendingPathComponent:OELibraryDatabase.databaseFileName];
+    NSURL *newStoreURL     = [newLocation URLByAppendingPathComponent:OELibraryDatabase.databaseFileName];
     
     if(sameVolume)
     {
-        [[NSUserDefaults standardUserDefaults] setObject:[newLocation path] forKey:OEDatabasePathKey];
+        [[NSUserDefaults standardUserDefaults] setObject:[newLocation path] forKey:OELibraryDatabase.databasePathKey];
         [library setRomsFolderURL:newRomsURL];
         [[library writerContext] performBlockAndWait:^{
             [[library writerContext] save:nil];
@@ -234,7 +232,7 @@
                     }];
                     
                     // note new rom folder loation in library
-                    [[NSUserDefaults standardUserDefaults] setObject:[newLocation path] forKey:OEDatabasePathKey];
+                    [[NSUserDefaults standardUserDefaults] setObject:[newLocation path] forKey:OELibraryDatabase.databasePathKey];
                     [library setRomsFolderURL:newRomsURL];
                     NSError *error = nil;
                     [context save:&error];
@@ -250,8 +248,8 @@
                 [fm removeItemAtURL:currentRomsURL error:nil];
 
                 // remove 'other files'
-                [fm removeItemAtURL:[currentLocation URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", OEDatabaseFileName, @"-shm"]] error:nil];
-                [fm removeItemAtURL:[currentLocation URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", OEDatabaseFileName, @"-wal"]] error:nil];
+                [fm removeItemAtURL:[currentLocation URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", OELibraryDatabase.databaseFileName, @"-shm"]] error:nil];
+                [fm removeItemAtURL:[currentLocation URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", OELibraryDatabase.databaseFileName, @"-wal"]] error:nil];
                 
                 // TODO: cleanup old location by removing empty directories
                 
@@ -259,7 +257,7 @@
                 [context save:nil];
                 void (^postNotification)(void) = ^(){
                     [[OELibraryDatabase defaultDatabase] setPersistentStoreCoordinator:coord];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryLocationDidChangeNotification object:self userInfo:nil];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryDatabase.locationDidChangeNotification object:self userInfo:nil];
                 };
                 dispatch_async(dispatch_get_main_queue(), postNotification);
                 
@@ -276,7 +274,7 @@
     if(success)
     {
         // point openemu to new library location
-        [[NSUserDefaults standardUserDefaults] setObject:[[newLocation path] stringByAbbreviatingWithTildeInPath] forKey:OEDatabasePathKey];
+        [[NSUserDefaults standardUserDefaults] setObject:[[newLocation path] stringByAbbreviatingWithTildeInPath] forKey:OELibraryDatabase.databasePathKey];
 
         OEAlert *alert = [[OEAlert alloc] init];
         alert.messageText = NSLocalizedString(@"Your library was moved sucessfully.", @"");
@@ -287,7 +285,7 @@
     {
         DLog(@"restore meta data");
         // restore meta data
-        [[NSUserDefaults standardUserDefaults] setObject:[currentLocation path] forKey:OEDatabasePathKey];
+        [[NSUserDefaults standardUserDefaults] setObject:[currentLocation path] forKey:OELibraryDatabase.databasePathKey];
         NSURL *url = [currentLocation URLByAppendingPathComponent:[[library romsFolderURL] lastPathComponent] isDirectory:YES];
         [library setRomsFolderURL:url];
         [[library writerContext] performBlockAndWait:^{
