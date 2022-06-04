@@ -146,8 +146,11 @@ final class ROMImporter: NSObject {
         
         if let operations = operationQueue(from: queueData),
            !operations.isEmpty {
-            numberOfProcessedItems = 0
-            totalNumberOfItems = operations.count
+            totalNumberOfItems += operations.count
+            for operation in operations {
+                operation.importer = self
+                operation.completionBlock = completionHandler(for: operation)
+            }
             operationQueue.addOperations(operations, waitUntilFinished: false)
             return true
         }
