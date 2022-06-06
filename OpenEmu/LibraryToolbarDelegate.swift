@@ -76,11 +76,7 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
         case .oeCategory:
             return categoryToolbarItem
         case .oeSearch:
-            if #available(macOS 11.0, *) {
-                return searchToolbarItem11
-            } else {
-                return searchToolbarItem
-            }
+            return searchToolbarItem
         case .oeAdd:
             return addToolbarItem
         default:
@@ -240,22 +236,20 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     }()
     
     private(set) lazy var searchToolbarItem: NSToolbarItem = {
-        
-        let item = NSToolbarItem(itemIdentifier: .oeSearch)
-        item.view = searchField
-        item.label = NSLocalizedString("Search", comment:"Toolbar, search field label")
-        
-        return item
-    }()
-    
-    @available(macOS 11.0, *)
-    private(set) lazy var searchToolbarItem11: NSSearchToolbarItem = {
-        
-        let item = NSSearchToolbarItem(itemIdentifier: .oeSearch)
-        item.searchField = searchField
-        item.label = NSLocalizedString("Search", comment:"Toolbar, search field label")
-        
-        return item
+        let label = NSLocalizedString("Search", comment:"Toolbar, search field label")
+        if #available(macOS 11.0, *) {
+            let item = NSSearchToolbarItem(itemIdentifier: .oeSearch)
+            item.searchField = searchField
+            item.label = label
+            
+            return item
+        } else {
+            let item = NSToolbarItem(itemIdentifier: .oeSearch)
+            item.view = searchField
+            item.label = label
+            
+            return item
+        }
     }()
     
     // MARK: - Add
