@@ -234,6 +234,11 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
     }
     
     @discardableResult
+    static func importShaderPlugin(at url: URL) -> Bool {
+        return tryShader(at: url) == .handled
+    }
+    
+    @discardableResult
     private static func tryShader(at url: URL) -> ImportResult {
         let pathExtension = url.pathExtension.lowercased()
         guard  pathExtension == "oeshaderplugin" else {
@@ -241,14 +246,14 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
         }
        
         os_log(.info, log: .import, "File seems to be a shader plugin at %{public}@", url.path);
-            
+        
         let fileManager = FileManager.default
         let filename = (url.lastPathComponent as NSString).deletingPathExtension
         let shadersPath = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
             .appendingPathComponent("OpenEmu", isDirectory: true)
             .appendingPathComponent("Shaders", isDirectory: true)
         let destination = shadersPath.appendingPathComponent(filename, isDirectory: true)
-            
+        
         if OEShaderStore.shared.systemShaderNames.contains(filename) {
             // ignore customer shaders with the same name
             os_log(.error, log: .import, "Custom shader name '%{public}@' collides with system shader", filename)

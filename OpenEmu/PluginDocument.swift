@@ -29,7 +29,11 @@ final class PluginDocument: NSDocument {
     
     override func read(from url: URL, ofType typeName: String) throws {
         let pathExtension = url.pathExtension.lowercased()
-        if pathExtension == OESystemPlugin.pluginExtension {
+        if pathExtension == "oeshaderplugin" {
+            ImportOperation.importShaderPlugin(at: url)
+            return
+        }
+        else if pathExtension == OESystemPlugin.pluginExtension {
             let userInfo = [
                 NSLocalizedFailureReasonErrorKey : NSLocalizedString("Only the built-in system plugins are supported.", comment: ""),
             ]
