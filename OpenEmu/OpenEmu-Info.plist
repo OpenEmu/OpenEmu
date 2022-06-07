@@ -64,7 +64,7 @@
 			<key>LSTypeIsPackage</key>
 			<true/>
 			<key>NSDocumentClass</key>
-			<string>OEPluginDocument</string>
+			<string>OpenEmu.PluginDocument</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -82,7 +82,7 @@
 			<key>LSTypeIsPackage</key>
 			<true/>
 			<key>NSDocumentClass</key>
-			<string>OEPluginDocument</string>
+			<string>OpenEmu.PluginDocument</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -100,7 +100,7 @@
 			<key>LSTypeIsPackage</key>
 			<true/>
 			<key>NSDocumentClass</key>
-			<string>OEPluginDocument</string>
+			<string>OpenEmu.PluginDocument</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
