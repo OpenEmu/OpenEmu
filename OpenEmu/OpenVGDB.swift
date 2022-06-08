@@ -114,8 +114,9 @@ final class OpenVGDB: NSObject {
     }
     
     var databaseFileURL: URL {
-        let applicationSupport = (try? FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)) ?? FileManager.default.temporaryDirectory
-        return applicationSupport.appendingPathComponent("OpenEmu/openvgdb.sqlite")
+        let url = URL.oeApplicationSupportDirectory
+            .appendingPathComponent("openvgdb.sqlite", isDirectory: false)
+        return url
     }
     
     /// Checks for updates and passes URL of new release and version if any newer DB is found.

@@ -127,16 +127,8 @@ extension CoreDownload: URLSessionDownloadDelegate {
         
         DLog("Core download (\(session.sessionDescription ?? "")) did finish downloading temporary data.")
         
-        let urls = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
-        let baseURL: URL
-        if !urls.isEmpty {
-            baseURL = urls.first!
-        } else {
-            baseURL = FileManager.default.temporaryDirectory
-        }
-        var coresFolder = baseURL
-        coresFolder.appendPathComponent("OpenEmu", isDirectory: true)
-        coresFolder.appendPathComponent("Cores", isDirectory: true)
+        let coresFolder = URL.oeApplicationSupportDirectory
+            .appendingPathComponent("Cores", isDirectory: true)
         
         guard
             let fileName = ArchiveHelper.decompressFileInArchive(at: location, toDirectory: coresFolder)

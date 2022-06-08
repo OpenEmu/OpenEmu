@@ -120,8 +120,9 @@ class AppDelegate: NSObject {
         super.init()
 
         // Get the game library path.
-        let supportDirectoryURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!
-        let path = (supportDirectoryURL.appendingPathComponent("OpenEmu/Game Library").path as NSString).abbreviatingWithTildeInPath
+        let libraryDirectory = URL.oeApplicationSupportDirectory
+            .appendingPathComponent("Game Library", isDirectory: true)
+        let path = (libraryDirectory.path as NSString).abbreviatingWithTildeInPath
         
         // Register defaults.
         UserDefaults.standard.register(defaults: [

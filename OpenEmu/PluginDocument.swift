@@ -40,8 +40,7 @@ final class PluginDocument: NSDocument {
             throw NSError(domain: OEGameCorePluginError.errorDomain, code: OEGameCorePluginError.outOfSupport.rawValue, userInfo: userInfo)
         }
         else if pathExtension == OECorePlugin.pluginExtension {
-            let coresDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-                .appendingPathComponent("OpenEmu", isDirectory: true)
+            let coresDir = URL.oeApplicationSupportDirectory
                 .appendingPathComponent(OECorePlugin.pluginFolder, isDirectory: true)
             let newURL = coresDir.appendingPathComponent(url.lastPathComponent, isDirectory: true)
             

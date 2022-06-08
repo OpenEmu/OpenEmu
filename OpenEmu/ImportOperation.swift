@@ -250,8 +250,7 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
         
         let fileManager = FileManager.default
         let filename = (url.lastPathComponent as NSString).deletingPathExtension
-        let shadersPath = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-            .appendingPathComponent("OpenEmu", isDirectory: true)
+        let shadersPath = URL.oeApplicationSupportDirectory
             .appendingPathComponent("Shaders", isDirectory: true)
         let destination = shadersPath.appendingPathComponent(filename, isDirectory: true)
         

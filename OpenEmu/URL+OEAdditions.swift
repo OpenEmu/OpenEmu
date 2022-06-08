@@ -32,6 +32,24 @@ extension URL {
 
 extension URL {
     
+    /// The “OpenEmu” subdirectory of the application support directory for the current user.
+    static var oeApplicationSupportDirectory: URL {
+#if swift(>=5.7)
+        if #available(macOS 13.0, *) {
+            return URL.applicationSupportDirectory.appending(path: "OpenEmu", directoryHint: .isDirectory)
+        } else {
+            return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+                .appendingPathComponent("OpenEmu", isDirectory: true)
+        }
+#else
+        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+                .appendingPathComponent("OpenEmu", isDirectory: true)
+#endif
+    }
+}
+
+extension URL {
+    
     var isDirectory: Bool {
         
         guard let resourceValues = try? resourceValues(forKeys: [.isDirectoryKey, .isPackageKey]) else {
