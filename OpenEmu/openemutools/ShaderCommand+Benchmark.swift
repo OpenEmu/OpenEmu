@@ -54,8 +54,8 @@ extension OpenEmuTools.Shader {
             }
             
             let options = ShaderCompilerOptions.makeOptions()
-            let fi = OEFilterChain(device: dev)
-            try fi.setShaderFrom(URL(fileURLWithPath: shaderPath), options: options)
+            let fi = try FilterChain(device: dev)
+            try fi.setShader(fromURL: URL(fileURLWithPath: shaderPath), options: options)
             
             guard let ctx = CGContext.make(URL(fileURLWithPath: imagePath))
             else {
@@ -67,7 +67,7 @@ extension OpenEmuTools.Shader {
             fi.setSourceRect(CGRect(x: 0, y: 0, width: ctx.width, height: ctx.height), aspect: imgSize)
             fi.drawableSize = imgSize.applying(.init(scaleX: CGFloat(outputScale), y: CGFloat(outputScale)))
             
-            let buf = fi.newBuffer(with: .bgra8Unorm, height: UInt(ctx.height), bytesPerRow: UInt(ctx.bytesPerRow))
+            let buf = fi.newBuffer(withFormat: .bgra8Unorm, height: UInt(ctx.height), bytesPerRow: UInt(ctx.bytesPerRow))
             buf.contents.copyMemory(from: ctx.data!, byteCount: ctx.height * ctx.bytesPerRow)
             
             let td = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .bgra8Unorm, width: Int(fi.drawableSize.width), height: Int(fi.drawableSize.height), mipmapped: false)
@@ -82,11 +82,10 @@ extension OpenEmuTools.Shader {
             rpd.colorAttachments[0].texture = tex
             
             let cq = dev.makeCommandQueue()!
-            
             // warm up
             do {
                 let cb = cq.makeCommandBuffer()!
-                fi.render(with: cb, renderPassDescriptor: rpd)
+                fi.render(withCommandBuffer: cb, renderPassDescriptor: rpd)
                 cb.commit()
                 cb.waitUntilCompleted()
             }
@@ -97,12 +96,14 @@ extension OpenEmuTools.Shader {
             
             let start = CACurrentMediaTime()
             for _ in 0..<count {
-                scope.begin()
-                let cb = cq.makeCommandBuffer()!
-                fi.render(with: cb, renderPassDescriptor: rpd)
-                cb.commit()
-                cb.waitUntilCompleted()
-                scope.end()
+                autoreleasepool {
+                    scope.begin()
+                    let cb = cq.makeCommandBuffer()!
+                    fi.render(withCommandBuffer: cb, renderPassDescriptor: rpd)
+                    cb.commit()
+                    cb.waitUntilCompleted()
+                    scope.end()
+                }
             }
             
             let end = CACurrentMediaTime() - start

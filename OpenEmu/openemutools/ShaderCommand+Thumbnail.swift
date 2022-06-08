@@ -55,8 +55,8 @@ This command generates a thumbnail image of a shader using a user-specified sour
             }
             
             let options = ShaderCompilerOptions.makeOptions()
-            let fi = OEFilterChain(device: dev)
-            try fi.setShaderFrom(URL(fileURLWithPath: shaderPath), options: options)
+            let fi = try FilterChain(device: dev)
+            try fi.setShader(fromURL: URL(fileURLWithPath: shaderPath), options: options)
             
             guard let ctx = CGContext.make(URL(fileURLWithPath: imagePath))
             else {
@@ -68,10 +68,12 @@ This command generates a thumbnail image of a shader using a user-specified sour
             fi.setSourceRect(CGRect(x: 0, y: 0, width: ctx.width, height: ctx.height), aspect: imgSize)
             fi.drawableSize = imgSize.applying(.init(scaleX: CGFloat(outputScale), y: CGFloat(outputScale)))
             
-            let buf = fi.newBuffer(with: .bgra8Unorm, height: UInt(ctx.height), bytesPerRow: UInt(ctx.bytesPerRow))
+            let buf = fi.newBuffer(withFormat: .bgra8Unorm, height: UInt(ctx.height), bytesPerRow: UInt(ctx.bytesPerRow))
             buf.contents.copyMemory(from: ctx.data!, byteCount: ctx.height * ctx.bytesPerRow)
             
-            let outRep = fi.createCGImageFromOutput()
+            let ss = Screenshot(device: dev)
+            let outRep = ss.getCGImageFromOutputWithFilterChain(fi)
+
             let data = NSMutableData()
             if let dest = CGImageDestinationCreateWithData(data, kUTTypePNG, 1, nil) {
                 CGImageDestinationAddImage(dest, outRep, nil)
