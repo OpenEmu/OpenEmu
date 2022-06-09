@@ -291,7 +291,7 @@
 		55BE99BC254333FC00E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE99BB254333FC00E3841E /* Images.xcassets */; };
 		55BE9A2E2543344300E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE9A2D2543344300E3841E /* Images.xcassets */; };
 		55BE9B1025439A1E00E3841E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BE9B0F25439A1E00E3841E /* Images.xcassets */; };
-		5A2CE89A206EA61B00790F89 /* NSArray+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.m */; };
+		5A2CE89A206EA61B00790F89 /* NSArray+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.swift */; };
 		5A3BB0391D964A4500E10F27 /* CenteredTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */; };
 		5A3DB1691D8C93C3009445EC /* PreferencesControlsBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1681D8C93C3009445EC /* PreferencesControlsBox.swift */; };
 		5A3DB1731D8CA752009445EC /* BackgroundGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */; };
@@ -1506,8 +1506,7 @@
 		55BE99BB254333FC00E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		55BE9A2D2543344300E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		55BE9B0F25439A1E00E3841E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "SystemPlugins/PlayStation 2/Images.xcassets"; sourceTree = SOURCE_ROOT; };
-		5A2CE895206EA5E900790F89 /* NSArray+OEAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEAdditions.h"; sourceTree = "<group>"; };
-		5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+OEAdditions.m"; sourceTree = "<group>"; };
+		5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSArray+OEAdditions.swift"; sourceTree = "<group>"; };
 		5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenteredTextFieldCell.swift; sourceTree = "<group>"; };
 		5A3DB1681D8C93C3009445EC /* PreferencesControlsBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesControlsBox.swift; sourceTree = "<group>"; };
 		5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundGradientView.swift; sourceTree = "<group>"; };
@@ -2933,8 +2932,7 @@
 		1BEF34751168F88A0090F72B /* Additions */ = {
 			isa = PBXGroup;
 			children = (
-				5A2CE895206EA5E900790F89 /* NSArray+OEAdditions.h */,
-				5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.m */,
+				5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.swift */,
 				5A9606DD1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift */,
 				05E789AA23D0256D000E14EE /* NSBindingName+Additions.swift */,
 				052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */,
@@ -6697,7 +6695,7 @@
 				1B6DA4A914DDE6A40067F7F6 /* SetupAssistantQCOpenGLLayer.swift in Sources */,
 				83F4DE1314DFF9C200A82E36 /* InputLimitFormatter.swift in Sources */,
 				0559044F23C0E4C9007C46FA /* ArrayController.swift in Sources */,
-				5A2CE89A206EA61B00790F89 /* NSArray+OEAdditions.m in Sources */,
+				5A2CE89A206EA61B00790F89 /* NSArray+OEAdditions.swift in Sources */,
 				83096F0314E98FC000F7EBC2 /* FileManager+Hashing.swift in Sources */,
 				83955CB5165D939100572B34 /* BlankSlateView.swift in Sources */,
 				8FBAE9EB254BD7FA00446C3B /* NSControl+i18n.swift in Sources */,
