@@ -429,7 +429,6 @@ final class OEGameDocument: NSDocument {
         DLog("\(typeName)")
         
         guard let libraryDB = OELibraryDatabase.default else {
-            // FIXME: If a file is opened from Finder or dragged on the dock icon while OpenEmu is not already running, we reach this point before the library database is available and opening the file fails (regression from a commit after 70ac442/2.3.3)
             throw Errors.libraryDatabaseUnavailable
         }
         

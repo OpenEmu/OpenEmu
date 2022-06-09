@@ -897,7 +897,11 @@ extension AppDelegate: NSMenuDelegate {
         return false
     }
     
-    func application(_ application: NSApplication, open urls: [URL]) {
+    // NOTE: When using ‘application:openURLs:’, “Document URLs that have an associated NSDocument class
+    // will be opened through NSDocumentController.”, thereby bypassing the startupQueue.
+    // FIXME: Handle ´PluginDocument´s
+    func application(_ sender: NSApplication, openFiles filenames: [String]) {
+        let urls = filenames.compactMap { URL(fileURLWithPath: $0) }
         
         guard UserDefaults.standard.bool(forKey: SetupAssistant.hasFinishedKey) else {
             NSApp.reply(toOpenOrPrint: .cancel)
