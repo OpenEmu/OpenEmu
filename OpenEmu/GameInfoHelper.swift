@@ -120,7 +120,7 @@ final class GameInfoHelper {
                 
                 if headerFound == nil && serialFound == nil {
                     
-                    if let md5 = try? FileManager.default.hashFile(at: romURL, headerSize: Int(headerSize)) {
+                    if let md5 = try? FileManager.default.hashFile(at: romURL, fileOffset: Int(headerSize)) {
                         key = DBMD5Key
                         value = md5.uppercased()
                         resultDict["md5"] = value
