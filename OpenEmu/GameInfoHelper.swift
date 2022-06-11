@@ -52,8 +52,8 @@ final class GameInfoHelper: NSObject {
             let systemIdentifier = gameInfo["systemIdentifier"] as! String
             var header = gameInfo["header"] as? String
             var serial = gameInfo["serial"] as? String
-            let md5 = gameInfo["md5"] as! String
-            let url = gameInfo["URL"] as! URL
+            let md5 = gameInfo["md5"] as? String
+            let url = gameInfo["URL"] as? URL
             let archiveFileIndex = gameInfo["archiveFileIndex"] as? NSNumber
             
             var isSystemWithHashlessROM = hashlessROMCheck(forSystem: systemIdentifier)
@@ -76,7 +76,8 @@ final class GameInfoHelper: NSObject {
                 }
                 
                 // check if the system is 'hashless' in the db and instead match by filename (Arcade)
-                if isSystemWithHashlessROM {
+                if isSystemWithHashlessROM,
+                   let url = url {
                     key = DBROMExtensionlessFileNameKey
                     value = (url.lastPathComponent as NSString).deletingPathExtension.lowercased()
                 }
@@ -91,7 +92,7 @@ final class GameInfoHelper: NSObject {
                     value = serial?.uppercased()
                 }
                 // if rom has no header we can use the hash we calculated at import
-                else if headerSize == 0 && !md5.isEmpty {
+                else if headerSize == 0, let md5 = md5 {
                     key = DBMD5Key
                     value = md5.uppercased()
                 }
@@ -99,7 +100,8 @@ final class GameInfoHelper: NSObject {
             
             determineQueryParams()
             
-            if value == nil {
+            if value == nil,
+               let url = url {
                 
                 var removeFile = false
                 var romURL: URL
