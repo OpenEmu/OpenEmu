@@ -179,8 +179,6 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
             persistentStoreCoordinator = nil
             throw error
         }
-        
-        os_log(.debug, log: .library, "ROMs folder URL: %{public}@", romsFolderURL?.path ?? "nil")
     }
     
     private func loadManagedObjectContext() {
@@ -207,6 +205,8 @@ class OELibraryDatabase: OELibraryDatabaseObjC {
         // remeber last location as database path
         let path = (databaseURL.path as NSString).abbreviatingWithTildeInPath
         UserDefaults.standard.set(path, forKey: OEDatabasePathKey)
+        
+        os_log(.debug, log: .library, "ROMs folder URL: %{public}@", romsFolderURL?.path ?? "nil")
     }
     
     private func createInitialItemsIfNeeded() {
