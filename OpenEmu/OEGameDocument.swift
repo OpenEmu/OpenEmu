@@ -217,6 +217,12 @@ final class OEGameDocument: NSDocument {
         }
     }
     
+    // make sure we inherit init() from the superclass,
+    // it is called by NSDocument.init(contentsOf:ofType:)
+    override init() {
+        super.init()
+    }
+    
     init(rom: OEDBRom, core: OECorePlugin?) throws {
         super.init()
         do {
