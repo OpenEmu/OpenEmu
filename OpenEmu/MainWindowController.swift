@@ -175,9 +175,6 @@ final class MainWindowController: NSWindowController {
             let setupAssistant = SetupAssistant()
             setupAssistant.completionBlock = {
                 self.currentContentController = self.libraryController
-                
-                // FIXME: Hack, reloads sidebar to make systems show up
-                NotificationCenter.default.post(name: .libraryLocationDidChange, object: nil)
             }
             
             window?.center()
