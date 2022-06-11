@@ -341,7 +341,7 @@ final class OEGameDocument: NSDocument {
         
         if corePlugin == nil {
             
-            var nsError: NSError?
+            var nsError: Error?
             CoreUpdater.shared.installCore(for: rom.game!) { plugin, error in
                 if error == nil,
                    let plugin = plugin {
@@ -350,6 +350,9 @@ final class OEGameDocument: NSDocument {
                 else if let error = error as NSError?,
                         error.domain == NSCocoaErrorDomain,
                         error.code == NSUserCancelledError {
+                    nsError = error
+                }
+                else if let error = error as? CoreUpdater.Errors {
                     nsError = error
                 }
             }
