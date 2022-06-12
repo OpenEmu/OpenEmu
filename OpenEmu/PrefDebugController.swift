@@ -204,8 +204,17 @@ final class PrefDebugController: NSViewController {
             
             let labelField = NSTextField(labelWithString: label)
             labelField.alignment = .right
+            let colorWell: NSColorWell
+            if #available(macOS 13.0, *) {
+            #if swift(>=5.7)
+                colorWell = NSColorWell(style: .minimal)
+            #else
+                colorWell = NSColorWell()
+            #endif
+            } else {
+                colorWell = NSColorWell()
+            }
             
-            let colorWell = NSColorWell()
             if let colorString = UserDefaults.standard.string(forKey: key),
                let color = NSColor(from: colorString) {
                 colorWell.color = color
