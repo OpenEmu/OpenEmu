@@ -38,7 +38,7 @@ final class ShaderParametersViewController: NSViewController {
     private var noParametersLabel: NSTextField!
     
     // MARK: - Presets
-    var avc: NSTitlebarAccessoryViewController!
+    var avc: NSTitlebarAccessoryViewController! // ⚠️ is always 'nil' on 10.14
     @IBOutlet var accessoryView: NSView!
     @IBOutlet var presetList: NSPopUpButton!
     var presetToNameMap = [ShaderPreset: String]()
@@ -80,7 +80,7 @@ final class ShaderParametersViewController: NSViewController {
         groups = preset.shader.readGroups()
         
         if let params = params, !params.isEmpty {
-            avc.isHidden = false
+            avc?.isHidden = false
             noParametersLabel.isHidden = true
             // update with existing user preferences
             params.apply(parameters: preset.parameters)
@@ -92,7 +92,7 @@ final class ShaderParametersViewController: NSViewController {
                 }
             }
         } else {
-            avc.isHidden = true
+            avc?.isHidden = true
             noParametersLabel.isHidden = false
         }
     }
