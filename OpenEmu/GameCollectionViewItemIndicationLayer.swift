@@ -95,7 +95,12 @@ final class GameCollectionViewItemIndicationLayer: CALayer {
                 
                 if type == .fileMissing {
                     backgroundColor = Self.missingFileBackgroundColorRef
-                    sublayer.contents = NSImage(named: "missing_rom")
+                    
+                    let img = NSImage(size: NSSize(width: 1, height: 1), flipped: false) { dstRect in
+                        NSImage(named: "missing_rom")?.draw(in: dstRect)
+                        return true
+                    }
+                    sublayer.contents = img
                 }
                 else if type == .processing {
                     backgroundColor = Self.processingItemBackgroundColorRef
@@ -120,11 +125,13 @@ final class GameCollectionViewItemIndicationLayer: CALayer {
         if type == .fileMissing {
             let width = bounds.width * 0.45
             let height = width * 0.9
+            let frame = CGRect(x: bounds.minX + (bounds.width - width) / 2,
+                               y: bounds.minY + (bounds.height - height) / 2,
+                               width: width,
+                               height: height).integral
             
-            sublayer.frame = CGRect(x: bounds.minX + (bounds.width - width) / 2,
-                                    y: bounds.minY + (bounds.height - height) / 2,
-                                    width: width,
-                                    height: height).integral
+            sublayer.frame = frame
+            (sublayer.contents as? NSImage)?.size = frame.size
         }
         else if type == .processing {
             let spinnerImage = NSImage(named: "spinner")!
