@@ -88,7 +88,7 @@ final class SetupAssistantQCOpenGLLayer: CAOpenGLLayer {
             }
         }
         
-        return pixelFormatObj!
+        return pixelFormatObj ?? super.copyCGLPixelFormat(forDisplayMask: mask)
     }
     
     override func copyCGLContext(forPixelFormat pf: CGLPixelFormatObj) -> CGLContextObj {
