@@ -314,9 +314,12 @@ final class PrefControlsController: NSViewController {
         
         addControllers(to: inputMenu)
         
-        inputMenu.addItem(.separator())
-        
-        inputMenu.addItem(withTitle: NSLocalizedString("Add a Wiimote…", comment: "Wiimote bindings menu item."), action: #selector(searchForWiimote(_:)), keyEquivalent: "").target = self
+        if #available(macOS 12.0, *) {
+            // kaput (issue #4612)
+        } else {
+            inputMenu.addItem(.separator())
+            inputMenu.addItem(withTitle: NSLocalizedString("Add a Wiimote…", comment: "Wiimote bindings menu item."), action: #selector(searchForWiimote(_:)), keyEquivalent: "").target = self
+        }
         
         inputPopupButton.menu = inputMenu
         updateInputPopupButtonSelection()
