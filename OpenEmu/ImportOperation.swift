@@ -440,8 +440,9 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
            let rom = rom,
            let game = rom.game
         {
-            if let collectionID = collectionID {
-                let collection = OEDBCollection.object(with: collectionID, in: context)
+            if let collectionID = collectionID,
+               let collection = OEDBCollection.object(with: collectionID, in: context)
+            {
                 if !collection.isDeleted {
                     game.collections.insert(collection)
                 }

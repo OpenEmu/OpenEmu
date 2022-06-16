@@ -36,8 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)createObjectInContext:(NSManagedObjectContext *)context;
 
-+ (instancetype)objectWithURI:(NSURL *)objectURI inContext:(NSManagedObjectContext *)library;
-+ (instancetype)objectWithID:(NSManagedObjectID *)objectID inContext:(NSManagedObjectContext *)library;
++ (nullable instancetype)objectWithURI:(NSURL *)objectURI inContext:(NSManagedObjectContext *)library;
++ (nullable instancetype)objectWithID:(NSManagedObjectID *)objectID inContext:(NSManagedObjectContext *)library;
 
 + (NSArray <__kindof OEDBItem *> *)allObjectsInContext:(NSManagedObjectContext *)context;
 + (NSArray <__kindof OEDBItem *> *)allObjectsInContext:(NSManagedObjectContext *)context error:(NSError **)error;

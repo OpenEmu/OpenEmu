@@ -474,7 +474,7 @@ final class OEGameDocument: NSDocument {
                 
                 if alert.runModal() == .alertFirstButtonReturn {
                     let context = libraryDB.mainThreadContext
-                    let rom = OEDBRom.object(with: romID, in: context)
+                    let rom = OEDBRom.object(with: romID, in: context)!
                     
                     // Ugly hack to start imported games in main window
                     let mainWindowController = (NSApp.delegate as! AppDelegate).mainWindowController

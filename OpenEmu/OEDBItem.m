@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [context executeFetchRequest:request error:error];
 }
 
-+ (instancetype)objectWithURI:(NSURL *)objectURI inContext:(NSManagedObjectContext*)context
++ (nullable instancetype)objectWithURI:(NSURL *)objectURI inContext:(NSManagedObjectContext*)context
 {
     __block NSManagedObjectID *objectID = nil;
     [context performBlockAndWait:^{
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self objectWithID:objectID inContext:context];
 }
 
-+ (instancetype)objectWithID:(NSManagedObjectID *)objectID inContext:(NSManagedObjectContext*)context
++ (nullable instancetype)objectWithID:(NSManagedObjectID *)objectID inContext:(NSManagedObjectContext*)context
 {
     if(objectID == nil) return nil;
 
