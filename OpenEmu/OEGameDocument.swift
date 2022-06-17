@@ -259,7 +259,7 @@ final class OEGameDocument: NSDocument {
     
     private func setUpDocument(with saveState: OEDBSaveState) throws {
         do {
-            try setUpDocument(with: saveState.rom!, using: OECorePlugin(bundleIdentifier: saveState.coreIdentifier))
+            try setUpDocument(with: saveState.rom!, using: OECorePlugin.corePlugin(bundleIdentifier: saveState.coreIdentifier))
             saveStateForGameStart = saveState
         } catch {
             throw error
@@ -706,8 +706,8 @@ final class OEGameDocument: NSDocument {
     }
     
     private func core(forSystem system: OESystemPlugin) throws -> OECorePlugin {
-        let systemIdentifier = system.systemIdentifier!
-        var validPlugins = OECorePlugin.corePlugins(forSystemIdentifier: systemIdentifier)!
+        let systemIdentifier = system.systemIdentifier
+        var validPlugins = OECorePlugin.corePlugins(forSystemIdentifier: systemIdentifier)
         
         if validPlugins.isEmpty {
             throw Errors.noCore
@@ -718,7 +718,7 @@ final class OEGameDocument: NSDocument {
         else {
             let defaults = UserDefaults.standard
             if let coreIdentifier = defaults.string(forKey: "defaultCore.\(systemIdentifier)"),
-               let core = OECorePlugin(bundleIdentifier: coreIdentifier) {
+               let core = OECorePlugin.corePlugin(bundleIdentifier: coreIdentifier) {
                 return core
             } else {
                 validPlugins.sort { $0.displayName.caseInsensitiveCompare($1.displayName) == .orderedAscending }
@@ -754,7 +754,7 @@ final class OEGameDocument: NSDocument {
     private func checkGlitches() -> Bool {
         let OEGameCoreGlitchesKey = OEAlert.OEGameCoreGlitchesSuppressionKey
         let coreName = gameCoreManager.plugin?.controller.pluginName ?? ""
-        let systemIdentifier = systemPlugin.systemIdentifier ?? ""
+        let systemIdentifier = systemPlugin.systemIdentifier
         let systemKey = "\(coreName).\(systemIdentifier)"
         let defaults = UserDefaults.standard
         
@@ -792,7 +792,7 @@ final class OEGameDocument: NSDocument {
         }
         
         let coreName = gameCoreManager.plugin?.controller.pluginName ?? ""
-        let systemIdentifier = systemPlugin.systemIdentifier ?? ""
+        let systemIdentifier = systemPlugin.systemIdentifier
         
         let removalDate = gameCoreManager.plugin?.infoDictionary?[OEGameCoreSupportDeadlineKey] as? Date
         var deadlineInMoreThanOneMonth = false
@@ -807,7 +807,7 @@ final class OEGameDocument: NSDocument {
         var download: CoreDownload?
         
         if let replacement = replacement {
-            if let plugin = OECorePlugin(bundleIdentifier: replacement) {
+            if let plugin = OECorePlugin.corePlugin(bundleIdentifier: replacement) {
                 replacementName = plugin.controller.pluginName
             } else {
                 let repl = CoreUpdater.shared.coreList.firstIndex(where: { $0.bundleIdentifier.caseInsensitiveCompare(replacement) == .orderedSame })
@@ -1353,7 +1353,7 @@ final class OEGameDocument: NSDocument {
             }
         }
         
-        let validExtensions = archivedExtensions + systemPlugin.supportedTypeExtensions() as! [String]
+        let validExtensions = archivedExtensions + systemPlugin.supportedTypeExtensions as! [String]
         
         let system = rom.game!.system!
         let systemFolder = OELibraryDatabase.default!.romsFolderURL(for: system)
@@ -1779,7 +1779,7 @@ final class OEGameDocument: NSDocument {
         alert.showSuppressionButton(forUDKey: OEAlert.OEAutoSwitchCoreAlertSuppressionKey)
         
         if alert.runModal() == .alertFirstButtonReturn {
-            if let core = OECorePlugin(bundleIdentifier: state.coreIdentifier) {
+            if let core = OECorePlugin.corePlugin(bundleIdentifier: state.coreIdentifier) {
                 runWithCore(core, nil)
             } else {
                 CoreUpdater.shared.installCore(for: state, withCompletionHandler: runWithCore)

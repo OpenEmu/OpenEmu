@@ -425,7 +425,7 @@ final class PrefControlsController: NSViewController {
         let menuItem = consolesPopupButton.selectedItem
         let systemIdentifier = menuItem?.representedObject as? String ?? UserDefaults.standard.string(forKey: lastControlsPluginIdentifierKey)
         
-        var newPlugin = OESystemPlugin(forIdentifier: systemIdentifier)
+        var newPlugin = OESystemPlugin.systemPlugin(forIdentifier: systemIdentifier!)
         if newPlugin == nil {
             newPlugin = OESystemPlugin.allPlugins.first
         }

@@ -391,7 +391,7 @@ class AppDelegate: NSObject {
         // Remove save states for deprecated core plugins.
         // Get incompatible save states by version.
         // Genesis Plus GX is especially known for breaking compatibility.
-        let currentDesmumeCoreVersion = OECorePlugin(bundleIdentifier: "org.openemu.desmume")?.version
+        let currentDesmumeCoreVersion = OECorePlugin.corePlugin(bundleIdentifier: "org.openemu.desmume")?.version
         let incompatibleSaveStates = (OEDBSaveState.allObjects(in: context) as! [OEDBSaveState]).filter {
             ($0.coreIdentifier == "org.openemu.CrabEmu" &&
                 ($0.location.contains("GameGear/") ||

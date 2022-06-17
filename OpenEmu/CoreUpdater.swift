@@ -348,7 +348,7 @@ final class CoreUpdater: NSObject {
     func failInstallWithError(_ error: Error?) {
         alert?.close(withResult: .alertFirstButtonReturn)
         
-        completionHandler?(OECorePlugin(bundleIdentifier: coreIdentifier), error)
+        completionHandler?(OECorePlugin.corePlugin(bundleIdentifier: coreIdentifier!), error)
         
         alert = nil
         coreIdentifier = nil
@@ -358,7 +358,7 @@ final class CoreUpdater: NSObject {
     func finishInstall() {
         alert?.close(withResult: .alertFirstButtonReturn)
         
-        completionHandler?(OECorePlugin(bundleIdentifier: coreIdentifier), nil)
+        completionHandler?(OECorePlugin.corePlugin(bundleIdentifier: coreIdentifier!), nil)
         
         alert = nil
         coreIdentifier = nil

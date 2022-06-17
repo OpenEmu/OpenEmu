@@ -371,7 +371,7 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
         let pathExtension = url.pathExtension.lowercased()
         
         // Ignore unsupported file extensions
-        var validExtensions = Set(OESystemPlugin.supportedTypeExtensions() as! [String])
+        var validExtensions = OESystemPlugin.supportedTypeExtensions
         
         // Hack fix for #2031
         // TODO: Build set for extensions from all BIOS file types?
@@ -515,7 +515,7 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
             if system.systemIdentifier == "openemu.system.arcade" {
                 continue
             }
-            if let extensions = system.plugin?.supportedTypeExtensions() as? [String] {
+            if let extensions = system.plugin?.supportedTypeExtensions as? [String] {
                 enabledExtensions.formUnion(extensions)
             }
         }

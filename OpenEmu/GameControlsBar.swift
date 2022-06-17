@@ -455,8 +455,8 @@ final class GameControlsBar: NSWindow {
     
     var coresMenu: NSMenu? {
         let systemIdentifier = gameViewController.systemIdentifier
-        guard var corePlugins = OECorePlugin.corePlugins(forSystemIdentifier: systemIdentifier),
-              corePlugins.count > 1
+        var corePlugins = OECorePlugin.corePlugins(forSystemIdentifier: systemIdentifier)
+        guard corePlugins.count > 1
         else { return nil }
         
         let menu = NSMenu()

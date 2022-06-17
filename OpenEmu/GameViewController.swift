@@ -23,7 +23,8 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
-import OpenEmuBase.OEGeometry
+import OpenEmuBase
+import OpenEmuSystem
 import OpenEmuKit
 
 // TODO: Messages to remote layer:

@@ -42,7 +42,7 @@ final class PluginDocument: NSDocument {
         else if pathExtension == OECorePlugin.pluginExtension {
             let coresDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
                 .appendingPathComponent("OpenEmu", isDirectory: true)
-                .appendingPathComponent(OECorePlugin.pluginFolder!, isDirectory: true)
+                .appendingPathComponent(OECorePlugin.pluginFolder, isDirectory: true)
             let newURL = coresDir.appendingPathComponent(url.lastPathComponent, isDirectory: true)
             
             // If the file isn’t already in the right place

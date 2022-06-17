@@ -82,8 +82,8 @@ final class CoreDownload: NSObject {
         
         var systemNames: [String] = []
         for systemIdentifier in plugin.systemIdentifiers {
-            if let plugin = OESystemPlugin(forIdentifier: systemIdentifier),
-               let systemName = plugin.systemName {
+            if let plugin = OESystemPlugin.systemPlugin(forIdentifier: systemIdentifier) {
+               let systemName = plugin.systemName
                 systemNames.append(systemName)
             }
         }
@@ -146,7 +146,7 @@ extension CoreDownload: URLSessionDownloadDelegate {
         
         DLog("Core (\(bundleIdentifier)) extracted to application support folder.")
         
-        guard let plugin = OECorePlugin(bundleAtPath: fullPluginPath) else {
+        guard let plugin = OECorePlugin.corePlugin(bundleAtPath: fullPluginPath) else {
             return assertionFailure()
         }
         

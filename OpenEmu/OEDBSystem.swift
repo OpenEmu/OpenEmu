@@ -68,7 +68,7 @@ final class OEDBSystem: OEDBItem {
     }
     
     var plugin: OESystemPlugin? {
-        return OESystemPlugin(forIdentifier: systemIdentifier)
+        return OESystemPlugin.systemPlugin(forIdentifier: systemIdentifier)
     }
     
     var icon: NSImage? {
@@ -180,11 +180,9 @@ final class OEDBSystem: OEDBItem {
         let fileExtension = file.fileExtension
         
         for systemPlugin in OESystemPlugin.allPlugins {
-            let controller = systemPlugin.controller!
-            
-            if !controller.canHandleFileExtension(fileExtension) {
-                continue
-            }
+            guard let controller = systemPlugin.controller,
+                  controller.canHandleFileExtension(fileExtension)
+            else { continue }
             
             let fileSupport = controller.canHandle(file)
             if fileSupport == .yes {
@@ -196,8 +194,8 @@ final class OEDBSystem: OEDBItem {
         }
         
         if let sys = theOneAndOnlySystemThatGetsAChanceToHandleTheFile {
-            if let systemIdentifier = sys.systemIdentifier,
-               let system = Self.system(for: systemIdentifier, in: context),
+            let systemIdentifier = sys.systemIdentifier
+               if let system = Self.system(for: systemIdentifier, in: context),
                system.isEnabled {
                 return [system]
             }
@@ -205,8 +203,8 @@ final class OEDBSystem: OEDBItem {
         else {
             var validSystems: [OEDBSystem] = []
             for sys in otherSystemsThatMightBeAbleToHandleTheFile {
-                if let systemIdentifier = sys.systemIdentifier,
-                   let system = Self.system(for: systemIdentifier, in: context),
+                let systemIdentifier = sys.systemIdentifier
+                   if let system = Self.system(for: systemIdentifier, in: context),
                    system.isEnabled {
                     validSystems.append(system)
                 }
@@ -219,7 +217,7 @@ final class OEDBSystem: OEDBItem {
     
     @objc(systemForPlugin:inContext:)
     class func system(for plugin: OESystemPlugin, in context: NSManagedObjectContext) -> OEDBSystem {
-        let systemIdentifier = plugin.systemIdentifier!
+        let systemIdentifier = plugin.systemIdentifier
         
         if let system = system(for: systemIdentifier, in: context) {
             return system
@@ -257,14 +255,14 @@ final class OEDBSystem: OEDBItem {
     
     @objc(headerForFile:forSystem:)
     class func header(for file: OEFile, forSystem identifier: String) -> String? {
-        let systemPlugin = OESystemPlugin(forIdentifier: identifier)
+        let systemPlugin = OESystemPlugin.systemPlugin(forIdentifier: identifier)
         let header = systemPlugin?.controller.headerLookup(for: file)
         return header
     }
     
     @objc(serialForFile:forSystem:)
     class func serial(for file: OEFile, forSystem identifier: String) -> String? {
-        let systemPlugin = OESystemPlugin(forIdentifier: identifier)
+        let systemPlugin = OESystemPlugin.systemPlugin(forIdentifier: identifier)
         let serial = systemPlugin?.controller.serialLookup(for: file)
         return serial
     }

@@ -85,9 +85,7 @@ final class PrefBiosController: NSViewController {
         var items: [AnyHashable] = []
         
         for core in OECorePlugin.allPlugins {
-            guard
-                core.requiredFiles != nil
-            else { continue }
+            if core.requiredFiles.isEmpty { continue }
             
             let requiredFiles = (core.requiredFiles as NSArray).sortedArray(using: [NSSortDescriptor(key: "Description", ascending: true)])
             if requiredFiles.count > 0,

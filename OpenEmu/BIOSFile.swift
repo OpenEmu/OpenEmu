@@ -160,7 +160,7 @@ enum BIOSFile {
         let fileManager = FileManager.default
         
         // Copy known BIOS/system files to BIOS folder.
-        for validFile in OECorePlugin.requiredFiles() as! [[String: Any]] {
+        for validFile in OECorePlugin.requiredFiles {
             
             let biosSystemFilename = validFile["Name"] as! String
             let biosSystemFileMD5 = validFile["MD5"] as! String
