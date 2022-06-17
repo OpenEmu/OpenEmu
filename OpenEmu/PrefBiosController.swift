@@ -223,7 +223,7 @@ extension PrefBiosController: NSTableViewDelegate {
         if self.tableView(tableView, isGroupRow: row) {
             let core = item as? OECorePlugin
             let groupCell = tableView.makeView(withIdentifier: .coreCell, owner: self) as? NSTableCellView
-            groupCell?.textField?.stringValue = core?.name ?? ""
+            groupCell?.textField?.stringValue = core?.displayName ?? ""
             return groupCell
         }
         else {
