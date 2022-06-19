@@ -104,12 +104,10 @@ final class PrefLibraryController: NSViewController {
         openPanel.canCreateDirectories = true
         openPanel.beginSheetModal(for: view.window!) { result in
             if result == .OK, let url = openPanel.url {
-                // give the openpanel some time to fade out
-                DispatchQueue.main.async {
-                    OELibraryDatabase.default?.moveGameLibrary(to: url)
-                    self.pathField.url = OELibraryDatabase.default?.databaseFolderURL
-                    self.showResetLocationButtonIfNeeded()
-                }
+                openPanel.orderOut(nil)
+                OELibraryDatabase.default?.moveGameLibrary(to: url)
+                self.pathField.url = OELibraryDatabase.default?.databaseFolderURL
+                self.showResetLocationButtonIfNeeded()
             }
         }
     }
