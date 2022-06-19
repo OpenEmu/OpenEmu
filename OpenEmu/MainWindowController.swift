@@ -267,7 +267,7 @@ extension MainWindowController: LibraryControllerDelegate {
                 
                 if let error = error as? OEGameDocument.Errors,
                    case OEGameDocument.Errors.fileDoesNotExist = error,
-                   let game = game {
+                   let game = game ?? state?.rom?.game {
                     game.status = .alert
                     game.save()
                     
@@ -296,30 +296,6 @@ extension MainWindowController: LibraryControllerDelegate {
                             self.openGameDocument(with: game, saveState: state)
                         }
                     }
-                }
-                // FIXME: make it possible to locate missing rom files when the game is started from a savestate
-                else if let error = error as? OEGameDocument.Errors,
-                        case OEGameDocument.Errors.fileDoesNotExist = error,
-                        game == nil {
-                    var messageText = NSLocalizedString("The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", comment: "")
-                    
-                    let regex = try? NSRegularExpression(pattern: "[\"'“„« ]+%@[\"'”“» ]+[ を]?", options: .caseInsensitive)
-                    messageText = regex?.stringByReplacingMatches(in: messageText, options: [], range: NSRange(location: 0, length: messageText.count), withTemplate: "") ?? ""
-                    
-                    var range = (messageText as NSString).range(of: ".")
-                    if range.location == NSNotFound {
-                        range = (messageText as NSString).range(of: "。")
-                    }
-                    if range.location != NSNotFound {
-                        messageText = (messageText as NSString).substring(to: range.location + 1)
-                    }
-                    
-                    messageText += NSLocalizedString(" Start the game from the library view if you want to locate it.", comment: "")
-                    
-                    let alert = OEAlert()
-                    alert.messageText = messageText
-                    alert.defaultButtonTitle = NSLocalizedString("OK", comment: "")
-                    alert.runModal()
                 }
                 else if let error = error as? OEGameDocument.Errors,
                         case OEGameDocument.Errors.noCore = error,
