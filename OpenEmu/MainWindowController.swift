@@ -320,7 +320,7 @@ extension MainWindowController: LibraryControllerDelegate {
                 else if let error = error as? OEGameDocument.Errors,
                         case OEGameDocument.Errors.gameCoreCrashed(let core, let systemIdentifier, _) = error {
                     // TODO: the setup completion handler shouldn't be the place where non-setup-related errors are handled!
-                    let coreName = core.displayName ?? ""
+                    let coreName = core.displayName
                     let glitchy = core.controller.hasGlitches(forSystemIdentifier: systemIdentifier)
                     
                     let alert = OEAlert()

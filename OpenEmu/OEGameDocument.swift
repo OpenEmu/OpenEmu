@@ -794,14 +794,14 @@ final class OEGameDocument: NSDocument {
         let coreName = gameCoreManager.plugin?.controller.pluginName ?? ""
         let systemIdentifier = systemPlugin.systemIdentifier
         
-        let removalDate = gameCoreManager.plugin?.infoDictionary?[OEGameCoreSupportDeadlineKey] as? Date
+        let removalDate = gameCoreManager.plugin?.infoDictionary[OEGameCoreSupportDeadlineKey] as? Date
         var deadlineInMoreThanOneMonth = false
         let oneMonth: TimeInterval = 30 * 24 * 60 * 60
         if removalDate == nil || removalDate!.timeIntervalSinceNow > oneMonth {
             deadlineInMoreThanOneMonth = true
         }
         
-        let replacements = gameCoreManager.plugin?.infoDictionary?[OEGameCoreSuggestedReplacement] as? [String : String]
+        let replacements = gameCoreManager.plugin?.infoDictionary[OEGameCoreSuggestedReplacement] as? [String : String]
         let replacement = replacements?[systemIdentifier]
         var replacementName: String?
         var download: CoreDownload?

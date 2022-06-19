@@ -408,7 +408,7 @@ class BlankSlateView: NSView {
         
         for core in pluginsForSystem {
             let projectURL = core.infoDictionary["OEProjectURL"] as? String
-            let name = core.displayName ?? ""
+            let name = core.displayName
             
             // Create weblink button for current core
             

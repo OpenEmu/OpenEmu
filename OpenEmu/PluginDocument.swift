@@ -37,7 +37,7 @@ final class PluginDocument: NSDocument {
             let userInfo = [
                 NSLocalizedFailureReasonErrorKey : NSLocalizedString("Only the built-in system plugins are supported.", comment: ""),
             ]
-            throw NSError(domain: OEGameCoreErrorDomain, code: OEGameCorePluginErrorCodes.outOfSupportError.rawValue, userInfo: userInfo)
+            throw NSError(domain: OEGameCorePluginError.errorDomain, code: -1002 /*OEGameCorePluginError.outOfSupport*/, userInfo: userInfo)
         }
         else if pathExtension == OECorePlugin.pluginExtension {
             let coresDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
@@ -59,16 +59,16 @@ final class PluginDocument: NSDocument {
             }
             
             do {
-                try _ = OECorePlugin(bundleAtPath: newURL.path, type: OECorePlugin.self, forceReload: true)
+                try _ = OECorePlugin.plugin(bundleAtPath: newURL.path, forceReload: true)
             } catch let error as NSError {
-                if error.domain == OEGameCoreErrorDomain {
-                    if error.code == OEGameCorePluginErrorCodes.alreadyLoadedError.rawValue {
+                if error.domain == OEGameCorePluginError.errorDomain {
+                    if error.code == OEGameCorePluginError.alreadyLoaded.errorCode {
                         let userInfo = [
                             NSLocalizedFailureReasonErrorKey : NSLocalizedString("A version of this plugin is already loaded", comment: ""),
                             NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString("You need to restart the application to commit the change", comment: ""),
                         ]
                         throw NSError(domain: error.domain, code: error.code, userInfo: userInfo)
-                    } else if error.code == OEGameCorePluginErrorCodes.outOfSupportError.rawValue {
+                    } else if error.code == OEGameCorePluginError.outOfSupport.errorCode {
                         let userInfo = [
                             NSLocalizedFailureReasonErrorKey : NSLocalizedString("This plugin is currently unsupported", comment: ""),
                         ]

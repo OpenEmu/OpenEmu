@@ -606,7 +606,7 @@ extension SidebarController: NSMenuDelegate {
                     let coreIdentifier = core.bundleIdentifier
                     
                     let item = NSMenuItem()
-                    item.title = coreName ?? ""
+                    item.title = coreName
                     item.action = #selector(changeDefaultCore(_:))
                     item.state = coreIdentifier == defaultCoreIdentifier ? .on : .off
                     item.representedObject = ["core": coreIdentifier,
