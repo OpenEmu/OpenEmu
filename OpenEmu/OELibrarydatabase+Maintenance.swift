@@ -255,8 +255,9 @@ extension OELibraryDatabase {
         
         let artworkDirectory = database.coverFolderURL
         
-        let artworkFiles = try? FileManager.default.contentsOfDirectory(at: artworkDirectory, includingPropertiesForKeys: nil)
-        guard let artworkFiles = artworkFiles else { return }
+        guard let artworkFiles = try? FileManager.default.contentsOfDirectory(at: artworkDirectory, includingPropertiesForKeys: nil)
+        else { return }
+        
         var artwork = Set<URL>(artworkFiles)
         
         let request = OEDBImage.fetchRequest()

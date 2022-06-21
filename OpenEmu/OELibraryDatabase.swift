@@ -322,7 +322,7 @@ final class OELibraryDatabase: NSObject {
                 return
             }
         }
-        return result?.first as? OEDBRom
+        return result?.first
     }
     
     var lastPlayedRoms: [OEDBRom] {

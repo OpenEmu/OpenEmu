@@ -515,7 +515,7 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
             if system.systemIdentifier == "openemu.system.arcade" {
                 continue
             }
-            if let extensions = system.plugin?.supportedTypeExtensions as? [String] {
+            if let extensions = system.plugin?.supportedTypeExtensions {
                 enabledExtensions.formUnion(extensions)
             }
         }

@@ -1353,7 +1353,7 @@ final class OEGameDocument: NSDocument {
             }
         }
         
-        let validExtensions = archivedExtensions + systemPlugin.supportedTypeExtensions as! [String]
+        let validExtensions = archivedExtensions + systemPlugin.supportedTypeExtensions
         
         let system = rom.game!.system!
         let systemFolder = OELibraryDatabase.default!.romsFolderURL(for: system)
