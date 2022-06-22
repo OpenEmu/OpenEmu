@@ -70,12 +70,15 @@ final class OEGameDocument: NSDocument {
         case gameCoreCrashed(OECorePlugin, String?, NSError)
         case invalidSaveState
         case libraryDatabaseUnavailable
+        case noSystemPlugin
         
         var errorDescription: String? {
             if case .fileDoesNotExist = self {
                 return NSLocalizedString("The file you selected doesn't exist", comment: "Inexistent file error reason.")
             } else if case .noCore = self {
                 return NSLocalizedString("OpenEmu could not find a Core to launch the game", comment: "No Core error reason.")
+            } else if case .noSystemPlugin = self {
+                return NSLocalizedString("OpenEmu could not find a system plugin to launch the game", comment: "No system plugin error reason.")
             } else {
                 return nil
             }
@@ -86,6 +89,8 @@ final class OEGameDocument: NSDocument {
                 return NSLocalizedString("Choose a valid file.", comment: "Inexistent file error recovery suggestion.")
             } else if case .noCore = self {
                 return NSLocalizedString("Make sure your internet connection is active and download a suitable core.", comment: "No Core error recovery suggestion.")
+            } else if case .noSystemPlugin = self {
+                return NSLocalizedString(""/*TODO*/, comment: "No system plugin error recovery suggestion.")
             } else {
                 return nil
             }
@@ -112,6 +117,8 @@ final class OEGameDocument: NSDocument {
             case .invalidSaveState:
                 return 12
             case .libraryDatabaseUnavailable:
+                return 13
+            case .noSystemPlugin:
                 return 13
             }
         }
@@ -340,6 +347,10 @@ final class OEGameDocument: NSDocument {
         romFileURL = fileURL
         corePlugin = core
         systemPlugin = rom.game?.system?.plugin
+        
+        if systemPlugin == nil {
+            throw Errors.noSystemPlugin
+        }
         
         if corePlugin == nil {
             corePlugin = try? self.core(forSystem: systemPlugin)
