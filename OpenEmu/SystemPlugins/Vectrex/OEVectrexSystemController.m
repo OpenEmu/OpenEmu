@@ -32,7 +32,7 @@
 {
     NSString *imageName;
 
-    if([[OELocalizationHelper sharedHelper] isRegionJAP])
+    if([[OELocalizationHelper sharedHelper] isRegionJPN])
     {
         imageName = @"vectrex_library_jp";
     }

@@ -30,7 +30,7 @@
 
 - (NSImage *)systemIcon
 {
-    NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionJAP]
+    NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionJPN]
                            ? @"famicom_library"
                            : @"nes_library");
 
@@ -46,7 +46,7 @@
 
 - (CGFloat)coverAspectRatio
 {
-    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
+    return ([[OELocalizationHelper sharedHelper] isRegionJPN]
             ? 0.7
             : 1.43);
 }

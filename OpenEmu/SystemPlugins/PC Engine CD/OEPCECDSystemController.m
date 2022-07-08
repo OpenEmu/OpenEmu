@@ -30,7 +30,7 @@
 
 - (NSImage *)systemIcon
 {
-    NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionJAP]
+    NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionJPN]
                            ? @"pcenginecd_library"
                            : @"tgcd_library");
 

@@ -36,7 +36,7 @@ final class PrefDebugController: NSViewController {
         Group(label: "General"),
         Checkbox(key: PreferencesWindowController.debugModeKey, label: "Debug Mode"),
         Checkbox(key: SetupAssistant.hasFinishedKey, label: "Setup Assistant has finished"),
-        Popover(key: OERegionKey, label: "Region:", action: #selector(changeRegion(_:)), options: [
+        Popover(key: OELocalizationHelper.OERegionKey, label: "Region:", action: #selector(changeRegion(_:)), options: [
             Option(label: "Auto (region)", value: -1),
             Option(label: "North America", value: 0),
             Option(label: "Japan", value: 1),
@@ -358,9 +358,9 @@ final class PrefDebugController: NSViewController {
         
         let defaults = UserDefaults.standard
         if value == -1 {
-            defaults.removeObject(forKey: OERegionKey)
+            defaults.removeObject(forKey: OELocalizationHelper.OERegionKey)
         } else {
-            defaults.set(value, forKey: OERegionKey)
+            defaults.set(value, forKey: OELocalizationHelper.OERegionKey)
         }
         
         NotificationCenter.default.post(Notification(name: .OEDBSystemAvailabilityDidChange))
