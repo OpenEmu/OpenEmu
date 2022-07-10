@@ -5376,9 +5376,6 @@
 						LastSwiftMigration = 1200;
 						ProvisioningStyle = Automatic;
 					};
-					054A735E25B009D200F2F3D6 = {
-						CreatedOnToolsVersion = 12.3;
-					};
 					05DB72A02532681B0098459D = {
 						CreatedOnToolsVersion = 12.2;
 						LastSwiftMigration = 1250;
@@ -9475,7 +9472,7 @@
 			repositoryURL = "https://github.com/sparkle-project/Sparkle";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 2.1.0;
+				minimumVersion = 2.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
