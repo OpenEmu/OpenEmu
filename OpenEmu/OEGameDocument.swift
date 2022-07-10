@@ -133,7 +133,7 @@ final class OEGameDocument: NSDocument {
     @objc //OEPopoutGameWindowController
     private(set) var gameViewController: GameViewController!
     
-    private var gameCoreManager: OEGameCoreManager!
+    private var gameCoreManager: GameCoreManager!
     
     private var displaySleepAssertionID: IOPMAssertionID = 0
     
@@ -652,7 +652,7 @@ final class OEGameDocument: NSDocument {
         }
     }
     
-    private func newGameCoreManager(with corePlugin: OECorePlugin) -> OEGameCoreManager {
+    private func newGameCoreManager(with corePlugin: OECorePlugin) -> GameCoreManager {
         self.corePlugin = corePlugin
         
         var path = romFileURL.path
@@ -1865,7 +1865,7 @@ extension OEGameDocument: OESystemBindingsObserver {
 
 // MARK: - OEGameCoreOwner
 
-extension OEGameDocument: OEGameCoreOwner {
+@objc extension OEGameDocument: OEGameCoreOwner {
     
     func saveState() {
         NSApp.sendAction(#selector(saveState(_:)), to: nil, from: nil)

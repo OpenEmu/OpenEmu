@@ -25,7 +25,7 @@
 import Foundation
 import OpenEmuKit
 
-#if true
+#if false
 XPCDebugSupport.waitForDebugger(until: .distantFuture)
 #endif
 
