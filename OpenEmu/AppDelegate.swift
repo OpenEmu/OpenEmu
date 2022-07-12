@@ -210,6 +210,7 @@ class AppDelegate: NSObject {
             assert(OELibraryDatabase.default != nil, "No database available!")
             
             DispatchQueue.main.async {
+                self.libraryDatabaseDidLoad()
                 NotificationCenter.default.post(name: .libraryDidLoad, object: OELibraryDatabase.default!)
             }
             
@@ -793,7 +794,6 @@ extension AppDelegate: NSMenuDelegate {
         
         let notificationCenter = NotificationCenter.default
         
-        notificationCenter.addObserver(self, selector: #selector(libraryDatabaseDidLoad), name: .libraryDidLoad, object: nil)
         notificationCenter.addObserver(self, selector: #selector(openPreferencePane), name: PreferencesWindowController.openPaneNotificationName, object: nil)
         
         notificationCenter.addObserver(self, selector: #selector(didRepairBindings), name: .OEBindingsRepaired, object: nil)
@@ -822,7 +822,7 @@ extension AppDelegate: NSMenuDelegate {
         }
     }
     
-    func libraryDatabaseDidLoad(notification: Notification) {
+    func libraryDatabaseDidLoad() {
         
         libraryLoaded = true
 
