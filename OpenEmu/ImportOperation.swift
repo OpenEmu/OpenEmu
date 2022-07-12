@@ -24,6 +24,7 @@
 
 import Foundation
 import OpenEmuKit
+import OpenEmuSystem
 import XADMaster
 
 let OECopyToLibraryKey        = "copyToLibrary"

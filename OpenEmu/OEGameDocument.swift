@@ -589,8 +589,8 @@ final class OEGameDocument: NSDocument {
         checkGlitches()
         
         gameCoreManager.loadROM(completionHandler: {
-            self.gameCoreManager.setupEmulation() { result in
-                self.gameViewController.setScreenSize(result.screenSize, aspectSize: result.aspectSize)
+            self.gameCoreManager.setupEmulation() { screenSize, aspectSize in
+                self.gameViewController.setScreenSize(screenSize, aspectSize: aspectSize)
                 
                 DLog("SETUP DONE.")
                 self.emulationStatus = .setup
@@ -692,7 +692,7 @@ final class OEGameDocument: NSDocument {
                                      systemRegion: OELocalizationHelper.shared.regionName,
                                      displayModeInfo: lastDisplayModeInfo,
                                      shader: preset.shader.url,
-                                     shaderParameters: params as [String : NSNumber],
+                                     shaderParameters: params,
                                      corePluginPath: corePlugin.path,
                                      systemPluginPath: systemPlugin.path)
         
