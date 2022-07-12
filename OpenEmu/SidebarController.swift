@@ -24,7 +24,7 @@
 
 import Cocoa
 import Carbon.HIToolbox.Events
-import OpenEmuKit.OECorePlugin
+import OpenEmuKit
 
 extension NSNotification.Name {
     static let OESidebarSelectionDidChange = NSNotification.Name("OESidebarSelectionDidChange")

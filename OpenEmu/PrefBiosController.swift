@@ -23,7 +23,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
-import OpenEmuKit.OECorePlugin
+import OpenEmuKit
 
 private var PrefBiosCoreListKVOContext = 0
 

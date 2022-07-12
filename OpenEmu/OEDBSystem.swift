@@ -24,7 +24,7 @@
 
 import Cocoa
 import OpenEmuSystem
-import OpenEmuKit.OESystemPlugin
+import OpenEmuKit
 
 extension Notification.Name {
     static let OEDBSystemAvailabilityDidChange = Notification.Name("OEDBSystemAvailabilityDidChangeNotification")

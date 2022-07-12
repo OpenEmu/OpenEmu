@@ -365,8 +365,8 @@ class AppDelegate: NSObject {
     }
     
     fileprivate func loadPlugins() {
-        OEPlugin.registerPluginClass(OECorePlugin.self)
-        OEPlugin.registerPluginClass(OESystemPlugin.self)
+        OECorePlugin.registerClass()
+        OESystemPlugin.registerClass()
         
         // Register all system controllers with the bindings controller.
         for plugin in OESystemPlugin.allPlugins {
@@ -800,7 +800,7 @@ extension AppDelegate: NSMenuDelegate {
         
         notificationCenter.addObserver(self, selector: #selector(didRepairBindings), name: .OEBindingsRepaired, object: nil)
         
-        notificationCenter.addObserver(self, selector: #selector(didRegisterSystemPlugin), name: .OESystemPluginDidRegister, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(didRegisterSystemPlugin), name: OESystemPlugin.didRegisterNotification, object: nil)
         
         NSDocumentController.shared.clearRecentDocuments(nil)
         

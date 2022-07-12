@@ -23,7 +23,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
-import OpenEmuKit.OECorePlugin
+import OpenEmuKit
 
 private extension NSUserInterfaceItemIdentifier {
     static let availableLibrariesCollectionViewItem = NSUserInterfaceItemIdentifier("AvailableLibrariesCollectionViewItem")
@@ -40,7 +40,7 @@ final class AvailableLibrariesViewController: NSViewController {
     var isEnableObservers: Bool = false {
         didSet {
             if isEnableObservers {
-                OEPlugin.addObserver(self, forKeyPath: #keyPath(OEPlugin.allPlugins), options: [.old, .new], context: nil)
+                OESystemPlugin.addObserver(self, forKeyPath: #keyPath(OESystemPlugin.allPlugins), options: [.old, .new], context: nil)
                 observerToken = NotificationCenter.default
                     .addObserver(forName: .OEDBSystemAvailabilityDidChange, object: nil, queue: .main) { [weak self] _ in
                         guard let self = self else { return }
@@ -48,7 +48,7 @@ final class AvailableLibrariesViewController: NSViewController {
                         self.loadData()
                 }
             } else {
-                OEPlugin.removeObserver(self, forKeyPath: #keyPath(OEPlugin.allPlugins))
+                OESystemPlugin.removeObserver(self, forKeyPath: #keyPath(OESystemPlugin.allPlugins))
                 observerToken = nil
             }
         }

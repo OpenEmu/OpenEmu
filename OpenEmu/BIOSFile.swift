@@ -25,7 +25,7 @@
  */
 
 import Foundation
-import OpenEmuKit.OECorePlugin
+import OpenEmuKit
 
 extension Notification.Name {
     /// Posted whenever a new BIOS file was successfully imported.

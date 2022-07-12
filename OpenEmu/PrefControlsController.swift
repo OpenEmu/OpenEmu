@@ -25,7 +25,7 @@
 import Cocoa
 import Carbon.HIToolbox.Events
 import OpenEmuSystem
-import OpenEmuKit.OESystemPlugin
+import OpenEmuKit
 
 final class PrefControlsController: NSViewController {
     

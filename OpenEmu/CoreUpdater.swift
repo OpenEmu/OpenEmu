@@ -83,7 +83,7 @@ final class CoreUpdater: NSObject {
         }
     }
     
-    private func checkForUpdateInformation(url: URL, plugin: OEPlugin) throws -> CoreAppcastItem? {
+    private func checkForUpdateInformation(url: URL, plugin: OECorePlugin) throws -> CoreAppcastItem? {
         let items: [XMLElement]
         do {
             let appcast = try XMLDocument(contentsOf: url, options: [])
