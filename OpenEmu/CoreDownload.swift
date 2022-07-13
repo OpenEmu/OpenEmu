@@ -142,11 +142,11 @@ extension CoreDownload: URLSessionDownloadDelegate {
             let fileName = ArchiveHelper.decompressFileInArchive(at: location, toDirectory: coresFolder)
         else { return }
         
-        let fullPluginPath = coresFolder.appendingPathComponent(fileName).path
+        let fullPluginURL = coresFolder.appendingPathComponent(fileName)
         
         DLog("Core (\(bundleIdentifier)) extracted to application support folder.")
         
-        guard let plugin = OECorePlugin.corePlugin(bundleAtPath: fullPluginPath) else {
+        guard let plugin = OECorePlugin.corePlugin(bundleAtURL: fullPluginURL) else {
             return assertionFailure()
         }
         

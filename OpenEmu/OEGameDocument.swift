@@ -693,8 +693,8 @@ final class OEGameDocument: NSDocument {
                                      displayModeInfo: lastDisplayModeInfo,
                                      shader: preset.shader.url,
                                      shaderParameters: params,
-                                     corePluginPath: corePlugin.path,
-                                     systemPluginPath: systemPlugin.path)
+                                     corePluginURL: corePlugin.url,
+                                     systemPluginURL: systemPlugin.url)
         
         if let managerClassName = UserDefaults.standard.string(forKey: OEGameCoreManagerModePreferenceKey),
            let managerClass = NSClassFromString(managerClassName),

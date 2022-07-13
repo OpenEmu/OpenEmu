@@ -59,7 +59,7 @@ final class PluginDocument: NSDocument {
             }
             
             do {
-                try _ = OECorePlugin.plugin(bundleAtPath: newURL.path, forceReload: true)
+                try _ = OECorePlugin.plugin(bundleAtURL: newURL, forceReload: true)
             } catch let error as NSError {
                 if error.domain == OEGameCorePluginError.errorDomain {
                     if error.code == OEGameCorePluginError.alreadyLoaded.errorCode {
