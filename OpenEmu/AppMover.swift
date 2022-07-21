@@ -25,7 +25,7 @@ public enum AppMover {
                 $0 as? URL
             }
             .first {
-                (try? fm.hasExtendedAttribute("com.apple.quarantine", atPath: $0.path, traverseLink: true)) ?? false
+                (try? fm.hasExtendedAttribute("com.apple.quarantine", at: $0, traverseLink: true)) ?? false
             }
         
         return res != .none
@@ -36,7 +36,7 @@ public enum AppMover {
         let fm = FileManager.default
         
         let url = Bundle.main.bundleURL
-        try? fm.removeExtendedAttribute("com.apple.quarantine", atPath: url.path, traverseLink: true)
+        try? fm.removeExtendedAttribute("com.apple.quarantine", at: url, traverseLink: true)
         
         guard let paths = fm.enumerator(at: url, includingPropertiesForKeys: []) else { return }
         
@@ -44,10 +44,10 @@ public enum AppMover {
         paths.lazy
             .compactMap { $0 as? URL }
             .filter {
-                (try? fm.hasExtendedAttribute("com.apple.quarantine", atPath: $0.path, traverseLink: true)) ?? false
+                (try? fm.hasExtendedAttribute("com.apple.quarantine", at: $0, traverseLink: true)) ?? false
             }
             .forEach {
-                try? fm.removeExtendedAttribute("com.apple.quarantine", atPath: $0.path, traverseLink: true)
+                try? fm.removeExtendedAttribute("com.apple.quarantine", at: $0, traverseLink: true)
             }
     }
     
