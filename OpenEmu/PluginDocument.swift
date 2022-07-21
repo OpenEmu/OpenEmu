@@ -55,6 +55,9 @@ final class PluginDocument: NSDocument {
                     try fm.createDirectory(at: coresDir, withIntermediateDirectories: true)
                 }
                 try fm.copyItem(at: url, to: newURL)
+                if try fm.hasExtendedAttribute("com.apple.quarantine", at: newURL, traverseLink: true) {
+                    try fm.removeExtendedAttribute("com.apple.quarantine", at: newURL, traverseLink: true)
+                }
             }
             
             do {
