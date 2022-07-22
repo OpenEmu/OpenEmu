@@ -435,6 +435,9 @@
 		8F76285E255C835D00A1246D /* PrefControlsController2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F76285D255C835A00A1246D /* PrefControlsController2.xib */; };
 		8F7AE88A2546802A00B837A8 /* InsetScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7AE8892546802A00B837A8 /* InsetScrollView.swift */; };
 		8F7BFC9623E653E100B1F6C8 /* ShaderParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F7BFC9723E653E100B1F6C8 /* ShaderParameters.xib */; };
+		8F7C294B288A2A2200A16C09 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C294A288A2A2200A16C09 /* main.swift */; };
+		8F7C2951288A2C7800A16C09 /* FileManager+Hashing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* FileManager+Hashing.swift */; };
+		8F7C2957288A2DC600A16C09 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 8F7C2956288A2DC600A16C09 /* ZIPFoundation */; };
 		8F80217A24F45E4800DC82E3 /* ControlsScroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217924F45E4800DC82E3 /* ControlsScroller.swift */; };
 		8F80217C24F45E6700DC82E3 /* ControlsPopUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217B24F45E6600DC82E3 /* ControlsPopUpButton.swift */; };
 		8F80217E24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */; };
@@ -1687,6 +1690,8 @@
 		8F76285D255C835A00A1246D /* PrefControlsController2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefControlsController2.xib; sourceTree = "<group>"; };
 		8F7AE8892546802A00B837A8 /* InsetScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsetScrollView.swift; sourceTree = "<group>"; };
 		8F7BFC9723E653E100B1F6C8 /* ShaderParameters.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaderParameters.xib; sourceTree = "<group>"; };
+		8F7C2948288A2A2200A16C09 /* OECoreListUpdater */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OECoreListUpdater; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F7C294A288A2A2200A16C09 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8F80217924F45E4800DC82E3 /* ControlsScroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsScroller.swift; sourceTree = "<group>"; };
 		8F80217B24F45E6600DC82E3 /* ControlsPopUpButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsPopUpButton.swift; sourceTree = "<group>"; };
 		8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsPopUpButtonCell.swift; sourceTree = "<group>"; };
@@ -2242,6 +2247,14 @@
 				0547FD9C24E7769E005C1FFC /* OpenEmuKit.framework in Frameworks */,
 				82DE4B63102655DA007184EB /* UniversalDetector.framework in Frameworks */,
 				82DE4B62102655D5007184EB /* XADMaster.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F7C2945288A2A2200A16C09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F7C2957288A2DC600A16C09 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2803,6 +2816,7 @@
 				012148052537C6D6007F3C84 /* OESystemPluginPostInstall */,
 				8F94DEBA250EC701003A1F33 /* OpenEmuQLThumbnail.appex */,
 				8F94DECF250ED838003A1F33 /* OpenEmuQLPreview.appex */,
+				8F7C2948288A2A2200A16C09 /* OECoreListUpdater */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2965,6 +2979,7 @@
 				016F22DD23F19F5F00181842 /* OEAlertTest */,
 				015BFEB525266DFC0025139F /* OEControlLabelsGenerator */,
 				012148062537C6D6007F3C84 /* OESystemPluginPostInstall */,
+				8F7C2949288A2A2200A16C09 /* OECoreListUpdater */,
 				837820B91907FB3A0043593F /* Image Kit Headers (Private) */,
 				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
 			);
@@ -3490,6 +3505,14 @@
 				87FBC0A11C07985900AECF5A /* Keyboard-Mappings.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8F7C2949288A2A2200A16C09 /* OECoreListUpdater */ = {
+			isa = PBXGroup;
+			children = (
+				8F7C294A288A2A2200A16C09 /* main.swift */,
+			);
+			path = OECoreListUpdater;
 			sourceTree = "<group>";
 		};
 		8F7F17BC24EE0A7A00D23C2D /* Localization */ = {
@@ -4762,6 +4785,25 @@
 			productReference = 8D15AC370486D014006FF6A4 /* OpenEmu.app */;
 			productType = "com.apple.product-type.application";
 		};
+		8F7C2947288A2A2200A16C09 /* OECoreListUpdater */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F7C294C288A2A2200A16C09 /* Build configuration list for PBXNativeTarget "OECoreListUpdater" */;
+			buildPhases = (
+				8F7C2944288A2A2200A16C09 /* Sources */,
+				8F7C2945288A2A2200A16C09 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OECoreListUpdater;
+			packageProductDependencies = (
+				8F7C2956288A2DC600A16C09 /* ZIPFoundation */,
+			);
+			productName = OECoreListUpdater;
+			productReference = 8F7C2948288A2A2200A16C09 /* OECoreListUpdater */;
+			productType = "com.apple.product-type.tool";
+		};
 		8F94DEB9250EC701003A1F33 /* OpenEmuQLThumbnail */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F94DECA250EC701003A1F33 /* Build configuration list for PBXNativeTarget "OpenEmuQLThumbnail" */;
@@ -5434,6 +5476,9 @@
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Manual;
 					};
+					8F7C2947288A2A2200A16C09 = {
+						CreatedOnToolsVersion = 13.4;
+					};
 					8F94DEB9250EC701003A1F33 = {
 						CreatedOnToolsVersion = 12.0;
 						ProvisioningStyle = Automatic;
@@ -5569,6 +5614,7 @@
 				8F44DEB326DFD07200893A18 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				8F2543F82714C273003FC137 /* XCRemoteSwiftPackageReference "Finite" */,
 				058B557B27AF240A00EE0E47 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				8F7C2953288A2D7C00A16C09 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 			);
 			projectDirPath = "";
 			projectRoot = "";
@@ -5631,6 +5677,7 @@
 				015BFEB325266DFC0025139F /* OEControlLabelsGenerator */,
 				05DB72A02532681B0098459D /* OpenEmuTests */,
 				012148042537C6D6007F3C84 /* OESystemPluginPostInstall */,
+				8F7C2947288A2A2200A16C09 /* OECoreListUpdater */,
 			);
 		};
 /* End PBXProject section */
@@ -6655,6 +6702,15 @@
 				C67DBF4317DBE859006AF087 /* NSDocument+OEAdditions.m in Sources */,
 				8CBD3AA217D23AA80022399B /* OEGridGameCell.m in Sources */,
 				5A9606D41C0A63740089B494 /* NSMutableDictionary+Pop.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F7C2944288A2A2200A16C09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F7C2951288A2C7800A16C09 /* FileManager+Hashing.swift in Sources */,
+				8F7C294B288A2A2200A16C09 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8000,6 +8056,48 @@
 			};
 			name = Release;
 		};
+		8F7C294D288A2A2200A16C09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8F7C294E288A2A2200A16C09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		8F94DEC8250EC701003A1F33 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -9111,6 +9209,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		8F7C294C288A2A2200A16C09 /* Build configuration list for PBXNativeTarget "OECoreListUpdater" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F7C294D288A2A2200A16C09 /* Debug */,
+				8F7C294E288A2A2200A16C09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8F94DECA250EC701003A1F33 /* Build configuration list for PBXNativeTarget "OpenEmuQLThumbnail" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -9471,6 +9578,14 @@
 				minimumVersion = 2.2.0;
 			};
 		};
+		8F7C2953288A2D7C00A16C09 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.9.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -9488,6 +9603,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8F44DEB326DFD07200893A18 /* XCRemoteSwiftPackageReference "Sparkle" */;
 			productName = Sparkle;
+		};
+		8F7C2956288A2DC600A16C09 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F7C2953288A2D7C00A16C09 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
 		};
 /* End XCSwiftPackageProductDependency section */
 
