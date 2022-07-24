@@ -133,7 +133,6 @@ enum ArchiveHelper {
     /// - Returns: The file name of the first entry in the archive.
     @discardableResult
     static func decompressFileInArchive(at url: URL, toDirectory directory: URL) -> String? {
-        assert(directory.isDirectory, "'directory' needs to be a directory, duh")
         let archive = XADArchive.oe_archiveForFile(at: url)
         
         let fileName = archive?.name(ofEntry: 0)

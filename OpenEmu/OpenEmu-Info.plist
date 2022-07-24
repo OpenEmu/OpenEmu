@@ -55,6 +55,8 @@
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>OEPlugin</string>
+			<key>CFBundleTypeIconSystemGenerated</key>
+			<integer>0</integer>
 			<key>CFBundleTypeName</key>
 			<string>OpenEmu Core Plugin</string>
 			<key>CFBundleTypeRole</key>
@@ -73,6 +75,8 @@
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>OEPlugin</string>
+			<key>CFBundleTypeIconSystemGenerated</key>
+			<integer>0</integer>
 			<key>CFBundleTypeName</key>
 			<string>OpenEmu System Plugin</string>
 			<key>CFBundleTypeRole</key>
@@ -91,14 +95,14 @@
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>OEPlugin</string>
+			<key>CFBundleTypeIconSystemGenerated</key>
+			<integer>0</integer>
 			<key>CFBundleTypeName</key>
 			<string>OpenEmu Shader</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
-			<key>LSTypeIsPackage</key>
-			<true/>
 			<key>NSDocumentClass</key>
 			<string>OpenEmu.PluginDocument</string>
 		</dict>

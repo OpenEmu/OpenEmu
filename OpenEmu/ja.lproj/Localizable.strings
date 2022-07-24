@@ -9,7 +9,7 @@
 
 "%ux" = "%ux";
 
-"A version of this plugin is already loaded" = "このプラグインは既にロードされています。";
+"ERROR_PLUGIN_IMPORT_ALREADYLOADED" = "このプラグインは既にロードされています。";
 
 "Add Cheat…" = "Add"; // TODO
 
@@ -563,7 +563,7 @@
 
 "We suggest you switch to the %@ core plugin as soon as possible." = "なるべく早く、コアプラグイン %@ への切り替えをおすすめします。";  // Message info, part 2 (shown only if the replacement plugin is available)
 
-"This plugin is currently unsupported" = "このプラグインは現在ほサポートされていません";
+"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "このプラグインは現在ほサポートされていません";
 
 "Install %@" = "%@ をインストール";
 

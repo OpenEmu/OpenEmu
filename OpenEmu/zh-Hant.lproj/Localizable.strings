@@ -9,7 +9,7 @@
 
 "%ux" = "%ux";
 
-"A version of this plugin is already loaded" = "此外掛的一個版本已經加載";
+"ERROR_PLUGIN_IMPORT_ALREADYLOADED" = "此外掛的一個版本已經加載";
 
 "Add" = "Add"; // TODO
 
@@ -563,7 +563,7 @@
 
 "We suggest you switch to the %@ core plugin as soon as possible." = "We suggest you switch to the %@ core plugin as soon as possible.";  // Message info, part 2 (shown only if the replacement plugin is available) // TODO
 
-"This plugin is currently unsupported" = "This plugin is currently unsupported";  // TODO
+"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "This plugin is currently unsupported";  // TODO
 
 "Install %@" = "Install %@";  // TODO
 

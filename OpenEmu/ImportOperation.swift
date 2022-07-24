@@ -189,6 +189,13 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
             // Check for .oesavestate files and copy them directly (not going through importer queue)
             Self.tryImportSaveState(at: url)
             
+            do {
+                try PluginDocument.importCorePlugin(at: url)
+                try PluginDocument.importSystemPlugin(at: url)
+            } catch {
+                NSApp.presentError(error)
+            }
+            
             return nil
         }
         
@@ -263,7 +270,7 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
         if fileManager.fileExists(atPath: destination.path) {
             // lets remove it first
             do {
-                try fileManager.removeItem(at: destination)
+                try fileManager.trashItem(at: destination, resultingItemURL: nil)
             } catch {
                 os_log(.error, log: .import, "Could not remove existing directory '%{public}@' before copying shader: %{public}@", destination.path, error.localizedDescription)
                 return .notHandled

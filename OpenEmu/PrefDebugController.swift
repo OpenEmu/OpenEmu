@@ -463,8 +463,7 @@ final class PrefDebugController: NSViewController {
                     let downloadSession = URLSession(configuration: .default)
                     let downloadTask = downloadSession.downloadTask(with: request) { location, response, error in
                         
-                        if let location = location,
-                           let importer = OELibraryDatabase.default?.importer {
+                        if let location = location {
                             
                             let tmpDir = FileManager.default.temporaryDirectory
                                 .appendingPathComponent("org.openemu.OpenEmu", isDirectory: true)
@@ -474,12 +473,10 @@ final class PrefDebugController: NSViewController {
                             
                             let urls = try? FileManager.default.contentsOfDirectory(at: tmpDir, includingPropertiesForKeys: nil)
                             for url in urls ?? [] {
-                                if let op = ImportOperation(url: url, in: importer) {
-                                    importer.addOperation(op)
-                                }
+                                ImportOperation.importShaderPlugin(at: url)
                             }
                             
-                            importer.start()
+                            try? FileManager.default.removeItem(at: tmpDir)
                         }
                     }
                     

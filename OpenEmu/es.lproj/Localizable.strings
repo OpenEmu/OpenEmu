@@ -9,7 +9,7 @@
 
 "%ux" = "%ux";
 
-"A version of this plugin is already loaded" = "Una versión de este plugin ya está cargada";
+"ERROR_PLUGIN_IMPORT_ALREADYLOADED" = "Una versión de este plugin ya está cargada";
 
 "Add" = "Añadir";
 
@@ -563,7 +563,7 @@
 
 "We suggest you switch to the %@ core complemento as soon as possible." = "Le sugerimos cambiar al plugin del núcleo %@ lo antes posible.";
 
-"This plugin is currently unsupported" = "This plugin is currently unsupported";  // TODO
+"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "This plugin is currently unsupported";  // TODO
 
 "Install %@" = "Instalar %@";
 

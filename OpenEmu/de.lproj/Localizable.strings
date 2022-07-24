@@ -9,7 +9,7 @@
 
 "%ux" = "%ux";
 
-"A version of this plugin is already loaded" = "Es ist bereits eine Version dieses Plugins geladen";
+"ERROR_PLUGIN_IMPORT_ALREADYLOADED" = "Es ist bereits eine Version dieses Plugins geladen.";
 
 "Add" = "Hinzufügen";
 
@@ -563,7 +563,7 @@
 
 "We suggest you switch to the %@ core plugin as soon as possible." = "Wir empfehlen, so bald wie möglich zum Kern „%@“ zu wechseln.";  // Message info, part 2 (shown only if the replacement plugin is available)
 
-"This plugin is currently unsupported" = "Dieses Plugin wird zur Zeit nicht unterstützt.";
+"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "Dieses Plugin wird nicht mehr unterstützt.";
 
 "Install %@" = "%@ installieren";
 

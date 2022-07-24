@@ -9,7 +9,7 @@
 
 "%ux" = "%ux";
 
-"A version of this plugin is already loaded" = "Una versione di questo plugin è già stata caricata"; // user opened a plugin and loading has failed; nsalert description
+"ERROR_PLUGIN_IMPORT_ALREADYLOADED" = "Una versione di questo plugin è già stata caricata"; // user opened a plugin and loading has failed; nsalert description
 
 "Add" = "Aggiungi";
 
@@ -563,7 +563,7 @@
 
 "We suggest you switch to the %@ core plugin as soon as possible." = "In alternativa, consigliamo di iniziare subito a usare il core %@.";  // Message info, part 2 (shown only if the replacement plugin is available)
 
-"This plugin is currently unsupported" = "Questo plugin non è supportato";
+"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "Questo plugin non è supportato";
 
 "Install %@" = "Installa %@";
 

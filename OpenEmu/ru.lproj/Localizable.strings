@@ -9,7 +9,7 @@
 
 "%ux" = "%ux";
 
-"A version of this plugin is already loaded" = "Версия этого плагина уже загружена";
+"ERROR_PLUGIN_IMPORT_ALREADYLOADED" = "Версия этого плагина уже загружена";
 
 "Add" = "Добавить";
 
@@ -563,7 +563,7 @@
 
 "We suggest you switch to the %@ core plugin as soon as possible." = "Мы предлагаем перейти на плагин ядра %@ как можно скорее.";  // Message info, part 2 (shown only if the replacement plugin is available)
 
-"This plugin is currently unsupported" = "Этот плагин сейчас не поддерживается";
+"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "Этот плагин сейчас не поддерживается";
 
 "Install %@" = "Установить %@";
 
