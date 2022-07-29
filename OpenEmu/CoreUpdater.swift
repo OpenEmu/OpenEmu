@@ -25,6 +25,7 @@
 import Foundation
 import OpenEmuKit
 import Sparkle.SUStandardVersionComparator
+import OSLog
 
 final class CoreUpdater: NSObject {
     
@@ -107,6 +108,10 @@ final class CoreUpdater: NSObject {
     }
     
     func checkForUpdatesAndInstall() {
+        guard ProcessInfo.processInfo.environment["OE_DISABLE_UPDATE_CHECK"] == nil else {
+            os_log(.info, log: .default, "OE_DISABLE_UPDATE_CHECK found; skipping check for updates.")
+            return
+        }
         autoInstall = true
         checkForUpdates()
     }
