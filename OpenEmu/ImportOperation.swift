@@ -132,7 +132,7 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
     
     // MARK: - NSCopying
     
-    private init(url: URL, sourceURL: URL) {
+    internal init(url: URL, sourceURL: URL) {
         self.url = url
         self.sourceURL = sourceURL
         super.init()

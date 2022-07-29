@@ -35,14 +35,10 @@ class ROMImporterTests: XCTestCase {
             var ops: [ImportOperation] = []
             var op: ImportOperation
             
-            op = ImportOperation()
-            op.url = URL(string: "file://url/op1")!
-            op.sourceURL = URL(string: "file://source/op1")!
+            op = ImportOperation(url: URL(string: "file://url/op1")!, sourceURL: URL(string: "file://source/op1")!)
             ops.append(op)
             
-            op = ImportOperation()
-            op.url = URL(string: "file://url/op2")!
-            op.sourceURL = URL(string: "file://source/op2")!
+            op = ImportOperation(url: URL(string: "file://url/op2")!, sourceURL: URL(string: "file://source/op2")!)
             ops.append(op)
             
             data = ri._data(forOperationQueue: ops)
