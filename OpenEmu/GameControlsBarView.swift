@@ -125,9 +125,13 @@ final class GameControlsBarView: NSView {
         addSubview(volume)
         slider = volume
         
-        let animation = CABasicAnimation()
-        animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
-        volume.animations = ["floatValue" : animation]
+        if #available(macOS 12.0, *) {
+            // in Monterey, NSSliders animate to the new value by default
+        } else {
+            let animation = CABasicAnimation()
+            animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            volume.animations = ["floatValue" : animation]
+        }
         
         
         let fullScreen = HUDBarButton()
