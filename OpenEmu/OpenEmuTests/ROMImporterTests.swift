@@ -30,15 +30,18 @@ class ROMImporterTests: XCTestCase {
     func testArchiveUnarchiveOperationQueue() {
         let ri = ROMImporter(database: OELibraryDatabase.default!)
         
-        var data: Data!
+        let data: Data!
+        let url1 = URL(string: "file://url/op1")!
+        let url2 = URL(string: "file://url/op2")!
+        
         do {
             var ops: [ImportOperation] = []
             var op: ImportOperation
             
-            op = ImportOperation(url: URL(string: "file://url/op1")!, sourceURL: URL(string: "file://source/op1")!)
+            op = ImportOperation(url: url1, sourceURL: url1)
             ops.append(op)
             
-            op = ImportOperation(url: URL(string: "file://url/op2")!, sourceURL: URL(string: "file://source/op2")!)
+            op = ImportOperation(url: url2, sourceURL: url2)
             ops.append(op)
             
             data = ri._data(forOperationQueue: ops)
@@ -47,16 +50,17 @@ class ROMImporterTests: XCTestCase {
         
         do {
             let ops: [ImportOperation]! = ri._operationQueue(from: data)
-            XCTAssertEqual(2, ops.count)
+            XCTAssertNotNil(ops)
+            XCTAssertEqual(ops.count, 2)
             var op: ImportOperation
             
             op = ops[0]
-            XCTAssertEqual(op.url.absoluteString, "file://url/op1")
-            XCTAssertEqual(op.sourceURL.absoluteString, "file://source/op1")
+            XCTAssertEqual(op.url.absoluteString, url1.absoluteString)
+            XCTAssertEqual(op.sourceURL.absoluteString, url1.absoluteString)
             
             op = ops[1]
-            XCTAssertEqual(op.url.absoluteString, "file://url/op2")
-            XCTAssertEqual(op.sourceURL.absoluteString, "file://source/op2")
+            XCTAssertEqual(op.url.absoluteString, url2.absoluteString)
+            XCTAssertEqual(op.sourceURL.absoluteString, url2.absoluteString)
         }
     }
 }

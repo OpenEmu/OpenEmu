@@ -581,7 +581,7 @@ final class OELibraryDatabase: NSObject {
     }
     
     var importQueueURL: URL {
-        return databaseFolderURL.appendingPathComponent("Import Queue.db", isDirectory: false)
+        return databaseFolderURL.appendingPathComponent("ImportQueue.plist", isDirectory: false)
     }
     
     // MARK: - OpenVGDB Sync

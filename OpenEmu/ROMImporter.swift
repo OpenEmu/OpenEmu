@@ -106,6 +106,7 @@ final class ROMImporter: NSObject {
                 try queueData.write(to: url, options: [.atomic])
                 return true
             } catch {
+                os_log(.error, log: .import, "Error writing import queue data to disk: %{public}@", error.localizedDescription);
                 return false
             }
         }
@@ -114,23 +115,36 @@ final class ROMImporter: NSObject {
     
     fileprivate func data(forOperationQueue queue: [Operation]) -> Data? {
         // only pick ImportOperations
-        let operations = queue.filter { operation in
-            if let operation = operation as? ImportOperation {
-                return !operation.isFinished && !operation.isCancelled
+        let sourceURLs: [URL] = queue.compactMap { operation in
+            if let operation = operation as? ImportOperation,
+               !operation.isFinished && !operation.isCancelled
+            {
+                return operation.sourceURL
             } else {
-                return false
+                return nil
             }
         }
-        if !operations.isEmpty {
-            return try? NSKeyedArchiver.archivedData(withRootObject: operations, requiringSecureCoding: true)
+        if !sourceURLs.isEmpty {
+            do {
+                return try PropertyListEncoder().encode(sourceURLs)
+            } catch {
+                assertionFailure(error.localizedDescription)
+                return nil
+            }
         }
         return nil
     }
     
     fileprivate func operationQueue(from data: Data) -> [ImportOperation]? {
-        let classes = [NSArray.self, ImportOperation.self]
-        let operations = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: classes, from: data) as? [ImportOperation]
-        return operations
+        let sourceURLs: [URL]
+        do {
+            sourceURLs = try PropertyListDecoder().decode([URL].self, from: data)
+        } catch {
+            assertionFailure(error.localizedDescription)
+            return nil
+        }
+        
+        return sourceURLs.map { ImportOperation(url: $0, sourceURL: $0) }
     }
     
     @objc

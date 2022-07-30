@@ -52,8 +52,7 @@ enum OEImportErrorCode: Int {
 
 typealias ImportItemCompletionBlock = (NSManagedObjectID?) -> Void
 
-@objc(OEImportOperation) // compatibility with old keyed archives (Import Queue.db)
-final class ImportOperation: Operation, NSSecureCoding, NSCopying {
+final class ImportOperation: Operation, NSCopying {
     
     enum ExitStatus {
         case none, errorResolvable, errorFatal, success
@@ -110,33 +109,13 @@ final class ImportOperation: Operation, NSSecureCoding, NSCopying {
         }
     }
     
-    // MARK: - NS(Secure)Coding
-    
-    static var supportsSecureCoding: Bool { true }
-    
-    required init?(coder: NSCoder) {
-        guard
-            let url = coder.decodeObject(of: NSURL.self, forKey: "URL") as? URL,
-            let sourceURL = coder.decodeObject(of: NSURL.self, forKey: "sourceURL") as? URL
-        else { return nil }
-        
+    init(url: URL, sourceURL: URL) {
         self.url = url
         self.sourceURL = sourceURL
         super.init()
-    }
-    
-    func encode(with coder: NSCoder) {
-        coder.encode(url, forKey: "URL")
-        coder.encode(sourceURL, forKey: "sourceURL")
     }
     
     // MARK: - NSCopying
-    
-    internal init(url: URL, sourceURL: URL) {
-        self.url = url
-        self.sourceURL = sourceURL
-        super.init()
-    }
     
     func copy(with zone: NSZone? = nil) -> Any {
         let op = ImportOperation(url: url, sourceURL: sourceURL)
