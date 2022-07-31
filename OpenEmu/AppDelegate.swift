@@ -159,6 +159,9 @@ class AppDelegate: NSObject {
         // Trigger Objective-C +initialize methods in these classes.
         _ = OEControllerDescription.self
         
+        OECorePlugin.registerClass()
+        OESystemPlugin.registerClass()
+        
         // Reset preferences for default cores when migrating to 2.0.3. This is an attempt at cleanup after 9d5d696d07fe651f44f16f8bf8b98c87d90fe53f and d36e9ad4b7097f21ffbbe32d9cea3b72a390bc0f and for getting as many users as possible onto mGBA.
         OEVersionMigrationController.default.addMigratorTarget(self, selector: #selector(migrationRemoveCoreDefaults), forVersion: "2.0.3")
     }
@@ -211,7 +214,6 @@ class AppDelegate: NSObject {
             assert(OELibraryDatabase.default != nil, "No database available!")
             
             DispatchQueue.main.async {
-                self.libraryDatabaseDidLoad()
                 NotificationCenter.default.post(name: .libraryDidLoad, object: OELibraryDatabase.default!)
             }
             
@@ -365,9 +367,6 @@ class AppDelegate: NSObject {
     }
     
     fileprivate func loadPlugins() {
-        OECorePlugin.registerClass()
-        OESystemPlugin.registerClass()
-        
         // Register all system controllers with the bindings controller.
         for plugin in OESystemPlugin.allPlugins {
             OEBindingsController.register(plugin.controller)
@@ -561,15 +560,6 @@ class AppDelegate: NSObject {
         alert.informativeText = NSLocalizedString("The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.", comment:"Message for bindings repaired alert")
         alert.defaultButtonTitle = NSLocalizedString("OK", comment:"")
         alert.runModal()
-    }
-    
-    func didRegisterSystemPlugin(_ n: NSNotification!) {
-        guard
-            let plugin = n.object as? OESystemPlugin,
-            let library = OELibraryDatabase.default
-        else { return }
-        
-        _ = OEDBSystem.system(for: plugin, in: library.mainThreadContext)
     }
     
     // MARK: - Debug
@@ -795,11 +785,10 @@ extension AppDelegate: NSMenuDelegate {
         
         let notificationCenter = NotificationCenter.default
         
+        notificationCenter.addObserver(self, selector: #selector(libraryDatabaseDidLoad), name: .libraryDidLoad, object: nil)
         notificationCenter.addObserver(self, selector: #selector(openPreferencePane), name: PreferencesWindowController.openPaneNotificationName, object: nil)
         
         notificationCenter.addObserver(self, selector: #selector(didRepairBindings), name: .OEBindingsRepaired, object: nil)
-        
-        notificationCenter.addObserver(self, selector: #selector(didRegisterSystemPlugin), name: OESystemPlugin.didRegisterNotification, object: nil)
         
         NSDocumentController.shared.clearRecentDocuments(nil)
         
@@ -823,7 +812,7 @@ extension AppDelegate: NSMenuDelegate {
         }
     }
     
-    func libraryDatabaseDidLoad() {
+    func libraryDatabaseDidLoad(notification: Notification) {
         
         libraryLoaded = true
 
