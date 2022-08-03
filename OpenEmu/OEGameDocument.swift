@@ -666,21 +666,25 @@ final class OEGameDocument: NSDocument {
         
         let lastDisplayModeInfo = UserDefaults.standard.object(forKey: String(format: OEGameCoreDisplayModeKeyFormat, corePlugin.bundleIdentifier)) as? [String : Any]
         
-        // Never extract arcade roms
+        let romURL: URL
         if systemPlugin.systemIdentifier != "openemu.system.arcade",
            let index = rom.archiveFileIndex as? Int
         {
             var didDecompress = ObjCBool(false)
             let decomprDst = ArchiveHelper.decompressFileInArchive(at: romFileURL, atIndex: index, withHash: rom.md5, didDecompress: &didDecompress)
             if didDecompress.boolValue {
+                // if we decompressed it, we should clean it up
                 decompressedROMFileURL = decomprDst
             }
+            romURL = decomprDst ?? romFileURL
+        } else {
+            romURL = romFileURL
         }
         
         let preset = ShaderControl.currentPreset(forSystemPlugin: systemPlugin)
         let params = preset.parameters
         
-        let info = OEGameStartupInfo(romURL: decompressedROMFileURL ?? romFileURL,
+        let info = OEGameStartupInfo(romURL: romURL,
                                      romMD5: rom.md5 ?? "",
                                      romHeader: rom.header ?? "",
                                      romSerial: rom.serial ?? "",
