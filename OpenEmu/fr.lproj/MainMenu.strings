@@ -109,7 +109,7 @@
 
 "Log Responder Chain" = "Journaliser la chaîne de répondeurs";
 
-"Show ROM Names" = "Afficher les noms des roms";
+"Show ROM Names" = "Afficher les noms des ROM";
 
 "Show Library" = "Afficher la bibliothèque";
 
@@ -129,8 +129,8 @@
 
 "Send a Donation…" = "Faire un don…";
 
-"Next Display Mode" = "Mode d'affichage suivant";
+"Next Display Mode" = "Mode d’affichage suivant";
 
-"Last Display Mode" = "Mode d'affichage précédent";
+"Last Display Mode" = "Mode d’affichage précédent";
 
 "Float on Top" = "Garder au premier plan"; // (same as QuickTime Player → View)

@@ -1,7 +1,7 @@
 
 "%@ copy" = "%@ - copie";
 
-"%@ could not be enabled because its plugin was not found." = "Impossible d’activer %@ car son plug-in n’a pas été trouvé.";
+"%@ could not be enabled because its plugin was not found." = "Impossible d’activer %@ car son plugin n’a pas été trouvé.";
 
 "%@ games will appear here. Check out %@ on how to add disc-based games." = "Les jeux %@ apparaîtront ici. Lisez %@ pour savoir comment ajouter des jeux à disque.";
 
@@ -19,7 +19,7 @@
 
 "Add Cheat" = "Ajouter un code";
 
-"Add Cover Art from File…" = "Ajouter une illustration à partir d’un fichier…";
+"Add Cover Art from File…" = "Ajouter une jaquette à partir d’un fichier…";
 
 "Add to Collection" = "Ajouter à la collection";
 
@@ -29,9 +29,9 @@
 
 "All Homebrew" = "Tous les jeux homebrew";
 
-"Already in library:" = "Already in library:";  // TODO
+"Already in library:" = "Déjà dans la bibliothèque :";
 
-"Already in library, but manually deleted or unreachable:" = "Already in library, but manually deleted or unreachable:"; // TODO
+"Already in library, but manually deleted or unreachable:" = "Déjà dans la bibliothèque, mais supprimé manuellement ou inaccessible :";
 
 "Are you sure you want to delete %ld save states from your OpenEmu library?" = "Voulez-vous vraiment supprimer %ld parties sauvegardées de votre bibliothèque OpenEmu ?";
 
@@ -51,7 +51,7 @@
 
 "Are you sure you want to remove the selected games from the collection?" = "Voulez-vous vraiment supprimer les jeux sélectionnés de votre collection ?";
 
-"Are you sure you want to remove the collection '%@'?" = "Voulez-vous vraiment supprimer cette collection ?"; // TODO
+"Are you sure you want to remove the collection '%@'?" = "Voulez-vous vraiment supprimer la collection « %@ » ?";
 
 "Are you sure you want to restart the game?" = "Voulez-vous vraiment redémarrer le jeu ?";
 
@@ -65,7 +65,7 @@
 
 "Bluetooth Not Enabled" = "Bluetooth désactivé";
 
-"Cancel Cover Art Download" = "Annuler le téléchargement de l’illustration";
+"Cancel Cover Art Download" = "Annuler le téléchargement de la jaquette";
 
 "Cancel" = "Annuler";
 
@@ -83,7 +83,7 @@
 
 "Choose OpenEmu Library" = "Sélectionner une bibliothèque OpenEmu";
 
-"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "Sélectionnez Oui pour supprimer tous les éléments de la file d’attente. Les éléments déjà importés seront conservés dans votre bibliothèque."; // TODO
+"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "Ceci supprimera tous les éléments de la file d’attente. Les éléments déjà importés seront conservés dans votre bibliothèque.";
 
 "Code:" = "Code :";
 
@@ -95,29 +95,29 @@
 
 "Consoles" = "Consoles";
 
-"Consolidate Files…" = "Réunir les fichiers…";
+"Consolidate Files…" = "Consolider les fichiers…";
 
-"Consolidate" = "Réunir";
+"Consolidate" = "Consolider";
 
-"Consolidating files failed." = "Consolidating files failed."; // TODO
+"Consolidating files failed." = "La consolidation des fichiers a échoué.";
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder." = "Réunir les fichiers copiera tous les jeux sélectionnés dans le dossier de la bibliothèque OpenEmu.";
 
 "This cannot be undone." = "Cette opération est irréversible.";
 
-"Contains no data:" = "Contains no data:"; // TODO
+"Contains no data:" = "Ne contient pas de données :";
 
 "Controls" = "Contrôles";
 
-"Copying artwork failed!" = "Échec de la copie des illustrations !";
+"Copying artwork failed!" = "Échec de la copie de la jaquette !";
 
-"Copying Artwork Files…" = "Copie des illsutrations…";
+"Copying Artwork Files…" = "Copie des jaquettes…";
 
-"Copying Game Files…" = "Copie des parties…";
+"Copying Game Files…" = "Copie des fichiers de jeu…";
 
-"Copying ROM Files…" = "Copie des roms…";
+"Copying ROM Files…" = "Copie des ROM…";
 
-"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+"Copying ROM files failed!" = "La copie des fichiers ROM a échoué !";
 
 "Core Provided By…" = "Cœur fourni par…";
 
@@ -127,7 +127,7 @@
 
 "Could not move library data!" = "Impossible de déplacer les données de la bibliothèque !";
 
-"Couldn't load %@ plugin" = "Impossible de charger le plug-in %@";
+"Couldn't load %@ plugin" = "Impossible de charger le plugin %@";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Créer une sélection de jeux personnelle. Pour ajouter un jeu à une collection, sélectionnez-le dans votre bibliothèque de consoles et glissez-le vers « %@ » dans la barre latérale.";
 
@@ -153,9 +153,9 @@
 
 "Delete Saves" = "Supprimer les sauvegardes";
 
-"Delete Screenshot" = "Supprimer la capture d'écran";
+"Delete Screenshot" = "Supprimer la capture d’écran";
 
-"Delete Screenshots" = "Supprimer les captures d'écran";
+"Delete Screenshots" = "Supprimer les captures d’écran";
 
 "Delete" = "Supprimer";
 
@@ -185,7 +185,7 @@
 
 "Done" = "Terminé";
 
-"Download Cover Art" = "Télécharger l’illustration";
+"Download Cover Art" = "Télécharger la jaquette";
 
 "Download" = "Télécharger";
 
@@ -245,9 +245,9 @@
 
 "Installing Core" = "Installation du cœur";
 
-"Invalid cue sheet format:" = "Invalid cue sheet format:";  // TODO
+"Invalid cue sheet format:" = "Format cue sheet invalide :";
 
-"Invalid gdi format:" = "Invalid gdi format:";  // TODO
+"Invalid gdi format:" = "Format gdi invalide :";
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Joindre les codes multilignes avec « + » ex. 000-000+111-111";
 
@@ -271,13 +271,13 @@
 
 "Missing Core" = "Cœur manquant";
 
-"Missing referenced file:" = "Missing referenced file:";  // TODO
+"Missing referenced file:" = "Fichier référencé manquant :";
 
 "Move to Trash" = "Dans la corbeille";
 
-"Moving Library…" = "Moving Library…";  // TODO
+"Moving Library…" = "Déplacement de la bibliothèque…";
 
-"Must not be compressed:" = "Must not be compressed:"; // TODO
+"Must not be compressed:" = "Ne doit pas être compressé :";
 
 "Mute Audio" = "Couper le son";
 
@@ -297,19 +297,19 @@
 
 "No Internet Connection" = "Aucune connexion Internet";
 
-"No permission to open:" = "No permission to open:";  // TODO
+"No permission to open:" = "Aucune autorisation pour ouvrir :";
 
 "No Save States available" = "Aucune sauvegarde disponible";
 
 "No Screenshots Found" = "Aucune capture d’écran trouvée";
 
-"No valid system detected:" = "No valid system detected:";  // TODO
+"No valid system detected:" = "Aucun système valide détecté :";
 
 "No" = "Non";
 
 "None" = "Aucune";
 
-"Not plain text:" = "Not plain text:";  // TODO
+"Not plain text:" = "Le texte n’est pas en clair :";
 
 "OK" = "OK";
 
@@ -367,9 +367,9 @@
 
 "Remove Collection" = "Supprimer collection";
 
-"Remove Game" = "Remove Game";  // TODO
+"Remove Game" = "Supprimer le jeu";
 
-"Remove Games" = "Remove Games";  // TODO
+"Remove Games" = "Supprimer les jeux";
 
 "Rename \"%@\"" = "Renommer « %@ »";
 
@@ -423,13 +423,13 @@
 
 "Select Disc" = "Disque";
 
-"Select Display Mode" = "Modes d'affichage";
+"Select Display Mode" = "Modes d’affichage";
 
 "Select Shader" = "Shaders";
 
 "Select Scale" = "Échelle";
 
-"Shader Parameters" = "Shader Parameters"; // TODO
+"Shader Parameters" = "Paramètres du shader";
 
 "Share" = "Partager";
 
@@ -437,7 +437,7 @@
 
 "Slot %ld" = "Emplacement %ld";
 
-"Some migrations failed to complete properly" = "Quelques migrations ne se sont pas terminées correctement";
+"Some migrations failed to complete properly" = "Certaines migrations ne se sont pas terminées correctement";
 
 "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Merci à celles et ceux sans qui OpenEmu n’aurait été possible. Pour en savoir plus sur nos contributeurs, cœurs, doc, licences et signalement des bugs, visitez notre GitHub.";
 
@@ -451,7 +451,7 @@
 
 "Switch To List View" = "Présentation par liste";
 
-"System Default" = "System Default"; // Default audio device setting // TODO
+"System Default" = "Par défaut du système"; // Default audio device setting
 
 "System Files" = "Fichiers système";
 
@@ -467,7 +467,7 @@
 
 "The file you selected doesn't exist" = "Le fichier sélectionné n’existe pas";
 
-"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "Impossible de démarrer la partie « %@ » car un fichier rom n’a pas pu être trouvé. Voulez-vous rechercher son emplacement ?";
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "Impossible de démarrer la partie « %@ » car un fichier ROM n’a pas pu être trouvé. Voulez-vous rechercher son emplacement ?";
 
 "The game '%@' was imported." = "Le jeu « %@ » a été importé.";
 
@@ -491,7 +491,7 @@
 
 "Trash downloaded Files" = "Placer les fichiers téléchargés dans la corbeille";
 
-"Unexpected error:" = "Unexpected error:";  // TODO
+"Unexpected error:" = "Erreur inattendue :";
 
 "Unmute Audio" = "Réactiver le son";
 
@@ -499,7 +499,7 @@
 
 "Updating Library" = "Mise à jour de la bibliothèque";
 
-"User guide on BIOS files" = "Guide de l’utilisateur de fichiers BIOS";
+"User guide on BIOS files" = "Guide de l’utilisateur des fichiers BIOS";
 
 "Version" = "Version";
 
@@ -519,7 +519,7 @@
 
 "Yes" = "Oui";
 
-"You can't move your library into one of its subfolders." = "Vous ne pouvez pas déplacer votre bibliothèque ici !"; // TODO
+"You can't move your library into one of its subfolders." = "Vous ne pouvez pas déplacer votre bibliothèque dans un de ses sous-dossiers.";
 
 "You need to restart the application to commit the change" = "Vous devez redémarrer l’application pour valider la modification";
 
@@ -541,51 +541,51 @@
 
 "Category" = "Catégorie";
 
-"An issue was detected with one of your controllers." = "An issue was detected with one of your controllers.";  //TODO // Headline for bindings repaired alert
+"An issue was detected with one of your controllers." = "Un problème a été détecté avec l’un de vos contrôleurs.";  // Headline for bindings repaired alert
 
-"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "Le profile des boutons de l'un de vos contrôlleur ne correspond pas au profile détecté la dernière fois qu'elle a été connectée à OpenEmu. Certaines associations de controls ont été restaurées.\n\nVous pouvez aller dans les préférences Contrôlleur pour vérifier les associations affectées.";  // TODO // Message for bindings repaired alert
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "Le profil des boutons de l’un de vos contrôleurs ne correspond pas au profil détecté la dernière fois qu’il a été connecté à OpenEmu. Certains contrôles associés au contrôleur affecté ont été réinitialisés.\n\nVous pouvez aller dans les préférences Contrôles pour vérifier les associations affectées.";  // Message for bindings repaired alert
 
-"Keycode 0x%lX" = "Code de touch 0x%lX";  // TODO  // Fallback for unknown keys
+"Keycode 0x%lX" = "Code de touche 0x%lX";  // Fallback for unknown keys
 
-"Your Mac is too old for this version of OpenEmu" = "Your Mac is too old for this version of OpenEmu";  // Message for the alert which appears when no Metal-enabled GPUs are detected // TODO
+"Your Mac is too old for this version of OpenEmu" = "Votre Mac est trop ancien pour cette version d’OpenEmu";  // Message for the alert which appears when no Metal-enabled GPUs are detected
 
-"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected // TODO
+"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "Depuis la version 2.1, OpenEmu nécessite un GPU supportant Metal. Metal est disponible sur tous les Mac supportant macOS 10.14 ou supérieur.\n\nOpenEmu ne fonctionne pas avec votre configuration matérielle/logicielle actuelle et va donc être fermé.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected
 
 "Quit OpenEmu" = "Quitter OpenEmu";  // Button title for the alert which appears when no Metal-enabled GPUs are detected
 
-"The %@ core plugin is deprecated" = "The %@ core plugin is deprecated";  // Message title (removal far away) // TODO
+"The %@ core plugin is deprecated" = "Le plugin de cœur %@ est obsolète";  // Message title (removal far away)
 
-"The %@ core plugin is deprecated, and will be removed soon" = "The %@ core plugin is deprecated, and will be removed soon";  // Message title (removal happening soon) // TODO
+"The %@ core plugin is deprecated, and will be removed soon" = "Le plugin de cœur %@ est obsolète, et sera bientôt supprimé";  // Message title (removal happening soon)
 
-"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working.";  // Message info, part 1 (removal far away) // TODO
+"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "Ce plugin de cœur ne sera plus disponible à l’avenir. Une fois supprimé, les sauvegardes créées avec ce dernier cesseront de fonctionner.";  // Message info, part 1 (removal far away)
 
-"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working.";  // Message info, part 1 (removal happening soon) // TODO
+"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "Dans quelques jours, ce plugin de cœur sera automatiquement supprimé. Une fois supprimé, les sauvegardes créées avec ce dernier cesseront de fonctionner.";  // Message info, part 1 (removal happening soon)
 
-"We suggest you switch to the %@ core plugin as soon as possible." = "We suggest you switch to the %@ core plugin as soon as possible.";  // Message info, part 2 (shown only if the replacement plugin is available) // TODO
+"We suggest you switch to the %@ core plugin as soon as possible." = "Nous vous suggérons de passer au plugin de cœur %@ dès que possible.";  // Message info, part 2 (shown only if the replacement plugin is available)
 
-"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "This plugin is currently unsupported";  // TODO
+"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "Ce plugin n’est pas actuellement supporté";
 
-"Install %@" = "Install %@";  // TODO
+"Install %@" = "Installer %@";
 
-"Install %@ and Set as Default" = "Install %@ and Set as Default";  // TODO
+"Install %@ and Set as Default" = "Installer %@ et définir par défaut";
 
-"Ignore" = "Ignore";  // TODO
+"Ignore" = "Ignorer";
 
-"ALERT_INPUT_MONITORING_HEADLINE" = "OpenEmu requires additional permissions"; // TODO
+"ALERT_INPUT_MONITORING_HEADLINE" = "OpenEmu nécessite des autorisations supplémentaires";
 
-"ALERT_INPUT_MONITORING_PART1" = "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device."; // TODO
+"ALERT_INPUT_MONITORING_PART1" = "OpenEmu doit être autorisé dans Surveillance de l’entrée pour pouvoir utiliser le clavier comme périphérique d’entrée.";
 
-"ALERT_INPUT_MONITORING_PART2" = "Toggling the permission may also resolve keyboard input issues."; // TODO
+"ALERT_INPUT_MONITORING_PART2" = "Basculer l’autorisation peut également résoudre les problèmes de saisie clavier.";
 
-"ALERT_INPUT_MONITORING_PART2_MONTEREY" = "Removing and re-granting the permission may also resolve keyboard input issues."; // TODO
+"ALERT_INPUT_MONITORING_PART2_MONTEREY" = "Supprimer et réaccorder l’autorisation peut également résoudre les problèmes de saisie clavier.";
 
-"Open System Preferences" = "Open System Preferences";  // TODO
+"Open System Preferences" = "Ouvrir Préférences Système";
 
-"Moving the Game Library is not recommended" = "Moving the Game Library is not recommended";  //Message headline (attempted to change location of library)  // TODO
+"Moving the Game Library is not recommended" = "Il n’est pas recommandé de déplacer des bibliothèques de jeux";  //Message headline (attempted to change location of library)
 
-"The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives.";  // Message text (attempted to change location of library, HTML  // TODO
+"The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "La bibliothèque de jeux OpenEmu Game contient un fichier de base de données qui peut être corrompu si elle est déplacée aux emplacements suivants :<br><br><ul><li>Dossiers gérés par un logiciel de synchronisation de cloud (tel que <b>iCloud Drive</b>)</li><li>Lecteurs réseau</li></ul><br>De plus, <b>partager la même bibliothèque avec plusieurs ordinateurs ou utilisateurs</b> peut également la corrompre. Il en est de même si elle est déplacée sur un lecteur USB.";  // Message text (attempted to change location of library, HTML
 
-"I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
+"I understand the risks" = "Je comprends les risques";  // OK button (attempted to change location of library)
 
 "Continue" = "Continuer";
 
@@ -597,46 +597,46 @@
 
 "Play Time" = "Temps de jeu";
 
-"Fill Screen" = "Fill Screen";  // Integral scale menu item title  // TODO
+"Fill Screen" = "Remplir l’écran";  // Integral scale menu item title
 
 "ECM compressed binary detected." = "Fichier binaire ECM compressé détecté.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "Les fichiers binaires ECM compressés ne peuvent pas être importés. Veuillez lire le guide d’importation de disque.";
 
-"Files failed to import." = "Files failed to import.";  // TODO
+"Files failed to import." = "Échec de l’importation des fichiers.";
 
-"\"%@\" in %@" = "\"%1$@\" in %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)  // TODO
+"\"%@\" in %@" = "« %1$@ » dans %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)
 
-"NOT FOUND: \"%@\"" = "NOT FOUND: \"%@\"";  // Import error description: referenced file not found  // TODO
+"NOT FOUND: \"%@\"" = "INTROUVABLE : « %@ »";  // Import error description: referenced file not found
 
-"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access.";  // TODO
+"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Choisissez le menu Pomme  > Préférences Système, cliquez sur Sécurité et confidentialité et sélectionnez ensuite l’onglet Confidentialité. Supprimez l’autorisation existante dans Fichiers et dossiers pour OpenEmu, si elle existe, et ajoutez-la dans Accès complet au disque.";
 
-"Decrease Grid Size" = "Decrease Grid Size"; // TODO
+"Decrease Grid Size" = "Augmenter la taille de la grille";
 
-"Increase Grid Size" = "Increase Grid Size"; // TODO
+"Increase Grid Size" = "Diminuer la taille de la grille";
 
-"The emulator could not load ROM." = "The emulator could not load the ROM."; // TODO
+"The emulator could not load ROM." = "L’émulateur n’a pas pu charger la ROM.";
 
-"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad."; // TODO, Controls preferences, accessibility help
+"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "Pour attribuer une nouvelle touche ou bouton à %@, appuyez sur ce bouton, ensuite appuyez sur la touche ou bouton souhaité sur votre clavier ou manette de jeu."; // Controls preferences, accessibility help
 
-"Changed button for %1$@ to %2$@." = "Changed button for %1$@ to %2$@."; // TODO, Controls preferences, accessibility notification (“Changed button for Up to W.”)
+"Changed button for %1$@ to %2$@." = "Bouton %1$@ modifié avec %2$@."; // Controls preferences, accessibility notification (“Changed button for Up to W.”)
 
-"Not assigned" = "Not assigned"; // TODO, Controls preferences, accessibility title (key is not mapped, “empty”)
+"Not assigned" = "Non attribué"; // Controls preferences, accessibility title (key is not mapped, “empty”)
 
-"OpenEmu could not download required data from the internet" = "OpenEmu could not download required data from the internet";  // TODO // Setup Assistant
+"OpenEmu could not download required data from the internet" = "OpenEmu n’a pas pu télécharger sur Internet les données requises";  // Setup Assistant
 
-"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again.";  // TODO // Setup Assistant
+"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "Une erreur est survenue lors de la préparation de l’assistant d’installation. (%@) Assurez-vous d’être connecté à Internet et réessayez.";  // Setup Assistant
 
-"Retry" = "Retry";  // TODO
+"Retry" = "Réessayer";
 
-"Downloading core list..." = "Downloading core list...";  // TODO
+"Downloading core list..." = "Téléchargement de la liste des cœurs…";
 
-"The %@ core has quit unexpectedly" = "The %@ core has quit unexpectedly";  // TODO
+"The %@ core has quit unexpectedly" = "Le cœur %@ a quitté de manière inattendue";
 
-"<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed." = "<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English  // TODO
+"<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed." = "<b>Si et seulement si ce problème persiste</b>, rédigez un commentaire en anglais en incluant :<br><br><ul><li>Le modèle du Mac utilisé <b>et</b> la version de macOS installée<ul><li>Ces informations sont dans  > À propos de ce Mac</li></ul></li><li>Le <b>nom exact</b> du jeu auquel vous jouiez</li><li>Le rapport d'erreur de OpenEmuHelperApp<ul><li>Ouvrez Console.app, cliquez sur \"Rapports d'erreurs\" ou \"Rapports utilisateur\" dans la barre latérale, recherchez ensuite le dernier document comportant dans son nom OpenEmuHelperApp</ul></li></li></ul><br><b>Recherchez toujours les commentaires similaires précédemment émis par d'autres utilisateurs !</b><br>Si une de ces informations est manquante, ou si un commentaire similaire a déjà été émis, votre rapport de problème sera clôturé.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
 
-"The %@ core has quit unexpectedly after loading a save state" = "The %@ core has quit unexpectedly after loading a save state";  // TODO
+"The %@ core has quit unexpectedly after loading a save state" = "Le cœur %@ a quitté de manière inattendue après le chargement d’une partie";
 
-"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?";  // TODO
+"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "Parfois, un plantage peut se produire lors du chargement d’une sauvegarde causé par des incompatibilités entre les différentes versions d’un même cœur. Voulez-vous ouvrir le jeu sans charger la sauvegarde ?";
 
-"Reopen without loading state" = "Reopen without loading state";  // TODO
+"Reopen without loading state" = "Rouvrir sans charger la partie";

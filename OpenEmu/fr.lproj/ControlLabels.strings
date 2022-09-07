@@ -8,9 +8,9 @@
 
 /* Group Labels */
 
-"-" = "-";   // TODO
+"-" = "-";
 
-"3D Control Pad" = "3D Control Pad";   // TODO
+"3D Control Pad" = "3D Control Pad";
 
 "Analog" = "Stick analogique";
 
@@ -93,7 +93,7 @@
 
 "Clear" = "Clear";
 
-"Configure" = "Configure";   // TODO
+"Configure" = "Configurer";
 
 "Console Pause" = "Pause console";
 
@@ -111,7 +111,7 @@
 
 "Insert Coin" = "Insérer pièce";
 
-"Jump" = "Jump";   // TODO
+"Jump" = "Sauter";
 
 "L" = "L";
 
@@ -141,7 +141,7 @@
 
 "Mode" = "Mode";
 
-"Mode Switch" = "Mode Switch";   // TODO
+"Mode Switch" = "Mode Switch";
 
 "Option" = "Option";
 
@@ -187,7 +187,7 @@
 
 "Start" = "Start";
 
-"Swap Joysticks" = "Swap Joysticks";   // TODO
+"Swap Joysticks" = "Échanger joysticks";
 
 "TV Black & White" = "TV noir et blanc";
 
@@ -195,9 +195,9 @@
 
 "Top Action" = "Action sup.";
 
-"Trigger L" = "Trigger L";   // TODO
+"Trigger L" = "Gâchette L";
 
-"Trigger R" = "Trigger R";   // TODO
+"Trigger R" = "Gâchette R";
 
 "Up" = "Haut";
 
@@ -240,13 +240,13 @@
 
 "Fullscreen" = "Plein écran";
 
-"Last Display Mode" = "Mode affichage préc.";
+"Last Display Mode" = "Mode affich. préc.";
 
 "Load" = "Charger";
 
 "Mute" = "Muet";
 
-"Next Display Mode" = "Mode affichage suiv.";
+"Next Display Mode" = "Mode affich. suiv.";
 
 "Pause/Resume" = "Pause/reprendre";
 
