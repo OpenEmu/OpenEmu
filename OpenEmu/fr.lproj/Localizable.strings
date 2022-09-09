@@ -109,7 +109,7 @@
 
 "Controls" = "Contrôles";
 
-"Copying artwork failed!" = "Échec de la copie de la jaquette !";
+"Copying artwork failed!" = "La copie des jaquettes a échoué !";
 
 "Copying Artwork Files…" = "Copie des jaquettes…";
 
@@ -141,9 +141,9 @@
 
 "Delete Collection" = "Supprimer la collection";
 
-"Delete Game" = "Supprimer jeu";
+"Delete Game" = "Supprimer le jeu";
 
-"Delete Games" = "Supprimer jeux";
+"Delete Games" = "Supprimer les jeux";
 
 "Delete Save State" = "Supprimer la partie sauvegardée";
 
@@ -365,7 +365,7 @@
 
 "Recovered Auto Save" = "Sauvegarde auto récupérée";
 
-"Remove Collection" = "Supprimer collection";
+"Remove Collection" = "Supprimer la collection";
 
 "Remove Game" = "Supprimer le jeu";
 
@@ -541,9 +541,9 @@
 
 "Category" = "Catégorie";
 
-"An issue was detected with one of your controllers." = "Un problème a été détecté avec l’un de vos contrôleurs.";  // Headline for bindings repaired alert
+"An issue was detected with one of your controllers." = "Un problème a été détecté avec l’une de vos manettes.";  // Headline for bindings repaired alert
 
-"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "Le profil des boutons de l’un de vos contrôleurs ne correspond pas au profil détecté la dernière fois qu’il a été connecté à OpenEmu. Certains contrôles associés au contrôleur affecté ont été réinitialisés.\n\nVous pouvez aller dans les préférences Contrôles pour vérifier les associations affectées.";  // Message for bindings repaired alert
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "Le profil des boutons de l’une de vos manettes ne correspond pas au profil détecté la dernière fois qu’elle a été connectée à OpenEmu. Certains contrôles associés à la manette affectée ont été réinitialisés.\n\nVous pouvez aller dans les préférences Contrôles pour vérifier les associations affectées.";  // Message for bindings repaired alert
 
 "Keycode 0x%lX" = "Code de touche 0x%lX";  // Fallback for unknown keys
 
@@ -631,11 +631,11 @@
 
 "Downloading core list..." = "Téléchargement de la liste des cœurs…";
 
-"The %@ core has quit unexpectedly" = "Le cœur %@ a quitté de manière inattendue";
+"The %@ core has quit unexpectedly" = "Le cœur %@ a quitté de manière imprévue";
 
-"<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed." = "<b>Si et seulement si ce problème persiste</b>, rédigez un commentaire en anglais en incluant :<br><br><ul><li>Le modèle du Mac utilisé <b>et</b> la version de macOS installée<ul><li>Ces informations sont dans  > À propos de ce Mac</li></ul></li><li>Le <b>nom exact</b> du jeu auquel vous jouiez</li><li>Le rapport d'erreur de OpenEmuHelperApp<ul><li>Ouvrez Console.app, cliquez sur \"Rapports d'erreurs\" ou \"Rapports utilisateur\" dans la barre latérale, recherchez ensuite le dernier document comportant dans son nom OpenEmuHelperApp</ul></li></li></ul><br><b>Recherchez toujours les commentaires similaires précédemment émis par d'autres utilisateurs !</b><br>Si une de ces informations est manquante, ou si un commentaire similaire a déjà été émis, votre rapport de problème sera clôturé.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
+"<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed." = "<b>Si et seulement si ce problème persiste</b>, rédigez un commentaire en anglais en incluant :<br><br><ul><li>Le modèle du Mac utilisé <b>et</b> la version de macOS installée<ul><li>Ces informations sont dans  > À propos de ce Mac</li></ul></li><li>Le <b>nom exact</b> du jeu auquel vous jouiez</li><li>Le rapport d'erreur de OpenEmuHelperApp<ul><li>Ouvrez Console.app, cliquez sur \"Rapports d'erreurs\" ou \"Rapports utilisateur\" dans la barre latérale, recherchez ensuite le dernier document comportant dans son nom OpenEmuHelperApp</ul></li></li></ul><br><b>Recherchez toujours les commentaires similaires précédemment émis par d'autres utilisateurs !</b><br>Si une de ces informations est manquante, ou si un commentaire similaire a déjà été émis, votre rapport de problème sera clôturé.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
 
-"The %@ core has quit unexpectedly after loading a save state" = "Le cœur %@ a quitté de manière inattendue après le chargement d’une partie";
+"The %@ core has quit unexpectedly after loading a save state" = "Le cœur %@ a quitté de manière imprévue après le chargement d’une partie";
 
 "Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "Parfois, un plantage peut se produire lors du chargement d’une sauvegarde causé par des incompatibilités entre les différentes versions d’un même cœur. Voulez-vous ouvrir le jeu sans charger la sauvegarde ?";
 

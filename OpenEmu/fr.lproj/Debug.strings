@@ -65,17 +65,17 @@
 
 "Database Actions" = "Actions sur la base de données";
 
-"Delete artwork that can be downloaded" = "Supprimer l’illustration qui peut être téléchargée";
+"Delete artwork that can be downloaded" = "Supprimer les jaquettes qui peuvent être téléchargées";
 
-"Download missing artwork…" = "Télécharger l’illustration manquante…";
+"Download missing artwork…" = "Télécharger les jaquettes manquantes…";
 
-"Remove untracked artwork files" = "Supprimer les fichiers d’illustration externes";
+"Remove untracked artwork files" = "Supprimer les fichiers de jaquette externes";
 
 "Cleanup rom hashes" = "Nettoyer les hachages des ROM";
 
 "Remove duplicated roms" = "Supprimer les ROM dupliquées";
 
-"Cancel cover sync for all games" = "Annuler la synchronisation des illustrations pour tous les jeux";
+"Cancel cover sync for all games" = "Annuler la synchronisation des jaquettes pour tous les jeux";
 
 "Perform Sanity Check on Database" = "Vérifier l’intégrité de la base de données";
 
@@ -83,7 +83,7 @@
 
 "Delete useless image objects" = "Supprimer les objets d’image inutiles";
 
-"Sync games without artwork" = "Synchroniser les jeux sans illustration";
+"Sync games without artwork" = "Synchroniser les jeux sans jaquette";
 
 "Threshold for analog controls bound to buttons:" = "Seuil pour les contrôles analogiques\nassociés à des boutons :";
 
@@ -101,7 +101,7 @@
 
 "Reveal user shader folder" = "Révéler le dossier shader utilisateur";
 
-"Appearance:" = "Apparence :";
+"Appearance:" = "Mode d’apparence :";
 
 "Auto (region)" = "Auto";
 
