@@ -3,7 +3,7 @@
 
 "Debug Mode" = "Mode débogage";
 
-"Setup Assistant has finished" = "L’assistant d’installation s'est terminé";
+"Setup Assistant has finished" = "L’assistant d’installation a terminé";
 
 "Region:" = "Région :";
 
@@ -13,7 +13,7 @@
 
 "Reset main window size" = "Rétablir la taille de la fenêtre principale";
 
-"Show game titles instead of rom names" = "Afficher les titres des jeux à la place des noms des roms";
+"Show game titles instead of rom names" = "Afficher les titres des jeux à la place des noms des ROM";
 
 "Manually choose system on import" = "Choisir manuellement le système lors de l’importation";
 
@@ -21,7 +21,7 @@
 
 "Show quicksave states in save state category" = "Afficher les sauvegardes rapides dans la catégorie des sauvegardes";
 
-"Toggle game scanner view" = "Afficher/Masquer la vue d’analyse des jeux"; //TODO
+"Toggle game scanner view" = "Afficher/masquer la vue d’analyse des jeux";
 
 "HUD Bar / Gameplay" = "Barre HUD / Jeu";
 
@@ -65,17 +65,17 @@
 
 "Database Actions" = "Actions sur la base de données";
 
-"Delete artwork that can be downloaded" = "Supprimer l’illustration qui peut être téléchargée";
+"Delete artwork that can be downloaded" = "Supprimer les jaquettes qui peuvent être téléchargées";
 
-"Download missing artwork…" = "Télécharger l’illustration manquante…";
+"Download missing artwork…" = "Télécharger les jaquettes manquantes…";
 
-"Remove untracked artwork files" = "Supprimer les fichiers d’illustration externes";
+"Remove untracked artwork files" = "Supprimer les fichiers de jaquette externes";
 
-"Cleanup rom hashes" = "Nettoyer les hachages des roms";
+"Cleanup rom hashes" = "Nettoyer les hachages des ROM";
 
-"Remove duplicated roms" = "Supprimer les roms dupliquées";
+"Remove duplicated roms" = "Supprimer les ROM dupliquées";
 
-"Cancel cover sync for all games" = "Annuler la synchronisation des illustrations pour tous les jeux";
+"Cancel cover sync for all games" = "Annuler la synchronisation des jaquettes pour tous les jeux";
 
 "Perform Sanity Check on Database" = "Vérifier l’intégrité de la base de données";
 
@@ -83,42 +83,42 @@
 
 "Delete useless image objects" = "Supprimer les objets d’image inutiles";
 
-"Sync games without artwork" = "Synchroniser les jeux sans illustration";
+"Sync games without artwork" = "Synchroniser les jeux sans jaquette";
 
-"Threshold for analog controls bound to buttons:" = "Seuil pour les contrôls analogiques\nassociés à des boutons :";
+"Threshold for analog controls bound to buttons:" = "Seuil pour les contrôles analogiques\nassociés à des boutons :";
 
-"Range: %@ to %@" = "Intervalle: %@ à %@";
+"Range: %@ to %@" = "Intervalle : %@ à %@";
 
-"Default Value: %@" = "Valeur par défaut: %@";
+"Default Value: %@" = "Valeur par défaut : %@";
 
 "Checked" = "Activé";
 
 "Unchecked" = "Désactivé";
 
-"Shaders" = "Shaders";  // TODO
+"Shaders" = "Shaders";
 
-"Clear shader cache" = "Clear shader cache";  // TODO
+"Clear shader cache" = "Effacer le cache du shader";
 
-"Reveal user shader folder" = "Reveal user shader folder";  // TODO
+"Reveal user shader folder" = "Révéler le dossier shader utilisateur";
 
-"Appearance:" = "Appearance:";  // TODO
+"Appearance:" = "Mode d’apparence :";
 
-"Auto (region)" = "Auto";  // TODO
+"Auto (region)" = "Auto";
 
-"North America" = "North America";  // TODO
+"North America" = "Amérique du Nord";
 
-"Japan" = "Japan";  // TODO
+"Japan" = "Japon";
 
-"Europe" = "Europe";  // TODO
+"Europe" = "Europe";
 
-"Other" = "Other";  // TODO
+"Other" = "Autre";
 
-"XPC" = "XPC";  // TODO
+"XPC" = "XPC";
 
-"Background Thread" = "Background Thread";  // TODO
+"Background Thread" = "Thread d’arrière-plan";
 
-"System" = "System";  // TODO
+"System" = "Système";
 
-"Dark (default)" = "Dark (default)";  // TODO
+"Dark (default)" = "Sombre (par défaut)";
 
-"Light" = "Light";  // TODO
+"Light" = "Clair";

@@ -1,28 +1,28 @@
 
 /* Preferences: Library (OEPrefLibraryController.xib) */
 
-"Move..." = "Move...";  // TODO
+"Move..." = "Déplacer…";
 
-"Move to Default Location" = "Move to Default Location";  // TODO
+"Move to Default Location" = "Déplacer vers l’emplacement par défaut";
 
-"Organization Methods:" = "Méthodes d’organisation:";
+"Organization Methods:" = "Méthodes d’organisation :";
 
 "Game Library Folder Location:" = "Emplacement du dossier de bibliothèque de jeux :";
 
 "Copy files to Game Library folder when adding to library" = "Copier fichiers dans la bibliothèque de jeux lors de l’ajout";
 
-"Automatically lookup game information & artwork" = "Récupérer automatiquement les infos et illustrations";
+"Automatically lookup game information & artwork" = "Récupérer automatiquement les infos et jaquettes";
 
 "Available Libraries:" = "Bibliothèques disponibles :";
 
-"Reset all dialog warnings:" = "Rétablir tous les avertissements d'alerte :";
+"Reset all dialog warnings:" = "Rétablir tous les avertissements d’alerte :";
 
 "Reset Warnings" = "Rétablir les avertissements";
 
 
 /* Preferences: Gameplay (OEPrefGameplayController.xib) */
 
-"Window Management:" = "Gestion de la fenêtre:";
+"Window Management:" = "Gestion de la fenêtre :";
 
 "Shader:" = "Shader :";
 
@@ -32,11 +32,11 @@
 
 "Always pause gameplay when in background" = "Mettre en pause le jeu quand il est en arrière-plan";
 
-"Always snap popout gameplay window to integer scale" = "Always snap popout gameplay window to integer scale";  // TODO
+"Always snap popout gameplay window to integer scale" = "Aligner la fenêtre de jeu contextuelle sur une échelle entière";
 
 "Allow playing with controllers when in background" = "Autoriser à jouer avec des manettes quand le jeu est en arrière-plan";
 
-"Always float popout gamplay window on top" = "Always float popout gamplay window on top"; // TODO
+"Always float popout gamplay window on top" = "Faire flotter la fenêtre de jeu contextuelle en haut";
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */
@@ -46,11 +46,11 @@
 
 /* Issue Resolver (OEGameScanner.xib) */
 
-"Resolve Issues:" = "Réparer problèmes d’importation:";
+"Resolve Issues:" = "Résoudre les problèmes :";
 
 "Apply" = "Appliquer";
 
-"Import Into:" = "Importer dans :";
+"Import Into:" = "Importer dans :";
 
 
 /* Setup Assistant (OESetupAssistant.xib) */
@@ -61,7 +61,7 @@
 
 "Welcome to OpenEmu!" = "Bienvenue dans OpenEmu !";
 
-"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "Un monde excitant de jeux vidéo est à votre portée. Pour vous aider à démarrer, nous aimerions vous poser quelques questions rapides qui vous guideront pour…\n\n• Vous assurer d’exécuter les bons plug-ins système (cœurs).";
+"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "Un monde excitant de jeux vidéo est à votre portée. Pour vous aider à démarrer, nous aimerions vous poser quelques questions rapides qui vous guideront…\n\n• Assurez-vous d’exécuter les bons plugins système (cœurs).";
 
 "Click on the ‘Next’ button to begin!" = "Cliquez sur « Suivant » pour commencer !";
 
@@ -77,12 +77,12 @@
 
 "Go" = "Commencer";
 
-"Downloading Data…" = "Downloading Data…";  // TODO
+"Downloading Data…" = "Téléchargement des données…";
 
 
 /* Shader Parameters (ShaderParameters.xib) */
 
-"Reset All" = "Reset All";  // TODO
+"Reset All" = "Tout réinitialiser";
 
 
 /* Sidebar Header (OESidebarHeaderView.xib) */
