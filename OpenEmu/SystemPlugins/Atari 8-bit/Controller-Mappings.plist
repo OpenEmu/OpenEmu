@@ -174,5 +174,18 @@
 		<key>OEA8ButtonFire</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OEA8JoystickUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OEA8JoystickDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OEA8JoystickLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OEA8JoystickRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OEA8ButtonFire</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+	</dict>
 </dict>
 </plist>

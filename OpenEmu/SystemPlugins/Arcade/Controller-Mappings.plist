@@ -425,5 +425,34 @@
 		<key>OEArcadeUIConfigure</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonHome</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OEArcadeButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OEArcadeButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OEArcadeButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerSonyPS5DualSenseButtonTriangle</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerSonyPS5DualSenseButtonCircle</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerSonyPS5DualSenseButtonR1</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerSonyPS5DualSenseButtonR2</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerSonyPS5DualSenseButtonHome</string>
+	</dict>
 </dict>
 </plist>

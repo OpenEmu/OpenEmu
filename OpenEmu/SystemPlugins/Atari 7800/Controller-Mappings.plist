@@ -318,5 +318,26 @@
 		<key>OE7800ButtonReset</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonHome</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OE7800ButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OE7800ButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OE7800ButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OE7800ButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OE7800ButtonFire2</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OE7800ButtonFire1</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OE7800ButtonSelect</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OE7800ButtonPause</key>
+		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
+		<key>OE7800ButtonReset</key>
+		<string>OEControllerSonyPS5DualSenseButtonHome</string>
+	</dict>
 </dict>
 </plist>

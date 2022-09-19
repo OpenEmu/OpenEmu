@@ -246,5 +246,22 @@
 		<key>OESG1000ButtonPause</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OESG1000ButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OESG1000ButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OESG1000ButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OESG1000ButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OESG1000Button1</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OESG1000Button2</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+	</dict>
 </dict>
 </plist>

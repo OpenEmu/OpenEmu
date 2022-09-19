@@ -3054,7 +3054,7 @@
 	<key>OEControllerSonyPS5DualSense</key>
 	<dict>
 		<key>OEControllerName</key>
-		<string>DualSense Wireless Controller</string>
+		<string>PS5 DualSense</string>
 		<key>OEGenericControllerName</key>
 		<string>OEControllerSonyPS5DualSense</string>
 		<key>OEDisableCalibration</key>
@@ -3063,7 +3063,7 @@
 		<array>
 			<dict>
 				<key>OEControllerDeviceName</key>
-				<string>DualSense</string>
+				<string>Sony PS5 DualSense Wireless</string>
 				<key>OEControllerVendorID</key>
 				<integer>1356</integer>
 				<key>OEControllerProductID</key>

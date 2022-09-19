@@ -420,5 +420,32 @@
 		<key>OESegaCDButtonMode</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OESegaCDButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OESegaCDButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OESegaCDButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerSonyPS5DualSenseButtonTriangle</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerSonyPS5DualSenseButtonCircle</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerSonyPS5DualSenseButtonL1</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerSonyPS5DualSenseButtonR1</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
+	</dict>
 </dict>
 </plist>
