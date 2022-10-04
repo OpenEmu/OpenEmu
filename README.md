@@ -1,7 +1,7 @@
 OpenEmu
 =======
 
-![alt text](http://openemu.org/img/intro-md.png "OpenEmu Screenshot")
+![alt text](https://openemu.org/img/intro-md.png "OpenEmu Screenshot")
 
 OpenEmu is an open-source project whose purpose is to bring macOS game emulation into the realm of first-class citizenship. The project leverages modern macOS technologies, such as Cocoa, Core Animation, and other third-party libraries. One third-party library example is Sparkle, which is used for auto-updating. OpenEmu uses a modular architecture, allowing for game-engine plugins, allowing OpenEmu to support a host of different emulation engines and back ends while retaining the familiar macOS native front end.
 
@@ -11,7 +11,7 @@ Currently, OpenEmu can load the following game engines as plugins:
 * Atari 5200 ([Atari800](https://atari800.github.io))
 * Atari 7800 ([ProSystem](https://github.com/raz0red/wii7800))
 * Atari Lynx ([Mednafen](https://mednafen.github.io))
-* ColecoVision ([CrabEmu](http://crabemu.sourceforge.net))
+* ColecoVision ([CrabEmu](https://crabemu.sourceforge.net))
 * Famicom Disk System ([Nestopia](https://github.com/0ldsk00l/nestopia))
 * Game Boy / Game Boy Color ([Gambatte](https://github.com/sinamas/gambatte))
 * Game Boy Advance ([mGBA](https://mgba.io))
@@ -19,7 +19,7 @@ Currently, OpenEmu can load the following game engines as plugins:
 * Intellivision ([Bliss](https://github.com/jeremiah-sypult/BlissEmu))
 * NeoGeo Pocket ([Mednafen](https://mednafen.github.io))
 * Nintendo (NES) / Famicom ([FCEUX](https://github.com/TASVideos/fceux), [Nestopia](https://github.com/0ldsk00l/nestopia))
-* Nintendo 64 ([Mupen64Plus](http://www.mupen64plus.org))
+* Nintendo 64 ([Mupen64Plus](https://www.mupen64plus.org))
 * Nintendo DS ([DeSmuME](http://desmume.org))
 * Nintendo GameCube ([Dolphin](https://dolphin-emu.org))
 * Odyssey² / Videopac+ ([O2EM](https://sourceforge.net/projects/o2em/))
