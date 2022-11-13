@@ -433,6 +433,8 @@
 
 "Share" = "Compartir";
 
+"SHARE_STANDARD_MENU_ITEM_TITLE" = "Compartir…";
+
 "Show in Finder" = "Mostrar en Finder";
 
 "Slot %ld" = "Ranura %ld";

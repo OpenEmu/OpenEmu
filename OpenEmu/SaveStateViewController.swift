@@ -93,7 +93,7 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
         }
     }
     
-    func collectionView(_ collectionView: CollectionView, menuForItemsAt indexPaths: Set<IndexPath>) -> NSMenu? {
+    func collectionView(_ collectionView: CollectionView, menuForItemsAt indexPaths: Set<IndexPath>, point: CGPoint) -> NSMenu? {
         let menu = NSMenu()
         
         if indexPaths.count == 1 {

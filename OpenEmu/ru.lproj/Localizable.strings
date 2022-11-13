@@ -433,6 +433,8 @@
 
 "Share" = "Поделиться";
 
+"SHARE_STANDARD_MENU_ITEM_TITLE" = "Поделиться…";
+
 "Show in Finder" = "Показать в Finder";
 
 "Slot %ld" = "Слот %ld";

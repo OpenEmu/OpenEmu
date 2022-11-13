@@ -433,6 +433,8 @@
 
 "Share" = "共有";
 
+"SHARE_STANDARD_MENU_ITEM_TITLE" = "共有…";
+
 "Show in Finder" = "Finderで表示";
 
 "Slot %ld" = "スロット %ld";

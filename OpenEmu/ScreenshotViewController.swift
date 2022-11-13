@@ -71,14 +71,22 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
         }
     }
     
-    func collectionView(_ collectionView: CollectionView, menuForItemsAt indexPaths: Set<IndexPath>) -> NSMenu? {
-        let menu    = NSMenu()
-        let subMenu = shareMenu(forItemsAt: indexPaths)
+    func collectionView(_ collectionView: CollectionView, menuForItemsAt indexPaths: Set<IndexPath>, point: CGPoint) -> NSMenu? {
+        let menu = NSMenu()
         
-        let share = menu.addItem(withTitle: NSLocalizedString("Share", comment: "SaveState View Context menu"),
-                                 action: nil,
-                                 keyEquivalent: "")
-        share.submenu = subMenu
+        if #available(macOS 13.0, *) {
+            let share = menu.addItem(withTitle: NSLocalizedString("SHARE_STANDARD_MENU_ITEM_TITLE", comment: "Share menu item, see Finder or ShareKit.loctable"),
+                                     action: #selector(showSharingServicePicker(_:)),
+                                     keyEquivalent: "")
+            share.representedObject = collectionView.indexPathForItem(at: point)
+        } else {
+            let subMenu = shareMenu(forItemsAt: indexPaths)
+            
+            let share = menu.addItem(withTitle: NSLocalizedString("Share", comment: "SaveState View Context menu"),
+                                     action: nil,
+                                     keyEquivalent: "")
+            share.submenu = subMenu
+        }
         
         if indexPaths.count == 1 {
             menu.addItem(withTitle: NSLocalizedString("Rename", comment: "SaveState View Context menu"),
@@ -105,6 +113,7 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
         return menu
     }
     
+    @available(macOS, deprecated: 13.0)
     func shareMenu(forItemsAt indexPaths: Set<IndexPath>) -> NSMenu {
         let menu = NSMenu()
         
@@ -119,6 +128,20 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
         }
         
         return menu
+    }
+    
+    @objc func showSharingServicePicker(_ sender: NSMenuItem?) {
+        let selection = collectionView.selectionIndexPaths
+        guard !selection.isEmpty,
+              let menuItem = sender,
+              let indexPath = menuItem.representedObject as? IndexPath,
+              let item = collectionView.item(at: indexPath),
+              let imageView = item.imageView
+        else { return }
+        
+        let urls = dataSourceDelegate.imageURLs(forItemsAt: selection)
+        let picker = NSSharingServicePicker(items: urls)
+        picker.show(relativeTo: .zero, of: imageView, preferredEdge: .minX)
     }
     
     @objc func shareFromService(_ sender: NSMenuItem?) {

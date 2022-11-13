@@ -433,6 +433,8 @@
 
 "Share" = "共享";
 
+"SHARE_STANDARD_MENU_ITEM_TITLE" = "分享⋯";
+
 "Show in Finder" = "在 Finder 中顯示";
 
 "Slot %ld" = "位置 %ld";

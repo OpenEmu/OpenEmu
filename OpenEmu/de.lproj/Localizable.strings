@@ -433,6 +433,8 @@
 
 "Share" = "Teilen";
 
+"SHARE_STANDARD_MENU_ITEM_TITLE" = "Teilen …";
+
 "Show in Finder" = "Im Finder anzeigen";
 
 "Slot %ld" = "Slot %ld";

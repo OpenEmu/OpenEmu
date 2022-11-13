@@ -27,7 +27,8 @@ import Carbon.HIToolbox.Events
 
 protocol CollectionViewExtendedDelegate {
     var supportsQuickLook: Bool { get }
-    func collectionView(_ collectionView: CollectionView, menuForItemsAt indexPaths: Set<IndexPath>) -> NSMenu?
+    /// - Parameter point: The location of the interaction in the collection view’s coordinate space.
+    func collectionView(_ collectionView: CollectionView, menuForItemsAt indexPaths: Set<IndexPath>, point: CGPoint) -> NSMenu?
     func collectionView(_ collectionView: CollectionView, setTitle title: String, forItemAt indexPath: IndexPath)
     func collectionView(_ collectionView: CollectionView, doubleClickForItemAt indexPath: IndexPath)
 }
@@ -35,7 +36,7 @@ protocol CollectionViewExtendedDelegate {
 extension CollectionViewExtendedDelegate {
     var supportsQuickLook: Bool { true }
     
-    func collectionView(_ collectionView: CollectionView, menuForItemsAt indexPaths: Set<IndexPath>) -> NSMenu? { nil }
+    func collectionView(_ collectionView: CollectionView, menuForItemsAt indexPaths: Set<IndexPath>, point: CGPoint) -> NSMenu? { nil }
     func collectionView(_ collectionView: CollectionView, setTitle title: String, forItemAt indexPath: IndexPath) {}
     func collectionView(_ collectionView: CollectionView, doubleClickForItemAt indexPath: IndexPath) {}
 }
@@ -94,7 +95,7 @@ class CollectionView: NSCollectionView {
             selectionIndexPaths = indexPaths
         }
         
-        if let menu = ed.collectionView(self, menuForItemsAt: indexPaths) {
+        if let menu = ed.collectionView(self, menuForItemsAt: indexPaths, point: mouseLocationInView) {
             window?.makeFirstResponder(self)
             NSMenu.popUpContextMenu(menu, with: event, for: self)
         }
