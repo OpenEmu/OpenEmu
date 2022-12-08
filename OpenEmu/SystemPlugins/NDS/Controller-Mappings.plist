@@ -399,5 +399,32 @@
 		<key>OENDSButtonSelect</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OENDSButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OENDSButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OENDSButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OENDSButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OENDSButtonA</key>
+		<string>OEControllerSonyPS5DualSenseButtonCircle</string>
+		<key>OENDSButtonB</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OENDSButtonX</key>
+		<string>OEControllerSonyPS5DualSenseButtonTriangle</string>
+		<key>OENDSButtonY</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OENDSButtonL</key>
+		<string>OEControllerSonyPS5DualSenseButtonL1</string>
+		<key>OENDSButtonR</key>
+		<string>OEControllerSonyPS5DualSenseButtonR1</string>
+		<key>OENDSButtonStart</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OENDSButtonSelect</key>
+		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
+	</dict>
 </dict>
 </plist>

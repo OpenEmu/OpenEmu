@@ -282,5 +282,24 @@
 		<key>OEPCECDButtonSelect</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OEPCECDButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OEPCECDButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OEPCECDButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OEPCECDButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OEPCECDButton1</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OEPCECDButton2</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OEPCECDButtonRun</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OEPCECDButtonSelect</key>
+		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
+	</dict>
 </dict>
 </plist>

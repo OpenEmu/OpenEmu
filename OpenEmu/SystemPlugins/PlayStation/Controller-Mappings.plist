@@ -551,5 +551,50 @@
 		<key>OEPSXButtonSelect</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OEPSXButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OEPSXButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OEPSXButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerSonyPS5DualSenseLeftAnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerSonyPS5DualSenseLeftAnalogLeft</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>OEControllerSonyPS5DualSenseRightAnalogUp</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>OEControllerSonyPS5DualSenseRightAnalogLeft</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerSonyPS5DualSenseButtonCircle</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerSonyPS5DualSenseButtonTriangle</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerSonyPS5DualSenseButtonL1</string>
+		<key>OEPSXButtonL2</key>
+		<string>OEControllerSonyPS5DualSenseButtonL2</string>
+		<key>OEPSXButtonL3</key>
+		<string>OEControllerSonyPS5DualSenseButtonL3</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerSonyPS5DualSenseButtonR1</string>
+		<key>OEPSXButtonR2</key>
+		<string>OEControllerSonyPS5DualSenseButtonR2</string>
+		<key>OEPSXButtonR3</key>
+		<string>OEControllerSonyPS5DualSenseButtonR3</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
+		<key>OEPSXButtonAnalogMode</key>
+		<string>OEControllerSonyPS5DualSenseButtonHome</string>
+	</dict>
 </dict>
 </plist>

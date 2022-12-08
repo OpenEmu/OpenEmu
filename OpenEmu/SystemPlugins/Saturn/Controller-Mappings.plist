@@ -494,5 +494,44 @@
 		<key>OESaturnButtonStart</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OESaturnButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OESaturnButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OESaturnButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OESaturnButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>OEControllerSonyPS5DualSenseLeftAnalogUp</string>
+		<key>OESaturnLeftAnalogDown</key>
+		<string>OEControllerSonyPS5DualSenseLeftAnalogDown</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>OEControllerSonyPS5DualSenseLeftAnalogLeft</string>
+		<key>OESaturnLeftAnalogRight</key>
+		<string>OEControllerSonyPS5DualSenseLeftAnalogRight</string>
+		<key>OESaturnButtonA</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OESaturnButtonB</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OESaturnButtonC</key>
+		<string>OEControllerSonyPS5DualSenseButtonCircle</string>
+		<key>OESaturnButtonX</key>
+		<string>OEControllerSonyPS5DualSenseButtonTriangle</string>
+		<key>OESaturnButtonY</key>
+		<string>OEControllerSonyPS5DualSenseButtonL1</string>
+		<key>OESaturnButtonZ</key>
+		<string>OEControllerSonyPS5DualSenseButtonR1</string>
+		<key>OESaturnButtonL</key>
+		<string>OEControllerSonyPS5DualSenseButtonL2</string>
+		<key>OESaturnButtonR</key>
+		<string>OEControllerSonyPS5DualSenseButtonR2</string>
+		<key>OESaturnButtonStart</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OESaturnButtonAnalogMode</key>
+		<string>OEControllerSonyPS5DualSenseButtonHome</string>
+	</dict>
 </dict>
 </plist>

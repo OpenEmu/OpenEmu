@@ -471,5 +471,40 @@
 		<key>OEGCButtonStart</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OEGCButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OEGCButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OEGCButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OEGCButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OEGCAnalogUp</key>
+		<string>OEControllerSonyPS5DualSenseLeftAnalogUp</string>
+		<key>OEGCAnalogLeft</key>
+		<string>OEControllerSonyPS5DualSenseLeftAnalogLeft</string>
+		<key>OEGCAnalogCUp</key>
+		<string>OEControllerSonyPS5DualSenseRightAnalogUp</string>
+		<key>OEGCAnalogCLeft</key>
+		<string>OEControllerSonyPS5DualSenseRightAnalogLeft</string>
+		<key>OEGCButtonB</key>
+		<string>OEControllerSonyPS5DualSenseButtonCircle</string>
+		<key>OEGCButtonX</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OEGCButtonA</key>
+		<string>OEControllerSonyPS5DualSenseButtonTriangle</string>
+		<key>OEGCButtonY</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OEGCButtonL</key>
+		<string>OEControllerSonyPS5DualSenseButtonL2</string>
+		<key>OEGCButtonR</key>
+		<string>OEControllerSonyPS5DualSenseButtonR2</string>
+		<key>OEGCButtonZ</key>
+		<string>OEControllerSonyPS5DualSenseButtonR1</string>
+		<key>OEGCButtonStart</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+	</dict>
 </dict>
 </plist>
