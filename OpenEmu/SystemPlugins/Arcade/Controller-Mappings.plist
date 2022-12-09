@@ -477,5 +477,28 @@
 		<key>OEArcadeUIConfigure</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonXbox</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightTrigger</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonShare</string>
+	</dict>
 </dict>
 </plist>

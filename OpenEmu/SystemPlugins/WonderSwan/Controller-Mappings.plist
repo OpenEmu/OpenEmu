@@ -308,5 +308,18 @@
 		<key>OEWSButtonSound</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEWSButtonX1</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEWSButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEWSButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEWSButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OEWSButtonSound</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+	</dict>
 </dict>
 </plist>

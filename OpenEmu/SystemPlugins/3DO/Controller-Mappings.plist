@@ -430,5 +430,24 @@
 		<key>OE3DOButtonX</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OE3DOButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OE3DOButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OE3DOButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OE3DOButtonC</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OE3DOButtonL</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftShoulder</string>
+		<key>OE3DOButtonR</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+		<key>OE3DOButtonP</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OE3DOButtonX</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+	</dict>
 </dict>
 </plist>

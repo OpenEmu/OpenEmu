@@ -276,5 +276,16 @@
 		<key>OENGPButtonOption</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OENGPButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OENGPButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OENGPButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OENGPButtonOption</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+	</dict>
 </dict>
 </plist>

@@ -468,5 +468,26 @@
 		<key>OEPCFXButtonSelect</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEPCFXButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEPCFXButton3</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEPCFXButton2</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OEPCFXButton1</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OEPCFXButton4</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEPCFXButton5</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftShoulder</string>
+		<key>OEPCFXButton6</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+		<key>OEPCFXButtonRun</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OEPCFXButtonSelect</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+	</dict>
 </dict>
 </plist>

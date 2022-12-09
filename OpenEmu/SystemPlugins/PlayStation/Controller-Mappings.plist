@@ -635,5 +635,44 @@
 		<key>OEPSXButtonAnalogMode</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonXbox</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSLeftAnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxSeriesXSLeftAnalogLeft</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSRightAnalogUp</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxSeriesXSRightAnalogLeft</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftShoulder</string>
+		<key>OEPSXButtonL2</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftTrigger</string>
+		<key>OEPSXButtonL3</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftAnalog</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+		<key>OEPSXButtonR2</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightTrigger</string>
+		<key>OEPSXButtonR3</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightAnalog</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+		<key>OEPSXButtonAnalogMode</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonXbox</string>
+	</dict>
 </dict>
 </plist>

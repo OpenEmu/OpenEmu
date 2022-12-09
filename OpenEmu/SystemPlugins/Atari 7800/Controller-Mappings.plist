@@ -354,5 +354,20 @@
 		<key>OE7800ButtonReset</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonXbox</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OE7800ButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OE7800ButtonFire2</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OE7800ButtonFire1</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OE7800ButtonSelect</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OE7800ButtonPause</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+		<key>OE7800ButtonReset</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonXbox</string>
+	</dict>
 </dict>
 </plist>

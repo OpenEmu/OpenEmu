@@ -562,5 +562,34 @@
 		<key>OESaturnButtonAnalogMode</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonXbox</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OESaturnButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSLeftAnalogUp</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxSeriesXSLeftAnalogLeft</string>
+		<key>OESaturnButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OESaturnButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OESaturnButtonC</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OESaturnButtonX</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OESaturnButtonY</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftShoulder</string>
+		<key>OESaturnButtonZ</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+		<key>OESaturnButtonL</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftTrigger</string>
+		<key>OESaturnButtonR</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightTrigger</string>
+		<key>OESaturnButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OESaturnButtonAnalogMode</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonXbox</string>
+	</dict>
 </dict>
 </plist>

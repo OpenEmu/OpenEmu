@@ -354,5 +354,20 @@
 		<key>OEJaguarButtonOption</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEJaguarButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEJaguarButtonC</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEJaguarButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEJaguarButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OEJaguarButtonPause</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OEJaguarButtonOption</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+	</dict>
 </dict>
 </plist>

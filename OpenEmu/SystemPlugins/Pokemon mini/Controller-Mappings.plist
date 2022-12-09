@@ -394,5 +394,22 @@
 		<key>OEPMButtonPower</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEPMButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEPMButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEPMButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OEPMButtonC</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OEPMButtonShake</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEPMButtonMenu</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OEPMButtonPower</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+	</dict>
 </dict>
 </plist>

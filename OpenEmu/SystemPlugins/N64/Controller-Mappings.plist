@@ -491,5 +491,30 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEN64AnalogUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSLeftAnalogUp</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEControllerMicrosoftXboxSeriesXSLeftAnalogLeft</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSRightAnalogUp</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEControllerMicrosoftXboxSeriesXSRightAnalogLeft</string>
+		<key>OEN64ButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEN64ButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEN64ButtonL</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftShoulder</string>
+		<key>OEN64ButtonR</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftTrigger</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+	</dict>
 </dict>
 </plist>

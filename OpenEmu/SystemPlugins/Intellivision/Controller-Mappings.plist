@@ -266,5 +266,16 @@
 		<key>OEIntellivisionButtonBottomRightAction</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEIntellivisionButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OEIntellivisionButtonBottomLeftAction</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEIntellivisionButtonBottomRightAction</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+	</dict>
 </dict>
 </plist>

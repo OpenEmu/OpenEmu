@@ -314,5 +314,18 @@
 		<key>OEPCEButtonSelect</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEPCEButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEPCEButton1</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEPCEButton2</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEPCEButtonRun</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OEPCEButtonSelect</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+	</dict>
 </dict>
 </plist>

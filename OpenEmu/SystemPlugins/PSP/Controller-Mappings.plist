@@ -495,5 +495,30 @@
 		<key>OEPSPButtonSelect</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEPSPButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEPSPAnalogUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSLeftAnalogUp</string>
+		<key>OEPSPAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxSeriesXSLeftAnalogLeft</string>
+		<key>OEPSPButtonCircle</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OEPSPButtonCross</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEPSPButtonTriangle</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OEPSPButtonSquare</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEPSPButtonL1</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftShoulder</string>
+		<key>OEPSPButtonR1</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+		<key>OEPSPButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OEPSPButtonSelect</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+	</dict>
 </dict>
 </plist>

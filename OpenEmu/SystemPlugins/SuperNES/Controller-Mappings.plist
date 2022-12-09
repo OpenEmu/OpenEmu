@@ -447,5 +447,26 @@
 		<key>OESNESButtonSelect</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OESNESButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OESNESButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OESNESButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OESNESButtonX</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OESNESButtonY</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OESNESButtonTriggerLeft</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftShoulder</string>
+		<key>OESNESButtonTriggerRight</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+		<key>OESNESButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OESNESButtonSelect</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+	</dict>
 </dict>
 </plist>

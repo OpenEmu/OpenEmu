@@ -468,5 +468,26 @@
 		<key>OESegaCDButtonMode</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftShoulder</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+	</dict>
 </dict>
 </plist>

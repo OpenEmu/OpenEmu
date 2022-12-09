@@ -535,5 +535,34 @@
 		<key>OEGCButtonStart</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEGCButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEGCAnalogUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSLeftAnalogUp</string>
+		<key>OEGCAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxSeriesXSLeftAnalogLeft</string>
+		<key>OEGCAnalogCUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSRightAnalogUp</string>
+		<key>OEGCAnalogCLeft</key>
+		<string>OEControllerMicrosoftXboxSeriesXSRightAnalogLeft</string>
+		<key>OEGCButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OEGCButtonX</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEGCButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OEGCButtonY</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEGCButtonL</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftTrigger</string>
+		<key>OEGCButtonR</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightTrigger</string>
+		<key>OEGCButtonZ</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+		<key>OEGCButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+	</dict>
 </dict>
 </plist>

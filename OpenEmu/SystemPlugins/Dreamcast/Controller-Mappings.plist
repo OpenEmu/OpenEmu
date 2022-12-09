@@ -475,5 +475,28 @@
 		<key>OEDCButtonStart</key>
 		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEDCButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEDCAnalogUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSLeftAnalogUp</string>
+		<key>OEDCAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxSeriesXSLeftAnalogLeft</string>
+		<key>OEDCButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OEDCButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEDCButtonY</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OEDCButtonX</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEDCAnalogL</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftTrigger</string>
+		<key>OEDCAnalogR</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightTrigger</string>
+		<key>OEDCButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+	</dict>
 </dict>
 </plist>
