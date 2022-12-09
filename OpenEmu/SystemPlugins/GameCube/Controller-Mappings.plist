@@ -506,5 +506,34 @@
 		<key>OEGCButtonStart</key>
 		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEGCButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEGCAnalogUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLELeftAnalogUp</string>
+		<key>OEGCAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxOneSBLELeftAnalogLeft</string>
+		<key>OEGCAnalogCUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLERightAnalogUp</string>
+		<key>OEGCAnalogCLeft</key>
+		<string>OEControllerMicrosoftXboxOneSBLERightAnalogLeft</string>
+		<key>OEGCButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonB</string>
+		<key>OEGCButtonX</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEGCButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonY</string>
+		<key>OEGCButtonY</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEGCButtonL</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonLeftTrigger</string>
+		<key>OEGCButtonR</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightTrigger</string>
+		<key>OEGCButtonZ</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightShoulder</string>
+		<key>OEGCButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+	</dict>
 </dict>
 </plist>

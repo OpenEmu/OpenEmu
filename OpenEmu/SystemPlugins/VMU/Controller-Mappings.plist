@@ -301,5 +301,18 @@
 		<key>OEVMUButtonMode</key>
 		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEVMUButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEVMUButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEVMUButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEVMUButtonSleep</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OEVMUButtonMode</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+	</dict>
 </dict>
 </plist>

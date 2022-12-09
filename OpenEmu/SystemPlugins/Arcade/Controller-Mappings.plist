@@ -454,5 +454,28 @@
 		<key>OEArcadeUIConfigure</key>
 		<string>OEControllerSonyPS5DualSenseButtonHome</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonY</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonB</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightShoulder</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightTrigger</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonXbox</string>
+	</dict>
 </dict>
 </plist>

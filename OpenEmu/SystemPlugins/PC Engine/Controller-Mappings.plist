@@ -301,5 +301,18 @@
 		<key>OEPCEButtonSelect</key>
 		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEPCEButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEPCEButton1</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEPCEButton2</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEPCEButtonRun</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OEPCEButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+	</dict>
 </dict>
 </plist>

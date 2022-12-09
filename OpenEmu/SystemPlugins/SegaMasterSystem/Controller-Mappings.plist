@@ -263,5 +263,16 @@
 		<key>OESMSButtonStart</key>
 		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OESMSButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OESMSButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OESMSButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+	</dict>
 </dict>
 </plist>

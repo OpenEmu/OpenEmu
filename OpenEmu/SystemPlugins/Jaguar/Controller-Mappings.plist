@@ -339,5 +339,20 @@
 		<key>OEJaguarButtonOption</key>
 		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEJaguarButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEJaguarButtonC</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEJaguarButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEJaguarButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonB</string>
+		<key>OEJaguarButtonPause</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OEJaguarButtonOption</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+	</dict>
 </dict>
 </plist>

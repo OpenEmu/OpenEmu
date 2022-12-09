@@ -339,5 +339,20 @@
 		<key>OE7800ButtonReset</key>
 		<string>OEControllerSonyPS5DualSenseButtonHome</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OE7800ButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OE7800ButtonFire2</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OE7800ButtonFire1</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OE7800ButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OE7800ButtonPause</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+		<key>OE7800ButtonReset</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonXbox</string>
+	</dict>
 </dict>
 </plist>

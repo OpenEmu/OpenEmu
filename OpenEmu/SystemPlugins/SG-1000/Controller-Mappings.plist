@@ -263,5 +263,16 @@
 		<key>OESG1000ButtonPause</key>
 		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OESG1000ButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OESG1000Button1</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OESG1000Button2</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+	</dict>
 </dict>
 </plist>

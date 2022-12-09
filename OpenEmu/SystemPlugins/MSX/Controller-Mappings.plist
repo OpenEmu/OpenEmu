@@ -227,5 +227,14 @@
 		<key>OEMSXButtonB</key>
 		<string>OEControllerSonyPS5DualSenseButtonCross</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEMSXButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEMSXButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEMSXButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+	</dict>
 </dict>
 </plist>

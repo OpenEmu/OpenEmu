@@ -187,5 +187,12 @@
 		<key>OEOdyssey2ButtonAction</key>
 		<string>OEControllerSonyPS5DualSenseButtonCross</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEOdyssey2ButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEOdyssey2ButtonAction</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+	</dict>
 </dict>
 </plist>

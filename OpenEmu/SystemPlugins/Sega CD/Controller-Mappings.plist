@@ -447,5 +447,26 @@
 		<key>OESegaCDButtonMode</key>
 		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonY</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonB</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonLeftShoulder</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightShoulder</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+	</dict>
 </dict>
 </plist>

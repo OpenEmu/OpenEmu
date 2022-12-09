@@ -187,5 +187,12 @@
 		<key>OEA8ButtonFire</key>
 		<string>OEControllerSonyPS5DualSenseButtonCross</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEA8JoystickUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEA8ButtonFire</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+	</dict>
 </dict>
 </plist>

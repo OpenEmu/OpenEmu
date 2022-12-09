@@ -596,5 +596,44 @@
 		<key>OEPSXButtonAnalogMode</key>
 		<string>OEControllerSonyPS5DualSenseButtonHome</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLELeftAnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxOneSBLELeftAnalogLeft</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLERightAnalogUp</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxOneSBLERightAnalogLeft</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonB</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonY</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonLeftShoulder</string>
+		<key>OEPSXButtonL2</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonLeftTrigger</string>
+		<key>OEPSXButtonL3</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonLeftAnalog</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightShoulder</string>
+		<key>OEPSXButtonR2</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightTrigger</string>
+		<key>OEPSXButtonR3</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightAnalog</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+		<key>OEPSXButtonAnalogMode</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonXbox</string>
+	</dict>
 </dict>
 </plist>

@@ -263,5 +263,16 @@
 		<key>OEC64SwapJoysticks</key>
 		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEC64JoystickUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEC64ButtonFire</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEC64ButtonJump</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEC64SwapJoysticks</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+	</dict>
 </dict>
 </plist>

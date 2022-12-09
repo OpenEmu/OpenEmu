@@ -452,5 +452,28 @@
 		<key>OEDCButtonStart</key>
 		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEDCButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEDCAnalogUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLELeftAnalogUp</string>
+		<key>OEDCAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxOneSBLELeftAnalogLeft</string>
+		<key>OEDCButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonB</string>
+		<key>OEDCButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEDCButtonY</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonY</string>
+		<key>OEDCButtonX</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEDCAnalogL</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonLeftTrigger</string>
+		<key>OEDCAnalogR</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightTrigger</string>
+		<key>OEDCButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+	</dict>
 </dict>
 </plist>

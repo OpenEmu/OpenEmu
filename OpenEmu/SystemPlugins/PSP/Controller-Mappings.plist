@@ -470,5 +470,30 @@
 		<key>OEPSPButtonSelect</key>
 		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEPSPButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEPSPAnalogUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLELeftAnalogUp</string>
+		<key>OEPSPAnalogLeft</key>
+		<string>OEControllerMicrosoftXboxOneSBLELeftAnalogLeft</string>
+		<key>OEPSPButtonCircle</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonB</string>
+		<key>OEPSPButtonCross</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEPSPButtonTriangle</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonY</string>
+		<key>OEPSPButtonSquare</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEPSPButtonL1</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonLeftShoulder</string>
+		<key>OEPSPButtonR1</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightShoulder</string>
+		<key>OEPSPButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OEPSPButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+	</dict>
 </dict>
 </plist>

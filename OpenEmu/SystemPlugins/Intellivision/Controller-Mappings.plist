@@ -255,5 +255,16 @@
 		<key>OEIntellivisionButtonBottomRightAction</key>
 		<string>OEControllerSonyPS5DualSenseButtonCross</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEIntellivisionButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonY</string>
+		<key>OEIntellivisionButtonBottomLeftAction</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEIntellivisionButtonBottomRightAction</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+	</dict>
 </dict>
 </plist>

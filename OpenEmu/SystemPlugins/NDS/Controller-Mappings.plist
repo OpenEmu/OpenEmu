@@ -426,5 +426,26 @@
 		<key>OENDSButtonSelect</key>
 		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OENDSButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OENDSButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonB</string>
+		<key>OENDSButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OENDSButtonX</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonY</string>
+		<key>OENDSButtonY</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OENDSButtonL</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonLeftShoulder</string>
+		<key>OENDSButtonR</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightShoulder</string>
+		<key>OENDSButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OENDSButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+	</dict>
 </dict>
 </plist>

@@ -377,5 +377,22 @@
 		<key>OEPMButtonPower</key>
 		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEPMButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEPMButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEPMButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonY</string>
+		<key>OEPMButtonC</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonB</string>
+		<key>OEPMButtonShake</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEPMButtonMenu</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OEPMButtonPower</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+	</dict>
 </dict>
 </plist>

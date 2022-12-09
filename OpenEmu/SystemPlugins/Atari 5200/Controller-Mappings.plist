@@ -339,5 +339,20 @@
 		<key>OE5200ButtonReset</key>
 		<string>OEControllerSonyPS5DualSenseButtonHome</string>
 	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OE5200ButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OE5200ButtonFire2</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OE5200ButtonFire1</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OE5200ButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OE5200ButtonPause</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+		<key>OE5200ButtonReset</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonXbox</string>
+	</dict>
 </dict>
 </plist>
