@@ -44,4 +44,4 @@ Minimum Requirements
 
 macOS Mojave 10.14.4
 
-Building the default branch requires Xcode 12.5 and macOS Big Sur 11.
+Building the default branch requires Xcode 13.2 and macOS Big Sur 11.3.

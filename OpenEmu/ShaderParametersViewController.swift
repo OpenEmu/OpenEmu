@@ -525,7 +525,6 @@ extension ShaderParametersViewController {
     }
     
     @IBAction override func delete(_ sender: Any?) {
-#if swift(>=5.5)
         guard #available(macOS 10.15, *) else { return }
         
         let alert: OEAlert = .deleteShaderPreset(name: shaderControl.preset.name)
@@ -544,7 +543,6 @@ extension ShaderParametersViewController {
                 NSApp.presentError(error)
             }
         }
-#endif
     }
 }
 
@@ -645,7 +643,6 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
     }
     
     private func changePresetWithError(_ preset: ShaderPreset) {
-        #if swift(>=5.5)
         Task {
             do {
                 try await shaderControl.changePreset(preset)
@@ -653,12 +650,10 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
                 NSApp.presentError(error)
             }
         }
-        #endif
     }
     
     // MARK: - NameShaderPresetDelegate
     
-    #if swift(>=5.5)
     func setPresetName(_ name: String) {
         switch state {
         case .newPreset:
@@ -680,15 +675,7 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
     func cancelSetPresetName() {
         state = .none
     }
-    #endif
 }
-
-#if swift(<5.5)
-extension ShaderParametersViewController {
-    func setPresetName(_ name: String) {}
-    func cancelSetPresetName() {}
-}
-#endif
 
 extension Array where Array.Element == ShaderParamValue {
     func apply(parameters: [String: Double]) {

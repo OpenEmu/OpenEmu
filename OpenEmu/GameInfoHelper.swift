@@ -40,11 +40,8 @@ final class GameInfoHelper {
             guard let database = database else {
                 return [:]
             }
-            #if swift(>=5.5)
+            
             lazy var resultDict: [String : Any] = [:]
-            #else
-            var resultDict: [String : Any] = [:]
-            #endif
             
             let systemIdentifier = gameInfo["systemIdentifier"] as! String
             var header = gameInfo["header"] as? String

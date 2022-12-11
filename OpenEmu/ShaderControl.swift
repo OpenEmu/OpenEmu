@@ -130,7 +130,6 @@ public class ShaderControl: NSObject {
         changePreset(preset)
     }
     
-    #if swift(>=5.5)
     @available(macOS 10.15, *)
     public func changePreset(_ preset: ShaderPreset) async throws {
         try await withCheckedThrowingContinuation { (cont: CheckedContinuation<Void, Error>) in
@@ -143,7 +142,6 @@ public class ShaderControl: NSObject {
             }
         }
     }
-    #endif
     
     public func changePreset(_ preset: ShaderPreset, completionHandler handler: ((Error?) -> Void)? = nil) {
         let params = preset.parameters as [String: NSNumber]?
