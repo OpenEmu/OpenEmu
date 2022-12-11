@@ -184,7 +184,7 @@
 			<key>OEControllerSonyPS3SixaxisButtonCross</key>
 			<dict>
 				<key>Name</key>
-				<string>╳</string>
+				<string>✕</string>
 				<key>Type</key>
 				<string>Button</string>
 				<key>Usage</key>
@@ -1355,7 +1355,7 @@
 			<key>OEControllerPS3NeoGeoPadButtonCross</key>
 			<dict>
 				<key>Name</key>
-				<string>╳</string>
+				<string>✕</string>
 				<key>Type</key>
 				<string>Button</string>
 				<key>Usage</key>
@@ -2926,7 +2926,7 @@
 			<key>OEControllerSonyPS4Dualshock4ButtonCross</key>
 			<dict>
 				<key>Name</key>
-				<string>╳</string>
+				<string>✕</string>
 				<key>Type</key>
 				<string>Button</string>
 				<key>Usage</key>
@@ -3237,7 +3237,7 @@
 			<key>OEControllerSonyPS5DualSenseButtonCross</key>
 			<dict>
 				<key>Name</key>
-				<string>╳</string>
+				<string>✕</string>
 				<key>Type</key>
 				<string>Button</string>
 				<key>Usage</key>
