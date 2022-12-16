@@ -338,20 +338,7 @@ extension MainWindowController: LibraryControllerDelegate {
                         if glitchy {
                             alert.informativeText = String(format: NSLocalizedString("The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", comment: ""), coreName, coreName)
                         } else {
-                            alert.informativeText = NSLocalizedString(
-                                """
-                                <b>If and only if this issue persists</b>, please submit feedback including:<br><br>\
-                                <ul>\
-                                <li>The model of Mac you are using <b>and</b> the version of macOS you have installed\
-                                <ul><li>This information is found in  > About this Mac</li></ul></li>\
-                                <li>The <b>exact name</b> of the game you were playing</li>\
-                                <li>The crash report of OpenEmuHelperApp\
-                                <ul><li>Open Console.app, click on "Crash Reports" or "User Reports" in the sidebar, \
-                                then look for the latest document with OpenEmuHelperApp in the name</ul></li></li>\
-                                </ul><br>\
-                                <b>Always search for similar feedback previously reported by other users!</b><br>\
-                                If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed.
-                                """,
+                            alert.informativeText = NSLocalizedString("ALERT_CORE_GLITCHES_FEEDBACK_HTML",
                                 comment: "Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English"
                             )
                             alert.messageUsesHTML = true
