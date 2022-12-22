@@ -460,10 +460,14 @@ final class OEGameDocument: NSDocument {
             return
         }
         
-        let game: OEDBGame
+        let game: OEDBGame?
         do {
-            game = try OEDBGame.game(withURL: url, in: libraryDB)!
+            game = try OEDBGame.game(withURL: url, in: libraryDB)
         } catch {
+            throw error
+        }
+        
+        if game == nil {
             // Could not find game in database. Try to import the file
             let importer = libraryDB.importer
             let completion: ImportItemCompletionBlock = { romID in
@@ -501,21 +505,19 @@ final class OEGameDocument: NSDocument {
             if importer.importItem(at: url, withCompletionHandler: completion) {
                 throw Errors.importRequired
             }
-            
-            throw error
         }
         
-        if let state = game.autosaveForLastPlayedRom,
+        if let state = game?.autosaveForLastPlayedRom,
            OEAlert.loadAutoSaveGame().runModal() == .alertFirstButtonReturn {
             do {
                 try setUpDocument(with: state)
             } catch {
                 throw error
             }
-        } else {
+        } else if let rom = game?.defaultROM {
             do {
                 // TODO: Load rom that was just imported instead of the default one
-                try setUpDocument(with: game.defaultROM!, using: nil)
+                try setUpDocument(with: rom, using: nil)
             } catch {
                 throw error
             }
