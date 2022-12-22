@@ -35,12 +35,12 @@
                     <rect key="frame" x="20" y="48" width="420" height="14"/>
                     <beginningViews>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zBo-v5-FbF">
-                            <rect key="frame" x="0.0" y="0.5" width="17.5" height="15"/>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="exclamationmark.triangle.fill" catalog="system" id="rQ8-mc-cH5"/>
+                            <rect key="frame" x="0.0" y="1" width="12" height="12"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="list_indicator_missing" id="rQ8-mc-cH5"/>
                             <color key="contentTintColor" name="systemYellowColor" catalog="System" colorSpace="catalog"/>
                         </imageView>
                         <textField horizontalHuggingPriority="252" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wgc-KG-Kfc">
-                            <rect key="frame" x="19" y="0.0" width="33" height="14"/>
+                            <rect key="frame" x="14" y="0.0" width="33" height="14"/>
                             <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Label" id="717-E0-kAX">
                                 <font key="font" metaFont="smallSystem"/>
                                 <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -119,6 +119,6 @@ DQ
         <userDefaultsController representsSharedInstance="YES" id="bTF-7U-evr"/>
     </objects>
     <resources>
-        <image name="exclamationmark.triangle.fill" catalog="system" width="17" height="15"/>
+        <image name="list_indicator_missing" width="12" height="12"/>
     </resources>
 </document>
