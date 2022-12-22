@@ -88,3 +88,15 @@
 /* Sidebar Header (OESidebarHeaderView.xib) */
 
 "Edit" = "编辑";
+
+
+/* Shader Parameters (ShaderParametersViewController.xib) */
+
+"New Preset" = "New Preset"; // TODO
+
+
+/* Name Shader Preset (NameShaderPreset.xib) */
+
+"Save Preset" = "保存"; // TODO
+
+"Cancel" = "取消";

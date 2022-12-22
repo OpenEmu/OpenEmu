@@ -652,3 +652,25 @@
 "MOVE_ALERT_MOVE_BUTTON" = "Move to Applications folder";
 
 "Choose Location…" = "Choose Location…";
+
+"No parameters available." = "No parameters available.";
+
+"Reset parameters" = "Reset parameters"; // undo action: Reset shader parameters
+
+"Paste parameters" = "Paste parameters"; // undo action: Paste parameter values
+
+"Parameters" = "Parameters"; // Window title: Shader parameters customisation window
+
+"New Shader Preset" = "New Shader Preset"; // Window title: Used to specify the name of a new shader preset
+
+"Rename Shader Preset" = "Rename Shader Preset"; // Window title: Used to rename an existing shader preset
+
+"A name is required." = "A name is required."; // warning: Displayed when user enters a zero-length shader preset name
+
+"Name must not contain “%@.”" = "Name must not contain “%@.”"; // warning: Displayed when user enters a shader preset name containing an invalid character
+
+"Default %@ preset for %@" = "Default %@ preset for %@"; // 1st parameter: shader name; 2nd parameter: system name
+
+"Are you sure you want to delete the shader preset called '%@'?" = "Are you sure you want to delete the shader preset called “%@”?";
+
+"Delete Shader Preset" = "Delete Shader Preset";

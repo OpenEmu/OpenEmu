@@ -88,3 +88,15 @@
 /* OESidebarHeaderView.xib */
 
 "Edit" = "Modifica";
+
+
+/* Shader Parameters (ShaderParametersViewController.xib) */
+
+"New Preset" = "New Preset"; // TODO
+
+
+/* Name Shader Preset (NameShaderPreset.xib) */
+
+"Save Preset" = "Salva"; // TODO
+
+"Cancel" = "Annulla";

@@ -83,12 +83,13 @@ class NameShaderPreset: NSViewController, NSControlTextEditingDelegate {
     }
     
     func validateView() {
+        let invalidCharacters: [Character] = ["\"", "#"]
         if textField.stringValue.isEmpty {
             isTextValid = false
-            validationMessage = NSLocalizedString("A name is required.", comment: "warning: Displayed when user enters an zero-length shader preset name")
-        } else if textField.stringValue.contains("\"") {
+            validationMessage = NSLocalizedString("A name is required.", comment: "warning: Displayed when user enters a zero-length shader preset name")
+        } else if let invalid = textField.stringValue.first(where: { invalidCharacters.contains($0) }) {
             isTextValid = false
-            validationMessage = NSLocalizedString("Name must not contain “\".”", comment: "warning: Displayed when user enters a shader preset name containing one or more straight quotation marks")
+            validationMessage = .localizedStringWithFormat(NSLocalizedString("Name must not contain “%@.”", comment: "warning: Displayed when user enters a shader preset name containing an invalid character"), String(invalid))
         } else {
             isTextValid = true
             validationMessage = ""

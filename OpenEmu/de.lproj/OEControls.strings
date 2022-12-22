@@ -88,3 +88,15 @@
 /* Sidebar Header (OESidebarHeaderView.xib) */
 
 "Edit" = "Bearbeiten";
+
+
+/* Shader Parameters (ShaderParametersViewController.xib) */
+
+"New Preset" = "Neue Voreinstellung";
+
+
+/* Name Shader Preset (NameShaderPreset.xib) */
+
+"Save Preset" = "Voreinstellung sichern";
+
+"Cancel" = "Abbrechen";

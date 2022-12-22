@@ -644,3 +644,35 @@
 "Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?";  // TODO
 
 "Reopen without loading state" = "Reopen without loading state";  // TODO
+
+"MOVE_ALERT_TITLE" = "Move to Applications folder"; // TODO
+
+"MOVE_ALERT_INFO_TEXT" = "OpenEmu must move to your Applications folder in order to work properly."; // TODO
+
+"MOVE_ALERT_NEEDS_AUTH" = "You need to authenticate with an administrator name and password to complete this step. Alternatively, you can choose a different location or quit the App and move it manually."; // TODO
+
+"MOVE_ALERT_MOVE_BUTTON" = "Move to Applications folder"; // TODO
+
+"Choose Location…" = "Choose Location…"; // TODO
+
+"No parameters available." = "No parameters available."; // TODO
+
+"Reset parameters" = "Reset parameters"; // undo action: Reset shader parameters, TODO
+
+"Paste parameters" = "Paste parameters"; // undo action: Paste parameter values, TODO
+
+"Parameters" = "Parameters"; // Window title: Shader parameters customisation window, TODO
+
+"New Shader Preset" = "New Shader Preset"; // Window title: Used to specify the name of a new shader preset, TODO
+
+"Rename Shader Preset" = "Rename Shader Preset"; // Window title: Used to rename an existing shader preset, TODO
+
+"A name is required." = "A name is required."; // warning: Displayed when user enters a zero-length shader preset name, TODO
+
+"Name must not contain “%@.”" = "Name must not contain “%@.”"; // warning: Displayed when user enters a shader preset name containing an invalid character, TODO
+
+"Default %@ preset for %@" = "Default %@ preset for %@"; // 1st parameter: shader name; 2nd parameter: system name, TODO
+
+"Are you sure you want to delete the shader preset called '%@'?" = "Are you sure you want to delete the shader preset called '%@'?";
+
+"Delete Shader Preset" = "Delete Shader Preset";

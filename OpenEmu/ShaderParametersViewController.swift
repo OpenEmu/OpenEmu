@@ -512,7 +512,7 @@ extension ShaderParametersViewController {
                 vc.params?.apply(parameters: changed)
             }
             params.apply(parameters: preset.parameters)
-            undoManager?.setActionName(NSLocalizedString("Paste paramaters", comment: "undo: Paste parameter values"))
+            undoManager?.setActionName(NSLocalizedString("Paste parameters", comment: "undo: Paste parameter values"))
         } else {
             guard
                 let params = try? ShaderPresetTextWriter.write(preset: preset, options: [])

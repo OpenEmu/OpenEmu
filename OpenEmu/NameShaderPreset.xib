@@ -71,7 +71,7 @@
                     </connections>
                 </stackView>
                 <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PDV-aS-NIU">
-                    <rect key="frame" x="320" y="20" width="120" height="20"/>
+                    <rect key="frame" x="278" y="20" width="162" height="20"/>
                     <subviews>
                         <button wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4mW-R4-MAw">
                             <rect key="frame" x="-7" y="-7" width="76" height="32"/>
@@ -82,19 +82,25 @@
 Gw
 </string>
                             </buttonCell>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="cancelOperation:" target="-2" id="uMN-3g-87F"/>
                             </connections>
                         </button>
                         <button wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JwL-BD-MiV">
-                            <rect key="frame" x="63" y="-7" width="64" height="32"/>
-                            <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AtU-L3-cnY">
+                            <rect key="frame" x="63" y="-7" width="106" height="32"/>
+                            <buttonCell key="cell" type="push" title="Save Preset" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AtU-L3-cnY">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <string key="keyEquivalent" base64-UTF8="YES">
 DQ
 </string>
                             </buttonCell>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="save:" target="-2" id="h9R-yq-CTK"/>
                                 <binding destination="-2" name="enabled" keyPath="self.isTextValid" id="x5Y-Mk-egB"/>

@@ -177,7 +177,7 @@ public class ShaderControl: NSObject {
     }
     
     static func presetForSystemShader(_ systemShader: OESystemShaderModel, _ systemPlugin: OESystemPlugin) -> ShaderPreset {
-        ShaderPreset(name: "Default \(systemShader.shader.name) preset for \(systemPlugin.systemName)",
+        ShaderPreset(name: .localizedStringWithFormat(NSLocalizedString("Default %@ preset for %@", comment: "1st parameter: shader name; 2nd parameter: system name"), systemShader.shader.name, systemPlugin.systemName),
                      systemShader: systemShader)
     }
 }

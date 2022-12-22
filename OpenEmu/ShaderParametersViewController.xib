@@ -237,6 +237,9 @@
             <subviews>
                 <popUpButton horizontalHuggingPriority="249" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="hkE-qg-OMf">
                     <rect key="frame" x="6" y="2" width="258" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="Dgh-cZ-JSI"/>
+                    </constraints>
                     <popUpButtonCell key="cell" type="push" title="Unnamed 1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="60N-fo-jdY" id="w2V-R7-830">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="smallSystem"/>
@@ -255,6 +258,9 @@
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="smallSystem"/>
                     </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="newPreset:" target="-2" id="BCc-HI-MJf"/>
                     </connections>
@@ -269,6 +275,9 @@
                                 <menuItem title="Item 1" state="on" image="NSActionTemplate" hidden="YES" id="H4B-Jh-0HF"/>
                                 <menuItem title="Rename" id="Z1j-6Z-giU">
                                     <modifierMask key="keyEquivalentModifierMask"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
                                     <connections>
                                         <action selector="renamePreset:" target="-2" id="akB-eX-tqn"/>
                                     </connections>
@@ -276,17 +285,26 @@
                                 <menuItem isSeparatorItem="YES" id="Ch3-BG-JJ5"/>
                                 <menuItem title="Delete" id="BDY-wD-tNy">
                                     <modifierMask key="keyEquivalentModifierMask"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
                                     <connections>
                                         <action selector="delete:" target="-2" id="tfQ-ZQ-Ppv"/>
                                     </connections>
                                 </menuItem>
                                 <menuItem isSeparatorItem="YES" id="pRS-NM-Ao2"/>
                                 <menuItem title="Copy" id="Qpe-Zh-7En">
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
                                     <connections>
                                         <action selector="copy:" target="-1" id="JEz-MU-axc"/>
                                     </connections>
                                 </menuItem>
                                 <menuItem title="Paste" id="FmJ-LT-KTs">
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
                                     <connections>
                                         <action selector="paste:" target="-1" id="vJ0-JJ-miz"/>
                                     </connections>
