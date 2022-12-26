@@ -86,6 +86,8 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
              #selector(delete(_:)),
              #selector(showInFinder(_:)):
             return collectionView.selectionIndexPaths.count > 0
+        case #selector(startSelectedGame(_:)):
+            return collectionView.selectionIndexPaths.count == 1
         default:
             return true
         }
@@ -168,6 +170,10 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
         let urls = items.compactMap { $0.url.absoluteURL }
         
         NSWorkspace.shared.activateFileViewerSelecting(urls)
+    }
+    
+    @IBAction func startSelectedGame(_ sender: Any?) {
+        NSApp.sendAction(#selector(LibraryController.startSaveState(_:)), to: nil, from: self)
     }
     
     func collectionView(_ collectionView: CollectionView, doubleClickForItemAt indexPath: IndexPath) {
