@@ -26,12 +26,7 @@
 
 import Cocoa
 
-private extension NSTouchBar.CustomizationIdentifier {
-    static let touchBar = "org.openemu.OEGameCollectionViewController.play"
-}
-
 private extension NSTouchBarItem.Identifier {
-    static let delete = NSTouchBarItem.Identifier("org.openemu.OEGameCollectionViewController.delete")
     static let play = NSTouchBarItem.Identifier("org.openemu.OEGameCollectionViewController.play")
 }
 
@@ -40,18 +35,10 @@ extension OEGameCollectionViewController {
     open override func makeTouchBar() -> NSTouchBar? {
         
         let touchBar = GamesTouchBar()
-        
         touchBar.gameCollectionViewController = self
-        
         touchBar.delegate = self
-        touchBar.customizationIdentifier = .touchBar
-        touchBar.defaultItemIdentifiers = [.delete,
-                                           .play,
+        touchBar.defaultItemIdentifiers = [.play,
                                            .otherItemsProxy]
-        touchBar.customizationAllowedItemIdentifiers = [.delete,
-                                                        .play]
-        touchBar.principalItemIdentifier = .play
-        
         return touchBar
     }
 }
@@ -61,21 +48,6 @@ extension OEGameCollectionViewController: NSTouchBarDelegate {
     public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
         
         switch identifier {
-            
-        case .delete:
-            
-            let item = NSCustomTouchBarItem(identifier: identifier)
-            item.customizationLabel = NSLocalizedString("Delete", comment: "")
-            
-            let button = NSButton(image: NSImage(named: NSImage.touchBarDeleteTemplateName)!, target: nil, action: #selector(deleteSelectedItems(_:)))
-            
-            button.isEnabled = !selectionIndexes.isEmpty
-            button.bezelColor = #colorLiteral(red: 0.5665243268, green: 0.2167189717, blue: 0.2198875844, alpha: 1)
-            
-            item.view = button
-            
-            return item
-            
         case .play:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
@@ -118,11 +90,6 @@ private class GamesTouchBar: NSTouchBar {
         
         guard let gameCollectionViewController = gameCollectionViewController else {
             return
-        }
-        
-        if let deleteItem = item(forIdentifier: .delete) as? NSCustomTouchBarItem {
-            let button = deleteItem.view as! NSButton
-            button.isEnabled = !gameCollectionViewController.selectionIndexes.isEmpty
         }
         
         if let playItem = item(forIdentifier: .play) as? NSCustomTouchBarItem {
