@@ -23,7 +23,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
-import OpenEmuBase
+import OpenEmuBase.OEGeometry
 import OpenEmuSystem
 import OpenEmuKit
 
@@ -106,20 +106,17 @@ final class GameViewController: NSViewController {
     }
     
     deinit {
-        gameView.delegate = nil
-        gameView = nil
-        
-        controlsWindow.gameWindow = nil
-        controlsWindow.close()
-        controlsWindow = nil
-        
-        shaderWindowController.close()
-        shaderWindowController = nil
-        
         if let token = token {
             NotificationCenter.default.removeObserver(token)
             self.token = nil
         }
+
+        shaderWindowController.close()
+        shaderWindowController = nil
+
+        controlsWindow.gameWindow = nil
+        controlsWindow.close()
+        controlsWindow = nil
     }
     
     override func viewDidAppear() {

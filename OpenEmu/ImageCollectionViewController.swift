@@ -373,6 +373,10 @@ extension ImageCollectionViewController: NSCollectionViewDataSource {
         return itemView
     }
     
+    func collectionView(_ collectionView: NSCollectionView, didEndDisplaying item: NSCollectionViewItem, forRepresentedObjectAt indexPath: IndexPath) {
+        dataSourceDelegate.unloadItemView(at: indexPath)
+    }
+    
     func collectionView(_ collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: NSCollectionView.SupplementaryElementKind, at indexPath: IndexPath) -> NSView {
         if kind == NSCollectionView.elementKindInterItemGapIndicator {
             return NSView(frame: NSRect(x: 0, y: 0, width: 1, height: 1))
