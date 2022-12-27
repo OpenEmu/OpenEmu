@@ -816,7 +816,7 @@ final class OEAlert: NSObject {
         let tb = NSTouchBar()
         let childTb = NSGroupTouchBarItem(alertStyleWithIdentifier: .group)
         tb.templateItems = [childTb]
-        tb.defaultItemIdentifiers = [.group]
+        tb.defaultItemIdentifiers = [.group, .otherItemsProxy]
         tb.principalItemIdentifier = .group
         
         var allItems = Set<NSTouchBarItem>()
