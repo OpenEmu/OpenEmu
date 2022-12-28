@@ -599,15 +599,15 @@ extension AppDelegate: NSMenuDelegate {
             return 1
         }
         
-        let count = lastPlayedInfo.values.reduce(0) { $0 + $1.count }
+        let count = lastPlayedInfo.values.reduce(0) { $0 + 1 /*system name*/ + $1.count }
         
         var lastPlayed = [CachedLastPlayedInfoItem]()
         lastPlayed.reserveCapacity(count)
         
-        let sortedSystems = lastPlayedInfo.keys.sorted { return ($0 as NSString).localizedCaseInsensitiveCompare($1) == .orderedAscending }
+        let sortedSystems = lastPlayedInfo.keys.sorted { $0.localizedCaseInsensitiveCompare($1) == .orderedAscending }
         for system in sortedSystems {
             lastPlayed.append(system)
-            lastPlayed = lastPlayed + lastPlayedInfo[system]!
+            lastPlayed += lastPlayedInfo[system]!
         }
         
         cachedLastPlayedInfo = lastPlayed
