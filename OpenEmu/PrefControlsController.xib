@@ -24,7 +24,7 @@
             <rect key="frame" x="0.0" y="0.0" width="755" height="450"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <customView wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="BackgroundGradientView" customModule="OpenEmu" customModuleProvider="target">
+                <customView wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4" userLabel="Gradient">
                     <rect key="frame" x="0.0" y="409" width="755" height="41"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </customView>
