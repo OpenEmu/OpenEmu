@@ -1002,17 +1002,27 @@ extension AppDelegate: NSMenuDelegate {
     }
     
     func updateEventHandlers() {
-        let games = NSApp.orderedDocuments.compactMap({$0 as? OEGameDocument})
-        guard games.count > 0 else { return }
-
-        if let game = games.first {
-            game.handleEvents = shouldHandleControllerEvents
-            game.handleKeyboardEvents = shouldHandleKeyboardEvents
+        let block = {
+            let games = NSApp.orderedDocuments.compactMap({$0 as? OEGameDocument})
+            guard games.count > 0 else { return }
+            
+            if let game = games.first {
+                game.handleEvents = self.shouldHandleControllerEvents
+                game.handleKeyboardEvents = self.shouldHandleKeyboardEvents
+            }
+            
+            games.dropFirst().forEach {
+                $0.handleEvents = false
+                $0.handleKeyboardEvents = false
+            }
         }
-
-        games.dropFirst().forEach {
-            $0.handleEvents = false
-            $0.handleKeyboardEvents = false
+        
+        if #available(macOS 13.0, *) {
+            // Workaround; the documents in NSApp.orderedDocuments are not yet in the correct order on Ventura,
+            // so when switching between game documents, the previous one would be chosen to handle input.
+            DispatchQueue.main.async(execute: block)
+        } else {
+            block()
         }
     }
 }
