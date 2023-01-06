@@ -64,26 +64,18 @@ final class ControlsScroller: NSScroller {
         knobImage.draw(in: targetRect)
     }
     
-    override func rect(for aPart: NSScroller.Part) -> NSRect {
+    override func rect(for partCode: NSScroller.Part) -> NSRect {
         guard scrollerStyle == .legacy,
-              aPart == .knob else {
-            return super.rect(for: aPart)
+              partCode == .knob else {
+            return super.rect(for: partCode)
         }
         
-        var knobRect = rect(for: .knobSlot)
-        knobRect = knobRect.insetBy(dx: 0, dy: 2)
+        let knobImageWidth = knobImage.size.width
+        let knobSlotWidth = super.rect(for: .knobSlot).width
         
-        let size = knobImage.size
-        
-        var knobHeight = round(knobRect.size.height*knobProportion)
-        knobHeight = knobHeight < size.height ? size.height : knobHeight
-        
-        knobRect.size.width -= 2
-        
-        let knobY = knobRect.origin.y+round((knobRect.size.height-knobHeight)*CGFloat(floatValue))
-        knobRect = NSRect(x: 0, y: knobY, width: knobRect.size.width, height: knobHeight)
-        knobRect.origin.x += 1
-        
+        var knobRect = super.rect(for: .knob)
+        knobRect.size.width = knobImageWidth
+        knobRect.origin.x = ((knobSlotWidth-knobImageWidth)/2).rounded(.down)
         return knobRect
     }
 }
