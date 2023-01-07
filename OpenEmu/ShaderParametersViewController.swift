@@ -27,6 +27,12 @@ import OpenEmuShaders
 import OpenEmuKit
 import OrderedCollections
 
+private extension Int {
+    static let sliderTag: Self = 100
+    static let fieldTag: Self = 101
+    static let stepperTag: Self = 102
+}
+
 final class ShaderParametersViewController: NSViewController {
     let shaderControl: ShaderControl
     var shaderObserver: NSObjectProtocol?
@@ -214,7 +220,7 @@ final class ShaderParametersViewController: NSViewController {
                 $0.observe(\.value) { [weak self] (param, _) in
                     guard let self = self else { return }
                     
-                    self.shaderControl.setValue(CGFloat(param.value.doubleValue), forParameter: param.name)
+                    self.shaderControl.setValue(CGFloat(param.resolvedValue.doubleValue), forParameter: param.name)
                     
                     Self.cancelPreviousPerformRequests(withTarget: self, selector: #selector(Self.save(_:)), object: self)
                     self.perform(#selector(Self.save(_:)), with: self, afterDelay: 0.250)
@@ -321,13 +327,13 @@ extension ShaderParametersViewController: NSOutlineViewDelegate {
             case .checkBoxType:
                 let checkbox = cellView.subviews.first! as! NSButton
                 checkbox.title = param.desc
-                checkbox.bind(.value, to: param, withKeyPath: "value", options: [NSBindingOption.continuouslyUpdatesValue: NSNumber(booleanLiteral: true)])
+                checkbox.bind(.value, to: param, withKeyPath: #keyPath(ShaderParamValue.value), options: [NSBindingOption.continuouslyUpdatesValue: NSNumber(booleanLiteral: true)])
                 
             case .sliderType:
                 let lbl = cellView.subviews.first! as! NSTextField
                 lbl.stringValue = param.desc
                 
-                let slid = cellView.viewWithTag(100) as! NSSlider
+                let slid = cellView.viewWithTag(.sliderTag) as! NSSlider
                 slid.isContinuous = true
                 slid.minValue = param.minimum.doubleValue
                 slid.maxValue = param.maximum.doubleValue
@@ -340,18 +346,26 @@ extension ShaderParametersViewController: NSOutlineViewDelegate {
                     slid.allowsTickMarkValuesOnly = false
                 }
                 
-                let num = cellView.viewWithTag(101) as! NSTextField
+                let num = cellView.viewWithTag(.fieldTag) as! NSTextField
+                if let nf = num.formatter as? NumberFormatter {
+                    nf.minimum = param.minimum
+                    nf.maximum = param.maximum
+                }
                 
-                let step = cellView.viewWithTag(102) as! NSStepper
+                let step = cellView.viewWithTag(.stepperTag) as! NSStepper
                 step.minValue = slid.minValue
                 step.maxValue = slid.maxValue
                 step.increment = param.step.doubleValue
                 
-                let options = [NSBindingOption.continuouslyUpdatesValue: NSNumber(booleanLiteral: true)]
+                let options: [NSBindingOption: NSNumber] = [
+                    .continuouslyUpdatesValue: true,
+                    .allowsNullArgument: false,
+                    .nullPlaceholder: param.initial,
+                ]
                 
-                slid.bind(.value, to: param, withKeyPath: "value", options: options)
-                num.bind(.value, to: param, withKeyPath: "value", options: options)
-                step.bind(.value, to: param, withKeyPath: "value", options: options)
+                slid.bind(.value, to: param, withKeyPath: #keyPath(ShaderParamValue.value), options: options)
+                num.bind(.value, to: param, withKeyPath: #keyPath(ShaderParamValue.value), options: options)
+                step.bind(.value, to: param, withKeyPath: #keyPath(ShaderParamValue.value), options: options)
                 
             default:
                 break
@@ -367,6 +381,18 @@ extension ShaderParametersViewController: NSOutlineViewDelegate {
         }
         
         return nil
+    }
+}
+
+extension ShaderParametersViewController: NSControlTextEditingDelegate {
+    func controlTextDidEndEditing(_ n: Notification) {
+        if let tf = n.object as? NSTextField,
+           tf.tag == .fieldTag,
+           tf.stringValue.isEmpty,
+           let param = tf.infoForBinding(.value)?[.observedObject] as? ShaderParamValue
+        {
+            param.value = param.initial
+        }
     }
 }
 
