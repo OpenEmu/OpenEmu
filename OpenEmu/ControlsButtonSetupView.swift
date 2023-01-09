@@ -112,10 +112,11 @@ final class ControlsButtonSetupView: NSView {
     
     // MARK: - Drawing and Layout
     
-    private var width: CGFloat = 227
+    private var width: CGFloat { enclosingScrollView?.contentSize.width ?? 227 }
     private var topGap: CGFloat = 16
     private var bottomGap: CGFloat = 16
     private var leftGap: CGFloat = 16
+    private let rightGap: CGFloat = 14
     private var itemHeight: CGFloat = 24
     private var verticalItemSpacing: CGFloat = 9 // item bottom to top
     private var labelButtonSpacing: CGFloat = 5
@@ -156,14 +157,14 @@ final class ControlsButtonSetupView: NSView {
     }
     
     func layoutSubviews() {
-        
-        let rightGap: CGFloat = 14 + ((NSScroller.preferredScrollerStyle == .legacy) ? 14 : 0)
+        let width = width
         
         // determine required height
         var frame = frame
         let viewHeight = viewHeight
-        if frame.height != viewHeight {
+        if frame.height != viewHeight || frame.width != width {
             frame.size.height = viewHeight > minimumFrameHeight ? viewHeight : minimumFrameHeight
+            frame.size.width = width
             self.frame = frame
         }
         
