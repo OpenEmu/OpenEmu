@@ -81,7 +81,7 @@ final class PrefControlsController: NSViewController {
     
     private var selectedPlugin: OESystemPlugin?
     private var readingEvent: OEHIDEvent?
-    private var ignoredEvents = makeOEHIDEventSet()
+    private var ignoredEvents = Set<IgnoredEvent>()
     private var eventMonitor: Any?
     
     var currentSystemController: OESystemController? {
@@ -381,7 +381,7 @@ final class PrefControlsController: NSViewController {
         outTransition.path = pathTransitionOut
         outTransition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         outTransition.duration = 0.35
-       
+        
         // Setup animation that transitions the new controller image in
         let pathTransitionIn = CGMutablePath()
         pathTransitionIn.move(to: CGPoint(x: 0, y: 450))
@@ -614,10 +614,10 @@ final class PrefControlsController: NSViewController {
         }
         
         // Check if the event is ignored
-        if ignoredEvents.contains(event) {
+        if ignoredEvents.contains(.init(event)) {
             // Ignored events going back to off-state are removed from the ignored events
             if event.hasOffState {
-                ignoredEvents.remove(event)
+                ignoredEvents.remove(.init(event))
             }
             
             return false
@@ -646,7 +646,7 @@ final class PrefControlsController: NSViewController {
         }
         
         if !event.hasOffState {
-            ignoredEvents.add(event)
+            ignoredEvents.insert(.init(event))
         }
         
         return false
@@ -753,35 +753,20 @@ extension PrefControlsController: PreferencePane {
     }
 }
 
-fileprivate func makeOEHIDEventSet() -> NSMutableSet {
-    let eqCb: CFSetEqualCallBack = { (pa: UnsafeRawPointer?, pb: UnsafeRawPointer?) -> DarwinBoolean in
-        guard
-            let a = pa,
-            let b = pb
-        else { return false }
-        
-        let v1 = Unmanaged<OEHIDEvent>.fromOpaque(a).takeUnretainedValue()
-        let v2 = Unmanaged<OEHIDEvent>.fromOpaque(b).takeUnretainedValue()
-        
-        return DarwinBoolean(v1.isUsageEqual(to: v2))
+/// Wraps an ``OEHIDEvent`` to customise the ``Hashable`` and ``Equatable``
+/// implementations.
+private struct IgnoredEvent: Hashable {
+    let event: OEHIDEvent
+    
+    init(_ event: OEHIDEvent) {
+        self.event = event
     }
     
-    let hashCb: CFSetHashCallBack = { (pa: UnsafeRawPointer?) -> CFHashCode in
-        guard
-            let a = pa
-        else { return 0 }
-        
-        let v = Unmanaged<OEHIDEvent>
-            .fromOpaque(a)
-            .takeUnretainedValue()
-        
-        return v.controlIdentifier
+    static func == (lhs: IgnoredEvent, rhs: IgnoredEvent) -> Bool {
+        lhs.event.isUsageEqual(to: rhs.event)
     }
     
-    var cb = kCFTypeSetCallBacks
-    cb.equal = eqCb
-    cb.hash = hashCb
-    
-    // We're using CFSet here because NSSet is confused by the changing state of OEHIDEvents
-    return CFSetCreateMutable(kCFAllocatorDefault, 0, &cb)
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(event.controlIdentifier)
+    }
 }
