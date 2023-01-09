@@ -220,7 +220,7 @@ final class ShaderParametersViewController: NSViewController {
                 $0.observe(\.value) { [weak self] (param, _) in
                     guard let self = self else { return }
                     
-                    self.shaderControl.setValue(CGFloat(param.resolvedValue.doubleValue), forParameter: param.name)
+                    self.shaderControl.setValue(CGFloat(param.value.doubleValue), forParameter: param.name)
                     
                     Self.cancelPreviousPerformRequests(withTarget: self, selector: #selector(Self.save(_:)), object: self)
                     self.perform(#selector(Self.save(_:)), with: self, afterDelay: 0.250)
