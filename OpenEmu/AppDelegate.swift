@@ -124,6 +124,10 @@ class AppDelegate: NSObject {
             .appendingPathComponent("Game Library", isDirectory: true)
         let path = (libraryDirectory.path as NSString).abbreviatingWithTildeInPath
         
+        #if !DEBUG
+            UserDefaults.standard.removeObject(forKey: OEGameCoreManagerModePreferenceKey)
+        #endif
+        
         // Register defaults.
         UserDefaults.standard.register(defaults: [
             OELibraryDatabase.defaultDatabasePathKey: path,
@@ -142,15 +146,13 @@ class AppDelegate: NSObject {
             OEDBSaveStatesMedia.showsQuickSavesKey: true,
             OEForcePopoutGameWindowKey: true,
             OEPopoutGameWindowIntegerScalingOnlyKey: true,
+            OEGameLayerNotificationView.OEShowNotificationsKey : true,
             OEAppearance.Application.key: OEAppearance.Application.dark.rawValue,
             OEAppearance.HUDBar.key: OEAppearance.HUDBar.vibrant.rawValue,
             OEAppearance.ControlsPrefs.key: OEAppearance.ControlsPrefs.wood.rawValue,
+            OEGameCoreManagerModePreferenceKey: NSStringFromClass(OEXPCGameCoreManager.self),
         ])
         
-        #if !DEBUG_PRINT
-            UserDefaults.standard.removeObject(forKey: OEGameCoreManagerModePreferenceKey)
-        #endif
-
         // Don't let an old setting override automatically checking for app updates.
         if let automaticChecksEnabled = UserDefaults.standard.object(forKey: "SUEnableAutomaticChecks") as? Bool, automaticChecksEnabled == false {
             UserDefaults.standard.removeObject(forKey: "SUEnableAutomaticChecks")
