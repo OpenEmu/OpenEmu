@@ -245,6 +245,7 @@
 		<string>iso</string>
 		<string>cue</string>
 		<string>ccd</string>
+		<string>cso</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>

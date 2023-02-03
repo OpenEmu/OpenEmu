@@ -25,11 +25,138 @@
  */
 
 #import "OEPS2SystemController.h"
+#import <zlib.h>
+
+CISO_H ciso;
 
 @implementation OEPS2SystemController
 
+static inline char itoh(int i) {
+    if (i > 9) return 'A' + (i - 10);
+    return '0' + i;
+}
+
+- (NSString *)NSDataToHex:(NSData *) data {
+    NSUInteger i, len;
+    unsigned char *buf, *bytes;
+    
+    len = data.length;
+    bytes = (unsigned char*)data.bytes;
+    buf = malloc(len*2);
+    
+    for (i=0; i<len; i++) {
+        buf[i*2] = itoh((bytes[i] >> 4) & 0xF);
+        buf[i*2+1] = itoh(bytes[i] & 0xF);
+    }
+    
+    return [[NSString alloc] initWithBytesNoCopy:buf
+                                          length:len*2
+                                        encoding:NSASCIIStringEncoding
+                                    freeWhenDone:YES];
+}
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
+    
+    // Handle cso file and return early
+    if ([file.fileExtension isEqualToString:@"cso"])
+    {
+        unsigned int index , index2;
+        unsigned long long read_pos , read_size;
+        unsigned int *index_buf;
+        unsigned char *block_buf1, *block_buf2;
+        int index_size, block, cmp_size, status, plain, ciso_total_block;
+        FILE *fin;
+        z_stream z;
+        
+        // Uncompress the CSO header
+        if((fin = fopen(file.dataTrackFileURL.path.fileSystemRepresentation, "rb")) == NULL)
+            return OEFileSupportNo;
+        
+        if(fread(&ciso, 1, sizeof(ciso), fin) != sizeof(ciso))
+            return OEFileSupportNo;
+        
+        if(ciso.magic[0] != 'C' || ciso.magic[1] != 'I' || ciso.magic[2] != 'S' || ciso.magic[3] != 'O' || ciso.block_size ==0  || ciso.total_bytes == 0)
+            return OEFileSupportNo;
+        
+        ciso_total_block = (int)ciso.total_bytes / ciso.block_size;
+        index_size = (ciso_total_block + 1 ) * sizeof(unsigned long);
+        index_buf  = malloc(index_size);
+        block_buf1 = malloc(ciso.block_size);
+        block_buf2 = malloc(ciso.block_size*2);
+        
+        if(!index_buf || !block_buf1 || !block_buf2)
+            return OEFileSupportNo;
+        
+        memset(index_buf,0,index_size);
+        
+        if( fread(index_buf, 1, index_size, fin) != index_size )
+            return OEFileSupportNo;
+        
+        // Init zlib
+        z.zalloc = Z_NULL;
+        z.zfree  = Z_NULL;
+        z.opaque = Z_NULL;
+        
+        NSMutableData *header = [[NSMutableData alloc] init];
+        
+        // 16 blocks are enough to get the header up to the serial
+        for(block = 0;block <= 16 ; block++)
+        {
+            if (inflateInit2(&z,-15) != Z_OK)
+                return OEFileSupportNo;
+            
+            index  = index_buf[block];
+            plain  = index & 0x80000000;
+            index  &= 0x7fffffff;
+            read_pos = index << (ciso.align);
+            if(plain)
+            {
+                read_size = ciso.block_size;
+            }
+            else
+            {
+                index2 = index_buf[block+1] & 0x7fffffff;
+                read_size = (index2-index) << (ciso.align);
+            }
+            fseek(fin,read_pos,SEEK_SET);
+            
+            z.avail_in  = (unsigned int)fread(block_buf2, 1, read_size , fin);
+            if(z.avail_in != read_size)
+                return OEFileSupportNo;
+            
+            if(plain)
+            {
+                memcpy(block_buf1,block_buf2,read_size);
+                cmp_size = (int)read_size;
+            }
+            else
+            {
+                z.next_out  = block_buf1;
+                z.avail_out = (unsigned int)ciso.block_size;
+                z.next_in   = block_buf2;
+                status = inflate(&z, Z_FULL_FLUSH);
+                if (status != Z_STREAM_END)
+                    return OEFileSupportNo;
+                cmp_size = (int)ciso.block_size - z.avail_out;
+                if(cmp_size != ciso.block_size)
+                    return OEFileSupportNo;
+            }
+            
+             [header appendData:[NSData dataWithBytes:block_buf1 length:cmp_size]];
+        }
+        fclose(fin);
+        
+        // Look for a Serial
+        NSString *serial = [[[NSString alloc]initWithData:[header subdataWithRange:NSMakeRange(0x8373, 10)] encoding:NSISOLatin1StringEncoding]  stringByTrimmingCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
+        NSLog(@"Serial: %@", serial);
+        NSLog(@"Serial Len: %lu", (unsigned long)[serial length]);
+              
+        if(![serial  isEqual: @""]) //We found a PSP-Serial so it's not a PS2 game
+            return OEFileSupportNo;
+        
+        return OEFileSupportYes;
+    }
+    
     if (!([file isKindOfClass:[OEDiscDescriptor class]] || [file.fileExtension caseInsensitiveCompare:@"iso"] == NSOrderedSame))
         return OEFileSupportNo;
 
