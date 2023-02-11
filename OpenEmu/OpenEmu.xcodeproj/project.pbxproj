@@ -3009,7 +3009,7 @@
 			path = OpenEmuQLGenerator;
 			sourceTree = "<group>";
 		};
-		3DB744761BD8B92A00C23E74 /* Playstation 2 */ = {
+		3DB744761BD8B92A00C23E74 /* PlayStation 2 */ = {
 			isa = PBXGroup;
 			children = (
 				3DB744771BD8B95300C23E74 /* OEPS2SystemController.h */,
@@ -3019,7 +3019,7 @@
 				3DB7447B1BD8B95300C23E74 /* OEPS2SystemResponderClient.h */,
 				3DB7447E1BD8B9C800C23E74 /* Supporting Files */,
 			);
-			path = "Playstation 2";
+			path = "PlayStation 2";
 			sourceTree = "<group>";
 		};
 		3DB7447E1BD8B9C800C23E74 /* Supporting Files */ = {
@@ -4306,7 +4306,7 @@
 				9405538617A34C6B009B505D /* PC Engine CD */,
 				94A22465170753D500098DA0 /* PC-FX */,
 				94A224F81707596200098DA0 /* PlayStation */,
-				3DB744761BD8B92A00C23E74 /* Playstation 2 */,
+				3DB744761BD8B92A00C23E74 /* PlayStation 2 */,
 				081A461F1B9572C400565444 /* Pokemon mini */,
 				94454EB617860E1E006C057B /* PSP */,
 				94A224D51707556D00098DA0 /* Saturn */,
