@@ -59,7 +59,7 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bhC-8g-P0A">
-                                                        <rect key="frame" x="147" y="5" width="25" height="14"/>
+                                                        <rect key="frame" x="140" y="4" width="25" height="14"/>
                                                         <buttonCell key="cell" type="bevel" title="Edit" bezelStyle="regularSquare" alignment="center" imageScaling="proportionallyDown" inset="2" id="OQp-kw-ica">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="systemMedium" size="11"/>
@@ -67,8 +67,8 @@
                                                     </button>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="bhC-8g-P0A" secondAttribute="trailing" constant="5" id="mun-Rt-4Hu"/>
-                                                    <constraint firstItem="bhC-8g-P0A" firstAttribute="centerY" secondItem="FHH-87-Out" secondAttribute="centerY" id="qDo-L6-8lj"/>
+                                                    <constraint firstAttribute="trailing" secondItem="bhC-8g-P0A" secondAttribute="trailing" constant="12" id="mun-Rt-4Hu"/>
+                                                    <constraint firstItem="bhC-8g-P0A" firstAttribute="centerY" secondItem="FHH-87-Out" secondAttribute="centerY" constant="1" id="qDo-L6-8lj"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="button" destination="bhC-8g-P0A" id="oah-PP-tlX"/>
