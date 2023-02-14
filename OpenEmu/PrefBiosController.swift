@@ -100,10 +100,6 @@ final class PrefBiosController: NSViewController {
         tableView.reloadData()
     }
     
-    private func importBIOSFile(_ url: URL) -> Bool {
-        return BIOSFile.checkIfBIOSFileAndImport(at: url)
-    }
-    
     @objc private func deleteBIOSFile(_ sender: Any?) {
         guard
             let file = items[tableView.clickedRow - 1] as? [String : Any],
@@ -154,27 +150,25 @@ extension PrefBiosController: NSTableViewDataSource {
     
     func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         
-        guard let files = info.draggingPasteboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] else { return false }
+        guard let fileURLs = info.draggingPasteboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] else { return false }
         
         var importedSomething = false
+        func importFile(at url: URL) {
+            importedSomething = BIOSFile.checkIfBIOSFileAndImport(at: url) || importedSomething
+        }
         
-        var recCheckURL: ((_ url: Any, _ idx: Int, _ stop: UnsafeMutablePointer<ObjCBool>) -> Void) = { url, idx, stop in }
-        let checkURL: ((Any, Int, UnsafeMutablePointer<ObjCBool>) -> Void) = { url, idx, stop in
-            let url = url as! URL
-            if url.isDirectory {
-                let dirEnum = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants])
+        for url in fileURLs {
+            if !url.isDirectory {
+                importFile(at: url)
+            } else {
+                let fm = FileManager.default
+                let dirEnum = fm.enumerator(at: url, includingPropertiesForKeys: [.isDirectoryKey, .isPackageKey], options: [.skipsHiddenFiles, .skipsPackageDescendants])!
                 
-                while let suburl = dirEnum?.nextObject() {
-                    recCheckURL(suburl, idx, stop)
+                for case let url as URL in dirEnum where !url.isDirectory {
+                    importFile(at: url)
                 }
             }
-            else if url.isFileURL {
-                importedSomething = self.importBIOSFile(url) || importedSomething
-            }
         }
-        recCheckURL = checkURL
-        
-        (files as NSArray).enumerateObjects(checkURL)
         
         return importedSomething
     }
