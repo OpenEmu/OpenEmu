@@ -481,7 +481,7 @@ final class OEDBSaveState: OEDBItem {
         let saveStateDirectoryURL = libraryDatabase.stateFolderURL(for: rom)
         let currentURL = url
         
-        let desiredName = NSURL.validFilename(from: displayName)
+        let desiredName = URL.validFilename(from: displayName)
         var desiredFileName = "\(desiredName).\(Self.bundleExtension)"
         var url = saveStateDirectoryURL.appendingPathComponent(desiredFileName, isDirectory: true)
         

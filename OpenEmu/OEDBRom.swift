@@ -346,18 +346,18 @@ final class OEDBRom: OEDBItem {
                systemPlugin.supportsDiscsWithDescriptorFile {
                 unsortedFolder = unsortedFolder.appendingPathComponent(baseName, isDirectory: true)
                 
-                unsortedFolder = (unsortedFolder as NSURL).uniqueURL { triesCount in
+                unsortedFolder = unsortedFolder.uniqueURL { triesCount in
                     let newName = "\(baseName) \(triesCount)"
-                    return unsortedFolder.deletingLastPathComponent().appendingPathComponent(newName, isDirectory: true) as NSURL
-                } as URL
+                    return unsortedFolder.deletingLastPathComponent().appendingPathComponent(newName, isDirectory: true)
+                }
                 
                 try? FileManager.default.createDirectory(at: unsortedFolder, withIntermediateDirectories: true, attributes: nil)
             }
             var romURL = unsortedFolder.appendingPathComponent(fullName as String)
-            romURL = (romURL as NSURL).uniqueURL { triesCount in
+            romURL = romURL.uniqueURL { triesCount in
                 let newName = "\(baseName) \(triesCount).\(pathExtension)"
-                return unsortedFolder.appendingPathComponent(newName) as NSURL
-            } as URL
+                return unsortedFolder.appendingPathComponent(newName)
+            }
             
             do {
                 let file = try? OEFile(url: url)

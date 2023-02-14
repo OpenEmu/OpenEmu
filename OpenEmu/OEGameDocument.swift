@@ -1651,9 +1651,9 @@ final class OEGameDocument: NSDocument {
         var temporaryStateFileURL = URL(string: UUID().uuidString, relativeTo: temporaryDirectoryURL)!
         let core = gameCoreManager.plugin!
         
-        temporaryStateFileURL = (temporaryStateFileURL as NSURL).uniqueURL { triesCount in
-            return NSURL(string: UUID().uuidString, relativeTo: temporaryDirectoryURL)!
-        } as URL
+        temporaryStateFileURL = temporaryStateFileURL.uniqueURL { triesCount in
+            return URL(string: UUID().uuidString, relativeTo: temporaryDirectoryURL)!
+        }
         
         gameCoreManager.saveStateToFile(at: temporaryStateFileURL) { success, error in
             if !success {

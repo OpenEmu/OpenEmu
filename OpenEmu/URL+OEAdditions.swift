@@ -59,6 +59,15 @@ extension URL {
         return resourceValues.isDirectory! && !resourceValues.isPackage!
     }
     
+    var fileSize: Int {
+        
+        guard let resourceValues = try? resourceValues(forKeys: [.fileSizeKey]) else {
+            return 0
+        }
+        
+        return resourceValues.fileSize!
+    }
+    
     func url(relativeTo url: URL) -> URL? {
         
         let selfAbsoluteString = standardized.absoluteString
@@ -71,6 +80,11 @@ extension URL {
         } else {
             return standardized
         }
+    }
+    
+    var hasImageSuffix: Bool {
+        let urlSuffix = pathExtension.lowercased()
+        return NSImage.imageTypes.contains(urlSuffix)
     }
     
     func isSubpath(of url: URL) -> Bool {
@@ -87,5 +101,23 @@ extension URL {
         }
         
         return true
+    }
+    
+    func uniqueURL(_ block: (Int) -> URL) -> URL {
+        
+        var result = self
+        var triesCount = 1
+        
+        while (try? result.checkResourceIsReachable()) == true {
+            triesCount += 1
+            result = block(triesCount)
+        }
+        
+        return result
+    }
+    
+    static func validFilename(from fileName: String) -> String {
+        let illegalFileNameCharacters = CharacterSet(charactersIn: "/\\?%*|\":<>")
+        return fileName.deleting(illegalFileNameCharacters)
     }
 }
