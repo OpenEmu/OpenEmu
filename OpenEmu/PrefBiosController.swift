@@ -43,11 +43,6 @@ final class PrefBiosController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.usesAutomaticRowHeights = true
-        tableView.floatsGroupRows = true
-        
         tableView.registerForDraggedTypes([.fileURL])
         
         let menu = NSMenu()

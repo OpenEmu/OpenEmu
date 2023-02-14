@@ -117,18 +117,6 @@ final class ShaderParametersViewController: NSViewController {
             noParametersLabel.centerYAnchor.constraint(equalTo: outlineView.centerYAnchor),
         ])
         
-        outlineView.delegate = self
-        outlineView.dataSource = self
-        
-        outlineView.headerView = nil
-        outlineView.gridStyleMask = []
-        outlineView.allowsColumnReordering = false
-        outlineView.allowsColumnResizing = false
-        outlineView.allowsColumnSelection = false
-        outlineView.allowsEmptySelection = true
-        outlineView.allowsMultipleSelection = false
-        outlineView.allowsTypeSelect = false
-        
         outlineView.register(NSNib(nibNamed: "SliderCell", bundle: nil), forIdentifier: .sliderType)
         outlineView.register(NSNib(nibNamed: "GroupCell", bundle: nil), forIdentifier: .groupType)
         outlineView.register(NSNib(nibNamed: "CheckboxCell", bundle: nil), forIdentifier: .checkBoxType)

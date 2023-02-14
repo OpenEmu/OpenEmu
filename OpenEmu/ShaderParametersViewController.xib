@@ -27,7 +27,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="339" height="334"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" usesAutomaticRowHeights="YES" viewBased="YES" indentationPerLevel="16" outlineTableColumn="WGV-x2-CcC" id="N0M-kh-BHs">
+                            <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" usesAutomaticRowHeights="YES" viewBased="YES" indentationPerLevel="16" outlineTableColumn="WGV-x2-CcC" id="N0M-kh-BHs">
                                 <rect key="frame" x="0.0" y="0.0" width="339" height="334"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <size key="intercellSpacing" width="2" height="3"/>
@@ -47,6 +47,10 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                     </tableColumn>
                                 </tableColumns>
+                                <connections>
+                                    <outlet property="dataSource" destination="-2" id="dGn-U3-vbF"/>
+                                    <outlet property="delegate" destination="-2" id="jx3-ep-xcw"/>
+                                </connections>
                             </outlineView>
                         </subviews>
                         <nil key="backgroundColor"/>

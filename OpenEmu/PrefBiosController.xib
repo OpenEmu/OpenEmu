@@ -136,6 +136,10 @@
                                 </prototypeCellViews>
                             </tableColumn>
                         </tableColumns>
+                        <connections>
+                            <outlet property="dataSource" destination="-2" id="zao-9o-t9R"/>
+                            <outlet property="delegate" destination="-2" id="zYb-1l-tut"/>
+                        </connections>
                     </tableView>
                 </subviews>
                 <nil key="backgroundColor"/>
