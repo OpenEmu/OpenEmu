@@ -116,10 +116,6 @@ final class ShaderParametersViewController: NSViewController {
             noParametersLabel.centerXAnchor.constraint(equalTo: outlineView.centerXAnchor),
             noParametersLabel.centerYAnchor.constraint(equalTo: outlineView.centerYAnchor),
         ])
-        
-        outlineView.register(NSNib(nibNamed: "SliderCell", bundle: nil), forIdentifier: .sliderType)
-        outlineView.register(NSNib(nibNamed: "GroupCell", bundle: nil), forIdentifier: .groupType)
-        outlineView.register(NSNib(nibNamed: "CheckboxCell", bundle: nil), forIdentifier: .checkBoxType)
     }
     
     private func loadShaderMenu() {

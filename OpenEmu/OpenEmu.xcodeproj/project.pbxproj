@@ -146,9 +146,6 @@
 		05201D7F2782501E0028CBE0 /* NameShaderPreset.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05201D7D2782501E0028CBE0 /* NameShaderPreset.xib */; };
 		052B92D4226EE66C00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
 		052EA5BC2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */; };
-		05410EF122F7538B00303424 /* SliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF022F7538B00303424 /* SliderCell.xib */; };
-		05410EF322F756BD00303424 /* GroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF222F756BD00303424 /* GroupCell.xib */; };
-		05410EF522F7573D00303424 /* CheckboxCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF422F7573D00303424 /* CheckboxCell.xib */; };
 		0544B68323D1355500F63D61 /* LibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B68223D1355400F63D61 /* LibraryController.swift */; };
 		0544B68923D14E6300F63D61 /* SidebarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B68823D14E6300F63D61 /* SidebarController.swift */; };
 		0544B69323D16D0C00F63D61 /* ImageCollectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0544B68B23D16D0B00F63D61 /* ImageCollectionHeaderView.xib */; };
@@ -184,8 +181,6 @@
 		059ECCC22524030D00DCA0F6 /* ShaderParametersWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */; };
 		05A002D423DE1006007F0DB7 /* UserDefaults+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */; };
 		05A002D623DE5389007F0DB7 /* SidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */; };
-		05A002DA23DE583E007F0DB7 /* SidebarHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */; };
-		05A002DC23DE5E1B007F0DB7 /* SidebarItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */; };
 		05B753A023330EB60063BD73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B753A123330EB60063BD73 /* Main.storyboard */; };
 		05D828D324E9849200BB975E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D828D224E9849200BB975E /* main.swift */; };
 		05D828D724E989B600BB975E /* OpenEmuKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0533EA5C24CDF9070095146E /* OpenEmuKit.framework */; };
@@ -1302,9 +1297,6 @@
 		052B92D2226EE5FA00701431 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBitmapImageRep+OEAdditions.swift"; sourceTree = "<group>"; };
 		0533EA5C24CDF9070095146E /* OpenEmuKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OpenEmuKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		05410EF022F7538B00303424 /* SliderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SliderCell.xib; sourceTree = "<group>"; };
-		05410EF222F756BD00303424 /* GroupCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupCell.xib; sourceTree = "<group>"; };
-		05410EF422F7573D00303424 /* CheckboxCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CheckboxCell.xib; sourceTree = "<group>"; };
 		0544B68223D1355400F63D61 /* LibraryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryController.swift; sourceTree = "<group>"; };
 		0544B68823D14E6300F63D61 /* SidebarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarController.swift; sourceTree = "<group>"; };
 		0544B68A23D16D0B00F63D61 /* ImageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewController.swift; sourceTree = "<group>"; };
@@ -1347,8 +1339,6 @@
 		05888F7325A111B000286232 /* ShaderParametersViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaderParametersViewController.xib; sourceTree = "<group>"; };
 		05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+OEAdditions.swift"; sourceTree = "<group>"; };
 		05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarHeaderView.swift; sourceTree = "<group>"; };
-		05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SidebarHeaderView.xib; sourceTree = "<group>"; };
-		05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SidebarItemView.xib; sourceTree = "<group>"; };
 		05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderParametersWindowController.swift; sourceTree = "<group>"; };
 		05B753A123330EB60063BD73 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		05D828D224E9849200BB975E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -2581,16 +2571,6 @@
 			path = "Other Assets";
 			sourceTree = "<group>";
 		};
-		05410EEF22F7535A00303424 /* Cell Views */ = {
-			isa = PBXGroup;
-			children = (
-				05410EF422F7573D00303424 /* CheckboxCell.xib */,
-				05410EF022F7538B00303424 /* SliderCell.xib */,
-				05410EF222F756BD00303424 /* GroupCell.xib */,
-			);
-			name = "Cell Views";
-			sourceTree = "<group>";
-		};
 		0544B68423D1415900F63D61 /* Collection View V2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2647,7 +2627,6 @@
 				8F7BFC9723E653E100B1F6C8 /* ShaderParameters.xib */,
 				05888F3925A0373300286232 /* ShaderParametersViewController.swift */,
 				05888F7325A111B000286232 /* ShaderParametersViewController.xib */,
-				05410EEF22F7535A00303424 /* Cell Views */,
 			);
 			name = Shaders;
 			sourceTree = "<group>";
@@ -3266,8 +3245,6 @@
 				0544B68823D14E6300F63D61 /* SidebarController.swift */,
 				8F99F815256BF358007B83E1 /* SidebarController.xib */,
 				05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */,
-				05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */,
-				05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */,
 			);
 			name = Sidebar;
 			sourceTree = "<group>";
@@ -5833,10 +5810,7 @@
 				8F057160254E7EA5003B36FD /* MainMenu.strings in Resources */,
 				8F071F3B1C255362007B76DA /* Credits.rtf in Resources */,
 				0544B69623D16D0C00F63D61 /* ImageCollectionViewItem.xib in Resources */,
-				05410EF522F7573D00303424 /* CheckboxCell.xib in Resources */,
-				05A002DA23DE583E007F0DB7 /* SidebarHeaderView.xib in Resources */,
 				83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */,
-				05410EF122F7538B00303424 /* SliderCell.xib in Resources */,
 				83B04E421968610F00CB985E /* Localizable.strings in Resources */,
 				05201D7F2782501E0028CBE0 /* NameShaderPreset.xib in Resources */,
 				051DDCB723E5D9E400325147 /* AvailableLibrariesViewController.xib in Resources */,
@@ -5865,11 +5839,9 @@
 				83B04E411968610F00CB985E /* InfoPlist.strings in Resources */,
 				8F99F816256BF358007B83E1 /* SidebarController.xib in Resources */,
 				83495DD819A38F3D009DB6E5 /* PrefBiosController.xib in Resources */,
-				05A002DC23DE5E1B007F0DB7 /* SidebarItemView.xib in Resources */,
 				83338C2217A281C7007E32E9 /* secret.mp3 in Resources */,
 				05888F7425A111B000286232 /* ShaderParametersViewController.xib in Resources */,
 				94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */,
-				05410EF322F756BD00303424 /* GroupCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

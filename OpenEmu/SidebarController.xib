@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -33,7 +33,7 @@
                                 <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn width="197" minWidth="16" maxWidth="1000" id="TQT-sV-f9j">
+                                    <tableColumn width="168" minWidth="16" maxWidth="1000" id="TQT-sV-f9j">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -44,6 +44,73 @@
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        <prototypeCellViews>
+                                            <tableCellView identifier="SidebarHeaderView" id="FHH-87-Out" customClass="SidebarHeaderView" customModule="OpenEmu" customModuleProvider="target">
+                                                <rect key="frame" x="11" y="0.0" width="177" height="24"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <subviews>
+                                                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ctf-sj-8NC">
+                                                        <rect key="frame" x="0.0" y="4" width="177" height="14"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="HEADER" id="3qs-Xp-qVZ">
+                                                            <font key="font" metaFont="systemMedium" size="11"/>
+                                                            <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bhC-8g-P0A">
+                                                        <rect key="frame" x="147" y="5" width="25" height="14"/>
+                                                        <buttonCell key="cell" type="bevel" title="Edit" bezelStyle="regularSquare" alignment="center" imageScaling="proportionallyDown" inset="2" id="OQp-kw-ica">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="systemMedium" size="11"/>
+                                                        </buttonCell>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="bhC-8g-P0A" secondAttribute="trailing" constant="5" id="mun-Rt-4Hu"/>
+                                                    <constraint firstItem="bhC-8g-P0A" firstAttribute="centerY" secondItem="FHH-87-Out" secondAttribute="centerY" id="qDo-L6-8lj"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="button" destination="bhC-8g-P0A" id="oah-PP-tlX"/>
+                                                    <outlet property="textField" destination="ctf-sj-8NC" id="Hve-Ml-fV0"/>
+                                                </connections>
+                                            </tableCellView>
+                                            <tableCellView identifier="SidebarItemView" id="F4F-Fu-gMf">
+                                                <rect key="frame" x="11" y="24" width="177" height="24"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <subviews>
+                                                    <imageView translatesAutoresizingMaskIntoConstraints="NO" id="zjZ-Id-6Bt">
+                                                        <rect key="frame" x="0.0" y="-3" width="20" height="31"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="zjZ-Id-6Bt" secondAttribute="height" multiplier="1:1" id="6FB-9V-4gu"/>
+                                                        </constraints>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" imageScaling="proportionallyDown" image="NSActionTemplate" id="ZlA-Jm-uTm"/>
+                                                    </imageView>
+                                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="V1E-ia-5Re">
+                                                        <rect key="frame" x="26" y="4" width="153" height="16"/>
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="ITEM" usesSingleLineMode="YES" id="1Hi-Ln-O4T">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                        <connections>
+                                                            <action selector="endedEditingItem:" target="-2" id="5K3-QP-ziQ"/>
+                                                        </connections>
+                                                    </textField>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="V1E-ia-5Re" firstAttribute="leading" secondItem="zjZ-Id-6Bt" secondAttribute="trailing" constant="8" id="7b3-NP-6jj"/>
+                                                    <constraint firstItem="zjZ-Id-6Bt" firstAttribute="centerY" secondItem="F4F-Fu-gMf" secondAttribute="centerY" id="Icg-Mx-5jZ"/>
+                                                    <constraint firstItem="V1E-ia-5Re" firstAttribute="centerY" secondItem="F4F-Fu-gMf" secondAttribute="centerY" id="JzY-bj-NHY"/>
+                                                    <constraint firstItem="zjZ-Id-6Bt" firstAttribute="leading" secondItem="F4F-Fu-gMf" secondAttribute="leading" id="ZKa-Uh-K26"/>
+                                                    <constraint firstAttribute="trailing" secondItem="V1E-ia-5Re" secondAttribute="trailing" id="wb1-RD-uQN"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="imageView" destination="zjZ-Id-6Bt" id="ioH-zI-h0x"/>
+                                                    <outlet property="textField" destination="V1E-ia-5Re" id="uDE-jL-ahT"/>
+                                                </connections>
+                                            </tableCellView>
+                                        </prototypeCellViews>
                                     </tableColumn>
                                 </tableColumns>
                                 <connections>
@@ -88,7 +155,7 @@
                             </textFieldCell>
                         </textField>
                         <button translatesAutoresizingMaskIntoConstraints="NO" id="Nvs-ey-EH6" customClass="GameScannerButton" customModule="OpenEmu" customModuleProvider="target">
-                            <rect key="frame" x="166" y="24" width="26" height="26"/>
+                            <rect key="frame" x="166" y="22" width="26" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="26" id="CFR-jn-zSg"/>
                                 <constraint firstAttribute="width" constant="26" id="ddZ-Gv-tdq"/>
@@ -105,7 +172,7 @@
                             <rect key="frame" x="15" y="31" width="150" height="12"/>
                         </progressIndicator>
                         <button hidden="YES" verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vaP-Xa-Oni">
-                            <rect key="frame" x="15" y="8" width="115" height="20"/>
+                            <rect key="frame" x="15" y="8" width="107" height="20"/>
                             <buttonCell key="cell" type="inline" title="Resolve Issues" bezelStyle="inline" image="arrow_right" imagePosition="trailing" controlSize="small" lineBreakMode="truncatingTail" inset="2" id="dGi-Zi-KFE">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="smallSystemBold"/>
@@ -152,7 +219,8 @@
         </viewController>
     </objects>
     <resources>
-        <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
+        <image name="NSActionTemplate" width="20" height="20"/>
+        <image name="NSStopProgressFreestandingTemplate" width="20" height="20"/>
         <image name="arrow_right" width="20" height="20"/>
     </resources>
 </document>
