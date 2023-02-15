@@ -184,7 +184,6 @@
 		059ECCC22524030D00DCA0F6 /* ShaderParametersWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */; };
 		05A002D423DE1006007F0DB7 /* UserDefaults+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */; };
 		05A002D623DE5389007F0DB7 /* SidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */; };
-		05A002D823DE539F007F0DB7 /* SidebarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D723DE539F007F0DB7 /* SidebarItemView.swift */; };
 		05A002DA23DE583E007F0DB7 /* SidebarHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */; };
 		05A002DC23DE5E1B007F0DB7 /* SidebarItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */; };
 		05B753A023330EB60063BD73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B753A123330EB60063BD73 /* Main.storyboard */; };
@@ -1348,7 +1347,6 @@
 		05888F7325A111B000286232 /* ShaderParametersViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaderParametersViewController.xib; sourceTree = "<group>"; };
 		05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+OEAdditions.swift"; sourceTree = "<group>"; };
 		05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarHeaderView.swift; sourceTree = "<group>"; };
-		05A002D723DE539F007F0DB7 /* SidebarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItemView.swift; sourceTree = "<group>"; };
 		05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SidebarHeaderView.xib; sourceTree = "<group>"; };
 		05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SidebarItemView.xib; sourceTree = "<group>"; };
 		05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderParametersWindowController.swift; sourceTree = "<group>"; };
@@ -1519,9 +1517,7 @@
 		82DE4AEF1026533E007184EB /* XADMaster.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XADMaster.framework; sourceTree = "<group>"; };
 		8301557A1456BF7A0093D681 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		8306CD0E1BD3AC180025BC6C /* LibraryGamesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryGamesViewController.swift; sourceTree = "<group>"; };
-		8306CD181BD3AC3D0025BC6C /* OESidebarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarController.m; sourceTree = "<group>"; };
 		8306CD1F1BD3AC3D0025BC6C /* SidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
-		8306CD211BD3AC3D0025BC6C /* SidebarOutlineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarOutlineView.swift; sourceTree = "<group>"; };
 		8306CD3B1BD3DB180025BC6C /* OEGameCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCollectionViewController.h; sourceTree = "<group>"; };
 		8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCollectionViewController.m; sourceTree = "<group>"; };
 		8306CD3D1BD3DB180025BC6C /* OEGameCollectionViewItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCollectionViewItemProtocol.h; sourceTree = "<group>"; };
@@ -3271,10 +3267,7 @@
 				8F99F815256BF358007B83E1 /* SidebarController.xib */,
 				05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */,
 				05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */,
-				05A002D723DE539F007F0DB7 /* SidebarItemView.swift */,
 				05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */,
-				8306CD181BD3AC3D0025BC6C /* OESidebarController.m */,
-				8306CD211BD3AC3D0025BC6C /* SidebarOutlineView.swift */,
 			);
 			name = Sidebar;
 			sourceTree = "<group>";
@@ -6546,7 +6539,6 @@
 				83495DD419A38F31009DB6E5 /* PrefBiosController.swift in Sources */,
 				0544B69423D16D0C00F63D61 /* ImageCollectionViewItem.swift in Sources */,
 				C69DCD010FE994A5009AE5A6 /* PluginDocument.swift in Sources */,
-				05A002D823DE539F007F0DB7 /* SidebarItemView.swift in Sources */,
 				05A002D423DE1006007F0DB7 /* UserDefaults+OEAdditions.swift in Sources */,
 				8F8DB27B26D2A69E003CF106 /* PreferencePane.swift in Sources */,
 				1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */,

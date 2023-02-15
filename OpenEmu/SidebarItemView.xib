@@ -9,7 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="SidebarController" customModule="OpenEmu" customModuleProvider="target"/>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <tableCellView identifier="SidebarItemView" translatesAutoresizingMaskIntoConstraints="NO" id="F4F-Fu-gMf" customClass="SidebarItemView" customModule="OpenEmu" customModuleProvider="target">
+        <tableCellView identifier="SidebarItemView" translatesAutoresizingMaskIntoConstraints="NO" id="F4F-Fu-gMf">
             <rect key="frame" x="0.0" y="0.0" width="200" height="24"/>
             <subviews>
                 <imageView translatesAutoresizingMaskIntoConstraints="NO" id="zjZ-Id-6Bt">
