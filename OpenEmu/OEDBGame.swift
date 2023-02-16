@@ -365,7 +365,9 @@ final class OEDBGame: OEDBGameObjC {
     @objc(setBoxImageByURL:)
     func setBoxImage(url: URL) {
         let url = url.standardizedFileURL.absoluteURL
-        let dictionary = OEDBImage.prepareImage(with: url)
+        guard let dictionary = OEDBImage.prepareImage(with: url)
+        else { return }
+        
         let context = managedObjectContext
         context?.performAndWait {
             if let currentImage = boxImage {
