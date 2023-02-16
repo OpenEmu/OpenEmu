@@ -19,7 +19,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSPrincipalClass</key>
-	<string>OEOdyssey2SystemController</string>
+	<string>$(PRODUCT_NAME:c99extidentifier).OEOdyssey2SystemController</string>
 	<key>OEControlListKey</key>
 	<array>
 		<array>

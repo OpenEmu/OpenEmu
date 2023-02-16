@@ -19,7 +19,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSPrincipalClass</key>
-	<string>OEGenesisSystemController</string>
+	<string>$(PRODUCT_NAME:c99extidentifier).OEGenesisSystemController</string>
 	<key>OEControlListKey</key>
 	<array>
 		<array>

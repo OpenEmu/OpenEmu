@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2023, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,15 +22,11 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "OEGBSystemController.h"
+import Foundation
+import OpenEmuSystem
 
-@implementation OEGBSystemController
-
-- (CGFloat)coverAspectRatio
-{
-    return ([[OELocalizationHelper sharedHelper] isRegionJPN]
-            ? 1.2
-            : 1);
+class OEGBSystemController: OESystemController {
+    override var coverAspectRatio: CGFloat {
+        return OELocalizationHelper.shared.isRegionJPN ? 1.2 : 1
+    }
 }
-
-@end

@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2023, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,9 +22,34 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-@import OpenEmuSystem;
+import Foundation
+import OpenEmuSystem
 
-OE_EXPORTED_CLASS
-@interface OEGBASystemController : OESystemController
+class OEGenesisSystemController: OESystemController {
+    override var systemIcon: NSImage? {
+        let imageName = OELocalizationHelper.shared.isRegionNA
+            ? "genesis_library"
+            : "megadrive_library"
 
-@end
+        var image = NSImage(named: imageName)
+        if image == nil {
+            let bundle = Bundle(for: Self.self)
+            image = bundle.image(forResource: imageName)
+            image?.setName(imageName)
+        }
+        return image
+    }
+
+    override func canHandle(_ file: OEFile) -> OEFileSupport {
+        if file.fileExtension != "bin" {
+            return .uncertain
+        }
+
+        let dataString = file.readASCIIString(in: NSRange(location: 0x100, length: 16))
+        if dataString.hasPrefix("SEGA GENESIS") || dataString.hasPrefix("SEGA MEGA DRIVE") {
+            return .yes
+        }
+
+        return .no
+    }
+}

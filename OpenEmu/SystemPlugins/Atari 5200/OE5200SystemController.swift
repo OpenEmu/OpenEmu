@@ -1,4 +1,4 @@
-// Copyright (c) 2020, OpenEmu Team
+// Copyright (c) 2023, OpenEmu Team
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -22,15 +22,11 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "OEGBASystemController.h"
+import Foundation
+import OpenEmuSystem
 
-@implementation OEGBASystemController
-
-- (CGFloat)coverAspectRatio
-{
-    return ([[OELocalizationHelper sharedHelper] isRegionJPN]
-            ? 0.64
-            : 1);
+class OE5200SystemController: OESystemController {
+    override func canHandle(_ file: OEFile) -> OEFileSupport {
+        return file.fileSize < 2_097_152 ? .uncertain : .no
+    }
 }
-
-@end
