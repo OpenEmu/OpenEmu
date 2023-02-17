@@ -642,7 +642,7 @@ final class OEGameDocument: NSDocument {
     }
     
     private func setUpGameCoreManager(using core: OECorePlugin, completionHandler: @escaping () -> Void) {
-        assert(core != gameCoreManager?.plugin, "Do not attempt to run a new core using the same plug-in as the current one.")
+        assert(core != corePlugin, "Do not attempt to run a new core using the same plug-in as the current one.")
         
         emulationStatus = .notSetup
         gameCoreManager?.stopEmulation() {
@@ -699,9 +699,9 @@ final class OEGameDocument: NSDocument {
         if let managerClassName = UserDefaults.standard.string(forKey: OEGameCoreManagerModePreferenceKey),
            let managerClass = NSClassFromString(managerClassName),
            managerClass == OEThreadGameCoreManager.self {
-            return OEThreadGameCoreManager(startupInfo: info, corePlugin: corePlugin, systemPlugin: systemPlugin, gameCoreOwner: self)
+            return OEThreadGameCoreManager(startupInfo: info, gameCoreOwner: self)
         } else {
-            return OEXPCGameCoreManager(startupInfo: info, corePlugin: corePlugin, systemPlugin: systemPlugin, gameCoreOwner: self)
+            return OEXPCGameCoreManager(startupInfo: info, gameCoreOwner: self)
         }
     }
     
@@ -729,11 +729,11 @@ final class OEGameDocument: NSDocument {
     
     private func checkRequiredFiles() -> Bool {
         // Check current system plugin for OERequiredFiles and core plugin for OEGameCoreRequiresFiles opt-in
-        if gameCoreManager?.plugin?.controller?.requiresFiles(forSystemIdentifier: systemPlugin.systemIdentifier) == false {
+        if corePlugin.controller?.requiresFiles(forSystemIdentifier: systemPlugin.systemIdentifier) == false {
             return true
         }
         
-        if let validRequiredFiles = gameCoreManager?.plugin?.controller?.requiredFiles(forSystemIdentifier: systemPlugin.systemIdentifier) {
+        if let validRequiredFiles = corePlugin.controller?.requiredFiles(forSystemIdentifier: systemPlugin.systemIdentifier) {
             return BIOSFile.requiredFilesAvailable(forSystemIdentifier: validRequiredFiles)
         } else {
             return true
@@ -742,18 +742,13 @@ final class OEGameDocument: NSDocument {
     
     /// Check current system plugin for OpenEmu is the correct architecture and returns `false` if it can't be loaded.
     private func checkLoadableController() throws {
-        guard let gameCorePlugin = gameCoreManager?.plugin else {
-            // Punt it down to `checkRequiredFiles()`
-            return
-        }
-        
-        try gameCorePlugin.bundle.preflight()
+        try corePlugin.bundle.preflight()
     }
     
     @discardableResult
     private func checkGlitches() -> Bool {
         let OEGameCoreGlitchesKey = OEAlert.OEGameCoreGlitchesSuppressionKey
-        let coreName = gameCoreManager?.plugin?.controller?.pluginName ?? ""
+        let coreName = corePlugin.controller?.pluginName ?? ""
         let systemIdentifier = systemPlugin.systemIdentifier
         let systemKey = "\(coreName).\(systemIdentifier)"
         let defaults = UserDefaults.standard
@@ -761,7 +756,7 @@ final class OEGameDocument: NSDocument {
         let glitchInfo = defaults.object(forKey: OEGameCoreGlitchesKey) as? [String : Bool] ?? [:]
         let showAlert = !(glitchInfo[systemKey] ?? false)
         
-        if (gameCoreManager?.plugin?.controller?.hasGlitches(forSystemIdentifier: systemPlugin.systemIdentifier) ?? false) && showAlert {
+        if (corePlugin.controller?.hasGlitches(forSystemIdentifier: systemPlugin.systemIdentifier) ?? false) && showAlert {
             
             let message = String(format: NSLocalizedString("The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", comment: ""), coreName, coreName)
             let alert = OEAlert()
@@ -787,21 +782,21 @@ final class OEGameDocument: NSDocument {
     }
     
     private func checkDeprecatedCore() -> Bool {
-        guard gameCoreManager?.plugin?.isDeprecated == true else {
+        guard corePlugin.isDeprecated == true else {
             return false
         }
         
-        let coreName = gameCoreManager?.plugin?.controller?.pluginName ?? ""
+        let coreName = corePlugin.controller?.pluginName ?? ""
         let systemIdentifier = systemPlugin.systemIdentifier
         
-        let removalDate = gameCoreManager?.plugin?.infoDictionary[OEGameCoreSupportDeadlineKey] as? Date
+        let removalDate = corePlugin.infoDictionary[OEGameCoreSupportDeadlineKey] as? Date
         var deadlineInMoreThanOneMonth = false
         let oneMonth: TimeInterval = 30 * 24 * 60 * 60
         if removalDate == nil || removalDate!.timeIntervalSinceNow > oneMonth {
             deadlineInMoreThanOneMonth = true
         }
         
-        let replacements = gameCoreManager?.plugin?.infoDictionary[OEGameCoreSuggestedReplacement] as? [String : String]
+        let replacements = corePlugin.infoDictionary[OEGameCoreSuggestedReplacement] as? [String : String]
         let replacement = replacements?[systemIdentifier]
         var replacementName: String?
         var download: CoreDownload?
@@ -845,7 +840,7 @@ final class OEGameDocument: NSDocument {
             let defaults = UserDefaults.standard
             let prefKey = "defaultCore." + systemIdentifier
             let currentCore = defaults.string(forKey: prefKey)
-            let deprecatedIsDefault = currentCore == gameCoreManager?.plugin?.bundleIdentifier
+            let deprecatedIsDefault = currentCore == corePlugin.bundleIdentifier
             
             if deprecatedIsDefault {
                 alert.addButton(withTitle: String(format: NSLocalizedString("Install %@ and Set as Default", comment: ""), replacementName!))
@@ -1106,7 +1101,7 @@ final class OEGameDocument: NSDocument {
             return
         }
         
-        if plugin.bundleIdentifier == gameCoreManager?.plugin?.bundleIdentifier {
+        if plugin.bundleIdentifier == corePlugin.bundleIdentifier {
             return
         }
         
@@ -1264,7 +1259,7 @@ final class OEGameDocument: NSDocument {
     // MARK: - Cheats
     
     var supportsCheats: Bool {
-        return gameCoreManager?.plugin?.controller?.supportsCheatCode(forSystemIdentifier: systemPlugin.systemIdentifier) == true
+        return corePlugin.controller?.supportsCheatCode(forSystemIdentifier: systemPlugin.systemIdentifier) == true
     }
     
     @IBAction func addCheat(_ sender: AnyObject) {
@@ -1324,7 +1319,7 @@ final class OEGameDocument: NSDocument {
     // MARK: - Discs
     
     var supportsMultipleDiscs: Bool {
-        return gameCoreManager?.plugin?.controller?.supportsMultipleDiscs(forSystemIdentifier: systemPlugin.systemIdentifier) == true
+        return corePlugin.controller?.supportsMultipleDiscs(forSystemIdentifier: systemPlugin.systemIdentifier) == true
     }
     
     @IBAction func setDisc(_ sender: AnyObject) {
@@ -1336,7 +1331,7 @@ final class OEGameDocument: NSDocument {
     // MARK: - File Insertion
     
     var supportsFileInsertion: Bool {
-        return gameCoreManager?.plugin?.controller?.supportsFileInsertion(forSystemIdentifier: systemPlugin.systemIdentifier) == true
+        return corePlugin.controller?.supportsFileInsertion(forSystemIdentifier: systemPlugin.systemIdentifier) == true
     }
     
     @IBAction func insertFile(_ sender: AnyObject?) {
@@ -1392,7 +1387,7 @@ final class OEGameDocument: NSDocument {
     // MARK: - Display Mode
     
     var supportsDisplayModeChange: Bool {
-        return gameCoreManager?.plugin?.controller?.supportsDisplayModeChange(forSystemIdentifier: systemPlugin.systemIdentifier) == true
+        return corePlugin.controller?.supportsDisplayModeChange(forSystemIdentifier: systemPlugin.systemIdentifier) == true
     }
     
     @IBAction func nextDisplayMode(_ sender: Any?) {
@@ -1579,7 +1574,7 @@ final class OEGameDocument: NSDocument {
     // MARK: - Saving States
     
     var supportsSaveStates: Bool {
-        return gameCoreManager?.plugin?.controller?.saveStatesNotSupported(forSystemIdentifier: systemPlugin.systemIdentifier) == false
+        return corePlugin.controller?.saveStatesNotSupported(forSystemIdentifier: systemPlugin.systemIdentifier) == false
     }
     
     @objc private func saveState(_ sender: Any?) {
@@ -1642,7 +1637,7 @@ final class OEGameDocument: NSDocument {
             supportsSaveStates,
             emulationStatus.rawValue > EmulationStatus.starting.rawValue,
             let rom = rom,
-            let core = gameCoreManager?.plugin
+            let core = corePlugin
         else {
             handler?()
             return
@@ -1759,7 +1754,7 @@ final class OEGameDocument: NSDocument {
             }
         }
         
-        if gameCoreManager?.plugin?.bundleIdentifier == state.coreIdentifier {
+        if coreIdentifier == state.coreIdentifier {
             loadState()
             return
         }
