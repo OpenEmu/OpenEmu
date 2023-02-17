@@ -43,10 +43,9 @@ class AppDelegate: NSObject {
     static let userGuideAddress = "https://github.com/OpenEmu/OpenEmu/wiki/User-guide"
     static let releaseNotesAddress = "https://github.com/OpenEmu/OpenEmu/wiki/Release-notes"
     static let feedbackAddress = "https://github.com/OpenEmu/OpenEmu/issues"
-    static let localizationGuideAddress = "https://github.com/OpenEmu/OpenEmu/wiki/Developers:-Translation-Guide-(First-Draft)"
     
     @IBOutlet weak var fileMenu: NSMenu!
-    @IBOutlet weak var localizationGuideMenuItem: NSMenuItem!
+    @IBOutlet weak var helpMenu: NSMenu!
     
     lazy var mainWindowController = MainWindowController(windowNibName: "MainWindow")
     
@@ -500,8 +499,8 @@ class AppDelegate: NSObject {
         NSWorkspace.shared.open(URL(string: AppDelegate.feedbackAddress)!)
     }
     
-    @IBAction func showOELocalizationGuide(_ sender: AnyObject?) {
-        NSWorkspace.shared.open(URL(string: AppDelegate.localizationGuideAddress)!)
+    @IBAction func showAppSupportFolder(_ sender: AnyObject?) {
+        NSWorkspace.shared.open(.oeApplicationSupportDirectory)
     }
     
     @IBAction func showOpenEmuWindow(_ sender: AnyObject?) {
@@ -771,19 +770,13 @@ extension AppDelegate: NSMenuDelegate {
         notificationCenter.removeObserver(self, name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
     }
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Hide link to localization guide if localization for preferred language exists
-        let preferredLanguage = NSLocale.preferredLanguages[0]
-        for localization in Bundle.main.localizations {
-            if preferredLanguage.contains(localization) && preferredLanguage.prefix(2) != "ru" {
-                localizationGuideMenuItem.isHidden  = true
-                break
-            }
-        }
         
-        if NSClassFromString("NSTouchBar") != nil {
-            // Get the “Customize Touch Bar…” menu to display in the View menu.
-            NSApp.isAutomaticCustomizeTouchBarMenuItemEnabled = true
-        }
+        // Get the “Customize Touch Bar…” menu to display in the View menu.
+        NSApp.isAutomaticCustomizeTouchBarMenuItemEnabled = true
+        
+        #if DEBUG
+        helpMenu.addItem(withTitle: "Show Application Support Folder in Finder", action: #selector(showAppSupportFolder), keyEquivalent: "")
+        #endif
         
         let notificationCenter = NotificationCenter.default
         
