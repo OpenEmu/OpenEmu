@@ -147,10 +147,7 @@
                                         <rect key="frame" x="413" y="23" width="75" height="22"/>
                                         <subviews>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="v4D-FA-cUv">
-                                                <rect key="frame" x="1" y="2" width="74" height="18"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="74" id="jrK-PA-ZUn"/>
-                                                </constraints>
+                                                <rect key="frame" x="0.0" y="2" width="75" height="18"/>
                                                 <buttonCell key="cell" type="inline" title="INST_UPD" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="NsM-jG-bby">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="smallSystemBold"/>
@@ -163,8 +160,9 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="v4D-FA-cUv" secondAttribute="bottom" constant="2" id="Hyw-rl-w5R"/>
+                                            <constraint firstItem="v4D-FA-cUv" firstAttribute="leading" secondItem="PgT-HZ-5zA" secondAttribute="leading" id="PMq-U6-LWh"/>
+                                            <constraint firstAttribute="trailing" secondItem="v4D-FA-cUv" secondAttribute="trailing" id="Qpq-Zq-GLW"/>
                                             <constraint firstItem="v4D-FA-cUv" firstAttribute="top" secondItem="PgT-HZ-5zA" secondAttribute="top" constant="2" id="mGg-dz-eLf"/>
-                                            <constraint firstItem="v4D-FA-cUv" firstAttribute="centerX" secondItem="PgT-HZ-5zA" secondAttribute="centerX" id="pkg-hg-24e"/>
                                         </constraints>
                                     </tableCellView>
                                     <tableCellView identifier="installProgressCell" translatesAutoresizingMaskIntoConstraints="NO" id="Egz-N3-POl">
