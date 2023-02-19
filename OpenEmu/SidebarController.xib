@@ -64,6 +64,7 @@
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="systemMedium" size="11"/>
                                                         </buttonCell>
+                                                        <color key="contentTintColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
