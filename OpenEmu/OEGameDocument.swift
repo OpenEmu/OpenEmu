@@ -67,7 +67,7 @@ final class OEGameDocument: NSDocument {
         case noCoreForSaveState
         case importRequired
         case couldNotLoadROM
-        case gameCoreCrashed(OECorePlugin, String?, NSError)
+        case gameCoreCrashed(OECorePlugin, String, NSError)
         case invalidSaveState
         case libraryDatabaseUnavailable
         case noSystemPlugin
@@ -572,7 +572,8 @@ final class OEGameDocument: NSDocument {
     
     func setUpGame(completionHandler handler: @escaping (_ success: Bool, _ error: Error?) -> Void) {
         do {
-            try checkLoadableController()
+            // TODO: Remove after further testing.
+            try corePlugin.bundle.loadAndReturnError()
         } catch {
             handler(false, error)
             return
@@ -729,26 +730,21 @@ final class OEGameDocument: NSDocument {
     
     private func checkRequiredFiles() -> Bool {
         // Check current system plugin for OERequiredFiles and core plugin for OEGameCoreRequiresFiles opt-in
-        if corePlugin.controller?.requiresFiles(forSystemIdentifier: systemPlugin.systemIdentifier) == false {
+        if !corePlugin.requiresFiles(forSystemIdentifier: systemPlugin.systemIdentifier) {
             return true
         }
         
-        if let validRequiredFiles = corePlugin.controller?.requiredFiles(forSystemIdentifier: systemPlugin.systemIdentifier) {
+        if let validRequiredFiles = corePlugin.requiredFiles(forSystemIdentifier: systemPlugin.systemIdentifier) {
             return BIOSFile.requiredFilesAvailable(forSystemIdentifier: validRequiredFiles)
         } else {
             return true
         }
     }
     
-    /// Check current system plugin for OpenEmu is the correct architecture and returns `false` if it can't be loaded.
-    private func checkLoadableController() throws {
-        try corePlugin.bundle.preflight()
-    }
-    
     @discardableResult
     private func checkGlitches() -> Bool {
         let OEGameCoreGlitchesKey = OEAlert.OEGameCoreGlitchesSuppressionKey
-        let coreName = corePlugin.controller?.pluginName ?? ""
+        let coreName = corePlugin.displayName
         let systemIdentifier = systemPlugin.systemIdentifier
         let systemKey = "\(coreName).\(systemIdentifier)"
         let defaults = UserDefaults.standard
@@ -756,7 +752,7 @@ final class OEGameDocument: NSDocument {
         let glitchInfo = defaults.object(forKey: OEGameCoreGlitchesKey) as? [String : Bool] ?? [:]
         let showAlert = !(glitchInfo[systemKey] ?? false)
         
-        if (corePlugin.controller?.hasGlitches(forSystemIdentifier: systemPlugin.systemIdentifier) ?? false) && showAlert {
+        if corePlugin.hasGlitches(forSystemIdentifier: systemPlugin.systemIdentifier) && showAlert {
             
             let message = String(format: NSLocalizedString("The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", comment: ""), coreName, coreName)
             let alert = OEAlert()
@@ -786,7 +782,7 @@ final class OEGameDocument: NSDocument {
             return false
         }
         
-        let coreName = corePlugin.controller?.pluginName ?? ""
+        let coreName = corePlugin.displayName
         let systemIdentifier = systemPlugin.systemIdentifier
         
         let removalDate = corePlugin.infoDictionary[OEGameCoreSupportDeadlineKey] as? Date
@@ -803,7 +799,7 @@ final class OEGameDocument: NSDocument {
         
         if let replacement = replacement {
             if let plugin = OECorePlugin.corePlugin(bundleIdentifier: replacement) {
-                replacementName = plugin.controller?.pluginName
+                replacementName = plugin.displayName
             } else {
                 let repl = CoreUpdater.shared.coreList.firstIndex(where: { $0.bundleIdentifier.caseInsensitiveCompare(replacement) == .orderedSame })
                 if let repl = repl {
@@ -1259,7 +1255,7 @@ final class OEGameDocument: NSDocument {
     // MARK: - Cheats
     
     var supportsCheats: Bool {
-        return corePlugin.controller?.supportsCheatCode(forSystemIdentifier: systemPlugin.systemIdentifier) == true
+        return corePlugin.supportsCheatCode(forSystemIdentifier: systemPlugin.systemIdentifier)
     }
     
     @IBAction func addCheat(_ sender: AnyObject) {
@@ -1319,7 +1315,7 @@ final class OEGameDocument: NSDocument {
     // MARK: - Discs
     
     var supportsMultipleDiscs: Bool {
-        return corePlugin.controller?.supportsMultipleDiscs(forSystemIdentifier: systemPlugin.systemIdentifier) == true
+        return corePlugin.supportsMultipleDiscs(forSystemIdentifier: systemPlugin.systemIdentifier)
     }
     
     @IBAction func setDisc(_ sender: AnyObject) {
@@ -1331,7 +1327,7 @@ final class OEGameDocument: NSDocument {
     // MARK: - File Insertion
     
     var supportsFileInsertion: Bool {
-        return corePlugin.controller?.supportsFileInsertion(forSystemIdentifier: systemPlugin.systemIdentifier) == true
+        return corePlugin.supportsFileInsertion(forSystemIdentifier: systemPlugin.systemIdentifier)
     }
     
     @IBAction func insertFile(_ sender: AnyObject?) {
@@ -1387,7 +1383,7 @@ final class OEGameDocument: NSDocument {
     // MARK: - Display Mode
     
     var supportsDisplayModeChange: Bool {
-        return corePlugin.controller?.supportsDisplayModeChange(forSystemIdentifier: systemPlugin.systemIdentifier) == true
+        return corePlugin.supportsDisplayModeChange(forSystemIdentifier: systemPlugin.systemIdentifier)
     }
     
     @IBAction func nextDisplayMode(_ sender: Any?) {
@@ -1574,7 +1570,7 @@ final class OEGameDocument: NSDocument {
     // MARK: - Saving States
     
     var supportsSaveStates: Bool {
-        return corePlugin.controller?.saveStatesNotSupported(forSystemIdentifier: systemPlugin.systemIdentifier) == false
+        return !corePlugin.saveStatesNotSupported(forSystemIdentifier: systemPlugin.systemIdentifier)
     }
     
     @objc private func saveState(_ sender: Any?) {
