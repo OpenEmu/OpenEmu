@@ -189,9 +189,13 @@ final class GameControlsBar: NSWindow {
         }
     }
     
-    @objc(hideAnimated:)
-    func hide(animated: Bool = true) {
-        NSCursor.setHiddenUntilMouseMoves(true)
+    @objc(hideAnimated:) // OEPopoutGameWindowController
+    func _hide(animated: Bool) {
+        hide(animated: animated, hideCursor: true)
+    }
+    
+    func hide(animated: Bool = true, hideCursor: Bool = true) {
+        NSCursor.setHiddenUntilMouseMoves(hideCursor)
         
         // only hide if 'docked' to game window (aka on the same screen)
         if parent != nil {
