@@ -200,7 +200,9 @@ final class GameControlsBar: NSWindow {
         // only hide if 'docked' to game window (aka on the same screen)
         if parent != nil {
             if animated {
-                animator().alphaValue = 0
+                DispatchQueue.main.async {
+                    self.animator().alphaValue = 0
+                }
             } else {
                 alphaValue = 0
             }
