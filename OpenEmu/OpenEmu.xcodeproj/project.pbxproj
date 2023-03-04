@@ -223,7 +223,6 @@
 		53439AA213B92C9D005C0CC8 /* OEDBGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9F13B92C9D005C0CC8 /* OEDBGame.m */; };
 		53439AAB13B92CE6005C0CC8 /* OECollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */; };
 		53439AE313B92E59005C0CC8 /* RatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439ADA13B92E59005C0CC8 /* RatingCell.swift */; };
-		53439AE713B92E59005C0CC8 /* OETableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AE213B92E59005C0CC8 /* OETableView.m */; };
 		53439B6E13B932DB005C0CC8 /* PrefLibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439B6D13B932DB005C0CC8 /* PrefLibraryController.swift */; };
 		53439B7113B932ED005C0CC8 /* PrefGameplayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7013B932ED005C0CC8 /* PrefGameplayController.swift */; };
 		556CEBF01BCE173B00F00EAA /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; };
@@ -1413,8 +1412,6 @@
 		53439AB113B92DA3005C0CC8 /* OECoverGridDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverGridDataSourceItem.h; sourceTree = "<group>"; };
 		53439AD813B92E59005C0CC8 /* OEListViewDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEListViewDataSourceItem.h; sourceTree = "<group>"; };
 		53439ADA13B92E59005C0CC8 /* RatingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingCell.swift; sourceTree = "<group>"; };
-		53439AE113B92E59005C0CC8 /* OETableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableView.h; sourceTree = "<group>"; };
-		53439AE213B92E59005C0CC8 /* OETableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableView.m; sourceTree = "<group>"; };
 		53439B6813B932C5005C0CC8 /* PreferencePane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencePane.swift; sourceTree = "<group>"; };
 		53439B6D13B932DB005C0CC8 /* PrefLibraryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefLibraryController.swift; sourceTree = "<group>"; };
 		53439B7013B932ED005C0CC8 /* PrefGameplayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefGameplayController.swift; sourceTree = "<group>"; };
@@ -3126,8 +3123,6 @@
 				0544B6AE23D1780C00F63D61 /* GameTableView.xib */,
 				53439AD813B92E59005C0CC8 /* OEListViewDataSourceItem.h */,
 				53439ADA13B92E59005C0CC8 /* RatingCell.swift */,
-				53439AE113B92E59005C0CC8 /* OETableView.h */,
-				53439AE213B92E59005C0CC8 /* OETableView.m */,
 			);
 			name = "List View";
 			sourceTree = "<group>";
@@ -6349,7 +6344,6 @@
 				8F7AE88A2546802A00B837A8 /* InsetScrollView.swift in Sources */,
 				53439AE313B92E59005C0CC8 /* RatingCell.swift in Sources */,
 				05A002D623DE5389007F0DB7 /* SidebarHeaderView.swift in Sources */,
-				53439AE713B92E59005C0CC8 /* OETableView.m in Sources */,
 				8F58592F24F4340D009B8502 /* HomebrewOutlinedButton.swift in Sources */,
 				5A9606D21C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift in Sources */,
 				5AFD06BD2058893B00DFE765 /* GameScannerViewController.swift in Sources */,
