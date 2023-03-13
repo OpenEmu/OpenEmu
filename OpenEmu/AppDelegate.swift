@@ -282,20 +282,14 @@ class AppDelegate: NSObject {
             
             openPanel.canChooseFiles = true
             openPanel.allowedFileTypes = [OELibraryDatabase.databaseFileExtension]
-            openPanel.canChooseDirectories = true
+            openPanel.canChooseDirectories = false
             openPanel.allowsMultipleSelection = false
             
             openPanel.begin { result in
                 
                 if result == .OK {
                     
-                    var databaseURL = openPanel.url!
-                    let databasePath = databaseURL.path
-                    
-                    var isDir = ObjCBool(false)
-                    if FileManager.default.fileExists(atPath: databasePath, isDirectory: &isDir) && !isDir.boolValue {
-                        databaseURL = databaseURL.deletingLastPathComponent()
-                    }
+                    let databaseURL = openPanel.url!.deletingLastPathComponent()
                     
                     self.loadDatabaseAsynchronously(from: databaseURL, createIfNecessary: false)
                     
