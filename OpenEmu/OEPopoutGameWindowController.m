@@ -288,7 +288,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         newSize.height = round(gameSize.height * screenSize.width/gameSize.width);
     }
     
-    return NSSizeFromOEIntSize(newSize);
+    return CGSizeFromOEIntSize(newSize);
 }
 
 - (void)showWindow:(id)sender
@@ -397,7 +397,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 - (NSSize)OE_windowContentSizeForGameViewIntegralScale:(unsigned int)gameViewIntegralScale
 {
     const NSSize defaultSize = [[[self OE_gameDocument] gameViewController] defaultScreenSize];
-    NSSize contentSize = OEScaleSize(defaultSize, (CGFloat)gameViewIntegralScale);
+    NSSize contentSize = OEScaleCGSize(defaultSize, (CGFloat)gameViewIntegralScale);
     
     if([NSUserDefaults.standardUserDefaults boolForKey:OEPopoutGameWindowTreatScaleFactorAsPixels])
     {

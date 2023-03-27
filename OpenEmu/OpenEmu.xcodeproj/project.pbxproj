@@ -1197,14 +1197,14 @@
 			name = "Copy SaveState QL Generator";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8F94DEC7250EC701003A1F33 /* Embed App Extensions */ = {
+		8F94DEC7250EC701003A1F33 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		948E540C1571D739002D26E0 /* Copy System Plugins to App Plugins */ = {
@@ -4699,7 +4699,7 @@
 				8309A77E166CE51E0013AD4A /* Copy SaveState QL Generator */,
 				0547FDDB24E8614C005C1FFC /* Copy Auxilliary Executables */,
 				0547FE1F24E86D9F005C1FFC /* Embed XPC Services */,
-				8F94DEC7250EC701003A1F33 /* Embed App Extensions */,
+				8F94DEC7250EC701003A1F33 /* Embed Foundation Extensions */,
 				0121480D2537D48C007F3C84 /* Update Info.plist File Types */,
 				8FA5FB93283C5E7D00CC11A8 /* Update Info.plist Build Version */,
 			);
@@ -6036,6 +6036,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		0121480D2537D48C007F3C84 /* Update Info.plist File Types */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -6147,6 +6148,7 @@
 		};
 		8FA5FB93283C5E7D00CC11A8 /* Update Info.plist Build Version */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);

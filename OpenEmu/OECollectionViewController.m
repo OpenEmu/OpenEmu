@@ -676,7 +676,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 - (void)zoomGridViewWithValue:(CGFloat)zoomValue
 {
-    _gridView.cellSize = OEScaleSize(defaultGridSize, zoomValue);
+    _gridView.cellSize = OEScaleCGSize(defaultGridSize, zoomValue);
     [[NSUserDefaults standardUserDefaults] setFloat:zoomValue forKey:OELastGridSizeKey];
 }
 

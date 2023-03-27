@@ -471,7 +471,7 @@ extension ImageCollectionViewController: NSCollectionViewDelegate {
         
         for data in archival {
             guard
-                let representation = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? NSURL,
+                let representation = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSURL.self, from: data),
                 let objectID = coordinator.managedObjectID(forURIRepresentation: representation as URL)
                 else { continue }
             

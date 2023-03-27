@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -115,14 +115,12 @@ DQ
                 <constraint firstAttribute="bottom" secondItem="PDV-aS-NIU" secondAttribute="bottom" constant="20" symbolic="YES" id="9GZ-dn-zr9"/>
                 <constraint firstAttribute="trailing" secondItem="Ake-B9-kf7" secondAttribute="trailing" constant="20" symbolic="YES" id="Y60-xC-USy"/>
                 <constraint firstItem="e80-qw-Yds" firstAttribute="firstBaseline" secondItem="41t-Gm-RZG" secondAttribute="firstBaseline" id="Z4w-pS-jK6"/>
-                <constraint firstAttribute="leading" secondItem="qkC-gc-EeI" secondAttribute="leading" id="bL1-IF-aQx"/>
                 <constraint firstItem="Ake-B9-kf7" firstAttribute="top" secondItem="e80-qw-Yds" secondAttribute="bottom" constant="10" id="fYV-dP-eSx"/>
                 <constraint firstAttribute="trailing" secondItem="PDV-aS-NIU" secondAttribute="trailing" constant="20" symbolic="YES" id="hOF-c9-ceA"/>
                 <constraint firstAttribute="trailing" secondItem="e80-qw-Yds" secondAttribute="trailing" constant="20" symbolic="YES" id="l3E-KO-7zk"/>
                 <constraint firstItem="e80-qw-Yds" firstAttribute="top" secondItem="qkC-gc-EeI" secondAttribute="top" constant="20" symbolic="YES" id="lz0-WE-vGb"/>
                 <constraint firstItem="e80-qw-Yds" firstAttribute="leading" secondItem="41t-Gm-RZG" secondAttribute="trailing" constant="8" symbolic="YES" id="nLy-Jc-nql"/>
                 <constraint firstItem="41t-Gm-RZG" firstAttribute="leading" secondItem="qkC-gc-EeI" secondAttribute="leading" constant="20" symbolic="YES" id="r49-Ns-FGE"/>
-                <constraint firstAttribute="top" secondItem="qkC-gc-EeI" secondAttribute="top" id="sTB-Gp-HnK"/>
                 <constraint firstItem="Ake-B9-kf7" firstAttribute="leading" secondItem="qkC-gc-EeI" secondAttribute="leading" constant="20" symbolic="YES" id="vpE-nP-mtr"/>
             </constraints>
             <point key="canvasLocation" x="-234" y="-253.5"/>
