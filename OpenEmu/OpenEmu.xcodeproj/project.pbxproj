@@ -1648,6 +1648,9 @@
 		8F071F381C25534E007B76DA /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		8F071F3A1C255362007B76DA /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsLabels.swift; sourceTree = "<group>"; };
+		8F22764529D2FDE3001FB9F8 /* CodeSign.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CodeSign.xcconfig; path = ../CodeSign.xcconfig; sourceTree = "<group>"; };
+		8F22764629D301FC001FB9F8 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		8F22765029D30551001FB9F8 /* CodeSignDefault.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = CodeSignDefault.xcconfig; sourceTree = "<group>"; };
 		8F2F92A92519A9E700699691 /* GameScannerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScannerButton.swift; sourceTree = "<group>"; };
 		8F3062DA251A897E00BDFF1F /* OESearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OESearchField.swift; sourceTree = "<group>"; };
 		8F3693FC2557339300E044DA /* fr-CA */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -2951,6 +2954,9 @@
 				556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */,
 				01E7214A2523E798002CA16F /* Other Assets */,
 				8F7F17BC24EE0A7A00D23C2D /* Localization */,
+				8F22764629D301FC001FB9F8 /* Config.xcconfig */,
+				8F22765029D30551001FB9F8 /* CodeSignDefault.xcconfig */,
+				8F22764529D2FDE3001FB9F8 /* CodeSign.xcconfig */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -5327,198 +5333,39 @@
 				TargetAttributes = {
 					011FD36125267910006D7C05 = {
 						CreatedOnToolsVersion = 11.3.1;
-						ProvisioningStyle = Manual;
 					};
 					012148042537C6D6007F3C84 = {
 						CreatedOnToolsVersion = 11.3.1;
-						ProvisioningStyle = Automatic;
 					};
 					015BFEB325266DFC0025139F = {
 						CreatedOnToolsVersion = 11.3.1;
-						ProvisioningStyle = Automatic;
-					};
-					01607FC525388361006FCBC8 = {
-						ProvisioningStyle = Manual;
 					};
 					016F22DB23F19F5F00181842 = {
 						CreatedOnToolsVersion = 11.3.1;
-						ProvisioningStyle = Manual;
 					};
 					0547FE1324E86D9F005C1FFC = {
 						CreatedOnToolsVersion = 12.0;
 						LastSwiftMigration = 1200;
-						ProvisioningStyle = Automatic;
 					};
 					05DB72A02532681B0098459D = {
 						CreatedOnToolsVersion = 12.2;
 						LastSwiftMigration = 1250;
-						ProvisioningStyle = Automatic;
 						TestTargetID = 8D15AC270486D014006FF6A4;
-					};
-					081A46251B95744A00565444 = {
-						CreatedOnToolsVersion = 6.4;
-						ProvisioningStyle = Manual;
-					};
-					1415540E1442B3B300A01683 = {
-						ProvisioningStyle = Manual;
 					};
 					1BEF2A9311682A530090F72B = {
 						LastSwiftMigration = 1300;
-						ProvisioningStyle = Manual;
-					};
-					277CBA3219DE54200059A2C1 = {
-						ProvisioningStyle = Manual;
-					};
-					37C802FF101564A300356EF3 = {
-						ProvisioningStyle = Manual;
-					};
-					3887A7F51024D1F9000FC4CF = {
-						ProvisioningStyle = Manual;
-					};
-					3DB744A51BD8BA9E00C23E74 = {
-						ProvisioningStyle = Manual;
-					};
-					820EB7391483F9A2008EC398 = {
-						ProvisioningStyle = Manual;
-					};
-					8227753E148946DF00B19E27 = {
-						ProvisioningStyle = Manual;
-					};
-					82C9C96F0F080C7F0071460B = {
-						ProvisioningStyle = Manual;
-					};
-					837964E01A6149C000A8DE5C = {
-						CreatedOnToolsVersion = 6.1.1;
-						ProvisioningStyle = Manual;
-					};
-					83F37141140BB166005A7353 = {
-						ProvisioningStyle = Manual;
-					};
-					87DF04FD1BCE2D100060E2C2 = {
-						CreatedOnToolsVersion = 7.0.1;
-						ProvisioningStyle = Manual;
-					};
-					87FBC06C1BFC70FE00AECF5A = {
-						CreatedOnToolsVersion = 7.1.1;
-						ProvisioningStyle = Manual;
-					};
-					87FBC08D1C0790B400AECF5A = {
-						CreatedOnToolsVersion = 7.1.1;
-						ProvisioningStyle = Manual;
 					};
 					8D15AC270486D014006FF6A4 = {
 						LastSwiftMigration = 1020;
-						ProvisioningStyle = Manual;
 					};
 					8F7C2947288A2A2200A16C09 = {
 						CreatedOnToolsVersion = 13.4;
 					};
 					8F94DEB9250EC701003A1F33 = {
 						CreatedOnToolsVersion = 12.0;
-						ProvisioningStyle = Automatic;
 					};
 					8F94DECE250ED838003A1F33 = {
 						CreatedOnToolsVersion = 12.0;
-						ProvisioningStyle = Automatic;
-					};
-					9405538317A34C6B009B505D = {
-						ProvisioningStyle = Manual;
-					};
-					941F5A0017A785AD0005D7EA = {
-						ProvisioningStyle = Manual;
-					};
-					943C80111708A62E00D8D93E = {
-						ProvisioningStyle = Manual;
-					};
-					943C80341708F23900D8D93E = {
-						ProvisioningStyle = Manual;
-					};
-					943F998A1707D51100270E89 = {
-						ProvisioningStyle = Manual;
-					};
-					943F99B21707DF3700270E89 = {
-						ProvisioningStyle = Manual;
-					};
-					94404754199D4DF0002D805E = {
-						ProvisioningStyle = Manual;
-					};
-					94454EB317860E1D006C057B = {
-						ProvisioningStyle = Manual;
-					};
-					945E42FA1517F2B500057D08 = {
-						ProvisioningStyle = Manual;
-					};
-					946B9461178289BA00A212AC = {
-						ProvisioningStyle = Manual;
-					};
-					94A224321707537F00098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224421707539D00098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A22452170753C800098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A22462170753D500098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A22472170753E100098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224821707541E00098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224921707542A00098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224A21707543600098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224B21707544100098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224C21707544B00098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224D21707556D00098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224F51707596100098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94BE9E4F171683E000AB08E6 = {
-						ProvisioningStyle = Manual;
-					};
-					94CEB26C17A84809005A2107 = {
-						ProvisioningStyle = Manual;
-					};
-					94D7E8C815073BA000FBDD85 = {
-						ProvisioningStyle = Manual;
-					};
-					94EBBCD7183F422500743756 = {
-						ProvisioningStyle = Manual;
-					};
-					C646574713771F12002A4F70 = {
-						ProvisioningStyle = Manual;
-					};
-					C6480FC013648F670094FA33 = {
-						ProvisioningStyle = Manual;
-					};
-					C64BB08C136478E600C1AB23 = {
-						ProvisioningStyle = Manual;
-					};
-					C671180E136368330034379A = {
-						ProvisioningStyle = Manual;
-					};
-					C6B947AE1364ECA600A425F0 = {
-						ProvisioningStyle = Manual;
-					};
-					C6B947E51365080B00A425F0 = {
-						ProvisioningStyle = Manual;
-					};
-					FEB6625A187B791800D14713 = {
-						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -7534,14 +7381,13 @@
 		};
 		0547FE2224E86D9F005C1FFC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -7569,14 +7415,13 @@
 		};
 		0547FE2324E86D9F005C1FFC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -7710,6 +7555,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7737,6 +7583,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
@@ -8028,9 +7875,9 @@
 		};
 		8F94DEC8250EC701003A1F33 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenEmuQLThumbnail/OpenEmuQLThumbnail.entitlements;
-				CODE_SIGN_STYLE = Automatic;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = OpenEmuQLThumbnail/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
@@ -8042,9 +7889,9 @@
 		};
 		8F94DEC9250EC701003A1F33 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenEmuQLThumbnail/OpenEmuQLThumbnail.entitlements;
-				CODE_SIGN_STYLE = Automatic;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = OpenEmuQLThumbnail/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
@@ -8056,9 +7903,9 @@
 		};
 		8F94DEDE250ED838003A1F33 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenEmuQLPreview/OpenEmuQLPreview.entitlements;
-				CODE_SIGN_STYLE = Automatic;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = OpenEmuQLPreview/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
@@ -8070,9 +7917,9 @@
 		};
 		8F94DEDF250ED838003A1F33 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenEmuQLPreview/OpenEmuQLPreview.entitlements;
-				CODE_SIGN_STYLE = Automatic;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = OpenEmuQLPreview/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
@@ -8598,6 +8445,7 @@
 		};
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = OpenEmu;
@@ -8632,6 +8480,7 @@
 		};
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = OpenEmu;
