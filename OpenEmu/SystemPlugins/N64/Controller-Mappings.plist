@@ -516,5 +516,34 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
 	</dict>
+	<key>OEController8BitDoPro2Controller</key>
+	<dict>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEController8BitDoPro2ControllerDPadUp</string>
+		<key>OEN64AnalogUp</key>
+		<string>OEController8BitDoPro2ControllerLeftAnalogUp</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEController8BitDoPro2ControllerLeftAnalogLeft</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEController8BitDoPro2ControllerRightAnalogUp</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEController8BitDoPro2ControllerRightAnalogLeft</string>
+		<key>OEN64ButtonA</key>
+		<string>OEController8BitDoPro2ControllerButtonA</string>
+		<key>OEN64ButtonB</key>
+		<string>OEController8BitDoPro2ControllerButtonB</string>
+		<key>OEN64ButtonX</key>
+		<string>OEController8BitDoPro2ControllerButtonX</string>
+		<key>OEN64ButtonY</key>
+		<string>OEController8BitDoPro2ControllerButtonY</string>
+		<key>OEN64ButtonL</key>
+		<string>OEController8BitDoPro2ControllerButtonL</string>
+		<key>OEN64ButtonR</key>
+		<string>OEController8BitDoPro2ControllerButtonR</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEController8BitDoPro2ControllerButtonP1</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEController8BitDoPro2ControllerButtonStart</string>
+	</dict>
 </dict>
 </plist>

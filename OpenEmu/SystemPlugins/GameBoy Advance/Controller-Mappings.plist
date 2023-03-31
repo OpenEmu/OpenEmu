@@ -411,5 +411,22 @@
 		<key>OEGBAButtonSelect</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
 	</dict>
+	<key>OEController8BitDoPro2Controller</key>
+	<dict>
+		<key>OEGBAButtonUp</key>
+		<string>OEController8BitDoPro2ControllerDPadUp</string>
+		<key>OEGBAButtonA</key>
+		<string>OEController8BitDoPro2ControllerButtonA</string>
+		<key>OEGBAButtonB</key>
+		<string>OEController8BitDoPro2ControllerButtonB</string>
+		<key>OEGBAButtonL</key>
+		<string>OEController8BitDoPro2ControllerButtonL</string>
+		<key>OEGBAButtonR</key>
+		<string>OEController8BitDoPro2ControllerButtonR</string>
+		<key>OEGBAButtonStart</key>
+		<string>OEController8BitDoPro2ControllerButtonStart</string>
+		<key>OEGBAButtonSelect</key>
+		<string>OEController8BitDoPro2ControllerButtonSelect</string>
+	</dict>
 </dict>
 </plist>
