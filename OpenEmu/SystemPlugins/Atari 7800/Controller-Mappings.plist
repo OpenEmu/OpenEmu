@@ -286,7 +286,7 @@
 		<key>OE7800ButtonPause</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 		<key>OE7800ButtonReset</key>
-		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
+		<string>OEControllerNintendoSwitchProControllerButtonShare</string>
 	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>

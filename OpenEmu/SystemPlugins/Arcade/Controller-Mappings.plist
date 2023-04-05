@@ -377,7 +377,7 @@
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 		<key>OEArcadeUIConfigure</key>
-		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
+		<string>OEControllerNintendoSwitchProControllerButtonShare</string>
 	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>

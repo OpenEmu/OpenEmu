@@ -440,7 +440,7 @@
 		<key>OESaturnButtonStart</key>
 		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
 		<key>OESaturnButtonAnalogMode</key>
-		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
+		<string>OEControllerNintendoSwitchProControllerButtonShare</string>
 	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>

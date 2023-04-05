@@ -286,7 +286,7 @@
 		<key>OEFDSButtonSelect</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 		<key>OEFDSButtonChangeSide</key>
-		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
+		<string>OEControllerNintendoSwitchProControllerButtonShare</string>
 	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
