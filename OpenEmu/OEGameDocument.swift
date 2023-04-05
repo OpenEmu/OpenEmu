@@ -1934,7 +1934,8 @@ extension OEGameDocument: OESystemBindingsObserver {
     }
     
     func rewindGameplay(_ enable: Bool) {
-        if emulationStatus != .playing { return }
+        let supportsRewinding = corePlugin.supportsRewinding(forSystemIdentifier: systemIdentifier)
+        if !supportsRewinding || emulationStatus != .playing { return }
         gameViewController.showRewindNotification(enable)
     }
     
