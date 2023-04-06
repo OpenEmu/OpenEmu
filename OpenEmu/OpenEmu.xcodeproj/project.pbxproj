@@ -1342,7 +1342,6 @@
 		05B753A123330EB60063BD73 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		05D828D224E9849200BB975E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		05DB72A12532681B0098459D /* OpenEmuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenEmuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		05DB72A52532681B0098459D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05E4400A22991527009E6D27 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		05E789A623D01B16000E14EE /* GameDocumentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDocumentController.swift; sourceTree = "<group>"; };
 		05E789AA23D0256D000E14EE /* NSBindingName+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBindingName+Additions.swift"; sourceTree = "<group>"; };
@@ -2628,7 +2627,6 @@
 			children = (
 				8F93FDD927374F2000B59F3E /* GameInfoHelperTests.swift */,
 				8F93FDDF2737506900B59F3E /* ROMImporterTests.swift */,
-				05DB72A52532681B0098459D /* Info.plist */,
 				8F93FDD827374F1F00B59F3E /* OpenEmuTests-Bridging-Header.h */,
 			);
 			path = OpenEmuTests;
@@ -7457,7 +7455,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = OpenEmuTests/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -7489,7 +7487,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = OpenEmuTests/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
