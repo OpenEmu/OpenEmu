@@ -416,6 +416,20 @@
                ReferencedContainer = "container:BSNES/BSNES.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5517E8C9263D4737000219EC"
+               BuildableName = "Build and Install PCSX2"
+               BlueprintName = "Build and Install PCSX2"
+               ReferencedContainer = "container:PCSX2/PCSX2.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

@@ -76,3 +76,6 @@
 [submodule "OpenEmuKit"]
 	path = OpenEmuKit
 	url = https://github.com/OpenEmu/OpenEmuKit.git
+[submodule "PCSX2"]
+	path = PCSX2
+	url = https://github.com/OpenEmu/PCSX2-Core.git
