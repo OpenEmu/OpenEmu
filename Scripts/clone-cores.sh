@@ -1,6 +1,6 @@
 PS3="Select the core to clone: "
 
-select opt in Dolphin PPSSPP UME quit; do
+select opt in Dolphin PPSSPP UME PCSX2 quit; do
 
   case $opt in
     Dolphin)
@@ -13,6 +13,10 @@ select opt in Dolphin PPSSPP UME quit; do
       ;;
     UME)
       git clone git@github.com:OpenEmu/UME-Core.git --recursive
+      break
+      ;;
+    PCSX2)
+      git clone git@github.com:OpenEmu/PCSX2-Core.git --recursive
       break
       ;;
     quit)

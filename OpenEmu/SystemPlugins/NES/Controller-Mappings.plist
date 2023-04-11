@@ -327,5 +327,18 @@
 		<key>OENESButtonSelect</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
 	</dict>
+	<key>OEController8BitDoPro2Controller</key>
+	<dict>
+		<key>OENESButtonUp</key>
+		<string>OEController8BitDoPro2ControllerDPadUp</string>
+		<key>OENESButtonA</key>
+		<string>OEController8BitDoPro2ControllerButtonA</string>
+		<key>OENESButtonB</key>
+		<string>OEController8BitDoPro2ControllerButtonB</string>
+		<key>OENESButtonStart</key>
+		<string>OEController8BitDoPro2ControllerButtonStart</string>
+		<key>OENESButtonSelect</key>
+		<string>OEController8BitDoPro2ControllerButtonSelect</string>
+	</dict>
 </dict>
 </plist>

@@ -87,7 +87,7 @@ final class OEDBScreenshot: OEDBItem {
     func updateFile() {
         let database = libraryDatabase
         let screenshotDirectory = database.screenshotFolderURL
-        let fileName = NSURL.validFilename(from: name)
+        let fileName = URL.validFilename(from: name)
         let fileExtension = "png"
         var targetURL = screenshotDirectory.appendingPathComponent("\(fileName).\(fileExtension)").standardizedFileURL
         let sourceURL = url
@@ -98,9 +98,9 @@ final class OEDBScreenshot: OEDBItem {
         
         if let isReachable = try? targetURL.checkResourceIsReachable(),
            isReachable {
-            targetURL = (targetURL as NSURL).uniqueURL { triesCount in
-                return screenshotDirectory.appendingPathComponent("\(fileName) \(triesCount).\(fileExtension)") as NSURL
-            } as URL
+            targetURL = targetURL.uniqueURL { triesCount in
+                return screenshotDirectory.appendingPathComponent("\(fileName) \(triesCount).\(fileExtension)")
+            }
         }
         
         do {

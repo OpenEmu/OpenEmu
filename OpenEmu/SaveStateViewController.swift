@@ -159,6 +159,7 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
         if alert.runModal() == .alertFirstButtonReturn {
             items.forEach { $0.deleteAndRemoveFiles() }
             try? OELibraryDatabase.default?.mainThreadContext.save()
+            collectionView.selectionIndexPaths = []
             return
         }
         

@@ -42,23 +42,6 @@ final class HomebrewViewController: NSViewController {
     private var games: [HomebrewGame] = []
     private var headerIndices: [Int] = []
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.autoresizingMask = [.width, .height]
-        
-        tableView.allowsColumnReordering = false
-        tableView.allowsColumnResizing = false
-        tableView.allowsEmptySelection = true
-        tableView.allowsMultipleSelection = false
-        tableView.allowsTypeSelect = false
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.sizeLastColumnToFit()
-        tableView.columnAutoresizingStyle = .uniformColumnAutoresizingStyle
-        tableView.tableColumns.last?.resizingMask = .autoresizingMask
-    }
-    
     override func viewDidAppear() {
         super.viewDidAppear()
         

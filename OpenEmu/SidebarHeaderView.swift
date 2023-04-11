@@ -32,7 +32,7 @@ final class SidebarHeaderView: NSTableCellView {
     
     var isHovering: Bool = false {
         didSet {
-            button.animator().isHidden = !isHovering
+            button.isHidden = !isHovering
         }
     }
     

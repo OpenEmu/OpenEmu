@@ -43,10 +43,9 @@ class AppDelegate: NSObject {
     static let userGuideAddress = "https://github.com/OpenEmu/OpenEmu/wiki/User-guide"
     static let releaseNotesAddress = "https://github.com/OpenEmu/OpenEmu/wiki/Release-notes"
     static let feedbackAddress = "https://github.com/OpenEmu/OpenEmu/issues"
-    static let localizationGuideAddress = "https://github.com/OpenEmu/OpenEmu/wiki/Developers:-Translation-Guide-(First-Draft)"
     
     @IBOutlet weak var fileMenu: NSMenu!
-    @IBOutlet weak var localizationGuideMenuItem: NSMenuItem!
+    @IBOutlet weak var helpMenu: NSMenu!
     
     lazy var mainWindowController = MainWindowController(windowNibName: "MainWindow")
     
@@ -124,6 +123,10 @@ class AppDelegate: NSObject {
             .appendingPathComponent("Game Library", isDirectory: true)
         let path = (libraryDirectory.path as NSString).abbreviatingWithTildeInPath
         
+        #if !DEBUG
+            UserDefaults.standard.removeObject(forKey: OEGameCoreManagerModePreferenceKey)
+        #endif
+        
         // Register defaults.
         UserDefaults.standard.register(defaults: [
             OELibraryDatabase.defaultDatabasePathKey: path,
@@ -142,15 +145,13 @@ class AppDelegate: NSObject {
             OEDBSaveStatesMedia.showsQuickSavesKey: true,
             OEForcePopoutGameWindowKey: true,
             OEPopoutGameWindowIntegerScalingOnlyKey: true,
+            OEGameLayerNotificationView.OEShowNotificationsKey : true,
             OEAppearance.Application.key: OEAppearance.Application.dark.rawValue,
             OEAppearance.HUDBar.key: OEAppearance.HUDBar.vibrant.rawValue,
             OEAppearance.ControlsPrefs.key: OEAppearance.ControlsPrefs.wood.rawValue,
+            OEGameCoreManagerModePreferenceKey: NSStringFromClass(OEXPCGameCoreManager.self),
         ])
         
-        #if !DEBUG_PRINT
-            UserDefaults.standard.removeObject(forKey: OEGameCoreManagerModePreferenceKey)
-        #endif
-
         // Don't let an old setting override automatically checking for app updates.
         if let automaticChecksEnabled = UserDefaults.standard.object(forKey: "SUEnableAutomaticChecks") as? Bool, automaticChecksEnabled == false {
             UserDefaults.standard.removeObject(forKey: "SUEnableAutomaticChecks")
@@ -281,20 +282,14 @@ class AppDelegate: NSObject {
             
             openPanel.canChooseFiles = true
             openPanel.allowedFileTypes = [OELibraryDatabase.databaseFileExtension]
-            openPanel.canChooseDirectories = true
+            openPanel.canChooseDirectories = false
             openPanel.allowsMultipleSelection = false
             
             openPanel.begin { result in
                 
                 if result == .OK {
                     
-                    var databaseURL = openPanel.url!
-                    let databasePath = databaseURL.path
-                    
-                    var isDir = ObjCBool(false)
-                    if FileManager.default.fileExists(atPath: databasePath, isDirectory: &isDir) && !isDir.boolValue {
-                        databaseURL = databaseURL.deletingLastPathComponent()
-                    }
+                    let databaseURL = openPanel.url!.deletingLastPathComponent()
                     
                     self.loadDatabaseAsynchronously(from: databaseURL, createIfNecessary: false)
                     
@@ -498,8 +493,8 @@ class AppDelegate: NSObject {
         NSWorkspace.shared.open(URL(string: AppDelegate.feedbackAddress)!)
     }
     
-    @IBAction func showOELocalizationGuide(_ sender: AnyObject?) {
-        NSWorkspace.shared.open(URL(string: AppDelegate.localizationGuideAddress)!)
+    @IBAction func showAppSupportFolder(_ sender: AnyObject?) {
+        NSWorkspace.shared.open(.oeApplicationSupportDirectory)
     }
     
     @IBAction func showOpenEmuWindow(_ sender: AnyObject?) {
@@ -769,19 +764,13 @@ extension AppDelegate: NSMenuDelegate {
         notificationCenter.removeObserver(self, name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
     }
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Hide link to localization guide if localization for preferred language exists
-        let preferredLanguage = NSLocale.preferredLanguages[0]
-        for localization in Bundle.main.localizations {
-            if preferredLanguage.contains(localization) && preferredLanguage.prefix(2) != "ru" {
-                localizationGuideMenuItem.isHidden  = true
-                break
-            }
-        }
         
-        if NSClassFromString("NSTouchBar") != nil {
-            // Get the “Customize Touch Bar…” menu to display in the View menu.
-            NSApp.isAutomaticCustomizeTouchBarMenuItemEnabled = true
-        }
+        // Get the “Customize Touch Bar…” menu to display in the View menu.
+        NSApp.isAutomaticCustomizeTouchBarMenuItemEnabled = true
+        
+        #if DEBUG
+        helpMenu.addItem(withTitle: "Show Application Support Folder in Finder", action: #selector(showAppSupportFolder), keyEquivalent: "")
+        #endif
         
         let notificationCenter = NotificationCenter.default
         

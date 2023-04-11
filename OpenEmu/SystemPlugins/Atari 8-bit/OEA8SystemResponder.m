@@ -38,13 +38,13 @@
 - (void)HIDKeyDown:(OEHIDEvent *)theEvent
 {
     [super HIDKeyDown:theEvent];
-    [self.client keyDown:theEvent.keycode characters:theEvent.characters charactersIgnoringModifiers:theEvent.charactersIgnoringModifiers flags:theEvent.modifierFlags];
+    [self.client keyDown:theEvent.keycode];
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)theEvent
 {
     [super HIDKeyUp:theEvent];
-    [self.client keyUp:theEvent.keycode characters:theEvent.characters charactersIgnoringModifiers:theEvent.charactersIgnoringModifiers flags:theEvent.modifierFlags];
+    [self.client keyUp:theEvent.keycode];
 }
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey

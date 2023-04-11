@@ -89,7 +89,7 @@ extension GameCollectionViewController: CollectionViewExtendedDelegate, NSMenuIt
         let menu = NSMenu()
         var item: NSMenuItem
         let games = selectedGames
-        let hasLocalFiles = (games.first(where: { $0.defaultROM.filesAvailable }) != nil)
+        let hasLocalFiles = games.first(where: { $0.defaultROM?.filesAvailable == true }) != nil
         
         if games.count == 1 {
             let game = games.first!
@@ -125,12 +125,12 @@ extension GameCollectionViewController: CollectionViewExtendedDelegate, NSMenuIt
             
             menu.addItem(.separator())
             
-            if game.status!.int16Value == OEDBGameStatus.OK.rawValue {
+            if game.status == .ok {
                 menu.addItem(withTitle: NSLocalizedString("Download Cover Art", comment: ""),
                              action: #selector(downloadCoverArt(_:)),
                              keyEquivalent: "")
             }
-            if game.status!.int16Value == OEDBGameStatus.processing.rawValue {
+            if game.status == .processing {
                 menu.addItem(withTitle: NSLocalizedString("Cancel Cover Art Download", comment: ""),
                              action: #selector(cancelCoverArtDownload(_:)),
                              keyEquivalent: "")
@@ -225,14 +225,14 @@ extension GameCollectionViewController: CollectionViewExtendedDelegate, NSMenuIt
     private func saveStateMenu(for game: OEDBGame) -> NSMenu {
         let menu = NSMenu()
         
-        game.roms?.forEach { rom in
+        game.roms.forEach { rom in
             
             rom.removeMissingStates()
             
-            let saveStates = rom.normalSaveStates(byTimestampAscending: false)
-            saveStates?.forEach { saveState in
+            let saveStates = rom.normalSaveStatesByTimestamp(ascending: false)
+            saveStates.forEach { saveState in
                 
-                let title = saveState.name ?? "\(saveState.timestamp!)"
+                let title = saveState.name
                 
                 let item = NSMenuItem()
                 item.title = title
@@ -308,7 +308,7 @@ extension GameCollectionViewController: CollectionViewExtendedDelegate, NSMenuIt
             if type(of: collection) === OEDBCollection.self,
                !collection.isEqual(representedObject) {
                 item = NSMenuItem()
-                item.title = (collection as! OEDBCollection).name ?? ""
+                item.title = (collection as! OEDBCollection).name
                 item.action = #selector(addSelectedGamesToCollection(_:))
                 item.representedObject = collection
                 menu.addItem(item)
@@ -325,7 +325,7 @@ extension GameCollectionViewController: CollectionViewExtendedDelegate, NSMenuIt
     // MARK: - Actions
     
     @objc func showInFinder(_ sender: Any?) {
-        let urls = selectedGames.compactMap { $0.defaultROM.url?.absoluteURL }
+        let urls = selectedGames.compactMap { $0.defaultROM?.url?.absoluteURL }
         
         NSWorkspace.shared.activateFileViewerSelecting(urls)
     }
@@ -335,7 +335,7 @@ extension GameCollectionViewController: CollectionViewExtendedDelegate, NSMenuIt
     }
     
     @objc func copySelectedItems(_ sender: Any?) {
-        let fileURLs = selectedGames.compactMap { $0.defaultROM.url?.absoluteURL as NSURL? }
+        let fileURLs = selectedGames.compactMap { $0.defaultROM?.url?.absoluteURL as NSURL? }
         
         let pboard = NSPasteboard.general
         pboard.clearContents()
@@ -357,7 +357,7 @@ extension GameCollectionViewController: CollectionViewExtendedDelegate, NSMenuIt
            representedObject is OEDBAllGamesCollection {
             // delete games from library if user allows it
             if OEAlert.removeGamesFromLibrary(multipleGames: multipleGames).runModal() == .alertFirstButtonReturn {
-                selectedGames.forEach { $0.delete(byMovingFile: true, keepSaveStates: false) }
+                selectedGames.forEach { $0.delete(moveToTrash: true, keepSaveStates: false) }
                 
                 let context = selectedGames.last?.managedObjectContext
                 try? context?.save()
@@ -369,7 +369,7 @@ extension GameCollectionViewController: CollectionViewExtendedDelegate, NSMenuIt
         else if let collection = representedObject as? OEDBCollection {
             // remove games from collection if user allows it
             if OEAlert.removeGamesFromCollection(multipleGames: multipleGames).runModal() == .alertFirstButtonReturn {
-                collection.mutableGames?.minus(Set(selectedGames))
+                collection.games.subtract(selectedGames)
                 collection.save()
             }
             reloadData()
@@ -379,7 +379,7 @@ extension GameCollectionViewController: CollectionViewExtendedDelegate, NSMenuIt
     @objc func deleteSaveState(_ sender: NSMenuItem) {
         guard let state = sender.representedObject as? OEDBSaveState else { return }
         
-        let stateName = state.name ?? "\(state.timestamp!)"
+        let stateName = state.name
         let alert = OEAlert.deleteSaveState(name: stateName)
         
         if alert.runModal() == .alertFirstButtonReturn {
@@ -391,7 +391,7 @@ extension GameCollectionViewController: CollectionViewExtendedDelegate, NSMenuIt
         assert(Thread.isMainThread, "Only call on main thread!")
         guard let collection = sender.representedObject as? OEDBCollection else { return }
         
-        collection.mutableGames?.addObjects(from: selectedGames)
+        collection.games.formUnion(selectedGames)
         collection.save()
         
         reloadData()
@@ -478,7 +478,7 @@ extension GameCollectionViewController: CollectionViewExtendedDelegate, NSMenuIt
                         
                         let gameID = gameIDs[i]
                         let game = OEDBGame.object(with: gameID, in: context)
-                        for rom in game.roms ?? [] {
+                        for rom in game?.roms ?? [] {
                             if alertResult != -1 {
                                 break
                             }
@@ -517,7 +517,7 @@ extension GameCollectionViewController: CollectionViewExtendedDelegate, NSMenuIt
                     try? context.save()
                     let writerContext = context.parent
                     writerContext?.perform {
-                        writerContext?.userInfo[OEManagedObjectContextHasDirectChangesKey] = true as NSNumber
+                        writerContext?.userInfo[OELibraryDatabase.managedObjectContextHasDirectChangesUserInfoKey] = true as NSNumber
                         try? writerContext?.save()
                     }
                     

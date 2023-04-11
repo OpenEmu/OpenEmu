@@ -83,9 +83,6 @@ final class SidebarController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sidebarView.register(NSNib(nibNamed: "SidebarHeaderView", bundle: nil), forIdentifier: .headerView)
-        sidebarView.register(NSNib(nibNamed: "SidebarItemView", bundle: nil), forIdentifier: .itemView)
-        
         sidebarView.registerForDraggedTypes([.fileURL, .game])
         sidebarView.expandItem(nil, expandChildren: true)
         

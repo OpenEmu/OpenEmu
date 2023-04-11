@@ -74,7 +74,7 @@ final class PrefControlsController: NSViewController {
     @IBOutlet weak var consolesPopupButton: NSPopUpButton!
     @IBOutlet weak var playerPopupButton: NSPopUpButton!
     @IBOutlet weak var inputPopupButton: NSPopUpButton!
-    @IBOutlet weak var gradientOverlay: BackgroundGradientView!
+    @IBOutlet weak var gradientOverlay: NSView!
     @IBOutlet weak var veView: NSVisualEffectView!
     @IBOutlet weak var controlsContainer: NSView!
     @IBOutlet weak var controlsSetupView: ControlsButtonSetupView!
@@ -153,8 +153,12 @@ final class PrefControlsController: NSViewController {
         CATransaction.commit()
         
         if OEAppearance.controlsPrefs == .wood {
-            gradientOverlay.topColor = NSColor(deviceWhite: 0, alpha: 0.3)
-            gradientOverlay.bottomColor = NSColor(deviceWhite: 0, alpha: 0)
+            let gradient = CAGradientLayer()
+            let topColor = NSColor(deviceWhite: 0, alpha: 0.3)
+            let bottomColor = NSColor(deviceWhite: 0, alpha: 0)
+            gradient.colors = [bottomColor.cgColor, topColor.cgColor]
+            
+            gradientOverlay.layer? = gradient
             
             controlsContainer.enclosingScrollView?.appearance = NSAppearance(named: .aqua)
         }

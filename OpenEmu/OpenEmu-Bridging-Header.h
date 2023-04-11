@@ -23,7 +23,6 @@
 #import "OEMediaViewController.h"
 #import "OEVersionMigrationController.h"
 #import "OEAudioDeviceManager.h"
-#import "OETableView.h"
 
 #import "NSDocument+OEAdditions.h"
 #import "AppKit+ApplePrivate.h"

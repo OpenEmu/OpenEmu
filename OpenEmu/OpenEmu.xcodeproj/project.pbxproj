@@ -146,9 +146,6 @@
 		05201D7F2782501E0028CBE0 /* NameShaderPreset.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05201D7D2782501E0028CBE0 /* NameShaderPreset.xib */; };
 		052B92D4226EE66C00701431 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 052B92D2226EE5FA00701431 /* libc++.tbd */; };
 		052EA5BC2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */; };
-		05410EF122F7538B00303424 /* SliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF022F7538B00303424 /* SliderCell.xib */; };
-		05410EF322F756BD00303424 /* GroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF222F756BD00303424 /* GroupCell.xib */; };
-		05410EF522F7573D00303424 /* CheckboxCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05410EF422F7573D00303424 /* CheckboxCell.xib */; };
 		0544B68323D1355500F63D61 /* LibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B68223D1355400F63D61 /* LibraryController.swift */; };
 		0544B68923D14E6300F63D61 /* SidebarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B68823D14E6300F63D61 /* SidebarController.swift */; };
 		0544B69323D16D0C00F63D61 /* ImageCollectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0544B68B23D16D0B00F63D61 /* ImageCollectionHeaderView.xib */; };
@@ -184,9 +181,6 @@
 		059ECCC22524030D00DCA0F6 /* ShaderParametersWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */; };
 		05A002D423DE1006007F0DB7 /* UserDefaults+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */; };
 		05A002D623DE5389007F0DB7 /* SidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */; };
-		05A002D823DE539F007F0DB7 /* SidebarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A002D723DE539F007F0DB7 /* SidebarItemView.swift */; };
-		05A002DA23DE583E007F0DB7 /* SidebarHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */; };
-		05A002DC23DE5E1B007F0DB7 /* SidebarItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */; };
 		05B753A023330EB60063BD73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B753A123330EB60063BD73 /* Main.storyboard */; };
 		05D828D324E9849200BB975E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D828D224E9849200BB975E /* main.swift */; };
 		05D828D724E989B600BB975E /* OpenEmuKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0533EA5C24CDF9070095146E /* OpenEmuKit.framework */; };
@@ -229,7 +223,6 @@
 		53439AA213B92C9D005C0CC8 /* OEDBGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9F13B92C9D005C0CC8 /* OEDBGame.m */; };
 		53439AAB13B92CE6005C0CC8 /* OECollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */; };
 		53439AE313B92E59005C0CC8 /* RatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439ADA13B92E59005C0CC8 /* RatingCell.swift */; };
-		53439AE713B92E59005C0CC8 /* OETableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AE213B92E59005C0CC8 /* OETableView.m */; };
 		53439B6E13B932DB005C0CC8 /* PrefLibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439B6D13B932DB005C0CC8 /* PrefLibraryController.swift */; };
 		53439B7113B932ED005C0CC8 /* PrefGameplayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7013B932ED005C0CC8 /* PrefGameplayController.swift */; };
 		556CEBF01BCE173B00F00EAA /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; };
@@ -279,7 +272,6 @@
 		5A2CE89A206EA61B00790F89 /* NSArray+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.swift */; };
 		5A3BB0391D964A4500E10F27 /* CenteredTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */; };
 		5A3DB1691D8C93C3009445EC /* PreferencesControlsBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1681D8C93C3009445EC /* PreferencesControlsBox.swift */; };
-		5A3DB1731D8CA752009445EC /* BackgroundGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */; };
 		5A3DB1B11D8E6806009445EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1B01D8E6806009445EC /* AppDelegate.swift */; };
 		5A438A1B1D89AEB60061A47C /* OpenEmuApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A438A1A1D89AEB60061A47C /* OpenEmuApplication.swift */; };
 		5A46AC411DC66D8300771B3B /* GameViewController+TouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A46AC401DC66D8300771B3B /* GameViewController+TouchBar.swift */; };
@@ -366,11 +358,11 @@
 		83FE965919685F6700DD8DB9 /* GameScanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F40EB811C1072B200683055 /* GameScanner.xib */; };
 		83FE966419685F8F00DD8DB9 /* SetupAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F40EB841C1072B300683055 /* SetupAssistant.xib */; };
 		870320A91F5CCB3200470B55 /* Controller-Preferences-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = 870320A81F5CCB3200470B55 /* Controller-Preferences-JAP.plist */; };
-		870634801C27D267007FAA2F /* OEVectrexSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8706347F1C27D267007FAA2F /* OEVectrexSystemController.m */; };
+		870634801C27D267007FAA2F /* OEVectrexSystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8706347F1C27D267007FAA2F /* OEVectrexSystemController.swift */; };
 		87191CC61F6F5524006D2EE3 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 87191CC51F6F5524006D2EE3 /* dsa_pub.pem */; };
 		873A36421FE233E00004D81D /* Saturn.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224D31707556D00098DA0 /* Saturn.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8745D75F1BF9A72B005E8699 /* OE5200SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */; };
-		8763A38F1D5694E90089C30B /* OEArcadeSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8763A38E1D5694E90089C30B /* OEArcadeSystemController.m */; };
+		8745D75F1BF9A72B005E8699 /* OE5200SystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8745D75E1BF9A72B005E8699 /* OE5200SystemController.swift */; };
+		8763A38F1D5694E90089C30B /* OEArcadeSystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8763A38E1D5694E90089C30B /* OEArcadeSystemController.swift */; };
 		877EDD191E24BC63004D68E7 /* Controller-Preferences-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = 877EDD141E24BC63004D68E7 /* Controller-Preferences-JAP.plist */; };
 		877EDD231E24BEE0004D68E7 /* Controller-Preferences-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = 877EDD1E1E24BEE0004D68E7 /* Controller-Preferences-JAP.plist */; };
 		87BD9E241C2A66B1006722DF /* Atari 5200.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224B31707544100098DA0 /* Atari 5200.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -436,6 +428,9 @@
 		8F76285E255C835D00A1246D /* PrefControlsController2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F76285D255C835A00A1246D /* PrefControlsController2.xib */; };
 		8F7AE88A2546802A00B837A8 /* InsetScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7AE8892546802A00B837A8 /* InsetScrollView.swift */; };
 		8F7BFC9623E653E100B1F6C8 /* ShaderParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F7BFC9723E653E100B1F6C8 /* ShaderParameters.xib */; };
+		8F7C294B288A2A2200A16C09 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C294A288A2A2200A16C09 /* main.swift */; };
+		8F7C2951288A2C7800A16C09 /* FileManager+Hashing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* FileManager+Hashing.swift */; };
+		8F7C2957288A2DC600A16C09 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 8F7C2956288A2DC600A16C09 /* ZIPFoundation */; };
 		8F80217A24F45E4800DC82E3 /* ControlsScroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217924F45E4800DC82E3 /* ControlsScroller.swift */; };
 		8F80217C24F45E6700DC82E3 /* ControlsPopUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217B24F45E6600DC82E3 /* ControlsPopUpButton.swift */; };
 		8F80217E24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */; };
@@ -472,8 +467,8 @@
 		8FEA676C270252860034CFCE /* SetupAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B47F104142F01E700EBC55B /* SetupAssistant.swift */; };
 		8FEA6770270373460034CFCE /* GameControlsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEA676F270373450034CFCE /* GameControlsBar.swift */; };
 		8FEC1BA024F7D37700DBBF72 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEC1B9F24F7D37700DBBF72 /* TextButton.swift */; };
-		8FEDF0CA24F2BC38001ABF6F /* OEGBSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FEDF0C924F2BC37001ABF6F /* OEGBSystemController.m */; };
-		8FEDF0CD24F2BC48001ABF6F /* OEGBASystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FEDF0CC24F2BC48001ABF6F /* OEGBASystemController.m */; };
+		8FEDF0CA24F2BC38001ABF6F /* OEGBSystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEDF0C924F2BC37001ABF6F /* OEGBSystemController.swift */; };
+		8FEDF0CD24F2BC48001ABF6F /* OEGBASystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEDF0CC24F2BC48001ABF6F /* OEGBASystemController.swift */; };
 		8FEE03D526D555B90087CB51 /* OEDBCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEE03D426D555B90087CB51 /* OEDBCollection.swift */; };
 		8FEE03D726D555E80087CB51 /* OEDBSaveState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEE03D626D555E80087CB51 /* OEDBSaveState.swift */; };
 		8FEE03DB26D5560B0087CB51 /* OEDBGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEE03DA26D5560B0087CB51 /* OEDBGame.swift */; };
@@ -487,14 +482,14 @@
 		9405539E17A34DAB009B505D /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9405539B17A34DAB009B505D /* Keyboard-Mappings.plist */; };
 		940553A717A350AF009B505D /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		940553B917A35FB4009B505D /* PC Engine.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224331707537F00098DA0 /* PC Engine.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		941ABD2E1A15DF5C0072686C /* OEColecoVisionSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941ABD2D1A15DF5C0072686C /* OEColecoVisionSystemController.m */; };
-		941ABD361A1605E50072686C /* OEIntellivisionSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941ABD351A1605E50072686C /* OEIntellivisionSystemController.m */; };
+		941ABD2E1A15DF5C0072686C /* OEColecoVisionSystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941ABD2D1A15DF5C0072686C /* OEColecoVisionSystemController.swift */; };
+		941ABD361A1605E50072686C /* OEIntellivisionSystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941ABD351A1605E50072686C /* OEIntellivisionSystemController.swift */; };
 		941F5A1217A786710005D7EA /* OE7800SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F5A1017A786710005D7EA /* OE7800SystemResponder.m */; };
 		941F5A1C17A786870005D7EA /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A1617A786870005D7EA /* Controller-Mappings.plist */; };
 		941F5A1D17A786870005D7EA /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A1717A786870005D7EA /* Controller-Preferences.plist */; };
 		941F5A1E17A786870005D7EA /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A1817A786870005D7EA /* Keyboard-Mappings.plist */; };
 		941F5A1F17A786C00005D7EA /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
-		943815B8165771EB00D55731 /* OEGenesisSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943815B7165771EB00D55731 /* OEGenesisSystemController.m */; };
+		943815B8165771EB00D55731 /* OEGenesisSystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943815B7165771EB00D55731 /* OEGenesisSystemController.swift */; };
 		943819C41658DAE800D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943819C31658DAE800D55731 /* Controller-Mappings.plist */; };
 		943C80211708A7E400D8D93E /* OEJaguarSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 943C801F1708A7E400D8D93E /* OEJaguarSystemResponder.m */; };
 		943C802A1708BF8B00D8D93E /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80241708BF8B00D8D93E /* Controller-Mappings.plist */; };
@@ -513,13 +508,13 @@
 		943F99CD1707E0AE00270E89 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943F99C71707E0AE00270E89 /* Controller-Preferences.plist */; };
 		943F99CE1707E0AE00270E89 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943F99C81707E0AE00270E89 /* Keyboard-Mappings.plist */; };
 		943F99D41707F48400270E89 /* OE3DOSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943F99D31707F48400270E89 /* OE3DOSystemController.m */; };
-		94404769199D4FEE002D805E /* OEOdyssey2SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94404764199D4FEE002D805E /* OEOdyssey2SystemController.m */; };
+		94404769199D4FEE002D805E /* OEOdyssey2SystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94404764199D4FEE002D805E /* OEOdyssey2SystemController.swift */; };
 		9440476B199D4FEE002D805E /* OEOdyssey2SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94404766199D4FEE002D805E /* OEOdyssey2SystemResponder.m */; };
 		94404774199D5032002D805E /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9440476E199D5032002D805E /* Controller-Mappings.plist */; };
 		94404775199D5032002D805E /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9440476F199D5032002D805E /* Controller-Preferences.plist */; };
 		94404776199D5032002D805E /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94404770199D5032002D805E /* Keyboard-Mappings.plist */; };
 		94404778199D50B5002D805E /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
-		94412D4618A896C30012071B /* OE2600SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94412D4518A896C30012071B /* OE2600SystemController.m */; };
+		94412D4618A896C30012071B /* OE2600SystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94412D4518A896C30012071B /* OE2600SystemController.swift */; };
 		94454EC717860F4B006C057B /* OEPSPSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94454EC317860F4B006C057B /* OEPSPSystemController.m */; };
 		94454EC817860F4B006C057B /* OEPSPSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94454EC517860F4B006C057B /* OEPSPSystemResponder.m */; };
 		94454ED117861098006C057B /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94454ECB17861098006C057B /* Controller-Mappings.plist */; };
@@ -527,7 +522,7 @@
 		94454ED317861098006C057B /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94454ECD17861098006C057B /* Keyboard-Mappings.plist */; };
 		94454ED517861123006C057B /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		94454F31178B4ABA006C057B /* Virtual Boy.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224831707541E00098DA0 /* Virtual Boy.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		94525EE217A9A778003CB1A2 /* OESega32XSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94525EE117A9A778003CB1A2 /* OESega32XSystemController.m */; };
+		94525EE217A9A778003CB1A2 /* OESega32XSystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94525EE117A9A778003CB1A2 /* OESega32XSystemController.swift */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
 		945E43181517F5BC00057D08 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 945E43131517F5BC00057D08 /* Controller-Preferences.plist */; };
 		946B947317828A1E00A212AC /* OESega32XSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 946B947117828A1E00A212AC /* OESega32XSystemResponder.m */; };
@@ -558,7 +553,7 @@
 		94A2253B17075C8800098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2253517075C8800098DA0 /* Controller-Mappings.plist */; };
 		94A2253C17075C8800098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2253617075C8800098DA0 /* Controller-Preferences.plist */; };
 		94A2253D17075C8800098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2253717075C8800098DA0 /* Keyboard-Mappings.plist */; };
-		94A2254417075CF200098DA0 /* OEPCESystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A2254017075CF200098DA0 /* OEPCESystemController.m */; };
+		94A2254417075CF200098DA0 /* OEPCESystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A2254017075CF200098DA0 /* OEPCESystemController.swift */; };
 		94A2254517075CF200098DA0 /* OEPCESystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A2254217075CF200098DA0 /* OEPCESystemResponder.m */; };
 		94A2254F17075D0E00098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2254817075D0E00098DA0 /* Controller-Mappings.plist */; };
 		94A2255017075D0E00098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2254917075D0E00098DA0 /* Controller-Preferences.plist */; };
@@ -611,15 +606,15 @@
 		94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */; };
 		94A5321918DF8A3700AE11B3 /* Jaguar.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 943C80121708A62E00D8D93E /* Jaguar.oesystemplugin */; };
 		94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */ = {isa = PBXBuildFile; fileRef = 94AE2C0F17B07D450018DFBB /* cheats-database.xml */; };
-		94B28256189DF5AA00D80F3D /* OENDSSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B28255189DF5AA00D80F3D /* OENDSSystemController.m */; };
+		94B28256189DF5AA00D80F3D /* OENDSSystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B28255189DF5AA00D80F3D /* OENDSSystemController.swift */; };
 		94BE9E61171689B400AB08E6 /* OEColecoVisionSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE9E5F171689B400AB08E6 /* OEColecoVisionSystemResponder.m */; };
 		94BE9E6B171689C900AB08E6 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E65171689C900AB08E6 /* Controller-Mappings.plist */; };
 		94BE9E6C171689C900AB08E6 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E66171689C900AB08E6 /* Controller-Preferences.plist */; };
 		94BE9E6D171689C900AB08E6 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E67171689C900AB08E6 /* Keyboard-Mappings.plist */; };
 		94BE9E741716922100AB08E6 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
-		94C59FBF1921CCBD0096BCC2 /* OEN64SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C59FBE1921CCBD0096BCC2 /* OEN64SystemController.m */; };
+		94C59FBF1921CCBD0096BCC2 /* OEN64SystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C59FBE1921CCBD0096BCC2 /* OEN64SystemController.swift */; };
 		94CE3FB218DE92970079CC16 /* 3DO.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 943F99B31707DF3700270E89 /* 3DO.oesystemplugin */; };
-		94CEB28017A84A75005A2107 /* OEGCSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CEB27C17A84A75005A2107 /* OEGCSystemController.m */; };
+		94CEB28017A84A75005A2107 /* OEGCSystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CEB27C17A84A75005A2107 /* OEGCSystemController.swift */; };
 		94CEB28117A84A75005A2107 /* OEGCSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CEB27E17A84A75005A2107 /* OEGCSystemResponder.m */; };
 		94CEB28A17A84A8F005A2107 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94CEB28417A84A8F005A2107 /* Controller-Mappings.plist */; };
 		94CEB28B17A84A8F005A2107 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94CEB28517A84A8F005A2107 /* Controller-Preferences.plist */; };
@@ -645,9 +640,9 @@
 		C6252DC414E7A00000350A13 /* Controller-Preferences-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DC314E7A00000350A13 /* Controller-Preferences-JAP.plist */; };
 		C6252DC814E7A38000350A13 /* ControlsButtonSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AFE0D50FED6FDF00AC0CCF /* ControlsButtonSetupView.swift */; };
 		C646576713772251002A4F70 /* OEGBASystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C646576613772251002A4F70 /* OEGBASystemResponder.m */; };
-		C6480FD4136490250094FA33 /* OESNESSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6480FD0136490250094FA33 /* OESNESSystemController.m */; };
+		C6480FD4136490250094FA33 /* OESNESSystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6480FD0136490250094FA33 /* OESNESSystemController.swift */; };
 		C6480FD5136490250094FA33 /* OESNESSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6480FD1136490250094FA33 /* OESNESSystemResponder.m */; };
-		C64BB09E13647AEF00C1AB23 /* OENESSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = C64BB09D13647AEF00C1AB23 /* OENESSystemController.m */; };
+		C64BB09E13647AEF00C1AB23 /* OENESSystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64BB09D13647AEF00C1AB23 /* OENESSystemController.swift */; };
 		C64BB0A113647B3500C1AB23 /* OENESSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C64BB0A013647B3500C1AB23 /* OENESSystemResponder.m */; };
 		C64CBD551363E40B00BEE4F3 /* OESMSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6711826136369DE0034379A /* OESMSSystemResponder.m */; };
 		C6527BC1164E22AA0030FB25 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6527BC0164E22AA0030FB25 /* Keyboard-Mappings.plist */; };
@@ -706,7 +701,7 @@
 		EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.swift */; };
 		EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */; };
 		FE6310A1187F099800D8AE07 /* MSX.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = FEB6625B187B791800D14713 /* MSX.oesystemplugin */; };
-		FEB66268187B792700D14713 /* OEMSXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB66251187B62CA00D14713 /* OEMSXSystemController.m */; };
+		FEB66268187B792700D14713 /* OEMSXSystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB66251187B62CA00D14713 /* OEMSXSystemController.swift */; };
 		FEB66269187B792700D14713 /* OEMSXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB66254187B751700D14713 /* OEMSXSystemResponder.m */; };
 		FEB6626B187B797600D14713 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		FEB6627A187B812800D14713 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEB66277187B812800D14713 /* Controller-Mappings.plist */; };
@@ -1201,14 +1196,14 @@
 			name = "Copy SaveState QL Generator";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8F94DEC7250EC701003A1F33 /* Embed App Extensions */ = {
+		8F94DEC7250EC701003A1F33 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		948E540C1571D739002D26E0 /* Copy System Plugins to App Plugins */ = {
@@ -1301,9 +1296,6 @@
 		052B92D2226EE5FA00701431 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		052EA5BB2357941100DEC2A3 /* NSBitmapImageRep+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBitmapImageRep+OEAdditions.swift"; sourceTree = "<group>"; };
 		0533EA5C24CDF9070095146E /* OpenEmuKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OpenEmuKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		05410EF022F7538B00303424 /* SliderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SliderCell.xib; sourceTree = "<group>"; };
-		05410EF222F756BD00303424 /* GroupCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupCell.xib; sourceTree = "<group>"; };
-		05410EF422F7573D00303424 /* CheckboxCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CheckboxCell.xib; sourceTree = "<group>"; };
 		0544B68223D1355400F63D61 /* LibraryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryController.swift; sourceTree = "<group>"; };
 		0544B68823D14E6300F63D61 /* SidebarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarController.swift; sourceTree = "<group>"; };
 		0544B68A23D16D0B00F63D61 /* ImageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewController.swift; sourceTree = "<group>"; };
@@ -1346,14 +1338,10 @@
 		05888F7325A111B000286232 /* ShaderParametersViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaderParametersViewController.xib; sourceTree = "<group>"; };
 		05A002D323DE1006007F0DB7 /* UserDefaults+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+OEAdditions.swift"; sourceTree = "<group>"; };
 		05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarHeaderView.swift; sourceTree = "<group>"; };
-		05A002D723DE539F007F0DB7 /* SidebarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItemView.swift; sourceTree = "<group>"; };
-		05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SidebarHeaderView.xib; sourceTree = "<group>"; };
-		05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SidebarItemView.xib; sourceTree = "<group>"; };
 		05ABF293252373F40014E626 /* ShaderParametersWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderParametersWindowController.swift; sourceTree = "<group>"; };
 		05B753A123330EB60063BD73 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		05D828D224E9849200BB975E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		05DB72A12532681B0098459D /* OpenEmuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenEmuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		05DB72A52532681B0098459D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05E4400A22991527009E6D27 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		05E789A623D01B16000E14EE /* GameDocumentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDocumentController.swift; sourceTree = "<group>"; };
 		05E789AA23D0256D000E14EE /* NSBindingName+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBindingName+Additions.swift"; sourceTree = "<group>"; };
@@ -1423,8 +1411,6 @@
 		53439AB113B92DA3005C0CC8 /* OECoverGridDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverGridDataSourceItem.h; sourceTree = "<group>"; };
 		53439AD813B92E59005C0CC8 /* OEListViewDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEListViewDataSourceItem.h; sourceTree = "<group>"; };
 		53439ADA13B92E59005C0CC8 /* RatingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingCell.swift; sourceTree = "<group>"; };
-		53439AE113B92E59005C0CC8 /* OETableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableView.h; sourceTree = "<group>"; };
-		53439AE213B92E59005C0CC8 /* OETableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableView.m; sourceTree = "<group>"; };
 		53439B6813B932C5005C0CC8 /* PreferencePane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencePane.swift; sourceTree = "<group>"; };
 		53439B6D13B932DB005C0CC8 /* PrefLibraryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefLibraryController.swift; sourceTree = "<group>"; };
 		53439B7013B932ED005C0CC8 /* PrefGameplayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefGameplayController.swift; sourceTree = "<group>"; };
@@ -1474,7 +1460,6 @@
 		5A2CE899206EA61B00790F89 /* NSArray+OEAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSArray+OEAdditions.swift"; sourceTree = "<group>"; };
 		5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenteredTextFieldCell.swift; sourceTree = "<group>"; };
 		5A3DB1681D8C93C3009445EC /* PreferencesControlsBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesControlsBox.swift; sourceTree = "<group>"; };
-		5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundGradientView.swift; sourceTree = "<group>"; };
 		5A3DB1B01D8E6806009445EC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A438A1A1D89AEB60061A47C /* OpenEmuApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenEmuApplication.swift; sourceTree = "<group>"; };
 		5A46AC401DC66D8300771B3B /* GameViewController+TouchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GameViewController+TouchBar.swift"; sourceTree = "<group>"; };
@@ -1518,9 +1503,7 @@
 		82DE4AEF1026533E007184EB /* XADMaster.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XADMaster.framework; sourceTree = "<group>"; };
 		8301557A1456BF7A0093D681 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		8306CD0E1BD3AC180025BC6C /* LibraryGamesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryGamesViewController.swift; sourceTree = "<group>"; };
-		8306CD181BD3AC3D0025BC6C /* OESidebarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarController.m; sourceTree = "<group>"; };
 		8306CD1F1BD3AC3D0025BC6C /* SidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
-		8306CD211BD3AC3D0025BC6C /* SidebarOutlineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarOutlineView.swift; sourceTree = "<group>"; };
 		8306CD3B1BD3DB180025BC6C /* OEGameCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCollectionViewController.h; sourceTree = "<group>"; };
 		8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCollectionViewController.m; sourceTree = "<group>"; };
 		8306CD3D1BD3DB180025BC6C /* OEGameCollectionViewItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCollectionViewItemProtocol.h; sourceTree = "<group>"; };
@@ -1617,13 +1600,10 @@
 		83F7DBAD18C0E2470029199C /* OEFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFileManager.h; sourceTree = "<group>"; };
 		83F7DBAE18C0E2470029199C /* OEFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFileManager.m; sourceTree = "<group>"; };
 		870320A81F5CCB3200470B55 /* Controller-Preferences-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-JAP.plist"; sourceTree = "<group>"; };
-		8706347E1C27D267007FAA2F /* OEVectrexSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVectrexSystemController.h; sourceTree = "<group>"; };
-		8706347F1C27D267007FAA2F /* OEVectrexSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVectrexSystemController.m; sourceTree = "<group>"; };
+		8706347F1C27D267007FAA2F /* OEVectrexSystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEVectrexSystemController.swift; sourceTree = "<group>"; };
 		87191CC51F6F5524006D2EE3 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
-		8745D75D1BF9A72A005E8699 /* OE5200SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemController.h; sourceTree = "<group>"; };
-		8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE5200SystemController.m; sourceTree = "<group>"; };
-		8763A38D1D5694E90089C30B /* OEArcadeSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArcadeSystemController.h; sourceTree = "<group>"; };
-		8763A38E1D5694E90089C30B /* OEArcadeSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEArcadeSystemController.m; sourceTree = "<group>"; };
+		8745D75E1BF9A72B005E8699 /* OE5200SystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OE5200SystemController.swift; sourceTree = "<group>"; };
+		8763A38E1D5694E90089C30B /* OEArcadeSystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEArcadeSystemController.swift; sourceTree = "<group>"; };
 		877EDD141E24BC63004D68E7 /* Controller-Preferences-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-JAP.plist"; sourceTree = "<group>"; };
 		877EDD1E1E24BEE0004D68E7 /* Controller-Preferences-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-JAP.plist"; sourceTree = "<group>"; };
 		87ACB6E11D250A6400138B7E /* ja */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1664,6 +1644,9 @@
 		8F071F381C25534E007B76DA /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		8F071F3A1C255362007B76DA /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsLabels.swift; sourceTree = "<group>"; };
+		8F22764529D2FDE3001FB9F8 /* CodeSign.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CodeSign.xcconfig; path = ../CodeSign.xcconfig; sourceTree = "<group>"; };
+		8F22764629D301FC001FB9F8 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		8F22765029D30551001FB9F8 /* CodeSignDefault.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = CodeSignDefault.xcconfig; sourceTree = "<group>"; };
 		8F2F92A92519A9E700699691 /* GameScannerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScannerButton.swift; sourceTree = "<group>"; };
 		8F3062DA251A897E00BDFF1F /* OESearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OESearchField.swift; sourceTree = "<group>"; };
 		8F3693FC2557339300E044DA /* fr-CA */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -1689,6 +1672,8 @@
 		8F76285D255C835A00A1246D /* PrefControlsController2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefControlsController2.xib; sourceTree = "<group>"; };
 		8F7AE8892546802A00B837A8 /* InsetScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsetScrollView.swift; sourceTree = "<group>"; };
 		8F7BFC9723E653E100B1F6C8 /* ShaderParameters.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaderParameters.xib; sourceTree = "<group>"; };
+		8F7C2948288A2A2200A16C09 /* OECoreListUpdater */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OECoreListUpdater; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F7C294A288A2A2200A16C09 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8F80217924F45E4800DC82E3 /* ControlsScroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsScroller.swift; sourceTree = "<group>"; };
 		8F80217B24F45E6600DC82E3 /* ControlsPopUpButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsPopUpButton.swift; sourceTree = "<group>"; };
 		8F80217D24F45E6F00DC82E3 /* ControlsPopUpButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsPopUpButtonCell.swift; sourceTree = "<group>"; };
@@ -1749,10 +1734,8 @@
 		8FE5DC0B270DF56500878DFF /* LibraryMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryMigrator.swift; sourceTree = "<group>"; };
 		8FEA676F270373450034CFCE /* GameControlsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameControlsBar.swift; sourceTree = "<group>"; };
 		8FEC1B9F24F7D37700DBBF72 /* TextButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
-		8FEDF0C824F2BC37001ABF6F /* OEGBSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBSystemController.h; sourceTree = "<group>"; };
-		8FEDF0C924F2BC37001ABF6F /* OEGBSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBSystemController.m; sourceTree = "<group>"; };
-		8FEDF0CB24F2BC48001ABF6F /* OEGBASystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBASystemController.h; sourceTree = "<group>"; };
-		8FEDF0CC24F2BC48001ABF6F /* OEGBASystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBASystemController.m; sourceTree = "<group>"; };
+		8FEDF0C924F2BC37001ABF6F /* OEGBSystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEGBSystemController.swift; sourceTree = "<group>"; };
+		8FEDF0CC24F2BC48001ABF6F /* OEGBASystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEGBASystemController.swift; sourceTree = "<group>"; };
 		8FEE03D426D555B90087CB51 /* OEDBCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEDBCollection.swift; sourceTree = "<group>"; };
 		8FEE03D626D555E80087CB51 /* OEDBSaveState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEDBSaveState.swift; sourceTree = "<group>"; };
 		8FEE03DA26D5560B0087CB51 /* OEDBGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEDBGame.swift; sourceTree = "<group>"; };
@@ -1772,10 +1755,8 @@
 		9405539917A34DAA009B505D /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		9405539A17A34DAB009B505D /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		9405539B17A34DAB009B505D /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
-		941ABD2C1A15DF5C0072686C /* OEColecoVisionSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEColecoVisionSystemController.h; sourceTree = "<group>"; };
-		941ABD2D1A15DF5C0072686C /* OEColecoVisionSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEColecoVisionSystemController.m; sourceTree = "<group>"; };
-		941ABD341A1605E50072686C /* OEIntellivisionSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEIntellivisionSystemController.h; sourceTree = "<group>"; };
-		941ABD351A1605E50072686C /* OEIntellivisionSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEIntellivisionSystemController.m; sourceTree = "<group>"; };
+		941ABD2D1A15DF5C0072686C /* OEColecoVisionSystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEColecoVisionSystemController.swift; sourceTree = "<group>"; };
+		941ABD351A1605E50072686C /* OEIntellivisionSystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEIntellivisionSystemController.swift; sourceTree = "<group>"; };
 		941F5A0117A785AD0005D7EA /* Atari 7800.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 7800.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		941F5A0517A785AE0005D7EA /* Atari 7800-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 7800-Info.plist"; sourceTree = "<group>"; };
 		941F5A0F17A786710005D7EA /* OE7800SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE7800SystemResponder.h; sourceTree = "<group>"; };
@@ -1785,8 +1766,7 @@
 		941F5A1717A786870005D7EA /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		941F5A1817A786870005D7EA /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		942388B218922E2E0030A325 /* OEDatabase 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.1.xcdatamodel"; sourceTree = "<group>"; };
-		943815B6165771EB00D55731 /* OEGenesisSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemController.h; sourceTree = "<group>"; };
-		943815B7165771EB00D55731 /* OEGenesisSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGenesisSystemController.m; sourceTree = "<group>"; };
+		943815B7165771EB00D55731 /* OEGenesisSystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEGenesisSystemController.swift; sourceTree = "<group>"; };
 		943819C31658DAE800D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		943C80121708A62E00D8D93E /* Jaguar.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Jaguar.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		943C80161708A62F00D8D93E /* Jaguar-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Jaguar-Info.plist"; sourceTree = "<group>"; };
@@ -1824,16 +1804,14 @@
 		943F99D31707F48400270E89 /* OE3DOSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE3DOSystemController.m; sourceTree = "<group>"; };
 		94404755199D4DF0002D805E /* Odyssey2.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Odyssey2.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94404759199D4DF0002D805E /* Odyssey2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Odyssey2-Info.plist"; sourceTree = "<group>"; };
-		94404763199D4FEE002D805E /* OEOdyssey2SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOdyssey2SystemController.h; sourceTree = "<group>"; };
-		94404764199D4FEE002D805E /* OEOdyssey2SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOdyssey2SystemController.m; sourceTree = "<group>"; };
+		94404764199D4FEE002D805E /* OEOdyssey2SystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEOdyssey2SystemController.swift; sourceTree = "<group>"; };
 		94404765199D4FEE002D805E /* OEOdyssey2SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOdyssey2SystemResponder.h; sourceTree = "<group>"; };
 		94404766199D4FEE002D805E /* OEOdyssey2SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOdyssey2SystemResponder.m; sourceTree = "<group>"; };
 		94404767199D4FEE002D805E /* OEOdyssey2SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOdyssey2SystemResponderClient.h; sourceTree = "<group>"; };
 		9440476E199D5032002D805E /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		9440476F199D5032002D805E /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94404770199D5032002D805E /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
-		94412D4418A896C30012071B /* OE2600SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE2600SystemController.h; sourceTree = "<group>"; };
-		94412D4518A896C30012071B /* OE2600SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE2600SystemController.m; sourceTree = "<group>"; };
+		94412D4518A896C30012071B /* OE2600SystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OE2600SystemController.swift; sourceTree = "<group>"; };
 		94454EB417860E1D006C057B /* PSP.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PSP.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94454EB817860E1E006C057B /* PSP-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PSP-Info.plist"; sourceTree = "<group>"; };
 		94454EC217860F4B006C057B /* OEPSPSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSPSystemController.h; sourceTree = "<group>"; };
@@ -1844,8 +1822,7 @@
 		94454ECB17861098006C057B /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94454ECC17861098006C057B /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94454ECD17861098006C057B /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
-		94525EE017A9A778003CB1A2 /* OESega32XSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESega32XSystemController.h; sourceTree = "<group>"; };
-		94525EE117A9A778003CB1A2 /* OESega32XSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESega32XSystemController.m; sourceTree = "<group>"; };
+		94525EE117A9A778003CB1A2 /* OESega32XSystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OESega32XSystemController.swift; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E430A1517F59900057D08 /* OEArcadeSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArcadeSystemResponder.h; sourceTree = "<group>"; };
@@ -1901,8 +1878,7 @@
 		94A2253517075C8800098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94A2253617075C8800098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94A2253717075C8800098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
-		94A2253F17075CF200098DA0 /* OEPCESystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCESystemController.h; sourceTree = "<group>"; };
-		94A2254017075CF200098DA0 /* OEPCESystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCESystemController.m; sourceTree = "<group>"; };
+		94A2254017075CF200098DA0 /* OEPCESystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEPCESystemController.swift; sourceTree = "<group>"; };
 		94A2254117075CF200098DA0 /* OEPCESystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCESystemResponder.h; sourceTree = "<group>"; };
 		94A2254217075CF200098DA0 /* OEPCESystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCESystemResponder.m; sourceTree = "<group>"; };
 		94A2254317075CF200098DA0 /* OEPCESystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCESystemResponderClient.h; sourceTree = "<group>"; };
@@ -1980,8 +1956,7 @@
 		94A4E994179FAB9E00AD8C7D /* OEMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMediaViewController.h; sourceTree = "<group>"; };
 		94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMediaViewController.m; sourceTree = "<group>"; };
 		94AE2C0F17B07D450018DFBB /* cheats-database.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "cheats-database.xml"; sourceTree = "<group>"; };
-		94B28254189DF5AA00D80F3D /* OENDSSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemController.h; sourceTree = "<group>"; };
-		94B28255189DF5AA00D80F3D /* OENDSSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENDSSystemController.m; sourceTree = "<group>"; };
+		94B28255189DF5AA00D80F3D /* OENDSSystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OENDSSystemController.swift; sourceTree = "<group>"; };
 		94BE9E50171683E000AB08E6 /* ColecoVision.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColecoVision.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94BE9E54171683E000AB08E6 /* ColecoVision-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ColecoVision-Info.plist"; sourceTree = "<group>"; };
 		94BE9E5E171689B400AB08E6 /* OEColecoVisionSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEColecoVisionSystemResponder.h; sourceTree = "<group>"; };
@@ -1990,12 +1965,10 @@
 		94BE9E65171689C900AB08E6 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94BE9E66171689C900AB08E6 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94BE9E67171689C900AB08E6 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
-		94C59FBD1921CCBD0096BCC2 /* OEN64SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemController.h; sourceTree = "<group>"; };
-		94C59FBE1921CCBD0096BCC2 /* OEN64SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEN64SystemController.m; sourceTree = "<group>"; };
+		94C59FBE1921CCBD0096BCC2 /* OEN64SystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEN64SystemController.swift; sourceTree = "<group>"; };
 		94CEB26D17A84809005A2107 /* GameCube.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameCube.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94CEB27117A84809005A2107 /* GameCube-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GameCube-Info.plist"; sourceTree = "<group>"; };
-		94CEB27B17A84A75005A2107 /* OEGCSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGCSystemController.h; sourceTree = "<group>"; };
-		94CEB27C17A84A75005A2107 /* OEGCSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGCSystemController.m; sourceTree = "<group>"; };
+		94CEB27C17A84A75005A2107 /* OEGCSystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEGCSystemController.swift; sourceTree = "<group>"; };
 		94CEB27D17A84A75005A2107 /* OEGCSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGCSystemResponder.h; sourceTree = "<group>"; };
 		94CEB27E17A84A75005A2107 /* OEGCSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGCSystemResponder.m; sourceTree = "<group>"; };
 		94CEB27F17A84A75005A2107 /* OEGCSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGCSystemResponderClient.h; sourceTree = "<group>"; };
@@ -2029,15 +2002,13 @@
 		C646576613772251002A4F70 /* OEGBASystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBASystemResponder.m; sourceTree = "<group>"; };
 		C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperNES.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6480FC513648F670094FA33 /* SuperNES-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SuperNES-Info.plist"; sourceTree = "<group>"; };
-		C6480FD0136490250094FA33 /* OESNESSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESNESSystemController.m; sourceTree = "<group>"; };
+		C6480FD0136490250094FA33 /* OESNESSystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OESNESSystemController.swift; sourceTree = "<group>"; };
 		C6480FD1136490250094FA33 /* OESNESSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESNESSystemResponder.m; sourceTree = "<group>"; };
 		C6480FD2136490250094FA33 /* OESNESSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESNESSystemResponder.h; sourceTree = "<group>"; };
-		C6480FD3136490250094FA33 /* OESNESSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESNESSystemController.h; sourceTree = "<group>"; };
 		C6480FF91364B18E0094FA33 /* OESNESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESNESSystemResponderClient.h; sourceTree = "<group>"; };
 		C64BB08D136478E600C1AB23 /* NES.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NES.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		C64BB091136478E600C1AB23 /* NES-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NES-Info.plist"; sourceTree = "<group>"; };
-		C64BB09C13647AEF00C1AB23 /* OENESSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENESSystemController.h; sourceTree = "<group>"; };
-		C64BB09D13647AEF00C1AB23 /* OENESSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENESSystemController.m; sourceTree = "<group>"; };
+		C64BB09D13647AEF00C1AB23 /* OENESSystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OENESSystemController.swift; sourceTree = "<group>"; };
 		C64BB09F13647B3500C1AB23 /* OENESSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENESSystemResponder.h; sourceTree = "<group>"; };
 		C64BB0A013647B3500C1AB23 /* OENESSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENESSystemResponder.m; sourceTree = "<group>"; };
 		C6527BC0164E22AA0030FB25 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
@@ -2081,8 +2052,7 @@
 		F1A2C86D1AAD0B3A00A17C80 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F1A2C86E1AAD0B3B00A17C80 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F1A2C86F1AAD0B3B00A17C80 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/ControlLabels.strings; sourceTree = "<group>"; };
-		FEB66250187B62CA00D14713 /* OEMSXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemController.h; sourceTree = "<group>"; };
-		FEB66251187B62CA00D14713 /* OEMSXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMSXSystemController.m; sourceTree = "<group>"; };
+		FEB66251187B62CA00D14713 /* OEMSXSystemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEMSXSystemController.swift; sourceTree = "<group>"; };
 		FEB66253187B751700D14713 /* OEMSXSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemResponder.h; sourceTree = "<group>"; };
 		FEB66254187B751700D14713 /* OEMSXSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMSXSystemResponder.m; sourceTree = "<group>"; };
 		FEB66256187B76CF00D14713 /* OEMSXSystemResponderClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemResponderClient.h; sourceTree = "<group>"; };
@@ -2244,6 +2214,14 @@
 				0547FD9C24E7769E005C1FFC /* OpenEmuKit.framework in Frameworks */,
 				82DE4B63102655DA007184EB /* UniversalDetector.framework in Frameworks */,
 				82DE4B62102655D5007184EB /* XADMaster.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F7C2945288A2A2200A16C09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F7C2957288A2DC600A16C09 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2552,7 +2530,6 @@
 			children = (
 				05D50C3023CEA34000733BA2 /* Available Libraries */,
 				8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */,
-				5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */,
 				8337F38D1726B3600068DD90 /* BackgroundImageView.swift */,
 				5A3BB0381D964A4500E10F27 /* CenteredTextFieldCell.swift */,
 				83E8927C197490B3004D4489 /* DisabledScrollView.swift */,
@@ -2573,16 +2550,6 @@
 				83338C2117A281C7007E32E9 /* secret.mp3 */,
 			);
 			path = "Other Assets";
-			sourceTree = "<group>";
-		};
-		05410EEF22F7535A00303424 /* Cell Views */ = {
-			isa = PBXGroup;
-			children = (
-				05410EF422F7573D00303424 /* CheckboxCell.xib */,
-				05410EF022F7538B00303424 /* SliderCell.xib */,
-				05410EF222F756BD00303424 /* GroupCell.xib */,
-			);
-			name = "Cell Views";
 			sourceTree = "<group>";
 		};
 		0544B68423D1415900F63D61 /* Collection View V2 */ = {
@@ -2641,7 +2608,6 @@
 				8F7BFC9723E653E100B1F6C8 /* ShaderParameters.xib */,
 				05888F3925A0373300286232 /* ShaderParametersViewController.swift */,
 				05888F7325A111B000286232 /* ShaderParametersViewController.xib */,
-				05410EEF22F7535A00303424 /* Cell Views */,
 			);
 			name = Shaders;
 			sourceTree = "<group>";
@@ -2661,7 +2627,6 @@
 			children = (
 				8F93FDD927374F2000B59F3E /* GameInfoHelperTests.swift */,
 				8F93FDDF2737506900B59F3E /* ROMImporterTests.swift */,
-				05DB72A52532681B0098459D /* Info.plist */,
 				8F93FDD827374F1F00B59F3E /* OpenEmuTests-Bridging-Header.h */,
 			);
 			path = OpenEmuTests;
@@ -2704,8 +2669,7 @@
 		141554111442B3B300A01683 /* N64 */ = {
 			isa = PBXGroup;
 			children = (
-				94C59FBD1921CCBD0096BCC2 /* OEN64SystemController.h */,
-				94C59FBE1921CCBD0096BCC2 /* OEN64SystemController.m */,
+				94C59FBE1921CCBD0096BCC2 /* OEN64SystemController.swift */,
 				1415541F1442B7B100A01683 /* OEN64SystemResponder.h */,
 				141554201442B7B100A01683 /* OEN64SystemResponder.m */,
 				141554221442B85000A01683 /* OEN64SystemResponderClient.h */,
@@ -2806,6 +2770,7 @@
 				012148052537C6D6007F3C84 /* OESystemPluginPostInstall */,
 				8F94DEBA250EC701003A1F33 /* OpenEmuQLThumbnail.appex */,
 				8F94DECF250ED838003A1F33 /* OpenEmuQLPreview.appex */,
+				8F7C2948288A2A2200A16C09 /* OECoreListUpdater */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2894,8 +2859,7 @@
 		277CBA2E19DE52640059A2C1 /* Intellivision */ = {
 			isa = PBXGroup;
 			children = (
-				941ABD341A1605E50072686C /* OEIntellivisionSystemController.h */,
-				941ABD351A1605E50072686C /* OEIntellivisionSystemController.m */,
+				941ABD351A1605E50072686C /* OEIntellivisionSystemController.swift */,
 				277CBA4719DE54A80059A2C1 /* OEIntellivisionSystemResponder.h */,
 				277CBA4819DE54A80059A2C1 /* OEIntellivisionSystemResponder.m */,
 				277CBA4919DE54A80059A2C1 /* OEIntellivisionSystemResponderClient.h */,
@@ -2968,6 +2932,7 @@
 				016F22DD23F19F5F00181842 /* OEAlertTest */,
 				015BFEB525266DFC0025139F /* OEControlLabelsGenerator */,
 				012148062537C6D6007F3C84 /* OESystemPluginPostInstall */,
+				8F7C2949288A2A2200A16C09 /* OECoreListUpdater */,
 				837820B91907FB3A0043593F /* Image Kit Headers (Private) */,
 				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
 			);
@@ -2984,6 +2949,9 @@
 				556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */,
 				01E7214A2523E798002CA16F /* Other Assets */,
 				8F7F17BC24EE0A7A00D23C2D /* Localization */,
+				8F22764629D301FC001FB9F8 /* Config.xcconfig */,
+				8F22765029D30551001FB9F8 /* CodeSignDefault.xcconfig */,
+				8F22764529D2FDE3001FB9F8 /* CodeSign.xcconfig */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -3009,7 +2977,7 @@
 			path = OpenEmuQLGenerator;
 			sourceTree = "<group>";
 		};
-		3DB744761BD8B92A00C23E74 /* Playstation 2 */ = {
+		3DB744761BD8B92A00C23E74 /* PlayStation 2 */ = {
 			isa = PBXGroup;
 			children = (
 				3DB744771BD8B95300C23E74 /* OEPS2SystemController.h */,
@@ -3019,7 +2987,7 @@
 				3DB7447B1BD8B95300C23E74 /* OEPS2SystemResponderClient.h */,
 				3DB7447E1BD8B9C800C23E74 /* Supporting Files */,
 			);
-			path = "Playstation 2";
+			path = "PlayStation 2";
 			sourceTree = "<group>";
 		};
 		3DB7447E1BD8B9C800C23E74 /* Supporting Files */ = {
@@ -3153,8 +3121,6 @@
 				0544B6AE23D1780C00F63D61 /* GameTableView.xib */,
 				53439AD813B92E59005C0CC8 /* OEListViewDataSourceItem.h */,
 				53439ADA13B92E59005C0CC8 /* RatingCell.swift */,
-				53439AE113B92E59005C0CC8 /* OETableView.h */,
-				53439AE213B92E59005C0CC8 /* OETableView.m */,
 			);
 			name = "List View";
 			sourceTree = "<group>";
@@ -3258,11 +3224,6 @@
 				0544B68823D14E6300F63D61 /* SidebarController.swift */,
 				8F99F815256BF358007B83E1 /* SidebarController.xib */,
 				05A002D523DE5389007F0DB7 /* SidebarHeaderView.swift */,
-				05A002D923DE583E007F0DB7 /* SidebarHeaderView.xib */,
-				05A002D723DE539F007F0DB7 /* SidebarItemView.swift */,
-				05A002DB23DE5E1B007F0DB7 /* SidebarItemView.xib */,
-				8306CD181BD3AC3D0025BC6C /* OESidebarController.m */,
-				8306CD211BD3AC3D0025BC6C /* SidebarOutlineView.swift */,
 			);
 			name = Sidebar;
 			sourceTree = "<group>";
@@ -3495,6 +3456,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		8F7C2949288A2A2200A16C09 /* OECoreListUpdater */ = {
+			isa = PBXGroup;
+			children = (
+				8F7C294A288A2A2200A16C09 /* main.swift */,
+			);
+			path = OECoreListUpdater;
+			sourceTree = "<group>";
+		};
 		8F7F17BC24EE0A7A00D23C2D /* Localization */ = {
 			isa = PBXGroup;
 			children = (
@@ -3636,8 +3605,7 @@
 		943F998D1707D51100270E89 /* Vectrex */ = {
 			isa = PBXGroup;
 			children = (
-				8706347E1C27D267007FAA2F /* OEVectrexSystemController.h */,
-				8706347F1C27D267007FAA2F /* OEVectrexSystemController.m */,
+				8706347F1C27D267007FAA2F /* OEVectrexSystemController.swift */,
 				943F999C1707D97600270E89 /* OEVectrexSystemResponder.h */,
 				943F999D1707D97600270E89 /* OEVectrexSystemResponder.m */,
 				943F999E1707D97600270E89 /* OEVectrexSystemResponderClient.h */,
@@ -3688,8 +3656,7 @@
 		94404757199D4DF0002D805E /* Odyssey2 */ = {
 			isa = PBXGroup;
 			children = (
-				94404763199D4FEE002D805E /* OEOdyssey2SystemController.h */,
-				94404764199D4FEE002D805E /* OEOdyssey2SystemController.m */,
+				94404764199D4FEE002D805E /* OEOdyssey2SystemController.swift */,
 				94404765199D4FEE002D805E /* OEOdyssey2SystemResponder.h */,
 				94404766199D4FEE002D805E /* OEOdyssey2SystemResponder.m */,
 				94404767199D4FEE002D805E /* OEOdyssey2SystemResponderClient.h */,
@@ -3738,8 +3705,7 @@
 		945E42FD1517F2B500057D08 /* Arcade */ = {
 			isa = PBXGroup;
 			children = (
-				8763A38D1D5694E90089C30B /* OEArcadeSystemController.h */,
-				8763A38E1D5694E90089C30B /* OEArcadeSystemController.m */,
+				8763A38E1D5694E90089C30B /* OEArcadeSystemController.swift */,
 				945E430A1517F59900057D08 /* OEArcadeSystemResponder.h */,
 				945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */,
 				945E430C1517F59900057D08 /* OEArcadeSystemResponderClient.h */,
@@ -3763,8 +3729,7 @@
 		946B9464178289BB00A212AC /* Sega 32X */ = {
 			isa = PBXGroup;
 			children = (
-				94525EE017A9A778003CB1A2 /* OESega32XSystemController.h */,
-				94525EE117A9A778003CB1A2 /* OESega32XSystemController.m */,
+				94525EE117A9A778003CB1A2 /* OESega32XSystemController.swift */,
 				946B947017828A1E00A212AC /* OESega32XSystemResponder.h */,
 				946B947117828A1E00A212AC /* OESega32XSystemResponder.m */,
 				946B947217828A1E00A212AC /* OESega32XSystemResponderClient.h */,
@@ -3788,8 +3753,7 @@
 		94A224351707537F00098DA0 /* PC Engine */ = {
 			isa = PBXGroup;
 			children = (
-				94A2253F17075CF200098DA0 /* OEPCESystemController.h */,
-				94A2254017075CF200098DA0 /* OEPCESystemController.m */,
+				94A2254017075CF200098DA0 /* OEPCESystemController.swift */,
 				94A2254117075CF200098DA0 /* OEPCESystemResponder.h */,
 				94A2254217075CF200098DA0 /* OEPCESystemResponder.m */,
 				94A2254317075CF200098DA0 /* OEPCESystemResponderClient.h */,
@@ -3956,8 +3920,7 @@
 		94A224A51707543600098DA0 /* Atari 2600 */ = {
 			isa = PBXGroup;
 			children = (
-				94412D4418A896C30012071B /* OE2600SystemController.h */,
-				94412D4518A896C30012071B /* OE2600SystemController.m */,
+				94412D4518A896C30012071B /* OE2600SystemController.swift */,
 				94A225BA1707608B00098DA0 /* OE2600SystemResponder.h */,
 				94A225BB1707608B00098DA0 /* OE2600SystemResponder.m */,
 				94A225BC1707608B00098DA0 /* OE2600SystemResponderClient.h */,
@@ -3981,8 +3944,7 @@
 		94A224B51707544100098DA0 /* Atari 5200 */ = {
 			isa = PBXGroup;
 			children = (
-				8745D75D1BF9A72A005E8699 /* OE5200SystemController.h */,
-				8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */,
+				8745D75E1BF9A72B005E8699 /* OE5200SystemController.swift */,
 				94A225CA170760C900098DA0 /* OE5200SystemResponder.h */,
 				94A225CB170760C900098DA0 /* OE5200SystemResponder.m */,
 				94A225CC170760C900098DA0 /* OE5200SystemResponderClient.h */,
@@ -4089,8 +4051,7 @@
 		94BE9E52171683E000AB08E6 /* ColecoVision */ = {
 			isa = PBXGroup;
 			children = (
-				941ABD2C1A15DF5C0072686C /* OEColecoVisionSystemController.h */,
-				941ABD2D1A15DF5C0072686C /* OEColecoVisionSystemController.m */,
+				941ABD2D1A15DF5C0072686C /* OEColecoVisionSystemController.swift */,
 				94BE9E5E171689B400AB08E6 /* OEColecoVisionSystemResponder.h */,
 				94BE9E5F171689B400AB08E6 /* OEColecoVisionSystemResponder.m */,
 				94BE9E60171689B400AB08E6 /* OEColecoVisionSystemResponderClient.h */,
@@ -4114,8 +4075,7 @@
 		94CEB26F17A84809005A2107 /* GameCube */ = {
 			isa = PBXGroup;
 			children = (
-				94CEB27B17A84A75005A2107 /* OEGCSystemController.h */,
-				94CEB27C17A84A75005A2107 /* OEGCSystemController.m */,
+				94CEB27C17A84A75005A2107 /* OEGCSystemController.swift */,
 				94CEB27D17A84A75005A2107 /* OEGCSystemResponder.h */,
 				94CEB27E17A84A75005A2107 /* OEGCSystemResponder.m */,
 				94CEB27F17A84A75005A2107 /* OEGCSystemResponderClient.h */,
@@ -4139,8 +4099,7 @@
 		94D7E8CB15073BA000FBDD85 /* NDS */ = {
 			isa = PBXGroup;
 			children = (
-				94B28254189DF5AA00D80F3D /* OENDSSystemController.h */,
-				94B28255189DF5AA00D80F3D /* OENDSSystemController.m */,
+				94B28255189DF5AA00D80F3D /* OENDSSystemController.swift */,
 				94D7E8E015073E3800FBDD85 /* OENDSSystemResponder.h */,
 				94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */,
 				94D7E8E215073E3800FBDD85 /* OENDSSystemResponderClient.h */,
@@ -4188,8 +4147,7 @@
 		C646574A13771F12002A4F70 /* GameBoy Advance */ = {
 			isa = PBXGroup;
 			children = (
-				8FEDF0CB24F2BC48001ABF6F /* OEGBASystemController.h */,
-				8FEDF0CC24F2BC48001ABF6F /* OEGBASystemController.m */,
+				8FEDF0CC24F2BC48001ABF6F /* OEGBASystemController.swift */,
 				C646576513772251002A4F70 /* OEGBASystemResponder.h */,
 				C646576613772251002A4F70 /* OEGBASystemResponder.m */,
 				C6465761137720D5002A4F70 /* OEGBASystemResponderClient.h */,
@@ -4213,8 +4171,7 @@
 		C6480FC313648F670094FA33 /* SuperNES */ = {
 			isa = PBXGroup;
 			children = (
-				C6480FD3136490250094FA33 /* OESNESSystemController.h */,
-				C6480FD0136490250094FA33 /* OESNESSystemController.m */,
+				C6480FD0136490250094FA33 /* OESNESSystemController.swift */,
 				C6480FD2136490250094FA33 /* OESNESSystemResponder.h */,
 				C6480FD1136490250094FA33 /* OESNESSystemResponder.m */,
 				C6480FF91364B18E0094FA33 /* OESNESSystemResponderClient.h */,
@@ -4240,8 +4197,7 @@
 		C64BB08F136478E600C1AB23 /* NES */ = {
 			isa = PBXGroup;
 			children = (
-				C64BB09C13647AEF00C1AB23 /* OENESSystemController.h */,
-				C64BB09D13647AEF00C1AB23 /* OENESSystemController.m */,
+				C64BB09D13647AEF00C1AB23 /* OENESSystemController.swift */,
 				C64BB09F13647B3500C1AB23 /* OENESSystemResponder.h */,
 				C64BB0A013647B3500C1AB23 /* OENESSystemResponder.m */,
 				C6B3E691136525D100D34947 /* OENESSystemResponderClient.h */,
@@ -4306,7 +4262,7 @@
 				9405538617A34C6B009B505D /* PC Engine CD */,
 				94A22465170753D500098DA0 /* PC-FX */,
 				94A224F81707596200098DA0 /* PlayStation */,
-				3DB744761BD8B92A00C23E74 /* Playstation 2 */,
+				3DB744761BD8B92A00C23E74 /* PlayStation 2 */,
 				081A461F1B9572C400565444 /* Pokemon mini */,
 				94454EB617860E1E006C057B /* PSP */,
 				94A224D51707556D00098DA0 /* Saturn */,
@@ -4351,8 +4307,7 @@
 		C6B947B11364ECA700A425F0 /* GameBoy */ = {
 			isa = PBXGroup;
 			children = (
-				8FEDF0C824F2BC37001ABF6F /* OEGBSystemController.h */,
-				8FEDF0C924F2BC37001ABF6F /* OEGBSystemController.m */,
+				8FEDF0C924F2BC37001ABF6F /* OEGBSystemController.swift */,
 				C6B947BE1364EE6C00A425F0 /* OEGBSystemResponder.h */,
 				C6B947BB1364EE6C00A425F0 /* OEGBSystemResponder.m */,
 				C6B947BC1364EE6C00A425F0 /* OEGBSystemResponderClient.h */,
@@ -4376,8 +4331,7 @@
 		C6B947E81365080B00A425F0 /* Genesis */ = {
 			isa = PBXGroup;
 			children = (
-				943815B6165771EB00D55731 /* OEGenesisSystemController.h */,
-				943815B7165771EB00D55731 /* OEGenesisSystemController.m */,
+				943815B7165771EB00D55731 /* OEGenesisSystemController.swift */,
 				C6B9480C1365096800A425F0 /* OEGenesisSystemResponder.h */,
 				C6B9480B1365096800A425F0 /* OEGenesisSystemResponder.m */,
 				C6B9480A1365096800A425F0 /* OEGenesisSystemResponderClient.h */,
@@ -4401,8 +4355,7 @@
 		FEB6624D187B624E00D14713 /* MSX */ = {
 			isa = PBXGroup;
 			children = (
-				FEB66250187B62CA00D14713 /* OEMSXSystemController.h */,
-				FEB66251187B62CA00D14713 /* OEMSXSystemController.m */,
+				FEB66251187B62CA00D14713 /* OEMSXSystemController.swift */,
 				FEB66253187B751700D14713 /* OEMSXSystemResponder.h */,
 				FEB66254187B751700D14713 /* OEMSXSystemResponder.m */,
 				FEB66256187B76CF00D14713 /* OEMSXSystemResponderClient.h */,
@@ -4739,7 +4692,7 @@
 				8309A77E166CE51E0013AD4A /* Copy SaveState QL Generator */,
 				0547FDDB24E8614C005C1FFC /* Copy Auxilliary Executables */,
 				0547FE1F24E86D9F005C1FFC /* Embed XPC Services */,
-				8F94DEC7250EC701003A1F33 /* Embed App Extensions */,
+				8F94DEC7250EC701003A1F33 /* Embed Foundation Extensions */,
 				0121480D2537D48C007F3C84 /* Update Info.plist File Types */,
 				8FA5FB93283C5E7D00CC11A8 /* Update Info.plist Build Version */,
 			);
@@ -4764,6 +4717,25 @@
 			productName = OpenEmu;
 			productReference = 8D15AC370486D014006FF6A4 /* OpenEmu.app */;
 			productType = "com.apple.product-type.application";
+		};
+		8F7C2947288A2A2200A16C09 /* OECoreListUpdater */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F7C294C288A2A2200A16C09 /* Build configuration list for PBXNativeTarget "OECoreListUpdater" */;
+			buildPhases = (
+				8F7C2944288A2A2200A16C09 /* Sources */,
+				8F7C2945288A2A2200A16C09 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OECoreListUpdater;
+			packageProductDependencies = (
+				8F7C2956288A2DC600A16C09 /* ZIPFoundation */,
+			);
+			productName = OECoreListUpdater;
+			productReference = 8F7C2948288A2A2200A16C09 /* OECoreListUpdater */;
+			productType = "com.apple.product-type.tool";
 		};
 		8F94DEB9250EC701003A1F33 /* OpenEmuQLThumbnail */ = {
 			isa = PBXNativeTarget;
@@ -5354,195 +5326,39 @@
 				TargetAttributes = {
 					011FD36125267910006D7C05 = {
 						CreatedOnToolsVersion = 11.3.1;
-						ProvisioningStyle = Manual;
 					};
 					012148042537C6D6007F3C84 = {
 						CreatedOnToolsVersion = 11.3.1;
-						ProvisioningStyle = Automatic;
 					};
 					015BFEB325266DFC0025139F = {
 						CreatedOnToolsVersion = 11.3.1;
-						ProvisioningStyle = Automatic;
-					};
-					01607FC525388361006FCBC8 = {
-						ProvisioningStyle = Manual;
 					};
 					016F22DB23F19F5F00181842 = {
 						CreatedOnToolsVersion = 11.3.1;
-						ProvisioningStyle = Manual;
 					};
 					0547FE1324E86D9F005C1FFC = {
 						CreatedOnToolsVersion = 12.0;
 						LastSwiftMigration = 1200;
-						ProvisioningStyle = Automatic;
 					};
 					05DB72A02532681B0098459D = {
 						CreatedOnToolsVersion = 12.2;
 						LastSwiftMigration = 1250;
-						ProvisioningStyle = Automatic;
 						TestTargetID = 8D15AC270486D014006FF6A4;
-					};
-					081A46251B95744A00565444 = {
-						CreatedOnToolsVersion = 6.4;
-						ProvisioningStyle = Manual;
-					};
-					1415540E1442B3B300A01683 = {
-						ProvisioningStyle = Manual;
 					};
 					1BEF2A9311682A530090F72B = {
 						LastSwiftMigration = 1300;
-						ProvisioningStyle = Manual;
-					};
-					277CBA3219DE54200059A2C1 = {
-						ProvisioningStyle = Manual;
-					};
-					37C802FF101564A300356EF3 = {
-						ProvisioningStyle = Manual;
-					};
-					3887A7F51024D1F9000FC4CF = {
-						ProvisioningStyle = Manual;
-					};
-					3DB744A51BD8BA9E00C23E74 = {
-						ProvisioningStyle = Manual;
-					};
-					820EB7391483F9A2008EC398 = {
-						ProvisioningStyle = Manual;
-					};
-					8227753E148946DF00B19E27 = {
-						ProvisioningStyle = Manual;
-					};
-					82C9C96F0F080C7F0071460B = {
-						ProvisioningStyle = Manual;
-					};
-					837964E01A6149C000A8DE5C = {
-						CreatedOnToolsVersion = 6.1.1;
-						ProvisioningStyle = Manual;
-					};
-					83F37141140BB166005A7353 = {
-						ProvisioningStyle = Manual;
-					};
-					87DF04FD1BCE2D100060E2C2 = {
-						CreatedOnToolsVersion = 7.0.1;
-						ProvisioningStyle = Manual;
-					};
-					87FBC06C1BFC70FE00AECF5A = {
-						CreatedOnToolsVersion = 7.1.1;
-						ProvisioningStyle = Manual;
-					};
-					87FBC08D1C0790B400AECF5A = {
-						CreatedOnToolsVersion = 7.1.1;
-						ProvisioningStyle = Manual;
 					};
 					8D15AC270486D014006FF6A4 = {
 						LastSwiftMigration = 1020;
-						ProvisioningStyle = Manual;
+					};
+					8F7C2947288A2A2200A16C09 = {
+						CreatedOnToolsVersion = 13.4;
 					};
 					8F94DEB9250EC701003A1F33 = {
 						CreatedOnToolsVersion = 12.0;
-						ProvisioningStyle = Automatic;
 					};
 					8F94DECE250ED838003A1F33 = {
 						CreatedOnToolsVersion = 12.0;
-						ProvisioningStyle = Automatic;
-					};
-					9405538317A34C6B009B505D = {
-						ProvisioningStyle = Manual;
-					};
-					941F5A0017A785AD0005D7EA = {
-						ProvisioningStyle = Manual;
-					};
-					943C80111708A62E00D8D93E = {
-						ProvisioningStyle = Manual;
-					};
-					943C80341708F23900D8D93E = {
-						ProvisioningStyle = Manual;
-					};
-					943F998A1707D51100270E89 = {
-						ProvisioningStyle = Manual;
-					};
-					943F99B21707DF3700270E89 = {
-						ProvisioningStyle = Manual;
-					};
-					94404754199D4DF0002D805E = {
-						ProvisioningStyle = Manual;
-					};
-					94454EB317860E1D006C057B = {
-						ProvisioningStyle = Manual;
-					};
-					945E42FA1517F2B500057D08 = {
-						ProvisioningStyle = Manual;
-					};
-					946B9461178289BA00A212AC = {
-						ProvisioningStyle = Manual;
-					};
-					94A224321707537F00098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224421707539D00098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A22452170753C800098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A22462170753D500098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A22472170753E100098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224821707541E00098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224921707542A00098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224A21707543600098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224B21707544100098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224C21707544B00098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224D21707556D00098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94A224F51707596100098DA0 = {
-						ProvisioningStyle = Manual;
-					};
-					94BE9E4F171683E000AB08E6 = {
-						ProvisioningStyle = Manual;
-					};
-					94CEB26C17A84809005A2107 = {
-						ProvisioningStyle = Manual;
-					};
-					94D7E8C815073BA000FBDD85 = {
-						ProvisioningStyle = Manual;
-					};
-					94EBBCD7183F422500743756 = {
-						ProvisioningStyle = Manual;
-					};
-					C646574713771F12002A4F70 = {
-						ProvisioningStyle = Manual;
-					};
-					C6480FC013648F670094FA33 = {
-						ProvisioningStyle = Manual;
-					};
-					C64BB08C136478E600C1AB23 = {
-						ProvisioningStyle = Manual;
-					};
-					C671180E136368330034379A = {
-						ProvisioningStyle = Manual;
-					};
-					C6B947AE1364ECA600A425F0 = {
-						ProvisioningStyle = Manual;
-					};
-					C6B947E51365080B00A425F0 = {
-						ProvisioningStyle = Manual;
-					};
-					FEB6625A187B791800D14713 = {
-						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -5572,6 +5388,7 @@
 				8F44DEB326DFD07200893A18 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				8F2543F82714C273003FC137 /* XCRemoteSwiftPackageReference "Finite" */,
 				058B557B27AF240A00EE0E47 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				8F7C2953288A2D7C00A16C09 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 			);
 			projectDirPath = "";
 			projectRoot = "";
@@ -5634,6 +5451,7 @@
 				015BFEB325266DFC0025139F /* OEControlLabelsGenerator */,
 				05DB72A02532681B0098459D /* OpenEmuTests */,
 				012148042537C6D6007F3C84 /* OESystemPluginPostInstall */,
+				8F7C2947288A2A2200A16C09 /* OECoreListUpdater */,
 			);
 		};
 /* End PBXProject section */
@@ -5796,10 +5614,7 @@
 				8F057160254E7EA5003B36FD /* MainMenu.strings in Resources */,
 				8F071F3B1C255362007B76DA /* Credits.rtf in Resources */,
 				0544B69623D16D0C00F63D61 /* ImageCollectionViewItem.xib in Resources */,
-				05410EF522F7573D00303424 /* CheckboxCell.xib in Resources */,
-				05A002DA23DE583E007F0DB7 /* SidebarHeaderView.xib in Resources */,
 				83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */,
-				05410EF122F7538B00303424 /* SliderCell.xib in Resources */,
 				83B04E421968610F00CB985E /* Localizable.strings in Resources */,
 				05201D7F2782501E0028CBE0 /* NameShaderPreset.xib in Resources */,
 				051DDCB723E5D9E400325147 /* AvailableLibrariesViewController.xib in Resources */,
@@ -5828,11 +5643,9 @@
 				83B04E411968610F00CB985E /* InfoPlist.strings in Resources */,
 				8F99F816256BF358007B83E1 /* SidebarController.xib in Resources */,
 				83495DD819A38F3D009DB6E5 /* PrefBiosController.xib in Resources */,
-				05A002DC23DE5E1B007F0DB7 /* SidebarItemView.xib in Resources */,
 				83338C2217A281C7007E32E9 /* secret.mp3 in Resources */,
 				05888F7425A111B000286232 /* ShaderParametersViewController.xib in Resources */,
 				94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */,
-				05410EF322F756BD00303424 /* GroupCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6216,6 +6029,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		0121480D2537D48C007F3C84 /* Update Info.plist File Types */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -6327,6 +6141,7 @@
 		};
 		8FA5FB93283C5E7D00CC11A8 /* Update Info.plist Build Version */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -6403,7 +6218,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				141554211442B7B100A01683 /* OEN64SystemResponder.m in Sources */,
-				94C59FBF1921CCBD0096BCC2 /* OEN64SystemController.m in Sources */,
+				94C59FBF1921CCBD0096BCC2 /* OEN64SystemController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6419,7 +6234,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				941ABD361A1605E50072686C /* OEIntellivisionSystemController.m in Sources */,
+				941ABD361A1605E50072686C /* OEIntellivisionSystemController.swift in Sources */,
 				277CBA4A19DE54A80059A2C1 /* OEIntellivisionSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6502,7 +6317,6 @@
 				83495DD419A38F31009DB6E5 /* PrefBiosController.swift in Sources */,
 				0544B69423D16D0C00F63D61 /* ImageCollectionViewItem.swift in Sources */,
 				C69DCD010FE994A5009AE5A6 /* PluginDocument.swift in Sources */,
-				05A002D823DE539F007F0DB7 /* SidebarItemView.swift in Sources */,
 				05A002D423DE1006007F0DB7 /* UserDefaults+OEAdditions.swift in Sources */,
 				8F8DB27B26D2A69E003CF106 /* PreferencePane.swift in Sources */,
 				1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */,
@@ -6528,7 +6342,6 @@
 				8F7AE88A2546802A00B837A8 /* InsetScrollView.swift in Sources */,
 				53439AE313B92E59005C0CC8 /* RatingCell.swift in Sources */,
 				05A002D623DE5389007F0DB7 /* SidebarHeaderView.swift in Sources */,
-				53439AE713B92E59005C0CC8 /* OETableView.m in Sources */,
 				8F58592F24F4340D009B8502 /* HomebrewOutlinedButton.swift in Sources */,
 				5A9606D21C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift in Sources */,
 				5AFD06BD2058893B00DFE765 /* GameScannerViewController.swift in Sources */,
@@ -6647,7 +6460,6 @@
 				837820BD19081A090043593F /* OELibraryMigrator.m in Sources */,
 				8337F38E1726B3600068DD90 /* BackgroundImageView.swift in Sources */,
 				94A4E98D179F9A4D00AD8C7D /* OEDBSaveStatesMedia.swift in Sources */,
-				5A3DB1731D8CA752009445EC /* BackgroundGradientView.swift in Sources */,
 				8F9410C0273A0167004C47CC /* CoreUpdater.swift in Sources */,
 				94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.swift in Sources */,
 				94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */,
@@ -6659,6 +6471,15 @@
 				C67DBF4317DBE859006AF087 /* NSDocument+OEAdditions.m in Sources */,
 				8CBD3AA217D23AA80022399B /* OEGridGameCell.m in Sources */,
 				5A9606D41C0A63740089B494 /* NSMutableDictionary+Pop.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F7C2944288A2A2200A16C09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F7C2951288A2C7800A16C09 /* FileManager+Hashing.swift in Sources */,
+				8F7C294B288A2A2200A16C09 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6715,7 +6536,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				870634801C27D267007FAA2F /* OEVectrexSystemController.m in Sources */,
+				870634801C27D267007FAA2F /* OEVectrexSystemController.swift in Sources */,
 				943F999F1707D97600270E89 /* OEVectrexSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6733,7 +6554,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94404769199D4FEE002D805E /* OEOdyssey2SystemController.m in Sources */,
+				94404769199D4FEE002D805E /* OEOdyssey2SystemController.swift in Sources */,
 				9440476B199D4FEE002D805E /* OEOdyssey2SystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6751,7 +6572,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8763A38F1D5694E90089C30B /* OEArcadeSystemController.m in Sources */,
+				8763A38F1D5694E90089C30B /* OEArcadeSystemController.swift in Sources */,
 				945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6761,7 +6582,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				946B947317828A1E00A212AC /* OESega32XSystemResponder.m in Sources */,
-				94525EE217A9A778003CB1A2 /* OESega32XSystemController.m in Sources */,
+				94525EE217A9A778003CB1A2 /* OESega32XSystemController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6769,7 +6590,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94A2254417075CF200098DA0 /* OEPCESystemController.m in Sources */,
+				94A2254417075CF200098DA0 /* OEPCESystemController.swift in Sources */,
 				94A2254517075CF200098DA0 /* OEPCESystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6828,7 +6649,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94412D4618A896C30012071B /* OE2600SystemController.m in Sources */,
+				94412D4618A896C30012071B /* OE2600SystemController.swift in Sources */,
 				94A225BD1707608B00098DA0 /* OE2600SystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6838,7 +6659,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94A225CD170760C900098DA0 /* OE5200SystemResponder.m in Sources */,
-				8745D75F1BF9A72B005E8699 /* OE5200SystemController.m in Sources */,
+				8745D75F1BF9A72B005E8699 /* OE5200SystemController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6872,7 +6693,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				941ABD2E1A15DF5C0072686C /* OEColecoVisionSystemController.m in Sources */,
+				941ABD2E1A15DF5C0072686C /* OEColecoVisionSystemController.swift in Sources */,
 				94BE9E61171689B400AB08E6 /* OEColecoVisionSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6881,7 +6702,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94CEB28017A84A75005A2107 /* OEGCSystemController.m in Sources */,
+				94CEB28017A84A75005A2107 /* OEGCSystemController.swift in Sources */,
 				94CEB28117A84A75005A2107 /* OEGCSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6890,7 +6711,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94B28256189DF5AA00D80F3D /* OENDSSystemController.m in Sources */,
+				94B28256189DF5AA00D80F3D /* OENDSSystemController.swift in Sources */,
 				94D7E8E415073E3900FBDD85 /* OENDSSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6900,7 +6721,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C646576713772251002A4F70 /* OEGBASystemResponder.m in Sources */,
-				8FEDF0CD24F2BC48001ABF6F /* OEGBASystemController.m in Sources */,
+				8FEDF0CD24F2BC48001ABF6F /* OEGBASystemController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6908,7 +6729,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6480FD4136490250094FA33 /* OESNESSystemController.m in Sources */,
+				C6480FD4136490250094FA33 /* OESNESSystemController.swift in Sources */,
 				C6480FD5136490250094FA33 /* OESNESSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6917,7 +6738,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C64BB09E13647AEF00C1AB23 /* OENESSystemController.m in Sources */,
+				C64BB09E13647AEF00C1AB23 /* OENESSystemController.swift in Sources */,
 				C64BB0A113647B3500C1AB23 /* OENESSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6935,7 +6756,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6B947C01364EE6C00A425F0 /* OEGBSystemResponder.m in Sources */,
-				8FEDF0CA24F2BC38001ABF6F /* OEGBSystemController.m in Sources */,
+				8FEDF0CA24F2BC38001ABF6F /* OEGBSystemController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6944,7 +6765,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6B948101365096800A425F0 /* OEGenesisSystemResponder.m in Sources */,
-				943815B8165771EB00D55731 /* OEGenesisSystemController.m in Sources */,
+				943815B8165771EB00D55731 /* OEGenesisSystemController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6953,7 +6774,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEB66269187B792700D14713 /* OEMSXSystemResponder.m in Sources */,
-				FEB66268187B792700D14713 /* OEMSXSystemController.m in Sources */,
+				FEB66268187B792700D14713 /* OEMSXSystemController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7554,14 +7375,13 @@
 		};
 		0547FE2224E86D9F005C1FFC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -7589,14 +7409,13 @@
 		};
 		0547FE2324E86D9F005C1FFC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -7636,7 +7455,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = OpenEmuTests/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -7668,7 +7487,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = OpenEmuTests/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -7730,6 +7549,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7757,6 +7577,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
@@ -8004,11 +7825,53 @@
 			};
 			name = Release;
 		};
-		8F94DEC8250EC701003A1F33 /* Debug */ = {
+		8F7C294D288A2A2200A16C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = OpenEmuQLThumbnail/OpenEmuQLThumbnail.entitlements;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8F7C294E288A2A2200A16C09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		8F94DEC8250EC701003A1F33 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = OpenEmuQLThumbnail/OpenEmuQLThumbnail.entitlements;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = OpenEmuQLThumbnail/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
@@ -8020,9 +7883,9 @@
 		};
 		8F94DEC9250EC701003A1F33 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenEmuQLThumbnail/OpenEmuQLThumbnail.entitlements;
-				CODE_SIGN_STYLE = Automatic;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = OpenEmuQLThumbnail/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
@@ -8034,9 +7897,9 @@
 		};
 		8F94DEDE250ED838003A1F33 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenEmuQLPreview/OpenEmuQLPreview.entitlements;
-				CODE_SIGN_STYLE = Automatic;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = OpenEmuQLPreview/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
@@ -8048,9 +7911,9 @@
 		};
 		8F94DEDF250ED838003A1F33 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenEmuQLPreview/OpenEmuQLPreview.entitlements;
-				CODE_SIGN_STYLE = Automatic;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = OpenEmuQLPreview/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
@@ -8576,6 +8439,7 @@
 		};
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = OpenEmu;
@@ -8610,6 +8474,7 @@
 		};
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = OpenEmu;
@@ -8706,6 +8571,7 @@
 				SDKROOT = macosx;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG_PRINT DEBUG";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -8771,6 +8637,7 @@
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -9111,6 +8978,15 @@
 			buildConfigurations = (
 				87FBC0911C0790B500AECF5A /* Debug */,
 				87FBC0921C0790B500AECF5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8F7C294C288A2A2200A16C09 /* Build configuration list for PBXNativeTarget "OECoreListUpdater" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F7C294D288A2A2200A16C09 /* Debug */,
+				8F7C294E288A2A2200A16C09 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -9475,6 +9351,14 @@
 				minimumVersion = 2.2.0;
 			};
 		};
+		8F7C2953288A2D7C00A16C09 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.9.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -9492,6 +9376,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8F44DEB326DFD07200893A18 /* XCRemoteSwiftPackageReference "Sparkle" */;
 			productName = Sparkle;
+		};
+		8F7C2956288A2DC600A16C09 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F7C2953288A2D7C00A16C09 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
 		};
 /* End XCSwiftPackageProductDependency section */
 

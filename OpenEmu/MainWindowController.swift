@@ -321,7 +321,7 @@ extension MainWindowController: LibraryControllerDelegate {
                         case OEGameDocument.Errors.gameCoreCrashed(let core, let systemIdentifier, _) = error {
                     // TODO: the setup completion handler shouldn't be the place where non-setup-related errors are handled!
                     let coreName = core.displayName
-                    let glitchy = core.controller.hasGlitches(forSystemIdentifier: systemIdentifier)
+                    let glitchy = core.hasGlitches(forSystemIdentifier: systemIdentifier)
                     
                     let alert = OEAlert()
                     if openWithSaveState {

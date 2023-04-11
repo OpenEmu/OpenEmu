@@ -27,7 +27,7 @@ import Cocoa
 class ImageCollectionHeaderView: NSVisualEffectView, NSCollectionViewElement {
     
     @IBOutlet weak var sectionTitle: NSTextField!
-    @IBOutlet weak var imageCount: NSTextField!
+    @IBOutlet weak var secondaryTitle: NSTextField!
     
     func preferredLayoutAttributesFitting(_ layoutAttributes: NSCollectionViewLayoutAttributes) -> NSCollectionViewLayoutAttributes {
         layoutAttributes

@@ -66,14 +66,17 @@ final class OEDBImage: OEDBItem {
         return Self.prepareImage(with: url)
     }
     
-    class func prepareImage(with url: URL) -> [String : Any] {
+    class func prepareImage(with url: URL) -> [String : Any]? {
+        guard let image = NSImage(contentsOf: url)
+        else {
+            NSLog("File at \(url.absoluteString) is not a valid image.")
+            return nil
+        }
+        
         var result: [String : Any] = ["URL" : url]
         
-        if let image = NSImage(contentsOf: url) {
-            let tempInfo = prepareImage(with: image)
-            
-            result.merge(tempInfo) { (old, _) in old }
-        }
+        let tempInfo = prepareImage(with: image)
+        result.merge(tempInfo) { (old, _) in old }
         
         return result
     }

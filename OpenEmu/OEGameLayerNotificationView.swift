@@ -44,12 +44,8 @@ final class OEGameLayerNotificationView: NSImageView {
     override var wantsUpdateLayer: Bool { return true }
     
     var showNotifications: Bool {
-        return UserDefaults.standard.bool(forKey: OEGameLayerNotificationView.OEShowNotificationsKey)
+        return UserDefaults.standard.bool(forKey: Self.OEShowNotificationsKey)
     }
-    
-    private static let initializeDefaults: Void = {
-        UserDefaults.standard.register(defaults: [OEShowNotificationsKey : true])
-    }()
     
     // MARK: - Initialization
     
@@ -66,8 +62,6 @@ final class OEGameLayerNotificationView: NSImageView {
     private func setup() {
         self.wantsLayer = true
         self.layerContentsRedrawPolicy = .onSetNeedsDisplay
-
-        OEGameLayerNotificationView.initializeDefaults
     }
     
     // MARK: - Notifications

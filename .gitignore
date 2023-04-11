@@ -21,3 +21,4 @@ xcuserdata/
 profile
 *.moved-aside
 DerivedData/
+CodeSign.xcconfig

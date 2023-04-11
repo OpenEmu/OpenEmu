@@ -19,7 +19,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSPrincipalClass</key>
-	<string>OEN64SystemController</string>
+	<string>$(PRODUCT_NAME:c99extidentifier).OEN64SystemController</string>
 	<key>OEControlListKey</key>
 	<array>
 		<array>

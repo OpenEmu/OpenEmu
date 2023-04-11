@@ -72,7 +72,18 @@ public enum AppMover {
             NSApp.activate(ignoringOtherApps: true)
         }
         
-        let alert: OEAlert = .moveToApplications(needAuth: needAuth)
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("MOVE_ALERT_TITLE", value: "Move to Applications folder", comment: "")
+        alert.informativeText = NSLocalizedString("MOVE_ALERT_INFO_TEXT", value: "OpenEmu must move to your Applications folder in order to work properly.", comment: "")
+        if needAuth {
+            alert.informativeText.append(" " + NSLocalizedString("MOVE_ALERT_NEEDS_AUTH", value: "You need to authenticate with an administrator name and password to complete this step.", comment: ""))
+        }
+        alert.addButton(withTitle: NSLocalizedString("MOVE_ALERT_MOVE_BUTTON", value: "Move to Applications Folder", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("Quit", comment: ""))
+        if needAuth {
+            alert.addButton(withTitle: NSLocalizedString("Choose Location…", value: "Choose Location…", comment: ""))
+        }
+        
         switch alert.runModal() {
         case .alertFirstButtonReturn:
             break

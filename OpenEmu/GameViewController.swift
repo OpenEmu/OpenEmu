@@ -75,7 +75,7 @@ final class GameViewController: NSViewController {
         controlsWindow = GameControlsBar(gameViewController: self)
         controlsWindow.isReleasedWhenClosed = false
         shaderControl = ShaderControl(systemPlugin: document.systemPlugin,
-                                      helper: document.gameCoreHelper)
+                                      helper: document.gameCoreHelper!)
         shaderWindowController = ShaderParametersWindowController(control: shaderControl)
         
         scaledView = OEScaledGameLayerView(frame: NSRect(origin: .zero, size: NSSize(width: 1, height: 1)))
@@ -133,7 +133,7 @@ final class GameViewController: NSViewController {
     override func viewWillDisappear() {
         super.viewWillDisappear()
         
-        controlsWindow.hide(animated: false)
+        controlsWindow.hide(animated: false, hideCursor: false)
         controlsWindow.gameWindow = nil
         rootWindow?.removeChildWindow(controlsWindow)
     }

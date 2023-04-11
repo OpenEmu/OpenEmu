@@ -164,6 +164,7 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
         if alert.runModal() == .alertFirstButtonReturn {
             items.forEach { $0.delete() }
             try? OELibraryDatabase.default?.mainThreadContext.save()
+            collectionView.selectionIndexPaths = []
             return
         }
         

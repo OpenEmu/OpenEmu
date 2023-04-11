@@ -489,7 +489,7 @@
 		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 		<key>OEPS2ButtonAnalogMode</key>
-		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
+		<string>OEControllerNintendoSwitchProControllerButtonShare</string>
 	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>

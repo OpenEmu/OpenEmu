@@ -286,7 +286,7 @@
 		<key>OEFDSButtonSelect</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 		<key>OEFDSButtonChangeSide</key>
-		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
+		<string>OEControllerNintendoSwitchProControllerButtonShare</string>
 	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
@@ -368,6 +368,21 @@
 		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
 		<key>OEFDSButtonChangeSide</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+	</dict>
+	<key>OEController8BitDoPro2Controller</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEController8BitDoPro2ControllerDPadUp</string>
+		<key>OEFDSButtonA</key>
+		<string>OEController8BitDoPro2ControllerButtonA</string>
+		<key>OEFDSButtonB</key>
+		<string>OEController8BitDoPro2ControllerButtonB</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEController8BitDoPro2ControllerButtonStart</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEController8BitDoPro2ControllerButtonSelect</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEController8BitDoPro2ControllerButtonHome</string>
 	</dict>
 </dict>
 </plist>

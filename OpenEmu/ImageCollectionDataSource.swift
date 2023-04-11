@@ -136,11 +136,11 @@ class ImagesDataSource<Model: OEDBItem>: ImageDataSourceDelegate {
         let item = items[indexPath.section].first!
         if let game = item[keyPath: gameKeyPath] {
             view.sectionTitle.stringValue = game.displayName
-            view.imageCount.stringValue = game.system!.name
+            view.secondaryTitle.stringValue = game.system!.name
         }
         else {
             view.sectionTitle.stringValue = NSLocalizedString("Screenshots of Deleted Games", comment: "")
-            view.imageCount.stringValue = ""
+            view.secondaryTitle.stringValue = ""
         }
     }
     

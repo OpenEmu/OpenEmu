@@ -471,7 +471,7 @@ extension ImageCollectionViewController: NSCollectionViewDelegate {
         
         for data in archival {
             guard
-                let representation = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? NSURL,
+                let representation = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSURL.self, from: data),
                 let objectID = coordinator.managedObjectID(forURIRepresentation: representation as URL)
                 else { continue }
             
@@ -537,6 +537,10 @@ extension ImageCollectionViewController: NSCollectionViewDelegate {
 extension ImageCollectionViewController: NSCollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
         return flowLayout.itemSize
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> NSSize {
+        return NSSize(width: 0, height: 46)
     }
 }
 
