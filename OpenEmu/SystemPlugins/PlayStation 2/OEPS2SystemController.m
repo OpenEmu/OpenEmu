@@ -27,8 +27,6 @@
 #import "OEPS2SystemController.h"
 #import <zlib.h>
 
-CISO_H ciso;
-
 @implementation OEPS2SystemController
 
 static inline char itoh(int i) {
@@ -56,6 +54,7 @@ static inline char itoh(int i) {
 }
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
+    CISO_H ciso;
     
     // Handle cso file and return early
     if ([file.fileExtension isEqualToString:@"cso"])
@@ -70,13 +69,21 @@ static inline char itoh(int i) {
         
         // Uncompress the CSO header
         if((fin = fopen(file.dataTrackFileURL.path.fileSystemRepresentation, "rb")) == NULL)
+        {
+            fclose(fin);
             return OEFileSupportNo;
-        
+        }
         if(fread(&ciso, 1, sizeof(ciso), fin) != sizeof(ciso))
+        {
+            fclose(fin);
             return OEFileSupportNo;
+        }
         
         if(ciso.magic[0] != 'C' || ciso.magic[1] != 'I' || ciso.magic[2] != 'S' || ciso.magic[3] != 'O' || ciso.block_size ==0  || ciso.total_bytes == 0)
+        {
+            fclose(fin);
             return OEFileSupportNo;
+        }
         
         ciso_total_block = (int)ciso.total_bytes / ciso.block_size;
         index_size = (ciso_total_block + 1 ) * sizeof(unsigned long);
@@ -85,12 +92,18 @@ static inline char itoh(int i) {
         block_buf2 = malloc(ciso.block_size*2);
         
         if(!index_buf || !block_buf1 || !block_buf2)
+        {
+            fclose(fin);
             return OEFileSupportNo;
+        }
         
         memset(index_buf,0,index_size);
         
         if( fread(index_buf, 1, index_size, fin) != index_size )
+        {
+            fclose(fin);
             return OEFileSupportNo;
+        }
         
         // Init zlib
         z.zalloc = Z_NULL;
@@ -103,7 +116,10 @@ static inline char itoh(int i) {
         for(block = 0;block <= 16 ; block++)
         {
             if (inflateInit2(&z,-15) != Z_OK)
+            {
+                fclose(fin);
                 return OEFileSupportNo;
+            }
             
             index  = index_buf[block];
             plain  = index & 0x80000000;
@@ -122,7 +138,10 @@ static inline char itoh(int i) {
             
             z.avail_in  = (unsigned int)fread(block_buf2, 1, read_size , fin);
             if(z.avail_in != read_size)
+            {
+                fclose(fin);
                 return OEFileSupportNo;
+            }
             
             if(plain)
             {
@@ -136,10 +155,16 @@ static inline char itoh(int i) {
                 z.next_in   = block_buf2;
                 status = inflate(&z, Z_FULL_FLUSH);
                 if (status != Z_STREAM_END)
+                {
+                    fclose(fin);
                     return OEFileSupportNo;
+                }
                 cmp_size = (int)ciso.block_size - z.avail_out;
                 if(cmp_size != ciso.block_size)
+                {
+                    fclose(fin);
                     return OEFileSupportNo;
+                }
             }
             
              [header appendData:[NSData dataWithBytes:block_buf1 length:cmp_size]];
