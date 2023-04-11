@@ -27,13 +27,13 @@
 #import "OEPSPSystemController.h"
 #import <zlib.h>
 
-CISO_H ciso;
-
 @implementation OEPSPSystemController
 
 // read header to detect PSP ISO & CSO
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
+    CISO_H ciso;
+    
     // Handle cso file and return early
     if ([file.fileExtension isEqualToString:@"cso"])
     {
@@ -47,14 +47,20 @@ CISO_H ciso;
         
         // Uncompress the CSO header
         if((fin = fopen(file.dataTrackFileURL.path.fileSystemRepresentation, "rb")) == NULL)
+        {
+            fclose(fin);
             return OEFileSupportNo;
-        
+        }
         if(fread(&ciso, 1, sizeof(ciso), fin) != sizeof(ciso))
+        {
+            fclose(fin);
             return OEFileSupportNo;
-        
+        }
         if(ciso.magic[0] != 'C' || ciso.magic[1] != 'I' || ciso.magic[2] != 'S' || ciso.magic[3] != 'O' || ciso.block_size ==0  || ciso.total_bytes == 0)
+        {
+            fclose(fin);
             return OEFileSupportNo;
-        
+        }
         ciso_total_block = (int)ciso.total_bytes / ciso.block_size;
         index_size = (ciso_total_block + 1 ) * sizeof(unsigned long);
         index_buf  = malloc(index_size);
@@ -62,13 +68,17 @@ CISO_H ciso;
         block_buf2 = malloc(ciso.block_size*2);
         
         if(!index_buf || !block_buf1 || !block_buf2)
+        {
+            fclose(fin);
             return OEFileSupportNo;
-        
+        }
         memset(index_buf,0,index_size);
         
         if( fread(index_buf, 1, index_size, fin) != index_size )
+        {
+            fclose(fin);
             return OEFileSupportNo;
-        
+        }
         // Init zlib
         z.zalloc = Z_NULL;
         z.zfree  = Z_NULL;
@@ -99,8 +109,10 @@ CISO_H ciso;
             
             z.avail_in  = (unsigned int)fread(block_buf2, 1, read_size , fin);
             if(z.avail_in != read_size)
+            {
+                fclose(fin);
                 return OEFileSupportNo;
-            
+            }
             if(plain)
             {
                 memcpy(block_buf1,block_buf2,read_size);
@@ -113,11 +125,15 @@ CISO_H ciso;
                 z.next_in   = block_buf2;
                 status = inflate(&z, Z_FULL_FLUSH);
                 if (status != Z_STREAM_END)
+                {
+                    fclose(fin);
                     return OEFileSupportNo;
-                cmp_size = (int)ciso.block_size - z.avail_out;
+                }                cmp_size = (int)ciso.block_size - z.avail_out;
                 if(cmp_size != ciso.block_size)
+                {
+                    fclose(fin);
                     return OEFileSupportNo;
-            }
+                }            }
             
              [header appendData:[NSData dataWithBytes:block_buf1 length:cmp_size]];
         }
@@ -290,6 +306,8 @@ CISO_H ciso;
 
 - (NSString *)serialLookupForCSOFile:(__kindof OEFile *)file
 {
+    CISO_H ciso;
+    
     unsigned int index , index2;
     unsigned long long read_pos , read_size;
     unsigned int *index_buf;
