@@ -357,6 +357,27 @@
 		<key>OENDSButtonSelect</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerNintendoSwitchSNESController</key>
+	<dict>
+		<key>OENDSButtonUp</key>
+		<string>OEControllerNintendoSwitchSNESControllerDPadUp</string>
+		<key>OENDSButtonA</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonA</string>
+		<key>OENDSButtonB</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonB</string>
+		<key>OENDSButtonX</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonX</string>
+		<key>OENDSButtonY</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonY</string>
+		<key>OENDSButtonL</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonL</string>
+		<key>OENDSButtonR</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonR</string>
+		<key>OENDSButtonStart</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonStart</string>
+		<key>OENDSButtonSelect</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonSelect</string>
+	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
 		<key>OENDSButtonUp</key>
