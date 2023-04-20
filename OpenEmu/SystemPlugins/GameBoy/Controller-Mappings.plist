@@ -269,6 +269,19 @@
 		<key>OEGBButtonSelect</key>
 		<string>OEControllerNintendoSwitchSNESControllerButtonSelect</string>
 	</dict>
+	<key>OEControllerNintendoSwitchN64Controller</key>
+	<dict>
+		<key>OEGBButtonUp</key>
+		<string>OEControllerNintendoSwitchN64ControllerDPadUp</string>
+		<key>OEGBButtonA</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonA</string>
+		<key>OEGBButtonB</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonB</string>
+		<key>OEGBButtonStart</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonStart</string>
+		<key>OEGBButtonSelect</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonZ</string>
+	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
 		<key>OEGBButtonUp</key>

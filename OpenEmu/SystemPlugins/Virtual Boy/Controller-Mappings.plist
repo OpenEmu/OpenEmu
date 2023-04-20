@@ -320,6 +320,48 @@
 		<key>OEVBButtonSelect</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerNintendoSwitchSNESController</key>
+	<dict>
+		<key>OEVBButtonLeftUp</key>
+		<string>OEControllerNintendoSwitchSNESControllerDPadUp</string>
+		<key>OEVBButtonA</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonA</string>
+		<key>OEVBButtonB</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonB</string>
+		<key>OEVBButtonL</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonL</string>
+		<key>OEVBButtonR</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonR</string>
+		<key>OEVBButtonStart</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonStart</string>
+		<key>OEVBButtonSelect</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonSelect</string>
+	</dict>
+	<key>OEControllerNintendoSwitchN64Controller</key>
+	<dict>
+		<key>OEVBButtonLeftUp</key>
+		<string>OEControllerNintendoSwitchN64ControllerDPadUp</string>
+		<key>OEVBButtonRightUp</key>
+		<string>OEControllerNintendoSwitchN64ControllerCRight</string>
+		<key>OEVBButtonRightDown</key>
+		<string>OEControllerNintendoSwitchN64ControllerCDown</string>
+		<key>OEVBButtonRightLeft</key>
+		<string>OEControllerNintendoSwitchN64ControllerCLeft</string>
+		<key>OEVBButtonRightRight</key>
+		<string>OEControllerNintendoSwitchN64ControllerCRight</string>
+		<key>OEVBButtonA</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonA</string>
+		<key>OEVBButtonB</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonB</string>
+		<key>OEVBButtonL</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonL</string>
+		<key>OEVBButtonR</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonR</string>
+		<key>OEVBButtonStart</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonStart</string>
+		<key>OEVBButtonSelect</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonZ</string>
+	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
 		<key>OEVBButtonLeftUp</key>

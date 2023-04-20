@@ -381,6 +381,35 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
 	</dict>
+	<key>OEControllerNintendoSwitchN64Controller</key>
+	<dict>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEControllerNintendoSwitchN64ControllerDPadUp</string>
+		<key>OEN64AnalogUp</key>
+		<string>OEControllerNintendoSwitchN64ControllerAnalogUp</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEControllerNintendoSwitchN64ControllerAnalogLeft</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEControllerNintendoSwitchN64ControllerCUp</string>
+		<key>OEN64ButtonCDown</key>
+		<string>OEControllerNintendoSwitchN64ControllerCDown</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEControllerNintendoSwitchN64ControllerCLeft</string>
+		<key>OEN64ButtonCRight</key>
+		<string>OEControllerNintendoSwitchN64ControllerCRight</string>
+		<key>OEN64ButtonA</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonA</string>
+		<key>OEN64ButtonB</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonB</string>
+		<key>OEN64ButtonL</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonL</string>
+		<key>OEN64ButtonR</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonR</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonZ</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonStart</string>
+	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
 		<key>OEN64ButtonDPadUp</key>

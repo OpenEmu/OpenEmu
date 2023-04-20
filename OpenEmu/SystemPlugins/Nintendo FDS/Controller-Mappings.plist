@@ -303,6 +303,21 @@
 		<key>OEFDSButtonChangeSide</key>
 		<string>OEControllerNintendoSwitchSNESControllerButtonZR</string>
 	</dict>
+	<key>OEControllerNintendoSwitchN64Controller</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEControllerNintendoSwitchN64ControllerDPadUp</string>
+		<key>OEFDSButtonA</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonA</string>
+		<key>OEFDSButtonB</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonB</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonStart</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonZ</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonZR</string>
+	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
 		<key>OEFDSButtonUp</key>

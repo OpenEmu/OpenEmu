@@ -378,6 +378,27 @@
 		<key>OESNESButtonSelect</key>
 		<string>OEControllerNintendoSwitchSNESControllerButtonSelect</string>
 	</dict>
+	<key>OEControllerNintendoSwitchN64Controller</key>
+	<dict>
+		<key>OESNESButtonUp</key>
+		<string>OEControllerNintendoSwitchN64ControllerDPadUp</string>
+		<key>OESNESButtonA</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonCRight</string>
+		<key>OESNESButtonB</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonCDown</string>
+		<key>OESNESButtonX</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonCUp</string>
+		<key>OESNESButtonY</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonCLeft</string>
+		<key>OESNESButtonTriggerLeft</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonL</string>
+		<key>OESNESButtonTriggerRight</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonR</string>
+		<key>OESNESButtonStart</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonStart</string>
+		<key>OESNESButtonSelect</key>
+		<string>OEControllerNintendoSwitchN64ControllerButtonZ</string>
+	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
 		<key>OESNESButtonUp</key>

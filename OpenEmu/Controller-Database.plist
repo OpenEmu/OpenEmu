@@ -4088,6 +4088,236 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>OEControllerNintendoSwitchN64Controller</key>
+	<dict>
+		<key>OEControllerName</key>
+		<string>Nintendo Switch Online Nintendo 64 Controller</string>
+		<key>OEGenericControllerName</key>
+		<string>OEControllerNintendoSwitchN64Controller</string>
+		<key>OEControllerDevices</key>
+		<array>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>N64 Controller</string>
+				<key>OEControllerVendorID</key>
+				<integer>1406</integer>
+				<key>OEControllerProductID</key>
+				<integer>8217</integer>
+			</dict>
+		</array>
+		<key>OEControllerMappings</key>
+		<dict>
+			<key>OEControllerNintendoSwitchN64ControllerDPad</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad</string>
+				<key>Type</key>
+				<string>HatSwitch</string>
+				<key>Usage</key>
+				<string>HatSwitch</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerNintendoSwitchN64ControllerDPadUp</key>
+					<dict>
+						<key>Direction</key>
+						<string>N</string>
+						<key>Name</key>
+						<string>D-Pad Up</string>
+					</dict>
+					<key>OEControllerNintendoSwitchN64ControllerDPadDown</key>
+					<dict>
+						<key>Direction</key>
+						<string>S</string>
+						<key>Name</key>
+						<string>D-Pad Down</string>
+					</dict>
+					<key>OEControllerNintendoSwitchN64ControllerDPadLeft</key>
+					<dict>
+						<key>Direction</key>
+						<string>W</string>
+						<key>Name</key>
+						<string>D-Pad Left</string>
+					</dict>
+					<key>OEControllerNintendoSwitchN64ControllerDPadRight</key>
+					<dict>
+						<key>Direction</key>
+						<string>E</string>
+						<key>Name</key>
+						<string>D-Pad Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerAnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>X</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerNintendoSwitchN64ControllerAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Left</string>
+					</dict>
+					<key>OEControllerNintendoSwitchN64ControllerAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerAnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Y</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerNintendoSwitchN64ControllerAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Up</string>
+					</dict>
+					<key>OEControllerNintendoSwitchN64ControllerAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Down</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerButtonA</key>
+			<dict>
+				<key>Name</key>
+				<string>A</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>2</string>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerButtonB</key>
+			<dict>
+				<key>Name</key>
+				<string>B</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>1</string>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerButtonCUp</key>
+			<dict>
+				<key>Name</key>
+				<string>C Up</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>3</string>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerButtonCDown</key>
+			<dict>
+				<key>Name</key>
+				<string>C Down</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>8</string>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerButtonCLeft</key>
+			<dict>
+				<key>Name</key>
+				<string>C Left</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>4</string>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerButtonCRight</key>
+			<dict>
+				<key>Name</key>
+				<string>C Right</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>9</string>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerButtonStart</key>
+			<dict>
+				<key>Name</key>
+				<string>Start</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>10</string>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerButtonL</key>
+			<dict>
+				<key>Name</key>
+				<string>L</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>5</string>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerButtonR</key>
+			<dict>
+				<key>Name</key>
+				<string>R</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>6</string>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerButtonZ</key>
+			<dict>
+				<key>Name</key>
+				<string>Z</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>7</string>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerButtonZR</key>
+			<dict>
+				<key>Name</key>
+				<string>ZR</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>11</string>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerButtonHome</key>
+			<dict>
+				<key>Name</key>
+				<string>Home</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>13</string>
+			</dict>
+			<key>OEControllerNintendoSwitchN64ControllerButtonCapture</key>
+			<dict>
+				<key>Name</key>
+				<string>Capture</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>14</string>
+			</dict>
+		</dict>
+	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
 		<key>OEControllerName</key>
