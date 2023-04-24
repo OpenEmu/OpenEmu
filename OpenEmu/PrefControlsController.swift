@@ -76,7 +76,6 @@ final class PrefControlsController: NSViewController {
     @IBOutlet weak var inputPopupButton: NSPopUpButton!
     @IBOutlet weak var gradientOverlay: NSView!
     @IBOutlet weak var veView: NSVisualEffectView!
-    @IBOutlet weak var controlsContainer: NSView!
     @IBOutlet weak var controlsSetupView: ControlsButtonSetupView!
     
     private var selectedPlugin: OESystemPlugin?
@@ -160,7 +159,7 @@ final class PrefControlsController: NSViewController {
             
             gradientOverlay.layer? = gradient
             
-            controlsContainer.enclosingScrollView?.appearance = NSAppearance(named: .aqua)
+            controlsSetupView.enclosingScrollView?.appearance = NSAppearance(named: .aqua)
         }
         else if OEAppearance.controlsPrefs == .woodVibrant {
             veView.blendingMode = .withinWindow
