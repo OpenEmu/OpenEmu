@@ -489,26 +489,26 @@
 		<key>OENDSButtonSelect</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
 	</dict>
-	<key>OEController8BitDoPro2Controller</key>
+	<key>OEController8BitDoPro2</key>
 	<dict>
 		<key>OENDSButtonUp</key>
-		<string>OEController8BitDoPro2ControllerDPadUp</string>
+		<string>OEController8BitDoPro2DPadUp</string>
 		<key>OENDSButtonA</key>
-		<string>OEController8BitDoPro2ControllerButtonA</string>
+		<string>OEController8BitDoPro2ButtonA</string>
 		<key>OENDSButtonB</key>
-		<string>OEController8BitDoPro2ControllerButtonB</string>
+		<string>OEController8BitDoPro2ButtonB</string>
 		<key>OENDSButtonX</key>
-		<string>OEController8BitDoPro2ControllerButtonX</string>
+		<string>OEController8BitDoPro2ButtonX</string>
 		<key>OENDSButtonY</key>
-		<string>OEController8BitDoPro2ControllerButtonY</string>
+		<string>OEController8BitDoPro2ButtonY</string>
 		<key>OENDSButtonL</key>
-		<string>OEController8BitDoPro2ControllerButtonL</string>
+		<string>OEController8BitDoPro2ButtonL</string>
 		<key>OENDSButtonR</key>
-		<string>OEController8BitDoPro2ControllerButtonR</string>
+		<string>OEController8BitDoPro2ButtonR</string>
 		<key>OENDSButtonStart</key>
-		<string>OEController8BitDoPro2ControllerButtonStart</string>
+		<string>OEController8BitDoPro2ButtonStart</string>
 		<key>OENDSButtonSelect</key>
-		<string>OEController8BitDoPro2ControllerButtonSelect</string>
+		<string>OEController8BitDoPro2ButtonSelect</string>
 	</dict>
 </dict>
 </plist>

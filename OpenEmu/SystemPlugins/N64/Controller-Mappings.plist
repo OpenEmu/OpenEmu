@@ -516,34 +516,34 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
 	</dict>
-	<key>OEController8BitDoPro2Controller</key>
+	<key>OEController8BitDoPro2</key>
 	<dict>
 		<key>OEN64ButtonDPadUp</key>
-		<string>OEController8BitDoPro2ControllerDPadUp</string>
+		<string>OEController8BitDoPro2DPadUp</string>
 		<key>OEN64AnalogUp</key>
-		<string>OEController8BitDoPro2ControllerLeftAnalogUp</string>
+		<string>OEController8BitDoPro2LeftAnalogUp</string>
 		<key>OEN64AnalogLeft</key>
-		<string>OEController8BitDoPro2ControllerLeftAnalogLeft</string>
+		<string>OEController8BitDoPro2LeftAnalogLeft</string>
 		<key>OEN64ButtonCUp</key>
-		<string>OEController8BitDoPro2ControllerRightAnalogUp</string>
+		<string>OEController8BitDoPro2RightAnalogUp</string>
 		<key>OEN64ButtonCLeft</key>
-		<string>OEController8BitDoPro2ControllerRightAnalogLeft</string>
+		<string>OEController8BitDoPro2RightAnalogLeft</string>
 		<key>OEN64ButtonA</key>
-		<string>OEController8BitDoPro2ControllerButtonA</string>
+		<string>OEController8BitDoPro2ButtonA</string>
 		<key>OEN64ButtonB</key>
-		<string>OEController8BitDoPro2ControllerButtonB</string>
+		<string>OEController8BitDoPro2ButtonB</string>
 		<key>OEN64ButtonX</key>
-		<string>OEController8BitDoPro2ControllerButtonX</string>
+		<string>OEController8BitDoPro2ButtonX</string>
 		<key>OEN64ButtonY</key>
-		<string>OEController8BitDoPro2ControllerButtonY</string>
+		<string>OEController8BitDoPro2ButtonY</string>
 		<key>OEN64ButtonL</key>
-		<string>OEController8BitDoPro2ControllerButtonL</string>
+		<string>OEController8BitDoPro2ButtonL</string>
 		<key>OEN64ButtonR</key>
-		<string>OEController8BitDoPro2ControllerButtonR</string>
+		<string>OEController8BitDoPro2ButtonR</string>
 		<key>OEN64ButtonZ</key>
-		<string>OEController8BitDoPro2ControllerButtonP1</string>
+		<string>OEController8BitDoPro2ButtonP1</string>
 		<key>OEN64ButtonStart</key>
-		<string>OEController8BitDoPro2ControllerButtonStart</string>
+		<string>OEController8BitDoPro2ButtonStart</string>
 	</dict>
 </dict>
 </plist>

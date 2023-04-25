@@ -5113,12 +5113,14 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>OEController8BitDoPro2Controller</key>
+	<key>OEController8BitDoPro2</key>
 	<dict>
 		<key>OEControllerName</key>
-		<string>8BitDo Pro 2 Controller</string>
+		<string>8BitDo Pro 2 D-Input</string>
 		<key>OEGenericControllerName</key>
-		<string>OEController8BitDoPro2Controller</string>
+		<string>OEController8BitDoPro2</string>
+		<key>OEDisableCalibration</key>
+		<true/>
 		<key>OEControllerDevices</key>
 		<array>
 			<dict>
@@ -5132,7 +5134,7 @@
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
-			<key>OEController8BitDoPro2ControllerDPad</key>
+			<key>OEController8BitDoPro2DPad</key>
 			<dict>
 				<key>Name</key>
 				<string>D-Pad</string>
@@ -5142,28 +5144,28 @@
 				<string>HatSwitch</string>
 				<key>Values</key>
 				<dict>
-					<key>OEController8BitDoPro2ControllerDPadUp</key>
+					<key>OEController8BitDoPro2DPadUp</key>
 					<dict>
 						<key>Direction</key>
 						<string>N</string>
 						<key>Name</key>
 						<string>D-Pad Up</string>
 					</dict>
-					<key>OEController8BitDoPro2ControllerDPadDown</key>
+					<key>OEController8BitDoPro2DPadDown</key>
 					<dict>
 						<key>Direction</key>
 						<string>S</string>
 						<key>Name</key>
 						<string>D-Pad Down</string>
 					</dict>
-					<key>OEController8BitDoPro2ControllerDPadLeft</key>
+					<key>OEController8BitDoPro2DPadLeft</key>
 					<dict>
 						<key>Direction</key>
 						<string>W</string>
 						<key>Name</key>
 						<string>D-Pad Left</string>
 					</dict>
-					<key>OEController8BitDoPro2ControllerDPadRight</key>
+					<key>OEController8BitDoPro2DPadRight</key>
 					<dict>
 						<key>Direction</key>
 						<string>E</string>
@@ -5172,7 +5174,7 @@
 					</dict>
 				</dict>
 			</dict>
-			<key>OEController8BitDoPro2ControllerLeftAnalogX</key>
+			<key>OEController8BitDoPro2LeftAnalogX</key>
 			<dict>
 				<key>Name</key>
 				<string>Left Joystick X</string>
@@ -5182,14 +5184,14 @@
 				<string>X</string>
 				<key>Values</key>
 				<dict>
-					<key>OEController8BitDoPro2ControllerLeftAnalogLeft</key>
+					<key>OEController8BitDoPro2LeftAnalogLeft</key>
 					<dict>
 						<key>Direction</key>
 						<integer>-1</integer>
 						<key>Name</key>
 						<string>Left Analog Left</string>
 					</dict>
-					<key>OEController8BitDoPro2ControllerLeftAnalogRight</key>
+					<key>OEController8BitDoPro2LeftAnalogRight</key>
 					<dict>
 						<key>Direction</key>
 						<integer>1</integer>
@@ -5198,7 +5200,7 @@
 					</dict>
 				</dict>
 			</dict>
-			<key>OEController8BitDoPro2ControllerLeftAnalogY</key>
+			<key>OEController8BitDoPro2LeftAnalogY</key>
 			<dict>
 				<key>Name</key>
 				<string>Left Joystick Y</string>
@@ -5208,14 +5210,14 @@
 				<string>Y</string>
 				<key>Values</key>
 				<dict>
-					<key>OEController8BitDoPro2ControllerLeftAnalogUp</key>
+					<key>OEController8BitDoPro2LeftAnalogUp</key>
 					<dict>
 						<key>Direction</key>
 						<integer>-1</integer>
 						<key>Name</key>
 						<string>Left Analog Up</string>
 					</dict>
-					<key>OEController8BitDoPro2ControllerLeftAnalogDown</key>
+					<key>OEController8BitDoPro2LeftAnalogDown</key>
 					<dict>
 						<key>Direction</key>
 						<integer>1</integer>
@@ -5224,7 +5226,7 @@
 					</dict>
 				</dict>
 			</dict>
-			<key>OEController8BitDoPro2ControllerRightAnalogX</key>
+			<key>OEController8BitDoPro2RightAnalogX</key>
 			<dict>
 				<key>Name</key>
 				<string>Right Joystick X</string>
@@ -5234,14 +5236,14 @@
 				<string>Z</string>
 				<key>Values</key>
 				<dict>
-					<key>OEController8BitDoPro2ControllerRightAnalogLeft</key>
+					<key>OEController8BitDoPro2RightAnalogLeft</key>
 					<dict>
 						<key>Direction</key>
 						<integer>-1</integer>
 						<key>Name</key>
 						<string>Right Analog Left</string>
 					</dict>
-					<key>OEController8BitDoPro2ControllerRightAnalogRight</key>
+					<key>OEController8BitDoPro2RightAnalogRight</key>
 					<dict>
 						<key>Direction</key>
 						<integer>1</integer>
@@ -5250,7 +5252,7 @@
 					</dict>
 				</dict>
 			</dict>
-			<key>OEController8BitDoPro2ControllerRightAnalogY</key>
+			<key>OEController8BitDoPro2RightAnalogY</key>
 			<dict>
 				<key>Name</key>
 				<string>Right Joystick Y</string>
@@ -5260,14 +5262,14 @@
 				<string>Rz</string>
 				<key>Values</key>
 				<dict>
-					<key>OEController8BitDoPro2ControllerRightAnalogUp</key>
+					<key>OEController8BitDoPro2RightAnalogUp</key>
 					<dict>
 						<key>Direction</key>
 						<integer>-1</integer>
 						<key>Name</key>
 						<string>Right Analog Up</string>
 					</dict>
-					<key>OEController8BitDoPro2ControllerRightAnalogDown</key>
+					<key>OEController8BitDoPro2RightAnalogDown</key>
 					<dict>
 						<key>Direction</key>
 						<integer>1</integer>
@@ -5276,7 +5278,7 @@
 					</dict>
 				</dict>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonLeftAnalog</key>
+			<key>OEController8BitDoPro2ButtonLeftAnalog</key>
 			<dict>
 				<key>Name</key>
 				<string>Left Stick</string>
@@ -5285,7 +5287,7 @@
 				<key>Usage</key>
 				<string>14</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonRightAnalog</key>
+			<key>OEController8BitDoPro2ButtonRightAnalog</key>
 			<dict>
 				<key>Name</key>
 				<string>Right Stick</string>
@@ -5294,7 +5296,7 @@
 				<key>Usage</key>
 				<string>15</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonA</key>
+			<key>OEController8BitDoPro2ButtonA</key>
 			<dict>
 				<key>Name</key>
 				<string>A</string>
@@ -5303,7 +5305,7 @@
 				<key>Usage</key>
 				<string>1</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonB</key>
+			<key>OEController8BitDoPro2ButtonB</key>
 			<dict>
 				<key>Name</key>
 				<string>B</string>
@@ -5312,7 +5314,7 @@
 				<key>Usage</key>
 				<string>2</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonX</key>
+			<key>OEController8BitDoPro2ButtonX</key>
 			<dict>
 				<key>Name</key>
 				<string>X</string>
@@ -5321,7 +5323,7 @@
 				<key>Usage</key>
 				<string>4</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonY</key>
+			<key>OEController8BitDoPro2ButtonY</key>
 			<dict>
 				<key>Name</key>
 				<string>Y</string>
@@ -5330,7 +5332,7 @@
 				<key>Usage</key>
 				<string>5</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonStart</key>
+			<key>OEController8BitDoPro2ButtonStart</key>
 			<dict>
 				<key>Name</key>
 				<string>Start</string>
@@ -5339,7 +5341,7 @@
 				<key>Usage</key>
 				<string>12</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonSelect</key>
+			<key>OEController8BitDoPro2ButtonSelect</key>
 			<dict>
 				<key>Name</key>
 				<string>Select</string>
@@ -5348,7 +5350,7 @@
 				<key>Usage</key>
 				<string>11</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonL</key>
+			<key>OEController8BitDoPro2ButtonL</key>
 			<dict>
 				<key>Name</key>
 				<string>L</string>
@@ -5357,7 +5359,7 @@
 				<key>Usage</key>
 				<string>7</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonL2</key>
+			<key>OEController8BitDoPro2ButtonL2</key>
 			<dict>
 				<key>Name</key>
 				<string>L2</string>
@@ -5366,7 +5368,7 @@
 				<key>Usage</key>
 				<string>197</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonR</key>
+			<key>OEController8BitDoPro2ButtonR</key>
 			<dict>
 				<key>Name</key>
 				<string>R</string>
@@ -5375,7 +5377,7 @@
 				<key>Usage</key>
 				<string>8</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonR2</key>
+			<key>OEController8BitDoPro2ButtonR2</key>
 			<dict>
 				<key>Name</key>
 				<string>R2</string>
@@ -5384,7 +5386,7 @@
 				<key>Usage</key>
 				<string>196</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonP1</key>
+			<key>OEController8BitDoPro2ButtonP1</key>
 			<dict>
 				<key>Name</key>
 				<string>P1</string>
@@ -5393,7 +5395,7 @@
 				<key>Usage</key>
 				<string>3</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonP2</key>
+			<key>OEController8BitDoPro2ButtonP2</key>
 			<dict>
 				<key>Name</key>
 				<string>P2</string>
@@ -5402,7 +5404,7 @@
 				<key>Usage</key>
 				<string>6</string>
 			</dict>
-			<key>OEController8BitDoPro2ControllerButtonHome</key>
+			<key>OEController8BitDoPro2ButtonHome</key>
 			<dict>
 				<key>Name</key>
 				<string>Home</string>

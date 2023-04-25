@@ -285,5 +285,16 @@
 		<key>OESMSButtonStart</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
 	</dict>
+	<key>OEController8BitDoPro2</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEController8BitDoPro2DPadUp</string>
+		<key>OESMSButtonA</key>
+		<string>OEController8BitDoPro2ButtonB</string>
+		<key>OESMSButtonB</key>
+		<string>OEController8BitDoPro2ButtonA</string>
+		<key>OESMSButtonStart</key>
+		<string>OEController8BitDoPro2ButtonStart</string>
+	</dict>
 </dict>
 </plist>

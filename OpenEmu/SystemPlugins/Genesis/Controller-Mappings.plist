@@ -489,5 +489,26 @@
 		<key>OEGenesisButtonMode</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
 	</dict>
+	<key>OEController8BitDoPro2</key>
+	<dict>
+		<key>OEGenesisButtonUp</key>
+		<string>OEController8BitDoPro2DPadUp</string>
+		<key>OEGenesisButtonA</key>
+		<string>OEController8BitDoPro2ButtonY</string>
+		<key>OEGenesisButtonB</key>
+		<string>OEController8BitDoPro2ButtonB</string>
+		<key>OEGenesisButtonC</key>
+		<string>OEController8BitDoPro2ButtonA</string>
+		<key>OEGenesisButtonX</key>
+		<string>OEController8BitDoPro2ButtonX</string>
+		<key>OEGenesisButtonY</key>
+		<string>OEController8BitDoPro2ButtonP2</string>
+		<key>OEGenesisButtonZ</key>
+		<string>OEController8BitDoPro2ButtonP1</string>
+		<key>OEGenesisButtonStart</key>
+		<string>OEController8BitDoPro2ButtonStart</string>
+		<key>OEGenesisButtonMode</key>
+		<string>OEController8BitDoPro2ButtonSelect</string>
+	</dict>
 </dict>
 </plist>

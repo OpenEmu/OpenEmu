@@ -564,34 +564,34 @@
 		<key>OEGCButtonStart</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
 	</dict>
-	<key>OEController8BitDoPro2Controller</key>
+	<key>OEController8BitDoPro2</key>
 	<dict>
 		<key>OEGCButtonUp</key>
-		<string>OEController8BitDoPro2ControllerDPadUp</string>
+		<string>OEController8BitDoPro2DPadUp</string>
 		<key>OEGCAnalogUp</key>
-		<string>OEController8BitDoPro2ControllerLeftAnalogUp</string>
+		<string>OEController8BitDoPro2LeftAnalogUp</string>
 		<key>OEGCAnalogLeft</key>
-		<string>OEController8BitDoPro2ControllerLeftAnalogLeft</string>
+		<string>OEController8BitDoPro2LeftAnalogLeft</string>
 		<key>OEGCAnalogCUp</key>
-		<string>OEController8BitDoPro2ControllerRightAnalogUp</string>
+		<string>OEController8BitDoPro2RightAnalogUp</string>
 		<key>OEGCAnalogCLeft</key>
-		<string>OEController8BitDoPro2ControllerRightAnalogLeft</string>
+		<string>OEController8BitDoPro2RightAnalogLeft</string>
 		<key>OEGCButtonA</key>
-		<string>OEController8BitDoPro2ControllerButtonA</string>
+		<string>OEController8BitDoPro2ButtonA</string>
 		<key>OEGCButtonB</key>
-		<string>OEController8BitDoPro2ControllerButtonB</string>
+		<string>OEController8BitDoPro2ButtonB</string>
 		<key>OEGCButtonX</key>
-		<string>OEController8BitDoPro2ControllerButtonX</string>
+		<string>OEController8BitDoPro2ButtonX</string>
 		<key>OEGCButtonY</key>
-		<string>OEController8BitDoPro2ControllerButtonY</string>
+		<string>OEController8BitDoPro2ButtonY</string>
 		<key>OEGCButtonL</key>
-		<string>OEController8BitDoPro2ControllerButtonL2</string>
+		<string>OEController8BitDoPro2ButtonL2</string>
 		<key>OEGCButtonR</key>
-		<string>OEController8BitDoPro2ControllerButtonR2</string>
+		<string>OEController8BitDoPro2ButtonR2</string>
 		<key>OEGCButtonZ</key>
-		<string>OEController8BitDoPro2ControllerButtonR</string>
+		<string>OEController8BitDoPro2ButtonR</string>
 		<key>OEGCButtonStart</key>
-		<string>OEController8BitDoPro2ControllerButtonStart</string>
+		<string>OEController8BitDoPro2ButtonStart</string>
 	</dict>
 </dict>
 </plist>

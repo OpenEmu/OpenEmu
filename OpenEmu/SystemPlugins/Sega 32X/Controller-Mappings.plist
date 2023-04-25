@@ -489,5 +489,26 @@
 		<key>OESega32XButtonMode</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
 	</dict>
+	<key>OEController8BitDoPro2</key>
+	<dict>
+		<key>OESega32XButtonUp</key>
+		<string>OEController8BitDoPro2DPadUp</string>
+		<key>OESega32XButtonA</key>
+		<string>OEController8BitDoPro2ButtonY</string>
+		<key>OESega32XButtonB</key>
+		<string>OEController8BitDoPro2ButtonB</string>
+		<key>OESega32XButtonC</key>
+		<string>OEController8BitDoPro2ButtonA</string>
+		<key>OESega32XButtonX</key>
+		<string>OEController8BitDoPro2ButtonX</string>
+		<key>OESega32XButtonY</key>
+		<string>OEController8BitDoPro2ButtonP2</string>
+		<key>OESega32XButtonZ</key>
+		<string>OEController8BitDoPro2ButtonP1</string>
+		<key>OESega32XButtonStart</key>
+		<string>OEController8BitDoPro2ButtonStart</string>
+		<key>OESega32XButtonMode</key>
+		<string>OEController8BitDoPro2ButtonSelect</string>
+	</dict>
 </dict>
 </plist>

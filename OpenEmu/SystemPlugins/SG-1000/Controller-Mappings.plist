@@ -285,5 +285,16 @@
 		<key>OESG1000ButtonPause</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
 	</dict>
+	<key>OEController8BitDoPro2</key>
+	<dict>
+		<key>OESG1000ButtonUp</key>
+		<string>OEController8BitDoPro2DPadUp</string>
+		<key>OESG1000Button1</key>
+		<string>OEController8BitDoPro2ButtonB</string>
+		<key>OESG1000Button2</key>
+		<string>OEController8BitDoPro2ButtonA</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEController8BitDoPro2ButtonStart</string>
+	</dict>
 </dict>
 </plist>

@@ -674,5 +674,44 @@
 		<key>OEPSXButtonAnalogMode</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonXbox</string>
 	</dict>
+	<key>OEController8BitDoPro2</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEController8BitDoPro2DPadUp</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEController8BitDoPro2LeftAnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEController8BitDoPro2LeftAnalogLeft</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>OEController8BitDoPro2RightAnalogUp</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>OEController8BitDoPro2RightAnalogLeft</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEController8BitDoPro2ButtonA</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEController8BitDoPro2ButtonB</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEController8BitDoPro2ButtonX</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEController8BitDoPro2ButtonY</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEController8BitDoPro2ButtonL</string>
+		<key>OEPSXButtonL2</key>
+		<string>OEController8BitDoPro2ButtonL2</string>
+		<key>OEPSXButtonL3</key>
+		<string>OEController8BitDoPro2ButtonLeftAnalog</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEController8BitDoPro2ButtonR</string>
+		<key>OEPSXButtonR2</key>
+		<string>OEController8BitDoPro2ButtonR2</string>
+		<key>OEPSXButtonR3</key>
+		<string>OEController8BitDoPro2ButtonRightAnalog</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEController8BitDoPro2ButtonStart</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEController8BitDoPro2ButtonSelect</string>
+		<key>OEPSXButtonAnalogMode</key>
+		<string>OEController8BitDoPro2ButtonHome</string>
+	</dict>
 </dict>
 </plist>

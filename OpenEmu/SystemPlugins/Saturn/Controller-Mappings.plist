@@ -591,5 +591,38 @@
 		<key>OESaturnButtonAnalogMode</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonXbox</string>
 	</dict>
+	<key>OEController8BitDoPro2</key>
+	<dict>
+		<key>OESaturnButtonUp</key>
+		<string>OEController8BitDoPro2DPadUp</string>
+		<key>OESaturnButtonA</key>
+		<string>OEController8BitDoPro2ButtonY</string>
+		<key>OESaturnButtonB</key>
+		<string>OEController8BitDoPro2ButtonB</string>
+		<key>OESaturnButtonC</key>
+		<string>OEController8BitDoPro2ButtonA</string>
+		<key>OESaturnButtonX</key>
+		<string>OEController8BitDoPro2ButtonX</string>
+		<key>OESaturnButtonY</key>
+		<string>OEController8BitDoPro2ButtonP2</string>
+		<key>OESaturnButtonZ</key>
+		<string>OEController8BitDoPro2ButtonP1</string>
+		<key>OESaturnButtonL</key>
+		<string>OEController8BitDoPro2ButtonL</string>
+		<key>OESaturnButtonR</key>
+		<string>OEController8BitDoPro2ButtonR</string>
+		<key>OESaturnButtonStart</key>
+		<string>OEController8BitDoPro2ButtonStart</string>
+		<key>OESaturnButtonAnalogMode</key>
+		<string>OEController8BitDoPro2ButtonSelect</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>OEController8BitDoPro2LeftAnalogUp</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>OEController8BitDoPro2LeftAnalogLeft</string>
+		<key>OESaturnAnalogL</key>
+		<string>OEController8BitDoPro2ButtonL2</string>
+		<key>OESaturnAnalogR</key>
+		<string>OEController8BitDoPro2ButtonR2</string>
+	</dict>
 </dict>
 </plist>
