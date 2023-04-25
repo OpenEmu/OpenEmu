@@ -510,5 +510,26 @@
 		<key>OESegaCDButtonMode</key>
 		<string>OEController8BitDoPro2ButtonSelect</string>
 	</dict>
+	<key>OEController8BitDoM30</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEController8BitDoM30DPadUp</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEController8BitDoM30ButtonA</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEController8BitDoM30ButtonB</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEController8BitDoM30ButtonC</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEController8BitDoM30ButtonX</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEController8BitDoM30ButtonY</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEController8BitDoM30ButtonZ</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEController8BitDoM30ButtonStart</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEController8BitDoM30ButtonMinus</string>
+	</dict>
 </dict>
 </plist>

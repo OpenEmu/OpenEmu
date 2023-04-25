@@ -510,5 +510,26 @@
 		<key>OESega32XButtonMode</key>
 		<string>OEController8BitDoPro2ButtonSelect</string>
 	</dict>
+	<key>OEController8BitDoM30</key>
+	<dict>
+		<key>OESega32XButtonUp</key>
+		<string>OEController8BitDoM30DPadUp</string>
+		<key>OESega32XButtonA</key>
+		<string>OEController8BitDoM30ButtonA</string>
+		<key>OESega32XButtonB</key>
+		<string>OEController8BitDoM30ButtonB</string>
+		<key>OESega32XButtonC</key>
+		<string>OEController8BitDoM30ButtonC</string>
+		<key>OESega32XButtonX</key>
+		<string>OEController8BitDoM30ButtonX</string>
+		<key>OESega32XButtonY</key>
+		<string>OEController8BitDoM30ButtonY</string>
+		<key>OESega32XButtonZ</key>
+		<string>OEController8BitDoM30ButtonZ</string>
+		<key>OESega32XButtonStart</key>
+		<string>OEController8BitDoM30ButtonStart</string>
+		<key>OESega32XButtonMode</key>
+		<string>OEController8BitDoM30ButtonMinus</string>
+	</dict>
 </dict>
 </plist>

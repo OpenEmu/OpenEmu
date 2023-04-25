@@ -545,5 +545,34 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEController8BitDoPro2ButtonStart</string>
 	</dict>
+	<key>OEController8BitDoM30</key>
+	<dict>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEController8BitDoM30DPadUp</string>
+		<key>OEN64ButtonA</key>
+		<string>OEController8BitDoM30ButtonA</string>
+		<key>OEN64ButtonB</key>
+		<string>OEController8BitDoM30ButtonX</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEController8BitDoM30ButtonZ</string>
+		<key>OEN64ButtonCDown</key>
+		<string>OEController8BitDoM30ButtonB</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEController8BitDoM30ButtonY</string>
+		<key>OEN64ButtonCRight</key>
+		<string>OEController8BitDoM30ButtonC</string>
+		<key>OEN64ButtonX</key>
+		<string>OEController8BitDoM30ButtonX</string>
+		<key>OEN64ButtonY</key>
+		<string>OEController8BitDoM30ButtonY</string>
+		<key>OEN64ButtonL</key>
+		<string>OEController8BitDoM30ButtonL</string>
+		<key>OEN64ButtonR</key>
+		<string>OEController8BitDoM30ButtonR</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEController8BitDoM30ButtonMinus</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEController8BitDoM30ButtonStart</string>
+	</dict>
 </dict>
 </plist>

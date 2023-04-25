@@ -510,5 +510,26 @@
 		<key>OEGenesisButtonMode</key>
 		<string>OEController8BitDoPro2ButtonSelect</string>
 	</dict>
+	<key>OEController8BitDoM30</key>
+	<dict>
+		<key>OEGenesisButtonUp</key>
+		<string>OEController8BitDoM30DPadUp</string>
+		<key>OEGenesisButtonA</key>
+		<string>OEController8BitDoM30ButtonA</string>
+		<key>OEGenesisButtonB</key>
+		<string>OEController8BitDoM30ButtonB</string>
+		<key>OEGenesisButtonC</key>
+		<string>OEController8BitDoM30ButtonC</string>
+		<key>OEGenesisButtonX</key>
+		<string>OEController8BitDoM30ButtonX</string>
+		<key>OEGenesisButtonY</key>
+		<string>OEController8BitDoM30ButtonY</string>
+		<key>OEGenesisButtonZ</key>
+		<string>OEController8BitDoM30ButtonZ</string>
+		<key>OEGenesisButtonStart</key>
+		<string>OEController8BitDoM30ButtonStart</string>
+		<key>OEGenesisButtonMode</key>
+		<string>OEController8BitDoM30ButtonMinus</string>
+	</dict>
 </dict>
 </plist>

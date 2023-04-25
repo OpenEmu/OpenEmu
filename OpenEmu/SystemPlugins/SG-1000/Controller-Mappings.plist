@@ -296,5 +296,16 @@
 		<key>OESG1000ButtonPause</key>
 		<string>OEController8BitDoPro2ButtonStart</string>
 	</dict>
+	<key>OEController8BitDoM30</key>
+	<dict>
+		<key>OESG1000ButtonUp</key>
+		<string>OEController8BitDoM30DPadUp</string>
+		<key>OESG1000Button1</key>
+		<string>OEController8BitDoM30ButtonA</string>
+		<key>OESG1000Button2</key>
+		<string>OEController8BitDoM30ButtonB</string>
+		<key>OESG1000ButtonPause</key>
+		<string>OEController8BitDoM30ButtonStart</string>
+	</dict>
 </dict>
 </plist>

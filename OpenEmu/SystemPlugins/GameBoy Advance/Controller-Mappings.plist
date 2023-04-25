@@ -445,5 +445,22 @@
 		<key>OEGBAButtonSelect</key>
 		<string>OEController8BitDoPro2ButtonSelect</string>
 	</dict>
+	<key>OEController8BitDoM30</key>
+	<dict>
+		<key>OEGBAButtonUp</key>
+		<string>OEController8BitDoM30DPadUp</string>
+		<key>OEGBAButtonA</key>
+		<string>OEController8BitDoM30ButtonB</string>
+		<key>OEGBAButtonB</key>
+		<string>OEController8BitDoM30ButtonA</string>
+		<key>OEGBAButtonL</key>
+		<string>OEController8BitDoM30ButtonL</string>
+		<key>OEGBAButtonR</key>
+		<string>OEController8BitDoM30ButtonR</string>
+		<key>OEGBAButtonStart</key>
+		<string>OEController8BitDoM30ButtonStart</string>
+		<key>OEGBAButtonSelect</key>
+		<string>OEController8BitDoM30ButtonMinus</string>
+	</dict>
 </dict>
 </plist>

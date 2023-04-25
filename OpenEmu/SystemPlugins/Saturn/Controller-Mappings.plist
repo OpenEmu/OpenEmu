@@ -624,5 +624,30 @@
 		<key>OESaturnAnalogR</key>
 		<string>OEController8BitDoPro2ButtonR2</string>
 	</dict>
+	<key>OEController8BitDoM30</key>
+	<dict>
+		<key>OESaturnButtonUp</key>
+		<string>OEController8BitDoM30DPadUp</string>
+		<key>OESaturnButtonA</key>
+		<string>OEController8BitDoM30ButtonA</string>
+		<key>OESaturnButtonB</key>
+		<string>OEController8BitDoM30ButtonB</string>
+		<key>OESaturnButtonC</key>
+		<string>OEController8BitDoM30ButtonC</string>
+		<key>OESaturnButtonX</key>
+		<string>OEController8BitDoM30ButtonX</string>
+		<key>OESaturnButtonY</key>
+		<string>OEController8BitDoM30ButtonY</string>
+		<key>OESaturnButtonZ</key>
+		<string>OEController8BitDoM30ButtonZ</string>
+		<key>OESaturnButtonL</key>
+		<string>OEController8BitDoM30ButtonL</string>
+		<key>OESaturnButtonR</key>
+		<string>OEController8BitDoM30ButtonR</string>
+		<key>OESaturnButtonStart</key>
+		<string>OEController8BitDoM30ButtonStart</string>
+		<key>OESaturnButtonAnalogMode</key>
+		<string>OEController8BitDoM30ButtonMinus</string>
+	</dict>
 </dict>
 </plist>

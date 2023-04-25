@@ -296,5 +296,16 @@
 		<key>OESMSButtonStart</key>
 		<string>OEController8BitDoPro2ButtonStart</string>
 	</dict>
+	<key>OEController8BitDoM30</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEController8BitDoM30DPadUp</string>
+		<key>OESMSButtonA</key>
+		<string>OEController8BitDoM30ButtonA</string>
+		<key>OESMSButtonB</key>
+		<string>OEController8BitDoM30ButtonB</string>
+		<key>OESMSButtonStart</key>
+		<string>OEController8BitDoM30ButtonStart</string>
+	</dict>
 </dict>
 </plist>

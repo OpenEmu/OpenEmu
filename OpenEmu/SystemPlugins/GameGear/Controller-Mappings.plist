@@ -296,5 +296,16 @@
 		<key>OEGGButtonStart</key>
 		<string>OEController8BitDoPro2ButtonStart</string>
 	</dict>
+	<key>OEController8BitDoM30</key>
+	<dict>
+		<key>OEGGButtonUp</key>
+		<string>OEController8BitDoM30DPadUp</string>
+		<key>OEGGButtonA</key>
+		<string>OEController8BitDoM30ButtonA</string>
+		<key>OEGGButtonB</key>
+		<string>OEController8BitDoM30ButtonB</string>
+		<key>OEGGButtonStart</key>
+		<string>OEController8BitDoM30ButtonStart</string>
+	</dict>
 </dict>
 </plist>

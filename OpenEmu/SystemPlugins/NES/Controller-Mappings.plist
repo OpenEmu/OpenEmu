@@ -353,5 +353,18 @@
 		<key>OENESButtonSelect</key>
 		<string>OEController8BitDoPro2ButtonSelect</string>
 	</dict>
+	<key>OEController8BitDoM30</key>
+	<dict>
+		<key>OENESButtonUp</key>
+		<string>OEController8BitDoM30DPadUp</string>
+		<key>OENESButtonA</key>
+		<string>OEController8BitDoM30ButtonB</string>
+		<key>OENESButtonB</key>
+		<string>OEController8BitDoM30ButtonA</string>
+		<key>OENESButtonStart</key>
+		<string>OEController8BitDoM30ButtonStart</string>
+		<key>OENESButtonSelect</key>
+		<string>OEController8BitDoM30ButtonMinus</string>
+	</dict>
 </dict>
 </plist>
