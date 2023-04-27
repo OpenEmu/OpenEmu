@@ -140,6 +140,10 @@ final class OEGameDocument: NSDocument {
     @objc //OEPopoutGameWindowController
     private(set) var gameViewController: GameViewController!
     
+    private(set) var cheats: [NSMutableDictionary]?
+    private(set) var discCount: UInt = 0
+    private(set) var displayModes: [[String: Any]] = []
+    
     private var gameCoreManager: GameCoreManager?
     
     private var displaySleepAssertionID: IOPMAssertionID = 0
@@ -377,6 +381,8 @@ final class OEGameDocument: NSDocument {
                 throw error
             }
         }
+        
+        loadCheats()
         
         gameCoreManager = newGameCoreManager(with: corePlugin)
         gameViewController = GameViewController(document: self)
@@ -1258,6 +1264,15 @@ final class OEGameDocument: NSDocument {
         return corePlugin.supportsCheatCode(forSystemIdentifier: systemPlugin.systemIdentifier)
     }
     
+    /// In order to load cheats, we need the core plugin and the ROM to be set.
+    private func loadCheats() {
+        if supportsCheats,
+           let md5Hash = rom.md5Hash {
+            let cheatsXML = Cheats(md5Hash: md5Hash)
+            cheats = cheatsXML.allCheats
+        }
+    }
+    
     @IBAction func addCheat(_ sender: AnyObject) {
         let alert = OEAlert()
         
@@ -1287,7 +1302,7 @@ final class OEGameDocument: NSDocument {
             }
             
             //TODO: decide how to handle setting a cheat type from the modal and save added cheats to file
-            (sender.representedObject as? NSMutableArray)?.add([
+            cheats?.append([
                 "code": alert.stringValue,
                 "type": "Unknown",
                 "description": alert.otherStringValue,
@@ -1454,7 +1469,7 @@ final class OEGameDocument: NSDocument {
         var isSelected: Bool
         var isManual: Bool
         
-        for optionsDict in gameViewController.displayModes {
+        for optionsDict in displayModes {
             mode         = optionsDict[OEGameCoreDisplayModeNameKey] as? String ?? ""
             isToggleable = optionsDict[OEGameCoreDisplayModeAllowsToggleKey] as? Bool ?? false
             isSelected   = optionsDict[OEGameCoreDisplayModeStateKey] as? Bool ?? false
@@ -1840,10 +1855,6 @@ extension OEGameDocument {
 
 extension OEGameDocument {
     
-    func setOutputBounds(_ bounds: NSRect) {
-        gameCoreManager?.setOutputBounds(bounds)
-    }
-    
     func didReceiveMouseEvent(_ event: OEEvent) {
         gameCoreManager?.handleMouseEvent(event)
     }
@@ -1970,11 +1981,11 @@ extension OEGameDocument: OESystemBindingsObserver {
     }
     
     func setDiscCount(_ discCount: UInt) {
-        gameViewController.discCount = discCount
+        self.discCount = discCount
     }
     
     func setDisplayModes(_ displayModes: [[String : Any]]) {
-        gameViewController.displayModes = displayModes
+        self.displayModes = displayModes
     }
     
     func setRemoteContextID(_ contextID: OEContextID) {

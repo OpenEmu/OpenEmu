@@ -58,9 +58,6 @@ final class GameViewController: NSViewController {
     
     private var token: NSObjectProtocol?
     
-    var displayModes: [[String: Any]] = []
-    var discCount: UInt = 0
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -157,7 +154,7 @@ final class GameViewController: NSViewController {
     }
     
     override func viewDidLayout() {
-        document.setOutputBounds(gameView.bounds)
+        document.updateBounds(gameView.bounds)
     }
     
     // MARK: - Controlling Emulation
@@ -198,8 +195,8 @@ final class GameViewController: NSViewController {
         controlsWindow.reflectVolume(volume)
     }
     
-    func reflectEmulationPaused(_ paused: Bool) {
-        controlsWindow.reflectEmulationRunning(!paused)
+    func reflectEmulationPaused(_ isPaused: Bool) {
+        controlsWindow.reflectEmulationPaused(isPaused)
     }
     
     func toggleControlsVisibility(_ sender: NSMenuItem) {

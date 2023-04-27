@@ -46,8 +46,6 @@ final class GameControlsBar: NSWindow {
     @objc var canShow = true
     private var eventMonitor: Any?
     private var fadeTimer: Timer?
-    private var cheats: NSMutableArray? //[[String : Any]]
-    private var cheatsLoaded = false
     private var controlsView: GameControlsBarView!
     weak var gameViewController: GameViewController!
     private var lastGameWindowFrame = NSRect.zero
@@ -165,20 +163,6 @@ final class GameControlsBar: NSWindow {
         var bounds = frame
         bounds.origin = NSPoint(x: 0, y: 0)
         return bounds
-    }
-    
-    // MARK: - Cheats
-    
-    private func loadCheats() {
-        // In order to load cheats, we need the game core to be running and, consequently, the ROM to be set.
-        // We use reflectEmulationRunning(_:), which we receive from GameViewController when the emulation
-        // starts or resumes
-        if gameViewController.supportsCheats,
-           let md5Hash = gameViewController.document.rom.md5Hash {
-            let cheatsXML = Cheats(md5Hash: md5Hash)
-            cheats = NSMutableArray(array: cheatsXML.allCheats)
-            cheatsLoaded = true
-        }
     }
     
     // MARK: - Manage Visibility
@@ -336,12 +320,8 @@ final class GameControlsBar: NSWindow {
         controlsView.reflectVolume(volume)
     }
     
-    func reflectEmulationRunning(_ isEmulationRunning: Bool) {
-        controlsView.reflectEmulationPaused(!isEmulationRunning)
-        
-        if isEmulationRunning && !cheatsLoaded {
-            loadCheats()
-        }
+    func reflectEmulationPaused(_ isPaused: Bool) {
+        controlsView.reflectEmulationPaused(isPaused)
     }
     
     @objc private func gameWindowDidEnterFullScreen(_ notification: Notification) {
@@ -386,7 +366,7 @@ final class GameControlsBar: NSWindow {
         
         // disc selection
         if gameViewController.supportsMultipleDiscs {
-            let maxDiscs = gameViewController.discCount
+            let maxDiscs = gameViewController.document.discCount
             item = NSMenuItem()
             item.title = NSLocalizedString("Select Disc", comment: "")
             item.submenu = maxDiscs > 1 ? discsMenu : nil
@@ -396,7 +376,7 @@ final class GameControlsBar: NSWindow {
         
         // display mode
         if gameViewController.supportsDisplayModeChange,
-           !gameViewController.displayModes.isEmpty {
+           !gameViewController.document.displayModes.isEmpty {
             item = NSMenuItem()
             item.title = NSLocalizedString("Select Display Mode", comment: "")
             item.submenu = displayModesMenu
@@ -438,10 +418,9 @@ final class GameControlsBar: NSWindow {
         let menu = NSMenu()
         
         let item = NSMenuItem(title: NSLocalizedString("Add Cheat…", comment: ""), action: #selector(OEGameDocument.addCheat(_:)), keyEquivalent: "")
-        item.representedObject = cheats
         menu.addItem(item)
         
-        if let cheats = cheats as? [NSMutableDictionary], !cheats.isEmpty {
+        if let cheats = gameViewController.document.cheats, !cheats.isEmpty {
             menu.addItem(.separator())
             
             for cheat in cheats {
@@ -486,7 +465,7 @@ final class GameControlsBar: NSWindow {
     var discsMenu: NSMenu {
         let menu = NSMenu()
         
-        let maxDiscs = gameViewController.discCount
+        let maxDiscs = gameViewController.document.discCount
         for disc in 1...maxDiscs {
             let title = String(format: NSLocalizedString("Disc %u", comment: "Disc selection menu item title"), disc)
             let item = NSMenuItem(title: title, action: #selector(OEGameDocument.setDisc(_:)), keyEquivalent: "")
@@ -507,7 +486,7 @@ final class GameControlsBar: NSWindow {
         var enabled: Bool
         var indentationLevel: Int
         
-        for modeDict in gameViewController.displayModes {
+        for modeDict in gameViewController.document.displayModes {
             if modeDict[OEGameCoreDisplayModeSeparatorItemKey] != nil {
                 menu.addItem(.separator())
                 continue
