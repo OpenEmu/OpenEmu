@@ -30,7 +30,7 @@ extension NSPasteboard.PasteboardType {
 
 @objc
 @objcMembers
-final class OEDBGame: OEDBGameObjC {
+final class OEDBGame: OEDBItem {
     
     @objc(OEDBGameStatus)
     enum Status: Int16 {
@@ -441,7 +441,7 @@ extension OEDBGame: NSPasteboardReading {
            let context = OELibraryDatabase.default?.mainThreadContext,
            let propertyList = propertyList as? String,
            let uri = URL(string: propertyList) {
-            
+            //return OEDBGame.object(withURI: uri, in: context)
         }
         return nil
     }
