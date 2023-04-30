@@ -368,10 +368,6 @@ final class ControlsButtonSetupView: NSView {
     
     // MARK: -
     
-    override func scrollWheel(with event: NSEvent) {
-        superview?.scrollWheel(with: event)
-    }
-    
     override var acceptsFirstResponder: Bool {
         return true
     }
