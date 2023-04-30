@@ -517,7 +517,7 @@ final class GameControlsBar: NSWindow {
                     }
                     
                     if subModeDict[OEGameCoreDisplayModeSeparatorItemKey] != nil {
-                        menu.addItem(.separator())
+                        submenu.addItem(.separator())
                         continue
                     }
                     
