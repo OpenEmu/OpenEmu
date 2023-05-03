@@ -438,8 +438,8 @@ final class OEGameDocument: NSDocument {
             throw Errors.libraryDatabaseUnavailable
         }
         
+        let context = libraryDB.mainThreadContext
         if typeName == "org.openemu.savestate" {
-            let context = libraryDB.mainThreadContext
             guard let state = OEDBSaveState.updateOrCreateState(with: url, in: context) else {
                 // TODO: Specify failure reason and add recovery suggestion
                 DLog("Save state is invalid")
@@ -468,7 +468,7 @@ final class OEGameDocument: NSDocument {
         
         let game: OEDBGame?
         do {
-            game = try OEDBGame.game(withURL: url, in: libraryDB)
+            game = try OEDBGame.game(withURL: url, in: context)
         } catch {
             throw error
         }
@@ -492,7 +492,6 @@ final class OEGameDocument: NSDocument {
                 alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
                 
                 if alert.runModal() == .alertFirstButtonReturn {
-                    let context = libraryDB.mainThreadContext
                     let rom = OEDBRom.object(with: romID, in: context)!
                     
                     // Ugly hack to start imported games in main window

@@ -25,17 +25,7 @@
 import Cocoa
 import OpenEmuKit
 
-@objc extension OEDBSaveState {
-    
-    @objc(createSaveStateByImportingBundleURL:intoContext:)
-    @discardableResult
-    class func _createSaveState(byImportingBundleURL bundleURL: URL, into context: NSManagedObjectContext) -> OEDBSaveState? {
-        createSaveState(byImportingBundleURL: bundleURL, into: context, copy: false)
-    }
-}
-
 @objc
-@objcMembers
 final class OEDBSaveState: OEDBItem {
     
     // Preference keys
@@ -70,6 +60,8 @@ final class OEDBSaveState: OEDBItem {
     @NSManaged var timestamp: Date?
     // @NSManaged var userDescription: String?
     @NSManaged var rom: OEDBRom?
+    
+    // MARK: -
     
     @objc(URL)
     var url: URL {
@@ -122,9 +114,8 @@ final class OEDBSaveState: OEDBItem {
         let urlString = relativeURL.relativeString.removingTrailingSlash()
         
         // query core data
-        let request = Self.fetchRequest()
-        request.predicate = NSPredicate(format: "location == %@", urlString)
-        let results = (try? context.fetch(request)) as? [OEDBSaveState] ?? []
+        let predicate = NSPredicate(format: "location == %@", urlString)
+        let results = context.allObjects(ofType: Self.self, matching: predicate)
         if results.count > 1 {
             NSLog("WARNING: Found several save states with the same URL!")
         }
@@ -132,18 +123,17 @@ final class OEDBSaveState: OEDBItem {
         return results.first
     }
     
-    @objc(createSaveStateByImportingBundleURL:intoContext:copy:)
     @discardableResult
     class func createSaveState(byImportingBundleURL bundleURL: URL, into context: NSManagedObjectContext, copy copyFlag: Bool = false) -> OEDBSaveState? {
         
         // Check if state is already in database
-        if let state = Self.saveState(with: bundleURL, in: context) {
+        if let state = saveState(with: bundleURL, in: context) {
             return state
         }
         
         // Check url extension
         let fileExtension = bundleURL.pathExtension.lowercased()
-        if fileExtension != Self.bundleExtension {
+        if fileExtension != bundleExtension {
             DLog("SaveState \(bundleURL) has wrong extension (\(fileExtension))")
             return nil
         }
@@ -165,9 +155,9 @@ final class OEDBSaveState: OEDBItem {
         let standardizedURL: URL
         if copyFlag {
             func makeTempURL(_ i: Int) -> URL {
-                var fileName = "SaveState.\(Self.bundleExtension)"
+                var fileName = "SaveState.\(bundleExtension)"
                 if i != 0 {
-                    fileName = "SaveState \(i).\(Self.bundleExtension)"
+                    fileName = "SaveState \(i).\(bundleExtension)"
                 }
                 return FileManager.default.temporaryDirectory.appendingPathComponent(fileName, isDirectory: true)
             }
@@ -220,8 +210,9 @@ final class OEDBSaveState: OEDBItem {
             return nil
         }
         
-        let temporaryName = "org.openemu.openemu/SaveState.\(bundleExtension)"
-        let temporaryURL = FileManager.default.temporaryDirectory.appendingPathComponent(temporaryName, isDirectory: true)
+        let temporaryURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("org.openemu.openemu", isDirectory: true)
+            .appendingPathComponent("SaveState.\(bundleExtension)", isDirectory: true)
         
         let saveState = OEDBSaveState.createObject(in: context)
         saveState.name = name
@@ -280,19 +271,19 @@ final class OEDBSaveState: OEDBItem {
     }
     
     class func nameOfQuickSave(inSlot slot: Int) -> String {
-        return slot == 0 ? Self.quicksaveName : "\(Self.quicksaveName)\(slot)"
+        return slot == 0 ? quicksaveName : "\(quicksaveName)\(slot)"
     }
     
     private class func dataFileURL(withBundleURL url: URL) -> URL {
-        return url.appendingPathComponent(Self.dataFile, isDirectory: false)
+        return url.appendingPathComponent(dataFile, isDirectory: false)
     }
     
     private class func infoPlistURL(withBundleURL url: URL) -> URL {
-        return url.appendingPathComponent(Self.infoPlistFile, isDirectory: false)
+        return url.appendingPathComponent(infoPlistFile, isDirectory: false)
     }
     
     private class func screenShotURL(withBundleURL url: URL) -> URL {
-        return url.appendingPathComponent(Self.screenshotFile, isDirectory: false)
+        return url.appendingPathComponent(screenshotFile, isDirectory: false)
     }
     
     // MARK: - Handling Bundle & Files

@@ -29,13 +29,15 @@ extension NSPasteboard.PasteboardType {
 }
 
 @objc
-@objcMembers
 final class OEDBGame: OEDBItem {
     
     @objc(OEDBGameStatus)
     enum Status: Int16 {
-        @objc(OEDBGameStatusOK) case ok
-        case downloading, alert, processing
+        @objc(OEDBGameStatusOK)
+        case ok = 0
+        case downloading = 1
+        case alert = 2
+        case processing = 3
     }
     
     static let displayGameTitleKey = "displayGameTitle"
@@ -78,9 +80,7 @@ final class OEDBGame: OEDBItem {
     
     // MARK: -
     
-    @objc(createGameWithName:andSystem:inDatabase:)
-    class func createGame(withName name: String, andSystem system: OEDBSystem, in database: OELibraryDatabase) -> OEDBGame {
-        let context = database.mainThreadContext
+    class func createGame(withName name: String, andSystem system: OEDBSystem, in context: NSManagedObjectContext) -> OEDBGame {
         
         var game: OEDBGame!
         context.performAndWait {
@@ -96,13 +96,13 @@ final class OEDBGame: OEDBItem {
     /// Returns the game from the default database that represents the file at `url`.
     @nonobjc
     class func game(withURL url: URL) throws -> OEDBGame? {
-        guard let database = OELibraryDatabase.default else { return nil }
-        return try OEDBGame.game(withURL: url, in: database)
+        guard let context = OELibraryDatabase.default?.mainThreadContext else { return nil }
+        return try OEDBGame.game(withURL: url, in: context)
     }
     
-    /// Returns the game from the specified `database` that represents the file at `url`
+    /// Returns the game from the specified `context` that represents the file at `url`
     @nonobjc
-    class func game(withURL url: URL, in database: OELibraryDatabase) throws -> OEDBGame? {
+    class func game(withURL url: URL, in context: NSManagedObjectContext) throws -> OEDBGame? {
         var err: Error?
         
         let url = url.standardizedFileURL
@@ -115,7 +115,6 @@ final class OEDBGame: OEDBItem {
         
         // TODO: FIX
         var game: OEDBGame?
-        let context = database.mainThreadContext
         
         do {
             if let rom = try OEDBRom.rom(with: url, in: context) {
@@ -149,6 +148,7 @@ final class OEDBGame: OEDBItem {
     
     // MARK: - Accessors
     
+    /// Returns the `Date` the game was last started, or `nil` if the game has never been played.
     var lastPlayed: Date? {
         return roms.sorted {
             guard let d1 = $0.lastPlayed,
@@ -394,9 +394,9 @@ final class OEDBGame: OEDBItem {
     }
     
     @objc(deleteByMovingFile:keepSaveStates:)
-    func delete(moveToTrash: Bool, keepSaveStates statesFlag: Bool) {
+    func delete(moveToTrash: Bool, keepSaveStates: Bool) {
         while let rom = roms.first {
-            rom.delete(moveToTrash: moveToTrash, keepSaveStates: statesFlag)
+            rom.delete(moveToTrash: moveToTrash, keepSaveStates: keepSaveStates)
             roms.remove(rom)
         }
         managedObjectContext?.delete(self)
@@ -621,25 +621,26 @@ extension OEDBGame: OEListViewDataSourceItem {
 // MARK: - Debug
 
 #if DEBUG
+@available(macOS 11.0, *)
 extension OEDBGame {
     
     func dump(prefix: String = "---") {
-        NSLog("\(prefix) Beginning of game dump")
+        os_log(.debug, log: .library, "\(prefix) Beginning of game dump")
         
-        NSLog("\(prefix) Game name is \(name)")
-        NSLog("\(prefix) title is \(gameTitle ?? "nil")")
-        NSLog("\(prefix) rating is \(rating?.description ?? "nil")")
-        NSLog("\(prefix) description is \(gameDescription ?? "nil")")
-        NSLog("\(prefix) import date is \(importDate?.description ?? "nil")")
-        NSLog("\(prefix) last info sync is \(lastInfoSync?.description ?? "nil")")
-        NSLog("\(prefix) last played is \(lastPlayed?.description ?? "nil")")
-        NSLog("\(prefix) status is \(status)")
+        os_log(.debug, log: .library, "\(prefix) Game name is \(self.name)")
+        os_log(.debug, log: .library, "\(prefix) title is \(self.gameTitle ?? "nil")")
+        os_log(.debug, log: .library, "\(prefix) rating is \(self.rating?.description ?? "nil")")
+        os_log(.debug, log: .library, "\(prefix) description is \(self.gameDescription ?? "nil")")
+        os_log(.debug, log: .library, "\(prefix) import date is \(self.importDate?.description ?? "nil")")
+        os_log(.debug, log: .library, "\(prefix) last info sync is \(self.lastInfoSync?.description ?? "nil")")
+        os_log(.debug, log: .library, "\(prefix) last played is \(self.lastPlayed?.description ?? "nil")")
+        os_log(.debug, log: .library, "\(prefix) status is \(self.status.rawValue)")
         
-        NSLog("\(prefix) Number of ROMs for this game is \(roms.count)")
+        os_log(.debug, log: .library, "\(prefix) Number of ROMs for this game is \(self.roms.count)")
         
         roms.forEach { $0.dump(prefix: prefix + "-----") }
         
-        NSLog("\(prefix) End of game dump\n\n")
+        os_log(.debug, log: .library, "\(prefix) End of game dump\n\n")
     }
 }
 #endif

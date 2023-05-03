@@ -31,7 +31,6 @@ extension Notification.Name {
 }
 
 @objc
-@objcMembers
 final class OEDBSystem: OEDBItem {
     
     private static let ErrorDomain = "OEDBSystemErrorDomain"
@@ -41,27 +40,20 @@ final class OEDBSystem: OEDBItem {
     
     // MARK: - CoreDataProperties
     
-    // @NSManaged var enabled: NSNumber?
+    @NSManaged private var enabled: NSNumber?
     @NSManaged var lastLocalizedName: String
     // @NSManaged var shortname: String
     @NSManaged var systemIdentifier: String
     @NSManaged var games: Set<OEDBGame>
     
-    @objc(enabled)
+    // MARK: -
+    
     var isEnabled: Bool {
-        @objc(isEnabled)
         get {
-            let key = "enabled"
-            willAccessValue(forKey: key)
-            defer { didAccessValue(forKey: key) }
-            return primitiveValue(forKey: key) as? Bool ?? false
+            return enabled as? Bool ?? false
         }
-        @objc(setEnabled:)
         set {
-            let key = "enabled"
-            willChangeValue(forKey: key)
-            setPrimitiveValue(newValue as NSNumber, forKey: key)
-            didChangeValue(forKey: key)
+            enabled = newValue as NSNumber
             
             NotificationCenter.default.post(name: .OEDBSystemAvailabilityDidChange, object: self)
         }
@@ -86,19 +78,13 @@ final class OEDBSystem: OEDBItem {
     // MARK: -
     
     class func systemCount(in context: NSManagedObjectContext) -> Int {
-        let count = try? _systemCount(in: context)
-        return count ?? 0
-    }
-    
-    class func _systemCount(in context: NSManagedObjectContext) throws -> Int {
         let request = Self.fetchRequest()
         
-        var result: Int
+        var result = 0
         do {
             result = try context.count(for: request)
         } catch {
             DLog("Error: \(error)")
-            throw error
         }
         if result == NSNotFound {
             result = 0
@@ -106,73 +92,29 @@ final class OEDBSystem: OEDBItem {
         return result
     }
     
-    @objc(allSystemsInContext:)
     class func allSystems(in context: NSManagedObjectContext) -> [OEDBSystem] {
-        let systems = try? _allSystems(in: context)
-        return systems ?? []
-    }
-    
-    class func _allSystems(in context: NSManagedObjectContext) throws -> [OEDBSystem] {
         let sortDescriptors = [NSSortDescriptor(key: "lastLocalizedName", ascending: true)]
-        
-        let request = Self.fetchRequest()
-        request.sortDescriptors = sortDescriptors
-        
-        let result: [OEDBSystem]
-        do {
-            result = try context.fetch(request) as? [OEDBSystem] ?? []
-        } catch {
-            DLog("Error: \(error)")
-            throw error
-        }
-        
-        return result
+        return context.allObjects(ofType: Self.self, sortedBy: sortDescriptors)
     }
     
     class func allSystemIdentifiers(in context: NSManagedObjectContext) -> [String] {
-        let allSystems = allSystems(in: context)
-        var allSystemIdentifiers: [String] = []
-        
-        allSystems.forEach { allSystemIdentifiers.append($0.systemIdentifier) }
-        
-        return allSystemIdentifiers
+        return allSystems(in: context).map(\.systemIdentifier)
     }
     
-    @objc(enabledSystemsInContext:)
     class func enabledSystems(in context: NSManagedObjectContext) -> [OEDBSystem] {
-        let systems = try? _enabledSystems(in: context)
-        return systems ?? []
-    }
-    
-    class func _enabledSystems(in context: NSManagedObjectContext) throws -> [OEDBSystem] {
         let predicate = NSPredicate(format: "enabled = YES")
         let sortDescriptors = [NSSortDescriptor(key: "lastLocalizedName", ascending: true)]
-        
-        let request = Self.fetchRequest()
-        request.predicate = predicate
-        request.sortDescriptors = sortDescriptors
-        
-        let result: [OEDBSystem]
-        do {
-            result = try context.fetch(request) as? [OEDBSystem] ?? []
-        } catch {
-            DLog("Error: \(error)")
-            throw error
-        }
-        
-        return result
+        return context.allObjects(ofType: Self.self, matching: predicate, sortedBy: sortDescriptors)
     }
     
     class func systemsForFile(with fileURL: URL, in context: NSManagedObjectContext) -> [OEDBSystem] {
         if let file = try? OEFile(url: fileURL) {
-            let systems = Self.systems(for: file, in: context)
-            return systems
+            return systems(for: file, in: context)
         } else {
             return []
         }
     }
     
-    @objc(systemsForFile:inContext:)
     class func systems(for file: OEFile, in context: NSManagedObjectContext) -> [OEDBSystem] {
         
         var theOneAndOnlySystemThatGetsAChanceToHandleTheFile: OESystemPlugin?
@@ -194,28 +136,25 @@ final class OEDBSystem: OEDBItem {
         }
         
         if let sys = theOneAndOnlySystemThatGetsAChanceToHandleTheFile {
-            let systemIdentifier = sys.systemIdentifier
-               if let system = Self.system(for: systemIdentifier, in: context),
+            if let system = system(for: sys.systemIdentifier, in: context),
                system.isEnabled {
                 return [system]
+            } else {
+                return []
             }
-        }
-        else {
+        } else {
             var validSystems: [OEDBSystem] = []
             for sys in otherSystemsThatMightBeAbleToHandleTheFile {
-                let systemIdentifier = sys.systemIdentifier
-                   if let system = Self.system(for: systemIdentifier, in: context),
+                if let system = system(for: sys.systemIdentifier, in: context),
                    system.isEnabled {
                     validSystems.append(system)
                 }
             }
             return validSystems
         }
-        
-        return []
     }
     
-    @objc(systemForPlugin:inContext:)
+    @nonobjc
     class func system(for plugin: OESystemPlugin, in context: NSManagedObjectContext) -> OEDBSystem {
         let systemIdentifier = plugin.systemIdentifier
         
@@ -235,7 +174,6 @@ final class OEDBSystem: OEDBItem {
         return system
     }
     
-    @objc(systemForPluginIdentifier:inContext:)
     class func system(for identifier: String, in context: NSManagedObjectContext) -> OEDBSystem? {
         let predicate = NSPredicate(format: "systemIdentifier == %@", identifier)
         
@@ -253,14 +191,12 @@ final class OEDBSystem: OEDBItem {
         return result?.first
     }
     
-    @objc(headerForFile:forSystem:)
     class func header(for file: OEFile, forSystem identifier: String) -> String? {
         let systemPlugin = OESystemPlugin.systemPlugin(forIdentifier: identifier)
         let header = systemPlugin?.controller.headerLookup(for: file)
         return header
     }
     
-    @objc(serialForFile:forSystem:)
     class func serial(for file: OEFile, forSystem identifier: String) -> String? {
         let systemPlugin = OESystemPlugin.systemPlugin(forIdentifier: identifier)
         let serial = systemPlugin?.controller.serialLookup(for: file)
@@ -271,8 +207,7 @@ final class OEDBSystem: OEDBItem {
     
     /// Toggles the system's `enabled` status. If toggling the status would cause an unwanted situation (e.g., there would be no systems enabled), returns `false` with an appropriate error message to present to the user.
     func toggleEnabled() throws {
-        let database = OELibraryDatabase.default!
-        let context = database.mainThreadContext
+        let context = libraryDatabase.mainThreadContext
         let enabled = isEnabled
         
         // Make sure at least one system would still be enabled.
@@ -349,20 +284,21 @@ extension OEDBSystem: GameCollectionViewItemProtocol {
 // MARK: - Debug
 
 #if DEBUG
+@available(macOS 11.0, *)
 extension OEDBSystem {
     
     func dump(prefix: String = "---") {
-        NSLog("\(prefix) Beginning of system dump")
+        os_log(.debug, log: .library, "\(prefix) Beginning of system dump")
         
-        NSLog("\(prefix) System last localized name is \(lastLocalizedName)")
-        NSLog("\(prefix) system identifier is \(systemIdentifier)")
-        NSLog("\(prefix) enabled? \(isEnabled)")
+        os_log(.debug, log: .library, "\(prefix) System last localized name is \(self.lastLocalizedName)")
+        os_log(.debug, log: .library, "\(prefix) system identifier is \(self.systemIdentifier)")
+        os_log(.debug, log: .library, "\(prefix) enabled? \(self.isEnabled)")
         
-        NSLog("\(prefix) Number of games in this system is \(games.count)")
+        os_log(.debug, log: .library, "\(prefix) Number of games in this system is \(self.games.count)")
         
         games.forEach { $0.dump(prefix: prefix + "-----") }
         
-        NSLog("\(prefix) End of system dump\n\n")
+        os_log(.debug, log: .library, "\(prefix) End of system dump\n\n")
     }
 }
 #endif

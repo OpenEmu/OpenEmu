@@ -666,8 +666,9 @@ final class OELibraryDatabase: NSObject {
                     dict.merge(result) { (old, _) in return old }
                 }
                 
-                if let boxImageURL = dict["boxImageURL"] as? String,
-                   let image = OEDBImage.prepareImage(withURLString: boxImageURL) {
+                if let boxImageURLString = dict["boxImageURL"] as? String,
+                   let boxImageURL = URL(string: boxImageURLString),
+                   let image = OEDBImage.prepareImage(with: boxImageURL) {
                     dict["image"] = image
                 }
                 

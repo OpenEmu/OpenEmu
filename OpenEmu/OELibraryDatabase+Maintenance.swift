@@ -227,14 +227,14 @@ extension OELibraryDatabase {
         for image in images {
             if !image.isLocalImageAvailable {
                 autoreleasepool {
-                    if let source = image.source,
-                       let newInfo = OEDBImage.prepareImage(withURLString: source),
+                    if let sourceURL = image.sourceURL,
+                       let newInfo = OEDBImage.prepareImage(with: sourceURL),
                        newInfo["relativePath"] != nil
                     {
                         image.width = Float(newInfo["width"] as! CGFloat)
                         image.height = Float(newInfo["height"] as! CGFloat)
                         image.relativePath = (newInfo["relativePath"] as! String)
-                        image.format = Int16((newInfo["format"] as! NSBitmapImageRep.FileType).rawValue)
+                        image.format = newInfo["format"] as! NSNumber
                         count += 1
                     }
                 }

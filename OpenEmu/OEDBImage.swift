@@ -24,29 +24,17 @@
 
 import Cocoa
 
-extension OEDBImage {
-    
-    // OELibraryDatabase
-    @objc(createImageWithDictionary:)
-    class func _createImage(with dictionary: [String : Any]?) -> OEDBImage? {
-        guard let dictionary = dictionary else {
-            return nil
-        }
-        
-        return createImage(with: dictionary)
-    }
-}
-
 @objc
-@objcMembers
 final class OEDBImage: OEDBItem {
     
+    @objc // OEVersionMigrationController
     static let gameArtworkFormat: NSBitmapImageRep.FileType = .jpeg
+    @objc // OEVersionMigrationController
     static let gameArtworkProperties: [NSBitmapImageRep.PropertyKey : Any] = [.compressionFactor : 0.9]
     
     // MARK: - CoreDataProperties
     
-    @NSManaged var format: Int16
+    @NSManaged var format: NSNumber
     @NSManaged var height: Float
     @NSManaged var relativePath: String?
     @NSManaged var source: String?
@@ -58,13 +46,6 @@ final class OEDBImage: OEDBItem {
     override class var entityName: String { "Image" }
     
     // MARK: -
-    
-    class func prepareImage(withURLString urlString: String) -> [String : Any]? {
-        guard
-            let url = URL(string: urlString)
-        else { return nil }
-        return Self.prepareImage(with: url)
-    }
     
     class func prepareImage(with url: URL) -> [String : Any]? {
         guard let image = NSImage(contentsOf: url)
@@ -81,15 +62,15 @@ final class OEDBImage: OEDBItem {
         return result
     }
     
-    @objc(prepareImageWithNSImage:) // OEDBGame
+    @nonobjc
     class func prepareImage(with image: NSImage) -> [String : Any] {
         
         var result: [String : Any] = [:]
         
         var imageSize = image.size
         let fileName = UUID().uuidString
-        let type = Self.gameArtworkFormat
-        let properties = Self.gameArtworkProperties
+        let type = gameArtworkFormat
+        let properties = gameArtworkProperties
         
         var imageRep: NSBitmapImageRep?
         var maxArea = 0
@@ -121,8 +102,7 @@ final class OEDBImage: OEDBItem {
         
         let data = imageRep.representation(using: type, properties: properties)
         
-        let database = OELibraryDatabase.default!
-        let coverFolderURL = database.coverFolderURL
+        let coverFolderURL = OELibraryDatabase.default!.coverFolderURL
         let imageURL = URL(string: fileName, relativeTo: coverFolderURL)!
         
         do {
@@ -136,7 +116,7 @@ final class OEDBImage: OEDBItem {
         result["width"]        = imageSize.width
         result["height"]       = imageSize.height
         result["relativePath"] = imageURL.relativeString
-        result["format"]       = type
+        result["format"]       = type.rawValue as NSNumber
         
         return result
     }
@@ -154,14 +134,14 @@ final class OEDBImage: OEDBItem {
         image.height = Float(dictionary["height"] as! CGFloat)
         
         image.relativePath = dictionary["relativePath"] as? String
-        image.format = Int16((dictionary["format"] as! NSBitmapImageRep.FileType).rawValue)
+        image.format = dictionary["format"] as! NSNumber
         
         return image
     }
     
     // MARK: -
     
-    @objc(convertToFormat:withProperties:)
+    @objc(convertToFormat:withProperties:) // OEVersionMigrationController
     func convert(to type: NSBitmapImageRep.FileType, withProperties attributes: [NSBitmapImageRep.PropertyKey : Any]) -> Bool {
         guard
             let image = image,
@@ -176,7 +156,7 @@ final class OEDBImage: OEDBItem {
             if let url = imageURL {
                 try? FileManager.default.removeItem(at: url)
             }
-            format = Int16(type.rawValue)
+            format = type.rawValue as NSNumber
             relativePath = newURL.relativeString
             save()
         }
@@ -185,27 +165,6 @@ final class OEDBImage: OEDBItem {
     }
     
     // MARK: -
-    
-    private func write(_ url: URL, withType type: NSBitmapImageRep.FileType, outSize size: inout NSSize?, in context: NSManagedObjectContext) -> URL? {
-        if let data = try? Data(contentsOf: url) {
-            return write(data, withType: type, outSize: &size, in: context)
-        } else {
-            return nil
-        }
-    }
-    
-    private func write(_ data: Data, withType type: NSBitmapImageRep.FileType, outSize size: inout NSSize?, in context: NSManagedObjectContext) -> URL? {
-        if let image = NSImage(data: data) {
-            size = image.size
-            return write(image, withType: type, in: context)
-        } else {
-            return nil
-        }
-    }
-    
-    private func write(_ image: NSImage, withType type: NSBitmapImageRep.FileType, in context: NSManagedObjectContext) -> URL? {
-        return write(image, withType: type, withProperties: Self.gameArtworkProperties, in: context)
-    }
     
     private func write(_ image: NSImage, withType type: NSBitmapImageRep.FileType, withProperties properties: [NSBitmapImageRep.PropertyKey : Any], in context: NSManagedObjectContext) -> URL? {
         
@@ -240,8 +199,7 @@ final class OEDBImage: OEDBItem {
         let data = imageRep.representation(using: type, properties: properties)
         
         // TODO: get database from context
-        let database = OELibraryDatabase.default!
-        let coverFolderURL = database.coverFolderURL
+        let coverFolderURL = OELibraryDatabase.default!.coverFolderURL
         let imageURL = URL(string: fileName, relativeTo: coverFolderURL)!
         
         do {
@@ -264,7 +222,6 @@ final class OEDBImage: OEDBItem {
         }
     }
     
-    @objc(UUID)
     var uuid: String? {
         return relativePath
     }
@@ -279,7 +236,7 @@ final class OEDBImage: OEDBItem {
     
     var imageURL: URL? {
         if let relativePath = relativePath {
-            return libraryDatabase.coverFolderURL.appendingPathComponent(relativePath)
+            return libraryDatabase.coverFolderURL.appendingPathComponent(relativePath, isDirectory: false)
         } else {
             return nil
         }

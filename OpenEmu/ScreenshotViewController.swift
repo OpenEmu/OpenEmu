@@ -34,7 +34,7 @@ final class ScreenshotViewController: ImageCollectionViewController {
     var dataSource = ImagesDataSource<OEDBScreenshot>(gameKeyPath: \.rom?.game,
                                                       titleKeyPath: \.name,
                                                       timestampKeyPath: \.timestamp,
-                                                      imageURLKeyPath: \.screenshotURL,
+                                                      imageURLKeyPath: \.url,
                                                       sortDescriptors: [
                                                         NSSortDescriptor(keyPath: \OEDBScreenshot.rom?.game?.name, ascending: true),
                                                         NSSortDescriptor(keyPath: \OEDBScreenshot.timestamp, ascending: true)],
