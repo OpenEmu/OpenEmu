@@ -54,13 +54,13 @@ extension OEDBCollection: SidebarItem {
 // MARK: - GameCollectionViewItemProtocol
 
 extension OEDBCollection: GameCollectionViewItemProtocol {
-    public var collectionViewName: String? { name }
-    public var isCollectionEditable: Bool { true }
-    public var shouldShowSystemColumnInListView: Bool { true }
+    var collectionViewName: String { name }
+    var isCollectionEditable: Bool { true }
+    var shouldShowSystemColumnInListView: Bool { true }
     
-    public var fetchPredicate: NSPredicate? {
+    var fetchPredicate: NSPredicate {
         NSPredicate(format: "ANY collections == %@", self)
     }
-    public var fetchLimit: Int { 0 }
-    public var fetchSortDescriptors: [NSSortDescriptor]? { [] }
+    var fetchLimit: Int { 0 }
+    var fetchSortDescriptors: [NSSortDescriptor] { [] }
 }

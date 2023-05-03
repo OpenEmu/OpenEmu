@@ -44,19 +44,19 @@ class OEDBSmartCollection: OEDBCollection {
     
     // MARK: - GameCollectionViewItemProtocol
     
-    public override var collectionViewName: String? {
+    override var collectionViewName: String {
         isRecentlyAddedCollection ? NSLocalizedString("Recently Added", comment: "Smart Collection Name")
                                   : name
     }
-    public override var isCollectionEditable: Bool { false }
-    public override var shouldShowSystemColumnInListView: Bool { true }
+    override var isCollectionEditable: Bool { false }
+    override var shouldShowSystemColumnInListView: Bool { true }
     
-    public override var fetchPredicate: NSPredicate? {
+    override var fetchPredicate: NSPredicate {
         isRecentlyAddedCollection ? NSPredicate(value: true)
                                   : NSPredicate(value: false)
     }
-    public override var fetchLimit: Int { 30 }
-    public override var fetchSortDescriptors: [NSSortDescriptor]? {
+    override var fetchLimit: Int { 30 }
+    override var fetchSortDescriptors: [NSSortDescriptor] {
         isRecentlyAddedCollection ? [NSSortDescriptor(key: "importDate", ascending: false)]
                                   : []
     }

@@ -270,15 +270,15 @@ extension OEDBSystem: SidebarItem {
 }
 
 extension OEDBSystem: GameCollectionViewItemProtocol {
-    public var collectionViewName: String? { name }
-    public var isCollectionEditable: Bool { true }
-    public var shouldShowSystemColumnInListView: Bool { false }
+    var collectionViewName: String { name }
+    var isCollectionEditable: Bool { true }
+    var shouldShowSystemColumnInListView: Bool { false }
     
-    public var fetchPredicate: NSPredicate? {
+    var fetchPredicate: NSPredicate {
         NSPredicate(format: "system == %@", self)
     }
-    public var fetchLimit: Int { 0 }
-    public var fetchSortDescriptors: [NSSortDescriptor]? { [] }
+    var fetchLimit: Int { 0 }
+    var fetchSortDescriptors: [NSSortDescriptor] { [] }
 }
 
 // MARK: - Debug

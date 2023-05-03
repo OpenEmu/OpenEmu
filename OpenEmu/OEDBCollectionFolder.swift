@@ -36,11 +36,11 @@ class OEDBCollectionFolder: OEDBCollection {
     
     // MARK: - GameCollectionViewItemProtocol
     
-    public override var collectionViewName: String? { name }
-    public override var isCollectionEditable: Bool { true }
-    public override var shouldShowSystemColumnInListView: Bool { false }
+    override var collectionViewName: String { name }
+    override var isCollectionEditable: Bool { true }
+    override var shouldShowSystemColumnInListView: Bool { false }
     
-    public override var fetchPredicate: NSPredicate? {
+    override var fetchPredicate: NSPredicate {
         NSPredicate(value: false)
     }
 }
