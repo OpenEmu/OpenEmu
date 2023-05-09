@@ -121,8 +121,8 @@ extension GameViewController: NSTouchBarDelegate {
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Save States", comment: "")
             
-            let segmentImages = [#imageLiteral(resourceName: "quick_save_touch_bar_template"),
-                                 #imageLiteral(resourceName: "quick_load_touch_bar_template")]
+            let segmentImages = [NSImage(named: "quick_save_touch_bar_template")!,
+                                 NSImage(named: "quick_load_touch_bar_template")!]
             
             let segmentedControl = NSSegmentedControl(images: segmentImages, trackingMode: .momentary, target: nil, action: #selector(saveStatesControlsTouched(_:)))
             

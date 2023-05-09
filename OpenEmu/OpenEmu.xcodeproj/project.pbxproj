@@ -405,6 +405,7 @@
 		8F057160254E7EA5003B36FD /* MainMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F057162254E7EA5003B36FD /* MainMenu.strings */; };
 		8F071F391C25534E007B76DA /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F381C25534E007B76DA /* Preferences.xib */; };
 		8F071F3B1C255362007B76DA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F3A1C255362007B76DA /* Credits.rtf */; };
+		8F0C1C252A09E01A00343B6C /* BundleResourcesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0C1C242A09E01A00343B6C /* BundleResourcesTests.swift */; };
 		8F0D804724ED76C4001BD8E2 /* ControlsLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */; };
 		8F2543FA2714C274003FC137 /* Finite in Frameworks */ = {isa = PBXBuildFile; productRef = 8F2543F92714C274003FC137 /* Finite */; };
 		8F2F92AA2519A9E700699691 /* GameScannerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2F92A92519A9E700699691 /* GameScannerButton.swift */; };
@@ -1639,6 +1640,7 @@
 		8F057161254E7EA5003B36FD /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F071F381C25534E007B76DA /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		8F071F3A1C255362007B76DA /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		8F0C1C242A09E01A00343B6C /* BundleResourcesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleResourcesTests.swift; sourceTree = "<group>"; };
 		8F0D804624ED76C3001BD8E2 /* ControlsLabels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsLabels.swift; sourceTree = "<group>"; };
 		8F22764529D2FDE3001FB9F8 /* CodeSign.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CodeSign.xcconfig; path = ../CodeSign.xcconfig; sourceTree = "<group>"; };
 		8F22764629D301FC001FB9F8 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -2621,6 +2623,7 @@
 		05DB72A22532681B0098459D /* OpenEmuTests */ = {
 			isa = PBXGroup;
 			children = (
+				8F0C1C242A09E01A00343B6C /* BundleResourcesTests.swift */,
 				8F93FDD927374F2000B59F3E /* GameInfoHelperTests.swift */,
 				8F93FDDF2737506900B59F3E /* ROMImporterTests.swift */,
 				8F93FDD827374F1F00B59F3E /* OpenEmuTests-Bridging-Header.h */,
@@ -6195,6 +6198,7 @@
 			files = (
 				8F93FDE02737506900B59F3E /* ROMImporterTests.swift in Sources */,
 				8F93FDDA27374F2000B59F3E /* GameInfoHelperTests.swift in Sources */,
+				8F0C1C252A09E01A00343B6C /* BundleResourcesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

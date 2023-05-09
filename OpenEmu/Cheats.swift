@@ -64,8 +64,7 @@ final class Cheats: NSObject {
     private func findCheats() {
         
         // TODO: Read cheats database from server instead of bundling with the app for easy updating.
-        let cheatsDatabaseFilename = "cheats-database.xml"
-        let cheatsDatabaseURL = Bundle.main.resourceURL!.appendingPathComponent(cheatsDatabaseFilename, isDirectory: false)
+        let cheatsDatabaseURL = Bundle.main.url(forResource: "cheats-database", withExtension: "xml")!
         
         let xml = try! Data(contentsOf: cheatsDatabaseURL)
         

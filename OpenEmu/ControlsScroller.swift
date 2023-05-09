@@ -26,7 +26,7 @@ import Cocoa
 
 final class ControlsScroller: NSScroller {
     
-    lazy var knobImage = NSImage(named: "wood_knob_vertical")
+    lazy var knobImage = NSImage(named: "wood_knob_vertical")!
     
     override class var isCompatibleWithOverlayScrollers: Bool {
         return true
@@ -61,7 +61,7 @@ final class ControlsScroller: NSScroller {
         }
         
         let targetRect = rect(for: .knob)
-        knobImage?.draw(in: targetRect)
+        knobImage.draw(in: targetRect)
     }
     
     override func rect(for aPart: NSScroller.Part) -> NSRect {
@@ -73,7 +73,7 @@ final class ControlsScroller: NSScroller {
         var knobRect = rect(for: .knobSlot)
         knobRect = knobRect.insetBy(dx: 0, dy: 2)
         
-        guard let size = knobImage?.size else { return .zero }
+        let size = knobImage.size
         
         var knobHeight = round(knobRect.size.height*knobProportion)
         knobHeight = knobHeight < size.height ? size.height : knobHeight

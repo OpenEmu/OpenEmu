@@ -41,14 +41,11 @@ final class OELibraryDatabase: NSObject {
     
     enum Errors: LocalizedError {
         case folderNotFound
-        case noModelToGenerateStoreFrom
         
         var errorDescription: String? {
             switch self {
             case .folderNotFound:
                 return NSLocalizedString("The OpenEmu Library could not be found.", comment: "")
-            case .noModelToGenerateStoreFrom:
-                return NSLocalizedString("No model to generate a store from.", comment: "")
             }
         }
     }
@@ -86,13 +83,10 @@ final class OELibraryDatabase: NSObject {
     // Exposed for library migration
     var persistentStoreCoordinator: NSPersistentStoreCoordinator?
     
-    private lazy var managedObjectModel: NSManagedObjectModel? = {
+    private lazy var managedObjectModel: NSManagedObjectModel = {
         let modelURL = Bundle.main.url(forResource: "OEDatabase", withExtension: "momd")!
-        if let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL) {
-            return managedObjectModel
-        } else {
-            return nil
-        }
+        let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)!
+        return managedObjectModel
     }()
     
     private var undoManager: UndoManager? {
@@ -187,10 +181,7 @@ final class OELibraryDatabase: NSObject {
     }
     
     private func loadPersistantStore() throws {
-        guard let mom = managedObjectModel else {
-            os_log(.error, log: .library, "No model to generate a store from")
-            throw Errors.noModelToGenerateStoreFrom
-        }
+        let mom = managedObjectModel
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: mom)
         persistentStoreCoordinator = coordinator
         
