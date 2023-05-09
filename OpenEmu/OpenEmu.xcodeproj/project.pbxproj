@@ -322,7 +322,6 @@
 		836AEA711975BFE100B86935 /* OEGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA701975BFE100B86935 /* OEGridCell.m */; };
 		8370D3E11A8D2A7600313F87 /* ArrowCursorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8370D3E01A8D2A7600313F87 /* ArrowCursorTextView.swift */; };
 		83753F1A14F5383F00D708A7 /* PrefDebugController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83753F1914F5383F00D708A7 /* PrefDebugController.xib */; };
-		837820BD19081A090043593F /* OELibraryMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820BC19081A090043593F /* OELibraryMigrator.m */; };
 		837964F11A614ACD00A8DE5C /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 837964EA1A614ACD00A8DE5C /* Controller-Mappings.plist */; };
 		837964F21A614ACD00A8DE5C /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 837964EB1A614ACD00A8DE5C /* Controller-Preferences.plist */; };
 		837964F31A614ACD00A8DE5C /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 837964EC1A614ACD00A8DE5C /* Keyboard-Mappings.plist */; };
@@ -1547,8 +1546,6 @@
 		837820B71907FADB0043593F /* IKRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKRenderer.h; sourceTree = "<group>"; };
 		837820B81907FB2D0043593F /* IKImageWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageWrapper.h; sourceTree = "<group>"; };
 		837820BA1907FB6E0043593F /* IKImageBrowserView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserView.h; sourceTree = "<group>"; };
-		837820BB19081A090043593F /* OELibraryMigrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryMigrator.h; sourceTree = "<group>"; };
-		837820BC19081A090043593F /* OELibraryMigrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryMigrator.m; sourceTree = "<group>"; };
 		837964E11A6149C000A8DE5C /* Supervision.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Supervision.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		837964EA1A614ACD00A8DE5C /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		837964EB1A614ACD00A8DE5C /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
@@ -3265,8 +3262,6 @@
 				8353EB2215FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m */,
 				83C6C1DA190536CC00DD7B13 /* OEDBImageMigrationPolicy.h */,
 				83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */,
-				837820BB19081A090043593F /* OELibraryMigrator.h */,
-				837820BC19081A090043593F /* OELibraryMigrator.m */,
 				8FE5DC0B270DF56500878DFF /* LibraryMigrator.swift */,
 			);
 			name = Migration;
@@ -6457,7 +6452,6 @@
 				14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */,
 				8FEE03DF26D556290087CB51 /* OEDBImage.swift in Sources */,
 				0544B69723D16D0C00F63D61 /* ImageCacheService.swift in Sources */,
-				837820BD19081A090043593F /* OELibraryMigrator.m in Sources */,
 				8337F38E1726B3600068DD90 /* BackgroundImageView.swift in Sources */,
 				94A4E98D179F9A4D00AD8C7D /* OEDBSaveStatesMedia.swift in Sources */,
 				8F9410C0273A0167004C47CC /* CoreUpdater.swift in Sources */,

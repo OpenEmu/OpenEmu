@@ -7,7 +7,6 @@
 #import "OEResponder.h"
 
 #import "OELibraryDatabase.h"
-#import "OELibraryMigrator.h"
 #import "ALIterativeMigrator.h"
 
 #import "OECoverGridDataSourceItem.h"

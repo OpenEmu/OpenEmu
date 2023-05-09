@@ -222,7 +222,7 @@ class AppDelegate: NSObject {
             
             if (error as? CocoaError)?.code == .persistentStoreIncompatibleVersionHash {
                 
-                let migrator = OELibraryMigrator(store: url)
+                let migrator = LibraryMigrator(storeURL: url)
                 
                 DispatchQueue.global(qos: .default).async {
                     
