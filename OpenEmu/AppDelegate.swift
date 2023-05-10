@@ -218,9 +218,9 @@ class AppDelegate: NSObject {
                 NotificationCenter.default.post(name: .libraryDidLoad, object: OELibraryDatabase.default!)
             }
             
-        } catch let error as NSError {
+        } catch {
             
-            if error.domain == NSCocoaErrorDomain && error.code == NSPersistentStoreIncompatibleVersionHashError {
+            if (error as? CocoaError)?.code == .persistentStoreIncompatibleVersionHash {
                 
                 let migrator = OELibraryMigrator(store: url)
                 
@@ -232,20 +232,22 @@ class AppDelegate: NSObject {
                         
                         self.loadDatabaseAsynchronously(from: url, createIfNecessary: createIfNecessary)
                         
-                    } catch let error as NSError {
-                                                
-                        if error.domain != OEMigrationErrorDomain || error.code != OEMigrationErrorCode.cancelled.rawValue {
+                    } catch {
+                        
+                        DLog("Your library can't be opened with this version of OpenEmu.")
+                        DLog("\(error)")
+                        
+                        DispatchQueue.main.async {
                             
-                            DLog("Your library can't be opened with this version of OpenEmu.")
-                            DLog("\(error)")
-                            
-                            DispatchQueue.main.async {
+                            if (error as NSError).code == 0 { // Foundation._GenericObjCError.nilError
+                                let alert = NSAlert()
+                                alert.alertStyle = .critical
+                                alert.messageText = NSLocalizedString("Your library can’t be opened with this version of OpenEmu.", comment: "")
+                                alert.runModal()
+                            } else {
                                 NSAlert(error: error).runModal()
-                                NSApp.terminate(self)
                             }
                             
-                        } else {
-                            DLog("Migration cancelled.")
                             NSApp.terminate(self)
                         }
                     }
