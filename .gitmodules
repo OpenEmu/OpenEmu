@@ -1,78 +1,78 @@
 [submodule "OpenEmu-SDK"]
 	path = OpenEmu-SDK
-	url = git@github.com:OpenEmu/OpenEmu-SDK.git
+	url = ../../OpenEmu/OpenEmu-SDK.git
 [submodule "CrabEmu"]
 	path = CrabEmu
-	url = git@github.com:OpenEmu/CrabEmu-Core.git
+	url = ../../OpenEmu/CrabEmu-Core.git
 [submodule "FCEU"]
 	path = FCEU
-	url = git@github.com:OpenEmu/FCEU-Core.git
+	url = ../../OpenEmu/FCEU-Core.git
 [submodule "Gambatte"]
 	path = Gambatte
-	url = git@github.com:OpenEmu/Gambatte-Core.git
+	url = ../../OpenEmu/Gambatte-Core.git
 [submodule "GenesisPlus"]
 	path = GenesisPlus
-	url = git@github.com:OpenEmu/GenesisPlus-Core.git
+	url = ../../OpenEmu/GenesisPlus-Core.git
 [submodule "Mednafen"]
 	path = Mednafen
-	url = git@github.com:OpenEmu/Mednafen-Core.git
+	url = ../../OpenEmu/Mednafen-Core.git
 [submodule "Mupen64Plus"]
 	path = Mupen64Plus
-	url = git@github.com:OpenEmu/Mupen64Plus-Core.git
+	url = ../../OpenEmu/Mupen64Plus-Core.git
 [submodule "Nestopia"]
 	path = Nestopia
-	url = git@github.com:OpenEmu/Nestopia-Core.git
+	url = ../../OpenEmu/Nestopia-Core.git
 [submodule "SNES9x"]
 	path = SNES9x
-	url = git@github.com:OpenEmu/SNES9x-Core.git
+	url = ../../OpenEmu/SNES9x-Core.git
 [submodule "picodrive"]
 	path = picodrive
-	url = git@github.com:OpenEmu/picodrive.git
+	url = ../../OpenEmu/picodrive.git
 [submodule "VecXGL"]
 	path = VecXGL
-	url = git@github.com:OpenEmu/VecXGL-Core.git
+	url = ../../OpenEmu/VecXGL-Core.git
 [submodule "ProSystem"]
 	path = ProSystem
-	url = git@github.com:OpenEmu/ProSystem-Core.git
+	url = ../../OpenEmu/ProSystem-Core.git
 [submodule "Stella"]
 	path = Stella
-	url = git@github.com:OpenEmu/Stella-Core.git
+	url = ../../OpenEmu/Stella-Core.git
 [submodule "Atari800"]
 	path = Atari800
-	url = git@github.com:OpenEmu/Atari800-Core.git
+	url = ../../OpenEmu/Atari800-Core.git
 [submodule "blueMSX"]
 	path = blueMSX
-	url = git@github.com:OpenEmu/blueMSX-Core.git
+	url = ../../OpenEmu/blueMSX-Core.git
 [submodule "4DO"]
 	path = 4DO
-	url = git@github.com:OpenEmu/4DO-Core.git
+	url = ../../OpenEmu/4DO-Core.git
 [submodule "VirtualJaguar"]
 	path = VirtualJaguar
-	url = git@github.com:OpenEmu/VirtualJaguar-Core.git
+	url = ../../OpenEmu/VirtualJaguar-Core.git
 [submodule "O2EM"]
 	path = O2EM
-	url = git@github.com:OpenEmu/O2EM-Core.git
+	url = ../../OpenEmu/O2EM-Core.git
 [submodule "Bliss"]
 	path = Bliss
-	url = git@github.com:OpenEmu/Bliss-Core.git
+	url = ../../OpenEmu/Bliss-Core.git
 [submodule "Potator-Core"]
 	path = Potator-Core
-	url = https://github.com/OpenEmu/Potator-Core.git
+	url = ../../OpenEmu/Potator-Core.git
 [submodule "PokeMini"]
 	path = PokeMini
-	url = git@github.com:OpenEmu/PokeMini-Core
+	url = ../../OpenEmu/PokeMini-Core
 [submodule "Reicast"]
 	path = Reicast
-	url = git@github.com:OpenEmu/Reicast-Core.git
+	url = ../../OpenEmu/Reicast-Core.git
 [submodule "mGBA"]
 	path = mGBA
-	url = git@github.com:OpenEmu/mGBA-Core.git
+	url = ../../OpenEmu/mGBA-Core.git
 [submodule "OpenEmu-Shaders"]
 	path = OpenEmu-Shaders
-	url = https://github.com/OpenEmu/OpenEmu-Shaders.git
+	url = ../../OpenEmu/OpenEmu-Shaders.git
 [submodule "BSNES"]
 	path = BSNES
-	url = git@github.com:OpenEmu/BSNES-Core.git
+	url = ../../OpenEmu/BSNES-Core.git
 [submodule "OpenEmuKit"]
 	path = OpenEmuKit
-	url = https://github.com/OpenEmu/OpenEmuKit.git
+	url = ../../OpenEmu/OpenEmuKit.git
