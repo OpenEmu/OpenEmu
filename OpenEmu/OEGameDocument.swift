@@ -131,13 +131,11 @@ final class OEGameDocument: NSDocument {
         ])
     }()
     
-    @objc //OEPopoutGameWindowController
     private(set) var rom: OEDBRom!
     private(set) var romFileURL: URL!
     private(set) var corePlugin: OECorePlugin!
     private(set) var systemPlugin: OESystemPlugin!
     
-    @objc //OEPopoutGameWindowController
     private(set) var gameViewController: GameViewController!
     
     private(set) var cheats: [Cheat] = []
@@ -878,8 +876,8 @@ final class OEGameDocument: NSDocument {
                               styleMask: [.titled, .closable, .miniaturizable, .resizable],
                               backing: .buffered,
                               defer: true)
-        let windowController = OEPopoutGameWindowController(window: window)
-        windowController.isWindowFullScreen = fullScreen
+        let windowController = GameWindowController(window: window)
+        windowController.shouldShowWindowInFullScreen = fullScreen
         gameWindowController = windowController
         showWindows()
         
@@ -996,13 +994,10 @@ final class OEGameDocument: NSDocument {
         gameViewController.reflectEmulationPaused(false)
     }
     
-    @objc(emulationPaused) //OEPopoutGameWindowController
     var isEmulationPaused: Bool {
-        @objc(isEmulationPaused)
         get {
             return emulationStatus != .playing
         }
-        @objc(setEmulationPaused:)
         set(pauseEmulation) {
             if emulationStatus == .setup {
                 if !pauseEmulation {
@@ -1133,7 +1128,6 @@ final class OEGameDocument: NSDocument {
     }
     
     /// Returns a filtered screenshot of the currently running core.
-    @objc //OEPopoutGameWindowController
     func screenshot() -> NSImage? {
         guard let rep = gameCoreManager?.captureOutputImage() else { return nil }
         let screenshot = NSImage(size: rep.size)

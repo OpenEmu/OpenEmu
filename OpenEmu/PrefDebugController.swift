@@ -80,7 +80,7 @@ final class PrefDebugController: NSViewController {
             Option(label: "Vibrant", value: OEAppearance.HUDBar.vibrant.rawValue),
             Option(label: "Dark", value: OEAppearance.HUDBar.dark.rawValue),
         ]),
-        ColorWell(key: OEGameViewBackgroundColorKey, label: "Game View Background color:"),
+        ColorWell(key: OEPopoutGameWindowBackgroundColorKey, label: "Game View Background color:"),
         
         Separator(),
         

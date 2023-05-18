@@ -173,11 +173,6 @@ final class GameControlsBar: NSWindow {
         }
     }
     
-    @objc(hideAnimated:) // OEPopoutGameWindowController
-    func _hide(animated: Bool) {
-        hide(animated: animated, hideCursor: true)
-    }
-    
     func hide(animated: Bool = true, hideCursor: Bool = true) {
         NSCursor.setHiddenUntilMouseMoves(hideCursor)
         
@@ -264,7 +259,7 @@ final class GameControlsBar: NSWindow {
             origin.y -= (frame.height + controlsMargin)
             
             // Unless below the window means it being off-screen, in which case it sits above the window
-            if origin.y < gameWindow.screen!.visibleFrame.minY {
+            if origin.y < gameWindow.screen?.visibleFrame.minY ?? 0 {
                 origin.y = gameWindow.frame.maxY + controlsMargin
             }
         }
@@ -589,23 +584,24 @@ final class GameControlsBar: NSWindow {
     
     var scaleMenu: NSMenu? {
         guard let delegate = gameViewController.integralScalingDelegate,
-              delegate.shouldAllowIntegralScaling,
-              let maxScale = delegate.maximumIntegralScale,
-              let currentScale = delegate.currentIntegralScale
+              delegate.shouldAllowIntegralScaling
         else { return nil }
+        
+        let maxScale = delegate.maximumIntegralScale
+        let currentScale = delegate.currentIntegralScale
         
         let menu = NSMenu()
         
         for scale in 1...maxScale {
             let title = String(format: NSLocalizedString("%ux", comment: "Integral scale menu item title"), scale)
-            let item = NSMenuItem(title: title, action: #selector(OEPopoutGameWindowController.changeIntegralScale(_:)), keyEquivalent: "")
+            let item = NSMenuItem(title: title, action: #selector(GameWindowController.changeIntegralScale(_:)), keyEquivalent: "")
             item.representedObject = scale
             item.state = scale == currentScale ? .on : .off
             menu.addItem(item)
         }
         
         if gameWindow?.isFullScreen ?? false {
-            let item = NSMenuItem(title: NSLocalizedString("Fill Screen", comment: "Integral scale menu item title"), action: #selector(OEPopoutGameWindowController.changeIntegralScale), keyEquivalent: "")
+            let item = NSMenuItem(title: NSLocalizedString("Fill Screen", comment: "Integral scale menu item title"), action: #selector(GameWindowController.changeIntegralScale), keyEquivalent: "")
             item.representedObject = 0
             item.state = currentScale == 0 ? .on : .off
             menu.addItem(item)

@@ -26,11 +26,8 @@
 
 import Foundation
 
-@objc(OEGameIntegralScalingDelegate)
-protocol GameIntegralScalingDelegate: NSObjectProtocol {
-    
+protocol GameIntegralScalingDelegate: AnyObject {
     var shouldAllowIntegralScaling: Bool { get }
-    
-    @objc optional var maximumIntegralScale: UInt32 { get }
-    @objc optional var currentIntegralScale: UInt32 { get }
+    var maximumIntegralScale: Int { get }
+    var currentIntegralScale: Int { get }
 }
