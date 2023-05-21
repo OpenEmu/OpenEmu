@@ -415,6 +415,7 @@
 		8F419A0325B6C7AE00A7F0BE /* OEAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F419A0225B6C7AE00A7F0BE /* OEAppearance.swift */; };
 		8F419A3C25B6C81600A7F0BE /* PrefDebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83753F1614F537C400D708A7 /* PrefDebugController.swift */; };
 		8F44DEB526DFD07200893A18 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 8F44DEB426DFD07200893A18 /* Sparkle */; };
+		8F49E25A2A1A9A6500365A9B /* ImportFailureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F49E2592A1A9A6500365A9B /* ImportFailureTests.swift */; };
 		8F4A69732547F84500DFE092 /* GameControlsBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4A69722547F84500DFE092 /* GameControlsBarView.swift */; };
 		8F4AEAC1273594E6005C6246 /* OpenVGDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4AEAC0273594E6005C6246 /* OpenVGDB.swift */; };
 		8F4BDF7B1CE4AB25007DCB86 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */; };
@@ -1658,6 +1659,7 @@
 		8F40EB841C1072B300683055 /* SetupAssistant.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetupAssistant.xib; sourceTree = "<group>"; };
 		8F4198AF25B68B7500A7F0BE /* OELibraryDatabase+Maintenance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OELibraryDatabase+Maintenance.swift"; sourceTree = "<group>"; };
 		8F419A0225B6C7AE00A7F0BE /* OEAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEAppearance.swift; sourceTree = "<group>"; };
+		8F49E2592A1A9A6500365A9B /* ImportFailureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportFailureTests.swift; sourceTree = "<group>"; };
 		8F4A69722547F84500DFE092 /* GameControlsBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameControlsBarView.swift; sourceTree = "<group>"; };
 		8F4AEAC0273594E6005C6246 /* OpenVGDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenVGDB.swift; sourceTree = "<group>"; };
 		8F4BDF7A1CE4AB25007DCB86 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -2625,6 +2627,7 @@
 			children = (
 				8F0C1C242A09E01A00343B6C /* BundleResourcesTests.swift */,
 				8F93FDD927374F2000B59F3E /* GameInfoHelperTests.swift */,
+				8F49E2592A1A9A6500365A9B /* ImportFailureTests.swift */,
 				8F93FDDF2737506900B59F3E /* ROMImporterTests.swift */,
 				8F93FDD827374F1F00B59F3E /* OpenEmuTests-Bridging-Header.h */,
 			);
@@ -6197,6 +6200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F93FDE02737506900B59F3E /* ROMImporterTests.swift in Sources */,
+				8F49E25A2A1A9A6500365A9B /* ImportFailureTests.swift in Sources */,
 				8F93FDDA27374F2000B59F3E /* GameInfoHelperTests.swift in Sources */,
 				8F0C1C252A09E01A00343B6C /* BundleResourcesTests.swift in Sources */,
 			);
