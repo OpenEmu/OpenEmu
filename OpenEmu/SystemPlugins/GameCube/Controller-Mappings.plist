@@ -593,5 +593,34 @@
 		<key>OEGCButtonStart</key>
 		<string>OEController8BitDoPro2ButtonStart</string>
 	</dict>
+	<key>OEController8BitDoGBros</key>
+	<dict>
+		<key>OEGCButtonUp</key>
+		<string>OEController8BitDoGBrosDPadUp</string>
+		<key>OEGCAnalogUp</key>
+		<string>OEController8BitDoGBrosAnalogUp</string>
+		<key>OEGCAnalogLeft</key>
+		<string>OEController8BitDoGBrosAnalogLeft</string>
+		<key>OEGCAnalogCUp</key>
+		<string>OEController8BitDoGBrosCAnalogUp</string>
+		<key>OEGCAnalogCLeft</key>
+		<string>OEController8BitDoGBrosCAnalogLeft</string>
+		<key>OEGCButtonA</key>
+		<string>OEController8BitDoGBrosButtonA</string>
+		<key>OEGCButtonB</key>
+		<string>OEController8BitDoGBrosButtonB</string>
+		<key>OEGCButtonX</key>
+		<string>OEController8BitDoGBrosButtonX</string>
+		<key>OEGCButtonY</key>
+		<string>OEController8BitDoGBrosButtonY</string>
+		<key>OEGCButtonL</key>
+		<string>OEController8BitDoGBrosButtonL</string>
+		<key>OEGCButtonR</key>
+		<string>OEController8BitDoGBrosButtonR</string>
+		<key>OEGCButtonZ</key>
+		<string>OEController8BitDoGBrosButtonZ</string>
+		<key>OEGCButtonStart</key>
+		<string>OEController8BitDoGBrosButtonStart</string>
+	</dict>
 </dict>
 </plist>

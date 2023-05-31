@@ -379,5 +379,18 @@
 		<key>OENESButtonSelect</key>
 		<string>OEController8BitDoM30ButtonMinus</string>
 	</dict>
+	<key>OEController8BitDoGBros</key>
+	<dict>
+		<key>OENESButtonUp</key>
+		<string>OEController8BitDoGBrosDPadUp</string>
+		<key>OENESButtonA</key>
+		<string>OEController8BitDoGBrosButtonA</string>
+		<key>OENESButtonB</key>
+		<string>OEController8BitDoGBrosButtonB</string>
+		<key>OENESButtonStart</key>
+		<string>OEController8BitDoGBrosButtonStart</string>
+		<key>OENESButtonSelect</key>
+		<string>OEController8BitDoGBrosButtonZ</string>
+	</dict>
 </dict>
 </plist>

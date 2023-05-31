@@ -603,5 +603,30 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEController8BitDoM30ButtonStart</string>
 	</dict>
+	<key>OEController8BitDoGBros</key>
+	<dict>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEController8BitDoGBrosDPadUp</string>
+		<key>OEN64AnalogUp</key>
+		<string>OEController8BitDoGBrosAnalogUp</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEController8BitDoGBrosAnalogLeft</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEController8BitDoGBrosCAnalogUp</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEController8BitDoGBrosCAnalogLeft</string>
+		<key>OEN64ButtonA</key>
+		<string>OEController8BitDoGBrosButtonA</string>
+		<key>OEN64ButtonB</key>
+		<string>OEController8BitDoGBrosButtonB</string>
+		<key>OEN64ButtonL</key>
+		<string>OEController8BitDoGBrosButtonL</string>
+		<key>OEN64ButtonR</key>
+		<string>OEController8BitDoGBrosButtonR</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEController8BitDoGBrosButtonZ</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEController8BitDoGBrosButtonStart</string>
+	</dict>
 </dict>
 </plist>

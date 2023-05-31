@@ -552,5 +552,26 @@
 		<key>OESNESButtonSelect</key>
 		<string>OEController8BitDoM30ButtonMinus</string>
 	</dict>
+	<key>OEController8BitDoGBros</key>
+	<dict>
+		<key>OESNESButtonUp</key>
+		<string>OEController8BitDoGBrosDPadUp</string>
+		<key>OESNESButtonA</key>
+		<string>OEController8BitDoGBrosButtonA</string>
+		<key>OESNESButtonB</key>
+		<string>OEController8BitDoGBrosButtonB</string>
+		<key>OESNESButtonX</key>
+		<string>OEController8BitDoGBrosButtonX</string>
+		<key>OESNESButtonY</key>
+		<string>OEController8BitDoGBrosButtonY</string>
+		<key>OESNESButtonTriggerLeft</key>
+		<string>OEController8BitDoGBrosButtonL</string>
+		<key>OESNESButtonTriggerRight</key>
+		<string>OEController8BitDoGBrosButtonR</string>
+		<key>OESNESButtonStart</key>
+		<string>OEController8BitDoGBrosButtonStart</string>
+		<key>OESNESButtonSelect</key>
+		<string>OEController8BitDoGBrosButtonZ</string>
+	</dict>
 </dict>
 </plist>

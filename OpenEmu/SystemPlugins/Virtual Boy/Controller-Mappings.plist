@@ -453,5 +453,22 @@
 		<key>OEVBButtonSelect</key>
 		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
 	</dict>
+	<key>OEController8BitDoGBros</key>
+	<dict>
+		<key>OEVBButtonLeftUp</key>
+		<string>OEController8BitDoGBrosDPadUp</string>
+		<key>OEVBButtonA</key>
+		<string>OEController8BitDoGBrosButtonA</string>
+		<key>OEVBButtonB</key>
+		<string>OEController8BitDoGBrosButtonB</string>
+		<key>OEVBButtonL</key>
+		<string>OEController8BitDoGBrosButtonL</string>
+		<key>OEVBButtonR</key>
+		<string>OEController8BitDoGBrosButtonR</string>
+		<key>OEVBButtonStart</key>
+		<string>OEController8BitDoGBrosButtonStart</string>
+		<key>OEVBButtonSelect</key>
+		<string>OEController8BitDoGBrosButtonZ</string>
+	</dict>
 </dict>
 </plist>

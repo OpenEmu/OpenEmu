@@ -379,5 +379,18 @@
 		<key>OEGBButtonSelect</key>
 		<string>OEController8BitDoM30ButtonMinus</string>
 	</dict>
+	<key>OEController8BitDoGBros</key>
+	<dict>
+		<key>OEGBButtonUp</key>
+		<string>OEController8BitDoGBrosDPadUp</string>
+		<key>OEGBButtonA</key>
+		<string>OEController8BitDoGBrosButtonA</string>
+		<key>OEGBButtonB</key>
+		<string>OEController8BitDoGBrosButtonB</string>
+		<key>OEGBButtonStart</key>
+		<string>OEController8BitDoGBrosButtonStart</string>
+		<key>OEGBButtonSelect</key>
+		<string>OEController8BitDoGBrosButtonZ</string>
+	</dict>
 </dict>
 </plist>

@@ -552,5 +552,26 @@
 		<key>OENDSButtonSelect</key>
 		<string>OEController8BitDoM30ButtonMinus</string>
 	</dict>
+	<key>OEController8BitDoGBros</key>
+	<dict>
+		<key>OENDSButtonUp</key>
+		<string>OEController8BitDoGBrosDPadUp</string>
+		<key>OENDSButtonA</key>
+		<string>OEController8BitDoGBrosButtonA</string>
+		<key>OENDSButtonB</key>
+		<string>OEController8BitDoGBrosButtonB</string>
+		<key>OENDSButtonX</key>
+		<string>OEController8BitDoGBrosButtonX</string>
+		<key>OENDSButtonY</key>
+		<string>OEController8BitDoGBrosButtonY</string>
+		<key>OENDSButtonL</key>
+		<string>OEController8BitDoGBrosButtonL</string>
+		<key>OENDSButtonR</key>
+		<string>OEController8BitDoGBrosButtonR</string>
+		<key>OENDSButtonStart</key>
+		<string>OEController8BitDoGBrosButtonStart</string>
+		<key>OENDSButtonSelect</key>
+		<string>OEController8BitDoGBrosButtonZ</string>
+	</dict>
 </dict>
 </plist>
