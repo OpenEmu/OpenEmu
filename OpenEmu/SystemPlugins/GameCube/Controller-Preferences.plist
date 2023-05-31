@@ -29,9 +29,9 @@
 		<key>OEGCAnalogCDown</key>
 		<string>{318, 190}</string>
 		<key>OEGCAnalogCLeft</key>
-		<string>{340, 212}</string>
-		<key>OEGCAnalogCRight</key>
 		<string>{300, 212}</string>
+		<key>OEGCAnalogCRight</key>
+		<string>{340, 212}</string>
 		<key>OEGCButtonA</key>
 		<string>{387, 314}</string>
 		<key>OEGCButtonB</key>
