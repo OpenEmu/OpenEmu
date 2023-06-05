@@ -251,6 +251,11 @@ CISO_H ciso;
             index2 = index_buf[block+1] & 0x7fffffff;
             read_size = (index2-index) << (ciso.align);
         }
+       
+        // Ensure the read_size will not overflow the buffer.
+        if (read_size > sizeof(block_buf2))
+            return nil;
+        
         fseek(fin,read_pos,SEEK_SET);
 
         z.avail_in  = (unsigned int)fread(block_buf2, 1, read_size , fin);
