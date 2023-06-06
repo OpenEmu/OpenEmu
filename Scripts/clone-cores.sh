@@ -8,7 +8,7 @@ select opt in Dolphin PPSSPP UME PCSX2 quit; do
       break
       ;;
     PPSSPP)
-      git clone git@github.com:OpenEmu/PPSSPP-Core.git PPSSPP--recursive
+      git clone git@github.com:OpenEmu/PPSSPP-Core.git PPSSPP --recursive
       break
       ;;
     UME)

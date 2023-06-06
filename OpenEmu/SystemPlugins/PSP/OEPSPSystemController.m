@@ -32,11 +32,10 @@
 // read header to detect PSP ISO & CSO
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    CISO_H ciso;
-    
     // Handle cso file and return early
     if ([file.fileExtension isEqualToString:@"cso"])
     {
+        CISO_H ciso;
         unsigned int index , index2;
         unsigned long long read_pos , read_size;
         unsigned int *index_buf;
@@ -90,7 +89,10 @@
         for(block = 0;block <= 16 ; block++)
         {
             if (inflateInit2(&z,-15) != Z_OK)
+            {
+                fclose(fin);
                 return OEFileSupportNo;
+            }
             
             index  = index_buf[block];
             plain  = index & 0x80000000;
@@ -105,6 +107,11 @@
                 index2 = index_buf[block+1] & 0x7fffffff;
                 read_size = (index2-index) << (ciso.align);
             }
+            
+            // Ensure the read_size will not overflow the buffer.
+            if (read_size > sizeof(block_buf2))
+                return OEFileSupportNo;
+            
             fseek(fin,read_pos,SEEK_SET);
             
             z.avail_in  = (unsigned int)fread(block_buf2, 1, read_size , fin);
@@ -128,14 +135,16 @@
                 {
                     fclose(fin);
                     return OEFileSupportNo;
-                }                cmp_size = (int)ciso.block_size - z.avail_out;
+                }
+                cmp_size = (int)ciso.block_size - z.avail_out;
                 if(cmp_size != ciso.block_size)
                 {
                     fclose(fin);
                     return OEFileSupportNo;
-                }            }
+                }
+            }
             
-             [header appendData:[NSData dataWithBytes:block_buf1 length:cmp_size]];
+            [header appendData:[NSData dataWithBytes:block_buf1 length:cmp_size]];
         }
         fclose(fin);
         
@@ -143,13 +152,12 @@
         NSString *serial = [[[NSString alloc]initWithData:[header subdataWithRange:NSMakeRange(0x8373, 10)] encoding:NSISOLatin1StringEncoding]  stringByTrimmingCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
         NSLog(@"Serial: %@", serial);
         NSLog(@"Serial Len: %lu", (unsigned long)[serial length]);
-              
-        if([serial  isEqual: @""]) //We didn't find PSP-Serial so its not a PSP game
+        
+        if([serial isEqual: @""]) //We didn't find PSP-Serial so its not a PSP game
             return OEFileSupportNo;
         
         return OEFileSupportYes;
-    
-    }   //return OEFileSupportYes;
+    }
     
     NSString *dataString = [file readASCIIStringInRange:NSMakeRange(0x8008, 8)];
     NSLog(@"'%@'", dataString);

@@ -29,36 +29,12 @@
 
 @implementation OEPS2SystemController
 
-static inline char itoh(int i) {
-    if (i > 9) return 'A' + (i - 10);
-    return '0' + i;
-}
-
-- (NSString *)NSDataToHex:(NSData *) data {
-    NSUInteger i, len;
-    unsigned char *buf, *bytes;
-    
-    len = data.length;
-    bytes = (unsigned char*)data.bytes;
-    buf = malloc(len*2);
-    
-    for (i=0; i<len; i++) {
-        buf[i*2] = itoh((bytes[i] >> 4) & 0xF);
-        buf[i*2+1] = itoh(bytes[i] & 0xF);
-    }
-    
-    return [[NSString alloc] initWithBytesNoCopy:buf
-                                          length:len*2
-                                        encoding:NSASCIIStringEncoding
-                                    freeWhenDone:YES];
-}
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    CISO_H ciso;
-    
     // Handle cso file and return early
     if ([file.fileExtension isEqualToString:@"cso"])
     {
+        CISO_H ciso;
         unsigned int index , index2;
         unsigned long long read_pos , read_size;
         unsigned int *index_buf;
@@ -134,6 +110,11 @@ static inline char itoh(int i) {
                 index2 = index_buf[block+1] & 0x7fffffff;
                 read_size = (index2-index) << (ciso.align);
             }
+            
+            // Ensure the read_size will not overflow the buffer.
+            if (read_size > sizeof(block_buf2))
+                return OEFileSupportNo;
+            
             fseek(fin,read_pos,SEEK_SET);
             
             z.avail_in  = (unsigned int)fread(block_buf2, 1, read_size , fin);
@@ -167,7 +148,7 @@ static inline char itoh(int i) {
                 }
             }
             
-             [header appendData:[NSData dataWithBytes:block_buf1 length:cmp_size]];
+            [header appendData:[NSData dataWithBytes:block_buf1 length:cmp_size]];
         }
         fclose(fin);
         
@@ -175,14 +156,14 @@ static inline char itoh(int i) {
         NSString *serial = [[[NSString alloc]initWithData:[header subdataWithRange:NSMakeRange(0x8373, 10)] encoding:NSISOLatin1StringEncoding]  stringByTrimmingCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
         NSLog(@"Serial: %@", serial);
         NSLog(@"Serial Len: %lu", (unsigned long)[serial length]);
-              
-        if(![serial  isEqual: @""]) //We found a PSP-Serial so it's not a PS2 game
+        
+        if(![serial isEqual: @""]) //We found a PSP-Serial so it's not a PS2 game
             return OEFileSupportNo;
         
         return OEFileSupportYes;
     }
     
-    if (!([file isKindOfClass:[OEDiscDescriptor class]] || [file.fileExtension caseInsensitiveCompare:@"iso"] == NSOrderedSame))
+    if (!([file isKindOfClass:[OEDiscDescriptor class]] || [file.fileExtension isEqual:@"iso"]))
         return OEFileSupportNo;
 
     NSString *dataTrackString = [file readASCIIStringInRange:NSMakeRange(0x8008, 11)];
@@ -194,7 +175,7 @@ static inline char itoh(int i) {
 
 - (NSString *)serialLookupForFile:(__kindof OEFile *)file
 {
-    if(!([file isKindOfClass:[OEDiscDescriptor class]] || [file.fileExtension caseInsensitiveCompare:@"iso"] == NSOrderedSame))
+    if(!([file isKindOfClass:[OEDiscDescriptor class]] || [file.fileExtension isEqual:@"iso"]))
         return nil;
 
     // ISO 9660 CD001, check for MODE1 or MODE2
