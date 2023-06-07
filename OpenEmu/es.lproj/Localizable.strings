@@ -561,7 +561,7 @@
 
 "In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "En unos días, este complemento del núcleo va a ser automáticamente borrado. Una vez borrado, cualquier estado guardado creado con él dejará de funcionar.";
 
-"We suggest you switch to the %@ core complemento as soon as possible." = "Le sugerimos cambiar al plugin del núcleo %@ lo antes posible.";
+"We suggest you switch to the %@ core plugin as soon as possible." = "Le sugerimos cambiar al complemento del núcleo %@ lo antes posible.";
 
 "ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "This plugin is currently unsupported";  // TODO
 
