@@ -75,6 +75,7 @@ final class PrefDebugController: NSViewController {
         Checkbox(key: OETakeNativeScreenshots, label: "Take screenshots in native size"),
         Checkbox(key: OEScreenshotAspectRatioCorrectionDisabled, label: "Disable aspect ratio correction in screenshots"),
         Checkbox(key: OEPopoutGameWindowTreatScaleFactorAsPixels, label: "Change scale menu unit from points to pixels"),
+        Checkbox(key: OEAdaptiveSyncEnabledKey, label: "Enable adaptive sync for supported displays in full screen"),
         Popover(key: OEAppearance.HUDBar.key, label: "Appearance:", action: #selector(changeHUDBarAppearance(_:)), options: [
             Option(label: "Vibrant", value: OEAppearance.HUDBar.vibrant.rawValue),
             Option(label: "Dark", value: OEAppearance.HUDBar.dark.rawValue),

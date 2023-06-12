@@ -30,6 +30,7 @@ extern NSString *const OEGameViewBackgroundColorKey;
 extern NSString *const OEPopoutGameWindowAlwaysOnTopKey;
 extern NSString *const OEPopoutGameWindowIntegerScalingOnlyKey;
 extern NSString *const OEPopoutGameWindowTreatScaleFactorAsPixels;
+extern NSString *const OEAdaptiveSyncEnabledKey;
 
 @interface OEPopoutGameWindowController : NSWindowController <NSWindowDelegate, NSMenuItemValidation>
 

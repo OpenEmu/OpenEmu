@@ -1051,6 +1051,11 @@ final class OEGameDocument: NSDocument {
         }
     }
     
+    @objc func setAdaptiveSyncEnabled(_ enabled: Bool) {
+        NSLog("setting adaptive sync: \(enabled)")
+        gameCoreHelper?.setAdaptiveSyncEnabled(enabled)
+    }
+    
     private var shouldTerminateEmulation: Bool {
         if coreDidTerminateSuddenly {
             return true
