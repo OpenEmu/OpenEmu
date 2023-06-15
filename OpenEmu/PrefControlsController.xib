@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -10,7 +10,6 @@
             <connections>
                 <outlet property="consolesPopupButton" destination="7" id="42"/>
                 <outlet property="controllerContainerView" destination="103" id="119"/>
-                <outlet property="controlsContainer" destination="112" id="115"/>
                 <outlet property="controlsSetupView" destination="112" id="117"/>
                 <outlet property="gradientOverlay" destination="4" id="43"/>
                 <outlet property="inputPopupButton" destination="9" id="44"/>
@@ -24,7 +23,7 @@
             <rect key="frame" x="0.0" y="0.0" width="755" height="450"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <customView wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="BackgroundGradientView" customModule="OpenEmu" customModuleProvider="target">
+                <customView wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4" userLabel="Gradient">
                     <rect key="frame" x="0.0" y="409" width="755" height="41"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </customView>
@@ -73,7 +72,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="112" customClass="ControlsButtonSetupView" customModule="OpenEmu" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="270"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="319" height="270"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                     </view>
                                 </subviews>
@@ -99,7 +98,7 @@
                             </userDefinedRuntimeAttributes>
                         </textField>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9" customClass="ControlsPopUpButton" customModule="OpenEmu" customModuleProvider="target">
-                            <rect key="frame" x="53" y="9" width="164" height="27"/>
+                            <rect key="frame" x="52" y="8" width="166" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="23" id="lww-pM-fVv"/>
                             </constraints>

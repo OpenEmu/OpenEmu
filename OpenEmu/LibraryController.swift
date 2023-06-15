@@ -346,7 +346,7 @@ final class LibraryController: NSTabViewController, NSMenuItemValidation {
         switch menuItem.action {
         case #selector(startSelectedGame(_:)):
             if let ctl = currentSubviewController as? LibrarySubviewControllerGameSelection {
-                return !ctl.selectedGames.isEmpty
+                return ctl.selectedGames.count == 1
             }
             return false
         case #selector(find(_:)):

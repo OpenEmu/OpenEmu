@@ -357,6 +357,27 @@
 		<key>OESNESButtonSelect</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerNintendoSwitchSNESController</key>
+	<dict>
+		<key>OESNESButtonUp</key>
+		<string>OEControllerNintendoSwitchSNESControllerDPadUp</string>
+		<key>OESNESButtonA</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonA</string>
+		<key>OESNESButtonB</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonB</string>
+		<key>OESNESButtonX</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonX</string>
+		<key>OESNESButtonY</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonY</string>
+		<key>OESNESButtonTriggerLeft</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonL</string>
+		<key>OESNESButtonTriggerRight</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonR</string>
+		<key>OESNESButtonStart</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonStart</string>
+		<key>OESNESButtonSelect</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonSelect</string>
+	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
 		<key>OESNESButtonUp</key>
@@ -398,6 +419,117 @@
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
 		<key>OESNESButtonSelect</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
+	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OESNESButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OESNESButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OESNESButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OESNESButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OESNESButtonA</key>
+		<string>OEControllerSonyPS5DualSenseButtonCircle</string>
+		<key>OESNESButtonB</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OESNESButtonX</key>
+		<string>OEControllerSonyPS5DualSenseButtonTriangle</string>
+		<key>OESNESButtonY</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OESNESButtonTriggerLeft</key>
+		<string>OEControllerSonyPS5DualSenseButtonL1</string>
+		<key>OESNESButtonTriggerRight</key>
+		<string>OEControllerSonyPS5DualSenseButtonR1</string>
+		<key>OESNESButtonStart</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OESNESButtonSelect</key>
+		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OESNESButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OESNESButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonB</string>
+		<key>OESNESButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OESNESButtonX</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonY</string>
+		<key>OESNESButtonY</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OESNESButtonTriggerLeft</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonLeftShoulder</string>
+		<key>OESNESButtonTriggerRight</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightShoulder</string>
+		<key>OESNESButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OESNESButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OESNESButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OESNESButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OESNESButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OESNESButtonX</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OESNESButtonY</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OESNESButtonTriggerLeft</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftShoulder</string>
+		<key>OESNESButtonTriggerRight</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+		<key>OESNESButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OESNESButtonSelect</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+	</dict>
+	<key>OEController8BitDoPro2</key>
+	<dict>
+		<key>OESNESButtonUp</key>
+		<string>OEController8BitDoPro2DPadUp</string>
+		<key>OESNESButtonA</key>
+		<string>OEController8BitDoPro2ButtonA</string>
+		<key>OESNESButtonB</key>
+		<string>OEController8BitDoPro2ButtonB</string>
+		<key>OESNESButtonX</key>
+		<string>OEController8BitDoPro2ButtonX</string>
+		<key>OESNESButtonY</key>
+		<string>OEController8BitDoPro2ButtonY</string>
+		<key>OESNESButtonTriggerLeft</key>
+		<string>OEController8BitDoPro2ButtonL</string>
+		<key>OESNESButtonTriggerRight</key>
+		<string>OEController8BitDoPro2ButtonR</string>
+		<key>OESNESButtonStart</key>
+		<string>OEController8BitDoPro2ButtonStart</string>
+		<key>OESNESButtonSelect</key>
+		<string>OEController8BitDoPro2ButtonSelect</string>
+	</dict>
+	<key>OEController8BitDoM30</key>
+	<dict>
+		<key>OESNESButtonUp</key>
+		<string>OEController8BitDoM30DPadUp</string>
+		<key>OESNESButtonA</key>
+		<string>OEController8BitDoM30ButtonB</string>
+		<key>OESNESButtonB</key>
+		<string>OEController8BitDoM30ButtonA</string>
+		<key>OESNESButtonX</key>
+		<string>OEController8BitDoM30ButtonY</string>
+		<key>OESNESButtonY</key>
+		<string>OEController8BitDoM30ButtonX</string>
+		<key>OESNESButtonTriggerLeft</key>
+		<string>OEController8BitDoM30ButtonL</string>
+		<key>OESNESButtonTriggerRight</key>
+		<string>OEController8BitDoM30ButtonR</string>
+		<key>OESNESButtonStart</key>
+		<string>OEController8BitDoM30ButtonStart</string>
+		<key>OESNESButtonSelect</key>
+		<string>OEController8BitDoM30ButtonMinus</string>
 	</dict>
 </dict>
 </plist>

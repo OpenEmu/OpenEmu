@@ -246,5 +246,66 @@
 		<key>OESMSButtonStart</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonStart</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OESMSButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OESMSButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OESMSButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OESMSButtonA</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OESMSButtonB</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OESMSButtonStart</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OESMSButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OESMSButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OESMSButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OESMSButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OESMSButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OESMSButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+	</dict>
+	<key>OEController8BitDoPro2</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEController8BitDoPro2DPadUp</string>
+		<key>OESMSButtonA</key>
+		<string>OEController8BitDoPro2ButtonB</string>
+		<key>OESMSButtonB</key>
+		<string>OEController8BitDoPro2ButtonA</string>
+		<key>OESMSButtonStart</key>
+		<string>OEController8BitDoPro2ButtonStart</string>
+	</dict>
+	<key>OEController8BitDoM30</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEController8BitDoM30DPadUp</string>
+		<key>OESMSButtonA</key>
+		<string>OEController8BitDoM30ButtonA</string>
+		<key>OESMSButtonB</key>
+		<string>OEController8BitDoM30ButtonB</string>
+		<key>OESMSButtonStart</key>
+		<string>OEController8BitDoM30ButtonStart</string>
+	</dict>
 </dict>
 </plist>

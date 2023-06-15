@@ -318,5 +318,56 @@
 		<key>OEJaguarButtonOption</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OEJaguarButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OEJaguarButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OEJaguarButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OEJaguarButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OEJaguarButtonC</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OEJaguarButtonB</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OEJaguarButtonA</key>
+		<string>OEControllerSonyPS5DualSenseButtonCircle</string>
+		<key>OEJaguarButtonPause</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OEJaguarButtonOption</key>
+		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEJaguarButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEJaguarButtonC</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEJaguarButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEJaguarButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonB</string>
+		<key>OEJaguarButtonPause</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OEJaguarButtonOption</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEJaguarButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEJaguarButtonC</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEJaguarButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEJaguarButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OEJaguarButtonPause</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OEJaguarButtonOption</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+	</dict>
 </dict>
 </plist>

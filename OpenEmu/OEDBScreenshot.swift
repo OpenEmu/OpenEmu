@@ -25,7 +25,6 @@
 import Cocoa
 
 @objc
-@objcMembers
 final class OEDBScreenshot: OEDBItem {
     
     static let importRequiredKey = "OEDBScreenshotImportRequired"
@@ -37,6 +36,8 @@ final class OEDBScreenshot: OEDBItem {
     @NSManaged var timestamp: Date?
     // @NSManaged var userDescription: String?
     @NSManaged var rom: OEDBRom?
+    
+    // MARK: -
     
     @objc(URL)
     var url: URL {
@@ -50,17 +51,12 @@ final class OEDBScreenshot: OEDBItem {
         }
     }
     
-    var screenshotURL: URL {
-        return url
-    }
-    
     // MARK: -
     
     override class var entityName: String { "Screenshot" }
     
     // MARK: -
     
-    @objc(createObjectInContext:forROM:withFile:)
     class func createObject(in context: NSManagedObjectContext, for rom: OEDBRom, with url: URL) -> OEDBScreenshot? {
         
         if let isReachable = try? url.checkResourceIsReachable(),
@@ -85,11 +81,10 @@ final class OEDBScreenshot: OEDBItem {
     }
     
     func updateFile() {
-        let database = libraryDatabase
-        let screenshotDirectory = database.screenshotFolderURL
-        let fileName = NSURL.validFilename(from: name)
+        let screenshotDirectory = libraryDatabase.screenshotFolderURL
+        let fileName = URL.validFilename(from: name)
         let fileExtension = "png"
-        var targetURL = screenshotDirectory.appendingPathComponent("\(fileName).\(fileExtension)").standardizedFileURL
+        var targetURL = screenshotDirectory.appendingPathComponent("\(fileName).\(fileExtension)", isDirectory: false).standardizedFileURL
         let sourceURL = url
         
         if targetURL == sourceURL {
@@ -98,9 +93,9 @@ final class OEDBScreenshot: OEDBItem {
         
         if let isReachable = try? targetURL.checkResourceIsReachable(),
            isReachable {
-            targetURL = (targetURL as NSURL).uniqueURL { triesCount in
-                return screenshotDirectory.appendingPathComponent("\(fileName) \(triesCount).\(fileExtension)") as NSURL
-            } as URL
+            targetURL = targetURL.uniqueURL { triesCount in
+                return screenshotDirectory.appendingPathComponent("\(fileName) \(triesCount).\(fileExtension)", isDirectory: false)
+            }
         }
         
         do {

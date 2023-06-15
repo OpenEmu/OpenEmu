@@ -212,5 +212,38 @@
 		<key>OEMSXButtonB</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OEMSXButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OEMSXButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OEMSXButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OEMSXButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OEMSXButtonA</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OEMSXButtonB</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEMSXButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEMSXButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEMSXButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEMSXButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEMSXButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEMSXButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+	</dict>
 </dict>
 </plist>

@@ -51,11 +51,8 @@ final class SQLiteDatabase {
     
     @objc(executeQuery:error:)
     func executeQuery(_ sql: String) throws -> [[String : Any]] {
-        #if swift(>=5.5)
+        
         lazy var result: [[String : Any]] = []
-        #else
-        var result: [[String : Any]] = []
-        #endif
         
         try DispatchQueue(label: "org.openemu.OpenEmu.SQLiteDatabase").sync {
             var stmt: OpaquePointer?

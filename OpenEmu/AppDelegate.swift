@@ -43,10 +43,9 @@ class AppDelegate: NSObject {
     static let userGuideAddress = "https://github.com/OpenEmu/OpenEmu/wiki/User-guide"
     static let releaseNotesAddress = "https://github.com/OpenEmu/OpenEmu/wiki/Release-notes"
     static let feedbackAddress = "https://github.com/OpenEmu/OpenEmu/issues"
-    static let localizationGuideAddress = "https://github.com/OpenEmu/OpenEmu/wiki/Developers:-Translation-Guide-(First-Draft)"
     
     @IBOutlet weak var fileMenu: NSMenu!
-    @IBOutlet weak var localizationGuideMenuItem: NSMenuItem!
+    @IBOutlet weak var helpMenu: NSMenu!
     
     lazy var mainWindowController = MainWindowController(windowNibName: "MainWindow")
     
@@ -124,6 +123,10 @@ class AppDelegate: NSObject {
             .appendingPathComponent("Game Library", isDirectory: true)
         let path = (libraryDirectory.path as NSString).abbreviatingWithTildeInPath
         
+        #if !DEBUG
+            UserDefaults.standard.removeObject(forKey: OEGameCoreManagerModePreferenceKey)
+        #endif
+        
         // Register defaults.
         UserDefaults.standard.register(defaults: [
             OELibraryDatabase.defaultDatabasePathKey: path,
@@ -142,15 +145,13 @@ class AppDelegate: NSObject {
             OEDBSaveStatesMedia.showsQuickSavesKey: true,
             OEForcePopoutGameWindowKey: true,
             OEPopoutGameWindowIntegerScalingOnlyKey: true,
+            OEGameLayerNotificationView.OEShowNotificationsKey : true,
             OEAppearance.Application.key: OEAppearance.Application.dark.rawValue,
             OEAppearance.HUDBar.key: OEAppearance.HUDBar.vibrant.rawValue,
             OEAppearance.ControlsPrefs.key: OEAppearance.ControlsPrefs.wood.rawValue,
+            OEGameCoreManagerModePreferenceKey: NSStringFromClass(OEXPCGameCoreManager.self),
         ])
         
-        #if !DEBUG_PRINT
-            UserDefaults.standard.removeObject(forKey: OEGameCoreManagerModePreferenceKey)
-        #endif
-
         // Don't let an old setting override automatically checking for app updates.
         if let automaticChecksEnabled = UserDefaults.standard.object(forKey: "SUEnableAutomaticChecks") as? Bool, automaticChecksEnabled == false {
             UserDefaults.standard.removeObject(forKey: "SUEnableAutomaticChecks")
@@ -158,6 +159,9 @@ class AppDelegate: NSObject {
 
         // Trigger Objective-C +initialize methods in these classes.
         _ = OEControllerDescription.self
+        
+        OECorePlugin.registerClass()
+        OESystemPlugin.registerClass()
         
         // Reset preferences for default cores when migrating to 2.0.3. This is an attempt at cleanup after 9d5d696d07fe651f44f16f8bf8b98c87d90fe53f and d36e9ad4b7097f21ffbbe32d9cea3b72a390bc0f and for getting as many users as possible onto mGBA.
         OEVersionMigrationController.default.addMigratorTarget(self, selector: #selector(migrationRemoveCoreDefaults), forVersion: "2.0.3")
@@ -211,15 +215,14 @@ class AppDelegate: NSObject {
             assert(OELibraryDatabase.default != nil, "No database available!")
             
             DispatchQueue.main.async {
-                self.libraryDatabaseDidLoad()
                 NotificationCenter.default.post(name: .libraryDidLoad, object: OELibraryDatabase.default!)
             }
             
-        } catch let error as NSError {
+        } catch {
             
-            if error.domain == NSCocoaErrorDomain && error.code == NSPersistentStoreIncompatibleVersionHashError {
+            if (error as? CocoaError)?.code == .persistentStoreIncompatibleVersionHash {
                 
-                let migrator = OELibraryMigrator(store: url)
+                let migrator = LibraryMigrator(storeURL: url)
                 
                 DispatchQueue.global(qos: .default).async {
                     
@@ -229,20 +232,22 @@ class AppDelegate: NSObject {
                         
                         self.loadDatabaseAsynchronously(from: url, createIfNecessary: createIfNecessary)
                         
-                    } catch let error as NSError {
-                                                
-                        if error.domain != OEMigrationErrorDomain || error.code != OEMigrationErrorCode.cancelled.rawValue {
+                    } catch {
+                        
+                        DLog("Your library can't be opened with this version of OpenEmu.")
+                        DLog("\(error)")
+                        
+                        DispatchQueue.main.async {
                             
-                            DLog("Your library can't be opened with this version of OpenEmu.")
-                            DLog("\(error)")
-                            
-                            DispatchQueue.main.async {
+                            if (error as NSError).code == 0 { // Foundation._GenericObjCError.nilError
+                                let alert = NSAlert()
+                                alert.alertStyle = .critical
+                                alert.messageText = NSLocalizedString("Your library can’t be opened with this version of OpenEmu.", comment: "")
+                                alert.runModal()
+                            } else {
                                 NSAlert(error: error).runModal()
-                                NSApp.terminate(self)
                             }
                             
-                        } else {
-                            DLog("Migration cancelled.")
                             NSApp.terminate(self)
                         }
                     }
@@ -279,20 +284,14 @@ class AppDelegate: NSObject {
             
             openPanel.canChooseFiles = true
             openPanel.allowedFileTypes = [OELibraryDatabase.databaseFileExtension]
-            openPanel.canChooseDirectories = true
+            openPanel.canChooseDirectories = false
             openPanel.allowsMultipleSelection = false
             
             openPanel.begin { result in
                 
                 if result == .OK {
                     
-                    var databaseURL = openPanel.url!
-                    let databasePath = databaseURL.path
-                    
-                    var isDir = ObjCBool(false)
-                    if FileManager.default.fileExists(atPath: databasePath, isDirectory: &isDir) && !isDir.boolValue {
-                        databaseURL = databaseURL.deletingLastPathComponent()
-                    }
+                    let databaseURL = openPanel.url!.deletingLastPathComponent()
                     
                     self.loadDatabaseAsynchronously(from: databaseURL, createIfNecessary: false)
                     
@@ -365,9 +364,6 @@ class AppDelegate: NSObject {
     }
     
     fileprivate func loadPlugins() {
-        OECorePlugin.registerClass()
-        OESystemPlugin.registerClass()
-        
         // Register all system controllers with the bindings controller.
         for plugin in OESystemPlugin.allPlugins {
             OEBindingsController.register(plugin.controller)
@@ -393,7 +389,7 @@ class AppDelegate: NSObject {
         // Get incompatible save states by version.
         // Genesis Plus GX is especially known for breaking compatibility.
         let currentDesmumeCoreVersion = OECorePlugin.corePlugin(bundleIdentifier: "org.openemu.desmume")?.version
-        let incompatibleSaveStates = (OEDBSaveState.allObjects(in: context) as! [OEDBSaveState]).filter {
+        let incompatibleSaveStates = context.allObjects(ofType: OEDBSaveState.self).filter {
             ($0.coreIdentifier == "org.openemu.CrabEmu" &&
                 ($0.location.contains("GameGear/") ||
                  $0.location.contains("SegaMasterSystem/") ||
@@ -499,8 +495,8 @@ class AppDelegate: NSObject {
         NSWorkspace.shared.open(URL(string: AppDelegate.feedbackAddress)!)
     }
     
-    @IBAction func showOELocalizationGuide(_ sender: AnyObject?) {
-        NSWorkspace.shared.open(URL(string: AppDelegate.localizationGuideAddress)!)
+    @IBAction func showAppSupportFolder(_ sender: AnyObject?) {
+        NSWorkspace.shared.open(.oeApplicationSupportDirectory)
     }
     
     @IBAction func showOpenEmuWindow(_ sender: AnyObject?) {
@@ -563,15 +559,6 @@ class AppDelegate: NSObject {
         alert.runModal()
     }
     
-    func didRegisterSystemPlugin(_ n: NSNotification!) {
-        guard
-            let plugin = n.object as? OESystemPlugin,
-            let library = OELibraryDatabase.default
-        else { return }
-        
-        _ = OEDBSystem.system(for: plugin, in: library.mainThreadContext)
-    }
-    
     // MARK: - Debug
     
     @IBAction func OEDebug_logResponderChain(_ sender: AnyObject?) {
@@ -609,15 +596,15 @@ extension AppDelegate: NSMenuDelegate {
             return 1
         }
         
-        let count = lastPlayedInfo.values.reduce(0) { $0 + $1.count }
+        let count = lastPlayedInfo.values.reduce(0) { $0 + 1 /*system name*/ + $1.count }
         
         var lastPlayed = [CachedLastPlayedInfoItem]()
         lastPlayed.reserveCapacity(count)
         
-        let sortedSystems = lastPlayedInfo.keys.sorted { return ($0 as NSString).localizedCaseInsensitiveCompare($1) == .orderedAscending }
+        let sortedSystems = lastPlayedInfo.keys.sorted { $0.localizedCaseInsensitiveCompare($1) == .orderedAscending }
         for system in sortedSystems {
             lastPlayed.append(system)
-            lastPlayed = lastPlayed + lastPlayedInfo[system]!
+            lastPlayed += lastPlayedInfo[system]!
         }
         
         cachedLastPlayedInfo = lastPlayed
@@ -779,27 +766,20 @@ extension AppDelegate: NSMenuDelegate {
         notificationCenter.removeObserver(self, name: NSApplication.didFinishRestoringWindowsNotification, object: nil)
     }
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Hide link to localization guide if localization for preferred language exists
-        let preferredLanguage = NSLocale.preferredLanguages[0]
-        for localization in Bundle.main.localizations {
-            if preferredLanguage.contains(localization) && preferredLanguage.prefix(2) != "ru" {
-                localizationGuideMenuItem.isHidden  = true
-                break
-            }
-        }
         
-        if NSClassFromString("NSTouchBar") != nil {
-            // Get the “Customize Touch Bar…” menu to display in the View menu.
-            NSApp.isAutomaticCustomizeTouchBarMenuItemEnabled = true
-        }
+        // Get the “Customize Touch Bar…” menu to display in the View menu.
+        NSApp.isAutomaticCustomizeTouchBarMenuItemEnabled = true
+        
+        #if DEBUG
+        helpMenu.addItem(withTitle: "Show Application Support Folder in Finder", action: #selector(showAppSupportFolder), keyEquivalent: "")
+        #endif
         
         let notificationCenter = NotificationCenter.default
         
+        notificationCenter.addObserver(self, selector: #selector(libraryDatabaseDidLoad), name: .libraryDidLoad, object: nil)
         notificationCenter.addObserver(self, selector: #selector(openPreferencePane), name: PreferencesWindowController.openPaneNotificationName, object: nil)
         
         notificationCenter.addObserver(self, selector: #selector(didRepairBindings), name: .OEBindingsRepaired, object: nil)
-        
-        notificationCenter.addObserver(self, selector: #selector(didRegisterSystemPlugin), name: OESystemPlugin.didRegisterNotification, object: nil)
         
         NSDocumentController.shared.clearRecentDocuments(nil)
         
@@ -823,7 +803,7 @@ extension AppDelegate: NSMenuDelegate {
         }
     }
     
-    func libraryDatabaseDidLoad() {
+    func libraryDatabaseDidLoad(notification: Notification) {
         
         libraryLoaded = true
 
@@ -908,7 +888,11 @@ extension AppDelegate: NSMenuDelegate {
         return false
     }
     
-    func application(_ application: NSApplication, open urls: [URL]) {
+    // NOTE: When using ‘application:openURLs:’, “Document URLs that have an associated NSDocument class
+    // will be opened through NSDocumentController.”, thereby bypassing the startupQueue.
+    // FIXME: Handle ´PluginDocument´s
+    func application(_ sender: NSApplication, openFiles filenames: [String]) {
+        let urls = filenames.compactMap { URL(fileURLWithPath: $0) }
         
         guard UserDefaults.standard.bool(forKey: SetupAssistant.hasFinishedKey) else {
             NSApp.reply(toOpenOrPrint: .cancel)
@@ -1009,17 +993,27 @@ extension AppDelegate: NSMenuDelegate {
     }
     
     func updateEventHandlers() {
-        let games = NSApp.orderedDocuments.compactMap({$0 as? OEGameDocument})
-        guard games.count > 0 else { return }
-
-        if let game = games.first {
-            game.handleEvents = shouldHandleControllerEvents
-            game.handleKeyboardEvents = shouldHandleKeyboardEvents
+        let block = {
+            let games = NSApp.orderedDocuments.compactMap({$0 as? OEGameDocument})
+            guard games.count > 0 else { return }
+            
+            if let game = games.first {
+                game.handleEvents = self.shouldHandleControllerEvents
+                game.handleKeyboardEvents = self.shouldHandleKeyboardEvents
+            }
+            
+            games.dropFirst().forEach {
+                $0.handleEvents = false
+                $0.handleKeyboardEvents = false
+            }
         }
-
-        games.dropFirst().forEach {
-            $0.handleEvents = false
-            $0.handleKeyboardEvents = false
+        
+        if #available(macOS 13.0, *) {
+            // Workaround; the documents in NSApp.orderedDocuments are not yet in the correct order on Ventura,
+            // so when switching between game documents, the previous one would be chosen to handle input.
+            DispatchQueue.main.async(execute: block)
+        } else {
+            block()
         }
     }
 }

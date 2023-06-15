@@ -480,6 +480,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     SEL action = [item action];
     if (action == @selector(showInFinder:))
         return [[self selectionIndexes] count] > 0;
+    else if (action == @selector(startSelectedGame:))
+        return _saveStateMode && self.selectionIndexes.count == 1;
     return YES;
 }
 

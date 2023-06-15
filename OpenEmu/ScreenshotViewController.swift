@@ -34,7 +34,7 @@ final class ScreenshotViewController: ImageCollectionViewController {
     var dataSource = ImagesDataSource<OEDBScreenshot>(gameKeyPath: \.rom?.game,
                                                       titleKeyPath: \.name,
                                                       timestampKeyPath: \.timestamp,
-                                                      imageURLKeyPath: \.screenshotURL,
+                                                      imageURLKeyPath: \.url,
                                                       sortDescriptors: [
                                                         NSSortDescriptor(keyPath: \OEDBScreenshot.rom?.game?.name, ascending: true),
                                                         NSSortDescriptor(keyPath: \OEDBScreenshot.timestamp, ascending: true)],
@@ -164,6 +164,7 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
         if alert.runModal() == .alertFirstButtonReturn {
             items.forEach { $0.delete() }
             try? OELibraryDatabase.default?.mainThreadContext.save()
+            collectionView.selectionIndexPaths = []
             return
         }
         
@@ -188,12 +189,7 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
 
 // MARK: - Touch Bar
 
-private extension NSTouchBar.CustomizationIdentifier {
-    static let screenshotsTouchBar = "org.openemu.ScreenshotViewController.screenshotsTouchBar"
-}
-
 private extension NSTouchBarItem.Identifier {
-    static let deleteScreenshot = NSTouchBarItem.Identifier("org.openemu.ScreenshotViewController.screenshotsTouchBar.delete")
     static let showScreenshotInFinder = NSTouchBarItem.Identifier("org.openemu.ScreenshotViewController.screenshotsTouchBar.showInFinder")
     static let shareScreenshot = NSTouchBarItem.Identifier("org.openemu.ScreenshotViewController.screenshotsTouchBar.share")
 }
@@ -203,31 +199,16 @@ extension ScreenshotViewController {
     override func makeTouchBar() -> NSTouchBar? {
         
         let touchBar = NSTouchBar()
-        
         touchBar.delegate = self
-        
-        touchBar.customizationIdentifier = .screenshotsTouchBar
-        touchBar.defaultItemIdentifiers = [.deleteScreenshot,
-                                           .flexibleSpace,
-                                           .showScreenshotInFinder,
+        touchBar.defaultItemIdentifiers = [.showScreenshotInFinder,
                                            .shareScreenshot,
                                            .otherItemsProxy]
-        touchBar.customizationAllowedItemIdentifiers = [.deleteScreenshot,
-                                                        .showScreenshotInFinder,
-                                                        .shareScreenshot]
-        touchBar.principalItemIdentifier = .showScreenshotInFinder
-        
         return touchBar
     }
     
     override func selectionDidChange() {
         guard let touchBar = self.touchBar else { return }
         let selected = self.collectionView.selectionIndexPaths
-        
-        if let deleteItem = touchBar.item(forIdentifier: .deleteScreenshot) as? NSCustomTouchBarItem {
-            let button = deleteItem.view as! NSButton
-            button.isEnabled = !selected.isEmpty
-        }
         
         if let showInFinderItem = touchBar.item(forIdentifier: .showScreenshotInFinder) as? NSCustomTouchBarItem {
             let button = showInFinderItem.view as! NSButton
@@ -246,20 +227,6 @@ extension ScreenshotViewController: NSTouchBarDelegate {
         
         switch identifier {
         
-        case .deleteScreenshot:
-            
-            let item = NSCustomTouchBarItem(identifier: identifier)
-            item.customizationLabel = NSLocalizedString("Delete", comment: "")
-            
-            let button = NSButton(image: NSImage(named: NSImage.touchBarDeleteTemplateName)!, target: nil, action: #selector(deleteSelectedItems(_:)))
-            
-            button.isEnabled = !collectionView.selectionIndexPaths.isEmpty
-            button.bezelColor = #colorLiteral(red: 0.5665243268, green: 0.2167189717, blue: 0.2198875844, alpha: 1)
-            
-            item.view = button
-            
-            return item
-            
         case .showScreenshotInFinder:
             
             let item = NSCustomTouchBarItem(identifier: identifier)

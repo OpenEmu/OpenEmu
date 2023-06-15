@@ -282,5 +282,50 @@
 		<key>OELynxButtonOption2</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OELynxButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OELynxButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OELynxButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OELynxButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OELynxButtonA</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OELynxButtonB</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OELynxButtonOption1</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OELynxButtonOption2</key>
+		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OELynxButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OELynxButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OELynxButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OELynxButtonOption1</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OELynxButtonOption2</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OELynxButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OELynxButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OELynxButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OELynxButtonOption1</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OELynxButtonOption2</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+	</dict>
 </dict>
 </plist>

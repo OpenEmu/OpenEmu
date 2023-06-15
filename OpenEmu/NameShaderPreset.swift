@@ -43,6 +43,19 @@ class NameShaderPreset: NSViewController, NSControlTextEditingDelegate {
     
     override func viewWillAppear() {
         super.viewWillAppear()
+        
+        if #available(macOS 11.0, *),
+           let window = view.window {
+            window.titleVisibility = .hidden
+            window.titlebarAppearsTransparent = true
+            window.styleMask.insert(.fullSizeContentView)
+            window.styleMask.remove([.closable, .resizable])
+            window.isMovableByWindowBackground = true
+        } else {
+            view.window?.styleMask.remove(.resizable)
+            (view as? NSVisualEffectView)?.state = .inactive
+        }
+        
         if let name = existingName {
             textField.stringValue = name
         }

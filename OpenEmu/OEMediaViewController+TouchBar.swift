@@ -26,19 +26,12 @@
 
 import Cocoa
 
-private extension NSTouchBar.CustomizationIdentifier {
-    static let saveStatesTouchBar = "org.openemu.OEMediaViewController.saveStatesTouchBar"
-    static let screenshotsTouchBar = "org.openemu.OEMediaViewController.screenshotsTouchBar"
-}
-
 private extension NSTouchBarItem.Identifier {
     
     // Save States
-    static let deleteSaveState = NSTouchBarItem.Identifier("org.openemu.OEMediaViewController.saveStatesTouchbar.delete")
     static let resumeSaveState = NSTouchBarItem.Identifier("org.openemu.OEMediaViewController.saveStatesTouchbar.resume")
     
     // Screenshots
-    static let deleteScreenshot = NSTouchBarItem.Identifier("org.openemu.OEMediaViewController.screenshotsTouchBar.delete")
     static let showScreenshotInFinder = NSTouchBarItem.Identifier("org.openemu.OEMediaViewController.screenshotsTouchBar.showInFinder")
     static let shareScreenshot = NSTouchBarItem.Identifier("org.openemu.OEMediaViewController.screenshotsTouchBar.share")
 }
@@ -48,33 +41,16 @@ extension OEMediaViewController {
     open override func makeTouchBar() -> NSTouchBar? {
         
         let touchBar = MediaTouchBar()
-        
         touchBar.mediaViewController = self
         touchBar.delegate = self
         
         if saveStateMode {
-            
-            touchBar.customizationIdentifier = .saveStatesTouchBar
-            touchBar.defaultItemIdentifiers = [.deleteSaveState,
-                                               .flexibleSpace,
-                                               .resumeSaveState,
+            touchBar.defaultItemIdentifiers = [.resumeSaveState,
                                                .otherItemsProxy]
-            touchBar.customizationAllowedItemIdentifiers = [.deleteSaveState,
-                                                            .resumeSaveState]
-            touchBar.principalItemIdentifier = .resumeSaveState
-            
         } else {
-            
-            touchBar.customizationIdentifier = .screenshotsTouchBar
-            touchBar.defaultItemIdentifiers = [.deleteScreenshot,
-                                               .flexibleSpace,
-                                               .showScreenshotInFinder,
+            touchBar.defaultItemIdentifiers = [.showScreenshotInFinder,
                                                .shareScreenshot,
                                                .otherItemsProxy]
-            touchBar.customizationAllowedItemIdentifiers = [.deleteScreenshot,
-                                                            .showScreenshotInFinder,
-                                                            .shareScreenshot]
-            touchBar.principalItemIdentifier = .showScreenshotInFinder
         }
         
         return touchBar
@@ -86,23 +62,6 @@ extension OEMediaViewController: NSTouchBarDelegate {
     public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
         
         switch identifier {
-            
-        case .deleteSaveState:
-            fallthrough
-        case .deleteScreenshot:
-            
-            let item = NSCustomTouchBarItem(identifier: identifier)
-            item.customizationLabel = NSLocalizedString("Delete", comment: "")
-            
-            let button = NSButton(image: NSImage(named: NSImage.touchBarDeleteTemplateName)!, target: nil, action: #selector(deleteSelectedItems(_:)))
-            
-            button.isEnabled = !selectionIndexes.isEmpty
-            button.bezelColor = #colorLiteral(red: 0.5665243268, green: 0.2167189717, blue: 0.2198875844, alpha: 1)
-            
-            item.view = button
-            
-            return item
-            
         case .resumeSaveState:
             
             let item = NSCustomTouchBarItem(identifier: identifier)
@@ -178,11 +137,6 @@ private class MediaTouchBar: NSTouchBar {
         
         if mediaViewController.saveStateMode {
             
-            if let deleteItem = item(forIdentifier: .deleteSaveState) as? NSCustomTouchBarItem {
-                let button = deleteItem.view as! NSButton
-                button.isEnabled = !mediaViewController.selectionIndexes.isEmpty
-            }
-            
             if let playItem = item(forIdentifier: .resumeSaveState) as? NSCustomTouchBarItem {
                 let button = playItem.view as! NSButton
                 button.isEnabled = mediaViewController.selectionIndexes.count == 1
@@ -190,16 +144,11 @@ private class MediaTouchBar: NSTouchBar {
             
         } else {
             
-            if let deleteItem = item(forIdentifier: .deleteScreenshot) as? NSCustomTouchBarItem {
-                let button = deleteItem.view as! NSButton
-                button.isEnabled = !mediaViewController.selectionIndexes.isEmpty
-            }
-            
             if let showInFinderItem = item(forIdentifier: .showScreenshotInFinder) as? NSCustomTouchBarItem {
                 let button = showInFinderItem.view as! NSButton
                 button.isEnabled = !mediaViewController.selectionIndexes.isEmpty
             }
-         
+            
             if let shareItem = item(forIdentifier: .shareScreenshot) as? NSSharingServicePickerTouchBarItem {
                 shareItem.isEnabled = !mediaViewController.selectionIndexes.isEmpty
             }

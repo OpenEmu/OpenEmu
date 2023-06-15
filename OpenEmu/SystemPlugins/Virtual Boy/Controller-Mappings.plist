@@ -354,5 +354,62 @@
 		<key>OEVBButtonSelect</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OEVBButtonLeftUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OEVBButtonLeftRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OEVBButtonLeftDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OEVBButtonLeftLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OEVBButtonA</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OEVBButtonB</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OEVBButtonL</key>
+		<string>OEControllerSonyPS5DualSenseButtonL1</string>
+		<key>OEVBButtonR</key>
+		<string>OEControllerSonyPS5DualSenseButtonR1</string>
+		<key>OEVBButtonStart</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OEVBButtonSelect</key>
+		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEVBButtonLeftUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEVBButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEVBButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEVBButtonL</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonLeftShoulder</string>
+		<key>OEVBButtonR</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightShoulder</string>
+		<key>OEVBButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OEVBButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEVBButtonLeftUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEVBButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEVBButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEVBButtonL</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonLeftShoulder</string>
+		<key>OEVBButtonR</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+		<key>OEVBButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OEVBButtonSelect</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+	</dict>
 </dict>
 </plist>

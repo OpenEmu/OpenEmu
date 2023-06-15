@@ -23,7 +23,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
-import OpenEmuBase
+import OpenEmuBase.OEGeometry
 import OpenEmuSystem
 import OpenEmuKit
 
@@ -58,9 +58,6 @@ final class GameViewController: NSViewController {
     
     private var token: NSObjectProtocol?
     
-    var displayModes: [[String: Any]] = []
-    var discCount: UInt = 0
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -75,7 +72,7 @@ final class GameViewController: NSViewController {
         controlsWindow = GameControlsBar(gameViewController: self)
         controlsWindow.isReleasedWhenClosed = false
         shaderControl = ShaderControl(systemPlugin: document.systemPlugin,
-                                      helper: document.gameCoreHelper)
+                                      helper: document.gameCoreHelper!)
         shaderWindowController = ShaderParametersWindowController(control: shaderControl)
         
         scaledView = OEScaledGameLayerView(frame: NSRect(origin: .zero, size: NSSize(width: 1, height: 1)))
@@ -106,20 +103,17 @@ final class GameViewController: NSViewController {
     }
     
     deinit {
-        gameView.delegate = nil
-        gameView = nil
-        
-        controlsWindow.gameWindow = nil
-        controlsWindow.close()
-        controlsWindow = nil
-        
-        shaderWindowController.close()
-        shaderWindowController = nil
-        
         if let token = token {
             NotificationCenter.default.removeObserver(token)
             self.token = nil
         }
+
+        shaderWindowController.close()
+        shaderWindowController = nil
+
+        controlsWindow.gameWindow = nil
+        controlsWindow.close()
+        controlsWindow = nil
     }
     
     override func viewDidAppear() {
@@ -136,7 +130,7 @@ final class GameViewController: NSViewController {
     override func viewWillDisappear() {
         super.viewWillDisappear()
         
-        controlsWindow.hide(animated: false)
+        controlsWindow.hide(animated: false, hideCursor: false)
         controlsWindow.gameWindow = nil
         rootWindow?.removeChildWindow(controlsWindow)
     }
@@ -160,7 +154,7 @@ final class GameViewController: NSViewController {
     }
     
     override func viewDidLayout() {
-        document.setOutputBounds(gameView.bounds)
+        document.updateBounds(gameView.bounds)
     }
     
     // MARK: - Controlling Emulation
@@ -201,8 +195,8 @@ final class GameViewController: NSViewController {
         controlsWindow.reflectVolume(volume)
     }
     
-    func reflectEmulationPaused(_ paused: Bool) {
-        controlsWindow.reflectEmulationRunning(!paused)
+    func reflectEmulationPaused(_ isPaused: Bool) {
+        controlsWindow.reflectEmulationPaused(isPaused)
     }
     
     func toggleControlsVisibility(_ sender: NSMenuItem) {

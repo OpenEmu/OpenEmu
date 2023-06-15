@@ -585,8 +585,7 @@ final class ImportOperation: Operation, NSCopying {
                 }
                 
                 // exception is caught but handler does not execute, so check if extraction worked
-                let fileSize = (extractionDst as NSURL).fileSize
-                if fileSize.intValue == 0 {
+                if extractionDst.fileSize == 0 {
                     try? fm.removeItem(at: folder)
                     DLog("unpack failed")
                     continue
@@ -828,10 +827,10 @@ final class ImportOperation: Operation, NSCopying {
             if system.plugin?.supportsDiscsWithDescriptorFile ?? false {
                 systemFolder = systemFolder.appendingPathComponent(baseName, isDirectory: true)
                 
-                systemFolder = (systemFolder as NSURL).uniqueURL { triesCount in
+                systemFolder = systemFolder.uniqueURL { triesCount in
                     let newName = "\(baseName) \(triesCount)"
-                    return systemFolder.deletingLastPathComponent().appendingPathComponent(newName, isDirectory: true) as NSURL
-                } as URL
+                    return systemFolder.deletingLastPathComponent().appendingPathComponent(newName, isDirectory: true)
+                }
                 
                 try? FileManager.default.createDirectory(at: systemFolder, withIntermediateDirectories: true)
             }
@@ -843,10 +842,10 @@ final class ImportOperation: Operation, NSCopying {
                 return
             }
             
-            romURL = (romURL as NSURL).uniqueURL { triesCount in
+            romURL = romURL.uniqueURL { triesCount in
                 let newName = "\(baseName) \(triesCount).\(ext)"
-                return systemFolder.appendingPathComponent(newName) as NSURL
-            } as URL
+                return systemFolder.appendingPathComponent(newName)
+            }
             
             var copiedFile: OEFile
             do {

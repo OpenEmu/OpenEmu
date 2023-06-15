@@ -75,16 +75,7 @@ final class PrefLibraryController: NSViewController {
         alert.messageText = NSLocalizedString(
             "Moving the Game Library is not recommended",
             comment: "Message headline (attempted to change location of library)")
-        alert.informativeText = NSLocalizedString(
-            """
-                The OpenEmu Game Library contains a database file which could get \
-                corrupted if the library is moved to the following locations:<br><br>\
-                <ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li>\
-                <li>Network drives</li></ul><br>\
-                Additionally, <b>sharing the same library between multiple computers or users</b> \
-                may also corrupt it. This also applies to moving the library \
-                to external USB drives.
-            """,
+        alert.informativeText = NSLocalizedString("ALERT_MOVE_LIBRARY_HTML",
             comment: "Message text (attempted to change location of library, HTML)")
         alert.defaultButtonTitle = NSLocalizedString("Cancel", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("I understand the risks",

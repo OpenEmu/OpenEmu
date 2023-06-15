@@ -7,10 +7,7 @@
 #import "OEResponder.h"
 
 #import "OELibraryDatabase.h"
-#import "OELibraryMigrator.h"
 #import "ALIterativeMigrator.h"
-#import "OEDBItem.h"
-#import "OEDBGame.h"
 
 #import "OECoverGridDataSourceItem.h"
 #import "OEListViewDataSourceItem.h"
@@ -23,7 +20,6 @@
 #import "OEMediaViewController.h"
 #import "OEVersionMigrationController.h"
 #import "OEAudioDeviceManager.h"
-#import "OETableView.h"
 
 #import "NSDocument+OEAdditions.h"
 #import "AppKit+ApplePrivate.h"

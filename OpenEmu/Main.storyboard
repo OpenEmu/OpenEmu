@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19158" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19158"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -908,12 +908,6 @@ DQ
                                                 <action selector="showOEIssues:" target="-1" id="qPI-Hb-6UM"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Translate OpenEmu" id="Dye-Hd-BVp">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="showOELocalizationGuide:" target="-1" id="xUJ-uy-6qX"/>
-                                            </connections>
-                                        </menuItem>
                                     </items>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
@@ -930,7 +924,7 @@ DQ
                 <customObject id="805" userLabel="OEApplicationDelegate" customClass="OEApplicationDelegate">
                     <connections>
                         <outlet property="fileMenu" destination="980" id="1224"/>
-                        <outlet property="localizationGuideMenuItem" destination="Dye-Hd-BVp" id="Ccr-IB-JH8"/>
+                        <outlet property="helpMenu" destination="0ql-Da-Qro" id="trh-qr-398"/>
                     </connections>
                 </customObject>
                 <userDefaultsController id="1212"/>

@@ -86,6 +86,8 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
              #selector(delete(_:)),
              #selector(showInFinder(_:)):
             return collectionView.selectionIndexPaths.count > 0
+        case #selector(startSelectedGame(_:)):
+            return collectionView.selectionIndexPaths.count == 1
         default:
             return true
         }
@@ -157,6 +159,7 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
         if alert.runModal() == .alertFirstButtonReturn {
             items.forEach { $0.deleteAndRemoveFiles() }
             try? OELibraryDatabase.default?.mainThreadContext.save()
+            collectionView.selectionIndexPaths = []
             return
         }
         
@@ -170,6 +173,10 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
         NSWorkspace.shared.activateFileViewerSelecting(urls)
     }
     
+    @IBAction func startSelectedGame(_ sender: Any?) {
+        NSApp.sendAction(#selector(LibraryController.startSaveState(_:)), to: nil, from: self)
+    }
+    
     func collectionView(_ collectionView: CollectionView, doubleClickForItemAt indexPath: IndexPath) {
         guard let item = dataSource.item(at: indexPath) else { return }
         NSApp.sendAction(#selector(LibraryController.startSaveState(_:)), to: nil, from: item)
@@ -178,12 +185,7 @@ extension SaveStateViewController: CollectionViewExtendedDelegate, NSMenuItemVal
 
 // MARK: - Touch Bar
 
-private extension NSTouchBar.CustomizationIdentifier {
-    static let saveStatesTouchBar = "org.openemu.SaveStateViewController.saveStatesTouchBar"
-}
-
 private extension NSTouchBarItem.Identifier {
-    static let deleteSaveState = NSTouchBarItem.Identifier("org.openemu.SaveStateViewController.saveStatesTouchbar.delete")
     static let resumeSaveState = NSTouchBarItem.Identifier("org.openemu.SaveStateViewController.saveStatesTouchbar.resume")
 }
 
@@ -192,29 +194,15 @@ extension SaveStateViewController {
     override func makeTouchBar() -> NSTouchBar? {
         
         let touchBar = NSTouchBar()
-        
         touchBar.delegate = self
-        
-        touchBar.customizationIdentifier = .saveStatesTouchBar
-        touchBar.defaultItemIdentifiers = [.deleteSaveState,
-                                           .flexibleSpace,
-                                           .resumeSaveState,
+        touchBar.defaultItemIdentifiers = [.resumeSaveState,
                                            .otherItemsProxy]
-        touchBar.customizationAllowedItemIdentifiers = [.deleteSaveState,
-                                                        .resumeSaveState]
-        touchBar.principalItemIdentifier = .resumeSaveState
-        
         return touchBar
     }
     
     override func selectionDidChange() {
         guard let touchBar = self.touchBar else { return }
         let selected = self.collectionView.selectionIndexPaths
-        
-        if let deleteItem = touchBar.item(forIdentifier: .deleteSaveState) as? NSCustomTouchBarItem {
-            let button = deleteItem.view as! NSButton
-            button.isEnabled = !selected.isEmpty
-        }
         
         if let playItem = touchBar.item(forIdentifier: .resumeSaveState) as? NSCustomTouchBarItem {
             let button = playItem.view as! NSButton
@@ -229,20 +217,6 @@ extension SaveStateViewController: NSTouchBarDelegate {
         
         switch identifier {
         
-        case .deleteSaveState:
-            
-            let item = NSCustomTouchBarItem(identifier: identifier)
-            item.customizationLabel = NSLocalizedString("Delete", comment: "")
-            
-            let button = NSButton(image: NSImage(named: NSImage.touchBarDeleteTemplateName)!, target: nil, action: #selector(deleteSelectedItems(_:)))
-            
-            button.isEnabled = !collectionView.selectionIndexPaths.isEmpty
-            button.bezelColor = #colorLiteral(red: 0.5665243268, green: 0.2167189717, blue: 0.2198875844, alpha: 1)
-            
-            item.view = button
-            
-            return item
-            
         case .resumeSaveState:
             
             let item = NSCustomTouchBarItem(identifier: identifier)

@@ -25,7 +25,13 @@
 import Cocoa
 
 protocol GameTableViewMenuSource {
-    func tableView(_ tableView: GameTableView, menuForItemsAt indexes: IndexSet) -> NSMenu
+    func tableView(_ tableView: GameTableView, menuForItemsAt indexes: IndexSet) -> NSMenu?
+}
+
+extension OEGameCollectionViewController: GameTableViewMenuSource {
+    func tableView(_ tableView: GameTableView, menuForItemsAt indexes: IndexSet) -> NSMenu? {
+        return menuForItems(at: indexes)
+    }
 }
 
 extension NSUserInterfaceItemIdentifier {
@@ -46,7 +52,7 @@ private extension NSUserInterfaceItemIdentifier {
 }
 
 @objc(OEGameTableView)
-final class GameTableView: OETableView {
+final class GameTableView: NSTableView {
     
     let headerStateKey = "OEGameTableColumnsHiddenState"
     
@@ -109,7 +115,7 @@ final class GameTableView: OETableView {
     
     override func menu(for event: NSEvent) -> NSMenu? {
         window?.makeFirstResponder(self)
-        guard let del = dataSource as? GameTableViewMenuSource else { return super.menu(for: event) }
+        guard let menuSource = dataSource as? GameTableViewMenuSource else { return super.menu(for: event) }
         
         let locInWindow = event.locationInWindow
         let locInView   = convert(locInWindow, from: nil)
@@ -118,13 +124,14 @@ final class GameTableView: OETableView {
         guard index > -1 else { return super.menu(for: event) }
         
         let itemIsSelected = selectedRowIndexes.contains(index)
-        let indexes = itemIsSelected ? selectedRowIndexes : IndexSet(arrayLiteral: index)
+        let indexes = itemIsSelected ? selectedRowIndexes : IndexSet(integer: index)
         if !itemIsSelected {
             selectRowIndexes(indexes, byExtendingSelection: false)
         }
         
-        let menu = del.tableView(self, menuForItemsAt: indexes)
-        NSMenu.popUpContextMenu(menu, with: event, for: self)
+        if let menu = menuSource.tableView(self, menuForItemsAt: indexes) {
+            NSMenu.popUpContextMenu(menu, with: event, for: self)
+        }
         
         return nil
     }

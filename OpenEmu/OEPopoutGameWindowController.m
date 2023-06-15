@@ -34,6 +34,7 @@ NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor";
 NSString *const OEPopoutGameWindowAlwaysOnTopKey        = @"OEPopoutGameWindowAlwaysOnTop";
 NSString *const OEPopoutGameWindowIntegerScalingOnlyKey = @"OEPopoutGameWindowIntegerScalingOnly";
 NSString *const OEPopoutGameWindowTreatScaleFactorAsPixels = @"OEPopoutGameWindowTreatScaleFactorAsPixels";
+NSString *const OEAdaptiveSyncEnabledKey = @"OEAdaptiveSyncEnabled";
 
 #pragma mark - Private variables
 
@@ -83,6 +84,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     NSRect                              _windowedFrame;
     unsigned int                        _windowedIntegralScale;
     id<NSObject>                        _eventMonitor;
+    BOOL                                _adaptiveSyncWasEnabled;
 }
 
 #pragma mark - NSWindowController overridden methods
@@ -288,7 +290,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
         newSize.height = round(gameSize.height * screenSize.width/gameSize.width);
     }
     
-    return NSSizeFromOEIntSize(newSize);
+    return CGSizeFromOEIntSize(newSize);
 }
 
 - (void)showWindow:(id)sender
@@ -397,7 +399,7 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
 - (NSSize)OE_windowContentSizeForGameViewIntegralScale:(unsigned int)gameViewIntegralScale
 {
     const NSSize defaultSize = [[[self OE_gameDocument] gameViewController] defaultScreenSize];
-    NSSize contentSize = OEScaleSize(defaultSize, (CGFloat)gameViewIntegralScale);
+    NSSize contentSize = OEScaleCGSize(defaultSize, (CGFloat)gameViewIntegralScale);
     
     if([NSUserDefaults.standardUserDefaults boolForKey:OEPopoutGameWindowTreatScaleFactorAsPixels])
     {
@@ -719,6 +721,22 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     [CATransaction commit];
 }
 
+- (BOOL)isAdaptiveSyncSupportedForScreen:(NSScreen *)screen {
+    if (@available(macOS 12.0, *)) {
+        // Source: https://developer.apple.com/wwdc21/10147?time=357
+        return screen.minimumRefreshInterval != screen.maximumRefreshInterval;
+    }
+    return NO;
+}
+
+- (BOOL)isAdaptiveSyncSchedulingAvailable:(NSWindow *)window {
+    if ([NSUserDefaults.standardUserDefaults boolForKey:OEAdaptiveSyncEnabledKey] == NO) {
+        return NO;
+    }
+    
+    return window.isFullScreen && [self isAdaptiveSyncSupportedForScreen:window.screen];
+}
+
 - (void)windowDidEnterFullScreen:(NSNotification *)notification
 {
     _fullScreenStatus = _OEPopoutGameWindowFullScreenStatusFullScreen;
@@ -745,6 +763,11 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     {
         [gameViewController gameViewSetIntegralSize:self.OE_fillScreenContentSize animated:NO];
     }
+    
+    if ([self isAdaptiveSyncSchedulingAvailable:self.window]) {
+        [self.OE_gameDocument setAdaptiveSyncEnabled:YES];
+        _adaptiveSyncWasEnabled = YES;
+    }
 }
 
 - (void)windowWillExitFullScreen:(NSNotification *)notification
@@ -757,6 +780,11 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     OEGameViewController *gameViewController = self.OE_gameDocument.gameViewController;
     [[gameViewController controlsWindow] setCanShow:NO];
     [[gameViewController controlsWindow] hideAnimated:YES];
+    
+    if (_adaptiveSyncWasEnabled)
+    {
+        [self.OE_gameDocument setAdaptiveSyncEnabled:NO];
+    }
 }
 
 - (NSArray *)customWindowsToExitFullScreenForWindow:(NSWindow *)window

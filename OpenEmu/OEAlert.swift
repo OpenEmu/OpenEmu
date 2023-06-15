@@ -57,28 +57,109 @@ final class OEAlert: NSObject {
     private var sheetMode = false
     private var needsRebuild = true
     
+    // MARK: - Controls
     
-    // dialog buttons
-    private var defaultButton: NSButton!
-    private var alternateButton: NSButton!
-    private var otherButton: NSButton!
+    private lazy var headlineLabel: NSTextField = {
+        let label = NSTextField(wrappingLabelWithString: "")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isEditable = false
+        label.isSelectable = true
+        label.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
+        return label
+    }()
+    
+    private lazy var messageLabel: NSTextField = {
+        let label = NSTextField(wrappingLabelWithString: "")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isEditable = false
+        label.isSelectable = true
+        return label
+    }()
+    
+    private lazy var defaultButton: NSButton = {
+        let button = NSButton(title: "", target: self, action: nil)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.action = #selector(buttonAction(_:))
+        button.keyEquivalent = "\r"
+        return button
+    }()
+    private lazy var alternateButton: NSButton = {
+        let button = NSButton(title: "", target: self, action: nil)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.action = #selector(buttonAction(_:))
+        button.keyEquivalent = ""
+        return button
+    }()
+    private lazy var otherButton: NSButton = {
+        let button = NSButton(title: "", target: self, action: nil)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.action = #selector(buttonAction(_:))
+        button.keyEquivalent = ""
+        return button
+    }()
+    
+    private lazy var inputLabel: NSTextField = {
+        let label = NSTextField(labelWithString: "")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isEditable = false
+        label.isSelectable = false
+        return label
+    }()
+    private lazy var inputField: NSTextField = {
+        let textField = NSTextField(string: "")
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.usesSingleLineMode = true
+        textField.isEditable = true
+        return textField
+    }()
+    
+    private lazy var otherInputLabel: NSTextField = {
+        let label = NSTextField(labelWithString: "")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isEditable = false
+        label.isSelectable = false
+        return label
+    }()
+    private lazy var otherInputField: NSTextField = {
+        let textField = NSTextField(string: "")
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.usesSingleLineMode = true
+        textField.isEditable = true
+        return textField
+    }()
+    
+    private lazy var progressbar: NSProgressIndicator = {
+        let progressbar = NSProgressIndicator()
+        progressbar.translatesAutoresizingMaskIntoConstraints = false
+        progressbar.minValue = 0
+        progressbar.maxValue = 1
+        progressbar.usesThreadedAnimation = true
+        return progressbar
+    }()
+    
+    private lazy var suppressionButton: NSButton = {
+        let button = NSButton(checkboxWithTitle: "", target: self, action: nil)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setButtonType(.switch)
+        button.title = NSLocalizedString("Do not ask me again", comment: "")
+        button.action = #selector(suppressionButtonAction(_:))
+        return button
+    }()
+    
     // touch bar buttons
-    private var defaultTBButton: NSButton!
-    private var alternateTBButton: NSButton!
-    private var otherTBButton: NSButton!
+    private lazy var defaultTBButton: NSButton = {
+        let button = NSButton(title: "", target: self, action: #selector(buttonAction(_:)))
+        button.keyEquivalent = "\r"
+        return button
+    }()
+    private lazy var alternateTBButton: NSButton = {
+        return NSButton(title: "", target: self, action: #selector(buttonAction(_:)))
+    }()
+    private lazy var otherTBButton: NSButton = {
+        return NSButton(title: "", target: self, action: #selector(buttonAction(_:)))
+    }()
     
-    private var messageLabel: NSTextField!
-    private var headlineLabel: NSTextField!
-    
-    private var inputLabel: NSTextField!
-    private var otherInputLabel: NSTextField!
-    private var inputField: NSTextField!
-    private var otherInputField: NSTextField!
-    
-    private var progressbar: NSProgressIndicator!
-    
-    private var suppressionButton: NSButton!
-    
+    // MARK: -
     
     override init() {
         super.init()
@@ -96,9 +177,6 @@ final class OEAlert: NSObject {
             veView.material = .popover
             window.contentView = veView
         }
-        
-        createControls()
-        createTouchBarControls()
     }
     
     // MARK: -
@@ -514,73 +592,6 @@ final class OEAlert: NSObject {
     
     // MARK: - Private Methods
     
-    private func createControls() {
-        // Setup Button
-        defaultButton = NSButton(title: "", target: self, action: nil)
-        defaultButton.translatesAutoresizingMaskIntoConstraints = false
-        defaultButton.action = #selector(buttonAction(_:))
-        defaultButton.keyEquivalent = "\r"
-        
-        alternateButton = NSButton(title: "", target: self, action: nil)
-        alternateButton.translatesAutoresizingMaskIntoConstraints = false
-        alternateButton.action = #selector(buttonAction(_:))
-        alternateButton.keyEquivalent = ""
-        
-        otherButton = NSButton(title: "", target: self, action: nil)
-        otherButton.translatesAutoresizingMaskIntoConstraints = false
-        otherButton.action = #selector(buttonAction(_:))
-        otherButton.keyEquivalent = ""
-        
-        // Setup Headline Text View
-        headlineLabel = NSTextField(wrappingLabelWithString: "")
-        headlineLabel.translatesAutoresizingMaskIntoConstraints = false
-        headlineLabel.isEditable = false
-        headlineLabel.isSelectable = true
-        headlineLabel.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
-        
-        // Setup Message Text View
-        messageLabel = NSTextField(wrappingLabelWithString: "")
-        messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        messageLabel.isEditable = false
-        messageLabel.isSelectable = true
-        
-        // Setup Input Field
-        inputField = NSTextField(string: "")
-        inputField.translatesAutoresizingMaskIntoConstraints = false
-        inputField.usesSingleLineMode = true
-        inputField.isEditable = true
-        
-        inputLabel = NSTextField(labelWithString: "")
-        inputLabel.translatesAutoresizingMaskIntoConstraints = false
-        inputLabel.isEditable = false
-        inputLabel.isSelectable = false
-        
-        // Setup Other Input Field
-        otherInputField = NSTextField(string: "")
-        otherInputField.translatesAutoresizingMaskIntoConstraints = false
-        otherInputField.usesSingleLineMode = true
-        otherInputField.isEditable = true
-        
-        otherInputLabel = NSTextField(labelWithString: "")
-        otherInputLabel.translatesAutoresizingMaskIntoConstraints = false
-        otherInputLabel.isEditable = false
-        otherInputLabel.isSelectable = false
-        
-        // Setup Progressbar
-        progressbar = NSProgressIndicator()
-        progressbar.translatesAutoresizingMaskIntoConstraints = false
-        progressbar.minValue = 0
-        progressbar.maxValue = 1
-        progressbar.usesThreadedAnimation = true
-        
-        // Setup Suppression Button
-        suppressionButton = NSButton(checkboxWithTitle: "", target: self, action: nil)
-        suppressionButton.translatesAutoresizingMaskIntoConstraints = false
-        suppressionButton.setButtonType(.switch)
-        suppressionButton.title = NSLocalizedString("Do not ask me again", comment: "")
-        suppressionButton.action = #selector(suppressionButtonAction(_:))
-    }
-    
     private func layoutWindowIfNeeded() {
         if needsRebuild {
             layoutWindow()
@@ -803,20 +814,11 @@ final class OEAlert: NSObject {
         return buttonStackView.bottomAnchor
     }
     
-    private func createTouchBarControls() {
-        defaultTBButton = NSButton(title: "", target: self, action: #selector(buttonAction(_:)))
-        defaultTBButton.keyEquivalent = "\r"
-        
-        alternateTBButton = NSButton(title: "", target: self, action: #selector(buttonAction(_:)))
-        
-        otherTBButton = NSButton(title: "", target: self, action: #selector(buttonAction(_:)))
-    }
-    
     private func createTouchBar() {
         let tb = NSTouchBar()
         let childTb = NSGroupTouchBarItem(alertStyleWithIdentifier: .group)
         tb.templateItems = [childTb]
-        tb.defaultItemIdentifiers = [.group]
+        tb.defaultItemIdentifiers = [.group, .otherItemsProxy]
         tb.principalItemIdentifier = .group
         
         var allItems = Set<NSTouchBarItem>()

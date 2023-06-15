@@ -181,7 +181,11 @@ CISO_H ciso;
     [scanner scanUpToString:@"  " intoString:nil];
     [scanner scanUpToString:@" " intoString:&serial];
 
-    NSAssert(serial, @"UMD Game ISO is incomplete, no DISC_ID. Follow the guide https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-Split-rar-files");
+    if(!serial)
+    {
+        NSLog(@"UMD Game ISO is incomplete, no DISC_ID. Follow the guide https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-Split-rar-files");
+        return nil;
+    }
 
     NSMutableString *formattedSerial = [NSMutableString stringWithString:serial];
     [formattedSerial insertString:@"-" atIndex:4];
@@ -251,6 +255,11 @@ CISO_H ciso;
             index2 = index_buf[block+1] & 0x7fffffff;
             read_size = (index2-index) << (ciso.align);
         }
+       
+        // Ensure the read_size will not overflow the buffer.
+        if (read_size > sizeof(block_buf2))
+            return nil;
+        
         fseek(fin,read_pos,SEEK_SET);
 
         z.avail_in  = (unsigned int)fread(block_buf2, 1, read_size , fin);

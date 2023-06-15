@@ -174,5 +174,32 @@
 		<key>OEOdyssey2ButtonAction</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OEOdyssey2ButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OEOdyssey2ButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OEOdyssey2ButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OEOdyssey2ButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OEOdyssey2ButtonAction</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEOdyssey2ButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEOdyssey2ButtonAction</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEOdyssey2ButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEOdyssey2ButtonAction</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+	</dict>
 </dict>
 </plist>

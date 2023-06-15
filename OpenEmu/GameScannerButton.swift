@@ -52,7 +52,7 @@ final class GameScannerButton: HoverButton {
         }
         set {
             _icon = newValue
-            needsDisplay = true
+            image = iconImage
         }
     }
     
@@ -85,7 +85,7 @@ final class GameScannerButton: HoverButton {
     
     private func commonInit() {
         eventMonitor = NSEvent.addLocalMonitorForEvents(matching: [.flagsChanged]) { [weak self] event in
-            self?.needsDisplay = true
+            self?.image = self?.iconImage
             return event
         }
     }
@@ -97,9 +97,16 @@ final class GameScannerButton: HoverButton {
         }
     }
     
-    override func draw(_ dirtyRect: NSRect) {
-        image = iconImage
-        super.draw(dirtyRect)
+    override var isHovering: Bool {
+        didSet {
+            image = iconImage
+        }
+    }
+    
+    override var image: NSImage? {
+        didSet {
+            needsDisplay = true
+        }
     }
     
     override func viewWillMove(toWindow newWindow: NSWindow?) {
@@ -117,6 +124,6 @@ final class GameScannerButton: HoverButton {
     }
     
     @objc func windowKeyChanged() {
-        needsDisplay = true
+        image = iconImage
     }
 }

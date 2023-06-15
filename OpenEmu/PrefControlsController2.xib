@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -10,7 +10,6 @@
             <connections>
                 <outlet property="consolesPopupButton" destination="7" id="42"/>
                 <outlet property="controllerContainerView" destination="103" id="119"/>
-                <outlet property="controlsContainer" destination="112" id="115"/>
                 <outlet property="controlsSetupView" destination="112" id="117"/>
                 <outlet property="inputPopupButton" destination="9" id="44"/>
                 <outlet property="playerPopupButton" destination="8" id="45"/>
@@ -68,7 +67,7 @@
                         <box title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="etN-Fb-f1F">
                             <rect key="frame" x="11" y="10" width="238" height="394"/>
                             <view key="contentView" id="2lL-Qf-ie1">
-                                <rect key="frame" x="3" y="3" width="232" height="388"/>
+                                <rect key="frame" x="4" y="5" width="230" height="386"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </view>
                         </box>

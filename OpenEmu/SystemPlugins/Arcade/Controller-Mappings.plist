@@ -377,7 +377,7 @@
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 		<key>OEArcadeUIConfigure</key>
-		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
+		<string>OEControllerNintendoSwitchProControllerButtonShare</string>
 	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
@@ -424,6 +424,81 @@
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
 		<key>OEArcadeUIConfigure</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonHome</string>
+	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OEArcadeButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OEArcadeButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OEArcadeButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerSonyPS5DualSenseButtonTriangle</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerSonyPS5DualSenseButtonCircle</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerSonyPS5DualSenseButtonR1</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerSonyPS5DualSenseButtonR2</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerSonyPS5DualSenseButtonHome</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonY</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonB</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightShoulder</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightTrigger</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonXbox</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonB</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightTrigger</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+		<key>OEArcadeUIConfigure</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonShare</string>
 	</dict>
 </dict>
 </plist>

@@ -286,7 +286,7 @@
 		<key>OE5200ButtonPause</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 		<key>OE5200ButtonReset</key>
-		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
+		<string>OEControllerNintendoSwitchProControllerButtonShare</string>
 	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
@@ -317,6 +317,57 @@
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
 		<key>OE5200ButtonReset</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonHome</string>
+	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OE5200ButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OE5200ButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OE5200ButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OE5200ButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OE5200ButtonFire2</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OE5200ButtonFire1</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OE5200ButtonStart</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OE5200ButtonPause</key>
+		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
+		<key>OE5200ButtonReset</key>
+		<string>OEControllerSonyPS5DualSenseButtonHome</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OE5200ButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OE5200ButtonFire2</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OE5200ButtonFire1</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OE5200ButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OE5200ButtonPause</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+		<key>OE5200ButtonReset</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonXbox</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OE5200ButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OE5200ButtonFire2</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OE5200ButtonFire1</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OE5200ButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OE5200ButtonPause</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+		<key>OE5200ButtonReset</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonXbox</string>
 	</dict>
 </dict>
 </plist>

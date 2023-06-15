@@ -27,8 +27,27 @@
 import Foundation
 import CoreData
 
-@objc extension NSManagedObjectContext {
+extension NSManagedObjectContext {
     var libraryDatabase: OELibraryDatabase? {
         return userInfo[OELibraryDatabase.libraryDatabaseUserInfoKey] as? OELibraryDatabase
+    }
+    
+    func allObjects<T: NSManagedObject>(ofType entity: T.Type,
+                                        matching predicate: NSPredicate? = nil,
+                                        sortedBy sortDescriptors: [NSSortDescriptor]? = nil) -> [T] {
+        
+        let request = entity.fetchRequest()
+        request.predicate = predicate
+        request.sortDescriptors = sortDescriptors
+        
+        let result: [T]
+        do {
+            result = try fetch(request) as! [T]
+        } catch {
+            result = []
+            DLog("\(error)")
+        }
+        
+        return result
     }
 }

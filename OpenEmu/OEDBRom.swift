@@ -40,7 +40,6 @@ extension OEDBRom {
 }
 
 @objc
-@objcMembers
 final class OEDBRom: OEDBItem {
     
     // MARK: - CoreDataProperties
@@ -71,7 +70,7 @@ final class OEDBRom: OEDBItem {
     
     @nonobjc
     class func rom(with url: URL, in context: NSManagedObjectContext) throws -> OEDBRom? {
-        guard let library = context.userInfo[OELibraryDatabase.libraryDatabaseUserInfoKey] as? OELibraryDatabase,
+        guard let library = context.libraryDatabase,
               let romFolderURL = library.romsFolderURL,
               let url = url.url(relativeTo: romFolderURL)
         else { return nil }
@@ -257,8 +256,7 @@ final class OEDBRom: OEDBItem {
         return (try? url?.checkResourceIsReachable()) ?? false
     }
     
-    @objc(deleteByMovingFile:keepSaveStates:)
-    func delete(moveToTrash: Bool, keepSaveStates statesFlag: Bool) {
+    func delete(moveToTrash: Bool, keepSaveStates: Bool) {
         
         if moveToTrash,
            let url = url,
@@ -279,7 +277,7 @@ final class OEDBRom: OEDBItem {
                     
                     // Delete game in subfolder in system's folder if system supports discs with descriptor file
                     if let systemPlugin = game?.system?.plugin,
-                       systemPlugin.supportsDiscsWithDescriptorFile  {
+                       systemPlugin.supportsDiscsWithDescriptorFile {
                         let truncatedFolderPath = file.fileURL.deletingLastPathComponent().deletingLastPathComponent().absoluteString
                         let isFileInSubFolder = truncatedFolderPath != libraryDatabase.romsFolderURL?.absoluteString
                         
@@ -300,7 +298,7 @@ final class OEDBRom: OEDBItem {
             }
         }
         
-        if !statesFlag {
+        if !keepSaveStates {
             if saveStateCount > 0,
                let statesFolderURL = saveStates.first?.url.deletingLastPathComponent(),
                let file = try? OEFile(url: statesFolderURL) {
@@ -312,6 +310,7 @@ final class OEDBRom: OEDBItem {
     }
     
     @nonobjc
+    @discardableResult
     func consolidateFiles() throws -> Bool {
         guard
             var url = url,
@@ -346,18 +345,18 @@ final class OEDBRom: OEDBItem {
                systemPlugin.supportsDiscsWithDescriptorFile {
                 unsortedFolder = unsortedFolder.appendingPathComponent(baseName, isDirectory: true)
                 
-                unsortedFolder = (unsortedFolder as NSURL).uniqueURL { triesCount in
+                unsortedFolder = unsortedFolder.uniqueURL { triesCount in
                     let newName = "\(baseName) \(triesCount)"
-                    return unsortedFolder.deletingLastPathComponent().appendingPathComponent(newName, isDirectory: true) as NSURL
-                } as URL
+                    return unsortedFolder.deletingLastPathComponent().appendingPathComponent(newName, isDirectory: true)
+                }
                 
                 try? FileManager.default.createDirectory(at: unsortedFolder, withIntermediateDirectories: true, attributes: nil)
             }
-            var romURL = unsortedFolder.appendingPathComponent(fullName as String)
-            romURL = (romURL as NSURL).uniqueURL { triesCount in
+            var romURL = unsortedFolder.appendingPathComponent(fullName as String, isDirectory: false)
+            romURL = romURL.uniqueURL { triesCount in
                 let newName = "\(baseName) \(triesCount).\(pathExtension)"
-                return unsortedFolder.appendingPathComponent(newName) as NSURL
-            } as URL
+                return unsortedFolder.appendingPathComponent(newName)
+            }
             
             do {
                 let file = try? OEFile(url: url)
@@ -381,27 +380,27 @@ final class OEDBRom: OEDBItem {
     }
 }
 
-
 // MARK: - Debug
 
 #if DEBUG
+@available(macOS 11.0, *)
 extension OEDBRom {
     
     func dump(prefix: String = "---") {
         NSLog("\(prefix) Beginning of ROM dump")
         
-        NSLog("\(prefix) ROM location is \(location?.description ?? "nil")")
-        // NSLog("\(prefix) favorite? \(isFavorite)")
-        NSLog("\(prefix) MD5 is \(md5?.description ?? "nil")")
-        NSLog("\(prefix) last played is \(lastPlayed?.description ?? "nil")")
-        NSLog("\(prefix) file size is \(fileSize?.description ?? "nil")")
-        NSLog("\(prefix) play count is \(playCount?.description ?? "nil")")
-        NSLog("\(prefix) play time is \(playTime?.description ?? "nil")")
-        NSLog("\(prefix) ROM is linked to a game? \(game != nil ? "YES" : "NO")")
+        os_log(.debug, log: .library, "\(prefix) ROM location is \(self.location?.description ?? "nil")")
+        // os_log(.debug, log: .library, "\(prefix) favorite? \(self.isFavorite)")
+        os_log(.debug, log: .library, "\(prefix) MD5 is \(self.md5?.description ?? "nil")")
+        os_log(.debug, log: .library, "\(prefix) last played is \(self.lastPlayed?.description ?? "nil")")
+        os_log(.debug, log: .library, "\(prefix) file size is \(self.fileSize?.description ?? "nil")")
+        os_log(.debug, log: .library, "\(prefix) play count is \(self.playCount?.description ?? "nil")")
+        os_log(.debug, log: .library, "\(prefix) play time is \(self.playTime?.description ?? "nil")")
+        os_log(.debug, log: .library, "\(prefix) ROM is linked to a game? \(self.game != nil ? "YES" : "NO")")
         
-        NSLog("\(prefix) Number of save states for this ROM is \(saveStateCount)")
+        os_log(.debug, log: .library, "\(prefix) Number of save states for this ROM is \(self.saveStateCount)")
         
-        NSLog("\(prefix) End of ROM dump\n\n")
+        os_log(.debug, log: .library, "\(prefix) End of ROM dump\n\n")
     }
 }
 #endif

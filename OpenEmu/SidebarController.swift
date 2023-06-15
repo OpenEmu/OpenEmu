@@ -83,9 +83,6 @@ final class SidebarController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sidebarView.register(NSNib(nibNamed: "SidebarHeaderView", bundle: nil), forIdentifier: .headerView)
-        sidebarView.register(NSNib(nibNamed: "SidebarItemView", bundle: nil), forIdentifier: .itemView)
-        
         sidebarView.registerForDraggedTypes([.fileURL, .game])
         sidebarView.expandItem(nil, expandChildren: true)
         
@@ -455,6 +452,8 @@ extension SidebarController: NSOutlineViewDataSource {
     
     func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
         
+        guard let database else { return false }
+        
         let pboard = info.draggingPasteboard
         
         var collection: OEDBCollection?
@@ -468,7 +467,9 @@ extension SidebarController: NSOutlineViewDataSource {
             var name: String?
             if pboard.types?.contains(.game) ?? false {
                 
-                let games = pboard.readObjects(forClasses: [OEDBGame.self], options: nil) as! [OEDBGame]
+                let uris = pboard.pasteboardItems?.compactMap { $0.string(forType: .game) } ?? []
+                let games = uris.compactMap { OEDBGame.object(withURI: URL(string: $0)!, in: database.mainThreadContext) }
+                
                 if games.count == 1 {
                     name = games.first?.displayName
                 }
@@ -480,7 +481,7 @@ extension SidebarController: NSOutlineViewDataSource {
                     name = games?.first?.deletingPathExtension().lastPathComponent.removingPercentEncoding
                 }
             }
-            collection = database!.addNewCollection(name)
+            collection = database.addNewCollection(name)
             reloadData()
             let index = outlineView.row(forItem: collection)
             if index != NSNotFound {
@@ -494,7 +495,9 @@ extension SidebarController: NSOutlineViewDataSource {
             guard let collection = collection else { return true }
             
             // just add to collection
-            let games = pboard.readObjects(forClasses: [OEDBGame.self], options: nil) as! [OEDBGame]
+            let uris = pboard.pasteboardItems?.compactMap { $0.string(forType: .game) } ?? []
+            let games = uris.compactMap { OEDBGame.object(withURI: URL(string: $0)!, in: database.mainThreadContext) }
+            
             collection.games.formUnion(games)
             collection.save()
         }
@@ -503,7 +506,7 @@ extension SidebarController: NSOutlineViewDataSource {
             // import and add to collection
             if let files = pboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] {
                 let collectionID = collection?.permanentID
-                let importer = database!.importer
+                let importer = database.importer
                 importer.importItems(at: files, intoCollectionWith: collectionID)
             }
         }

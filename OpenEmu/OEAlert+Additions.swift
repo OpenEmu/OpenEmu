@@ -241,21 +241,4 @@ extension OEAlert {
         
         return alert
     }
-    
-    final class func moveToApplications(needAuth: Bool) -> OEAlert {
-        
-        let alert = OEAlert()
-        alert.messageText = NSLocalizedString("MOVE_ALERT_TITLE", value: "Move to Applications folder", comment: "")
-        alert.informativeText = NSLocalizedString("MOVE_ALERT_INFO_TEXT", value: "OpenEmu must move to your Applications folder in order to work properly.", comment: "")
-        if needAuth {
-            alert.informativeText.append(" " + NSLocalizedString("MOVE_ALERT_NEEDS_AUTH", value: "You need to authenticate with an administrator name and password to complete this step.", comment: ""))
-        }
-        alert.defaultButtonTitle = NSLocalizedString("MOVE_ALERT_MOVE_BUTTON", value: "Move to Applications Folder", comment: "")
-        alert.alternateButtonTitle = NSLocalizedString("Quit", comment: "")
-        if needAuth {
-            alert.otherButtonTitle = NSLocalizedString("Choose Location…", value: "Choose Location…", comment: "")
-        }
-        
-        return alert
-    }
 }

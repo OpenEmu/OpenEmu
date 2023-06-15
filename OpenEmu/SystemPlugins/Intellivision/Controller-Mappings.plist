@@ -238,5 +238,44 @@
 		<key>OEIntellivisionButtonBottomRightAction</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonC</string>
 	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OEIntellivisionButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OEIntellivisionButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OEIntellivisionButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OEIntellivisionButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerSonyPS5DualSenseButtonTriangle</string>
+		<key>OEIntellivisionButtonBottomLeftAction</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OEIntellivisionButtonBottomRightAction</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEIntellivisionButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonY</string>
+		<key>OEIntellivisionButtonBottomLeftAction</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEIntellivisionButtonBottomRightAction</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEIntellivisionButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonY</string>
+		<key>OEIntellivisionButtonBottomLeftAction</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEIntellivisionButtonBottomRightAction</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+	</dict>
 </dict>
 </plist>

@@ -27,6 +27,12 @@ import OpenEmuShaders
 import OpenEmuKit
 import OrderedCollections
 
+private extension Int {
+    static let sliderTag: Self = 100
+    static let fieldTag: Self = 101
+    static let stepperTag: Self = 102
+}
+
 final class ShaderParametersViewController: NSViewController {
     let shaderControl: ShaderControl
     var shaderObserver: NSObjectProtocol?
@@ -110,22 +116,6 @@ final class ShaderParametersViewController: NSViewController {
             noParametersLabel.centerXAnchor.constraint(equalTo: outlineView.centerXAnchor),
             noParametersLabel.centerYAnchor.constraint(equalTo: outlineView.centerYAnchor),
         ])
-        
-        outlineView.delegate = self
-        outlineView.dataSource = self
-        
-        outlineView.headerView = nil
-        outlineView.gridStyleMask = []
-        outlineView.allowsColumnReordering = false
-        outlineView.allowsColumnResizing = false
-        outlineView.allowsColumnSelection = false
-        outlineView.allowsEmptySelection = true
-        outlineView.allowsMultipleSelection = false
-        outlineView.allowsTypeSelect = false
-        
-        outlineView.register(NSNib(nibNamed: "SliderCell", bundle: nil), forIdentifier: .sliderType)
-        outlineView.register(NSNib(nibNamed: "GroupCell", bundle: nil), forIdentifier: .groupType)
-        outlineView.register(NSNib(nibNamed: "CheckboxCell", bundle: nil), forIdentifier: .checkBoxType)
     }
     
     private func loadShaderMenu() {
@@ -321,13 +311,13 @@ extension ShaderParametersViewController: NSOutlineViewDelegate {
             case .checkBoxType:
                 let checkbox = cellView.subviews.first! as! NSButton
                 checkbox.title = param.desc
-                checkbox.bind(.value, to: param, withKeyPath: "value", options: [NSBindingOption.continuouslyUpdatesValue: NSNumber(booleanLiteral: true)])
+                checkbox.bind(.value, to: param, withKeyPath: #keyPath(ShaderParamValue.value), options: [NSBindingOption.continuouslyUpdatesValue: NSNumber(booleanLiteral: true)])
                 
             case .sliderType:
                 let lbl = cellView.subviews.first! as! NSTextField
                 lbl.stringValue = param.desc
                 
-                let slid = cellView.viewWithTag(100) as! NSSlider
+                let slid = cellView.viewWithTag(.sliderTag) as! NSSlider
                 slid.isContinuous = true
                 slid.minValue = param.minimum.doubleValue
                 slid.maxValue = param.maximum.doubleValue
@@ -340,18 +330,26 @@ extension ShaderParametersViewController: NSOutlineViewDelegate {
                     slid.allowsTickMarkValuesOnly = false
                 }
                 
-                let num = cellView.viewWithTag(101) as! NSTextField
+                let num = cellView.viewWithTag(.fieldTag) as! NSTextField
+                if let nf = num.formatter as? NumberFormatter {
+                    nf.minimum = param.minimum
+                    nf.maximum = param.maximum
+                }
                 
-                let step = cellView.viewWithTag(102) as! NSStepper
+                let step = cellView.viewWithTag(.stepperTag) as! NSStepper
                 step.minValue = slid.minValue
                 step.maxValue = slid.maxValue
                 step.increment = param.step.doubleValue
                 
-                let options = [NSBindingOption.continuouslyUpdatesValue: NSNumber(booleanLiteral: true)]
+                let options: [NSBindingOption: NSNumber] = [
+                    .continuouslyUpdatesValue: true,
+                    .allowsNullArgument: false,
+                    .nullPlaceholder: param.initial,
+                ]
                 
-                slid.bind(.value, to: param, withKeyPath: "value", options: options)
-                num.bind(.value, to: param, withKeyPath: "value", options: options)
-                step.bind(.value, to: param, withKeyPath: "value", options: options)
+                slid.bind(.value, to: param, withKeyPath: #keyPath(ShaderParamValue.value), options: options)
+                num.bind(.value, to: param, withKeyPath: #keyPath(ShaderParamValue.value), options: options)
+                step.bind(.value, to: param, withKeyPath: #keyPath(ShaderParamValue.value), options: options)
                 
             default:
                 break
@@ -367,6 +365,18 @@ extension ShaderParametersViewController: NSOutlineViewDelegate {
         }
         
         return nil
+    }
+}
+
+extension ShaderParametersViewController: NSControlTextEditingDelegate {
+    func controlTextDidEndEditing(_ n: Notification) {
+        if let tf = n.object as? NSTextField,
+           tf.tag == .fieldTag,
+           tf.stringValue.isEmpty,
+           let param = tf.infoForBinding(.value)?[.observedObject] as? ShaderParamValue
+        {
+            param.value = param.initial
+        }
     }
 }
 
@@ -525,7 +535,6 @@ extension ShaderParametersViewController {
     }
     
     @IBAction override func delete(_ sender: Any?) {
-#if swift(>=5.5)
         guard #available(macOS 10.15, *) else { return }
         
         let alert: OEAlert = .deleteShaderPreset(name: shaderControl.preset.name)
@@ -544,7 +553,6 @@ extension ShaderParametersViewController {
                 NSApp.presentError(error)
             }
         }
-#endif
     }
 }
 
@@ -645,7 +653,6 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
     }
     
     private func changePresetWithError(_ preset: ShaderPreset) {
-        #if swift(>=5.5)
         Task {
             do {
                 try await shaderControl.changePreset(preset)
@@ -653,12 +660,10 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
                 NSApp.presentError(error)
             }
         }
-        #endif
     }
     
     // MARK: - NameShaderPresetDelegate
     
-    #if swift(>=5.5)
     func setPresetName(_ name: String) {
         switch state {
         case .newPreset:
@@ -680,15 +685,7 @@ extension ShaderParametersViewController: NameShaderPresetDelegate {
     func cancelSetPresetName() {
         state = .none
     }
-    #endif
 }
-
-#if swift(<5.5)
-extension ShaderParametersViewController {
-    func setPresetName(_ name: String) {}
-    func cancelSetPresetName() {}
-}
-#endif
 
 extension Array where Array.Element == ShaderParamValue {
     func apply(parameters: [String: Double]) {

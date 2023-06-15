@@ -181,6 +181,7 @@
                    destinationOptions:nil
                                 error:error])
    {
+      // BUG: error may be nil
       return NO;
    }
 

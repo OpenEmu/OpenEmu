@@ -21,7 +21,7 @@
 
 "Show quicksave states in save state category" = "Mostra les partides desades ràpidament a la categoria de les partides desades";
 
-"Show game scanner view" = "Mostra/Amaga la visualització de l'escàner de jocs"; //TODO
+"Toggle game scanner view" = "Mostra/Amaga la visualització de l'escàner de jocs"; //TODO
 
 "HUD Bar / Gameplay" = "Barra HUD / Joc";
 

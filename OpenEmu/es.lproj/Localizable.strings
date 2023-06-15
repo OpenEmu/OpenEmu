@@ -561,7 +561,7 @@
 
 "In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "En unos días, este complemento del núcleo va a ser automáticamente borrado. Una vez borrado, cualquier estado guardado creado con él dejará de funcionar.";
 
-"We suggest you switch to the %@ core complemento as soon as possible." = "Le sugerimos cambiar al plugin del núcleo %@ lo antes posible.";
+"We suggest you switch to the %@ core plugin as soon as possible." = "Le sugerimos cambiar al complemento del núcleo %@ lo antes posible.";
 
 "ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "This plugin is currently unsupported";  // TODO
 
@@ -585,7 +585,7 @@
 
 "Moving the Game Library is not recommended" = "No se recomienda mover la biblioteca de juegos";
 
-"The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives." = "La biblioteca de juegos de OpenEmu contiene un archivo de base de datos que puede llegar a corromperse si la biblioteca es movida a las siguientes ubicaciones:<br><br><ul><li>Carpetas administradas por software de sincronización en la nube (como <b>iCloud Drive</b>)</li><li>Unidades de red</li></ul><br>Además, <b>compartir la misma biblioteca entre multíples equipos o usuarios</b> también puede corromperlo. Esto también aplica a mover la biblioteca a unidades USB externas.";
+"ALERT_MOVE_LIBRARY_HTML" = "La biblioteca de juegos de OpenEmu contiene un archivo de base de datos que puede llegar a corromperse si la biblioteca es movida a las siguientes ubicaciones:<br><br><ul><li>Carpetas administradas por software de sincronización en la nube (como <b>iCloud Drive</b>)</li><li>Unidades de red</li></ul><br>Además, <b>compartir la misma biblioteca entre multíples equipos o usuarios</b> también puede corromperlo. Esto también aplica a mover la biblioteca a unidades USB externas.";
 
 "I understand the risks" = "Comprendo los riesgos";
 
@@ -635,7 +635,7 @@
 
 "The %@ core has quit unexpectedly" = "El núcleo %@ ha cerrado inesperadamente";
 
-"<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed." = "<b>Si y solo si este problema persiste</b>, por favor envíe comentario incluyendo:<br><br><ul><li>El modelo de Mac que está usando <b>y</b> la versión de macOS que ha instalado<ul><li>Esta información se encuentra en  > Acerca de este Mac</li></ul></li><li>El <b>nombre exacto</b> del juego que estaba jugando</li><li>El informe de fallos de OpenEmuHelperApp<ul><li>Abra Console.app, haga clic en \"Crash Reports\" o \"User Reports\" en la barra lateral, luego busque el último documento con OpenEmuHelperApp en el nombre</ul></li></li></ul><br><b>¡Busque siempre un comentario similar anteriormente informado por otros usuarios!</b><br>Si se omite cualquiera de esta información, o si un comentario similar ya ha sido publicado, su informe de problema se puede cerrar.";
+"ALERT_CORE_GLITCHES_FEEDBACK_HTML" = "<b>Si y solo si este problema persiste</b>, por favor envíe comentario incluyendo:<br><br><ul><li>El modelo de Mac que está usando <b>y</b> la versión de macOS que ha instalado<ul><li>Esta información se encuentra en  > Acerca de este Mac</li></ul></li><li>El <b>nombre exacto</b> del juego que estaba jugando</li><li>El informe de fallos de OpenEmuHelperApp<ul><li>Abra Console.app, haga clic en \"Crash Reports\" o \"User Reports\" en la barra lateral, luego busque el último documento con OpenEmuHelperApp en el nombre</ul></li></li></ul><br><b>¡Busque siempre un comentario similar anteriormente informado por otros usuarios!</b><br>Si se omite cualquiera de esta información, o si un comentario similar ya ha sido publicado, su informe de problema se puede cerrar.";
 
 "The %@ core has quit unexpectedly after loading a save state" = "El núcleo %@ ha cerrado inesperadamente después de cargar un estado guardado";
 

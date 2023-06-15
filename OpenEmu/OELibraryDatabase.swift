@@ -41,14 +41,11 @@ final class OELibraryDatabase: NSObject {
     
     enum Errors: LocalizedError {
         case folderNotFound
-        case noModelToGenerateStoreFrom
         
         var errorDescription: String? {
             switch self {
             case .folderNotFound:
                 return NSLocalizedString("The OpenEmu Library could not be found.", comment: "")
-            case .noModelToGenerateStoreFrom:
-                return NSLocalizedString("No model to generate a store from.", comment: "")
             }
         }
     }
@@ -86,13 +83,10 @@ final class OELibraryDatabase: NSObject {
     // Exposed for library migration
     var persistentStoreCoordinator: NSPersistentStoreCoordinator?
     
-    private lazy var managedObjectModel: NSManagedObjectModel? = {
+    private lazy var managedObjectModel: NSManagedObjectModel = {
         let modelURL = Bundle.main.url(forResource: "OEDatabase", withExtension: "momd")!
-        if let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL) {
-            return managedObjectModel
-        } else {
-            return nil
-        }
+        let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)!
+        return managedObjectModel
     }()
     
     private var undoManager: UndoManager? {
@@ -187,10 +181,7 @@ final class OELibraryDatabase: NSObject {
     }
     
     private func loadPersistantStore() throws {
-        guard let mom = managedObjectModel else {
-            os_log(.error, log: .library, "No model to generate a store from")
-            throw Errors.noModelToGenerateStoreFrom
-        }
+        let mom = managedObjectModel
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: mom)
         persistentStoreCoordinator = coordinator
         
@@ -240,7 +231,7 @@ final class OELibraryDatabase: NSObject {
     private func createInitialItemsIfNeeded() {
         let context = mainThreadContext
         
-        let smartCollections = OEDBSmartCollection.allObjects(in: context)
+        let smartCollections = context.allObjects(ofType: OEDBSmartCollection.self)
         if !smartCollections.isEmpty {
             return
         }
@@ -295,11 +286,11 @@ final class OELibraryDatabase: NSObject {
         let allGamesCollections = OEDBAllGamesCollection.shared
         collectionsArray.append(allGamesCollections)
         
-        let smartCollections = OEDBSmartCollection.allObjects(in: context, sortBy: [sortDescriptor], error: nil)
-        collectionsArray.append(contentsOf: smartCollections as! [OEDBSmartCollection])
+        let smartCollections = context.allObjects(ofType: OEDBSmartCollection.self, sortedBy: [sortDescriptor])
+        collectionsArray.append(contentsOf: smartCollections)
         
-        let collections = OEDBCollection.allObjects(in: context, sortBy: [sortDescriptor], error: nil)
-        collectionsArray.append(contentsOf: collections as! [OEDBCollection])
+        let collections = context.allObjects(ofType: OEDBCollection.self, sortedBy: [sortDescriptor])
+        collectionsArray.append(contentsOf: collections)
         
         return collectionsArray
     }
@@ -666,8 +657,9 @@ final class OELibraryDatabase: NSObject {
                     dict.merge(result) { (old, _) in return old }
                 }
                 
-                if let boxImageURL = dict["boxImageURL"] as? String,
-                   let image = OEDBImage.prepareImage(withURLString: boxImageURL) {
+                if let boxImageURLString = dict["boxImageURL"] as? String,
+                   let boxImageURL = URL(string: boxImageURLString),
+                   let image = OEDBImage.prepareImage(with: boxImageURL) {
                     dict["image"] = image
                 }
                 

@@ -286,7 +286,22 @@
 		<key>OEFDSButtonSelect</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 		<key>OEFDSButtonChangeSide</key>
-		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
+		<string>OEControllerNintendoSwitchProControllerButtonShare</string>
+	</dict>
+	<key>OEControllerNintendoSwitchSNESController</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEControllerNintendoSwitchSNESControllerDPadUp</string>
+		<key>OEFDSButtonA</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonA</string>
+		<key>OEFDSButtonB</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonB</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonStart</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonSelect</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEControllerNintendoSwitchSNESControllerButtonZR</string>
 	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
@@ -317,6 +332,87 @@
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonSelect</string>
 		<key>OEFDSButtonChangeSide</key>
 		<string>OEControllerRetroBitSegaBluetooth8ButtonArcadePadButtonHome</string>
+	</dict>
+	<key>OEControllerSonyPS5DualSense</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEControllerSonyPS5DualSenseDPadUp</string>
+		<key>OEFDSButtonDown</key>
+		<string>OEControllerSonyPS5DualSenseDPadDown</string>
+		<key>OEFDSButtonLeft</key>
+		<string>OEControllerSonyPS5DualSenseDPadLeft</string>
+		<key>OEFDSButtonRight</key>
+		<string>OEControllerSonyPS5DualSenseDPadRight</string>
+		<key>OEFDSButtonA</key>
+		<string>OEControllerSonyPS5DualSenseButtonCross</string>
+		<key>OEFDSButtonB</key>
+		<string>OEControllerSonyPS5DualSenseButtonSquare</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEControllerSonyPS5DualSenseButtonOptions</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEControllerSonyPS5DualSenseButtonCreate</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEControllerSonyPS5DualSenseButtonR1</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxOneSBLE</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEControllerMicrosoftXboxOneSBLEDPadUp</string>
+		<key>OEFDSButtonA</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonA</string>
+		<key>OEFDSButtonB</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonX</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonMenu</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonView</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEControllerMicrosoftXboxOneSBLEButtonRightShoulder</string>
+	</dict>
+	<key>OEControllerMicrosoftXboxSeriesXS</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEControllerMicrosoftXboxSeriesXSDPadUp</string>
+		<key>OEFDSButtonA</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonA</string>
+		<key>OEFDSButtonB</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonX</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonMenu</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonView</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEControllerMicrosoftXboxSeriesXSButtonRightShoulder</string>
+	</dict>
+	<key>OEController8BitDoPro2</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEController8BitDoPro2DPadUp</string>
+		<key>OEFDSButtonA</key>
+		<string>OEController8BitDoPro2ButtonA</string>
+		<key>OEFDSButtonB</key>
+		<string>OEController8BitDoPro2ButtonB</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEController8BitDoPro2ButtonStart</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEController8BitDoPro2ButtonSelect</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEController8BitDoPro2ButtonHome</string>
+	</dict>
+	<key>OEController8BitDoM30</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEController8BitDoM30DPadUp</string>
+		<key>OEFDSButtonA</key>
+		<string>OEController8BitDoM30ButtonB</string>
+		<key>OEFDSButtonB</key>
+		<string>OEController8BitDoM30ButtonA</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEController8BitDoM30ButtonStart</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEController8BitDoM30ButtonMinus</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEController8BitDoM30ButtonHome</string>
 	</dict>
 </dict>
 </plist>

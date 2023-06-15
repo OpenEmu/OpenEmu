@@ -32,6 +32,7 @@ protocol ImageDataSourceDelegate {
     
     func numberOfItems(in section: Int) -> Int
     func loadItemView(_ view: ImageCollectionViewItem, at indexPath: IndexPath)
+    func unloadItemView(at indexPath: IndexPath)
     func loadHeaderView(_ view: ImageCollectionHeaderView, at indexPath: IndexPath)
     func fetchItems()
     func indexPath(forID id: NSManagedObjectID) -> IndexPath?
@@ -84,23 +85,50 @@ class ImagesDataSource<Model: OEDBItem>: ImageDataSourceDelegate {
     
     func numberOfItems(in section: Int) -> Int { items[section].count }
     
+    private var tasks: [IndexPath: Any] = [:]
+    
     func loadItemView(_ view: ImageCollectionViewItem, at indexPath: IndexPath) {
         let item = items[indexPath.section][indexPath.item]
         view.representedObject = item
         let url = item[keyPath: imageURLKeyPath]
         view.imageURL = url
-        ImageCacheService.shared.fetchImage(url) { (img) in
-            if let existing = view.imageURL, existing != url {
-                // ignore, if the view was recycled
-                return
+        if #available(macOS 10.15, *) {
+            let task = Task(priority: .userInitiated) {
+                let img = await ImageCacheService.shared.fetchImage(url)
+                
+                guard !Task.isCancelled else { return }
+                
+                Task { @MainActor in
+                    tasks.removeValue(forKey: indexPath)
+                    view.imageView?.image = img
+                    view.view.needsLayout = true
+                }
             }
             
-            view.imageView?.image = img
-            view.view.needsLayout = true
+            tasks[indexPath] = task
+        } else {
+            ImageCacheService.shared.fetchImage(url) { (img) in
+                if let existing = view.imageURL, existing != url {
+                    // ignore, if the view was recycled
+                    return
+                }
+                
+                view.imageView?.image = img
+                view.view.needsLayout = true
+            }
         }
+        
         view.textField?.stringValue = item[keyPath: titleKeyPath]
         if let ts = item[keyPath: timestampKeyPath] {
             view.subtitleField?.stringValue = formatter.string(from: ts)
+        }
+    }
+    
+    func unloadItemView(at indexPath: IndexPath) {
+        if #available(macOS 10.15, *) {
+            if let task = tasks.removeValue(forKey: indexPath) as? Task<(), Never> {
+                task.cancel()
+            }
         }
     }
     
@@ -108,11 +136,11 @@ class ImagesDataSource<Model: OEDBItem>: ImageDataSourceDelegate {
         let item = items[indexPath.section].first!
         if let game = item[keyPath: gameKeyPath] {
             view.sectionTitle.stringValue = game.displayName
-            view.imageCount.stringValue = game.system!.name
+            view.secondaryTitle.stringValue = game.system!.name
         }
         else {
             view.sectionTitle.stringValue = NSLocalizedString("Screenshots of Deleted Games", comment: "")
-            view.imageCount.stringValue = ""
+            view.secondaryTitle.stringValue = ""
         }
     }
     

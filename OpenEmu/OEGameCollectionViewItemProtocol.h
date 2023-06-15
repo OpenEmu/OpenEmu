@@ -27,6 +27,8 @@
 @import Foundation;
 #import "OECollectionViewItemProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 NS_SWIFT_NAME(GameCollectionViewItemProtocol)
 @protocol OEGameCollectionViewItemProtocol <OECollectionViewItemProtocol>
 @property (readonly) NSString* collectionViewName;
@@ -36,3 +38,5 @@ NS_SWIFT_NAME(GameCollectionViewItemProtocol)
 @property (readonly) NSInteger fetchLimit;
 @property (nonatomic, readonly) NSArray<NSSortDescriptor *> *fetchSortDescriptors;
 @end
+
+NS_ASSUME_NONNULL_END

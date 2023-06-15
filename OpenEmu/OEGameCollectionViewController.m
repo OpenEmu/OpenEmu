@@ -32,6 +32,9 @@
 
 NSNotificationName const OEGameCollectionViewControllerDidSetSelectionIndexesNotification = @"OEGameCollectionViewControllerDidSetSelectionIndexesNotification";
 
+// Swift: NSPasteboard.PasteboardType.game
+NSString *const OEPasteboardTypeGame = @"org.openemu.game";
+
 static NSArray *OE_defaultSortDescriptors;
 
 /// Archived URI representations of managed object IDs for selected OEDBGames.
