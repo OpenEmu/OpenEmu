@@ -18,7 +18,7 @@ Currently, OpenEmu can load the following game engines as plugins:
 * Game Gear ([Genesis Plus](https://github.com/ekeeke/Genesis-Plus-GX))
 * Intellivision ([Bliss](https://github.com/jeremiah-sypult/BlissEmu))
 * NeoGeo Pocket ([Mednafen](https://mednafen.github.io))
-* Nintendo (NES) / Famicom ([FCEUX](https://github.com/TASVideos/fceux), [Nestopia](https://gitlab.com/jgemu/nestopia))
+* Nintendo (NES) / Famicom ([FCEUX](https://github.com/TASEmulators/fceux), [Nestopia](https://gitlab.com/jgemu/nestopia))
 * Nintendo 64 ([Mupen64Plus](https://www.mupen64plus.org))
 * Nintendo DS ([DeSmuME](http://desmume.org))
 * Nintendo GameCube ([Dolphin](https://dolphin-emu.org))
