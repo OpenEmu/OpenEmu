@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "gloss_button.png",
+      "filename" : "gloss_button_green_disabled.png",
       "idiom" : "mac",
       "resizing" : {
         "cap-insets" : {
@@ -17,7 +17,7 @@
       "scale" : "1x"
     },
     {
-      "filename" : "gloss_button@2x.png",
+      "filename" : "gloss_button_green_disabled@2x.png",
       "idiom" : "mac",
       "resizing" : {
         "cap-insets" : {

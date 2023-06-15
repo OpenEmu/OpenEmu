@@ -26,36 +26,25 @@ import Cocoa
 
 final class GlossCheckboxCell: NSButtonCell {
     
-    private var subImageRect: NSRect {
+    private var imageToDraw: NSImage? {
+        var imageName = "gloss_checkbox"
+        
         if state == .on {
-            if isHighlighted {
-                return NSRect(x: 16, y: 16, width: 16, height: 16)
-            }
-            else if !isEnabled {
-                return NSRect(x: 16, y: 0, width: 16, height: 16)
-            }
-            else {
-                return NSRect(x: 0, y: 16, width: 16, height: 16)
-            }
+            imageName += "_on"
         }
-        else if state == .off {
-            if isHighlighted {
-                return NSRect(x: 16, y: 32, width: 16, height: 16)
-            }
-            else if !isEnabled {
-                return NSRect(x: 0, y: 0, width: 16, height: 16)
-            }
-            else {
-                return NSRect(x: 0, y: 32, width: 16, height: 16)
-            }
+        
+        if isHighlighted {
+            imageName += "_highlighted"
         }
-        else {
-            return .zero
+        else if !isEnabled {
+            imageName += "_disabled"
         }
+        
+        return NSImage(named: imageName)
     }
     
     override func drawImage(_ image: NSImage, withFrame frame: NSRect, in controlView: NSView) {
-        let image = NSImage(named: "gloss_checkbox")?.subImage(from: subImageRect)
-        image?.draw(in: frame)
+        assert(imageToDraw != nil)
+        imageToDraw?.draw(in: frame)
     }
 }

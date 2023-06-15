@@ -26,17 +26,6 @@ import Cocoa
 
 final class GlossButton: NSButton {
     
-    private var subImageRect         = NSRect.zero
-    private var subImageRectInactive = NSRect.zero
-    
-    private let subImageRectBlack    = NSRect(x: 0, y: 138, width: 103, height: 23)
-    private let subImageRectPressed  = NSRect(x: 0, y: 115, width: 103, height: 23)
-    private let subImageRectBlackAlt = NSRect(x: 0, y:  92, width: 103, height: 23)
-    private let subImageRectBlue     = NSRect(x: 0, y:  69, width: 103, height: 23)
-    private let subImageRectBlueAlt  = NSRect(x: 0, y:  46, width: 103, height: 23)
-    private let subImageRectGreen    = NSRect(x: 0, y:  23, width: 103, height: 23)
-    private let subImageRectGreenAlt = NSRect(x: 0, y:   0, width: 103, height: 23)
-    
     private static let attributes: [NSAttributedString.Key : Any] = {
         
         let font = NSFont.boldSystemFont(ofSize: 11)
@@ -58,7 +47,7 @@ final class GlossButton: NSButton {
         return attributes
     }()
     
-    private static let attributesPressed: [NSAttributedString.Key : Any] = {
+    private static let attributesHighlighted: [NSAttributedString.Key : Any] = {
         
         let font = NSFont.boldSystemFont(ofSize: 11)
         let color = NSColor(white: 0.03, alpha: 1)
@@ -79,41 +68,41 @@ final class GlossButton: NSButton {
         return attributes
     }()
     
-    @IBInspectable var themeKey: String? {
+    @IBInspectable var color: String? {
         didSet {
-            if themeKey == "gloss_button" {
-                subImageRect = subImageRectBlack
-                subImageRectInactive = subImageRectBlackAlt
-            }
-            else if themeKey == "gloss_button_blue" {
-                subImageRect = subImageRectBlue
-                subImageRectInactive = subImageRectBlueAlt
-            }
-            if themeKey == "gloss_button_green" {
-                subImageRect = subImageRectGreen
-                subImageRectInactive = subImageRectGreenAlt
-            }
             needsDisplay = true
         }
     }
     
-    override func draw(_ dirtyRect: NSRect) {
-        
-        var bgSubImageRect = NSRect.zero
+    override var isFlipped: Bool {
+        return false
+    }
+    
+    private var imageToDraw: NSImage? {
+        var imageName = "gloss_button"
         
         if isHighlighted {
-            bgSubImageRect = subImageRectPressed
-        }
-        else if window?.isMainWindow == false {
-            bgSubImageRect = subImageRectInactive
-        }
-        else {
-            bgSubImageRect = subImageRect
+            imageName += "_highlighted"
+            return NSImage(named: imageName)
         }
         
-        NSImage(named: "gloss_button_")?.subImage(from: bgSubImageRect).draw(in: dirtyRect)
+        if let color {
+            imageName += "_\(color)"
+        }
         
-        attributedTitle = NSAttributedString(string: title, attributes: isHighlighted ? Self.attributesPressed : Self.attributes)
+        if !isEnabled || window?.isMainWindow == false {
+            imageName += "_disabled"
+        }
+        
+        return NSImage(named: imageName)
+    }
+    
+    override func draw(_ dirtyRect: NSRect) {
+        assert(imageToDraw != nil)
+        imageToDraw?.draw(in: bounds)
+        
+        let attributes = isHighlighted ? Self.attributesHighlighted : Self.attributes
+        attributedTitle = NSAttributedString(string: title, attributes: attributes)
         
         super.draw(dirtyRect)
     }

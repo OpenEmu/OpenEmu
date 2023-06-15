@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -135,8 +135,8 @@
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button_blue"/>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                <userDefinedRuntimeAttribute type="string" keyPath="color" value="blue"/>
                             </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="nextEvent:" target="-2" id="UE6-nW-434"/>
@@ -174,7 +174,6 @@
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button"/>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                             </userDefinedRuntimeAttributes>
                             <connections>
@@ -307,8 +306,8 @@
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button_blue"/>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                <userDefinedRuntimeAttribute type="string" keyPath="color" value="blue"/>
                             </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="nextEvent:" target="-2" id="C4D-2e-O6q"/>
@@ -399,8 +398,8 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button_green"/>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                <userDefinedRuntimeAttribute type="string" keyPath="color" value="green"/>
                             </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="nextEvent:" target="-2" id="gHq-GH-thV"/>
@@ -414,7 +413,6 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_button"/>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
                             </userDefinedRuntimeAttributes>
                             <connections>
