@@ -35,7 +35,7 @@
 
 "Check for Updates…" = "Comprova si hi ha actualitzacions…";
 
-"About OpenEmu" = "Sobre l'OpenEmu";
+"About OpenEmu" = "Quant a l'OpenEmu";
 
 "Hide OpenEmu" = "Amaga l'OpenEmu";
 
@@ -109,7 +109,7 @@
 
 "Log Responder Chain" = "Registre de la cadena de resposta";
 
-"Show ROM Names" = "Mostra el nom dels fitxers ROM";
+"Show ROM Names" = "Mostra els noms dels ROMs";
 
 "Show Library" = "Mostra la biblioteca";
 
@@ -123,7 +123,7 @@
 
 "Always Hide HUD" = "Amaga sempre el HUD";
 
-"Submit Feedback" = "Doneu-nos la vostra opinió";
+"Submit Feedback" = "Envieu-nos comentaris";
 
 "Send a Donation…" = "Feu una donació…";
 
@@ -133,4 +133,4 @@
 
 "Last Display Mode" = "Mode de visualització anterior";
 
-"Float on Top" = "Portar a primer pla"; // (same as QuickTime Player → View)
+"Float on Top" = "Posa-ho en primer pla"; // (same as QuickTime Player → View)

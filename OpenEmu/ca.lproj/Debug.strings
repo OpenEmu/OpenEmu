@@ -13,7 +13,7 @@
 
 "Reset main window size" = "Restableix la mida de la finestra principal";
 
-"Show game titles instead of rom names" = "Mostra el nom dels jocs en comptes del nom dels fitxers ROM";
+"Show game titles instead of rom names" = "Mostra el nom dels jocs en comptes del nom dels ROMs";
 
 "Manually choose system on import" = "Selecciona el sistema manualment durant la importació";
 
@@ -21,7 +21,7 @@
 
 "Show quicksave states in save state category" = "Mostra les partides desades ràpidament a la categoria de les partides desades";
 
-"Toggle game scanner view" = "Mostra/Amaga la visualització de l'escàner de jocs"; //TODO
+"Toggle game scanner view" = "Mostra/Amaga la visualització de l'escàner de jocs";
 
 "HUD Bar / Gameplay" = "Barra HUD / Joc";
 
@@ -29,7 +29,7 @@
 
 "Use quicksave slots" = "Utilitza els espais del desat ràpid";
 
-"Show quicksave in menu" = "Motra el desat ràpid al menú";
+"Show quicksave in menu" = "Mostra el desat ràpid al menú";
 
 "Show autosave in menu" = "Mostra el desat automàtic al menú";
 
@@ -37,7 +37,7 @@
 
 "Take screenshots in native size" = "Fes les captures de pantalla en la mida nativa";
 
-"Disable aspect ratio correction in screenshots" = "Desactiva la correcció de la relació de l'aspecte"; // TODO: specify "in screenshots"
+"Disable aspect ratio correction in screenshots" = "Desactiva la correcció de la relació d'aspecte en les captures de pantalla";
 
 "Game View Background color:" = "Color de fons de la vista del joc:";
 
@@ -71,9 +71,9 @@
 
 "Remove untracked artwork files" = "Esborra les imatges sense seguiment";
 
-"Cleanup rom hashes" = "Neteja les sumes de verificació dels fitxers ROM";
+"Cleanup rom hashes" = "Neteja les sumes de verificació dels ROMs";
 
-"Remove duplicated roms" = "Esborra els fitxers ROM duplicats";
+"Remove duplicated roms" = "Esborra els ROMs duplicats";
 
 "Cancel cover sync for all games" = "Cancel·la la sincronització de caràtules de tots els jocs";
 
@@ -89,36 +89,36 @@
 
 "Range: %@ to %@" = "Interval: %@ a %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
 
-"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+"Default Value: %@" = "Valor per defecte: %@";  // Default value tooltip format in the Debug Preferences
 
-"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+"Checked" = "Marcat";  // Default value tooltip for checkboxes: checked default
 
-"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+"Unchecked" = "Desmarcat";  // Default value tooltip for checkboxes: unchecked default
 
-"Shaders" = "Shaders";  // TODO
+"Shaders" = "Shaders";
 
-"Clear shader cache" = "Clear shader cache";  // TODO
+"Clear shader cache" = "Esborra la memòria cau dels shaders";
 
-"Reveal user shader folder" = "Reveal user shader folder";  // TODO
+"Reveal user shader folder" = "Mostra la carpeta d'usuari dels shaders";
 
-"Appearance:" = "Appearance:";  // TODO
+"Appearance:" = "Aparença:";
 
-"Auto (region)" = "Auto";  // TODO
+"Auto (region)" = "Auto (regió)";
 
-"North America" = "North America";  // TODO
+"North America" = "Amèrica del Nord";
 
-"Japan" = "Japan";  // TODO
+"Japan" = "Japó";
 
-"Europe" = "Europe";  // TODO
+"Europe" = "Europa";
 
-"Other" = "Other";  // TODO
+"Other" = "Altres";
 
-"XPC" = "XPC";  // TODO
+"XPC" = "XPC";
 
-"Background Thread" = "Background Thread";  // TODO
+"Background Thread" = "Fil d'execució en segon pla";
 
-"System" = "System";  // TODO
+"System" = "Sistema";
 
-"Dark (default)" = "Dark (default)";  // TODO
+"Dark (default)" = "Fosc (per defecte)";
 
-"Light" = "Light";  // TODO
+"Light" = "Clar";

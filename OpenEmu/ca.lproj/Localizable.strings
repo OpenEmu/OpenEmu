@@ -27,11 +27,11 @@
 
 "All Games" = "Tots els jocs";
 
-"All Homebrew" = "Tots els homebrew";
+"All Homebrew" = "Tots els «homebrew»";
 
-"Already in library:" = "Already in library:";  // TODO
+"Already in library:" = "Ja és a la biblioteca:";
 
-"Already in library, but manually deleted or unreachable:" = "Already in library, but manually deleted or unreachable:"; // TODO
+"Already in library, but manually deleted or unreachable:" = "Ja és a la biblioteca, però s'ha esborrat o és inaccessible:";
 
 "Are you sure you want to delete %ld save states from your OpenEmu library?" = "Esteu segur que voleu esborrar %ld partides desades de la biblioteca de l'OpenEmu?";
 
@@ -51,7 +51,7 @@
 
 "Are you sure you want to remove the selected games from the collection?" = "Esteu segur que voleu esborrar els jocs seleccionats de la col·lecció?";
 
-"Are you sure you want to remove the collection '%@'?" = "Esteu segur que voleu esborrar aquesta col·lecció?"; // TODO
+"Are you sure you want to remove the collection '%@'?" = "Esteu segur que voleu esborrar la col·lecció '%@'?";
 
 "Are you sure you want to restart the game?" = "Esteu segur que voleu reiniciar la partida?";
 
@@ -83,7 +83,7 @@
 
 "Choose OpenEmu Library" = "Trieu una biblioteca de l'OpenEmu";
 
-"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "Trieu Sí per a esborrar tots els elements de la cua. Els elements que ja s'han importat es conservaran a la biblioteca."; // TODO
+"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "Això suprimirà tots els elements de la cua. Els elements que ja s'han importat es conservaran a la biblioteca.";
 
 "Code:" = "Codi:";
 
@@ -99,13 +99,13 @@
 
 "Consolidate" = "Consolida";
 
-"Consolidating files failed." = "Consolidating files failed."; // TODO
+"Consolidating files failed." = "Ha fallat la consolidació de fitxers.";
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder." = "El procés de consolidació copiarà tots els jocs seleccionats a la carpeta de la biblioteca de l'OpenEmu.";
 
 "This cannot be undone." = "Això no es pot desfer.";
 
-"Contains no data:" = "Contains no data:"; // TODO
+"Contains no data:" = "No conté dades:";
 
 "Controls" = "Controls";
 
@@ -117,7 +117,7 @@
 
 "Copying ROM Files…" = "S'estan copiant els fitxers ROM…";
 
-"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+"Copying ROM files failed!" = "Ha fallat la còpia dels fitxers ROM.";
 
 "Core Provided By…" = "Nucli proveït per…";
 
@@ -129,7 +129,7 @@
 
 "Couldn't load %@ plugin" = "No s'ha pogut carregar el connector %@";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Creeu una selecció personal de jocs. Per a afegir un joc a la col·lecció, seleccioneu-lo de la biblioteca i arrossegueu-lo a ’%@’ a l'esquerra."; // TODO
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Creeu una selecció personal de jocs. Per a afegir un joc a la col·lecció, seleccioneu-lo de la biblioteca i arrossegueu-lo a ’%@’ a la barra lateral.";
 
 "Create Library…" = "Crea una biblioteca…";
 
@@ -169,7 +169,7 @@
 
 "Disc %u" = "Disc %u";
 
-"Disc-based games have special requirements. Please read the disc importing guide." = "Els jocs basats en disc tenen requeriments especials. Llegiu la guia d'importació de discs.";
+"Disc-based games have special requirements. Please read the disc importing guide." = "Els jocs basats en disc tenen requisits especials. Llegiu la guia d'importació de discs.";
 
 "Dismiss" = "Descarta";
 
@@ -177,7 +177,7 @@
 
 "Do not show me again" = "No m'ho tornis a mostrar";
 
-"Do you really want to cancel importation?" = "Segur que voleu cancel·lar el procés d'importació?"; // TODO
+"Do you really want to cancel importation?" = "Segur que voleu cancel·lar el procés d'importació?";
 
 "Do you want to continue playing where you left off?" = "Voleu continuar la partida on la vau deixar?";
 
@@ -219,7 +219,7 @@
 
 "Game Name" = "Nom del joc"; // Search field menu, only search game name
 
-"Game requires download" = "Es necessita baixar el joc";
+"Game requires download" = "S'ha de baixar el joc";
 
 "Game Scanner" = "Escàner de jocs";
 
@@ -229,25 +229,25 @@
 
 "Hide \"%@\"" = "Amaga \"%@\"";
 
-"Homebrew Games" = "Jocs Homebrew";
+"Homebrew Games" = "Jocs «homebrew»";
 
 "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Si hi ha un botó vermell al darrere de la tapa de la bateria, premeu-lo.\nSi no, manteniu premuts els botons ①+②.";
 
 "If you change the core you current progress will be lost and save states will not work anymore." = "Si canvieu el nucli el progrés es perdrà i les partides desades deixaran de funcionar.";
 
-"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "Per poder emular alguns sistemes, es necessiten els fitxers del BIOS a causa de la complexitat creixent del maquinari i programari de les consoles modernes. Per a més informació, llegiu la %@.";
+"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "Degut a la gran complexitat del maquinari i programari de les consoles modernes, per poder emular alguns sistemes es necessiten fitxers de la BIOS. Per a més informació, llegiu la %@.";
 
 "In order to play the game it must be downloaded." = "Per poder jugar al joc primer s'ha de baixar.";
 
-"Insert Cart/Disk/Tape…" = "Inserir Cart/Disk/Tape…";
+"Insert Cart/Disk/Tape…" = "Insereix Cartutx/Disc/Cinta…";
 
 "Install" = "Instal·la";
 
 "Installing Core" = "S'està instal·lant el nucli";
 
-"Invalid cue sheet format:" = "Invalid cue sheet format:";  // TODO
+"Invalid cue sheet format:" = "El format cue no és vàlid:";
 
-"Invalid gdi format:" = "Invalid gdi format:";  // TODO
+"Invalid gdi format:" = "El format gdi no és vàlid:";
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "Uneix els trucs multilínia amb '+' p. ex. 000-000+111-111";
 
@@ -271,13 +271,13 @@
 
 "Missing Core" = "Falta el nucli";
 
-"Missing referenced file:" = "Missing referenced file:";  // TODO
+"Missing referenced file:" = "Falta el fitxer referenciat:";
 
 "Move to Trash" = "Mou a la paperera";
 
-"Moving Library…" = "Moving Library…";  // TODO
+"Moving Library…" = "S'està movent la biblioteca…";
 
-"Must not be compressed:" = "Must not be compressed:"; // TODO
+"Must not be compressed:" = "No s'ha de comprimir:";
 
 "Mute Audio" = "Silencia el so";
 
@@ -297,19 +297,19 @@
 
 "No Internet Connection" = "No hi ha connexió a Internet";
 
-"No permission to open:" = "No permission to open:";  // TODO
+"No permission to open:" = "No hi ha permisos per obrir:";
 
 "No Save States available" = "No hi ha cap partida desada disponible";
 
 "No Screenshots Found" = "No s'ha trobat cap captura de pantalla";
 
-"No valid system detected:" = "No valid system detected:";  // TODO
+"No valid system detected:" = "No s'ha detectat cap sistema vàlid:";
 
 "No" = "No";
 
 "None" = "Cap";
 
-"Not plain text:" = "Not plain text:";  // TODO
+"Not plain text:" = "No és text sense format:";
 
 "OK" = "D'acord";
 
@@ -349,13 +349,13 @@
 
 "Please close all games and wait for the importer to finish." = "Tanqueu tots els jocs i espereu que l'importador acabi.";
 
-"Quick Load" = "Carrega ràpidament";
+"Quick Load" = "Carrega la partida ràpidament";
 
-"Quick Save State" = "Desa ràpidament";
+"Quick Save State" = "Desa la partida ràpidament";
 
 "Quick Save, Slot %@" = "Desa ràpidament, espai %@";
 
-"Quick Save" = "Desa ràpidament";
+"Quick Save" = "Desa la partida ràpidament";
 
 "Quit" = "Surt";
 
@@ -367,9 +367,9 @@
 
 "Remove Collection" = "Suprimeix col·lecció";
 
-"Remove Game" = "Remove Game";  // TODO
+"Remove Game" = "Suprimeix el joc";
 
-"Remove Games" = "Remove Games";  // TODO
+"Remove Games" = "Suprimeix els jocs";
 
 "Rename \"%@\"" = "Canvia el nom de \"%@\"";
 
@@ -379,7 +379,7 @@
 
 "Rename" = "Canvia el nom";
 
-"Required files are missing." = "Falten arxius requerits.";
+"Required files are missing." = "Falten els arxius requerits.";
 
 "Resolve %ld Issue" = "Resoleu %ld problema";
 
@@ -429,7 +429,7 @@
 
 "Select Scale" = "Selecciona l'escala";
 
-"Shader Parameters" = "Shader Parameters"; // TODO
+"Shader Parameters" = "Paràmetres del shader";
 
 "Share" = "Comparteix";
 
@@ -451,7 +451,7 @@
 
 "Switch To List View" = "Canvia a la visualització de llista";
 
-"System Default" = "System Default"; // Default audio device setting // TODO
+"System Default" = "Predeterminat del sistema";
 
 "System Files" = "Fitxers del sistema";
 
@@ -459,7 +459,7 @@
 
 "Takes you to the %@ project website" = "Us portarà al web del projecte %@";
 
-"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "El nucli %1$@ té problemes de compatibilitat i alguns jocs poden tenir defectes o no funcionar.\n\nNo ens informeu dels problemes ja que no som responsables del desenvolupament del %2$@.";
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "El nucli %1$@ té problemes de compatibilitat i alguns jocs poden tenir defectes o no funcionar.\n\nNo ens informeu dels problemes, ja que no som responsables del desenvolupament de %2$@.";
 
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "La càrrega de la bateria del dispositiu número %1$lu, %2$@, és baixa. Carregueu o substituïu la bateria.";
 
@@ -491,7 +491,7 @@
 
 "Trash downloaded Files" = "Esborra els fitxers baixats";
 
-"Unexpected error:" = "Unexpected error:";  // TODO
+"Unexpected error:" = "Error inesperat:";
 
 "Unmute Audio" = "Activa el so";
 
@@ -499,11 +499,11 @@
 
 "Updating Library" = "S'està actualitzant la biblioteca";
 
-"User guide on BIOS files" = "Guia d'usuari sobre els arxius dels BIOS";
+"User guide on BIOS files" = "Guia d'usuari sobre els arxius de la BIOS";
 
 "Version" = "Versió";
 
-"View Guide in Browser" = "Veure la guia en el navegador";
+"View Guide in Browser" = "Llegiu la guia en el navegador";
 
 "Volume" = "Volum";
 
@@ -519,7 +519,7 @@
 
 "Yes" = "Sí";
 
-"You can't move your library into one of its subfolders." = "No es pot moure la biblioteca aquí."; // TODO
+"You can't move your library into one of its subfolders." = "No es pot moure la biblioteca a una subcarpeta de la mateixa.";
 
 "You need to restart the application to commit the change" = "Heu de reiniciar l'aplicació per aplicar el canvi";
 
@@ -547,47 +547,47 @@
 
 "Keycode 0x%lX" = "Codi de tecla 0x%lX";  // Fallback for unknown keys
 
-"Your Mac is too old for this version of OpenEmu" = "Your Mac is too old for this version of OpenEmu";  // Message for the alert which appears when no Metal-enabled GPUs are detected // TODO
+"Your Mac is too old for this version of OpenEmu" = "Aquest Mac és massa antic per a aquesta versió de l'OpenEmu";  // Message for the alert which appears when no Metal-enabled GPUs are detected
 
-"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected // TODO
+"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "Des de la versió 2.1, l'OpenEmu requereix una GPU que suporti Metal. Metal està disponible en tots els Macs que suporten macOS 10.14 o posterior.\n\nCom que l'OpenEmu no funciona amb la teva configuració actual de maquinari/programari, es tancarà.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected
 
 "Quit OpenEmu" = "Surt de l'OpenEmu";  // Button title for the alert which appears when no Metal-enabled GPUs are detected
 
-"The %@ core plugin is deprecated" = "The %@ core plugin is deprecated";  // Message title (removal far away) // TODO
+"The %@ core plugin is deprecated" = "El connector del nucli %@ està obsolet";  // Message title (removal far away)
 
-"The %@ core plugin is deprecated, and will be removed soon" = "The %@ core plugin is deprecated, and will be removed soon";  // Message title (removal happening soon) // TODO
+"The %@ core plugin is deprecated, and will be removed soon" = "El connector del nucli %@ està obsolet i se suprimirà aviat";  // Message title (removal happening soon)
 
-"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working.";  // Message info, part 1 (removal far away) // TODO
+"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "Aquest connector del nucli no estarà disponible en el futur. Un cop suprimit, qualsevol estat desat amb ell deixarà de funcionar.";  // Message info, part 1 (removal far away)
 
-"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working.";  // Message info, part 1 (removal happening soon) // TODO
+"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "Aquest connector del nucli se suprimirà automàticament en uns dies. Un cop eliminat, qualsevol estat desat amb ell deixarà de funcionar.";  // Message info, part 1 (removal happening soon)
 
-"We suggest you switch to the %@ core plugin as soon as possible." = "We suggest you switch to the %@ core plugin as soon as possible.";  // Message info, part 2 (shown only if the replacement plugin is available) // TODO
+"We suggest you switch to the %@ core plugin as soon as possible." = "Us suggerim que canvieu al connector del nucli %@ el més aviat possible.";
 
-"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "This plugin is currently unsupported";  // TODO
+"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "Aquest connector no està actualment suportat";
 
-"Install %@" = "Install %@";  // TODO
+"Install %@" = "Instal·la %@";
 
-"Install %@ and Set as Default" = "Install %@ and Set as Default";  // TODO
+"Install %@ and Set as Default" = "Instal·la %@ i estableix per defecte";
 
-"Ignore" = "Ignore";  // TODO
+"Ignore" = "Ignora";
 
-"ALERT_INPUT_MONITORING_HEADLINE" = "OpenEmu requires additional permissions"; // TODO
+"ALERT_INPUT_MONITORING_HEADLINE" = "L'OpenEmu necessita permisos addicionals";
 
-"ALERT_INPUT_MONITORING_PART1" = "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device."; // TODO
+"ALERT_INPUT_MONITORING_PART1" = "L'OpenEmu ha de tenir concedit el permís de monitorització d'entrada per poder utilitzar el teclat com a dispositiu d'entrada.";
 
-"ALERT_INPUT_MONITORING_PART2" = "Toggling the permission may also resolve keyboard input issues."; // TODO
+"ALERT_INPUT_MONITORING_PART2" = "Commutar el permís també pot resoldre problemes del teclat.";
 
-"ALERT_INPUT_MONITORING_PART2_MONTEREY" = "Removing and re-granting the permission may also resolve keyboard input issues."; // TODO
+"ALERT_INPUT_MONITORING_PART2_MONTEREY" = "Eliminar i tornar a concedir el permís també pot resoldre problemes del teclat.";
 
-"Open System Preferences" = "Open System Preferences";  // TODO
+"Open System Preferences" = "Obre les preferències del sistema";
 
-"Moving the Game Library is not recommended" = "Moving the Game Library is not recommended";  //Message headline (attempted to change location of library)  // TODO
+"Moving the Game Library is not recommended" = "No es recomana moure la biblioteca dels jocs";  //Message headline (attempted to change location of library)
 
-"ALERT_MOVE_LIBRARY_HTML" = "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives.";  // Message text (attempted to change location of library, HTML  // TODO
+"ALERT_MOVE_LIBRARY_HTML" = "La biblioteca dels jocs de l'OpenEmu conté un fitxer de base de dades que podria corrompre's si la biblioteca es mou als següents llocs:<br><br><ul><li>Carpetes gestionades per programari de sincronització en el núvol (com ara <b>iCloud Drive</b>)</li><li>Unitats de xarxa</li></ul><br>A més, <b>compartir la mateixa biblioteca entre diversos ordinadors o usuaris</b> també pot corrompre-la. Això també s'aplica a moure la biblioteca a unitats USB externes.";  // Message text (attempted to change location of library, HTML
 
-"I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
+"I understand the risks" = "Comprenc els riscs";  // OK button (attempted to change location of library)
 
-"Continue" = "Continuar";
+"Continue" = "Continua";
 
 "Last Played" = "Jugat per última vegada";
 
@@ -597,46 +597,46 @@
 
 "Play Time" = "Estona jugat";
 
-"Fill Screen" = "Fill Screen";  // Integral scale menu item title  // TODO
+"Fill Screen" = "Omple la pantalla";  // Integral scale menu item title
 
 "ECM compressed binary detected." = "S'ha detectat un binari comprimit amb ECM.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "No es poden importar binaris comprimits amb ECM. Llegiu la guia d'importació dels discs.";
 
-"Files failed to import." = "Files failed to import.";  // TODO
+"Files failed to import." = "Ha fallat la importació dels fitxers.";
 
-"\"%@\" in %@" = "\"%1$@\" in %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)  // TODO
+"\"%@\" in %@" = "\"%1$@\" a %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)
 
-"NOT FOUND: \"%@\"" = "NOT FOUND: \"%@\"";  // Import error description: referenced file not found  // TODO
+"NOT FOUND: \"%@\"" = "No s'ha trobat: \"%@\"";  // Import error description: referenced file not found
 
-"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access.";  // TODO
+"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Tria el menú Apple  > Preferències del Sistema, fes clic en Seguretat i Privadesa, després selecciona la pestanya Privadesa. Elimina el permís existent de Fitxers i Carpetes per a OpenEmu, si existeix, i en el seu lloc concedeix Accés Complet al Disc.";
 
-"Decrease Grid Size" = "Decrease Grid Size"; // TODO
+"Decrease Grid Size" = "Redueix la mida de la graella";
 
-"Increase Grid Size" = "Increase Grid Size"; // TODO
+"Increase Grid Size" = "Augmenta la mida de la graella";
 
-"The emulator could not load ROM." = "The emulator could not load the ROM."; // TODO
+"The emulator could not load ROM." = "L'emulador no ha pogut carregar el ROM.";
 
-"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad."; // TODO, Controls preferences, accessibility help
+"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "Per assignar una nova tecla o botó a %@, prem aquest botó, després prem la tecla o botó desitjat al teu teclat o gamepad."; // Controls preferences, accessibility help
 
-"Changed button for %1$@ to %2$@." = "Changed button for %1$@ to %2$@."; // TODO, Controls preferences, accessibility notification (“Changed button for Up to W.”)
+"Changed button for %1$@ to %2$@." = "S'ha canviat el botó per a %1$@ a %2$@."; // Controls preferences, accessibility notification (“Changed button for Up to W.”)
 
-"Not assigned" = "Not assigned"; // TODO, Controls preferences, accessibility title (key is not mapped, “empty”)
+"Not assigned" = "Sense assignar"; // Controls preferences, accessibility title (key is not mapped, “empty”)
 
-"OpenEmu could not download required data from the internet" = "OpenEmu could not download required data from the internet";  // TODO // Setup Assistant
+"OpenEmu could not download required data from the internet" = "L'OpenEmu no ha pogut baixar les dades necessàries d'Internet";  // Setup Assistant
 
-"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again.";  // TODO // Setup Assistant
+"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "S'ha produït un error mentre es preparava l'assistent de configuració. (%@) Assegureu-vos que esteu connectat a Internet i torneu-ho a intentar.";  // Setup Assistant
 
-"Retry" = "Retry";  // TODO
+"Retry" = "Reintenta";
 
-"Downloading core list..." = "Downloading core list...";  // TODO
+"Downloading core list..." = "S'està baixant la llista de nuclis...";
 
-"The %@ core has quit unexpectedly" = "The %@ core has quit unexpectedly";  // TODO
+"The %@ core has quit unexpectedly" = "S'ha tancat inesperadament el nucli %@";
 
-"ALERT_CORE_GLITCHES_FEEDBACK_HTML" = "<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English  // TODO
+"ALERT_CORE_GLITCHES_FEEDBACK_HTML" = "<b>Si aquest problema persisteix</b>, si us plau, envieu-nos comentaris en anglès que inclogui:<br><br><ul><li>El model de Mac que esteu utilitzant <b>i</b> la versió de macOS que teniu instal·lada<ul><li>Aquesta informació es troba a  > Sobre aquest Mac</li></ul></li><li>El <b>nom exacte</b> del joc al qual estàveu jugant</li><li>L'informe de fallada de l'OpenEmuHelperApp<ul><li>Obriu Console.app, feu clic a "Informes d'errors" o "Informes d'usuari" a la barra lateral, després busqueu el document més recent amb el nom OpenEmuHelperApp</ul></li></li></ul><br><b>Busqueu primer els comentaris similars reportats prèviament per altres usuaris</b><br>Si s'omet qualsevol d'aquesta informació, o si ja s'ha reportat una incidència semblant, aquest informe es podria tancar.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
 
-"The %@ core has quit unexpectedly after loading a save state" = "The %@ core has quit unexpectedly after loading a save state";  // TODO
+"The %@ core has quit unexpectedly after loading a save state" = "El nucli %@ ha tancat inesperadament després de carregar un estat desat";
 
-"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?";  // TODO
+"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "A vegades pot ocórrer un accident mentre es carrega un estat desat a causa d'incompatibilitats entre diferents versions del mateix nucli. Vols obrir el joc sense carregar un estat desat?";
 
-"Reopen without loading state" = "Reopen without loading state";  // TODO
+"Reopen without loading state" = "Torna a obrir sense carregar l'estat";

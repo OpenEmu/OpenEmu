@@ -1,16 +1,16 @@
 
 /* Section Title */
 
-"Gameplay Buttons" = "Botons";
+"Gameplay Buttons" = "Botons de joc";
 
 "Special Keys" = "Tecles especials";
 
 
 /* Group Labels */
 
-"-" = "-";   // TODO
+"-" = "-";
 
-"3D Control Pad" = "3D Control Pad";   // TODO
+"3D Control Pad" = "Controlador 3D";
 
 "Analog" = "Analògic";
 
@@ -93,7 +93,7 @@
 
 "Clear" = "Neteja";
 
-"Configure" = "Configure";   // TODO
+"Configure" = "Configura";
 
 "Console Pause" = "Pausa la consola";
 
@@ -109,9 +109,9 @@
 
 "Fire 2" = "Foc 2";
 
-"Insert Coin" = "Inserir una moneda";
+"Insert Coin" = "Insereix una moneda";
 
-"Jump" = "Jump";   // TODO
+"Jump" = "Saltar";
 
 "L" = "L";
 
@@ -141,7 +141,7 @@
 
 "Mode" = "Mode";
 
-"Mode Switch" = "Mode Switch";   // TODO
+"Mode Switch" = "Mode Switch";
 
 "Option" = "Opció";
 
@@ -187,17 +187,17 @@
 
 "Start" = "Inici";
 
-"Swap Joysticks" = "Swap Joysticks";   // TODO
+"Swap Joysticks" = "Intercanvia els joysticks";
 
-"TV Black & White" = "Televisió en blanc i negre";
+"TV Black & White" = "Televisor en blanc i negre";
 
-"TV Color" = "Televisió en color";
+"TV Color" = "Televisor en color";
 
 "Top Action" = "Acció Superior";
 
-"Trigger L" = "Trigger L";   // TODO
+"Trigger L" = "Disparador L";
 
-"Trigger R" = "Trigger R";   // TODO
+"Trigger R" = "Disparador R";
 
 "Up" = "Amunt";
 
@@ -240,13 +240,13 @@
 
 "Fullscreen" = "Pantalla completa";
 
-"Last Display Mode" = "Mode de visualització anterior";
+"Last Display Mode" = "Visualització anterior";
 
 "Load" = "Carrega";
 
 "Mute" = "Silencia";
 
-"Next Display Mode" = "Mode de visualització següent";
+"Next Display Mode" = "Visualització següent";
 
 "Pause/Resume" = "Pausa/Continua";
 
@@ -254,11 +254,11 @@
 
 "Quick Save" = "Desa ràpidament";
 
-"Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
+"Rapid Fire Clear" = "Esborra el foc ràpid";
 
-"Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
+"Rapid Fire Reset" = "Reinicia el foc ràpid";
 
-"Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
+"Rapid Fire Toggle" = "Commuta el foc ràpid";
 
 "Reset" = "Reinicia";
 
