@@ -38,7 +38,7 @@ final class ControlsKeyButton: NSButton {
         } else {
             image = state == .on ? NSImage(named: "controls_textfield_focus")?.withTintColor(.controlAccentColor) : NSImage(named: "controls_textfield")
         }
-        image?.draw(in: dirtyRect)
+        image?.draw(in: bounds)
         
         let p = NSPoint(x: bounds.origin.x + 4, y: bounds.origin.y + (isFlipped ? 4 : 6))
         title.draw(at: p, withAttributes: isWood ? Self.attributesWood : Self.attributes)

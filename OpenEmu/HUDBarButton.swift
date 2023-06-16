@@ -42,7 +42,7 @@ final class HUDBarButton: HoverButton {
             backgroundImageName = isHighlighted ? "hud_button_red_pressed" : "hud_button_red"
         }
         
-        NSImage(named: backgroundImageName)?.draw(in: dirtyRect)
+        NSImage(named: backgroundImageName)?.draw(in: bounds)
         
         if var img = (state == .on && alternateImage != nil) ? alternateImage : image {
             if isHighlighted || !isHovering {

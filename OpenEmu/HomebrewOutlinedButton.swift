@@ -28,7 +28,7 @@ final class HomebrewOutlinedButton: NSButton {
     
     override func draw(_ dirtyRect: NSRect) {
         
-        let frame = dirtyRect.insetBy(dx: 1, dy: 2)
+        let frame = bounds.insetBy(dx: 1, dy: 2)
         
         NSGraphicsContext.current?.saveGraphicsState()
         
