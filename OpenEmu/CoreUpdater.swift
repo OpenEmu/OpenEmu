@@ -221,22 +221,15 @@ final class CoreUpdater: NSObject {
                 }
                 
                 // Check if a core is set as default in AppDelegate
-                var didFindDefaultCore = false
-                var foundDefaultCoreIndex = 0
-                
-                for (index, plugin) in validPlugins.enumerated() {
-                    let sysID = "defaultCore.\(systemIdentifier)"
-                    if let userDef = UserDefaults.standard.string(forKey: sysID),
-                       userDef.caseInsensitiveCompare(plugin.bundleIdentifier) == .orderedSame {
-                        didFindDefaultCore = true
-                        foundDefaultCoreIndex = index
-                        break
-                    }
+                var defaultCore: CoreDownload?
+                let key = "defaultCore.\(systemIdentifier)"
+                if let defaultCoreID = UserDefaults.standard.string(forKey: key) {
+                    defaultCore = validPlugins.first(where: { defaultCoreID.caseInsensitiveCompare($0.bundleIdentifier) == .orderedSame })
                 }
                 
                 // Use default core plugin for this system, otherwise just use first found from the sorted list
-                if didFindDefaultCore {
-                    download = validPlugins[foundDefaultCoreIndex]
+                if let defaultCore {
+                    download = defaultCore
                 } else {
                     download = validPlugins.first!
                 }

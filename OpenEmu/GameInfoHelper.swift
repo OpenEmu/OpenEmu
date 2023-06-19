@@ -177,11 +177,8 @@ final class GameInfoHelper {
                     preferredRegion = "USA"
                 }
                 
-                for dict in results {
-                    if dict["region"] as? String == preferredRegion {
-                        result = dict
-                        break
-                    }
+                if let dict = results.first(where: { $0["region"] as? String == preferredRegion }) {
+                    result = dict
                 }
                 
                 // preferred region not found, just pick one

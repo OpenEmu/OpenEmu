@@ -234,9 +234,7 @@ class ImageCollectionViewController: NSViewController {
             makeFirstResponder = true
         }
         
-        while let sv = view.subviews.first {
-            sv.removeFromSuperview()
-        }
+        view.subviews.forEach { $0.removeFromSuperview() }
         
         view.addSubview(newView)
         newView.frame = view.bounds

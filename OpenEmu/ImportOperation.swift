@@ -364,14 +364,12 @@ final class ImportOperation: Operation, NSCopying {
         
         // TODO:
         // The Archived Game document type lists all supported archive extensions, e.g. zip
-        let bundleInfo = Bundle.main.infoDictionary!
-        let docTypes = bundleInfo["CFBundleDocumentTypes"] as! [[String : Any]]
-        
-        for docType in docTypes {
-            if docType["CFBundleTypeName"] as? String == "Archived Game" {
-                validExtensions.formUnion(docType["CFBundleTypeExtensions"] as! [String])
-                break
-            }
+        if let bundleInfo = Bundle.main.infoDictionary,
+           let docTypes = bundleInfo["CFBundleDocumentTypes"] as? [[String : Any]],
+           let docType = docTypes.first(where: { $0["CFBundleTypeName"] as? String == "Archived Game" }),
+           let extensions = docType["CFBundleTypeExtensions"] as? [String]
+        {
+            validExtensions.formUnion(extensions)
         }
         
         if !url.isDirectory {

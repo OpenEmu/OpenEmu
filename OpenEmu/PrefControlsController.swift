@@ -140,11 +140,9 @@ final class PrefControlsController: NSViewController {
         
         let pluginName = UserDefaults.standard.string(forKey: lastControlsPluginIdentifierKey)
         consolesPopupButton.selectItem(at: 0)
-        for item in consolesPopupButton.itemArray {
-            if item.representedObject as? String == pluginName {
-                consolesPopupButton.select(item)
-                break
-            }
+        let itemIndex = consolesPopupButton.indexOfItem(withRepresentedObject: pluginName)
+        if itemIndex != -1 {
+            consolesPopupButton.selectItem(at: itemIndex)
         }
         
         CATransaction.setDisableActions(true)
@@ -252,11 +250,9 @@ final class PrefControlsController: NSViewController {
         rebuildSystemsMenu()
         
         consolesPopupButton.selectItem(at: 0)
-        for item in consolesPopupButton.itemArray {
-            if item.representedObject as? String == selectedSystemIdentifier {
-                consolesPopupButton.select(item)
-                break
-            }
+        let itemIndex = consolesPopupButton.indexOfItem(withRepresentedObject: selectedSystemIdentifier)
+        if itemIndex != -1 {
+            consolesPopupButton.selectItem(at: itemIndex)
         }
         
         CATransaction.setDisableActions(true)
@@ -723,15 +719,7 @@ final class PrefControlsController: NSViewController {
         guard paneName == panelTitle else { return }
         
         let systemIdentifier = userInfo?[PreferencesWindowController.userInfoSystemIdentifierKey] as? String
-        var itemIndex = -1
-        for i in 0..<consolesPopupButton.itemArray.count {
-            let item = consolesPopupButton.itemArray[i]
-            if item.representedObject as? String == systemIdentifier {
-                itemIndex = i
-                break
-            }
-        }
-        
+        let itemIndex = consolesPopupButton.indexOfItem(withRepresentedObject: systemIdentifier)
         if itemIndex != -1 {
             consolesPopupButton.selectItem(at: itemIndex)
             changeSystem(nil)

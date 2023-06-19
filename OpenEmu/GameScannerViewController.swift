@@ -669,14 +669,11 @@ extension GameScannerViewController: ROMImporterDelegate {
         alert.defaultButtonTitle = NSLocalizedString("View Guide in Browser", comment:"")
         alert.alternateButtonTitle = NSLocalizedString("Dismiss", comment:"")
         
-        for window in NSApp.windows {
-            if window.windowController is MainWindowController {
-                alert.beginSheetModal(for: window) { result in
-                    if result == .alertFirstButtonReturn {
-                        NSWorkspace.shared.open(GameScannerViewController.importGuideURL)
-                    }
+        if let window = NSApp.windows.first(where: { $0.windowController is MainWindowController }) {
+            alert.beginSheetModal(for: window) { result in
+                if result == .alertFirstButtonReturn {
+                    NSWorkspace.shared.open(GameScannerViewController.importGuideURL)
                 }
-                break
             }
         }
     }

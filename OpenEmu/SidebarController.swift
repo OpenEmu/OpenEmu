@@ -549,13 +549,7 @@ extension SidebarController: NSOutlineViewDataSource {
         if item as? SidebarGroupItem == groups[1] || item is OEDBCollection || item is OEDBAllGamesCollection {
             
             // Find the first regular collection in the list
-            var i = 0
-            for collection in 0..<collections.count {
-                if type(of: collections[collection]) === OEDBCollection.self {
-                    break
-                }
-                i += 1
-            }
+            let i = collections.firstIndex(where: { type(of: $0) === OEDBCollection.self }) ?? collections.count
             
             // Register as a drop just before that collection
             outlineView.setDropItem(groups[1], dropChildIndex: i)

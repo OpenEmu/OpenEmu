@@ -806,9 +806,9 @@ final class OEGameDocument: NSDocument {
             if let plugin = OECorePlugin.corePlugin(bundleIdentifier: replacement) {
                 replacementName = plugin.displayName
             } else {
-                let repl = CoreUpdater.shared.coreList.firstIndex(where: { $0.bundleIdentifier.caseInsensitiveCompare(replacement) == .orderedSame })
+                let repl = CoreUpdater.shared.coreList.first(where: { $0.bundleIdentifier.caseInsensitiveCompare(replacement) == .orderedSame })
                 if let repl = repl {
-                    download = CoreUpdater.shared.coreList[repl]
+                    download = repl
                     replacementName = download?.name
                 }
             }
@@ -1343,15 +1343,12 @@ final class OEGameDocument: NSDocument {
     @IBAction func insertFile(_ sender: AnyObject?) {
         var archivedExtensions: [String] = []
         // The Archived Game document type lists all supported archive extensions, e.g. zip
-        let bundleInfo = Bundle.main.infoDictionary
-        let docTypes = bundleInfo?["CFBundleDocumentTypes"] as? [[String : Any]]
-        for docType in docTypes ?? [] {
-            if docType["CFBundleTypeName"] as? String == "Archived Game" {
-                if let extensions = docType["CFBundleTypeExtensions"] as? [String] {
-                    archivedExtensions.append(contentsOf: extensions)
-                }
-                break
-            }
+        if let bundleInfo = Bundle.main.infoDictionary,
+           let docTypes = bundleInfo["CFBundleDocumentTypes"] as? [[String : Any]],
+           let docType = docTypes.first(where: { $0["CFBundleTypeName"] as? String == "Archived Game" }),
+           let extensions = docType["CFBundleTypeExtensions"] as? [String]
+        {
+            archivedExtensions.append(contentsOf: extensions)
         }
         
         let validExtensions = archivedExtensions + systemPlugin.supportedTypeExtensions
