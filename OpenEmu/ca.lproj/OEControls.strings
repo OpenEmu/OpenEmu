@@ -1,9 +1,9 @@
 
 /* Preferences: Library (OEPrefLibraryController.xib) */
 
-"Move..." = "Move...";  // TODO
+"Move..." = "Mou...";
 
-"Move to Default Location" = "Move to Default Location";  // TODO
+"Move to Default Location" = "Mou a la ubicació per defecte";
 
 "Organization Methods:" = "Mètodes d'organització:";
 
@@ -26,22 +26,22 @@
 
 "Shader:" = "Shader:";
 
-"Always use popout gameplay window" = "Fes servir una finestra per el joc";
+"Always use popout gameplay window" = "Fes servir una finestra pel joc";
 
 "Always launch games fullscreen" = "Executa els jocs en pantalla completa";
 
-"Always pause gameplay when in background" = "Pausa la partida quan la finestra estigui en segon pla";
+"Always pause gameplay when in background" = "Pausa la partida quan estigui en segon pla";
 
-"Always snap popout gameplay window to integer scale" = "Always snap popout gameplay window to integer scale";  // TODO
+"Always snap popout gameplay window to integer scale" = "Ajusta sempre la finestra de joc emergent a escala d'enters";
 
 "Allow playing with controllers when in background" = "No deshabilitis els controladors quan la finestra estigui en segon pla";
 
-"Always float popout gamplay window on top" = "Always float popout gamplay window on top"; // TODO
+"Always float popout gameplay window on top" = "Manté sempre la finestra de joc emergent a la part superior";
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */
 
-"Input:" = "Disp.:"; // TODO (Resolve abbreviation)
+"Input:" = "Entrada:";
 
 
 /* Issue Resolver (OEGameScanner.xib) */
@@ -59,32 +59,32 @@
 
 "Back" = "Enrere";
 
-"Welcome to OpenEmu!" = "Benvingut a l'OpenEmu";
+"Welcome to OpenEmu!" = "Us donem la benvinguda a l'OpenEmu";
 
-"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "Un món de videojocs està al teu abast. Per ajudar-vos a començar, ens agradaria preguntar-vos algunes preguntes ràpides que us guiaran a través del següent…\n\n• Assegureu-vos que esteu fent servir els connectors dels sistemes correctes (nuclis).";
+"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "Un món de videojocs està al teu abast. Per ajudar-vos a començar, ens agradaria fer-vos algunes preguntes ràpides que us guiaran a través del següent…\n\n• Assegureu-vos que esteu fent servir els connectors del sistema correctes (nuclis).";
 
 "Click on the ‘Next’ button to begin!" = "Feu clic al botó 'Següent' per començar.";
 
 "OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "L'OpenEmu és modular, i gràcies a la feina feta per altres projectes de codi obert pot emular una àmplia varietat de sistemes de videojocs (‘nuclis’). Alguns nuclis requereixen que marqueu i confirmeu la seva instal·lació. Potser els vostres sistemes i jocs preferits no funcionaran sense aquests nuclis.";
 
-"System Cores Installation" = "Instal·lació dels nuclis dels sistemes";
+"System Cores Installation" = "Instal·lació dels nuclis del sistema";
 
 "Let’s Go!" = "Som-hi!";
 
 "Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time." = "Genial! Ja està tot a punt per jugar.\n\nRecordeu que podeu canviar la configuració del teclat i dels controladors a les Preferències en qualsevol moment.";
 
-"Click the ‘Go’ button to begin your adventure." = "Feu clic al botó 'Vés' per començar.";
+"Click the ‘Go’ button to begin your adventure." = "Feu clic al botó 'Ves-hi' per començar.";
 
-"Go" = "Vés";
+"Go" = "Ves-hi";
 
-"Downloading Data…" = "Downloading Data…";  // TODO
+"Downloading Data…" = "S'està baixant les dades…";
 
 
 /* Shader Parameters (ShaderParameters.xib) */
 
-"Reset All" = "Reset All";  // TODO
+"Reset All" = "Restableix tot";
 
 
 /* Sidebar Header (OESidebarHeaderView.xib) */
 
-"Edit" = "Editar";
+"Edit" = "Edita";
