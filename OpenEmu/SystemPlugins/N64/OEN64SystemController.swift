@@ -26,16 +26,15 @@ import Foundation
 import OpenEmuSystem
 
 class OEN64SystemController: OESystemController {
-    override func headerLookup(for file: OEFile) -> String? {
-        // Read the full 64 byte header
-        let dataBuffer = file.readData(in: NSRange(location: 0, length: 64))
-
-        var temp: UInt8
-        var rom = [UInt8](dataBuffer)
-        let romSize = dataBuffer.count
-
+    override func serialLookup(for file: OEFile) -> String? {
         // Read the first 4 bytes of the header to get the 'magic word' in hex
-        let hexString = dataBuffer.prefix(4).hexString
+        let hexString = file.readData(in: NSRange(location: 0, length: 4)).hexString
+
+        var serial = file.readData(in: NSRange(location: 0x3B, length: 4))
+
+        if serial.count < 4 || serial.contains(0) {
+            return nil
+        }
 
         // Detect rom formats using 'magic word' hex and swap byte order to [ABCD] if neccessary
         // .z64 rom is N64 native (big endian) with header 0x80371240 [ABCD], no need to swap
@@ -43,48 +42,21 @@ class OEN64SystemController: OESystemController {
 
         // Byteswapped .v64 rom with header 0x37804012 [BADC]
         else if hexString == "37804012" {
-            var i = 0
-            while i < romSize {
-                temp = rom[i]
-                rom[i] = rom[i + 1]
-                rom[i + 1] = temp
-                i += 2
-            }
+            serial = Data([serial[1], serial[0], serial[3], serial[2]])
         }
 
         // Little endian .n64 rom with header 0x40123780 [DCBA]
         else if hexString == "40123780" {
-            var i = 0
-            while i < romSize {
-                temp = rom[i]
-                rom[i] = rom[i + 3]
-                rom[i + 3] = temp
-                temp = rom[i + 1]
-                rom[i + 1] = rom[i + 2]
-                rom[i + 2] = temp
-                i += 4
-            }
+            serial = Data([serial[3], serial[2], serial[1], serial[0]])
         }
 
         // Wordswapped .n64 rom with header 0x12408037 [CDAB]
         else if hexString == "12408037" {
-            var i = 0
-            while i < romSize {
-                temp = rom[i]
-                rom[i] = rom[i + 2]
-                rom[i + 2] = temp
-                temp = rom[i + 1]
-                rom[i + 1] = rom[i + 3]
-                rom[i + 3] = temp
-                i += 4
-            }
+            serial = Data([serial[2], serial[3], serial[0], serial[1]])
         }
 
-        // Final rom header in hex after any swapping that may have occured
-        let romBuffer = Data(bytes: rom, count: romSize)
-
-        // Format the hexadecimal representation and return
-        return romBuffer.hexString
+        let gameID = String(bytes: serial, encoding: .ascii)
+        return gameID
     }
 
     override var coverAspectRatio: CGFloat {
