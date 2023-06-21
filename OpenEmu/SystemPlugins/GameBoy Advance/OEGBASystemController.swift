@@ -26,6 +26,11 @@ import Foundation
 import OpenEmuSystem
 
 class OEGBASystemController: OESystemController {
+    override func serialLookup(for file: OEFile) -> String? {
+        let serial = file.readASCIIString(in: NSRange(location: 0xAC, length: 4))
+        return serial.contains("\0") ? nil : serial
+    }
+
     override var coverAspectRatio: CGFloat {
         return OELocalizationHelper.shared.isRegionJPN ? 0.64 : 1
     }
