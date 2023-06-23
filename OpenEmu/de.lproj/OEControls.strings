@@ -26,17 +26,17 @@
 
 "Shader:" = "Shader:";
 
-"Always use popout gameplay window" = "Spiele in Popout-Fenster starten";
+"Always use popout gameplay window" = "Spiele in separatem Fenster starten";
 
 "Always launch games fullscreen" = "Spiele im Vollbildmodus starten";
 
 "Always pause gameplay when in background" = "Spiele im Hintergrund pausieren";
 
-"Always snap popout gameplay window to integer scale" = "Skalierung des Popout-Fensters auf Integer beschränken";
+"Always snap popout gameplay window to integer scale" = "Skalierung des separaten Fensters auf Integer beschränken";
 
 "Allow playing with controllers when in background" = "Controllereingaben im Hintergrund erlauben";
 
-"Always float popout gamplay window on top" = "Popout-Fenster im Vordergrund halten";
+"Always float popout gamplay window on top" = "Separates Fenster im Vordergrund halten";
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */
