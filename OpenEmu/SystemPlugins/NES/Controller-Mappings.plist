@@ -203,9 +203,9 @@
 		<key>OENESButtonRight</key>
 		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
 		<key>OENESButtonA</key>
-		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<string>OEControllerNintendoWiiUProControllerButtonA</string>
 		<key>OENESButtonB</key>
-		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
 		<key>OENESButtonStart</key>
 		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
 		<key>OENESButtonSelect</key>
@@ -248,9 +248,9 @@
 		<key>OENESButtonUp</key>
 		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
 		<key>OENESButtonA</key>
-		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
 		<key>OENESButtonB</key>
-		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
 		<key>OENESButtonStart</key>
 		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
 		<key>OENESButtonSelect</key>

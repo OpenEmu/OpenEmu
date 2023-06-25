@@ -251,9 +251,9 @@
 		<key>OEGBAButtonRight</key>
 		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
 		<key>OEGBAButtonA</key>
-		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<string>OEControllerNintendoWiiUProControllerButtonA</string>
 		<key>OEGBAButtonB</key>
-		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
 		<key>OEGBAButtonL</key>
 		<string>OEControllerNintendoWiiUProControllerButtonL</string>
 		<key>OEGBAButtonR</key>
@@ -308,9 +308,9 @@
 		<key>OEGBAButtonUp</key>
 		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
 		<key>OEGBAButtonA</key>
-		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
 		<key>OEGBAButtonB</key>
-		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
 		<key>OEGBAButtonL</key>
 		<string>OEControllerNintendoSwitchProControllerButtonL</string>
 		<key>OEGBAButtonR</key>
