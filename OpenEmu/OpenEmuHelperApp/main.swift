@@ -29,7 +29,4 @@ import OpenEmuKit
 XPCDebugSupport.waitForDebugger(until: .distantFuture)
 #endif
 
-autoreleasepool {
-    let app = OpenEmuXPCHelperApp()
-    app.launchApplication()
-}
+OpenEmuXPCHelperApp.run()
