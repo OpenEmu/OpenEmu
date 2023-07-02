@@ -707,7 +707,7 @@ final class OEGameDocument: NSDocument {
            managerClass == OEThreadGameCoreManager.self {
             return OEThreadGameCoreManager(startupInfo: info, gameCoreOwner: self)
         } else {
-            return OEXPCGameCoreManager(startupInfo: info, gameCoreOwner: self)
+            return OEXPCGameCoreManager(startupInfo: info, gameCoreOwner: self, serviceName: "org.openemu.broker", helperExecutableName: "OpenEmuHelperApp")
         }
     }
     

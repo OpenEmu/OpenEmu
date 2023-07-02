@@ -148,13 +148,6 @@
 	<string>https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores.xml</string>
 	<key>OELongBuildVersion</key>
 	<string></string>
-	<key>OpenEmuKit</key>
-	<dict>
-		<key>XPCBrokerServiceName</key>
-		<string>org.openemu.broker</string>
-		<key>XPCHelperExecutableName</key>
-		<string>OpenEmuHelperApp</string>
-	</dict>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedURL</key>
