@@ -85,4 +85,7 @@
    <FileRef
       location = "group:VirtualJaguar/VirtualJaguar.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Vendor/XADMaster/XADMaster.xcodeproj">
+   </FileRef>
 </Workspace>
