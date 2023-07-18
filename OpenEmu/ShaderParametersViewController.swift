@@ -150,7 +150,7 @@ final class ShaderParametersViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         
-        shaderControl.helper.setEffectsMode(.displayAlways)
+        shaderControl.helper?.setEffectsMode(.displayAlways)
         
         shaderObserver = shaderControl.observe(\.preset) { [weak self] (_, _) in
             guard let self = self else { return }
@@ -174,7 +174,7 @@ final class ShaderParametersViewController: NSViewController {
     override func viewWillDisappear() {
         shaderObserver  = nil
         presetsObserver = nil
-        shaderControl.helper.setEffectsMode(.reflectPaused)
+        shaderControl.helper?.setEffectsMode(.reflectPaused)
     }
     
     private var _groups: [ShaderParamGroupValue]?

@@ -71,8 +71,7 @@ final class GameViewController: NSViewController {
         
         controlsWindow = GameControlsBar(gameViewController: self)
         controlsWindow.isReleasedWhenClosed = false
-        shaderControl = ShaderControl(systemPlugin: document.systemPlugin,
-                                      helper: document.gameCoreHelper!)
+        shaderControl = ShaderControl(document: document)
         shaderWindowController = ShaderParametersWindowController(control: shaderControl)
         
         scaledView = OEScaledGameLayerView(frame: NSRect(origin: .zero, size: NSSize(width: 1, height: 1)))
