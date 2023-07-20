@@ -1,0 +1,699 @@
+/*
+ Arabic translation info:
+    
+    Description:
+        It is the Arabic translation of the OpenEmu Localizable.strings file.
+ 
+    Since:
+        version 2.3.3 ,
+        Thursday : (July 20, 2023, GREGORIAN or Muharram 2, 1445 Hijri).
+ 
+    First translator:
+        Name: Ahmed Essam Ahmed,
+        Email: ahmed4communication@gmail.com,
+        GitHub: https://github.com/Ahmed-Essam-Programming,
+        Discord: the_username_is_ahmed
+ 
+    second translator:
+        Name:
+        email:
+        GitHub:
+        Discord:
+    
+    Third translator:
+         Name:
+         email:
+         GitHub:
+         Discord:
+     
+    Fourth translator:
+         Name:
+         email:
+         GitHub:
+         Discord:
+     
+    .
+    .
+    .
+    .
+ 
+ */
+
+/*
+ NOTE: press ⌘ + F and search for:
+ -"TODO" to see untranslated strings
+ -"FUZZY" to see translations that need more work
+ -"UNTESTED" these translations that the translator did not see when he used OpenEmu to test the translation to see how the text will look on the UI
+*/
+
+"%@ copy" = "%@ نسخ";//UNTESTED
+
+"%@ could not be enabled because its plugin was not found." = "%@ لايمكن تفعيله لأن إضافته غير موجودة.";//UNTESTED
+
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "ألعاب %@ ستظهر هنا. تحقق من %@ لكيفيية إضافة الألعاب المعتمدة على الأقراص";
+
+"%@ games you add to OpenEmu will appear in this Console Library" = "ألعاب %@ التي تضيفها إلى OpenEmu ستظهر في مكتبة ألعاب الجهاز هذه";
+
+"%ux" = "%ux";//TODO
+
+"ERROR_PLUGIN_IMPORT_ALREADYLOADED" = "تم تحميل نسخة من هذة الإضافة بالفعل";//UNTESTED
+
+"Add" = "أضف";
+
+"Add a Wiimote…" = "أضف Wiimote…";
+
+"Add Cheat…" = "إضافة شفرات غش…";
+
+"Add Cheat" = "أضف الغش";
+
+"Add Cover Art from File…" = "أضف غلاف من ملف…";
+
+"Add to Collection" = "أضف إلى مجموعة";
+
+"Add to Library…" = "أضف إلى مكتبة…";
+
+"All Games" = "جميع الألعاب";
+
+"All Homebrew" = "جميع الـ Homebrew";
+
+"Already in library:" = "موجودة بالفعل في المكتبة:";
+
+"Already in library, but manually deleted or unreachable:" = "موجودة بالفعل في المكتبة، لكن تم حذفها يدوياً أو لا يمكن الوصول إليها :";//UNTESTED
+
+"Are you sure you want to delete %ld save states from your OpenEmu library?" = "هل ترغب حقًا في حذف %ld حالات حفظ من مكتبة OpenEmu خاصتك؟";
+
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "هل ترغب حقًا في حذف %ld لقطة شاشة من مكتبة OpenEmu خاصتك؟";
+
+"Are you sure you want to delete the save state called '%@' from your OpenEmu library?" = "هل ترغب حقا في حذف حالة الحفظ المساة “%@” من مكتبة OpenEmu خاصتك؟";
+
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "هل ترغب حقا في حذف لقطة الشاشة المساة “%@” من مكتبة OpenEmu خاضتك؟";
+
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "هل ترغب حقًا في حذف اللعبة المحددة من مكتبة OpenEmu خاصتك؟";
+
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "هل ترغب حقًا في حذف الألعاب المحددة من مكتبة OpenEmu خاصتك؟";
+
+"Are you sure you want to quit the application?" = "هل ترغب حقًا في الخروج من البرنامج؟";
+
+"Are you sure you want to remove the selected game from the collection?" = "هل ترغب حقًا في حذف اللعبة المحددة من المجموعة؟";
+
+"Are you sure you want to remove the selected games from the collection?" = "هل ترغب حقًا في حذف الألعاب المحددة من المجموعة؟";
+
+"Are you sure you want to remove the collection '%@'?" = "هل ترغب حقًا في حذف مجموعة “%@”؟";
+
+"Are you sure you want to restart the game?" = "هل ترغب حقًا في إعادة تشغيل اللعبة؟";
+
+"Are you sure you want to quit the game?" = "هل ترغب حقًا في إغلاق اللعبة؟";
+
+"At least one System must be enabled" = "يجب تفعيل نظام واحد على الأقل";
+
+"Auto Save State" = "حفظ حالة تلقائي";
+
+"Bluetooth must be enabled to pair a Wii controller." = "يجب تمكين بلوتوث لإقران وحدة تحكم Wii.";
+
+"Bluetooth Not Enabled" = "البلوتوث غير مفعل";
+
+"Cancel Cover Art Download" = "ألغي تنزيل الغلاف";
+
+"Cancel" = "إلغاء";
+
+"Change Core" = "تغيير النواة";
+
+"Change Volume" = "تغيير مستوى الصوت";
+
+"Cheat Description" = "وصف الغش";
+
+"Check out some excellent homebrew games." = "تحقق من بعض ألعاب homebrew الممتازة.";
+
+"Choose a valid file." = "اختر ملفًا صالحًا.";
+
+"Choose Library…" = "اختر مكتبة…";
+
+"Choose OpenEmu Library" = "اختر مكتبة OpenEmu";
+
+"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "سيؤدي هذا إلى إزالة كافة العناصر من قائمة الانتظار. سيتم الاحتفاظ بالعناصر التي انتهى استيرادها في مكتبتك.";
+
+"Code:" = "الشفرة:";
+
+"Collections" = "المجموعات";
+
+"Configure Shader…" = "اضبط مرشِح الفيديو…";
+
+"Console" = "جهاز ألعاب";
+
+"Consoles" = "أجهزة اللعب";
+
+"Consolidate Files…" = "توطيد الملفات…";
+
+"Consolidate" = "توطيد";
+
+"Consolidating files failed." = "فشل توطيد الملفات.";
+
+"Consolidating will copy all of the selected games into the OpenEmu Library folder." = "التوطيد سوف ينسخ جميع الألعاب المحددة إلى مجلد مكتبة OpenEmu.";
+
+"This cannot be undone." = "لا يمكن التراجع عن هذا.";
+
+"Contains no data:" = "لا تحتوي على بيانات:";
+
+"Controls" = "التحكم";
+
+"Copying artwork failed!" = "فشل نسخ الغلاف!";
+
+"Copying Artwork Files…" = "نشخ ملفات الأغلفة…";
+
+"Copying Game Files…" = "نسخ ملفات اللعبة…";
+
+"Copying ROM Files…" = "نسخ ملفات الـROM…";
+
+"Copying ROM files failed!" = "فشل نسخ ملفات ROM!";
+
+"Core Provided By…" = "النواة مقدمة من…";
+
+"Core" = "النواة";
+
+"Cores" = "الأنوية";
+
+"Could not move library data!" = "تعذر نقل بيانات المكتبة!";
+
+"Couldn't load %@ plugin" = "تعذر تحميل إضافة %@";
+
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "قم بإنشاء مجموعة ألعابك الشخصية المختارة. للإضافة إلى المجموعة ، حدد لعبة من مكتبة جهاز ألعاب واسحبها إلى ’%@’ في الشريط الجانبي.";
+
+"Create Library…" = "إنشاء مكتبة…";
+
+"Create or Load Save State" = "إنشاء أو تحميل حالة حفظ";
+
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "قم بإنشاء مجموعتك الشخصية من لقطات الشاشة. لأخذ لقطة شاشة ، يمكنك استخدام اختصار لوحة المفاتيح ⌘ + T أثناء اللعب.";
+
+"Default Core" = "النواة الإفتراضية";
+
+"Delete Collection" = "حذف مجموعة";
+
+"Delete Game" = "حذف اللعبة";
+
+"Delete Games" = "حذف الألعاب";
+
+"Delete Save State" = "حذف حالة الحفظ";
+
+"Delete Save States" = "حذف حالات الحفظ";
+
+"Delete Save" = "حذف الحفظ";
+
+"Delete Saves" = "حذف المحفوظات";
+
+"Delete Screenshot" = "حذف لقطة الشاشة";
+
+"Delete Screenshots" = "حذف لقطات الشاشة";
+
+"Delete" = "حذف";
+
+"Description" = "الوصف";//UNTESTED // Search field menu, only search description
+
+"Deselect All" = "حذف الكل";
+
+"Device Disconnected" = "تم اكتشاف جهاز";
+
+"Device number %lu, %@, has disconnected." = "جهاز رقم %1$lu, %2$@, تم اكتشافه.";//UNTESTED
+
+"Disc %u" = "قرص %u";//UNTESTED
+
+"Disc-based games have special requirements. Please read the disc importing guide." = "الألعاب القائمة على الأقراص لها متطلبات خاصة. يرجى قراءة دليل استيراد القرص.";
+
+"Dismiss" = "تجاهل";//FUZZY
+
+"Do not ask me again" = "لا تسأل مجددًا";
+
+"Do not show me again" = "لا تُظهر مجددًا";
+
+"Do you really want to cancel importation?" = "أتريد حقا إلغاء الإستيراد؟";
+
+"Do you want to continue playing where you left off?" = "هل تريد مواصلة اللعب من حيث توقفت؟";
+
+"Don't Import Selected" = "لا تقم باستيراد ما تم تحديده";
+
+"Done" = "تم";
+
+"Download Cover Art" = "تحميل غلاف";
+
+"Download" = "تحميل";
+
+"Downloading %@…" = "جار التحميل %@…";
+
+"Downloading and Installing Core…" = "جار تحميل وتثبيت النواة…";
+
+"Downloading Game DB" = "تحميل قاعدة بيانات اللعبة";
+
+"Drag & Drop Games Here" = "اسحب و أفلت الألعاب هنا";
+
+"Drag & Drop Save States Here" = "اسحب و أفلت حالات الحفظ هنا";
+
+"Duplicate Collection" = "كرر المجموعة";
+
+"Edit Game Controls…" = "تغيير تحكم اللعبة…";
+
+"Enable now" = "التفعيل الآن";
+
+"Error!" = "خطأ!";
+
+"Everything" = "كل شيء"; // Search field menu, search everything item title
+
+"Featured Games" = "ألعاب مميزة";
+
+"Fetching Games…" = "جار جلب الألعاب…";
+
+"Filter by:" = "الترشيح بـ:"; // Search field menu, first item, instructional
+
+"Game %ld of %ld" = "اللعبة %1$ld من %2$ld";
+
+"Game Name" = "اسم اللعبة"; // Search field menu, only search game name
+
+"Game requires download" = "تحتاج اللعبة إلى التحميل";
+
+"Game Scanner" = "ماسح الألعاب";
+
+"Gameplay" = "أثناء اللعب";
+
+"Have you read the guide?" = "هل قرأت دليل الاستخدام؟";
+
+"Hide \"%@\"" = "اخفي “%@”";
+
+"Homebrew Games" = "ألعاب Homebrew";
+
+"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "إذا كان هناك زر أحمر على غطاء البطارية الخلفي ، فاضغط عليه. \n وإذا لم يكن كذلك ، اضغط مطولاً على الأزرار ① + ②.";//UNTESTED
+
+"If you change the core you current progress will be lost and save states will not work anymore." = "إذا قمت بتغيير النواة ، فسيتم فقد التقدم الحالي ولن تعمل حالات الحفظ بعد الآن.";
+
+"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "لمحاكاة بعض الأنظمة سنحتاج إلى ملفات الـBIOS، نظرًا لزيادة تعقيد برمجيات و عتاد أجهزة الألعاب الحديثة. \tالرجاء قراءة %@ الخاص بنا لمزيدٍ من المعلومات .";
+
+"In order to play the game it must be downloaded." = "للعب هذه اللعبة لابد من تحميلها.";//UNTESTED
+
+"Insert Cart/Disk/Tape…" = "Insert Cart/Disk/Tape…";//TODO
+
+"Install" = "تثبيت";
+
+"Installing Core" = "تثبيت النواة";
+
+"Invalid cue sheet format:" = "تنسيق (cue sheet) غير صالح:";
+
+"Invalid gdi format:" = "تنسسيق gdi غير صالح:";
+
+"Join multi-line cheats with '+' e.g. 000-000+111-111" = "لدمج عدة أسطر استخدم‘+’على سبيل المثال 000-000+111-111";
+
+"Keyboard" = "لوحة المفاتيح";
+
+"Learn More" = "اعرف المزيد";
+
+"Library" = "المكتبة";
+
+"Load" = "تحميل";
+
+"Locate '%@'" = "حدد “%@”";
+
+"Locate…" = "حدد…";
+
+"Low Controller Battery" = "بطارية وحدة التحكم منخفضة";
+
+"Make sure your internet connection is active and download a suitable core." = "تأكد من أن اتصالك بالإنترنت نشط وقم بتنزيل نواة مناسبة.";
+
+"Make your Wiimote discoverable" = "اجعل Wiimote الخاص بك قابلاً للاكتشاف";
+
+"Missing Core" = "نواة مفقودة";
+
+"Missing referenced file:" = "ملف مرجعي مفقود:";//UNTESTED
+
+"Move to Trash" = "انقل إلى سلة المهملات";
+
+"Moving Library…" = "نقل المكتبة…";
+
+"Must not be compressed:" = "يجب ألا يكون مضغوطًا:";
+
+"Mute Audio" = "كتم الصوت";
+
+"Name" = "الإسم"; // Search field menu, only search names
+
+"New Collection from Selection" = "مجموعة جديدة من التحديد";
+
+"New Collection" = "مجموعة جديدة";
+
+"New Folder" = "مجلد جديد";
+
+"New Smart Collection" = "مجموعة ذكية جديدة";
+
+"No available controllers" = "لايوجد وحدات تحكم متوفرة";
+
+"No game played yet!" = "لم يتم لعب لعبة حتى الآن!";
+
+"No Internet Connection" = "غير متصل بالإنترنت";
+
+"No permission to open:" = "لا يوجد إذن للفتح:";
+
+"No Save States available" = "لا يوجد حالات حفظ متاحة";
+
+"No Screenshots Found" = "لا يوجد لقطات شاشة";
+
+"No valid system detected:" = "لم يتم اكتشاف نظام صالح:";
+
+"No" = "لا";
+
+"None" = "بدون";
+
+"Not plain text:" = "ليس نصًا عاديًا:";//UNTESTED
+
+"OK" = "حسنًا";
+
+"Only files in the OpenEmu Library folder will be moved to the Trash." = "الملفات الموجودة في مكتبة OpenEmu فقط هي ما سيتم نقلها إالى سلة المهملات.";
+
+"Open Collection" = "افتح مجموعة";
+
+"Open Library" = "افتح مكتبة";
+
+"OpenEmu could not find a Core to launch the game" = "OpenEmu لم يجد نواة لتشغيل اللعبة";
+
+"OpenEmu includes a save state feature that allows you to continue playing exactly where you left off." = "لدى OpenEmu ميزة حفظ الحالة التي تسمح لك بمواصلة اللعب من حيث توقفت بالضبط.";
+
+"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "يحتاج OpenEmu إلى مكتبة للمتابعة. يمكنك اختيار مكتبة OpenEmu موجودة بالفعل أو إنشاء مكتبة جديدة";
+
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu يستخدم 'أنوية' لمحاكاة الألعاب. ستحتاج نواة %@ لِلَعِب %@ ";
+
+"OpenEmu will save and quit all games that are currently running." = "سيحفظ OpenEmu جميع الألعاب التي يتم تشغيلها حاليًا ثم يغلقها.";
+
+"Options" = "الخيارات";
+
+"Pause/Restart" = "إيقاف مؤقت/إعادة تشغيل";
+
+"Pause Game" = "إيقاف موقت للعبة";
+
+"Play" = "لعب";
+
+"Play Game" = "لعب اللعبة";
+
+"Play Games (Caution)" = "لعب الألعاب (تنبيه)";
+
+"Play Save Games" = "العب حفظ الألعاب";
+
+"Play Save State" = "تشغيل حالة حفظ";
+
+"Player %ld" = "اللاعب %ld";
+
+"Please close all games and wait for the importer to finish." = "الرجاء إغلاق جميع الألعاب وانتظر المستورد حتى ينتهي.";
+
+"Quick Load" = "تحميل سريع";
+
+"Quick Save State" = "حفظ حالة سريع";
+
+"Quick Save, Slot %@" = "حفظ سريع، الفتحة %@";
+
+"Quick Save" = "حفظ سريع";
+
+"Quit" = "خروج";
+
+"Rating" = "التقييم";
+
+"Recently Added" = "أضيف مؤخرًا";
+
+"Recovered Auto Save" = "استعادة الحفظ التلقائي";
+
+"Remove Collection" = "إزالة المجموعة";
+
+"Remove Game" = "إزالة اللعبة";
+
+"Remove Games" = "إزالة الألعاب";
+
+"Rename \"%@\"" = "إعادة تسمية “%@”";
+
+"Rename Game" = "إعادة تسمية اللعبة";
+
+"Rename Special Save State or something?" = "إعادة تسمية حالة حفظ خاصة أو شيء من هذا القبيل؟";
+
+"Rename" = "إعادة تسمية";
+
+"Required files are missing." = "بعض الملفات المطلوبة مفقودة.";
+
+"Resolve %ld Issue" = "حل %ld مشكلة";
+
+"Resolve %ld Issues" = "حل المشكلات %ld";
+
+"Restart Game" = "إعادة تشغيل اللعبة";
+
+"Restart" = "إعادة تشغيل";
+
+"Resume Game" = "استئناف اللعبة";
+
+"Resume" = "إستئناف";
+
+"Save As:" = "حفظ كـ:";
+
+"Save Current Game…" = "حفظ اللعبة الحالية…";
+
+"Save Game" = "حفظ اللعبة";
+
+"Save States" = "حالات الحفظ";
+
+"Save-Game-%ld %@" = "حفظ-لعبة-%ld %@";
+
+"Scanner Paused" = "الماسح متوقف مؤقتًا";
+
+"Scanning Directory" = "مجلد المسح";
+
+"Screenshots" = "لقطات الشاشة";
+
+"Search" = "بحث";
+
+"Secrets" = "أسرار";
+
+"Select All" = "تحديد الكل";
+
+"Select Audio Output Device" = "جهاز خرج الصوت";
+
+"Select Cheat" = "حدد الغش";
+
+"Select Core" = "تحديد النواة";
+
+"Select Disc" = "تحديد القرص";
+
+"Select Display Mode" = "وضع العرض";
+
+"Select Shader" = "مرشِحات الفيديو";
+
+"Select Scale" = "حدد المقياس";
+
+"Shader Parameters" = "معاملات مرشِح الفيديو";
+
+"Share" = "مشاركة";
+
+"Show in Finder" = "إظهار في فايندر";
+
+"Slot %ld" = "فتحة %ld";
+
+"Some migrations failed to complete properly" = "لم تكتمل بعض عمليات الترحيل بشكل صحيح";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "شكر خاص لكل من جعل من OpenEmu ممكنًا.\n لمزيدٍ من المعلومات عن المساهمين، وأنوية المحاكاة، والتراخيص، \n وللإبلاغ عن الأخطاء تفضل بزيارتنا على موقع GitHub";
+
+"Start Scanning" = "بدأ المسح";
+
+"Quit Game" = "الخروج من اللعبة";
+
+"Stop" = "توقف";
+
+"Switch To Grid View" = "التبديل إلى العرض كشبكة";
+
+"Switch To List View" = "التبديل إلى العرض كقائمة";
+
+"System Default" = "System Default"; // Default audio device setting
+
+"System Files" = "ملفات النظام";
+
+"System" = "النظام";
+
+"Takes you to the %@ project website" = "%@ سيأخذك إلى موقع مشروع";
+
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "نواة %1$@ لديها بعض مشاكل التوافقية فبعض الألعاب قد تحتوي على أخطاء (جلتشات) أو تكون غير قابلة للعب تمامًا. الرجاء عدم الإبلاغ عن الأخطاء لأننا غير مسؤولين عن تطوير %2$@";
+
+"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "البطارية في الجهاز رقم %lu, %@, منخفضة. الرجاء شحن البطارية أو استبدالها.";
+
+"The core could not be downloaded. Try installing it from the Cores preferences." = "تغذر تحميل النواة. حاول تثبيتها من 'الأنوية' في التفضيلات.";
+
+"The file you selected doesn't exist" = "الملف المحدد غير موجود";
+
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "تعذر تشغيل لعبة “%@” لأننا لم نستططع العثور على ملف الـROM الخاص بها. هل تود تحديده يدويًا";
+
+"The game '%@' was imported." = "تم استيراد لعبة “%@”.";
+
+"The OpenEmu Library could not be found." = "تعذر العثور على مكتبة OpenEmu.";
+
+"The System plugin could not be found!" = "تعذر العثور على إضافة النظام!";
+
+"this guide" = "هذا الدليل";
+
+"This save state was created with a different core. Do you want to switch to that core now?" = "أُنشئت حالة الحفظ هذه بواسطة نواة مختلفة. هل تريد التبديل إلى هذه النواة الآن؟";
+
+"This System has no corresponding core installed." = "هذا النظام ليس له نواة مطابقة مثبتة.";
+
+"Title:" = "العنوان:";
+
+"To launch the save state %@ you will need to install the '%@' Core" = "لتشغيل حالة  المسماة بـ%@ يجب تثبيت نواة '%@'";
+
+"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "لتشغيل هذه النواة قم بما يلي:\n\n%@اسحب وأفلت الملف/الملفات المطلوبة في نافذة مكتبة الألعاب ثم حاول مجددًا.";
+
+"Toggle Fullscreen" = "التبديل إلى وضع ملء الشاشة";
+
+"Trash downloaded Files" = "الملفات التي تم تنزيلها من المهملات";
+
+"Unexpected error:" = "خطأ غير متوقع:";
+
+"Unmute Audio" = "إلغاء كتم الصوت";
+
+"Update" = "تحديث";
+
+"Updating Library" = "تحديث المكتبة";
+
+"User guide on BIOS files" = "دليل المستخدم لملفات الـBIOS";
+
+"Version" = "الإصدار";
+
+"View Guide in Browser" = "عرض الدليل في المتصفح";
+
+"Volume" = "مستوى الصوت";
+
+"Warning" = "تحذير";
+
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "مع OpenEmu يمكنك حفظ تقدمك في أي وقت باستخدام حفظ الحالة. سنقوم بعمل حالات حفظ تلقائية عند مغادرتك اللعبة. بامكانك استعراض جميع حالات الحفظ هنا.";
+
+"Won't be able to recognize it as special save state…" = "لن تكون قادرًا على التعرف عليها كحالة حفظ خاصة…";
+
+"Would you like to continue your last game?" = "هل تريد الاستمرار من حيث توقفت؟";
+
+"Would you like to save your game before you quit?" = "هل تريد حفظ اللعبة قبل المغادرة؟";
+
+"Yes" = "نعم";
+
+"You can't move your library into one of its subfolders." = "لا يمكنك نقل المكتبة بداخل أحد مجلداتها.";
+
+"You need to restart the application to commit the change" = "ستحتاج إلى إعادة تشغيل البرامج لتطبيق التغييرات";
+
+"Your game finished importing, do you want to play it now?" = "تم الانتهاء من استيراد اللعبة، هل تريد لعبها الآن؟";
+
+"Your library was moved sucessfully." = "تم نقل مكتبتك بنجاح.";
+
+"Toolbar: Library" = "المكتبة";
+
+"Toolbar: Save States" = "حالات الحفظ";
+
+"Toolbar: Screenshots" = "لقطات الشاشة";
+
+"Toolbar: Homebrew" = "Homebrew";
+
+"Grid Size" = "حجم الشبكة";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "وضع العرض";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "القسم";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"An issue was detected with one of your controllers." = "تم اكتشاف مشكلة مع أحد وحدات التحكم خاصتك.";//UNTESTED  // Headline for bindings repaired alert
+
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected.";//TODO  // Message for bindings repaired alert
+
+"Keycode 0x%lX" = "رمز المفتاح 0x%lX";//UNTESTED  // Fallback for unknown keys
+
+"Your Mac is too old for this version of OpenEmu" = "الـmac خاصتك لا يتوافق مع إصدار OpenEmu هذا";//UNTESTED  // Message for the alert which appears when no Metal-enabled GPUs are detected
+
+"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "منذ اصدار ٢.١،أصبح OpenEmu يحتاج إلى شريحة رسومات تدعم. Metel متوفرة على جميع أجهزة الـMac التي تعمل بنظام macOS ١٠.١٤";//UNTESTED  // Informative text for the alert which appears when no Metal-enabled GPUs are detected
+
+"Quit OpenEmu" = "الخروج من OpenEmu";  // Button title for the alert which appears when no Metal-enabled GPUs are detected
+
+"The %@ core plugin is deprecated" = "إضافة النواة %@ تم إلغاء دعمها";//UNTESTED  // Message title (removal far away)
+
+"The %@ core plugin is deprecated, and will be removed soon" = "إضافة النواة %@ لم تعد مدعومة، وسيتم إزالتها قريبًا";//UNTESTED  // Message title (removal happening soon)
+
+"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "بمجرد إزالة إضافة النواة هذه لن تصبح متاحةً في المستقبل، و أي حالات حفظ أُنشئت بواسطتها ستتوقف عن العمل.";//UNTESTED  // Message info, part 1 (removal far away)
+
+"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "خلال بضعة أيام، إضافة النواة هذه سيتم إزالتها تلقائيًا. وبمجرد إزالتها ستتوقف حالات الحفظ التي أُنشئت بواسطتها عن العمل.";//UNTESTED  // Message info, part 1 (removal happening soon)
+
+"We suggest you switch to the %@ core plugin as soon as possible." = "نحن نوصيك بالتبديل إلى إضافة النواة %@ في أقرب وقتٍ ممكن.";//UNTESTED  // Message info, part 2 (shown only if the replacement plugin is available)
+
+"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "هذه الإضافة غير مدعومة حاليًا";//UNTESTED
+
+"Install %@" = "تثبيت %@";//UNTESTED
+
+"Install %@ and Set as Default" = "تثبيت %@ والتعيين كافتراضي";//UNTESTED
+
+"Ignore" = "تجاهل";
+
+"ALERT_INPUT_MONITORING_HEADLINE" = "يتطلب OpenEmu أُذونات إضافية";
+
+"ALERT_INPUT_MONITORING_PART1" = "يجب منح OpenEmu الإذن لمراقبة الإدخال لاستخدام لوحة المفاتيح كجهاز إدخال.";
+
+"ALERT_INPUT_MONITORING_PART2" = "Toggling the permission may also resolve keyboard input issues.";//TODO
+
+"ALERT_INPUT_MONITORING_PART2_MONTEREY" = "إزالة الإذن وإعادة منحه قد تحل مشكلة إدخال لوحة المفاتيح أيضًا";
+
+"Open System Preferences" = "فتح إعدادات النظام";
+
+"Moving the Game Library is not recommended" = "لا ينصح بنقل مكان مكتبة الألعاب";  //Message headline (attempted to change location of library)
+
+"ALERT_MOVE_LIBRARY_HTML" = "تحتوي مكتبة البرنامج على ملف قاعدة بيانات والذي قد يتلف إذا نُقلت المكتبة للأماكن التالية: <br><br><ul><li> المجلدات المُدارة بواسطة برامج المزامنة السحابية (مثل <b>آيكلاود درايف</b>)</li><li>أجهزة الشبكة</li></ul><br> بالإضافة إلى أن مشاركة نفس المكتبة بين مستخدمين أو أجهزة متعددة قد يتلفها أيضًا. وهذا ينطبق أيًضًا على أجهزة تخزين يو إس بي الخاريجة.";  // Message text (attempted to change location of library, HTML
+
+"I understand the risks" = "أعي المخاطر";  // OK button (attempted to change location of library)
+
+"Continue" = "أكمل";
+
+"Last Played" = "آخر مرة لُعبت";
+
+"Save Games" = "حفظ الألعاب";
+
+"Play Count" = "مرات اللعب";
+
+"Play Time" = "وقت اللعب";
+
+"Fill Screen" = "يملأ الشاشة";  // Integral scale menu item title
+
+"ECM compressed binary detected." = "ECM compressed binary detected.";//TODO
+
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";//TODO
+
+"Files failed to import." = "تعذر استيراد الملفات.";
+
+"\"%@\" in %@" = "ملف \"%1$@\" موجود في جهاز %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)
+
+"NOT FOUND: \"%@\"" = "تعذر العثور على: \"%@\"";//UNTESTED  // Import error description: referenced file not found
+
+"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "اذهب الى قائمة أبل  > إعدادات النظام، ثم انقر على الأمان و الخصوصية تم حدد تبويب الحماية. قم بإزالة أذونات الوصول إلى الملفات و المجلدات الخاصة بـOpenEmu، إن وجدت، وبدلًا من ذلك امنح الإذن للوصول للقرص بالكامل";//UNTESTED
+
+"Decrease Grid Size" = "تقليل حجم الشبكة";//UNTESTED
+
+"Increase Grid Size" = "زيادة حجم الشبكة";//UNTESTED
+
+"The emulator could not load ROM." = "تعذر على المحاكي تحميل ملف الـROM";//UNTESTED
+
+"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "لِتَعْيينِ مُفْتاحٍ أو زِرٍ جديدٍ لـ%@، اضْغَطْ عَلَى هَذَا الزِر، ثُمَ اضْغَطْ عَلَى المُفْتَاحِ أوِ الزِرِ المَرْغوبِ في وِحْدَةِ التَحَكُمِ أو لَوْحةِ المَفَاتِيحِ خَاصَتُكْ. "; // Controls preferences, accessibility help
+
+"Changed button for %1$@ to %2$@." = "لِتَغْيير زِرِ الـ%1$@ لـ%2$@."; // Controls preferences, accessibility notification (“Changed button for Up to W.”)
+
+"Not assigned" = "لَمْ يَتِمْ تَعْيينُه"; // Controls preferences, accessibility title (key is not mapped, “empty”)
+
+"OpenEmu could not download required data from the internet" = "تعذر على OpenEmu تحميل البيانات المطلوبة من الإنترنت";//UNTESTED  // Setup Assistant
+
+"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "حدث خطأ أثناء القيام بتحضير مساعد التنصيب. (%@) تأكد من كونك متصلًا بالشبكة ثم حاول مجددًا";//TODO  // Setup Assistant
+
+"Retry" = "أعد المحاولة";
+
+"Downloading core list..." = "Downloading core list…";//TODO
+
+"The %@ core has quit unexpectedly" = "توقفت نواة %@ عن العمل بشكلٍ مُفاجئ";//UNTESTED
+
+"ALERT_CORE_GLITCHES_FEEDBACK_HTML" = "        <b>إذا وفقط إذا وُجدت المشكلة</b>، الرجاء إرسال البلاغ <b>(باللغة الإنجليزية)</b> مع مراعاة تضمين مايلي: <br><br><ul><li>موديل جهاز الماك المستخدَم <b>و</b> إصدار نظام التشغيل المُثبَت<ul><li>Macحول هذا الـ <  يمكن العثور على هذه المعلومة من خلال قائمة أبل</li></ul></li><li>اسم اللعبة التي كنت تلعبها <b>بالظبط</b></li><li>OpenEmuHelperApp تقرير أعطال<ul><li> OpenEmuHelperApp افتح برنامج وحدة التحكم، اضغط على تقارير الأعطال في الشريط الجانبي، ثم ابحث عن آخر مستند باسم</li></ul></li></ul><br><b>! ابحث دائما عن تعليقات وبلاغات مشابهة من مستخديمن آخرين</b><br>إذا تم إهمال تضمين أحد المعلومات، أو أن بلاغًا مشابهًا تم إرساله بالفعل سيتم إلغاء بلاغك";//UNTESTED  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
+
+"The %@ core has quit unexpectedly after loading a save state" = "توقفت نواة %@ عن العمل بشكل مفاجئ بعد تحميل حالة حفظ";//UNTESTED
+
+"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "في بعض الأحيان قد يحدث عطل خلال تحميل حالة حفظ بسبب عدم التوافق بين الإصدارات المختلفة لنفس النواة. هل تريد فتح اللعبة بدون تحميل حالة الحفظ؟";//UNTESTED
+
+"Reopen without loading state" = "أعد الفتح بدون تحميل الحالة";//UNTESTED
+
+"MOVE_ALERT_TITLE" = "انقل OpenEmu إلى مجلد التطبيقات";//UNTESTED
+
+"MOVE_ALERT_INFO_TEXT" = "يحب نقل OpenEmu إلى مجلد التطبيقات ليعمل بشكل صحيح";//UNTESTED
+
+"MOVE_ALERT_NEEDS_AUTH" = "You need to authenticate with an administrator name and password to complete this step. Alternatively, you can choose a different location or quit the App and move it manually.";//TODO
+
+"MOVE_ALERT_MOVE_BUTTON" = "انقله إلى مجلد التطبيقات";//UNTESTED
+
+"Choose Location…" = "اختر مكانًا…";//UNTESTED

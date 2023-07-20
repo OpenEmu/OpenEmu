@@ -1,0 +1,325 @@
+/*
+ Arabic translation info:
+    
+    Description:
+        It is the Arabic translation of the OpenEmu ControlLabels.strings file.
+ 
+    Since:
+        version 2.3.3 ,
+        Thursday : (July 20, 2023, GREGORIAN or Muharram 2, 1445 Hijri).
+ 
+    First translator:
+        Name: Ahmed Essam Ahmed,
+        Email: ahmed4communication@gmail.com,
+        GitHub: https://github.com/Ahmed-Essam-Programming,
+        Discord: the_username_is_ahmed
+ 
+    second translator:
+        Name:
+        email:
+        GitHub:
+        Discord:
+    
+    Third translator:
+         Name:
+         email:
+         GitHub:
+         Discord:
+     
+    Fourth translator:
+         Name:
+         email:
+         GitHub:
+         Discord:
+     
+    .
+    .
+    .
+    .
+ 
+ */
+
+/*
+ NOTE: press ⌘ + F and search for:
+ -"TODO" to see untranslated strings
+ -"FUZZY" to see translations that need more work
+ -"UNTESTED" these translations that the translator did not see when he used OpenEmu to test the translation to see how the text will look on the UI
+*/
+
+/* Section Title */
+
+"Gameplay Buttons" = "أزرار اللعب";
+
+"Special Keys" = "أزرار خاصة";
+
+
+/* Group Labels */
+
+"-" = "-";
+
+"3D Control Pad" = "3D Control Pad";//TODO
+
+"Analog" = "عصا التحكم";
+
+"C-Pad" = "أسهم الـC";
+
+"C-Stick" = "C-عصا";
+
+"D-Pad" = "الأسهم";
+
+"Keypad" = "لوحة الأرقام";
+
+"Left Analog" = "عصا التحكم اليسرى";
+
+"Left D-Pad" = "الأسهم اليسرى";
+
+"Right Analog" = "عصا التحكم اليمنى";
+
+"Right D-Pad" = "الأسهم اليمنى";
+
+"Switches" = "المفاتيح";
+
+
+/* Button Labels */
+
+"#" = "#";
+
+"*" = "*";
+
+"0" = "0";
+
+"1" = "1";
+
+"2" = "2";
+
+"2/6 Mode" = "2/6 وضع";
+
+"3" = "3";
+
+"4" = "4";
+
+"5" = "5";
+
+"6" = "6";
+
+"7" = "7";
+
+"8" = "8";
+
+"9" = "9";
+
+"A" = "A";
+
+"Action" = "زر الإجراء";
+
+"Analog Mode" = "زر الـAnalog";
+
+"B" = "B";
+
+"Bottom Left Action" = "زر الإجراء الأيسر";
+
+"Bottom Right Action" = "زر الإجراء الأيمن";
+
+"Button 1" = "الزر ١";
+
+"Button 1/Start" = "الزر ١/start";
+
+"Button 2" = "الزر ٢";
+
+"Button 3" = "الزر ٣";
+
+"Button 4" = "الزر ٤";
+
+"Button 5" = "الزر ٥";
+
+"Button 6" = "الزر ٦";
+
+"C" = "C";
+
+"Change Disk Side" = "تغيير جهة القرص";
+
+"Clear" = "مسح";
+
+"Configure" = "تهيئة";
+
+"Console Pause" = "ايقاف مؤقت لجهاز اللعب";
+
+"Console Reset" = "إعادة تعيين لجهاز اللعب";
+
+"Down" = "أسفل";
+
+"Enter" = "إدخال";
+
+"Fire" = "اطلاق";
+
+"Fire 1" = "اطلاق ١";
+
+"Fire 2" = "اطلاق ٢";
+
+"Insert Coin" = "ادخال عملة";
+
+"Jump" = "قفز";
+
+"L" = "L";
+
+"L Diff" = "L Diff";//TODO
+
+"L Diff A" = "L Diff A";//TODO
+
+"L Diff B" = "L Diff B";//TODO
+
+"L1" = "L1";
+
+"L2" = "L2";
+
+"L3" = "L3";
+
+"Left" = "يسار";
+
+"Left Action" = "الإجراء الأيسر";
+
+"Left Trigger" = "الزناد الأيسر";
+
+"Lid" = "Lid";
+
+"Menu" = "قائمة";
+
+"Mic" = "Mic";
+
+"Mode" = "الوضع";
+
+"Mode Switch" = "مفتاح تبديل الوضع";
+
+"Option" = "الخيار";
+
+"Option 1" =  "الخيار ١";
+
+"Option 2" = "الخيار ٢";
+
+"P" = "P";
+
+"Player Start" = "بدأ اللاهب";
+
+"Power" = "زر التشغيل";
+
+"R" = "R";
+
+"R Diff" = "R Diff";//TODO
+
+"R Diff A" = "R Diff A";//TODO
+
+"R Diff B" = "R Diff B";//TODO
+
+"R1" = "R1";
+
+"R2" = "R2";
+
+"R3" = "R3";
+
+"Right" = "يمين";
+
+"Right Action" = "الإجراء الأيمن";
+
+"Right Trigger" = "الزناد الأيمن";
+
+"Run" = "زر Run";
+
+"Select" = "زر Select";
+
+"Service" = "Service";//TODO
+
+"Shake" = "Shake";//TODO
+
+"Sound" = "صوت";
+
+"Start" = "زر Start";
+
+"Swap Joysticks" = "تبديل عصا التحم";
+
+"TV Black & White" = "تلفاز ابيض و أسود";
+
+"TV Color" = "تلفاز ملون";
+
+"Top Action" = "زر الإجراء العلوي";
+
+"Trigger L" = "الزناد L";
+
+"Trigger R" = "الزناد R";
+
+"Up" = "فوق";
+
+"X" = "X";
+
+"X1 Up" = "X1 فوق";
+
+"X2 Right" = "X2 يمين";
+
+"X3 Down" = "X3 أسفل";
+
+"X4 Left" = "X4 يسار";
+
+"Y" = "Y";
+
+"Y1 Up" = "Y1 فوق";
+
+"Y2 Right" = "Y2 يمين";
+
+"Y3 Down" = "Y3 أسفل";
+
+"Y4 Left" = "Y4 يسار";
+
+"Z" = "Z";
+
+"▢" = "▢";
+
+"△" = "△";
+
+"◯" = "◯";
+
+"✕" = "✕";
+
+
+/* Special Keys */
+
+"Display Mode" = "وضع العرض";
+
+"Fast Forward" = "تقديم سريع";
+
+"Fullscreen" = "ملء الشاشة";
+
+"Last Display Mode" = "آخر وضع للعرض";
+
+"Load" = "تحميل";
+
+"Mute" = "كتم";
+
+"Next Display Mode" = "وضع العرض التالي";
+
+"Pause/Resume" = "ايقاف موقت/استئناف";
+
+"Quick Load" = "تحميل سريع";
+
+"Quick Save" = "حفظ سريع";
+
+"Rapid Fire Clear" = "Rapid Fire Clear";//TODO
+
+"Rapid Fire Reset" = "Rapid Fire Reset";//TODO
+
+"Rapid Fire Toggle" = "Rapid Fire Toggle";//TODO
+
+"Reset" = "إعادة تعيين";
+
+"Rewind" = "ترجيع";
+
+"Save" = "حفظ";
+
+"Screenshot" = "لقطة شاشة";
+
+"Step Backward" = "ارجع خطوة للوراء";
+
+"Step Forward" = "تقدم خطوة للأمام";
+
+"Volume Down" = "خفض الصوت";
+
+"Volume Up" = "رفع الصوت";
+

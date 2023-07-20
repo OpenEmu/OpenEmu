@@ -1,0 +1,58 @@
+/*
+ Arabic translation info:
+    
+    Description:
+        It is the Arabic translation of the OpenEmu InfoPlist.strings file.
+ 
+    Since:
+        version 2.3.3 ,
+        Thursday : (July 20, 2023, GREGORIAN or Muharram 2, 1445 Hijri).
+ 
+    First translator:
+        Name: Ahmed Essam Ahmed,
+        Email: ahmed4communication@gmail.com,
+        GitHub: https://github.com/Ahmed-Essam-Programming,
+        Discord: the_username_is_ahmed
+ 
+    second translator:
+        Name:
+        email:
+        GitHub:
+        Discord:
+    
+    Third translator:
+         Name:
+         email:
+         GitHub:
+         Discord:
+     
+    Fourth translator:
+         Name:
+         email:
+         GitHub:
+         Discord:
+     
+    .
+    .
+    .
+    .
+ 
+ */
+
+/*
+ NOTE: press ⌘ + F and search for:
+ -"TODO" to see untranslated strings
+ -"FUZZY" to see translations that need more work
+ -"UNTESTED" these translations that the translator did not see when he used OpenEmu to test the translation to see how the text will look on the UI
+*/
+"Archived Game" = "لعبة مؤرشفة";
+
+"OpenEmu Core Plugin" = "إضافة نواة OpenEmu";
+
+"OpenEmu Save State" = "حالة حفظ OpenEmu";
+
+"OpenEmu System Plugin" = " إضافة نظام OpenEmu";
+
+"OpenEmu Shader" = "مرشِح فيديو OpenEmu";
+
+"%@ Game" = "%@ لعبة";  // Used in OESystemPluginPostInstall to dynamically generate localized file type names

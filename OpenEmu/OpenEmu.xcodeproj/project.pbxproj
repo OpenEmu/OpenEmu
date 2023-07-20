@@ -1480,6 +1480,12 @@
 		7699EC921D6303EB005BC437 /* ca */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7699EC931D6303EC005BC437 /* ca */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7699EC941D6303EC005BC437 /* ca */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/ControlLabels.strings; sourceTree = "<group>"; };
+		7F313F192A607A17009EBADB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7F313F1A2A607A17009EBADB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7F313F1B2A607A18009EBADB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/OEControls.strings; sourceTree = "<group>"; };
+		7F313F1C2A607A18009EBADB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/ControlLabels.strings; sourceTree = "<group>"; };
+		7F313F1D2A607A18009EBADB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Debug.strings; sourceTree = "<group>"; };
+		7F313F1E2A607A19009EBADB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NeoGeo Pocket.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		820EB7561483F9D3008EC398 /* OENGPSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENGPSystemResponder.h; sourceTree = "<group>"; };
 		820EB7571483F9D3008EC398 /* OENGPSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENGPSystemResponder.m; sourceTree = "<group>"; };
@@ -5373,6 +5379,7 @@
 				"zh-Hant",
 				"en-GB",
 				"fr-CA",
+				ar,
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			packageReferences = (
@@ -7080,6 +7087,7 @@
 				3C335CBF1C70E49F00E33B79 /* zh-Hans */,
 				82BBE7BB21D961A1006CD402 /* zh-Hant */,
 				8F3693FC2557339300E044DA /* fr-CA */,
+				7F313F192A607A17009EBADB /* ar */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -7100,6 +7108,7 @@
 				01B035541C090E9900BA80E2 /* ru */,
 				3C335CC01C70E4A000E33B79 /* zh-Hans */,
 				82BBE7BC21D961A2006CD402 /* zh-Hant */,
+				7F313F1A2A607A17009EBADB /* ar */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -7120,6 +7129,7 @@
 				01B035551C090E9A00BA80E2 /* ru */,
 				3C335CC11C70E4A000E33B79 /* zh-Hans */,
 				82BBE7BD21D961A2006CD402 /* zh-Hant */,
+				7F313F1C2A607A18009EBADB /* ar */,
 			);
 			name = ControlLabels.strings;
 			sourceTree = "<group>";
@@ -7140,6 +7150,7 @@
 				05644A18233313070033576F /* ru */,
 				05644A08233312E20033576F /* zh-Hans */,
 				05644A0A233312E70033576F /* zh-Hant */,
+				7F313F1E2A607A19009EBADB /* ar */,
 			);
 			name = MainMenu.strings;
 			sourceTree = "<group>";
@@ -7160,6 +7171,7 @@
 				8FBAEAD5254BE76000446C3B /* ru */,
 				8FBAEAD7254BE76300446C3B /* zh-Hans */,
 				8FBAEAD8254BE76600446C3B /* zh-Hant */,
+				7F313F1B2A607A18009EBADB /* ar */,
 			);
 			name = OEControls.strings;
 			sourceTree = "<group>";
@@ -7180,6 +7192,7 @@
 				8FCCCE5F24E7088E00223181 /* ru */,
 				8FCCCE6024E7089100223181 /* zh-Hans */,
 				8FCCCE6124E7089300223181 /* zh-Hant */,
+				7F313F1D2A607A18009EBADB /* ar */,
 			);
 			name = Debug.strings;
 			sourceTree = "<group>";

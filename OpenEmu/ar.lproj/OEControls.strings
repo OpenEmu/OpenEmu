@@ -1,0 +1,137 @@
+/*
+ Arabic translation info:
+    
+    Description:
+        It is the Arabic translation of the OpenEmu OEControls.strings file.
+ 
+    Since:
+        version 2.3.3 ,
+        Thursday : (July 20, 2023, GREGORIAN or Muharram 2, 1445 Hijri).
+ 
+    First translator:
+        Name: Ahmed Essam Ahmed,
+        Email: ahmed4communication@gmail.com,
+        GitHub: https://github.com/Ahmed-Essam-Programming,
+        Discord: the_username_is_ahmed
+ 
+    second translator:
+        Name:
+        email:
+        GitHub:
+        Discord:
+    
+    Third translator:
+         Name:
+         email:
+         GitHub:
+         Discord:
+     
+    Fourth translator:
+         Name:
+         email:
+         GitHub:
+         Discord:
+     
+    .
+    .
+    .
+    .
+ 
+ */
+
+/*
+ NOTE: press ⌘ + F and search for:
+ -"TODO" to see untranslated strings
+ -"FUZZY" to see translations that need more work
+ -"UNTESTED" these translations that the translator did not see when he used OpenEmu to test the translation to see how the text will look on the UI
+*/
+
+/* Preferences: Library (OEPrefLibraryController.xib) */
+
+"Move..." = "نقل...";
+
+"Move to Default Location" = "نقل إلى الموقع الإفتراضي";
+
+"Organization Methods:" = "طرق التنظيم:";
+
+"Game Library Folder Location:" = "موقع مجلد مكتبة الألعاب:";
+
+"Copy files to Game Library folder when adding to library" = "نسخ الملفات إلى مجلد مكتبة الألعاب عند عند الإضافة للمكتبة";
+
+"Automatically lookup game information & artwork" = "ابحث عن معلومات اللعبة و غلافها  تلقائياً";
+
+"Available Libraries:" = "المكتبات المتاحة:";
+
+"Reset all dialog warnings:" = "إعادة تعيين جميع نوافذ الحوار التحذيرية:";
+
+"Reset Warnings" = "إعادة تعيين التحذيرات";
+
+
+/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+
+"Window Management:" = "مدير النافذة:";
+
+"Shader:" = "مرشح الفيديو:";
+
+"Always use popout gameplay window" = "استخدم دائمًا نوافذ لعب منبثقة";
+
+"Always launch games fullscreen" = "تشغيل اللعبة في وضع ملء الشاشة دائمًا";
+
+"Always pause gameplay when in background" = "أوقف موقتًا نافذة اللعب عندما تكون النافذة الخلفية";
+
+"Always snap popout gameplay window to integer scale" = "تحجيم نافذة اللعب المنبثقة بمقياس عدد صحيح)";//FUZZY
+
+"Allow playing with controllers when in background" = "السماح بالعب بوحدة التحكم عندما تكون النافذة في الخلفية";
+
+"Always float popout gamplay window on top" = "ضع دائما نافذة اللعب المنبثقة في الأعلى";
+
+
+/* Preferences: Controls (OEPrefControlsController.xib) */
+
+"Input:" = "جهاز الإدخال:";
+
+
+/* Issue Resolver (OEGameScanner.xib) */
+
+"Resolve Issues:" = "حل مشاكل:";
+
+"Apply" = "تطبيق";
+
+"Import Into:" = "استيراد إلى:";
+
+
+/* Setup Assistant (OESetupAssistant.xib) */
+
+"Next" = "التالي";
+
+"Back" = "الرجوع";
+
+"Welcome to OpenEmu!" = "مرحبا بك في OpenEmu !";
+
+"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "إنه عالم ألعابٍ مثير بين يديك.\n لمساعدتك على البدأ، نود أن نسألك بعض الأسئلة السريعة التي ستقودك خلال ما يلي…\n\n• تأكد من أنك تقوم بتشغيل إضافات النظام الصحيحة (الأنوية)";
+
+"Click on the ‘Next’ button to begin!" = "اضغط على زر ’التالي’ للبدأ!";
+
+"OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "برنامج OpenEmu هو نظام قابل للتعديل، وبفضل المجهوداد الرائعة لمشاريع أخرى مفتوحة المصدر، يمكنه محاكاة مجموعة متنوعة من أنظمة ألعاب الفيديو (’الأنوية’).تتطلب قلة مختارة تحديد وتأكيد رغبتك في تثبيتها واستخدامها. قد لا تعمل أنظمة الألعاب والألعاب المفضلة لديك بدون هذه الأنوية.";
+
+"System Cores Installation" = "تثبيت أنظمة ألعاب الفيديو";
+
+"Let’s Go!" = "لنبدأ !";
+
+"Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time." = "عظيم ! أنت الآن مجهز تمامًا وجاهز لبدء اللعب ! \n \n تذكر أنه يمكنك تغيير تحكم كل من لوحة المفاتيح و وحدات التحكم لنفسك ولللاعبين الآخرين عبر التفضيلات في أي وقت.";
+
+"Click the ‘Go’ button to begin your adventure." = "اضغط على زر ’الذهاب’ لتبدأ مغامرتك.";
+ 
+"Go" = "الذهاب";
+
+"Downloading Data…" = "جاري تحميل البيانات…";
+
+
+/* Shader Parameters (ShaderParameters.xib) */
+
+"Reset All" = "إعادة تعيين الكل";
+
+
+/* Sidebar Header (OESidebarHeaderView.xib) */
+
+"Edit" = "تعديل";

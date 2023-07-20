@@ -1,0 +1,185 @@
+/*
+ Arabic translation info:
+    
+    Description:
+        It is the Arabic translation of the OpenEmu MainMenu.strings file.
+ 
+    Since:
+        version 2.3.3 ,
+        Thursday : (July 20, 2023, GREGORIAN or Muharram 2, 1445 Hijri).
+ 
+    First translator:
+        Name: Ahmed Essam Ahmed,
+        Email: ahmed4communication@gmail.com,
+        GitHub: https://github.com/Ahmed-Essam-Programming,
+        Discord: the_username_is_ahmed
+ 
+    second translator:
+        Name:
+        email:
+        GitHub:
+        Discord:
+    
+    Third translator:
+         Name:
+         email:
+         GitHub:
+         Discord:
+     
+    Fourth translator:
+         Name:
+         email:
+         GitHub:
+         Discord:
+     
+    .
+    .
+    .
+    .
+ 
+ */
+
+/*
+ NOTE: press ⌘ + F and search for:
+ -"TODO" to see untranslated strings
+ -"FUZZY" to see translations that need more work
+ -"UNTESTED" these translations that the translator did not see when he used OpenEmu to test the translation to see how the text will look on the UI
+*/
+
+"File" = "ملف";
+
+"Launch Game…" = "تشغيل لعبة ...";
+
+"Edit Smart Collection" = "تعديل المجموعة الذكية";
+
+"New Smart Collection…" = "مجموعة ذكية جديدة…";
+
+"New Collection Folder" = "مجلد مجموعة جديد";
+
+"Display Exact Duplicates" = "Display Exact Duplicates";//TODO
+
+"Display Duplicates" = "Display Duplicates";//TODO
+
+"Get Info" = "إحضار المعلومات";
+
+"Close Window" = "إغلاق النافذة";
+
+"Print…" = "طباعة…";
+
+"Page Setup…" = "تهيئه الصفحة…";
+
+"Back Up…" = "Back Up…";//TODO
+
+"Organize Library…" = "ترتيب المكتبة…";
+
+"Export Library…" = "تصدير المكتبة…";
+
+"Import Collection" = "استيراد مجموعة";
+
+"Export Collection" = "تصدير مجموعة";
+
+"Preferences…" = "التفضيلات…";
+
+"Check for Updates…" = "تحقق من التحديثات…";
+
+"About OpenEmu" = "عن OpenEmu";
+
+"Hide OpenEmu" = "إخفاء OpenEmu";
+
+"Show All" = "إظهار الجميع";
+
+"Quit OpenEmu" = "الخروج من OpenEmu";
+
+"Services" = "الخدمات";
+
+"Hide Others" = "إخفاء نوافذ البرامج الأخرى";
+
+"Window" = "نافذة";
+
+"Bring All to Front" = "تقديم الجميع للأمام";
+
+"Zoom" = "تكبير/تصغير";
+
+"Minimize" = "تصغير في شريط الأيقونات";
+
+"View" = "عرض";
+
+"as List" = "كقائمة";
+
+"Fullscreen" = "ملء الشاشة";
+
+"as Grid" = "كشبكة";
+
+"Undock Game Window" = "لا تضع اللعبة في شريط الأيقونات";
+
+"Controls" = "التحكم";
+
+"Volume Down" = "خفض الصوت";
+
+"Start Game" = "بدأ اللعبة";
+
+"Volume Up" = "رفع الصوت";
+
+"Last Played" = "آخر ما لُعِب";
+
+"Save State" = "حفظ الحالة";
+
+"Load State" = "تحميل الحالة";
+
+"Edit" = "تعديل";
+
+"Find" = "بحث";
+
+"Select All" = "تحديد الكل";
+
+"Delete" = "حذف";
+
+"Paste" = "لصق";
+
+"Copy" = "نسخ";
+
+"Cut" = "قص";
+
+"Redo" = "عدم التراجع";//FUZZY
+
+"Undo" = "تراجع";
+
+"Jump to Selection" = "الذهاب إلى التحديد";//UNTESTED
+
+"Use Selection for Find" = "استخدم التحديد للبحث";
+
+"Find Previous" = "البحث عن السابق";
+
+"Find Next" = "البحث عن التالي";
+
+"Find…" = "بحث…";
+
+"Log Responder Chain" = "Log Responder Chain";//TODO
+
+"Show ROM Names" = "اظهار أسماء الـROM";
+
+"Show Library" = "عرض المكتبة";
+
+"Take Screenshot" = "خذ لقطة شاشة";
+
+"Take Native Screenshot" = "خذ لقطة الشاشة الأصلية";
+
+"Help" = "مساعدة";
+
+"Release Notes" = "معلومات عن الاصدار";
+
+"Last Display Mode" = "آخر وضع عرض";
+
+"Next Display Mode" = "وضع العرض التالي";
+
+"OpenEmu Web Site" = "موقع OpenEmu";
+
+"Always Hide HUD" = "دائمًا اخفي شريط التحكم داخل نافذة اللعبة";
+
+"Submit Feedback" = "إرسال ملاحظات";
+
+"Send a Donation…" = "تبرع…";
+
+"User Guide" = "دليل الاستخدام";
+
+"Float on Top" = "عائم على السطح";
