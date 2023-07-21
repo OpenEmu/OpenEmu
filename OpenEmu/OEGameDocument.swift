@@ -1007,8 +1007,8 @@ final class OEGameDocument: NSDocument {
             if emulationStatus == .setup {
                 if !pauseEmulation {
                     startEmulation()
-                    return
                 }
+                return
             }
             if pauseEmulation {
                 enableOSSleep()
