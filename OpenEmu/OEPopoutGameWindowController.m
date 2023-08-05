@@ -25,6 +25,7 @@
  */
 
 #import "OEPopoutGameWindowController.h"
+#import <OSLog/OSLog.h>
 
 @import QuartzCore;
 
@@ -55,7 +56,12 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     _OEPopoutGameWindowFullScreenStatusExiting,
 };
 
+static os_log_t OE_LOG;
 
+__attribute__((constructor))
+static void init_log(void) {
+    OE_LOG = os_log_create("org.openemu.openemu", "popout_game_window");
+}
 
 @interface OEScreenshotWindow : NSWindow
 @property(nonatomic, unsafe_unretained) NSImageView *screenshotView;
@@ -765,6 +771,8 @@ typedef NS_ENUM(NSInteger, OEPopoutGameWindowFullScreenStatus)
     }
     
     if ([self isAdaptiveSyncSchedulingAvailable:self.window]) {
+        os_log_debug(OE_LOG, "Enabling adaptive sync.");
+        
         [self.OE_gameDocument setAdaptiveSyncEnabled:YES];
         _adaptiveSyncWasEnabled = YES;
     }
