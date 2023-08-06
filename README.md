@@ -7,21 +7,21 @@ OpenEmu is an open-source project whose purpose is to bring macOS game emulation
 
 Currently, OpenEmu can load the following game engines as plugins:
 
-* Atari 2600 ([Stella](https://stella-emu.github.io))
-* Atari 5200 ([Atari800](https://atari800.github.io))
+* Atari 2600 ([Stella](https://github.com/stella-emu/stella))
+* Atari 5200 ([Atari800](https://github.com/atari800/atari800))
 * Atari 7800 ([ProSystem](https://gitlab.com/jgemu/prosystem))
 * Atari Lynx ([Mednafen](https://mednafen.github.io))
-* ColecoVision ([CrabEmu](http://crabemu.sourceforge.net))
+* ColecoVision ([CrabEmu](https://sourceforge.net/projects/crabemu/))
 * Famicom Disk System ([Nestopia](https://gitlab.com/jgemu/nestopia))
-* Game Boy / Game Boy Color ([Gambatte](https://github.com/sinamas/gambatte))
-* Game Boy Advance ([mGBA](https://mgba.io))
+* Game Boy / Game Boy Color ([Gambatte](https://gitlab.com/jgemu/gambatte))
+* Game Boy Advance ([mGBA](https://github.com/mgba-emu/mgba))
+* GameCube ([Dolphin](https://github.com/dolphin-emu/dolphin))
 * Game Gear ([Genesis Plus](https://github.com/ekeeke/Genesis-Plus-GX))
 * Intellivision ([Bliss](https://github.com/jeremiah-sypult/BlissEmu))
 * NeoGeo Pocket ([Mednafen](https://mednafen.github.io))
 * Nintendo (NES) / Famicom ([FCEUX](https://github.com/TASEmulators/fceux), [Nestopia](https://gitlab.com/jgemu/nestopia))
-* Nintendo 64 ([Mupen64Plus](http://www.mupen64plus.org))
-* Nintendo DS ([DeSmuME](http://desmume.org))
-* Nintendo GameCube ([Dolphin](https://dolphin-emu.org))
+* Nintendo 64 ([Mupen64Plus](https://github.com/mupen64plus))
+* Nintendo DS ([DeSmuME](https://github.com/TASEmulators/desmume))
 * Odyssey² / Videopac+ ([O2EM](https://sourceforge.net/projects/o2em/))
 * PC-FX ([Mednafen](https://mednafen.github.io))
 * SG-1000 ([Genesis Plus](https://github.com/ekeeke/Genesis-Plus-GX))
@@ -44,4 +44,4 @@ Minimum Requirements
 
 macOS Mojave 10.14.4
 
-Building the default branch requires Xcode 14.1 and macOS Monterey 12.5.
+Building the default branch requires Xcode 14.3 and macOS Ventura.
