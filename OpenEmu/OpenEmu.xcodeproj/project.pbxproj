@@ -1689,6 +1689,7 @@
 		8F99F815256BF358007B83E1 /* SidebarController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SidebarController.xib; sourceTree = "<group>"; };
 		8FAD320125B31FB000323020 /* URL+OEAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+OEAdditions.swift"; sourceTree = "<group>"; };
 		8FAF069A251FB02700EDB247 /* HoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverButton.swift; sourceTree = "<group>"; };
+		8FB221B42A80080F00C5B7D8 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		8FBAE647254BA0DF00446C3B /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OEControls.strings; sourceTree = "<group>"; };
 		8FBAE9EA254BD7FA00446C3B /* NSControl+i18n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSControl+i18n.swift"; sourceTree = "<group>"; };
 		8FBAEA94254BDF4E00446C3B /* it */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OEControls.strings; sourceTree = "<group>"; };
@@ -2946,6 +2947,7 @@
 				8F22764629D301FC001FB9F8 /* Config.xcconfig */,
 				8F22765029D30551001FB9F8 /* CodeSignDefault.xcconfig */,
 				8F22764529D2FDE3001FB9F8 /* CodeSign.xcconfig */,
+				8FB221B42A80080F00C5B7D8 /* TestPlan.xctestplan */,
 			);
 			name = Resources;
 			sourceTree = "<group>";

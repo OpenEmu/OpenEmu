@@ -1,0 +1,52 @@
+{
+  "configurations" : [
+    {
+      "id" : "3E9F048D-2B08-4D5C-844D-0015214FA328",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:OpenEmu.xcodeproj",
+        "identifier" : "05DB72A02532681B0098459D",
+        "name" : "OpenEmuTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/OpenEmu-SDK\/OpenEmu-SDK.xcodeproj",
+        "identifier" : "0109BBA1209F25EB002419C1",
+        "name" : "OpenEmuBaseTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/OpenEmu-SDK\/OpenEmu-SDK.xcodeproj",
+        "identifier" : "05FC85AD295E49FE003DED0C",
+        "name" : "OpenEmuSystemTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/OpenEmuKit\/OpenEmuKit.xcodeproj",
+        "identifier" : "05EEF0F62707C96B008A03DC",
+        "name" : "OpenEmuKitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/OpenEmu-Shaders\/OpenEmuShaders.xcodeproj",
+        "identifier" : "05EEE340227CC35D007D011B",
+        "name" : "OpenEmuShadersTests"
+      }
+    }
+  ],
+  "version" : 1
+}
