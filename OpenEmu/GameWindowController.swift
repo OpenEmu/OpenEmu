@@ -723,7 +723,7 @@ extension GameWindowController: NSWindowDelegate {
         let targetWindowOrigin = windowedFrame.origin
         
         var screenshotFrame = screenFrame
-        if windowedIntegralScale != Self.fitToWindowScale {
+        if fullScreenIntegralScale != Self.fitToWindowScale {
             var origin = NSPoint(x: (screenFrame.size.width - fullScreenContentSize.width) / 2,
                                  y: (screenFrame.size.height - fullScreenContentSize.height) / 2)
             origin.x += screenFrame.origin.x
