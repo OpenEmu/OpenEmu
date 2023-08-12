@@ -76,9 +76,3 @@
 [submodule "OpenEmuKit"]
 	path = OpenEmuKit
 	url = https://github.com/OpenEmu/OpenEmuKit.git
-[submodule "XADMaster"]
-	path = Vendor/XADMaster
-	url = https://github.com/MacPaw/XADMaster
-[submodule "UniversalDetector"]
-	path = Vendor/UniversalDetector
-	url = https://github.com/MacPaw/universal-detector

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BuildMachineOSBuild</key>
+	<string>20A5299w</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>UniversalDetector</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.mozilla.universalchardet</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>UniversalDetector</string>
+	<key>CFBundlePackageType</key>
+	<string>FMWK</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleSupportedPlatforms</key>
+	<array>
+		<string>MacOSX</string>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>1.1</string>
+	<key>DTCompiler</key>
+	<string>com.apple.compilers.llvm.clang.1_0</string>
+	<key>DTPlatformBuild</key>
+	<string>12A8158a</string>
+	<key>DTPlatformName</key>
+	<string>macosx</string>
+	<key>DTPlatformVersion</key>
+	<string>11.0</string>
+	<key>DTSDKBuild</key>
+	<string>20A5299v</string>
+	<key>DTSDKName</key>
+	<string>macosx11.0</string>
+	<key>DTXcode</key>
+	<string>1200</string>
+	<key>DTXcodeBuild</key>
+	<string>12A8158a</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.7</string>
+</dict>
+</plist>
