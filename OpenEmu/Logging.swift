@@ -42,3 +42,10 @@ func DLog(_ message: @autoclosure () -> String, fileID: String = #fileID, functi
         NSLog("\(fileID):\(line): \(function): %@", message())
     #endif
 }
+
+#if swift(>=5.9)
+@available(macOS 11.0, *)
+extension Logger {
+    static let `default` = Logger(.default)
+}
+#endif

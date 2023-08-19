@@ -76,15 +76,17 @@ final class GameWindowController: NSWindowController {
         
         super.init(window: window)
         
-        window?.delegate = self
-        window?.collectionBehavior = .fullScreenPrimary
-        window?.animationBehavior = .documentWindow
-        window?.minSize = Self.windowMinSize
-        
-        if UserDefaults.standard.bool(forKey: OEPopoutGameWindowAlwaysOnTopKey) {
-            window?.level = .floating
+        if let window {
+            window.delegate = self
+            window.collectionBehavior = .fullScreenPrimary
+            window.animationBehavior = .documentWindow
+            window.minSize = Self.windowMinSize
+            
+            if UserDefaults.standard.bool(forKey: OEPopoutGameWindowAlwaysOnTopKey) {
+                window.level = .floating
+            }
         }
-        
+                
         let nc = NotificationCenter.default
         nc.addObserver(self,
                        selector: #selector(constrainIntegralScaleIfNeeded),
@@ -274,14 +276,56 @@ final class GameWindowController: NSWindowController {
         }
     }
     
+    /// This constant is required as macOS does not report the correct frame size with safe area
+    /// for full screen windows.
+    ///
+    /// For example, on a MacBook Pro, the built-in screen with integrated camera reports
+    ///
+    /// * a height of 1117 points
+    /// * a safe area of top = 32 points, other margins 0 points
+    ///
+    /// That reduces the size to 1085 points, however, reading the ``NSWindow`` frame
+    /// after transitioning to full-screen, the final size is 1080 points. Hence, a constant of 5 points.
+    static let extraMarginForFullScreenWithSafeArea = 5.0
+    
+    func fullScreenContentSizeForScreen(_ screen: NSScreen) -> CGSize {
+        var screenSize = screen.frame.size
+        if #available(macOS 12.0, *) {
+            let safeAreaInsets = screen.safeAreaInsets
+            if safeAreaInsets.top > 0 {
+                // HACK(sgc): only adjust if there is an integrated camera inset
+                let ss = screen.frame.size
+                screenSize = CGSize(width: ss.width - (safeAreaInsets.left + safeAreaInsets.right),
+                                    height: ss.height - (safeAreaInsets.top + safeAreaInsets.bottom + Self.extraMarginForFullScreenWithSafeArea))
+            }
+        }
+        return screenSize
+    }
+    
+    func fullScreenWindowFrameForScreen(_ screen: NSScreen) -> NSRect {
+        var screenFrame = screen.frame
+        if #available(macOS 12.0, *) {
+            // adjust frame based on insets
+            let safeArea = screen.safeAreaInsets;
+            screenFrame.origin = screenFrame.origin.applying(.identity.translatedBy(x: safeArea.left, y: safeArea.top))
+            screenFrame.size   = fullScreenContentSizeForScreen(screen)
+        }
+        return screenFrame
+    }
+    
     /// A size with the same aspect ratio as the game document, matching the screen size in one dimension.
     private var fillScreenContentSize: NSSize {
-        // Exempt NDS because defaultScreenSize is not updated after changing the screen configuration from the display mode menu FIXME:
-        if gameDocument.systemIdentifier == "openemu.system.nds" {
-            return window?.screen?.frame.size ?? .zero
+        guard let screen = window?.screen else {
+            return .zero
         }
         
-        let screenSize = window?.screen?.frame.size ?? .zero
+        // Exempt NDS because defaultScreenSize is not updated after changing the screen configuration from the display mode menu FIXME:
+        if gameDocument.systemIdentifier == "openemu.system.nds" {
+            return screen.frame.size
+        }
+        
+        let screenSize = fullScreenContentSizeForScreen(screen)
+        
         let gameSize = gameDocument.gameViewController.defaultScreenSize
         var newSize = OEIntSize()
         
@@ -386,7 +430,7 @@ final class GameWindowController: NSWindowController {
             
             let gv = gameDocument.gameViewController
             if newScale == Self.fitToWindowScale {
-                gv?.gameViewSetIntegralSize(fillScreenContentSize, animated: true)
+                gv?.gameViewSetIntegralSize(.zero, animated: true)
             } else {
                 let newSize = windowSize(forGameViewIntegralScale: newScale)
                 gv?.gameViewSetIntegralSize(newSize, animated: true)
@@ -611,7 +655,7 @@ extension GameWindowController: NSWindowDelegate {
     }
     
     func window(_ window: NSWindow, startCustomAnimationToEnterFullScreenWithDuration duration: TimeInterval) {
-        let screenFrame = window.screen?.frame ?? .zero
+        let screenFrame = fullScreenWindowFrameForScreen(window.screen!)
         let hideBorderDuration: TimeInterval = duration / 4
         let resizeDuration: TimeInterval = duration - hideBorderDuration
         let sourceScreenshotFrame = window.contentRect(forFrameRect: window.frame)
@@ -629,29 +673,31 @@ extension GameWindowController: NSWindowDelegate {
             targetScreenshotFrame = NSRect(origin: origin, size: targetContentSize)
             targetScreenshotFrame = targetScreenshotFrame.integral
         }
-        
+                
         // Fade the real window out
         CATransaction.begin()
+        defer { CATransaction.commit() }
+        
         CATransaction.setAnimationDuration(hideBorderDuration)
         CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
-        CATransaction.setCompletionBlock({
+        CATransaction.setCompletionBlock {
             window.setFrame(screenFrame, display: false)
             
             // Resize the screenshot window to fullscreen
             CATransaction.begin()
+            defer { CATransaction.commit() }
+            
             CATransaction.setAnimationDuration(resizeDuration)
             CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
-            CATransaction.setCompletionBlock({
+            CATransaction.setCompletionBlock {
                 window.alphaValue = 1
                 self.hideScreenshotWindow()
-            })
+            }
             
             self.screenshotWindow.animator().setFrame(targetScreenshotFrame, display: true)
-            CATransaction.commit()
-        })
+        }
         
         window.animator().alphaValue = 0
-        CATransaction.commit()
     }
     
     func windowDidEnterFullScreen(_ notification: Notification) {
@@ -708,7 +754,7 @@ extension GameWindowController: NSWindowDelegate {
     
     func window(_ window: NSWindow, startCustomAnimationToExitFullScreenWithDuration duration: TimeInterval) {
         let gameViewController = gameDocument.gameViewController
-        let screenFrame = window.screen?.frame ?? .zero
+        let screenFrame = fullScreenWindowFrameForScreen(window.screen!)
         let showBorderDuration: TimeInterval = duration / 4
         let resizeDuration: TimeInterval = duration - showBorderDuration
         
@@ -738,9 +784,11 @@ extension GameWindowController: NSWindowDelegate {
         window.alphaValue = 0
         // Scale the screenshot window down
         CATransaction.begin()
+        defer { CATransaction.commit() }
+        
         CATransaction.setAnimationDuration(resizeDuration)
         CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
-        CATransaction.setCompletionBlock({
+        CATransaction.setCompletionBlock {
             // Restore the window to its original frame.
             // We do it using setContentSize(_:) instead of setFrame(_:display:)
             // because setFrame(_:display:) does not obey the new style mask correctly
@@ -751,18 +799,18 @@ extension GameWindowController: NSWindowDelegate {
             
             // Fade the real window back in after the scaling is done
             CATransaction.begin()
+            defer { CATransaction.commit() }
+            
             CATransaction.setAnimationDuration(showBorderDuration)
             CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
-            CATransaction.setCompletionBlock({
+            CATransaction.setCompletionBlock {
                 self.hideScreenshotWindow()
-            })
+            }
             
             window.animator().alphaValue = 1
-            CATransaction.commit()
-        })
+        }
         
         screenshotWindow.animator().setFrame(screenshotWindowedFrame, display: true)
-        CATransaction.commit()
     }
     
     func windowDidExitFullScreen(_ notification: Notification) {
