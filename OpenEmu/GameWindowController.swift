@@ -86,7 +86,7 @@ final class GameWindowController: NSWindowController {
                 window.level = .floating
             }
         }
-                
+        
         let nc = NotificationCenter.default
         nc.addObserver(self,
                        selector: #selector(constrainIntegralScaleIfNeeded),
@@ -146,17 +146,18 @@ final class GameWindowController: NSWindowController {
                 // delegate method overwrites the value with fitToWindowScale
                 let integralScale = windowedIntegralScale
                 
-                let window = window
                 let windowRect = NSRect(origin: .zero, size: windowSize)
                 
                 let gameViewController = gameDocument.gameViewController
                 gameViewController?.integralScalingDelegate = self
                 
-                window?.contentViewController = gameViewController
-                window?.setFrame(windowRect, display: false, animate: false)
-                window?.center()
-                window?.contentAspectRatio = gameViewController?.defaultScreenSize ?? .zero
-                window?.tabbingIdentifier = gameDocument.systemIdentifier
+                if let window {
+                    window.contentViewController = gameViewController
+                    window.setFrame(windowRect, display: false, animate: false)
+                    window.center()
+                    window.contentAspectRatio = gameViewController?.defaultScreenSize ?? .zero
+                    window.tabbingIdentifier = gameDocument.systemIdentifier
+                }
                 
                 windowedIntegralScale = integralScale
                 
@@ -286,6 +287,7 @@ final class GameWindowController: NSWindowController {
     ///
     /// That reduces the size to 1085 points, however, reading the ``NSWindow`` frame
     /// after transitioning to full-screen, the final size is 1080 points. Hence, a constant of 5 points.
+    /// ⚠️ The 5 points remains constant across all tested resolutions.
     static let extraMarginForFullScreenWithSafeArea = 5.0
     
     func fullScreenContentSizeForScreen(_ screen: NSScreen) -> CGSize {
@@ -377,18 +379,18 @@ final class GameWindowController: NSWindowController {
     }
     
     private func windowSize(forGameViewIntegralScale integralScale: Int) -> NSSize {
-        let contentSize = windowContentSize(forGameViewIntegralScale: integralScale)
-        let windowSize = window?.frameRect(forContentRect: NSRect(origin: .zero, size: contentSize)).size
+        guard let window else { return .zero }
         
-        return windowSize ?? .zero
+        let contentSize = windowContentSize(forGameViewIntegralScale: integralScale)
+        return window.frameRect(forContentRect: NSRect(origin: .zero, size: contentSize)).size
     }
     
     private func changeGameViewIntegralScale(_ newScale: Int) {
         if fullScreenStatus == .nonFullScreen {
-            if UserDefaults.standard.bool(forKey: OEPopoutGameWindowTreatScaleFactorAsPixels) == false {
-                if windowedIntegralScale == newScale {
-                    return
-                }
+            if UserDefaults.standard.bool(forKey: OEPopoutGameWindowTreatScaleFactorAsPixels) == false,
+               windowedIntegralScale == newScale
+            {
+                return
             }
             
             windowedIntegralScale = newScale
@@ -420,10 +422,10 @@ final class GameWindowController: NSWindowController {
                 window?.animator().setFrame(newWindowFrame, display: true)
             }
         } else { // fullScreenStatus == .fullScreen
-            if UserDefaults.standard.bool(forKey: OEPopoutGameWindowTreatScaleFactorAsPixels) == false {
-                if fullScreenIntegralScale == newScale {
-                    return
-                }
+            if UserDefaults.standard.bool(forKey: OEPopoutGameWindowTreatScaleFactorAsPixels) == false,
+               fullScreenIntegralScale == newScale
+            {
+                return
             }
             
             fullScreenIntegralScale = newScale
@@ -630,24 +632,32 @@ extension GameWindowController: NSWindowDelegate {
     // was already paused in the first place).
     
     func windowWillEnterFullScreen(_ notification: Notification) {
+        guard let window = notification.object as? NSWindow else {
+            if #available(macOS 11.0, *) {
+                Logger.default.error("windowWillEnterFullScreen: Expected NSWindow")
+            }
+            
+            return
+        }
+        
         fullScreenStatus = .entering
-        windowedFrame = window?.frame ?? .zero
+        windowedFrame = window.frame
         
         resumePlayingAfterFullScreenTransition = !gameDocument.isEmulationPaused
         gameDocument.isEmulationPaused = true
         
         // move the screenshot window to the same screen as the game window
         // otherwise it will be shown in the system full-screen animation
-        screenshotWindow.setFrameOrigin(window?.screen?.frame.origin ?? .zero)
+        screenshotWindow.setFrameOrigin(window.screen?.frame.origin ?? .zero)
         
         let gameViewController = gameDocument.gameViewController
         gameViewController?.controlsWindow.canShow = false
         gameViewController?.controlsWindow.hide(animated: true)
         screenshotWindow.setScreenshot(gameDocument.screenshot())
         
-        window?.contentMinSize = Self.windowMinSize
-        window?.contentMaxSize = NSSize(width: CGFloat.greatestFiniteMagnitude,
-                                        height: CGFloat.greatestFiniteMagnitude)
+        window.contentMinSize = Self.windowMinSize
+        window.contentMaxSize = NSSize(width: CGFloat.greatestFiniteMagnitude,
+                                       height: CGFloat.greatestFiniteMagnitude)
     }
     
     func customWindowsToEnterFullScreen(for window: NSWindow) -> [NSWindow]? {
@@ -656,8 +666,8 @@ extension GameWindowController: NSWindowDelegate {
     
     func window(_ window: NSWindow, startCustomAnimationToEnterFullScreenWithDuration duration: TimeInterval) {
         let screenFrame = fullScreenWindowFrameForScreen(window.screen!)
-        let hideBorderDuration: TimeInterval = duration / 4
-        let resizeDuration: TimeInterval = duration - hideBorderDuration
+        let hideBorderDuration = duration / 4
+        let resizeDuration = duration - hideBorderDuration
         let sourceScreenshotFrame = window.contentRect(forFrameRect: window.frame)
         
         screenshotWindow.setFrame(sourceScreenshotFrame, display: true)
@@ -666,14 +676,12 @@ extension GameWindowController: NSWindowDelegate {
         var targetScreenshotFrame = screenFrame
         if fullScreenIntegralScale != Self.fitToWindowScale {
             let targetContentSize = windowContentSize(forGameViewIntegralScale: fullScreenIntegralScale)
-            var origin = NSPoint(x: (screenFrame.size.width - targetContentSize.width) / 2,
+            let origin = NSPoint(x: (screenFrame.size.width - targetContentSize.width) / 2,
                                  y: (screenFrame.size.height - targetContentSize.height) / 2)
-            origin.x += screenFrame.origin.x
-            origin.y += screenFrame.origin.y
-            targetScreenshotFrame = NSRect(origin: origin, size: targetContentSize)
+            targetScreenshotFrame = NSRect(origin: origin + screenFrame.origin, size: targetContentSize)
             targetScreenshotFrame = targetScreenshotFrame.integral
         }
-                
+        
         // Fade the real window out
         CATransaction.begin()
         defer { CATransaction.commit() }
@@ -701,6 +709,14 @@ extension GameWindowController: NSWindowDelegate {
     }
     
     func windowDidEnterFullScreen(_ notification: Notification) {
+        guard let window = notification.object as? NSWindow else {
+            if #available(macOS 11.0, *) {
+                Logger.default.error("windowDidEnterFullScreen: Expected NSWindow")
+            }
+            
+            return
+        }
+        
         fullScreenStatus = .fullScreen
         
         if resumePlayingAfterFullScreenTransition {
@@ -716,7 +732,7 @@ extension GameWindowController: NSWindowDelegate {
         if let bgColorString {
             bgColor = NSColor(from: bgColorString)
         }
-        window?.backgroundColor = bgColor ?? .black
+        window.backgroundColor = bgColor ?? .black
         
         if fullScreenIntegralScale != Self.fitToWindowScale {
             let size = windowContentSize(forGameViewIntegralScale: fullScreenIntegralScale)
@@ -725,7 +741,7 @@ extension GameWindowController: NSWindowDelegate {
             gameViewController?.gameViewSetIntegralSize(fillScreenContentSize, animated: false)
         }
         
-        if let window, window.isAdaptiveSyncSchedulingAvailable {
+        if window.isAdaptiveSyncSchedulingAvailable {
             // Self.logger.debug("Enabling adaptive sync.")
             gameDocument.setAdaptiveSyncEnabled(true)
             adaptiveSyncWasEnabled = true
@@ -770,11 +786,9 @@ extension GameWindowController: NSWindowDelegate {
         
         var screenshotFrame = screenFrame
         if fullScreenIntegralScale != Self.fitToWindowScale {
-            var origin = NSPoint(x: (screenFrame.size.width - fullScreenContentSize.width) / 2,
+            let origin = NSPoint(x: (screenFrame.size.width - fullScreenContentSize.width) / 2,
                                  y: (screenFrame.size.height - fullScreenContentSize.height) / 2)
-            origin.x += screenFrame.origin.x
-            origin.y += screenFrame.origin.y
-            screenshotFrame = NSRect(origin: origin, size: fullScreenContentSize)
+            screenshotFrame = NSRect(origin: origin + screenFrame.origin, size: fullScreenContentSize)
             screenshotFrame = screenshotFrame.integral
         }
         
@@ -814,6 +828,14 @@ extension GameWindowController: NSWindowDelegate {
     }
     
     func windowDidExitFullScreen(_ notification: Notification) {
+        guard let window = notification.object as? NSWindow else {
+            if #available(macOS 11.0, *) {
+                Logger.default.error("windowDidExitFullScreen: Expected NSWindow")
+            }
+            
+            return
+        }
+        
         fullScreenStatus = .nonFullScreen
         
         if resumePlayingAfterFullScreenTransition {
@@ -826,7 +848,7 @@ extension GameWindowController: NSWindowDelegate {
         gameViewController?.gameViewFillSuperView()
         updateContentSizeConstraints()
         
-        window?.backgroundColor = nil
+        window.backgroundColor = nil
     }
     
     func windowDidFailToEnterFullScreen(_ window: NSWindow) {
