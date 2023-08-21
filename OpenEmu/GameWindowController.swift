@@ -44,8 +44,6 @@ final class GameWindowController: NSWindowController {
     private static let fullScreenIntegralScaleKey = "fullScreenIntegralScale" // Int
     private static let lastWindowSizeKey = "lastPopoutWindowSize" // String (NSSize)
     
-    // private static let logger = Logger(subsystem: "org.openemu.OpenEmu", category: "popout_game_window")
-    
     private static let windowMinSize = NSSize(width: 100, height: 100)
     private static let fitToWindowScale = 0
     
