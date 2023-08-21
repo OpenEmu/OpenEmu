@@ -124,12 +124,13 @@ extension CoreDownload: URLSessionDownloadDelegate {
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        
         DLog("Core download (\(session.sessionDescription ?? "")) did finish downloading temporary data.")
         
         let coresFolder = URL.oeApplicationSupportDirectory
             .appendingPathComponent("Cores", isDirectory: true)
         
+        // TODO: per URLSession docs
+        //  "If you choose to open the file for reading, you should do the actual reading in another thread to avoid blocking the delegate queue."
         guard
             let fileName = ArchiveHelper.decompressFileInArchive(at: location, toDirectory: coresFolder)
         else { return }

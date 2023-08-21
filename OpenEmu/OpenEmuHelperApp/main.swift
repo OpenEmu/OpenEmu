@@ -25,8 +25,8 @@
 import Foundation
 import OpenEmuKit
 
-#if false
-XPCDebugSupport.waitForDebugger(until: .distantFuture)
-#endif
+if let wait = ProcessInfo.processInfo.environment["OE_HELPER_WAIT_FOR_DEBUGGER"] as? NSString, wait.boolValue {
+    XPCDebugSupport.waitForDebugger(until: .distantFuture)
+}
 
 OpenEmuXPCHelperApp.run()
