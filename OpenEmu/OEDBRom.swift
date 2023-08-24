@@ -387,20 +387,20 @@ final class OEDBRom: OEDBItem {
 extension OEDBRom {
     
     func dump(prefix: String = "---") {
-        NSLog("\(prefix) Beginning of ROM dump")
+        Logger.library.debug("\(prefix) Beginning of ROM dump")
         
-        os_log(.debug, log: .library, "\(prefix) ROM location is \(self.location?.description ?? "nil")")
-        // os_log(.debug, log: .library, "\(prefix) favorite? \(self.isFavorite)")
-        os_log(.debug, log: .library, "\(prefix) MD5 is \(self.md5?.description ?? "nil")")
-        os_log(.debug, log: .library, "\(prefix) last played is \(self.lastPlayed?.description ?? "nil")")
-        os_log(.debug, log: .library, "\(prefix) file size is \(self.fileSize?.description ?? "nil")")
-        os_log(.debug, log: .library, "\(prefix) play count is \(self.playCount?.description ?? "nil")")
-        os_log(.debug, log: .library, "\(prefix) play time is \(self.playTime?.description ?? "nil")")
-        os_log(.debug, log: .library, "\(prefix) ROM is linked to a game? \(self.game != nil ? "YES" : "NO")")
+        Logger.library.debug("\(prefix) ROM location is \(self.location?.description ?? "nil")")
+        // Logger.library.debug("\(prefix) favorite? \(self.isFavorite)")
+        Logger.library.debug("\(prefix) MD5 is \(self.md5?.description ?? "nil")")
+        Logger.library.debug("\(prefix) last played is \(self.lastPlayed?.description ?? "nil")")
+        Logger.library.debug("\(prefix) file size is \(self.fileSize?.description ?? "nil")")
+        Logger.library.debug("\(prefix) play count is \(self.playCount?.description ?? "nil")")
+        Logger.library.debug("\(prefix) play time is \(self.playTime?.description ?? "nil")")
+        Logger.library.debug("\(prefix) ROM is linked to a game? \(self.game != nil ? "YES" : "NO")")
         
-        os_log(.debug, log: .library, "\(prefix) Number of save states for this ROM is \(self.saveStateCount)")
+        Logger.library.debug("\(prefix) Number of save states for this ROM is \(self.saveStateCount)")
         
-        os_log(.debug, log: .library, "\(prefix) End of ROM dump\n\n")
+        Logger.library.debug("\(prefix) End of ROM dump\n\n")
     }
 }
 #endif

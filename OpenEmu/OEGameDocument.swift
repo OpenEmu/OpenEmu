@@ -1047,7 +1047,6 @@ final class OEGameDocument: NSDocument {
     }
     
     @objc func setAdaptiveSyncEnabled(_ enabled: Bool) {
-        NSLog("setting adaptive sync: \(enabled)")
         gameCoreHelper?.setAdaptiveSyncEnabled(enabled)
     }
     

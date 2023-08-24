@@ -740,7 +740,9 @@ extension GameWindowController: NSWindowDelegate {
         }
         
         if window.isAdaptiveSyncSchedulingAvailable {
-            // Self.logger.debug("Enabling adaptive sync.")
+            if #available(macOS 11.0, *) {
+                Logger.default.debug("Enabling adaptive sync.")
+            }
             gameDocument.setAdaptiveSyncEnabled(true)
             adaptiveSyncWasEnabled = true
         }

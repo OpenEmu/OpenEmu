@@ -36,6 +36,7 @@ extension OSLog {
     static let event_hid = OSLog(subsystem: "org.openemu.OpenEmu.event", category: "hid")
 }
 
+// TODO: Replace with Logger.xyz.debug
 /// Logs a string in debug mode.
 func DLog(_ message: @autoclosure () -> String, fileID: String = #fileID, function: String = #function, line: Int = #line)
 {
@@ -44,10 +45,9 @@ func DLog(_ message: @autoclosure () -> String, fileID: String = #fileID, functi
 #endif
 }
 
-#if swift(>=5.8)
 @available(macOS 11.0, *)
 extension Logger {
     static let `default` = Logger(.default)
     static let download = Logger(.download)
+    static let library = Logger(.library)
 }
-#endif

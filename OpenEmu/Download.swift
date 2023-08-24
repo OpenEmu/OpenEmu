@@ -58,7 +58,7 @@ class Download: NSObject {
         let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 60)
         
         let downloadSession = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
-        downloadSession.sessionDescription = url.path
+        downloadSession.sessionDescription = url.absoluteString
         self.downloadSession = downloadSession
         
         let downloadTask = downloadSession.downloadTask(with: request)

@@ -625,22 +625,22 @@ extension OEDBGame: OEListViewDataSourceItem {
 extension OEDBGame {
     
     func dump(prefix: String = "---") {
-        os_log(.debug, log: .library, "\(prefix) Beginning of game dump")
+        Logger.library.debug("\(prefix) Beginning of game dump")
         
-        os_log(.debug, log: .library, "\(prefix) Game name is \(self.name)")
-        os_log(.debug, log: .library, "\(prefix) title is \(self.gameTitle ?? "nil")")
-        os_log(.debug, log: .library, "\(prefix) rating is \(self.rating?.description ?? "nil")")
-        os_log(.debug, log: .library, "\(prefix) description is \(self.gameDescription ?? "nil")")
-        os_log(.debug, log: .library, "\(prefix) import date is \(self.importDate?.description ?? "nil")")
-        os_log(.debug, log: .library, "\(prefix) last info sync is \(self.lastInfoSync?.description ?? "nil")")
-        os_log(.debug, log: .library, "\(prefix) last played is \(self.lastPlayed?.description ?? "nil")")
-        os_log(.debug, log: .library, "\(prefix) status is \(self.status.rawValue)")
+        Logger.library.debug("\(prefix) Game name is \(self.name)")
+        Logger.library.debug("\(prefix) title is \(self.gameTitle ?? "nil")")
+        Logger.library.debug("\(prefix) rating is \(self.rating?.description ?? "nil")")
+        Logger.library.debug("\(prefix) description is \(self.gameDescription ?? "nil")")
+        Logger.library.debug("\(prefix) import date is \(self.importDate?.description ?? "nil")")
+        Logger.library.debug("\(prefix) last info sync is \(self.lastInfoSync?.description ?? "nil")")
+        Logger.library.debug("\(prefix) last played is \(self.lastPlayed?.description ?? "nil")")
+        Logger.library.debug("\(prefix) status is \(self.status.rawValue)")
         
-        os_log(.debug, log: .library, "\(prefix) Number of ROMs for this game is \(self.roms.count)")
+        Logger.library.debug("\(prefix) Number of ROMs for this game is \(self.roms.count)")
         
         roms.forEach { $0.dump(prefix: prefix + "-----") }
         
-        os_log(.debug, log: .library, "\(prefix) End of game dump\n\n")
+        Logger.library.debug("\(prefix) End of game dump\n\n")
     }
 }
 #endif

@@ -734,30 +734,30 @@ extension OELibraryDatabase {
     @available(macOS 11.0, *)
     func dump(prefix: String = "***") {
         let subPrefix = prefix + "-----"
-        os_log(.debug, log: .library, "\(prefix) Beginning of database dump")
+        Logger.library.debug("\(prefix) Beginning of database dump")
         
-        os_log(.debug, log: .library, "\(prefix) Database folder is \(self.databaseFolderURL.path)")
-        os_log(.debug, log: .library, "\(prefix) Number of collections is \(self.collections.count)")
+        Logger.library.debug("\(prefix) Database folder is \(self.databaseFolderURL.path)")
+        Logger.library.debug("\(prefix) Number of collections is \(self.collections.count)")
         
         for collection in collections {
             //collection.dump(prefix: subPrefix)
-            os_log(.debug, log: .library, "\(subPrefix) Collection is \(collection.description)")
+            Logger.library.debug("\(subPrefix) Collection is \(collection.description)")
         }
         
-        os_log(.debug, log: .library, "\(prefix)")
+        Logger.library.debug("\(prefix)")
         let systemCount = OEDBSystem.systemCount(in: mainThreadContext)
-        os_log(.debug, log: .library, "\(prefix) Number of systems is \(systemCount)")
+        Logger.library.debug("\(prefix) Number of systems is \(systemCount)")
         for system in OEDBSystem.allSystems(in: mainThreadContext) {
             system.dump(prefix: subPrefix)
         }
         
-        os_log(.debug, log: .library, "\(prefix)")
-        os_log(.debug, log: .library, "\(prefix) ALL ROMs")
+        Logger.library.debug("\(prefix)")
+        Logger.library.debug("\(prefix) ALL ROMs")
         for rom in allROMsForDump() {
             rom.dump(prefix: subPrefix)
         }
         
-        os_log(.debug, log: .library, "\(prefix) end of database dump")
+        Logger.library.debug("\(prefix) end of database dump")
     }
     
     func allROMsForDump() -> [OEDBRom] {

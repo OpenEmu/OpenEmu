@@ -288,17 +288,17 @@ extension OEDBSystem: GameCollectionViewItemProtocol {
 extension OEDBSystem {
     
     func dump(prefix: String = "---") {
-        os_log(.debug, log: .library, "\(prefix) Beginning of system dump")
+        Logger.library.debug("\(prefix) Beginning of system dump")
         
-        os_log(.debug, log: .library, "\(prefix) System last localized name is \(self.lastLocalizedName)")
-        os_log(.debug, log: .library, "\(prefix) system identifier is \(self.systemIdentifier)")
-        os_log(.debug, log: .library, "\(prefix) enabled? \(self.isEnabled)")
+        Logger.library.debug("\(prefix) System last localized name is \(self.lastLocalizedName)")
+        Logger.library.debug("\(prefix) system identifier is \(self.systemIdentifier)")
+        Logger.library.debug("\(prefix) enabled? \(self.isEnabled)")
         
-        os_log(.debug, log: .library, "\(prefix) Number of games in this system is \(self.games.count)")
+        Logger.library.debug("\(prefix) Number of games in this system is \(self.games.count)")
         
         games.forEach { $0.dump(prefix: prefix + "-----") }
         
-        os_log(.debug, log: .library, "\(prefix) End of system dump\n\n")
+        Logger.library.debug("\(prefix) End of system dump\n\n")
     }
 }
 #endif
