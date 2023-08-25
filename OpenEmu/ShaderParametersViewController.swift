@@ -443,8 +443,13 @@ extension ShaderParametersViewController: NSMenuItemValidation {
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         switch menuItem.action {
         case #selector(paste(_:)):
-            guard let text = paramsFromClipboard() else { return false }
-            return ShaderPresetTextReader.isSignedAndValid(text: text)
+            if let text   = paramsFromClipboard(),
+               let preset = try? ShaderPresetTextReader().read(text: text) 
+            {
+                return !preset.shader.isEmpty
+            } else {
+                return false
+            }
             
         case #selector(renamePreset(_:)), #selector(delete(_:)):
             if #available(macOS 10.15, *) {
