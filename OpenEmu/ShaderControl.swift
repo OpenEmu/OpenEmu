@@ -177,7 +177,7 @@ public class ShaderControl: NSObject {
     }
     
     static func presetForSystemShader(_ systemShader: OESystemShaderModel, _ systemPlugin: OESystemPlugin) -> ShaderPreset {
-        ShaderPreset(name: "Default \(systemShader.shader.name) preset for \(systemPlugin.displayName)",
+        ShaderPreset(name: "Default \(systemShader.shader.name) preset for \(systemPlugin.systemName)",
                      systemShader: systemShader)
     }
 }
