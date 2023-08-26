@@ -492,7 +492,7 @@ extension ShaderParametersViewController {
         let name   = shaderControl.preset.shader.name
         let preset = ShaderPresetData(name: "Unnamed shader preset", shader: name, parameters: Dictionary(changedParams: params))
         guard
-            let text = try? ShaderPresetTextWriter().write(preset: preset, options: [.shader, .sign])
+            let text = try? ShaderPresetTextWriter().write(preset: preset, options: [.shader])
         else { return }
         paramsToClipboard(text)
     }
