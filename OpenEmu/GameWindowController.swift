@@ -430,7 +430,7 @@ final class GameWindowController: NSWindowController {
             
             let gv = gameDocument.gameViewController
             if newScale == Self.fitToWindowScale {
-                gv?.gameViewSetIntegralSize(.zero, animated: true)
+                gv?.gameViewSetIntegralSize(fillScreenContentSize, animated: true)
             } else {
                 let newSize = windowSize(forGameViewIntegralScale: newScale)
                 gv?.gameViewSetIntegralSize(newSize, animated: true)
