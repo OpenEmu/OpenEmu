@@ -444,7 +444,7 @@ extension ShaderParametersViewController: NSMenuItemValidation {
         switch menuItem.action {
         case #selector(paste(_:)):
             if let text   = paramsFromClipboard(),
-               let preset = try? ShaderPresetTextReader().read(text: text) 
+               let preset = try? ShaderPresetTextReader.read(text: text)
             {
                 return !preset.shader.isEmpty
             } else {
@@ -492,7 +492,7 @@ extension ShaderParametersViewController {
         let name   = shaderControl.preset.shader.name
         let preset = ShaderPresetData(name: "Unnamed shader preset", shader: name, parameters: Dictionary(changedParams: params))
         guard
-            let text = try? ShaderPresetTextWriter().write(preset: preset, options: [.shader])
+            let text = try? ShaderPresetTextWriter.write(preset: preset, options: [.shader])
         else { return }
         paramsToClipboard(text)
     }
@@ -500,7 +500,7 @@ extension ShaderParametersViewController {
     @IBAction func paste(_ sender: Any) {
         guard
             let text   = paramsFromClipboard(),
-            let preset = try? ShaderPresetTextReader().read(text: text),
+            let preset = try? ShaderPresetTextReader.read(text: text),
             !preset.shader.isEmpty
         else { return }
         
@@ -515,7 +515,7 @@ extension ShaderParametersViewController {
             undoManager?.setActionName(NSLocalizedString("Paste paramaters", comment: "undo: Paste parameter values"))
         } else {
             guard
-                let params = try? ShaderPresetTextWriter().write(preset: preset, options: [])
+                let params = try? ShaderPresetTextWriter.write(preset: preset, options: [])
             else { return }
             
             if let shader = OEShaderStore.shared.shader(withName: preset.shader) {
