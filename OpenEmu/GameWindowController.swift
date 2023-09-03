@@ -365,7 +365,7 @@ final class GameWindowController: NSWindowController {
     
     private func windowContentSize(forGameViewIntegralScale integralScale: Int) -> NSSize {
         let defaultSize = gameDocument.gameViewController.defaultScreenSize
-        var contentSize = OEScaleCGSize(defaultSize, CGFloat(integralScale))
+        var contentSize = defaultSize.scaled(by: CGFloat(integralScale))
         
         if UserDefaults.standard.bool(forKey: OEPopoutGameWindowTreatScaleFactorAsPixels),
            let backingScaleFactor = window?.backingScaleFactor
@@ -632,7 +632,7 @@ extension GameWindowController: NSWindowDelegate {
     func windowWillEnterFullScreen(_ notification: Notification) {
         guard let window = notification.object as? NSWindow else {
             if #available(macOS 11.0, *) {
-                Logger.default.error("windowWillEnterFullScreen: Expected NSWindow")
+                Logger.default.error("\(#function): Expected NSWindow")
             }
             
             return
