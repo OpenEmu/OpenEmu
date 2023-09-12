@@ -22,4 +22,3 @@ profile
 *.moved-aside
 DerivedData/
 CodeSign.xcconfig
-OpenEmu/default.profraw
