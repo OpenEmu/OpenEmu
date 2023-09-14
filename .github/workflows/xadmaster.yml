@@ -1,0 +1,33 @@
+name: XADMaster
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build XADMaster and UniversalDetector frameworks
+    runs-on: macos-12
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Create build directory
+        working-directory: ${{github.workspace}}
+        run: mkdir build
+      - name: Set Xcode version
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 13.4.1
+      - name: Build
+        working-directory: ${{github.workspace}}/build
+        run: xcodebuild -project "${{github.workspace}}/Vendor/XADMaster/XADMaster.xcodeproj" -scheme XADMaster -configuration Release -sdk macosx -derivedDataPath DerivedData
+      - name: Zip framework bundles
+        working-directory: ${{github.workspace}}/build/DerivedData/Build/Products/Release/
+        run: zip -y -r XADMaster.zip XADMaster.framework UniversalDetector.framework
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: XADMaster.zip
+          path: ${{github.workspace}}/build/DerivedData/Build/Products/Release/XADMaster.zip
