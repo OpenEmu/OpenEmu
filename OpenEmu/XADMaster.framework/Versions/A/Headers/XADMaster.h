@@ -31,3 +31,4 @@ FOUNDATION_EXPORT const unsigned char XADMasterVersionString[];
 #import <XADMaster/XADException.h>
 #import <XADMaster/XADPrefixCode.h>
 #import <XADMaster/XADSimpleUnarchiver.h>
+#import <XADMaster/XADArchiveParserDescriptions.h>

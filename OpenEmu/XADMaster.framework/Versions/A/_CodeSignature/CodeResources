@@ -6,13 +6,17 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		An3+3Rz57uRGvl43z3TUB2b35+k=
+		iKEulVjdY7izw3WTw+XLkofXjZk=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
 		<key>Headers/CSHandle.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			giHgWow6C1X9Lf8ka7pNuHUtRS0=
+			</data>
 			<key>hash2</key>
 			<data>
 			Qy4oAfNswzAaRBKUPGhhx3r6pfoS4NM/566W9ADbFeE=
@@ -20,6 +24,10 @@
 		</dict>
 		<key>Headers/CSInputBuffer.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			CwLrdj+Mq9HSxYXv9aZnHspbJdc=
+			</data>
 			<key>hash2</key>
 			<data>
 			wpzup9RX12OZCa8bv82B9pWAHcPhWWFdS3pFmepevIY=
@@ -27,6 +35,10 @@
 		</dict>
 		<key>Headers/CSStreamHandle.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			RdEA4Xtg1tU7FrONKkcbYWgiiww=
+			</data>
 			<key>hash2</key>
 			<data>
 			QBo+FhjqUHfPqIoZKCV5Ut+IaDYjtyDSPqzmKpWe5o4=
@@ -34,6 +46,10 @@
 		</dict>
 		<key>Headers/CSSubHandle.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			v15P3BZIMMwxwUEK2DqYWjwWTOc=
+			</data>
 			<key>hash2</key>
 			<data>
 			UK7IR6PWayP6V1g0HGDP7wEg6v3R1KKzjRmO84KLRIk=
@@ -41,6 +57,10 @@
 		</dict>
 		<key>Headers/Checksums.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			JxKWub5EWi0kdQzBwVWCG4wcpBc=
+			</data>
 			<key>hash2</key>
 			<data>
 			5z5NvvOYd928OcmRmzkEQ6EhBNitoE8/Wwlb9ETu3Es=
@@ -48,6 +68,10 @@
 		</dict>
 		<key>Headers/ClangAnalyser.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			nOWhSh2y1VgHobMT8PFB8ihSo/I=
+			</data>
 			<key>hash2</key>
 			<data>
 			I0oPkvfN2t25xJCT3WwaJIrxSt9n5ZLN0LHDEtg65TA=
@@ -55,6 +79,10 @@
 		</dict>
 		<key>Headers/XADArchive.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			fZZr196nK8zldpBSVa0LFI/dXsY=
+			</data>
 			<key>hash2</key>
 			<data>
 			tXJpe5dxgtgZPtDn9uvD0vQezwkhLT6UP8tI8d79OtQ=
@@ -62,13 +90,32 @@
 		</dict>
 		<key>Headers/XADArchiveParser.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			zbLjuYDmOGpF3BUO4gOd6BgqGjA=
+			</data>
 			<key>hash2</key>
 			<data>
 			3R0Dnd/oaSJwz9oQer143l5Zg/vBpbgFoZ6u4SC4DsY=
 			</data>
 		</dict>
+		<key>Headers/XADArchiveParserDescriptions.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			+j0bjNFl4hJNrkPRzQVTTEfhZIs=
+			</data>
+			<key>hash2</key>
+			<data>
+			som45l1887PedQlM6D/kS1G8QSms0LNYSjnuFtUeboc=
+			</data>
+		</dict>
 		<key>Headers/XADException.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			hwaP2DBvRulJXGEq1tCoD4jcrFk=
+			</data>
 			<key>hash2</key>
 			<data>
 			jW45ttzKoG5uRUUVWYX2yuypJrmV1GObh+z6Pkj9YzM=
@@ -76,13 +123,21 @@
 		</dict>
 		<key>Headers/XADMaster.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			qaDbAg1/4MujNiSLQD2d94mQ7X4=
+			</data>
 			<key>hash2</key>
 			<data>
-			fFMKLQr/pAy4pkDx8iwrd8uf3opzIY3nupEZKyCD4ko=
+			zzh1Ct16d2yYuqJ8D17XDEVK1+H5Dv1TpACs4wXGvyM=
 			</data>
 		</dict>
 		<key>Headers/XADPath.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			998QJ5wFSjadYbFEbTw0grz7soU=
+			</data>
 			<key>hash2</key>
 			<data>
 			2R4LjzMMFIW9IfGkZLlGyDiGWnVBl8tI8TI4FtCu02Y=
@@ -90,6 +145,10 @@
 		</dict>
 		<key>Headers/XADPlatform.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			3t7qzE7U6NxtbRPNDRH2Yt79SYw=
+			</data>
 			<key>hash2</key>
 			<data>
 			MggG+GdN26XH5/xWvx0yjrWcjmaL3OUevqoQQU/dc6Q=
@@ -97,6 +156,10 @@
 		</dict>
 		<key>Headers/XADPrefixCode.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			559O43c4oxoFocuZenrJrLWXhQ0=
+			</data>
 			<key>hash2</key>
 			<data>
 			rc9VPTpBTojhWxh4yEy+GeOYgWuMuFNW8A5bcIXPSpw=
@@ -104,6 +167,10 @@
 		</dict>
 		<key>Headers/XADRegex.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			M5YF6W2omczZ+DhmVzTIJQKCMq4=
+			</data>
 			<key>hash2</key>
 			<data>
 			/dcHa0xh0t/tx6fZMv/uVrHtFbmUOJwKrAgLenzwSRo=
@@ -111,6 +178,10 @@
 		</dict>
 		<key>Headers/XADResourceFork.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			/u5SRL7O8NXNDfsfCo7r4gaxxEY=
+			</data>
 			<key>hash2</key>
 			<data>
 			KXEQ6yhNnTjENloD1DbvEB8CR23j9ZTjb6du+bxtdf8=
@@ -118,6 +189,10 @@
 		</dict>
 		<key>Headers/XADSimpleUnarchiver.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			L3BNGINE6U/oKkVxlZLWwtbfbPE=
+			</data>
 			<key>hash2</key>
 			<data>
 			ZJ43K/7LIzpP63vwbmOY6fxeZv6mYhMjwuRaI17g1zU=
@@ -125,6 +200,10 @@
 		</dict>
 		<key>Headers/XADSkipHandle.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			g1BMiKOU8f0uzz1aLAq48Z9pfSo=
+			</data>
 			<key>hash2</key>
 			<data>
 			zZYoW2Lpr1Ys0zs+zNx1/ua4C3jIkgb+WTi+geBJA4g=
@@ -132,6 +211,10 @@
 		</dict>
 		<key>Headers/XADString.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			8iKiAkUc183VZ/SfWqDcmCqYl8Y=
+			</data>
 			<key>hash2</key>
 			<data>
 			kHQLEDjrlHUm7ZPccJUzrAyz2aGnMTubR9DOWjiR++Q=
@@ -139,6 +222,10 @@
 		</dict>
 		<key>Headers/XADUnarchiver.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			uSW7w98RhWQC10GoKZvmq8yC/2s=
+			</data>
 			<key>hash2</key>
 			<data>
 			yQsC187ufnK12l/WcD6SdyNL/FlBXzd0y9M30Lwzn04=
@@ -146,6 +233,10 @@
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			sUviDz/oCn3YUCQarDY5TbchMtk=
+			</data>
 			<key>hash2</key>
 			<data>
 			gOQyGplvf3GYl91KYWIMsS3zfbYSGQiUqKHN8qg08bc=
@@ -153,9 +244,13 @@
 		</dict>
 		<key>Resources/Info.plist</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			iKEulVjdY7izw3WTw+XLkofXjZk=
+			</data>
 			<key>hash2</key>
 			<data>
-			29FZ13EVr2v+UTmIIGq/h6XZ8GFwguvRdRzRU4tXg54=
+			TD8I2NEaYUZBPLqT7hX7x5043Mh4ekCRnFgeOuY4qvg=
 			</data>
 		</dict>
 	</dict>

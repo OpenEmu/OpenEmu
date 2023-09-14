@@ -6,13 +6,17 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		EVxNq8CKJ6j1s1lauLLuM88zTn4=
+		Zce7pNGeFmqsfaF96gh3aiYhcMg=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
 		<key>Headers/UniversalDetector.h</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			XSf4dv6wjAOpJRAo+PmBc2qo8Xg=
+			</data>
 			<key>hash2</key>
 			<data>
 			t5mMN3jSv1EJFo2w9GslWHJQc2PTms0+zENoYkmXpWI=
@@ -20,6 +24,10 @@
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			mw6+sYI5J4QNBT8TprxzzMAMf40=
+			</data>
 			<key>hash2</key>
 			<data>
 			/ZQ4yV9WrrthdSV4aBA08yrHkVNyHCyytCfrk3Cwzd4=
@@ -27,9 +35,13 @@
 		</dict>
 		<key>Resources/Info.plist</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			Zce7pNGeFmqsfaF96gh3aiYhcMg=
+			</data>
 			<key>hash2</key>
 			<data>
-			ppcOzD/mFSdFpBcrKVVoM66UmQsjjiXodK6jB96yIWk=
+			WbxOIge//aFG3IY6xSwCGUmRCgVWXuPut4EGXDat2p8=
 			</data>
 		</dict>
 	</dict>
