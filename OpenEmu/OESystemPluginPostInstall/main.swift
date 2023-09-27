@@ -85,8 +85,7 @@ func readLocalizedInfoPlistStrings(appBundle: Bundle) -> [String: [String: Strin
         let plist = appBundle.resourceURL!.appendingPathComponent(localization + ".lproj/InfoPlist.strings")
         do {
             let data = try Data(contentsOf: plist)
-            var strings = try PropertyListSerialization.propertyList(from: data, options: .mutableContainers, format: nil) as! [String: String]
-            strings.removeValue(forKey: "%@ Game")
+            let strings = try PropertyListSerialization.propertyList(from: data, options: .mutableContainers, format: nil) as! [String: String]
             res[localization] = strings
         } catch {
             res[localization] = [:]
