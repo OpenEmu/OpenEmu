@@ -23,9 +23,9 @@
 
 "Back Up…" = "備份…";
 
-"Organize Library…" = "整理媒體櫃…";
+"Organize Library…" = "整理遊戲庫…";
 
-"Export Library…" = "匯出媒體櫃…";
+"Export Library…" = "匯出遊戲庫…";
 
 "Import Collection" = "匯入收藏";
 
@@ -55,13 +55,13 @@
 
 "Minimize" = "最小化";
 
-"View" = "檢視";
+"View" = "顯示方式";
 
 "as List" = "清單檢視";
 
 "Fullscreen" = "進入全螢幕";
 
-"as Grid" = "格狀檢視";
+"as Grid" = "圖像顯示";
 
 "Undock Game Window" = "取消固定視窗";
 
@@ -111,7 +111,7 @@
 
 "Show ROM Names" = "顯示 ROM 名稱";
 
-"Show Library" = "顯示媒體櫃";
+"Show Library" = "顯示遊戲庫";
 
 "Take Screenshot" = "螢幕快照";
 

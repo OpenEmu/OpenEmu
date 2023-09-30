@@ -1,7 +1,7 @@
 
 "General" = "通用";
 
-"Debug Mode" = "調試模式";
+"Debug Mode" = "Debug 模式";
 
 "Setup Assistant has finished" = "設置助理已完成";
 
@@ -9,23 +9,23 @@
 
 "Run games using:" = "運行遊戲，使用:";
 
-"Library Window" = "資源庫視窗";
+"Library Window" = "遊戲庫視窗";
 
 "Reset main window size" = "重設主視窗大小";
 
-"Show game titles instead of rom names" = "顯示遊戲標題而不是 rom 名";
+"Show game titles instead of rom names" = "顯示遊戲標題而不是 ROM 名";
 
-"Manually choose system on import" = "導入時手動選擇系統";
+"Manually choose system on import" = "匯入時手動選擇系統";
 
 "Show autosave states in save state category" = "在保存狀態分類中顯示自動保存狀態";
 
 "Show quicksave states in save state category" = "在保存狀態分類中顯示快速保存狀態";
 
-"Toggle game scanner view" = "Toggle game scanner view"; //TODO
+"Toggle game scanner view" = "切換遊戲掃描器檢視";
 
 "HUD Bar / Gameplay" = "HUD 條 / 遊戲";
 
-"Show notifications during gameplay" = "Show notifications during gameplay";
+"Show notifications during gameplay" = "在遊戲過程中顯示通知";
 
 "Use quicksave slots" = "使用快速保存位置";
 
@@ -33,11 +33,11 @@
 
 "Show autosave in menu" = "在功能表顯示自動保存";
 
-"Show audio output device in menu" = "在功能表顯示音頻輸出設備";
+"Show audio output device in menu" = "在功能表顯示音訊輸出設備";
 
 "Take screenshots in native size" = "以原始尺寸拍攝螢幕快照";
 
-"Disable aspect ratio correction in screenshots" = "禁用長寬比修正"; // TODO: specify "in screenshots"
+"Disable aspect ratio correction in screenshots" = "螢幕截圖時停用長寬比修正";
 
 "Game View Background color:" = "遊戲視圖背景顏色:";
 
@@ -51,9 +51,9 @@
 
 "Log Keyboard Events" = "記錄鍵盤事件";
 
-"Show all special keys" = "顯示所有全局按鍵"; // TODO
+"Show all special keys" = "顯示所有功能按鍵";
 
-"Set default save states directory" = "設置默認保存狀態目錄";
+"Set default save states directory" = "設置預設保存狀態目錄";
 
 "Cleanup autosave state" = "清除自動保存狀態";
 
@@ -63,62 +63,62 @@
 
 "Update OpenVGDB" = "更新 OpenVGDB";
 
-"Database Actions" = "數據庫操作";
+"Database Actions" = "資料庫操作";
 
-"Delete artwork that can be downloaded" = "Delete artwork that can be downloaded";
+"Delete artwork that can be downloaded" = "刪除可下載的插圖";
 
 "Download missing artwork…" = "下載缺少的插圖…";
 
-"Remove untracked artwork files" = "移除未使用的插圖文件";
+"Remove untracked artwork files" = "移除未使用的插圖檔案";
 
-"Cleanup rom hashes" = "清除 rom 散列值";
+"Cleanup rom hashes" = "清除 ROM 散列值";
 
-"Remove duplicated roms" = "移除重複的 rom";
+"Remove duplicated roms" = "移除重複的 ROM";
 
 "Cancel cover sync for all games" = "為所有遊戲取消封面同步";
 
-"Perform Sanity Check on Database" = "對數據庫執行完整性檢查";
+"Perform Sanity Check on Database" = "對資料庫執行完整性檢查";
 
 "While performing this operation OpenEmu will be unresponsive." = "執行此操作時 OpenEmu 將無響應。";
 
-"Delete useless image objects" = "Delete useless image objects";
+"Delete useless image objects" = "刪除無用的圖像物件";
 
 "Sync games without artwork" = "Sync games without artwork";
 
-"Threshold for analog controls bound to buttons:" = "Threshold for analog controls\nbound to buttons:";
+"Threshold for analog controls bound to buttons:" = "類比搖桿控制器\n綁定到按鈕的閾值:";
 
-"Range: %@ to %@" = "范围: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
+"Range: %@ to %@" = "範圍: %@ 到 %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
 
-"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+"Default Value: %@" = "預設值: %@";  // Default value tooltip format in the Debug Preferences
 
-"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+"Checked" = "已勾選";  // Default value tooltip for checkboxes: checked default
 
-"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+"Unchecked" = "未勾選";  // Default value tooltip for checkboxes: unchecked default
 
-"Shaders" = "Shaders";  // TODO
+"Shaders" = "著色器";
 
-"Clear shader cache" = "Clear shader cache";  // TODO
+"Clear shader cache" = "清除著色器快取";
 
-"Reveal user shader folder" = "Reveal user shader folder";  // TODO
+"Reveal user shader folder" = "顯示使用者著色器檔案夾";
 
-"Appearance:" = "Appearance:";  // TODO
+"Appearance:" = "外觀:";
 
-"Auto (region)" = "Auto";  // TODO
+"Auto (region)" = "自動";
 
-"North America" = "North America";  // TODO
+"North America" = "北美";
 
-"Japan" = "Japan";  // TODO
+"Japan" = "日本";
 
-"Europe" = "Europe";  // TODO
+"Europe" = "歐洲";
 
-"Other" = "Other";  // TODO
+"Other" = "其他";
 
-"XPC" = "XPC";  // TODO
+"XPC" = "XPC";
 
-"Background Thread" = "Background Thread";  // TODO
+"Background Thread" = "背景執行緒";
 
-"System" = "System";  // TODO
+"System" = "系統";
 
-"Dark (default)" = "Dark (default)";  // TODO
+"Dark (default)" = "Dark (預設)";
 
-"Light" = "Light";  // TODO
+"Light" = "Light";

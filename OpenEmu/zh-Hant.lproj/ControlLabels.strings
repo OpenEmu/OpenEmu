@@ -1,34 +1,34 @@
 
 /* Section Title */
 
-"Gameplay Buttons" = "遊戲按鈕";
+"Gameplay Buttons" = "遊戲手把";
 
-"Special Keys" = "特殊鍵";
+"Special Keys" = "功能按鍵";
 
 
 /* Group Labels */
 
-"-" = "-";   // TODO
+"-" = "-";
 
-"3D Control Pad" = "3D Control Pad";   // TODO
+"3D Control Pad" = "3D Control Pad";   // Sega Saturn
 
-"Analog" = "類比";
+"Analog" = "類比搖桿";
 
-"C-Pad" = "C-Pad";
+"C-Pad" = "C-Pad";   // Nintendo 64
 
-"C-Stick" = "C-Stick";
+"C-Stick" = "C-Stick";   // GameCube
 
-"D-Pad" = "方向鍵";
+"D-Pad" = "十字鍵";
 
 "Keypad" = "鍵台";
 
-"Left Analog" = "左類比";
+"Left Analog" = "左類比搖桿";
 
-"Left D-Pad" = "左方向鍵";
+"Left D-Pad" = "左十字鍵";
 
-"Right Analog" = "右類比";
+"Right Analog" = "右類比搖桿";
 
-"Right D-Pad" = "右方向鍵";
+"Right D-Pad" = "右十字鍵";
 
 "Switches" = "開關";
 
@@ -69,13 +69,13 @@
 
 "B" = "B";
 
-"Bottom Left Action" = "Bottom Left Action";
+"Bottom Left Action" = "左下 Action";   // Intellivision
 
-"Bottom Right Action" = "Bottom Right Action";
+"Bottom Right Action" = "右下 Action";   // Intellivision
 
 "Button 1" = "按鈕 1";
 
-"Button 1/Start" = "按鈕 1/開始";
+"Button 1/Start" = "按鈕 1/開始";   // Sega Master System
 
 "Button 2" = "按鈕 2";
 
@@ -91,9 +91,9 @@
 
 "Change Disk Side" = "磁碟換面";
 
-"Clear" = "Clear";
+"Clear" = "Clear";   // Intellivision
 
-"Configure" = "Configure";   // TODO
+"Configure" = "配置";
 
 "Console Pause" = "主機暫停";
 
@@ -101,7 +101,7 @@
 
 "Down" = "下";
 
-"Enter" = "Enter";
+"Enter" = "Enter";   // Intellivision
 
 "Fire" = "開火";
 
@@ -111,7 +111,7 @@
 
 "Insert Coin" = "投幣";
 
-"Jump" = "Jump";   // TODO
+"Jump" = "Jump";
 
 "L" = "L";
 
@@ -131,23 +131,23 @@
 
 "Left Action" = "左動作鍵";
 
-"Left Trigger" = "左發射鍵";
+"Left Trigger" = "左扳機鍵";
 
-"Lid" = "蓋子";
+"Lid" = "蓋子";   // Nintendo DS
 
 "Menu" = "功能表";
 
-"Mic" = "麥克風";
+"Mic" = "Mic";   // Nintendo DS
 
 "Mode" = "模式";
 
-"Mode Switch" = "Mode Switch";   // TODO
+"Mode Switch" = "模式開關";
 
-"Option" = "選項";
+"Option" = "Option";   // NeoGeo Pocket
 
-"Option 1" = "選項 1";
+"Option 1" = "選項 1";   // Atari Lynx
 
-"Option 2" = "選項 2";
+"Option 2" = "選項 2";   // Atari Lynx
 
 "P" = "P";
 
@@ -173,31 +173,31 @@
 
 "Right Action" = "右動作鍵";
 
-"Right Trigger" = "右發射鍵";
+"Right Trigger" = "右扳機鍵";
 
-"Run" = "執行";
+"Run" = "Run";
 
-"Select" = "選擇";
+"Select" = "Select";
 
 "Service" = "服務";
 
 "Shake" = "Shake";
 
-"Sound" = "聲音";
+"Sound" = "Sound";
 
-"Start" = "開始";
+"Start" = "Start";
 
-"Swap Joysticks" = "Swap Joysticks";   // TODO
+"Swap Joysticks" = "交換搖桿";
 
 "TV Black & White" = "黑白電視";
 
 "TV Color" = "彩色電視";
 
-"Top Action" = "Top Action";
+"Top Action" = "頂部 Action";   // Intellivision
 
-"Trigger L" = "Trigger L";   // TODO
+"Trigger L" = "扳機 L";   // Sega Saturn 3D Control Pad
 
-"Trigger R" = "Trigger R";   // TODO
+"Trigger R" = "扳機 R";   // Sega Saturn 3D Control Pad
 
 "Up" = "上";
 
@@ -240,25 +240,25 @@
 
 "Fullscreen" = "全螢幕";
 
-"Last Display Mode" = "上一個顯示模式";
+"Last Display Mode" = "上個顯示模式";
 
 "Load" = "載入";
 
 "Mute" = "靜音";
 
-"Next Display Mode" = "下一個顯示模式";
+"Next Display Mode" = "下個顯示模式";
 
-"Pause/Resume" = "暫停"; // TODO
+"Pause/Resume" = "暫停/恢復";
 
-"Quick Load" = "快速載入按鈕";
+"Quick Load" = "快速讀檔";
 
-"Quick Save" = "快速儲存按鈕";
+"Quick Save" = "快速存檔";
 
-"Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
+"Rapid Fire Clear" = "清除連發";
 
-"Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
+"Rapid Fire Reset" = "重設連發";
 
-"Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
+"Rapid Fire Toggle" = "切換連發";
 
 "Reset" = "重設";
 
@@ -268,9 +268,9 @@
 
 "Screenshot" = "螢幕快照";
 
-"Step Backward" = "Step Backward";
+"Step Backward" = "後退一步";
 
-"Step Forward" = "Step Forward";
+"Step Forward" = "向前一步";
 
 "Volume Down" = "音量降低";
 
