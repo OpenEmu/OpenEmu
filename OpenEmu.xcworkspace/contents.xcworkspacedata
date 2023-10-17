@@ -32,6 +32,9 @@
       location = "group:CrabEmu/CrabEmu.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:DeSmuME/src/cocoa/DeSmuME (Latest).xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:FCEU/FCEU.xcodeproj">
    </FileRef>
    <FileRef
@@ -39,6 +42,9 @@
    </FileRef>
    <FileRef
       location = "group:GenesisPlus/GenesisPlus.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:JollyCV/JollyCV.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:UME/MAME.xcodeproj">
