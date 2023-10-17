@@ -82,3 +82,9 @@
 [submodule "UniversalDetector"]
 	path = Vendor/UniversalDetector
 	url = https://github.com/MacPaw/universal-detector
+[submodule "JollyCV"]
+	path = JollyCV
+	url = ../../OpenEmu/JollyCV-Core.git
+[submodule "DeSmuME"]
+	path = DeSmuME
+	url = ../../OpenEmu/DeSmuME-Core.git
