@@ -36,8 +36,98 @@
     NSString *dataTrackString = [file readASCIIStringInRange:NSMakeRange(0x8008, 11)];
     NSString *dataTrackString2 = [file readASCIIStringInRange:NSMakeRange(0x9320, 11)];
 
-    // Only tested this on one ISO. Might be different for DVDs.
-    return ([dataTrackString isEqualToString:@"PLAYSTATION"] || [dataTrackString2 isEqualToString:@"PLAYSTATION"]) ? OEFileSupportYes : OEFileSupportNo;
+    // ISO 9660 CD001, check for MODE1 or MODE2
+    //This is very granular. Perhaps making it a bit more fuzzy will increase speed?
+    
+    NSUInteger discSectorSize, discSectorHeader, discOffset;
+
+    // Find which offset contains PLAYSTATION
+    if([dataTrackString isEqualToString:@"PLAYSTATION"])
+    {
+        // ISO9660/MODE1/2048
+        discSectorSize    = 2048; // 0x800
+        discSectorHeader = 0;
+        discOffset    = ((discSectorSize * 16) + discSectorHeader);
+        
+    }
+    else if([dataTrackString2 isEqualToString:@"PLAYSTATION"])
+    {
+        // ISO9660/MODE2/FORM1/2352
+        discSectorSize = 2352;  // 0x930
+        discSectorHeader = 24; // 0x18
+        discOffset = ((discSectorSize * 16) + discSectorHeader);
+    }
+    else
+    {
+        // bad dump, not ISO 9660
+        return OEFileSupportNo;
+    }
+
+    // Root Directory Record offset
+    NSUInteger rootDirectoryRecordLocationOffset = 0x9E;
+    NSData *rootDirectoryRecordBuffer = [file readDataInRange:NSMakeRange(discOffset + rootDirectoryRecordLocationOffset, 8)];
+    
+    int rootDirectoryRecordSector = *((int *)[rootDirectoryRecordBuffer bytes]);
+    
+    NSUInteger rootDirectoryRecordOffset = rootDirectoryRecordSector * discSectorSize;
+    
+    //NSLog(@"Root Directory Record Offset: 0x%08X", (uint32_t)rootDirectoryRecordOffset);
+
+    // Find SYSTEM.CNF
+    BOOL foundTitleIDFile = NO;
+    NSUInteger position = 0;
+    while(position < discSectorSize)
+    {
+        NSString *systemcnfString = [file readASCIIStringInRange:NSMakeRange(rootDirectoryRecordOffset + position, 10)];
+        if([systemcnfString isEqualToString:@"SYSTEM.CNF"])
+        {
+            // SYSTEM.CNF file record found
+            //NSLog(@"SYSTEM.CNF file record found at pos: 0x%03X", (uint32_t)position);
+            foundTitleIDFile = YES;
+            break;
+        }
+        
+        position++;
+    }
+    
+    if(!foundTitleIDFile)
+    {
+        // bad dump, couldn't find SYSTEM.CNF entry on the specified sector
+        return OEFileSupportUncertain;
+    }
+
+    // SYSTEM.CNF Extent Location (Data location)
+    NSUInteger systemcnfDataOffset = (rootDirectoryRecordOffset + position) - 0x1F;
+    NSData *systemcnfExtentLocationDataBuffer = [file readDataInRange:NSMakeRange(systemcnfDataOffset, 8)];
+
+    int sizeExtentOffset = *((int *)[systemcnfExtentLocationDataBuffer bytes]);
+    NSUInteger systemcnfExtentOffset = sizeExtentOffset * discSectorSize;
+    //NSLog(@"SYSTEM.CNF Extent (data) Offset: 0x%08X", (uint32_t)systemcnfExtentOffset);
+
+    // Data length (size)
+    NSUInteger systemcnfDataLengthOffset = (rootDirectoryRecordOffset + position) - 0x17;
+    NSData *systemcnfDataLengthDataBuffer = [file readDataInRange:NSMakeRange(systemcnfDataLengthOffset, 8)];
+    NSUInteger systemcnfDataLength = *((int *)[systemcnfDataLengthDataBuffer bytes]);
+
+    //NSLog(@"SYSTEM.CNF Data Length: 0x%08X", (uint32_t)systemcnfDataLength);
+
+    NSString *output = [file readASCIIStringInRange:NSMakeRange(systemcnfExtentOffset + discSectorHeader, systemcnfDataLength)];
+
+    //NSLog(@"output: %@", output);
+
+    // RegEx pattern match the disc serial
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"BOOT2\\s*=\\s*?cdrom0:\\\\?(.+\\\\)?(.+?(?=;|\\s))" options:NSRegularExpressionCaseInsensitive error:nil];
+    NSTextCheckingResult *match = [regex firstMatchInString:output options:0 range:NSMakeRange(0, [output length])];
+
+    if(match == nil)
+    {
+        NSLog(@"RegEx pattern could not match serial. Full string:\n%@", output);
+        return OEFileSupportNo;
+    }
+    else
+    {
+        return OEFileSupportYes;
+    }
 }
 
 - (NSString *)serialLookupForFile:(__kindof OEFile *)file
