@@ -5,33 +5,33 @@
 
 "%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ 遊戲會出現在這裡。查詢 %@ 獲知如何加入光碟遊戲。";
 
-"%@ games you add to OpenEmu will appear in this Console Library" = "加入到 OpenEmu 的 %@ 遊戲會出現在這個主機庫";
+"%@ games you add to OpenEmu will appear in this Console Library" = "加入到 OpenEmu 的 %@ 遊戲會出現在該主機遊戲庫中";
 
 "%ux" = "%ux";
 
 "ERROR_PLUGIN_IMPORT_ALREADYLOADED" = "此外掛的一個版本已經加載";
 
-"Add" = "Add"; // TODO
+"Add" = "Add";
 
-"Add a Wiimote…" = "加入一個 Wiimote…";
+"Add a Wiimote…" = "新增一個 Wiimote…";
 
-"Add Cheat…" = "加入金手指…";
+"Add Cheat…" = "新增金手指…";
 
-"Add Cheat" = "加入金手指";
+"Add Cheat" = "新增金手指";
 
-"Add Cover Art from File…" = "Add Cover Art from File…";
+"Add Cover Art from File…" = "從檔案新增封面藝術…";
 
-"Add to Collection" = "Add to Collection";
+"Add to Collection" = "新增至收藏";
 
-"Add to Library…" = "加入至媒體櫃…";
+"Add to Library…" = "加入至遊戲庫…";
 
 "All Games" = "所有遊戲";
 
 "All Homebrew" = "所有自製作品";
 
-"Already in library:" = "Already in library:";  // TODO
+"Already in library:" = "已在遊戲庫中:";
 
-"Already in library, but manually deleted or unreachable:" = "Already in library, but manually deleted or unreachable:"; // TODO
+"Already in library, but manually deleted or unreachable:" = "已在遊戲庫中，但被手動刪除或無法訪問:";
 
 "Are you sure you want to delete %ld save states from your OpenEmu library?" = "你確定要從 OpenEmu 資源庫刪除 %ld 個已保存遊戲？";
 
@@ -45,17 +45,17 @@
 
 "Are you sure you want to delete the selected games from your OpenEmu library?" = "你確定要從 OpenEmu 資源庫刪除所選遊戲？";
 
-"Are you sure you want to quit the application?" = "你確定要退出應用？";
+"Are you sure you want to quit the application?" = "你確定要結束應用程式？";
 
-"Are you sure you want to remove the selected game from the collection?" = "你確定要從收藏移除所選遊戲？"; //TODO
+"Are you sure you want to remove the selected game from the collection?" = "你確定要從收藏移除所選遊戲？";
 
 "Are you sure you want to remove the selected games from the collection?" = "你確定要從收藏移除所選遊戲？";
 
-"Are you sure you want to remove the collection '%@'?" = "你確定要移除這個收藏？"; // TODO
+"Are you sure you want to remove the collection '%@'?" = "你確定要移除這個收藏？";
 
-"Are you sure you want to restart the game?" = "你確定要重設主機？"; // TODO
+"Are you sure you want to restart the game?" = "你確定要重新啟動遊戲？";
 
-"Are you sure you want to quit the game?" = "你確定要停止模擬？"; // TODO
+"Are you sure you want to quit the game?" = "你確定要退出遊戲？";
 
 "At least one System must be enabled" = "至少要啟用一個系統";
 
@@ -79,11 +79,11 @@
 
 "Choose a valid file." = "選擇一個有效的檔案。";
 
-"Choose Library…" = "選擇資源庫…";
+"Choose Library…" = "選擇遊戲庫…";
 
-"Choose OpenEmu Library" = "選擇 OpenEmu 庫";
+"Choose OpenEmu Library" = "選擇 OpenEmu 遊戲庫";
 
-"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "選擇“是”從隊列移除所有項目。已導入的項目會保留在你的庫裡。"; // TODO
+"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "這將從隊列移除所有項目。已匯入的項目會保留在你的遊戲庫裡。";
 
 "Code:" = "密碼:";
 
@@ -95,29 +95,29 @@
 
 "Consoles" = "主機";
 
-"Consolidate Files…" = "整合文件…";
+"Consolidate Files…" = "整合檔案…";
 
 "Consolidate" = "整合";
 
-"Consolidating files failed." = "Consolidating files failed."; // TODO
+"Consolidating files failed." = "整合檔案失敗。";
 
-"Consolidating will copy all of the selected games into the OpenEmu Library folder." = "整合會複製所有選擇的遊戲到 OpenEmu 庫文件夾。";
+"Consolidating will copy all of the selected games into the OpenEmu Library folder." = "整合會複製所有選擇的遊戲到 OpenEmu 遊戲庫檔案夾。";
 
-"This cannot be undone." = "該操作無法撤銷。";
+"This cannot be undone." = "該操作無法還原。";
 
-"Contains no data:" = "Contains no data:"; // TODO
+"Contains no data:" = "不包含任何資料:";
 
 "Controls" = "控制";
 
 "Copying artwork failed!" = "複製插圖失敗！";
 
-"Copying Artwork Files…" = "正在複製插圖文件…";
+"Copying Artwork Files…" = "正在複製插圖檔案…";
 
-"Copying Game Files…" = "正在複製遊戲文件…";
+"Copying Game Files…" = "正在複製遊戲檔案…";
 
-"Copying ROM Files…" = "正在複製 ROM 文件…";
+"Copying ROM Files…" = "正在複製 ROM 檔案…";
 
-"Copying ROM files failed!" = "Copying ROM files failed!";  // TODO
+"Copying ROM files failed!" = "複製 ROM 檔案失敗！";
 
 "Core Provided By…" = "核心提供…";
 
@@ -125,19 +125,19 @@
 
 "Cores" = "核心";
 
-"Could not move library data!" = "無法移動庫數據！";
+"Could not move library data!" = "無法移動遊戲庫資料！";
 
 "Couldn't load %@ plugin" = "無法加載 %@ 外掛";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "創建一個個人遊戲選集。要加入到收藏，從你的主機庫選擇一個遊戲然後拖到左邊的“%@”。"; // TODO
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "創建一個個人遊戲選集。要加入到收藏，從你的主機遊戲庫選擇一個遊戲然後拖到左邊的“%@”。";
 
-"Create Library…" = "創建庫…";
+"Create Library…" = "創建遊戲庫…";
 
 "Create or Load Save State" = "創建或加載保存狀態";
 
-"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "創建你個人的螢幕快照收藏。要拍攝螢幕快照，可以在遊戲當中使用鍵盤快捷鍵 ⌘ + T。";
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "創建你的個人螢幕快照收藏。要拍攝螢幕快照，可以在遊戲當中使用鍵盤快捷鍵 ⌘ + T。";
 
-"Default Core" = "默認核心";
+"Default Core" = "預設核心";
 
 "Delete Collection" = "刪除收藏";
 
@@ -169,7 +169,7 @@
 
 "Disc %u" = "Disc %u";
 
-"Disc-based games have special requirements. Please read the disc importing guide." = "磁盤遊戲有特殊要求。請閱讀磁盤導入指南。";
+"Disc-based games have special requirements. Please read the disc importing guide." = "磁盤遊戲有特殊要求。請閱讀磁盤匯入指南。";
 
 "Dismiss" = "消除";
 
@@ -177,11 +177,11 @@
 
 "Do not show me again" = "不再彈出";
 
-"Do you really want to cancel importation?" = "你確定要取消導入進程？"; // TODO
+"Do you really want to cancel importation?" = "你確定要取消匯入？";
 
 "Do you want to continue playing where you left off?" = "你要從之前離開的位置繼續玩嗎？";
 
-"Don't Import Selected" = "不要導入已選項";
+"Don't Import Selected" = "不要匯入已選項";
 
 "Done" = "完成";
 
@@ -193,7 +193,7 @@
 
 "Downloading and Installing Core…" = "正在下載並安裝核心…";
 
-"Downloading Game DB" = "正在下載遊戲數據庫";
+"Downloading Game DB" = "正在下載遊戲資料庫";
 
 "Drag & Drop Games Here" = "把遊戲拖放到這裡";
 
@@ -235,7 +235,7 @@
 
 "If you change the core you current progress will be lost and save states will not work anymore." = "如果更換核心，當前進度會丟失，同時已保存的狀態將失效。";
 
-"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "由於現代遊戲主機軟硬體複雜度的增加，模擬部分系統需要 BIOS 文件。請閱讀我們的 %@ 獲取更多信息。";
+"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "由於現代遊戲主機軟硬體複雜度的增加，模擬部分系統需要 BIOS 檔案。請閱讀我們的 %@ 獲取更多信息。";
 
 "In order to play the game it must be downloaded." = "要玩這個遊戲首先需要下載。";
 
@@ -245,9 +245,9 @@
 
 "Installing Core" = "正在安裝核心";
 
-"Invalid cue sheet format:" = "Invalid cue sheet format:";  // TODO
+"Invalid cue sheet format:" = "不合法的 cue sheet 格式:";
 
-"Invalid gdi format:" = "Invalid gdi format:";  // TODO
+"Invalid gdi format:" = "不合法的 gdi 格式:";
 
 "Join multi-line cheats with '+' e.g. 000-000+111-111" = "使用“+”連接多條金手指，如 000-000+111-111";
 
@@ -255,7 +255,7 @@
 
 "Learn More" = "瞭解更多";
 
-"Library" = "資源庫";
+"Library" = "遊戲庫";
 
 "Load" = "讀取";
 
@@ -271,13 +271,13 @@
 
 "Missing Core" = "缺少核心";
 
-"Missing referenced file:" = "Missing referenced file:";  // TODO
+"Missing referenced file:" = "缺少引用檔:";
 
-"Move to Trash" = "扔到垃圾桶";
+"Move to Trash" = "丟到垃圾桶";
 
-"Moving Library…" = "Moving Library…";  // TODO
+"Moving Library…" = "移動遊戲庫…";
 
-"Must not be compressed:" = "Must not be compressed:"; // TODO
+"Must not be compressed:" = "不得壓縮:";
 
 "Mute Audio" = "靜音";
 
@@ -297,27 +297,27 @@
 
 "No Internet Connection" = "無互聯網連接";
 
-"No permission to open:" = "No permission to open:";  // TODO
+"No permission to open:" = "沒有開啟權限：";
 
 "No Save States available" = "沒有可用的保存狀態";
 
 "No Screenshots Found" = "沒找到螢幕快照";
 
-"No valid system detected:" = "No valid system detected:";  // TODO
+"No valid system detected:" = "未檢測到有效的系統:";
 
 "No" = "否";
 
 "None" = "無";
 
-"Not plain text:" = "Not plain text:";  // TODO
+"Not plain text:" = "不是純文字:";
 
-"OK" = "好";
+"OK" = "OK";
 
-"Only files in the OpenEmu Library folder will be moved to the Trash." = "只有 OpenEmu 庫文件夾裡的文件會被扔到垃圾桶裡。";
+"Only files in the OpenEmu Library folder will be moved to the Trash." = "只有 OpenEmu 遊戲庫檔案夾裡的檔案會被丟到垃圾桶。";
 
-"Open Collection" = "打開收藏";
+"Open Collection" = "開啟收藏";
 
-"Open Library" = "打開庫";
+"Open Library" = "開啟遊戲庫";
 
 "OpenEmu could not find a Core to launch the game" = "OpenEmu 無法找到核心來啟動遊戲";
 
@@ -325,17 +325,17 @@
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu 需要一個庫以繼續。你可以選擇一個已存在的 OpenEmu 庫或創建一個新的。";
 
-"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu使用“核心”來模擬遊戲。你需要 %1$@ 核心來玩 %2$@";
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu 使用「核心」來模擬遊戲。你需要 %1$@ 核心來玩 %2$@";
 
 "OpenEmu will save and quit all games that are currently running." = "OpenEmu 會保存並退出當前運行的所有遊戲。";
 
 "Options" = "選項";
 
-"Pause/Restart" = "Pause/Restart"; // TODO
+"Pause/Restart" = "暫停/重啟";
 
-"Pause Game" = "暫停遊戲"; // TODO
+"Pause Game" = "暫停遊戲";
 
-"Play" = "Play"; // TODO
+"Play" = "遊玩";
 
 "Play Game" = "開始遊戲";
 
@@ -347,7 +347,7 @@
 
 "Player %ld" = "玩家 %ld";
 
-"Please close all games and wait for the importer to finish." = "請關閉所有遊戲然後等待導入完成。";
+"Please close all games and wait for the importer to finish." = "請關閉所有遊戲然後等待匯入完成。";
 
 "Quick Load" = "快速載入";
 
@@ -365,11 +365,11 @@
 
 "Recovered Auto Save" = "恢復的自動存檔";
 
-"Remove Collection" = "移除"; // TODO
+"Remove Collection" = "移除收藏";
 
-"Remove Game" = "Remove Game";  // TODO
+"Remove Game" = "移除遊戲";
 
-"Remove Games" = "Remove Games";  // TODO
+"Remove Games" = "移除遊戲";
 
 "Rename \"%@\"" = "重新命名“%@”";
 
@@ -379,17 +379,17 @@
 
 "Rename" = "重新命名";
 
-"Required files are missing." = "所需文件缺失。";
+"Required files are missing." = "所需檔案缺失。";
 
 "Resolve %ld Issue" = "解決 %ld 個問題";
 
 "Resolve %ld Issues" = "解決 %ld 個問題";
 
-"Restart Game" = "重新啟動系統"; // TODO
+"Restart Game" = "重新啟動遊戲";
 
 "Restart" = "重新啟動";
 
-"Resume Game" = "繼續遊戲"; // TODO
+"Resume Game" = "繼續遊戲";
 
 "Resume" = "恢復";
 
@@ -415,13 +415,13 @@
 
 "Select All" = "全選";
 
-"Select Audio Output Device" = "選擇音頻輸出設備";
+"Select Audio Output Device" = "選擇音訊輸出設備";
 
 "Select Cheat" = "選擇金手指";
 
 "Select Core" = "選擇核心";
 
-"Select Disc" = "Select Disc";
+"Select Disc" = "選擇光碟";
 
 "Select Display Mode" = "顯示模式";
 
@@ -429,7 +429,7 @@
 
 "Select Scale" = "選擇縮放";
 
-"Shader Parameters" = "Shader Parameters"; // TODO
+"Shader Parameters" = "著色器參數";
 
 "Share" = "共享";
 
@@ -445,21 +445,21 @@
 
 "Start Scanning" = "開始掃描";
 
-"Quit Game" = "停止模擬"; // TODO
+"Quit Game" = "退出遊戲";
 
 "Stop" = "停止";
 
-"Switch To Grid View" = "切換到網格視圖";
+"Switch To Grid View" = "切換到圖像顯示";
 
-"Switch To List View" = "切換到列表視圖";
+"Switch To List View" = "切換到列表顯示";
 
-"System Default" = "System Default"; // Default audio device setting // TODO
+"System Default" = "系統預設"; // Default audio device setting
 
-"System Files" = "系統文件";
+"System Files" = "系統檔案";
 
 "System" = "系統";
 
-"Takes you to the %@ project website" = "轉到 %@ 項目網站";
+"Takes you to the %@ project website" = "轉到 %@ 專案網站";
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "%1$@ 核心有兼容問題，部分遊戲可能出現故障或完全無法運行。\n\n請勿向我們報告問題，我們不對 %2$@ 的開發負責。";
 
@@ -467,11 +467,11 @@
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "核心無法下載。嘗試從核心偏好設置裡安裝。";
 
-"The file you selected doesn't exist" = "所選文件不存在";
+"The file you selected doesn't exist" = "所選檔案不存在";
 
-"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "由於rom文件無法找到，遊戲“%@”無法啟動。你要定位它嗎？";
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "由於 ROM 檔案無法找到，遊戲 “%@” 無法啟動。你要定位它嗎？";
 
-"The game '%@' was imported." = "遊戲“%@”已導入。";
+"The game '%@' was imported." = "遊戲“%@”已匯入。";
 
 "The OpenEmu Library could not be found." = "找不到 OpenEmu 庫。";
 
@@ -487,27 +487,27 @@
 
 "To launch the save state %@ you will need to install the '%@' Core" = "要啟動保存狀態 %1$@ 你需要安裝核心 “%2$@”";
 
-"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "要運行此核心你需要進行以下操作:\n\n%@拖放需要的文件到遊戲庫視窗然後重試。";
+"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "要運行此核心你需要進行以下操作:\n\n%@拖放需要的檔案到遊戲庫視窗然後重試。";
 
 "Toggle Fullscreen" = "切換全螢幕";
 
-"Trash downloaded Files" = "將已下載的文件扔進垃圾桶";
+"Trash downloaded Files" = "將已下載的檔案丟到垃圾桶";
 
-"Unexpected error:" = "Unexpected error:";  // TODO
+"Unexpected error:" = "意外錯誤:";
 
 "Unmute Audio" = "恢復聲音";
 
 "Update" = "更新";
 
-"Updating Library" = "正在更新媒體櫃";
+"Updating Library" = "正在更新遊戲庫";
 
-"User guide on BIOS files" = "BIOS 文件用戶指南";
+"User guide on BIOS files" = "BIOS 檔案用戶指南";
 
 "Version" = "版本";
 
-"View Guide in Browser" = "View Guide in Browser";
+"View Guide in Browser" = "在瀏覽器中查看指南";
 
-"Volume" = "Volume"; // TODO
+"Volume" = "音量";
 
 "Warning" = "警告";
 
@@ -521,15 +521,15 @@
 
 "Yes" = "是";
 
-"You can't move your library into one of its subfolders." = "不能將庫移動到這裡！"; // TODO
+"You can't move your library into one of its subfolders." = "無法將遊戲庫移動至其子檔案夾中！";
 
 "You need to restart the application to commit the change" = "你需要重啟應用程序以使更改生效。";
 
-"Your game finished importing, do you want to play it now?" = "遊戲導入完成，你要現在運行嗎？";
+"Your game finished importing, do you want to play it now?" = "遊戲匯入完成，你要現在運行嗎？";
 
-"Your library was moved sucessfully." = "成功移動資源庫。";
+"Your library was moved sucessfully." = "成功移動遊戲庫。";
 
-"Toolbar: Library" = "資源庫";
+"Toolbar: Library" = "遊戲庫";
 
 "Toolbar: Save States" = "儲存狀態";
 
@@ -537,9 +537,9 @@
 
 "Toolbar: Homebrew" = "Homebrew";
 
-"Grid Size" = "網格大小";   // shown when the corresponding item does not fit in the main window's toolbar
+"Grid Size" = "圖像大小";   // shown when the corresponding item does not fit in the main window's toolbar
 
-"View Mode" = "檢視模式";   // shown when the corresponding item does not fit in the main window's toolbar
+"View Mode" = "顯示模式";   // shown when the corresponding item does not fit in the main window's toolbar
 
 "Category" = "分類";   // shown when the corresponding item does not fit in the main window's toolbar
 
@@ -549,45 +549,45 @@
 
 "Keycode 0x%lX" = "Keycode 0x%lX";  // Fallback for unknown keys
 
-"Your Mac is too old for this version of OpenEmu" = "Your Mac is too old for this version of OpenEmu";  // Message for the alert which appears when no Metal-enabled GPUs are detected // TODO
+"Your Mac is too old for this version of OpenEmu" = "你的 Mac 對於此版本的 OpenEmu 來說太舊了";  // Message for the alert which appears when no Metal-enabled GPUs are detected
 
-"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected // TODO
+"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = "從版本 2.1 起，OpenEmu 需要一個支援 Metal 的 GPU。Metal 在所有支援 macOS 10.14 或更高版本的 Mac 上均可用。\n\n由於 OpenEmu 不適用於當前的軟硬體配置，因此即將關閉.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected
 
 "Quit OpenEmu" = "退出 OpenEmu";  // Button title for the alert which appears when no Metal-enabled GPUs are detected
 
-"The %@ core plugin is deprecated" = "The %@ core plugin is deprecated";  // Message title (removal far away) // TODO
+"The %@ core plugin is deprecated" = "%@ 核心外掛程式已棄用";  // Message title (removal far away)
 
-"The %@ core plugin is deprecated, and will be removed soon" = "The %@ core plugin is deprecated, and will be removed soon";  // Message title (removal happening soon) // TODO
+"The %@ core plugin is deprecated, and will be removed soon" = "%@ 核心外掛程式已棄用，並即將被刪除";  // Message title (removal happening soon)
 
-"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working.";  // Message info, part 1 (removal far away) // TODO
+"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "此核心外掛程式將無法使用。刪除後，使用它創建的任何保存狀態都將停止工作。";  // Message info, part 1 (removal far away)
 
-"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working.";  // Message info, part 1 (removal happening soon) // TODO
+"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "幾天後，此核心外掛程式將被自動刪除。刪除後，使用它創建的任何保存狀態都將停止工作。";  // Message info, part 1 (removal happening soon)
 
-"We suggest you switch to the %@ core plugin as soon as possible." = "We suggest you switch to the %@ core plugin as soon as possible.";  // Message info, part 2 (shown only if the replacement plugin is available) // TODO
+"We suggest you switch to the %@ core plugin as soon as possible." = "建議你儘快切換到 %@ 核心外掛程式。";  // Message info, part 2 (shown only if the replacement plugin is available)
 
-"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "This plugin is currently unsupported";  // TODO
+"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "目前不支援此外掛程式";
 
-"Install %@" = "Install %@";  // TODO
+"Install %@" = "安裝 %@";
 
-"Install %@ and Set as Default" = "Install %@ and Set as Default";  // TODO
+"Install %@ and Set as Default" = "安裝 %@ 並設定為預設";
 
-"Ignore" = "Ignore";  // TODO
+"Ignore" = "忽略";
 
-"ALERT_INPUT_MONITORING_HEADLINE" = "OpenEmu requires additional permissions"; // TODO
+"ALERT_INPUT_MONITORING_HEADLINE" = "OpenEmu 需要額外的許可權";
 
-"ALERT_INPUT_MONITORING_PART1" = "OpenEmu must be granted the Input Monitoring permission in order to use the keyboard as an input device."; // TODO
+"ALERT_INPUT_MONITORING_PART1" = "OpenEmu 必須被授予輸入監控許可權才能將鍵盤用作輸入設備。";
 
-"ALERT_INPUT_MONITORING_PART2" = "Toggling the permission may also resolve keyboard input issues."; // TODO
+"ALERT_INPUT_MONITORING_PART2" = "切換許可權還可以解決鍵盤輸入問題。";
 
-"ALERT_INPUT_MONITORING_PART2_MONTEREY" = "Removing and re-granting the permission may also resolve keyboard input issues."; // TODO
+"ALERT_INPUT_MONITORING_PART2_MONTEREY" = "刪除並重新授予許可權也可以解決鍵盤輸入問題。";
 
-"Open System Preferences" = "Open System Preferences";  // TODO
+"Open System Preferences" = "打開「系統設定」";
 
-"Moving the Game Library is not recommended" = "Moving the Game Library is not recommended";  //Message headline (attempted to change location of library)  // TODO
+"Moving the Game Library is not recommended" = "不建議移動遊戲庫";  //Message headline (attempted to change location of library)
 
-"ALERT_MOVE_LIBRARY_HTML" = "The OpenEmu Game Library contains a database file which could get corrupted if the library is moved to the following locations:<br><br><ul><li>Folders managed by cloud synchronization software (like <b>iCloud Drive</b>)</li><li>Network drives</li></ul><br>Additionally, <b>sharing the same library between multiple computers or users</b> may also corrupt it. This also applies to moving the library to external USB drives.";  // Message text (attempted to change location of library, HTML  // TODO
+"ALERT_MOVE_LIBRARY_HTML" = "OpenEmu 遊戲庫包含一個資料庫檔，若將遊戲庫移動至以下位置，該檔可能會損壞:<br><br><ul><li>雲同步軟體管理的檔案夾 (如 <b>iCloud Drive</b>)</li><li>網路磁碟</li></ul><br>此外，<b>在多台電腦或用戶之間共用同一遊戲庫</b>也可能造成毀損。這也適用於將遊戲庫移動到外接 USB 碟。";  // Message text (attempted to change location of library, HTML
 
-"I understand the risks" = "I understand the risks";  // OK button (attempted to change location of library)  // TODO
+"I understand the risks" = "我了解風險";  // OK button (attempted to change location of library)
 
 "Continue" = "繼續";
 
@@ -599,78 +599,78 @@
 
 "Play Time" = "運行時間";
 
-"Fill Screen" = "Fill Screen";  // Integral scale menu item title  // TODO
+"Fill Screen" = "填滿螢幕";  // Integral scale menu item title
 
 "ECM compressed binary detected." = "ECM compressed binary detected.";
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";
 
-"Files failed to import." = "Files failed to import.";  // TODO
+"Files failed to import." = "檔案匯入失敗。";
 
-"\"%@\" in %@" = "\"%1$@\" in %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)  // TODO
+"\"%@\" in %@" = "\"%1$@\" 於 %2$@";  // Import error description: file already imported (first item: filename, second item: system library name)
 
-"NOT FOUND: \"%@\"" = "NOT FOUND: \"%@\"";  // Import error description: referenced file not found  // TODO
+"NOT FOUND: \"%@\"" = "NOT FOUND: \"%@\"";  // Import error description: referenced file not found
 
-"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access.";  // TODO
+"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "選取蘋果功能表  > 系統設定, 點選「隱私權與安全性」，然後在「隱私權」的「檔案與檔案夾」頁面，刪除 OpenEmu 的現有許可權（如果存在），並授予「完全取用磁碟」許可權。";
 
-"Decrease Grid Size" = "Decrease Grid Size"; // TODO
+"Decrease Grid Size" = "減少圖像大小";
 
-"Increase Grid Size" = "Increase Grid Size"; // TODO
+"Increase Grid Size" = "增加圖像大小";
 
-"The emulator could not load ROM." = "The emulator could not load the ROM."; // TODO
+"The emulator could not load ROM." = "模擬器無法載入 ROM。";
 
-"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad."; // TODO, Controls preferences, accessibility help
+"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "要將鍵或按鈕分配給 %@，請點此按鈕，然後按鍵盤或遊戲手把上對應的鍵或按鈕."; // Controls preferences, accessibility help
 
-"Changed button for %1$@ to %2$@." = "Changed button for %1$@ to %2$@."; // TODO, Controls preferences, accessibility notification (“Changed button for Up to W.”)
+"Changed button for %1$@ to %2$@." = "將 %1$@ 的按鈕更改為 %2$@。"; // Controls preferences, accessibility notification (“Changed button for Up to W.”)
 
-"Not assigned" = "Not assigned"; // TODO, Controls preferences, accessibility title (key is not mapped, “empty”)
+"Not assigned" = "未分配"; // Controls preferences, accessibility title (key is not mapped, “empty”)
 
-"OpenEmu could not download required data from the internet" = "OpenEmu could not download required data from the internet";  // TODO // Setup Assistant
+"OpenEmu could not download required data from the internet" = "OpenEmu 無法從網路下載所需資料";  // Setup Assistant
 
-"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again.";  // TODO // Setup Assistant
+"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "準備設置助理時出錯。(%@) 確認你已連接網際網路後重試。";  // Setup Assistant
 
-"Retry" = "Retry";  // TODO
+"Retry" = "重試";
 
-"Downloading core list..." = "Downloading core list...";  // TODO
+"Downloading core list..." = "下載核心清單...";
 
-"The %@ core has quit unexpectedly" = "The %@ core has quit unexpectedly";  // TODO
+"The %@ core has quit unexpectedly" = "%@ 核心意外退出";
 
-"ALERT_CORE_GLITCHES_FEEDBACK_HTML" = "<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English  // TODO
+"ALERT_CORE_GLITCHES_FEEDBACK_HTML" = "<b>若此問題仍然存在時</b>，請提交包括以下內容的回饋（以英文）：<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on \"Crash Reports\" or \"User Reports\" in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>總是先搜索其他使用者之前報告的類似反饋！</b><br>如果遺漏了其中任何資訊，或者已經發佈了類似的反饋，則你的問題回報可能會被關閉。";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
 
-"The %@ core has quit unexpectedly after loading a save state" = "The %@ core has quit unexpectedly after loading a save state";  // TODO
+"The %@ core has quit unexpectedly after loading a save state" = "%@ 核心在載入儲存狀態後意外退出";
 
-"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?";  // TODO
+"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "有時，由於同一內核的不同版本之間不相容，載入保存狀態時可能會發生崩潰。是否要在不載入保存狀態的情況下打開遊戲?";
 
-"Reopen without loading state" = "Reopen without loading state";  // TODO
+"Reopen without loading state" = "重新開啟而不載入狀態";
 
-"MOVE_ALERT_TITLE" = "Move to Applications folder"; // TODO
+"MOVE_ALERT_TITLE" = "移動到「應用程式」 檔案夾";
 
-"MOVE_ALERT_INFO_TEXT" = "OpenEmu must move to your Applications folder in order to work properly."; // TODO
+"MOVE_ALERT_INFO_TEXT" = "OpenEmu 必須移動到您的「應用程式」檔案夾才能正常工作。";
 
-"MOVE_ALERT_NEEDS_AUTH" = "You need to authenticate with an administrator name and password to complete this step. Alternatively, you can choose a different location or quit the App and move it manually."; // TODO
+"MOVE_ALERT_NEEDS_AUTH" = "你需要使用管理員名稱和密碼進行身份驗證才能完成此步驟。或者，你可以選擇其他位置或退出應用程式並手動移動它。";
 
-"MOVE_ALERT_MOVE_BUTTON" = "Move to Applications folder"; // TODO
+"MOVE_ALERT_MOVE_BUTTON" = "移動到「應用程式」 檔案夾";
 
-"Choose Location…" = "Choose Location…"; // TODO
+"Choose Location…" = "選擇位置…";
 
-"No parameters available." = "No parameters available."; // TODO
+"No parameters available." = "沒有可用的參數。";
 
-"Reset parameters" = "Reset parameters"; // undo action: Reset shader parameters, TODO
+"Reset parameters" = "重置參數"; // undo action: Reset shader parameters
 
-"Paste parameters" = "Paste parameters"; // undo action: Paste parameter values, TODO
+"Paste parameters" = "貼上參數"; // undo action: Paste parameter values
 
-"Parameters" = "Parameters"; // Window title: Shader parameters customisation window, TODO
+"Parameters" = "參數"; // Window title: Shader parameters customisation window
 
-"New Shader Preset" = "New Shader Preset"; // Window title: Used to specify the name of a new shader preset, TODO
+"New Shader Preset" = "新增著色器 Preset"; // Window title: Used to specify the name of a new shader preset
 
-"Rename Shader Preset" = "Rename Shader Preset"; // Window title: Used to rename an existing shader preset, TODO
+"Rename Shader Preset" = "重新命名著色器 Preset"; // Window title: Used to rename an existing shader preset
 
-"A name is required." = "A name is required."; // warning: Displayed when user enters a zero-length shader preset name, TODO
+"A name is required." = "名稱為必填。"; // warning: Displayed when user enters a zero-length shader preset name
 
-"Name must not contain “%@.”" = "Name must not contain “%@.”"; // warning: Displayed when user enters a shader preset name containing an invalid character, TODO
+"Name must not contain “%@.”" = "名稱不得包含 “%@”。"; // warning: Displayed when user enters a shader preset name containing an invalid character
 
-"Default %@ preset for %@" = "Default %@ preset for %@"; // 1st parameter: shader name; 2nd parameter: system name, TODO
+"Default %@ preset for %@" = "著色器 %@ 於 %@ 系統的預設 Preset"; // 1st parameter: shader name; 2nd parameter: system name
 
-"Are you sure you want to delete the shader preset called '%@'?" = "Are you sure you want to delete the shader preset called '%@'?";
+"Are you sure you want to delete the shader preset called '%@'?" = "是否確定要刪除名為 “%@” 的著色器 Preset?";
 
-"Delete Shader Preset" = "Delete Shader Preset";
+"Delete Shader Preset" = "刪除著色器 Preset";
