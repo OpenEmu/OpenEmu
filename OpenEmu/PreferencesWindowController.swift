@@ -25,6 +25,7 @@
  */
 
 import Cocoa
+import AudioToolbox.AudioServices
 
 final class PreferencesWindowController: NSWindowController {
     
@@ -114,7 +115,12 @@ extension PreferencesWindowController: NSWindowDelegate {
                     let debugModeActivated = !defaults.bool(forKey: PreferencesWindowController.debugModeKey)
                     defaults.set(debugModeActivated, forKey: PreferencesWindowController.debugModeKey)
                     
-                    NSSound(named: "secret")!.play()
+                    var soundID: SystemSoundID = 0
+                    let soundURL = Bundle.main.url(forResource: "secret", withExtension: "mp3")!
+                    AudioServicesCreateSystemSoundID(soundURL as CFURL, &soundID)
+                    AudioServicesPlaySystemSoundWithCompletion(soundID) {
+                        AudioServicesDisposeSystemSoundID(soundID)
+                    }
                     
                     self.preferencesTabViewController.toggleDebugPaneVisibility()
                     

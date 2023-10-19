@@ -28,7 +28,8 @@ import XCTest
 class BundleResourcesTests: XCTestCase {
     
     func testBundleResources() throws {
-        XCTAssertNotNil(NSSound(named: "secret"))
+        let secretSound = try XCTUnwrap(Bundle.main.url(forResource: "secret", withExtension: "mp3"))
+        XCTAssertNotNil(NSSound(contentsOf: secretSound, byReference: true))
         
         let cheatsDatabase = try XCTUnwrap(Bundle.main.url(forResource: "cheats-database", withExtension: "xml"))
         XCTAssertNoThrow(try Data(contentsOf: cheatsDatabase))
