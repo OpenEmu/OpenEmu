@@ -1,0 +1,102 @@
+
+/* Preferences: Library (OEPrefLibraryController.xib) */
+
+"Move..." = "Hareket…";
+
+"Move to Default Location" = "Varsayılan Konuma Gönder";
+
+"Organization Methods:" = "Method Organizasyonu:";
+
+"Game Library Folder Location:" = "Oyun Kütüphane Klasör Konumu:";
+
+"Copy files to Game Library folder when adding to library" = "Kütüphaneye oyun eklendiğinde dosyaları oyun kütüphanesine kopyala";
+
+"Automatically lookup game information & artwork" = "Oyun bilgi ve sanat çalışmalarını otomatik olarak kontrol et";
+
+"Available Libraries:" = ":"Kullanılabilir Kütüphaneler;
+
+"Reset all dialog warnings:" = "Bütün diyalog uyarılarını sıfırla:";
+
+"Reset Warnings" = "Ufarıları Sıfırla";
+
+
+/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+
+"Window Management:" = "Pencere Yöneticisi:";
+
+"Shader:" = "Gölgeler:";
+
+"Always use popout gameplay window" = "Her zaman popup oyun penceresini kullan";
+
+"Always launch games fullscreen" = "Oyunları her zaman tam ekranda başlat";
+
+"Always pause gameplay when in background" = "Oyun arkaplandaysa her zaman durdur";
+
+"Always snap popout gameplay window to integer scale" = "Açılır oyun penceresini her zaman tam sayı ölçeğine getirin";
+
+"Allow playing with controllers when in background" = "Arka planda kontrolcü ile oynamaya izin ver";
+
+"Always float popout gamplay window on top" = "Açılır oyun penceresini her zaman üstte tut";
+
+
+/* Preferences: Controls (OEPrefControlsController.xib) */
+
+"Input:" = "Giriş:";
+
+
+/* Issue Resolver (OEGameScanner.xib) */
+
+"Resolve Issues:" = "Hata Çözümleme:";
+
+"Apply" = "Kabül";
+
+"Import Into:" = "İçe Aktarma:";
+
+
+/* Setup Assistant (OESetupAssistant.xib) */
+
+"Next" = "İleri";
+
+"Back" = "Geri";
+
+"Welcome to OpenEmu!" = "OpenEmu'ya hoş geldiniz !";
+
+"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "Video oyunlarının heyecan verici dünyası elinizin altında. Başlamanıza yardımcı olmak için, size aşağıdaki konularda yol gösterecek birkaç hızlı soru sormak istiyoruz.\n\n• Doğru sistem eklentilerini (çekirdekleri) çalıştırdığınızdan emin olun.";
+
+"Click on the ‘Next’ button to begin!" = "Başlamak için 'ileri' butonuna bas!";
+
+"OpenEmu is modular, and thanks to the work of other gresat open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "OpenEmu modülerdir ve diğer harika açık kaynak projelerinin çalışmaları sayesinde çok çeşitli video oyun sistemlerini ('çekirdeklerini') taklit edebilir. Bazı oyunlar, çekirdekleri yüklemek ve kullanmak istediğinizi işaretlemenizi ve onaylamanızı isteyebilir. Favori oyun sistemleriniz ve oyunlarınız bu çekirdekler olmadan çalışmayabilir.";
+
+"System Cores Installation" = "Sistem çekirdek indirmesi";
+
+"Let’s Go!" = "Haydi Başla!";
+
+"Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time." = "Güzel! Bütün ayarların oyuna hazır!\n\n Unutma klavye ve kontolcü ayarlarını kendin ve diğer oyuncular için ayarlar kısmından istediğin zaman değiştirebilirsin.";
+
+"Click the ‘Go’ button to begin your adventure." = "Macerana başlamak için 'İleri' butonuna tıkla.";
+
+"Go" = "İleri";
+
+"Downloading Data…" = "Veriler indiriliyor…";
+
+
+/* Shader Parameters (ShaderParameters.xib) */
+
+"Reset All" = "Hepsini sıfırla";
+
+
+/* Sidebar Header (OESidebarHeaderView.xib) */
+
+"Edit" = "Düzenle";
+
+
+/* Shader Parameters (ShaderParametersViewController.xib) */
+
+"New Preset" = "Yeni Ön Ayar";
+
+
+/* Name Shader Preset (NameShaderPreset.xib) */
+
+"Save Preset" = "Ön Ayarı Kaydet";
+
+"Cancel" = "İptal";

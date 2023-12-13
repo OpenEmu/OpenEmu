@@ -1,0 +1,138 @@
+
+"File" = "Dosya";
+
+"Launch Game…" = "Oyunu Başlat…";
+
+"Edit Smart Collection" = "Akıllı Koleksiyonları Düzenle";
+
+"New Smart Collection…" = "Yeni Akıllı Koleksiyon…";
+
+"New Collection Folder" = "Yeni Koleksiyon Dosyasi";
+
+"Display Exact Duplicates" = "Birebir kopyaları göster";
+
+"Display Duplicates" = "Kopyaları göster";
+
+"Get Info" = "Bilgi al";
+
+"Close Window" = "Pencereyi kapat";
+
+"Print…" = "Yazdır…";
+
+"Page Setup…" = "Sayfa Kurulumu…";
+
+"Back Up…" = "Yedekleme…";
+
+"Organize Library…" = "Kütüphaneyi Düzenle…";
+
+"Export Library…" = "Kütüphaneyi Dışarı Aktar";
+
+"Import Collection" = "Koleksiyonu İçeri Aktar";
+
+"Export Collection" = "Koleksiyonu Dışarı Aktar";
+
+"Preferences…" = "Tercihler…";
+
+"Check for Updates…" = "Güncellemeleri Kontol et…";
+
+"About OpenEmu" = "OpenEmu Hakkında";
+
+"Hide OpenEmu" = "OpenEmu'yu gizle";
+
+"Show All" = "Hepsini Göster";
+
+"Quit OpenEmu" = "OpenEmu'dan çık";
+
+"Services" = "Servisler";
+
+"Hide Others" = "Diğerlerini Gizle";
+
+"Window" = "Pencere";
+
+"Bring All to Front" = "Hepsini öne çıkar";
+
+"Zoom" = "Yaklaştır";
+
+"Minimize" = "Küçült";
+
+"View" = "Görünüm";
+
+"as List" = "Liste olarak";
+
+"Fullscreen" = "Tam Ekran";
+
+"as Grid" = "Izgara Olarak";
+
+"Undock Game Window" = "Oyun Penceresinin Kilidini Aç";
+
+"Controls" = "Kontroller";
+
+"Volume Down" = "Ses Kıs";
+
+"Start Game" = "Oyunu Başlat";
+
+"Volume Up" = "Ses Arttır";
+
+"Last Played" = "Son Oynanan";
+
+"Save State" = "Durumu Kaydet";
+
+"Load State" = "Durumu Yükle";
+
+"Edit" = "Düzenle";
+
+"Find" = "Bul";
+
+"Select All" = "Hepsini Seç";
+
+"Delete" = "Sil";
+
+"Paste" = "Yapıştır";
+
+"Copy" = "Kopyala";
+
+"Cut" = "Kes";
+
+"Redo" = "Yinele";
+
+"Undo" = "Geri Al";
+
+"Jump to Selection" = "Seçimlere git";
+
+"Use Selection for Find" = "Bulmak için seçimleri kullan";
+
+"Find Previous" = "Öncekini Bul";
+
+"Find Next" = "Sonrakini Bul";
+
+"Find…" = "Bul…";
+
+"Log Responder Chain" = "Yanıtlayıcı Zincir Kayıtları";
+
+"Show ROM Names" = "ROM İsimlerini Göster";
+
+"Show Library" = "Kütüphaneleri Göster";
+
+"Take Screenshot" = "Ekran Görüntüsü Al";
+
+"Take Native Screenshot" = "Yerel Ekran Görüntüsü Al";
+
+"Help" = "Yardım";
+
+"Release Notes" = "Yayınlama Notları";
+
+"Last Display Mode" = "Son Ekran Modu";
+
+"Next Display Mode" = "Sonraki Ekran Modu";
+
+"OpenEmu Web Site" = "OpenEmu İnternet Sitesi";
+
+"Always Hide HUD" = "Herzaman HUD gizle";
+
+"Submit Feedback" = "Görüş Belirt";
+
+"Send a Donation…" = "Bağış Yap…";
+
+"User Guide" = "Kullanıcı Kılavuzu ";
+
+"Float on Top" = "Üstte Kalsın";

@@ -1,0 +1,676 @@
+
+"%@ copy" = "%@ Kopya";
+
+"%@ could not be enabled because its plugin was not found." = "Plugin bulunamadığı için %@ aktif edilemedi.";
+
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ Oyunlar Burada Gözükecek. Disk tabanlı oyunları eklemek için %@ kontrol ediniz.";
+
+"%@ games you add to OpenEmu will appear in this Console Library" = "%@ Eklediğiniz oyunlar bu konsol kütüphanesinde gözükecektir";
+
+"%ux" = "%ux";
+
+"ERROR_PLUGIN_IMPORT_ALREADYLOADED" = "Yüklediğiniz plugin zaten yüklü.";
+
+"Add" = "Ekle";
+
+"Add a Wiimote…" = "Wiimote ekle…";
+
+"Add Cheat…" = "Hile ekle";
+
+"Add Cheat" = "Hile ekle";
+
+"Add Cover Art from File…" = "Dosyaya sanat çalışması ekle…";
+
+"Add to Collection" = "Koleksiyonlara Ekle";
+
+"Add to Library…" = "Kütüphaneye Ekle…";
+
+"All Games" = "Tüm Oyunlar";
+
+"All Homebrew" = "Tüm Homebrew";
+
+"Already in library:" = "Zaten Kütüphanede:";
+
+"Already in library, but manually deleted or unreachable:" = "Zaten kütüphanede ama elle silinmiş ve erişilebilir:";
+
+"Are you sure you want to delete %ld save states from your OpenEmu library?" = "%ld oyun kayıtlarını OpenEmu kütüphanesinden silmek istediğinize emin misiniz ?";
+
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "%ld Ekran görüntülerini OpenEmu kütüphanenizden silmek istediğinize emin misiniz?";
+
+"Are you sure you want to delete the save state called '%@' from your OpenEmu library?" = " “%@” Kayıt durumlarını OpenEmu kütüphanenizden silmek istediğinize emin misiniz??";
+
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "“%@” Ekran görüntülerinizi OpenEmu kütüphanenizden silmek istediğinize emin misiniz?";
+
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "Seçili oyunu OpenEmu kütüphanenizden silmek istediğinize emin misiniz?";
+
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "Seçili oyunları OpenEmu kütüphanenizden silmek istediğinize emin misiniz?";
+
+"Are you sure you want to quit the application?" = "Uygulamadan çıkmak istediğinize emin misiniz?";
+
+"Are you sure you want to remove the selected game from the collection?" = "Seçili oyunu koleksiyondan silmek istediğinize emin misiniz?";
+
+"Are you sure you want to remove the selected games from the collection?" = "Seçili oyunları koleksiyondan silmek istediğinize emin misiniz?";
+
+"Are you sure you want to remove the collection '%@'?" = "Koleksiyonu silmek istediğinize emin misiniz “%@”?";
+
+"Are you sure you want to restart the game?" = "Oyunu yeniden başlatmak istediğinize emin misiniz ?";
+
+"Are you sure you want to quit the game?" = "Oyundan çıkmak istediğinize emin misiniz ?";
+
+"At least one System must be enabled" = "En az bir sistem aktif olmalı";
+
+"Auto Save State" = "Otomatik durum kaydı";
+
+"Bluetooth must be enabled to pair a Wii controller." = "Wii kontrolcüsü bağlamak için bluetooth aktif olmalı.";
+
+"Bluetooth Not Enabled" = "Bluetooth Aktif değil";
+
+"Cancel Cover Art Download" = "Kapak resmi indirmesini iptal et";
+
+"Cancel" = "İptal";
+
+"Change Core" = "Çekirdeği değiştir";
+
+"Change Volume" = "Sesi değiştir";
+
+"Cheat Description" = "Hile Açıklaması ";
+
+"Check out some excellent homebrew games." = "Mükemmel homebrew oyunlarına göz at.";
+
+"Choose a valid file." = "Onaylı dosya seç.";
+
+"Choose Library…" = "Kütüphane Seç…";
+
+"Choose OpenEmu Library" = "OpenEmu kütüphanesi seç";
+
+"This will remove all items from the queue. Items that finished importing will be preserved in your library." = "Bu sıradaki bütün öğreleri kaldıracaktır. İçe aktarımı tamamlanan öğeler kitaplığınızda korunacaktır.";
+
+"Code:" = "Kod:";
+
+"Collections" = "Koleksiyonlar";
+
+"Configure Shader…" = "Gölgeleri Ayarla…";
+
+"Console" = "Konsol";
+
+"Consoles" = "Konsollar";
+
+"Consolidate Files…" = "Dosyaları birleştirin…";
+
+"Consolidate" = "Birleştir";
+
+"Consolidating files failed." = "Dosya birleştirme başarısız.";
+
+"Consolidating will copy all of the selected games into the OpenEmu Library folder." = "Seçili oyunlar OpenEmu Kütüphane dosyasına yapıştırılacaktır.";
+
+"This cannot be undone." = "Bu yapılamaz.";
+
+"Contains no data:" = "Veri içermiyor:";
+
+"Controls" = "Kontroller";
+
+"Copying artwork failed!" = "Sanat Çalışması Başarısız!";
+
+"Copying Artwork Files…" = "Sanat Çalışması Kopyalanıyor…";
+
+"Copying Game Files…" = "Oyun Dosyaları Kopyalanıyor…";
+
+"Copying ROM Files…" = "ROM Dosyaları Kopyalanıyor…";
+
+"Copying ROM files failed!" = "ROM Dosyalarının Kopyalanması Başarısız!";
+
+"Core Provided By…" = "Çekirdek tarafından sağlanır…";
+
+"Core" = "Çekirdek";
+
+"Cores" = "Çekirdekler";
+
+"Could not move library data!" = "Kütüphane verisi yer değiştiremiyor;
+
+"Couldn't load %@ plugin" = "%@ plugini yüklenemiyor";
+
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Kişisel bir oyun seçimi yapın. Koleksiyone eklemek için konsol kütüphanenizden bir oyun seçin ve yan bardaki “%@” sürükleyin";
+
+"Create Library…" = "Kütüphane Yarat…";
+
+"Create or Load Save State" = "Kayıt durumu yükle ya da yarat";
+
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Kendi ekran görüntüsü koleksiyonunuzu yaratın. Oyun oynarken ekran görüntüsü almak için ⌘ + T kısayolunu kullanabilirsiniz.";
+
+"Default Core" = "Varsayılan Çekirdek";
+
+"Delete Collection" = "Koleksiyonu Sil";
+
+"Delete Game" = "Oyunu Sil";
+
+"Delete Games" = "Oyunlarımı Sil";
+
+"Delete Save State" = "Kayıt durumunu sil";
+
+"Delete Save States" = "Kayıt durumunu sil";
+
+"Delete Save" = "Kaydı Sil";
+
+"Delete Saves" = "Kayıtları Sil";
+
+"Delete Screenshot" = "Ekran Görüntüsünü Sil";
+
+"Delete Screenshots" = "Ekran Görüntülerini sil";
+
+"Delete" = "Sil";
+
+"Description" = "Açıklama"; // Search field menu, only search description
+
+"Deselect All" = "Bütün seçimi iptal et";
+
+"Device Disconnected" = "Cihaz bağlantısı kesildi";
+
+"Device number %lu, %@, has disconnected." = "%1$lu, %2$@, numaralı cihazın bağlantısı kesildi.";
+
+"Disc %u" = "Disk %u";
+
+"Disc-based games have special requirements. Please read the disc importing guide." = "Disk tabanlı oyunların bazı özel ihtiyaçları vardır lütfen, disk içe aktarma rehberini okuyun.";
+
+"Dismiss" = "Gizle";
+
+"Do not ask me again" = "Tekrar sorma";
+
+"Do not show me again" = "Tekrar gösterme";
+
+"Do you really want to cancel importation?" = "Dışarı aktarma işlemini iptal etmek istediğinize emin misiniz?";
+
+"Do you want to continue playing where you left off?" = "Kaldığınız yerden devam etmek istiyor musunuz?";
+
+"Don't Import Selected" = "Seçilenleri içeri aktarma";
+
+"Done" = "Hazır";
+
+"Download Cover Art" = "Kapak resmini indir";
+
+"Download" = "İndir";
+
+"Downloading %@…" = "İndiriliyor %@…";
+
+"Downloading and Installing Core…" = "Çekirdek indirliyor ve yükleniyor…";
+
+"Downloading Game DB" = "Oyun DB indir";
+
+"Drag & Drop Games Here" = "Oyunları buraya sürükle ve bırak";
+
+"Drag & Drop Save States Here" = "Kayıt durumlarını buraya sürükle ve bırak";
+
+"Duplicate Collection" = "Koleksiyonu kopyala";
+
+"Edit Game Controls…" = "Oyun kontrollerini düzenle…";
+
+"Enable now" = "Şimdi aktifleştir";
+
+"Error!" = "Hata!";
+
+"Everything" = "Her şey"; // Search field menu, search everything item title
+
+"Featured Games" = "Öne Çıkan Oyunlar";
+
+"Fetching Games…" = "Oyunlar çekiliyor…";
+
+"Filter by:" = "Göre filtrele:"; // Search field menu, first item, instructional
+
+"Game %ld of %ld" = "Oyun %1$ld nun %2$ld";
+
+"Game Name" = "Oyun İsmi"; // Search field menu, only search game name
+
+"Game requires download" = "Oyun indirmeye ihtiyacı var";
+
+"Game Scanner" = "Oyun Tarayıcı";
+
+"Gameplay" = "Oynanış";
+
+"Have you read the guide?" = "Kullanım kılavuzunu okudun mu?";
+
+"Hide \"%@\"" = "Sakla “%@”";
+
+"Homebrew Games" = "Homebrew Oyunları";
+
+"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Arka batarya kapağınızda kırmızı bir buton varsa ona basın.\nEğer yoksa, ①+② butonlarını basılı tutun.";
+
+"If you change the core you current progress will be lost and save states will not work anymore." = "Eğer çekirdeği değiştirirseniz şu an ki işlemleriniz kaybolur ve kayıt durumlarınız artık çalışmaz.";
+
+"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "Bazı sistemleri taklit etmek için, modern oyun konsollarının donanım ve yazılımının artan karmaşıklığı nedeniyle BIOS dosyalarına ihtiyaç vardır. Daha fazla bilgi için lütfen %@ sayfamızı okuyun.";
+
+"In order to play the game it must be downloaded." = "Oyunun oynanması için indirilmesi gerek.";
+
+"Insert Cart/Disk/Tape…" = " Yerleştirin: Kart/Disk/Kaset…";
+
+"Install" = "İndir";
+
+"Installing Core" = "Çekirdek indiriliyor";
+
+"Invalid cue sheet format:" = "Geçersiz cue sheet formatı:";
+
+"Invalid gdi format:" = "Geçersiz gdi formatı:";
+
+"Join multi-line cheats with '+' e.g. 000-000+111-111" = "‘+’ ile çok satır hileleri kullan örn. 000-000+111-111";
+
+"Keyboard" = "Klavye";
+
+"Learn More" = "Fazlasını Öğren";
+
+"Library" = "Kütüphane";
+
+"Load" = "Yükle";
+
+"Locate '%@'" = "Konumla “%@”";
+
+"Locate…" = "Konumla…";
+
+"Low Controller Battery" = "Kontrolcü bataryası düşük";
+
+"Make sure your internet connection is active and download a suitable core." = "İnternet bağlantınızın aktif ve uygun çekirdekleri indirdiğinize emin olun.";
+
+"Make your Wiimote discoverable" = "Wiimote'unuzu keşfedilebilir yapın ";
+
+"Missing Core" = "Kayıp Çekirdek";
+
+"Missing referenced file:" = "Kayıp referans dosyası:";
+
+"Move to Trash" = "Çöpe at";
+
+"Moving Library…" = "Kütüphane Taşınıyor…";
+
+"Must not be compressed:" = "Sıkıştırılmış olmamalı:";
+
+"Mute Audio" = "Sesi Kapat";
+
+"Name" = "İsim"; // Search field menu, only search names
+
+"New Collection from Selection" = "Seçimlerden yeni koleksiyon";
+
+"New Collection" = "Yeni koleksiyon";
+
+"New Folder" = "Yeni Klasöt";
+
+"New Smart Collection" = "Yeni Akıllı Koleksiyon";
+
+"No available controllers" = "Uygun kontrolcü yok";
+
+"No game played yet!" = "Henüz oyun oynanmadı!";
+
+"No Internet Connection" = "İnternet bağlantısı yok";
+
+"No permission to open:" = "Açmak için izin yok:";
+
+"No Save States available" = "Uygun durum yok";
+
+"No Screenshots Found" = "Ekran görüntüsü bulunamadı";
+
+"No valid system detected:" = "Geçerli sistem bulunamadı:";
+
+"No" = "Hayır";
+
+"None" = "Hiçbiri";
+
+"Not plain text:" = "Düz metin değil:";
+
+"OK" = "TMM";
+
+"Only files in the OpenEmu Library folder will be moved to the Trash." = "Sadece OpenEmu kütüphanesindeki dosyalar çöp kutusuna taşınacaktır";
+
+"Open Collection" = "Koleksiyonları Aç";
+
+"Open Library" = "Kütüphaneyi Aç";
+
+"OpenEmu could not find a Core to launch the game" = "OpenEmu oyunu başlatmak için çekirdek bulamadı";
+
+"OpenEmu includes a save state feature that allows you to continue playing exactly where you left off." = "OpenEmu oyuna tam bıraktığınız yerden devam etmenizi sağlayan kayıt durumları özelliğine sahiptir.";
+
+"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu devam etmek için kütüphaneye ihtiyaç duyuyor. Var olan bir OpenEmu kütüphanesini seçebilir ya da yeni bir tane yaratabilirsiniz";
+
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu oyunları çalıştırmak için 'çekirdekler' kullanır. Oynamak için %1$@ çekirdeğine ihtiyacınız var %2$@";
+
+"OpenEmu will save and quit all games that are currently running." = "OpenEmu kayıt alıp şu anda çalışan bütün oyunları kapatacaktır.";
+
+"Options" = "Ayarlar";
+
+"Pause/Restart" = "Durdur/Resetle";
+
+"Pause Game" = "Oyunu Durdur";
+
+"Play" = "Oyna";
+
+"Play Game" = "Oyunu Oyna";
+
+"Play Games (Caution)" = "Oyunu Oyna (Dikkat)";
+
+"Play Save Games" = "Kayıt Oyna";
+
+"Play Save State" = "Kayıt Durumu Oyna";
+
+"Player %ld" = "Oyuncu %ld";
+
+"Please close all games and wait for the importer to finish." = "Lütfen tüm oyunları kapatın ve dışarı çıkarma işleminin bitmesini bekleyin.";
+
+"Quick Load" = "Hızlı Yükleme";
+
+"Quick Save State" = "Hızlı Kaydetme Durumu";
+
+"Quick Save, Slot %@" = "Hızlı Kaydetme, Bölge %@";
+
+"Quick Save" = "Hızlı Kaydet";
+
+"Quit" = "Çıkış";
+
+"Rating" = "Oylama";
+
+"Recently Added" = "Son olarak eklenen";
+
+"Recovered Auto Save" = "Kurtarılmış Oto Kayıtlar";
+
+"Remove Collection" = "Koleksiyonu Kaldır";
+
+"Remove Game" = "Oyunu Kaldır";
+
+"Remove Games" = "Oyunları Kaldır";
+
+"Rename \"%@\"" = "Yeniden isimlendir “%@”";
+
+"Rename Game" = "Oyunu Yeniden İsimlendir";
+
+"Rename Special Save State or something?" = "Özel bir kayıt durumunu ya da başka bir şeyi yeniden isimlendir?";
+
+"Rename" = "Yeniden İsimlendir";
+
+"Required files are missing." = "İhtiyaç duyulan dosyalar kayıp.";
+
+"Resolve %ld Issue" = " %ld sorununu çözümle ";
+
+"Resolve %ld Issues" = "%ld Sorunlarını Çözümle";
+
+"Restart Game" = "Oyunu Yendiden Başlat";
+
+"Restart" = "Yeniden Başlat";
+
+"Resume Game" = "Oyuna Devam et";
+
+"Resume" = "Devam Et";
+
+"Save As:" = "Olarak Kaydet:";
+
+"Save Current Game…" = "Şu anki oyunu kaydet…";
+
+"Save Game" = "Oyunu Kaydet";
+
+"Save States" = "Durumu Kaydet";
+
+"Save-Game-%ld %@" = "Kaydet-Oyun-%ld %@";
+
+"Scanner Paused" = "Tarayıcı Durduruldu";
+
+"Scanning Directory" = "Dizin Taranıyor";
+
+"Screenshots" = "Ekran Görüntüleri";
+
+"Search" = "Ara";
+
+"Secrets" = "Gizemler";
+
+"Select All" = "Hepsini Seç";
+
+"Select Audio Output Device" = "Ses çıkış cihazını seç";
+
+"Select Cheat" = "Hileler";
+
+"Select Core" = "Çekirdekler";
+
+"Select Disc" = "Diskler";
+
+"Select Display Mode" = "Ekran modları";
+
+"Select Shader" = "Gölgeler";
+
+"Select Scale" = "Oranlar";
+
+"Shader Parameters" = "Gölge Parametreleri";
+
+"Share" = "Paylaş";
+
+"SHARE_STANDARD_MENU_ITEM_TITLE" = "Paylaş…";
+
+"Show in Finder" = "Finder'da göster";
+
+"Slot %ld" = "Bölme %ld";
+
+"Some migrations failed to complete properly" = "Bazı taşımalar tam olarak tamamlana";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "OpenEmuyu mümkün kılan\nHerkese teşekkürler. Katkıda bulunanlar için\n, emulator çekirdekleri,\ndökümantasyon, lisanslar ve sorunlar\n ve hatalar için GitHub sayfamızı ziyaret.";
+
+"Start Scanning" = "Taramaya başla";
+
+"Quit Game" = "Oyundan Çık";
+
+"Stop" = "Durdur";
+
+"Switch To Grid View" = "Izgara Görünümüne Geç";
+
+"Switch To List View" = "Liste Görünümüne Geç";
+
+"System Default" = "Sistem Varsayılanı"; // Default audio device setting
+
+"System Files" = "Sistem Dosyaları";
+
+"System" = "Sistem";
+
+"Takes you to the %@ project website" = "%@ Projesi websitesine git";
+
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "%1$@ çekirdeğinin uyumluluk sorunları var. Bazı oyunlarda bozulmalar meydana gelebilir veya hiç oynamaz.\n\n Lütfen bu bozulmaları hata olarak bildirmeyin, biz %2$@. geliştirmesinden sorumlu değiliz";
+
+"The battery in device number %lu, %@, is low. Please charge or replace the battery." = " %1$lu, numaralı cihazın bataryası %2$@, düşük. Lütfen bataryayı değiştirin ya da şarj edin.";
+
+"The core could not be downloaded. Try installing it from the Cores preferences." = "Çekirdek indirilemiyor. Çekirdek tercihlerinden indirmeyi deneyin.";
+
+"The file you selected doesn't exist" = "Seçtiğiniz dosya mevcut değil";
+
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = " “%@” oyunu ROM dosyası bulunamadığı için başlatılamadı. Konumlandırmak ister misiniz?";
+
+"The game '%@' was imported." = " “%@” oyunu içeri aktarılmış.";
+
+"The OpenEmu Library could not be found." = "OpenEmu Kütüphanesi bulunamadı.";
+
+"The System plugin could not be found!" = "Sistem plugini bulunamadı!";
+
+"this guide" = "Bu rehber";
+
+"This save state was created with a different core. Do you want to switch to that core now?" = "Bu kayıt durumu başka bir çekirdek ile yaratıldı. Çekirdeği şimdi değiştirmek ister misiniz?";
+
+"This System has no corresponding core installed." = "Sistem indirilen çekirdeğe yanıt vermiyor.";
+
+"Title:" = "Başlık:";
+
+"To launch the save state %@ you will need to install the '%@' Core" = "Bu kayıt durumunu başlatmak için %1$@, “%2$@” Çekirdeğini indirmeniz gerek";
+
+"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "Bu çekirdeği çalıştırmak için yapmanız gerek:\n\n%@ Gerekli dosya(ları) oyun kütüphanesine atın ve tekrar deneyin.";
+
+"Toggle Fullscreen" = "Tam Ekran yap";
+
+"Trash downloaded Files" = "Yüklenmiş dosyaları sil";
+
+"Unexpected error:" = "Beklenmeyen hata:";
+
+"Unmute Audio" = "Sesi aç";
+
+"Update" = "Güncelle";
+
+"Updating Library" = "Kütüphane güncelleniyor";
+
+"User guide on BIOS files" = "BIOS dosyalarından kullanıcı rehberi";
+
+"Version" = "Versiyon";
+
+"View Guide in Browser" = "İnternetten görüntü rehberi";
+
+"Volume" = "Ses";
+
+"Warning" = "Uyarı";
+
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "OpenEmu ile kayıt durumlarını kullanarak istediğiniz zaman kayıt alabilirsiniz. Oyundan çıktığınızda biz de oto-kayıt alacağız. Bütün kayıtlarınıza bakmak için buraya geri gelin.";
+
+"Won't be able to recognize it as special save state…" = "Özel kayıt durumu hatırlanamaz…";
+
+"Would you like to continue your last game?" = "Son oyununuzdan devam etmek ister misiniz?";
+
+"Would you like to save your game before you quit?" = "Çıkmadan önce oyununuzu kaydetmek ister misiniz?";
+
+"Yes" = "Evet";
+
+"You can't move your library into one of its subfolders." = "Kütüphanenizi alk klasörlerinden birine taşıyamazsınız.";
+
+"You need to restart the application to commit the change" = "Değişiklikleri uygulamak için yeniden başlatmalısınız.";
+
+"Your game finished importing, do you want to play it now?" = "Oyununuz içeri aktarmayı bitirdi, şimdi oynamak ister misiniz?";
+
+"Your library was moved sucessfully." = "Kütüphaneniz başarı ile taşındı.";
+
+"Toolbar: Library" = "Kütüphane";
+
+"Toolbar: Save States" = "Kayıt durumları";
+
+"Toolbar: Screenshots" = "Ekran Görüntüleri";
+
+"Toolbar: Homebrew" = "Homebrew";
+
+"Grid Size" = "Izgara Boyutu";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "Görüntü Modu";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "Kategori";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"An issue was detected with one of your controllers." = "Kontrolcülerinizden birinde bir sorun çıktı.";  // Headline for bindings repaired alert
+
+"The button profile for one of your controllers does not match the profile detected the last time it was connected to OpenEmu. Some of the controls associated to the affected controller were reset.\n\nYou can go to the Controls preferences to check which associations were affected." = "Kontrolcülerinizden birinin düğme profili, OpenEmu'ya en son bağlandığında algılanan profille eşleşmiyor. Etkilenen kontrolcüye ilişkili bazı kontroller sıfırlandı.\n\nHangi ilişkilendirmelerin etkilendiğini kontrol etmek için Kontrolcü tercihlerine gidebilirsiniz.";  // Message for bindings repaired alert
+
+"Keycode 0x%lX" = "Keycode 0x%lX";  // Fallback for unknown keys
+
+"Your Mac is too old for this version of OpenEmu" = "Mac'iniz, OpenEmu'nun bu versiyonu için çok eski.";  // Message for the alert which appears when no Metal-enabled GPUs are detected
+
+"Since version 2.1, OpenEmu requires a GPU which supports Metal. Metal is available on all Macs that support macOS 10.14 or later.\n\nAs OpenEmu does not work with your current hardware/software configuration, it will now close." = " 2.1 versiyonundan beri, OpenEmu metal destekleyen GPU'lara ihtiyaç duyar.Meral macOS 10.14 ve sonraki sürümlerde mevcuttur.\n\nOpenEmu güncel uygulama/yazılım yapılandırmanızla çalışmaz, şimdi kapanacak.";  // Informative text for the alert which appears when no Metal-enabled GPUs are detected
+
+"Quit OpenEmu" = "OpenEmu'dan çık";  // Button title for the alert which appears when no Metal-enabled GPUs are detected
+
+"The %@ core plugin is deprecated" = "%@ çekirdek eklentisi kullanımdan kaldırılmış";  // Message title (removal far away)
+
+"The %@ core plugin is deprecated, and will be removed soon" = "%@ çekirdek eklentisi kullanımdan kaldırılmış,ve yakında silinecektir";  // Message title (removal happening soon)
+
+"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "Bu çekirdek eklenti gelecekte kullanılamayacaktır. Kaldırıldığında, onunla oluşturulan tüm kayıt durumları çalışmayı durduracaktır.";  // Message info, part 1 (removal far away)
+
+"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "Birkaç gün içinde bu çekirdek eklenti otomatik olarak kaldırılacaktır. Kaldırıldığında, onunla oluşturulan tüm kayıt durumları çalışmayı durduracaktır.";  // Message info, part 1 (removal happening soon)
+
+"We suggest you switch to the %@ core plugin as soon as possible." = "Mümkün olan en kısa sürede %@ çekirdek eklentine geçmenizi öneriyoruz.";  // Message info, part 2 (shown only if the replacement plugin is available)
+
+"ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "Bu plugin şu anda desteklenmiyor";
+
+"Install %@" = "İndir %@";
+
+"Install %@ and Set as Default" = "%@ indir ve varsayılan olarak ayarla";
+
+"Ignore" = "Yoksay";
+
+"ALERT_INPUT_MONITORING_HEADLINE" = "OpenEmu ek izinler gerektirir";
+
+"ALERT_INPUT_MONITORING_PART1" = "Klavyeyi bir giriş aygıtı olarak kullanmak için OpenEmu'ya Giriş İzleme izni verilmelidir.";
+
+"ALERT_INPUT_MONITORING_PART2" = "İznin değiştirilmesi klavye girişi sorunlarını da çözebilir.";
+
+"ALERT_INPUT_MONITORING_PART2_MONTEREY" = "İznin kaldırılması ve yeniden verilmesi de klavye girişi sorunlarını çözebilir.";
+
+"Open System Preferences" = "Sistem tercihlerini aç";
+
+"Moving the Game Library is not recommended" = "Oyun kütüphanesini taşımanız önerilmez";  //Message headline (attempted to change location of library)
+
+"ALERT_MOVE_LIBRARY_HTML" = "OpenEmu Oyun Kütüphanesi, kütüphane aşağıdaki konumlara taşınırsa bozulabilecek bir veritabanı dosyası içerir:<br><br><ul><li>bulut senkronizasyon sistemlerindeki dosyalar (tıpkı <b>iCloud Drive</b>)</li><li>Network klasörleri</li></ul><br>Ek olarak, <b>aynı kütüphaneyi birkaç bilgisayar ya da kullanıcının kullanması</b> da bozabilir. Bu aynı zamanda kütüphanenin harici USB sürücülere taşınması için de geçerlidir.";  // Message text (attempted to change location of library, HTML
+
+"I understand the risks" = "Riskleri anladım";  // OK button (attempted to change location of library)
+
+"Continue" = "Devam Et";
+
+"Last Played" = "Son Oynanan";
+
+"Save Games" = "Oyunları Kaydet";
+
+"Play Count" = "Oynama Sayısı";
+
+"Play Time" = "Oynama Süresi";
+
+"Fill Screen" = "Ekranı Doldur";  // Integral scale menu item title
+
+"ECM compressed binary detected." = "Sıkıştırılmış ECM ikilisi tespit edildi.";
+
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "Sıkıştırılmış ECM ikilisi içeri aktarılamaz. Lütfen disk içeri aktarma rehberini okuyunuz.";
+
+"Files failed to import." = "Dosyaları içeri aktarırken hata oluştu.";
+
+"\"%@\" in %@" = "\"%1$@\" in %2$@";  // İçeri aktarma hata açıklaması: Dosya zaten içeri alınmış (ilk oge: dosyaAdı, ikinci oge: sistem kütüphane adı)
+
+"NOT FOUND: \"%@\"" = "BULUNAMADI: \"%@\"";  // Import error description: referenced file not found
+
+"Choose Apple menu  > System Preferences, click Security & Privacy then select the Privacy tab. Remove the existing Files and Folders permission for OpenEmu, if exists, and instead grant Full Disk Access." = "Apple Menüsünü Seçin  > Sistem Tercihleri, Güvenlik & Gizlilik'e tıklayığ gizlilik kısmını seçim. OpenEmu için varsa mevcut Dosyalar ve Klasörler iznini kaldırın ve bunun yerine Tam Disk Erişimi verin.";
+
+"Decrease Grid Size" = "Izgara boyutunu küçült";
+
+"Increase Grid Size" = "Izgara boyutunu büyüt";
+
+"The emulator could not load ROM." = "Emülatör ROM yükleyemedi.";
+
+"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "Yeni bir tuş ya da buton atamak için %@, tuşuna basın, sonrasına atamak istediğiniz tuşa klavye ya da kontrolcü üzerinden basın."; // Controls preferences, accessibility help
+
+"Changed button for %1$@ to %2$@." = "Buton %1$@, %2$@ ile değiştirildi."; // Controls preferences, accessibility notification (“Changed button for Up to W.”)
+
+"Not assigned" = "Görevlendirilmedi"; // Controls preferences, accessibility title (key is not mapped, “empty”)
+
+"OpenEmu could not download required data from the internet" = "Gerekli datayı internetten indiremedi";  // Setup Assistant
+
+"An error occurred while preparing the setup assistant. (%@) Make sure you are connected to the internet and try again." = "Kurulum asistanı hazırlanırken bir hata meydana geldi. (%@) Lütfen internete bağlı olduğunuzdan emin olup tekrar deneyin.";  // Setup Assistant
+
+"Retry" = "Tekrar dene";
+
+"Downloading core list..." = "Çekirdek listesi indiriliyor…";
+
+"The %@ core has quit unexpectedly" = "%@ çekirdeği beklenmeyen şekilde kapatıldı";
+
+"ALERT_CORE_GLITCHES_FEEDBACK_HTML" = "<b>If and only if this issue persists</b>, please submit feedback including:<br><br><ul><li>The model of Mac you are using <b>and</b> the version of macOS you have installed<ul><li>This information is found in  > About this Mac</li></ul></li><li>The <b>exact name</b> of the game you were playing</li><li>The crash report of OpenEmuHelperApp<ul><li>Open Console.app, click on “Crash Reports” or “User Reports” in the sidebar, then look for the latest document with OpenEmuHelperApp in the name</ul></li></li></ul><br><b>Always search for similar feedback previously reported by other users!</b><br>If any of this information is omitted, or if similar feedback has already been issued, your issue report may be closed.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
+
+"The %@ core has quit unexpectedly after loading a save state" = "%@ çekirdeği, kayıt durumu yüklenirlen beklenmeyen bir şekilde kapandı.";
+
+"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "Bazen aynı çekirdeğin farklı sürümleri arasındaki uyumsuzluklar nedeniyle bir kayıt durumu yüklenirken çökme meydana gelebilir. Oyunu bir kayıt durumu yüklemeden açmak ister misiniz?";
+
+"Reopen without loading state" = "Yükleme durumu olmadan tekrar aç";
+
+"MOVE_ALERT_TITLE" = "Uygulama klasörüne taşı";
+
+"MOVE_ALERT_INFO_TEXT" = "OpenEmu'nun düzgün çalışması için uygulama klasörünün taşınması gerek.";
+
+"MOVE_ALERT_NEEDS_AUTH" = "Bu adımı tamamlamak için bir yönetici adı ve parolası ile kimlik doğrulaması yapmanız gerekir. Alternatif olarak, farklı bir konum seçebilir veya Uygulamadan çıkıp manuel olarak taşıyabilirsiniz.";
+
+"MOVE_ALERT_MOVE_BUTTON" = "Uygulama klasörünü taşı";
+
+"Choose Location…" = "Konum Seç…";
+
+"No parameters available." = "Uygun parametre yok.";
+
+"Reset parameters" = "Parametreleri Sıfırla"; // undo action: Reset shader parameters
+
+"Paste parameters" = "Parametreleri Yapıştır"; // undo action: Paste parameter values
+
+"Parameters" = "Parametreler"; // Window title: Shader parameters customisation window
+
+"New Shader Preset" = "Yeni Gölge Ön Ayarı"; // Window title: Used to specify the name of a new shader preset
+
+"Rename Shader Preset" = "Gölge ön ayarını yeniden isimlendir"; // Window title: Used to rename an existing shader preset
+
+"A name is required." = "İsim gereklidir."; // warning: Displayed when user enters a zero-length shader preset name
+
+"Name must not contain “%@.”" = "İsim “%@.” içermelidir"; // warning: Displayed when user enters a shader preset name containing an invalid character
+
+"Default %@ preset for %@" = "Varsayılan %@ ön ayar %@ için"; // 1st parameter: shader name; 2nd parameter: system name
+
+"Are you sure you want to delete the shader preset called '%@'?" = "“%@” isimli ön ayarı silmek istediğinize emin misiniz ?";
+
+"Delete Shader Preset" = "Gölge ön ayarını sil";

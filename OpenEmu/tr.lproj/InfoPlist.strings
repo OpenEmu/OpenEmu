@@ -1,0 +1,12 @@
+
+"Archived Game" = "Arşivlenmiş Oyunlar";
+
+"OpenEmu Core Plugin" = "OpenEmu Çekirdek Plugin";
+
+"OpenEmu Save State" = "OpenEmu Kayıt Durumu";
+
+"OpenEmu System Plugin" = "OpenEmu Sistem Plugin";
+
+"OpenEmu Shader" = "OpenEmu Grafik efekti";
+
+"%@ Game" = "%@ Oyun";  // Used in OESystemPluginPostInstall to dynamically generate localized file type names

@@ -1,0 +1,124 @@
+
+"General" = "Genel";
+
+"Debug Mode" = "Hata Ayıklama Modu";
+
+"Setup Assistant has finished" = "Kurulum Asistanı Sonlandırıldı";
+
+"Region:" = "Bölge:";
+
+"Run games using:" = "Oyunları Kullanarak Çalıştır:";
+
+"Library Window" = "Kütüphane Penceresi";
+
+"Reset main window size" = "Ana Pencere Boyutunu Sıfırla";
+
+"Show game titles instead of rom names" = "Rom isimleri yerine oyın başlıklarını göster";
+
+"Manually choose system on import" = "İmport edilecek sistemi elle seç";
+
+"Show autosave states in save state category" = "Kayıt durumu kategorisinde oto-kayıt durumlarını göster";
+
+"Show quicksave states in save state category" = "Kayıt durumu kategorisinde hızlı kayıt durumlarını göster";
+
+"Toggle game scanner view" = "Oyun tarayıcı görünümünü değiştir";
+
+"HUD Bar / Gameplay" = "HUD Bar / Oynanış";
+
+"Show notifications during gameplay" = "Oyun sırasında bildirimleri göster";
+
+"Use quicksave slots" = "Hızlı kayıt slotlarını kullan";
+
+"Show quicksave in menu" = "Menüde hızlı kayıt göster";
+
+"Show autosave in menu" = "Menüde oto-kayıt göster";
+
+"Show audio output device in menu" = "Menüde ses çıkış cihazını göster";
+
+"Take screenshots in native size" = "Ekran resmini orjinal boyutta al";
+
+"Disable aspect ratio correction in screenshots" = "Ekran görüntülerinde en/boy oranı düzeltmesini devre dışı bırak";
+
+"Game View Background color:" = "Oyun arka plan rengi:";
+
+"Controls Setup" = "Kontrol Ayarları";
+
+"Select first field after setting the last" = "Son ayarı yaptıktan sonra ilk alanı seç";
+
+"Draw button mask above image" = "Resmin üzerine buton maskesi çiz";
+
+"Log HID Events" = "HID olaylarını göster";
+
+"Log Keyboard Events" = "Klavye olaylarını kaydet";
+
+"Show all special keys" = "Tüm özel tuşları göster";
+
+"Set default save states directory" = "Varsayılan kayıt durumu dizinini ayarla";
+
+"Cleanup autosave state" = "Otomatik kaydetme durumunu temizle";
+
+"Cleanup Save States" = "Kayıt Durumlarını Temizle";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "OpenVGDB güncelle";
+
+"Database Actions" = "Veri Tabanı Eylemleri";
+
+"Delete artwork that can be downloaded" = "İndirilebilir resim çalışmalarını sil";
+
+"Download missing artwork…" = "Kayıp resimleri indir";
+
+"Remove untracked artwork files" = "Takip edilmeyen resim dosyalarını kaldır";
+
+"Cleanup rom hashes" = "Rom Hashe'lerini temizle";
+
+"Remove duplicated roms" = "Tekrar eden romları kaldır";
+
+"Cancel cover sync for all games" = "Tüm oyunlar için kapak senkronizasyonunu iptal et";
+
+"Perform Sanity Check on Database" = "Veritabanı sağlık kontrolü gerçekleştir";
+
+"While performing this operation OpenEmu will be unresponsive." = "Bu işlem gerçekleştirilirken OpenEmu işlevsiz kalacaktır.";
+
+"Delete useless image objects" = "Gereksiz resim objelerini sil";
+
+"Sync games without artwork" = "Oyunları resim çalışmaları olmadan senkronize et";
+
+"Threshold for analog controls bound to buttons:" = "Düğmelere bağlı analog kontroller için eşik değeri:";
+
+"Range: %@ to %@" = "Sınır: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
+
+"Default Value: %@" = "Varsayılan Değer: %@";  // Default value tooltip format in the Debug Preferences
+
+"Checked" = "Seçili";  // Default value tooltip for checkboxes: checked default
+
+"Unchecked" = "Seçili Değil";  // Default value tooltip for checkboxes: unchecked default
+
+"Shaders" = "Grafik Efektleri";
+
+"Clear shader cache" = "Grafik Efektleri önbelleğini sil";
+
+"Reveal user shader folder" = "Kullanıcı grafik efektleri dosyalarını göster";
+
+"Appearance:" = "Görünüm:";
+
+"Auto (region)" = "Otomatik";
+
+"North America" = "Kuzey Amerika";
+
+"Japan" = "Japonya";
+
+"Europe" = "Avrupa";
+
+"Other" = "Diğer";
+
+"XPC" = "XPC";
+
+"Background Thread" = "Arka Plan Konusu";
+
+"System" = "Sistem";
+
+"Dark (default)" = "Karanlık (Varsayılan)";
+
+"Light" = "Aydınlık";

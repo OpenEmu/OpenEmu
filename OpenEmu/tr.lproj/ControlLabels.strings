@@ -1,0 +1,277 @@
+
+/* Section Title */
+
+"Gameplay Buttons" = "Oyun Butonları";
+
+"Special Keys" = "Özel Tuşlar";
+
+
+/* Group Labels */
+
+"-" = "-";
+
+"3D Control Pad" = "3D Kontrol Paneli";
+
+"Analog" = "Analog";
+
+"C-Pad" = "C Pad";
+
+"C-Stick" = "C Çubuğu";
+
+"D-Pad" = "D Pad";
+
+"Keypad" = "Tuş Takımı";
+
+"Left Analog" = "Sol Analog";
+
+"Left D-Pad" = "Sol D-Pad";
+
+"Right Analog" = "Sağ Analog";
+
+"Right D-Pad" = "Sağ D-Pad";
+
+"Switches" = "Switchler";
+
+
+/* Button Labels */
+
+"#" = "#";
+
+"*" = "*";
+
+"0" = "0";
+
+"1" = "1";
+
+"2" = "2";
+
+"2/6 Mode" = "2/6 Modu";
+
+"3" = "3";
+
+"4" = "4";
+
+"5" = "5";
+
+"6" = "6";
+
+"7" = "7";
+
+"8" = "8";
+
+"9" = "9";
+
+"A" = "A";
+
+"Action" = "Aksiyon";
+
+"Analog Mode" = "Analog Modu";
+
+"B" = "B";
+
+"Bottom Left Action" = "Sol Alt Aksiyonu";
+
+"Bottom Right Action" = "Sağ Alt Aksiyonu";
+
+"Button 1" = "Buton 1";
+
+"Button 1/Start" = "Bouton 1/Start";
+
+"Button 2" = "Buton 2";
+
+"Button 3" = "Buton 3";
+
+"Button 4" = "Buton 4";
+
+"Button 5" = "Buton 5";
+
+"Button 6" = "Buton 6";
+
+"C" = "C";
+
+"Change Disk Side" = "Diski Değiştir";
+
+"Clear" = "Temizle";
+
+"Configure" = "Yapılandır";
+
+"Console Pause" = "Konsolu Durdur";
+
+"Console Reset" = "Konsolu Resetle";
+
+"Down" = "Aşağı";
+
+"Enter" = "Enter";
+
+"Fire" = "Ateş";
+
+"Fire 1" = "Ateş 1";
+
+"Fire 2" = "Ateş 2";
+
+"Insert Coin" = "Jeton At";
+
+"Jump" = "Zıpla";
+
+"L" = "L";
+
+"L Diff" = "L Diff";
+
+"L Diff A" = "L Diff A";
+
+"L Diff B" = "L Diff B";
+
+"L1" = "L1";
+
+"L2" = "L2";
+
+"L3" = "L3";
+
+"Left" = "Sol";
+
+"Left Action" = "Sol Aksiyon";
+
+"Left Trigger" = "Sol Trigger";
+
+"Lid" = "Kapak";
+
+"Menu" = "Menü";
+
+"Mic" = "Mikrofon";
+
+"Mode" = "Mod";
+
+"Mode Switch" = "Mod Değiştir";
+
+"Option" = "Ayarlar";
+
+"Option 1" = "Ayarlar 1";
+
+"Option 2" = "Ayarlar 2";
+
+"P" = "P";
+
+"Player Start" = "Oyuncu Başla";
+
+"Power" = "Güç";
+
+"R" = "R";
+
+"R Diff" = "R Diff";
+
+"R Diff A" = "R Diff A";
+
+"R Diff B" = "R Diff B";
+
+"R1" = "R1";
+
+"R2" = "R2";
+
+"R3" = "R3";
+
+"Right" = "Sağ";
+
+"Right Action" = "Sağ Aksiyon";
+
+"Right Trigger" = "Sağ Trigger";
+
+"Run" = "Koş";
+
+"Select" = "Seçme";
+
+"Service" = "Servis";
+
+"Shake" = "Sallanma";
+
+"Sound" = "Ses";
+
+"Start" = "Başla";
+
+"Swap Joysticks" = "Joystiklerin yerini değiştir";
+
+"TV Black & White" = "Siyah & Beyaz TV";
+
+"TV Color" = "TV Rengi";
+
+"Top Action" = "Üst Aksiyon";
+
+"Trigger L" = "L Triggeri";
+
+"Trigger R" = "R Triggeri";
+
+"Up" = "Yukarı";
+
+"X" = "X";
+
+"X1 Up" = "X1 Yukarı";
+
+"X2 Right" = "X2 Sağ";
+
+"X3 Down" = "X3 Aşağı";
+
+"X4 Left" = "X4 Sol";
+
+"Y" = "Y";
+
+"Y1 Up" = "Y1 Yukarı";
+
+"Y2 Right" = "Y2 Sağ";
+
+"Y3 Down" = "Y3 Aşağı";
+
+"Y4 Left" = "Y4 Sol";
+
+"Z" = "Z";
+
+"▢" = "▢";
+
+"△" = "△";
+
+"◯" = "◯";
+
+"✕" = "✕";
+
+
+/* Special Keys */
+
+"Display Mode" = "Ekran Modu";
+
+"Fast Forward" = "İleri Sarma";
+
+"Fullscreen" = "Tam Ekran";
+
+"Last Display Mode" = "Son Ekran Modu";
+
+"Load" = "Yükleme";
+
+"Mute" = "Sessiz";
+
+"Next Display Mode" = "Sonraki Ekran Modu";
+
+"Pause/Resume" = "Durdur/Devam Et";
+
+"Quick Load" = "Hızlı Yükleme";
+
+"Quick Save" = "Hızlı Kaydetme";
+
+"Rapid Fire Clear" = "Hızlı Ateş Temizleme";
+
+"Rapid Fire Reset" = "Hızlı Ateş Reset";
+
+"Rapid Fire Toggle" = "Hızlı Ateş Açık";
+
+"Reset" = "Reset";
+
+"Rewind" = "Geri Sar";
+
+"Save" = "Kaydet";
+
+"Screenshot" = "Ekran Resmi";
+
+"Step Backward" = "Geri Alma";
+
+"Step Forward" = "İleri Alma";
+
+"Volume Down" = "Ses azalt";
+
+"Volume Up" = "Ses arttır";
