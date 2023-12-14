@@ -1,0 +1,171 @@
+/*
+ Arabic translation info:
+    
+    Description:
+        It is the Arabic translation of the OpenEmu Debug.strings file.
+ 
+    Since:
+        version 2.3.3 ,
+        Thursday : (July 20, 2023, GREGORIAN or Muharram 2, 1445 Hijri).
+ 
+    First translator:
+        Name: Ahmed Essam Ahmed,
+        Email: ahmed4communication@gmail.com,
+        GitHub: https://github.com/Ahmed-Essam-Programming,
+        Discord: the_username_is_ahmed
+ 
+    second translator:
+        Name:
+        email:
+        GitHub:
+        Discord:
+    
+    Third translator:
+         Name:
+         email:
+         GitHub:
+         Discord:
+     
+    Fourth translator:
+         Name:
+         email:
+         GitHub:
+         Discord:
+     
+    .
+    .
+    .
+    .
+ 
+ */
+
+/*
+ NOTE: press ⌘ + F and search for:
+ -"TODO" to see untranslated strings
+ -"FUZZY" to see translations that need more work
+ -"UNTESTED" these translations that the translator did not see when he used OpenEmu to test the translation to see how the text will look on the UI
+*/
+
+"General" = "عام";
+
+"Debug Mode" = "وضع تصحيح الأخطاء";//FUZZY
+
+"Setup Assistant has finished" = "تم الإنتهاء من مساعد التنصيب";
+
+"Region:" = "المنطقة:";
+
+"Run games using:" = "تشغيل اللعبة باستخدام:";
+
+"Library Window" = "نافذة المكتبة";
+
+"Reset main window size" = "إعادة تعيين حجم النافذة الرئيسية";
+
+"Show game titles instead of rom names" = "أظهر اسم اللعبة بدل اسم الـROM";
+
+"Manually choose system on import" = "اختيار النظام يدويًا عند الاستيراد";
+
+"Show autosave states in save state category" = "إظهار حالات الحفظ التلقائي في قسم حالات الحفظ";
+
+"Show quicksave states in save state category" = "اظهار الحفظ السريع التلقائي في قسم حالات الحفظ";
+
+"Toggle game scanner view" = "إخفاء/إظهار  ماسح الألعاب";
+
+"HUD Bar / Gameplay" = "شريط التحكم / أثناء اللعب";
+
+"Show notifications during gameplay" = "عرض الإشعارات أثناء اللعب";
+
+"Use quicksave slots" = "استخدم فتحات الحفظ السريع";
+
+"Show quicksave in menu" = "إظهار الحفظ السريع في القائمة";
+
+"Show autosave in menu" = "إظهار الحفظ التلقائي في القائمة";
+
+"Show audio output device in menu" = "إظهار جهاز خرج الصوت في القائمة";
+
+"Take screenshots in native size" = "أخذ لقظات الشاشة بالحجم الأصلي";
+
+"Disable aspect ratio correction in screenshots" = "تعطيل تصحيح التحجيم في لقطات الشاشة";
+
+"Game View Background color:" = "لون الخلفية أثناء عرض اللعبة: ";
+
+"Controls Setup" = "تهيئة التحكم";
+
+"Select first field after setting the last" = "Select first field after setting the last";//TODO
+
+"Draw button mask above image" = "Draw button mask above image";//TODO
+
+"Log HID Events" = "Log HID Events";//TODO
+
+"Log Keyboard Events" = "Log Keyboard Events";//TODO
+
+"Show all special keys" = "إظهار جميع المفاتيح الخاصة";
+
+"Set default save states directory" = "تعيين المجلد الافتراضي لحالات الحفظ";
+
+"Cleanup autosave state" = "تنظيف حالات الحفظ التلقائي";
+
+"Cleanup Save States" = "تنظيف حالات الحفظ";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "تحديث OpenVGDB";
+
+"Database Actions" = "إجراءات قاعدة البيانات";
+
+"Delete artwork that can be downloaded" = "احذف الغلاف الذي يمكن تنزيله";
+
+"Download missing artwork…" = "تنزيل الأغلفة المفقودة…";
+
+"Remove untracked artwork files" = "Remove untracked artwork files";//TODO
+
+"Cleanup rom hashes" = "Cleanup rom hashes";//TODO
+
+"Remove duplicated roms" = "إزالة ملفات الـROM المكررة";
+
+"Cancel cover sync for all games" = "إلغاء مزامنة الأغلة لجميع الألعاب";//FUZZY
+
+"Perform Sanity Check on Database" = "Perform Sanity Check on Database";//TODO
+
+"While performing this operation OpenEmu will be unresponsive." = "While performing this operation OpenEmu will be unresponsive.";//TODO
+
+"Delete useless image objects" = "Delete useless image objects";//TODO
+
+"Sync games without artwork" = "مزامنة الألعاب بدون الأغلفة";
+
+"Threshold for analog controls bound to buttons:" = "Threshold for analog controls\nbound to buttons:";//TODO
+
+"Range: %@ to %@" = "Range: %@ to %@";//TODO  // Range indicator tooltip for numeric text boxes in the Debug Preferences
+
+"Default Value: %@" = "القيمة الافتراضية: %@";  // Default value tooltip format in the Debug Preferences
+
+"Checked" = "محدد";  // Default value tooltip for checkboxes: checked default
+
+"Unchecked" = "غير محدد";  // Default value tooltip for checkboxes: unchecked default
+
+"Shaders" = "Shaders";//TODO
+
+"Clear shader cache" = "Clear shader cache";//TODO
+
+"Reveal user shader folder" = "Reveal user shader folder";//TODO
+
+"Appearance:" = "المظهر:";
+
+"Auto (region)" = "تلقائية";
+
+"North America" = "أمريكا الشمالية";
+
+"Japan" = "اليابان";
+
+"Europe" = "أوروبا";
+
+"Other" = "أخرى";
+
+"XPC" = "XPC";
+
+"Background Thread" = "Background Thread";//TODO
+
+"System" = "النظام";
+
+"Dark (default)" = "داكن (افتراضي)";
+
+"Light" = "فاتح";

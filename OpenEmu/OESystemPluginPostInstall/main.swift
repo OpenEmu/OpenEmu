@@ -32,7 +32,14 @@ import Foundation
 let regionsToLanguages = [
     "eu": ["ca", "de", "en-GB", "es", "fr", "it", "nl", "pt", "ru"],
     "na": ["en", "fr-CA"],
-    "jp": ["ja", "zh-Hans", "zh-Hant"]
+    "jp": ["ja", "zh-Hans", "zh-Hant"],
+    "eg": ["ar"],
+    "sa": ["ar"],
+    "ae": ["ar"],
+    "bh": ["ar"],
+    "tn": ["ar"],
+    "dz": ["ar"],
+    "ma": ["ar"]
 ]
 
 // Extensions we don't want to include in the Info.plist because they are
