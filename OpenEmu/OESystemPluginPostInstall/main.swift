@@ -30,7 +30,7 @@ import Foundation
 
 // IMPORTANT: to be updated when adding a language to OpenEmu
 let regionsToLanguages = [
-    "eu": ["ca", "de", "en-GB", "es", "fr", "it", "nl", "pt", "ru"],
+    "eu": ["ca", "de", "en-GB", "es", "fr", "it", "nl", "pt", "ru", "tr"],
     "na": ["en", "fr-CA"],
     "jp": ["ja", "zh-Hans", "zh-Hant"],
     "eg": ["ar"],
