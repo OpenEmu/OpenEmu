@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -86,7 +86,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
                         </scrollView>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="ControlsLabel" customModule="OpenEmu" customModuleProvider="target">
+                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="ControlsLabel" customModule="OpenEmu" customModuleProvider="target">
                             <rect key="frame" x="14" y="17" width="39" height="16"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Input:" id="11">
                                 <font key="font" metaFont="system"/>
@@ -99,9 +99,6 @@
                         </textField>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9" customClass="ControlsPopUpButton" customModule="OpenEmu" customModuleProvider="target">
                             <rect key="frame" x="52" y="8" width="166" height="28"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="23" id="lww-pM-fVv"/>
-                            </constraints>
                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="12" customClass="ControlsPopUpButtonCell" customModule="OpenEmu" customModuleProvider="target">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
@@ -116,6 +113,9 @@
                                     </items>
                                 </menu>
                             </popUpButtonCell>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="23" id="lww-pM-fVv"/>
+                            </constraints>
                             <connections>
                                 <action selector="changeInputDevice:" target="-2" id="46"/>
                             </connections>
@@ -138,7 +138,7 @@
             </subviews>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="116" secondAttribute="bottom" constant="25" id="2zq-xu-yuK"/>
-                <constraint firstAttribute="trailing" secondItem="116" secondAttribute="trailing" constant="26" id="axl-wZ-16j"/>
+                <constraint firstAttribute="right" secondItem="116" secondAttribute="right" constant="26" id="axl-wZ-16j"/>
             </constraints>
             <userDefinedRuntimeAttributes>
                 <userDefinedRuntimeAttribute type="image" keyPath="image" value="controls_background"/>
