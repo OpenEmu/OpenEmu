@@ -36,7 +36,7 @@
 
 "Allow playing with controllers when in background" = "Controllereingaben im Hintergrund erlauben";
 
-"Always float popout gamplay window on top" = "Separates Fenster im Vordergrund halten";
+"Always float popout gameplay window on top" = "Separates Fenster im Vordergrund halten";
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */

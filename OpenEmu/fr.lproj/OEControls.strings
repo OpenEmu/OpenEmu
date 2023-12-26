@@ -36,7 +36,7 @@
 
 "Allow playing with controllers when in background" = "Autoriser à jouer avec des manettes quand le jeu est en arrière-plan";
 
-"Always float popout gamplay window on top" = "Faire flotter la fenêtre de jeu contextuelle en haut";
+"Always float popout gameplay window on top" = "Faire flotter la fenêtre de jeu contextuelle en haut";
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */

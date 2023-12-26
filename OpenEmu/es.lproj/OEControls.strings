@@ -36,7 +36,7 @@
 
 "Allow playing with controllers when in background" = "Permitir jugar con mandos en segundo plano";
 
-"Always float popout gamplay window on top" = "Flotar siempre ventana emergente de juego en primer plano";
+"Always float popout gameplay window on top" = "Flotar siempre ventana emergente de juego en primer plano";
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */

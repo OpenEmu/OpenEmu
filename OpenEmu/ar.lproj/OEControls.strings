@@ -83,7 +83,7 @@
 
 "Allow playing with controllers when in background" = "السماح بالعب بوحدة التحكم عندما تكون النافذة في الخلفية";
 
-"Always float popout gamplay window on top" = "ضع دائما نافذة اللعب المنبثقة في الأعلى";
+"Always float popout gameplay window on top" = "ضع دائما نافذة اللعب المنبثقة في الأعلى";
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */

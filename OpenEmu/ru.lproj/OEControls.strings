@@ -36,7 +36,7 @@
 
 "Allow playing with controllers when in background" = "Разрешить играть с помощью контроллеров в фоновом режиме";
 
-"Always float popout gamplay window on top" = "Всегда отображать всплывающее окно игр сверху";
+"Always float popout gameplay window on top" = "Всегда отображать всплывающее окно игр сверху";
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */

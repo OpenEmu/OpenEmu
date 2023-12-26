@@ -36,7 +36,7 @@
 
 "Allow playing with controllers when in background" = "Gioca con un controller anche se non in primo piano";
 
-"Always float popout gamplay window on top" = "Finestra di gioco separata sempre in primo piano";
+"Always float popout gameplay window on top" = "Finestra di gioco separata sempre in primo piano";
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */

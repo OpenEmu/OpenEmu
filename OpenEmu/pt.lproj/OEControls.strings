@@ -36,7 +36,7 @@
 
 "Allow playing with controllers when in background" = "Allow playing with controllers when in background"; // TODO
 
-"Always float popout gamplay window on top" = "Always float popout gamplay window on top"; // TODO
+"Always float popout gameplay window on top" = "Always float popout gameplay window on top"; // TODO
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */

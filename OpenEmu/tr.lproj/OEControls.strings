@@ -36,7 +36,7 @@
 
 "Allow playing with controllers when in background" = "Arka planda kontrolcü ile oynamaya izin ver";
 
-"Always float popout gamplay window on top" = "Açılır oyun penceresini her zaman üstte tut";
+"Always float popout gameplay window on top" = "Açılır oyun penceresini her zaman üstte tut";
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */
@@ -65,7 +65,7 @@
 
 "Click on the ‘Next’ button to begin!" = "Başlamak için 'ileri' butonuna bas!";
 
-"OpenEmu is modular, and thanks to the work of other gresat open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "OpenEmu modülerdir ve diğer harika açık kaynak projelerinin çalışmaları sayesinde çok çeşitli video oyun sistemlerini ('çekirdeklerini') taklit edebilir. Bazı oyunlar, çekirdekleri yüklemek ve kullanmak istediğinizi işaretlemenizi ve onaylamanızı isteyebilir. Favori oyun sistemleriniz ve oyunlarınız bu çekirdekler olmadan çalışmayabilir.";
+"OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "OpenEmu modülerdir ve diğer harika açık kaynak projelerinin çalışmaları sayesinde çok çeşitli video oyun sistemlerini ('çekirdeklerini') taklit edebilir. Bazı oyunlar, çekirdekleri yüklemek ve kullanmak istediğinizi işaretlemenizi ve onaylamanızı isteyebilir. Favori oyun sistemleriniz ve oyunlarınız bu çekirdekler olmadan çalışmayabilir.";
 
 "System Cores Installation" = "Sistem çekirdek indirmesi";
 

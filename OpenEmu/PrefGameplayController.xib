@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,7 +18,7 @@
             <rect key="frame" x="0.0" y="0.0" width="540" height="202"/>
             <subviews>
                 <gridView horizontalHuggingPriority="249" verticalHuggingPriority="600" xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" translatesAutoresizingMaskIntoConstraints="NO" id="xCG-ky-Cuo">
-                    <rect key="frame" x="30" y="0.0" width="490" height="182"/>
+                    <rect key="frame" x="30" y="-9" width="496" height="191"/>
                     <constraints>
                         <constraint firstItem="N8p-Zl-FSZ" firstAttribute="leading" secondItem="xCG-ky-Cuo" secondAttribute="leading" id="om9-Z9-MOB"/>
                     </constraints>
@@ -38,8 +38,8 @@
                     </columns>
                     <gridCells>
                         <gridCell row="E8f-q6-hH2" column="4tC-Ji-VhF" id="ryl-5a-XfQ">
-                            <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10">
-                                <rect key="frame" x="86" y="165" width="51" height="16"/>
+                            <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10">
+                                <rect key="frame" x="86" y="174" width="51" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Shader:" id="21">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -52,15 +52,15 @@
                         </gridCell>
                         <gridCell row="E8f-q6-hH2" column="TUh-4W-YMM" id="PAz-I3-Led">
                             <popUpButton key="contentView" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11" userLabel="Shader Selection">
-                                <rect key="frame" x="139" y="158" width="217" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="212" id="6jh-MX-q9D"/>
-                                </constraints>
+                                <rect key="frame" x="138" y="167" width="219" height="25"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="16">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="17"/>
                                 </popUpButtonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="212" id="6jh-MX-q9D"/>
+                                </constraints>
                                 <connections>
                                     <action selector="changeGlobalDefaultShader:" target="-2" id="2yL-s2-xjM"/>
                                 </connections>
@@ -68,13 +68,13 @@
                         </gridCell>
                         <gridCell row="VqM-FE-fRe" column="4tC-Ji-VhF" headOfMergedCell="DrK-gt-qKR" id="DrK-gt-qKR">
                             <box key="contentView" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="N8p-Zl-FSZ">
-                                <rect key="frame" x="0.0" y="146" width="490" height="5"/>
+                                <rect key="frame" x="0.0" y="156" width="496" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="VqM-FE-fRe" column="TUh-4W-YMM" headOfMergedCell="DrK-gt-qKR" id="2zx-TO-int"/>
                         <gridCell row="NYF-Xp-end" column="4tC-Ji-VhF" id="rfF-E8-SRq">
-                            <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="13">
-                                <rect key="frame" x="-2" y="120" width="139" height="16"/>
+                            <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="13">
+                                <rect key="frame" x="-2" y="130" width="139" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Window Management:" id="14">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -87,7 +87,7 @@
                         </gridCell>
                         <gridCell row="NYF-Xp-end" column="TUh-4W-YMM" id="9GN-RA-hIB">
                             <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="5" userLabel="Check Box 1">
-                                <rect key="frame" x="139" y="118" width="215" height="19"/>
+                                <rect key="frame" x="139" y="129" width="219" height="18"/>
                                 <buttonCell key="cell" type="check" title="Always launch games fullscreen" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="26" userLabel="Check Box Cell">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -103,7 +103,7 @@
                         <gridCell row="gwW-IR-buB" column="4tC-Ji-VhF" id="mEr-Bj-g6D"/>
                         <gridCell row="gwW-IR-buB" column="TUh-4W-YMM" id="Iqu-nh-gRu">
                             <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="6" userLabel="Check Box 2">
-                                <rect key="frame" x="139" y="98" width="248" height="18"/>
+                                <rect key="frame" x="139" y="107" width="252" height="18"/>
                                 <buttonCell key="cell" type="check" title="Always use popout gameplay window" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="25" userLabel="Check Box Cell">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -119,7 +119,7 @@
                         <gridCell row="Vje-Re-wNC" column="4tC-Ji-VhF" id="N6j-Ni-5NQ"/>
                         <gridCell row="Vje-Re-wNC" column="TUh-4W-YMM" id="KR5-yU-kVH">
                             <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="FDo-ef-KF3" userLabel="Check Box 2">
-                                <rect key="frame" x="139" y="78" width="353" height="18"/>
+                                <rect key="frame" x="139" y="85" width="357" height="18"/>
                                 <buttonCell key="cell" type="check" title="Always snap popout gameplay window to integer scale" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="lgO-eK-Z0g" userLabel="Check Box Cell">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -135,8 +135,8 @@
                         <gridCell row="0ek-RE-3dE" column="4tC-Ji-VhF" id="rWq-sY-Ujs"/>
                         <gridCell row="0ek-RE-3dE" column="TUh-4W-YMM" id="Hu6-Be-BOV">
                             <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="Nqc-Wa-hco" userLabel="Check Box 2">
-                                <rect key="frame" x="139" y="58" width="288" height="18"/>
-                                <buttonCell key="cell" type="check" title="Always float popout gamplay window on top" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="A3u-oK-8c9" userLabel="Check Box Cell">
+                                <rect key="frame" x="139" y="63" width="300" height="18"/>
+                                <buttonCell key="cell" type="check" title="Always float popout gameplay window on top" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="A3u-oK-8c9" userLabel="Check Box Cell">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -151,7 +151,7 @@
                         <gridCell row="2nx-mB-NI1" column="4tC-Ji-VhF" id="zAD-ZG-w11"/>
                         <gridCell row="2nx-mB-NI1" column="TUh-4W-YMM" id="b8u-ae-67z">
                             <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="56" userLabel="Check Box 3">
-                                <rect key="frame" x="139" y="38" width="293" height="18"/>
+                                <rect key="frame" x="139" y="41" width="296" height="18"/>
                                 <buttonCell key="cell" type="check" title="Always pause gameplay when in background" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="57" userLabel="Check Box Cell">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -167,7 +167,7 @@
                         <gridCell row="yKY-8Y-qiL" column="4tC-Ji-VhF" id="btA-hR-Dul"/>
                         <gridCell row="yKY-8Y-qiL" column="TUh-4W-YMM" id="xoH-GT-cx1">
                             <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="rUN-Tz-mZH" userLabel="Check Box 3">
-                                <rect key="frame" x="139" y="18" width="325" height="18"/>
+                                <rect key="frame" x="139" y="19" width="329" height="18"/>
                                 <buttonCell key="cell" type="check" title="Allow playing with controllers when in background" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="zUK-Vv-IqE" userLabel="Check Box Cell">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>

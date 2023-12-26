@@ -36,7 +36,7 @@
 
 "Allow playing with controllers when in background" = "允許在背景時使用控制器遊玩";
 
-"Always float popout gamplay window on top" = "總是在頂部浮動彈出遊戲視窗";
+"Always float popout gameplay window on top" = "總是在頂部浮動彈出遊戲視窗";
 
 
 /* Preferences: Controls (OEPrefControlsController.xib) */
