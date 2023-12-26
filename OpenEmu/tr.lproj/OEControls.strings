@@ -1,5 +1,5 @@
 
-/* Preferences: Library (OEPrefLibraryController.xib) */
+/* Preferences: Library (PrefLibraryController.xib) */
 
 "Move..." = "Hareket…";
 
@@ -20,7 +20,7 @@
 "Reset Warnings" = "Ufarıları Sıfırla";
 
 
-/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+/* Preferences: Gameplay (PrefGameplayController.xib) */
 
 "Window Management:" = "Pencere Yöneticisi:";
 
@@ -39,12 +39,12 @@
 "Always float popout gameplay window on top" = "Açılır oyun penceresini her zaman üstte tut";
 
 
-/* Preferences: Controls (OEPrefControlsController.xib) */
+/* Preferences: Controls (PrefControlsController.xib) */
 
 "Input:" = "Giriş:";
 
 
-/* Issue Resolver (OEGameScanner.xib) */
+/* Issue Resolver (GameScanner.xib) */
 
 "Resolve Issues:" = "Hata Çözümleme:";
 
@@ -53,7 +53,7 @@
 "Import Into:" = "İçe Aktarma:";
 
 
-/* Setup Assistant (OESetupAssistant.xib) */
+/* Setup Assistant (SetupAssistant.xib) */
 
 "Next" = "İleri";
 
@@ -85,7 +85,7 @@
 "Reset All" = "Hepsini sıfırla";
 
 
-/* Sidebar Header (OESidebarHeaderView.xib) */
+/* Sidebar Header (SidebarController.xib) */
 
 "Edit" = "Düzenle";
 

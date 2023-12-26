@@ -46,7 +46,7 @@
  -"UNTESTED" these translations that the translator did not see when he used OpenEmu to test the translation to see how the text will look on the UI
 */
 
-/* Preferences: Library (OEPrefLibraryController.xib) */
+/* Preferences: Library (PrefLibraryController.xib) */
 
 "Move..." = "نقل...";
 
@@ -67,7 +67,7 @@
 "Reset Warnings" = "إعادة تعيين التحذيرات";
 
 
-/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+/* Preferences: Gameplay (PrefGameplayController.xib) */
 
 "Window Management:" = "مدير النافذة:";
 
@@ -86,12 +86,12 @@
 "Always float popout gameplay window on top" = "ضع دائما نافذة اللعب المنبثقة في الأعلى";
 
 
-/* Preferences: Controls (OEPrefControlsController.xib) */
+/* Preferences: Controls (PrefControlsController.xib) */
 
 "Input:" = "جهاز الإدخال:";
 
 
-/* Issue Resolver (OEGameScanner.xib) */
+/* Issue Resolver (GameScanner.xib) */
 
 "Resolve Issues:" = "حل مشاكل:";
 
@@ -100,7 +100,7 @@
 "Import Into:" = "استيراد إلى:";
 
 
-/* Setup Assistant (OESetupAssistant.xib) */
+/* Setup Assistant (SetupAssistant.xib) */
 
 "Next" = "التالي";
 
@@ -132,6 +132,6 @@
 "Reset All" = "إعادة تعيين الكل";
 
 
-/* Sidebar Header (OESidebarHeaderView.xib) */
+/* Sidebar Header (SidebarController.xib) */
 
 "Edit" = "تعديل";

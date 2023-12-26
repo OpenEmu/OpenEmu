@@ -1,5 +1,5 @@
 
-/* Preferences: Library (OEPrefLibraryController.xib) */
+/* Preferences: Library (PrefLibraryController.xib) */
 
 "Move..." = "Move…";
 
@@ -20,7 +20,7 @@
 "Reset Warnings" = "Reset Warnings";
 
 
-/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+/* Preferences: Gameplay (PrefGameplayController.xib) */
 
 "Window Management:" = "Window Management:";
 
@@ -39,12 +39,12 @@
 "Always float popout gameplay window on top" = "Always float popout gameplay window on top";
 
 
-/* Preferences: Controls (OEPrefControlsController.xib) */
+/* Preferences: Controls (PrefControlsController.xib) */
 
 "Input:" = "Input:";
 
 
-/* Issue Resolver (OEGameScanner.xib) */
+/* Issue Resolver (GameScanner.xib) */
 
 "Resolve Issues:" = "Resolve Issues:";
 
@@ -53,7 +53,7 @@
 "Import Into:" = "Import Into:";
 
 
-/* Setup Assistant (OESetupAssistant.xib) */
+/* Setup Assistant (SetupAssistant.xib) */
 
 "Next" = "Next";
 
@@ -85,7 +85,7 @@
 "Reset All" = "Reset All";
 
 
-/* Sidebar Header (OESidebarHeaderView.xib) */
+/* Sidebar Header (SidebarController.xib) */
 
 "Edit" = "Edit";
 

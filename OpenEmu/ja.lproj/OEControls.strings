@@ -1,5 +1,5 @@
 
-/* Preferences: Library (OEPrefLibraryController.xib) */
+/* Preferences: Library (PrefLibraryController.xib) */
 
 "Move..." = "Move...";  // TODO
 
@@ -20,7 +20,7 @@
 "Reset Warnings" = "警告をリセット";
 
 
-/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+/* Preferences: Gameplay (PrefGameplayController.xib) */
 
 "Window Management:" = "ウィンドウ管理:";
 
@@ -39,12 +39,12 @@
 "Always float popout gameplay window on top" = "Always float popout gameplay window on top"; // TODO
 
 
-/* Preferences: Controls (OEPrefControlsController.xib) */
+/* Preferences: Controls (PrefControlsController.xib) */
 
 "Input:" = "入力:";
 
 
-/* Issue Resolver (OEGameScanner.xib) */
+/* Issue Resolver (GameScanner.xib) */
 
 "Resolve Issues:" = "インポートの問題を解決する:";
 
@@ -53,7 +53,7 @@
 "Import Into:" = "インポート先:";   // TODO
 
 
-/* Setup Assistant (OESetupAssistant.xib) */
+/* Setup Assistant (SetupAssistant.xib) */
 
 "Next" = "次へ";
 
@@ -85,7 +85,7 @@
 "Reset All" = "Reset All";  // TODO
 
 
-/* Sidebar Header (OESidebarHeaderView.xib) */
+/* Sidebar Header (SidebarController.xib) */
 
 "Edit" = "編集";
 

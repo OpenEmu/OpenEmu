@@ -1,5 +1,5 @@
 
-/* Preferences: Library (OEPrefLibraryController.xib) */
+/* Preferences: Library (PrefLibraryController.xib) */
 
 "Move..." = "Move...";  // TODO
 
@@ -20,7 +20,7 @@
 "Reset Warnings" = "Сбросить предупреждения";
 
 
-/* Preferences: Gameplay (OEPrefGameplayController.xib) */
+/* Preferences: Gameplay (PrefGameplayController.xib) */
 
 "Window Management:" = "Управление окном:";
 
@@ -39,12 +39,12 @@
 "Always float popout gameplay window on top" = "Всегда отображать всплывающее окно игр сверху";
 
 
-/* Preferences: Controls (OEPrefControlsController.xib) */
+/* Preferences: Controls (PrefControlsController.xib) */
 
 "Input:" = "Ввод:";
 
 
-/* Issue Resolver (OEGameScanner.xib) */
+/* Issue Resolver (GameScanner.xib) */
 
 "Resolve Issues:" = "Исправить проблемы импорта:";
 
@@ -53,7 +53,7 @@
 "Import Into:" = "Импортировать в:";
 
 
-/* Setup Assistant (OESetupAssistant.xib) */
+/* Setup Assistant (SetupAssistant.xib) */
 
 "Next" = "Далее";
 
@@ -85,7 +85,7 @@
 "Reset All" = "Сбросить все";
 
 
-/* Sidebar Header (OESidebarHeaderView.xib) */
+/* Sidebar Header (SidebarController.xib) */
 
 "Edit" = "Изменить";
 
