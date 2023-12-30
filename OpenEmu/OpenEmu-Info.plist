@@ -156,6 +156,8 @@
 	<string>https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>SUPublicEDKey</key>
+	<string>lI9DtKt5iDVR48ifKaP94mrFrHwYn75bfQLr+0alpRY=</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
