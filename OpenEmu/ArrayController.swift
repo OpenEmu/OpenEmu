@@ -35,7 +35,7 @@ class ArrayController: NSArrayController {
             req.sortDescriptors = fetchSortDescriptors
         }
         
-        req.fetchLimit = min(0, limit)
+        req.fetchLimit = max(0, limit)
         
         return try super.fetch(with: req, merge: merge)
     }
