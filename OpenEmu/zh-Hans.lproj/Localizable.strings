@@ -69,7 +69,7 @@
 
 "Cancel" = "取消";
 
-"Change Core" = "更改内核";
+"Change Core" = "更改核心";
 
 "Change Volume" = "更改音量";
 
@@ -119,11 +119,11 @@
 
 "Copying ROM files failed!" = "复制 ROM 文件失败！";
 
-"Core Provided By…" = "内核提供…";
+"Core Provided By…" = "核心提供…";
 
-"Core" = "内核";
+"Core" = "核心";
 
-"Cores" = "内核";
+"Cores" = "核心";
 
 "Could not move library data!" = "无法移动游戏库数据！";
 
@@ -137,7 +137,7 @@
 
 "Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "创建你个人的截图集合。要截图，可以在游戏当中使用键盘快捷键 ⌘ + T。";
 
-"Default Core" = "默认内核";
+"Default Core" = "默认核心";
 
 "Delete Collection" = "删除收藏";
 
@@ -191,7 +191,7 @@
 
 "Downloading %@…" = "正在下载 %@…";
 
-"Downloading and Installing Core…" = "正在下载并安装内核…";
+"Downloading and Installing Core…" = "正在下载并安装核心…";
 
 "Downloading Game DB" = "正在下载游戏数据库";
 
@@ -233,7 +233,7 @@
 
 "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "如果后电池盖有个红色按钮，按这个按钮。\n如果没有，按下按钮 ①+②.";
 
-"If you change the core you current progress will be lost and save states will not work anymore." = "如果更换内核，当前进度会丢失，同时已保存的状态将失效。";
+"If you change the core you current progress will be lost and save states will not work anymore." = "如果更换核心，当前进度会丢失，同时已保存的状态将失效。";
 
 "In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "由于现代游戏平台软硬件复杂度的增加，模拟部分系统需要 BIOS 文件。请阅读我们的 %@ 获取更多信息。";
 
@@ -243,7 +243,7 @@
 
 "Install" = "安装";
 
-"Installing Core" = "正在安装内核";
+"Installing Core" = "正在安装核心";
 
 "Invalid cue sheet format:" = "无效的 Cue Sheet 格式：";
 
@@ -265,11 +265,11 @@
 
 "Low Controller Battery" = "控制器电量低";
 
-"Make sure your internet connection is active and download a suitable core." = "确保你的互联网连接有效，然后下载一个合适的内核。";
+"Make sure your internet connection is active and download a suitable core." = "确保你的互联网连接有效，然后下载一个合适的核心。";
 
 "Make your Wiimote discoverable" = "使你的 Wiimote 处于可发现状态";
 
-"Missing Core" = "缺少内核";
+"Missing Core" = "缺少核心";
 
 "Missing referenced file:" = "缺少引用的文件：";
 
@@ -319,13 +319,13 @@
 
 "Open Library" = "打开游戏库";
 
-"OpenEmu could not find a Core to launch the game" = "OpenEmu 无法找到内核来启动游戏";
+"OpenEmu could not find a Core to launch the game" = "OpenEmu 无法找到核心来启动游戏";
 
 "OpenEmu includes a save state feature that allows you to continue playing exactly where you left off." = "OpenEmu 有保存游戏的特性，允许你从之前离开的位置继续玩。";
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu 需要一个游戏库以继续。你可以选择一个已存在的 OpenEmu 游戏库或创建一个新的。";
 
-"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu使用“内核”来模拟游戏。你需要 %1$@ 内核来玩 %2$@";
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu使用“核心”来模拟游戏。你需要 %1$@ 核心来玩 %2$@";
 
 "OpenEmu will save and quit all games that are currently running." = "OpenEmu 会保存并退出当前运行的所有游戏。";
 
@@ -419,7 +419,7 @@
 
 "Select Cheat" = "选择金手指";
 
-"Select Core" = "选择内核";
+"Select Core" = "选择核心";
 
 "Select Disc" = "选择磁盘";
 
@@ -441,7 +441,7 @@
 
 "Some migrations failed to complete properly" = "部分转移未能正确完成";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "特别感谢每个让 OpenEmu 成为可能的\n人。要了解更多有关我们的贡献者、\n模拟内核、文档、许可的信息以及报告\n漏洞，请访问我们的 GitHub。";
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "特别感谢每个让 OpenEmu 成为可能的\n人。要了解更多有关我们的贡献者、\n模拟核心、文档、许可的信息以及报告\n漏洞，请访问我们的 GitHub。";
 
 "Start Scanning" = "开始扫描";
 
@@ -461,11 +461,11 @@
 
 "Takes you to the %@ project website" = "转到 %@ 项目网站";
 
-"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "%1$@ 内核有兼容问题，部分游戏可能出现故障或完全无法运行。\n\n请勿向我们报告问题，我们不对 %2$@ 的开发负责。";
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "%1$@ 核心有兼容问题，部分游戏可能出现故障或完全无法运行。\n\n请勿向我们报告问题，我们不对 %2$@ 的开发负责。";
 
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "设备号 %1$lu, %2$@, 电量低。请充电或更换电池。";
 
-"The core could not be downloaded. Try installing it from the Cores preferences." = "内核无法下载。尝试从内核偏好设置里安装。";
+"The core could not be downloaded. Try installing it from the Cores preferences." = "核心无法下载。尝试从核心偏好设置里安装。";
 
 "The file you selected doesn't exist" = "所选文件不存在";
 
@@ -479,15 +479,15 @@
 
 "this guide" = "本指南";
 
-"This save state was created with a different core. Do you want to switch to that core now?" = "此保存状态由不同的内核创建。你要现在切换到该内核吗？";
+"This save state was created with a different core. Do you want to switch to that core now?" = "此保存状态由不同的核心创建。你要现在切换到该核心吗？";
 
-"This System has no corresponding core installed." = "系统没有安装对应的内核。";
+"This System has no corresponding core installed." = "系统没有安装对应的核心。";
 
 "Title:" = "标题：";
 
-"To launch the save state %@ you will need to install the '%@' Core" = "要启动保存状态 %1$@ 你需要安装内核 “%2$@”";
+"To launch the save state %@ you will need to install the '%@' Core" = "要启动保存状态 %1$@ 你需要安装核心 “%2$@”";
 
-"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "要运行此内核你需要进行以下操作:\n\n%@拖放需要的文件到游戏库窗口然后重试。";
+"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "要运行此核心你需要进行以下操作:\n\n%@拖放需要的文件到游戏库窗口然后重试。";
 
 "Toggle Fullscreen" = "切换全屏";
 
@@ -555,15 +555,15 @@
 
 "Quit OpenEmu" = "退出 OpenEmu";  // Button title for the alert which appears when no Metal-enabled GPUs are detected
 
-"The %@ core plugin is deprecated" = "%@ 内核插件已弃用";  // Message title (removal far away)
+"The %@ core plugin is deprecated" = "%@ 核心插件已弃用";  // Message title (removal far away)
 
-"The %@ core plugin is deprecated, and will be removed soon" = "%@ 内核插件已弃用，并即将被删除";  // Message title (removal happening soon)
+"The %@ core plugin is deprecated, and will be removed soon" = "%@ 核心插件已弃用，并即将被删除";  // Message title (removal happening soon)
 
-"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "此内核插件将来将不可用。一旦删除，使用它创建的任何保存状态都将停止工作。";  // Message info, part 1 (removal far away)
+"This core plugin will not be available in the future. Once it is removed, any save states created with it will stop working." = "此核心插件将来将不可用。一旦删除，使用它创建的任何保存状态都将停止工作。";  // Message info, part 1 (removal far away)
 
-"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "在几天内，此内核插件将自动删除。一旦删除，使用该插件创建的任何保存状态都将停止工作。";  // Message info, part 1 (removal happening soon)
+"In a few days, this core plugin is going to be automatically removed. Once it is removed, any save states created with it will stop working." = "在几天内，此核心插件将自动删除。一旦删除，使用该插件创建的任何保存状态都将停止工作。";  // Message info, part 1 (removal happening soon)
 
-"We suggest you switch to the %@ core plugin as soon as possible." = "我们建议你尽快切换到 %@ 内核插件。";  // Message info, part 2 (shown only if the replacement plugin is available)
+"We suggest you switch to the %@ core plugin as soon as possible." = "我们建议你尽快切换到 %@ 核心插件。";  // Message info, part 2 (shown only if the replacement plugin is available)
 
 "ERROR_PLUGIN_IMPORT_OUTOFSUPPORT" = "目前不支持该插件";
 
@@ -631,15 +631,15 @@
 
 "Retry" = "重试";
 
-"Downloading core list..." = "下载内核列表…";
+"Downloading core list..." = "下载核心列表…";
 
-"The %@ core has quit unexpectedly" = "%@ 内核意外退出";
+"The %@ core has quit unexpectedly" = "%@ 核心意外退出";
 
 "ALERT_CORE_GLITCHES_FEEDBACK_HTML" = "<b>如果问题仍然存在</b>，请提交反馈，包括：<br><br><ul><li>你使用的 Mac 型号 <b>和</b> 安装的 macOS 版本<ul><li>此信息可在  > 关于本机中找到</li></ul></li><li>您正在玩的游戏的<b>确切名称</b></li><li>OpenEmuHelperApp 的崩溃报告<ul><li>打开 Console.app，点击侧边栏中的“崩溃报告”或“用户报告”，然后查找名称中带有 OpenEmuHelperApp 的最新文档</ul></li></li></ul><br><b>始终搜索其他用户先前报告的类似反馈！</b><br>如果省略了任何此信息，或者已经发布了类似的反馈，您的问题报告可能会被关闭。";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
 
-"The %@ core has quit unexpectedly after loading a save state" = "%@ 内核在加载保存状态后意外退出";
+"The %@ core has quit unexpectedly after loading a save state" = "%@ 核心在加载保存状态后意外退出";
 
-"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "有时在加载保存状态时可能会发生崩溃，这是因为不同版本的内核之间存在不兼容性。你是否要在不加载保存状态的情况下打开游戏？";
+"Sometimes a crash may occur while loading a save state because of incompatibilities between different versions of the same core. Do you want to open the game without loading a save state?" = "有时在加载保存状态时可能会发生崩溃，这是因为不同版本的核心之间存在不兼容性。你是否要在不加载保存状态的情况下打开游戏？";
 
 "Reopen without loading state" = "重新打开而不加载状态";
 

@@ -61,13 +61,13 @@
 
 "Welcome to OpenEmu!" = "欢迎使用 OpenEmu!";
 
-"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "激动人心的电视游戏世界尽在你手。为帮助你入门，我们想问你以下几个问题以为引导…\n\n• 确保你已运行正确的系统插件 (内核)。";
+"An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Ensure you are running the correct system plugins (cores)." = "激动人心的电视游戏世界尽在你手。为帮助你入门，我们想问你以下几个问题以为引导…\n\n• 确保你已运行正确的系统插件 (核心)。";
 
 "Click on the ‘Next’ button to begin!" = "点击“下一步”按钮开始！";
 
-"OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "OpenEmu 是整合而成的，感谢其他伟大的开源项目的工作，使其可以模拟大部分电视游戏系统 (‘内核’)。 有几个选项需要你勾选并确认你要安装并使用这些内核。没有这些内核，你喜欢的系统和游戏可能无法运行。";
+"OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores." = "OpenEmu 是整合而成的，感谢其他伟大的开源项目的工作，使其可以模拟大部分电视游戏系统 (‘核心’)。 有几个选项需要你勾选并确认你要安装并使用这些核心。没有这些核心，你喜欢的系统和游戏可能无法运行。";
 
-"System Cores Installation" = "系统内核安装";
+"System Cores Installation" = "系统核心安装";
 
 "Let’s Go!" = "走起！";
 
