@@ -3,22 +3,22 @@
 
 "Gameplay Buttons" = "游戏按键";
 
-"Special Keys" = "特殊按键";
+"Special Keys" = "功能按键";
 
 
 /* Group Labels */
 
-"-" = "-";   // TODO
+"-" = "-";
 
-"3D Control Pad" = "3D Control Pad";   // TODO
+"3D Control Pad" = "3D 控制方向键";
 
 "Analog" = "摇杆";
 
-"C-Pad" = "C-方向";
+"C-Pad" = "C-方向键";
 
-"C-Stick" = "C-Stick";
+"C-Stick" = "C-摇杆";
 
-"D-Pad" = "D-向键";
+"D-Pad" = "方向键";
 
 "Keypad" = "键盘";
 
@@ -45,7 +45,7 @@
 
 "2" = "2";
 
-"2/6 Mode" = "2/6模式";
+"2/6 Mode" = "2/6 模式";
 
 "3" = "3";
 
@@ -65,39 +65,39 @@
 
 "Action" = "Action";
 
-"Analog Mode" = "模拟模式";
+"Analog Mode" = "Analog 模式";
 
 "B" = "B";
 
-"Bottom Left Action" = "Bottom Left Action";
+"Bottom Left Action" = "左下动作键";
 
-"Bottom Right Action" = "Bottom Right Action";
+"Bottom Right Action" = "右下动作键";
 
-"Button 1" = "按钮1";
+"Button 1" = "按钮 1";
 
-"Button 1/Start" = "按钮1/开始";
+"Button 1/Start" = "按钮 1/Start";
 
-"Button 2" = "按钮2";
+"Button 2" = "按钮 2";
 
-"Button 3" = "按钮3";
+"Button 3" = "按钮 3";
 
-"Button 4" = "按钮4";
+"Button 4" = "按钮 4";
 
-"Button 5" = "按钮5";
+"Button 5" = "按钮 5";
 
-"Button 6" = "按钮6";
+"Button 6" = "按钮 6";
 
 "C" = "C";
 
 "Change Disk Side" = "磁盘换面";
 
-"Clear" = "Clear";
+"Clear" = "清除";
 
-"Configure" = "Configure";   // TODO
+"Configure" = "配置";
 
-"Console Pause" = "控制台暂停";
+"Console Pause" = "主机 Pause";
 
-"Console Reset" = "Console Reset";
+"Console Reset" = "主机 Reset";
 
 "Down" = "下";
 
@@ -105,13 +105,13 @@
 
 "Fire" = "开火";
 
-"Fire 1" = "开火1";
+"Fire 1" = "开火 1";
 
-"Fire 2" = "开火2";
+"Fire 2" = "开火 2";
 
 "Insert Coin" = "投币";
 
-"Jump" = "Jump";   // TODO
+"Jump" = "跳跃";
 
 "L" = "L";
 
@@ -129,31 +129,31 @@
 
 "Left" = "左";
 
-"Left Action" = "左边按键";
+"Left Action" = "左动作键";
 
-"Left Trigger" = "左扳机";
+"Left Trigger" = "左扳机键";
 
 "Lid" = "盖子";
 
-"Menu" = "Menu";
+"Menu" = "菜单";
 
 "Mic" = "麦克风";
 
 "Mode" = "模式";
 
-"Mode Switch" = "Mode Switch";   // TODO
+"Mode Switch" = "模式切换";
 
 "Option" = "选项";
 
-"Option 1" = "选项1";
+"Option 1" = "选项 1";
 
-"Option 2" = "选项2";
+"Option 2" = "选项 2";
 
 "P" = "P";
 
 "Player Start" = "玩家开始";
 
-"Power" = "Power";
+"Power" = "开关";
 
 "R" = "R";
 
@@ -171,55 +171,55 @@
 
 "Right" = "右";
 
-"Right Action" = "右边按键";
+"Right Action" = "右动作键";
 
-"Right Trigger" = "右扳机";
+"Right Trigger" = "右扳机键";
 
-"Run" = "运行";
+"Run" = "Run";
 
-"Select" = "选择";
+"Select" = "Select";
 
 "Service" = "服务";
 
 "Shake" = "Shake";
 
-"Sound" = "声音";
+"Sound" = "Sound";
 
-"Start" = "开始";
+"Start" = "Start";
 
-"Swap Joysticks" = "Swap Joysticks";   // TODO
+"Swap Joysticks" = "交换摇杆";
 
-"TV Black & White" = "TV黑白";
+"TV Black & White" = "黑白电视";
 
-"TV Color" = "TV彩色";
+"TV Color" = "彩色电视";
 
-"Top Action" = "Top Action";
+"Top Action" = "顶部动作键";
 
-"Trigger L" = "Trigger L";   // TODO
+"Trigger L" = "扳机 L";
 
-"Trigger R" = "Trigger R";   // TODO
+"Trigger R" = "扳机 R";
 
 "Up" = "上";
 
 "X" = "X";
 
-"X1 Up" = "X1上";
+"X1 Up" = "X1 上";
 
-"X2 Right" = "X2右";
+"X2 Right" = "X2 右";
 
-"X3 Down" = "X3下";
+"X3 Down" = "X3 下";
 
-"X4 Left" = "X4左";
+"X4 Left" = "X4 左";
 
 "Y" = "Y";
 
-"Y1 Up" = "Y1上";
+"Y1 Up" = "Y1 上";
 
-"Y2 Right" = "Y2右";
+"Y2 Right" = "Y2 右";
 
-"Y3 Down" = "Y3下";
+"Y3 Down" = "Y3 下";
 
-"Y4 Left" = "Y4左";
+"Y4 Left" = "Y4 左";
 
 "Z" = "Z";
 
@@ -240,25 +240,25 @@
 
 "Fullscreen" = "全屏";
 
-"Last Display Mode" = "上一个显示模式";
+"Last Display Mode" = "上个显示模式";
 
 "Load" = "读取";
 
 "Mute" = "静音";
 
-"Next Display Mode" = "下一个显示模式";
+"Next Display Mode" = "下个显示模式";
 
-"Pause/Resume" = "暂停"; // TODO
+"Pause/Resume" = "暂停/恢复";
 
 "Quick Load" = "快速读取";
 
 "Quick Save" = "快速保存";
 
-"Rapid Fire Clear" = "Rapid Fire Clear";      // TODO
+"Rapid Fire Clear" = "清除连发";
 
-"Rapid Fire Reset" = "Rapid Fire Reset";      // TODO
+"Rapid Fire Reset" = "重置连发";
 
-"Rapid Fire Toggle" = "Rapid Fire Toggle";    // TODO
+"Rapid Fire Toggle" = "切换连发";
 
 "Reset" = "重置";
 
@@ -266,12 +266,12 @@
 
 "Save" = "保存";
 
-"Screenshot" = "截屏";
+"Screenshot" = "截图";
 
-"Step Backward" = "后退一步";    // TODO
+"Step Backward" = "后退一步";
 
-"Step Forward" = "前进一步";    // TODO
+"Step Forward" = "前进一步";
 
-"Volume Down" = "音量减";
+"Volume Down" = "降低音量";
 
-"Volume Up" = "音量加";
+"Volume Up" = "提高音量";

@@ -5,15 +5,15 @@
 
 "Setup Assistant has finished" = "设置助理已完成";
 
-"Region:" = "地区:";
+"Region:" = "地区：";
 
-"Run games using:" = "运行游戏，使用:";
+"Run games using:" = "运行游戏，使用：";
 
-"Library Window" = "库窗口";
+"Library Window" = "游戏库窗口";
 
 "Reset main window size" = "重置主窗口大小";
 
-"Show game titles instead of rom names" = "显示游戏标题而不是 rom 名";
+"Show game titles instead of rom names" = "显示游戏标题而不是 ROM 名";
 
 "Manually choose system on import" = "导入时手动选择系统";
 
@@ -21,11 +21,11 @@
 
 "Show quicksave states in save state category" = "在保存状态分类中显示快速保存状态";
 
-"Toggle game scanner view" = "Toggle game scanner view"; //TODO
+"Toggle game scanner view" = "切换游戏扫描器视图";
 
 "HUD Bar / Gameplay" = "HUD 条 / 游戏";
 
-"Show notifications during gameplay" = "在游戏过程中显示通知";   // TODO
+"Show notifications during gameplay" = "在游戏过程中显示通知";
 
 "Use quicksave slots" = "使用快速保存位置";
 
@@ -35,11 +35,11 @@
 
 "Show audio output device in menu" = "在菜单显示音频输出设备";
 
-"Take screenshots in native size" = "以原始尺寸截屏";
+"Take screenshots in native size" = "以原始尺寸截图";
 
-"Disable aspect ratio correction in screenshots" = "禁用长宽比修正"; // TODO: specify "in screenshots"
+"Disable aspect ratio correction in screenshots" = "禁用宽高比修正";
 
-"Game View Background color:" = "游戏视图背景颜色:";
+"Game View Background color:" = "游戏视图背景颜色：";
 
 "Controls Setup" = "控制键设置";
 
@@ -51,7 +51,7 @@
 
 "Log Keyboard Events" = "记录键盘事件";
 
-"Show all special keys" = "显示所有全局按键"; // TODO
+"Show all special keys" = "显示所有全局按键";
 
 "Set default save states directory" = "设置默认保存状态目录";
 
@@ -71,9 +71,9 @@
 
 "Remove untracked artwork files" = "移除未使用的插图文件";
 
-"Cleanup rom hashes" = "清除 rom 散列值";
+"Cleanup rom hashes" = "清除 ROM 散列值";
 
-"Remove duplicated roms" = "移除重复的 rom";
+"Remove duplicated roms" = "移除重复的 ROM";
 
 "Cancel cover sync for all games" = "为所有游戏取消封面同步";
 
@@ -81,44 +81,44 @@
 
 "While performing this operation OpenEmu will be unresponsive." = "执行此操作时 OpenEmu 将无响应。";
 
-"Delete useless image objects" = "Delete useless image objects"; // TODO
+"Delete useless image objects" = "删除无用的图片对象";
 
-"Sync games without artwork" = "Sync games without artwork"; // TODO
+"Sync games without artwork" = "同步没有插图的游戏";
 
-"Threshold for analog controls bound to buttons:" = "模拟控件的阈值绑定到按钮:";    // TODO
+"Threshold for analog controls bound to buttons:" = "模拟控件绑定到按钮的阈值：";
 
-"Range: %@ to %@" = "范围: %@ to %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences // TODO
+"Range: %@ to %@" = "范围：%@ 到 %@";  // Range indicator tooltip for numeric text boxes in the Debug Preferences
 
-"Default Value: %@" = "Default Value: %@";  // Default value tooltip format in the Debug Preferences // TODO
+"Default Value: %@" = "默认值：%@";  // Default value tooltip format in the Debug Preferences
 
-"Checked" = "Checked";  // Default value tooltip for checkboxes: checked default // TODO
+"Checked" = "已勾选";  // Default value tooltip for checkboxes: checked default
 
-"Unchecked" = "Unchecked";  // Default value tooltip for checkboxes: unchecked default // TODO
+"Unchecked" = "未勾选";  // Default value tooltip for checkboxes: unchecked default
 
-"Shaders" = "Shaders";  // TODO
+"Shaders" = "着色器";
 
-"Clear shader cache" = "Clear shader cache";  // TODO
+"Clear shader cache" = "清除着色器缓存";
 
-"Reveal user shader folder" = "Reveal user shader folder";  // TODO
+"Reveal user shader folder" = "显示用户着色器文件夹";
 
-"Appearance:" = "Appearance:";  // TODO
+"Appearance:" = "显示：";
 
-"Auto (region)" = "Auto";  // TODO
+"Auto (region)" = "自动";
 
-"North America" = "North America";  // TODO
+"North America" = "北美";
 
-"Japan" = "Japan";  // TODO
+"Japan" = "日本";
 
-"Europe" = "Europe";  // TODO
+"Europe" = "欧洲";
 
-"Other" = "Other";  // TODO
+"Other" = "其他";
 
-"XPC" = "XPC";  // TODO
+"XPC" = "XPC";
 
-"Background Thread" = "Background Thread";  // TODO
+"Background Thread" = "后台线程";
 
-"System" = "System";  // TODO
+"System" = "系统";
 
-"Dark (default)" = "Dark (default)";  // TODO
+"Dark (default)" = "深色（默认）";
 
-"Light" = "Light";  // TODO
+"Light" = "浅色";
