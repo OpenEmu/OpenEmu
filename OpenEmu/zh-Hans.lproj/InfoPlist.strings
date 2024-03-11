@@ -1,12 +1,68 @@
 
+"%@ Game" = "%@ 游戏";
+
+"Arcade Game" = "街机游戏";
+
 "Archived Game" = "库存游戏";
+
+"Atari 2600 Game" = "Atari 2800 游戏";
+
+"Atari 5200 Game" = "Atari 5200 游戏";
+
+"Atari 7800 Game" = "Atari 7800 游戏";
+
+"Atari Lynx Game" = "Atari Lynx 游戏";
+
+"ColecoVision Game" = "ColecoVision 游戏";
+
+"Famicom Disk System Game" = "Famicom Disk System 游戏";
+
+"Game Boy Advance Game" = "Game Boy Advance 游戏";
+
+"Game Boy Game" = "Game Boy 游戏";
+
+"Game Gear Game" = "Game Gear 游戏";
+
+"GameCube Game" = "GameCube 游戏";
+
+"Intellivision Game" = "Intellivision 游戏";
+
+"NeoGeo Pocket Game" = "NeoGeo Pocket 游戏";
+
+"Nintendo (NES) Game" = "Famicom 游戏";
+
+"Nintendo 64 Game" = "Nintendo 64 游戏";
+
+"Nintendo DS Game" = "Nintendo DS 游戏";
 
 "OpenEmu Core Plugin" = "游戏核心插件";
 
-"OpenEmu Save State" = "OpenEmu保存状态";
+"OpenEmu Game" = "OpenEmu 游戏";
 
-"OpenEmu System Plugin" = "系统插件";
+"OpenEmu Save State" = "OpenEmu 保存状态";
 
 "OpenEmu Shader" = "视频滤镜插件";
 
-"%@ Game" = "%@ Game";  // TODO // Used in OESystemPluginPostInstall to dynamically generate localized file type names
+"OpenEmu System Plugin" = "系统插件";
+
+"SG-1000 Game" = "SG-1000 游戏";
+
+"Sega 32X Game" = "Sega Super 32X 游戏";
+
+"Sega Master System Game" = "Sega Master System 游戏";
+
+"Sega Mega Drive Game" = "Sega Mega Drive 游戏";
+
+"Sony PSP Game" = "Sony PSP 游戏";
+
+"Sony PlayStation Game" = "Sony PlayStation 游戏";
+
+"Super Nintendo (SNES) Game" = "Super Famicom 游戏";
+
+"TurboGrafx-16 Game" = "PC Engine 游戏";
+
+"Vectrex Game" = "Vectrex 游戏";
+
+"Virtual Boy Game" = "Virtual Boy 游戏";
+
+"WonderSwan Game" = "WonderSwan 游戏";

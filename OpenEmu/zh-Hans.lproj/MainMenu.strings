@@ -3,11 +3,11 @@
 
 "Launch Game…" = "运行游戏…";
 
-"Edit Smart Collection" = "编辑智能集合";
+"Edit Smart Collection" = "编辑智能收藏";
 
-"New Smart Collection…" = "新建智能集合…";
+"New Smart Collection…" = "新建智能收藏…";
 
-"New Collection Folder" = "新建集合文件夹";
+"New Collection Folder" = "新建收藏文件夹";
 
 "Display Exact Duplicates" = "显示精确副本";
 
@@ -27,9 +27,9 @@
 
 "Export Library…" = "导出库…";
 
-"Import Collection" = "导入集合";
+"Import Collection" = "导入收藏";
 
-"Export Collection" = "导出集合";
+"Export Collection" = "导出收藏";
 
 "Preferences…" = "偏好设置…";
 
@@ -59,7 +59,7 @@
 
 "as List" = "以列表显示";
 
-"Fullscreen" = "全屏幕";
+"Fullscreen" = "全屏";
 
 "as Grid" = "以网格显示";
 
@@ -67,11 +67,11 @@
 
 "Controls" = "控制";
 
-"Volume Down" = "音量低";
+"Volume Down" = "降低音量";
 
 "Start Game" = "开始游戏";
 
-"Volume Up" = "音量高";
+"Volume Up" = "提高音量";
 
 "Last Played" = "最近运行";
 
@@ -113,7 +113,7 @@
 
 "Show Library" = "显示库";
 
-"Take Screenshot" = "截屏";
+"Take Screenshot" = "截图";
 
 "Help" = "帮助";
 

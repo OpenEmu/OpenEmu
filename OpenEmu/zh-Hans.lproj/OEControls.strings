@@ -1,30 +1,30 @@
 
 /* Preferences: Library (PrefLibraryController.xib) */
 
-"Move..." = "Move...";  // TODO
+"Move..." = "移动…";
 
-"Move to Default Location" = "Move to Default Location";  // TODO
+"Move to Default Location" = "移动到默认位置";
 
-"Organization Methods:" = "整理方式:";
+"Organization Methods:" = "整理方式：";
 
-"Game Library Folder Location:" = "游戏库文件夹路径:";
+"Game Library Folder Location:" = "游戏库文件夹路径：";
 
-"Copy files to Game Library folder when adding to library" = "添加到库时将文件复制到游戏库文件夹";
+"Copy files to Game Library folder when adding to library" = "添加到游戏库时将文件复制到游戏库文件夹";
 
 "Automatically lookup game information & artwork" = "自动查找游戏信息和插图";
 
-"Available Libraries:" = "可用库:";
+"Available Libraries:" = "可用游戏库：";
 
-"Reset all dialog warnings:" = "重置所有对话框警告:";
+"Reset all dialog warnings:" = "重置所有对话框警告：";
 
 "Reset Warnings" = "重置警告";
 
 
 /* Preferences: Gameplay (PrefGameplayController.xib) */
 
-"Window Management:" = "窗口管理:";
+"Window Management:" = "窗口管理：";
 
-"Shader:" = "着色器:";
+"Shader:" = "着色器：";
 
 "Always use popout gameplay window" = "总是使用弹出式游戏窗口";
 
@@ -32,25 +32,25 @@
 
 "Always pause gameplay when in background" = "总是在后台时暂停游戏";
 
-"Always snap popout gameplay window to integer scale" = "Always snap popout gameplay window to integer scale";  // TODO
+"Always snap popout gameplay window to integer scale" = "总是将弹出的游戏窗口对齐到整数比例";
 
-"Allow playing with controllers when in background" = "在后台时允许使用控制器游玩"; // TODO
+"Allow playing with controllers when in background" = "在后台时允许使用控制器游玩";
 
-"Always float popout gameplay window on top" = "Always float popout gameplay window on top"; // TODO
+"Always float popout gameplay window on top" = "总是在顶部浮动弹出游戏窗口";
 
 
 /* Preferences: Controls (PrefControlsController.xib) */
 
-"Input:" = "输入:";
+"Input:" = "输入：";
 
 
 /* Issue Resolver (GameScanner.xib) */
 
-"Resolve Issues:" = "修复导入问题:";
+"Resolve Issues:" = "修复导入问题：";
 
 "Apply" = "应用";
 
-"Import Into:" = "Import Into:";   // TODO
+"Import Into:" = "导入到：";
 
 
 /* Setup Assistant (SetupAssistant.xib) */
@@ -77,12 +77,12 @@
 
 "Go" = "走起";
 
-"Downloading Data…" = "Downloading Data…";  // TODO
+"Downloading Data…" = "正在下载数据…";
 
 
 /* Shader Parameters (ShaderParameters.xib) */
 
-"Reset All" = "Reset All";  // TODO
+"Reset All" = "全部重置";
 
 
 /* Sidebar Header (SidebarController.xib) */
@@ -92,11 +92,11 @@
 
 /* Shader Parameters (ShaderParametersViewController.xib) */
 
-"New Preset" = "New Preset"; // TODO
+"New Preset" = "新增预设";
 
 
 /* Name Shader Preset (NameShaderPreset.xib) */
 
-"Save Preset" = "保存"; // TODO
+"Save Preset" = "保存预设";
 
 "Cancel" = "取消";
