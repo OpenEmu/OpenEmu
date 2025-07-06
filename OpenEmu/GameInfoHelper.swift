@@ -185,6 +185,11 @@ final class GameInfoHelper {
                 if result == nil {
                     result = results.last
                 }
+                
+                // ensure we get a boxImageURL from one of them if the preferred doesn't have it but another does
+                if result?["boxImageURL"] == nil, let dict = results.first(where: { $0["boxImageURL"] as? String != nil }) {
+                    result = dict
+                }
             }
             else {
                 result = results.last
