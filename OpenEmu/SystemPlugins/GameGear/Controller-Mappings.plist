@@ -224,6 +224,17 @@
 		<key>OEGGButtonStart</key>
 		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
 	</dict>
+	<key>OEControllerNintendoSwitchMDGenControlPad</key>
+	<dict>
+		<key>OEGGButtonUp</key>
+		<string>OEControllerNintendoSwitchMDGenControlPadDPadUp</string>
+		<key>OEGGButtonA</key>
+		<string>OEControllerNintendoSwitchMDGenControlPadButtonA</string>
+		<key>OEGGButtonB</key>
+		<string>OEControllerNintendoSwitchMDGenControlPadButtonB</string>
+		<key>OEGGButtonStart</key>
+		<string>OEControllerNintendoSwitchMDGenControlPadButtonStart</string>
+	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
 		<key>OEGGButtonUp</key>

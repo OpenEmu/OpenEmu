@@ -3948,10 +3948,14 @@
 			<dict>
 				<key>OEControllerDeviceName</key>
 				<string>SNES Controller</string>
+				<key>OEControllerProductName</key>
+				<string>SNES Controller</string>
 				<key>OEControllerVendorID</key>
 				<integer>1406</integer>
 				<key>OEControllerProductID</key>
 				<integer>8215</integer>
+				<key>OEControllerRequiresNameMatch</key>
+				<true/>
 			</dict>
 		</array>
 		<key>OEControllerMappings</key>
@@ -4308,6 +4312,169 @@
 				<string>13</string>
 			</dict>
 			<key>OEControllerNintendoSwitchN64ControllerButtonCapture</key>
+			<dict>
+				<key>Name</key>
+				<string>Capture</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>14</string>
+			</dict>
+		</dict>
+	</dict>
+	<key>OEControllerNintendoSwitchMDGenControlPad</key>
+	<dict>
+		<key>OEControllerName</key>
+		<string>Nintendo Switch Online Sega Mega Drive/Genesis Control Pad</string>
+		<key>OEGenericControllerName</key>
+		<string>OEControllerNintendoSwitchMDGenControlPad</string>
+		<key>OEControllerDevices</key>
+		<array>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Sega Mega Drive/Genesis Control Pad</string>
+				<key>OEControllerVendorID</key>
+				<integer>1406</integer>
+				<key>OEControllerProductID</key>
+				<integer>8222</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Sega Mega Drive/Genesis Control Pad</string>
+				<key>OEControllerProductName</key>
+				<string>MD/Gen Control Pad</string>
+				<key>OEControllerVendorID</key>
+				<integer>1406</integer>
+				<key>OEControllerProductID</key>
+				<integer>8215</integer>
+				<key>OEControllerRequiresNameMatch</key>
+				<true/>
+			</dict>
+		</array>
+		<key>OEControllerMappings</key>
+		<dict>
+			<key>OEControllerNintendoSwitchMDGenControlPadDPad</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad</string>
+				<key>Type</key>
+				<string>HatSwitch</string>
+				<key>Usage</key>
+				<string>HatSwitch</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerNintendoSwitchMDGenControlPadDPadUp</key>
+					<dict>
+						<key>Direction</key>
+						<string>N</string>
+						<key>Name</key>
+						<string>D-Pad Up</string>
+					</dict>
+					<key>OEControllerNintendoSwitchMDGenControlPadDPadDown</key>
+					<dict>
+						<key>Direction</key>
+						<string>S</string>
+						<key>Name</key>
+						<string>D-Pad Down</string>
+					</dict>
+					<key>OEControllerNintendoSwitchMDGenControlPadDPadLeft</key>
+					<dict>
+						<key>Direction</key>
+						<string>W</string>
+						<key>Name</key>
+						<string>D-Pad Left</string>
+					</dict>
+					<key>OEControllerNintendoSwitchMDGenControlPadDPadRight</key>
+					<dict>
+						<key>Direction</key>
+						<string>E</string>
+						<key>Name</key>
+						<string>D-Pad Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerNintendoSwitchMDGenControlPadButtonA</key>
+			<dict>
+				<key>Name</key>
+				<string>A</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>2</string>
+			</dict>
+			<key>OEControllerNintendoSwitchMDGenControlPadButtonB</key>
+			<dict>
+				<key>Name</key>
+				<string>B</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>1</string>
+			</dict>
+			<key>OEControllerNintendoSwitchMDGenControlPadButtonC</key>
+			<dict>
+				<key>Name</key>
+				<string>C</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>6</string>
+			</dict>
+			<key>OEControllerNintendoSwitchMDGenControlPadButtonX</key>
+			<dict>
+				<key>Name</key>
+				<string>X</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>7</string>
+			</dict>
+			<key>OEControllerNintendoSwitchMDGenControlPadButtonY</key>
+			<dict>
+				<key>Name</key>
+				<string>Y</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>3</string>
+			</dict>
+			<key>OEControllerNintendoSwitchMDGenControlPadButtonZ</key>
+			<dict>
+				<key>Name</key>
+				<string>Z</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>5</string>
+			</dict>
+			<key>OEControllerNintendoSwitchMDGenControlPadButtonStart</key>
+			<dict>
+				<key>Name</key>
+				<string>Start</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>10</string>
+			</dict>
+			<key>OEControllerNintendoSwitchMDGenControlPadButtonMode</key>
+			<dict>
+				<key>Name</key>
+				<string>Mode</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>8</string>
+			</dict>
+			<key>OEControllerNintendoSwitchMDGenControlPadButtonHome</key>
+			<dict>
+				<key>Name</key>
+				<string>Home</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>13</string>
+			</dict>
+			<key>OEControllerNintendoSwitchMDGenControlPadButtonCapture</key>
 			<dict>
 				<key>Name</key>
 				<string>Capture</string>

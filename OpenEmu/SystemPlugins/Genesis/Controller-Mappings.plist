@@ -378,6 +378,27 @@
 		<key>OEGenesisButtonMode</key>
 		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerNintendoSwitchMDGenControlPad</key>
+	<dict>
+		<key>OEGenesisButtonUp</key>
+		<string>OEControllerNintendoSwitchMDGenControlPadDPadUp</string>
+		<key>OEGenesisButtonA</key>
+		<string>OEControllerNintendoSwitchMDGenControlPadButtonA</string>
+		<key>OEGenesisButtonB</key>
+		<string>OEControllerNintendoSwitchMDGenControlPadButtonB</string>
+		<key>OEGenesisButtonC</key>
+		<string>OEControllerNintendoSwitchMDGenControlPadButtonC</string>
+		<key>OEGenesisButtonX</key>
+		<string>OEControllerNintendoSwitchMDGenControlPadButtonX</string>
+		<key>OEGenesisButtonY</key>
+		<string>OEControllerNintendoSwitchMDGenControlPadButtonY</string>
+		<key>OEGenesisButtonZ</key>
+		<string>OEControllerNintendoSwitchMDGenControlPadButtonZ</string>
+		<key>OEGenesisButtonStart</key>
+		<string>OEControllerNintendoSwitchMDGenControlPadButtonStart</string>
+		<key>OEGenesisButtonMode</key>
+		<string>OEControllerNintendoSwitchMDGenControlPadButtonMode</string>
+	</dict>
 	<key>OEControllerMicrosoftXboxOne</key>
 	<dict>
 		<key>OEGenesisButtonUp</key>
