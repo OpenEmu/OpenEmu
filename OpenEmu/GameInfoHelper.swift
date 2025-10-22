@@ -164,9 +164,42 @@ final class GameInfoHelper {
                 WHERE \(key) = '\(value)'
             """
             
-            let results = (try? database.executeQuery(sql)) ?? []
+            var results = (try? database.executeQuery(sql)) ?? []
             var result: [String : Any]?
             
+            if results.count == 0 {
+                // if no match on the ROM MD5 hash, try matching on the ROM's name on the correct system
+                guard let originalName = gameInfo["name"] as? String else { return resultDict }
+
+                // also try removing translation and 'add by' notes in square brackets as well
+                let strippedName = originalName.replacingOccurrences(of: #"\s*\[[^\]]*\]"#, with: "", options: .regularExpression)
+
+                let nameVariants = [originalName,
+                                    originalName.replacingOccurrences(of: "(Rev 1)", with: "(Rev A)"),
+                                    originalName.replacingOccurrences(of: "(Rev 2)", with: "(Rev B)"),
+                                    originalName.replacingOccurrences(of: "(Rev 1)", with: ""),
+                                    originalName.replacingOccurrences(of: "(Rev 1)", with: ""),
+                                    strippedName
+                ]
+
+                for name in nameVariants {
+                    let safeName = name.replacingOccurrences(of: "'", with: "''").trimmingCharacters(in: CharacterSet.whitespaces)
+                    let sql = """
+                        SELECT DISTINCT releaseTitleName as 'gameTitle', releaseCoverFront as 'boxImageURL', releaseDescription as 'gameDescription', regionName as 'region'
+                        FROM ROMs rom LEFT JOIN RELEASES release USING (romID) LEFT JOIN REGIONS region ON (regionLocalizedID = region.regionID)
+                        WHERE romExtensionlessFileName = '\(safeName)' 
+                          AND systemID = (
+                              SELECT systemID FROM SYSTEMS WHERE systemOEID = '\(systemIdentifier)'
+                        )
+                    """
+
+                    results = (try? database.executeQuery(sql)) ?? []
+                    if results.count > 0 {
+                        break
+                    }
+                }
+            }
+
             if results.count > 1 {
                 
                 // the database holds multiple regions for this rom (probably WORLD rom)
@@ -184,6 +217,11 @@ final class GameInfoHelper {
                 // preferred region not found, just pick one
                 if result == nil {
                     result = results.last
+                }
+                
+                // ensure we get a boxImageURL from one of them if the preferred doesn't have it but another does
+                if result?["boxImageURL"] == nil, let dict = results.first(where: { $0["boxImageURL"] as? String != nil }) {
+                    result = dict
                 }
             }
             else {

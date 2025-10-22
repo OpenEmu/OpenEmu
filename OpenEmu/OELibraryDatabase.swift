@@ -597,7 +597,7 @@ final class OELibraryDatabase: NSObject {
     
     @objc private func openVGDBSyncThreadMain() {
         let romKeys = [#keyPath(OEDBRom.md5), #keyPath(OEDBRom.url), #keyPath(OEDBRom.header), #keyPath(OEDBRom.serial), #keyPath(OEDBRom.archiveFileIndex)]
-        let gameKeys = [#keyPath(OEDBGame.permanentID)]
+        let gameKeys = [#keyPath(OEDBGame.permanentID), #keyPath(OEDBGame.name)]
         let systemKeys = [#keyPath(OEDBSystem.systemIdentifier)]
         
         let request = OEDBGame.fetchRequest()
