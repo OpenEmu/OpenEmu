@@ -390,13 +390,13 @@
 		<key>OEN64AnalogLeft</key>
 		<string>OEControllerNintendoSwitchN64ControllerAnalogLeft</string>
 		<key>OEN64ButtonCUp</key>
-		<string>OEControllerNintendoSwitchN64ControllerCUp</string>
+		<string>OEControllerNintendoSwitchN64ControllerButtonCUp</string>
 		<key>OEN64ButtonCDown</key>
-		<string>OEControllerNintendoSwitchN64ControllerCDown</string>
+		<string>OEControllerNintendoSwitchN64ControllerButtonCDown</string>
 		<key>OEN64ButtonCLeft</key>
-		<string>OEControllerNintendoSwitchN64ControllerCLeft</string>
+		<string>OEControllerNintendoSwitchN64ControllerButtonCLeft</string>
 		<key>OEN64ButtonCRight</key>
-		<string>OEControllerNintendoSwitchN64ControllerCRight</string>
+		<string>OEControllerNintendoSwitchN64ControllerButtonCRight</string>
 		<key>OEN64ButtonA</key>
 		<string>OEControllerNintendoSwitchN64ControllerButtonA</string>
 		<key>OEN64ButtonB</key>

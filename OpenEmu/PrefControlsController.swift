@@ -554,6 +554,25 @@ final class PrefControlsController: NSViewController {
         return inputPopupButton.selectedItem?.representedObject as? String == keyboardMenuItemRepresentedObject
     }
     
+    // Check that the event maps to valid input (for the current player)
+    private func isValidInput(_ event: OEHIDEvent) -> Bool {
+        let isKeyboardEvent = event.type == .keyboard
+        
+        if isKeyboardEvent {
+            return true;
+        }
+        
+        let currentPlayerHandler = currentSystemBindings?.devicePlayerBindings(forPlayer: selectedPlayer)?.deviceHandler
+        let valueDesc = currentPlayerHandler?.controllerDescription?.controlValueDescription(for: event)
+        
+        if valueDesc == nil {
+            NSLog("Controller '%@' does not recognize (so will ignore) the event '%@'.",
+                  currentPlayerHandler?.controllerDescription?.identifier ?? "nil", event)
+        }
+        
+        return valueDesc != nil
+    }
+    
     private func register(_ event: OEHIDEvent) {
         // Ignore any off state events
         guard !event.hasOffState, let selectedKey = selectedKey else { return }
@@ -633,6 +652,12 @@ final class PrefControlsController: NSViewController {
         // Ignore keyboard events if the user hasn’t explicitly chosen to configure
         // keyboard bindings. See https://github.com/OpenEmu/OpenEmu/issues/403
         if event.type == .keyboard && !isKeyboardEventSelected {
+            return false
+        }
+        
+        // Ignore input events with no valid device mapping (eg: controller input
+        // noise, with no corresponding null state)
+        if !isValidInput(event) {
             return false
         }
         

@@ -342,13 +342,13 @@
 		<key>OEVBButtonLeftUp</key>
 		<string>OEControllerNintendoSwitchN64ControllerDPadUp</string>
 		<key>OEVBButtonRightUp</key>
-		<string>OEControllerNintendoSwitchN64ControllerCRight</string>
+		<string>OEControllerNintendoSwitchN64ControllerButtonCUp</string>
 		<key>OEVBButtonRightDown</key>
-		<string>OEControllerNintendoSwitchN64ControllerCDown</string>
+		<string>OEControllerNintendoSwitchN64ControllerButtonCDown</string>
 		<key>OEVBButtonRightLeft</key>
-		<string>OEControllerNintendoSwitchN64ControllerCLeft</string>
+		<string>OEControllerNintendoSwitchN64ControllerButtonCLeft</string>
 		<key>OEVBButtonRightRight</key>
-		<string>OEControllerNintendoSwitchN64ControllerCRight</string>
+		<string>OEControllerNintendoSwitchN64ControllerButtonCRight</string>
 		<key>OEVBButtonA</key>
 		<string>OEControllerNintendoSwitchN64ControllerButtonA</string>
 		<key>OEVBButtonB</key>
