@@ -138,6 +138,10 @@ class AppDelegate: NSObject {
             "defaultCore.openemu.system.snes": "org.openemu.SNES9x",
             OEDBGame.displayGameTitleKey: true,
             OEBackgroundPauseKey: true,
+            // Appearance defaults for Liquid Glass
+            "OEUseLiquidGlass": true,
+            "OEVisualEffectMaterial": "sidebar",
+            "OEVisualEffectOpacity": 0.92,
             OEBackgroundControllerPlayKey: true,
             "logsHIDEvents": false,
             "logsHIDEventsNoKeyboard": false,

@@ -43,36 +43,43 @@ final class MainWindowController: NSWindowController {
     private lazy var libraryController = LibraryController()
     @IBOutlet var placeholderView: NSView!
     private var lastPlaceholderViewTopConstraint: NSLayoutConstraint!
-    
+
+    // Visual effect ("liquid glass") background
+    private var visualEffectView: NSVisualEffectView?
+    private var accessibilityObserver: Any?
+
     private var _currentContentController: NSViewController?
+    private var titlebarAccessory: NSTitlebarAccessoryViewController?
     private var currentContentController: NSViewController? {
         get {
             _currentContentController
         }
         set {
             let newController = newValue ?? libraryController
-            
+
             if newController == _currentContentController {
                 return
             }
-            
+
             guard let window = window else { return assertionFailure("MainWindow is nil") }
-            
+
             _currentContentController?.viewWillDisappear()
             _ = newController.view
             newController.viewWillAppear()
-            
+
             let viewToReplace = currentContentController?.view
             viewToReplace?.removeFromSuperview()
             _currentContentController?.viewDidDisappear()
-            
+
             // Adjust visual properties of the window.
             var overlapsTitleBar = false
-            if newController == gameDocument?.gameViewController {
+                    if newController == gameDocument?.gameViewController {
                 window.toolbar = nil
                 window.titleVisibility = .visible
                 window.titlebarAppearsTransparent = false
                 overlapsTitleBar = false
+                // Hide titlebar accessory during gameplay to reduce distractions
+                titlebarAccessory?.view.isHidden = true
             }
             else if newController == libraryController {
                 window.toolbar = libraryController.toolbar
@@ -80,6 +87,8 @@ final class MainWindowController: NSWindowController {
                 window.titlebarAppearsTransparent = false
                 window.styleMask.insert(.closable)
                 overlapsTitleBar = true
+                // Show titlebar accessory when library is visible
+                titlebarAccessory?.view.isHidden = !(UserDefaults.standard.object(forKey: "OEUseLiquidGlass") as? Bool ?? true)
             }
             else if newController is SetupAssistant {
                 window.toolbar = nil
@@ -87,15 +96,17 @@ final class MainWindowController: NSWindowController {
                 window.titlebarAppearsTransparent = true
                 window.styleMask.remove(.closable)
                 overlapsTitleBar = true
+                // Show titlebar accessory for setup assistant as it overlaps titlebar
+                titlebarAccessory?.view.isHidden = !(UserDefaults.standard.object(forKey: "OEUseLiquidGlass") as? Bool ?? true)
             }
-            
+
             // Set the size of the new controller *before* it is added to the
             // view hierarchy. This is important because things like NSSplitter
             // sizes are loaded as soon as the view is added to a subview.
             newController.view.frame = placeholderView.bounds
             newController.view.autoresizingMask = [.width, .height]
             placeholderView.addSubview(newController.view)
-            
+
             let windowGuide = window.contentLayoutGuide as! NSLayoutGuide
             lastPlaceholderViewTopConstraint.isActive = false
             if overlapsTitleBar {
@@ -104,16 +115,19 @@ final class MainWindowController: NSWindowController {
                 lastPlaceholderViewTopConstraint = placeholderView.topAnchor.constraint(equalTo: windowGuide.topAnchor)
             }
             lastPlaceholderViewTopConstraint.isActive = true
-            
+
+            // Update visual effect visibility for the active content controller
+            updateVisualEffectVisibility(for: newController)
+
             window.makeFirstResponder(newController.view)
-            
+
             _currentContentController = newController
             if newController == gameDocument?.gameViewController {
                 gameDocument?.gameWindowController = self
             }
-            
+
             newController.viewDidAppear()
-            
+
             // If a game is playing in the library window, unpause emulation immediately.
             if newController == gameDocument?.gameViewController {
                 gameDocument?.isEmulationPaused = false
@@ -134,14 +148,22 @@ final class MainWindowController: NSWindowController {
         setUpWindow()
         setUpCurrentContentController()
         setUpViewMenuItemBindings()
+
+        // Observe appearance preference changes
+        NotificationCenter.default.addObserver(self, selector: #selector(applyAppearanceSettings), name: Notification.Name("OEAppearanceDidChange"), object: nil)
+        // Apply current settings
+        applyAppearanceSettings()
     }
     
     private func setUpPlaceholderView() {
         placeholderView.translatesAutoresizingMaskIntoConstraints = false
-        
+        // ensure the placeholder does not draw an opaque background so the visual effect can show through
+        placeholderView.wantsLayer = true
+        placeholderView.layer?.backgroundColor = NSColor.clear.cgColor
+
         let windowGuide = window!.contentLayoutGuide as! NSLayoutGuide
         lastPlaceholderViewTopConstraint = windowGuide.topAnchor.constraint(equalTo: placeholderView.topAnchor)
-        
+
         NSLayoutConstraint.activate([
             windowGuide.leftAnchor.constraint(equalTo: placeholderView.leftAnchor),
             windowGuide.bottomAnchor.constraint(equalTo: placeholderView.bottomAnchor),
@@ -153,11 +175,17 @@ final class MainWindowController: NSWindowController {
     private func setUpLibraryController() {
         libraryController.delegate = self
         _ = libraryController.view
-        
+
         window?.toolbar = libraryController.toolbar
         if #available(macOS 11.0, *) {
             window?.toolbarStyle = .unified
             window?.titlebarSeparatorStyle = .line
+        }
+
+        // Install a subtle titlebar effect accessory for the main window
+        if titlebarAccessory == nil, let win = window {
+            titlebarAccessory = VisualEffectManager.shared.installTitlebarEffect(on: win, height: 36)
+            titlebarAccessory?.view.isHidden = !(UserDefaults.standard.object(forKey: "OEUseLiquidGlass") as? Bool ?? true)
         }
     }
     
@@ -166,7 +194,21 @@ final class MainWindowController: NSWindowController {
         window?.isExcludedFromWindowsMenu = true
         window?.restorationClass = type(of: self)
         window?.backgroundColor = .controlBackgroundColor
-        
+
+        // Create the visual effect (liquid glass) view if possible and desired.
+        createVisualEffectViewIfNeeded()
+
+        // Observe reduced-transparency accessibility setting and hide the visual effect when requested.
+        accessibilityObserver = NotificationCenter.default.addObserver(forName: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification, object: nil, queue: .main) { [weak self] _ in
+            guard let self = self else { return }
+            if NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency {
+                self.visualEffectView?.isHidden = true
+            } else {
+                // Show if library/setup is active
+                self.visualEffectView?.isHidden = !(self.currentContentController == self.libraryController || (self.currentContentController is SetupAssistant))
+            }
+        }
+
         assert(window?.identifier == .mainWindow, "Main library window identifier does not match between nib and code")
     }
     
@@ -386,7 +428,65 @@ extension MainWindowController: LibraryControllerDelegate {
             NSDocumentController.shared.openGameDocument(with: game!, display: openInSeparateWindow, fullScreen: fullScreen, completionHandler: openDocument)
         }
     }
-}
+
+    private func createVisualEffectViewIfNeeded() {
+        // Use the shared manager to create and keep effects consistent
+        guard visualEffectView == nil else { return }
+        guard let window = window else { return }
+
+        let container = window.contentView!
+        visualEffectView = VisualEffectManager.shared.installEffect(in: container, positioned: .below, relativeTo: placeholderView)
+
+        // hidden by default unless library/setup is active
+        visualEffectView?.isHidden = !(currentContentController == libraryController || (currentContentController is SetupAssistant))
+    }
+
+    private func updateVisualEffectVisibility(for controller: NSViewController) {
+        guard let effect = visualEffectView else { return }
+        if NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency {
+            effect.isHidden = true
+            return
+        }
+        let enabled = UserDefaults.standard.object(forKey: "OEUseLiquidGlass") as? Bool ?? true
+        if !enabled {
+            effect.isHidden = true
+            return
+        }
+        effect.isHidden = !(controller == libraryController || (controller is SetupAssistant))
+    }
+
+    @objc private func applyAppearanceSettings() {
+        let enabled = UserDefaults.standard.object(forKey: "OEUseLiquidGlass") as? Bool ?? true
+        if enabled {
+            createVisualEffectViewIfNeeded()
+            // update material
+            if let effect = visualEffectView {
+                let requestedMaterial = UserDefaults.standard.string(forKey: "OEVisualEffectMaterial") ?? "sidebar"
+                if #available(macOS 10.14, *) {
+                    switch requestedMaterial {
+                    case "contentBackground": effect.material = .contentBackground
+                    case "titlebar": effect.material = .titlebar
+                    default: effect.material = .sidebar
+                    }
+                }
+                let alpha = UserDefaults.standard.double(forKey: "OEVisualEffectOpacity")
+                effect.alphaValue = alpha > 0 ? CGFloat(alpha) : 1.0
+                // Update visibility based on current controller
+                updateVisualEffectVisibility(for: _currentContentController ?? libraryController)
+            }
+        } else {
+            visualEffectView?.removeFromSuperview()
+            visualEffectView = nil
+        }
+    }
+
+    deinit {
+        if let obs = accessibilityObserver {
+            NotificationCenter.default.removeObserver(obs)
+            accessibilityObserver = nil
+        }
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("OEAppearanceDidChange"), object: nil)
+    }
 
 extension MainWindowController: NSWindowDelegate {
     

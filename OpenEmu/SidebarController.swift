@@ -39,6 +39,10 @@ final class SidebarController: NSViewController {
     
     @IBOutlet var sidebarView: NSOutlineView!
     @IBOutlet var gameScannerViewController: GameScannerViewController!
+
+    // Visual effect (liquid glass) background for the sidebar
+    private var sidebarVisualEffectView: NSVisualEffectView?
+    private var sidebarAccessibilityObserver: Any?
     
     var database: OELibraryDatabase? {
         didSet {
@@ -103,6 +107,14 @@ final class SidebarController: NSViewController {
                 self.reloadData()
             },
         ]
+
+        // Add sidebar visual effect (liquid glass) background
+        createSidebarVisualEffectIfNeeded()
+
+        // Observe appearance changes
+        NotificationCenter.default.addObserver(self, selector: #selector(applyAppearanceSettings), name: Notification.Name("OEAppearanceDidChange"), object: nil)
+        // Apply current settings
+        applyAppearanceSettings()
     }
     
     deinit {
@@ -110,6 +122,11 @@ final class SidebarController: NSViewController {
             NotificationCenter.default.removeObserver(observer)
         }
         tokens = []
+        if let obs = sidebarAccessibilityObserver {
+            NotificationCenter.default.removeObserver(obs)
+            sidebarAccessibilityObserver = nil
+        }
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("OEAppearanceDidChange"), object: nil)
     }
     
     func reloadDataAndPreserveSelection() {
@@ -344,6 +361,52 @@ extension SidebarController: NSOutlineViewDelegate {
         }
         NotificationCenter.default.post(name: .OESidebarSelectionDidChange, object: self, userInfo: nil)
     }
+
+    // MARK: - Visual Effect
+
+    private func createSidebarVisualEffectIfNeeded() {
+        let useLiquidGlass = UserDefaults.standard.object(forKey: "OEUseLiquidGlass") as? Bool ?? true
+        guard useLiquidGlass else { return }
+        guard sidebarVisualEffectView == nil else { return }
+        guard !NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency else { return }
+
+        // Use shared manager to create effect
+        sidebarVisualEffectView = VisualEffectManager.shared.installEffect(in: view, positioned: .below, relativeTo: nil)
+
+        // update outline transparency
+        sidebarView.backgroundColor = .clear
+        sidebarView.enclosingScrollView?.contentView.backgroundColor = .clear
+
+        // observe reduced-transparency changes
+        sidebarAccessibilityObserver = NotificationCenter.default.addObserver(forName: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification, object: nil, queue: .main) { [weak self] _ in
+            guard let self = self else { return }
+            self.sidebarVisualEffectView?.isHidden = NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency
+        }
+
+        // set initial material/opacity state
+        applyAppearanceSettings()
+
+        // Also hide the effect if the preference is disabled
+        if !UserDefaults.standard.bool(forKey: "OEUseLiquidGlass") {
+            sidebarVisualEffectView?.isHidden = true
+        }
+    }
+
+    @objc private func applyAppearanceSettings() {
+        let enabled = UserDefaults.standard.object(forKey: "OEUseLiquidGlass") as? Bool ?? true
+        if enabled {
+            if sidebarVisualEffectView == nil {
+                createSidebarVisualEffectIfNeeded()
+            }
+            // VisualEffectManager handles material/opacity; just ensure visibility is updated
+            sidebarVisualEffectView?.isHidden = NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency || !enabled
+        } else {
+            if let effect = sidebarVisualEffectView {
+                VisualEffectManager.shared.removeEffect(effect)
+                sidebarVisualEffectView = nil
+            }
+        }
+    }
     
     func outlineView(_ outlineView: NSOutlineView, shouldCollapseItem item: Any) -> Bool {
         false
@@ -419,6 +482,18 @@ extension SidebarController: NSOutlineViewDataSource {
                     button.action = #selector(newCollection(_:))
                 }
             }
+        }
+        
+        // If we have a visual effect background, make the outline view transparent so it shows through.
+        if sidebarVisualEffectView != nil {
+            outlineView.backgroundColor = .clear
+            if let clip = outlineView.enclosingScrollView?.contentView {
+                clip.backgroundColor = .clear
+            }
+        }
+        
+        return view
+    }            }
             
         } else {
             view = outlineView.makeView(withIdentifier: .itemView, owner: self) as? NSTableCellView

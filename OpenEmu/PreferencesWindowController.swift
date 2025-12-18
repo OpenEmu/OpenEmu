@@ -60,6 +60,12 @@ final class PreferencesWindowController: NSWindowController {
         
         preferencesTabViewController = PreferencesTabViewController()
         self.window?.contentView = preferencesTabViewController.view
+
+        // Add a subtle liquid glass background to Preferences window
+        if let container = self.window?.contentView {
+            let effect = VisualEffectManager.shared.installEffect(in: container, positioned: .below, relativeTo: preferencesTabViewController.view)
+            effect.isHidden = NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency || !(UserDefaults.standard.object(forKey: "OEUseLiquidGlass") as? Bool ?? true)
+        }
         
         if #available(macOS 11.0, *) {
             window?.toolbarStyle = .preference
@@ -161,6 +167,7 @@ final class PreferencesTabViewController: NSTabViewController {
         // The collection of preference panes to add.
         var preferencePanes: [PreferencePane] = [
             PrefLibraryController(),
+            PrefAppearanceController(),
             PrefGameplayController(),
             PrefControlsController(),
             PrefCoresController(),

@@ -103,6 +103,8 @@ final class GameScannerViewController: NSViewController {
         }
     }
     
+    private var sheetEffect: NSVisualEffectView?
+
     override func viewWillAppear() {
         
         super.viewWillAppear()
@@ -113,6 +115,27 @@ final class GameScannerViewController: NSViewController {
         
         issuesView.reloadData()
         enableOrDisableApplyButton()
+    }
+
+    override func viewDidAppear() {
+        super.viewDidAppear()
+
+        // If this controller is shown as a sheet/popover, add a visual effect background if enabled
+        if let w = self.view.window, w.isSheet || w.styleMask.contains(.titled) {
+            let enabled = UserDefaults.standard.object(forKey: "OEUseLiquidGlass") as? Bool ?? true
+            if enabled && sheetEffect == nil && !NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency {
+                sheetEffect = VisualEffectManager.shared.installEffect(in: w.contentView!, positioned: .below, relativeTo: nil)
+            }
+        }
+    }
+
+    override func viewWillDisappear() {
+        super.viewWillDisappear()
+
+        if let effect = sheetEffect {
+            VisualEffectManager.shared.removeEffectObjc(effect)
+            sheetEffect = nil
+        }
     }
     
     private func setUpActionsMenu() {

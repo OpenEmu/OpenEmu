@@ -83,15 +83,12 @@ final class GameWindowController: NSWindowController {
             if UserDefaults.standard.bool(forKey: OEPopoutGameWindowAlwaysOnTopKey) {
                 window.level = .floating
             }
-        }
-        
-        let nc = NotificationCenter.default
-        nc.addObserver(self,
-                       selector: #selector(constrainIntegralScaleIfNeeded),
-                       name: NSApplication.didChangeScreenParametersNotification,
-                       object: nil)
-        
-        eventMonitor = NSEvent.addLocalMonitorForEvents(matching: [.flagsChanged, .keyDown]) { [weak self] event in
+
+            // Add titlebar effect for popout game windows if enabled
+            if UserDefaults.standard.object(forKey: "OEUseLiquidGlass") as? Bool ?? true {
+                let accessory = VisualEffectManager.shared.installTitlebarEffect(on: window, height: 36)
+                accessory.view.isHidden = NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency
+            }
             guard let self = self else { return event }
             
             // shift key pressed

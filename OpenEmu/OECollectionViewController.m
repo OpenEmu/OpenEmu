@@ -74,6 +74,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 {
     IBOutlet NSView *gridViewContainer;// gridview
     IBOutlet OEBlankSlateView *blankSlateView;
+    NSVisualEffectView *visualEffectView;
+    id accessibilityObserverToken;
 }
 
 @property(nonatomic, readwrite) OECollectionViewControllerViewTag selectedViewTag;
@@ -105,6 +107,11 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [defaults removeObserver:self
                   forKeyPath:OEDBGame.displayGameTitleKey
                      context:OEUserDefaultsDisplayGameTitleKVOContext];
+
+    if(accessibilityObserverToken) {
+        [[NSNotificationCenter defaultCenter] removeObserver:accessibilityObserverToken];
+        accessibilityObserverToken = nil;
+    }
 }
 
 - (OELibraryToolbar * _Nullable)toolbar
@@ -149,17 +156,21 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [blankSlateView setDelegate:self];
     [blankSlateView registerForDraggedTypes:@[NSPasteboardTypeFileURL]];
 
-    // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
-    // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
-    // empty collection until -setRepresentedObject: is received again
-    if ([self representedObject])
-        [self reloadData];
-    
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    [standardUserDefaults addObserver:self
-                           forKeyPath:OEDBGame.displayGameTitleKey
-                              options:0
-                              context:OEUserDefaultsDisplayGameTitleKVOContext];
+    // Add visual effect (liquid glass) behind the grid view
+    [self createVisualEffectIfNeeded];
+
+    // Observe appearance changes from preferences
+    __weak typeof(self) weakSelf = self;
+    id appearanceToken = [[NSNotificationCenter defaultCenter] addObserverForName:[NSNotificationName notificationName:@"OEAppearanceDidChange"] object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        __strong typeof(self) self = weakSelf;
+        if(!self) return;
+        [self applyAppearanceSettings];
+    }];
+    // store token in accessibilityObserverToken for cleanup (reuse variable)
+    if(!accessibilityObserverToken) accessibilityObserverToken = appearanceToken;
+
+    // Apply current appearance settings
+    [self applyAppearanceSettings];
     
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     
@@ -184,6 +195,12 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     // TODO: remove together with the other todo in -OE_staticContentRect
     [blankSlateView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [blankSlateView setFrame:[self OE_staticContentRect]];
+
+    // ensure container allows the effect to show through
+    gridViewContainer.wantsLayer = YES;
+    gridViewContainer.layer.backgroundColor = NSColor.clearColor.CGColor;
+    blankSlateView.wantsLayer = YES;
+    blankSlateView.layer.backgroundColor = NSColor.clearColor.CGColor;
 }
 
 - (NSString *)nibName
@@ -203,6 +220,66 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
+
+#pragma mark - Visual Effect
+
+- (void)createVisualEffectIfNeeded
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL useLiquidGlass = [[defaults objectForKey:@"OEUseLiquidGlass"] boolValue];
+    if(!useLiquidGlass) return;
+    if(visualEffectView != nil) return;
+    if(NSWorkspace.sharedWorkspace.accessibilityDisplayShouldReduceTransparency) return;
+
+    // Use shared manager to install the effect
+    visualEffectView = [[VisualEffectManager sharedManager] installEffectInContainer:gridViewContainer positioned:NSWindowBelow relativeTo:nil];
+
+    // Observe reduced-transparency accessibility setting
+    __weak typeof(self) weakSelf = self;
+    accessibilityObserverToken = [[NSNotificationCenter defaultCenter] addObserverForName:NSWorkspaceAccessibilityDisplayOptionsDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        __strong typeof(self) self = weakSelf;
+        if(!self) return;
+        visualEffectView.hidden = NSWorkspace.sharedWorkspace.accessibilityDisplayShouldReduceTransparency;
+    }];
+
+    // Also listen for preference changes
+    __weak typeof(self) weakSelf2 = self;
+    id appearanceToken = [[NSNotificationCenter defaultCenter] addObserverForName:[NSNotificationName notificationName:@"OEAppearanceDidChange"] object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        __strong typeof(self) self = weakSelf2;
+        if(!self) return;
+        [self applyAppearanceSettings];
+    }];
+    if(!accessibilityObserverToken) accessibilityObserverToken = appearanceToken; // store token for cleanup
+}
+
+- (void)applyAppearanceSettings
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL useLiquidGlass = [[defaults objectForKey:@"OEUseLiquidGlass"] boolValue];
+    if(!useLiquidGlass) {
+        if(visualEffectView) {
+            [[VisualEffectManager sharedManager] removeEffectObjc:visualEffectView];
+            visualEffectView = nil;
+        }
+        return;
+    }
+
+    if(!visualEffectView) {
+        [self createVisualEffectIfNeeded];
+    }
+
+    if(visualEffectView) {
+        NSString *requestedMaterial = [defaults objectForKey:@"OEVisualEffectMaterial"] ?: @"sidebar";
+        if([requestedMaterial isEqualToString:@"contentBackground"]) visualEffectView.material = NSVisualEffectMaterialContentBackground;
+        else if([requestedMaterial isEqualToString:@"titlebar"]) visualEffectView.material = NSVisualEffectMaterialTitlebar;
+        else visualEffectView.material = NSVisualEffectMaterialSidebar;
+
+        double alpha = [[NSUserDefaults standardUserDefaults] doubleForKey:@"OEVisualEffectOpacity"];
+        visualEffectView.hidden = NSWorkspace.sharedWorkspace.accessibilityDisplayShouldReduceTransparency;
+        visualEffectView.alphaValue = alpha > 0 ? alpha : 1.0;
+    }
+}
+
 
 
 - (void)libraryLocationDidChange:(NSNotification*)notification

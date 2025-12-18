@@ -69,6 +69,8 @@ final class AvailableLibrariesViewController: NSViewController {
             _transparentBackground = newValue
             if newValue {
                 collectionView.backgroundColors = [.clear]
+                // Add a visual effect background for popover if available
+                _ = VisualEffectManager.shared.installEffect(in: view, positioned: .below, relativeTo: nil)
             } else {
                 collectionView.backgroundColors = [.controlBackgroundColor]
             }
@@ -81,6 +83,11 @@ final class AvailableLibrariesViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         transparentBackground = false
+
+        // If used in a popover with a transparent background, add a subtle effect
+        if transparentBackground {
+            _ = VisualEffectManager.shared.installEffect(in: view, positioned: .below, relativeTo: nil)
+        }
     }
     
     override func viewWillAppear() {

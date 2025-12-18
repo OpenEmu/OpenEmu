@@ -46,5 +46,11 @@ final class ShaderParametersWindowController: NSWindowController {
         
         let oc = ShaderParametersViewController(shaderControl: control)
         self.contentViewController = oc
+
+        // Add subtle effect behind shader parameters window content if allowed
+        if let container = self.window?.contentView, UserDefaults.standard.object(forKey: "OEUseLiquidGlass") as? Bool ?? true {
+            let effect = VisualEffectManager.shared.installEffect(in: container, positioned: .below, relativeTo: oc.view)
+            effect.isHidden = NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency
+        }
     }
 }
