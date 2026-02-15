@@ -73,7 +73,7 @@
 
 "Volume Up" = "Apuja el volum";
 
-"Last Played" = "Jugats últimament";
+"Last Played" = "Jugat per última vegada";
 
 "Save State" = "Desa la partida";
 
@@ -114,6 +114,8 @@
 "Show Library" = "Mostra la biblioteca";
 
 "Take Screenshot" = "Fes una captura de pantalla";
+
+"Take Native Screenshot" = "Fes una captura de pantalla nativa";
 
 "Help" = "Ajuda";
 

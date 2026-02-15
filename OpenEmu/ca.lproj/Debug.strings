@@ -95,11 +95,11 @@
 
 "Unchecked" = "Desmarcat";  // Default value tooltip for checkboxes: unchecked default
 
-"Shaders" = "Shaders";
+"Shaders" = "Ombrejadors";
 
-"Clear shader cache" = "Esborra la memòria cau dels shaders";
+"Clear shader cache" = "Esborra la memòria cau dels ombrejadors";
 
-"Reveal user shader folder" = "Mostra la carpeta d'usuari dels shaders";
+"Reveal user shader folder" = "Mostra la carpeta d'ombrejadors de l'usuari";
 
 "Appearance:" = "Aparença:";
 

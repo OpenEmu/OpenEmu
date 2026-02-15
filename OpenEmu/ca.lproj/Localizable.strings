@@ -37,9 +37,9 @@
 
 "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Esteu segur que voleu esborrar %ld captures de pantalla de la biblioteca de l'OpenEmu?";
 
-"Are you sure you want to delete the save state called '%@' from your OpenEmu library?" = "Esteu segur que voleu esborrar la partida desada anomenada '%@' de la biblioteca de l'OpenEmu?";
+"Are you sure you want to delete the save state called '%@' from your OpenEmu library?" = "Esteu segur que voleu esborrar la partida desada anomenada «%@» de la biblioteca de l'OpenEmu?";
 
-"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Esteu segur que voleu esborrar la captura de pantalla anomenada '%@' de la biblioteca de l'OpenEmu?";
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Esteu segur que voleu esborrar la captura de pantalla anomenada «%@» de la biblioteca de l'OpenEmu?";
 
 "Are you sure you want to delete the selected game from your OpenEmu library?" = "Esteu segur que voleu esborrar el joc seleccionat de la biblioteca de l'OpenEmu?";
 
@@ -51,7 +51,7 @@
 
 "Are you sure you want to remove the selected games from the collection?" = "Esteu segur que voleu esborrar els jocs seleccionats de la col·lecció?";
 
-"Are you sure you want to remove the collection '%@'?" = "Esteu segur que voleu esborrar la col·lecció '%@'?";
+"Are you sure you want to remove the collection '%@'?" = "Esteu segur que voleu esborrar la col·lecció «%@»?";
 
 "Are you sure you want to restart the game?" = "Esteu segur que voleu reiniciar la partida?";
 
@@ -89,7 +89,7 @@
 
 "Collections" = "Col·leccions";
 
-"Configure Shader…" = "Configurar el shader…";
+"Configure Shader…" = "Configura l'ombrejador…";
 
 "Console" = "Consola";
 
@@ -129,7 +129,7 @@
 
 "Couldn't load %@ plugin" = "No s'ha pogut carregar el connector %@";
 
-"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Creeu una selecció personal de jocs. Per a afegir un joc a la col·lecció, seleccioneu-lo de la biblioteca i arrossegueu-lo a ’%@’ a la barra lateral.";
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar." = "Creeu una selecció personal de jocs. Per a afegir un joc a la col·lecció, seleccioneu-lo de la biblioteca i arrossegueu-lo a «%@» a la barra lateral.";
 
 "Create Library…" = "Crea una biblioteca…";
 
@@ -227,7 +227,7 @@
 
 "Have you read the guide?" = "Heu llegit la guia?";
 
-"Hide \"%@\"" = "Amaga \"%@\"";
+"Hide \"%@\"" = "Amaga «%@»";
 
 "Homebrew Games" = "Jocs «homebrew»";
 
@@ -259,7 +259,7 @@
 
 "Load" = "Carrega";
 
-"Locate '%@'" = "Troba '%@'";
+"Locate '%@'" = "Troba «%@»";
 
 "Locate…" = "Troba…";
 
@@ -325,7 +325,7 @@
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "L'OpenEmu necessita una biblioteca per continuar. Podeu triar una biblioteca existent o crear-ne una de nova";
 
-"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "L'OpenEmu utilitza 'nuclis' per emular els jocs. Necessiteu el nucli %1$@ per jugar a %2$@";
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "L'OpenEmu utilitza «nuclis» per emular els jocs. Necessiteu el nucli %1$@ per jugar a %2$@";
 
 "OpenEmu will save and quit all games that are currently running." = "L'OpenEmu guardarà i tancarà tots els jocs que s'estan executant.";
 
@@ -371,7 +371,7 @@
 
 "Remove Games" = "Suprimeix els jocs";
 
-"Rename \"%@\"" = "Canvia el nom de \"%@\"";
+"Rename \"%@\"" = "Canvia el nom de «%@»";
 
 "Rename Game" = "Canvia el nom del joc";
 
@@ -415,7 +415,7 @@
 
 "Select All" = "Selecciona-ho tot";
 
-"Select Audio Output Device" = "Selecciona un dispositiu de sortida de so";
+"Select Audio Output Device" = "Selecciona el dispositiu de sortida de so";
 
 "Select Cheat" = "Selecciona un truc";
 
@@ -425,11 +425,11 @@
 
 "Select Display Mode" = "Selecciona el mode de visualització";
 
-"Select Shader" = "Selecciona el shader";
+"Select Shader" = "Selecciona l'ombrejador";
 
 "Select Scale" = "Selecciona l'escala";
 
-"Shader Parameters" = "Paràmetres del shader";
+"Shader Parameters" = "Paràmetres de l'ombrejador";
 
 "Share" = "Comparteix";
 
@@ -469,9 +469,9 @@
 
 "The file you selected doesn't exist" = "El fitxer seleccionat no existeix";
 
-"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "No s'ha pogut iniciar el joc '%@' perquè no s'ha trobat un fitxer ROM. El voleu localitzar?";
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "No s'ha pogut iniciar el joc «%@» perquè no s'ha trobat un fitxer ROM. El voleu localitzar?";
 
-"The game '%@' was imported." = "S'ha importat el joc '%@'.";
+"The game '%@' was imported." = "S'ha importat el joc «%@».";
 
 "The OpenEmu Library could not be found." = "No s'ha pogut trobar la biblioteca de l'OpenEmu.";
 
@@ -485,7 +485,7 @@
 
 "Title:" = "Títol:";
 
-"To launch the save state %@ you will need to install the '%@' Core" = "Per continuar la partida desada %1$@ heu d'instal·lar el nucli '%2$@'";
+"To launch the save state %@ you will need to install the '%@' Core" = "Per continuar la partida desada %1$@ heu d'instal·lar el nucli «%2$@»";
 
 "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "Per executar aquest nucli necessiteu el següent:\n\n%@Arrossegueu i deixeu anar el(s) fitxer(s) requerit(s) sobre la finestra de la biblioteca dels jocs i torneu-ho a provar.";
 
@@ -619,7 +619,7 @@
 
 "The emulator could not load ROM." = "L'emulador no ha pogut carregar el ROM.";
 
-"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "Per assignar una nova tecla o botó a %@, prem aquest botó, després prem la tecla o botó desitjat al teu teclat o gamepad."; // Controls preferences, accessibility help
+"To assign a new key or button to %@, press this button, then press the desired key or button on your keyboard or gamepad." = "Per assignar una nova tecla o botó a «%@», prem aquest botó, després prem la tecla o botó desitjat al teu teclat o gamepad."; // Controls preferences, accessibility help
 
 "Changed button for %1$@ to %2$@." = "S'ha canviat el botó per a %1$@ a %2$@."; // Controls preferences, accessibility notification (“Changed button for Up to W.”)
 
@@ -635,7 +635,7 @@
 
 "The %@ core has quit unexpectedly" = "S'ha tancat inesperadament el nucli %@";
 
-"ALERT_CORE_GLITCHES_FEEDBACK_HTML" = "<b>Si aquest problema persisteix</b>, si us plau, envieu-nos comentaris en anglès que inclogui:<br><br><ul><li>El model de Mac que esteu utilitzant <b>i</b> la versió de macOS que teniu instal·lada<ul><li>Aquesta informació es troba a  > Sobre aquest Mac</li></ul></li><li>El <b>nom exacte</b> del joc al qual estàveu jugant</li><li>L'informe de fallada de l'OpenEmuHelperApp<ul><li>Obriu Console.app, feu clic a \"Informes d'errors\" o \"Informes d'usuari\" a la barra lateral, després busqueu el document més recent amb el nom OpenEmuHelperApp</ul></li></li></ul><br><b>Busqueu primer els comentaris similars reportats prèviament per altres usuaris</b><br>Si s'omet qualsevol d'aquesta informació, o si ja s'ha reportat una incidència semblant, aquest informe es podria tancar.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
+"ALERT_CORE_GLITCHES_FEEDBACK_HTML" = "<b>Si aquest problema persisteix</b>, si us plau, envieu-nos comentaris en anglès que incloguin:<br><br><ul><li>El model de Mac que esteu utilitzant <b>i</b> la versió de macOS que teniu instal·lada<ul><li>Aquesta informació es troba a  > Sobre aquest Mac</li></ul></li><li>El <b>nom exacte</b> del joc al qual estàveu jugant</li><li>L'informe de fallada de l'OpenEmuHelperApp<ul><li>Obriu Console.app, feu clic a «Informes d'errors» o «Informes d'usuari» a la barra lateral, després busqueu el document més recent amb el nom OpenEmuHelperApp</ul></li></li></ul><br><b>Busqueu primer els comentaris similars reportats prèviament per altres usuaris</b><br>Si s'omet qualsevol d'aquesta informació, o si ja s'ha reportat una incidència semblant, aquest informe es podria tancar.";  // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
 
 "The %@ core has quit unexpectedly after loading a save state" = "El nucli %@ ha tancat inesperadament després de carregar un estat desat";
 
@@ -643,34 +643,34 @@
 
 "Reopen without loading state" = "Torna a obrir sense carregar l'estat";
 
-"MOVE_ALERT_TITLE" = "Move to Applications folder"; // TODO
+"MOVE_ALERT_TITLE" = "Mou a la carpeta Aplicacions";
 
-"MOVE_ALERT_INFO_TEXT" = "OpenEmu must move to your Applications folder in order to work properly."; // TODO
+"MOVE_ALERT_INFO_TEXT" = "L'OpenEmu s'ha de moure a la carpeta Aplicacions per funcionar correctament.";
 
-"MOVE_ALERT_NEEDS_AUTH" = "You need to authenticate with an administrator name and password to complete this step. Alternatively, you can choose a different location or quit the App and move it manually."; // TODO
+"MOVE_ALERT_NEEDS_AUTH" = "Heu d'autenticar-vos amb un nom i contrasenya d'administrador per completar aquest pas. Alternativament, podeu triar una ubicació diferent o sortir de l'aplicació i moure-la manualment.";
 
-"MOVE_ALERT_MOVE_BUTTON" = "Move to Applications folder"; // TODO
+"MOVE_ALERT_MOVE_BUTTON" = "Mou a la carpeta Aplicacions";
 
-"Choose Location…" = "Choose Location…"; // TODO
+"Choose Location…" = "Trieu la ubicació…";
 
-"No parameters available." = "No parameters available."; // TODO
+"No parameters available." = "No hi ha paràmetres disponibles.";
 
-"Reset parameters" = "Reset parameters"; // undo action: Reset shader parameters, TODO
+"Reset parameters" = "Restableix els paràmetres"; // undo action: Reset shader parameters
 
-"Paste parameters" = "Paste parameters"; // undo action: Paste parameter values, TODO
+"Paste parameters" = "Enganxa els paràmetres"; // undo action: Paste parameter values
 
-"Parameters" = "Parameters"; // Window title: Shader parameters customisation window, TODO
+"Parameters" = "Paràmetres"; // Window title: Shader parameters customisation window
 
-"New Shader Preset" = "New Shader Preset"; // Window title: Used to specify the name of a new shader preset, TODO
+"New Shader Preset" = "Nou preajust d'ombrejador"; // Window title: Used to specify the name of a new shader preset
 
-"Rename Shader Preset" = "Rename Shader Preset"; // Window title: Used to rename an existing shader preset, TODO
+"Rename Shader Preset" = "Canvia el nom del preajust d'ombrejador"; // Window title: Used to rename an existing shader preset
 
-"A name is required." = "A name is required."; // warning: Displayed when user enters a zero-length shader preset name, TODO
+"A name is required." = "Es requereix un nom."; // warning: Displayed when user enters a zero-length shader preset name
 
-"Name must not contain “%@.”" = "Name must not contain “%@.”"; // warning: Displayed when user enters a shader preset name containing an invalid character, TODO
+"Name must not contain “%@.”" = "El nom no pot contenir «%@»."; // warning: Displayed when user enters a shader preset name containing an invalid character
 
-"Default %@ preset for %@" = "Default %@ preset for %@"; // 1st parameter: shader name; 2nd parameter: system name, TODO
+"Default %@ preset for %@" = "Preajust de l'ombrejador «%@» per defecte per a %@"; // 1st parameter: shader name; 2nd parameter: system name
 
-"Are you sure you want to delete the shader preset called '%@'?" = "Are you sure you want to delete the shader preset called '%@'?";
+"Are you sure you want to delete the shader preset called '%@'?" = "Esteu segur que voleu esborrar el preajust d'ombrejador anomenat «%@»?";
 
-"Delete Shader Preset" = "Delete Shader Preset";
+"Delete Shader Preset" = "Esborra el preajust d'ombrejador";
