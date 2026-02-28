@@ -481,7 +481,7 @@ final class OEGameDocument: NSDocument {
                 }
                 
                 let fileName = (url.lastPathComponent as NSString).deletingPathExtension
-                let informativeText = String(format: NSLocalizedString("The game '%@' was imported.", comment: ""), fileName)
+                let informativeText = String(format: Bundle.main.preferredLocalizedString(forKey: "The game '%@' was imported.", value: "No translation", table: nil), fileName)
                 
                 let alert = OEAlert()
                 alert.messageText = NSLocalizedString("Your game finished importing, do you want to play it now?", comment: "")
@@ -757,7 +757,7 @@ final class OEGameDocument: NSDocument {
         
         if corePlugin.hasGlitches(forSystemIdentifier: systemPlugin.systemIdentifier) && showAlert {
             
-            let message = String(format: NSLocalizedString("The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", comment: ""), coreName, coreName)
+            let message = String(format: Bundle.main.preferredLocalizedString(forKey: "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", value: "No translation", table: nil), coreName, coreName)
             let alert = OEAlert()
             alert.messageText = NSLocalizedString("Warning", comment: "")
             alert.informativeText = message
@@ -937,7 +937,8 @@ final class OEGameDocument: NSDocument {
         isEmulationPaused = true
         
         let devHandler = notification.object as? OEDeviceHandler
-        let message = String(format: NSLocalizedString("The battery in device number %lu, %@, is low. Please charge or replace the battery.", comment: "Low battery alert detail message."), devHandler?.deviceNumber ?? 0, devHandler?.deviceDescription?.name ?? "")
+        let message = String(format: Bundle.main.preferredLocalizedString(forKey: "The battery in device number %lu, %@, is low. Please charge or replace the battery.", value: "No translation", table: nil), // Low battery alert detail message
+                             devHandler?.deviceNumber ?? 0, devHandler?.deviceDescription?.name ?? "")
         let alert = OEAlert()
         alert.messageText = NSLocalizedString("Low Controller Battery", comment: "Device battery level is low.")
         alert.informativeText = message
@@ -954,7 +955,7 @@ final class OEGameDocument: NSDocument {
         isEmulationPaused = true
         
         let devHandler = notification.userInfo?[OEDeviceManagerDeviceHandlerUserInfoKey] as? OEDeviceHandler
-        let message = String(format: NSLocalizedString("Device number %lu, %@, has disconnected.", comment: "Device disconnection detail message."), devHandler?.deviceNumber ?? 0, devHandler?.deviceDescription?.name ?? "")
+        let message = String(format: Bundle.main.preferredLocalizedString(forKey: "Device number %lu, %@, has disconnected.", value: "No translation", table: nil), devHandler?.deviceNumber ?? 0, devHandler?.deviceDescription?.name ?? "") // Device disconnection detail message.
         let alert = OEAlert()
         alert.messageText = NSLocalizedString("Device Disconnected", comment: "A controller device has disconnected.")
         alert.informativeText = message
@@ -1279,7 +1280,7 @@ final class OEGameDocument: NSDocument {
         
         alert.inputLabelText = NSLocalizedString("Code:", comment: "")
         alert.showsInputField = true
-        alert.inputPlaceholderText = NSLocalizedString("Join multi-line cheats with '+' e.g. 000-000+111-111", comment: "")
+        alert.inputPlaceholderText = Bundle.main.preferredLocalizedString(forKey: "Join multi-line cheats with '+' e.g. 000-000+111-111", value: "No translation", table: nil)
         
         alert.defaultButtonTitle = NSLocalizedString("Add Cheat", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")

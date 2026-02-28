@@ -272,7 +272,7 @@ final class CoreUpdater: NSObject {
             }
             
             let coreName = download.name
-            let message = String(format: NSLocalizedString("OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@", comment: ""), coreName, game.displayName)
+            let message = String(format: Bundle.main.preferredLocalizedString(forKey: "OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@", value: "No translation", table: nil), coreName, game.displayName)
             installCore(with: download, message: message, completionHandler: handler)
         }
         else {
@@ -285,7 +285,7 @@ final class CoreUpdater: NSObject {
         let coreID = state.coreIdentifier.lowercased()
         if let download = coresDict[coreID] {
             let coreName = download.name
-            let message = String(format: NSLocalizedString("To launch the save state %@ you will need to install the '%@' Core", comment: ""), state.displayName, coreName)
+            let message = String(format: Bundle.main.preferredLocalizedString(forKey: "To launch the save state %@ you will need to install the '%@' Core", value: "No translation", table: nil), state.displayName, coreName)
             installCore(with: download, message: message, completionHandler: handler)
         } else {
             // TODO: create proper error saying that no core is available for the state

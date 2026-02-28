@@ -268,7 +268,7 @@ extension MainWindowController: LibraryControllerDelegate {
                     game.status = .alert
                     game.save()
                     
-                    let messageText = String(format: NSLocalizedString("The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", comment: ""), game.name)
+                    let messageText = String(format: Bundle.main.preferredLocalizedString(forKey: "The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", value: "No translation", table: nil), game.name)
                     let alert = OEAlert()
                     alert.messageText = messageText
                     alert.defaultButtonTitle = NSLocalizedString("Locate…", comment: "")
@@ -278,7 +278,7 @@ extension MainWindowController: LibraryControllerDelegate {
                         let originalURL = missingRom?.url
                         let fileType = originalURL?.pathExtension
                         
-                        let panelTitle = String(format: NSLocalizedString("Locate '%@'", comment: "Locate panel title"), originalURL?.pathComponents.last ?? "")
+                        let panelTitle = String(format: Bundle.main.preferredLocalizedString(forKey: "Locate '%@'", value: "No translation", table: nil), originalURL?.pathComponents.last ?? "") // Locate panel title
                         let panel = NSOpenPanel()
                         panel.message = panelTitle
                         panel.canChooseDirectories = false
@@ -336,11 +336,9 @@ extension MainWindowController: LibraryControllerDelegate {
                     } else {
                         alert.messageText = String(format: NSLocalizedString("The %@ core has quit unexpectedly", comment: ""), coreName)
                         if glitchy {
-                            alert.informativeText = String(format: NSLocalizedString("The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", comment: ""), coreName, coreName)
+                            alert.informativeText = String(format: Bundle.main.preferredLocalizedString(forKey: "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", value: "No translation", table: nil), coreName, coreName)
                         } else {
-                            alert.informativeText = NSLocalizedString("ALERT_CORE_GLITCHES_FEEDBACK_HTML",
-                                comment: "Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English"
-                            )
+                            alert.informativeText = Bundle.main.preferredLocalizedString(forKey: "ALERT_CORE_GLITCHES_FEEDBACK_HTML", value: "No translation", table: nil) // Suggestion for crashed cores (HTML). Localizers: specify the report must be written in English
                             alert.messageUsesHTML = true
                         }
                         alert.defaultButtonTitle = NSLocalizedString("OK", comment: "")

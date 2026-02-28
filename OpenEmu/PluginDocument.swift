@@ -30,9 +30,9 @@ extension OEGameCorePluginError: LocalizedError {
     public var failureReason: String? {
         switch self {
         case .alreadyLoaded:
-            return NSLocalizedString("ERROR_PLUGIN_IMPORT_ALREADYLOADED", comment: "Error, another version of imported plugin is already loaded")
+            return Bundle.main.preferredLocalizedString(forKey: "ERROR_PLUGIN_IMPORT_ALREADYLOADED", value: "No translation", table: nil) // Error, another version of imported plugin is already loaded
         case .outOfSupport:
-            return NSLocalizedString("ERROR_PLUGIN_IMPORT_OUTOFSUPPORT", comment: "Error, plugin to be imported is out of support")
+            return Bundle.main.preferredLocalizedString(forKey: "ERROR_PLUGIN_IMPORT_OUTOFSUPPORT", value: "No translation", table: nil) // Error, plugin to be imported is out of support
         case .invalid:
             return nil
         }

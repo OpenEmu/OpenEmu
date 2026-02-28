@@ -410,7 +410,7 @@ extension SidebarController: NSOutlineViewDataSource {
                 
                 switch group.autosaveName {
                 case .sidebarConsolesItem:
-                    button.title = NSLocalizedString("Edit", tableName: "OEControls", comment: "")
+                    button.title = Bundle.main.preferredLocalizedString(forKey: "Edit", value: "No translation", table: "OEControls")
                     button.image = nil
                     button.action = #selector(selectSystems(_:))
                 case .sidebarCollectionsItem:
@@ -615,7 +615,7 @@ extension SidebarController: NSMenuDelegate {
             }
             
             menuItem = NSMenuItem()
-            menuItem.title = .localizedStringWithFormat(NSLocalizedString("Hide \"%@\"", comment: ""), item.name)
+            menuItem.title = .localizedStringWithFormat(Bundle.main.preferredLocalizedString(forKey: "Hide \"%@\"", value: "No translation", table: nil), item.name)
             menuItem.action = #selector(toggleSystem(for:))
             menuItem.representedObject = item
             menu.addItem(menuItem)
@@ -625,7 +625,7 @@ extension SidebarController: NSMenuDelegate {
             if item.isEditableInSidebar {
                 
                 menuItem = NSMenuItem()
-                menuItem.title = .localizedStringWithFormat(NSLocalizedString("Rename \"%@\"", comment: "Rename collection sidebar context menu item"), item.sidebarName)
+                menuItem.title = .localizedStringWithFormat(Bundle.main.preferredLocalizedString(forKey: "Rename \"%@\"", value: "No translation", table: nil), item.sidebarName) // Rename collection sidebar context menu item
                 menuItem.action = #selector(renameItem(for:))
                 menuItem.tag = index
                 menu.addItem(menuItem)

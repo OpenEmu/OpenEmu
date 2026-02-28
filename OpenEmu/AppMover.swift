@@ -73,12 +73,12 @@ public enum AppMover {
         }
         
         let alert = NSAlert()
-        alert.messageText = NSLocalizedString("MOVE_ALERT_TITLE", value: "Move to Applications folder", comment: "")
-        alert.informativeText = NSLocalizedString("MOVE_ALERT_INFO_TEXT", value: "OpenEmu must move to your Applications folder in order to work properly.", comment: "")
+        alert.messageText = bundle.preferredLocalizedString(forKey: "MOVE_ALERT_TITLE", value: "No translation", table: nil)
+        alert.informativeText = bundle.preferredLocalizedString(forKey: "MOVE_ALERT_INFO_TEXT", value: "No translation", table: nil)
         if needAuth {
-            alert.informativeText.append(" " + NSLocalizedString("MOVE_ALERT_NEEDS_AUTH", value: "You need to authenticate with an administrator name and password to complete this step.", comment: ""))
+            alert.informativeText.append(" " + bundle.preferredLocalizedString(forKey: "MOVE_ALERT_NEEDS_AUTH", value: "No translation", table: nil))
         }
-        alert.addButton(withTitle: NSLocalizedString("MOVE_ALERT_MOVE_BUTTON", value: "Move to Applications Folder", comment: ""))
+        alert.addButton(withTitle: bundle.preferredLocalizedString(forKey: "MOVE_ALERT_MOVE_BUTTON", value: "No translation", table: nil))
         alert.addButton(withTitle: NSLocalizedString("Quit", comment: ""))
         if needAuth {
             alert.addButton(withTitle: NSLocalizedString("Choose Location…", value: "Choose Location…", comment: ""))

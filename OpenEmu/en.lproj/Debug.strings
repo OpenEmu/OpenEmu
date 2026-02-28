@@ -122,3 +122,25 @@
 "Dark (default)" = "Dark (default)";
 
 "Light" = "Light";
+
+"Use new save states view" = "Use new save states view";
+
+"Use new screenshots view" = "Use new screenshots view";
+
+"Change scale menu unit from points to pixels" = "Change scale menu unit from points to pixels";
+
+"Enable adaptive sync for supported displays (full screen)" = "Enable adaptive sync for supported displays (full screen)";
+
+"Vibrant (HUD)" = "Vibrant";
+
+"Dark (HUD)" = "Dark";
+
+"Wood (Controls)" = "Wood";
+
+"Vibrant (Controls)" = "Vibrant";
+
+"Vibrant Wood (Controls)" = "Vibrant Wood";
+
+"Save States" = "Save States";
+
+"Download additional shaders" = "Download additional shaders";

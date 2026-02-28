@@ -346,7 +346,7 @@ final class GameControlsBar: NSWindow {
         // cheats
         if gameViewController.supportsCheats {
             item = NSMenuItem()
-            item.title = NSLocalizedString("Select Cheat", comment: "")
+            item.title = Bundle.main.preferredLocalizedString(forKey: "Select Cheat", value: "No translation", table: nil)
             item.submenu = cheatsMenu
             menu.addItem(item)
         }
@@ -354,7 +354,7 @@ final class GameControlsBar: NSWindow {
         // core selection
         if let coresMenu = coresMenu {
             item = NSMenuItem()
-            item.title = NSLocalizedString("Select Core", comment: "")
+            item.title = Bundle.main.preferredLocalizedString(forKey: "Select Core", value: "No translation", table: nil)
             item.submenu = coresMenu
             menu.addItem(item)
         }
@@ -363,7 +363,7 @@ final class GameControlsBar: NSWindow {
         if gameViewController.supportsMultipleDiscs {
             let maxDiscs = gameViewController.document.discCount
             item = NSMenuItem()
-            item.title = NSLocalizedString("Select Disc", comment: "")
+            item.title = Bundle.main.preferredLocalizedString(forKey: "Select Disc", value: "No translation", table: nil)
             item.submenu = maxDiscs > 1 ? discsMenu : nil
             item.isEnabled = maxDiscs > 1 ? true : false
             menu.addItem(item)
@@ -373,20 +373,20 @@ final class GameControlsBar: NSWindow {
         if gameViewController.supportsDisplayModeChange,
            !gameViewController.document.displayModes.isEmpty {
             item = NSMenuItem()
-            item.title = NSLocalizedString("Select Display Mode", comment: "")
+            item.title = Bundle.main.preferredLocalizedString(forKey: "Select Display Mode", value: "No translation", table: nil)
             item.submenu = displayModesMenu
             menu.addItem(item)
         }
         
         // video shader
         item = NSMenuItem()
-        item.title = NSLocalizedString("Select Shader", comment: "")
+        item.title = Bundle.main.preferredLocalizedString(forKey: "Select Shader", value: "No translation", table: nil)
         item.submenu = shadersMenu
         menu.addItem(item)
         
         // integral scaling
         item = NSMenuItem()
-        item.title = NSLocalizedString("Select Scale", comment: "")
+        item.title = Bundle.main.preferredLocalizedString(forKey: "Select Scale", value: "No translation", table: nil)
         if let scaleMenu = scaleMenu {
             item.submenu = scaleMenu
         } else {
@@ -397,7 +397,7 @@ final class GameControlsBar: NSWindow {
         // audio output
         if UserDefaults.standard.bool(forKey: Self.showsAudioOutputKey) {
             item = NSMenuItem()
-            item.title = NSLocalizedString("Select Audio Output Device", comment: "")
+            item.title = Bundle.main.preferredLocalizedString(forKey: "Select Audio Output Device", value: "No translation", table: nil)
             if let audioOutputMenu = audioOutputMenu {
                 item.submenu = audioOutputMenu
             } else {

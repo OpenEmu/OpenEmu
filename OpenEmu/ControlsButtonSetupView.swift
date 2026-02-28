@@ -405,7 +405,7 @@ private class ControlsSetupViewParser {
         
         var i = 0
         while i < controlList.count {
-            let sectionTitle = NSLocalizedString(controlList[i] as? String ?? "", tableName: "ControlLabels", comment: "Section Title")
+            let sectionTitle = Bundle.main.preferredLocalizedString(forKey: controlList[i] as? String ?? "", value: "No translation", table: "ControlLabels") // Section Title
             let sectionContents = controlList[i + 1] as? [[AnyHashable]] ?? []
             for group in sectionContents {
                 addGroup()
@@ -416,12 +416,12 @@ private class ControlsSetupViewParser {
                         if row == "-" {
                             addRowSeperator()
                         } else {
-                            addGroupLabel(NSLocalizedString(row, tableName: "ControlLabels", comment: "Group Label"))
+                            addGroupLabel(Bundle.main.preferredLocalizedString(forKey: row, value: "No translation", table: "ControlLabels")) // Group Label
                         }
                     }
                     else if let row = row as? [String: String] {
                         
-                        let label = NSLocalizedString(row[OEControlListKeyLabelKey] ?? "", tableName: "ControlLabels", comment: "Button Label")
+                        let label = Bundle.main.preferredLocalizedString(forKey: row[OEControlListKeyLabelKey] ?? "", value: "No translation", table: "ControlLabels") // Button Label
                         
                         addButton(name: row[OEControlListKeyNameKey] ?? "",
                                   label: label + ":")

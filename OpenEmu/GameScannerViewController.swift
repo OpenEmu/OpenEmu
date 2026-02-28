@@ -220,7 +220,7 @@ final class GameScannerViewController: NSViewController {
                 if isScanningDirectory {
                     status = NSLocalizedString("Scanning Directory", comment: "")
                 } else {
-                    status = String(format: NSLocalizedString("Game %ld of %ld", comment: ""), count, maxItems)
+                    status = String(format: Bundle.main.preferredLocalizedString(forKey: "Game %ld of %ld", value: "No translation", table: nil), count, maxItems)
                 }
                 
                 togglePauseButton.isEnabled = true
@@ -578,13 +578,15 @@ extension GameScannerViewController: ROMImporterDelegate {
                 if itemsAlreadyInDatabase == nil {
                     itemsAlreadyInDatabase = NSLocalizedString("Already in library:", comment:"")
                 }
-                itemsAlreadyInDatabase! += "\n• " + String(format: NSLocalizedString("\"%@\" in %@", comment:"Import error description: file already imported (first item: filename, second item: system library name)"), failedFilename, failedItem.romLocation!)
+                itemsAlreadyInDatabase! += "\n• " + String(format: Bundle.main.preferredLocalizedString(forKey: "\"%@\" in %@", value: "No translation", table: nil), // Import error description: file already imported (first item: filename, second item: system library name)
+                                                           failedFilename, failedItem.romLocation!)
 
             } else if error.domain == OEImportErrorDomainFatal && error.code == OEImportErrorCode.alreadyInDatabaseFileUnreachable.rawValue {
                 if itemsAlreadyInDatabaseFileUnreachable == nil {
                     itemsAlreadyInDatabaseFileUnreachable = NSLocalizedString("Already in library, but manually deleted or unreachable:", comment:"")
                 }
-                itemsAlreadyInDatabaseFileUnreachable! += "\n• " + String(format: NSLocalizedString("\"%@\" in %@", comment:"Import error description: file already imported (first item: filename, second item: system library name)"), failedFilename, failedItem.romLocation!)
+                itemsAlreadyInDatabaseFileUnreachable! += "\n• " + String(format: Bundle.main.preferredLocalizedString(forKey: "\"%@\" in %@", value: "No translation", table: nil), // Import error description: file already imported (first item: filename, second item: system library name)
+                                                                          failedFilename, failedItem.romLocation!)
 
             } else if error.domain == OEImportErrorDomainFatal && error.code == OEImportErrorCode.noSystem.rawValue {
                 if itemsNoSystem == nil {

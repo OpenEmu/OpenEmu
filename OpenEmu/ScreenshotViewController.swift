@@ -75,7 +75,7 @@ extension ScreenshotViewController: CollectionViewExtendedDelegate, NSMenuItemVa
         let menu = NSMenu()
         
         if #available(macOS 13.0, *) {
-            let share = menu.addItem(withTitle: NSLocalizedString("SHARE_STANDARD_MENU_ITEM_TITLE", comment: "Share menu item, see Finder or ShareKit.loctable"),
+            let share = menu.addItem(withTitle: Bundle.main.preferredLocalizedString(forKey: "SHARE_STANDARD_MENU_ITEM_TITLE", value: "No translation", table: nil), // Share menu item, see Finder or ShareKit.loctable
                                      action: #selector(showSharingServicePicker(_:)),
                                      keyEquivalent: "")
             share.representedObject = collectionView.indexPathForItem(at: point)

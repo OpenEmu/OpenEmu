@@ -284,7 +284,7 @@ class BlankSlateView: NSView {
             
             headline = NSLocalizedString("Collections", comment: "")
             // TODO: Use a different wording for smart collections, as games cannot be added manually.
-            informationalText = .localizedStringWithFormat(NSLocalizedString("Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar.", comment: ""), collection.collectionViewName)
+            informationalText = .localizedStringWithFormat(Bundle.main.preferredLocalizedString(forKey: "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ in the sidebar.", value: "No translation", table: nil), collection.collectionViewName)
         }
         else if representedObject is OEDBSaveStatesMedia {
             

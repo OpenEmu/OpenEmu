@@ -77,8 +77,8 @@ final class PrefDebugController: NSViewController {
         Checkbox(key: OEPopoutGameWindowTreatScaleFactorAsPixels, label: "Change scale menu unit from points to pixels"),
         Checkbox(key: OEAdaptiveSyncEnabledKey, label: "Enable adaptive sync for supported displays (full screen)"),
         Popover(key: OEAppearance.HUDBar.key, label: "Appearance:", action: #selector(changeHUDBarAppearance(_:)), options: [
-            Option(label: "Vibrant", value: OEAppearance.HUDBar.vibrant.rawValue),
-            Option(label: "Dark", value: OEAppearance.HUDBar.dark.rawValue),
+            Option(label: "Vibrant (HUD)", value: OEAppearance.HUDBar.vibrant.rawValue),
+            Option(label: "Dark (HUD)", value: OEAppearance.HUDBar.dark.rawValue),
         ]),
         ColorWell(key: OEPopoutGameWindowBackgroundColorKey, label: "Game View Background color:"),
         
@@ -91,9 +91,9 @@ final class PrefDebugController: NSViewController {
         Checkbox(key: "logsHIDEventsNoKeyboard", label: "Log Keyboard Events"),
         Checkbox(key: OEPrefControlsShowAllGlobalKeys, label: "Show all special keys"),
         Popover(key: OEAppearance.ControlsPrefs.key, label: "Appearance:", action: #selector(changeControlsPrefsAppearance(_:)), options: [
-            Option(label: "Wood", value: OEAppearance.ControlsPrefs.wood.rawValue),
-            Option(label: "Vibrant", value: OEAppearance.ControlsPrefs.vibrant.rawValue),
-            Option(label: "Vibrant Wood", value: OEAppearance.ControlsPrefs.woodVibrant.rawValue),
+            Option(label: "Wood (Controls)", value: OEAppearance.ControlsPrefs.wood.rawValue),
+            Option(label: "Vibrant (Controls)", value: OEAppearance.ControlsPrefs.vibrant.rawValue),
+            Option(label: "Vibrant Wood (Controls)", value: OEAppearance.ControlsPrefs.woodVibrant.rawValue),
         ]),
         NumericTextField(key: "OESystemResponderADCThreshold", label: "Threshold for analog controls bound to buttons:", numberFormatter: NumericTextField.NF(allowsFloats: true, minimum: 0.01, maximum: 0.99, numberStyle: .decimal)),
         
@@ -127,7 +127,7 @@ final class PrefDebugController: NSViewController {
         Button(label: "Cleanup rom hashes", action: #selector(cleanupHashes(_:))),
         Button(label: "Remove duplicated roms", action: #selector(removeDuplicatedRoms(_:))),
         Button(label: "Cancel cover sync for all games", action: #selector(cancelCoverArtSync(_:))),
-        Label(label: ""),
+        Padding(),
         Button(label: "Perform Sanity Check on Database", action: #selector(sanityCheck(_:))),
     ]
     
@@ -173,7 +173,7 @@ final class PrefDebugController: NSViewController {
         let defaultDefaults = UserDefaults.standard.volatileDomain(forName: UserDefaults.registrationDomain)
         
         if let item = item as? Checkbox {
-            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            let label = Bundle.main.preferredLocalizedString(forKey: item.label, value: "No translation", table: "Debug")
             let key = item.key
             let negated = item.negated
             
@@ -189,10 +189,10 @@ final class PrefDebugController: NSViewController {
             
             if let originalValue = defaultDefaults[key] as? NSNumber {
                 let origbool = originalValue.boolValue != negated
-                let fmt = NSLocalizedString("Default Value: %@", tableName: "Debug", comment: "Default value tooltip format in the Debug Preferences")
+                let fmt = Bundle.main.preferredLocalizedString(forKey: "Default Value: %@", value: "No translation", table: "Debug") // Default value tooltip format in the Debug Preferences
                 let val = origbool
-                    ? NSLocalizedString("Checked", tableName: "Debug", comment: "Default value tooltip for checkboxes: checked default")
-                    : NSLocalizedString("Unchecked", tableName: "Debug", comment: "Default value tooltip for checkboxes: unchecked default")
+                    ? Bundle.main.preferredLocalizedString(forKey: "Checked", value: "No translation", table: "Debug") // Default value tooltip for checkboxes: checked default
+                    : Bundle.main.preferredLocalizedString(forKey: "Unchecked", value: "No translation", table: "Debug") // Default value tooltip for checkboxes: unchecked default
                 
                 checkbox.toolTip = String(format: fmt, val)
             }
@@ -200,7 +200,7 @@ final class PrefDebugController: NSViewController {
             gridView.addRow(with: [NSGridCell.emptyContentView, checkbox])
         }
         else if let item = item as? ColorWell {
-            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            let label = Bundle.main.preferredLocalizedString(forKey: item.label, value: "No translation", table: "Debug")
             let key = item.key
             
             let labelField = NSTextField(labelWithString: label)
@@ -237,7 +237,7 @@ final class PrefDebugController: NSViewController {
             ])
         }
         else if let item = item as? Group {
-            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            let label = Bundle.main.preferredLocalizedString(forKey: item.label, value: "No translation", table: "Debug")
             
             let field = NSTextField(labelWithString: label)
             field.font = NSFont.boldSystemFont(ofSize: 0)
@@ -246,14 +246,14 @@ final class PrefDebugController: NSViewController {
             row.bottomPadding = 4
         }
         else if let item = item as? Label {
-            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            let label = Bundle.main.preferredLocalizedString(forKey: item.label, value: "No translation", table: "Debug")
             
             let labelField = NSTextField(labelWithString: label)
             
             gridView.addRow(with: [NSGridCell.emptyContentView, labelField])
         }
         else if let item = item as? Button {
-            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            let label = Bundle.main.preferredLocalizedString(forKey: item.label, value: "No translation", table: "Debug")
             let action = item.action
             
             let button = NSButton(title: label, target: self, action: action)
@@ -261,7 +261,7 @@ final class PrefDebugController: NSViewController {
             gridView.addRow(with: [NSGridCell.emptyContentView, button])
         }
         else if let item = item as? Popover {
-            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            let label = Bundle.main.preferredLocalizedString(forKey: item.label, value: "No translation", table: "Debug")
             let options = item.options
             let action = item.action
             
@@ -275,7 +275,7 @@ final class PrefDebugController: NSViewController {
             let menu = NSMenu()
             for option in options {
                 let item = NSMenuItem()
-                item.title = NSLocalizedString(option.label, tableName: "Debug", comment: "")
+                item.title = Bundle.main.preferredLocalizedString(forKey: option.label, value: "No translation", table: "Debug")
                 item.representedObject = option.value
                 menu.addItem(item)
             }
@@ -287,7 +287,7 @@ final class PrefDebugController: NSViewController {
             gridView.addRow(with: [labelField, popup])
         }
         else if let item = item as? NumericTextField {
-            let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
+            let label = Bundle.main.preferredLocalizedString(forKey: item.label, value: "No translation", table: "Debug")
             let nf = item.numberFormatter
             let key = item.key
             
@@ -304,13 +304,13 @@ final class PrefDebugController: NSViewController {
             inputField.formatter = numberFormatter
             inputField.bind(.value, to: NSUserDefaultsController.shared, withKeyPath: "values.\(key)", options: nil)
             
-            let validRangeFormat = NSLocalizedString("Range: %@ to %@", tableName: "Debug", comment: "Range indicator tooltip for numeric text boxes in the Debug Preferences")
+            let validRangeFormat = Bundle.main.preferredLocalizedString(forKey: "Range: %@ to %@", value: "No translation", table: "Debug") // Range indicator tooltip for numeric text boxes in the Debug Preferences
             let min = numberFormatter.string(from: nf.minimum) ?? ""
             let max = numberFormatter.string(from: nf.maximum) ?? ""
             var tooltip = String(format: validRangeFormat, min, max)
             
             if let defaultv = defaultDefaults[key] as? NSNumber {
-                let fmt = NSLocalizedString("Default Value: %@", tableName: "Debug", comment: "Default value tooltip format in the Debug Preferences")
+                let fmt = Bundle.main.preferredLocalizedString(forKey: "Default Value: %@", value: "No translation", table: "Debug") // Default value tooltip format in the Debug Preferences
                 let defaultstr = numberFormatter.string(from: defaultv) ?? ""
                 tooltip += "\n" + String(format: fmt, defaultstr)
             }
@@ -318,6 +318,14 @@ final class PrefDebugController: NSViewController {
             
             gridView.addRow(with: [labelField, inputField])
             inputField.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        }
+        else if item is Padding {
+            let padding = NSBox()
+            padding.isTransparent = true
+            
+            let row = gridView.addRow(with: [NSGridCell.emptyContentView, padding])
+            row.topPadding = -6
+            row.bottomPadding = -6
         }
         else if item is Separator {
             let separator = NSBox()
@@ -546,6 +554,8 @@ final class PrefDebugController: NSViewController {
 private extension PrefDebugController {
     
     struct Separator {
+    }
+    struct Padding {
     }
     struct Group {
         let label: String

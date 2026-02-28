@@ -459,13 +459,13 @@ class AppDelegate: NSObject {
         }
         #endif
         let alert = OEAlert()
-        alert.messageText = NSLocalizedString("ALERT_INPUT_MONITORING_HEADLINE", comment:"Headline for Input Monitoring permissions")
-        var informativeText = NSLocalizedString("ALERT_INPUT_MONITORING_PART1", comment:"Message for Input Monitoring permissions")
+        alert.messageText = Bundle.main.preferredLocalizedString(forKey: "ALERT_INPUT_MONITORING_HEADLINE", value: "No translation", table: nil) // Headline for Input Monitoring permissions
+        var informativeText = Bundle.main.preferredLocalizedString(forKey: "ALERT_INPUT_MONITORING_PART1", value: "No translation", table: nil) // Message for Input Monitoring permissions
         informativeText += "\n\n"
         if #available(macOS 12.0, *) {
-            informativeText += NSLocalizedString("ALERT_INPUT_MONITORING_PART2_MONTEREY", comment:"Message for Input Monitoring permissions")
+            informativeText += Bundle.main.preferredLocalizedString(forKey: "ALERT_INPUT_MONITORING_PART2_MONTEREY", value: "No translation", table: nil) // Message for Input Monitoring permissions
         } else {
-            informativeText += NSLocalizedString("ALERT_INPUT_MONITORING_PART2", comment:"Message for Input Monitoring permissions")
+            informativeText += Bundle.main.preferredLocalizedString(forKey: "ALERT_INPUT_MONITORING_PART2", value: "No translation", table: nil) // Message for Input Monitoring permissions
         }
         alert.informativeText = informativeText
         alert.defaultButtonTitle = NSLocalizedString("Open System Preferences", comment:"")

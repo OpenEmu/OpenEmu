@@ -284,7 +284,7 @@ extension ShaderParametersViewController: NSToolbarDelegate {
             tbi.visibilityPriority = .low
             tbi.view = shaderListPopUpButton
             let mi = NSMenuItem()
-            mi.title = NSLocalizedString("Select Shader", comment: "Menu: Show a list of shaders the user may choose from")
+            mi.title = Bundle.main.preferredLocalizedString(forKey: "Select Shader", value: "No translation", table: nil) // Menu: Show a list of shaders the user may choose from
             mi.submenu = shaderListPopUpButton.menu
             tbi.menuFormRepresentation = mi
             return tbi

@@ -69,35 +69,35 @@ final class OEGameLayerNotificationView: NSImageView {
     @objc public func showFastForward(enabled: Bool) {
         performNotification(img: fastForwardImage, enabled: enabled, state: &isFastForwarding)
         if enabled {
-            postAccessibilityNotification(announcement: NSLocalizedString("Fast Forward", tableName: "ControlLabels", comment: ""))
+            postAccessibilityNotification(announcement: Bundle.main.preferredLocalizedString(forKey: "Fast Forward", value: "No translation", table: "ControlLabels"))
         }
     }
     
     @objc public func showRewind(enabled: Bool) {
         performNotification(img: rewindImage, enabled: enabled, state: &isRewinding)
         if enabled {
-            postAccessibilityNotification(announcement: NSLocalizedString("Rewind", tableName: "ControlLabels", comment: ""))
+            postAccessibilityNotification(announcement: Bundle.main.preferredLocalizedString(forKey: "Rewind", value: "No translation", table: "ControlLabels"))
         }
     }
     
     @objc public func showQuickSave() {
         performShowHideNotification(img: quicksaveImage)
-        postAccessibilityNotification(announcement: NSLocalizedString("Quick Save", tableName: "ControlLabels", comment: ""))
+        postAccessibilityNotification(announcement: Bundle.main.preferredLocalizedString(forKey: "Quick Save", value: "No translation", table: "ControlLabels"))
     }
     
     @objc public func showScreenShot() {
         performShowHideNotification(img: screenshotImage)
-        postAccessibilityNotification(announcement: NSLocalizedString("Screenshot", tableName: "ControlLabels", comment: ""))
+        postAccessibilityNotification(announcement: Bundle.main.preferredLocalizedString(forKey: "Screenshot", value: "No translation", table: "ControlLabels"))
     }
     
     @objc public func showStepForward() {
         performShowHideNotification(img: stepForwardImage)
-        postAccessibilityNotification(announcement: NSLocalizedString("Step Forward", tableName: "ControlLabels", comment: ""))
+        postAccessibilityNotification(announcement: Bundle.main.preferredLocalizedString(forKey: "Step Forward", value: "No translation", table: "ControlLabels"))
     }
     
     @objc public func showStepBackward() {
         performShowHideNotification(img: stepBackwardImage)
-        postAccessibilityNotification(announcement: NSLocalizedString("Step Backward", tableName: "ControlLabels", comment: ""))
+        postAccessibilityNotification(announcement: Bundle.main.preferredLocalizedString(forKey: "Step Backward", value: "No translation", table: "ControlLabels"))
     }
     
     // MARK: - Animation

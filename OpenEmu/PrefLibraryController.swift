@@ -75,8 +75,7 @@ final class PrefLibraryController: NSViewController {
         alert.messageText = NSLocalizedString(
             "Moving the Game Library is not recommended",
             comment: "Message headline (attempted to change location of library)")
-        alert.informativeText = NSLocalizedString("ALERT_MOVE_LIBRARY_HTML",
-            comment: "Message text (attempted to change location of library, HTML)")
+        alert.informativeText = Bundle.main.preferredLocalizedString(forKey: "ALERT_MOVE_LIBRARY_HTML", value: "No translation", table: nil) // Message text (attempted to change location of library, HTML)
         alert.defaultButtonTitle = NSLocalizedString("Cancel", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("I understand the risks",
             comment: "OK button (attempted to change location of library)")

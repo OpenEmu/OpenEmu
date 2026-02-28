@@ -150,18 +150,18 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     private lazy var viewModeMenu: NSMenuItem = {
         
         let gridView = NSMenuItem()
-        gridView.title = NSLocalizedString("as Grid", tableName: "MainMenu", comment: "")
+        gridView.title = Bundle.main.preferredLocalizedString(forKey: "as Grid", value: "No translation", table: "MainMenu")
         gridView.action = #selector(LibraryController.switchToGridView(_:))
         
         let listView = NSMenuItem()
-        listView.title = NSLocalizedString("as List", tableName: "MainMenu", comment: "")
+        listView.title = Bundle.main.preferredLocalizedString(forKey: "as List", value: "No translation", table: "MainMenu")
         listView.action = #selector(LibraryController.switchToListView(_:))
         
         let menu = NSMenu()
         menu.items = [gridView, listView]
         
         let viewModeMenu = NSMenuItem()
-        viewModeMenu.title = NSLocalizedString("View", tableName: "MainMenu", comment:"")
+        viewModeMenu.title = Bundle.main.preferredLocalizedString(forKey: "View", value: "No translation", table: "MainMenu")
         viewModeMenu.submenu = menu
         
         return viewModeMenu
@@ -171,10 +171,10 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     
     private(set) lazy var categoryToolbarItem: NSToolbarItem = {
         
-        let titles = [NSLocalizedString("Toolbar: Library", value: "Library", comment: "toolbar, category label"),
-                      NSLocalizedString("Toolbar: Save States", value: "Save States", comment: "toolbar, category label"),
-                      NSLocalizedString("Toolbar: Screenshots", value: "Screenshots", comment: "toolbar, category label"),
-                      NSLocalizedString("Toolbar: Homebrew", value: "Homebrew", comment: "toolbar, category label")]
+        let titles = [Bundle.main.preferredLocalizedString(forKey: "Toolbar: Library", value: "No translation", table: nil), // toolbar, category label
+                      Bundle.main.preferredLocalizedString(forKey: "Toolbar: Save States", value: "No translation", table: nil), // toolbar, category label
+                      Bundle.main.preferredLocalizedString(forKey: "Toolbar: Screenshots", value: "No translation", table: nil), // toolbar, category label
+                      Bundle.main.preferredLocalizedString(forKey: "Toolbar: Homebrew", value: "No translation", table: nil)] // toolbar, category label
         
         let segmControl = NSSegmentedControl(labels: titles, trackingMode: .selectOne, target: toolbarOwner, action: #selector(LibraryController.switchCategory(_:)))
         
@@ -190,22 +190,22 @@ final class LibraryToolbarDelegate: NSObject, NSToolbarDelegate {
     private lazy var categoryMenu: NSMenuItem = {
         
         let library = NSMenuItem()
-        library.title = NSLocalizedString("Toolbar: Library", value: "Library", comment: "")
+        library.title = Bundle.main.preferredLocalizedString(forKey: "Toolbar: Library", value: "No translation", table: nil)
         library.tag = 100
         library.action = #selector(LibraryController.switchCategoryFromMenu(_:))
         
         let savesStates = NSMenuItem()
-        savesStates.title = NSLocalizedString("Toolbar: Save States", value: "Save States", comment: "")
+        savesStates.title = Bundle.main.preferredLocalizedString(forKey: "Toolbar: Save States", value: "No translation", table: nil)
         savesStates.tag = 101
         savesStates.action = #selector(LibraryController.switchCategoryFromMenu(_:))
         
         let screenshots = NSMenuItem()
-        screenshots.title = NSLocalizedString("Toolbar: Screenshots", value: "Screenshots", comment: "")
+        screenshots.title = Bundle.main.preferredLocalizedString(forKey: "Toolbar: Screenshots", value: "No translation", table: nil)
         screenshots.tag = 102
         screenshots.action = #selector(LibraryController.switchCategoryFromMenu(_:))
         
         let homebrew = NSMenuItem()
-        homebrew.title = NSLocalizedString("Toolbar: Homebrew", value: "Homebrew", comment: "")
+        homebrew.title = Bundle.main.preferredLocalizedString(forKey: "Toolbar: Homebrew", value: "No translation", table: nil)
         homebrew.tag = 103
         homebrew.action = #selector(LibraryController.switchCategoryFromMenu(_:))
         

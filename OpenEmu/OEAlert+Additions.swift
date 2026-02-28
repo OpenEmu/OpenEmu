@@ -91,7 +91,7 @@ extension OEAlert {
     final class func deleteSaveState(name: String) -> OEAlert {
         
         let alert = OEAlert()
-        alert.messageText = .localizedStringWithFormat(NSLocalizedString("Are you sure you want to delete the save state called '%@' from your OpenEmu library?", comment: ""), name)
+        alert.messageText = .localizedStringWithFormat(Bundle.main.preferredLocalizedString(forKey: "Are you sure you want to delete the save state called '%@' from your OpenEmu library?", value: "No translation", table: nil), name)
         alert.defaultButtonTitle = NSLocalizedString("Delete Save State", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
         alert.showSuppressionButton(forUDKey: OEDeleteSaveStateAlertSuppressionKey)
@@ -115,7 +115,7 @@ extension OEAlert {
     final class func deleteScreenshot(name: String) -> OEAlert {
         
         let alert = OEAlert()
-        alert.messageText = .localizedStringWithFormat(NSLocalizedString("Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?", comment: ""), name)
+        alert.messageText = .localizedStringWithFormat(Bundle.main.preferredLocalizedString(forKey: "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?", value: "No translation", table: nil), name)
         alert.defaultButtonTitle = NSLocalizedString("Delete Screenshot", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
         alert.showSuppressionButton(forUDKey: OEDeleteScreenshotAlertSuppressionKey)
@@ -126,7 +126,7 @@ extension OEAlert {
     final class func deleteShaderPreset(name: String) -> OEAlert {
         
         let alert = OEAlert()
-        alert.messageText = .localizedStringWithFormat(NSLocalizedString("Are you sure you want to delete the shader preset called '%@'?", comment: ""), name)
+        alert.messageText = .localizedStringWithFormat(Bundle.main.preferredLocalizedString(forKey: "Are you sure you want to delete the shader preset called '%@'?", value: "No translation", table: nil), name)
         alert.defaultButtonTitle = NSLocalizedString("Delete Shader Preset", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
         alert.showSuppressionButton(forUDKey: OEDeleteShaderPresetAlertSuppressionKey)
@@ -173,7 +173,7 @@ extension OEAlert {
     final class func removeCollection(name: String) -> OEAlert {
         
         let alert = OEAlert()
-        alert.messageText = .localizedStringWithFormat(NSLocalizedString("Are you sure you want to remove the collection '%@'?", comment: ""), name)
+        alert.messageText = .localizedStringWithFormat(Bundle.main.preferredLocalizedString(forKey: "Are you sure you want to remove the collection '%@'?", value: "No translation", table: nil), name)
         alert.defaultButtonTitle = NSLocalizedString("Remove Collection", comment: "")
         alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
         alert.showSuppressionButton(forUDKey: OERemoveCollectionAlertSuppressionKey)
