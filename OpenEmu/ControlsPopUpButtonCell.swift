@@ -26,6 +26,13 @@ import Cocoa
 
 final class ControlsPopUpButtonCell: NSPopUpButtonCell {
     
+    private var imagePadding: CGFloat = 4
+    private var titleLeftPadding: CGFloat = 11
+    
+    // Used for right-to-left languages
+    private var titleRightPadding: CGFloat = 4
+    private var arrowWidth: CGFloat = 16
+    
     override func drawBorderAndBackground(withFrame cellFrame: NSRect, in controlView: NSView) {
         NSImage(named: "wood_popup_button")?.draw(in: cellFrame)
     }
@@ -35,31 +42,70 @@ final class ControlsPopUpButtonCell: NSPopUpButtonCell {
     }
     
     override func titleRect(forBounds cellFrame: NSRect) -> NSRect {
-        if #available(macOS 11.0, *) {
-            return super.titleRect(forBounds: cellFrame)
-        }
         var titleRect = super.titleRect(forBounds: cellFrame)
-        titleRect.origin.y += 1
+        let imageRect = imageRect(forBounds: cellFrame)
+        
+        if #available(macOS 11.0, *) {
+            #if canImport(AppKit, _version: 2665.8)     // Fix the title for SDKs 26.0 and above
+                titleRect.origin.y -= 0.5
+
+                let titleWidth = titleRect.width
+                let hasImage = !imageRect.isEmpty
+                let imageWidth = imageRect.size.width
+                if (userInterfaceLayoutDirection == .rightToLeft) {
+                    titleRect.origin.x = cellFrame.maxX - arrowWidth - titleRightPadding - titleWidth
+                    
+                    if (hasImage) {
+                        titleRect.origin.x -= (imageWidth + imagePadding)
+                    }
+                } else {
+                    titleRect.origin.x = cellFrame.minX + titleLeftPadding
+                    
+                    if (hasImage) {
+                        titleRect.origin.x += imageWidth + imagePadding
+                    }
+                }
+            
+                if (titleRect.origin.x < titleLeftPadding) {
+                    titleRect.origin.x = titleLeftPadding
+                }
+            #else
+                titleRect.origin.y -= 3
+            #endif
+        } else {
+            titleRect.origin.y -= 2
+        }
+        
         return titleRect
     }
     
     override func imageRect(forBounds rect: NSRect) -> NSRect {
         if #available(macOS 11.0, *) {
             var imageRect = super.imageRect(forBounds: rect)
-            imageRect.origin.y -= 1
+            
+            #if canImport(AppKit, _version: 2665.8)    // Fix the image placement for SDKs 26.0 and above
+                imageRect.origin.y += 0.5
+            
+                if (userInterfaceLayoutDirection == .rightToLeft) {
+                    imageRect.origin.x -= 7
+                }
+                imageRect.origin.x -= 1
+            #else
+                imageRect.origin.y -= 1
+            #endif
+            
             return imageRect
         }
         return super.imageRect(forBounds: rect)
     }
     
     override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
-        var titleRect = titleRect(forBounds: cellFrame)
+        let titleRect = titleRect(forBounds: cellFrame)
         let imageRect = imageRect(forBounds: cellFrame)
         
-        if !titleRect.isEmpty {
-            titleRect.origin.y -= 3
-            let attributedTitle = NSAttributedString(string: title, attributes: Self.attributes)
-            drawTitle(attributedTitle, withFrame: titleRect, in: controlView)
+        if !titleRect.isEmpty,
+            let title = title {
+            title.draw(in: titleRect, withAttributes: Self.attributes)
         }
         if !imageRect.isEmpty,
            let image = image {

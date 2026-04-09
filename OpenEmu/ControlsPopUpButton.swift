@@ -31,6 +31,13 @@ final class ControlsPopUpButton: NSPopUpButton {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
+        // Use right-to-left alignment for RTL languages, for SDKs 26.0 and above
+        #if canImport(AppKit, _version: 2665.8)
+            if (NSParagraphStyle.defaultWritingDirection(forLanguage: nil) == NSWritingDirection.rightToLeft) {
+                userInterfaceLayoutDirection = .rightToLeft
+            }
+        #endif
+        
         frame.size.height = 23
         cachedIntrinsicWidth = -1
     }
