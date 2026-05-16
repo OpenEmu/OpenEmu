@@ -84,6 +84,7 @@ final class AvailableLibrariesViewController: NSViewController {
     }
     
     override func viewWillAppear() {
+        super.viewWillAppear()
         loadData()
     }
     

@@ -58,8 +58,11 @@ final class PreferencesWindowController: NSWindowController {
         
         super.windowDidLoad()
         
+        let frameSize = self.window?.contentView?.frame.size ?? .zero
+        
         preferencesTabViewController = PreferencesTabViewController()
-        self.window?.contentView = preferencesTabViewController.view
+        self.window?.contentViewController = preferencesTabViewController
+        self.window?.setContentSize(frameSize)          // Reset size to load value
         
         if #available(macOS 11.0, *) {
             window?.toolbarStyle = .preference
