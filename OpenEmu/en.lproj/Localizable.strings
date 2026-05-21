@@ -203,7 +203,11 @@
 
 "Edit Game Controls…" = "Edit Game Controls…";
 
+"Edit…" = "Edit…";
+
 "Enable now" = "Enable now";
+
+"Enabled" = "Enabled";
 
 "Error!" = "Error!";
 
@@ -365,6 +369,8 @@
 
 "Recovered Auto Save" = "Recovered Auto Save";
 
+"Remove" = "Remove";
+
 "Remove Collection" = "Remove Collection";
 
 "Remove Game" = "Remove Game";
@@ -394,6 +400,8 @@
 "Resume" = "Resume";
 
 "Save As:" = "Save As:";
+
+"Save Cheat" = "Save Cheat";
 
 "Save Current Game…" = "Save Current Game…";
 

@@ -614,7 +614,10 @@ final class OEGameDocument: NSDocument {
                 
                 // set initial volume
                 self.setVolume(self.volume, asDefault: false)
-                
+
+                // re-apply cheats the user had enabled in a previous session
+                self.applyEnabledCheats()
+
                 OEBindingsController.default.systemBindings(for: self.systemPlugin.controller).add(self)
                 
                 self.gameCoreManager?.setHandleEvents(self.handleEvents)
@@ -1265,11 +1268,28 @@ final class OEGameDocument: NSDocument {
     private func loadCheats() {
         if supportsCheats,
            let md5Hash = rom.md5Hash {
-            let cheatsXML = Cheats(md5Hash: md5Hash)
-            cheats = cheatsXML.allCheats
+            if let savedCheats = Cheats.persistedCheats(forMD5: md5Hash) {
+                cheats = savedCheats
+            } else {
+                cheats = Cheats(md5Hash: md5Hash).allCheats
+            }
         }
     }
-    
+
+    /// Writes the current cheat list to disk for this game.
+    private func saveCheats() {
+        if let md5Hash = rom.md5Hash {
+            Cheats.persist(cheats, forMD5: md5Hash)
+        }
+    }
+
+    /// Re-applies every enabled cheat to the running core. Call once emulation is set up.
+    private func applyEnabledCheats() {
+        for cheat in cheats where cheat.isEnabled {
+            setCheat(cheat)
+        }
+    }
+
     @IBAction func addCheat(_ sender: Any?) {
         let alert = OEAlert()
         
@@ -1297,8 +1317,8 @@ final class OEGameDocument: NSDocument {
                 setCheat(cheat)
             }
             
-            //TODO: decide how to handle setting a cheat type from the modal and save added cheats to file
             cheats.append(cheat)
+            saveCheats()
         }
     }
     
@@ -1309,12 +1329,63 @@ final class OEGameDocument: NSDocument {
         
         cheat.isEnabled.toggle()
         setCheat(cheat)
+        saveCheats()
     }
-    
+
     func setCheat(_ cheat: Cheat) {
         gameCoreManager?.setCheat(cheat.code, withType: cheat.type, enabled: cheat.isEnabled)
     }
-    
+
+    /// expects `sender.representedObject` to be a `Cheat` object
+    @IBAction func editCheat(_ sender: AnyObject) {
+        guard let cheat = sender.representedObject as? Cheat,
+              let index = cheats.firstIndex(where: { $0 === cheat })
+        else { return }
+
+        let alert = OEAlert()
+
+        alert.otherInputLabelText = NSLocalizedString("Title:", comment: "")
+        alert.showsOtherInputField = true
+        alert.otherStringValue = cheat.name
+
+        alert.inputLabelText = NSLocalizedString("Code:", comment: "")
+        alert.showsInputField = true
+        alert.stringValue = cheat.code
+
+        alert.defaultButtonTitle = NSLocalizedString("Save Cheat", comment: "")
+        alert.alternateButtonTitle = NSLocalizedString("Cancel", comment: "")
+
+        alert.inputLimit = 1000
+
+        if alert.runModal() == .alertFirstButtonReturn {
+            // Cheat.code is immutable, so an edit replaces the object in place.
+            let editedCheat = Cheat(code: alert.stringValue, type: cheat.type, name: alert.otherStringValue)
+            editedCheat.isEnabled = cheat.isEnabled
+
+            if cheat.isEnabled {
+                gameCoreManager?.setCheat(cheat.code, withType: cheat.type, enabled: false)
+            }
+            cheats[index] = editedCheat
+            if editedCheat.isEnabled {
+                setCheat(editedCheat)
+            }
+            saveCheats()
+        }
+    }
+
+    /// expects `sender.representedObject` to be a `Cheat` object
+    @IBAction func removeCheat(_ sender: AnyObject) {
+        guard let cheat = sender.representedObject as? Cheat,
+              let index = cheats.firstIndex(where: { $0 === cheat })
+        else { return }
+
+        if cheat.isEnabled {
+            gameCoreManager?.setCheat(cheat.code, withType: cheat.type, enabled: false)
+        }
+        cheats.remove(at: index)
+        saveCheats()
+    }
+
     // MARK: - Discs
     
     var supportsMultipleDiscs: Bool {

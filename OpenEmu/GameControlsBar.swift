@@ -418,16 +418,33 @@ final class GameControlsBar: NSWindow {
         let cheats = gameViewController.document.cheats
         if !cheats.isEmpty {
             menu.addItem(.separator())
-            
+
             for cheat in cheats {
-                let item = NSMenuItem(title: cheat.name, action: #selector(OEGameDocument.toggleCheat(_:)), keyEquivalent: "")
-                item.representedObject = cheat
-                item.state = cheat.isEnabled ? .on : .off
-                
-                menu.addItem(item)
+                let cheatItem = NSMenuItem(title: cheat.name, action: nil, keyEquivalent: "")
+                cheatItem.state = cheat.isEnabled ? .on : .off
+
+                let submenu = NSMenu()
+
+                let toggleItem = NSMenuItem(title: NSLocalizedString("Enabled", comment: "Cheat submenu, toggles the cheat on or off"), action: #selector(OEGameDocument.toggleCheat(_:)), keyEquivalent: "")
+                toggleItem.representedObject = cheat
+                toggleItem.state = cheat.isEnabled ? .on : .off
+                submenu.addItem(toggleItem)
+
+                submenu.addItem(.separator())
+
+                let editItem = NSMenuItem(title: NSLocalizedString("Edit…", comment: "Cheat submenu, edits the cheat"), action: #selector(OEGameDocument.editCheat(_:)), keyEquivalent: "")
+                editItem.representedObject = cheat
+                submenu.addItem(editItem)
+
+                let removeItem = NSMenuItem(title: NSLocalizedString("Remove", comment: "Cheat submenu, removes the cheat"), action: #selector(OEGameDocument.removeCheat(_:)), keyEquivalent: "")
+                removeItem.representedObject = cheat
+                submenu.addItem(removeItem)
+
+                cheatItem.submenu = submenu
+                menu.addItem(cheatItem)
             }
         }
-        
+
         return menu
     }
     

@@ -120,3 +120,37 @@ final class Cheat: Codable {
         self.name = name
     }
 }
+
+// MARK: - Persistence
+
+extension Cheats {
+
+    /// Folder holding per-game user cheat files, rooted alongside "Save States".
+    private static var cheatsFolderURL: URL {
+        URL.oeApplicationSupportDirectory.appendingPathComponent("Cheats", isDirectory: true)
+    }
+
+    private static func cheatsFileURL(forMD5 md5Hash: String) -> URL {
+        cheatsFolderURL.appendingPathComponent(md5Hash, isDirectory: false).appendingPathExtension("json")
+    }
+
+    /// The cheats a user has added or modified for a game, or `nil` if none have been
+    /// saved yet. Once a file exists it is the authoritative list for that game.
+    static func persistedCheats(forMD5 md5Hash: String) -> [Cheat]? {
+        guard let data = try? Data(contentsOf: cheatsFileURL(forMD5: md5Hash)) else {
+            return nil
+        }
+        return try? JSONDecoder().decode([Cheat].self, from: data)
+    }
+
+    /// Writes the complete cheat list for a game to disk.
+    static func persist(_ cheats: [Cheat], forMD5 md5Hash: String) {
+        do {
+            try FileManager.default.createDirectory(at: cheatsFolderURL, withIntermediateDirectories: true)
+            let data = try JSONEncoder().encode(cheats)
+            try data.write(to: cheatsFileURL(forMD5: md5Hash), options: .atomic)
+        } catch {
+            NSLog("Could not save cheats: \(error.localizedDescription)")
+        }
+    }
+}
