@@ -134,6 +134,8 @@ class AppDelegate: NSObject {
             OECopyToLibraryKey: true,
             OEAutomaticallyGetInfoKey: true,
             OEGameVolumeKey: 0.5,
+            OEGameDefaultRateKey: 1.0,
+            OEGameFastForwardRateKey: 5.0,
             "defaultCore.openemu.system.nes": "org.openemu.Nestopia",
             "defaultCore.openemu.system.snes": "org.openemu.SNES9x",
             OEDBGame.displayGameTitleKey: true,

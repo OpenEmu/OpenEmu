@@ -7,25 +7,35 @@
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PrefGameplayController" customModule="OpenEmu" customModuleProvider="target">
-            <connections>
-                <outlet property="globalDefaultShaderSelection" destination="11" id="uUR-kc-hHZ"/>
-                <outlet property="view" destination="3" id="27"/>
-            </connections>
+      <connections>
+        <outlet property="fastForwardRateSlider" destination="spd-ff-slider" id="out-ff-slider"/>
+        <outlet property="fastForwardRateValueLabel" destination="spd-ff-value" id="out-ff-value"/>
+        <outlet property="gameplayRateSlider" destination="spd-game-slider" id="out-game-slider"/>
+        <outlet property="gameplayRateValueLabel" destination="spd-game-value" id="out-game-value"/>
+        <outlet property="globalDefaultShaderSelection" destination="11" id="uUR-kc-hHZ"/>
+        <outlet property="volumeSlider" destination="vol-slider" id="out-vol-slider"/>
+        <outlet property="volumeValueLabel" destination="vol-value" id="out-vol-value"/>
+        <outlet property="view" destination="3" id="27"/>
+      </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <view translatesAutoresizingMaskIntoConstraints="NO" id="3" userLabel="Gameplay">
-            <rect key="frame" x="0.0" y="0.0" width="540" height="202"/>
+      <rect key="frame" x="0.0" y="0.0" width="540" height="285"/>
             <subviews>
                 <gridView horizontalHuggingPriority="249" verticalHuggingPriority="600" xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" translatesAutoresizingMaskIntoConstraints="NO" id="xCG-ky-Cuo">
-                    <rect key="frame" x="30" y="-9" width="496" height="191"/>
+          <rect key="frame" x="30" y="-9" width="496" height="274"/>
                     <constraints>
                         <constraint firstItem="N8p-Zl-FSZ" firstAttribute="leading" secondItem="xCG-ky-Cuo" secondAttribute="leading" id="om9-Z9-MOB"/>
                     </constraints>
                     <rows>
-                        <gridRow id="E8f-q6-hH2"/>
-                        <gridRow topPadding="6" bottomPadding="6" id="VqM-FE-fRe"/>
-                        <gridRow id="NYF-Xp-end"/>
+            <gridRow id="E8f-q6-hH2"/>
+            <gridRow topPadding="6" bottomPadding="6" id="VqM-FE-fRe"/>
+            <gridRow id="row-volume"/>
+            <gridRow id="row-game-speed"/>
+            <gridRow id="row-ff-speed"/>
+            <gridRow topPadding="6" bottomPadding="6" id="row-playback-separator"/>
+            <gridRow id="NYF-Xp-end"/>
                         <gridRow id="gwW-IR-buB"/>
                         <gridRow id="Vje-Re-wNC"/>
                         <gridRow id="0ek-RE-3dE"/>
@@ -71,8 +81,161 @@
                                 <rect key="frame" x="0.0" y="156" width="496" height="5"/>
                             </box>
                         </gridCell>
-                        <gridCell row="VqM-FE-fRe" column="TUh-4W-YMM" headOfMergedCell="DrK-gt-qKR" id="2zx-TO-int"/>
-                        <gridCell row="NYF-Xp-end" column="4tC-Ji-VhF" id="rfF-E8-SRq">
+            <gridCell row="VqM-FE-fRe" column="TUh-4W-YMM" headOfMergedCell="DrK-gt-qKR" id="2zx-TO-int"/>
+            <gridCell row="row-volume" column="4tC-Ji-VhF" id="cell-volume-label">
+              <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vol-label">
+                <rect key="frame" x="77" y="226" width="60" height="16"/>
+                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Volume:" id="vol-label-cell">
+                  <font key="font" metaFont="system"/>
+                  <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                  <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                </textFieldCell>
+                <userDefinedRuntimeAttributes>
+                  <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                </userDefinedRuntimeAttributes>
+              </textField>
+            </gridCell>
+            <gridCell row="row-volume" column="TUh-4W-YMM" id="cell-volume-control">
+              <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="centerY" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vol-stack">
+                <rect key="frame" x="139" y="224" width="260" height="21"/>
+                <subviews>
+                  <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vol-slider">
+                    <rect key="frame" x="-2" y="0.0" width="214" height="21"/>
+                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="1" doubleValue="0.5" altIncrementValue="0.1" sliderType="linear" id="vol-slider-cell"/>
+                    <constraints>
+                      <constraint firstAttribute="width" constant="212" id="vol-slider-width"/>
+                    </constraints>
+                    <connections>
+                      <action selector="changeVolume:" target="-2" id="vol-action"/>
+                    </connections>
+                  </slider>
+                  <textField horizontalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vol-value">
+                    <rect key="frame" x="218" y="2" width="42" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="50%" id="vol-value-cell">
+                      <font key="font" metaFont="system"/>
+                      <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                      <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <constraints>
+                      <constraint firstAttribute="width" constant="42" id="vol-value-width"/>
+                    </constraints>
+                  </textField>
+                </subviews>
+                <visibilityPriorities>
+                  <integer value="1000"/>
+                  <integer value="1000"/>
+                </visibilityPriorities>
+                <customSpacing>
+                  <real value="3.4028234663852886e+38"/>
+                  <real value="3.4028234663852886e+38"/>
+                </customSpacing>
+              </stackView>
+            </gridCell>
+            <gridCell row="row-game-speed" column="4tC-Ji-VhF" id="cell-game-label">
+              <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="spd-game-label">
+                <rect key="frame" x="49" y="204" width="88" height="16"/>
+                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Game Speed:" id="spd-game-label-cell">
+                  <font key="font" metaFont="system"/>
+                  <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                  <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                </textFieldCell>
+                <userDefinedRuntimeAttributes>
+                  <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                </userDefinedRuntimeAttributes>
+              </textField>
+            </gridCell>
+            <gridCell row="row-game-speed" column="TUh-4W-YMM" id="cell-game-control">
+              <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="centerY" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="spd-game-stack">
+                <rect key="frame" x="139" y="202" width="260" height="21"/>
+                <subviews>
+                  <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="spd-game-slider">
+                    <rect key="frame" x="-2" y="0.0" width="214" height="21"/>
+                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="0.2" maxValue="10" doubleValue="1" altIncrementValue="0.2" sliderType="linear" id="spd-game-slider-cell"/>
+                    <constraints>
+                      <constraint firstAttribute="width" constant="212" id="spd-game-slider-width"/>
+                    </constraints>
+                    <connections>
+                      <action selector="changeGameplayRate:" target="-2" id="spd-game-action"/>
+                    </connections>
+                  </slider>
+                  <textField horizontalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="spd-game-value">
+                    <rect key="frame" x="218" y="2" width="42" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="1×" id="spd-game-value-cell">
+                      <font key="font" metaFont="system"/>
+                      <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                      <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <constraints>
+                      <constraint firstAttribute="width" constant="42" id="spd-game-value-width"/>
+                    </constraints>
+                  </textField>
+                </subviews>
+                <visibilityPriorities>
+                  <integer value="1000"/>
+                  <integer value="1000"/>
+                </visibilityPriorities>
+                <customSpacing>
+                  <real value="3.4028234663852886e+38"/>
+                  <real value="3.4028234663852886e+38"/>
+                </customSpacing>
+              </stackView>
+            </gridCell>
+            <gridCell row="row-ff-speed" column="4tC-Ji-VhF" id="cell-ff-label">
+              <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="spd-ff-label">
+                <rect key="frame" x="-2" y="182" width="139" height="16"/>
+                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Fast Forward Speed:" id="spd-ff-label-cell">
+                  <font key="font" metaFont="system"/>
+                  <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                  <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                </textFieldCell>
+                <userDefinedRuntimeAttributes>
+                  <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                </userDefinedRuntimeAttributes>
+              </textField>
+            </gridCell>
+            <gridCell row="row-ff-speed" column="TUh-4W-YMM" id="cell-ff-control">
+              <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="centerY" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="spd-ff-stack">
+                <rect key="frame" x="139" y="180" width="260" height="21"/>
+                <subviews>
+                  <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="spd-ff-slider">
+                    <rect key="frame" x="-2" y="0.0" width="214" height="21"/>
+                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="2" maxValue="10" doubleValue="5" altIncrementValue="1" sliderType="linear" id="spd-ff-slider-cell"/>
+                    <constraints>
+                      <constraint firstAttribute="width" constant="212" id="spd-ff-slider-width"/>
+                    </constraints>
+                    <connections>
+                      <action selector="changeFastForwardRate:" target="-2" id="spd-ff-action"/>
+                    </connections>
+                  </slider>
+                  <textField horizontalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="spd-ff-value">
+                    <rect key="frame" x="218" y="2" width="42" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="5×" id="spd-ff-value-cell">
+                      <font key="font" metaFont="system"/>
+                      <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                      <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <constraints>
+                      <constraint firstAttribute="width" constant="42" id="spd-ff-value-width"/>
+                    </constraints>
+                  </textField>
+                </subviews>
+                <visibilityPriorities>
+                  <integer value="1000"/>
+                  <integer value="1000"/>
+                </visibilityPriorities>
+                <customSpacing>
+                  <real value="3.4028234663852886e+38"/>
+                  <real value="3.4028234663852886e+38"/>
+                </customSpacing>
+              </stackView>
+            </gridCell>
+            <gridCell row="row-playback-separator" column="4tC-Ji-VhF" headOfMergedCell="playback-separator" id="playback-separator">
+              <box key="contentView" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="playback-separator-box">
+                <rect key="frame" x="0.0" y="163" width="496" height="5"/>
+              </box>
+            </gridCell>
+            <gridCell row="row-playback-separator" column="TUh-4W-YMM" headOfMergedCell="playback-separator" id="playback-separator-tail"/>
+            <gridCell row="NYF-Xp-end" column="4tC-Ji-VhF" id="rfF-E8-SRq">
                             <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="13">
                                 <rect key="frame" x="-2" y="130" width="139" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Window Management:" id="14">

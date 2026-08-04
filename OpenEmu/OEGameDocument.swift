@@ -29,6 +29,8 @@ import OpenEmuSystem
 import OpenEmuKit
 
 let OEGameVolumeKey = "volume"
+let OEGameDefaultRateKey = "defaultGameplayRate"
+let OEGameFastForwardRateKey = "fastForwardGameplayRate"
 let OEGameCoreDisplayModeKeyFormat = "displayMode.%@"
 let OEBackgroundPauseKey = "backgroundPause"
 let OEBackgroundControllerPlayKey = "backgroundControllerPlay"
@@ -614,6 +616,7 @@ final class OEGameDocument: NSDocument {
                 
                 // set initial volume
                 self.setVolume(self.volume, asDefault: false)
+                self.applyGameplayRates()
                 
                 OEBindingsController.default.systemBindings(for: self.systemPlugin.controller).add(self)
                 
@@ -1218,6 +1221,11 @@ final class OEGameDocument: NSDocument {
             UserDefaults.standard.set(volume, forKey: OEGameVolumeKey)
         }
     }
+
+    func applyDefaultVolume() {
+        guard !isMuted else { return }
+        setVolume(volume, asDefault: false)
+    }
     
     @IBAction func changeVolume(_ sender: AnyObject) {
         if let sender = sender as? NSSlider {
@@ -1253,6 +1261,15 @@ final class OEGameDocument: NSDocument {
             volume = 1
         }
         setVolume(volume, asDefault: true)
+    }
+
+    // MARK: - Gameplay Speed
+
+    func applyGameplayRates() {
+        let defaults = UserDefaults.standard
+        let normalRate = defaults.float(forKey: OEGameDefaultRateKey)
+        let fastForwardRate = defaults.float(forKey: OEGameFastForwardRateKey)
+        gameCoreManager?.setGameplayRate(normalRate, fastForwardRate: fastForwardRate)
     }
     
     // MARK: - Cheats

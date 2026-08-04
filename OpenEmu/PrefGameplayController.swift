@@ -28,6 +28,12 @@ import OpenEmuKit
 final class PrefGameplayController: NSViewController {
     
     @IBOutlet var globalDefaultShaderSelection: NSPopUpButton!
+    @IBOutlet var volumeSlider: NSSlider!
+    @IBOutlet var volumeValueLabel: NSTextField!
+    @IBOutlet var gameplayRateSlider: NSSlider!
+    @IBOutlet var gameplayRateValueLabel: NSTextField!
+    @IBOutlet var fastForwardRateSlider: NSSlider!
+    @IBOutlet var fastForwardRateValueLabel: NSTextField!
     
     private var token: NSObjectProtocol?
     
@@ -35,6 +41,7 @@ final class PrefGameplayController: NSViewController {
         super.viewDidLoad()
         
         loadShaderMenu()
+        loadPlaybackSettings()
         
         token = NotificationCenter.default.addObserver(forName: .shaderModelCustomShadersDidChange, object: nil, queue: .main) { [weak self] _ in
             guard let self = self else { return }
@@ -78,6 +85,50 @@ final class PrefGameplayController: NSViewController {
             globalDefaultShaderSelection.selectItem(at: 0)
         }
     }
+
+    private func loadPlaybackSettings() {
+        let defaults = UserDefaults.standard
+        volumeSlider.floatValue = defaults.float(forKey: OEGameVolumeKey)
+        gameplayRateSlider.floatValue = defaults.float(forKey: OEGameDefaultRateKey)
+        fastForwardRateSlider.floatValue = defaults.float(forKey: OEGameFastForwardRateKey)
+        updatePlaybackValueLabels()
+    }
+
+    private func updatePlaybackValueLabels() {
+        volumeValueLabel.stringValue = volumeSlider.formattedPercentage
+        gameplayRateValueLabel.stringValue = gameplayRateSlider.formattedMultiplier
+        fastForwardRateValueLabel.stringValue = fastForwardRateSlider.formattedMultiplier
+    }
+
+    private var gameDocuments: [OEGameDocument] {
+        NSDocumentController.shared.documents.compactMap { $0 as? OEGameDocument }
+    }
+
+    @IBAction func changeVolume(_ sender: NSSlider) {
+        UserDefaults.standard.set(sender.floatValue, forKey: OEGameVolumeKey)
+        volumeValueLabel.stringValue = sender.formattedPercentage
+        for document in gameDocuments {
+            document.applyDefaultVolume()
+        }
+    }
+
+    @IBAction func changeGameplayRate(_ sender: NSSlider) {
+        sender.floatValue = (sender.floatValue * 5).rounded() / 5
+        UserDefaults.standard.set(sender.floatValue, forKey: OEGameDefaultRateKey)
+        gameplayRateValueLabel.stringValue = sender.formattedMultiplier
+        for document in gameDocuments {
+            document.applyGameplayRates()
+        }
+    }
+
+    @IBAction func changeFastForwardRate(_ sender: NSSlider) {
+        sender.floatValue = sender.floatValue.rounded()
+        UserDefaults.standard.set(sender.floatValue, forKey: OEGameFastForwardRateKey)
+        fastForwardRateValueLabel.stringValue = sender.formattedMultiplier
+        for document in gameDocuments {
+            document.applyGameplayRates()
+        }
+    }
     
     @IBAction func changeGlobalDefaultShader(_ sender: Any?) {
         guard let context = OELibraryDatabase.default?.mainThreadContext else { return }
@@ -87,6 +138,16 @@ final class PrefGameplayController: NSViewController {
         let allSystemIdentifiers = OEDBSystem.allSystemIdentifiers(in: context)
         allSystemIdentifiers.forEach(OESystemShaderStore.shared.resetShader(forSystem:))
         OEShaderStore.shared.defaultShaderName = shaderName
+    }
+}
+
+private extension NSSlider {
+    var formattedPercentage: String {
+        String(format: "%.0f%%", doubleValue * 100)
+    }
+
+    var formattedMultiplier: String {
+        String(format: "%.2g×", doubleValue)
     }
 }
 
