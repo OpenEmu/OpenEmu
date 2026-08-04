@@ -436,6 +436,16 @@ class AppDelegate: NSObject {
         // Set up OEBindingsController.
         _ = OEBindingsController.self
         let dm = OEDeviceManager.shared
+        if unhandledEventsMonitor == nil {
+            unhandledEventsMonitor = dm.addUnhandledEventMonitorHandler { [weak self] _, event in
+                guard event.type == .keyboard,
+                      self?.shouldHandleKeyboardEvents == true,
+                      let game = NSApp.orderedDocuments.compactMap({ $0 as? OEGameDocument }).first
+                else { return }
+
+                game.didReceiveKeyboardEvent(event)
+            }
+        }
         if #available(macOS 10.15, *) {
             switch dm.accessType {
             case .unknown:

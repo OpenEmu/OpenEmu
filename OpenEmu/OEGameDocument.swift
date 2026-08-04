@@ -1843,6 +1843,10 @@ extension OEGameDocument {
     func didReceiveMouseEvent(_ event: OEEvent) {
         gameCoreManager?.handleMouseEvent(event)
     }
+
+    func didReceiveKeyboardEvent(_ event: OEHIDEvent) {
+        gameCoreManager?.handleKeyboardEvent(event)
+    }
     
     func updateBackingScaleFactor(_ newScaleFactor: CGFloat) {
         gameCoreManager?.setBackingScaleFactor(newScaleFactor)
