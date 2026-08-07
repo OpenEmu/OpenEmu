@@ -122,3 +122,9 @@
 "Dark (default)" = "Dark (default)";
 
 "Light" = "Light";
+
+"Cores with different architectures to OpenEmu will always launch using XPC." = "Cores with different architectures to OpenEmu will always launch using XPC.";
+
+"Cores" = "Cores";
+
+"Show core architecture" = "Show core architecture";

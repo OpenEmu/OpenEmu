@@ -47,6 +47,7 @@ final class PrefDebugController: NSViewController {
             Option(label: "XPC", value: OEXPCGameCoreManager.className()),
             Option(label: "Background Thread", value: OEThreadGameCoreManager.className()),
         ]),
+        Label(label: "Cores with different architectures to OpenEmu will always launch using XPC."),
         Popover(key: OEAppearance.Application.key, label: "Appearance:", action: #selector(changeAppAppearance(_:)), options: [
             Option(label: "System", value: OEAppearance.Application.system.rawValue),
             Option(label: "Dark (default)", value: OEAppearance.Application.dark.rawValue),
@@ -96,6 +97,11 @@ final class PrefDebugController: NSViewController {
             Option(label: "Vibrant Wood", value: OEAppearance.ControlsPrefs.woodVibrant.rawValue),
         ]),
         NumericTextField(key: "OESystemResponderADCThreshold", label: "Threshold for analog controls bound to buttons:", numberFormatter: NumericTextField.NF(allowsFloats: true, minimum: 0.01, maximum: 0.99, numberStyle: .decimal)),
+        
+        Separator(),
+        
+        Group(label: "Cores"),
+        Checkbox(key: OEShowCoreArchitecturesKey, label: "Show core architecture"),
         
         Separator(),
         
@@ -249,6 +255,8 @@ final class PrefDebugController: NSViewController {
             let label = NSLocalizedString(item.label, tableName: "Debug", comment: "")
             
             let labelField = NSTextField(labelWithString: label)
+            labelField.font = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize)
+            labelField.textColor = .secondaryLabelColor
             
             gridView.addRow(with: [NSGridCell.emptyContentView, labelField])
         }

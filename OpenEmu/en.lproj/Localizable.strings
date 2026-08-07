@@ -674,3 +674,19 @@
 "Are you sure you want to delete the shader preset called '%@'?" = "Are you sure you want to delete the shader preset called “%@”?";
 
 "Delete Shader Preset" = "Delete Shader Preset";
+
+"Apple" = "Apple"; // Core architecture shown with "Show core architecture" enabled
+
+"Intel" = "Intel"; // Core architecture shown with "Show core architecture" enabled
+
+"Universal" = "Universal"; // Core architecture shown with "Show core architecture" enabled
+
+"Other (architecture)" = "Other"; // Core architecture shown with "Show core architecture" enabled
+
+"Kind" = "Kind"; // Column shown with "Show core architecture" enabled
+
+"The %@ core could not be loaded" = "The %@ core could not be loaded"; // Headline shown for cores with invalid architecture
+
+"The installed version of the %@ core is not supported on this platform. Try updating to the latest version from the Cores preferences." = "The installed version of the %@ core is not supported on this platform. Try updating to the latest version from the Cores preferences."; // Message shown for cores with invalid architecture
+
+"The %@ core is not supported on this platform. An Apple Silicon Mac is required." = "The %@ core is not supported on this platform. An Apple Silicon Mac is required."; // Message shown for Intel Macs launching arm64-only cores

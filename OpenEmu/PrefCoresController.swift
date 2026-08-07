@@ -23,14 +23,19 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Cocoa
+import OpenEmuKit
+
+let OEShowCoreArchitecturesKey = "OEShowCoreArchitectures"
 
 private extension NSUserInterfaceItemIdentifier {
     static let coreColumn    = NSUserInterfaceItemIdentifier("coreColumn")
     static let systemColumn  = NSUserInterfaceItemIdentifier("systemColumn")
+    static let kindColumn    = NSUserInterfaceItemIdentifier("kindColumn")
     static let versionColumn = NSUserInterfaceItemIdentifier("versionColumn")
     
     static let coreNameCell        = NSUserInterfaceItemIdentifier("coreNameCell")
     static let systemListCell      = NSUserInterfaceItemIdentifier("systemListCell")
+    static let kindCell            = NSUserInterfaceItemIdentifier("kindCell")
     static let versionCell         = NSUserInterfaceItemIdentifier("versionCell")
     static let installButtonCell   = NSUserInterfaceItemIdentifier("installBtnCell")
     static let installProgressCell = NSUserInterfaceItemIdentifier("installProgressCell")
@@ -58,12 +63,23 @@ final class PrefCoresController: NSViewController {
                 column.headerCell.title = NSLocalizedString("Core", comment: "Cores preferences, column header")
             case .systemColumn:
                 column.headerCell.title = NSLocalizedString("System", comment: "Cores preferences, column header")
+            case .kindColumn:
+                column.headerCell.title = Bundle.main.preferredLocalizedString(forKey: "Kind", value: "No translation", table: nil)
             case .versionColumn:
                 column.headerCell.title = NSLocalizedString("Version", comment: "Cores preferences, column header")
             default:
                 break
             }
         }
+    }
+    
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        
+        let showArchitecture = UserDefaults.standard.bool(forKey: OEShowCoreArchitecturesKey)
+        coresTableView.tableColumn(withIdentifier: .kindColumn)?.isHidden = !showArchitecture
+        
+        coresTableView.reloadData()
     }
     
     @IBAction func updateOrInstall(_ sender: NSButton) {
@@ -100,6 +116,18 @@ extension PrefCoresController: NSTableViewDataSource {
         } else if ident == .systemColumn {
             return plugin.systemNames.joined(separator: ", ")
             
+        } else if ident == .kindColumn,
+                  let architectures = OECorePlugin.corePlugin(bundleIdentifier: plugin.bundleIdentifier)?.architectures
+        {
+            if (architectures.contains(.arm64) && architectures.contains(.x86_64)) {
+                return Bundle.main.preferredLocalizedString(forKey: "Universal", value: "No translation", table: nil)
+            } else if (architectures.contains(.arm64)) {
+                return Bundle.main.preferredLocalizedString(forKey: "Apple", value: "No translation", table: nil)
+            } else if (architectures.contains(.x86_64)) {
+                return Bundle.main.preferredLocalizedString(forKey: "Intel", value: "No translation", table: nil)
+            }
+            return Bundle.main.preferredLocalizedString(forKey: "Other (architecture)", value: "No translation", table: nil)
+
         } else if ident == .versionColumn {
             if plugin.isDownloading {
                 return plugin
@@ -135,6 +163,13 @@ extension PrefCoresController: NSTableViewDelegate {
             let color: NSColor = plugin.canBeInstalled ? .disabledControlTextColor : .labelColor
             view.textField!.textColor = color
             return view
+            
+        } else if ident == .kindColumn {
+            if !plugin.canBeInstalled {
+                return tableView.makeView(withIdentifier: .kindCell, owner: self) as! NSTableCellView
+            } else {
+                return nil
+            }
             
         } else if ident == .versionColumn {
             if plugin.isDownloading {

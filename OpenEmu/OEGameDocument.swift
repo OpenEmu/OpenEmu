@@ -71,6 +71,7 @@ final class OEGameDocument: NSDocument {
         case invalidSaveState
         case libraryDatabaseUnavailable
         case noSystemPlugin
+        case noCoreArchitectures(OECorePlugin)
         
         var errorDescription: String? {
             if case .fileDoesNotExist = self {
@@ -79,6 +80,8 @@ final class OEGameDocument: NSDocument {
                 return NSLocalizedString("OpenEmu could not find a Core to launch the game", comment: "No Core error reason.")
             } else if case .noSystemPlugin = self {
                 return NSLocalizedString("OpenEmu could not find a system plugin to launch the game", comment: "No system plugin error reason.")
+            } else if case .noCoreArchitectures(let oECorePlugin) = self {
+                return String(format: Bundle.main.preferredLocalizedString(forKey: "The %@ core could not be loaded", value: "No translation", table: nil), oECorePlugin.displayName)
             } else {
                 return nil
             }
@@ -91,6 +94,14 @@ final class OEGameDocument: NSDocument {
                 return NSLocalizedString("Make sure your internet connection is active and download a suitable core.", comment: "No Core error recovery suggestion.")
             } else if case .noSystemPlugin = self {
                 return NSLocalizedString(""/*TODO*/, comment: "No system plugin error recovery suggestion.")
+            } else if case .noCoreArchitectures(let oECorePlugin) = self {
+                let showIntelMacError = Platform.isIntelX86 && oECorePlugin.architectures.contains(.arm64) && !oECorePlugin.architectures.contains(.x86_64)
+                
+                if showIntelMacError {
+                    return String(format: Bundle.main.preferredLocalizedString(forKey: "The %@ core is not supported on this platform. An Apple Silicon Mac is required.", value: "No translation", table: nil), oECorePlugin.displayName)
+                } else {
+                    return String(format: Bundle.main.preferredLocalizedString(forKey: "The installed version of the %@ core is not supported on this platform. Try updating to the latest version from the Cores preferences.", value: "No translation", table: nil), oECorePlugin.displayName)
+                }
             } else {
                 return nil
             }
@@ -120,6 +131,8 @@ final class OEGameDocument: NSDocument {
                 return 13
             case .noSystemPlugin:
                 return 13
+            case .noCoreArchitectures:
+                return 14
             }
         }
     }
@@ -382,7 +395,11 @@ final class OEGameDocument: NSDocument {
         
         loadCheats()
         
-        gameCoreManager = newGameCoreManager(with: corePlugin)
+        do {
+            gameCoreManager = try newGameCoreManager(with: corePlugin)
+        } catch {
+            throw error
+        }
         gameViewController = GameViewController(document: self)
     }
     
@@ -575,8 +592,16 @@ final class OEGameDocument: NSDocument {
     
     func setUpGame(completionHandler handler: @escaping (_ success: Bool, _ error: Error?) -> Void) {
         do {
-            // TODO: Remove after further testing.
-            try corePlugin.bundle.loadAndReturnError()
+            // 2026-07-11 Commented out the below Bundle.loadAndReturnError(), and left the comment above it.
+            // Error checking of the core Bundle is using Bundle.preflight() instead, so that cores are loaded
+            // entirely within OpenEmuHelperApp
+            
+            /*// TODO: Remove after further testing.
+            try corePlugin.bundle.loadAndReturnError()*/
+            try corePlugin.bundle.preflight()
+        } catch CocoaError.executableArchitectureMismatch {
+            // Allow NSExecutableArchitectureMismatchError, since the Bundle can be loaded with a different
+            // architecture using the XPC service
         } catch {
             handler(false, error)
             return
@@ -652,7 +677,13 @@ final class OEGameDocument: NSDocument {
         gameCoreManager?.stopEmulation() {
             OEBindingsController.default.systemBindings(for: self.systemPlugin.controller).remove(self)
             
-            self.gameCoreManager = self.newGameCoreManager(with: core)
+            do {
+                self.gameCoreManager = try self.newGameCoreManager(with: core)
+            } catch {
+                self.presentError(error)
+                return
+            }
+            
             self.setUpGame { success, error in
                 if !success {
                     if let error = error {
@@ -666,7 +697,7 @@ final class OEGameDocument: NSDocument {
         }
     }
     
-    private func newGameCoreManager(with corePlugin: OECorePlugin) -> GameCoreManager {
+    private func newGameCoreManager(with corePlugin: OECorePlugin) throws -> GameCoreManager {
         self.corePlugin = corePlugin
         
         let lastDisplayModeInfo = UserDefaults.standard.object(forKey: String(format: OEGameCoreDisplayModeKeyFormat, corePlugin.bundleIdentifier)) as? [String : Any]
@@ -700,12 +731,56 @@ final class OEGameDocument: NSDocument {
                                      corePluginURL: corePlugin.url,
                                      systemPluginURL: systemPlugin.url)
         
+        var arch: OECorePlugin.Architecture = .arm64
+        var mixedArchitectures: Bool = false    // Always run x86_64-only cores on arm64, or arm64-only cores on x86-64, using XPC
+        if (NSRunningApplication.current.executableArchitecture == NSBundleExecutableArchitectureARM64) {
+            if self.corePlugin.canRunArchitecture(.arm64) {
+                arch = .arm64
+            } else if self.corePlugin.canRunArchitecture(.x86_64) {
+                arch = .x86_64
+                mixedArchitectures = true
+            } else {
+                // Ensure the correct Bundle error is propagated
+                do {
+                    try corePlugin.bundle.preflight()
+                } catch CocoaError.executableArchitectureMismatch {
+                    // Ignore NSExecutableArchitectureMismatchError, since different architectures can be handled by the XPC service
+                } catch {
+                    throw error
+                }
+
+                DLog("Core '\(corePlugin.url.absoluteString)' contains no supported architectures!")
+                throw Errors.noCoreArchitectures(self.corePlugin)
+            }
+        } else if NSRunningApplication.current.executableArchitecture == NSBundleExecutableArchitectureX86_64 {
+            if self.corePlugin.canRunArchitecture(.x86_64) {
+                arch = .x86_64
+            } else if self.corePlugin.canRunArchitecture(.arm64) {
+                arch = .arm64
+                mixedArchitectures = true
+            } else {
+                // Ensure the correct Bundle error is propagated
+                do {
+                    try corePlugin.bundle.preflight()
+                } catch CocoaError.executableArchitectureMismatch {
+                    // Ignore NSExecutableArchitectureMismatchError, since different architectures can be handled by the XPC service
+                } catch {
+                    throw error
+                }
+                    
+                DLog("Core '\(corePlugin.url.absoluteString)' contains no supported architectures!")
+                throw Errors.noCoreArchitectures(self.corePlugin)
+            }
+        } else {
+            assertionFailure("Unsupported executable architecture. arm64 or x86_64 expected.")
+        }
+        
         if let managerClassName = UserDefaults.standard.string(forKey: OEGameCoreManagerModePreferenceKey),
            let managerClass = NSClassFromString(managerClassName),
-           managerClass == OEThreadGameCoreManager.self {
+           (managerClass == OEThreadGameCoreManager.self) && !mixedArchitectures {
             return OEThreadGameCoreManager(startupInfo: info, gameCoreOwner: self)
         } else {
-            return OEXPCGameCoreManager(startupInfo: info, gameCoreOwner: self, serviceName: "org.openemu.broker", helperExecutableName: "OpenEmuHelperApp")
+            return OEXPCGameCoreManager(startupInfo: info, gameCoreOwner: self, serviceName: "org.openemu.broker", helperExecutableName: "OpenEmuHelperApp", architecture: arch)
         }
     }
     

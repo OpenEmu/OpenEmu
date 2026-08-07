@@ -19,7 +19,7 @@
 	<key>OpenEmuKit</key>
 	<dict>
 		<key>XPCBrokerServiceName</key>
-		<string>org.openemu.broker</string>
+		<string>org.openemu.broker.arm64</string>
 	</dict>
 </dict>
 </plist>

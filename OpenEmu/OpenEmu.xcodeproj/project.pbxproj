@@ -167,7 +167,7 @@
 		0547FD9C24E7769E005C1FFC /* OpenEmuKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0533EA5C24CDF9070095146E /* OpenEmuKit.framework */; };
 		0547FD9D24E7769E005C1FFC /* OpenEmuKit.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 0533EA5C24CDF9070095146E /* OpenEmuKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0547FDDC24E86166005C1FFC /* OpenEmuHelperApp in Copy Auxilliary Executables */ = {isa = PBXBuildFile; fileRef = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0547FE2024E86D9F005C1FFC /* broker.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = 0547FE1424E86D9F005C1FFC /* broker.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0547FE2024E86D9F005C1FFC /* broker.arm64.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = 0547FE1424E86D9F005C1FFC /* broker.arm64.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0557CB1B22A781B60037175F /* OEShadersModel+OpenEmu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */; };
 		0559044F23C0E4C9007C46FA /* ArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0559044E23C0E4C9007C46FA /* ArrayController.swift */; };
 		05644A4823331EA90033576F /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05644A4723331EA90033576F /* AboutViewController.swift */; };
@@ -399,6 +399,10 @@
 		87FBC0A41C0798C000AECF5A /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0A31C0798C000AECF5A /* Controller-Preferences.plist */; };
 		87FBC0A61C07996B00AECF5A /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0A51C07996B00AECF5A /* Controller-Mappings.plist */; };
 		87FBC0A81C07A22700AECF5A /* Atari 8bit.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87FBC08E1C0790B400AECF5A /* Atari 8bit.oesystemplugin */; };
+		8BBB825B2FEF638800C7B8B7 /* CoresOutlinedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBB825A2FEF638800C7B8B7 /* CoresOutlinedButton.swift */; };
+		8BDFCA7F2FF49EA0009A0672 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D828D224E9849200BB975E /* main.swift */; };
+		8BDFCA812FF49EA0009A0672 /* OpenEmuKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0533EA5C24CDF9070095146E /* OpenEmuKit.framework */; };
+		8BDFCA8A2FF4A3C0009A0672 /* broker.x86_64.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = 8BDFCA862FF49EA0009A0672 /* broker.x86_64.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8CBD3AA217D23AA80022399B /* OEGridGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CBD3AA117D23AA80022399B /* OEGridGameCell.m */; };
 		8F057160254E7EA5003B36FD /* MainMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F057162254E7EA5003B36FD /* MainMenu.strings */; };
 		8F071F391C25534E007B76DA /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F381C25534E007B76DA /* Preferences.xib */; };
@@ -1066,6 +1070,13 @@
 			remoteGlobalIDString = 94CEB26C17A84809005A2107;
 			remoteInfo = GameCube;
 		};
+		8BDFCA882FF4A39D009A0672 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8BDFCA7D2FF49EA0009A0672;
+			remoteInfo = broker.x86_64;
+		};
 		8F94DEC4250EC701003A1F33 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1154,7 +1165,8 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/XPCServices";
 			dstSubfolderSpec = 16;
 			files = (
-				0547FE2024E86D9F005C1FFC /* broker.xpc in Embed XPC Services */,
+				0547FE2024E86D9F005C1FFC /* broker.arm64.xpc in Embed XPC Services */,
+				8BDFCA8A2FF4A3C0009A0672 /* broker.x86_64.xpc in Embed XPC Services */,
 			);
 			name = "Embed XPC Services";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1314,7 +1326,7 @@
 		0544B6AB23D16E7A00F63D61 /* OEResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEResponder.h; sourceTree = "<group>"; };
 		0544B6AD23D1780C00F63D61 /* GameTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTableView.swift; sourceTree = "<group>"; };
 		0544B6AE23D1780C00F63D61 /* GameTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameTableView.xib; sourceTree = "<group>"; };
-		0547FE1424E86D9F005C1FFC /* broker.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = broker.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
+		0547FE1424E86D9F005C1FFC /* broker.arm64.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = broker.arm64.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
 		0547FE1C24E86D9F005C1FFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0557CB1A22A781B60037175F /* OEShadersModel+OpenEmu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEShadersModel+OpenEmu.swift"; sourceTree = "<group>"; };
 		0559044E23C0E4C9007C46FA /* ArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayController.swift; sourceTree = "<group>"; };
@@ -1641,6 +1653,8 @@
 		87FBC0A11C07985900AECF5A /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		87FBC0A31C0798C000AECF5A /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		87FBC0A51C07996B00AECF5A /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		8BBB825A2FEF638800C7B8B7 /* CoresOutlinedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoresOutlinedButton.swift; sourceTree = "<group>"; };
+		8BDFCA862FF49EA0009A0672 /* broker.x86_64.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = broker.x86_64.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CBD3AA017D23AA80022399B /* OEGridGameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridGameCell.h; sourceTree = "<group>"; };
 		8CBD3AA117D23AA80022399B /* OEGridGameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridGameCell.m; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2201,6 +2215,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				87FBC0951C07929D00AECF5A /* OpenEmuSystem.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BDFCA802FF49EA0009A0672 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BDFCA812FF49EA0009A0672 /* OpenEmuKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2771,13 +2793,14 @@
 				87FBC06D1BFC70FE00AECF5A /* Commodore 64.oesystemplugin */,
 				87FBC08E1C0790B400AECF5A /* Atari 8bit.oesystemplugin */,
 				016F22DC23F19F5F00181842 /* OEAlertTest.app */,
-				0547FE1424E86D9F005C1FFC /* broker.xpc */,
+				0547FE1424E86D9F005C1FFC /* broker.arm64.xpc */,
 				015BFEB425266DFC0025139F /* OEControlLabelsGenerator */,
 				05DB72A12532681B0098459D /* OpenEmuTests.xctest */,
 				012148052537C6D6007F3C84 /* OESystemPluginPostInstall */,
 				8F94DEBA250EC701003A1F33 /* OpenEmuQLThumbnail.appex */,
 				8F94DECF250ED838003A1F33 /* OpenEmuQLPreview.appex */,
 				8F7C2948288A2A2200A16C09 /* OECoreListUpdater */,
+				8BDFCA862FF49EA0009A0672 /* broker.x86_64.xpc */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3022,6 +3045,7 @@
 		53439A8713B92BEF005C0CC8 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				8BBB82592FEF637A00C7B8B7 /* Cores */,
 				53439B3313B930A9005C0CC8 /* Controls */,
 				53439B6813B932C5005C0CC8 /* PreferencePane.swift */,
 				5A79F7941C15F542003124D5 /* PreferencesWindowController.swift */,
@@ -3455,6 +3479,14 @@
 				87FBC0A11C07985900AECF5A /* Keyboard-Mappings.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8BBB82592FEF637A00C7B8B7 /* Cores */ = {
+			isa = PBXGroup;
+			children = (
+				8BBB825A2FEF638800C7B8B7 /* CoresOutlinedButton.swift */,
+			);
+			name = Cores;
 			sourceTree = "<group>";
 		};
 		8F7C2949288A2A2200A16C09 /* OECoreListUpdater */ = {
@@ -4442,9 +4474,9 @@
 			productReference = 016F22DC23F19F5F00181842 /* OEAlertTest.app */;
 			productType = "com.apple.product-type.application";
 		};
-		0547FE1324E86D9F005C1FFC /* broker */ = {
+		0547FE1324E86D9F005C1FFC /* broker.arm64 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0547FE2124E86D9F005C1FFC /* Build configuration list for PBXNativeTarget "broker" */;
+			buildConfigurationList = 0547FE2124E86D9F005C1FFC /* Build configuration list for PBXNativeTarget "broker.arm64" */;
 			buildPhases = (
 				0547FE1024E86D9F005C1FFC /* Sources */,
 				0547FE1124E86D9F005C1FFC /* Frameworks */,
@@ -4454,9 +4486,9 @@
 			);
 			dependencies = (
 			);
-			name = broker;
+			name = broker.arm64;
 			productName = broker;
-			productReference = 0547FE1424E86D9F005C1FFC /* broker.xpc */;
+			productReference = 0547FE1424E86D9F005C1FFC /* broker.arm64.xpc */;
 			productType = "com.apple.product-type.xpc-service";
 		};
 		05DB72A02532681B0098459D /* OpenEmuTests */ = {
@@ -4681,6 +4713,23 @@
 			productReference = 87FBC08E1C0790B400AECF5A /* Atari 8bit.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		8BDFCA7D2FF49EA0009A0672 /* broker.x86_64 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8BDFCA832FF49EA0009A0672 /* Build configuration list for PBXNativeTarget "broker.x86_64" */;
+			buildPhases = (
+				8BDFCA7E2FF49EA0009A0672 /* Sources */,
+				8BDFCA802FF49EA0009A0672 /* Frameworks */,
+				8BDFCA822FF49EA0009A0672 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = broker.x86_64;
+			productName = broker;
+			productReference = 8BDFCA862FF49EA0009A0672 /* broker.x86_64.xpc */;
+			productType = "com.apple.product-type.xpc-service";
+		};
 		8D15AC270486D014006FF6A4 /* OpenEmu */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "OpenEmu" */;
@@ -4700,6 +4749,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				8BDFCA892FF4A39D009A0672 /* PBXTargetDependency */,
 				012148242537D7F2007F3C84 /* PBXTargetDependency */,
 				8309A781166CE6360013AD4A /* PBXTargetDependency */,
 				3DAA589A14464890001C09A8 /* PBXTargetDependency */,
@@ -5398,7 +5448,8 @@
 			targets = (
 				8D15AC270486D014006FF6A4 /* OpenEmu */,
 				1BEF2A9311682A530090F72B /* OpenEmuHelperApp */,
-				0547FE1324E86D9F005C1FFC /* broker */,
+				0547FE1324E86D9F005C1FFC /* broker.arm64 */,
+				8BDFCA7D2FF49EA0009A0672 /* broker.x86_64 */,
 				8F94DEB9250EC701003A1F33 /* OpenEmuQLThumbnail */,
 				8F94DECE250ED838003A1F33 /* OpenEmuQLPreview */,
 				3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */,
@@ -5597,6 +5648,13 @@
 				87FBC0A41C0798C000AECF5A /* Controller-Preferences.plist in Resources */,
 				87FBC0A21C07985900AECF5A /* Keyboard-Mappings.plist in Resources */,
 				87FBC0A61C07996B00AECF5A /* Controller-Mappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BDFCA822FF49EA0009A0672 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6312,6 +6370,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8BDFCA7E2FF49EA0009A0672 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BDFCA7F2FF49EA0009A0672 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC300486D014006FF6A4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -6450,6 +6516,7 @@
 				5A6E80A71DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift in Sources */,
 				14F6A926168180D00071386D /* GameWindowController.swift in Sources */,
 				8F957B4225227175008A9BC9 /* GlossButton.swift in Sources */,
+				8BBB825B2FEF638800C7B8B7 /* CoresOutlinedButton.swift in Sources */,
 				0519A89F25AA4CD800D71C21 /* ShaderControl.swift in Sources */,
 				0544B6AF23D1780C00F63D61 /* GameTableView.swift in Sources */,
 				8FAF08D8251FB65D00EDB247 /* HoverButton.swift in Sources */,
@@ -6880,7 +6947,7 @@
 		};
 		0547FE1E24E86D9F005C1FFC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0547FE1324E86D9F005C1FFC /* broker */;
+			target = 0547FE1324E86D9F005C1FFC /* broker.arm64 */;
 			targetProxy = 0547FE1D24E86D9F005C1FFC /* PBXContainerItemProxy */;
 		};
 		05DB72A72532681B0098459D /* PBXTargetDependency */ = {
@@ -7037,6 +7104,11 @@
 			isa = PBXTargetDependency;
 			target = 94CEB26C17A84809005A2107 /* GameCube */;
 			targetProxy = 87F077AF23B68C64001FFC9B /* PBXContainerItemProxy */;
+		};
+		8BDFCA892FF4A39D009A0672 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8BDFCA7D2FF49EA0009A0672 /* broker.x86_64 */;
+			targetProxy = 8BDFCA882FF4A39D009A0672 /* PBXContainerItemProxy */;
 		};
 		8F94DEC5250EC701003A1F33 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7391,6 +7463,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
+				ARCHS = arm64;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -7414,7 +7487,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.broker;
+				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.broker.arm64;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
@@ -7427,6 +7500,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
 			buildSettings = {
+				ARCHS = arm64;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -7448,7 +7522,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.broker;
+				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.broker.arm64;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
@@ -7564,6 +7638,10 @@
 		1BEF2A9611682A530090F72B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					arm64,
+					x86_64,
+				);
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -7594,6 +7672,10 @@
 		1BEF2A9711682A530090F72B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					arm64,
+					x86_64,
+				);
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -7844,6 +7926,77 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
+		8BDFCA842FF49EA0009A0672 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
+			buildSettings = {
+				ARCHS = x86_64;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmuKit/Source/OpenEmuKitPrivate/**";
+				INFOPLIST_FILE = broker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.broker.x86_64;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8BDFCA852FF49EA0009A0672 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F22764629D301FC001FB9F8 /* Config.xcconfig */;
+			buildSettings = {
+				ARCHS = x86_64;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmuKit/Source/OpenEmuKitPrivate/**";
+				INFOPLIST_FILE = broker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.openemu.broker.x86_64;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -8855,7 +9008,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0547FE2124E86D9F005C1FFC /* Build configuration list for PBXNativeTarget "broker" */ = {
+		0547FE2124E86D9F005C1FFC /* Build configuration list for PBXNativeTarget "broker.arm64" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0547FE2224E86D9F005C1FFC /* Debug */,
@@ -9004,6 +9157,15 @@
 			buildConfigurations = (
 				87FBC0911C0790B500AECF5A /* Debug */,
 				87FBC0921C0790B500AECF5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8BDFCA832FF49EA0009A0672 /* Build configuration list for PBXNativeTarget "broker.x86_64" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BDFCA842FF49EA0009A0672 /* Debug */,
+				8BDFCA852FF49EA0009A0672 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

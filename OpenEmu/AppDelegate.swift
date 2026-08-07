@@ -150,6 +150,7 @@ class AppDelegate: NSObject {
             OEAppearance.HUDBar.key: OEAppearance.HUDBar.vibrant.rawValue,
             OEAppearance.ControlsPrefs.key: OEAppearance.ControlsPrefs.wood.rawValue,
             OEGameCoreManagerModePreferenceKey: NSStringFromClass(OEXPCGameCoreManager.self),
+            OEShowCoreArchitecturesKey: false
         ])
         
         // Don't let an old setting override automatically checking for app updates.
@@ -740,7 +741,8 @@ extension AppDelegate: NSMenuDelegate {
             // If the app was executed under App Translocation,
             // the broker may refer to an invalid path, so this ensures
             // it is re-registered on next launch.
-            try? LaunchControl.remove(service: "org.openemu.broker")
+            try? LaunchControl.remove(service: "org.openemu.broker.arm64")
+            try? LaunchControl.remove(service: "org.openemu.broker.x86_64")
         }
         
         if AppMover.isAppQuarantined() {
