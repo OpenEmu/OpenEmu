@@ -26,6 +26,12 @@
 
 "Shader:" = "Shader:";
 
+"Volume:" = "Volume:";
+
+"Game Speed:" = "Game Speed:";
+
+"Fast Forward Speed:" = "Fast Forward Speed:";
+
 "Always use popout gameplay window" = "Always use popout gameplay window";
 
 "Always launch games fullscreen" = "Always launch games fullscreen";
