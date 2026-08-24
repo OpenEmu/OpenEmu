@@ -3069,6 +3069,14 @@
 				<key>OEControllerProductID</key>
 				<integer>3302</integer>
 			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Sony PS5 DualSense Edge Wireless</string>
+				<key>OEControllerVendorID</key>
+				<integer>1356</integer>
+				<key>OEControllerProductID</key>
+				<integer>3570</integer>
+			</dict>
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
@@ -3359,6 +3367,15 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>14</string>
+			</dict>
+			<key>OEControllerSonyPS5DualSenseButtonMicMute</key>
+			<dict>
+				<key>Name</key>
+				<string>Mic Mute</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>15</string>
 			</dict>
 		</dict>
 	</dict>
