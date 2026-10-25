@@ -33,6 +33,9 @@ let OEGameCoreDisplayModeKeyFormat = "displayMode.%@"
 let OEBackgroundPauseKey = "backgroundPause"
 let OEBackgroundControllerPlayKey = "backgroundControllerPlay"
 let OETakeNativeScreenshots = "takeNativeScreenshots"
+let OEFastForwardSpeedKey = "fastForwardSpeed"
+let OEFastForwardMutesAudioKey = "fastForwardMutesAudio"
+let OEFastForwardButtonTogglesKey = "fastForwardButtonToggles"
 
 let OEScreenshotFileFormatKey = "screenshotFormat"
 let OEScreenshotPropertiesKey = "screenshotProperties"
@@ -151,6 +154,7 @@ final class OEGameDocument: NSDocument {
     private var lastPlayStartDate: Date?
     private var lastSelectedDisplayModeOption: String?
     private var isMuted = false
+    private var isFastForwarding = false
     private var pausedByGoingToBackground = false
     private var coreDidTerminateSuddenly = false
     /// Indicates whether the document is currently moving from the main window into a separate popout window.
@@ -384,6 +388,8 @@ final class OEGameDocument: NSDocument {
         
         gameCoreManager = newGameCoreManager(with: corePlugin)
         gameViewController = GameViewController(document: self)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(fastForwardSettingsDidChange(_:)), name: .OEFastForwardSettingsDidChange, object: nil)
     }
     
     deinit {
@@ -612,8 +618,12 @@ final class OEGameDocument: NSDocument {
                     self.saveStateForGameStart = nil
                 }
                 
+                // a new helper always starts at normal speed
+                self.isFastForwarding = false
+                
                 // set initial volume
                 self.setVolume(self.volume, asDefault: false)
+                self.updateFastForwardSettings()
                 
                 OEBindingsController.default.systemBindings(for: self.systemPlugin.controller).add(self)
                 
@@ -1211,7 +1221,8 @@ final class OEGameDocument: NSDocument {
     }
     
     func setVolume(_ volume: Float, asDefault defaultFlag: Bool) {
-        gameCoreManager?.setVolume(volume)
+        let mutedForFastForward = isFastForwarding && UserDefaults.standard.bool(forKey: OEFastForwardMutesAudioKey)
+        gameCoreManager?.setVolume(mutedForFastForward ? 0 : volume)
         gameViewController.reflectVolume(volume)
         
         if defaultFlag {
@@ -1830,10 +1841,98 @@ extension OEGameDocument {
         case #selector(nextDisplayMode(_:)),
              #selector(lastDisplayMode(_:)):
             return supportsDisplayModeChange
+        case #selector(toggleFastForward(_:)):
+            menuItem.state = isFastForwarding ? .on : .off
+            return emulationStatus == .playing
+        case #selector(changeFastForwardSpeed(_:)):
+            menuItem.state = Float(menuItem.tag) == Self.fastForwardSpeed ? .on : .off
+            return true
+        case #selector(toggleFastForwardMutesAudio(_:)):
+            menuItem.state = UserDefaults.standard.bool(forKey: OEFastForwardMutesAudioKey) ? .on : .off
+            return true
+        case #selector(toggleFastForwardButtonToggles(_:)):
+            menuItem.state = UserDefaults.standard.bool(forKey: OEFastForwardButtonTogglesKey) ? .on : .off
+            return true
         default:
             return true
         }
     }
+}
+
+// MARK: - Fast Forward
+
+extension OEGameDocument {
+    
+    /// Fast-forward speeds offered in menus. 0 means unlimited.
+    static let fastForwardSpeeds: [Float] = [2, 3, 4, 5, 10, 15, 20, 30, 0]
+    
+    /// The rate used for unlimited fast-forward. The core loop resynchronises when it
+    /// falls behind, so in practice the core runs as fast as it can.
+    private static let unlimitedFastForwardRate: Float = 1000
+    
+    /// The selected fast-forward speed, or 0 for unlimited.
+    static var fastForwardSpeed: Float {
+        return UserDefaults.standard.float(forKey: OEFastForwardSpeedKey)
+    }
+    
+    static func fastForwardSpeedTitle(_ speed: Float) -> String {
+        if speed == 0 {
+            return NSLocalizedString("Unlimited", comment: "Fast forward speed menu item")
+        }
+        return String(format: NSLocalizedString("%d×", comment: "Fast forward speed menu item, e.g. 5×"), Int(speed))
+    }
+    
+    /// Builds the Fast Forward Speed submenu used by the in-game controls bar.
+    static func makeFastForwardSpeedMenu() -> NSMenu {
+        let menu = NSMenu()
+        for speed in fastForwardSpeeds {
+            let item = NSMenuItem(title: fastForwardSpeedTitle(speed), action: #selector(changeFastForwardSpeed(_:)), keyEquivalent: "")
+            item.tag = Int(speed)
+            menu.addItem(item)
+        }
+        menu.addItem(.separator())
+        menu.addItem(NSMenuItem(title: NSLocalizedString("Mute Sound While Fast-Forwarding", comment: ""), action: #selector(toggleFastForwardMutesAudio(_:)), keyEquivalent: ""))
+        menu.addItem(NSMenuItem(title: NSLocalizedString("Fast Forward Key Toggles On/Off", comment: "When checked, the Fast Forward key toggles instead of working while held"), action: #selector(toggleFastForwardButtonToggles(_:)), keyEquivalent: ""))
+        return menu
+    }
+    
+    func updateFastForwardSettings() {
+        let speed = Self.fastForwardSpeed
+        gameCoreManager?.setGameplayRate(1, fastForwardRate: speed == 0 ? Self.unlimitedFastForwardRate : speed)
+        gameCoreManager?.setFastForwardButtonToggles(UserDefaults.standard.bool(forKey: OEFastForwardButtonTogglesKey))
+    }
+    
+    @IBAction func toggleFastForward(_ sender: Any?) {
+        guard emulationStatus == .playing else { return }
+        gameCoreManager?.setFastForwardEnabled(!isFastForwarding)
+    }
+    
+    @IBAction func changeFastForwardSpeed(_ sender: NSMenuItem) {
+        UserDefaults.standard.set(Float(sender.tag), forKey: OEFastForwardSpeedKey)
+        NotificationCenter.default.post(name: .OEFastForwardSettingsDidChange, object: nil)
+    }
+    
+    @IBAction func toggleFastForwardMutesAudio(_ sender: Any?) {
+        let defaults = UserDefaults.standard
+        defaults.set(!defaults.bool(forKey: OEFastForwardMutesAudioKey), forKey: OEFastForwardMutesAudioKey)
+        NotificationCenter.default.post(name: .OEFastForwardSettingsDidChange, object: nil)
+    }
+    
+    @IBAction func toggleFastForwardButtonToggles(_ sender: Any?) {
+        let defaults = UserDefaults.standard
+        defaults.set(!defaults.bool(forKey: OEFastForwardButtonTogglesKey), forKey: OEFastForwardButtonTogglesKey)
+        NotificationCenter.default.post(name: .OEFastForwardSettingsDidChange, object: nil)
+    }
+    
+    @objc func fastForwardSettingsDidChange(_ notification: Notification) {
+        updateFastForwardSettings()
+        setVolume(isMuted ? 0 : volume, asDefault: false)
+    }
+}
+
+extension Notification.Name {
+    /// Posted when the fast-forward speed or mute setting changes, so every open game picks it up.
+    static let OEFastForwardSettingsDidChange = Notification.Name("OEFastForwardSettingsDidChange")
 }
 
 // MARK: - GameViewController Methods
@@ -1925,6 +2024,10 @@ extension OEGameDocument: OESystemBindingsObserver {
     }
     
     func fastForwardGameplay(_ enable: Bool) {
+        if isFastForwarding != enable {
+            isFastForwarding = enable
+            setVolume(isMuted ? 0 : volume, asDefault: false)
+        }
         if emulationStatus != .playing { return }
         gameViewController.showFastForwardNotification(enable)
     }

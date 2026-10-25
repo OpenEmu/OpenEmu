@@ -378,6 +378,12 @@ final class GameControlsBar: NSWindow {
             menu.addItem(item)
         }
         
+        // fast forward speed
+        item = NSMenuItem()
+        item.title = NSLocalizedString("Fast Forward Speed", comment: "")
+        item.submenu = OEGameDocument.makeFastForwardSpeedMenu()
+        menu.addItem(item)
+        
         // video shader
         item = NSMenuItem()
         item.title = NSLocalizedString("Select Shader", comment: "")

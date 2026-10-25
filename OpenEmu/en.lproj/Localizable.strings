@@ -429,6 +429,19 @@
 
 "Select Scale" = "Scale";
 
+"Fast Forward Speed" = "Fast Forward Speed";
+
+/* Fast forward speed menu item */
+"Unlimited" = "Unlimited";
+
+/* Fast forward speed menu item, e.g. 5× */
+"%d×" = "%d×";
+
+"Mute Sound While Fast-Forwarding" = "Mute Sound While Fast-Forwarding";
+
+/* When checked, the Fast Forward key toggles instead of working while held */
+"Fast Forward Key Toggles On/Off" = "Fast Forward Key Toggles On/Off";
+
 "Shader Parameters" = "Shader Parameters";
 
 "Share" = "Share";

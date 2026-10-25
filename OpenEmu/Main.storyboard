@@ -767,6 +767,105 @@ DQ
                                                 <action selector="lastDisplayMode:" target="-1" id="P2t-WU-4xH"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="fFw-16-oEm"/>
+                                        <menuItem title="Fast Forward" enabled="NO" id="fFw-17-oEm">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="toggleFastForward:" target="-1" id="fFw-18-oEm"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Fast Forward Speed" id="fFw-19-oEm">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
+                                            <menu key="submenu" title="Fast Forward Speed" id="fFw-20-oEm">
+                                                <items>
+                                                    <menuItem title="2×" tag="2" id="fFw-01-oEm">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="changeFastForwardSpeed:" target="-1" id="fFw-02-oEm"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="3×" tag="3" id="fFw-03-oEm">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="changeFastForwardSpeed:" target="-1" id="fFw-04-oEm"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="4×" tag="4" id="fFw-05-oEm">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="changeFastForwardSpeed:" target="-1" id="fFw-06-oEm"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="5×" tag="5" id="fFw-07-oEm">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="changeFastForwardSpeed:" target="-1" id="fFw-08-oEm"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="10×" tag="10" id="fFw-09-oEm">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="changeFastForwardSpeed:" target="-1" id="fFw-10-oEm"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="15×" tag="15" id="fFw-21-oEm">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="changeFastForwardSpeed:" target="-1" id="fFw-22-oEm"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="20×" tag="20" id="fFw-23-oEm">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="changeFastForwardSpeed:" target="-1" id="fFw-24-oEm"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="30×" tag="30" id="fFw-25-oEm">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="changeFastForwardSpeed:" target="-1" id="fFw-26-oEm"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Unlimited" tag="0" id="fFw-11-oEm">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="changeFastForwardSpeed:" target="-1" id="fFw-12-oEm"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem isSeparatorItem="YES" id="fFw-13-oEm"/>
+                                                    <menuItem title="Mute Sound While Fast-Forwarding" id="fFw-14-oEm">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="toggleFastForwardMutesAudio:" target="-1" id="fFw-15-oEm"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Fast Forward Key Toggles On/Off" id="fFw-41-oEm">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="toggleFastForwardButtonToggles:" target="-1" id="fFw-42-oEm"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="localizeTitle" value="YES"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </menu>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="aVH-zV-87c"/>
                                         <menuItem title="Always Hide HUD" enabled="NO" keyEquivalent="H" id="ayc-Ld-Nyd">
                                             <userDefinedRuntimeAttributes>
