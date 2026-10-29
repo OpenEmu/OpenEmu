@@ -71,7 +71,8 @@ final class OEGameDocument: NSDocument {
         case invalidSaveState
         case libraryDatabaseUnavailable
         case noSystemPlugin
-        
+        case coreArchitectureMismatch(OECorePlugin)
+
         var errorDescription: String? {
             if case .fileDoesNotExist = self {
                 return NSLocalizedString("The file you selected doesn't exist", comment: "Inexistent file error reason.")
@@ -79,6 +80,8 @@ final class OEGameDocument: NSDocument {
                 return NSLocalizedString("OpenEmu could not find a Core to launch the game", comment: "No Core error reason.")
             } else if case .noSystemPlugin = self {
                 return NSLocalizedString("OpenEmu could not find a system plugin to launch the game", comment: "No system plugin error reason.")
+            } else if case .coreArchitectureMismatch(let plugin) = self {
+                return String(format: NSLocalizedString("The %@ core can't run on this Mac", comment: "Core architecture mismatch error reason."), plugin.displayName)
             } else {
                 return nil
             }
@@ -91,6 +94,12 @@ final class OEGameDocument: NSDocument {
                 return NSLocalizedString("Make sure your internet connection is active and download a suitable core.", comment: "No Core error recovery suggestion.")
             } else if case .noSystemPlugin = self {
                 return NSLocalizedString(""/*TODO*/, comment: "No system plugin error recovery suggestion.")
+            } else if case .coreArchitectureMismatch(let plugin) = self {
+                let coreArchitectures = plugin.architectures.joined(separator: ", ")
+                if coreArchitectures.isEmpty {
+                    return String(format: NSLocalizedString("Install a build of the core that supports %@.", comment: "Core architecture mismatch error recovery suggestion, unknown core architectures."), OECorePlugin.currentArchitecture)
+                }
+                return String(format: NSLocalizedString("OpenEmu is running as %2$@, but this core only contains %1$@ code. Install a build of the core that supports %2$@.", comment: "Core architecture mismatch error recovery suggestion."), coreArchitectures, OECorePlugin.currentArchitecture)
             } else {
                 return nil
             }
@@ -120,6 +129,8 @@ final class OEGameDocument: NSDocument {
                 return 13
             case .noSystemPlugin:
                 return 13
+            case .coreArchitectureMismatch:
+                return 14
             }
         }
     }
@@ -352,9 +363,23 @@ final class OEGameDocument: NSDocument {
         if systemPlugin == nil {
             throw Errors.noSystemPlugin
         }
-        
+
+        // A core handed in by the caller (e.g. from a save state) has to be
+        // usable here too, not only the one picked from the installed plugins.
+        if let corePlugin = corePlugin, !corePlugin.isCompatibleWithCurrentArchitecture {
+            throw Errors.coreArchitectureMismatch(corePlugin)
+        }
+
         if corePlugin == nil {
-            corePlugin = try? self.core(forSystem: systemPlugin)
+            do {
+                corePlugin = try self.core(forSystem: systemPlugin)
+            } catch Errors.coreArchitectureMismatch(let incompatiblePlugin) {
+                // A core is installed but cannot run here. Falling through to the
+                // installer below would offer the very same core again.
+                throw Errors.coreArchitectureMismatch(incompatiblePlugin)
+            } catch {
+                // No core installed at all: the update check below offers to install one.
+            }
         }
         
         if corePlugin == nil {
@@ -711,9 +736,15 @@ final class OEGameDocument: NSDocument {
     
     private func core(forSystem system: OESystemPlugin) throws -> OECorePlugin {
         let systemIdentifier = system.systemIdentifier
-        var validPlugins = OECorePlugin.corePlugins(forSystemIdentifier: systemIdentifier)
-        
+        let installedPlugins = OECorePlugin.corePlugins(forSystemIdentifier: systemIdentifier)
+        // A core without a slice for the running architecture cannot be loaded by
+        // the helper, so it must not be selected even if it is the only one.
+        let validPlugins = installedPlugins.filter(\.isCompatibleWithCurrentArchitecture)
+
         if validPlugins.isEmpty {
+            if let incompatiblePlugin = installedPlugins.first {
+                throw Errors.coreArchitectureMismatch(incompatiblePlugin)
+            }
             throw Errors.noCore
         }
         else if validPlugins.count == 1 {
@@ -725,8 +756,7 @@ final class OEGameDocument: NSDocument {
                let core = OECorePlugin.corePlugin(bundleIdentifier: coreIdentifier) {
                 return core
             } else {
-                validPlugins.sort { $0.displayName.caseInsensitiveCompare($1.displayName) == .orderedAscending }
-                return validPlugins.first!
+                return validPlugins.sorted { $0.displayName.caseInsensitiveCompare($1.displayName) == .orderedAscending }.first!
             }
         }
     }

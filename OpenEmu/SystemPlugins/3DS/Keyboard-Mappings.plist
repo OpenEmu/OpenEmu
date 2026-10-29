@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEPanda3DSButtonUp</key>
+	<integer>82</integer>
+	<key>OEPanda3DSButtonDown</key>
+	<integer>81</integer>
+	<key>OEPanda3DSButtonLeft</key>
+	<integer>80</integer>
+	<key>OEPanda3DSButtonRight</key>
+	<integer>79</integer>
+	<key>OEPanda3DSButtonCirclePadUp</key>
+	<integer>13</integer>
+	<key>OEPanda3DSButtonCirclePadDown</key>
+	<integer>1</integer>
+	<key>OEPanda3DSButtonCirclePadLeft</key>
+	<integer>0</integer>
+	<key>OEPanda3DSButtonCirclePadRight</key>
+	<integer>2</integer>
+	<key>OEPanda3DSButtonA</key>
+	<integer>27</integer>
+	<key>OEPanda3DSButtonB</key>
+	<integer>29</integer>
+	<key>OEPanda3DSButtonX</key>
+	<integer>22</integer>
+	<key>OEPanda3DSButtonY</key>
+	<integer>4</integer>
+	<key>OEPanda3DSButtonL</key>
+	<integer>20</integer>
+	<key>OEPanda3DSButtonR</key>
+	<integer>26</integer>
+	<key>OEPanda3DSButtonZL</key>
+	<integer>18</integer>
+	<key>OEPanda3DSButtonZR</key>
+	<integer>19</integer>
+	<key>OEPanda3DSButtonStart</key>
+	<integer>40</integer>
+	<key>OEPanda3DSButtonSelect</key>
+	<integer>229</integer>
+</dict>
+</plist>

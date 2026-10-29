@@ -28,4 +28,24 @@
 
 @implementation OEDCSystemController
 
+// CUE/BIN images: the data track starts with the IP.BIN. A raw image
+// (MODE1/2352) carries 16 bytes of sync + MSF + mode in front of it, so check
+// both positions. Sega CD CUEs use different signatures ("SEGADISCSYSTEM",
+// "SEGABOOTDISC" ...) and are rejected here so they stay with the Sega CD
+// plugin.
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
+{
+    if (![file isKindOfClass:[OECUESheet class]])
+        return OEFileSupportUncertain;
+
+    NSString *signature = [file readASCIIStringInRange:NSMakeRange(0, 16)];
+    NSString *signatureAfterSectorHeader = [file readASCIIStringInRange:NSMakeRange(0x10, 16)];
+
+    if ([signature isEqualToString:@"SEGA SEGAKATANA "] ||
+        [signatureAfterSectorHeader isEqualToString:@"SEGA SEGAKATANA "])
+        return OEFileSupportYes;
+
+    return OEFileSupportNo;
+}
+
 @end

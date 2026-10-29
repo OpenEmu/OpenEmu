@@ -22,6 +22,7 @@
 				011FD3742526799C006D7C05 /* PBXTargetDependency */,
 				011FD376252679A1006D7C05 /* PBXTargetDependency */,
 				011FD378252679AD006D7C05 /* PBXTargetDependency */,
+				A11C03D52EA000000000001A /* PBXTargetDependency */,
 				011FD36E25267973006D7C05 /* PBXTargetDependency */,
 			);
 			name = "Build Experimental SystemPlugins";
@@ -384,6 +385,13 @@
 		87DF05281BCE302F0060E2C2 /* OEDCSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DF05151BCE302F0060E2C2 /* OEDCSystemController.m */; };
 		87DF05291BCE302F0060E2C2 /* OEDCSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DF05171BCE302F0060E2C2 /* OEDCSystemResponder.m */; };
 		87DF05411BCE3CEA0060E2C2 /* Dreamcast.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87DF04FE1BCE2D100060E2C2 /* Dreamcast.oesystemplugin */; };
+		A11C0DE32EA0000000000001 /* Dreamcast.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 87DF04FE1BCE2D100060E2C2 /* Dreamcast.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A11C0DE32EA0000000000004 /* 3DO.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 943F99B31707DF3700270E89 /* 3DO.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A11C0DE32EA0000000000005 /* Atari 8bit.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 87FBC08E1C0790B400AECF5A /* Atari 8bit.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A11C0DE32EA0000000000006 /* MSX.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = FEB6625B187B791800D14713 /* MSX.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A11C0DE32EA0000000000007 /* Jaguar.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 943C80121708A62E00D8D93E /* Jaguar.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A11C0DE32EA0000000000008 /* Pokemon mini.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 081A46261B95744A00565444 /* Pokemon mini.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A11C0DE32EA0000000000009 /* Supervision.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 837964E11A6149C000A8DE5C /* Supervision.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		87F077B423B68D02001FFC9B /* GameCube.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94CEB26D17A84809005A2107 /* GameCube.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		87FB253B1BBC572E00E739CE /* Controller-Preferences-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25391BBC572E00E739CE /* Controller-Preferences-JAP.plist */; };
 		87FB253C1BBC572E00E739CE /* Controller-Preferences-NA.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FB253A1BBC572E00E739CE /* Controller-Preferences-NA.plist */; };
@@ -706,6 +714,13 @@
 		FEB6627A187B812800D14713 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEB66277187B812800D14713 /* Controller-Mappings.plist */; };
 		FEB6627B187B812800D14713 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEB66278187B812800D14713 /* Controller-Preferences.plist */; };
 		FEB6627C187B812800D14713 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEB66279187B812800D14713 /* Keyboard-Mappings.plist */; };
+		A11C03D52EA0000000000013 /* OEPanda3DSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = A11C03D52EA0000000000011 /* OEPanda3DSSystemResponder.m */; };
+		A11C03D52EA0000000000014 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A11C03D52EA000000000000F /* Images.xcassets */; };
+		A11C03D52EA0000000000015 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = A11C03D52EA000000000000D /* Controller-Preferences.plist */; };
+		A11C03D52EA0000000000016 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = A11C03D52EA000000000000C /* Controller-Mappings.plist */; };
+		A11C03D52EA0000000000017 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = A11C03D52EA000000000000E /* Keyboard-Mappings.plist */; };
+		A11C03D52EA0000000000018 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
+		A11C03D52EA000000000001B /* 3DS.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = A11C03D52EA0000000000005 /* 3DS.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1115,6 +1130,13 @@
 			remoteGlobalIDString = 94D7E8C815073BA000FBDD85;
 			remoteInfo = NDS;
 		};
+		A11C03D52EA0000000000019 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A11C03D52EA0000000000001;
+			remoteInfo = 3DS;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1211,6 +1233,14 @@
 			dstPath = Systems;
 			dstSubfolderSpec = 13;
 			files = (
+				A11C0DE32EA0000000000001 /* Dreamcast.oesystemplugin in Copy System Plugins to App Plugins */,
+				A11C0DE32EA0000000000004 /* 3DO.oesystemplugin in Copy System Plugins to App Plugins */,
+				A11C0DE32EA0000000000005 /* Atari 8bit.oesystemplugin in Copy System Plugins to App Plugins */,
+				A11C0DE32EA0000000000006 /* MSX.oesystemplugin in Copy System Plugins to App Plugins */,
+				A11C0DE32EA0000000000007 /* Jaguar.oesystemplugin in Copy System Plugins to App Plugins */,
+				A11C0DE32EA0000000000008 /* Pokemon mini.oesystemplugin in Copy System Plugins to App Plugins */,
+				A11C0DE32EA0000000000009 /* Supervision.oesystemplugin in Copy System Plugins to App Plugins */,
+				A11C03D52EA000000000001B /* 3DS.oesystemplugin in Copy System Plugins to App Plugins */,
 				87F077B423B68D02001FFC9B /* GameCube.oesystemplugin in Copy System Plugins to App Plugins */,
 				873A36421FE233E00004D81D /* Saturn.oesystemplugin in Copy System Plugins to App Plugins */,
 				87BD9E331C2A679B006722DF /* WonderSwan.oesystemplugin in Copy System Plugins to App Plugins */,
@@ -2067,6 +2097,15 @@
 		FEB66277187B812800D14713 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		FEB66278187B812800D14713 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		FEB66279187B812800D14713 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		A11C03D52EA0000000000005 /* 3DS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 3DS.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		A11C03D52EA000000000000B /* 3DS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "3DS-Info.plist"; sourceTree = "<group>"; };
+		A11C03D52EA000000000000C /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		A11C03D52EA000000000000D /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		A11C03D52EA000000000000E /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		A11C03D52EA000000000000F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A11C03D52EA0000000000010 /* OEPanda3DSSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEPanda3DSSystemResponder.h"; sourceTree = "<group>"; };
+		A11C03D52EA0000000000011 /* OEPanda3DSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEPanda3DSSystemResponder.m"; sourceTree = "<group>"; };
+		A11C03D52EA0000000000012 /* OEPanda3DSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEPanda3DSSystemResponderClient.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2499,6 +2538,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEB6626B187B797600D14713 /* OpenEmuSystem.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A11C03D52EA0000000000007 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A11C03D52EA0000000000018 /* OpenEmuSystem.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4235,6 +4282,7 @@
 		C67118201363687A0034379A /* System Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				A11C03D52EA0000000000009 /* 3DS */,
 				943F99B51707DF3700270E89 /* 3DO */,
 				945E42FD1517F2B500057D08 /* Arcade */,
 				94A224A51707543600098DA0 /* Atari 2600 */,
@@ -4373,6 +4421,29 @@
 				FEB66279187B812800D14713 /* Keyboard-Mappings.plist */,
 				FEB66277187B812800D14713 /* Controller-Mappings.plist */,
 				FEB66278187B812800D14713 /* Controller-Preferences.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A11C03D52EA0000000000009 /* 3DS */ = {
+			isa = PBXGroup;
+			children = (
+				A11C03D52EA0000000000010 /* OEPanda3DSSystemResponder.h */,
+				A11C03D52EA0000000000011 /* OEPanda3DSSystemResponder.m */,
+				A11C03D52EA0000000000012 /* OEPanda3DSSystemResponderClient.h */,
+				A11C03D52EA000000000000A /* Supporting Files */,
+			);
+			path = 3DS;
+			sourceTree = "<group>";
+		};
+		A11C03D52EA000000000000A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A11C03D52EA000000000000F /* Images.xcassets */,
+				A11C03D52EA000000000000B /* 3DS-Info.plist */,
+				A11C03D52EA000000000000E /* Keyboard-Mappings.plist */,
+				A11C03D52EA000000000000C /* Controller-Mappings.plist */,
+				A11C03D52EA000000000000D /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -5316,6 +5387,23 @@
 			productReference = FEB6625B187B791800D14713 /* MSX.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		A11C03D52EA0000000000001 /* 3DS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A11C03D52EA0000000000002 /* Build configuration list for PBXNativeTarget "3DS" */;
+			buildPhases = (
+				A11C03D52EA0000000000006 /* Sources */,
+				A11C03D52EA0000000000007 /* Frameworks */,
+				A11C03D52EA0000000000008 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = 3DS;
+			productName = 3DS;
+			productReference = A11C03D52EA0000000000005 /* 3DS.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -5402,6 +5490,7 @@
 				8F94DEB9250EC701003A1F33 /* OpenEmuQLThumbnail */,
 				8F94DECE250ED838003A1F33 /* OpenEmuQLPreview */,
 				3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */,
+				A11C03D52EA0000000000001 /* 3DS */,
 				943F99B21707DF3700270E89 /* 3DO */,
 				945E42FA1517F2B500057D08 /* Arcade */,
 				94A224A21707543600098DA0 /* Atari 2600 */,
@@ -6024,6 +6113,17 @@
 				FEB6627B187B812800D14713 /* Controller-Preferences.plist in Resources */,
 				FEB6627C187B812800D14713 /* Keyboard-Mappings.plist in Resources */,
 				FEB6627A187B812800D14713 /* Controller-Mappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A11C03D52EA0000000000008 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A11C03D52EA0000000000014 /* Images.xcassets in Resources */,
+				A11C03D52EA0000000000015 /* Controller-Preferences.plist in Resources */,
+				A11C03D52EA0000000000016 /* Controller-Mappings.plist in Resources */,
+				A11C03D52EA0000000000017 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6780,6 +6880,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A11C03D52EA0000000000006 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A11C03D52EA0000000000013 /* OEPanda3DSSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -7072,6 +7180,11 @@
 			isa = PBXTargetDependency;
 			target = 94D7E8C815073BA000FBDD85 /* NDS */;
 			targetProxy = 94D7E8E8150741B500FBDD85 /* PBXContainerItemProxy */;
+		};
+		A11C03D52EA000000000001A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A11C03D52EA0000000000001 /* 3DS */;
+			targetProxy = A11C03D52EA0000000000019 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -8807,6 +8920,26 @@
 			};
 			name = Release;
 		};
+		A11C03D52EA0000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "SystemPlugins/3DS/3DS-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		A11C03D52EA0000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "SystemPlugins/3DS/3DS-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -9346,6 +9479,15 @@
 			buildConfigurations = (
 				FEB66266187B791800D14713 /* Debug */,
 				FEB66267187B791800D14713 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A11C03D52EA0000000000002 /* Build configuration list for PBXNativeTarget "3DS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A11C03D52EA0000000000003 /* Debug */,
+				A11C03D52EA0000000000004 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

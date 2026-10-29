@@ -35,6 +35,11 @@ class GameDocumentController: NSDocumentController {
     var reviewingUnsavedDocuments = false
     
     override func addDocument(_ document: NSDocument) {
+        // A game opened through -openDocumentWithContentsOfURL: already reached
+        // the superclass, and setUpGameDocument registers it again. Keeping the
+        // second entry makes closeAllDocuments ask the same document twice and
+        // wait for an answer that never comes, so quitting hangs.
+        guard !documents.contains(where: { $0 === document }) else { return }
         
         if let document = document as? OEGameDocument {
             gameDocuments.append(document)
@@ -46,7 +51,7 @@ class GameDocumentController: NSDocumentController {
     override func removeDocument(_ document: NSDocument) {
         
         if let document = document as? OEGameDocument {
-            gameDocuments.remove(at: gameDocuments.firstIndex(of: document)!)
+            gameDocuments.removeAll { $0 === document }
         }
         
         super.removeDocument(document)

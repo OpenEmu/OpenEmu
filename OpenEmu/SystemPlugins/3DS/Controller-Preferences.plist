@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_3ds</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_3ds_mask</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OEPanda3DSButtonUp</key>
+		<string>{137, 105}</string>
+		<key>OEPanda3DSButtonDown</key>
+		<string>{137, 141}</string>
+		<key>OEPanda3DSButtonLeft</key>
+		<string>{119, 123}</string>
+		<key>OEPanda3DSButtonRight</key>
+		<string>{155, 123}</string>
+		<key>OEPanda3DSButtonA</key>
+		<string>{408, 158}</string>
+		<key>OEPanda3DSButtonB</key>
+		<string>{387, 137}</string>
+		<key>OEPanda3DSButtonX</key>
+		<string>{387, 179}</string>
+		<key>OEPanda3DSButtonY</key>
+		<string>{366, 158}</string>
+		<key>OEPanda3DSButtonL</key>
+		<string>{97, 229}</string>
+		<key>OEPanda3DSButtonR</key>
+		<string>{402, 229}</string>
+		<key>OEPanda3DSButtonZL</key>
+		<string>{97, 252}</string>
+		<key>OEPanda3DSButtonZR</key>
+		<string>{402, 252}</string>
+		<key>OEPanda3DSButtonStart</key>
+		<string>{361, 92}</string>
+		<key>OEPanda3DSButtonSelect</key>
+		<string>{361, 71}</string>
+		<key>OEPanda3DSButtonCirclePadUp</key>
+		<string>{111, 168}</string>
+		<key>OEPanda3DSButtonCirclePadDown</key>
+		<string>{111, 132}</string>
+		<key>OEPanda3DSButtonCirclePadLeft</key>
+		<string>{93, 150}</string>
+		<key>OEPanda3DSButtonCirclePadRight</key>
+		<string>{129, 150}</string>
+	</dict>
+</dict>
+</plist>

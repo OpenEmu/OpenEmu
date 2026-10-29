@@ -167,6 +167,7 @@
 	<array>
 		<string>cdi</string>
 		<string>gdi</string>
+		<string>cue</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
