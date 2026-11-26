@@ -9,41 +9,83 @@ on:
 jobs:
   build:
     name: Build OpenEmu
-    runs-on: macos-13
+    runs-on: macos-15
+
+    env:
+      # Xcode 27 / macOS 27 SDK rejects the project's older deployment targets (10.14–11).
+      OE_XCODEBUILD_FLAGS: MACOSX_DEPLOYMENT_TARGET=12.0 CLANG_ENABLE_EXPLICIT_MODULES=NO
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
+
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: ^15.1
+          # Prefer Xcode 27+ when available on the runner image.
+          xcode-version: latest-stable
+
+      - name: Download Metal Toolchain
+        run: xcodebuild -downloadComponent MetalToolchain
+
       - name: Build OpenEmu
         working-directory: ${{github.workspace}}
-        run: xcodebuild -workspace "OpenEmu.xcworkspace" -scheme "OpenEmu" -configuration Release -sdk macosx -arch x86_64 -derivedDataPath DerivedData
-      - name: Remove code signature
+        run: |
+          xcodebuild \
+            -workspace "OpenEmu.xcworkspace" \
+            -scheme "OpenEmu" \
+            -configuration Release \
+            -sdk macosx \
+            -arch arm64 \
+            -derivedDataPath DerivedData \
+            ${{env.OE_XCODEBUILD_FLAGS}}
+
+      - name: Ad-hoc sign OpenEmu
         working-directory: ${{github.workspace}}/DerivedData/Build/Products/Release/
-        run: codesign --remove-signature OpenEmu.app
+        run: |
+          # Do not strip the signature on Apple Silicon — Gatekeeper will refuse to launch.
+          # disable-library-validation lets OpenEmuHelperApp load unsigned/ad-hoc cores from
+          # ~/Library/Application Support/OpenEmu/Cores/.
+          codesign --force --deep --sign - \
+            --entitlements "${{github.workspace}}/.github/openemu-ci.entitlements" \
+            OpenEmu.app
+
       - name: Zip OpenEmu
         working-directory: ${{github.workspace}}/DerivedData/Build/Products/Release/
         run: zip -y -r OpenEmu.zip OpenEmu.app
+
       - name: Build OpenEmu Experimental
         working-directory: ${{github.workspace}}
-        run: xcodebuild -workspace "OpenEmu.xcworkspace" -scheme "OpenEmu (Experimental)" -configuration Release -sdk macosx -arch x86_64 -derivedDataPath DerivedData
-      - name: Remove code signature
+        run: |
+          xcodebuild \
+            -workspace "OpenEmu.xcworkspace" \
+            -scheme "OpenEmu (Experimental)" \
+            -configuration Release \
+            -sdk macosx \
+            -arch arm64 \
+            -derivedDataPath DerivedData \
+            ${{env.OE_XCODEBUILD_FLAGS}}
+
+      - name: Ad-hoc sign OpenEmu Experimental
         working-directory: ${{github.workspace}}/DerivedData/Build/Products/Release/
-        run: codesign --remove-signature OpenEmu.app
+        run: |
+          codesign --force --deep --sign - \
+            --entitlements "${{github.workspace}}/.github/openemu-ci.entitlements" \
+            OpenEmu.app
+
       - name: Zip OpenEmu Experimental
         working-directory: ${{github.workspace}}/DerivedData/Build/Products/Release/
         run: zip -y -r OpenEmu-experimental.zip OpenEmu.app
+
       - name: Upload OpenEmu
         if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: OpenEmu.zip
           path: ${{github.workspace}}/DerivedData/Build/Products/Release/OpenEmu.zip
+
       - name: Upload OpenEmu Experimental
         if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
